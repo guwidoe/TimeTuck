@@ -3515,3 +3515,20 @@ its name is retained without claiming equivalent internal removedSet behavior.
 Earlier credited membership methods remain unchanged. Native regressions separately
 cover 2,000 updates against a scan model, empty versus null keys, non-Clone payloads,
 panicking key input, and overlap-independent sampling. No performance claim is made.
+
+NeighborhoodTester now supplies reusable bounded membership assertions over shared
+working state. Every assertion asks its provider for a fresh lazy iterator, so
+committed changes are visible and temporary rollback leaves enumeration unchanged.
+Derived within contexts retain independent limits while sharing state. The helper
+accepts arbitrary native state/providers and delegates execution to existing move
+and score-director guards through synchronous update callbacks. It does not infer
+Java metamodels, build providers, or implement move execution itself.
+
+All five NeighborhoodTesterTest methods have complete adaptations with two test
+fixtures. Native typed Missing/Unexpected errors replace AssertionError; the native
+default limit is 10000, without claiming Java default equivalence. No-op exclusions
+and initialized/uninitialized source states are preserved. Three original cases
+add exact pull-budget/early-stop checks on infinite providers, provider failure
+propagation, empty requests, and shared score-director commit/panic rollback.
+A successful produces_none_of checks only the bounded prefix. Reentrant mutable
+state access is unsupported; this is a single-threaded testing helper.

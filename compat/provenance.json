@@ -36119,6 +36119,81 @@
       "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
       "local_test": "contained_unique_random_iterator_first_draw_is_not_biased_to_first_bucket",
       "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NeighborhoodTesterTest.temporaryMoveExecutionDoesNotAffectMoveIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/test/NeighborhoodTesterTest.java",
+      "upstream_test": "temporaryMoveExecutionDoesNotAffectMoveIterator",
+      "local_path": "crates/solver/tests/neighborhood_tester_cases.rs",
+      "local_test": "temporary_move_execution_does_not_affect_move_iterator",
+      "modifications": "Preserve all source move membership, temporary rollback, permanent execution, independent limit and assertion-failure observations. Native finite variables and values 0/1 replace reflection metamodel/Testdata entity/value identities; generated initial assignment [0,1] and explicit null transitions are retained. Native shared tester contexts recreate lazy change iterators after updates; existing FiniteProblem move guards implement temporary rollback and committed execution. Typed Missing/Unexpected errors replace AssertionError. Native default iteration limit is 10000; source only asserts that default remains larger than five, so no Java default-value equivalence is claimed. Derived contexts share working state with independent limits."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NeighborhoodTesterTest.newIteratorAfterMoveExecution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/test/NeighborhoodTesterTest.java",
+      "upstream_test": "newIteratorAfterMoveExecution",
+      "local_path": "crates/solver/tests/neighborhood_tester_cases.rs",
+      "local_test": "new_iterator_after_move_execution",
+      "modifications": "Preserve all source move membership, temporary rollback, permanent execution, independent limit and assertion-failure observations. Native finite variables and values 0/1 replace reflection metamodel/Testdata entity/value identities; generated initial assignment [0,1] and explicit null transitions are retained. Native shared tester contexts recreate lazy change iterators after updates; existing FiniteProblem move guards implement temporary rollback and committed execution. Typed Missing/Unexpected errors replace AssertionError. Native default iteration limit is 10000; source only asserts that default remains larger than five, so no Java default-value equivalence is claimed. Derived contexts share working state with independent limits."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NeighborhoodTesterTest.withinOverridesTheIterationLimitWithoutMutatingTheOriginalContext",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/test/NeighborhoodTesterTest.java",
+      "upstream_test": "withinOverridesTheIterationLimitWithoutMutatingTheOriginalContext",
+      "local_path": "crates/solver/tests/neighborhood_tester_cases.rs",
+      "local_test": "within_overrides_the_iteration_limit_without_mutating_the_original_context",
+      "modifications": "Preserve all source move membership, temporary rollback, permanent execution, independent limit and assertion-failure observations. Native finite variables and values 0/1 replace reflection metamodel/Testdata entity/value identities; generated initial assignment [0,1] and explicit null transitions are retained. Native shared tester contexts recreate lazy change iterators after updates; existing FiniteProblem move guards implement temporary rollback and committed execution. Typed Missing/Unexpected errors replace AssertionError. Native default iteration limit is 10000; source only asserts that default remains larger than five, so no Java default-value equivalence is claimed. Derived contexts share working state with independent limits."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NeighborhoodTesterTest.producesAllOfFailsWhenTheMoveIsNeverProduced",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/test/NeighborhoodTesterTest.java",
+      "upstream_test": "producesAllOfFailsWhenTheMoveIsNeverProduced",
+      "local_path": "crates/solver/tests/neighborhood_tester_cases.rs",
+      "local_test": "produces_all_of_fails_when_the_move_is_never_produced",
+      "modifications": "Preserve all source move membership, temporary rollback, permanent execution, independent limit and assertion-failure observations. Native finite variables and values 0/1 replace reflection metamodel/Testdata entity/value identities; generated initial assignment [0,1] and explicit null transitions are retained. Native shared tester contexts recreate lazy change iterators after updates; existing FiniteProblem move guards implement temporary rollback and committed execution. Typed Missing/Unexpected errors replace AssertionError. Native default iteration limit is 10000; source only asserts that default remains larger than five, so no Java default-value equivalence is claimed. Derived contexts share working state with independent limits."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NeighborhoodTesterTest.producesNoneOfFailsWhenTheMoveIsProduced",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/test/NeighborhoodTesterTest.java",
+      "upstream_test": "producesNoneOfFailsWhenTheMoveIsProduced",
+      "local_path": "crates/solver/tests/neighborhood_tester_cases.rs",
+      "local_test": "produces_none_of_fails_when_the_move_is_produced",
+      "modifications": "Preserve all source move membership, temporary rollback, permanent execution, independent limit and assertion-failure observations. Native finite variables and values 0/1 replace reflection metamodel/Testdata entity/value identities; generated initial assignment [0,1] and explicit null transitions are retained. Native shared tester contexts recreate lazy change iterators after updates; existing FiniteProblem move guards implement temporary rollback and committed execution. Typed Missing/Unexpected errors replace AssertionError. Native default iteration limit is 10000; source only asserts that default remains larger than five, so no Java default-value equivalence is claimed. Derived contexts share working state with independent limits."
     }
   ],
   "fixtures": [
@@ -49511,6 +49586,32 @@
       "upstream_test": "AbstractIndexerTest",
       "local_path": "crates/solver/tests/membership_candidate_index_cases.rs",
       "modifications": "Preserve source membership, size, empty retained row, removal error, first draw, finite exhaustion and seeded drain/repetition assertions. Native stable IDs replace UniTuple/entry identity; tuple keys explicitly encode membership combinations and equality partitions. Same-ID put replaces the row, preserving duplicate-insertion query deduplication without claiming Java insertion-handle semantics. Iterator None/Peekable replaces hasNext/NoSuchElementException. Native PRNG preserves source seeds 0/2 order inequality, 0..9 drains and 30 repeated draws; the twenty first-draw trials derive native seeds from root 0, without Java PRNG trace parity. Queries eagerly deduplicate references before sampling, without payload Clone; the single-draw source method asserts membership only, and no Java removedSet allocation/layout behavior is claimed. Empty membership differs from a null member key. ContainedIn combo retains actual source affinities [1,2] despite the bethY13 variable name."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.neighborhood_tester_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/neighborhood_tester_cases.rs",
+      "modifications": "Preserve all source move membership, temporary rollback, permanent execution, independent limit and assertion-failure observations. Native finite variables and values 0/1 replace reflection metamodel/Testdata entity/value identities; generated initial assignment [0,1] and explicit null transitions are retained. Native shared tester contexts recreate lazy change iterators after updates; existing FiniteProblem move guards implement temporary rollback and committed execution. Typed Missing/Unexpected errors replace AssertionError. Native default iteration limit is 10000; source only asserts that default remains larger than five, so no Java default-value equivalence is claimed. Derived contexts share working state with independent limits."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.neighborhood_tester_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/neighborhood_tester_cases.rs",
+      "modifications": "Preserve all source move membership, temporary rollback, permanent execution, independent limit and assertion-failure observations. Native finite variables and values 0/1 replace reflection metamodel/Testdata entity/value identities; generated initial assignment [0,1] and explicit null transitions are retained. Native shared tester contexts recreate lazy change iterators after updates; existing FiniteProblem move guards implement temporary rollback and committed execution. Typed Missing/Unexpected errors replace AssertionError. Native default iteration limit is 10000; source only asserts that default remains larger than five, so no Java default-value equivalence is claimed. Derived contexts share working state with independent limits."
     }
   ]
 }

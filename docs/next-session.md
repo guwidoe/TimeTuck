@@ -13826,3 +13826,33 @@ Live freshness matched verification digest: cf1cdfd41e4b4a9400da935cf40db041cb9f
 Existing provenance prefixes unchanged; appended25cases and1fixture.
 Log work/membership-candidate-final-check.log; evidence work/membership-candidate-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Live neighborhood testing context
+
+Starting HEAD104d005 clean; previous goal turn committed deduplicated membership
+queries with successful gate45874: progress. Read NeighborhoodTesterTest and complete
+TestdataSolution/TestdataEntity fixtures; no upstream production reads. Existing
+native change enumeration and move guards already implement move behavior.
+Added generic NeighborhoodTester state/provider context using shared Rc/RefCell,
+fresh lazy iterators per assertion, independent within limits, inspect/update
+callbacks, and typed provider/missing/unexpected errors. Presence checks stop early;
+absence checks observe only bounded prefixes. Duplicate expected moves mean presence,
+not multiplicity. Native default10000; empty requests skip provider. No iterator
+cache, reflection or independent move execution implementation.
+
+Five source cases/twofixtures appended. Three native regressions exercise exact
+infinite-provider pull budgets, provider errors, empty requests, and real
+ScoreDirector shared-state commits and temporary panic rollback of assignment/score.
+Focused8268 TERMINAL101: borrowed external counter could not outlive arbitrary
+provider iterator lifetime. Test now clones Rc counter into each iterator.
+Focused47334 TERMINAL0:5adapted+3native tests. Final formatted source frozen for gate.
+No benchmark/browser/release reruns. Goal remains active.
+
+Required gate98260 TERMINAL0. 4041 Rust tests and 192 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 503}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2411, 'failed': 0, 'pending': 2162, 'excluded': 282, 'unverified': 0, 'percent': 49.66}.
+Source before/after matched: 58459517d911aac17dc15b898d3ee70cbe30cdd985eb747ae70a4123a76e38c5
+Live freshness matched verification digest: b5de61e8247a390a83f4db88e555175eb678c3a15508592963b823a88138ce6f.
+Existing provenance prefixes unchanged; appended5cases and2fixtures.
+Log work/neighborhood-tester-final-check.log; evidence work/neighborhood-tester-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

@@ -845,3 +845,6 @@ pub use candidate_index::{
 
 mod membership_candidate_index;
 pub use membership_candidate_index::{MembershipCandidateIndex, MembershipMatches};
+
+mod neighborhood_tester;
+pub use neighborhood_tester::{NeighborhoodAssertionError, NeighborhoodTester};
