@@ -1035,3 +1035,6 @@ mod problem_build;
 pub use problem_build::{
     build_basic_with_diagnostics, build_list_with_diagnostics, build_mixed_with_diagnostics,
 };
+
+mod unimproved_time;
+pub use unimproved_time::{NegativeUnimprovedTime, UnimprovedTimeLimit};

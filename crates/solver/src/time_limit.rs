@@ -41,10 +41,9 @@ pub(crate) trait SearchControl {
 pub(crate) struct TimeBudget<'m, C> {
     shared: Option<&'m mut dyn SearchControl>,
     limit: Option<ElapsedTimeLimit>,
-    unimproved_limit: Option<ElapsedTimeLimit>,
+    unimproved_limit: Option<crate::UnimprovedTimeLimit>,
     clock: C,
     last: Duration,
-    last_improvement: Duration,
     reason: Option<crate::LocalSearchTermination>,
 }
 impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
@@ -52,10 +51,9 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
         Self {
             shared: None,
             limit: limit.map(ElapsedTimeLimit::new),
-            unimproved_limit: unimproved.map(ElapsedTimeLimit::new),
+            unimproved_limit: unimproved.map(crate::UnimprovedTimeLimit::new),
             clock,
             last: Duration::ZERO,
-            last_improvement: Duration::ZERO,
             reason: None,
         }
     }
@@ -82,7 +80,9 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
         }
         if self.unimproved_limit.is_some() {
             self.sample();
-            self.last_improvement = self.last;
+            if let Some(limit) = &mut self.unimproved_limit {
+                limit.start(self.last);
+            }
         }
     }
     pub(crate) fn record_improvement(&mut self) {
@@ -91,8 +91,11 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
         }
         // Poll before resetting: a late improvement must not revive an expired
         // search. Preserve that improvement in the result regardless of expiry.
-        if self.unimproved_limit.is_some() && self.stop().is_none() {
-            self.last_improvement = self.last;
+        if self.unimproved_limit.is_some()
+            && self.stop().is_none()
+            && let Some(limit) = &mut self.unimproved_limit
+        {
+            limit.record_improvement(self.last);
         }
     }
     pub(crate) fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
@@ -107,7 +110,8 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
                 Some(TimeLimit)
             } else if self
                 .unimproved_limit
-                .is_some_and(|limit| limit.is_reached(self.last - self.last_improvement))
+                .as_mut()
+                .is_some_and(|limit| limit.is_reached(self.last))
             {
                 Some(UnimprovedTimeLimit)
             } else {

@@ -4130,3 +4130,12 @@ replace reflective field identities; exact allowed members and nullable policy
 replace Java endpoint message notation. Both mixed failure paths are preserved.
 Existing constructors and automatic error formatting in other solver APIs remain
 unchanged; these credits do not claim Java factory/reflection parity.
+
+UnimprovedTimeLimit now exposes an explicit inactive/start/reset lifecycle and
+monotonic retained-improvement timing. Inactive timers never expire, even at zero;
+active timers expire at the deadline and late improvements cannot revive them.
+The shared phase time budget uses this timer, so initialization-time polling no
+longer arms stagnation implicitly. Total elapsed limits still include initialization.
+Six UnimprovedTimeMillisSpentTerminationTest methods preserve all timestamp,
+progress, lifecycle and negative-input assertions using explicit native events
+instead of mocked Java scopes. Solve-wide cross-phase policy remains independent.

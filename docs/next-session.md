@@ -15875,3 +15875,42 @@ No benchmark/browser/release reruns. All sessions terminal; goal remains active.
 Evidence helper initially asserted exit_code4 after an overly broad draft text
 replacement; corrected helper to require0. No source/test failure or gate rerun;
 corrected evidence66221 TERMINAL0 with live freshness matched.
+
+## Explicit unimproved-time lifecycle
+
+Previous turn made progress:4f5a489 committed, gate61822/evidence66221 terminal0.
+Read full TEST-ONLY UnimprovedTimeMillisSpentTerminationTest; no production source.
+New public UnimprovedTimeLimit/NegativeUnimprovedTime: inactive until start, reset,
+negative signed-ms rejection, deadline-inclusive expiry, late-improvement latch,
+backward-time clamping and explicit restart. Shared time_limit::TimeBudget now
+uses it; polling during initialization no longer starts stagnation. Ordinary total
+elapsed limits still apply then. SolveControl's global cross-phase policy unchanged.
+Six adapted methods attributed, no copied fixtures. Three original unit regressions
+exercise actual TimeBudget pre-start polling, elapsed-priority and inactive/zero/
+backward/late/restart/Duration::MAX boundaries. Focused39931 TERMINAL0:9tests passed.
+Standalone harness emits dead-code warnings for existing private time_limit items
+unused by that harness; final workspace clippy checks the full crate. Afterwards
+replaced equivalent guarded unwraps with if-let; no behavior change. No redundant
+focused rerun. This touches a shared search budget: required broad regression gate
+next, with compilation-only warm-up for actual pending affected targets. No benchmark,
+release or browser reruns; goal remains active.
+
+Final gate30738 LIVE: fmt/clippy passed and119library tests passed. Warm-up57324
+LIVE, compiling557actual still-pending affected targets with --no-run -j4, no test
+execution or evidence writes. Gate is waiting at test-accessor_shadow_cases for
+that compilation. Poll these exact handles; do not restart on timeouts. Source and
+provenance frozen. Logs work/unimproved-lifecycle-{final-check,prebuild}.log.
+After gate terminal0 run work/record_unimproved_lifecycle_evidence.py (prepared,
+parsed/reviewed; expects6appended cases/0fixtures versus4f5a489), await live freshness,
+then commit completed evidence. Current implementation commit records verification
+pending; do not claim the6new source credits until the report/check finish.
+
+While waiting read TEST-ONLY TerminationTest150–223 and
+TerminationFactoryTest196–280; also public documentation overview.adoc733–825.
+These are gap investigation only, no adaptations/new credits. Diminished returns
+factory defaults in the test are30seconds and1/10000; native policy already supports
+phase-local timing but has no Default implementation/config propagation helper.
+The solver-level test uses construction only and proves acceptance/non-triggering
+there; it does not establish a single diminished-return timer spanning all phases.
+Do not infer that behavior from the configuration label. No additional draft applied.
+Goal remains active.
