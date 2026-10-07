@@ -3101,3 +3101,28 @@ This is explicit observation of caller-owned lists; native model validation and
 pin/value-range enforcement remain required. Automatic mutation interception,
 Java setters, basic-variable recording and allocation-efficient range snapshots
 are not implemented by this API. No performance claim is made.
+
+## Move/undo value and event diagnostics
+
+`SolutionTracker` coordinates detached typed snapshots for explicitly registered
+basic, list and shadow fields. It compares before-move versus after-undo values,
+and independent full recomputations versus each corresponding stored state.
+Equality uses the actual value type, not rendered text. Missing entities remain
+distinct from present entities with null values. Values need Eq, but not Clone or
+Ord, because readers supply owned snapshots. Mutable shared values are unsuitable.
+
+Forward and undo notification windows are audited separately with existing
+VariableEventTracker handles. Registry trackers can be connected directly;
+independent trackers cover manual mutations and shadow fields. Only registered
+fields are covered. An empty report is not evidence for unregistered fields or
+score correctness. The caller supplies recomputation snapshots explicitly; the
+tracker does not rebuild scores or automatically intercept solver mutations.
+
+All seven SolutionTrackerTest cases preserve source diagnostic text, null/value
+mutations, capture order and formatter truncation. Structured reports retain every
+violation and repeated report reads do not consume events. Native regressions
+exercise a committed list move with registry events and stale shadow totals after
+undo, heterogeneous field types, non-Clone values, identical printed labels,
+missing entities, foreign snapshots, duplicate stages and failed reader recovery.
+Registration freezes at the first before-move capture. Starting a new move resets
+all prior snapshots and event windows; event audits must have a single consumer.

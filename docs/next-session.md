@@ -13026,3 +13026,61 @@ Live freshness matched verification digest: e3463bcda5542cf99f712e794c2384658b1f
 Existing provenance prefixes unchanged; appended21cases and3fixtures.
 Log work/list-recording-final-check.log; evidence work/list-recording-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Solution tracking diagnostics (current increment)
+
+Previous goal turn afd152b was progress; tree clean. Read full SolutionTrackerTest
+and four TestdataSolution/Entity/Value/Object fixtures (tests only). Implemented
+SolutionTracker with explicit heterogeneous typed scalar/list readers, owned
+snapshots, exact Eq comparison (not formatted text), canonical schema validation,
+separate move/undo event windows, and before/undo/from-scratch reports. Native
+registration returns independent VariableEventTracker; new public tracker.new
+supports shadow fields; use_events attaches an existing registry tracker. Only
+registered fields covered; caller supplies full recomputation snapshots. No
+automatic score interception or whole-solver verification claim.
+
+All seven source cases preserve exact code strings, null/value edits, capture
+sequence, diagnostic sections/messages and formatter truncation. Four fixtures
+attributed. Original three tests cover real ListProblem move and registry events,
+stale shadow totals on undo, new-move reset, heterogeneous and non-Clone values,
+identical display labels, removed/added versus null entities, foreign snapshots,
+registration metadata and duplicate-stage errors, reader panic/event recovery.
+Compile88165 terminal0; initial focused93874 and native64478 passed7+3 cases.
+Added stage-order guards and API doctest after those runs; final-focused70498 is
+pending terminal inspection. Source will freeze after formatting/provenance for
+one final gate. No benchmark/browser/release runs requested or warranted.
+
+Also read full DiminishedReturnsScoreRingBufferTest (18methods) and existing native
+DiminishedReturns implementation. Source tests specify internal array slots/read
+and write indices, including stale slots; native policy uses VecDeque already.
+Do not create Java-shaped buffer storage just to claim these tests. RootVariableSource
+remaining cases mainly require reflection/accessor preference; full output was
+truncated, so no full-file read claim. Existing adapted source-path cases remain
+credited. Prefer missing functional solver behavior over internal-label adapters.
+
+Final-focused70498 terminal0: all10 tests pass with stage-order guards. Format62395
+terminal0. No other live sessions before final gate. Source/provenance frozen.
+
+During final gate, inspected DefaultConstructionHeuristicPhaseTest as next useful
+functional target (24 pending methods). Read lines1..245 (header + first5 complete
+cases, start of empty-entity case),373..455 (PART of common configuration),586..799
+(complete advanced-basic config + four basic comparator/factory methods),997..1055
+(two list comparator/factory methods),1225..1250(entity-factory method),1316..1349
+(value-factory method + start of optional penalty case). Not full-file read.
+Comparator/factory cases require ALL generated configurations and fixtures before
+credit: expected per-entity comparator ranks either[0,1,2] or[2,1,0]; all populated,
+list owners exactlyone each, deterministic shuffled-order independence when both
+axes sorted. Advanced basic configs use queued entity/mimic selection and phase
+cache, descending entities, ascending/descending values with early feasible/hard
+non-deteriorating choice. Current ConstructionConfig has placements and early-pick,
+but no direct entity/value order field; check provider/selection integration before
+choosing an API. Do not merely reorder a fixture's model to emulate dynamic sorting.
+
+Required gate10507 TERMINAL0. 3794 Rust tests and 179 doctests passed.
+Rust jobs: {'RUN': 15, 'REUSE': 458}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2212, 'failed': 0, 'pending': 2361, 'excluded': 282, 'unverified': 0, 'percent': 45.561}.
+Source before/after matched: 37d5d6fb3707a3425fca190c44f147daf21ba7dbf871749109eed773e049ada0
+Live freshness matched verification digest: f60e834c1d2e3c95d9b0854028663faa2d1cb31a70a8b25e1deff208a553ae88.
+Existing provenance prefixes unchanged; appended7cases and4fixtures.
+Log work/solution-tracker-final-check.log; evidence work/solution-tracker-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

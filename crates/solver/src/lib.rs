@@ -791,3 +791,9 @@ mod list_change_recording;
 pub use list_change_recording::{
     ListChangeNotification, ListChangeRecorder, ListRecordingError, ListRecordingUndo,
 };
+
+mod solution_tracker;
+pub use solution_tracker::{
+    SolutionCorruptionReport, SolutionEventViolation, SolutionSnapshot, SolutionTracker,
+    SolutionTrackingError, VariableValueViolation, format_tracking_list,
+};

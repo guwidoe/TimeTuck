@@ -67,6 +67,14 @@ impl<E> Clone for VariableEventTracker<'_, E> {
     }
 }
 impl<'s, E: Ord + Clone> VariableEventTracker<'s, E> {
+    /// Create an independent event window, including for a shadow field.
+    /// Use VariableStateRegistry::tracker to observe registry-generated events.
+    pub fn new(variable: PlanningVariableRef<'s>) -> Self {
+        Self {
+            variable,
+            inner: Rc::new(RefCell::new(EventLog::default())),
+        }
+    }
     pub fn variable(&self) -> PlanningVariableRef<'s> {
         self.variable
     }

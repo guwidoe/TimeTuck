@@ -33104,6 +33104,111 @@
       "local_path": "crates/solver/tests/list_recording_cases.rs",
       "local_test": "unclosed_bracket_at_undo_time_fails_fast",
       "modifications": "Adapt exact list identities, contents, event ranges and event ordering into native shared ListChangeRecorder handles and caller-owned lists. Typed notification collection replaces Mockito backing; undo asserts exact notification sequence and one shadow refresh, also for source cases with weaker unordered counts. Native Result variants and equivalent diagnostic text replace Java exception classes and method-name spellings. Shared/non-delegating handles and live undo aliases preserve source recording timing. Original native integration with actual ListProblem moves, published owner/index shadows and stream scoring is tested separately; this does not claim automatic score-director interception or Java object mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionTrackerTest.testFormatList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/SolutionTrackerTest.java",
+      "upstream_test": "testFormatList",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "local_test": "format_list",
+      "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionTrackerTest.testGetVariableChangedViolations",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/SolutionTrackerTest.java",
+      "upstream_test": "testGetVariableChangedViolations",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "local_test": "variable_changed_violations",
+      "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionTrackerTest.testGetVariableChangedViolationsNoChanges",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/SolutionTrackerTest.java",
+      "upstream_test": "testGetVariableChangedViolationsNoChanges",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "local_test": "variable_changed_violations_no_changes",
+      "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionTrackerTest.testBuildScoreCorruptionMessage",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/SolutionTrackerTest.java",
+      "upstream_test": "testBuildScoreCorruptionMessage",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "local_test": "score_corruption_message",
+      "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionTrackerTest.testBuildScoreCorruptionMessageGoodShadowVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/SolutionTrackerTest.java",
+      "upstream_test": "testBuildScoreCorruptionMessageGoodShadowVariables",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "local_test": "score_corruption_good_shadow_variables",
+      "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionTrackerTest.testBuildScoreCorruptionMessageGoodForwardShadowVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/SolutionTrackerTest.java",
+      "upstream_test": "testBuildScoreCorruptionMessageGoodForwardShadowVariables",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "local_test": "score_corruption_good_forward_shadow_variables",
+      "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionTrackerTest.testBuildScoreCorruptionMessageGoodUndoShadowVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/SolutionTrackerTest.java",
+      "upstream_test": "testBuildScoreCorruptionMessageGoodUndoShadowVariables",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "local_test": "score_corruption_good_undo_shadow_variables",
+      "modifications": "Retain exact three-entity generated codes, value/null mutations and before/after/undo/from-scratch capture sequence. Explicit typed readers and native event trackers replace Java solution descriptors, VariableSnapshotTotal and mocked score director. Assert all source report sections, value diagnostics, missing-event diagnostics and formatter strings; additionally assert structured records, independent forward/undo event counts and repeatable report reads. Stable string keys replace Java object identity; native TestdataEntity marker preserves the diagnostic type label. No automatic Java member discovery or automatic scoring integration is claimed."
     }
   ],
   "fixtures": [
@@ -43909,6 +44014,58 @@
       "upstream_test": "TestdataListSolution",
       "local_path": "crates/solver/tests/list_recording_cases.rs",
       "modifications": "Adapt named entity/value identities and required valueList metadata to stable string keys, vectors and explicit native schema. Harness stores entity lists in a BTreeMap. Unused fixture generation, mutable Java shadow setters and annotation reflection are not ported; original native integration separately verifies owner/index publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.solution_tracker",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TestdataSolution",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "modifications": "Adapt generateSolution(3,3) round-robin initial values, Generated Entity/Value codes, nullable value field, metadata and code-based diagnostic rendering. Native BTreeMap<String,Option<String>> stores the detached model values; Java inheritance, annotations, unused fixture helpers and score storage are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.solution_tracker",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "modifications": "Adapt generateSolution(3,3) round-robin initial values, Generated Entity/Value codes, nullable value field, metadata and code-based diagnostic rendering. Native BTreeMap<String,Option<String>> stores the detached model values; Java inheritance, annotations, unused fixture helpers and score storage are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.solution_tracker",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "modifications": "Adapt generateSolution(3,3) round-robin initial values, Generated Entity/Value codes, nullable value field, metadata and code-based diagnostic rendering. Native BTreeMap<String,Option<String>> stores the detached model values; Java inheritance, annotations, unused fixture helpers and score storage are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.solution_tracker",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/solution_tracker_cases.rs",
+      "modifications": "Adapt generateSolution(3,3) round-robin initial values, Generated Entity/Value codes, nullable value field, metadata and code-based diagnostic rendering. Native BTreeMap<String,Option<String>> stores the detached model values; Java inheritance, annotations, unused fixture helpers and score storage are not ported."
     }
   ]
 }
