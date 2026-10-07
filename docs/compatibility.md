@@ -4075,3 +4075,11 @@ shadows on score-only updates. Custom adapters can use the existing typed shadow
 scheduler. They must explicitly define any additional declarative shadow validation.
 This capability adds no complete upstream method credits: Java factory/manager
 construction variants and full declarative diagnostic fixtures remain pending.
+
+Runtime shadow diagnostics now expose owned entity-type/key/field identities for
+strongly connected loops and their inconsistent downstream dependents separately.
+Strict shadow refresh rejects inconsistent updates and restores prior cached values,
+requested/applied dependencies and pending notifications. It integrates with native
+SolutionManager adapters; permissive scoring updates remain available. This adds
+no upstream method credits: complete SolutionManager fixture/factory and diagnostic
+assertions have not been adapted.

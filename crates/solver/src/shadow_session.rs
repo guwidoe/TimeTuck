@@ -708,3 +708,10 @@ struct ResolvedSources {
     edges: BTreeSet<(usize, usize)>,
     signatures: Vec<Option<Vec<usize>>>,
 }
+
+#[path = "shadow_diagnostics.rs"]
+mod diagnostics;
+pub use diagnostics::{
+    ConsistentShadowUpdateError, ShadowConsistencyReport, ShadowVariableKey, shadow_consistency,
+    update_consistent_shadows,
+};

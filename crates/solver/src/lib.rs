@@ -1010,3 +1010,8 @@ pub use solution_manager::{
     MixedSolutionManager, SolutionManager, SolutionRefreshError, SolutionUpdatePolicy,
     basic_solution_manager, list_solution_manager, mixed_solution_manager,
 };
+
+pub use shadow_session::{
+    ConsistentShadowUpdateError, ShadowConsistencyReport, ShadowVariableKey, shadow_consistency,
+    update_consistent_shadows,
+};

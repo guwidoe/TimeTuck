@@ -15587,3 +15587,45 @@ Recorded compilation/lint including merged doctest compilation178s; actual test
 execution5s. Remaining gate time includes cache/input/report overhead. Remaining
 ~60m is implementation, reading, review and other uninstrumented time, not a
 pure coding measurement. Cached job timings excluded. Evidence44390 TERMINAL0.
+
+## Runtime shadow diagnostics and strict refresh
+
+Previous turn made progress: completed solution refresh verification and commit0383f20.
+Current batch adds owned ShadowVariableKey/ShadowConsistencyReport diagnostics and
+update_consistent_shadows, using existing cached SCCs. Reports separate loop members
+from downstream inconsistent fields, preserve registration order and distinguish
+entity types sharing the same key/field. No callbacks run during inspection; pending
+changes reject inspection. Strict update uses a snapshot guard to restore cache,
+requested/applied edges, resolutions and dirty notifications on errors or callback/
+diagnostic panics. External effects and successful-publication destructor panics
+are excluded. Implementation is a child module of shadow_session with free APIs.
+
+Six original regression tests passed in focused29037 TERMINAL0 (38.01s compile,
+0.04s tests): all512three-node directed graphs versus transitive reachability;
+initial/runtime cycles and pending-edit recovery; input/supplier and key-clone
+panics; owned/type-distinct identities; SolutionManager score suppression and recovery.
+After focused tests only clarified panic documentation; final gate follows once.
+No source method/fixture credits. Read selected SolutionManagerTest methods and
+no_inconsistent_field test fixture for gap identification; none copied/adapted.
+Public recommendation API doc was inspected and identified as Enterprise-only;
+excluded it as an implementation/specification source. No upstream production read.
+No benchmark, release-mode or browser checks needed.
+
+Initial final gate24673 TERMINAL101 at clippy: one needless_range_loop in the
+original reachability oracle. Replaced loop-index declaration with enumerate;
+no behavior change or Rust test failure. Resumed required gate after formatting.
+
+Final gate50968 remains LIVE after successful fmt/clippy (32.65s) and library
+checks. Shared shadow dependencies affected most stream targets; unrelated pure
+score/basic targets reused. Warm-up68818 remains LIVE, compiling493still-pending
+targets together with --no-run -j4; it does not run tests or write cache evidence.
+Gate is waiting on that build and will resume tests. Poll exact handles; never
+restart for an observation timeout. Both logs under work/shadow-diagnostics-*.log.
+Inputs are frozen. Final regression/compatibility evidence is NOT complete yet.
+After gate terminal0, run work/record_shadow_diagnostics_evidence.py (prepared,
+not yet executed), wait for live freshness verification, then commit the handoff.
+Current implementation is ready for an incremental commit with verification pending.
+No benchmark/browser/release reruns. Goal remains active.
+While waiting, inspected verification dependency scan (no edits), native
+DiminishedReturns1–245 and TEST-ONLY DiminishedReturnsScoreRingBufferTest1–175.
+The latter asserts physical buffer layout; no adaptation or new API chosen.
