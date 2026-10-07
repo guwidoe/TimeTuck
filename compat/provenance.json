@@ -42339,6 +42339,336 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserved every score and entity-match assertion using native optional basic variables and entity-row projection. Stable row IDs 0/1 represent e1/e2; string values preserve v1/v2. Native eager scored moves replace Java before/after notifications and working-solution resets; complete final score recomputation is checked separately. No Java descriptor, object-reflection or callback-order parity claimed."
+    },
+    {
+      "id": "ForEachUniNodeActivityTest.unfilteredInactiveWhenNoFacts",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachUniNodeActivityTest.java",
+      "upstream_test": "unfilteredInactiveWhenNoFacts",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "unfiltered_inactive_when_no_facts",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ForEachUniNodeActivityTest.unfilteredActiveWhenFactsExist",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachUniNodeActivityTest.java",
+      "upstream_test": "unfilteredActiveWhenFactsExist",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "unfiltered_active_when_facts_exist",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ForEachUniNodeActivityTest.unfilteredInactiveWhenDownstreamInactive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachUniNodeActivityTest.java",
+      "upstream_test": "unfilteredInactiveWhenDownstreamInactive",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "unfiltered_inactive_when_downstream_inactive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ForEachUniNodeActivityTest.filteredInactiveWhenNoFacts",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachUniNodeActivityTest.java",
+      "upstream_test": "filteredInactiveWhenNoFacts",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "filtered_inactive_when_no_facts",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ForEachUniNodeActivityTest.filteredActiveWhenFactInsertedEvenIfFilteredOut",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachUniNodeActivityTest.java",
+      "upstream_test": "filteredActiveWhenFactInsertedEvenIfFilteredOut",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "filtered_active_when_fact_inserted_even_if_filtered_out",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ForEachUniNodeActivityTest.filteredInactiveWhenDownstreamInactive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachUniNodeActivityTest.java",
+      "upstream_test": "filteredInactiveWhenDownstreamInactive",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "filtered_inactive_when_downstream_inactive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "IfExistsUniNodeActivityTest.ifExistsActiveWhenBothProduce",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/IfExistsUniNodeActivityTest.java",
+      "upstream_test": "ifExistsActiveWhenBothProduce",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "if_exists_active_when_both_produce",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "IfExistsUniNodeActivityTest.ifExistsInactiveWhenRightEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/IfExistsUniNodeActivityTest.java",
+      "upstream_test": "ifExistsInactiveWhenRightEmpty",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "if_exists_inactive_when_right_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "IfExistsUniNodeActivityTest.ifExistsInactiveWhenLeftEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/IfExistsUniNodeActivityTest.java",
+      "upstream_test": "ifExistsInactiveWhenLeftEmpty",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "if_exists_inactive_when_left_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "IfExistsUniNodeActivityTest.ifNotExistsActiveWhenRightEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/IfExistsUniNodeActivityTest.java",
+      "upstream_test": "ifNotExistsActiveWhenRightEmpty",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "if_not_exists_active_when_right_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "IfExistsUniNodeActivityTest.ifNotExistsActiveWhenRightProduces",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/IfExistsUniNodeActivityTest.java",
+      "upstream_test": "ifNotExistsActiveWhenRightProduces",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "if_not_exists_active_when_right_produces",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "IfExistsUniNodeActivityTest.ifNotExistsInactiveWhenLeftEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/IfExistsUniNodeActivityTest.java",
+      "upstream_test": "ifNotExistsInactiveWhenLeftEmpty",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "if_not_exists_inactive_when_left_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "IfExistsUniNodeActivityTest.ifNotExistsInactiveWhenDownstreamInactive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/IfExistsUniNodeActivityTest.java",
+      "upstream_test": "ifNotExistsInactiveWhenDownstreamInactive",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "if_not_exists_inactive_when_downstream_inactive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ConcatUniUniNodeActivityTest.activeWhenBothSidesProduce",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ConcatUniUniNodeActivityTest.java",
+      "upstream_test": "activeWhenBothSidesProduce",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "concat_active_when_both_sides_produce",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ConcatUniUniNodeActivityTest.activeWhenOnlyLeftProduces",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ConcatUniUniNodeActivityTest.java",
+      "upstream_test": "activeWhenOnlyLeftProduces",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "concat_active_when_only_left_produces",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ConcatUniUniNodeActivityTest.activeWhenOnlyRightProduces",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ConcatUniUniNodeActivityTest.java",
+      "upstream_test": "activeWhenOnlyRightProduces",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "concat_active_when_only_right_produces",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ConcatUniUniNodeActivityTest.inactiveWhenNeitherProduces",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ConcatUniUniNodeActivityTest.java",
+      "upstream_test": "inactiveWhenNeitherProduces",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "concat_inactive_when_neither_produces",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "ConcatUniUniNodeActivityTest.inactiveWhenDownstreamInactive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ConcatUniUniNodeActivityTest.java",
+      "upstream_test": "inactiveWhenDownstreamInactive",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "concat_inactive_when_downstream_inactive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "SingleInputNodeActivityTest.activeWhenUpstreamAndDownstreamActive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/SingleInputNodeActivityTest.java",
+      "upstream_test": "activeWhenUpstreamAndDownstreamActive",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "single_active_when_upstream_and_downstream_active",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "SingleInputNodeActivityTest.inactiveWhenUpstreamCannotProduce",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/SingleInputNodeActivityTest.java",
+      "upstream_test": "inactiveWhenUpstreamCannotProduce",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "single_inactive_when_upstream_cannot_produce",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "SingleInputNodeActivityTest.inactiveWhenDownstreamInactive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/SingleInputNodeActivityTest.java",
+      "upstream_test": "inactiveWhenDownstreamInactive",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "single_inactive_when_downstream_inactive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
+    },
+    {
+      "id": "JoinBiNodeActivityTest.inactiveWhenDownstreamInactive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/bi/JoinBiNodeActivityTest.java",
+      "upstream_test": "inactiveWhenDownstreamInactive",
+      "local_path": "crates/solver/tests/source_activity_cases.rs",
+      "local_test": "join_inactive_when_downstream_inactive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserved the complete active/inactive assertion with native structural StreamActivity. Actual source facts represent upstream capability flags; enabled or zero-weight sinks represent mocked downstream activity. Source/filter, equality-existence, concatenation, identity mapping and constant-key join pipelines replace Java node constructors. Filtered-out facts retain structural activity. Only methods with complete state assertions are adapted; methods verifying lifecycle callbacks remain pending. No Java tuple-store or callback lifecycle equivalence claimed."
     }
   ],
   "fixtures": [

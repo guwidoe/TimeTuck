@@ -16297,3 +16297,30 @@ Live freshness matched verification digest: 27a64379ff63a539018b0b780dccd03714c3
 Existing provenance prefixes unchanged; appended2cases and0fixtures.
 Log work/basic-entity-final-check.log; evidence work/basic-entity-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Structural activity source-case coverage
+
+Applied work/apply_source_activity.py; do not reapply. Added22complete upstream
+methods from ForEachUniNodeActivityTest(6), IfExistsUniNodeActivityTest(7),
+ConcatUniUniNodeActivityTest(5), SingleInputNodeActivityTest(3state-only), and
+JoinBiNodeActivityTest(1state-only). Full TEST-ONLY classes read. Native graph
+activity already implements the tested outcomes; no production source changed.
+Mock capability flags become actual source facts; mocked downstream state becomes
+an enabled or zero-weight scoring sink. Full boolean assertions preserved. Remaining
+four lifecycle-callback methods stay pending. No fixture additions or Java callback
+claim. Focused33995 TERMINAL0:18tests; added4methods then targeted single_/join_
+command completed directly exit0 (3+1pass). No rerun of the unchanged18cases.
+Also read full TEST-ONLY UnindexedJoinBiNodeTest/FusedEqualIndexTest and
+AbstractUniConstraintStreamTest3495-3590: no adaptations or extra credits from them;
+callback/preload counts, bucket-object identity and duplicate justification builder
+semantics remain distinct from existing native APIs. Final gate next, source frozen.
+No Rust implementation, benchmark, release or UI changes/reruns needed.
+
+Required gate79199 TERMINAL0. 4726 Rust tests and 231 doctests passed.
+Rust jobs: {'REUSE': 607, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2837, 'failed': 0, 'pending': 1736, 'excluded': 282, 'unverified': 0, 'percent': 58.435}.
+Source before/after matched: da94223356f426fe25fa7da2f5aaeac375353c6f31a2489e6bc440fca5c0979c
+Live freshness matched verification digest: ecd6b92338169165aa363cb5c58800e25bd5ce5bbe6b91f94913312dcdcc2686.
+Existing provenance prefixes unchanged; appended22cases and0fixtures.
+Log work/source-activity-final-check.log; evidence work/source-activity-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

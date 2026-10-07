@@ -4248,3 +4248,14 @@ Four original regressions cover all partial multi-field assignments, commits/und
 missing-source retraction/reinsertion, schema errors, ignored-variable callback
 work, pinned facts and mixed joint-trial/panic rollback. No reflection or Java
 notification-order equivalence claimed; no extra fixture files copied.
+
+Twenty-two additional complete structural-activity methods now have adaptations:
+all six ForEachUniNodeActivityTest, all seven IfExistsUniNodeActivityTest, all five
+ConcatUniUniNodeActivityTest, three state-only SingleInputNodeActivityTest methods,
+and JoinBiNodeActivityTest.inactiveWhenDownstreamInactive. Existing native source
+emptiness/operator rules and enabled scoring paths already support these outcomes;
+no solver implementation changed. Actual source facts and enabled/zero-weight sinks
+replace mocked upstream capability/downstream activity, while assertions use settled
+StreamActivity. Filter predicates do not erase structural source capability. The four
+remaining methods in the latter two classes assert lifecycle notifications and stay
+pending; this batch does not claim those notifications. No fixtures copied.
