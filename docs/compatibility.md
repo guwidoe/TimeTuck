@@ -3767,3 +3767,20 @@ must not diff across resets or separate registries. Solve-time match collection
 remains disabled. Five original regressions exercise all model adapters, rollback,
 reset, unhealthy/disabled access, partial totals, snapshots, diffs, callback panic
 and checked aggregation. No additional upstream methods are credited.
+
+IncrementalCalculator now has an optional fallible calculate_score_with_matches
+hook, used by generic sessions and all calculator search/solve adapters. The
+default delegates to calculate_score; an override can discover/register matches
+while scoring or return an error. Matching-disabled calls still invoke the hook.
+Calculators own earlier-match cancellation; no implicit clearing is performed.
+Errors or panics invalidate the session until reset, including partially registered
+explanations. Cached native director reads do not invoke scoring again.
+Three additional AbstractScoreDirectorSemanticsTest methods now preserve the
+incremental-calculator instantiation's independent sessions with entity removal/
+addition, replacement solution weights1/2/0, and notified mutable weight1-to2.
+The fixture retains its unweighted registration/weighted-return behavior through
+the new hook. Owned generic solutions and native change descriptors replace Java
+working-object mutation and notifications; these cases do not establish dynamic
+native finite-domain model reconfiguration or factory descriptor identity.
+Five original regressions cover all three native calculator directors, complete
+plans, error/panic rollback, reset recovery and repeated-match cancellation.

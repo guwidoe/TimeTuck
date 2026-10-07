@@ -246,6 +246,23 @@ pub trait IncrementalCalculator<P> {
         Ok(())
     }
     fn calculate_score(&mut self) -> Self::Score;
+
+    /// Fallible scoring with access to optional explanation registration. Override
+    /// this when scoring itself discovers matches or can fail. The default keeps
+    /// existing calculators unchanged by calling `calculate_score`.
+    ///
+    /// Called for every session score calculation, including when matching is
+    /// disabled. Check `registry.is_enabled()` before registering explanations.
+    /// The calculator owns cancellation of earlier matches: scoring does not
+    /// clear the registry automatically. Errors and panics invalidate the session
+    /// until reset, just like failed change callbacks. Native search directors
+    /// also use this hook; cached score reads do not invoke it again.
+    fn calculate_score_with_matches(
+        &mut self,
+        _registry: &mut MatchRegistry<Self::Score, Self::Justification>,
+    ) -> Result<Self::Score, MatchRegistryError> {
+        Ok(self.calculate_score())
+    }
 }
 
 /// Owns working data so ordinary mutations cannot bypass calculator callbacks.
@@ -334,7 +351,9 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
     pub fn score(&mut self) -> Result<C::Score, MatchRegistryError> {
         self.require_ready()?;
         self.ready = false;
-        let score = self.calculator.calculate_score();
+        let score = self
+            .calculator
+            .calculate_score_with_matches(&mut self.registry)?;
         self.ready = true;
         Ok(score)
     }

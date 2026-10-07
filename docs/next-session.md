@@ -14473,3 +14473,39 @@ Live freshness matched verification digest: cd57a284e055bb594bf8f40f5aa25b513248
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/calculator-explanation-final-check.log; evidence work/calculator-explanation-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Fallible calculator scoring and dynamic semantics
+
+Previous3e91c7e goal turn was verified implementation progress; starting HEAD clean.
+Read current compatibility/handoff. Reused fully read AbstractScoreDirectorSemanticsTest,
+IncrementalScoreDirectorSemanticsTest and TestdataConstraintWeightOverridesSolution;
+read full TestdataEntity/Value/Object fixtures. No production reads.
+Added backward-compatible IncrementalCalculator::calculate_score_with_matches,
+defaulting to calculate_score. Session score routes through its fallible result
+while unavailable; callback error or panic keeps session unavailable until reset.
+The hook receives even disabled registries; cancellation is calculator-owned.
+All native directors and solver plans inherit this through CalculatorSession.
+
+Adapted three abstract source methods (incremental implementation): independent
+sessions with remove/add of the same Arc entity, replacement weights1/2/0, notified
+mutable weight1-to2. Retained the fixture's enabled-registry/present-weight branch
+that registers unweighted count but returns weighted score. Generic owned solution
+callbacks replace Java object sharing/notifications; finite model reconfiguration,
+shadow lifecycle and factory descriptor identity remain unclaimed. Added3case and
+5fixture provenance records with unchanged existing entries.
+Focused83345 TERMINAL0:3 source cases. Expanded5546 terminal101: test used nonexistent
+SolverResult.best instead of score; corrected. Focused85071 TERMINAL0:3 source +5
+native regressions across all directors and complete basic/list/mixed plans,
+repeated-score cancellation, disabled matching, callback error/panic poisoning,
+assignment rollback, recovery and cached reads without repeated scoring.
+Final formatted source frozen for required selective gate; no benchmark, browser
+or release reruns needed.
+
+Required gate45870 TERMINAL0. 4188 Rust tests and 204 doctests passed.
+Rust jobs: {'RUN': 477, 'REUSE': 61}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2479, 'failed': 0, 'pending': 2094, 'excluded': 282, 'unverified': 0, 'percent': 51.061}.
+Source before/after matched: 1df0d342d7888d3b3af24120db65b8bb237e0b58f521a1f11e116b41cb3971cc
+Live freshness matched verification digest: 4973c31d013115893c8119974d4d30c3ea8f77fd0d342a2e229e549c774c1b46.
+Existing provenance prefixes unchanged; appended3cases and5fixtures.
+Log work/calculator-dynamic-final-check.log; evidence work/calculator-dynamic-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

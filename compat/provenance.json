@@ -37169,6 +37169,51 @@
       "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
       "local_test": "list_variable_index_pinning_supported",
       "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "AbstractScoreDirectorSemanticsTest.independentScoreDirectors",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/AbstractScoreDirectorSemanticsTest.java",
+      "upstream_test": "independentScoreDirectors",
+      "local_test": "independent_score_directors",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed. Preserve initial scores1/2, unchanged first score1, removal from second scores1/1, and addition of the same removed entity to first scores2/1. Additional native identity/value-range observations earn no extra credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "AbstractScoreDirectorSemanticsTest.solutionBasedScoreWeights",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/AbstractScoreDirectorSemanticsTest.java",
+      "upstream_test": "solutionBasedScoreWeights",
+      "local_test": "solution_based_score_weights",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed. Preserve enabled-match policy and default score1, replacement override2 score2, and subsequent reset override0 score0. Owned equivalent replacement data substitutes reuse of the same mutable Java solution object for the final reset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "AbstractScoreDirectorSemanticsTest.mutableConstraintConfiguration",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/AbstractScoreDirectorSemanticsTest.java",
+      "upstream_test": "mutableConstraintConfiguration",
+      "local_test": "mutable_constraint_configuration",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed. Preserve enabled-match policy, initial score1 and score2 after before/after property-change notification updates the override to2 without replacing the session."
     }
   ],
   "fixtures": [
@@ -51172,6 +51217,71 @@
       "upstream_test": "TestdataPinnedWithIndexListValue",
       "local_path": "crates/solver/tests/calculator_list_semantics_cases.rs",
       "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest: two entities/two values with fully pinned first list, or three entities/three values with full first pin and second prefix length1. Preserve initial -2/-3 ordinary scores with one required-unassigned value, assign the remaining value to the next empty entity and preserve the subsequent ordinary score. Native SimpleScore structural -1 represents InnerScore unassignedCount1; native move validation and derived list state replace Java before/after element notifications and updateShadowVariables. Stable integer identities replace generated entity/value objects and annotated descriptors; reflection, Java getters/factory identity and independent shadow-variable lifecycle are not claimed. EntityCount snapshots list-entity count on reset and uses no-op change callbacks, preserving both nested incremental test calculators. No adaptation of the other four abstract methods is included."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "IncrementalScoreDirectorSemanticsTest.TestdataConstraintWeightOverridesIncrementalScoreCalculator.calculator_dynamic_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/incremental/IncrementalScoreDirectorSemanticsTest.java",
+      "upstream_test": "TestdataConstraintWeightOverridesIncrementalScoreCalculator",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "TestdataConstraintWeightOverridesSolution.calculator_dynamic_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintweightoverrides/TestdataConstraintWeightOverridesSolution.java",
+      "upstream_test": "TestdataConstraintWeightOverridesSolution",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "TestdataEntity.calculator_dynamic_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "TestdataValue.calculator_dynamic_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_dynamic_semantics_cases.rs",
+      "id": "TestdataObject.calculator_dynamic_semantics_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "modifications": "Preserve the incremental-calculator instantiation of AbstractScoreDirectorSemanticsTest using owned generic CalculatorSession data and native before/after change descriptors. Stable integer values and Arc entity identities replace annotated Java objects; generated initial value/entity counts and value assignment remain intact. The test calculator snapshots entity count and current weight after entity/property notifications. Its fallible scoring hook preserves the fixture branch: register an unweighted First weight match and multiply the score only when matching is enabled and an override is present; otherwise return entity count. Native solution replacement models Java setWorkingSolution without requiring shared mutable solution references. No reflection, Java descriptor/factory identity, shadow-variable lifecycle or native finite-domain model reconfiguration is claimed."
     }
   ]
 }
