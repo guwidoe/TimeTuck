@@ -3751,3 +3751,19 @@ regressions compare results, phase/work counters (excluding opaque constraint wo
 and events across 75 plan/budget/strategy combinations, 15 shared-limit comparisons,
 three provider/command compositions and factory-skipping/observer-cancellation cases.
 These add no upstream method credit and establish no performance comparison.
+
+Calculator registrations now expose owned ScoreExplanation snapshots through
+explain_calculator_matches/default and basic/list/mixed calculator director
+explain/default methods. These retain constraint names, occurrence IDs, empty
+constraints and zero-score matches. Arbitrary stored justifications can map to
+owned custom explanations without Clone; default explanations preserve fact order
+and duplicates while per-fact indictments count each occurrence once. Checked
+per-constraint and cross-constraint fact totals report overflow without changing
+the registry. Snapshots include the cached structured director score separately
+from registered ordinary contributions, with matches_agree explicitly reporting
+partial explanation totals. No calculator scoring/reset callback runs to explain.
+Match IDs remain suitable for diffs only within one registry generation; callers
+must not diff across resets or separate registries. Solve-time match collection
+remains disabled. Five original regressions exercise all model adapters, rollback,
+reset, unhealthy/disabled access, partial totals, snapshots, diffs, callback panic
+and checked aggregation. No additional upstream methods are credited.

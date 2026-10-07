@@ -14442,3 +14442,34 @@ and dynamic model/weight changes remain distinct work. Re-read abstract/incremen
 score-director semantics tests and full TestdataConstraintWeightOverridesSolution
 test fixture during the gate; no new adaptations or production reads.
 Removed superseded pending SolverSequence sentence from compatibility docs only.
+
+## Calculator explanation snapshots
+
+Previous1dea9bb goal turn was verified implementation progress; starting HEAD clean.
+Read compatibility and current handoff. Read both ConstraintMatchTotalTest and
+ConstraintMatchTest specification files; no adaptations/fixtures added (getScoreTotal
+was already credited through streams; Java identity/hash/order remain pending).
+Added independent calculator_explanation module: registry-to-ScoreExplanation
+mapping plus basic/list/mixed calculator director explain/default methods and
+CalculatorScoreExplanation with separate cached score and matches_agree. Retain
+occurrences, zero matches, empty constraints, ordered default justification facts,
+deduplicated indictments, non-Clone stored justification mapping, and checked
+per-constraint/global fact scores. Callback errors/unwind cannot mutate registry.
+Snapshot IDs are only comparable within one registry generation. No match enablement
+change in solve APIs, scoring callback reruns, or performance claim.
+Compile7470 TERMINAL0. Focused68905 terminal101: list/mixed failure-injection test
+reapplied already-assigned move, correctly rejected before callbacks; restored
+initial state before injecting callback failure. Focused75395 TERMINAL0:5 original
+regressions, including all three model directors, committed/trial moves, structural
+scores, incomplete match totals, reset and poisoned/disabled access, cancellation,
+snapshot diffs and overflow/widened aggregation. Final formatted batch frozen for
+required selective gate. No benchmark/browser/release reruns needed.
+
+Required gate99143 TERMINAL0. 4180 Rust tests and 204 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 534}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2476, 'failed': 0, 'pending': 2097, 'excluded': 282, 'unverified': 0, 'percent': 50.999}.
+Source before/after matched: 8d44432a6e27a7f2384570451743dfee72dc57ad96c7e332b738b13f75ead7b2
+Live freshness matched verification digest: cd57a284e055bb594bf8f40f5aa25b5132488a8e51e05c2ea4a7513270093e72.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/calculator-explanation-final-check.log; evidence work/calculator-explanation-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

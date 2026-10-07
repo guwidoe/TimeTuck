@@ -918,3 +918,8 @@ pub use solver::{
     solve_mixed_calculator, solve_mixed_calculator_with_events,
     solve_mixed_calculator_with_extensions, solve_mixed_calculator_with_observer,
 };
+
+mod calculator_explanation;
+pub use calculator_explanation::{
+    CalculatorScoreExplanation, explain_calculator_matches, explain_calculator_matches_default,
+};
