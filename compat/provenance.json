@@ -37304,6 +37304,96 @@
       "upstream_test": "originalAllowsUnassignedValuesWithEntityValueRange",
       "local_test": "original_allows_unassigned_values_with_entity_value_range",
       "modifications": "Preserve all ordered move-code assertions and finite exhaustion for the deterministic selector cases, including reversed duplicate pairs, explicit No change outputs, owner/index positions and assigned/unassigned replacement order. Stable integers and native list entities/ranges/pins replace Java fixture identities and annotations. Native empty composites replace ephemeral no-change objects. Caller-supplied value orders replace mocked/mimic selector setup; full/prefix pins are filtered independently on each side, bidirectional receiving ranges and native dependencies are checked on candidates. Entity-range cases omit equal-value pairs as their source filtering selector does. Derived native locations replace shadow-variable updates. Java reflection, selector lifecycle/configuration metadata and random iterator policies are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "ListChangeMoveSelectorTest.original",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "original",
+      "local_test": "original",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "ListChangeMoveSelectorTest.originalWithEntityValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "originalWithEntityValueRange",
+      "local_test": "original_with_entity_value_range",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "ListChangeMoveSelectorTest.originalWithPinning",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "originalWithPinning",
+      "local_test": "original_with_pinning",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "ListChangeMoveSelectorTest.originalWithPinningAndEntityValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "originalWithPinningAndEntityValueRange",
+      "local_test": "original_with_pinning_and_entity_value_range",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "ListChangeMoveSelectorTest.originalAllowsUnassignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "originalAllowsUnassignedValues",
+      "local_test": "original_allows_unassigned_values",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "ListChangeMoveSelectorTest.originalAllowsUnassignedValuesWithEntityValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "originalAllowsUnassignedValuesWithEntityValueRange",
+      "local_test": "original_allows_unassigned_values_with_entity_value_range",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
     }
   ],
   "fixtures": [
@@ -51671,6 +51761,266 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
       "upstream_test": "randomAllowsUnassignedValues",
       "modifications": "Partial fixture adaptation only; source method remains pending. Preserve the explicit finite mocked value sequences, every asserted move-code prefix and one following available move using native Paired selection. Source never-ending selector metadata and Java random policy are not implemented or credited. Preserve all ordered move-code assertions and finite exhaustion for the deterministic selector cases, including reversed duplicate pairs, explicit No change outputs, owner/index positions and assigned/unassigned replacement order. Stable integers and native list entities/ranges/pins replace Java fixture identities and annotations. Native empty composites replace ephemeral no-change objects. Caller-supplied value orders replace mocked/mimic selector setup; full/prefix pins are filtered independently on each side, bidirectional receiving ranges and native dependencies are checked on candidates. Entity-range cases omit equal-value pairs as their source filtering selector does. Derived native locations replace shadow-variable updates. Java reflection, selector lifecycle/configuration metadata and random iterator policies are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListEntity.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TestdataListEntity",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListSolution.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TestdataListSolution",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListValue.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TestdataListValue",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListEntity.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListEntity",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListSolution.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListSolution",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListValue.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "TestdataAllowsUnassignedValuesListValue",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListEntityProvidingEntity.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TestdataListEntityProvidingEntity",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListEntityProvidingSolution.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "TestdataListEntityProvidingSolution",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListEntityProvidingValue.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "TestdataListEntityProvidingValue",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataPinnedWithIndexListEntity.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListEntity.java",
+      "upstream_test": "TestdataPinnedWithIndexListEntity",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataPinnedWithIndexListSolution.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListSolution.java",
+      "upstream_test": "TestdataPinnedWithIndexListSolution",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataPinnedWithIndexListValue.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListValue.java",
+      "upstream_test": "TestdataPinnedWithIndexListValue",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListPinnedEntityProvidingEntity.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/pinned/TestdataListPinnedEntityProvidingEntity.java",
+      "upstream_test": "TestdataListPinnedEntityProvidingEntity",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListPinnedEntityProvidingSolution.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/pinned/TestdataListPinnedEntityProvidingSolution.java",
+      "upstream_test": "TestdataListPinnedEntityProvidingSolution",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListUnassignedEntityProvidingEntity.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TestdataListUnassignedEntityProvidingEntity",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListUnassignedEntityProvidingSolution.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingSolution.java",
+      "upstream_test": "TestdataListUnassignedEntityProvidingSolution",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataValue.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataObject.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "TestdataListUtils.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListUtils.java",
+      "upstream_test": "mockIterableValueSelector/mockDestinationSelector/getMimicRecordingIterableValueSelector/getEntityValueRangeDestinationSelector",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_value_change_cases.rs",
+      "id": "SelectorTestUtils.list_value_change_cases",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "mockIterableValueSelector",
+      "modifications": "Preserve every deterministic move-code assertion, selected value order, pre-removal source/destination position and finite exhaustion. Native ListValueChange retains selected pre-removal metadata while its ListMove uses post-removal insertion indices. Stable integers and explicit list metadata replace annotated entities/values and shadow supplies; native empty composites represent unassigned-to-unassigned no-change. Explicit destination arrays replace mocked destination selectors. Range-driven destinations use eligible entity starts, then positions after assigned movable anchors in registry order (excluding the moving value), then optional unassignment. Full/prefix pins, receiving ranges and optionality are preserved. Java reflection/configuration/lifecycle metadata and all random methods remain unclaimed."
     }
   ]
 }

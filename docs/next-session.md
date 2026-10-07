@@ -14550,3 +14550,39 @@ Live freshness matched verification digest: 01061a7ae5d2b2289efbbddf98eb9e4fd9cc
 Existing provenance prefixes unchanged; appended6cases and23fixtures.
 Log work/list-value-swap-final-check.log; evidence work/list-value-swap-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Value-driven list changes and anchored destinations
+
+Previous6f06229 goal turn was verified implementation progress; starting HEAD clean.
+Read compatibility/current handoff and full ListChangeMoveSelectorTest. Reused18
+fully read list-domain fixtures and selector setup helpers from prior batch; read
+TestdataListUtils.mockDestinationSelector and never-ending helper definitions for
+context. No upstream production reads. Expected ordered codes extracted only from
+six source test assertion blocks by work/build_list_value_change_cases.py.
+
+Independent list_value_change adds snapshot candidates retaining value/source/
+pre-removal destination, with adjusted native post-removal ListMove. Explicit
+Cartesian/Paired inputs, generated entity starts then after-anchor positions
+(excluding source anchor), optional unassignment and bounded uniform pair sampler.
+Source/destination pins filter before pairing; ranges/dependencies filter candidates.
+Missing required values can be assigned. Provider integrates with list/mixed
+construction and local search. Helper named ValueChangeSelection avoids prior
+private Selection name collision in verification scanner. No shared solver edits.
+
+Appended6 deterministic cases and20fixture records, existing provenance unchanged;
+all seven random source methods remain pending. Compile36321 TERMINAL0.
+Focused88289 TERMINAL0:6 source tests. Regression60783 terminal101: used nonexistent
+guard assignment() accessor; corrected to its Deref lists() view. Focused74172
+TERMINAL0:5 original regressions covering54 partial states via both enumerators,
+metadata/execution/undo, pin/range/dependency errors, sampler bounds/laziness and
+complete list/mixed construction+local provider plans. Final formatted source frozen
+for selective gate. No benchmark, browser or release reruns needed.
+
+Required gate31691 TERMINAL0. 4212 Rust tests and 206 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 539}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2491, 'failed': 0, 'pending': 2082, 'excluded': 282, 'unverified': 0, 'percent': 51.308}.
+Source before/after matched: 91bb6529b04dde7588961a625ce048ef8615e853854361e53c97d20bedefe6c4
+Live freshness matched verification digest: 7e9865aeb439159d65c5abbc39b11e30e01a07c04dc6f6cc450f8cd2716e01d6.
+Existing provenance prefixes unchanged; appended6cases and20fixtures.
+Log work/list-value-change-final-check.log; evidence work/list-value-change-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

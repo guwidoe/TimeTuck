@@ -3800,3 +3800,19 @@ and output prefixes but add no method credit; never-ending metadata remains pend
 Four original regressions cover 27 partial assignments against existing swap
 successors, sampler bounds/reproducibility/no opening randomness, dependency rejection,
 invalid values and provider-driven list/mixed search improvements.
+
+Value-driven list changes now cover assignment of missing required/optional values,
+relocation and optional unassignment. ListValueChange snapshots preserve selected
+pre-removal destinations while exposing native moves with adjusted post-removal
+indices. Explicit Cartesian/paired selection, generated entity-start/after-anchor
+destinations and bounded pair sampling respect full/prefix pins, receiving ranges
+and final dependency constraints. Generated anchors omit the moved value itself;
+optional unassignment follows anchored positions. ListValueChangeProvider works
+with list/mixed construction and local-search provider bindings, rebuilding against
+each current assignment. Opening validates inputs; candidates prepare temporary
+assignments lazily. No performance or Java random-selector parity is claimed.
+Six deterministic ListChangeMoveSelectorTest methods preserve every ordered source
+move code and finite output count, including ephemeral same-list destinations.
+Five original regressions compare both enumerators over54 required/optional partial
+states, check actual execution/undo and retained pre-removal metadata, validation,
+sampling reproducibility/bounds and complete list/mixed provider-driven solves.
