@@ -15284,3 +15284,37 @@ so it can run after the implementation commit. On terminal0 run that helper,
 record fresh dashboard/source evidence and commit the handoff separately.
 No benchmarks/release/browser reruns. Worktree input changes are limited to this
 compound join batch; no follow-up implementation has started.
+
+Required gate18803 TERMINAL0. 4564 Rust tests and 223 doctests passed.
+Rust jobs: {'RUN': 540, 'REUSE': 36}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2755, 'failed': 0, 'pending': 1818, 'excluded': 282, 'unverified': 0, 'percent': 56.746}.
+Source before/after matched: f99ebcc539df2d0a127eee64b365d18c31d1fb34d7ac886114e94df80b8376d8
+Live freshness matched verification digest: afd5ce68427d0b4e380d04774111eacc93781ebb90c5b116b4b316c1d80a1e9c.
+Existing provenance prefixes unchanged; appended4cases and0fixtures.
+Log work/compound-join-final-check.log; evidence work/compound-join-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Final gate18803 and evidence helper83688 TERMINAL0. Implementation commitfb51e24
+is now fully verified. Required run included540Rust jobs and reused36; all46Python
+jobs reused successful evidence. No verification rerun after the commit was needed.
+During the gate, one-off ignored work/prebuild_compound_join.py selected287pending
+cache misses under the same environment and compiled them together with
+cargo test --no-run -j4. Warm-up51263 TERMINAL0; Cargo reported9m44s. This overlapped
+the gate and executed no tests or cache-record writes. Do not add its duration to
+the gate's wall time. The helper is specific to this gate/log name, not a new general
+runner; adapt its log references before any future use. All sessions are terminal.
+No source inputs changed during the gate, no upstream changes, no performance claims.
+
+While compiling, prepared an UNAPPLIED follow-up in ignored files:
+work/compound_join_next.rs and work/compound_existence_regression.rs; generator
+work/prepare_compound_existence.py and baseline blob hash
+work/compound-existence-base.hash. Drafts were rustfmt'd but NOT compiled/tested.
+Next possible batch: validate current compound_join.rs against that baseline, then
+apply draft module/tests. Draft adds apply_existence with per-mode sharing; empty
+and equality-only conjunctions use the linear equality-count index, other shapes
+use equality buckets with independent inequality predicates and existing match
+links (potential quadratic space, no ordered-range index claim). Original tests
+exercise4000changes/rollback across4shapes and2activity modes, mode/type separation,
+right multiplicity and self relations. No upstream credits assigned to this draft.
+Read full test-only JoinBiNodeActivityTest and DefaultLevelScoreStateTest during
+verification; no new adaptations from those reads. Existing native activity and
+late-acceptance APIs already cover much of their functional behavior. Goal active.
