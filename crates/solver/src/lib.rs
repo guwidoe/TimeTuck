@@ -799,4 +799,7 @@ pub use solution_tracker::{
 };
 
 mod sorted_construction;
-pub use sorted_construction::{SortedBasicConstruction, SortedListConstruction};
+pub use sorted_construction::{
+    SortedBasicConstruction, SortedListConstruction, StepSortedBasicConstruction,
+    StepSortedListConstruction,
+};

@@ -1,4 +1,4 @@
-//! Phase-scoped entity and value sorting for native construction providers.
+//! Phase and step scoped entity and value sorting for native construction providers.
 use crate::*;
 use std::{cmp::Ordering, sync::Arc};
 
@@ -76,7 +76,8 @@ impl<V: Eq + Clone> PlacementMoveFactory<FiniteProblem<V>, Assignment<V>, BasicK
 /// eligibility always uses the current assignment, including pins and ranges.
 /// Pass the same optional policy to ProviderConstructionConfig. Use only with the
 /// bound problem; a different problem is rejected with a panic before enumeration.
-/// Sorting happens before the search call, outside its cooperative time budget.
+/// Initial sorting happens before the search call, outside its cooperative time
+/// budget. Use with_step_sorting to refresh candidate priorities during search.
 ///
 /// ```
 /// use timetuck::*;
@@ -323,5 +324,173 @@ impl<V: Eq + Clone> MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>
             "sorted construction used with a different problem"
         );
         self.queue.moves(p, a, step)
+    }
+}
+
+/// Refresh candidate ordering from the current assignment once per completed-step
+/// counter. Phase queue keys stay fixed: sequential basic construction refreshes
+/// domain ordering, value-queue construction refreshes receiver ordering, and
+/// pooled construction refreshes both. A retried/discarded scan with the same
+/// counter reuses its order. reset starts a fresh step cache and rewinds phase keys.
+///
+/// Factories and comparators run inside provider.moves, so their time counts
+/// toward the search's cooperative budget. They cannot be interrupted mid-call.
+/// A panic before publication preserves the previous order and queue position;
+/// callback side effects are not rolled back. Equal comparisons use original
+/// model/domain encounter order at each refresh, not the preceding sorted order.
+pub struct StepSortedBasicConstruction<'p, V, F> {
+    inner: SortedBasicConstruction<'p, V>,
+    factory: F,
+    last_step: Option<u64>,
+}
+/// List counterpart of StepSortedBasicConstruction. Phase value keys stay fixed;
+/// destination owners refresh each step. Pooled placement also refreshes value
+/// ordering. Insertion indices remain ascending from each owner's pinned prefix.
+pub struct StepSortedListConstruction<'p, V, F> {
+    inner: SortedListConstruction<'p, V>,
+    factory: F,
+    last_step: Option<u64>,
+}
+impl<'p, V: Eq + Clone> SortedBasicConstruction<'p, V> {
+    /// Add a factory for per-step candidate comparators. The returned comparators
+    /// may own priorities derived from the current assignment.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = FiniteProblem::new(vec![Variable::new(vec![0, 1]); 2])?;
+    /// let n = ConstraintNetwork::<_, SimpleScore>::new(2);
+    /// let mut order = SortedBasicConstruction::new(&p, ConstructionPlacement::Sequential,
+    ///     OptionalConstruction::Preserve, |a, b| a.cmp(&b), |a, b| a.cmp(b))
+    ///     .with_step_sorting(|_, a| {
+    ///         let preferred = a.values().iter().flatten().count() as i32;
+    ///         (|a: usize, b: usize| a.cmp(&b),
+    ///          move |a: &i32, b: &i32| (a != &preferred).cmp(&(b != &preferred)))
+    ///     });
+    /// let result = construction_from_with_provider(&p, &n, p.initial_assignment(),
+    ///     ProviderConstructionConfig::default(), &mut order)?;
+    /// assert_eq!(result.assignment.values(), &[Some(0), Some(1)]);
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn with_step_sorting<F, EC, VC>(self, factory: F) -> StepSortedBasicConstruction<'p, V, F>
+    where
+        F: FnMut(&FiniteProblem<V>, &Assignment<V>) -> (EC, VC),
+        EC: FnMut(usize, usize) -> Ordering,
+        VC: FnMut(&V, &V) -> Ordering,
+    {
+        StepSortedBasicConstruction {
+            inner: self,
+            factory,
+            last_step: None,
+        }
+    }
+}
+impl<'p, V: Eq + Clone> SortedListConstruction<'p, V> {
+    /// Refresh destination and pooled-value priorities from each step's assignment.
+    /// Queued value keys retain their phase order. See StepSortedListConstruction.
+    pub fn with_step_sorting<F, EC, VC>(self, factory: F) -> StepSortedListConstruction<'p, V, F>
+    where
+        F: FnMut(&ListProblem<V>, &ListAssignment<V>) -> (EC, VC),
+        EC: FnMut(usize, usize) -> Ordering,
+        VC: FnMut(&V, &V) -> Ordering,
+    {
+        StepSortedListConstruction {
+            inner: self,
+            factory,
+            last_step: None,
+        }
+    }
+}
+impl<V: Eq + Clone, F> StepSortedBasicConstruction<'_, V, F> {
+    pub fn reset(&mut self) {
+        self.inner.reset();
+        self.last_step = None;
+    }
+}
+impl<V: Eq + Clone, F> StepSortedListConstruction<'_, V, F> {
+    pub fn reset(&mut self) {
+        self.inner.reset();
+        self.last_step = None;
+    }
+}
+impl<V: Eq + Clone, F, EC, VC> MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>
+    for StepSortedBasicConstruction<'_, V, F>
+where
+    F: FnMut(&FiniteProblem<V>, &Assignment<V>) -> (EC, VC),
+    EC: FnMut(usize, usize) -> Ordering,
+    VC: FnMut(&V, &V) -> Ordering,
+{
+    fn construction_placement_completed(&mut self, installed: bool) -> bool {
+        self.inner.construction_placement_completed(installed)
+    }
+    fn moves<'a>(
+        &'a mut self,
+        p: &'a FiniteProblem<V>,
+        a: &'a Assignment<V>,
+        step: u64,
+    ) -> Box<dyn Iterator<Item = Move<V>> + 'a>
+    where
+        Move<V>: 'a,
+    {
+        assert!(
+            std::ptr::eq(p, self.inner.problem),
+            "sorted construction used with a different problem"
+        );
+        if self.last_step != Some(step) {
+            let (mut compare_entities, mut compare_values) = (self.factory)(p, a);
+            let mut entities = (0..p.variables().len()).collect::<Vec<_>>();
+            entities.sort_by(|a, b| compare_entities(*a, *b));
+            let domains = p
+                .variables()
+                .iter()
+                .map(|v| {
+                    let mut values = v.domain().to_vec();
+                    values.sort_by(&mut compare_values);
+                    Arc::from(values)
+                })
+                .collect();
+            let prepared = self.inner.queue.factory_mut();
+            prepared.entities = entities;
+            prepared.domains = domains;
+            self.last_step = Some(step);
+        }
+        self.inner.moves(p, a, step)
+    }
+}
+impl<V: Eq + Clone, F, EC, VC> MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>
+    for StepSortedListConstruction<'_, V, F>
+where
+    F: FnMut(&ListProblem<V>, &ListAssignment<V>) -> (EC, VC),
+    EC: FnMut(usize, usize) -> Ordering,
+    VC: FnMut(&V, &V) -> Ordering,
+{
+    fn construction_placement_completed(&mut self, installed: bool) -> bool {
+        self.inner.construction_placement_completed(installed)
+    }
+    fn moves<'a>(
+        &'a mut self,
+        p: &'a ListProblem<V>,
+        a: &'a ListAssignment<V>,
+        step: u64,
+    ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a>
+    where
+        ListMove<V>: 'a,
+    {
+        assert!(
+            std::ptr::eq(p, self.inner.problem),
+            "sorted construction used with a different problem"
+        );
+        if self.last_step != Some(step) {
+            let (mut compare_entities, mut compare_values) = (self.factory)(p, a);
+            let mut entities = (0..p.entities().len()).collect::<Vec<_>>();
+            entities.sort_by(|a, b| compare_entities(*a, *b));
+            let mut values = p.values().to_vec();
+            values.sort_by(&mut compare_values);
+            let values = Arc::from(values);
+            let prepared = self.inner.queue.factory_mut();
+            prepared.entities = entities;
+            prepared.values = values;
+            self.last_step = Some(step);
+        }
+        self.inner.moves(p, a, step)
     }
 }

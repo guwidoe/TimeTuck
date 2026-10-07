@@ -33239,6 +33239,126 @@
       "local_path": "crates/solver/tests/sorted_construction_cases.rs",
       "local_test": "solve_value_factory_sorting",
       "modifications": "Preserve all four generated configurations (two comparator-factory, two comparator entries), three generated entity/value identities, initially unassigned state, exact descending-rank assignment [2,1,0], and source easy-score objectives. Execute a real construction-only SolverSequence with bound SortedBasicConstruction/SortedListConstruction on both native network and stream backends. Explicit phase comparator callbacks replace Java comparator classes; factory callback receives the real problem/initial assignment exactly once. Native queued keys replace selector/mimic configuration. Add exact final-score and factory-count assertions. No Java reflective configuration parity or per-step sorting claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveBasicVariableQueueComparator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveBasicVariableQueueComparator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_basic_variable_queue_comparator",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveBasicVariableQueueFactory",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveBasicVariableQueueFactory",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_basic_variable_queue_factory",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveBasicVariableEntityRangeQueueComparator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveBasicVariableEntityRangeQueueComparator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_basic_variable_entity_range_queue_comparator",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveBasicVariableEntityRangeQueueFactory",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveBasicVariableEntityRangeQueueFactory",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_basic_variable_entity_range_queue_factory",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveListVariableQueueComparator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveListVariableQueueComparator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_list_variable_queue_comparator",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveListVariableQueueFactory",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveListVariableQueueFactory",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_list_variable_queue_factory",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveListVariableEntityRangeQueueComparator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveListVariableEntityRangeQueueComparator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_list_variable_entity_range_queue_comparator",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.solveListVariableEntityRangeQueueFactory",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "solveListVariableEntityRangeQueueFactory",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "local_test": "solve_list_variable_entity_range_queue_factory",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
     }
   ],
   "fixtures": [
@@ -44265,6 +44385,461 @@
       "upstream_test": "TestdataObjectSortableDescendingComparatorFactory",
       "local_path": "crates/solver/tests/sorted_construction_cases.rs",
       "modifications": "Adapt generated uninitialized three-entity/three-value models, stable entity positions, Generated Value codes and integer-code descending comparison. Basic values are String identities; list owners are stable native indices. Comparator factory creates equivalent callbacks once using initial phase state. Java annotations, inheritance and unused shadow setters/generation helpers are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateCommonConfiguration.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateCommonConfiguration",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateAdvancedBasicVariableConfiguration.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateAdvancedBasicVariableConfiguration",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateBasicVariableConfiguration.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateBasicVariableConfiguration",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateAdvancedListVariableConfiguration.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateAdvancedListVariableConfiguration",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateListVariableConfiguration.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateListVariableConfiguration",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultConstructionHeuristicPhaseTest.generateListVariableEntityRangeConfiguration.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "generateListVariableEntityRangeConfiguration",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Preserve every generated configuration in source order: 23 per basic method, 27 per global-list method, 28 per entity-range-list method. Native sorted/step-sorted providers and construction SolverSequence replace Java selector/mimic/reflection wiring. Immutable integer identities carry original Generated Entity/Value difficulty and strength ranks. Preserve unassigned/empty initial state, per-entity ranges, exact Java Random(0) shuffle permutations, early-pick policy, both HardSoft score objectives, per-identity expected assignments and exactly-one list assertions. Comparator factories receive real model/assignment; STEP destination order refreshes on current state while phase queue keys remain fixed. Run every alternative on network and stream backends; add exact score and callback-count checks. No general Java configuration API or automatic annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OneValuePerEntityComparatorEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/comparator/OneValuePerEntityComparatorEasyScoreCalculator.java",
+      "upstream_test": "OneValuePerEntityComparatorEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataComparatorSortableEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/comparator/TestdataComparatorSortableEntity.java",
+      "upstream_test": "TestdataComparatorSortableEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataComparatorSortableSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/comparator/TestdataComparatorSortableSolution.java",
+      "upstream_test": "TestdataComparatorSortableSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OneValuePerEntityFactoryEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/factory/OneValuePerEntityFactoryEasyScoreCalculator.java",
+      "upstream_test": "OneValuePerEntityFactoryEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFactorySortableEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/factory/TestdataFactorySortableEntity.java",
+      "upstream_test": "TestdataFactorySortableEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFactorySortableSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/sort/factory/TestdataFactorySortableSolution.java",
+      "upstream_test": "TestdataFactorySortableSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListOneValuePerEntityEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/comparator/ListOneValuePerEntityEasyScoreCalculator.java",
+      "upstream_test": "ListOneValuePerEntityEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSortableEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/comparator/TestdataListSortableEntity.java",
+      "upstream_test": "TestdataListSortableEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSortableSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/comparator/TestdataListSortableSolution.java",
+      "upstream_test": "TestdataListSortableSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListOneValuePerEntityFactoryEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/factory/ListOneValuePerEntityFactoryEasyScoreCalculator.java",
+      "upstream_test": "ListOneValuePerEntityFactoryEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListFactorySortableEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/factory/TestdataListFactorySortableEntity.java",
+      "upstream_test": "TestdataListFactorySortableEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListFactorySortableSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/factory/TestdataListFactorySortableSolution.java",
+      "upstream_test": "TestdataListFactorySortableSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OneValuePerEntityComparatorRangeEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/sort/comparator/OneValuePerEntityComparatorRangeEasyScoreCalculator.java",
+      "upstream_test": "OneValuePerEntityComparatorRangeEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataComparatorSortableEntityProvidingEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/sort/comparator/TestdataComparatorSortableEntityProvidingEntity.java",
+      "upstream_test": "TestdataComparatorSortableEntityProvidingEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataComparatorSortableEntityProvidingSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/sort/comparator/TestdataComparatorSortableEntityProvidingSolution.java",
+      "upstream_test": "TestdataComparatorSortableEntityProvidingSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OneValuePerEntityFactoryRangeEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/sort/factory/OneValuePerEntityFactoryRangeEasyScoreCalculator.java",
+      "upstream_test": "OneValuePerEntityFactoryRangeEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFactorySortableEntityProvidingEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/sort/factory/TestdataFactorySortableEntityProvidingEntity.java",
+      "upstream_test": "TestdataFactorySortableEntityProvidingEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataFactorySortableEntityProvidingSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/sort/factory/TestdataFactorySortableEntityProvidingSolution.java",
+      "upstream_test": "TestdataFactorySortableEntityProvidingSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListOneValuePerEntityRangeEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/comparator/ListOneValuePerEntityRangeEasyScoreCalculator.java",
+      "upstream_test": "ListOneValuePerEntityRangeEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSortableEntityProvidingEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/comparator/TestdataListSortableEntityProvidingEntity.java",
+      "upstream_test": "TestdataListSortableEntityProvidingEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSortableEntityProvidingSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/comparator/TestdataListSortableEntityProvidingSolution.java",
+      "upstream_test": "TestdataListSortableEntityProvidingSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListOneValuePerEntityRangeFactoryEasyScoreCalculator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/factory/ListOneValuePerEntityRangeFactoryEasyScoreCalculator.java",
+      "upstream_test": "ListOneValuePerEntityRangeFactoryEasyScoreCalculator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListFactorySortableEntityProvidingEntity.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/factory/TestdataListFactorySortableEntityProvidingEntity.java",
+      "upstream_test": "TestdataListFactorySortableEntityProvidingEntity",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListFactorySortableEntityProvidingSolution.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/factory/TestdataListFactorySortableEntityProvidingSolution.java",
+      "upstream_test": "TestdataListFactorySortableEntityProvidingSolution",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestSortableObject.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestSortableObject.java",
+      "upstream_test": "TestSortableObject",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestSortableObjectComparator.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestSortableObjectComparator.java",
+      "upstream_test": "TestSortableObjectComparator",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestSortableObjectComparatorFactory.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestSortableObjectComparatorFactory.java",
+      "upstream_test": "TestSortableObjectComparatorFactory",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSortableValue.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestdataSortableValue.java",
+      "upstream_test": "TestdataSortableValue",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataObject.step_sorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject",
+      "local_path": "crates/solver/tests/construction_sorting_cases.rs",
+      "modifications": "Adapt three uninitialized sortable entities and values with immutable integer identity/difficulty/strength ranks, comparator/factory callbacks and actual per-entity ranges. Preserve seed-zero shuffle call order with fixed measured permutations. Preserve basic score (-assigned+distinct,-distinct) and list score (-1 per owner plus -10 unless size one; -10 soft per size-one owner). Java codes become rank identities; annotations/inheritance, reflection, unused mutation helpers and factory class types are not ported."
     }
   ]
 }

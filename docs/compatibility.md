@@ -3151,3 +3151,30 @@ Original tests cover all placement modes, stable IDs, fresh-run reset, bounded
 candidate cloning, atomic interrupted-scan retry, optional rejection, pins and
 receiver ranges. Sorted orders are shared; unconsumed basic-domain tails are not
 cloned into move values.
+
+## Step-scoped construction priorities
+
+Sorted basic/list providers now accept `with_step_sorting`, whose factory derives
+candidate comparators from the current assignment once per completed-step counter.
+Sequential basic entity keys and queued value keys retain phase order; destination
+owners, basic candidate domains and pooled values refresh as applicable. Retrying
+an interrupted scan with the same counter reuses its order. `reset` explicitly
+rewinds the phase queue and clears the step cache, including when a new phase
+starts at the same counter. Equal comparisons start from original encounter order.
+
+Refresh prepares all orders before publication, so a comparator failure does not
+advance the queue or partially replace its ordering. External callback effects
+are not rolled back. Refresh time counts inside the cooperative search budget;
+callbacks cannot be interrupted mid-call. Phase preparation still occurs outside
+that budget. This API does not automatically choose cache scopes from annotations.
+
+Eight additional DefaultConstructionHeuristicPhaseTest methods preserve every
+configuration alternative: 23 per basic/global-or-entity-range method, 27 per
+list/global-range method and 28 per list/entity-range method. Comparator/factory
+variants run on both network and stream backends (404 complete construction runs).
+They retain the source score arithmetic, seed-zero shuffle permutations, stable
+entity/value rank identities, receiver ranges, early-pick settings and exact
+per-entity assignment assertions. Step destination sorting covers entity-range
+list configurations. Native tests additionally prove changing priorities affect
+actual solver choices, and cover retries, resets, stable ties and failed refresh.
+No Java configuration/reflection parity or new performance result is claimed.

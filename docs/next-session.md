@@ -13152,3 +13152,60 @@ ListOneValuePerEntityEasyScoreCalculator subtracts10soft per exactly-one owner,
 10hard otherwise, plus1hard per owner regardless of size. These differ from this
 increment's factory-sorting SimpleScore objectives; do not reuse the wrong score
 when adapting remaining comparator tests. Other sortable fixtures still unread.
+
+## Step-scoped construction sorting (current increment)
+
+Previous activation-only goal turn was no progress; revalidated active goal and
+existing uncommitted sorter changes. Continued those changes rather than restart.
+Added StepSortedBasicConstruction/ListConstruction wrappers and with_step_sorting;
+phase keys fixed, candidate comparators refreshed from current state per step,
+retry cache, reset, stable original encounter ties and atomic order publication.
+Added usage doctest. Native tests previously completed66712 TERMINAL0 (3 tests).
+Source harness43493 TERMINAL0 (8 tests, 404 full solves over both backends).
+Generator first failed before writing a source file (f-string brace), corrected;
+no solver failure. Format53123 TERMINAL0. No production upstream code read.
+
+Read all eight target queue comparator/factory methods and six configuration
+helpers in DefaultConstructionHeuristicPhaseTest, plus all24 model/score fixtures
+under testdomain/{sort,list/sort,valuerange/sort,list/valuerange/sort}/{comparator,
+factory}, four shared sortable interfaces/comparator/factory/value fixtures and
+TestdataObject. Source generators retain19 common +4 basic or8 list alternatives;
+entity-range-list adds one corner configuration and uses STEP destinations. Java
+stdlib-only seed-zero shuffle harness95832 terminal0 supplied exact permutations.
+All score functions retain HardSoft objectives (distinct/repeated basic; size-one
+list hard/soft penalties). Immutable ranks replace Generated codes, assertions use
+stable entity identity despite shuffle. All alternatives retained, including
+repeated selector/mimic variants expressed by native provider wiring.
+
+Appended8 source cases and35 fixture/helper records, existing prefixes preserved.
+Focused source tests and native regressions passed; final required gate next after
+source freeze. No benchmark/browser/release reruns. Goal remains active.
+
+Next-source preparation during gate: read complete DefaultConstructionHeuristicPhaseTest
+methods117..372 (initialized/pinned/empty/optional/range cases) and1342..1564
+(optional penalties, invalid selector/reflection configurations and nested score
+providers). These remain pending, not credited. Initialized-solution case requires
+an independent output assignment plus shadow recomputation; optional cases require
+exact source easy-score fixtures before adaptation. Invalid Java reflective cache/
+annotation combinations need native semantic rationale, not manufactured errors.
+Potential implementation gap: component construction providers cannot yet compose
+into a mixed-model provider with independently tracked queue/step state; sorted
+basic/list providers are reusable building blocks. No mixed adapter implemented.
+
+Required gate26722 TERMINAL0. 3810 Rust tests and 181 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 472}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2222, 'failed': 0, 'pending': 2351, 'excluded': 282, 'unverified': 0, 'percent': 45.767}.
+Source before/after matched: 7fa1264e6145cb555ccfea0ed3a4859544b6130fb556c2042aaa9d9182934891
+Live freshness matched verification digest: e3343fac6e53c948f81550e82a5df9eed72b9f70d5c396454ff57852c7bb7d5d.
+Existing provenance prefixes unchanged; appended8cases and35fixtures.
+Log work/step-sorting-final-check.log; evidence work/step-sorting-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+Also read four pending-case easy score fixtures completely: unassignedvar/
+TestdataAllowsUnassignedEasyScoreCalculator (-1 per null, -1000 per ordered pair
+of distinct entities with equal nonnull values); list/unassignedvar/
+TestdataAllowsUnassignedValuesListEasyScoreCalculator (negative total list length);
+valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingScoreCalculator
+(-1 null, +1 assigned); list/valuerange/TestdataListEntityProvidingScoreCalculator
+(+2 owner size>=2, +1 otherwise). Their model fixtures still need attribution/read
+before adapting those cases. No credit added from these preparatory reads.
