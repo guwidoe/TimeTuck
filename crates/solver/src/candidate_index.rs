@@ -1,5 +1,5 @@
 //! Mutable keyed candidate storage with borrowed indexed query views.
-use crate::{LazyConcat, random::SplitMix64, unique_slice_samples};
+use crate::{LazyConcat, ScalingMap, random::SplitMix64, unique_slice_samples};
 use std::{
     collections::{BTreeMap, BTreeSet},
     error::Error,
@@ -98,13 +98,13 @@ impl<'a, I, T> CandidateBucket<'a, I, T> {
 /// # Ok::<(), timetuck::CandidateIndexError<usize>>(())
 /// ```
 pub struct CandidateIndex<K, I, T> {
-    buckets: BTreeMap<K, Vec<IndexedCandidate<I, T>>>,
+    buckets: ScalingMap<K, Vec<IndexedCandidate<I, T>>>,
     positions: BTreeMap<I, (K, usize)>,
 }
 impl<K, I, T> Default for CandidateIndex<K, I, T> {
     fn default() -> Self {
         Self {
-            buckets: BTreeMap::new(),
+            buckets: ScalingMap::new(),
             positions: BTreeMap::new(),
         }
     }
@@ -126,7 +126,7 @@ impl<K: Ord + Clone, I: Ord + Clone, T> CandidateIndex<K, I, T> {
         if self.positions.contains_key(&id) {
             return Err(CandidateIndexError::DuplicateId(id));
         }
-        let bucket = self.buckets.entry(key.clone()).or_default();
+        let bucket = self.buckets.get_or_insert_with(key.clone(), Vec::new);
         self.positions.insert(id.clone(), (key, bucket.len()));
         bucket.push(IndexedCandidate { id, value });
         Ok(())

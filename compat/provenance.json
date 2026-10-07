@@ -37574,6 +37574,141 @@
       "local_test": "to_string_renders_the_reservations_in_both_stages",
       "local_path": "crates/solver/tests/slot_reservation_cases.rs",
       "modifications": "Preserve all asserted identity mappings, updates, release behavior, sparse/dense transitions, zero logical indices and formatted reservations. Native usize indices and Result errors replace Java integer/exception APIs. The HashMap oracle runs 10,000 operations over 200 slots and compares every slot after each operation, using native SampleRandom seed 0 in place of java.util.Random; exact Java random traces are not claimed. Counts, operation choice bound and identity defaults are unchanged. Negative-argument source methods remain pending because native unsigned inputs do not represent them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.getOrCreateGetRemove",
+      "status": "implemented",
+      "upstream_test": "getOrCreateGetRemove",
+      "local_test": "get_or_create_get_remove",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.removeIsNoOpForMissingKey",
+      "status": "implemented",
+      "upstream_test": "removeIsNoOpForMissingKey",
+      "local_test": "remove_is_no_op_for_missing_key",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.iteratorHonorsReversedInTreeMode",
+      "status": "implemented",
+      "upstream_test": "iteratorHonorsReversedInTreeMode",
+      "local_test": "iterator_honors_reversed_in_tree_mode",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.treeifiesOnChurnAtThresholdAndStaysTreeified",
+      "status": "implemented",
+      "upstream_test": "treeifiesOnChurnAtThresholdAndStaysTreeified",
+      "local_test": "treeifies_on_churn_at_threshold_and_stays_treeified",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.growthWithoutChurnStaysArrayBased",
+      "status": "implemented",
+      "upstream_test": "growthWithoutChurnStaysArrayBased",
+      "local_test": "growth_without_churn_stays_array_based",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.churnBelowThresholdStaysArrayBased",
+      "status": "implemented",
+      "upstream_test": "churnBelowThresholdStaysArrayBased",
+      "local_test": "churn_below_threshold_stays_array_based",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.churnAtThresholdTreeifiesOnlyAfterTolerance",
+      "status": "implemented",
+      "upstream_test": "churnAtThresholdTreeifiesOnlyAfterTolerance",
+      "local_test": "churn_at_threshold_treeifies_only_after_tolerance",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.safetyCeilingTreeifiesWithoutChurn",
+      "status": "implemented",
+      "upstream_test": "safetyCeilingTreeifiesWithoutChurn",
+      "local_test": "safety_ceiling_treeifies_without_churn",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.randomChurnMatchesTreeMapModel",
+      "status": "implemented",
+      "upstream_test": "randomChurnMatchesTreeMapModel",
+      "local_test": "random_churn_matches_tree_map_model",
+      "modifications": "Preserve lookup, lazy supplier, missing removal, monotonic growth, size-limit promotion, threshold/churn tolerance, one-way promotion, ordered tree traversal and oracle assertions. Native configurable tuning binds the symbolic source thresholds to array_threshold=64, churn_tolerance=8, maximum_array_size=1024; the latter two are native choices, not claimed upstream constant values. Use native SampleRandom seed42 in place of Java Random42 for 100,000 operations over twice the native size ceiling; operation choice bounds, 1000-operation checkpoints and final comparisons are preserved. Rust Option/borrowed references replace null/get access. The differing array reverse-traversal method remains pending; native iteration honors reversal in either representation."
     }
   ],
   "fixtures": [
@@ -52227,6 +52362,32 @@
       "upstream_test": "outOfRangeArgumentsAreRejectedInBothStages",
       "local_path": "crates/solver/tests/slot_reservation_regression.rs",
       "modifications": "Partial adaptation of positive out-of-bounds reserve/release assertions for sparse and dense stages. Adds resolve checks, usize::MAX, unchanged-state checks and allocation failure on an unrepresentable dense capacity. Does not adapt Java negative-slot validation or exception messages; the source method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.treeifiedMap.scaling_map",
+      "upstream_test": "treeifiedMap",
+      "modifications": "Adapt setup helper: insert threshold+1 integer keys/string values, then remove/reinsert key0 for native configured churn tolerance. Preserve final tree-mode assertion. Source threshold64 is stated by source test comments; tolerance8 and ceiling1024 are independent native tuning choices."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "local_path": "crates/solver/tests/scaling_map_cases.rs",
+      "id": "ScalingNavigableMapTest.keys.scaling_map",
+      "upstream_test": "keys/ascendingKeys/descendingKeys",
+      "modifications": "Native borrowed iterators collect ordered integer keys; reverse traversal uses DoubleEndedIterator in tree-mode source cases. Do not adapt the source helper behavior that ignores reversal in array mode; that source method stays pending."
     }
   ]
 }

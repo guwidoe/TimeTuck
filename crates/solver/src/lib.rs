@@ -940,3 +940,6 @@ pub use sampled_sublist_provider::{SampledSubListNeighborhood, SampledSubListPro
 
 mod slot_reservations;
 pub use slot_reservations::{SlotReservationError, SlotReservationMap};
+
+mod scaling_map;
+pub use scaling_map::{ScalingMap, ScalingMapConfig};

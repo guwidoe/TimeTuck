@@ -14655,3 +14655,36 @@ Live freshness matched verification digest: a619bf9c0e7c0a5975a09c2d8765da60e67d
 Existing provenance prefixes unchanged; appended12cases and2fixtures.
 Log work/slot-reservations-final-check.log; evidence work/slot-reservations-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Adaptive ordered candidate maps
+
+Previous goal turn was verified progress; starting02fe372 clean. Read current
+handoff/compatibility. Read test-only FusedEqualIndexTest and native partitioned
+join implementation to assess missing index behaviors; no fused-index changes or
+coverage claims. Selected ScalingNavigableMapTest (fully read) and existing
+CandidateIndex for the next implementation. No upstream production reads.
+Independent ScalingMap uses sorted Vec then BTreeMap, configurable threshold/
+churn/ceiling, lazy absent-key suppliers, previous-value removal, mutable lookups,
+borrowed bidirectional iteration and BTreeMap-compatible bounds validation.
+Supplier panic before promotion leaves data unchanged; panicking Ord unsupported.
+Tree mode survives shrink/clear. CandidateIndex.buckets now uses this map; IDs,
+row storage, swap-removal and query ordering unchanged.
+Native tuning64/8/1024: threshold64 stated in test comments; remaining values are
+independent choices, explicitly documented in provenance.9source methods adapted;
+array reversed traversal method stays pending because native reverse works in both
+representations.100k oracle operations use native seed42, 1000-step comparisons.
+Added9cases2helpers fixtures, previous entries unchanged. Three native regressions
+cover ranges/errors/iteration, supplier panic and candidate-index integration.
+Compile46312 TERMINAL0. Focused99581 terminal101: test used nonexistent LazyConcat
+unique method; corrected to samples. Focused63087 TERMINAL0:12 tests.
+Final formatted source frozen for required selective gate. No benchmark, browser
+or release reruns; no performance claim.
+
+Required gate16505 TERMINAL0. 4243 Rust tests and 209 doctests passed.
+Rust jobs: {'RUN': 11, 'REUSE': 536}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2512, 'failed': 0, 'pending': 2061, 'excluded': 282, 'unverified': 0, 'percent': 51.74}.
+Source before/after matched: 9e5c979b611337ccaf8fcbdec98e3b0404bd31dc924a04a139e7d52f3cd17a45
+Live freshness matched verification digest: f40bcfac2077f91355fdd4f0b67d4700e16b8d869026009f88274fd94f0ab057.
+Existing provenance prefixes unchanged; appended9cases and2fixtures.
+Log work/scaling-map-final-check.log; evidence work/scaling-map-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

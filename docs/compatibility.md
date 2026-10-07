@@ -3844,3 +3844,18 @@ Additional tests cover counts/previous values/clear in both representations,
 failed allocation, error atomicity and unique-sampling equivalence to swap-remove
 across the small-pool boundary. Existing huge-range and solver sampling regressions
 remain applicable. The map does not enforce unique logical indices by itself.
+
+CandidateIndex equality-key buckets now use ScalingMap: sorted vector storage
+promotes permanently to a tree after configured churn at scale or a size ceiling.
+Lookup/mutation and borrowed range traversal retain native candidate behavior;
+values and keys need no Clone bound in the map itself. Supplier callbacks run only
+for absent keys and before promotion/mutation. Native defaults are threshold64,
+churn tolerance8 and array ceiling1024; only64 is explicitly established by the
+read source-test comments. The other tuning values are independent native choices.
+Nine ScalingNavigableMapTest methods preserve all behavioral assertions with those
+symbolic threshold bindings and a native seeded100,000-operation tree-map oracle.
+The source array-reverse quirk remains pending: native iterators honor reversal in
+both representations. Three original regressions cover range boundaries/errors,
+double-ended iteration, supplier panic atomicity, clear and live candidate-index
+rekey/removal/query/sample behavior across promotion. No performance measurement
+or parity with unread upstream tuning constants is claimed.
