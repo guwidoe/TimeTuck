@@ -18860,3 +18860,65 @@ Gate17889 TERMINAL0; source frozen throughout. Evidence38176 confirms stable
 source, unchanged old provenance records and live report freshness. Stream
 performance status current; unrelated measurements retain their own freshness.
 Staged source/test/provenance reviewed; ready to commit. Goal remains active.
+
+## Batched join allocation and membership reuse
+
+Baseline830aa19; goal active/incomplete. Profiled release stream benchmark with
+installed gprofng: work/stream-830aa19.er, work/stream-profile-functions.txt.
+Only40samples; directional allocator/Arc/map/join evidence, no precise attribution.
+Preserved baseline executable work/stream-allocation-before.
+Discarded inline traversal-stack experiments (16 and4 slots) after mixed results;
+SnapshotMap iterators remain unchanged. Only a private shared-root identity query
+is added. Batched joins reuse unchanged membership (whole opposing index, or one
+equality bucket), coalesce input updates in stable sorted buffers, and sort/dedup
+candidate pairs. First identity representatives and final payloads are retained.
+Dense matching still quadratic; buffers temporarily retain duplicate pairs.
+Three original regressions cover identity clone counts, changed unrelated/matching
+buckets, and repeated updates/retractions with equivalent ID representations.
+No new upstream credits/provenance. Focus56388/41144 TERMINAL0 (6existing indexed
+join tests and3new membership/buffer cases). Release build10107 TERMINAL0.
+
+All three full native comparisons completed; do not restart them. Final51867
+TERMINAL0: work/stream-buffer-native-performance.json, baseline830aa19 versus
+work/stream-allocation-after;2alternating process pairs,1warmup+3samples,20steps.
+Exact final assignments/scores/score-call counts match in every sample.
+Median before/after ms: hill/change32 29.445/29.164,96 109.719/96.056;
+tabu/change32 28.659/28.637,96 104.916/98.164;
+hill/swap32 210.427/273.840,96 2501.909/2494.939;
+tabu/swap32 273.167/221.803,96 2882.473/2153.786.
+No concurrent compilation launched, but substantial host variance remains.
+Targeted concern followup26572 TERMINAL0:4alternating process pairs for hill/swap32,
+1warmup+2samples,20steps; whole-process CPU median625.198/588.228ms before/after.
+Exact outputs/calls match. work/stream-buffer-cpu-performance.json. This does not
+prove an overall latency improvement; do not cherry-pick swap timing gains.
+Earlier discarded variants: work/stream-allocation-native-performance.json and
+work/stream-allocation-refined-native-performance.json, all checks terminal.
+
+Final frozen-state gate50211 TERMINAL0:5055 Rust tests and243 doctests passed.
+Compile-only prebuild35085 TERMINAL0,2m57s. No repeat needed for unchanged inputs.
+Matched Java stream benchmark37343 TERMINAL0, work/stream-buffer-java-performance.log.
+Report/evidence82916 TERMINAL0; current stream performance and live freshness verified.
+No browser rerun. Unrelated benchmark evidence must retain freshness status.
+
+Required stream-buffer gate TERMINAL0. 5055 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 655, 'REUSE': 31}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2947, 'failed': 0, 'pending': 1626, 'excluded': 282, 'unverified': 0, 'percent': 60.7}.
+Source before/after matched: 639bbe42de051f53e76a790b6d93d5d01c9e932d7df1188e7bf1f702aa20aaa7
+Live freshness matched verification digest: 0294ea420a8914d9d7e89cf83022017b2c6c0035833c5bacaa79465f01f740e5.
+Prior ledger records unchanged; no new provenance cases or upstream method credits.
+Log work/stream-buffer-final-check.log; evidence work/stream-buffer-evidence.json.
+Only matched stream performance refreshed; unrelated measurements retain their freshness status. Native alternating comparison is separate. No browser rerun for this report-only refresh. Goal remains active.
+
+Matched Java stream comparison:128/128 valid and equal-score;114 independently
+optimal in each engine. 20steps,1warmup,3samples,2forks, no concurrent compilation.
+Rust/Java ms hill/change32 26.818/35.018,96 99.587/51.727;
+tabu/change32 29.864/44.171,96 96.644/57.515;
+hill/swap32 179.958/53.671,96 2491.330/295.790;
+tabu/swap32 363.811/89.486,96 3665.436/417.938.
+Large swap Java gap remains8–9x; this change does not resolve it. Native timing
+variance and CPU followup above still qualify improvement claims. All handles from
+this batch terminal; no outstanding checks or benchmarks. Source/provenance frozen
+through gate. Staged source/test/docs reviewed. No upstream source changes.
+Next: prioritize a larger connected implementation batch before another broad gate;
+performance remains important. Avoid more iterator-stack microexperiments or
+rerunning completed comparisons without a specific new change/concern.

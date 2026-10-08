@@ -237,6 +237,16 @@ fn erase<K, V>(root: &mut Link<K, V>, path: &[Ordering]) {
     balance(root);
 }
 impl<K, V> SnapshotMap<K, V> {
+    // Identity only: equal roots imply unchanged content, but independently
+    // constructed equal maps need not share a root.
+    pub(crate) fn shares_root(&self, other: &Self) -> bool {
+        match (&self.root, &other.root) {
+            (None, None) => true,
+            (Some(left), Some(right)) => Arc::ptr_eq(left, right),
+            _ => false,
+        }
+    }
+
     pub(crate) fn new() -> Self {
         Self { root: None }
     }

@@ -4714,3 +4714,14 @@ composites. Stable Clone/Eq value identity remains required.
 Three additional SwapMoveProvider methods preserve complete multivariable move
 inclusion/exclusion cases, including a forbidden whole swap with one legal column
 and optional missing third values. Explicit selected rows replace Java metadata.
+
+Batched indexed joins coalesce inputs and deduplicate candidate pairs using sorted
+buffers, retaining first identity representatives and last input values. Stable
+index roots avoid repeating old/new candidate enumeration when membership is
+unchanged. Equality can reuse one bucket even when unrelated buckets change;
+ordered comparisons require the opposing index to be unchanged. Final rows still
+refresh payloads and changed memberships retain old/new enumeration. New native
+regressions cover identity clone work and repeated updates/retractions; existing
+join-round, panic, snapshot and graph rollback cases apply. Sorted buffers can
+retain duplicate pair IDs until deduplication; dense rounds remain quadratic.
+No upstream credits.
