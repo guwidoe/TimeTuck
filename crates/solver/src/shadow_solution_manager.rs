@@ -1,7 +1,7 @@
 //! Atomic publication of declarative shadows and scores with session rollback.
 use crate::{
-    ConsistentShadowUpdateError, ManagedSolution, ShadowSession, ShadowSessionCheckpoint,
-    SolutionUpdatePolicy, update_consistent_shadows,
+    ConsistentShadowUpdateError, ManagedSolution, ShadowConsistencyPolicy, ShadowSession,
+    ShadowSessionCheckpoint, SolutionUpdatePolicy, update_shadows_with_policy,
 };
 use std::{error::Error, fmt};
 
@@ -34,7 +34,8 @@ type Validate<'a, A, H, E> = dyn FnMut(&A, &H) -> Result<(), E> + 'a;
 type Calculate<'a, A, H, S, E> = dyn FnMut(&A, &H) -> Result<S, E> + 'a;
 
 /// Own a declarative session and publish its materialized shadows and score together.
-/// Everything and ShadowsOnly require a consistent graph with registered sources.
+/// Everything and ShadowsOnly require registered sources; consistency is required
+/// by default and can be relaxed explicitly for domains that score inconsistency.
 /// After refresh, `project` builds owned shadows, `validate` checks them, and
 /// Everything calculates a score. ScoreOnly validates and scores existing shadows
 /// without reading, refreshing or checking the session. ShadowsOnly retains any
@@ -47,6 +48,7 @@ type Calculate<'a, A, H, S, E> = dyn FnMut(&A, &H) -> Result<S, E> + 'a;
 /// interior state; external effects and callback captures are not rolled back.
 /// Panicking destructors during successful publication are excluded.
 pub struct ShadowSolutionManager<'a, 's, K, A, H, S, E> {
+    consistency: ShadowConsistencyPolicy,
     preflight: Option<Box<Preflight<'a, A, E>>>,
     session: ShadowSession<'a, 's, K, A>,
     project: Box<Project<'a, 's, K, A, H, E>>,
@@ -61,6 +63,7 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
         calculate: impl FnMut(&A, &H) -> Result<S, E> + 'a,
     ) -> Self {
         Self {
+            consistency: ShadowConsistencyPolicy::RequireConsistent,
             preflight: None,
             session,
             project: Box::new(project),
@@ -72,6 +75,14 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
     /// including ScoreOnly. Replaces any previously installed preflight callback.
     pub fn with_preflight(mut self, check: impl FnMut(&A) -> Result<(), E> + 'a) -> Self {
         self.preflight = Some(Box::new(check));
+        self
+    }
+    /// Control consistency for graph refreshes; ScoreOnly continues to use the
+    /// existing projection without refreshing or checking the graph. With
+    /// AllowInconsistent, projection and scoring adapters must handle flags and
+    /// missing derived values explicitly. Other errors remain errors.
+    pub fn with_consistency_policy(mut self, policy: ShadowConsistencyPolicy) -> Self {
+        self.consistency = policy;
         self
     }
     pub fn session(&self) -> &ShadowSession<'a, 's, K, A> {
@@ -110,7 +121,7 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
             session: &mut self.session,
             saved: Some(saved),
         };
-        update_consistent_shadows(guard.session, &solution.assignment)
+        update_shadows_with_policy(guard.session, &solution.assignment, self.consistency)
             .map_err(ShadowSolutionError::Shadows)?;
         let shadows = (self.project)(&solution.assignment, guard.session)
             .map_err(ShadowSolutionError::Adapter)?;

@@ -4338,3 +4338,12 @@ requires reset after failures/panics, rejects adapter structural contributions a
 does not advertise constraint-match explanations. Original search/rollback tests
 verify small optima, cache/score consistency and callback accounting; no new
 upstream method credit or performance claim is attached to this integration.
+
+Declarative refresh now supports explicit AllowInconsistent scoring while strict
+rejection remains default. Missing-source diagnostics and rollback still apply.
+Native dependency callbacks bind list predecessor relations directly from current
+assignments. One complete SolutionManager score-only declarative method preserves
+the concurrent-visit fixture and HardSoft(-4,0) result. Original integration checks
+show local search escaping the crossed cyclic start and exact search finding
+HardSoft(0,-240), plus strict/tolerant transitions and failure rollback. This does
+not claim Java alignment scheduling, supplier counts or annotation lifecycle parity.

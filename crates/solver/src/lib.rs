@@ -1012,8 +1012,8 @@ pub use solution_manager::{
 };
 
 pub use shadow_session::{
-    ConsistentShadowUpdateError, ShadowConsistencyReport, ShadowVariableKey, shadow_consistency,
-    update_consistent_shadows,
+    ConsistentShadowUpdateError, ShadowConsistencyPolicy, ShadowConsistencyReport,
+    ShadowVariableKey, shadow_consistency, update_consistent_shadows, update_shadows_with_policy,
 };
 
 pub use shadow_session::{ShadowSourceReference, missing_shadow_sources};

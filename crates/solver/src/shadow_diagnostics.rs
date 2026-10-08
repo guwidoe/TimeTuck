@@ -150,6 +150,14 @@ impl<K: Eq, W> Drop for RestoreOnDrop<'_, '_, '_, K, W> {
     }
 }
 
+/// Whether a refreshed graph may publish cycle/affected-field flags for scoring.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ShadowConsistencyPolicy {
+    #[default]
+    RequireConsistent,
+    AllowInconsistent,
+}
+
 /// Update only if every source is registered and every shadow is consistent.
 /// Paths resolve once; missing sources are collected before input readers or
 /// derived suppliers run. An error reports owned missing-source or loop and
@@ -158,11 +166,25 @@ impl<K: Eq, W> Drop for RestoreOnDrop<'_, '_, '_, K, W> {
 /// Callback and diagnostic-construction panics also restore that state. Panics
 /// from destructors while disposing of a successful update are excluded. This
 /// works before the first update as well as after successful updates. External world/callback effects
-/// are not rolled back. For scoring that tolerates inconsistency, use the ordinary
-/// `ShadowSession::update` instead.
+/// are not rolled back. For scoring that tolerates inconsistency while retaining
+/// missing-source diagnostics, use [`update_shadows_with_policy`].
 pub fn update_consistent_shadows<K: Eq + Clone, W>(
     session: &mut ShadowSession<'_, '_, K, W>,
     world: &W,
+) -> Result<Vec<ShadowNodeRef>, ConsistentShadowUpdateError<K>> {
+    update_shadows_with_policy(session, world, ShadowConsistencyPolicy::RequireConsistent)
+}
+
+/// Refresh with an explicit consistency policy. AllowInconsistent publishes
+/// cycle and downstream inconsistency flags without running their suppliers;
+/// project these flags into domain penalties when such states are scoreable.
+/// Missing registered sources, resolver errors and callback panics still roll
+/// back atomically, with the same diagnostics as strict refresh. Allowing cycles
+/// does not treat an arbitrary callback or model error as a valid solution.
+pub fn update_shadows_with_policy<K: Eq + Clone, W>(
+    session: &mut ShadowSession<'_, '_, K, W>,
+    world: &W,
+    policy: ShadowConsistencyPolicy,
 ) -> Result<Vec<ShadowNodeRef>, ConsistentShadowUpdateError<K>> {
     let saved = session.capture();
     let mut guard = RestoreOnDrop {
@@ -174,9 +196,11 @@ pub fn update_consistent_shadows<K: Eq + Clone, W>(
         return Err(ConsistentShadowUpdateError::MissingSources(missing));
     }
     let changed = guard.session.update_resolved(world, resolved)?;
-    let report = shadow_consistency(guard.session)?;
-    if !report.is_consistent() {
-        return Err(ConsistentShadowUpdateError::Inconsistent(report));
+    if policy == ShadowConsistencyPolicy::RequireConsistent {
+        let report = shadow_consistency(guard.session)?;
+        if !report.is_consistent() {
+            return Err(ConsistentShadowUpdateError::Inconsistent(report));
+        }
     }
     guard.saved = None;
     Ok(changed)

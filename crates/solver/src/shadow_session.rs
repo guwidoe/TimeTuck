@@ -256,6 +256,49 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             Operation::Derived(Box::new(move |w, i| supplier(w, i).map(Stored::new))),
         )
     }
+    /// Resolve dependencies directly from native working state on every update.
+    /// Register all possible source nodes before binding. Returned handles must
+    /// belong to this builder and have been registered at binding time. This is
+    /// useful for list predecessors and application links without object getters.
+    /// Resolver errors occur before readers/suppliers; cycles remain runtime
+    /// states. Do not mutate captured facts or the supplied world in a resolver.
+    /// Manual edges and compiled paths cannot also control the same target.
+    pub fn bind_dependencies<T>(
+        &mut self,
+        target: &ShadowNode<T>,
+        resolve: impl Fn(&W) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> + 'a,
+    ) -> Result<(), ShadowSessionError>
+    where
+        K: Clone + 'a,
+        's: 'a,
+    {
+        let index = lookup(&self.identity, self.nodes.len(), &target.node)?;
+        if matches!(self.nodes[index].operation, Operation::Input(_))
+            || self.nodes[index].sources.is_some()
+            || self.edges.iter().any(|(target, _)| *target == index)
+        {
+            return Err(ShadowSessionError::Metadata(
+                "target already bound or is an input",
+            ));
+        }
+        let identity = self.identity.clone();
+        let fields = self
+            .nodes
+            .iter()
+            .map(|node| (node.variable, node.entity.clone()))
+            .collect::<Vec<_>>();
+        self.nodes[index].sources = Some(Box::new(move |world| {
+            resolve(world)?
+                .iter()
+                .map(|node| {
+                    let source = lookup(&identity, fields.len(), node)?;
+                    Ok(fields[source].clone())
+                })
+                .collect()
+        }));
+        Ok(())
+    }
+
     /// Resolve these compiled paths on every update. The root and every source
     /// object must map to a registered stable entity key. All referenced fields,
     /// including built-in invalidation fields, must be registered as nodes.
@@ -719,8 +762,8 @@ struct ResolvedSources {
 #[path = "shadow_diagnostics.rs"]
 mod diagnostics;
 pub use diagnostics::{
-    ConsistentShadowUpdateError, ShadowConsistencyReport, ShadowVariableKey, shadow_consistency,
-    update_consistent_shadows,
+    ConsistentShadowUpdateError, ShadowConsistencyPolicy, ShadowConsistencyReport,
+    ShadowVariableKey, shadow_consistency, update_consistent_shadows, update_shadows_with_policy,
 };
 
 pub use diagnostics::{ShadowSourceReference, missing_shadow_sources};

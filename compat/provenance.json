@@ -43134,6 +43134,21 @@
       "upstream_test": "updateEverythingList",
       "local_test": "update_everything_list",
       "modifications": "Preserved all six value identities, four ordered entity lists including the empty list, initial score/shadow nullability and all final owner/index/previous/next assertions. Stable entity indices replace entity references. Native explicit construction replaces factory/solver-manager variants and the redundant manager non-null assertion. An additional -14 score assertion checks the retained squared-list-size constraint. No unasserted listener history or Java lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionManagerTest.updateOnlyScoreDeclarativeShadows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolutionManagerTest.java",
+      "upstream_test": "updateOnlyScoreDeclarativeShadows",
+      "local_path": "crates/solver/tests/inconsistent_shadow_cases.rs",
+      "local_test": "update_only_score_declarative_shadows",
+      "modifications": "Preserved crossed ordered lists, all four value identities, both concurrent groups, supplied owner/index/previous/next fields, true inconsistency flags, and returned/stored HardSoft(-4,0) assertions. Native list/declarative manager replaces Java factory variants and descriptors; stable entity indices replace references. ScoreOnly preserves supplied flags without evaluating graph, additionally asserted by reader count. No Java annotation lifecycle equivalence claimed."
     }
   ],
   "fixtures": [
@@ -58866,6 +58881,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolutionManagerTest.java",
       "upstream_test": "assertShadowedListValueAllNull/assertShadowedListValue",
       "modifications": "Inlined all four initial nullability and final equality assertions for every source value; Rust Option and entity index/string keys replace Java references. No additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentSolution.managed_shadow_scoring",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentSolution.java",
+      "upstream_test": "entities/values/score",
+      "local_path": "crates/solver/tests/support/concurrent_shadow_fixture.rs",
+      "modifications": "Native ListProblem and ManagedSolution preserve entity/value order and optional HardSoft score. Descriptor and setter boilerplate omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentEntity.managed_shadow_scoring",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
+      "upstream_test": "values",
+      "local_path": "crates/solver/tests/support/concurrent_shadow_fixture.rs",
+      "modifications": "Native ListEntity rows preserve ordered value membership; indices replace entity ids e1/e2. Native built-in projection replaces setters; no updateValueShadows helper credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentValue.managed_shadow_scoring",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
+      "upstream_test": "serviceReadyTimeUpdater/serviceStartTimeUpdater/serviceFinishTimeUpdater/cascadingMethod",
+      "local_path": "crates/solver/tests/support/concurrent_shadow_fixture.rs",
+      "modifications": "Retained value ids a1/a2/b1/b2 and two concurrent groups, nullable ready/start/finish/cascading values and inconsistency flags. Minutes relative to 2025-01-01T09:00 replace LocalDateTime; 30-minute travel/service and index-day cascade preserved. Native graph dependencies and grouped max-ready suppliers replace annotations/alignment optimization; flags aggregate ready/start/finish inconsistency per value. Unused getExpected* oracle helpers and toString recursion not copied. No supplier invocation-count parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataConcurrentConstraintProvider.managed_shadow_scoring",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentConstraintProvider.java",
+      "upstream_test": "defineConstraints",
+      "local_path": "crates/solver/tests/support/concurrent_shadow_fixture.rs",
+      "modifications": "Native HardSoft callback preserves one hard penalty per inconsistent visit and negative minutes-to-finish soft penalties for assigned consistent visits. Explicit eligibility check replaces ordinary forEach inconsistency filtering; no Java stream wiring parity claimed."
     }
   ]
 }

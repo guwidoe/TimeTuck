@@ -97,6 +97,10 @@ fn all_missing_fields_are_reported_once_without_running_suppliers_or_changing_ca
         panic!("wrong error")
     };
     assert_eq!(refs, report);
+    assert!(
+        matches!(update_shadows_with_policy(&mut session, &bad, ShadowConsistencyPolicy::AllowInconsistent),
+        Err(ConsistentShadowUpdateError::MissingSources(refs)) if refs == report)
+    );
     assert_eq!(called.get(), 0);
     assert!(matches!(
         session.read(&handles[0]),
@@ -109,6 +113,10 @@ fn all_missing_fields_are_reported_once_without_running_suppliers_or_changing_ca
     assert_eq!(missing_shadow_sources(&session, &bad).unwrap(), report);
     assert!(matches!(update_consistent_shadows(&mut session, &bad),
         Err(ConsistentShadowUpdateError::MissingSources(refs)) if refs == report));
+    assert!(
+        matches!(update_shadows_with_policy(&mut session, &bad, ShadowConsistencyPolicy::AllowInconsistent),
+        Err(ConsistentShadowUpdateError::MissingSources(refs)) if refs == report)
+    );
     assert_eq!(called.get(), 2);
     assert_eq!(session.read(&handles[0]).unwrap().value, Some(&4));
     session.mark_dirty(&handles[1]).unwrap();

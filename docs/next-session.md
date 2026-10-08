@@ -16626,3 +16626,56 @@ No adaptation or extra credit yet. Ordinary ShadowSession.update already marks
 cycles but missing refs yield UnregisteredSource; strict diagnostics aggregates
 missing refs before callbacks. A tolerant refresh should preserve those diagnostics
 and rollback on genuine callback/model errors, not merely ignore all failures.
+
+## Scoreable inconsistent shadow graphs
+
+ShadowConsistencyPolicy defaults RequireConsistent; update_shadows_with_policy
+retains aggregate missing-source preflight/atomic rollback and optionally permits
+cycle/downstream flags. Strict helper delegates to it. Manager policy builder
+controls refresh only; ScoreOnly still scores existing projections. Added native
+bind_dependencies resolver for already registered handles, validating foreign/
+unknown nodes before readers; runtime cycles supported, manual/path binding exclusive.
+Adapted full SolutionManagerTest.updateOnlyScoreDeclarativeShadows plus four
+concurrent test fixtures. Relative-minute ready/start/finish and day-index cascade,
+group max-ready, hard inconsistency and eligible finish soft penalties retained.
+Original tests exercise default strict rejection, tolerant publication, score-error
+rollback, cycle recovery, shadow-only stale score retention, source-handle rejection,
+local search escaping crossed groups and exact optimum HardSoft(0,-240).
+Compile49818, initial case93988, combined focused96849 all terminal0; combined
+run has1source+3native tests. Missing-source regression additionally extended to
+tolerant policy before/after initialization for final gate. No production reads.
+Provenance +1case/+4fixtures. Final inputs frozen after format; no benchmark,
+release or browser reruns.
+
+Required inconsistent-shadow gate TERMINAL0. 4789 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 549, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2869, 'failed': 0, 'pending': 1704, 'excluded': 282, 'unverified': 0, 'percent': 59.094}.
+Source before/after matched: 53067f91d7541f4703c206db07944dc83530d8f5568f12432b43c902b4960257
+Live freshness matched verification digest: 68a083ed3a52919dc167fb49fd8b7ccca030e28f09007e111b9103f57c9c2289.
+Existing provenance prefixes unchanged; appended1cases and4fixtures.
+Log work/inconsistent-shadow-final-check.log; evidence work/inconsistent-shadow-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual corrected gate4585 and evidence7724 terminal0. Initial gate21352 failed
+only clippy needless_borrows_for_generic_args in new local-search test; fixed
+factory borrow before corrected gate. Warm33537 terminal0:548 targets compiled
+in3m35s; no tests/evidence records written by warm helper. Earlier warm34312 was
+terminated143 during selection because its PATH differed; no Cargo work started.
+Evidence helper's copied exit-code assertion was corrected to0 before success.
+No active build/check handles. Live dashboard freshness matches. No reruns needed.
+
+Next batch is drafted and tested, NOT APPLIED: work/strict-solution-draft/
+strict_solution_manager_cases.rs and apply.py. Direct rustc draft17946 terminal0,
+two full strict inconsistency methods preserving the exact four-field loop. Both
+source methods call ordinary update; native caller identity/unchanged data replace
+Java exception's solution property. Full TEST-ONLY no_inconsistent_field four
+fixture files read; apply.py appends2cases/4fixtures and compatibility notes.
+After this batch commit, apply the draft once and gate without repeating its
+unchanged focused tests. Consider batching a builder memory improvement: current
+bind_dependencies captures a cloned complete node catalog per resolver (O(N*B)
+metadata). A builder-owned cached Rc catalog, invalidated on new registration,
+could share catalogs across bindings made after all nodes are registered while
+preserving the documented binding-time node boundary. This is not implemented.
+Also read full SolutionManagerTest missing-referenced-entities case313–358. It
+expects transitive missing edges a1.start->a2, a2.ready->b2, b2.start->b1; current
+missing-source diagnostics inspect registered targets only, so do not claim full
+coverage from the existing direct-edge report. Goal remains active/incomplete.

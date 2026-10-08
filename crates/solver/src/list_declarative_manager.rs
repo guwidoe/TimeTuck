@@ -63,7 +63,9 @@ pub type MixedDeclarativeSolutionManager<'a, 's, K, B, V, H, S, E> = ShadowSolut
 /// Graph readers use the current assignment; callers register dependencies and
 /// capture immutable domain facts when building the session. No shared registry
 /// or field setter is required. Invalid assignments are rejected before graph
-/// callbacks. Missing sources and inconsistent graphs are rejected atomically.
+/// callbacks. Missing sources and, by default, inconsistent graphs are rejected
+/// atomically. The returned manager can opt into AllowInconsistent for scoring
+/// projections that explicitly retain and penalize inconsistency flags.
 ///
 /// Everything/ShadowsOnly materialize both built-in and custom shadows. ScoreOnly
 /// requires current built-in shadows and runs the custom validator against the
