@@ -153,6 +153,35 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     pub fn enqueue_right(&mut self, change: TupleChange<J, R>) {
         self.enqueue(Input::Right(change));
     }
+    pub(crate) fn clear(&mut self) {
+        self.node.clear();
+        self.discard_pending();
+    }
+    pub(crate) fn checkpoint(&self) -> Box<dyn std::any::Any>
+    where
+        I: 'static,
+        J: 'static,
+        L: 'static,
+        R: 'static,
+        K: 'static,
+    {
+        assert_eq!(
+            self.pending_count, 0,
+            "graph checkpoints require settled existence rounds"
+        );
+        self.node.checkpoint()
+    }
+    pub(crate) fn restore(&mut self, saved: Box<dyn std::any::Any>)
+    where
+        I: 'static,
+        J: 'static,
+        L: 'static,
+        R: 'static,
+        K: 'static,
+    {
+        self.node.restore(saved);
+        self.discard_pending();
+    }
     pub fn pending_len(&self) -> usize {
         self.pending_count
     }

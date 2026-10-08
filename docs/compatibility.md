@@ -4479,3 +4479,15 @@ rollback, checked-score errors, scope restoration and saved-winner installation
 include batched join state. Ordinary graphs keep sequential delivery; other
 operators retain per-event semantics. Seven original regressions exercise this
 runtime integration; no additional upstream method credit is claimed.
+
+Batched existence now has a native transactional graph adapter, including
+semi/anti modes, automatic score-director batching, final witness visibility,
+source-activity rebuilds and rollback. This extends previously adapted standalone
+existence behavior into the solver graph. Native integration regressions confer
+no additional upstream-method credit; provenance and source-suite totals stay
+unchanged.
+
+Explicit coalesce_updates boundaries also publish only final per-identity derived
+updates, allowing aggregate constraints to score a changed group once per batch.
+Batch-enabled consistency checks now use batched source replay. Five native
+integration regressions across these two extensions add no upstream-method credit.

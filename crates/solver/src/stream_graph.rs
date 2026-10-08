@@ -2140,8 +2140,12 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             node.clear();
         }
         trial.graph.score = S::ZERO;
-        for (id, event) in events {
-            trial.propagate(id, event)?;
+        if trial.graph.batched_updates {
+            trial.replay_sources(events)?;
+        } else {
+            for (id, event) in events {
+                trial.propagate(id, event)?;
+            }
         }
         let nodes = trial
             .journal
@@ -2370,3 +2374,7 @@ impl<S: AdditiveScore> Drop for GraphTransaction<'_, '_, S> {
 }
 
 pub mod batching;
+
+pub mod batched_existence;
+
+pub mod coalesced;

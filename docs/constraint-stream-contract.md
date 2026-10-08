@@ -1918,3 +1918,40 @@ Checkpoint capture, saved-winner installation, multi-move scopes and diagnostic
 rebuilds include the new join state. Diagnostic rebuilding may evaluate callbacks
 again; commit and saved-winner installation do not replay them. No runtime benchmark
 speedup is claimed from the reduced callback-count regression cases.
+
+### Batched existence constraints
+
+`StreamGraphBuilder::existence_batched` accepts the same equality keys, residual
+predicate and `ExistenceMode` as `existence`. Within `apply_batch`, both input
+branches settle before the node publishes at most one final lifecycle change per
+affected left identity. Several matching witnesses still produce one left row;
+replacing a witness during a round cannot briefly expose a `NotExists` result.
+An observed batched existence node enables automatic move batching in basic,
+list and mixed stream score directors. Unobserved nodes do not change that mode.
+Direct transaction `apply` remains immediate.
+
+The standalone existence engine still evaluates its queued inputs in order;
+this API coalesces downstream changes, not every predicate call. Callbacks must
+be pure. Its accepted-pair index can retain quadratic state. Checkpoints cover
+committed index roots; rollback discards pending changes as well as restoring
+rows. With activity pruning, `NotExists` can remain active when its right source
+is empty. No Java scheduling-distance or initialization-notification parity is
+claimed by this API.
+
+### Coalescing derived updates
+
+`StreamGraphBuilder::coalesce_updates` publishes at most one final update per
+identity during a graph batch. Place it after a collector or another operator
+that emits several updates for one identity during a move. Scoring and other
+downstream operators then see only the final payload. A transient occurrence
+that was absent before the batch and is absent afterward emits nothing.
+Replacements of visible occurrences still emit an update without requiring
+payload equality. Output order is by identity. The node retains identities,
+not payload copies; snapshots and transaction rollback include that state.
+
+An observed coalescing boundary enables automatic batching in all three stream
+score directors. Direct transaction `apply` stays immediate. Work and arithmetic
+upstream of the boundary keep their existing semantics. This is an explicit
+boundary: it does not automatically coalesce every operator in the graph.
+Consistency checks for graphs configured to batch now rebuild from their source
+rows in one batch too, preserving the same downstream callback contract.

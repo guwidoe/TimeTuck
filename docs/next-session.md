@@ -17182,3 +17182,35 @@ Removed one redundant explicit unit expression before final formatting. No upstr
 sources adapted/read for implementation; provenance unchanged. This changes shared
 graph routing, so broad dependent regression coverage is required, with selective
 reuse for unaffected targets. Rust inputs frozen for final gate after formatting.
+
+## Batched existence and derived-update boundaries (separate checkout)
+
+Prepared against408a62c while its required main gate80546 and warm build35614 run.
+Adds builder.existence_batched with Exists/NotExists, automatic director batching,
+ActivityRule::Left for anti joins, committed-node checkpoints and pending cleanup.
+Adds builder.coalesce_updates to publish final per-ID derived changes after group
+aggregation or another repeatedly updating operator. Stores only visible IDs;
+absent-to-absent transitions disappear, payload equality is not required. Other
+operators retain their existing semantics before the explicit boundary.
+Batch-configured graph consistency reports now replay all sources in one batch.
+This prevents diagnostic rebuilds from exposing intermediate aggregate payloads
+that ordinary batched solver moves never expose. Rollback restores all caches.
+
+Focused scratch verification8090 TERMINAL0:15tests across coalesced_stream_regression2,
+graph_batched_existence_regression3, graph_batching_regression7 and
+stream_consistency_regression3. 480existence rounds plus360aggregation rounds use
+independent scans, both pruning settings and rollback. Native tests also cover
+witness replacement, one aggregate score callback per composite move, predicate/
+sink panics, model/scope restoration, checked overflow and saved winner installs.
+Earlier scratch52726 terminal101 found SnapshotMap.remove returns bool, fixed
+before successful run. Log in original checkout:
+work/coalesced-stream-integration/scratch-tests-fixed.log. The earlier existence-only
+scratch88032 also passed3tests. These are real focused checks, not full gate evidence.
+
+Full check.sh for this batch is PENDING. No source-method credits or provenance
+changes. No benchmark, release or browser reruns. No runtime-speed claim.
+This managed worktree is isolated from main's live verification; do not change main
+until80546 is terminal and evidence recorded. After that, fast-forward this branch
+onto main (or merge any documentation-only gate note first), then run one required
+check.sh for the combined final Rust state. Reuse focused scratch evidence above.
+Keep the goal active. Do not mark the main gate passed merely from this commit.

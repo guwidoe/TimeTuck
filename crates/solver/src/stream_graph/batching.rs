@@ -126,6 +126,16 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
 }
 type Pending = BTreeMap<usize, Vec<(bool, Event)>>;
 impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
+    // Called only after consistency rebuilding has checkpointed and cleared all
+    // nodes. Preserve the live graph's batch semantics during diagnostic replay.
+    pub(super) fn replay_sources(&mut self, events: Vec<(usize, Event)>) -> Result<(), GraphError> {
+        let batch = StreamBatch {
+            owner: Some(self.graph.owner.clone()),
+            events,
+        };
+        self.failed = false;
+        self.apply_batch(batch)
+    }
     fn validate_batch(&self, batch: &StreamBatch) -> Result<(), GraphError> {
         if batch
             .owner
