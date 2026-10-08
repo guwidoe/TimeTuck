@@ -122,6 +122,91 @@ impl<T> EntryList<T> {
     pub fn slot_count(&self) -> usize {
         self.slots.len()
     }
+    /// Live entries in encounter order, without cloning their payloads. The
+    /// iterator borrows the list; cloned handles remain valid across later edits.
+    pub fn entries(
+        &self,
+    ) -> impl DoubleEndedIterator<Item = ListEntry<T>> + std::iter::FusedIterator + '_ {
+        self.slots.iter().flatten().cloned()
+    }
+    pub fn first_entry(&self) -> Option<ListEntry<T>> {
+        self.entries().next()
+    }
+    pub fn last_entry(&self) -> Option<ListEntry<T>> {
+        self.entries().next_back()
+    }
+    fn live_slot(&self, entry: &ListEntry<T>) -> Result<usize, EntryListError> {
+        if !Weak::ptr_eq(&entry.0.owner, &Rc::downgrade(&self.owner)) {
+            return Err(EntryListError::ForeignEntry);
+        }
+        entry.0.position.get().ok_or(EntryListError::Removed)
+    }
+    /// Next live entry, skipping gaps. Rejects removed or foreign handles.
+    pub fn next_entry(&self, entry: &ListEntry<T>) -> Result<Option<ListEntry<T>>, EntryListError> {
+        let slot = self.live_slot(entry)?;
+        Ok(self.slots[slot + 1..].iter().flatten().next().cloned())
+    }
+    /// Previous live entry, skipping gaps. Rejects removed or foreign handles.
+    pub fn previous_entry(
+        &self,
+        entry: &ListEntry<T>,
+    ) -> Result<Option<ListEntry<T>>, EntryListError> {
+        let slot = self.live_slot(entry)?;
+        Ok(self.slots[..slot].iter().rev().flatten().next().cloned())
+    }
+    /// Insert before the first live entry. Like indexed insertion, this compacts
+    /// gaps and takes linear time; existing entry identities are preserved.
+    pub fn push_front(&mut self, value: T) -> ListEntry<T> {
+        self.insert(0, value)
+            .expect("zero is a valid insertion index")
+    }
+    /// Insert immediately after a live entry, preserving existing identities.
+    /// Invalid handles leave the list and its detached cursors unchanged.
+    pub fn insert_after(
+        &mut self,
+        entry: &ListEntry<T>,
+        value: T,
+    ) -> Result<ListEntry<T>, EntryListError> {
+        let slot = self.live_slot(entry)?;
+        let rank = self.slots[..=slot].iter().flatten().count();
+        self.insert(rank, value)
+    }
+    /// Remove all entries and invalidate their handles and detached cursors.
+    /// Retained handles keep their last payload. Clearing an empty list is a no-op.
+    pub fn clear(&mut self) {
+        if self.is_empty() {
+            return;
+        }
+        for entry in self.slots.iter().flatten() {
+            entry.0.position.set(None);
+        }
+        self.len = 0;
+        self.changed();
+        // Install empty storage before dropping user payloads.
+        let removed = std::mem::take(&mut self.slots);
+        drop(removed);
+    }
+    /// Visit each entry present at the start, in encounter order, and remove it
+    /// after its callback if still owned by this list. The callback may remove
+    /// this or other entries, clear the list, or insert new entries. Every
+    /// original entry is visited once,
+    /// even if already removed; newly inserted entries remain and are not visited.
+    /// If the callback replaces or swaps the list, entries now owned by another
+    /// list are left there; callbacks still visit the original captured entries.
+    /// A callback panic stops traversal: completed removals remain, while the
+    /// current and remaining entries stay unless the callback removed them.
+    /// Captures O(n) handles without cloning payloads; repeated removal compacts
+    /// gaps using the same policy as ordinary removal.
+    pub fn clear_with(&mut self, mut visitor: impl FnMut(&mut Self, ListEntry<T>)) {
+        let entries: Vec<_> = self.entries().collect();
+        for entry in entries {
+            visitor(self, entry.clone());
+            if self.live_slot(&entry).is_ok() {
+                self.remove(&entry)
+                    .expect("captured entry belongs to this list");
+            }
+        }
+    }
     fn changed(&mut self) {
         self.revision = Rc::new(());
     }
@@ -159,10 +244,7 @@ impl<T> EntryList<T> {
         Ok(entry)
     }
     pub fn remove(&mut self, entry: &ListEntry<T>) -> Result<Rc<T>, EntryListError> {
-        if !Weak::ptr_eq(&entry.0.owner, &Rc::downgrade(&self.owner)) {
-            return Err(EntryListError::ForeignEntry);
-        }
-        let position = entry.0.position.get().ok_or(EntryListError::Removed)?;
+        let position = self.live_slot(entry)?;
         debug_assert!(self.slots[position].as_ref().unwrap().same_entry(entry));
         self.slots[position] = None;
         entry.0.position.set(None);

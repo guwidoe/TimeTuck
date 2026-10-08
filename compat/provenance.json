@@ -44049,6 +44049,231 @@
       "local_path": "crates/solver/tests/empty_value_range_cases.rs",
       "local_test": "sort",
       "modifications": "Preserve empty size, rejected rank zero, value5/null nonmembership, empty original/random traversal (seed0), and comparator-free successful empty sorting. Empty EnumeratedValueRange replaces Java singleton; None from get replaces UnsupportedOperationException for unavailable rank. contains_assignment(None) represents null membership. Native sorted_by returns an immutable empty copy and accepts a panicking comparator to assert the source null comparator is never consulted. No Java singleton identity or nonempty PRNG parity asserted upstream or claimed."
+    },
+    {
+      "id": "TupleListTest.addSingle",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "addSingle",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "add_single",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.addTwo_firstAndNextCorrect",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "addTwo_firstAndNextCorrect",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "add_two_first_and_next_correct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.removeFirst",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "removeFirst",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "remove_first",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.removeLast",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "removeLast",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "remove_last",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.removeMiddle",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "removeMiddle",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "remove_middle",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.removeAll_emptyAfter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "removeAll_emptyAfter",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "remove_all_empty_after",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.clear_callsConsumerInOrder_thenEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "clear_callsConsumerInOrder_thenEmpty",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "clear_calls_consumer_in_order_then_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.clear_safeWhenConsumerRemovesFromSameList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "clear_safeWhenConsumerRemovesFromSameList",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "clear_safe_when_consumer_removes_from_same_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.forEach_visitAllInOrder",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "forEach_visitAllInOrder",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "for_each_visit_all_in_order",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "TupleListTest.emptyList_sizeZero_firstNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "emptyList_sizeZero_firstNull",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "empty_list_size_zero_first_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "ElementAwareLinkedListTest.addRemove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareLinkedListTest.java",
+      "upstream_test": "addRemove",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "add_remove",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "ElementAwareLinkedListTest.addFirst",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareLinkedListTest.java",
+      "upstream_test": "addFirst",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "add_first",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "ElementAwareLinkedListTest.addAfter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareLinkedListTest.java",
+      "upstream_test": "addAfter",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "add_after",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "ElementAwareLinkedListTest.iterator",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareLinkedListTest.java",
+      "upstream_test": "iterator",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "iterator",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
+    },
+    {
+      "id": "ElementAwareLinkedListTest.clear",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareLinkedListTest.java",
+      "upstream_test": "clear",
+      "local_path": "crates/solver/tests/entry_neighbors_cases.rs",
+      "local_test": "clear",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every size, empty, encounter-order, identity, adjacency, removal, relative-insertion and callback-visitation assertion in this method. Native stable ListEntry handles replace Java tuple/entry reference identity; owner-checked next_entry/previous_entry replace intrusive link fields. None/peekable exhaustion replaces null/NoSuchElementException. clear_with passes the list explicitly to permit same-list removal from its callback. Native storage uses gapped slots, not Java tuple store indexes or linked-list implementation; removed internal link-field tests and randomized trace cases remain pending."
     }
   ],
   "fixtures": [

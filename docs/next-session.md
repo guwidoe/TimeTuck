@@ -18757,3 +18757,36 @@ No benchmarks refreshed; prior performance measurements retain their freshness s
 Parallel compile-only36242 TERMINAL0,1m42s, overlapping the final gate.
 Staged source/test/provenance changes reviewed. No broad rerun after successful
 completion. Goal remains incomplete; preserve performance as a core priority.
+
+## Stable entry navigation and callback clearing
+
+Previous turn made progress:045d550 committed 13 complete upstream adaptations.
+Started this batch clean and read current handoff/compatibility. EntryList gains
+borrowed double-ended entry traversal, first/last/neighbor handles, push_front,
+insert_after, clear and clear_with. Gapped native storage stays unchanged; no
+stream-graph integration or speed claim. Removed/foreign handles are rejected;
+relative insertion preserves identities. clear invalidates handles/cursors before
+dropping payloads. clear_with snapshots original identities, permits callback
+removal/insertion/clear, and preserves newly inserted entries. Panic retains
+completed mutations. Swapping/replacing the collection during a callback leaves
+transferred entries in their new owner while still visiting captured identities.
+15 complete upstream methods:10 TupleList and5 ElementAwareLinkedList. Intrusive
+internal slots and randomized traces remain pending. Five native regressions.
+Focused71395 TERMINAL0 including prior entry_list_cases,15 adaptations and initial
+four regressions; ownership-transfer regression added before final frozen gate.
+Formatter33288 TERMINAL0. Gate64967 TERMINAL0; work/entry-neighbors-final-check.log.
+No benchmark needed for newly exposed behavior with no performance claim. Avoid
+rerunning unrelated browser or benchmark checks. Goal remains active/incomplete.
+
+Required entry-neighbors gate TERMINAL0. 5046 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 678}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2944, 'failed': 0, 'pending': 1629, 'excluded': 282, 'unverified': 0, 'percent': 60.639}.
+Source before/after matched: bab10f19b3cbc5a335e1a0242012d53ef36d2a723078047ea3e1b6202c0dcb2e
+Live freshness matched verification digest: 64920a828b1668a5b797018fa9453aa508a5c7b93b75ef3dda1743da85542836.
+Prior ledger records unchanged; added 15 provenance cases and upstream method credits.
+Log work/entry-neighbors-final-check.log; evidence work/entry-neighbors-evidence.json.
+No benchmarks refreshed; prior performance measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Staged implementation, adapted cases, native regressions and provenance reviewed.
+Required gate completed successfully; no source/provenance/tool edits during it.
+Ready to commit; full rewrite remains active. No benchmark or browser reruns.

@@ -4691,3 +4691,13 @@ establishes these cases, not general floating-point conversion or fractional pow
 Six EmptyValueRange methods use an empty native enumerated range. Missing indexed
 values return None; sorting returns an immutable empty copy without invoking its
 comparator. Java exception types and singleton identity are not native API promises.
+
+EntryList now exposes stable first/last/neighbor handles, insertion before the
+first entry or after a live handle, borrowed entry traversal, and clearing with
+optional callbacks. Native neighbor queries skip gaps and reject removed/foreign
+handles. Callback clearing snapshots original identities, visits each once even
+if callbacks remove entries, and retains newly inserted entries. Callback panics
+leave completed removals and other callback mutations in place. Ten TupleList
+and five ElementAwareLinkedList methods preserve all their observable assertions;
+Java intrusive storage slots and randomized-iterator traces remain pending.
+This extends the native collection API; it does not change stream-graph storage.
