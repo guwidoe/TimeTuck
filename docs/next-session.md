@@ -19138,3 +19138,36 @@ Live freshness matched verification digest: f3bcca52f4b07a0807ac815f72272dbc3905
 Prior ledger records unchanged; 5 new provenance cases/upstream method credits; no fixture changes.
 Log work/stream-workspace-final-check.log; evidence work/stream-workspace-evidence.json.
 Stream native and matched Java measurements refreshed for the final adaptive scheduler; unrelated measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+## Rejected paged snapshot storage experiment
+
+Starting from clean c052e2a, tried independent eight-way persistent B+ storage,
+first with vector pages, then fixed inline pages. Both preserved snapshot/rollback
+semantics and required no Clone bounds or unsafe code. Final focused checks passed:
+6 map cases (including20,000 BTreeMap differential edits) and15 stream/join cases;
+focus/build35227 terminal0. No copied tests or upstream coverage credit.
+
+Comparisons15038(vector) and56770(inline) terminal0. Two alternating process pairs,
+20steps/1warmup/3samples; hill/tabu xchange/swap x32/96. Exact assignments, scores,
+scoring-call counts matched. Final inline median whole-process CPU before -> after
+includes warmup and both sizes; these are NOT per-solve times:
+
+- hill/change:1393.391 ->1367.158ms (-1.9%).
+- tabu/change:1084.886 ->1159.099ms (+6.8%).
+- hill/swap:18863.162 ->16188.064ms (-14.2%).
+- tabu/swap:24590.428 ->26583.692ms (+8.1%).
+
+Variable timings and mixed benefits did not justify replacement. Discarded both
+before the broad gate. Rust source and contract restored byte-for-byte to c052e2a;
+restored source digest27c6374768add0586468b278110c6c781078b1c045396dab803eefd51842b509
+matches the successful gate. Existing Java measurement digest also matches again.
+Restored release example from saved baseline SHA256
+1b2b5c8656b147094dd894ce71d0621a8c30edca81365c6ae39d7276bdc57fe0.
+No repeated gate or Java benchmark. Rust tree unchanged; all handles terminal.
+
+Retained under work/: snapshot_map-vector-pages.rs, snapshot_map-inline-pages.rs,
+stream-paged-before, stream-paged-after, stream-inline-after,
+stream-paged-native-performance.json, stream-inline-native-performance.json,
+and focused/build/comparison logs. Do not relabel experiments as current evidence.
+Investigate avoiding candidate-time state copying; page-layout changes alone did
+not establish a general speedup. No journal redesign implemented. Goal remains active.
