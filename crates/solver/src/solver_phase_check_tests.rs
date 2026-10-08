@@ -22,6 +22,7 @@ fn phase_check_time_consumes_shared_deadline_without_consuming_evaluations() {
             SolverPhase::LocalSearch(Default::default()),
         ],
         || InitialState {
+            required_unassigned_pin: None,
             assignment: 0usize,
             complete: true,
             movable: true,
@@ -66,6 +67,7 @@ fn score_without_new_assignment_checks_the_retained_phase_entry() {
         SolverLimits::default(),
         &phases,
         || InitialState {
+            required_unassigned_pin: None,
             assignment: 0usize,
             complete: true,
             movable: true,
@@ -118,6 +120,7 @@ fn automatic_phase_check_time_counts_without_advancing_search_or_work() {
             SolverPhase::LocalSearch(Default::default()),
         ],
         || InitialState {
+            required_unassigned_pin: None,
             assignment: 0usize,
             complete: true,
             movable: true,

@@ -60,6 +60,9 @@ fn run<S: AdditiveScore + 'static>(
                     })
                 }
                 Err(SolverError::Repair { .. }) => panic!("fixture has no repair phases"),
+                Err(SolverError::PinnedUnassignedVariable { .. }) => {
+                    panic!("fixture uses permissive pin policy")
+                }
                 Err(SolverError::EmptyPlan) => panic!("legacy plans include construction"),
                 Err(SolverError::InitialScoring { .. }) => {
                     panic!("fixture models have movable entities")

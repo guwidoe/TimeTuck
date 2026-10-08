@@ -42,6 +42,7 @@ fn observer_time_preserves_shared_stagnation_in_local_and_exact_phases() {
             ConstructionConfig::default(),
             &phases,
             InitialState {
+                required_unassigned_pin: None,
                 movable: true,
                 assignment: p.initial_assignment(),
                 complete: p.is_complete(&p.initial_assignment()),
@@ -129,6 +130,7 @@ fn exact_observer_elapsed_time_stops_before_next_candidate_with_best_preserved()
         ConstructionConfig::default(),
         &[SolverPhase::Exact(ExactPhaseConfig::default())],
         InitialState {
+            required_unassigned_pin: None,
             movable: true,
             assignment: p.initial_assignment(),
             complete: p.is_complete(&p.initial_assignment()),
@@ -190,6 +192,7 @@ fn initialization_callback_time_stops_the_solve_before_local_search() {
             SolverPhase::LocalSearch(LocalSearchConfig::default()),
         ],
         || InitialState {
+            required_unassigned_pin: None,
             movable: true,
             assignment: p.initial_assignment(),
             complete: p.is_complete(&p.initial_assignment()),
@@ -252,6 +255,7 @@ fn initialization_callback_elapsed_time_precedes_strict_partial_handoff_rejectio
             SolverPhase::LocalSearch(LocalSearchConfig::default()),
         ],
         || InitialState {
+            required_unassigned_pin: None,
             movable: true,
             assignment: p.initial_assignment(),
             complete: false,

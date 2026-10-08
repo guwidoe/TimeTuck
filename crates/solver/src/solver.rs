@@ -45,6 +45,11 @@ pub enum IncompleteHandoffPolicy {
 /// Diagnostic callbacks are excluded from both evaluation counters.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct SolverLimits<'a, S = SimpleScore> {
+    /// Reject a missing required pinned basic variable after plan validation,
+    /// before score factories, provider events, budgets or ordinary phase work.
+    /// Optional pinned None remains valid. Applies to basic and mixed plans.
+    /// Disabled by default to retain native partial construction workflows.
+    pub reject_unassigned_pins: bool,
     /// Recalculate each scored phase output using a fresh backend before handoff
     /// and initialization notification, including initial-only immovable solves.
     /// Diagnostic scoring is outside work counters/budgets; its time belongs to
@@ -78,6 +83,7 @@ pub struct SolverLimits<'a, S = SimpleScore> {
 impl<S> Default for SolverLimits<'_, S> {
     fn default() -> Self {
         Self {
+            reject_unassigned_pins: false,
             assert_phase_scores: false,
             termination: None,
             max_evaluations: 100_000,
@@ -229,6 +235,11 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    /// Startup policy rejected a permanently missing required basic variable.
+    /// The index is in the basic model, including for a mixed solution.
+    PinnedUnassignedVariable {
+        variable: usize,
+    },
     /// An independent phase check disagreed with the phase's returned score.
     PhaseScoreMismatch {
         phase: usize,
@@ -296,6 +307,10 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::PinnedUnassignedVariable { variable } => write!(
+                f,
+                "required basic variable {variable} is pinned with an unassigned value"
+            ),
             Self::PhaseScoreMismatch {
                 phase,
                 kind,
@@ -361,7 +376,8 @@ impl<E: Error + 'static> Error for SolverError<E> {
             | Self::IncompleteLocalSearch { .. }
             | Self::ConflictingCancellation { .. }
             | Self::InvalidMoveProviderPhase { .. }
-            | Self::UnboundCustomPhase { .. } => None,
+            | Self::UnboundCustomPhase { .. }
+            | Self::PinnedUnassignedVariable { .. } => None,
         }
     }
 }
@@ -798,7 +814,19 @@ impl<S> PhaseRequest<'_, S> {
     }
 }
 
+fn required_pin_startup_issue<V: Eq>(
+    reject: bool,
+    p: &FiniteProblem<V>,
+    a: &Assignment<V>,
+) -> Option<usize> {
+    if reject {
+        crate::local_search::pinned_unassigned_variable(p, a)
+    } else {
+        None
+    }
+}
 struct InitialState<A> {
+    required_unassigned_pin: Option<usize>,
     assignment: A,
     complete: bool,
     movable: bool,
@@ -939,6 +967,11 @@ where
     let initialization_phase =
         crate::phase_metadata::initialization_index(local.iter().map(SolverPhase::kind));
     let initial = initial();
+    if limits.reject_unassigned_pins
+        && let Some(variable) = initial.required_unassigned_pin
+    {
+        return Err(SolverError::PinnedUnassignedVariable { variable });
+    }
     let mut result = SolverResult {
         assignment: initial.assignment,
         complete: initial.complete,
@@ -1536,9 +1569,15 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         LocalSearchError::from,
     )?;
     let observation = PlanObservation::new(observer);
+    let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            required_unassigned_pin: required_pin_startup_issue(
+                reject_unassigned_pins,
+                p,
+                &assignment,
+            ),
             movable: p.variables().iter().any(|v| !v.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
@@ -1880,6 +1919,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     let initial = || {
         let assignment = prepared;
         InitialState {
+            required_unassigned_pin: None,
             movable: p.entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
@@ -2148,9 +2188,15 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
             })?;
     let mut observation = PlanObservation::new(observer);
     observation.repaired_initial = prepared != raw_initial;
+    let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
         let assignment = prepared;
         InitialState {
+            required_unassigned_pin: required_pin_startup_issue(
+                reject_unassigned_pins,
+                p.basic(),
+                assignment.basic(),
+            ),
             movable: p.basic().variables().iter().any(|v| !v.is_pinned())
                 || p.lists().entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
@@ -2461,9 +2507,15 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
         LocalSearchError::from,
     )?;
     let observation = PlanObservation::new(observer);
+    let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            required_unassigned_pin: required_pin_startup_issue(
+                reject_unassigned_pins,
+                p,
+                &assignment,
+            ),
             movable: p.variables().iter().any(|v| !v.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
@@ -2773,6 +2825,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
     let initial = || {
         let assignment = prepared;
         InitialState {
+            required_unassigned_pin: None,
             movable: p.entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
@@ -3088,9 +3141,15 @@ fn solve_mixed_stream_impl<
             })?;
     let mut observation = PlanObservation::new(observer);
     observation.repaired_initial = prepared != raw_initial;
+    let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
         let assignment = prepared;
         InitialState {
+            required_unassigned_pin: required_pin_startup_issue(
+                reject_unassigned_pins,
+                p.basic(),
+                assignment.basic(),
+            ),
             movable: p.basic().variables().iter().any(|v| !v.is_pinned())
                 || p.lists().entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),

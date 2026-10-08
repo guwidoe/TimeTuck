@@ -191,6 +191,7 @@ fn run_scored_events_initial<'a>(
                     })
                 }
                 Err(SolverError::Repair { phase, .. }) => Err(Failure::Repair(phase)),
+                Err(SolverError::PinnedUnassignedVariable { .. }) => panic!("fixture uses permissive pin policy"),
                 Err(SolverError::EmptyPlan) => Err(Failure::Empty),
                 Err(SolverError::InitialScoring { .. }) => panic!("fixture models have movable entities"),
                 Err(SolverError::InvalidMoveProviderPhase { .. }) => panic!("fixture has no provider bindings"),

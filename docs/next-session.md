@@ -17938,3 +17938,56 @@ Final gate61092 TERMINAL0, log wall140s;4 Rust jobs RUN,652 REUSE,46 Python
 jobs reused.4926 Rust tests and243 doctests passed. Evidence42806 TERMINAL0
 confirms live report freshness and byte-equivalent ledger data. No prebuild,
 benchmark refresh or browser rerun. All work handles terminal. Goal remains active.
+
+## Required pinned-value startup policy
+
+Baseline88d07bf; previous goal turn was verified implementation progress and tree
+was clean. Read DefaultExhaustiveSearchPhaseTest, relevant required-null construction
+method and PlannerTestUtils solve/event helper; no production implementation read.
+Existing native contract intentionally permits permanently missing required pins
+for partial construction and low-level enumeration, so add explicit SolverLimits
+reject_unassigned_pins (defaultfalse), not a blanket model-validity change.
+
+Shared run() checks first missing required pin in initial state after full plan
+validation and before factories, provider SolveStarted, commands/events or budget
+checks. Basic and mixed initial state factories use existing pinned-slot helper only
+when enabled; list-only suppliesNone. All9 routes use shared check. New generic
+SolverError::PinnedUnassignedVariable reports basic slot index; displays clear
+message, sourceNone. Default local-search diagnostics and low-level searches remain
+unchanged. Updated internal InitialState literals in clock/observation tests and
+one exhaustive solver fixture error match for new variant.
+
+Added3 upstream cases (construction/exact required-null and exact optional-null)
+with explicit policy adaptations in provenance. Typed slot2 maps to source e3.value;
+exact Java prose/default config not claimed. Optional case retains best-event
+presence and zero score. Reuses existing fixture provenance, no new fixture records.
+Four native tests cover all9 routes:6basic/mixed rejection paths with construction/
+exact and normal/zero+cancel budgets, suppressed objective/factory/provider calls,
+plan error precedence, immovable/optional/initialized pins, default partial behavior,
+and list-only pin unaffected. Focus3438 TERMINAL0 (3source+4new native+3existing
+resume regressions). Compile8920 TERMINAL101 exposed exhaustive fixture match;
+focused42783/65268 TERMINAL101 fixed generic limits capture borrowing and explicit
+provider lifetime bound. No performance/UI changes or benchmark refresh. Final
+Rust/provenance frozen for required gate.
+
+First gate96216 TERMINAL101 in clippy before regression runs: another exhaustive
+error match in owned_scores test fixture needed the new startup variant. Updated
+that native fixture too; no behavioral changes. Initial gate log retained as
+work/required-pin-policy-initial-check.log. Warm18690 remains running; it only
+compiles remaining targets and never writes verification evidence.
+
+Required required-pin-policy gate TERMINAL0. 4933 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 199, 'REUSE': 459}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2893, 'failed': 0, 'pending': 1680, 'excluded': 282, 'unverified': 0, 'percent': 59.588}.
+Source before/after matched: 389804017f8fa6b6231c4c2a51885abb1de4041b8fcea8fb02dbc9dc80551a3e
+Live freshness matched verification digest: e0ac3f8311def358e9da8a377663f5da71b1d2963ac6bf3b5facf32d463a9638.
+Prior ledger records unchanged; appended3cases and0fixtures.
+Log work/required-pin-policy-final-check.log; evidence work/required-pin-policy-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Final gate39859 TERMINAL0, log wall361s;199 Rust jobs RUN,459 REUSE and46
+Python jobs reused.4933 Rust tests and243 doctests passed. Warm18690 TERMINAL0
+compiled198 remaining uncached targets in3m35s, overlapping the gate; it wrote no
+verification records. Evidence27771 TERMINAL0 confirms live report freshness and
+exact3-case/0-fixture delta. All work handles terminal; no benchmark/browser rerun.
+Full rewrite goal remains active.

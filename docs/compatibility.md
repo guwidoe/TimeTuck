@@ -4608,3 +4608,11 @@ within a scan and stops cyclic scheduling after a full pass without installation
 Every phase rebuilds keys; this adapter does not resume the old queue cursor across
 phase boundaries. Seven original integration/regression tests cover the bridge.
 These native solver integrations add no upstream method credits.
+
+Three further construction/exhaustive phase methods now preserve required pinned
+null rejection with the offending entity/variable identity, and optional pinned
+null acceptance with exact zero score and best-event presence. Adaptations enable
+`SolverLimits::reject_unassigned_pins` explicitly; its native default remains false
+for partial workflows. All nine solver model/backend combinations share the startup
+policy. Typed basic-slot diagnostics replace Java exception text. Exact-search
+internal node replay and expansion-step trace methods remain pending.

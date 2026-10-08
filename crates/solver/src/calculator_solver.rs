@@ -147,9 +147,15 @@ fn solve_calculator_impl<
         LocalSearchError::from,
     )?;
     let observation = PlanObservation::new(observer);
+    let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
         let assignment = p.initial_assignment();
         InitialState {
+            required_unassigned_pin: required_pin_startup_issue(
+                reject_unassigned_pins,
+                p,
+                &assignment,
+            ),
             movable: p.variables().iter().any(|v| !v.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
@@ -615,6 +621,7 @@ fn solve_list_calculator_impl<
     let initial = || {
         let assignment = prepared;
         InitialState {
+            required_unassigned_pin: None,
             movable: p.entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),
             assignment,
@@ -1068,9 +1075,15 @@ fn solve_mixed_calculator_impl<
             })?;
     let mut observation = PlanObservation::new(observer);
     observation.repaired_initial = prepared != raw_initial;
+    let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
         let assignment = prepared;
         InitialState {
+            required_unassigned_pin: required_pin_startup_issue(
+                reject_unassigned_pins,
+                p.basic(),
+                assignment.basic(),
+            ),
             movable: p.basic().variables().iter().any(|v| !v.is_pinned())
                 || p.lists().entities().iter().any(|e| !e.is_pinned()),
             complete: p.is_complete(&assignment),

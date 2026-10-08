@@ -1902,3 +1902,20 @@ objectives each time and keep independent mutable state.
 This is a native phase-boundary diagnostic, not an implementation of Timefold's
 complete environment-mode policy set, shadow-event tracking or phase factory caches.
 It does not replace per-candidate `assert_scores` or independent expected-score checks.
+
+## Rejecting required unassigned pins at startup
+
+Set `SolverLimits::reject_unassigned_pins` to fail before phase execution when a
+required basic variable is both pinned and missing. The error is
+`SolverError::PinnedUnassignedVariable { variable }`, using the basic slot index
+also for mixed models. This validation follows plan/configuration validation but
+precedes score factories, provider solve events, commands, progress events and
+budget/cancellation exits. It applies even to immovable initial-only solves.
+
+Optional pinned None values and initialized pins remain valid. List-only models
+are unaffected. The default is false: native partial construction and low-level
+completion enumeration still support permanently incomplete pinned states. With
+the policy disabled, local search retains its existing phase-specific incomplete
+assignment diagnostics. The startup policy is explicit in the corresponding
+Timefold construction and exhaustive-search adaptations; Java defaults/API parity
+are not claimed.
