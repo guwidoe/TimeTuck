@@ -16514,3 +16514,34 @@ Also read all four TEST-ONLY list/shadowhistory domain fixture files. No list
 adaptation drafted or credited. Score-only wrong-owner diagnostic remains coarser
 in native SolutionRefreshError::ShadowMismatch; preserve this distinction if
 adapting its source assertion. Goal remains incomplete and active.
+
+## Built-in list shadow mismatch details
+
+ListShadowMismatch<V> now reports Owner/Index/Previous/Next expected/actual
+contents; SolutionRefreshError<E,V=()> retains the stable universe index and
+owns the mismatch. List/mixed aliases preserve V without requiring Debug for
+updates. Validation order is universe order then owner/index/previous/next.
+Existing six-layout/four-field corruption regression now checks details including
+unknown neighbor99; added mixed missing-field/precedence/no-score-callback case.
+Full TEST-ONLY SolutionManagerTest.updateEverythingList plus its assertion helpers
+and four shadowhistory fixtures adapted: all initial/final nullable fields,
+six values/four lists (one empty), squared-size score -14. +1case/+5fixtures.
+Focused94765 terminal0 (eight tests), then added mixed missing-field case; final
+gate covers it. All Rust/provenance inputs frozen after formatting. No benchmark,
+release or browser checks needed. Wrong-owner Java message case remains pending.
+
+Required list-shadow-diagnostics gate TERMINAL0. 4776 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 6, 'REUSE': 611}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2868, 'failed': 0, 'pending': 1705, 'excluded': 282, 'unverified': 0, 'percent': 59.073}.
+Source before/after matched: fefdcbd21cb5edb45599ce63899102d216e646fd9c33bbd76bc011e28b71de66
+Live freshness matched verification digest: 5fdedc30d39b5bcf9618c13ff9c45ef51409ab38250470681caac8f73b52c6da.
+Existing provenance prefixes unchanged; appended1cases and5fixtures.
+Log work/list-shadow-diagnostics-final-check.log; evidence work/list-shadow-diagnostics-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual gate70419 and evidence54989 both terminal0; no active build/check handles.
+Live dashboard freshness matched. Investigation only: read SolverManagerTest
+errorThrowableInSolver, solveGenerics and solveWithTerminationUnimprovedSpentLimit
+in full (no adaptation/credit); these rely on JVM error, generic and factory-mock
+semantics. DiminishedReturnsScoreRingBufferTest method list inspected; native
+DiminishedReturns already uses VecDeque, so do not add redundant storage merely
+for internal array-layout credits. No new source read outside Community tests.

@@ -1006,9 +1006,9 @@ pub use move_rebase::{
 
 mod solution_manager;
 pub use solution_manager::{
-    BasicSolutionManager, ListSolutionManager, ListSolutionShadows, ManagedSolution,
-    MixedSolutionManager, SolutionManager, SolutionRefreshError, SolutionUpdatePolicy,
-    basic_solution_manager, list_solution_manager, mixed_solution_manager,
+    BasicSolutionManager, ListShadowMismatch, ListSolutionManager, ListSolutionShadows,
+    ManagedSolution, MixedSolutionManager, SolutionManager, SolutionRefreshError,
+    SolutionUpdatePolicy, basic_solution_manager, list_solution_manager, mixed_solution_manager,
 };
 
 pub use shadow_session::{

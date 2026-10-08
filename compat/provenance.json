@@ -43119,6 +43119,21 @@
       "upstream_test": "updateOnlyScore",
       "local_test": "update_only_score",
       "modifications": "Preserved initial and resulting score/first-shadow nullability assertions using the seven-entity/five-value generated fixture. Native owned ShadowSolutionManager and explicit schema/dependency registration replace Java descriptors and both factory/solver-manager creation variants; construction is infallible and therefore replaces the manager non-null assertion. Native optional owned strings replace Java field nulls; an exact -11 score assertion additionally checks the fixture constraint. No Java constructor/lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_solution_manager_cases.rs",
+      "id": "SolutionManagerTest.updateEverythingList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolutionManagerTest.java",
+      "upstream_test": "updateEverythingList",
+      "local_test": "update_everything_list",
+      "modifications": "Preserved all six value identities, four ordered entity lists including the empty list, initial score/shadow nullability and all final owner/index/previous/next assertions. Stable entity indices replace entity references. Native explicit construction replaces factory/solver-manager variants and the redundant manager non-null assertion. An additional -14 score assertion checks the retained squared-list-size constraint. No unasserted listener history or Java lifecycle equivalence claimed."
     }
   ],
   "fixtures": [
@@ -58786,6 +58801,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/TestdataShadowedConstraintProviderClass.java",
       "upstream_test": "defineConstraints",
       "modifications": "Preserved one penalty per equal-value ordered pair including self joins through a direct native score callback. Does not claim stream engine or Java notification equivalence."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_solution_manager_cases.rs",
+      "id": "TestdataListSolutionWithShadowHistory.solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListSolutionWithShadowHistory.java",
+      "upstream_test": "entityList/valueList/score",
+      "modifications": "Native ListProblem and ManagedSolution preserve ordered lists, value universe and absent initial score. Descriptor/annotation boilerplate omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_solution_manager_cases.rs",
+      "id": "TestdataListEntityWithShadowHistory.solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListEntityWithShadowHistory.java",
+      "upstream_test": "constructors/valueList",
+      "modifications": "Ordered native ListEntity rows preserve all source list contents; stable entity indices replace codes. Descriptor and setter boilerplate omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_solution_manager_cases.rs",
+      "id": "TestdataListValueWithShadowHistory.solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListValueWithShadowHistory.java",
+      "upstream_test": "entity/index/previous/next",
+      "modifications": "Native ListBuiltinValues preserve all four nullable built-in shadow fields. Stable indices/string keys replace references; unused mutation histories and descriptors omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_solution_manager_cases.rs",
+      "id": "TestdataListWithShadowHistoryConstraintProvider.solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListWithShadowHistoryConstraintProvider.java",
+      "upstream_test": "defineConstraints",
+      "modifications": "Native list constraints preserve one negative squared-list-length penalty per entity, including the empty list. Native network callbacks replace Java constraint provider wiring."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_solution_manager_cases.rs",
+      "id": "SolutionManagerTest.list_shadow_assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolutionManagerTest.java",
+      "upstream_test": "assertShadowedListValueAllNull/assertShadowedListValue",
+      "modifications": "Inlined all four initial nullability and final equality assertions for every source value; Rust Option and entity index/string keys replace Java references. No additional method credit."
     }
   ]
 }

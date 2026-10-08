@@ -215,9 +215,33 @@ fn list_factory_updates_all_structural_shadows_and_rejects_stale_score_only_inpu
                 _ => s.shadows[0].next = Some(99),
             }
             let invalid = s.clone();
+            let expected = &repaired.shadows[0];
+            let mismatch = match field {
+                0 => ListShadowMismatch::Owner {
+                    expected: expected.owner,
+                    actual: Some(99),
+                },
+                1 => ListShadowMismatch::Index {
+                    expected: expected.index,
+                    actual: Some(99),
+                },
+                2 => ListShadowMismatch::Previous {
+                    expected: expected.previous,
+                    actual: Some(99),
+                },
+                _ => ListShadowMismatch::Next {
+                    expected: expected.next,
+                    actual: Some(99),
+                },
+            };
+            let error = m
+                .update_with_policy(&mut s, SolutionUpdatePolicy::ScoreOnly)
+                .unwrap_err();
+            assert!(error.to_string().contains("expected:"));
+            assert!(error.to_string().contains("actual:"));
             assert_eq!(
-                m.update_with_policy(&mut s, SolutionUpdatePolicy::ScoreOnly),
-                Err(SolutionRefreshError::ShadowMismatch { value: 0 })
+                error,
+                SolutionRefreshError::ShadowMismatch { value: 0, mismatch }
             );
             assert_eq!(s, invalid);
             m.update(&mut s).unwrap();
@@ -365,4 +389,79 @@ fn native_score_failure_does_not_publish_prepared_list_shadows() {
     assert_eq!(s.shadows[0].index, Some(1));
     assert_eq!(s.shadows[1].index, Some(0));
     assert_eq!(s.score, Some(SimpleScore::new(99)));
+}
+
+#[test]
+fn mixed_score_only_reports_each_missing_field_before_invoking_scoring() {
+    let problem = MixedProblem::new(
+        FiniteProblem::new(vec![Variable::new(vec![1]).with_initial(1)]).unwrap(),
+        ListProblem::new(vec!["a", "b"], vec![ListEntity::new(vec!["a", "b"])]).unwrap(),
+    );
+    let calls = std::cell::Cell::new(0);
+    let mut network = MixedConstraintNetwork::<i32, &str, SimpleScore>::new(1, 1, 2);
+    network
+        .add_constraint("count", vec![MixedScope::ListEntity(0)], |_| {
+            calls.set(calls.get() + 1);
+            SimpleScore::new(5)
+        })
+        .unwrap();
+    let mut manager = mixed_solution_manager(&problem, &network);
+    let mut solution = ManagedSolution::new(problem.initial_assignment(), vec![]);
+    manager
+        .update_with_policy(&mut solution, SolutionUpdatePolicy::ShadowsOnly)
+        .unwrap();
+    solution.score = Some(SimpleScore::new(99));
+    let correct = solution.shadows.clone();
+    // Several bad fields on the same value are reported deterministically.
+    solution.shadows[0] = ListBuiltinValues::default();
+    for mismatch in [
+        ListShadowMismatch::Owner {
+            expected: Some(0),
+            actual: None,
+        },
+        ListShadowMismatch::Index {
+            expected: Some(0),
+            actual: None,
+        },
+        ListShadowMismatch::Next {
+            expected: Some("b"),
+            actual: None,
+        },
+    ] {
+        let before = solution.clone();
+        let result = manager.update_with_policy(&mut solution, SolutionUpdatePolicy::ScoreOnly);
+        assert_eq!(
+            result,
+            Err(SolutionRefreshError::ShadowMismatch {
+                value: 0,
+                mismatch: mismatch.clone()
+            })
+        );
+        assert_eq!(solution, before);
+        assert_eq!(calls.get(), 0);
+        match mismatch {
+            ListShadowMismatch::Owner { .. } => solution.shadows[0].owner = correct[0].owner,
+            ListShadowMismatch::Index { .. } => solution.shadows[0].index = correct[0].index,
+            _ => solution.shadows[0].next = correct[0].next,
+        }
+    }
+    solution.shadows[1].previous = None;
+    assert_eq!(
+        manager.update_with_policy(&mut solution, SolutionUpdatePolicy::ScoreOnly),
+        Err(SolutionRefreshError::ShadowMismatch {
+            value: 1,
+            mismatch: ListShadowMismatch::Previous {
+                expected: Some("a"),
+                actual: None
+            },
+        })
+    );
+    assert_eq!(calls.get(), 0);
+    assert_eq!(solution.score, Some(SimpleScore::new(99)));
+    solution.shadows[1].previous = Some("a");
+    manager
+        .update_with_policy(&mut solution, SolutionUpdatePolicy::ScoreOnly)
+        .unwrap();
+    assert_eq!(solution.score, Some(SimpleScore::new(5)));
+    assert_eq!(calls.get(), 1);
 }

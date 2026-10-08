@@ -33,8 +33,31 @@ impl<A, H, S> ManagedSolution<A, H, S> {
     }
 }
 
+/// The first incorrect built-in shadow, in owner/index/previous/next order.
+/// Neighbor identities are owned values, including values outside the model's
+/// universe. Reporting an invalid neighbor does not itself require a lookup.
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub enum SolutionRefreshError<E> {
+pub enum ListShadowMismatch<V> {
+    Owner {
+        expected: Option<usize>,
+        actual: Option<usize>,
+    },
+    Index {
+        expected: Option<usize>,
+        actual: Option<usize>,
+    },
+    Previous {
+        expected: Option<V>,
+        actual: Option<V>,
+    },
+    Next {
+        expected: Option<V>,
+        actual: Option<V>,
+    },
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum SolutionRefreshError<E, V = ()> {
     Backend(E),
     ShadowCount {
         expected: usize,
@@ -43,14 +66,15 @@ pub enum SolutionRefreshError<E> {
     /// Index in the model's stable value universe.
     ShadowMismatch {
         value: usize,
+        mismatch: ListShadowMismatch<V>,
     },
 }
-impl<E: fmt::Debug> fmt::Display for SolutionRefreshError<E> {
+impl<E: fmt::Debug, V: fmt::Debug> fmt::Display for SolutionRefreshError<E, V> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "solution refresh: {self:?}")
     }
 }
-impl<E: Error + 'static> Error for SolutionRefreshError<E> {
+impl<E: Error + 'static, V: fmt::Debug> Error for SolutionRefreshError<E, V> {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
             Self::Backend(e) => Some(e),
@@ -155,14 +179,14 @@ pub type ListSolutionManager<'a, V, S> = SolutionManager<
     ListAssignment<V>,
     ListSolutionShadows<V>,
     S,
-    SolutionRefreshError<ListScoringError>,
+    SolutionRefreshError<ListScoringError, V>,
 >;
 pub type MixedSolutionManager<'a, B, V, S> = SolutionManager<
     'a,
     MixedAssignment<B, V>,
     ListSolutionShadows<V>,
     S,
-    SolutionRefreshError<MixedScoringError>,
+    SolutionRefreshError<MixedScoringError, V>,
 >;
 
 fn project<V: Eq + Clone>(
@@ -187,7 +211,7 @@ fn check_projection<V: Eq + Clone, E>(
     problem: &ListProblem<V>,
     a: &ListAssignment<V>,
     shadows: &[ListBuiltinValues<usize, V>],
-) -> Result<(), SolutionRefreshError<E>> {
+) -> Result<(), SolutionRefreshError<E, V>> {
     if shadows.len() != problem.values().len() {
         return Err(SolutionRefreshError::ShadowCount {
             expected: problem.values().len(),
@@ -195,15 +219,40 @@ fn check_projection<V: Eq + Clone, E>(
         });
     }
     for (value, (expected, actual)) in project(problem, a).iter().zip(shadows).enumerate() {
-        if expected != actual {
-            return Err(SolutionRefreshError::ShadowMismatch { value });
+        let mismatch = if expected.owner != actual.owner {
+            Some(ListShadowMismatch::Owner {
+                expected: expected.owner,
+                actual: actual.owner,
+            })
+        } else if expected.index != actual.index {
+            Some(ListShadowMismatch::Index {
+                expected: expected.index,
+                actual: actual.index,
+            })
+        } else if expected.previous != actual.previous {
+            Some(ListShadowMismatch::Previous {
+                expected: expected.previous.clone(),
+                actual: actual.previous.clone(),
+            })
+        } else if expected.next != actual.next {
+            Some(ListShadowMismatch::Next {
+                expected: expected.next.clone(),
+                actual: actual.next.clone(),
+            })
+        } else {
+            None
+        };
+        if let Some(mismatch) = mismatch {
+            return Err(SolutionRefreshError::ShadowMismatch { value, mismatch });
         }
     }
     Ok(())
 }
 /// Refresh owner/index/neighbor shadows and use the existing list constraint
 /// network. ScoreOnly rejects stale structural shadows instead of silently
-/// repairing them. Custom cascading shadows require an explicit adapter.
+/// repairing them. Errors identify the value's universe index and the first
+/// incorrect field with its expected and actual contents. Custom cascading
+/// shadows require an explicit adapter.
 pub fn list_solution_manager<'a, V: Eq + Clone + 'a, S: AdditiveScore + 'a>(
     problem: &'a ListProblem<V>,
     network: &'a ListConstraintNetwork<'_, V, S>,

@@ -4315,3 +4315,10 @@ registration replaces Java descriptors and factory variants. Original regression
 exercise cache/output rollback after callback errors and panics, pending graph
 edits, cycles, retries and policy callback exclusion. No Java lifecycle parity
 or additional inconsistent/list method credit is claimed.
+
+The SolutionManager list-refresh method additionally preserves all four built-in
+shadows for six values across four lists, including one empty list. Native list
+and mixed managers now report the first incorrect shadow field and owned expected/
+actual contents, even for neighbors outside the model. Original checks cover
+field precedence and rejection before scoring. The Java score-only error-message
+method remains pending; native diagnostics use model indices, not Java object paths.
