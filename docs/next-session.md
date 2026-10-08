@@ -17014,3 +17014,42 @@ Gate96322 and evidence93393 terminal0; all634Rust/46Python job keys now
 fresh after scanner update. Dashboard server reloaded to use current fingerprint
 code: stopped old PID19060; detached start did not survive, so foreground exec
 server session85195 is live at localhost8765. Freshness endpoint matches above.
+
+## Compound collection existence
+
+Added JoinConditions.apply_existence_containing_any_of, apply_existence_containing
+and apply_existence_contained_in. Membership indexes partition by all equalities;
+ordered residuals qualify accepted pair links for a shared witness-count reducer.
+Exists/NotExists emits left rows once and refreshes payload updates. NotExists
+uses ActivityRule::Left; all index/count/payload roots checkpoint together.
+Shared reducer extracted from indexed ordinary existence; no change in its intended
+semantics. Dense accepted-pair space and independent callback nodes documented.
+Focused31424 terminal0: 5 new native regressions plus4 existing compound existence
+regressions. New cases compare1080 updates against independent pair scans across
+3directions/2modes/pruning off+on, inspect actual output rows before commit and after
+rollback, cover self-joins, empty collections, multiple witnesses, last-witness
+removal, payload refresh, partitions and callbacks. 40right rows invoke only2
+residual projections for the sole qualifying partition/key pair. Projection,
+residual and sink panics preserve prior dataset/score and allow subsequent recovery.
+Initial compile caught a leftover self.state field in reducer extraction; fixed.
+No upstream sources read or adapted in this batch; provenance unchanged.
+Rust frozen after formatting for required gate; no benchmark/browser/release reruns.
+While the gate ran, read the complete242-line Community test
+UnindexedIfExistsUniNodeRoundsTest.java (test source only). Its one parameterized
+method preserves six rounds and checks per-tuple lifecycle balance, not just final
+facts. No adaptation/credit yet: native TupleChange uses upserts, so a set-only
+adapter would weaken the doubled-insert assertion. Any future adaptation must
+preserve that assertion through actual production lifecycle events or explicitly
+leave the method pending; do not silently substitute a set comparison.
+
+Required membership-existence gate TERMINAL0. 4826 Rust tests and 238 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 632}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2879, 'failed': 0, 'pending': 1694, 'excluded': 282, 'unverified': 0, 'percent': 59.3}.
+Source before/after matched: 223a9dc22d6398761396c6deb9603c9dc21bbaf31f722ce37d2bc6b42e78330e
+Live freshness matched verification digest: 6b4e93b274b20062fa2cbe10e7ae25b9dde0d8ca4a8b7ec657701fabf64b447a.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/membership-existence-final-check.log; evidence work/membership-existence-evidence.json.
+No benchmark/browser/release reruns. All verification sessions terminal; goal remains active.
+Gate17745, warm49788 (0 pending targets), evidence41735 terminal0.
+Final gate wall window 168s; Rust3RUN/632REUSE and Python46REUSE.
+Dashboard remains served by session85195; freshness matches current report.

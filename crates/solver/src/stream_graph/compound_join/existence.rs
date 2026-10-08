@@ -115,13 +115,13 @@ impl<'a, L: Clone + 'static, R: Clone + 'static> JoinConditions<'a, L, R> {
 }
 
 #[derive(Clone)]
-struct ExistenceState<I, J, L> {
+pub(super) struct ExistenceState<I, J, L> {
     rows: SnapshotMap<I, L>,
     links: SnapshotMap<(I, J), ()>,
     counts: SnapshotMap<I, usize>,
 }
 impl<I, J, L> ExistenceState<I, J, L> {
-    fn new() -> Self {
+    pub(super) fn new() -> Self {
         Self {
             rows: SnapshotMap::new(),
             links: SnapshotMap::new(),
@@ -133,6 +133,67 @@ impl<I: Ord, J, L> ExistenceState<I, J, L> {
     fn visible(&self, id: &I, mode: ExistenceMode) -> bool {
         self.rows.contains_key(id)
             && (self.counts.contains_key(id) == (mode == ExistenceMode::Exists))
+    }
+}
+
+type PairChanges<I, J, L, R> = Vec<TupleChange<(I, J), (L, R)>>;
+impl<I: Ord + Clone, J: Ord + Clone, L: Clone> ExistenceState<I, J, L> {
+    pub(super) fn reduce<R>(
+        &mut self,
+        left: Option<&TupleChange<I, L>>,
+        changes: PairChanges<I, J, L, R>,
+        mode: ExistenceMode,
+        mut accepts: impl FnMut(&L, &R) -> bool,
+    ) -> Vec<TupleChange<I, L>> {
+        let before = self.clone();
+        let mut affected = BTreeSet::new();
+        let left_update = left.map(|change| change.id.clone());
+        if let Some(change) = left {
+            affected.insert(change.id.clone());
+            if let Some(row) = &change.value {
+                self.rows.insert(change.id.clone(), row.clone());
+            } else {
+                self.rows.remove(&change.id);
+            }
+        }
+        for change in changes {
+            let id = change.id.0.clone();
+            affected.insert(id.clone());
+            let was = self.links.contains_key(&change.id);
+            let accepted = change.value.as_ref().is_some_and(|(l, r)| accepts(l, r));
+            if was != accepted {
+                if accepted {
+                    self.links.insert(change.id, ());
+                    let count = self
+                        .counts
+                        .get(&id)
+                        .copied()
+                        .unwrap_or(0)
+                        .checked_add(1)
+                        .expect("existence match count overflow");
+                    self.counts.insert(id, count);
+                } else {
+                    self.links.remove(&change.id);
+                    let count = self.counts[&id] - 1;
+                    if count == 0 {
+                        self.counts.remove(&id);
+                    } else {
+                        self.counts.insert(id, count);
+                    }
+                }
+            }
+        }
+        let mut output = Vec::new();
+        for id in affected {
+            let was_visible = before.visible(&id, mode);
+            let visible = self.visible(&id, mode);
+            if visible && (!was_visible || left_update.as_ref() == Some(&id)) {
+                output.push(TupleChange::put(id.clone(), self.rows[&id].clone()));
+            } else if was_visible && !visible {
+                output.push(TupleChange::retract(id));
+            }
+        }
+        output
     }
 }
 
@@ -173,64 +234,21 @@ impl<
         event: &Event,
         _arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        let before = self.state.clone();
-        let mut affected = BTreeSet::new();
-        let mut left_update = None;
+        let left = (!right).then(|| typed::<I, L>(event));
         let changes = if right {
             self.join.apply_right(typed::<J, R>(event).clone())
         } else {
-            let change = typed::<I, L>(event).clone();
-            left_update = Some(change.id.clone());
-            affected.insert(change.id.clone());
-            if let Some(row) = &change.value {
-                self.state.rows.insert(change.id.clone(), row.clone());
-            } else {
-                self.state.rows.remove(&change.id);
-            }
-            self.join.apply_left(change)
+            self.join.apply_left(left.expect("left input").clone())
         };
-        for change in changes {
-            let id = change.id.0.clone();
-            affected.insert(id.clone());
-            let was = self.state.links.contains_key(&change.id);
-            let accepted = change.value.as_ref().is_some_and(|(l, r)| {
+        Ok(erase(self.state.reduce(
+            left,
+            changes,
+            self.mode,
+            |l, r| {
                 self.conditions.0[self.residual_start..]
                     .iter()
                     .all(|c| c.matches(l, r))
-            });
-            if was != accepted {
-                if accepted {
-                    self.state.links.insert(change.id, ());
-                    let count = self
-                        .state
-                        .counts
-                        .get(&id)
-                        .copied()
-                        .unwrap_or(0)
-                        .checked_add(1)
-                        .expect("existence match count overflow");
-                    self.state.counts.insert(id, count);
-                } else {
-                    self.state.links.remove(&change.id);
-                    let count = self.state.counts[&id] - 1;
-                    if count == 0 {
-                        self.state.counts.remove(&id);
-                    } else {
-                        self.state.counts.insert(id, count);
-                    }
-                }
-            }
-        }
-        let mut output = Vec::new();
-        for id in affected {
-            let was_visible = before.visible(&id, self.mode);
-            let visible = self.state.visible(&id, self.mode);
-            if visible && (!was_visible || left_update.as_ref() == Some(&id)) {
-                output.push(TupleChange::put(id.clone(), self.state.rows[&id].clone()));
-            } else if was_visible && !visible {
-                output.push(TupleChange::retract(id));
-            }
-        }
-        Ok(erase(output))
+            },
+        )))
     }
 }

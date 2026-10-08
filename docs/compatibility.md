@@ -4430,3 +4430,15 @@ inputs and boolean results through graph pair presence. Native regressions cover
 all three directions, null elements, duplicate keys, replacements, removals,
 rollback, pruning and projection failures against an independent full pair scan.
 Existing documented Java membership multiplicity/null divergences remain unchanged.
+
+Compound collection joins now also support Exists/NotExists in containing,
+contained-in and shared-key directions. Equality partitions and collection postings
+limit candidates; ordered residual predicates qualify witnesses. Each left row is
+emitted once, regardless of duplicate keys or witness count. Left replacements
+refresh visible payloads; removing the last qualifying witness changes visibility.
+Empty collections survive NotExists. Accepted pair identities consume space
+proportional to matching pairs; callback variants do not automatically share nodes.
+Native regressions cover incremental updates, dropped transactions, self-joins,
+activity pruning and projection/residual/downstream panic recovery. The existing
+ordered existence adapter shares the witness reducer and its regressions pass.
+No new upstream test methods are claimed by these original regression tests.

@@ -333,3 +333,5 @@ impl<'a, L: Clone + 'static, R: Clone + 'static> JoinConditions<'a, L, R> {
 mod existence;
 
 mod membership;
+
+mod membership_existence;
