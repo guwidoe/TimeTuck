@@ -4329,3 +4329,12 @@ precedes readers; score-only checks built-in fields and the supplied domain
 validator without refreshing the graph. Original tests cover both model types,
 changed rows/basic variables, callback failure rollback, invalid assignments,
 cycles and recovery. This native API integration grants no upstream method credit.
+
+ShadowCalculator now bridges declarative solution managers to native calculator
+search for basic, list and mixed assignments. Reset/forward/inverse callbacks
+refresh shadows, while scoring remains deferred; selected-move replay does not
+rescore. The bridge clones its owned assignment per change, preserves graph caches,
+requires reset after failures/panics, rejects adapter structural contributions and
+does not advertise constraint-match explanations. Original search/rollback tests
+verify small optima, cache/score consistency and callback accounting; no new
+upstream method credit or performance claim is attached to this integration.

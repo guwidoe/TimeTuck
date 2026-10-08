@@ -16581,3 +16581,48 @@ Director winner replay applies callbacks without rescoring: a bridge must refres
 shadows during reset/after_change, including inverse notifications, and score only
 when asked. Keep ordinary score structural component zero; directors supply it.
 No bridge written yet; this batch is explicit refresh integration only.
+
+## Declarative calculator search bridge
+
+ShadowCalculator owns a ShadowSolutionManager, initial projection factory and
+working assignment clone. Reset/after_change use ShadowsOnly (including inverse
+callbacks and winner replay); score hook uses ScoreOnly and rejects structural
+contributions. No H Clone requirement or explanation support; typed manager errors
+become MatchRegistryError::Calculator strings. Errors/panics hide working state
+until reset; raw invalid callback order likewise invalidates the projection.
+Five native integration tests cover forward/inverse/commit, no replay rescoring,
+list local+exact optimum -7, basic exact optimum0 and mixed optimum-4, model
+structural penalties, projection/scoring failures, supplier/scoring/mutation panics,
+reset failures/recovery and invalid callback ordering. No upstream credits.
+Focused19818 terminal101: three tests passed, replay accounting assertion assumed
+initial score excluded from evaluations. Confirmed native documented contract
+includes it; corrected assertion, failing case alone rerun85298 terminal0. Then
+added callback-order/mutation-panic regression and explicit lifecycle invalidation.
+Final gate covers complete frozen state; no further focused rerun. No benchmark,
+release or browser reruns. Original callbacks must keep facts immutable.
+
+Required shadow-calculator gate TERMINAL0. 4785 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 617}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2868, 'failed': 0, 'pending': 1705, 'excluded': 282, 'unverified': 0, 'percent': 59.073}.
+Source before/after matched: 740e1d741b821c57572714a2ecef4acb6bd81a37bc6fc88fbf605bef71a9182c
+Live freshness matched verification digest: 382cffa55260333bace185c2d878250cc275876787f877130a44d62a86b14ef7.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/shadow-calculator-final-check.log; evidence work/shadow-calculator-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual gate65801 and evidence1220 both terminal0; live freshness matched, no builds
+or checks remain active. Next functional gap: optional inconsistent-shadow scoring.
+ShadowSolutionManager always calls strict update_consistent_shadows; some domains
+need graph inconsistency flags published for hard-score penalties rather than
+rejecting every cyclic candidate. Default strict behavior must remain available.
+Read full TEST-ONLY SolutionManagerTest.updateOnlyScoreDeclarativeShadows and all
+four testdomain/shadow/concurrent/TestdataConcurrent{Value,Entity,Solution,
+ConstraintProvider}.java fixtures. Its crossed rows [a1,b1]/[b2,a2], groups A/B,
+all four flags true and ready/start/finish null produce HardSoft(-4,0) on ScoreOnly.
+Provider unfiltered invalid-visit hard penalties coexist with ordinary assigned
+finish-time soft penalties (ordinary forEach excludes inconsistent values).
+Value suppliers: ready=predecessor.finish+30min or base 2025-01-01T09:00 when
+assigned; start=max own/group ready; finish=start+30min; cascading=base+index days.
+No adaptation or extra credit yet. Ordinary ShadowSession.update already marks
+cycles but missing refs yield UnregisteredSource; strict diagnostics aggregates
+missing refs before callbacks. A tolerant refresh should preserve those diagnostics
+and rollback on genuine callback/model errors, not merely ignore all failures.

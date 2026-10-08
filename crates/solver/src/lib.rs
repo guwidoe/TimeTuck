@@ -1093,3 +1093,6 @@ pub use list_declarative_manager::{
     ListDeclarativeSolutionManager, ListDerivedShadows, MixedDeclarativeSolutionManager,
     ModelShadowError, list_declarative_solution_manager, mixed_declarative_solution_manager,
 };
+
+mod shadow_calculator;
+pub use shadow_calculator::ShadowCalculator;
