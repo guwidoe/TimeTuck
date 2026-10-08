@@ -44319,6 +44319,576 @@
       "local_path": "crates/solver/tests/multivariate_swap_provider_cases.rs",
       "local_test": "mixed_legality_across_variables_rejects_whole_pair",
       "modifications": "Preserve all required and forbidden oriented multivariable moves, generated assignments/ranges, selected-column exclusions and mixed legality with optional null third values. Explicit row slots replace reflected variable metadata; tagged Main/Other identities replace distinct Java value types. Native finite Cartesian enumeration replaces bounded neighborhood probing. Additional native assertions execute valid composites and prove rollback of the forbidden composite."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.phaseOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "phaseOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::phase_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.phaseRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "phaseRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::phase_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.phaseShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "phaseShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::phase_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.stepOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "stepOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::step_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.stepRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "stepRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::step_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.stepShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "stepShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::step_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.justInTimeOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "justInTimeOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::just_in_time_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.justInTimeRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "justInTimeRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::just_in_time_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.justInTimeShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "justInTimeShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::just_in_time_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.applySorting_withComparatorClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "applySorting_withComparatorClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::sorting_comparator",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.applySorting_withComparatorFactoryClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "applySorting_withComparatorFactoryClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::sorting_factory",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EntitySelectorFactoryTest.applyProbability_withProbabilityWeightFactoryClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/EntitySelectorFactoryTest.java",
+      "upstream_test": "applyProbability_withProbabilityWeightFactoryClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "entity::weighted_selection",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.phaseOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "phaseOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::phase_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.phaseRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "phaseRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::phase_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.phaseShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "phaseShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::phase_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.stepOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "stepOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::step_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.stepRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "stepRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::step_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.stepShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "stepShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::step_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.justInTimeOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "justInTimeOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::just_in_time_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.justInTimeRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "justInTimeRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::just_in_time_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.justInTimeShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "justInTimeShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::just_in_time_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.applyProbability_withSelectionProbabilityWeightFactory",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "applyProbability_withSelectionProbabilityWeightFactory",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::weighted_selection",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValueSelectorFactoryTest.applyFiltering_withFilterClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/ValueSelectorFactoryTest.java",
+      "upstream_test": "applyFiltering_withFilterClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "value::filtering_callback",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.phaseOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "phaseOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::phase_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.phaseRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "phaseRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::phase_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.phaseShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "phaseShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::phase_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.stepOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "stepOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::step_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.stepRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "stepRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::step_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.stepShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "stepShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::step_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.justInTimeOriginal",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "justInTimeOriginal",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::just_in_time_original",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.justInTimeRandom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "justInTimeRandom",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::just_in_time_random",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.justInTimeShuffled",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "justInTimeShuffled",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::just_in_time_shuffled",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.applySorting_withComparatorClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "applySorting_withComparatorClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::sorting_comparator",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.applySorting_withComparatorFactoryClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "applySorting_withComparatorFactoryClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::sorting_factory",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.applyProbability_withProbabilityWeightFactoryClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "applyProbability_withProbabilityWeightFactoryClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::weighted_selection",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.validateSorting_incompatibleSelectionOrder",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "validateSorting_incompatibleSelectionOrder",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::incompatible_sorting_order",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.applySorting_withoutAnySortingClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "applySorting_withoutAnySortingClass",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::missing_comparator",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorFactoryTest.applyFilter_nonMovableMoves",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/MoveSelectorFactoryTest.java",
+      "upstream_test": "applyFilter_nonMovableMoves",
+      "local_path": "crates/solver/tests/configured_selection_factory_cases.rs",
+      "local_test": "movement::non_movable_filter",
+      "modifications": "Native configuration plans, explicit source-cache requirements and retained source identity replace Java reflective configuration and selector wrapper class assertions. Preserve requested order/cache resolution, source random-vs-original factory requests, invalid uncached shuffling and sorting errors, comparator/factory/weight/filter installation as applicable. Stable-value phase caching and step shuffling use independent source/order lifetimes. Owned native callbacks replace dummy reflected classes; original finite rows add executable ordering/lifecycle assertions. No Java ABI/reflection parity or seeded random trace equivalence claimed."
     }
   ],
   "fixtures": [

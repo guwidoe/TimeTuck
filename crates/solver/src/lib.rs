@@ -1145,3 +1145,9 @@ pub use keyed_selection_source::{
 
 mod zipped_selection;
 pub use zipped_selection::ZippedSelectionSource;
+
+mod configured_selection;
+pub use configured_selection::{
+    ConfiguredSelection, SelectionBuildError, SelectionBuilder, SelectionConfig, SelectionOrder,
+    SelectionPlan, SelectionPolicy, SelectionSortOrder, SelectionSourceRequest,
+};

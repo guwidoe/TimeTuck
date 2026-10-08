@@ -4725,3 +4725,23 @@ regressions cover identity clone work and repeated updates/retractions; existing
 join-round, panic, snapshot and graph rollback cases apply. Sorted buffers can
 retain duplicate pair IDs until deduplication; dense rounds remain quadratic.
 No upstream credits.
+
+A native configured-selection pipeline now resolves inherited order and minimum
+cache scopes, validates sorting/weighting requirements before constructing its
+source, and executes original, random, sorted, shuffled and probabilistic modes.
+Source and order caches may have different lifetimes: stable phase values can be
+reshuffled, reweighted or sorted with a new comparator each step. Source callbacks
+receive every valid lifecycle event once; failed cache/order builds leave output
+unavailable, with explicit scope closure and later rebuilding for recovery.
+Filtering composes before caching. Uncached selection delegates to the source
+factory's requested mode; cached sources must enumerate finite occurrences.
+The pipeline implements SelectionSource and integrates with CachedMoveProvider;
+cache/order builds share payload storage and only yielded owned items are cloned.
+
+38 Entity/Value/MoveSelectorFactory methods now have native adaptations. Explicit
+source policies and executable plans replace reflective descriptor discovery and
+Java wrapper-type assertions. The native source identity remains inspectable.
+Value-selector sorting methods that distinguish reflected entity-scoped versus
+solution-scoped ranges, mimic-reference validation and automatic list-value
+filter configuration remain pending; do not infer their completion from this
+shared pipeline. Existing separate keyed sources and replay APIs are unchanged.

@@ -18922,3 +18922,63 @@ through gate. Staged source/test/docs reviewed. No upstream source changes.
 Next: prioritize a larger connected implementation batch before another broad gate;
 performance remains important. Avoid more iterator-stack microexperiments or
 rerunning completed comparisons without a specific new change/concern.
+
+## Configured selection pipeline
+
+Previous goal turn progressed:6d03575 committed batched-join optimization with
+completed checks and updated stream benchmark. This turn began clean; read handoff
+and compatibility. No upstream production code read and submodule unchanged.
+Added configured_selection.rs: config/policy resolution and retained executable
+source for Original/Random/Sorted/Shuffled/Probabilistic orders. Independent
+source/order cache scopes support phase membership with step reshuffling,
+reweighting or context-created comparators. Original/random order promotes to the
+source minimum; uncached decorating orders are rejected before promotion/factory.
+Source factory receives effective minimum and random flag only for uncached random.
+Original source identity remains accessible; filters compose before caches.
+ConfiguredSelection implements SelectionSource for existing provider composition.
+Invalid lifecycle events change nothing; valid failed/panicking builds advance
+state but publish no stale output. Scope closure/rebuild recovers. Finite bounds
+reuse existing caches; sorted/weighted builds share payloads, iteration clones
+only yielded items. No source/order payload clones during construction.
+
+38 complete Entity/Value/MoveSelectorFactory adaptations preserve cache/order
+resolution, factory arguments, native counterparts of wrapper/source identity,
+comparator/factory/weight/filter installation and validation. Added38 provenance
+records, no fixtures; native callback/source policies replace Java reflection.
+Value sorting's reflected source-scope branching, mimic-reference configuration
+and automatic list-value filtering remain pending. Seven original regressions
+cover independent lifetimes, stable sorting/context factories, changing weights,
+invalid config/lifecycles, limits/panic recovery, lazy cloning and real solver
+integration through CachedMoveProvider.
+Focus82803 TERMINAL0:38 adapted and7 native cases. Earlier68390 compile failures
+and88138 integration assertion failure resolved;53424 TERMINAL0 then final focus.
+Required final gate36220 TERMINAL0 on frozen source. Do not rerun focused cases
+without new changes/concerns. No benchmark refresh needed for optional configuration API;
+keep previous measurements and their computed freshness. Backend report only,
+no browser rerun. work/build_configured_selection_cases.py is an early generator;
+do not rerun over the corrected final test source. Goal active/incomplete.
+
+Final gate36220 TERMINAL0; compile-only prebuild4639 TERMINAL0,8m02s. Clippy passed.
+The new public SelectionPolicy name collides lexically with the existing private
+construction::SelectionPolicy trait. The dependency scanner consequently includes
+configured_selection.rs for unrelated basic-family targets (confirmed via
+rust_test_inputs). This explains broad invalidation for this optional API. At the
+next coherent source batch, rename the new public policy to a distinct name such
+as ConfiguredSelectionPolicy; no need for another dependency-scanner redesign.
+Gate completed with unchanged source; do not restart completed focus.
+
+Required configured-selection gate TERMINAL0. 5100 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 616, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2985, 'failed': 0, 'pending': 1588, 'excluded': 282, 'unverified': 0, 'percent': 61.483}.
+Source before/after matched: ce78b9b3fc4f2f98411ad3bf13f83bbadc79d2fcc521d2a10dbb5bbc5039c604
+Live freshness matched verification digest: e3a64c70edf7a9fc591131c45d15de43361671fb4e57314118054784faa63c0e.
+Prior ledger records unchanged; 38 new provenance cases/upstream method credits; no fixture changes.
+Log work/configured-selection-final-check.log; evidence work/configured-selection-evidence.json.
+No benchmark refresh; previous measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Evidence38054 TERMINAL0 confirmed source stability,38 exact new provenance records,
+unchanged prior cases/fixtures and live report freshness. All handles terminal.
+No benchmark rerun: stream performance now correctly reports stale because the
+new policy name is selected through the scanner collision above. Preserve prior
+measurement dates; do not edit their source hashes. Staged source/tests/provenance
+reviewed. Goal remains active and incomplete.
