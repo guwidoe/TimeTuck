@@ -358,8 +358,9 @@ pub(crate) fn with_structure<V: Eq + Clone, S: AdditiveScore>(
 }
 
 /// Owns a validated working assignment and cached contributions. List edits
-/// retain the existing full-state snapshot transaction; callback evaluation is
-/// incremental, while model validation and dependency discovery still scan lists.
+/// snapshot the touched lists; callback evaluation is incremental, while model
+/// validation still scans the assignment. Value dependency discovery inspects
+/// only the touched lists before and after the edit.
 pub struct ListScoreDirector<'p, 'c, V, S> {
     problem: &'p ListProblem<V>,
     network: &'p ListConstraintNetwork<'c, V, S>,
@@ -635,11 +636,10 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             .flat_map(|&e| self.network.entity_dependents[e].iter().copied())
             .collect();
         for (i, value) in self.problem.values().iter().enumerate() {
-            let belongs = |a: &ListAssignment<V>| {
-                a.location(value)
-                    .is_some_and(|p| touched.binary_search(&p.entity).is_ok())
-            };
-            if belongs(transaction.original()) || belongs(&transaction) {
+            if touched.iter().any(|&entity| {
+                transaction.original_list(entity).unwrap().contains(value)
+                    || transaction.lists()[entity].contains(value)
+            }) {
                 affected.extend(&self.network.value_dependents[i]);
             }
         }

@@ -18625,3 +18625,50 @@ Two Rust jobs ran,674 reused;46 Python jobs reused. All5003Rust tests and243doct
 pass. Source stable and live freshness matched; provenance unchanged. Staged source,
 regression and documentation diffs inspected. Native timing remains exploratory;
 no general speedup claim. Full rewrite remains active/incomplete.
+
+## Touched-list undo snapshots
+
+Baseline04661f9 clean; previous turn progressed. Read handoff/compatibility.
+ListProblem.apply now snapshots only referenced lists, once per entity across
+nested composites. Drop swaps saved lists back without cloning. Invalid entities
+retain operation-error precedence. original_list borrows pre-move contents;
+original() lazily materializes/caches the full assignment using OnceLock, preserving
+Send/Sync where values support them. Scoped/stream list scoring inspect touched
+lists for old/new value membership. Full validation and outer mixed/observed
+snapshots remain. Five native regressions; no provenance changes/method credits.
+
+Focus98590/59197 TERMINAL101 for test annotation/borrowing, fixed; final27986
+TERMINAL0 (new tests plus list regression/scoped/stream suites). Formatter66632
+TERMINAL0. Required gate44232 TERMINAL0,910s log wall span; work/list-undo-final-check.log.
+No source, test, provenance or tool changes during it. Parallel compile-only25138 TERMINAL0
+in2m41s, overlapping the gate; do not sum times. Staged changes reviewed; evidence72834 TERMINAL0 confirms source stability,
+unchanged provenance and live report freshness. Ready to commit.
+
+Native benchmark73813 and alternating follow-up21945 TERMINAL0. Four alternating
+process pairs;256 apply/drop swaps per sample; optimized harness/debug rlib.
+Without full original(), before/after median ms for2/16/64entities:
+0.345/0.270,12.644/8.583,141.003/122.736. With full original():
+0.374/0.377,12.836/8.844,141.568/149.958. Host variation is wide; these are exploratory
+native timings, not release/Java/general solver claims. Exact clone counts provide
+the deterministic work reduction. Details: work/list-undo-performance.json.
+
+User priority: performance remains important. Complaint concerns overall throughput:
+ten hours2883->2916methods,59.382%->60.062%,+0.680points, with real performance and
+integration work outside that metric. Batch connected changes before broad checks;
+no extra dashboard/process detour. Do NOT interpret this as deferring performance.
+Next candidate: incremental list validation. Read current native invariants and
+prepared work/incremental-list-validation.patch (NOT APPLIED/VERIFIED). It keeps
+full validation for public input, skips redundant entry validation only for owning
+list score directors and already-validated sampling scratch, checks touched final
+pins/ranges and retains global dependency checks. Primitive moves preserve global
+membership/uniqueness. Requires boundary/complexity regressions and benchmarking
+before integrating. Full rewrite remains active/incomplete.
+
+Required list-undo gate TERMINAL0. 5008 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 610, 'REUSE': 67}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2916, 'failed': 0, 'pending': 1657, 'excluded': 282, 'unverified': 0, 'percent': 60.062}.
+Source before/after matched: 7bc019da0cf4735e36b22c8116723f7db62310e59ad4d6e4998705a57d7144a6
+Live freshness matched verification digest: 82f3bc0c41ef27a09000b8e20d1e24f2fee0a5878f8440e3f0c6fec2dc93dae4.
+Prior ledger records unchanged; added no provenance records or upstream method credits.
+Log work/list-undo-final-check.log; evidence work/list-undo-evidence.json.
+No Java comparison benchmarks refreshed; native undo microbenchmark is separate and prior comparisons retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.

@@ -4657,3 +4657,16 @@ the source adaptation explicitly supplies the mocked cyclic entity/first-value
 policies and does not claim Java seeded traces. Separate native tests cover unequal
 per-key pools, duplicate occurrence identity, caps/errors, held non-Clone snapshots,
 seed replay and actual scored search with entity-specific value domains.
+
+List move transactions now snapshot only referenced entities, once each across
+nested composites. They restore saved lists without value cloning on rejection,
+validation error or ordinary panic unwinding. The full pre-move `original()` view
+is materialized lazily and cached; `original_list(entity)` borrows pre-move contents
+without copying unrelated entities. Both scoped and stream list scoring discover
+value dependencies from the touched lists before/after the move, avoiding the full
+historical assignment. Full model validation remains unchanged and scans the
+assignment; observed edits and mixed-model outer transactions may still take full
+snapshots. Five original regressions cover all move kinds, commit/rollback,
+late errors, cloning panics, lazy snapshot recovery, Send/Sync preservation and
+both list scoring backends. These checks add no upstream method credit. Native
+microbenchmarks are separate from the existing Java performance comparisons.

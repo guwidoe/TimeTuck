@@ -210,11 +210,10 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             )?;
         }
         for (i, value) in self.problem.values().iter().enumerate() {
-            let belongs = |a: &ListAssignment<V>| {
-                a.location(value)
-                    .is_some_and(|p| touched.binary_search(&p.entity).is_ok())
-            };
-            if belongs(assignment.original()) || belongs(&assignment) {
+            if touched.iter().any(|&entity| {
+                assignment.original_list(entity).unwrap().contains(value)
+                    || assignment.lists()[entity].contains(value)
+            }) {
                 updates.push(
                     &self.sources.values,
                     TupleChange::put(i, ListValueRow::from_assignment(i, value, &assignment)),

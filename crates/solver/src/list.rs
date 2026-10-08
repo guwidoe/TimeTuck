@@ -3,7 +3,7 @@
 //! Values use stable `Eq` identities. Owner, index and neighbor views are derived
 //! from the lists, so they cannot become stale after a move or rollback.
 
-use std::{error::Error, fmt, ops::Deref};
+use std::{error::Error, fmt, ops::Deref, sync::OnceLock};
 
 /// One entity's initial ordered values and immutable pinning metadata.
 #[derive(Clone, Debug)]
@@ -426,9 +426,10 @@ impl<V: Eq + Clone> ListProblem<V> {
             && (self.allows_unassigned
                 || assignment.lists.iter().map(Vec::len).sum::<usize>() == self.values.len())
     }
-    /// Full-state snapshots provide a correctness baseline, not incremental list
-    /// scoring. Composite operations use current indices and validate pins/ranges once
-    /// at the final state. Errors and ordinary panic unwinding restore all lists.
+    /// Snapshot only the lists referenced by the move, once per entity even for
+    /// nested composites. Composite operations use current indices and validate
+    /// pins/ranges once at the final state. Errors and ordinary panic unwinding
+    /// restore the changed lists without cloning values during rollback.
     pub fn apply<'a>(
         &self,
         assignment: &'a mut ListAssignment<V>,
@@ -443,10 +444,17 @@ impl<V: Eq + Clone> ListProblem<V> {
         mut record: impl FnMut(&V),
     ) -> Result<AppliedListMove<'a, V>, ListError> {
         self.validate(assignment)?;
-        let original = assignment.clone();
+        // Save before any mutation. Invalid entities are diagnosed by the normal
+        // operation checks, retaining their ordering relative to earlier errors.
+        let saved = movement
+            .touched_entities()
+            .into_iter()
+            .filter_map(|entity| assignment.lists.get(entity).map(|v| (entity, v.clone())))
+            .collect();
         let transaction = AppliedListMove {
             assignment,
-            original: Some(original),
+            saved: Some(saved),
+            original: OnceLock::new(),
         };
         let mut pending = vec![movement];
         while let Some(step) = pending.pop() {
@@ -682,7 +690,8 @@ impl<V> ListMove<V> {
 #[must_use = "dropping rolls back the lists; call commit to keep the move"]
 pub struct AppliedListMove<'a, V> {
     assignment: &'a mut ListAssignment<V>,
-    original: Option<ListAssignment<V>>,
+    saved: Option<Vec<(usize, Vec<V>)>>,
+    original: OnceLock<ListAssignment<V>>,
 }
 impl<V> Deref for AppliedListMove<'_, V> {
     type Target = ListAssignment<V>;
@@ -691,11 +700,30 @@ impl<V> Deref for AppliedListMove<'_, V> {
     }
 }
 impl<V> AppliedListMove<'_, V> {
-    pub fn original(&self) -> &ListAssignment<V> {
-        self.original.as_ref().expect("live list transaction")
+    /// The pre-move list, borrowing the saved list for a touched entity and the
+    /// unchanged assignment otherwise. No values are cloned.
+    pub fn original_list(&self, entity: usize) -> Option<&[V]> {
+        let saved = self.saved.as_ref().expect("live list transaction");
+        match saved.binary_search_by_key(&entity, |(index, _)| *index) {
+            Ok(index) => Some(&saved[index].1),
+            Err(_) => self.assignment.list(entity),
+        }
+    }
+    /// Materialize the full pre-move assignment only on demand, then reuse it.
+    /// Prefer original_list when inspecting particular entities to avoid cloning
+    /// unrelated lists. Rollback does not require this full snapshot.
+    pub fn original(&self) -> &ListAssignment<V>
+    where
+        V: Clone,
+    {
+        self.original.get_or_init(|| ListAssignment {
+            lists: (0..self.assignment.lists.len())
+                .map(|entity| self.original_list(entity).unwrap().to_vec())
+                .collect(),
+        })
     }
     pub fn commit(mut self) {
-        self.original = None;
+        self.saved = None;
     }
     fn entity(&self, entity: usize) -> Result<&[V], ListError> {
         self.list(entity).ok_or(ListError::EntityIndex {
@@ -719,8 +747,10 @@ impl<V> AppliedListMove<'_, V> {
 }
 impl<V> Drop for AppliedListMove<'_, V> {
     fn drop(&mut self) {
-        if let Some(mut original) = self.original.take() {
-            std::mem::swap(&mut self.assignment.lists, &mut original.lists);
+        if let Some(mut saved) = self.saved.take() {
+            for (entity, list) in &mut saved {
+                std::mem::swap(&mut self.assignment.lists[*entity], list);
+            }
         }
     }
 }

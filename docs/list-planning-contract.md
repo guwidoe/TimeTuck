@@ -34,8 +34,8 @@ shortened list. Cross-list relocation uses the destination's current index.
 Composites use current indices after each preceding operation. Assigning an
 already assigned value is an error; relocation uses `Change`.
 
-`ListProblem::apply` validates the starting assignment and creates a full-state
-snapshot. A successful transaction exposes only a read-only candidate, its
+`ListProblem::apply` validates the starting assignment and snapshots the lists
+referenced by the move. A successful transaction exposes only a read-only candidate, its
 original state and `commit()`. Dropping it restores every list. Invalid indices,
 duplicate assignment, unknown values, invalid ranges and final pin violations
 restore the complete starting state, including after earlier composite changes.
@@ -50,8 +50,12 @@ are required; interior mutations of shared value objects are outside the contrac
 Process abort, `mem::forget` and panicking destructors can bypass rollback, as with
 ordinary Rust drop guards. Composition application and metadata traversal use an
 explicit stack; dropping deeply nested move enums has ordinary recursive destructor
-behavior. Full-state cloning remains the list transaction strategy. Incremental contribution
-scoring is described below; move application itself still clones the lists.
+behavior. Transactions snapshot each referenced entity's list once, including
+when nested composite children revisit it. Untouched lists are not cloned, and
+rollback swaps saved lists back without cloning. `original_list` borrows the
+pre-move contents of an entity; `original()` lazily clones and caches a complete
+pre-move assignment when requested. Incremental list scoring reads the affected
+lists directly. Full model validation still scans the assignment.
 
 Thirty-four adapted upstream methods preserve assertions in five assign,
 six swap, nine change, two span-unassign, seven sublist-change and five sublist-swap methods. See `compat/provenance.json`.
