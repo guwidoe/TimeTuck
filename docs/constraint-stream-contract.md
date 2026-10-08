@@ -303,8 +303,9 @@ can inspect results between its writes, commit all writes or undo them together.
 
 Before the first update to each affected node, the transaction normally saves that
 node's persistent map roots and scalar state, including indexes, summaries and scores.
-Indexed batched joins use reversible row journals as described below; their saved
-candidate snapshots still share roots.
+Sources, filters, terminal matches, datasets and indexed batched joins use
+reversible row journals as described below; their saved candidate snapshots still
+share roots.
 Further updates reuse that checkpoint. Sources, filter inputs, both join indexes
 and their ID buckets, group inputs/collectors and terminal match records all use
 shared AVL trees. Each graph terminal stores its payload and cached contribution
@@ -1982,3 +1983,22 @@ guards. Standalone comparison failures during installation restore both sides.
 Other batches retain atomic preparation on persistent snapshots. Pair ordering,
 first-ID representatives, final payloads, terminal scoring counts and poisoned
 transaction rules remain unchanged. No additional upstream-method credit is claimed.
+
+Source rows, filter inputs (including rejected rows), terminal match records and
+captured datasets use the same private replacement journals. Terminal checkpoints
+save the previous total score before opening a row journal; a score Clone panic
+therefore cannot leave an unregistered rollback frame. Score changes, structural
+retractions and acceptance changes keep their prior observable behavior.
+
+Diagnostic comparisons materialize a detached entry-state view from a journal's
+saved root or reverse value log. This does not consume or alter active frames and
+supports nested consistency rebuilding, including cancelling match-score changes
+and dataset changes that leave the total score unchanged. Saved-candidate installs
+preserve reusable journal buffers; caller-held snapshots retain their independent
+contents. Ordinary graph nodes without journals keep their existing checkpoints.
+
+Journal selection is adaptive: a root already shared with a retained snapshot uses
+root rollback, avoiding an extra value log on top of mandatory copy-on-write.
+Opening such a nested checkpoint first preserves enclosing journal entry states.
+Unshared roots use compact value logs. Insertion reuses the old value found during
+its comparison pass to record undo, without a second traversal of the tree.

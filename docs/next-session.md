@@ -19254,3 +19254,91 @@ GroupNode unconditionally removes then reinserts input IDs; consider eliminating
 that structural churn in the same batch, preserving all identity semantics. Public
 match snapshots and nested graph consistency checks must retain their contracts.
 No new Rust edits for these follow-ups yet. Full goal remains active/incomplete.
+
+
+## Adaptive stream row journals
+
+Previous goal turn completed/committed ca49a17; clean start. Current batch extends
+journals together to SourceNode, FilterNode, Terminal and DatasetNode. Map helpers
+distinguish erased journal tokens from full saved snapshots. Detached diagnostic
+entry-state views replay original values without consuming active frames. Terminal
+clones the old score before opening its frame. Full join restoration installs row
+roots while retaining empty buffers. No GroupNode rewrite/identity changes.
+No unsafe, dependencies, copied tests, provenance changes or method credits.
+
+Checkpoint selection is adaptive: already-shared roots use persistent root rollback,
+avoiding value-log work on top of mandatory copy-on-write. Nested shared-root
+checkpoints first promote enclosing frames, preserving their rollback even after
+inner commit. Unique roots use value logs. SnapshotMap locate supplies the found
+old value directly to undo logging, eliminating a second tree traversal.
+
+Fmt15464 and96105 TERMINAL0. Initial focus/build67711 TERMINAL0:9 journal units,
+30 existing integration regressions; release40.01s. Adaptive95527 passed10 journal
+units, then failed only because the command named a nonexistent snapshot_map
+integration target. Corrected23373 TERMINAL0:5 map lib units,3 join-journal/snapshot
+integrations, release47.36s. New5 original regressions cover nested immutable views,
+erased snapshot installs within outer trials, mixed structural/replacement graph
+trials, saved candidates, cancelling-score/dataset corruption and shared-root
+checkpoint selection. No copied-test credits.
+
+Initial native65855 TERMINAL0: work/stream-journals-initial-native-performance.json;
+CPU tabu swaps regressed9.7%, motivating adaptive selection and traversal reuse.
+Final native81739 TERMINAL0: work/stream-journals-native-performance.json,
+log work/stream-journals-adaptive-comparison.log. Archived ca49a17 baseline
+work/stream-journals-before vs work/stream-journals-after;2 alternating process
+pairs,20steps/1warmup/3samples, hill/tabu xchange/swap x32/96. Exact assignments,
+scores and callback counts match; independently rescored. No task builds/checks
+concurrent. Median whole-process CPU ms before/after (warmup and both sizes):
+hill/change550.599/538.879; tabu/change512.781/545.728;
+hill/swap9892.875/8657.098; tabu/swap13368.346/13963.006.
+Per-solve elapsed medians remain mixed. In particular96-variable tabu swaps
+2922.443/3114.718ms, hill swaps2220.860/1933.359ms. Keep the combined adaptive
+change with these limits; no general speedup claim or closed Java-gap claim.
+
+Final required prebuild+gate53129 TERMINAL0, including docs/Python. Fmt/clippy
+passed (clippy24.07s), affected-target prebuild4m56s. Matched Java32470 TERMINAL0:
+128 independently validated cases,128 equal-score cases. Combined report/evidence/
+isolated profiling33312 TERMINAL0. All batch handles terminal. Sources unchanged
+through final verification/measurement. Staged source and documentation reviewed.
+
+Required stream-journals gate TERMINAL0. 5147 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 663, 'REUSE': 31}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3005, 'failed': 0, 'pending': 1568, 'excluded': 282, 'unverified': 0, 'percent': 61.895}.
+Source before/after matched: 2a0cba81d64cd707e2b8bd42b39bd178d61499758299b1360dacffe0a5c1e7e5
+Live freshness matched verification digest: 6de66bd08e2d94e7a7af4935680f226cabd196b75f60687d7277fef30bf82700.
+Prior ledger records unchanged; No new provenance cases or fixture changes; no upstream method credits.
+Log work/stream-journals-final-check.log; evidence work/stream-journals-evidence.json.
+Stream native and matched Java measurements refreshed for the expanded stream row journals; unrelated measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Matched Java measurement 2026-10-08T20:31:37.881150+00:00; source digest
+cb5facccd2ef15e66730d5f582c063c9c532f2f1de28dc149a9bf87ba0c3d988.
+Median ms Rust / Java (20steps,1warmup,3samples,2forks):
+- Hill climbing · change · 32 variables: 30.593 / 40.596.
+- Hill climbing · change · 96 variables: 93.777 / 53.939.
+- Tabu · change · 32 variables: 29.841 / 36.228.
+- Tabu · change · 96 variables: 91.833 / 60.129.
+- Hill climbing · swap · 32 variables: 168.932 / 59.020.
+- Hill climbing · swap · 96 variables: 1849.376 / 208.597.
+- Tabu · swap · 32 variables: 159.449 / 52.285.
+- Tabu · swap · 96 variables: 1729.489 / 214.231.
+Large swaps remain8–9x slower than Community. Independent runs on this host vary;
+do not infer gains by comparing these Java-run timings with older batches.
+
+Fresh isolated profile: work/profile_stream_journals.py adapted old profiler markers
+to current graph arithmetic/batched dispatch and AVL allocation sites, without
+changing tracked scripts or production Rust. One96-variable tabu swap solve,
+20steps, independent rescore, source stable. Instrumented release build29.96s.
+Output work/stream-journals-profile.json/log. Dominant inclusive spans: second
+indexed join449ms, rollback351ms, joined-row filter255ms, Group243ms, conflict
+terminal145ms, first indexed join131ms; graph checkpoints90ms and capture0.266ms.
+Counts:2,522,667 copied AVL nodes,371,673 new nodes,138,200 root checkpoints,
+829,434 value checkpoints,2,068,588 undo records. Instrumentation overhead distorts
+time; these are hotspot/operation-count observations, not native/Java benchmarks.
+
+Next batch should target measured costs together: GroupNode still snapshots both
+maps and removes/reinserts every input replacement; current Group graph batch path
+emits intermediate group summaries before explicit coalescing. Consider reversible
+input/group updates and an explicit batched grouping boundary, preserving native
+identity, callback and rollback contracts. Second join/filter and rollback remain
+larger hotspots; do not assume grouping alone closes the gap. No next-batch Rust
+edits yet. Do not repeat successful checks for this state. Goal remains incomplete.

@@ -94,14 +94,27 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
         Box::new(self.rows.clone())
     }
 
+    pub(crate) fn begin_checkpoint(&mut self) -> Box<dyn Any>
+    where
+        I: 'static,
+        T: 'static,
+    {
+        healthy(self.poisoned);
+        self.rows.begin_checkpoint()
+    }
+    pub(crate) fn commit_checkpoint(&mut self, saved: Box<dyn Any>)
+    where
+        I: 'static,
+        T: 'static,
+    {
+        self.rows.commit_checkpoint(saved);
+    }
     pub(crate) fn restore(&mut self, checkpoint: Box<dyn Any>)
     where
         I: 'static,
         T: 'static,
     {
-        self.rows = *checkpoint
-            .downcast::<SnapshotMap<I, (bool, T)>>()
-            .expect("filter checkpoint type");
+        self.rows.restore_checkpoint(checkpoint);
         self.poisoned = false;
     }
 
@@ -335,9 +348,15 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         R: 'static,
         K: 'static,
     {
-        (self.left, self.right) = *checkpoint
+        let (left, right) = *checkpoint
             .downcast::<(JoinSide<I, L, K>, JoinSide<J, R, K>)>()
             .expect("join checkpoint type");
+        self.left.rows.install_snapshot(left.rows);
+        self.left.index = left.index;
+        self.left.poisoned = left.poisoned;
+        self.right.rows.install_snapshot(right.rows);
+        self.right.index = right.index;
+        self.right.poisoned = right.poisoned;
     }
 
     pub fn new(left_key: impl Fn(&L) -> K + 'a, right_key: impl Fn(&R) -> K + 'a) -> Self {

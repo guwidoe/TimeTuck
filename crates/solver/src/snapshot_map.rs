@@ -138,7 +138,7 @@ impl Path {
         &self.directions[..self.len]
     }
 }
-fn locate<K: Ord, V>(root: &Link<K, V>, key: &K) -> (Path, bool) {
+fn locate<'a, K: Ord, V>(root: &'a Link<K, V>, key: &K) -> (Path, Option<&'a Arc<V>>) {
     let mut path = Path {
         directions: [Ordering::Equal; 2 * usize::BITS as usize],
         len: 0,
@@ -147,14 +147,14 @@ fn locate<K: Ord, V>(root: &Link<K, V>, key: &K) -> (Path, bool) {
     while let Some(n) = next {
         let direction = key.cmp(&n.key);
         match direction {
-            Ordering::Equal => return (path, true),
+            Ordering::Equal => return (path, Some(&n.value)),
             Ordering::Less => next = n.left.as_deref(),
             Ordering::Greater => next = n.right.as_deref(),
         }
         path.directions[path.len] = direction;
         path.len += 1;
     }
-    (path, false)
+    (path, None)
 }
 // Replacing a value cannot change the tree shape, heights or subtree sizes.
 // Follow the prevalidated path once, copying only shared nodes; no unwind pass
@@ -351,9 +351,9 @@ impl<K: Ord, V> SnapshotMap<K, V> {
     }
     pub(crate) fn insert(&mut self, key: K, value: V) {
         let (path, found) = locate(&self.root, &key);
-        if found {
+        if let Some(old) = found {
             drop(key);
-            self.record_replacement(&path);
+            journal::record_replacement(&mut self.journal, &path, old);
             replace(&mut self.root, path.as_slice(), Arc::new(value));
         } else {
             self.preserve_journal();
@@ -367,6 +367,7 @@ impl<K: Ord, V> SnapshotMap<K, V> {
     }
     pub(crate) fn remove(&mut self, key: &K) -> bool {
         let (path, found) = locate(&self.root, key);
+        let found = found.is_some();
         if found {
             self.preserve_journal();
             erase(&mut self.root, path.as_slice());

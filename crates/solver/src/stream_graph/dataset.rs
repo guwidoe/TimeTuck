@@ -33,16 +33,20 @@ impl<I: Ord + Clone + 'static, T: Clone + PartialEq + 'static, S: AdditiveScore>
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new(self.0.clone())
     }
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        self.0.begin_checkpoint()
+    }
+    fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
+        self.0.commit_checkpoint(saved);
+    }
     fn restore(&mut self, c: Box<dyn Any>) {
-        self.0 = *c.downcast().expect("dataset checkpoint type");
+        self.0.restore_checkpoint(c);
     }
     fn dataset_rows(&self) -> Option<&dyn Any> {
         Some(&self.0)
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
-        checkpoint
-            .downcast_ref::<SnapshotMap<I, T>>()
-            .is_some_and(|old| old == &self.0)
+        self.0.checkpoint_snapshot(checkpoint) == self.0
     }
     fn apply(&mut self, _: bool, event: &Event, _: NodeArithmetic) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);

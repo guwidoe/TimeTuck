@@ -26,6 +26,29 @@ fn restore_value<K, V>(root: &mut Link<K, V>, undo: Undo<V>) {
     }
     replace(root, path.as_slice(), undo.value);
 }
+pub(super) fn record_replacement<K, V>(
+    journal: &mut Option<Box<Journal<K, V>>>,
+    path: &Path,
+    old: &Arc<V>,
+) {
+    let Some(journal) = journal else {
+        return;
+    };
+    let Some(Saved::Updates(updates)) = journal.frames.last_mut() else {
+        return;
+    };
+    let mut directions = [0; 2];
+    for (i, direction) in path.as_slice().iter().enumerate() {
+        if *direction == Ordering::Greater {
+            directions[i / usize::BITS as usize] |= 1 << (i % usize::BITS as usize);
+        }
+    }
+    updates.push(Undo {
+        directions,
+        len: path.len,
+        value: old.clone(),
+    });
+}
 fn recycle<V>(spare: &mut Vec<Vec<Undo<V>>>, empty: Vec<Undo<V>>) {
     debug_assert!(empty.is_empty());
     spare.push(empty);
@@ -33,6 +56,17 @@ fn recycle<V>(spare: &mut Vec<Vec<Undo<V>>>, empty: Vec<Undo<V>>) {
 
 impl<K, V> SnapshotMap<K, V> {
     pub(crate) fn begin_journal(&mut self) -> usize {
+        // A retained snapshot already forces copy-on-write. Keep its root for
+        // constant-time rollback instead of adding a value log to the same work.
+        let shared = self
+            .root
+            .as_ref()
+            .is_some_and(|root| Arc::strong_count(root) > 1);
+        if shared {
+            // A nested root checkpoint must preserve its enclosing entry states
+            // before it can commit changes without merging replacement records.
+            self.preserve_journal();
+        }
         let journal = self.journal.get_or_insert_with(|| {
             Box::new(Journal {
                 frames: Vec::new(),
@@ -40,10 +74,36 @@ impl<K, V> SnapshotMap<K, V> {
             })
         });
         let token = journal.frames.len();
-        journal
-            .frames
-            .push(Saved::Updates(journal.spare.pop().unwrap_or_default()));
+        journal.frames.push(if shared {
+            Saved::Root(self.root.clone())
+        } else {
+            Saved::Updates(journal.spare.pop().unwrap_or_default())
+        });
         token
+    }
+    /// Detached view of a journal's entry state, used only by diagnostics.
+    pub(crate) fn journal_snapshot(&self, token: usize) -> Self {
+        let journal = self.journal.as_ref().expect("active map journal");
+        assert!(token < journal.frames.len(), "active map journal token");
+        let mut snapshot = self.clone();
+        for frame in journal.frames[token..].iter().rev() {
+            match frame {
+                Saved::Root(root) => snapshot.root = root.clone(),
+                Saved::Updates(updates) => {
+                    for undo in updates.iter().rev() {
+                        restore_value(
+                            &mut snapshot.root,
+                            Undo {
+                                directions: undo.directions,
+                                len: undo.len,
+                                value: undo.value.clone(),
+                            },
+                        );
+                    }
+                }
+            }
+        }
+        snapshot
     }
     pub(crate) fn rollback_journal(&mut self, token: usize) {
         let journal = self.journal.as_mut().expect("active map journal");
@@ -101,30 +161,6 @@ impl<K, V> SnapshotMap<K, V> {
         }
         self.journal = Some(journal);
     }
-    pub(super) fn record_replacement(&mut self, path: &Path) {
-        let Some(journal) = &mut self.journal else {
-            return;
-        };
-        let Some(Saved::Updates(updates)) = journal.frames.last_mut() else {
-            return;
-        };
-        let mut node = self.root.as_deref().expect("replacement root");
-        let mut directions = [0; 2];
-        for (i, direction) in path.as_slice().iter().enumerate() {
-            node = if *direction == Ordering::Less {
-                node.left.as_deref()
-            } else {
-                directions[i / usize::BITS as usize] |= 1 << (i % usize::BITS as usize);
-                node.right.as_deref()
-            }
-            .expect("replacement path");
-        }
-        updates.push(Undo {
-            directions,
-            len: path.len,
-            value: node.value.clone(),
-        });
-    }
     pub(crate) fn install_snapshot(&mut self, snapshot: Self) {
         self.preserve_journal();
         self.root = snapshot.root;
@@ -134,6 +170,38 @@ impl<K, V> SnapshotMap<K, V> {
         Transaction {
             map: self,
             token: Some(token),
+        }
+    }
+}
+// Full saved candidates keep their existing map type. Trial checkpoints carry
+// only a token, so they do not add an owner to the working root.
+struct JournalToken(usize);
+impl<K: 'static, V: 'static> SnapshotMap<K, V> {
+    pub(crate) fn begin_checkpoint(&mut self) -> Box<dyn std::any::Any> {
+        Box::new(JournalToken(self.begin_journal()))
+    }
+    pub(crate) fn commit_checkpoint(&mut self, checkpoint: Box<dyn std::any::Any>) {
+        let token = checkpoint
+            .downcast::<JournalToken>()
+            .expect("map journal token");
+        self.commit_journal(token.0);
+    }
+    pub(crate) fn restore_checkpoint(&mut self, checkpoint: Box<dyn std::any::Any>) {
+        match checkpoint.downcast::<JournalToken>() {
+            Ok(token) => self.rollback_journal(token.0),
+            Err(snapshot) => {
+                self.install_snapshot(*snapshot.downcast::<Self>().expect("map snapshot"))
+            }
+        }
+    }
+    pub(crate) fn checkpoint_snapshot(&self, checkpoint: &dyn std::any::Any) -> Self {
+        if let Some(token) = checkpoint.downcast_ref::<JournalToken>() {
+            self.journal_snapshot(token.0)
+        } else {
+            checkpoint
+                .downcast_ref::<Self>()
+                .expect("map snapshot")
+                .clone()
         }
     }
 }
@@ -167,6 +235,82 @@ mod tests {
         panic::{AssertUnwindSafe, catch_unwind},
         rc::Rc,
     };
+    #[test]
+    fn shared_roots_use_snapshot_rollback_and_preserve_enclosing_value_trials() {
+        let mut map = SnapshotMap::new();
+        map.insert(1, 10);
+        let outer = map.begin_journal();
+        map.insert(1, 20);
+        let held = map.clone();
+        let inner = map.begin_journal();
+        assert!(
+            map.journal
+                .as_ref()
+                .unwrap()
+                .frames
+                .iter()
+                .all(|f| matches!(f, Saved::Root(_)))
+        );
+        map.insert(1, 30);
+        map.commit_journal(inner);
+        assert_eq!(map[&1], 30);
+        assert_eq!(held[&1], 20);
+        map.rollback_journal(outer);
+        assert_eq!(map[&1], 10);
+        let held = map.clone();
+        let trial = map.begin_journal();
+        map.insert(1, 40);
+        map.rollback_journal(trial);
+        assert!(map.shares_root(&held));
+    }
+    #[test]
+    fn diagnostic_views_preserve_nested_frames_and_detach_from_later_edits() {
+        let mut map = SnapshotMap::new();
+        for i in 0..32 {
+            map.insert(i, i);
+        }
+        let original: BTreeMap<_, _> = map.iter().map(|(&k, &v)| (k, v)).collect();
+        let outer = map.begin_journal();
+        map.insert(0, 100);
+        let middle: BTreeMap<_, _> = map.iter().map(|(&k, &v)| (k, v)).collect();
+        let inner = map.begin_journal();
+        map.insert(0, 200);
+        map.insert(1, 300);
+        let current = map.clone();
+        let outer_view = map.journal_snapshot(outer);
+        let inner_view = map.journal_snapshot(inner);
+        assert_eq!(outer_view, original);
+        assert_eq!(inner_view, middle);
+        assert_eq!(map, current);
+        map.remove(&2);
+        map.insert(99, 999);
+        assert_eq!(map.journal_snapshot(outer), original);
+        assert_eq!(map.journal_snapshot(inner), middle);
+        map.commit_journal(inner);
+        map.insert(0, 500);
+        assert_eq!(map.journal_snapshot(outer), original);
+        map.rollback_journal(outer);
+        assert_eq!(map, original);
+        assert_eq!(inner_view, middle);
+        assert_eq!(outer_view, original);
+    }
+    #[test]
+    fn erased_checkpoints_allow_saved_snapshots_inside_an_outer_trial() {
+        let mut map = SnapshotMap::new();
+        map.insert(1, 10);
+        let outer = map.begin_checkpoint();
+        map.insert(1, 20);
+        let saved = Box::new(map.clone());
+        let inner = map.begin_checkpoint();
+        map.insert(1, 30);
+        map.commit_checkpoint(inner);
+        map.restore_checkpoint(saved);
+        assert_eq!(map[&1], 20);
+        assert_eq!(map.checkpoint_snapshot(outer.as_ref())[&1], 10);
+        map.restore_checkpoint(outer);
+        assert_eq!(map[&1], 10);
+        assert!(map.journal.as_ref().unwrap().frames.is_empty());
+    }
     #[test]
     fn value_trials_reuse_tree_nodes_and_journal_storage_without_clone_bounds() {
         #[derive(Eq, PartialEq, Ord, PartialOrd)]

@@ -309,8 +309,14 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new(self.0.clone())
     }
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        self.0.begin_checkpoint()
+    }
+    fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
+        self.0.commit_checkpoint(saved);
+    }
     fn restore(&mut self, c: Box<dyn Any>) {
-        self.0 = *c.downcast().expect("source checkpoint type");
+        self.0.restore_checkpoint(c);
     }
     fn source_rows(&self) -> Option<&dyn Any> {
         Some(&self.0)
@@ -338,6 +344,12 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
     }
     fn checkpoint(&self) -> Box<dyn Any> {
         self.0.checkpoint()
+    }
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        self.0.begin_checkpoint()
+    }
+    fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
+        self.0.commit_checkpoint(saved);
     }
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
@@ -860,6 +872,10 @@ enum TerminalEvaluation<'a, T, S> {
         impact: Box<WeightedImpact<'a, T, S>>,
     },
 }
+struct TerminalJournal<S> {
+    rows: usize,
+    total: S,
+}
 struct Terminal<'a, I, T, S> {
     evaluate: TerminalEvaluation<'a, T, S>,
     total: S,
@@ -890,9 +906,16 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         typed::<I, T>(event).value.is_some()
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
-        let (old, total) = checkpoint
-            .downcast_ref::<(SnapshotMap<I, (T, S)>, S)>()
-            .expect("terminal checkpoint type");
+        let journal_view;
+        let (old, total) = if let Some(saved) = checkpoint.downcast_ref::<TerminalJournal<S>>() {
+            journal_view = self.matches.journal_snapshot(saved.rows);
+            (&journal_view, &saved.total)
+        } else {
+            let (old, total) = checkpoint
+                .downcast_ref::<(SnapshotMap<I, (T, S)>, S)>()
+                .expect("terminal checkpoint type");
+            (old, total)
+        };
         self.total == *total
             && self
                 .matches
@@ -903,12 +926,34 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new((self.matches.clone(), self.total.clone()))
     }
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        // User-defined score cloning may panic; it must precede opening a frame.
+        let total = self.total.clone();
+        Box::new(TerminalJournal {
+            rows: self.matches.begin_journal(),
+            total,
+        })
+    }
+    fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
+        let saved = saved
+            .downcast::<TerminalJournal<S>>()
+            .expect("terminal journal");
+        self.matches.commit_journal(saved.rows);
+    }
     fn restore(&mut self, c: Box<dyn Any>) {
-        let (matches, total) = *c
-            .downcast::<(SnapshotMap<I, (T, S)>, S)>()
-            .expect("terminal checkpoint type");
-        self.total = total;
-        self.matches = matches;
+        match c.downcast::<TerminalJournal<S>>() {
+            Ok(saved) => {
+                self.matches.rollback_journal(saved.rows);
+                self.total = saved.total;
+            }
+            Err(c) => {
+                let (matches, total) = *c
+                    .downcast::<(SnapshotMap<I, (T, S)>, S)>()
+                    .expect("terminal checkpoint type");
+                self.matches.install_snapshot(matches);
+                self.total = total;
+            }
+        }
     }
     fn matches(&self) -> Option<&dyn Any> {
         Some(&self.matches)
@@ -2389,3 +2434,6 @@ pub mod batching;
 pub mod batched_existence;
 
 pub mod coalesced;
+
+#[cfg(test)]
+mod journal_tests;
