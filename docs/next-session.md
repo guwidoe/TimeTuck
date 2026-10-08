@@ -17825,3 +17825,61 @@ Gate70464 TERMINAL0, log wall window 133s;6 Rust jobs RUN,647 REUSE,
 and the precise4-case/1-fixture additions plus4 historical description updates.
 All verification handles terminal. No prebuild, benchmark refresh or browser rerun.
 Full rewrite goal remains active.
+
+## Reachable entity swap partners and bounded self fallback
+
+Baseline ebae1f9. Previous implementation goal batch was progress; status-only
+timing answer made no solver change. Revalidated clean tree before this batch.
+
+ReachableEntitySwapProvider composes existing row/order validation with a shared
+EntitySwapProvider::compatible helper (same domain/null semantics as before).
+Explicit EntitySwapSampling seed/max_candidates/max_partner_attempts; sample left
+then bounded right probes, self-swap fallback on failure/empty right. Empty or
+pinned-only left yields no candidates. Pins filter rows before draws; duplicate
+occurrences retained. Each changed incoming value must be legal, and random partners
+must share at least one aligned domain value. Finite partner views only apply
+current-value legality, matching the original null/disjoint finite behavior.
+Views bind explicit recorded left IDs; owned cursors support next/previous/rewind.
+Injected draws validate indices, returning one error then stopping. Native sampling
+reopens deterministically using seed+step. Basic and mixed MoveProvider adapters;
+no list mutation. Existing EntitySwapProvider bounded-pair sampler unchanged.
+
+Read only pinned SwapMoveSelectorTest and test fixtures/helpers, no production.
+Added three full adapted methods: originalEntitiesPinned, randomEntitiesPinned,
+noReachableEntities. Preserve all asserted identities/traversal checks; ledger
+explicitly documents native bounded scans and views instead of Java lifecycle/PRNG.
+The first method filters codes B/C, not planning pins. The second uses the exact
+source draw prefix 0 then 31 ones with an explicit native32-probe budget. Source
+asserts no retry count. Third uses native seed0 and compares left/right identity
+only, as source does. Three case records appended; old ledger records unchanged.
+
+Seven native regressions cover multi-column legality/overlap, required/optional
+null transfers, duplicate cursor occurrences, invalid indices/schema/orders/models,
+pins, empty/zero budgets, deterministic reopening and move rollback, basic real
+solver fallback counts and mixed real solver improvement preserving lists, plus
+non-Clone payloads for basic selection. Focused36512 TERMINAL0 (3 source+7 new
+native+5 existing entity-swap regressions). Earlier compile50636 TERMINAL101 lacked
+Clone bounds required by existing MixedProblem APIs; corrected. Focus32660 TERMINAL0.
+No benchmarks refreshed or UI changes; required batch gate next.
+
+Remaining SwapMoveSelectorTest methods singleVarRandomSelectionWithEntityValueRange
+and multiVarRandomSelectionWithEntityValueRange remain pending: scripted random
+selection ordering differs from the new native bounded probing contract. Do not
+claim full credit from overlapping reachability examples. Multi-var source has a
+third optional solutionValue column with common [1] domain; omitting it incorrectly
+makes missing A/B unreachable. Its last no-expected-codes helper call asserts only
+iterator construction, not exhaustion. No Java production implementation was read.
+
+Required reachable-swap gate TERMINAL0. 4919 Rust tests and 242 doctests passed.
+Rust jobs: {'RUN': 7, 'REUSE': 648}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2890, 'failed': 0, 'pending': 1683, 'excluded': 282, 'unverified': 0, 'percent': 59.526}.
+Source before/after matched: 64870e6f31b748a09f6bed6e99d13046ba31091421204048568b134a124fb919
+Live freshness matched verification digest: b26304fec6d6a9902ef64e5b54c6e38a2a38d100bce5f83dd92946563f106c15.
+Prior ledger records unchanged; appended3cases and0fixtures.
+Log work/reachable-swap-final-check.log; evidence work/reachable-swap-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate10851 TERMINAL0, log wall146s;7 Rust jobs RUN and648 REUSE,46 Python
+jobs reused. Evidence32093 TERMINAL0 confirms fresh live report.4919 Rust tests
+and242 doctests passed. No prebuild/benchmark/browser rerun. All new work handles
+terminal; full rewrite goal remains active.

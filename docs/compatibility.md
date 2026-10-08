@@ -4590,3 +4590,13 @@ CachedMoveProvider replace Java selector identity and mocked scopes. The older
 entity_swap_cases partial fixtures remain as separate enumeration checks; their
 provenance now points to the full adaptations. Random/mimic selector cases remain
 pending.
+
+Three further SwapMoveSelectorTest methods preserve finite dependent partner
+traversal (including backward cursor movement), filtered random self fallback and
+disjoint singleton-domain fallback identity. ReachableEntitySwapProvider offers
+a separate bounded dependent sampling mode for basic and mixed solving. It checks
+all incoming values and at least one aligned domain overlap, excludes pinned rows
+and retains duplicate input occurrences. Native seeds, explicit probe/output budgets
+and immutable left-bound views replace Java random/lifecycle APIs; these cases do
+not establish infinite iterator or PRNG trace equivalence. The two remaining
+random entity-range source methods are still pending.

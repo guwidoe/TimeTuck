@@ -87,7 +87,7 @@ impl EntitySwapProvider {
     pub fn rows(&self) -> &[Vec<usize>] {
         &self.rows
     }
-    fn orders<V: Eq>(
+    pub(crate) fn orders<V: Eq>(
         &self,
         p: &FiniteProblem<V>,
         a: &Assignment<V>,
@@ -141,6 +141,28 @@ impl EntitySwapProvider {
             EntitySwapOrder::Paired { .. } => left.len().min(right.len()) as u128,
         })
     }
+    pub(crate) fn compatible<V: Eq>(
+        &self,
+        p: &FiniteProblem<V>,
+        a: &Assignment<V>,
+        left: usize,
+        right: usize,
+    ) -> bool {
+        let slots = self.rows[left].iter().zip(&self.rows[right]);
+        let accepts = |to: usize, from: usize| {
+            if a.values()[to] == a.values()[from] {
+                return true;
+            }
+            match &a.values()[from] {
+                Some(v) => p.variables()[to].domain().contains(v),
+                None => p.variables()[to].allows_unassigned(),
+            }
+        };
+        if !slots.clone().all(|(&l, &r)| accepts(l, r) && accepts(r, l)) {
+            return false;
+        }
+        true
+    }
     fn candidate<V: Clone + Eq>(
         &self,
         p: &FiniteProblem<V>,
@@ -156,16 +178,7 @@ impl EntitySwapProvider {
         if !changed && !self.include_noops {
             return None;
         }
-        let accepts = |to: usize, from: usize| {
-            if a.values()[to] == a.values()[from] {
-                return true;
-            }
-            match &a.values()[from] {
-                Some(v) => p.variables()[to].domain().contains(v),
-                None => p.variables()[to].allows_unassigned(),
-            }
-        };
-        if !slots.clone().all(|(&l, &r)| accepts(l, r) && accepts(r, l)) {
+        if !self.compatible(p, a, left, right) {
             return None;
         }
         Some(EntitySwapCandidate {

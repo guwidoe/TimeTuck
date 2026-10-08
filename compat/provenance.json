@@ -43419,6 +43419,51 @@
       "upstream_test": "emptyRightOriginalLeftUnequalsRight",
       "local_test": "empty_right_original_left_unequals_right",
       "modifications": "Preserve every ordered move-code sequence and finite exhaustion assertion, non-repeating metadata, exact selection sizes, and all six lifecycle callback counts across two phases with two then three scans. Native PairSelectionSource generates positional unordered pairs from one shared child or Cartesian pairs from two distinct children; real child sources yield only entity IDs and log forwarded events, never expected move sequences. CachedMoveProvider drives source lifecycle from explicit native solve/phase/scan events replacing mocked Java scopes. Stable row IDs, required uninitialized single-slot variables and an explicit shared/separate constructor replace Java named entities, identity checks and reflection descriptors. Native Move::Swap represents each metadata-only swap, preserving no-ops. No Java ABI or random-selection behavior claimed; separate native regression also drives the shared-source lifecycle through two real solver phases."
+    },
+    {
+      "id": "SwapMoveSelectorTest.originalEntitiesPinned",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "originalEntitiesPinned",
+      "local_path": "crates/solver/tests/entity_swap_partner_cases.rs",
+      "local_test": "original_entities_pinned",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves both finite traversal passes, all four left-bound reversible cursor cases, forward exhaustion and backward identity assertions. Source EntityCodeFiltering excludes B/C, represented by the configured right order [A], not planning pins. Explicit immutable left-bound partner views replace manual recording/replay; fresh native views need no lifecycle initialization. Rewind represents listIterator(0)."
+    },
+    {
+      "id": "SwapMoveSelectorTest.randomEntitiesPinned",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "randomEntitiesPinned",
+      "local_path": "crates/solver/tests/entity_swap_partner_cases.rs",
+      "local_test": "random_entities_pinned",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves assigned A/B, missing C, recorded left B, the source draw sequence (0 followed by 31 ones), code eligibility excluding B/C, availability and B self-identity fallback. Native sampling uses an explicit 32-probe budget; does not assert Java internal retry count or PRNG equivalence. Explicit left-bound partner view replaces recorder/replay and needs no lifecycle initialization."
+    },
+    {
+      "id": "SwapMoveSelectorTest.noReachableEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "noReachableEntities",
+      "local_path": "crates/solver/tests/entity_swap_partner_cases.rs",
+      "local_test": "no_reachable_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all three disjoint singleton required domains/current values, iterator availability and same left/right identity fallback. Native seed zero replaces Java Random(0); source asserts identity only, not a particular draw trace. Uses a bounded one-candidate/32-probe scan, not an infinite Java iterator or Java lifecycle API."
     }
   ],
   "fixtures": [

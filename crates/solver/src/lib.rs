@@ -952,8 +952,13 @@ mod scaling_map;
 pub use scaling_map::{ScalingMap, ScalingMapConfig};
 
 mod entity_swap_provider;
+mod reachable_entity_swap;
 pub use entity_swap_provider::{
     EntitySwapCandidate, EntitySwapError, EntitySwapOrder, EntitySwapProvider,
+};
+pub use reachable_entity_swap::{
+    EntitySwapPartnerCursor, EntitySwapPartners, EntitySwapSampling, InvalidEntitySwapDraw,
+    ReachableEntitySwapProvider,
 };
 
 mod completion_search;
