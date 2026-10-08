@@ -4408,3 +4408,13 @@ Graph integration uses ordinary immediate routing, transactional rollback and
 activity pruning. Both complete FlattenLastUniNodeTest methods now preserve all
 deferred lifecycle and duplicate event assertions through a native consumer.
 Existing positional expansion remains available; stable IDs do not encode order.
+
+Verification input selection now follows referenced inherent members instead of
+attaching every extension implementation to every use of its type. Plain child
+module declarations do not themselves invalidate a job; referenced child symbols
+and methods do. Attributed modules and literal includes remain dependencies, as
+do implicit foreign-trait behavior and unresolved macro-generated members.
+This is still a selective development heuristic, not Rust compiler dependency
+analysis. Cache keys include the scanner, so this change requires fresh baselines
+at the next relevant verification run; old records and benchmark dates are not
+rewritten. No solver compatibility credits are added by this tooling change.

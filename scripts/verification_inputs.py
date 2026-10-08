@@ -88,6 +88,12 @@ def production_rust(source):
 def production_content(source):
     """Normalize trivia while retaining literal contents exactly."""
     source = production_rust(source)
+    # Module contents are hashed through selected dependencies. A new unused
+    # module declaration alone does not change an existing job's behavior.
+    # Attributes stay hashed (including cfg/path), as does all other code.
+    declarations = list(re.finditer(r'\b(?:pub(?:\([^)]*\))?\s+)?mod\s+\w+\s*;', rust_dependencies_text(source)))
+    for declaration in reversed(declarations):
+        source = source[:declaration.start()] + source[declaration.end():]
     chunks, cursor = [], 0
     for match in RUST_LITERALS.finditer(source):
         chunks.append(re.sub(r'\s+', ' ', source[cursor:match.start()]))
@@ -231,14 +237,15 @@ def library_symbol_owners(texts, facade_source):
         for symbol in re.findall(r'\b\w+\b', exports):
             owner = f'crates/solver/src/{module}.rs'
             if owner in sources: owners.setdefault(symbol, set()).add(owner)
-    # Inherent and foreign-trait impls still follow the target type (operators,
-    # formatting and conversions can be implicit). Local extension traits follow
+    # Foreign-trait impls follow the target type (operators, formatting and
+    # conversions can be implicit). Inherent extensions follow named members.
+    # Local extension traits follow
     # trait references or member access, not every use of the underlying type.
     # Public trait impls require a referenced receiver and trait/member. Blanket
     # impls match any receiver. Internal traits retain the broad target rule.
     for name, source in texts:
-        for header in re.findall(r'^impl\b([^{}]+)\{', source, re.M):
-            header = header.strip()
+        for block in re.finditer(r'^impl\b([^{}]+)\{', source, re.M):
+            header = block[1].strip()
             parameters = set()
             generic_bounds = ''
             if header.startswith('<'):
@@ -279,6 +286,27 @@ def library_symbol_owners(texts, facade_source):
                         key = '@trait-associated:' + symbol[1] + ':' + member
                     owners.setdefault(key, set()).add(name)
                 continue
+            if symbol and not trait:
+                if symbol[1] not in owners:
+                    continue  # Private names such as Node are local to their module.
+                depth, end = 1, block.end()
+                while end < len(source) and depth:
+                    depth += (source[end] == '{') - (source[end] == '}')
+                    end += 1
+                if depth:  # Unsupported body: retain the old broad rule.
+                    owners.setdefault(symbol[1], set()).add(name)
+                    continue
+                body = source[block.end():end-1]
+                depth = 0
+                for item in re.finditer(r'[{}]|\b(?:fn|const|type)\s+(\w+)|\b(\w+)!\s*(?=[({\[])', body):
+                    if item[0] == '{': depth += 1
+                    elif item[0] == '}': depth -= 1
+                    elif depth == 0 and item[1]:
+                        owners.setdefault('@inherent-member:' + symbol[1] + ':' + item[1], set()).add(name)
+                    elif depth == 0 and item[2]:
+                        # Macro-generated members cannot be resolved here.
+                        owners.setdefault(symbol[1], set()).add(name)
+                continue
             if symbol and symbol[1] in owners:
                 owners[symbol[1]].add(name)
     return MappingProxyType({symbol: frozenset(paths) for symbol, paths in owners.items()})
@@ -286,8 +314,14 @@ def library_symbol_owners(texts, facade_source):
 
 @lru_cache(maxsize=2048)
 def dependency_words(source):
-    imports = ' '.join(re.findall(r'\buse\s+(?:crate|super|timetuck)::([^;]+);', source))
+    imports = ' '.join(text for text in re.findall(r'\buse\s+([^;]+);', source)
+                       if not re.match(r'(?:std|core|alloc)\s*::', text))
     words = set(re.findall(r'\b\w+\b', imports))
+    qualified = re.sub(r'\buse\s+[^;]+;', '', source)
+    for path in re.findall(r'\b\w+(?:\s*::\s*\w+)+', qualified):
+        parts = re.findall(r'\w+', path)
+        if parts[0] not in ('std', 'core', 'alloc'):
+            words.update(parts[:-1])
     words.update(re.findall(r'\b(?:crate|super|timetuck)::(\w+)', source))
     words.update(re.findall(r'\b[A-Z][A-Za-z0-9_]+\b', source))
     # Dot calls and associated items also work through glob-imported traits.
@@ -305,7 +339,9 @@ def dependency_words(source):
 def selected_library_inputs(entries, root=ROOT):
     """Development dependency scan, at module granularity (not a Rust compiler).
 
-    Follow named types/functions/modules and out-of-line implementations. Glob
+    Follow named types/functions/modules and out-of-line implementations.
+    Inherent extension methods need a referenced receiver and member; merely
+    declaring an unused child module does not select its contents. Glob
     imports resolve against identifiers used in the target. Facade inputs include
     referenced declarations/reexports and other root code, excluding unrelated exports.
     Public extension traits follow trait/member references plus concrete receiver
@@ -325,7 +361,7 @@ def selected_library_inputs(entries, root=ROOT):
     owners = library_symbol_owners(tuple(texts.items()), facade_source)
     trait_rules = []
     for key, paths in owners.items():
-        if key.startswith(('@trait-impl:', '@trait-method:')):
+        if key.startswith(('@trait-impl:', '@trait-method:', '@inherent-member:')):
             kind, receiver, member = key.split(':', 2)
             trigger = member if kind == '@trait-impl' else '@trait-member:' + member
             trait_rules.append((receiver, trigger, paths))
@@ -336,7 +372,17 @@ def selected_library_inputs(entries, root=ROOT):
         if name not in library_texts and not (root / name).is_file(): continue
         selected.add(name)
         if name in library_edges and name not in entries:
-            pending.extend(library_edges[name] - selected)
+            # Plain child modules are discovered by referenced symbols/members.
+            # Literal includes and attributed modules keep their explicit edges.
+            _, literals = rust_file_references(library_texts.get(name, ''))
+            pending.extend((root / Path(name).parent / literal).resolve().relative_to(root.resolve()).as_posix()
+                           for literal in literals)
+            attributed = re.findall(r'(?:#\[[^\]]*\]\s*)+(?:pub(?:\([^)]*\))?\s+)?mod\s+(\w+)\s*;', texts.get(name, ''))
+            path = root / name
+            base = path.parent if path.name in ('mod.rs', 'lib.rs') else path.with_suffix('')
+            for module in attributed:
+                for child in (base / f'{module}.rs', base / module / 'mod.rs'):
+                    if child.is_file(): pending.append(child.relative_to(root).as_posix())
         else:
             pending.extend(rust_entry_inputs(name, root, include_test_items=name in entries or not name.startswith('crates/solver/src/')) - selected)
         source = texts[name] if name in texts and name not in entries else rust_dependencies_text((root / name).read_text())

@@ -90,10 +90,10 @@ class InputTests(unittest.TestCase):
         entry = 'crates/solver/tests/a.rs'
         (self.root / entry).write_text('use timetuck::score::Score;')
         score = self.root / 'crates/solver/src/score.rs'
-        score.write_text('pub struct Score; mod nested;')
+        score.write_text('pub struct Score; mod nested; fn read() { nested::read(); }')
         nested = self.root / 'crates/solver/src/score/nested.rs'
         nested.parent.mkdir()
-        nested.write_text('include_str!("values.txt");')
+        nested.write_text('pub fn read() { include_str!("values.txt"); }')
         fixture = nested.with_name('values.txt')
         fixture.write_text('first')
         reads, read_text = [], Path.read_text
@@ -113,7 +113,7 @@ class InputTests(unittest.TestCase):
 
     def test_cached_index_rediscovers_modules_and_out_of_line_implementations(self):
         a, b = 'crates/solver/tests/a.rs', 'crates/solver/tests/b.rs'
-        (self.root / a).write_text('use timetuck::Score;')
+        (self.root / a).write_text('use timetuck::Score; fn run() { Score::probe(); }')
         (self.root / b).write_text('use timetuck::search::Search;')
         (self.root / 'crates/solver/src/lib.rs').write_text(
             'pub mod score; pub mod search; mod extension; pub use score::Score;')
@@ -191,7 +191,104 @@ class InputTests(unittest.TestCase):
             self.assertNotEqual(before, self.key(entry))
             trait.write_text(trait.read_text().replace('= 5;', '= 4;'))
 
-    def test_foreign_traits_and_inherent_extensions_still_follow_the_type(self):
+    def test_unused_child_extension_addition_and_edits_preserve_existing_key(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score; fn run(s: Score) {}')
+        score = self.root / 'crates/solver/src/score.rs'
+        before = self.key(entry)
+        score.write_text('pub struct Score; mod expansion;')
+        extension = self.root / 'crates/solver/src/score/expansion.rs'
+        extension.parent.mkdir()
+        extension.write_text('use super::Score;\nimpl Score { pub fn expand(&self) { assert!(true); } }')
+        selected = '@rust-library:crates/solver/src/score/expansion.rs'
+        self.assertEqual(before, self.key(entry))
+        self.assertNotIn(selected, rust_test_inputs(entry, self.root))
+        extension.write_text(extension.read_text().replace('true', 'false'))
+        self.assertEqual(before, self.key(entry))
+        for call in ['s.expand()', 'Score::expand(&s)']:
+            (self.root / entry).write_text('use timetuck::score::Score; fn run(s: Score) { ' + call + '; }')
+            self.assertIn(selected, rust_test_inputs(entry, self.root))
+            used = self.key(entry)
+            extension.write_text(extension.read_text().replace('false', 'true'))
+            self.assertNotEqual(used, self.key(entry))
+            extension.write_text(extension.read_text().replace('true', 'false'))
+        (self.root / entry).write_text('use timetuck::score::Score; fn run(s: Score) {}')
+        extension.unlink()
+        score.write_text('pub struct Score;')
+        self.assertEqual(before, self.key(entry))
+
+    def test_inherent_members_require_receiver_and_follow_factory_and_helper_calls(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / 'crates/solver/src/lib.rs').write_text(
+            'pub mod score; pub mod search; mod extension; mod helper;')
+        extension = self.root / 'crates/solver/src/extension.rs'
+        extension.write_text('use crate::Score;\nimpl Score { fn expand(&self) { self.detail(); } const LIMIT: usize = 3; }')
+        helper = self.root / 'crates/solver/src/helper.rs'
+        helper.write_text('use crate::Score;\nimpl Score { fn detail(&self) {} }')
+        selected = '@rust-library:crates/solver/src/extension.rs'
+        (self.root / entry).write_text('use timetuck::*; fn run(s: Search) { s.expand(); }')
+        self.assertNotIn(selected, rust_test_inputs(entry, self.root))
+        (self.root / 'crates/solver/src/search.rs').write_text('pub struct Search;\npub fn factory() -> crate::score::Score { todo!() }')
+        (self.root / entry).write_text('use timetuck::*; fn run() { factory().expand(); }')
+        inputs = rust_test_inputs(entry, self.root)
+        self.assertIn(selected, inputs)
+        self.assertIn('@rust-library:crates/solver/src/helper.rs', inputs)
+        (self.root / entry).write_text('use timetuck::score::Score; fn run() { let _ = Score::LIMIT; }')
+        self.assertIn(selected, rust_test_inputs(entry, self.root))
+
+    def test_private_child_symbols_and_relative_imports_are_followed(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        score = self.root / 'crates/solver/src/score.rs'
+        score.write_text('mod helpers; use helpers::value; pub struct Score; fn internal() { value(); }')
+        helper = self.root / 'crates/solver/src/score/helpers.rs'
+        helper.parent.mkdir()
+        helper.write_text('pub(super) fn value() {}')
+        self.assertIn('@rust-library:crates/solver/src/score/helpers.rs', rust_test_inputs(entry, self.root))
+        score.write_text('mod helpers; pub struct Score; fn internal() { helpers::value(); }')
+        self.assertIn('@rust-library:crates/solver/src/score/helpers.rs', rust_test_inputs(entry, self.root))
+
+    def test_macro_generated_inherent_members_remain_conservative(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        (self.root / 'crates/solver/src/lib.rs').write_text('pub mod score; mod extension;')
+        extension = self.root / 'crates/solver/src/extension.rs'
+        extension.write_text('impl Score { generate_members!(); }')
+        self.assertIn('@rust-library:crates/solver/src/extension.rs', rust_test_inputs(entry, self.root))
+
+    def test_module_declaration_projection_preserves_literals_and_attributes(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        score = self.root / 'crates/solver/src/score.rs'
+        score.write_text('pub struct Score; const TEXT: &str = r#"mod unused;"#;')
+        before = self.key(entry)
+        score.write_text(score.read_text().replace('mod unused;', 'mod changed;'))
+        self.assertNotEqual(before, self.key(entry))
+        score.write_text('pub struct Score; #[cfg(feature="one")] mod child;')
+        before = self.key(entry)
+        score.write_text(score.read_text().replace('"one"', '"two"'))
+        self.assertNotEqual(before, self.key(entry))
+
+    def test_standard_library_paths_do_not_select_local_name_collisions(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score; use std::{error::Error, mem}; fn f() { std::mem::drop(Score); }')
+        (self.root / 'crates/solver/src/search.rs').write_text('pub fn error() {}\npub fn mem() {}')
+        self.assertNotIn('@rust-library:crates/solver/src/search.rs', rust_test_inputs(entry, self.root))
+
+    def test_attributed_child_modules_keep_implicit_macro_dependencies(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::score::Score;')
+        score = self.root / 'crates/solver/src/score.rs'
+        score.write_text('pub struct Score; #[macro_use] mod helpers;')
+        helper = self.root / 'crates/solver/src/score/helpers.rs'
+        helper.parent.mkdir()
+        helper.write_text('macro_rules! hidden { () => { 1 }; }')
+        before = self.key(entry)
+        self.assertIn('@rust-library:crates/solver/src/score/helpers.rs', rust_test_inputs(entry, self.root))
+        helper.write_text(helper.read_text().replace('1', '2'))
+        self.assertNotEqual(before, self.key(entry))
+
+    def test_foreign_traits_still_follow_the_type(self):
         entry = 'crates/solver/tests/a.rs'
         (self.root / entry).write_text('use timetuck::score::Score;')
         (self.root / 'crates/solver/src/lib.rs').write_text(
@@ -199,7 +296,7 @@ class InputTests(unittest.TestCase):
         extension = self.root / 'crates/solver/src/extension.rs'
         before = self.key(entry)
         for header in ['impl Clone for Score', 'impl std::fmt::Display for Score',
-                       'impl<T: Clone> From<T> for Score', 'impl Score']:
+                       'impl<T: Clone> From<T> for Score']:
             extension.write_text(header + ' {}')
             self.assertNotEqual(before, self.key(entry))
             self.assertIn('@rust-library:crates/solver/src/extension.rs',

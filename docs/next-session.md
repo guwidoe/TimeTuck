@@ -16947,3 +16947,30 @@ Existing provenance prefixes unchanged; appended2cases and0fixtures.
 Log work/stable-flat-map-final-check.log; evidence work/stable-flat-map-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
 Final selective gate19106 and evidence50327 terminal0; no live sessions.
+
+## Select unused extension methods out of verification hashes
+
+Tool-only change: verification_inputs now keys inherent extension dependencies
+by referenced receiver+member, follows referenced plain child modules, and projects
+plain module declarations out of library content hashes. Module attributes remain
+hashed; attributed children (cfg/path/macro_use), literal includes, foreign-trait
+implementations and macro-generated members retain conservative tracking.
+Relative imports/qualified module references are followed; std/core/alloc paths
+including nested imports do not collide with local function/module names. Private
+receiver names such as Node do not create cross-module inherent dependencies.
+Development heuristic only, not Rust name resolution. Existing source/API checks
+remain broad; shared runtime edits still select dependents.
+Focused tests caught intended old broad-expectation changes and an included-data
+lookup issue. Real-target probing also exposed private-name and nested std import
+collisions; fixed before final validation.
+Full Python suite46109 terminal0:279 tests, including34 cache tests (7new).
+No Rust sources changed, so no Rust/benchmark/browser reruns. Existing logs/cache
+records were not rewritten or relabeled. Scanner changes invalidate old cache keys;
+next Rust batch required gate establishes fresh keys. Last solver verification
+remains commit9acbe8f (4815Rust/236docs,2876of4855=59.238%).
+Real-target mutation probe99752 terminal0, work/method-inputs-probe.json:
+cancellation selects127 library modules vs165 and ignores both unused expansion
+modules; stable_flat_map_cases stays11 and tracks only its node; graph regression
+selects129vs165 and tracks both node and graph adapter. Read-only simulated edits
+verify precisely those invalidations; no production files modified by probing.
+Python log work/method-inputs-python.log. Goal remains active; no live sessions.
