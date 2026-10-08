@@ -218,6 +218,13 @@ impl<I: Iterator, F: FnMut(&I::Item) -> bool> FusedIterator for Screened<'_, I, 
 impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&P, &A, u64, &M) -> bool> MoveProvider<P, A, M>
     for FilteredMoveProvider<Q, F>
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.provider.event(event);
+    }
+    fn construction_placement_completed(&mut self, installed: bool) -> bool {
+        self.provider.construction_placement_completed(installed)
+    }
+
     fn moves<'a>(
         &'a mut self,
         problem: &'a P,

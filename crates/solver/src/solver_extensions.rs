@@ -6,7 +6,8 @@ use std::collections::BTreeMap;
 /// Construction and local-search phases can be bound. Other phases retain their
 /// built-in selection. A construction provider replaces placement/component order
 /// with one candidate pool per step. Provider state survives repeated phases/solves;
-/// step indices restart at zero in each phase. Callers own provider resets.
+/// step indices restart at zero in each phase. Engine lifecycle events are automatic;
+/// providers choose how to reset, or use PhaseResetMoveProvider for an explicit policy.
 pub struct PhaseMoveProviders<'a, P, A, M> {
     /// Maximum raw proposals per bound construction phase, including rejected
     /// moves. Defaults to 100,000. Does not affect local-search providers.

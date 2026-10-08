@@ -18,6 +18,9 @@ pub enum PlacementQueueOrder {
 /// Callbacks and iterator polling are cooperative, just like MoveProvider.
 /// Closures returning Vec<M> implement this trait for convenience.
 pub trait PlacementMoveFactory<P, A, K, M> {
+    /// Forwarded from the queue's enclosing provider phase/scan, not per key.
+    fn event(&mut self, _event: crate::MoveProviderEvent) {}
+
     fn candidates<'a>(
         &mut self,
         problem: &'a P,
@@ -51,8 +54,9 @@ impl<P, A, K, M, F: FnMut(&P, &A, &K) -> Vec<M>> PlacementMoveFactory<P, A, K, M
 /// placement. Repeating the counter retries the same key with fresh candidates;
 /// decreasing it rewinds the queue. Call reset explicitly for a new phase/solve
 /// whose counter equals the previous one, or to revisit a once-exhausted queue.
-/// No selector lifecycle events are fabricated or inferred; deliver any required
-/// events to the factory explicitly through factory_mut().
+/// Engine lifecycle events are forwarded to the factory. Wrap this provider in
+/// PhaseResetMoveProvider to rewind automatically at every entered phase; the
+/// default preserves queue state for resumable calls.
 ///
 /// Use with construction_from_with_provider or bind to a construction phase's
 /// move provider. All ordinary scoring, atomic interruption and pin validation
@@ -122,6 +126,9 @@ impl<K, F> QueuedMoveProvider<K, F> {
 impl<P, A, M, K, F: PlacementMoveFactory<P, A, K, M>> MoveProvider<P, A, M>
     for QueuedMoveProvider<K, F>
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.factory.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         if installed {
             self.unproductive = None;

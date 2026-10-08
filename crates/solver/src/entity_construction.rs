@@ -146,6 +146,9 @@ impl<'p, V: Clone + Eq> EntityConstruction<'p, V> {
 impl<V: Clone + Eq> MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>
     for EntityConstruction<'_, V>
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.queue.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         self.queue.construction_placement_completed(installed)
     }
@@ -169,6 +172,9 @@ impl<B: Clone + Eq, L: Clone + Eq>
     MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>
     for EntityConstruction<'_, B>
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.queue.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         self.queue.construction_placement_completed(installed)
     }

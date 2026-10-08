@@ -605,7 +605,7 @@ pub(crate) fn search_impl_with_provider<V: Eq + Clone, S: AdditiveScore, D: Sear
     config: LocalSearchConfig<S>,
     create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
-    mut provider: Option<
+    provider: Option<
         &mut dyn crate::MoveProvider<FiniteProblem<V>, crate::Assignment<V>, crate::Move<V>>,
     >,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError>
@@ -657,6 +657,7 @@ where
         }
         assignment
     });
+    let mut provider = crate::move_provider::ProviderPhase::new(provider);
     let mut director = create(initial)?;
     let mut acceptor = config.start_acceptance(director.score(), problem.variables().len())?;
     let mut random = match config.move_order {
@@ -696,6 +697,7 @@ where
         }
         // Snapshot decouples lazy enumeration from the director's transaction.
         // Original order stays lazy; optional candidate shuffling has bounded lookahead.
+        provider.start_step();
         let snapshot = director.assignment().clone();
         let mut order: Vec<_> = if provider.is_none() {
             (0..problem.variables().len()).collect()
@@ -707,7 +709,7 @@ where
         {
             random.shuffle(&mut order);
         }
-        let candidates = match provider.as_deref_mut() {
+        let candidates = match provider.provider() {
             Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
                 problem,
                 &snapshot,
@@ -799,6 +801,7 @@ where
         if config.assert_scores {
             director.assert_consistent()?;
         }
+        provider.end_step();
         if notify_improvement {
             director.notify_best(|_| true);
         }

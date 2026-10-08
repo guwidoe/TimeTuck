@@ -168,6 +168,9 @@ impl<'p, V: Eq + Clone> SortedBasicConstruction<'p, V> {
 impl<V: Eq + Clone> MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>
     for SortedBasicConstruction<'_, V>
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.queue.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         self.queue.construction_placement_completed(installed)
     }
@@ -307,6 +310,9 @@ impl<'p, V: Eq + Clone> SortedListConstruction<'p, V> {
 impl<V: Eq + Clone> MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>
     for SortedListConstruction<'_, V>
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.queue.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         self.queue.construction_placement_completed(installed)
     }
@@ -419,6 +425,9 @@ where
     EC: FnMut(usize, usize) -> Ordering,
     VC: FnMut(&V, &V) -> Ordering,
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.inner.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         self.inner.construction_placement_completed(installed)
     }
@@ -463,6 +472,9 @@ where
     EC: FnMut(usize, usize) -> Ordering,
     VC: FnMut(&V, &V) -> Ordering,
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.inner.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         self.inner.construction_placement_completed(installed)
     }

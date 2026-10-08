@@ -18,7 +18,8 @@ impl Error for EmptyMoveProviders {}
 /// Construction retains providers without invoking them. Each moves call opens a
 /// union for the current immutable assignment and completed-step index; a child
 /// factory runs only when first selected. Disabled children are never called.
-/// Dropping the union iterator drops its child cursors.
+/// Dropping the union iterator drops its child cursors. Lifecycle events reach
+/// every enabled child, even one whose lazy cursor was never opened.
 ///
 /// Positive weights affect random child choice, not ordering within a child.
 /// Random seeds advance by completed_steps with wrapping addition. Sequential
@@ -50,6 +51,14 @@ impl<'p, P, A, M> ProviderUnion<'p, P, A, M> {
     }
 }
 impl<P, A, M> MoveProvider<P, A, M> for ProviderUnion<'_, P, A, M> {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        for (provider, weight) in &mut self.children {
+            if *weight != 0 {
+                provider.event(event);
+            }
+        }
+    }
+
     fn moves<'a>(
         &'a mut self,
         problem: &'a P,

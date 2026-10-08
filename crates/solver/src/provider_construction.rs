@@ -373,6 +373,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         result.termination = reason;
         return Ok(result);
     }
+    let mut provider = crate::move_provider::ProviderPhase::new(Some(provider));
     let mut director = create(result.assignment.clone())?;
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_evaluations();
@@ -400,8 +401,13 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         if result.scanned_moves == config.max_scanned_moves {
             break Stop::ScanLimit;
         }
+        provider.start_step();
         let base = director.assignment().clone();
-        let mut proposals = provider.moves(shape.problem(), &base, result.completed_steps);
+        let mut proposals = provider.provider().expect("construction provider").moves(
+            shape.problem(),
+            &base,
+            result.completed_steps,
+        );
         let stopped = Cell::new(None);
         let mut no_change = (config.optional == OptionalConstruction::EvaluateUnassigned
             && shape.remaining(&base, config.optional)
@@ -462,7 +468,12 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
             director.assert_consistent()?;
         }
         drop(proposals);
-        let continue_placements = completed && provider.construction_placement_completed(installed);
+        let continue_placements = completed
+            && provider
+                .provider()
+                .expect("construction provider")
+                .construction_placement_completed(installed);
+        provider.end_step();
         if installed {
             director.notify_best(|a| shape.complete(a));
         }

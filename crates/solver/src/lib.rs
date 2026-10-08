@@ -518,7 +518,7 @@ mod change_product;
 pub use change_product::change_product_moves;
 
 mod move_provider;
-pub use move_provider::MoveProvider;
+pub use move_provider::{MoveProvider, MoveProviderEvent, PhaseResetMoveProvider};
 mod queued_move_provider;
 pub use queued_move_provider::{PlacementMoveFactory, PlacementQueueOrder, QueuedMoveProvider};
 mod provider_search;

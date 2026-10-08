@@ -17625,3 +17625,53 @@ Final gate96398 TERMINAL0; warm95468 TERMINAL0 built162 uncached remaining targe
 in1m39s without writing verification evidence. Evidence55557 records final report
 freshness. No benchmark refresh or frontend/browser rerun. All verification handles
 terminal; full goal remains active.
+
+## Provider lifecycle boundaries
+
+Baseline2efc862. New MoveProvider::event and MoveProviderEvent provide native
+PhaseStarted/StepStarted/StepEnded/PhaseEnded notifications. ProviderPhase owns
+optional provider borrows in the shared basic/list/mixed search engines and the
+common provider-construction kernel. Preflight failures, zero score budgets and
+pre-initialization cancellation produce no events. Entered phases bracket director
+creation; returned errors close any open scan and phase. Step events count scan
+attempts, including empty/rejected/discarded scans, not completed solver steps.
+Successful StepEnded follows candidate destruction, winner installation/rollback,
+accounting, consistency checks and construction completion; before best observers.
+No callbacks run during panic unwinding; ordinary destructors still execute. User
+callbacks should not panic; caller must reset affected state after a caught panic.
+
+Events forward through enabled ProviderUnion children (even unopened cursors;
+zero-weight children stay untouched), filters, construction wrappers, both mixed
+components, QueuedMoveProvider and PlacementMoveFactory. FilteredMoveProvider also
+now forwards construction_placement_completed, fixing premature termination after
+optional rejection. PhaseResetMoveProvider supplies an explicit reset callback
+before child PhaseStarted, with accessors and normal completion forwarding.
+Default queue/mixed scheduling remains resumable; opt-in resets do not silently
+change existing counter semantics. No whole-solve events or automatic adaptation
+of SelectionCache contexts; these remain separate follow-up integration work.
+
+Seven original native regressions cover all9 backend phase bindings with fresh
+phase diagnostics (no extra provider events), lazy-cursor destruction, committed
+calculator state, initial calculator failure, invalid search moves, empty/discarded
+scans, zero budgets/cancellation, panic behavior, optional rejection through filters,
+phase resets on repeated solves, mixed queue factory forwarding, and lazy/disabled
+union children. Focused53748 TERMINAL0: 7 new, 7 queue, 5 mixed provider and existing
+move-provider tests. Earlier compilation issues were new-fixture API/lifetime
+bounds; an all-zero objective needed HillClimbing to accept equal-score moves.
+No upstream production read or provenance additions. Required gate22509 runs on
+frozen Rust. No benchmarks refreshed or UI behavior changed.
+
+Required provider-lifecycle gate TERMINAL0. 4891 Rust tests and 242 doctests passed.
+Rust jobs: {'RUN': 582, 'REUSE': 67}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 5b140ff88bfe8dfd30beee24a0f60b005940fb0ae3803f876b80fd3a534ee561
+Live freshness matched verification digest: cb397a98076ccd56aa451aa3e6c94289978e0005bf760c283f43bc5710e3834f.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/provider-lifecycle-final-check.log; evidence work/provider-lifecycle-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Final gate22509 TERMINAL0, log wall window 506s. Warm8202 TERMINAL0
+compiled572 uncached remaining targets in2m18s without writing evidence; it overlapped
+the gate. Evidence11230 TERMINAL0 confirms live freshness. Focused53748 TERMINAL0;
+all verification handles consumed. Prior failed compile/focused82025/95093/7313/97789
+TERMINAL101; successful final state covered by gate. No benchmark or browser rerun.

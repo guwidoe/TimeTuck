@@ -44,7 +44,9 @@ fn open<'a, P, A, M: 'a>(
 /// The outer moves counter is intentionally ignored: child state survives a
 /// budget-limited solve resumed from its returned assignment, whose counter starts
 /// at zero again. Use reset_with before an independent phase or fresh solve; the
-/// callback resets child-specific caches/queues explicitly. Match the children's
+/// callback resets child-specific caches/queues explicitly.
+/// Phase/scan events reach both children, including the inactive component. Wrap
+/// this provider in PhaseResetMoveProvider to reset_with automatically. Match the
 /// optional policy to the mixed phase. Only the bound problem may be used.
 ///
 /// ```
@@ -113,6 +115,10 @@ where
     BP: MoveProvider<FiniteProblem<B>, Assignment<B>, Move<B>>,
     LP: MoveProvider<ListProblem<L>, ListAssignment<L>, ListMove<L>>,
 {
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        self.basic.event(event);
+        self.lists.event(event);
+    }
     fn construction_placement_completed(&mut self, installed: bool) -> bool {
         let Some(basic) = self.active.take() else {
             return false;

@@ -17,6 +17,11 @@
 /// Closures returning Vec<M> implement this trait for convenience. Implement the
 /// trait directly to return lazy iterators borrowing the current snapshot.
 pub trait MoveProvider<P, A, M> {
+    /// Receive real engine phase/scan boundaries. Direct calls to moves() do not
+    /// synthesize events. Defaults to no state change, preserving resumable queues.
+    /// Callbacks must return promptly and should not panic.
+    fn event(&mut self, _event: MoveProviderEvent) {}
+
     /// Construction-only notification after a nonempty completed placement scan.
     /// KeepBestPrefix counts interrupted nonempty scans as completed steps;
     /// discarded atomic scans do not call this hook. Return true to try another
@@ -58,6 +63,116 @@ impl<M, I: Iterator<Item = M>> Iterator for ProvidedMoves<'_, M, I> {
         match self {
             Self::BuiltIn(i) => i.next(),
             Self::Custom(i) => i.next(),
+        }
+    }
+}
+
+/// Lifecycle of one provider-backed construction or local-search phase.
+/// There are no whole-solve events: each standalone engine invocation is a phase,
+/// and solver sequences deliver these only to providers whose phase is entered.
+/// No events are emitted for failed preflight validation, a zero scoring budget or cancellation
+/// detected before initialization. PhaseStarted precedes director creation; errors
+/// returned afterward still close the phase. A scored phase may have no scans.
+///
+/// Step events bracket a candidate scan, including empty, rejected and discarded
+/// scans; they do not imply a completed solver step. StepEnded follows iterator
+/// destruction, move commit/rollback, consistency checks and construction completion
+/// notification, before best-solution observers. A returned error closes an open
+/// scan and phase. During panic unwinding no further callbacks run; owners must
+/// reset affected provider state before reuse. Ordinary Rust destructors still run.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum MoveProviderEvent {
+    PhaseStarted,
+    StepStarted,
+    StepEnded,
+    PhaseEnded,
+}
+
+/// Reset a provider automatically at each entered phase, before forwarding its
+/// PhaseStarted event. This is opt-in: ordinary providers may intentionally retain
+/// scheduling state across budget-limited calls. The reset callback can also clear
+/// application caches. All move and construction-completion behavior is delegated.
+pub struct PhaseResetMoveProvider<Q, F> {
+    provider: Q,
+    reset: F,
+}
+impl<Q, F: FnMut(&mut Q)> PhaseResetMoveProvider<Q, F> {
+    pub fn new(provider: Q, reset: F) -> Self {
+        Self { provider, reset }
+    }
+    pub fn provider(&self) -> &Q {
+        &self.provider
+    }
+    pub fn provider_mut(&mut self) -> &mut Q {
+        &mut self.provider
+    }
+    pub fn into_inner(self) -> Q {
+        self.provider
+    }
+}
+impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&mut Q)> MoveProvider<P, A, M>
+    for PhaseResetMoveProvider<Q, F>
+{
+    fn event(&mut self, event: MoveProviderEvent) {
+        if event == MoveProviderEvent::PhaseStarted {
+            (self.reset)(&mut self.provider);
+        }
+        self.provider.event(event);
+    }
+    fn construction_placement_completed(&mut self, installed: bool) -> bool {
+        self.provider.construction_placement_completed(installed)
+    }
+    fn moves<'a>(&'a mut self, p: &'a P, a: &'a A, step: u64) -> Box<dyn Iterator<Item = M> + 'a>
+    where
+        M: 'a,
+    {
+        self.provider.moves(p, a, step)
+    }
+}
+
+/// Own the callback boundary independently of the borrowed candidate iterator.
+/// Dropping an iterator alone is too early: the director has not installed its
+/// winner yet. Engines explicitly end scans after selection and accounting.
+pub(crate) struct ProviderPhase<'r, 'p, P, A, M> {
+    provider: Option<&'r mut (dyn MoveProvider<P, A, M> + 'p)>,
+    step: bool,
+}
+impl<'r, 'p, P, A, M> ProviderPhase<'r, 'p, P, A, M> {
+    pub(crate) fn new(provider: Option<&'r mut (dyn MoveProvider<P, A, M> + 'p)>) -> Self {
+        let mut phase = Self {
+            provider,
+            step: false,
+        };
+        phase.event(MoveProviderEvent::PhaseStarted);
+        phase
+    }
+    pub(crate) fn is_none(&self) -> bool {
+        self.provider.is_none()
+    }
+    pub(crate) fn provider(&mut self) -> Option<&mut (dyn MoveProvider<P, A, M> + 'p)> {
+        self.provider.as_deref_mut()
+    }
+    fn event(&mut self, event: MoveProviderEvent) {
+        if let Some(p) = &mut self.provider {
+            p.event(event);
+        }
+    }
+    pub(crate) fn start_step(&mut self) {
+        debug_assert!(!self.step);
+        self.step = true;
+        self.event(MoveProviderEvent::StepStarted);
+    }
+    pub(crate) fn end_step(&mut self) {
+        if std::mem::take(&mut self.step) {
+            self.event(MoveProviderEvent::StepEnded);
+        }
+    }
+}
+impl<P, A, M> Drop for ProviderPhase<'_, '_, P, A, M> {
+    fn drop(&mut self) {
+        if !std::thread::panicking() {
+            self.end_step();
+            self.event(MoveProviderEvent::PhaseEnded);
         }
     }
 }

@@ -4566,3 +4566,12 @@ each scored phase output in all nine model/backend paths, before handoff and
 initialization notification. Original corruption, budget, event, failure and
 controlled-time regressions verify the behavior. It remains opt-in and is not
 full Timefold environment-mode compatibility; no additional source method credit.
+
+Native move providers now receive automatic phase and candidate-scan boundaries
+from construction and local search in all nine solver backends. Notifications
+forward through filters, enabled union children, mixed component providers,
+construction queues and placement factories. Optional phase resets preserve the
+existing default of resumable provider state. Returned errors close open scopes;
+panic unwinding skips user callbacks. These are native phase/scan events, not
+Timefold whole-solve selector lifecycle equivalence or automatic SelectionCache
+context adaptation, and confer no additional upstream test credit.

@@ -168,7 +168,7 @@ pub(crate) fn search_impl_with_provider<
     config: LocalSearchConfig<S>,
     make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
-    mut provider: Option<
+    provider: Option<
         &mut dyn crate::MoveProvider<ListProblem<V>, crate::ListAssignment<V>, crate::ListMove<V>>,
     >,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError>
@@ -204,6 +204,7 @@ where
         result.termination = LocalSearchTermination::Cancelled;
         return Ok(result);
     }
+    let mut provider = crate::move_provider::ProviderPhase::new(provider);
     let mut director = make_director(initial)?;
     let mut acceptor = config.start_acceptance(director.score(), problem.entities().len())?;
     let mut random = match config.move_order {
@@ -241,6 +242,7 @@ where
             result.termination = reason;
             return Ok(result);
         }
+        provider.start_step();
         let snapshot = director.assignment().clone();
         let mut order: Vec<_> = if provider.is_none() {
             (0..problem.entities().len()).collect()
@@ -252,7 +254,7 @@ where
         {
             random.shuffle(&mut order);
         }
-        let moves = match provider.as_deref_mut() {
+        let moves = match provider.provider() {
             Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
                 problem,
                 &snapshot,
@@ -337,6 +339,7 @@ where
         if config.assert_scores {
             director.assert_consistent()?;
         }
+        provider.end_step();
         if notify_improvement {
             director.notify_best(|_| true);
         }
