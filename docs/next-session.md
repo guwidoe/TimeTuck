@@ -17445,3 +17445,60 @@ All verification and measurement handles are terminal; dashboard server stays li
 Goal remains active. Next optional batching-overhead patch is still unapplied and
 unverified in work/batched-join-transient-candidates.patch; do not reuse these
 verification or timing results after applying it.
+
+## Compact indexed join batches
+
+Baseline 927d56c. Added JoinNode::apply_batch in incremental_stream/join_batch.rs:
+collect final updates per side, stage persistent input/index roots, discover old
+and new matching pairs through equality/range indexes, emit one sorted final
+change per candidate, then install roots. No expanded persistent pair cache.
+Graph join_equal_batched/join_compare_batched enable score-director batching and
+retain ordinary direct-apply semantics. Existing checkpoints, source activity,
+consistency rebuild and rollback use the compact state. Stream benchmark equality
+joins now select this adapter. Applied the earlier transient BTreeSet candidate
+patch to filtered BatchedJoinNode as well; persistent filtered-pair state is intact.
+
+Six native regressions: 1,200 standalone rounds against independent pair scans,
+1,000 graph rounds across all five comparisons with pruning on/off and rollback,
+self-join final-payload scoring and sink-panic rollback, last-row projections and
+iterator/projection failure recovery, 200 clone/comparison fault budgets, and
+875 dense matches retaining only 60 input payloads after output release. Final
+focused68034 TERMINAL0; existing batched-join cases/regressions also pass. An initial
+syntax error in the new test was fixed before this successful run. No upstream
+production source inspected or translated, no new provenance entries. Dependency
+inspection confirms both new implementation files are included in stream-performance
+input hashes. Prior timing retained at work/stream-performance-filtered-batches-927d56c.json.
+Full required gate follows; no timing claim yet. Freeze Rust while it runs.
+
+Required indexed-batches gate53872 TERMINAL0: 4864 Rust tests and 241 doctests pass;
+578 Rust jobs ran, 67 reused, all 46 Python jobs reused. Warm18368 TERMINAL0 in
+2m23s; the warm build covered only remaining targets after the gate's initial jobs.
+No verification workers remain. Stream measurement39240 is running with the same
+50-step, 1-warmup, 3-sample, 2-process settings as baseline 927d56c. Do not rerun
+unrelated benchmarks or correctness checks on these unchanged inputs.
+
+Required indexed-batches gate TERMINAL0. 4864 Rust tests and 241 doctests passed.
+Rust jobs: {'RUN': 578, 'REUSE': 67}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 30aaba64babbc7c68a92c5ec964dfd5d9abdf1ee671ab32e6f0a3d8992713768
+Live freshness matched verification digest: 7519beef240fe226b5f1eb466f6cf504a3c72db103eabc13a668b992846b2ff5.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/indexed-batches-final-check.log; evidence work/indexed-batches-evidence.json.
+Only stream performance refreshed; unrelated measurements retained. No browser rerun for this report-only refresh. Goal remains active.
+
+Compact indexed measurement39240 TERMINAL0. All 128 generated cases are valid and
+match Java scores; each runtime reaches 115 independently enumerated optima. All
+8 timed workloads match Java scores and retain the prior Rust scoring-callback
+counts. Same cases, algorithms, 50 steps, 1 warmup, 3 samples and 2 processes as
+baseline 927d56c. Rust/Java medians (milliseconds):
+- Hill/change32 76.696/50.578; change96 279.525/121.749.
+- Tabu/change32 79.314/62.874; change96 261.050/106.284.
+- Hill/swap32 533.830/90.329; swap96 5520.717/378.849.
+- Tabu/swap32 497.386/98.037; swap96 5684.419/413.067.
+Observed speed ratios against the previous Rust run range 1.395–1.772 (28–44% less
+time). Java remains faster. All timing caveats from the limited development sample
+remain; no general solver speed claim. No unrelated benchmark refreshed.
+The previous transient-candidate draft is now applied and covered by this batch;
+do not apply it again. New compact join batching is also implemented and verified.
+Report/evidence session83104 records final source/freshness. No frontend change or
+browser rerun; original-suite percentage remains 59.382%, with no new method credit.

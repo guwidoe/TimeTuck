@@ -31,12 +31,12 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
     })?;
     let edges = b.source::<usize, (usize, usize, usize)>();
     let a = if batched {
-        b.join_batched(edges.port(), &jobs, |e| e.1, |j: &Job| j.0, |_, _| true)?
+        b.join_equal_batched(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?
     } else {
         b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?
     };
     let ab = if batched {
-        b.join_batched(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0, |_, _| true)?
+        b.join_equal_batched(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0)?
     } else {
         b.join_equal(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0)?
     };

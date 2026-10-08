@@ -27,6 +27,7 @@
 //! assert_eq!(score.score(), SimpleScore::ZERO);
 //! ```
 
+mod join_batch;
 mod partitioned;
 pub use partitioned::{JoinPartitionState, PartitionedJoinNode};
 

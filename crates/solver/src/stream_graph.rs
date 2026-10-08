@@ -30,6 +30,7 @@
 //! ```
 
 mod activity;
+mod indexed_batch;
 mod stable_flat_map;
 use activity::ActivityRule;
 pub use activity::{NodeActivity, StreamActivity};

@@ -1,6 +1,7 @@
 //! Atomic join rounds with coalesced inputs and one predicate check per pair.
 use super::{JoinComparison, JoinSide};
 use crate::{SnapshotMap, TupleChange, TupleLifecycleEvent};
+use std::collections::BTreeSet;
 
 /// Eager evaluates each input on enqueue; Deferred evaluates only the last value
 /// of each changed ID at propagation. Both publish only final round events.
@@ -134,17 +135,17 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         let mut next = state.clone();
         update_side(&mut next.left, left, &self.left_key);
         update_side(&mut next.right, right, &self.right_key);
-        let mut candidates = SnapshotMap::new();
+        let mut candidates = BTreeSet::new();
         for s in [state, &next] {
             collect_affected(&s.left, &s.right, left, |i, j| {
-                candidates.insert((i, j), ());
+                candidates.insert((i, j));
             });
             collect_affected(&s.right, &s.left, right, |j, i| {
-                candidates.insert((i, j), ());
+                candidates.insert((i, j));
             });
         }
         let mut dirty = SnapshotMap::new();
-        for (id, _) in &candidates {
+        for id in &candidates {
             let pair = next
                 .left
                 .rows

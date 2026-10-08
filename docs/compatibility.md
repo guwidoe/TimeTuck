@@ -4529,3 +4529,21 @@ timed workloads with matching Java/Rust scores. Observed swap solve times are
 roughly half those in the preceding directed run under the same step/warmup/sample
 settings; Java remains faster. These limited-sample development measurements are
 not a general speed guarantee or additional upstream-method credit.
+
+`JoinNode::apply_batch` now stages both input indexes and publishes one final
+change per affected pair for equality and all four ordered comparisons. The join
+retains input rows/indexes without a persistent expanded-pair cache; dense rounds
+can still require quadratic temporary candidate/output buffers. Repeated IDs use
+the last input before projection. Callback, clone, ordering and input-iterator
+panics leave committed indexes unchanged, excluding panicking destructors and
+external callback side effects.
+`join_equal_batched` and `join_compare_batched` integrate this path with graph
+activity, checkpoints, rollback and score-director batching. The filtered
+`join_batched` operator retains its residual-predicate behavior and now uses a
+transient ordered candidate set. The stream benchmark uses compact equality joins.
+Six original regressions cover independent scans, immediate/batched interoperation,
+self joins, rollback, faults and payload retention; no upstream-method credit.
+A fresh stream comparison retains matching Java/Rust scores in all 128 generated
+validation cases and all 8 timed workloads. Scoring-callback counts match the prior
+Rust run, while observed solve times are 28–44% lower with compact indexed batches.
+These development measurements use limited warmup/samples; Java remains faster.
