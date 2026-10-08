@@ -4682,3 +4682,12 @@ unrelated value comparisons across all six backends, invalid external input rema
 rejected, and final pin/range/global-cycle violations roll back atomically while
 restored intermediate violations remain permitted. Existing transaction, calculator,
 dependency and sampled-provider regressions also pass. No upstream credits added.
+
+The remaining seven ScoreUtil decimal utility methods now have complete native
+adaptations: nonnegative output scale and floor-rounded multiplication, division,
+and integral powers, including negative scientific-notation scales. Exact decimal
+operands replace terminating doubles; exponents are nonnegative integers. This
+establishes these cases, not general floating-point conversion or fractional powers.
+Six EmptyValueRange methods use an empty native enumerated range. Missing indexed
+values return None; sorting returns an immutable empty copy without invoking its
+comparator. Java exception types and singleton identity are not native API promises.

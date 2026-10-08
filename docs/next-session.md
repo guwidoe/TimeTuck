@@ -18728,3 +18728,32 @@ Live freshness matched verification digest: 1c897c6e2129f2fd46ea87fc790979001a35
 Prior ledger records unchanged; added no provenance records or upstream method credits.
 Log work/list-validation-final-check.log; evidence work/list-validation-evidence.json.
 Only the matched list performance comparison refreshed; other measurements retain their freshness status. Native before/after release comparison is separate. No browser rerun for this report-only refresh. Goal remains active.
+
+## Decimal utilities and empty ranges
+
+Baseline5b03b54; goal remains active. Public Decimal arithmetic_scale,
+multiply_floor, divide_floor and power_floor expose existing native score kernels.
+Algorithms unchanged apart from a shared nonnegative scale helper. Seven complete
+ScoreUtilTest adaptations preserve representation-sensitive decimal assertions;
+six EmptyValueRangeTest adaptations use native Option/immutable sorted-copy
+contracts, explicitly documented in provenance. Two original decimal regressions
+cover negative flooring, receiver precision, zero representations and zero powers.
+Added13 case records, no fixtures; previous ledger records unchanged.
+Focused12048 TERMINAL0,15tests. Then strengthened the zero-product assertion before
+the final gate. Formatter passed; final gate44102 TERMINAL0 against frozen Rust,
+tests, tools and provenance; log work/decimal-empty-final-check.log. Do not repeat
+checks solely after a new turn. No benchmark needed for identical arithmetic
+kernels becoming public; historical performance must retain normal freshness.
+
+Required decimal-empty gate TERMINAL0. 5026 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 681}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 2929, 'failed': 0, 'pending': 1644, 'excluded': 282, 'unverified': 0, 'percent': 60.33}.
+Source before/after matched: 1108ad277ed8c79d711240080d95dc3f192dc473d6082a997f1691ca8658547a
+Live freshness matched verification digest: b3256d0822301729e8bfc774526d1e99b208393fc7c155fb20ca691eabe01e0d.
+Prior ledger records unchanged; added 13 provenance cases and upstream method credits.
+Log work/decimal-empty-final-check.log; evidence work/decimal-empty-evidence.json.
+No benchmarks refreshed; prior performance measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Parallel compile-only36242 TERMINAL0,1m42s, overlapping the final gate.
+Staged source/test/provenance changes reviewed. No broad rerun after successful
+completion. Goal remains incomplete; preserve performance as a core priority.

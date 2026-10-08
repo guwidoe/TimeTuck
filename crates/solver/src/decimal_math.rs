@@ -124,19 +124,32 @@ impl Decimal {
             .ok_or(DecimalArithmeticError::ScaleOverflow)?;
         Ok(Self::new(self.coefficient() * factor.coefficient(), scale))
     }
-    pub(crate) fn multiply_floor(&self, factor: &Self) -> Result<Self, DecimalArithmeticError> {
-        let scale = self.scale().max(0);
+    /// Output scale for floor-rounded score arithmetic: retain fractional digits,
+    /// but clamp a negative scientific-notation scale to zero. Does not rescale
+    /// or otherwise change this decimal's representation.
+    pub fn arithmetic_scale(&self) -> i32 {
+        self.scale().max(0)
+    }
+    /// Multiply exactly, then floor toward negative infinity at arithmetic_scale().
+    /// The factor's scale does not set the output precision. Unlike multiply_exact,
+    /// this may discard fractional digits. Very large scale shifts can return
+    /// ScaleOverflow; coefficient storage is bounded only by available memory.
+    pub fn multiply_floor(&self, factor: &Self) -> Result<Self, DecimalArithmeticError> {
+        let scale = self.arithmetic_scale();
         let coefficient = rescale(
             self.coefficient() * factor.coefficient(),
             i64::from(scale) - i64::from(self.scale()) - i64::from(factor.scale()),
         )?;
         Ok(Self::new(coefficient, scale))
     }
-    pub(crate) fn divide_floor(&self, divisor: &Self) -> Result<Self, DecimalArithmeticError> {
+    /// Divide and floor toward negative infinity at arithmetic_scale().
+    /// Returns DivisionByZero for any zero representation, including 0.00, and
+    /// ScaleOverflow for unsupported scale shifts. No floating-point conversion.
+    pub fn divide_floor(&self, divisor: &Self) -> Result<Self, DecimalArithmeticError> {
         if divisor.coefficient() == &BigInt::ZERO {
             return Err(DecimalArithmeticError::DivisionByZero);
         }
-        let scale = self.scale().max(0);
+        let scale = self.arithmetic_scale();
         if self.coefficient() == &BigInt::ZERO {
             return Ok(Self::new(BigInt::ZERO, scale));
         }
@@ -160,8 +173,12 @@ impl Decimal {
         }
         Ok(Self::new(floor_divide(numerator, denominator), scale))
     }
-    pub(crate) fn power_floor(&self, exponent: u32) -> Result<Self, DecimalArithmeticError> {
-        let scale = self.scale().max(0);
+    /// Raise to a nonnegative integer power, then floor at arithmetic_scale().
+    /// Exponent zero produces one at the output scale, including for zero input.
+    /// Fractional/negative exponents are not supported. Very large exponents or
+    /// scale shifts may exhaust memory or return ScaleOverflow.
+    pub fn power_floor(&self, exponent: u32) -> Result<Self, DecimalArithmeticError> {
+        let scale = self.arithmetic_scale();
         let coefficient = rescale(
             self.coefficient().pow(exponent),
             i64::from(scale) - i64::from(self.scale()) * i64::from(exponent),

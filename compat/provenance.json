@@ -43854,6 +43854,201 @@
       "upstream_test": "phaseTermination",
       "local_test": "phase_termination",
       "modifications": "Preserve two initialized entities and two values, always-penalizing objective, cooperative polling command, 10ms limit at the original solver/phase scope and elapsed >= limit assertion. Native monotonic clock replaces wall-clock milliseconds. Five-second watchdog fails a broken polling deadline instead of hanging; additional native assertions check score, unchanged assignment and phase reason when the command is entered."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreUtilTest.nonNegativeScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/ScoreUtilTest.java",
+      "upstream_test": "nonNegativeScale",
+      "local_path": "crates/solver/tests/decimal_arithmetic_utility_cases.rs",
+      "local_test": "non_negative_scale",
+      "modifications": "Preserve every scalar input, operation and scale-sensitive BigDecimal equality assertion. Decimal arithmetic_scale evaluates the source scale inputs on native decimal receivers. Exact decimal factors/divisors replace exactly representable double constants; u32 exponents replace integral double exponents. Native public floor arithmetic uses the same implementation as native decimal score operations. No fractional-exponent or Java floating-conversion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreUtilTest.multiplyNormalScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/ScoreUtilTest.java",
+      "upstream_test": "multiplyNormalScale",
+      "local_path": "crates/solver/tests/decimal_arithmetic_utility_cases.rs",
+      "local_test": "multiply_normal_scale",
+      "modifications": "Preserve every scalar input, operation and scale-sensitive BigDecimal equality assertion. Decimal arithmetic_scale evaluates the source scale inputs on native decimal receivers. Exact decimal factors/divisors replace exactly representable double constants; u32 exponents replace integral double exponents. Native public floor arithmetic uses the same implementation as native decimal score operations. No fractional-exponent or Java floating-conversion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreUtilTest.multiplyClampsNegativeScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/ScoreUtilTest.java",
+      "upstream_test": "multiplyClampsNegativeScale",
+      "local_path": "crates/solver/tests/decimal_arithmetic_utility_cases.rs",
+      "local_test": "multiply_clamps_negative_scale",
+      "modifications": "Preserve every scalar input, operation and scale-sensitive BigDecimal equality assertion. Decimal arithmetic_scale evaluates the source scale inputs on native decimal receivers. Exact decimal factors/divisors replace exactly representable double constants; u32 exponents replace integral double exponents. Native public floor arithmetic uses the same implementation as native decimal score operations. No fractional-exponent or Java floating-conversion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreUtilTest.divideNormalScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/ScoreUtilTest.java",
+      "upstream_test": "divideNormalScale",
+      "local_path": "crates/solver/tests/decimal_arithmetic_utility_cases.rs",
+      "local_test": "divide_normal_scale",
+      "modifications": "Preserve every scalar input, operation and scale-sensitive BigDecimal equality assertion. Decimal arithmetic_scale evaluates the source scale inputs on native decimal receivers. Exact decimal factors/divisors replace exactly representable double constants; u32 exponents replace integral double exponents. Native public floor arithmetic uses the same implementation as native decimal score operations. No fractional-exponent or Java floating-conversion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreUtilTest.divideClampsNegativeScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/ScoreUtilTest.java",
+      "upstream_test": "divideClampsNegativeScale",
+      "local_path": "crates/solver/tests/decimal_arithmetic_utility_cases.rs",
+      "local_test": "divide_clamps_negative_scale",
+      "modifications": "Preserve every scalar input, operation and scale-sensitive BigDecimal equality assertion. Decimal arithmetic_scale evaluates the source scale inputs on native decimal receivers. Exact decimal factors/divisors replace exactly representable double constants; u32 exponents replace integral double exponents. Native public floor arithmetic uses the same implementation as native decimal score operations. No fractional-exponent or Java floating-conversion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreUtilTest.powerNormalScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/ScoreUtilTest.java",
+      "upstream_test": "powerNormalScale",
+      "local_path": "crates/solver/tests/decimal_arithmetic_utility_cases.rs",
+      "local_test": "power_normal_scale",
+      "modifications": "Preserve every scalar input, operation and scale-sensitive BigDecimal equality assertion. Decimal arithmetic_scale evaluates the source scale inputs on native decimal receivers. Exact decimal factors/divisors replace exactly representable double constants; u32 exponents replace integral double exponents. Native public floor arithmetic uses the same implementation as native decimal score operations. No fractional-exponent or Java floating-conversion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreUtilTest.powerClampsNegativeScale",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/ScoreUtilTest.java",
+      "upstream_test": "powerClampsNegativeScale",
+      "local_path": "crates/solver/tests/decimal_arithmetic_utility_cases.rs",
+      "local_test": "power_clamps_negative_scale",
+      "modifications": "Preserve every scalar input, operation and scale-sensitive BigDecimal equality assertion. Decimal arithmetic_scale evaluates the source scale inputs on native decimal receivers. Exact decimal factors/divisors replace exactly representable double constants; u32 exponents replace integral double exponents. Native public floor arithmetic uses the same implementation as native decimal score operations. No fractional-exponent or Java floating-conversion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmptyValueRangeTest.getSize",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/EmptyValueRangeTest.java",
+      "upstream_test": "getSize",
+      "local_path": "crates/solver/tests/empty_value_range_cases.rs",
+      "local_test": "get_size",
+      "modifications": "Preserve empty size, rejected rank zero, value5/null nonmembership, empty original/random traversal (seed0), and comparator-free successful empty sorting. Empty EnumeratedValueRange replaces Java singleton; None from get replaces UnsupportedOperationException for unavailable rank. contains_assignment(None) represents null membership. Native sorted_by returns an immutable empty copy and accepts a panicking comparator to assert the source null comparator is never consulted. No Java singleton identity or nonempty PRNG parity asserted upstream or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmptyValueRangeTest.get",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/EmptyValueRangeTest.java",
+      "upstream_test": "get",
+      "local_path": "crates/solver/tests/empty_value_range_cases.rs",
+      "local_test": "get",
+      "modifications": "Preserve empty size, rejected rank zero, value5/null nonmembership, empty original/random traversal (seed0), and comparator-free successful empty sorting. Empty EnumeratedValueRange replaces Java singleton; None from get replaces UnsupportedOperationException for unavailable rank. contains_assignment(None) represents null membership. Native sorted_by returns an immutable empty copy and accepts a panicking comparator to assert the source null comparator is never consulted. No Java singleton identity or nonempty PRNG parity asserted upstream or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmptyValueRangeTest.contains",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/EmptyValueRangeTest.java",
+      "upstream_test": "contains",
+      "local_path": "crates/solver/tests/empty_value_range_cases.rs",
+      "local_test": "contains",
+      "modifications": "Preserve empty size, rejected rank zero, value5/null nonmembership, empty original/random traversal (seed0), and comparator-free successful empty sorting. Empty EnumeratedValueRange replaces Java singleton; None from get replaces UnsupportedOperationException for unavailable rank. contains_assignment(None) represents null membership. Native sorted_by returns an immutable empty copy and accepts a panicking comparator to assert the source null comparator is never consulted. No Java singleton identity or nonempty PRNG parity asserted upstream or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmptyValueRangeTest.createOriginalIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/EmptyValueRangeTest.java",
+      "upstream_test": "createOriginalIterator",
+      "local_path": "crates/solver/tests/empty_value_range_cases.rs",
+      "local_test": "create_original_iterator",
+      "modifications": "Preserve empty size, rejected rank zero, value5/null nonmembership, empty original/random traversal (seed0), and comparator-free successful empty sorting. Empty EnumeratedValueRange replaces Java singleton; None from get replaces UnsupportedOperationException for unavailable rank. contains_assignment(None) represents null membership. Native sorted_by returns an immutable empty copy and accepts a panicking comparator to assert the source null comparator is never consulted. No Java singleton identity or nonempty PRNG parity asserted upstream or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmptyValueRangeTest.createRandomIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/EmptyValueRangeTest.java",
+      "upstream_test": "createRandomIterator",
+      "local_path": "crates/solver/tests/empty_value_range_cases.rs",
+      "local_test": "create_random_iterator",
+      "modifications": "Preserve empty size, rejected rank zero, value5/null nonmembership, empty original/random traversal (seed0), and comparator-free successful empty sorting. Empty EnumeratedValueRange replaces Java singleton; None from get replaces UnsupportedOperationException for unavailable rank. contains_assignment(None) represents null membership. Native sorted_by returns an immutable empty copy and accepts a panicking comparator to assert the source null comparator is never consulted. No Java singleton identity or nonempty PRNG parity asserted upstream or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmptyValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/EmptyValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_path": "crates/solver/tests/empty_value_range_cases.rs",
+      "local_test": "sort",
+      "modifications": "Preserve empty size, rejected rank zero, value5/null nonmembership, empty original/random traversal (seed0), and comparator-free successful empty sorting. Empty EnumeratedValueRange replaces Java singleton; None from get replaces UnsupportedOperationException for unavailable rank. contains_assignment(None) represents null membership. Native sorted_by returns an immutable empty copy and accepts a panicking comparator to assert the source null comparator is never consulted. No Java singleton identity or nonempty PRNG parity asserted upstream or claimed."
     }
   ],
   "fixtures": [
