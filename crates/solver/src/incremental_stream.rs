@@ -256,33 +256,35 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
             }
         }
         // All projection calls and output row clones happen before mutation.
+        self.install_projected(change.id, new, same_key);
+        output
+    }
+    fn install_projected(&mut self, id: I, new: Option<(K, T)>, same_key: bool) {
         self.poisoned = true;
         if same_key {
             // Membership and pair identities are unchanged. Downstream nodes
             // retract their captured old payload when receiving the replacement.
-            self.rows
-                .insert(change.id, new.expect("same-key replacement"));
+            self.rows.insert(id, new.expect("same-key replacement"));
             self.poisoned = false;
-            return output;
+            return;
         }
-        if let Some((old_key, _)) = self.rows.get(&change.id) {
+        if let Some((old_key, _)) = self.rows.get(&id) {
             let mut ids = self.index.get(old_key).expect("indexed key").clone();
-            ids.remove(&change.id);
+            ids.remove(&id);
             if ids.is_empty() {
                 self.index.remove(old_key);
             } else {
                 self.index.insert(old_key.clone(), ids);
             }
         }
-        self.rows.remove(&change.id);
+        self.rows.remove(&id);
         if let Some((new_key, row)) = new {
             let mut ids = self.index.get(&new_key).cloned().unwrap_or_default();
-            ids.insert(change.id.clone(), ());
+            ids.insert(id.clone(), ());
             self.index.insert(new_key.clone(), ids);
-            self.rows.insert(change.id, (new_key, row));
+            self.rows.insert(id, (new_key, row));
         }
         self.poisoned = false;
-        output
     }
 }
 
@@ -305,8 +307,12 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     JoinNode<'a, I, J, L, R, K>
 {
     pub(crate) fn clear(&mut self) {
-        self.left = JoinSide::new();
-        self.right = JoinSide::new();
+        self.left.rows.clear();
+        self.left.index.clear();
+        self.left.poisoned = false;
+        self.right.rows.clear();
+        self.right.index.clear();
+        self.right.poisoned = false;
     }
 
     pub(crate) fn checkpoint(&self) -> Box<dyn Any>
@@ -570,3 +576,5 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
 }
 
 pub mod batched_join;
+
+mod join_journal;

@@ -1,6 +1,9 @@
 //! Atomic rounds over join indexes, without retaining expanded matched pairs.
 use super::{JoinChanges, JoinComparison, JoinNode, JoinSide, TupleChange, healthy};
 
+type PreparedChange<I, K, T> = (I, Option<(K, T)>);
+type PreparedChanges<I, K, T> = Vec<PreparedChange<I, K, T>>;
+
 fn last_updates<I: Ord, T>(
     changes: impl IntoIterator<Item = TupleChange<I, T>>,
 ) -> Vec<(I, Option<T>)> {
@@ -22,30 +25,55 @@ fn last_updates<I: Ord, T>(
     out
 }
 
-fn update<I: Ord + Clone, T: Clone, K: Ord + Clone>(
-    side: &mut JoinSide<I, T, K>,
-    changes: &[(I, Option<T>)],
+fn project<I, T, K>(
+    changes: Vec<(I, Option<T>)>,
     key: &dyn Fn(&T) -> K,
-) {
-    let empty = JoinSide::<(), (), K>::new();
-    for (id, value) in changes {
-        side.apply(
-            &empty,
-            TupleChange {
-                id: id.clone(),
-                value: value.clone(),
-            },
-            key,
-            JoinComparison::Equal,
-        );
+) -> PreparedChanges<I, K, T> {
+    changes
+        .into_iter()
+        .map(|(id, value)| (id, value.map(|row| (key(&row), row))))
+        .collect()
+}
+fn unchanged<I: Ord + Clone, T: Clone, K: Ord + Clone>(
+    side: &JoinSide<I, T, K>,
+    changes: &[PreparedChange<I, K, T>],
+) -> bool {
+    changes.iter().all(|(id, new)| {
+        side.rows
+            .get(id)
+            .zip(new.as_ref())
+            .is_some_and(|((old, _), (new, _))| old == new)
+    })
+}
+fn final_payload<'a, I: Ord + Clone, T: Clone, K: Ord + Clone>(
+    side: &'a JoinSide<I, T, K>,
+    changes: &'a [PreparedChange<I, K, T>],
+    id: &I,
+) -> &'a T {
+    match changes.binary_search_by(|(changed, _)| changed.cmp(id)) {
+        Ok(i) => &changes[i].1.as_ref().expect("replacement row").1,
+        Err(_) => &side.rows.get(id).expect("matched row").1,
     }
 }
-fn affected<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>(
+fn update<I: Ord + Clone, T: Clone, K: Ord + Clone>(
+    side: &mut JoinSide<I, T, K>,
+    changes: &mut [PreparedChange<I, K, T>],
+) {
+    for (id, value) in changes {
+        let same_key = side
+            .rows
+            .get(id)
+            .zip(value.as_ref())
+            .is_some_and(|((old, _), (new, _))| old == new);
+        side.install_projected(id.clone(), value.take(), same_key);
+    }
+}
+fn affected<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone, C>(
     side: &JoinSide<I, L, K>,
     other: &JoinSide<J, R, K>,
     next_side: &JoinSide<I, L, K>,
     next_other: &JoinSide<J, R, K>,
-    changes: &[(I, Option<L>)],
+    changes: &[(I, C)],
     comparison: JoinComparison,
     mut accept: impl FnMut(I, J),
 ) {
@@ -102,12 +130,15 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         right: impl IntoIterator<Item = TupleChange<J, R>>,
     ) -> JoinChanges<I, J, L, R> {
         healthy(self.is_poisoned());
-        let left = last_updates(left);
-        let right = last_updates(right);
+        let mut left = project(last_updates(left), &self.left_key);
+        let mut right = project(last_updates(right), &self.right_key);
+        if unchanged(&self.left, &left) && unchanged(&self.right, &right) {
+            return self.replace_payloads(left, right);
+        }
         let mut next_left = self.left.clone();
         let mut next_right = self.right.clone();
-        update(&mut next_left, &left, &self.left_key);
-        update(&mut next_right, &right, &self.right_key);
+        update(&mut next_left, &mut left);
+        update(&mut next_right, &mut right);
         let mut candidates = Vec::new();
         affected(
             &self.left,
@@ -145,8 +176,62 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             // match therefore retracts an actual old pair, never a transient one.
             out.push(TupleChange { id: (i, j), value });
         }
-        self.left = next_left;
-        self.right = next_right;
+        self.left.rows.install_snapshot(next_left.rows);
+        self.left.index = next_left.index;
+        self.left.poisoned = next_left.poisoned;
+        self.right.rows.install_snapshot(next_right.rows);
+        self.right.index = next_right.index;
+        self.right.poisoned = next_right.poisoned;
         out
+    }
+    // Every changed row exists and retains its key, so old membership is final
+    // membership. Prepare all output/callback work before mutating row payloads.
+    fn replace_payloads(
+        &mut self,
+        left: PreparedChanges<I, K, L>,
+        right: PreparedChanges<J, K, R>,
+    ) -> JoinChanges<I, J, L, R> {
+        let mut candidates = Vec::new();
+        affected(
+            &self.left,
+            &self.right,
+            &self.left,
+            &self.right,
+            &left,
+            self.comparison,
+            |i, j| candidates.push((i, j)),
+        );
+        affected(
+            &self.right,
+            &self.left,
+            &self.right,
+            &self.left,
+            &right,
+            self.comparison.reversed(),
+            |j, i| candidates.push((i, j)),
+        );
+        candidates.sort();
+        candidates.dedup();
+        let mut output = Vec::with_capacity(candidates.len());
+        for (i, j) in candidates {
+            let value = Some((
+                final_payload(&self.left, &left, &i).clone(),
+                final_payload(&self.right, &right, &j).clone(),
+            ));
+            output.push(TupleChange { id: (i, j), value });
+        }
+        // These nested guards also protect standalone joins against comparison
+        // panics during final installation. Graph trials retain an outer journal.
+        let mut left_rows = self.left.rows.journal_transaction();
+        let mut right_rows = self.right.rows.journal_transaction();
+        for (id, value) in left {
+            left_rows.insert(id, value.expect("replacement row"));
+        }
+        for (id, value) in right {
+            right_rows.insert(id, value.expect("replacement row"));
+        }
+        left_rows.commit();
+        right_rows.commit();
+        output
     }
 }

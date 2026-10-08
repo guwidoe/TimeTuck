@@ -301,8 +301,10 @@ lengths that later rejoin. Callbacks may see intermediate tuples during delivery
 only the fully drained result is a completed candidate. A multi-input transaction
 can inspect results between its writes, commit all writes or undo them together.
 
-Before the first update to each affected node, the transaction saves that node's
-persistent map roots and scalar state, including indexes, summaries and scores.
+Before the first update to each affected node, the transaction normally saves that
+node's persistent map roots and scalar state, including indexes, summaries and scores.
+Indexed batched joins use reversible row journals as described below; their saved
+candidate snapshots still share roots.
 Further updates reuse that checkpoint. Sources, filter inputs, both join indexes
 and their ID buckets, group inputs/collectors and terminal match records all use
 shared AVL trees. Each graph terminal stores its payload and cached contribution
@@ -1955,3 +1957,28 @@ upstream of the boundary keep their existing semantics. This is an explicit
 boundary: it does not automatically coalesce every operator in the graph.
 Consistency checks for graphs configured to batch now rebuild from their source
 rows in one batch too, preserving the same downstream callback contract.
+
+
+## Reversible row updates in indexed batched joins
+
+Graph transactions distinguish a rollback checkpoint from a saved candidate
+snapshot. Indexed batched joins start private journals for input-row maps and save
+their index roots and health flags. Existing-row replacements record the old shared
+value and a compact prepared tree path. They do not share the row root merely to
+establish rollback, so uniquely owned paths can be updated in place. Undo restores
+values in reverse order without key comparisons, projections or payload cloning.
+Retained public/saved-candidate snapshots still force copy-on-write when needed.
+
+A structural map change first materializes each enclosing journal's original root.
+This covers insertion/removal, clearing during activity or consistency rebuilding,
+and installation of a prepared replacement map. Nested commits merge value records;
+nested rollback restores its own entry state. Empty log buffers are pooled across
+trials and nesting levels. Snapshot clones copy only roots, never active journals.
+
+After coalescing a join batch and projecting final keys once, an all-replacement
+batch whose keys are unchanged uses the existing membership indexes. It prepares
+final pair payloads before installation, then updates row values under nested undo
+guards. Standalone comparison failures during installation restore both sides.
+Other batches retain atomic preparation on persistent snapshots. Pair ordering,
+first-ID representatives, final payloads, terminal scoring counts and poisoned
+transaction rules remain unchanged. No additional upstream-method credit is claimed.

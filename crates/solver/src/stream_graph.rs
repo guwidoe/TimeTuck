@@ -228,6 +228,10 @@ trait Node<S: AdditiveScore> {
     }
 
     fn checkpoint(&self) -> Box<dyn Any>;
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        self.checkpoint()
+    }
+    fn commit_checkpoint(&mut self, _checkpoint: Box<dyn Any>) {}
     fn clear(&mut self);
     fn source_count(&self) -> Option<usize> {
         None
@@ -2267,7 +2271,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
     }
     fn checkpoint(&mut self, id: usize) {
         if !self.visited[id] {
-            let checkpoint = self.graph.nodes[id].checkpoint();
+            let checkpoint = self.graph.nodes[id].begin_checkpoint();
             self.journal.push((id, checkpoint));
             self.visited[id] = true;
         }
@@ -2372,6 +2376,10 @@ impl<S: AdditiveScore> Drop for GraphTransaction<'_, '_, S> {
                 self.graph.nodes[id].restore(checkpoint);
             }
             self.graph.score = std::mem::replace(&mut self.original_score, S::ZERO);
+        } else {
+            for (id, checkpoint) in self.journal.drain(..).rev() {
+                self.graph.nodes[id].commit_checkpoint(checkpoint);
+            }
         }
     }
 }

@@ -19171,3 +19171,86 @@ stream-paged-native-performance.json, stream-inline-native-performance.json,
 and focused/build/comparison logs. Do not relabel experiments as current evidence.
 Investigate avoiding candidate-time state copying; page-layout changes alone did
 not establish a general speedup. No journal redesign implemented. Goal remains active.
+
+
+## Join row journals
+
+Baseline3f133fb (same Rust as c052e2a). SnapshotMap private lazy journals record
+old shared values and compact prepared paths for existing-row replacements.
+Structural changes promote enclosing original states to persistent roots. Clone
+omits journals; undo uses no key comparisons/projections/payload Clone. Empty log
+buffers are pooled across nested guards. Graph begin/commit hooks distinguish
+trial checkpoints from full saved-candidate snapshots. IndexedBatchJoin journals
+rows and snapshots index roots; clearing and fallback installation preserve active
+journals. Stable-key replacement batches project keys once, prepare final pairs,
+then install under nested guards. Other batches retain persistent preparation.
+No unsafe, dependencies, upstream production reads, or provenance changes.
+
+Final preflight/focus/build5966 TERMINAL0: fmt/clippy,5 journal unit cases and16
+integration cases; release build47.24s. Includes every-comparison panic injection,
+nested commit/rollback, snapshots, saved candidates, and activity/consistency
+rebuilds. Earlier missing test import fixed before this successful final state.
+Logs: work/join-journal-preflight.log, join-journal-final-unit.log,
+join-journal-final-focus.log, join-journal-build.log.
+
+Native comparison23529 TERMINAL0, work/join-journal-native-performance.json.
+Two alternating process pairs,20steps/1warmup/3samples, hill/tabu xchange/swap
+x32/96. Exact assignments, scores and terminal callback counts match archived
+baseline work/stream-paged-before (SHA256
+1b2b5c8656b147094dd894ce71d0621a8c30edca81365c6ae39d7276bdc57fe0).
+Median whole-process CPU ms before/after (warmup and both sizes included):
+hill/change609.387/613.901; tabu/change613.254/611.577;
+hill/swap10768.062/10177.485; tabu/swap12100.058/10571.027.
+Elapsed results mixed, including slower32-variable tabu swaps. No general speedup
+claim; unique tree-node/log-storage reuse is tested directly. Large Java gap remains.
+
+Required prebuild+gate85880 TERMINAL0, including doctests/Python. Prebuild9m24s,
+663 affected targets,31 unchanged; fmt/clippy reused. Rust5142 and docs243 passed.
+Logs work/join-journal-prebuild.log and work/join-journal-final-check.log.
+Matched Java refresh85543 TERMINAL0; report refresh36544 TERMINAL0.
+128 independent validations passed with128 equal-score cases. Native original
+assignment/score/callback equality remains separate from Java quality equality.
+
+Latest ten-hour audit at22:00 on2026-10-08:2897->3005 methods (+108,+2.225 points).
+Earlier complaint's window was2883->2916 (+0.680 points). Coverage is not a speed
+metric. Shared-core rebuilds, small batches and mixed/discarded performance
+experiments reduce throughput. Batch related implementation before the next broad
+gate; keep performance a priority. No measured current coding/build time split.
+
+Required join-journal gate TERMINAL0. 5142 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 663, 'REUSE': 31}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3005, 'failed': 0, 'pending': 1568, 'excluded': 282, 'unverified': 0, 'percent': 61.895}.
+Source before/after matched: 5c9a9889116b1547d5816c5b133f7e4db109ed4f936652456f37c7e3b30a47ac
+Live freshness matched verification digest: b576a4e7dccf616fcf904ed7b60ebf1dd54bfdd9c04f648e81676ed6a0bc16e5.
+Prior ledger records unchanged; No new provenance cases or fixture changes; no upstream method credits.
+Log work/join-journal-final-check.log; evidence work/join-journal-evidence.json.
+Stream native and matched Java measurements refreshed for the join row journals; unrelated measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Matched Java measurement 2026-10-08T20:08:54.032548+00:00; source digest
+d039fffba851cf44a8593250722581ee0bd106c7d1e13fa0cb7c28f21b39588e.
+Median ms Rust / Java (20steps,1warmup,3samples,2forks):
+- Hill climbing · change · 32 variables: 56.265 / 67.989.
+- Hill climbing · change · 96 variables: 154.921 / 83.913.
+- Tabu · change · 32 variables: 33.468 / 55.291.
+- Tabu · change · 96 variables: 134.736 / 68.167.
+- Hill climbing · swap · 32 variables: 244.060 / 69.612.
+- Hill climbing · swap · 96 variables: 2446.587 / 247.824.
+- Tabu · swap · 32 variables: 354.607 / 170.758.
+- Tabu · swap · 96 variables: 2188.847 / 224.417.
+Large swaps remain approximately10x slower than Community; no general speedup claim.
+
+Evidence63135 TERMINAL0, unchanged provenance and live freshness confirmed.
+All batch handles terminal; ready to commit. Do not repeat these successful checks.
+
+Next related performance batch (read only investigation, not implemented): extend
+replacement journals to SourceNode, FilterNode and Terminal together; retain empty
+journal buffers across full JoinNode saved-candidate installs. Sources and filter
+input maps already replace existing rows directly; filters cache rejected rows too.
+Terminal replaces match records directly, but scores_match currently downcasts a
+full snapshot tuple: support journal original-state views for consistency checks.
+Clone total scores before opening terminal journals so clone panics cannot leave
+an unregistered frame. Consistency clear/rebuild promotes frames to saved roots.
+GroupNode unconditionally removes then reinserts input IDs; consider eliminating
+that structural churn in the same batch, preserving all identity semantics. Public
+match snapshots and nested graph consistency checks must retain their contracts.
+No new Rust edits for these follow-ups yet. Full goal remains active/incomplete.

@@ -30,6 +30,8 @@ use std::{
     sync::Arc,
 };
 
+mod journal;
+
 type Link<K, V> = Option<Arc<Node<K, V>>>;
 struct Node<K, V> {
     key: Arc<K>,
@@ -43,11 +45,13 @@ struct Node<K, V> {
 /// inexpensive snapshot. Mutation is reserved for the owning stream operators.
 pub struct SnapshotMap<K, V> {
     root: Link<K, V>,
+    journal: Option<Box<journal::Journal<K, V>>>,
 }
 impl<K, V> Clone for SnapshotMap<K, V> {
     fn clone(&self) -> Self {
         Self {
             root: self.root.clone(),
+            journal: None,
         }
     }
 }
@@ -248,9 +252,13 @@ impl<K, V> SnapshotMap<K, V> {
     }
 
     pub(crate) fn new() -> Self {
-        Self { root: None }
+        Self {
+            root: None,
+            journal: None,
+        }
     }
     pub(crate) fn clear(&mut self) {
+        self.preserve_journal();
         self.root = None;
     }
     pub fn len(&self) -> usize {
@@ -345,8 +353,10 @@ impl<K: Ord, V> SnapshotMap<K, V> {
         let (path, found) = locate(&self.root, &key);
         if found {
             drop(key);
+            self.record_replacement(&path);
             replace(&mut self.root, path.as_slice(), Arc::new(value));
         } else {
+            self.preserve_journal();
             put(
                 &mut self.root,
                 path.as_slice(),
@@ -358,6 +368,7 @@ impl<K: Ord, V> SnapshotMap<K, V> {
     pub(crate) fn remove(&mut self, key: &K) -> bool {
         let (path, found) = locate(&self.root, key);
         if found {
+            self.preserve_journal();
             erase(&mut self.root, path.as_slice());
         }
         found
