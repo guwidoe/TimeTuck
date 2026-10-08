@@ -17775,3 +17775,53 @@ Final gate53596 TERMINAL0, log wall window 593s. Warm29156 TERMINAL0
 compiled535 uncached remaining targets in3m15s, overlapping the gate, without
 writing evidence. Evidence20202 TERMINAL0 confirms live freshness. All verification
 handles terminal. No benchmark or browser rerun. Goal remains active.
+
+## Lazy pair sources and four completed swap selector cases
+
+Baseline804bb81. PairSelectionSource uses existing SelectionProduct bounded input
+snapshots and new ProductSnapshot::child_pool access. Shared mode generates i<j
+pairs and forwards lifecycle once to its single child; separate mode generates
+right-fastest Cartesian pairs and forwards once per child, including empties.
+PairSelectionIter owns immutable input pools and yields Arc occurrence handles,
+with fused exhaustion and u128 remaining count/size_hint. Payload/context need no
+Clone. Pair count metadata is exact when known and representable. Collection uses
+existing per-child limits/size validation/unbounded-source errors. try_pairs returns
+errors; SelectionSource::open panics on failure. Pairing does not impose model-specific
+legality/no-op/pin filtering; CachedMoveProvider can map keys using current assignments.
+Outer selection caches materialize pair handles under their own candidate cap;
+standalone PairSelectionIter retains inputs only.
+
+Read pinned SwapMoveSelectorTest four deterministic methods and PlannerAssert helper
+contracts (tests only, no upstream production). Four new entity_swap_source_cases
+adapt every ordered move code, exact finite size, repeated exhaustion and all six
+child lifecycle counters across phases2/scans2+3. Fixture sources generate only IDs;
+production pair enumeration generates outputs, with explicit shared vs distinct
+child ownership. Added4 cases and1 PlannerAssert fixture in provenance. Updated only
+modifications text for4 historical partial entity_swap fixtures to point to full cases;
+all prior case records and all other fixture fields/records stay unchanged.
+
+Three original pair_source regressions cover distinct occurrences of equal values,
+empty/unknown-size metadata, declared-size errors/input caps/unbounded source, and
+100,000,000 lazy pairs from20,000 non-Clone inputs with exact drop/held-handle checks.
+A real shared provider drives two solver phases with2+3 scans,30 scored swaps and
+full child lifecycle counts. Focused83279 TERMINAL0 (4 adapted+3 native); compile1483
+TERMINAL0. Earlier compile44971 failed for an unconstrained metadata-only Swap value
+type; corrected explicit i32. Focused36139 failed because native FirstAccepted only
+scanned one swap; set BestAccepted in the original integration fixture to exercise
+all6 pairs each scan. Required gate70464 started on frozen Rust/provenance.
+No benchmarks refreshed or UI behavior changed.
+
+Required pair-source gate TERMINAL0. 4909 Rust tests and 242 doctests passed.
+Rust jobs: {'RUN': 6, 'REUSE': 647}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2887, 'failed': 0, 'pending': 1686, 'excluded': 282, 'unverified': 0, 'percent': 59.464}.
+Source before/after matched: 406f033a52f8b746706f6d174107161425891d42a4326501de047bef578e9eb7
+Live freshness matched verification digest: d5b6b90ecdb755dc7dde6c465840ea2b907658817b2b935b20b313cc4426e617.
+Prior cases unchanged; updated4 historical partial-fixture descriptions only; appended4cases and1fixture.
+Log work/pair-source-final-check.log; evidence work/pair-source-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate70464 TERMINAL0, log wall window 133s;6 Rust jobs RUN,647 REUSE,
+46 Python jobs reused. Evidence52921 TERMINAL0 verifies live dashboard freshness
+and the precise4-case/1-fixture additions plus4 historical description updates.
+All verification handles terminal. No prebuild, benchmark refresh or browser rerun.
+Full rewrite goal remains active.

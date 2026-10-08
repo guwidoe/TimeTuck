@@ -2200,3 +2200,32 @@ Five additional native regressions cover atomic registration, replacement/remova
 of aliases, validation and early-stop boundaries, unbound intervening phases, later
 factory errors and caught-panic recovery. Upstream lifecycle-method credit still
 requires complete case adaptations; native ownership alone does not confer it.
+
+### Pair selection sources
+
+`PairSelectionSource` composes one shared source into unordered positional pairs
+(i < j), or two distinct sources into a Cartesian product with the right side
+varying fastest. Equal payloads retain occurrence identity; two equal sources are
+not implicitly shared. Each child receives every forwarded lifecycle event exactly
+once, including empty children. Source items are collected by SelectionProduct under
+its existing finite-source, exact-size and per-child-limit checks. Pair iteration
+retains only those immutable pools and clones Arc handles for each selected pair;
+no payload Clone bound or expanded pair list is required. ProductSnapshot::child_pool
+exposes retained occurrences by original child index, with absent pools for omitted
+children or an annihilated empty product.
+
+The source can feed CachedMoveProvider; the outer cache then retains emitted pair
+keys up to its separate candidate limit. A mapper interprets those keys as actual
+moves and applies domain-specific filtering. Pairing alone does not filter equal
+entity IDs, pins, invalid moves or no-ops. try_pairs returns typed collection errors;
+SelectionSource::open panics on failure rather than reporting an empty selection.
+
+Four full SwapMoveSelectorTest adaptations preserve every move code, exact finite
+size, repeated exhaustion and all child lifecycle counts over two phases with two
+then three scans. Shared and distinct sources include empty-source cases. The native
+fixture sources supply only row IDs and log callbacks; production pairing generates
+the candidate order. Mock Java scopes/identity are replaced by explicit native
+lifecycle events and shared/separate source construction. Three original regressions
+cover occurrence identity, limits/misdeclared sizes/unbounded input, a 100-million-pair
+product retaining 20,000 non-Clone inputs, and real solver phases consuming all 30
+swaps with one solve/two phase/five scan lifecycle per child.

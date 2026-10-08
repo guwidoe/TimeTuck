@@ -141,6 +141,14 @@ impl<T> ProductSnapshot<T> {
     pub fn is_empty(&self) -> bool {
         self.count == 0
     }
+    /// Retained occurrences for an original child index. Empty/omitted children
+    /// are absent; when an empty child annihilates the product, all pools are absent.
+    pub fn child_pool(&self, child: usize) -> Option<&[Arc<T>]> {
+        self.pools
+            .iter()
+            .find(|(index, _)| *index == child)
+            .map(|(_, pool)| &**pool)
+    }
     /// Indexed original order, with the last nonempty child varying fastest.
     pub fn get(&self, mut index: u128) -> Option<Vec<Arc<T>>> {
         if index >= self.count {

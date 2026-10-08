@@ -43359,6 +43359,66 @@
       "local_path": "crates/solver/tests/batched_join_cases.rs",
       "local_test": "preload_reads_eagerly_then_defers_again",
       "modifications": "Preserved eager preload of 2 left by 3 right tuples, exactly 6 predicate calls, explicit preload end, a separate non-preloaded control, counter reset, a second round adding 1 tuple per side, and equal predicate work against the control. Duplicate R2 fact values retain distinct identities. Native begin_preload/end_preload and propagate replace Java lifecycle hooks; final 12-pair assertions strengthen the case. Native deferred evaluation checks each candidate once, so the separate upstream withoutPreload_walksEachPairTwice method is deliberately NOT adapted or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_source_cases.rs",
+      "id": "SwapMoveSelectorTest.originalLeftEqualsRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "originalLeftEqualsRight",
+      "local_test": "original_left_equals_right",
+      "modifications": "Preserve every ordered move-code sequence and finite exhaustion assertion, non-repeating metadata, exact selection sizes, and all six lifecycle callback counts across two phases with two then three scans. Native PairSelectionSource generates positional unordered pairs from one shared child or Cartesian pairs from two distinct children; real child sources yield only entity IDs and log forwarded events, never expected move sequences. CachedMoveProvider drives source lifecycle from explicit native solve/phase/scan events replacing mocked Java scopes. Stable row IDs, required uninitialized single-slot variables and an explicit shared/separate constructor replace Java named entities, identity checks and reflection descriptors. Native Move::Swap represents each metadata-only swap, preserving no-ops. No Java ABI or random-selection behavior claimed; separate native regression also drives the shared-source lifecycle through two real solver phases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_source_cases.rs",
+      "id": "SwapMoveSelectorTest.emptyOriginalLeftEqualsRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "emptyOriginalLeftEqualsRight",
+      "local_test": "empty_original_left_equals_right",
+      "modifications": "Preserve every ordered move-code sequence and finite exhaustion assertion, non-repeating metadata, exact selection sizes, and all six lifecycle callback counts across two phases with two then three scans. Native PairSelectionSource generates positional unordered pairs from one shared child or Cartesian pairs from two distinct children; real child sources yield only entity IDs and log forwarded events, never expected move sequences. CachedMoveProvider drives source lifecycle from explicit native solve/phase/scan events replacing mocked Java scopes. Stable row IDs, required uninitialized single-slot variables and an explicit shared/separate constructor replace Java named entities, identity checks and reflection descriptors. Native Move::Swap represents each metadata-only swap, preserving no-ops. No Java ABI or random-selection behavior claimed; separate native regression also drives the shared-source lifecycle through two real solver phases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_source_cases.rs",
+      "id": "SwapMoveSelectorTest.originalLeftUnequalsRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "originalLeftUnequalsRight",
+      "local_test": "original_left_unequals_right",
+      "modifications": "Preserve every ordered move-code sequence and finite exhaustion assertion, non-repeating metadata, exact selection sizes, and all six lifecycle callback counts across two phases with two then three scans. Native PairSelectionSource generates positional unordered pairs from one shared child or Cartesian pairs from two distinct children; real child sources yield only entity IDs and log forwarded events, never expected move sequences. CachedMoveProvider drives source lifecycle from explicit native solve/phase/scan events replacing mocked Java scopes. Stable row IDs, required uninitialized single-slot variables and an explicit shared/separate constructor replace Java named entities, identity checks and reflection descriptors. Native Move::Swap represents each metadata-only swap, preserving no-ops. No Java ABI or random-selection behavior claimed; separate native regression also drives the shared-source lifecycle through two real solver phases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_source_cases.rs",
+      "id": "SwapMoveSelectorTest.emptyRightOriginalLeftUnequalsRight",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "emptyRightOriginalLeftUnequalsRight",
+      "local_test": "empty_right_original_left_unequals_right",
+      "modifications": "Preserve every ordered move-code sequence and finite exhaustion assertion, non-repeating metadata, exact selection sizes, and all six lifecycle callback counts across two phases with two then three scans. Native PairSelectionSource generates positional unordered pairs from one shared child or Cartesian pairs from two distinct children; real child sources yield only entity IDs and log forwarded events, never expected move sequences. CachedMoveProvider drives source lifecycle from explicit native solve/phase/scan events replacing mocked Java scopes. Stable row IDs, required uninitialized single-slot variables and an explicit shared/separate constructor replace Java named entities, identity checks and reflection descriptors. Native Move::Swap represents each metadata-only swap, preserving no-ops. No Java ABI or random-selection behavior claimed; separate native regression also drives the shared-source lifecycle through two real solver phases."
     }
   ],
   "fixtures": [
@@ -58050,7 +58110,7 @@
       "id": "SwapMoveSelectorTest.originalLeftEqualsRight.entity_swap_partial",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
       "upstream_test": "originalLeftEqualsRight",
-      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. This partial fixture does not exercise solving/phase/step callback forwarding or verifyPhaseLifecycle counts. Full method coverage is supplied separately by crates/solver/tests/entity_swap_source_cases.rs."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -58063,7 +58123,7 @@
       "id": "SwapMoveSelectorTest.emptyOriginalLeftEqualsRight.entity_swap_partial",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
       "upstream_test": "emptyOriginalLeftEqualsRight",
-      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. This partial fixture does not exercise solving/phase/step callback forwarding or verifyPhaseLifecycle counts. Full method coverage is supplied separately by crates/solver/tests/entity_swap_source_cases.rs."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -58076,7 +58136,7 @@
       "id": "SwapMoveSelectorTest.originalLeftUnequalsRight.entity_swap_partial",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
       "upstream_test": "originalLeftUnequalsRight",
-      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. This partial fixture does not exercise solving/phase/step callback forwarding or verifyPhaseLifecycle counts. Full method coverage is supplied separately by crates/solver/tests/entity_swap_source_cases.rs."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -58089,7 +58149,7 @@
       "id": "SwapMoveSelectorTest.emptyRightOriginalLeftUnequalsRight.entity_swap_partial",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
       "upstream_test": "emptyRightOriginalLeftUnequalsRight",
-      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. Java solving/phase/step callback forwarding and verifyPhaseLifecycle counts are not implemented or claimed; this source method remains pending."
+      "modifications": "Partial adaptation: preserve every ordered finite output over the two-step then three-step reopening sequence, with integer row IDs replacing a/b/c/d/x/y/z fixture names. Required null variables and optional no-op selection reproduce metadata-only candidates. This partial fixture does not exercise solving/phase/step callback forwarding or verifyPhaseLifecycle counts. Full method coverage is supplied separately by crates/solver/tests/entity_swap_source_cases.rs."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -59221,6 +59281,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentEntity.java",
       "upstream_test": "id/values",
       "modifications": "Preserved e1/e2 identities and ordered values in the crossed-list fixture; metadata declares the list. Two test-only process-lifetime Owner allocations support cyclic borrowed Any traversal. Mutating Java setters and annotation boilerplate replaced by once-initialized fixture fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_swap_source_cases.rs",
+      "id": "PlannerAssert.entity_swap_sources",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator/assertAllCodesOfIterator/assertAllCodesOfIterableSelector/assertAllCodesOfMoveSelector/verifyPhaseLifecycle",
+      "modifications": "Native assert_eq/iterator exhaustion and CachedMoveProvider cache metadata replace Java iterator and selector assertions. Count each of the six forwarded child lifecycle event kinds (solve1, phases2, scans5). Native Option iterator exhaustion replaces hasNext/isExhausted; non-null iterator references are guaranteed by Rust. Preserve every output code and ordering; no helper implementation outside these assertion contracts is adapted."
     }
   ]
 }

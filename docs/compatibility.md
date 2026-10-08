@@ -4581,3 +4581,12 @@ move mapping. Shared bindings let a single borrowed provider retain a solve cach
 across phases. All nine backends own one solve lifecycle per distinct registered
 provider, closing on returned errors; standalone engines use one-phase sessions.
 Native integration tests cover these paths; upstream method coverage is unchanged.
+
+Four additional SwapMoveSelectorTest methods now have full adaptations: original
+shared and separate entity sources, empty shared source, and empty right source.
+They preserve all ordered codes, finite size/exhaustion and six lifecycle counters
+across two phases with two then three scans. Native PairSelectionSource and
+CachedMoveProvider replace Java selector identity and mocked scopes. The older
+entity_swap_cases partial fixtures remain as separate enumeration checks; their
+provenance now points to the full adaptations. Random/mimic selector cases remain
+pending.

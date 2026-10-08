@@ -1117,3 +1117,6 @@ mod cached_move_provider;
 pub use cached_move_provider::{
     CachedMoveProvider, CachedProviderConfig, CachedProviderError, ProviderCacheScope,
 };
+
+mod pair_selection_source;
+pub use pair_selection_source::{PairSelectionIter, PairSelectionSource, SelectionPair};
