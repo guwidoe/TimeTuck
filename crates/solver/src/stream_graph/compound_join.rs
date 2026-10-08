@@ -150,7 +150,8 @@ impl<'a, L: 'a, R: 'a> JoinCondition<'a, L, R> {
 /// remaining inequalities are independent pair filters, never lexicographic tuple
 /// comparisons. Normalized definitions with identical projection handles share
 /// nodes for the same ordered parent ports in the same builder. Different builders
-/// and freshly constructed projections remain independent. Key storage uses owned,
+/// and freshly constructed projections remain independent. Callback-based collection
+/// variants build independent nodes. Key storage uses owned,
 /// type-erased Ord values; ordinary typed join APIs remain available.
 ///
 /// ```
@@ -330,3 +331,5 @@ impl<'a, L: Clone + 'static, R: Clone + 'static> JoinConditions<'a, L, R> {
 }
 
 mod existence;
+
+mod membership;

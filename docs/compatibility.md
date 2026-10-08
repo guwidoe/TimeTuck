@@ -4418,3 +4418,15 @@ This is still a selective development heuristic, not Rust compiler dependency
 analysis. Cache keys include the scanner, so this change requires fresh baselines
 at the next relevant verification run; old records and benchmark dates are not
 rewritten. No solver compatibility credits are added by this tooling change.
+
+Compound JoinConditions now compose containing, contained-in and shared-key
+collection joins with every declared equality and ordered comparison. Equalities
+partition the membership index, and residual ordered predicates inspect matching
+key/partition pairs only. Duplicate/shared keys retain the existing native
+one-pair membership semantics. Callback-based collection variants build independent
+nodes; ordinary projection-identity sharing still applies to the existing apply
+method. The final three JoinerTypeTest methods now preserve all scalar/collection
+inputs and boolean results through graph pair presence. Native regressions cover
+all three directions, null elements, duplicate keys, replacements, removals,
+rollback, pruning and projection failures against an independent full pair scan.
+Existing documented Java membership multiplicity/null divergences remain unchanged.

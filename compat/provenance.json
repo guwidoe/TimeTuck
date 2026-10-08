@@ -43254,6 +43254,51 @@
       "local_path": "crates/solver/tests/stable_flat_map_cases.rs",
       "local_test": "modify",
       "modifications": "Preserved every insertion, update, retraction, duplicate multiplicity, deferred no-interaction assertion, and no-extra-event check. Native StableFlatMapNode enqueue/propagate replaces node lifecycle/Propagator APIs. A downstream identity map classifies TupleChange puts as inserts or updates and resolves removed payloads; exact event multisets replace Mockito verification/reset. Named static string references in vectors replace merge/split and Java string interning, preserving repeated equal and identical B/X occurrences. Explicit equality keys match each surviving occurrence in previous order. No Java tuple-store layout or propagation order beyond the asserted event multiset is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.contain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "contain",
+      "local_path": "crates/solver/tests/compound_membership_cases.rs",
+      "local_test": "contain",
+      "modifications": "Preserved all source input collections, scalars, argument directions, expected booleans and empty-collection combinations. Presence of the single native graph pair replaces the internal Java enum matches call, using an empty JoinConditions conjunction plus the corresponding collection operation. Native vector/scalar keys replace Java List.of and Object inputs; sequential replacement additionally exercises removal of formerly matching pairs. No Java enum/API parity, null policy, or duplicate-multiplicity behavior beyond these source assertions is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.containedIn",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "containedIn",
+      "local_path": "crates/solver/tests/compound_membership_cases.rs",
+      "local_test": "contained_in",
+      "modifications": "Preserved all source input collections, scalars, argument directions, expected booleans and empty-collection combinations. Presence of the single native graph pair replaces the internal Java enum matches call, using an empty JoinConditions conjunction plus the corresponding collection operation. Native vector/scalar keys replace Java List.of and Object inputs; sequential replacement additionally exercises removal of formerly matching pairs. No Java enum/API parity, null policy, or duplicate-multiplicity behavior beyond these source assertions is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JoinerTypeTest.containsAny",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/joiner/JoinerTypeTest.java",
+      "upstream_test": "containsAny",
+      "local_path": "crates/solver/tests/compound_membership_cases.rs",
+      "local_test": "contains_any",
+      "modifications": "Preserved all source input collections, scalars, argument directions, expected booleans and empty-collection combinations. Presence of the single native graph pair replaces the internal Java enum matches call, using an empty JoinConditions conjunction plus the corresponding collection operation. Native vector/scalar keys replace Java List.of and Object inputs; sequential replacement additionally exercises removal of formerly matching pairs. No Java enum/API parity, null policy, or duplicate-multiplicity behavior beyond these source assertions is claimed."
     }
   ],
   "fixtures": [

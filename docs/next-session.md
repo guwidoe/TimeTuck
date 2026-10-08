@@ -16974,3 +16974,43 @@ modules; stable_flat_map_cases stays11 and tracks only its node; graph regressio
 selects129vs165 and tracks both node and graph adapter. Read-only simulated edits
 verify precisely those invalidations; no production files modified by probing.
 Python log work/method-inputs-python.log. Goal remains active; no live sessions.
+
+## Compound collection joins
+
+JoinConditions now has apply_containing_any_of, apply_containing and
+apply_contained_in. Existing equalities form the composite membership partition;
+remaining ordered conditions filter only shared-key matches in those partitions.
+Uses the existing native MembershipJoinNode semantics, including one output pair
+per source pair despite duplicate/multiple shared keys, and explicit Option keys.
+Callbacks are independent projections and do not participate in apply
+projection-handle node sharing; documented explicitly. No existing apply changes.
+All3 previously pending JoinerTypeTest methods fully adapted by graph pair
+presence: source booleans/collections/scalars/empty cases preserved. +3cases,0fixtures.
+Existing native-vs-Java membership duplicate/null divergences remain explicit.
+Focused98356 source cases terminal0; focused60215 source3 and2native passed,
+third native caught a fixture correlation that produced no matches in one direction.
+Corrected only the fixture key sequence. Focused19037 terminal0:all3native passed,
+including540 deterministic updates across3directions/pruning modes, full pair-scan
+comparison, replacements/retractions/rollback, and actual positive matches. Other
+regressions prove40right rows need only2 residual projections for1 qualifying pair,
+and callback failures/foreign ports/retract callbacks preserve graph state.
+Full JoinerTypeTest read (test source only); production implementations not read.
+Final Rust/provenance inputs frozen after fmt. This gate also creates fresh
+verification keys following the previous scanner change; no cache migration.
+Dependency probe5616 terminal0: cancellation and ordinary compound_join_cases
+exclude the new collection-method module; both new test targets include it.
+Warm86745 terminal0 compiled533 pending targets only; no tests/cache records
+written by that helper. Final gate96322 remains live until completion below.
+
+Required compound-membership gate TERMINAL0. 4821 Rust tests and 237 doctests passed.
+Rust jobs: {'RUN': 634}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 2879, 'failed': 0, 'pending': 1694, 'excluded': 282, 'unverified': 0, 'percent': 59.3}.
+Source before/after matched: fbea17920ed8ca8222cfbf9ab1d3e6a60bb1f91f1d3c4514f1b2f65c6b1acea9
+Live freshness matched verification digest: e0d77e1e82e8f35f1005d841af966263bfa8621e91acbffab519429c2a62158d.
+Existing provenance prefixes unchanged; appended3cases and0fixtures.
+Log work/compound-membership-final-check.log; evidence work/compound-membership-evidence.json.
+No benchmark/browser/release reruns. All verification sessions terminal; goal remains active.
+Gate96322 and evidence93393 terminal0; all634Rust/46Python job keys now
+fresh after scanner update. Dashboard server reloaded to use current fingerprint
+code: stopped old PID19060; detached start did not survive, so foreground exec
+server session85195 is live at localhost8765. Freshness endpoint matches above.
