@@ -19557,3 +19557,55 @@ host noise and separate membership-map lookups/journal work obscure wins. Next
 work should deliver a substantive missing native solver behavior or a larger
 execution-path improvement with a direct behavioral/performance comparison;
 avoid another small membership-layout experiment without new evidence.
+
+
+## Schema-derived executable move selection
+
+Baselinef07e8fb (Rust identical to verifiede71ae24), clean start. New
+schema_move_selection.rs connects PlanningSchema metadata to lazy Change/Swap
+providers for basic/list/mixed models. Explicit entity/secondary type and variable
+names resolve in schema order; change branches per field, atomic multi-column
+swap branches per entity, list-family unfolding. Unknown/duplicate/shadow names,
+incompatible secondary types and empty matches fail. Bind field handles to native
+slots with foreign-schema/alias/duplicate/missing/row-length checks. Fallible
+openings validate model/type/bounds/optional-policy/assignment before iterating;
+MoveProvider integration uses the same source against current assignments.
+Finite original or seeded child interleaving and global selected-count caps.
+List changes support required partial construction and subset/pin/range boundaries.
+No Java reflection/random/cache parity claim; configured list cache/comparator
+transfer methods stay pending.
+
+Read only Community tests ChangeMoveSelectorFactoryTest, SwapMoveSelectorFactoryTest
+and four test-domain declaration fixtures. Adapted17 complete methods,4 provenance
+fixtures in schema_move_factory_cases.rs. Builder helper work/build_schema_move_cases.py
+has append guards; do not rerun after records exist. Six original regressions cover
+multi-column/entity-separated swaps, invalid bindings/types/policies, caps/current
+assignment refresh, real basic and mixed local solves on both scoped/stream scoring,
+and required-list construction on both backends plus selected/pinned list subsets.
+
+Initial library check41411 TERMINAL0. Initial focus6823 TERMINAL101 used result
+fields directly instead of unwrapping best; test-only accesses corrected. Final
+focus10565 TERMINAL0:17adapted+6native tests. Added one public API doctest and
+collapsed a nested condition after focus; final gate covers final source. Fmt84397
+TERMINAL0. Final prebuild+gate87095 TERMINAL0 including doctests/Python; prebuild27.17s.
+Only3Rust targets affected (lib and2new integration targets);695 reused. Source,
+tests and provenance frozen through the final gate. Staged implementation/tests/
+provenance reviewed; previous ledger records unchanged. Gate already refreshed
+report, so no duplicate report generation. Evidence93108 TERMINAL0 verifies live
+freshness and all17case/4fixture additions. No benchmarks or browser checks rerun.
+Existing stream-performance measurement remains current under its per-job hash,
+retaining2026-10-08T21:32:01.664435+00:00. Goal active/incomplete.
+
+Required schema-move gate TERMINAL0. 5177 Rust tests and 244 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 695}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3022, 'failed': 0, 'pending': 1551, 'excluded': 282, 'unverified': 0, 'percent': 62.245}.
+Source before/after matched: 5fd5c1829b6dc70bd9f84e0a4f9511c8574386ca0b70d47ee1ac7c8ac5bd770a
+Live freshness matched verification digest: 350252d0abb7ba65eb0eb48f592231b82612d53809650bb3774759a667b87604.
+Prior ledger records unchanged; Appended17 complete factory methods and4 declaration fixtures.
+Log work/schema-move-final-check.log; evidence work/schema-move-evidence.json.
+No benchmarks refreshed; prior measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+All task handles terminal; final staged review complete. No further source edits
+required for this batch. Configured-list cache/comparator transfer remains a
+separate unimplemented scope; do not claim those two factory methods. Reuse this
+verification on unchanged inputs, and do not refresh unrelated benchmarks.

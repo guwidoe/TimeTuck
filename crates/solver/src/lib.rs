@@ -1161,3 +1161,9 @@ pub use sublist_selection_source::{
     EntitySubListSource, SubListCardinality, SubListChangeProposal, SubListChangeSource,
     SubListSwapProposal, SubListSwapSource,
 };
+
+mod schema_move_selection;
+pub use schema_move_selection::{
+    SchemaMoveBranch, SchemaMoveBranchKind, SchemaMoveConfig, SchemaMoveError, SchemaMoveKind,
+    SchemaMovePlan, SchemaMoveProvider, SchemaVariableSlots,
+};

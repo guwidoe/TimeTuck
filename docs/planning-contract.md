@@ -299,3 +299,41 @@ original baseline before any new initial state is installed. It returns an
 independent model and leaves the original unchanged, including on failure. New
 solves reset search history, random generators and budgets; this is solution-state
 resumption, not a checkpoint of an executing search.
+
+
+## Schema-derived move selection
+
+`SchemaMoveConfig` resolves explicit `PlanningSchema` entity types and genuine
+variable names into executable change/swap branches. An omitted entity selects
+matching genuine entity types in declaration order; all requested names must occur
+on each selected entity. Empty names select all genuine fields. Change creates one
+branch per field. Swap combines selected basic columns into atomic entity-row
+swaps and gives each list field a list-swap branch. Multiple branches form a union.
+Explicit incompatible secondary entity types, unknown fields/types, duplicate
+names and shadow-only selections fail before provider construction.
+
+`SchemaVariableSlots` binds field handles to basic variable or list entity indices
+in row order. Binding rejects foreign schemas, duplicate fields, reused slots in
+the same model component, unequal field lengths for one entity type and missing
+selected fields. A provider owns its resolved slots and may outlive the schema.
+Fallible `try_basic_moves`, `try_list_moves` and `try_mixed_moves` check value types,
+model bounds, optional-value policy and assignment validity before yielding moves.
+The `MoveProvider` implementations require valid bindings and panic on misuse,
+following existing provider contracts. All scoring backends can consume the same
+model-specific provider interfaces.
+
+Candidates are lazy and reopened from the current assignment. Basic changes
+respect selected columns, pins, domains and optional values; entity swaps preserve
+aligned multi-column moves without swapping across entity types. List changes
+include required partial assignments, relocations and permitted unassignments;
+list swaps include unique assigned pairs and optional unassigned replacements.
+Both list sources and destinations remain inside the selected entity slots.
+Mixed branches leave the other component unchanged. Finite seeded union ordering
+interleaves children without replacement, retaining each child's internal order;
+the seed advances by completed steps and the selected-count cap applies globally.
+This is native finite ordering, not Java random draw or cache-lifecycle parity.
+
+Seventeen Community change/swap factory methods are fully adapted, including
+variable/entity deduction, union shape and list-family unfolding. The two methods
+that transfer configured list cache/comparator settings remain pending. There is
+no reflection, Java class construction or Enterprise nearby-selection support.

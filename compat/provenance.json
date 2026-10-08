@@ -45189,6 +45189,261 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt every assertion to the single unit-key bucket of native CandidateIndex. Explicit occurrence IDs replace tuple entry handles; UnknownId replaces illegal-state removal. Preserve Ann-F-40/Beth-F-30 payloads, cardinality, membership and empty/removable behavior. randomIteratorNeverEnds includes AbstractIndexerTest.assertRepeatingRandomNeverEnds assertions: seed zero, 30 successful member draws and complete observed coverage; native seeded PRNG is used without Java trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.deducibleMultiVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "deducibleMultiVar",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "change_deducible_multi_var",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.undeducibleMultiVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "undeducibleMultiVar",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "change_undeducible_multi_var",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.unfoldedMultiVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldedMultiVar",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "change_unfolded_multi_var",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.deducibleMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "deducibleMultiEntity",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "change_deducible_multi_entity",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.undeducibleMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "undeducibleMultiEntity",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "change_undeducible_multi_entity",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.unfoldedMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldedMultiEntity",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "change_unfolded_multi_entity",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.unfoldEmptyIntoListChangeMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldEmptyIntoListChangeMoveSelectorConfig",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "change_unfold_empty_into_list_change_move_selector_config",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.deducibleMultiVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "deducibleMultiVar",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_deducible_multi_var",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.undeducibleMultiVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "undeducibleMultiVar",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_undeducible_multi_var",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.unfoldedMultiVar",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldedMultiVar",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_unfolded_multi_var",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.deducibleMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "deducibleMultiEntity",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_deducible_multi_entity",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.undeducibleMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "undeducibleMultiEntity",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_undeducible_multi_entity",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.unfoldedMultiEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldedMultiEntity",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_unfolded_multi_entity",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.unfoldEmptyIntoListSwapMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldEmptyIntoListSwapMoveSelectorConfig",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_unfold_empty_into_list_swap_move_selector_config",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.deducibleMultiEntityWithSecondaryEntitySelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "deducibleMultiEntityWithSecondaryEntitySelector",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_deducible_multi_entity_with_secondary_entity_selector",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.unswappableMultiEntityWithSecondaryEntitySelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "unswappableMultiEntityWithSecondaryEntitySelector",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_unswappable_multi_entity_with_secondary_entity_selector",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.unfoldedMultiEntityWithSecondaryEntitySelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldedMultiEntityWithSecondaryEntitySelector",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "local_test": "swap_unfolded_multi_entity_with_secondary_entity_selector",
+      "modifications": "Preserve all selector-kind, union-child-count, variable/entity deduction and rejection assertions using native SchemaMovePlan branches and typed PlanningSchema metadata. Native finite random child interleaving replaces the Java inherited random selector setting; these factory methods assert construction shape, not random draw traces. Configured list cache/comparator-transfer methods remain pending."
     }
   ],
   "fixtures": [
@@ -61428,6 +61683,58 @@
       "upstream_test": "optional multivariable ranges fixture",
       "local_path": "crates/solver/tests/multivariate_swap_provider_cases.rs",
       "modifications": "Preserve the three allows-unassigned declarations and first/second entity ranges plus shared third range from the source case. Explicit native variable slots replace annotations and getters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "schema-move-factory-TestdataMultiVarEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarEntity.java",
+      "upstream_test": "genuine variable declarations",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "modifications": "Adapt named genuine fields, value types, list/basic kinds and unassigned flags used by the factory cases into explicit Rust metadata. Test-only marker types replace Java annotation discovery and getters; no production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "schema-move-factory-TestdataLeadEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataLeadEntity.java",
+      "upstream_test": "genuine variable declarations",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "modifications": "Adapt named genuine fields, value types, list/basic kinds and unassigned flags used by the factory cases into explicit Rust metadata. Test-only marker types replace Java annotation discovery and getters; no production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "schema-move-factory-TestdataHerdEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multientity/TestdataHerdEntity.java",
+      "upstream_test": "genuine variable declarations",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "modifications": "Adapt named genuine fields, value types, list/basic kinds and unassigned flags used by the factory cases into explicit Rust metadata. Test-only marker types replace Java annotation discovery and getters; no production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "schema-move-factory-TestdataListEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "genuine variable declarations",
+      "local_path": "crates/solver/tests/schema_move_factory_cases.rs",
+      "modifications": "Adapt named genuine fields, value types, list/basic kinds and unassigned flags used by the factory cases into explicit Rust metadata. Test-only marker types replace Java annotation discovery and getters; no production implementation used."
     }
   ]
 }
