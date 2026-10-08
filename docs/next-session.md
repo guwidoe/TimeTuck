@@ -19083,3 +19083,58 @@ Live freshness matched verification digest: 0b013ef039e194c7d3d69da5b67b62690e74
 Prior ledger records unchanged; 6 new provenance cases/upstream method credits; no fixture changes.
 Log work/sublist-source-final-check.log; evidence work/sublist-source-evidence.json.
 No benchmark refresh; previous measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+## Adaptive stream batch routing
+
+Final changes: multi-change StreamBatch rounds reuse per-node routing buffers;
+single-change rounds retain compact local BTreeMap queues. Both share propagation
+logic and process queued nodes in topological order. Scratch buffers retain empty
+capacity, never pending payloads between batches. Success/error returns storage;
+panic drops local workspace while the transaction retains rollback ownership.
+Four original unit cases cover allocation reuse, interleaved queue paths,
+commit/rollback, ordinary errors, panic recovery, rank order and payload release.
+Five RandomAccessLeafIndexerTest methods are adapted using existing CandidateIndex;
+all prior provenance entries unchanged, no new fixtures, no Java PRNG trace claim.
+
+Final focused tests and release build: session85491 terminal0. Native comparison
+67583 terminal0, work/stream-adaptive-native-performance.json. Baseline3f5407b;
+2 alternating process pairs,20steps,1warmup,3samples, hill/tabu x change/swap x32/96.
+Exact assignments, scores and scoring-call counts match. Swap whole-process CPU
+medians were lower, but variation was large and change timings mixed. No general
+speedup claim. Whole-process CPU includes warmup and BOTH sizes; not solve latency.
+No build/verification from this task ran concurrently with these measurements.
+
+Discarded experiments: carrying final payload references in join candidates,
+caching consecutive join lookups, and using reusable routing for single changes.
+Raw results: work/stream-pair-native-performance.json,
+work/stream-pair-cached-native-performance.json,
+work/stream-workspace-native-performance.json. These are NOT final evidence.
+join_batch.rs/snapshot_map.rs restored to HEAD; temporary join experiment tests
+removed. Profile work/stream-3f5407b.er (~630 CPU samples) points to allocation/Arc
+and batched joins; profile solve times are not benchmark results.
+
+Gate77158, matched Java benchmark26914, and report refresh88673 all TERMINAL0.
+Prebuild took14m57s. Source/tests/provenance stayed frozen during all final checks.
+Logs: work/stream-workspace-prebuild.log, stream-workspace-final-check.log,
+stream-workspace-java.log and stream-workspace-report.log.
+Matched Java:128 valid/equal-score cases.20steps/1warmup/3samples/2forks.
+Median Rust/Java ms per solve:
+
+- hill/change32:121.888/368.826;96:272.620/100.002.
+- tabu/change32:31.960/46.970;96:112.799/70.328.
+- hill/swap32:203.423/65.316;96:2265.736/229.057.
+- tabu/swap32:200.641/64.906;96:2197.622/239.028.
+
+Host timing was variable; do not infer improvement by comparing independent runs.
+The ~9-10x large swap gap remains. Allocation/shared tree copying in joins is a
+larger profiling target than further small routing/lookup experiments. No new
+snapshot/journal design has been implemented. Goal remains active.
+
+Required stream-workspace gate TERMINAL0. 5136 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 621, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3005, 'failed': 0, 'pending': 1568, 'excluded': 282, 'unverified': 0, 'percent': 61.895}.
+Source before/after matched: 27c6374768add0586468b278110c6c781078b1c045396dab803eefd51842b509
+Live freshness matched verification digest: f3bcca52f4b07a0807ac815f72272dbc3905bb29fc661183a83d30b80850154f.
+Prior ledger records unchanged; 5 new provenance cases/upstream method credits; no fixture changes.
+Log work/stream-workspace-final-check.log; evidence work/stream-workspace-evidence.json.
+Stream native and matched Java measurements refreshed for the final adaptive scheduler; unrelated measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.

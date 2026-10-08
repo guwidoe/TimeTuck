@@ -4778,3 +4778,14 @@ Six additional RandomSubListChange/SwapMoveSelector methods preserve cardinality
 repeating metadata and empty selection assertions. The earlier ten sequence-only
 fixtures remain partial; this batch does not establish full Java lifecycle or
 random-trace equivalence. No new performance measurement is claimed.
+
+Five RandomAccessLeafIndexer methods now have complete adaptations using a
+single unit-key CandidateIndex bucket. They preserve cardinality, tuple membership,
+removal failure, and the shared 30-draw seeded sampling assertion. Native occurrence
+IDs replace Java tuple entry handles; random traces are not required to match.
+Batch propagation additionally reuses per-node routing buffers for batches with
+multiple source changes. Single-change batches keep compact local queues. Both
+process only queued nodes in topological order. Buffer reuse does not retain event payloads
+between batches. Original regressions cover commit/rollback reuse, failed batches,
+panic recovery, ordering and payload release. This optimization earns no additional
+upstream-method credit.

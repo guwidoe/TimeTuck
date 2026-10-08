@@ -2026,6 +2026,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             .enumerate()
             .any(|(id, node)| node.prefers_batch() && observed[id]);
         let mut graph = StreamGraph {
+            batch_workspace: batching::BatchWorkspace::default(),
             batched_updates,
             activity_rules: self.activity_rules,
             active: None,
@@ -2044,6 +2045,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    batch_workspace: batching::BatchWorkspace,
     batched_updates: bool,
     activity_rules: Vec<ActivityRule>,
     active: Option<Vec<bool>>,
