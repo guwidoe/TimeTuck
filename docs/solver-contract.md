@@ -1919,3 +1919,34 @@ the policy disabled, local search retains its existing phase-specific incomplete
 assignment diagnostics. The startup policy is explicit in the corresponding
 Timefold construction and exhaustive-search adaptations; Java defaults/API parity
 are not claimed.
+
+### Cooperative termination inside candidate filters
+
+`FilteredSelectionSource::with_termination` and
+`FilteredMoveProvider::with_termination` accept a positive polling interval and a
+`FnMut() -> bool` callback. They poll inside rejected runs, after each interval of
+inspected candidates, before requesting the next candidate. Accepted candidates
+also advance that interval across iterator calls. There is no initial poll; an
+interval of one gives the shortest cooperative delay. A true response ends and
+fuses the current traversal with `CandidateFilterStop::Terminated`. Counters and
+poll cadence reset when reopened; the callback retains its own captured state.
+Size hints and early cursor drops do not poll or fabricate exhaustion. Source and
+provider factories are lazy; provider scan/selection limits take precedence over
+a coincident poll. Existing callers without termination callbacks retain their
+work limits and filtering behavior.
+
+For cancellation during long rejection runs, capture the same `CancellationToken`
+in the callback (`|| token.is_cancelled()`) and pass it in solver configuration.
+The callback can also check a deadline. A callback-only stop means this provider
+has no more proposals; it does not by itself set a solver-wide termination reason.
+Child iterator, predicate and termination callbacks remain cooperative and cannot
+be interrupted while running. External effects and panics are not rolled back.
+A terminating repeating source retains its child's never-ending metadata; a stop
+is not evidence that a complete candidate pool has been materialized.
+
+The pinned filtering bailout case preserves two termination polls and exactly
+2,000 rejected child occurrences with interval 1,000. Original regressions cover
+cadence across accepted/rejected candidates, reopen/drop/panic behavior, cap
+precedence and cancellation during actual scoped and stream basic search. This
+does not claim a global Java polling cadence or add upstream credit for native
+regressions.

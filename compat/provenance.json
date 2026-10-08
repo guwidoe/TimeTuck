@@ -43734,6 +43734,21 @@
       "upstream_test": "originalSelectionCacheTypeStep",
       "local_test": "original_selection_cache_type_step",
       "modifications": "Typed context value source and OrderedSelectionCache replace reflected solution range, value-range manager and mocked scopes. Preserve original month input, ascending code order, finite metadata, exact size and iterator exhaustion at every step across two phases of two and three steps, with solve/phase/step cache scopes respectively. Explicit lifecycle events replace mock scope links; no Java API or reflection parity claimed."
+    },
+    {
+      "id": "FilteringMoveSelectorTest.bailOutByTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/FilteringMoveSelectorTest.java",
+      "upstream_test": "bailOutByTermination",
+      "local_path": "crates/solver/tests/filter_termination_cases.rs",
+      "local_test": "bail_out_by_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native always-repeating SelectionSource with declared size 1000 and always-false predicate replaces mocked move selector. Explicit phase event and caller-configured interval 1000 replace mocked phase termination plumbing. Preserve false/true termination sequence, empty filtered traversal and exactly 2000 child next calls; additionally assert two polls and explicit stop reason. Rust unit occurrences replace unused dummy move objects; Option exhaustion replaces Java hasNext. No universal upstream polling-cadence claim outside this supplied case."
     }
   ],
   "fixtures": [

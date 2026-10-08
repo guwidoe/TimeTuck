@@ -18315,3 +18315,50 @@ existing Rust jobs and all46 Python jobs reused prior successful evidence.
 Evidence70842 TERMINAL0; live freshness matched. No prebuild, benchmarks, release
 rerun or browser checks. Ready to commit this compatibility-only increment;
 full solver rewrite remains incomplete and active.
+
+## Termination while filtering rejected candidates
+
+Baseline2a80989 clean. Previous goal turn progressed: three sorted-property cases
+committed, report fresh, 666 Rust jobs reused and one ran. Implemented optional
+periodic termination in FilteredSelectionSource and FilteredMoveProvider. Both
+share the internal Screened iterator and expose CandidateFilterStats; stop reason
+now includes Terminated. `with_termination(NonZeroUsize, FnMut()->bool)` polls after
+each interval of inspected candidates, before the next read. Accepted and rejected
+occurrences both advance the cadence; no initial poll. Cursor stop fuses, reopen
+resets counters/cadence but preserves callback state. Source factories are now
+lazy as provider factories already were. Work caps take precedence over polling.
+No solver-wide control is implied: pass the same token to callback and solver for
+Cancelled outcome. Callbacks remain cooperative; no panic/effect rollback.
+
+Adapted FilteringMoveSelectorTest.bailOutByTermination: repeating source declared
+size1000, all rejected, termination false then true, exactly2000 child reads/two
+polls and empty output. Explicit configured interval1000 substitutes mocked phase
+termination plumbing; no universal Java cadence claim. Added1case,0fixtures.
+Four native regressions cover accepted/rejected cadence, reopen/fuse, cap precedence
+and zero-budget laziness, early drop/poll panic and retry, plus actual cancellation
+inside rejection in scoped/stream basic search (request after7, stop after8,
+zero move evaluations, initial assignment/score retained).
+
+Compile29361 TERMINAL0. Focus48924 TERMINAL101: missing required size() on native
+test source; implemented unknown size. Focus39544 TERMINAL0 for both new targets
+and existing selection_filter_cases/selection_filter_regression. Then marked the
+native infinite source never-ending and used is_multiple_of for lint; final gate
+verifies those final small edits. No behavior failures observed.
+Frozen Rust/provenance/tools. Required gate84566 LIVE at launch, log
+work/filter-termination-final-check.log. No broad prebuild or benchmarks. On
+TERMINAL0 run work/record_filter_termination_evidence.py, inspect staged diff and
+commit using Conventional Commits. Full rewrite remains incomplete/active.
+
+Required filter-termination gate TERMINAL0. 4973 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 8, 'REUSE': 661}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2909, 'failed': 0, 'pending': 1664, 'excluded': 282, 'unverified': 0, 'percent': 59.918}.
+Source before/after matched: 5c9c2b9d922eb4b53c90c4c3b6a2d17be4eef475986f301e6e02ca130978bf7e
+Live freshness matched verification digest: a5ca7911ebcc83abedd9099195e834b6c81a4e072b78c98e7327bda26ed7fc66.
+Prior ledger records unchanged; appended1case and0fixtures.
+Log work/filter-termination-final-check.log; evidence work/filter-termination-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate84566 TERMINAL0, wall385s including clippy105s and library rebuild.
+Eight Rust jobs ran,661 reused; all46 Python jobs reused. Evidence58106 TERMINAL0
+confirms source stability, exact1case/0fixture delta and live dashboard freshness.
+No benchmarks or UI checks repeated. All handles terminal. Ready to commit.

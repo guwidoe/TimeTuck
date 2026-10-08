@@ -1,6 +1,10 @@
 //! Composable source filters and explicit per-step candidate work limits.
 use crate::{MoveProvider, SelectionLifecycleEvent, SelectionSource};
-use std::iter::FusedIterator;
+use std::{iter::FusedIterator, num::NonZeroUsize};
+
+fn never_stop() -> bool {
+    false
+}
 
 /// Limit each opened traversal independently. Events are forwarded unchanged.
 /// Apply this before a filter to cap inspected candidates; after a filter to cap
@@ -57,13 +61,46 @@ impl<C, T, S: SelectionSource<C, T>> SelectionSource<C, T> for LimitedSelectionS
 /// Filtering alone does not bound rejected work. Use a finite source, or wrap the
 /// child in LimitedSelectionSource first. For retryable bounded probes use the
 /// separate BoundedFilter API; for solver providers use FilteredMoveProvider.
-pub struct FilteredSelectionSource<S, F> {
+/// `with_termination` also polls inside rejected runs, after each configured
+/// number of inspected occurrences (accepted or rejected), before inspecting
+/// another. There is no initial poll; use interval one for the shortest delay.
+/// Polling resets on every open. A true result fuses that traversal; a later
+/// open starts afresh. Callbacks must return promptly; this is cooperative.
+/// Never-ending metadata describes the child, not a guarantee against stopping.
+pub struct FilteredSelectionSource<S, F, Z = fn() -> bool> {
     source: S,
     predicate: F,
+    termination: Z,
+    poll_interval: NonZeroUsize,
+    stats: CandidateFilterStats,
 }
 impl<S, F> FilteredSelectionSource<S, F> {
     pub fn new(source: S, predicate: F) -> Self {
-        Self { source, predicate }
+        Self {
+            source,
+            predicate,
+            termination: never_stop,
+            poll_interval: NonZeroUsize::new(usize::MAX).unwrap(),
+            stats: CandidateFilterStats::default(),
+        }
+    }
+}
+impl<S, F, Z> FilteredSelectionSource<S, F, Z> {
+    pub fn with_termination<N: FnMut() -> bool>(
+        self,
+        interval: NonZeroUsize,
+        termination: N,
+    ) -> FilteredSelectionSource<S, F, N> {
+        FilteredSelectionSource {
+            source: self.source,
+            predicate: self.predicate,
+            termination,
+            poll_interval: interval,
+            stats: self.stats,
+        }
+    }
+    pub fn stats(&self) -> CandidateFilterStats {
+        self.stats
     }
     pub fn source(&self) -> &S {
         &self.source
@@ -83,8 +120,8 @@ impl<S, F> FilteredSelectionSource<S, F> {
         }
     }
 }
-impl<C, T, S: SelectionSource<C, T>, F: FnMut(&C, &T) -> bool> SelectionSource<C, T>
-    for FilteredSelectionSource<S, F>
+impl<C, T, S: SelectionSource<C, T>, F: FnMut(&C, &T) -> bool, Z: FnMut() -> bool>
+    SelectionSource<C, T> for FilteredSelectionSource<S, F, Z>
 {
     fn is_never_ending(&self) -> bool {
         self.source.is_never_ending()
@@ -100,23 +137,31 @@ impl<C, T, S: SelectionSource<C, T>, F: FnMut(&C, &T) -> bool> SelectionSource<C
     where
         T: 'a,
     {
+        self.stats = CandidateFilterStats::default();
         let predicate = &mut self.predicate;
-        Box::new(
-            self.source
-                .open(context)
-                .fuse()
-                .filter(move |item| predicate(context, item)),
-        )
+        let source = &mut self.source;
+        Box::new(Screened {
+            source: std::iter::once_with(move || source.open(context)).flatten(),
+            predicate: move |item: &T| predicate(context, item),
+            scan_limit: usize::MAX,
+            selection_limit: usize::MAX,
+            stats: &mut self.stats,
+            termination: &mut self.termination,
+            poll_interval: self.poll_interval.get(),
+            until_poll: self.poll_interval.get(),
+        })
     }
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum CandidateFilterStop {
+    Terminated,
     SourceExhausted,
     ScanLimit,
     SelectionLimit,
 }
-/// Last opened provider traversal. Until a terminating next() call, stop is None;
+/// Last opened source or provider traversal. Until a terminating next() call,
+/// stop is None;
 /// a consumer may drop its cursor early, which does not prove source exhaustion.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct CandidateFilterStats {
@@ -133,15 +178,23 @@ pub struct CandidateFilterStats {
 ///
 /// Reaching either cap ends this traversal, not a proof that no eligible moves
 /// exist. The solver treats an empty traversal as no proposals for this step.
-/// No global cancellation or Java termination-polling cadence is implied; child
-/// next()/predicate calls must themselves return promptly. Panics and external
-/// callback effects are not rolled back. Duplicate accepted occurrences remain.
-pub struct FilteredMoveProvider<Q, F> {
+/// Optional `with_termination` polls a caller's cancellation/deadline predicate
+/// after each configured number of inspected candidates, before the next read.
+/// Poll cadence spans yielded candidates and resets per traversal. Limits take
+/// precedence over a coincident poll. There is no initial poll and no automatic
+/// access to solver controls: pass the same cancellation token in both places
+/// when the solver must also report cancellation. Without a callback, only the
+/// work caps stop rejected runs. Child next()/predicate calls must return promptly.
+/// Panics and external callback effects are not rolled back. Duplicate accepted
+/// occurrences remain.
+pub struct FilteredMoveProvider<Q, F, Z = fn() -> bool> {
     provider: Q,
     predicate: F,
     scan_limit: usize,
     selection_limit: usize,
     stats: CandidateFilterStats,
+    termination: Z,
+    poll_interval: NonZeroUsize,
 }
 impl<Q, F> FilteredMoveProvider<Q, F> {
     pub fn new(provider: Q, scan_limit: usize, selection_limit: usize, predicate: F) -> Self {
@@ -151,6 +204,25 @@ impl<Q, F> FilteredMoveProvider<Q, F> {
             scan_limit,
             selection_limit,
             stats: CandidateFilterStats::default(),
+            termination: never_stop,
+            poll_interval: NonZeroUsize::new(usize::MAX).unwrap(),
+        }
+    }
+}
+impl<Q, F, Z> FilteredMoveProvider<Q, F, Z> {
+    pub fn with_termination<N: FnMut() -> bool>(
+        self,
+        interval: NonZeroUsize,
+        termination: N,
+    ) -> FilteredMoveProvider<Q, F, N> {
+        FilteredMoveProvider {
+            provider: self.provider,
+            predicate: self.predicate,
+            scan_limit: self.scan_limit,
+            selection_limit: self.selection_limit,
+            stats: self.stats,
+            termination,
+            poll_interval: interval,
         }
     }
     pub fn provider(&self) -> &Q {
@@ -163,14 +235,19 @@ impl<Q, F> FilteredMoveProvider<Q, F> {
         self.stats
     }
 }
-struct Screened<'a, I, F> {
+struct Screened<'a, I, F, Z> {
     source: I,
     predicate: F,
     scan_limit: usize,
     selection_limit: usize,
     stats: &'a mut CandidateFilterStats,
+    termination: Z,
+    poll_interval: usize,
+    until_poll: usize,
 }
-impl<I: Iterator, F: FnMut(&I::Item) -> bool> Iterator for Screened<'_, I, F> {
+impl<I: Iterator, F: FnMut(&I::Item) -> bool, Z: FnMut() -> bool> Iterator
+    for Screened<'_, I, F, Z>
+{
     type Item = I::Item;
     fn next(&mut self) -> Option<Self::Item> {
         if self.stats.stop.is_some() {
@@ -185,11 +262,19 @@ impl<I: Iterator, F: FnMut(&I::Item) -> bool> Iterator for Screened<'_, I, F> {
                 self.stats.stop = Some(CandidateFilterStop::ScanLimit);
                 return None;
             }
+            if self.until_poll == 0 {
+                if (self.termination)() {
+                    self.stats.stop = Some(CandidateFilterStop::Terminated);
+                    return None;
+                }
+                self.until_poll = self.poll_interval;
+            }
             let Some(item) = self.source.next() else {
                 self.stats.stop = Some(CandidateFilterStop::SourceExhausted);
                 return None;
             };
             self.stats.scanned += 1;
+            self.until_poll -= 1;
             if (self.predicate)(&item) {
                 self.stats.yielded += 1;
                 return Some(item);
@@ -214,9 +299,12 @@ impl<I: Iterator, F: FnMut(&I::Item) -> bool> Iterator for Screened<'_, I, F> {
         )
     }
 }
-impl<I: Iterator, F: FnMut(&I::Item) -> bool> FusedIterator for Screened<'_, I, F> {}
-impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&P, &A, u64, &M) -> bool> MoveProvider<P, A, M>
-    for FilteredMoveProvider<Q, F>
+impl<I: Iterator, F: FnMut(&I::Item) -> bool, Z: FnMut() -> bool> FusedIterator
+    for Screened<'_, I, F, Z>
+{
+}
+impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&P, &A, u64, &M) -> bool, Z: FnMut() -> bool>
+    MoveProvider<P, A, M> for FilteredMoveProvider<Q, F, Z>
 {
     fn event(&mut self, event: crate::MoveProviderEvent) {
         self.provider.event(event);
@@ -246,6 +334,9 @@ impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&P, &A, u64, &M) -> bool> MoveP
             scan_limit: self.scan_limit,
             selection_limit: self.selection_limit,
             stats: &mut self.stats,
+            termination: &mut self.termination,
+            poll_interval: self.poll_interval.get(),
+            until_poll: self.poll_interval.get(),
         })
     }
 }
