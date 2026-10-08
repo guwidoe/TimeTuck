@@ -1125,5 +1125,7 @@ pub use cached_move_provider::{
     CachedMoveProvider, CachedProviderConfig, CachedProviderError, ProviderCacheScope,
 };
 
+mod grouped_selection;
 mod pair_selection_source;
+pub use grouped_selection::{GroupedSelection, GroupedSelectionSource, SelectionGroup};
 pub use pair_selection_source::{PairSelectionIter, PairSelectionSource, SelectionPair};

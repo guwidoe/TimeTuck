@@ -4616,3 +4616,10 @@ null acceptance with exact zero score and best-event presence. Adaptations enabl
 for partial workflows. All nine solver model/backend combinations share the startup
 policy. Typed basic-slot diagnostics replace Java exception text. Exact-search
 internal node replay and expansion-step trace methods remain pending.
+
+Two DefaultPillarSelectorTest methods now preserve all ordered whole-pillar groups,
+assignment changes between steps, finite sizes/exhaustion and six child lifecycle
+event counts across two phases. GroupedSelectionSource adds bounded stable grouping
+and snapshot reuse for selector composition; CachedMoveProvider can use it for
+current-assignment pillar moves. Shared Java supply reference counts and random
+subpillar traces remain pending. Existing built-in pillar providers are unchanged.

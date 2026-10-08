@@ -17991,3 +17991,52 @@ compiled198 remaining uncached targets in3m35s, overlapping the gate; it wrote n
 verification records. Evidence27771 TERMINAL0 confirms live report freshness and
 exact3-case/0-fixture delta. All work handles terminal; no benchmark/browser rerun.
 Full rewrite goal remains active.
+
+## Stable grouped selection sources
+
+Baseline98e0e2b; previous turn was progress; clean tree revalidated. Read only
+DefaultPillarSelectorTest originalNoSubs/emptyEntitySelectorOriginalNoSubs and
+reusePillarCache/stepCacheClearedOnPhaseEnded plus PlannerAssert contracts.
+Selected a missing reusable grouping source; no production implementation read.
+
+GroupedSelectionSource<C,T,S,F> collects one finite child through SelectionProduct
+with exact-size and input-cap checks, then groups by supplied context-dependent
+equivalence relation. First-encounter group order and member occurrence order
+preserved. GroupedSelection and SelectionGroup own shared Arc handles; no T/C Clone
+bounds or planning-value copies. One prepared snapshot per source instance reused
+by size/open/try_groups until invalidate, mutable child/comparator access, or any
+lifecycle event. Events invalidate before forwarding once. Captured external
+context facts must remain stable within that scope; direct callers explicitly
+invalidate after edits. Comparisons use representatives, require equivalence,
+worst-case quadratic. Error/panic publishes no partial group snapshot. Source trait
+size/open panics on collection errors; try_groups returns them. Held snapshots
+outlive invalidation. Group size queries may collect the input. Built-in pillar
+providers unchanged; no cross-selector shared-supply/refcount equivalence claimed.
+
+Added two source cases preserving every group code, b/f assignments, finite size,
+repeated exhaustion and all six child lifecycle counts across2phases/3steps.
+Added one PlannerAssert fixture record; all older ledger entries unchanged. Four
+native regressions cover stable duplicate occurrences and Arc identity/reuse,
+source edits and held old snapshots, collection errors/comparator-panic retry,
+non-Clone payload release across phase end and real CachedMoveProvider Step-cache
+integration that regroups after actual scored pillar changes. Focus27433 TERMINAL0:
+2source+4native. No compile/test failures. Final Rust/provenance frozen for gate;
+no benchmarks refreshed or UI changes.
+
+Remaining DefaultPillarSelectorTest6methods require random subpillar source behavior
+and/or shared supply-manager active counts including missing StepEnded before
+PhaseEnded; generic grouped source snapshots do not grant those credits.
+
+Required grouped-selection gate TERMINAL0. 4939 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 657}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2895, 'failed': 0, 'pending': 1678, 'excluded': 282, 'unverified': 0, 'percent': 59.629}.
+Source before/after matched: 940c6190720dd80d238251bed11ba61b8796160e78df7a09bf315732c9a2f84b
+Live freshness matched verification digest: 34c758908033089100da708cd8aa03310393374194349a01956c60a7948c8155.
+Prior ledger records unchanged; appended2cases and1fixture.
+Log work/grouped-selection-final-check.log; evidence work/grouped-selection-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate30742 TERMINAL0, log wall131s;3 Rust jobs RUN,657 REUSE and46 Python
+jobs reused.4939 Rust tests and243 doctests passed. Evidence56306 TERMINAL0
+confirms live report freshness and exact2-case/1-fixture additions. All work handles
+terminal. No prebuild/benchmark/browser rerun. Full rewrite goal remains active.

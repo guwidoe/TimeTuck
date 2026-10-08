@@ -43509,6 +43509,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve optional A/C unassignment, initialized B=v2, pinned C, the full value range, successful completion result, exact zero score and PlannerTestUtils best-event-presence assertion. Native completion exact plan with explicit reject_unassigned_pins policy still accepts optional pinned None. Zero objective replaces the recorded test-only dummy scorer; stable slots replace reflective entities. No identical search trace or Java default configuration claimed."
+    },
+    {
+      "id": "DefaultPillarSelectorTest.originalNoSubs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/pillar/DefaultPillarSelectorTest.java",
+      "upstream_test": "originalNoSubs",
+      "local_path": "crates/solver/tests/grouped_pillar_source_cases.rs",
+      "local_test": "original_no_subs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ordered pillar codes across phases with two then one steps, b/f value changes, finite metadata and exact sizes, repeated iterator exhaustion, and all six child lifecycle counters (solve1/phase2/step3). Native GroupedSelectionSource groups source-generated entity IDs by current value equality, retaining encounter/member order. Explicit lifecycle events replace mocked Java scopes and reflection descriptors; Rust-typed values replace named fixture objects. No random selection, shared supply-manager counts or Java cache identity claimed."
+    },
+    {
+      "id": "DefaultPillarSelectorTest.emptyEntitySelectorOriginalNoSubs",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/pillar/DefaultPillarSelectorTest.java",
+      "upstream_test": "emptyEntitySelectorOriginalNoSubs",
+      "local_path": "crates/solver/tests/grouped_pillar_source_cases.rs",
+      "local_test": "empty_entity_selector_original_no_subs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all ordered pillar codes across phases with two then one steps, b/f value changes, finite metadata and exact sizes, repeated iterator exhaustion, and all six child lifecycle counters (solve1/phase2/step3). Native GroupedSelectionSource groups source-generated entity IDs by current value equality, retaining encounter/member order. Explicit lifecycle events replace mocked Java scopes and reflection descriptors; Rust-typed values replace named fixture objects. No random selection, shared supply-manager counts or Java cache identity claimed."
     }
   ],
   "fixtures": [
@@ -59384,6 +59414,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfIterator/assertAllCodesOfIterator/assertAllCodesOfIterableSelector/assertAllCodesOfMoveSelector/verifyPhaseLifecycle",
       "modifications": "Native assert_eq/iterator exhaustion and CachedMoveProvider cache metadata replace Java iterator and selector assertions. Count each of the six forwarded child lifecycle event kinds (solve1, phases2, scans5). Native Option iterator exhaustion replaces hasNext/isExhausted; non-null iterator references are guaranteed by Rust. Preserve every output code and ordering; no helper implementation outside these assertion contracts is adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/grouped_pillar_source_cases.rs",
+      "id": "PlannerAssert.grouped_pillar_sources",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfPillarSelector/assertAllCodesOfIterableSelector/assertAllCodesOfIterator/verifyPhaseLifecycle",
+      "modifications": "Native assertions preserve ordered bracketed member codes, finite non-repeating metadata, exact count and repeated exhaustion; count all six forwarded child lifecycle events for solve1/phase2/step3. Non-null iterator references are guaranteed by Rust. Only test helper assertion contracts are adapted."
     }
   ]
 }
