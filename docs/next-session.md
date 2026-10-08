@@ -19043,3 +19043,43 @@ Live freshness matched verification digest: 6a8e3080a59a458ba59e0d46fa9cd3a61340
 Prior ledger records unchanged; 9 new provenance cases/upstream method credits; no fixture changes.
 Log work/selection-wiring-final-check.log; evidence work/selection-wiring-evidence.json.
 No benchmark refresh; previous measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+## Composed sublist proposal sources
+
+Previous goal turn progressed: fa1db87 committed; clean at start. Read current
+handoff/compatibility and pending source tests. Added sublist_selection_source.rs:
+EntitySubListSource bounds owner reads including rejections, skips pins/short lists,
+keeps random state across openings and rebuilds a coordinate index per opening.
+SubListChangeSource/SwapSource lazily pair independent sources, forward lifecycle,
+draw reversal only for relocation/swap, fuse on either exhaustion, preserve raw
+proposals. Change conversion retains PRE metadata and adjusts to native POST
+indices; strictly inside-span destinations return None. Native apply still checks
+pins/ranges/dependencies. Swaps normalize same-entity start order, retain overlaps.
+SubListCardinality/proposal_count describe the model Cartesian catalog, separately
+from traversal length (which can be restricted by owner sequence/read budgets).
+ListSelectionContext exposes borrowed problem/assignment accessors.
+
+Six full size/empty methods adapted from RandomSubListChange/SwapMoveSelectorTest;
+change sizeWithBounds includes all A/B/C/D entities supplied by source mock despite
+upstream solution listing only A/B. Seven original regressions cover lifecycle,
+lazy opens, draw protocol/bounds, bounded all-rejected streams, current-state refresh,
+PRE→POST move application/undo, overlaps, named replay and list/mixed solver search.
+Existing partial sequence fixtures unchanged; no unearned lifecycle/trace credit.
+No performance claim, benchmark refresh or browser rerun needed for this batch.
+
+Compile81572 TERMINAL101: explicit impl lifetime and trait method lifetime where
+clauses corrected. Focus80206 TERMINAL101: mixed solver result/owned extensions API
+fixed. Focus39952 TERMINAL0 (6+6 tests), then added seventh native budget/panic case
+and renamed private draw/macro helpers uniquely to avoid verification-name clashes.
+Fmt71138/92837/99291 TERMINAL0.
+Final required gate90436 TERMINAL0; source/tests/provenance stayed frozen.
+Evidence4300 TERMINAL0; staged diff reviewed. All batch handles terminal.
+
+Required sublist-source gate TERMINAL0. 5127 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 8, 'REUSE': 684}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3000, 'failed': 0, 'pending': 1573, 'excluded': 282, 'unverified': 0, 'percent': 61.792}.
+Source before/after matched: 7c5854a862dd006d61ee6786b1702aa82d68fac8235ed00d1cef262bf1887b96
+Live freshness matched verification digest: 0b013ef039e194c7d3d69da5b67b62690e745ca0decdf344ef62e6525e2cc5c2.
+Prior ledger records unchanged; 6 new provenance cases/upstream method credits; no fixture changes.
+Log work/sublist-source-final-check.log; evidence work/sublist-source-evidence.json.
+No benchmark refresh; previous measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.

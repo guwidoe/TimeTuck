@@ -173,6 +173,13 @@ pub struct ListSelectionContext<'p, V> {
     assignment: &'p ListAssignment<V>,
 }
 impl<'p, V: Eq + Clone> ListSelectionContext<'p, V> {
+    pub fn problem(&self) -> &'p ListProblem<V> {
+        self.problem
+    }
+    pub fn assignment(&self) -> &'p ListAssignment<V> {
+        self.assignment
+    }
+
     pub fn new(
         problem: &'p ListProblem<V>,
         assignment: &'p ListAssignment<V>,

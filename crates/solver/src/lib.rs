@@ -1155,3 +1155,9 @@ pub use configured_selection::{
 mod selection_registry;
 pub use assignment_selection::{OptionalListValueFilter, SubListSource};
 pub use selection_registry::{RegisteredSelection, SelectionRegistrationError, SelectionRegistry};
+
+mod sublist_selection_source;
+pub use sublist_selection_source::{
+    EntitySubListSource, SubListCardinality, SubListChangeProposal, SubListChangeSource,
+    SubListSwapProposal, SubListSwapSource,
+};

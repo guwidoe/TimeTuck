@@ -4765,3 +4765,16 @@ and pinned prefixes apply. Three sublist factory cases and the finite random-lim
 ending-iterator case have complete adaptations. The sublist factory rejection of
 an explicit maximum-size property combined with a mimic reference remains pending;
 that combined reflective configuration shape has no native counterpart here.
+
+Sublist selection sources now compose independent span and destination streams,
+with entity-conditioned span draws, separate left/right bounds, optional reversal,
+raw PRE-removal proposal metadata, and conversion to native POST-removal moves.
+Lifecycle events propagate once per child; bounded entity reads include rejected
+owners. Sources reopen against the current validated assignment. Recording/replay
+and list/mixed local-search integration have original regressions. Catalog counts
+are separate from traversal sizes: owner restrictions and finite budgets can yield
+fewer proposals, and invalid/no-op combinations remain subject to move validation.
+Six additional RandomSubListChange/SwapMoveSelector methods preserve cardinality,
+repeating metadata and empty selection assertions. The earlier ten sequence-only
+fixtures remain partial; this batch does not establish full Java lifecycle or
+random-trace equivalence. No new performance measurement is claimed.
