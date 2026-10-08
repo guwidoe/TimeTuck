@@ -132,7 +132,11 @@ fn cached_sources_drive_all_nine_backends_and_release_at_real_phase_boundaries()
     };
     macro_rules! check {
         ($solve:ident,$p:expr,$scorer:expr,$plan:expr,$p_ty:ty,$a_ty:ty,$capture:expr,$movement:expr) => {{
-            for scope in [ProviderCacheScope::Phase, ProviderCacheScope::Step] {
+            for scope in [
+                ProviderCacheScope::Solve,
+                ProviderCacheScope::Phase,
+                ProviderCacheScope::Step,
+            ] {
                 let mut provider = CachedMoveProvider::uniform(
                     Entries::new(vec![0]),
                     CachedProviderConfig {
@@ -145,11 +149,15 @@ fn cached_sources_drive_all_nine_backends_and_release_at_real_phase_boundaries()
                 .unwrap();
                 for run in 1..=2 {
                     let mut ext = SolverExtensions::default();
-                    ext.move_providers.bind(0, &mut provider);
-                    let r = $solve(&$p, $scorer, $plan, ext).unwrap();
+                    ext.move_providers
+                        .bind_shared([0, 1, 1], &mut provider)
+                        .unwrap();
+                    let mut plan = $plan;
+                    plan.phases.push(plan.phases[0].clone());
+                    let r = $solve(&$p, $scorer, plan, ext).unwrap();
                     assert!(r.complete);
-                    assert_eq!(r.work.completed_steps, 2);
-                    assert_eq!(r.work.move_evaluations, 2);
+                    assert_eq!(r.work.completed_steps, 4);
+                    assert_eq!(r.work.move_evaluations, 4);
                     assert_eq!(provider.cache().state(), SelectionCacheState::Idle);
                     assert!(matches!(
                         provider.cache().size(),
@@ -163,13 +171,19 @@ fn cached_sources_drive_all_nine_backends_and_release_at_real_phase_boundaries()
                         (E::StepStarted, 1),
                         (E::StepEnded, 1),
                         (E::PhaseEnded, 1),
+                        (E::PhaseStarted, 0),
+                        (E::StepStarted, 0),
+                        (E::StepEnded, 0),
+                        (E::StepStarted, 1),
+                        (E::StepEnded, 1),
+                        (E::PhaseEnded, 1),
                         (E::SolveEnded, 1),
                     ];
                     assert_eq!(provider.cache().source().events, events.repeat(run));
-                    let builds = if scope == ProviderCacheScope::Phase {
-                        vec![0]
-                    } else {
-                        vec![0, 1]
+                    let builds = match scope {
+                        ProviderCacheScope::Solve => vec![0],
+                        ProviderCacheScope::Phase => vec![0, 0],
+                        ProviderCacheScope::Step => vec![0, 1, 0, 1],
                     };
                     assert_eq!(provider.cache().source().builds, builds.repeat(run));
                 }

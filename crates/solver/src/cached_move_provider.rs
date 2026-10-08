@@ -5,10 +5,11 @@ use crate::{
 };
 use std::{error::Error, fmt};
 
-/// Cache duration inside one provider-backed engine phase. Whole-solve caching
-/// needs a solver-level owner and is deliberately not represented by this type.
+/// Cache duration inside provider-backed execution. A standalone engine call
+/// has a single-phase selection session; solver sequences own the complete solve.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub enum ProviderCacheScope {
+    Solve,
     Phase,
     #[default]
     Step,
@@ -61,17 +62,17 @@ impl Error for CachedProviderError {}
 /// the first opening of each scan; the source and weights use that context. The
 /// mapper receives the current problem, assignment and step plus a borrowed key.
 /// Returning None rejects that occurrence. Neither C nor the keys need Clone.
-/// Phase scope retains keys/weights until phase end; Step rebuilds every scan.
-/// Choose Step if key membership or weights depend on changing assignment facts.
+/// Solve/phase scope retains keys and weights until its end; Step rebuilds each
+/// scan. Choose Step if membership or weights depend on changing assignment facts.
 ///
-/// Construction and local search deliver lifecycle automatically. The private
-/// selection session starts lazily on its first nonzero-draw opening and closes
-/// at provider phase end. Source SolveStarted/Ended bracket this private session,
-/// not the enclosing solver sequence. Unopened scans/phases emit no source events.
-/// Each source StepEnded uses the same captured pre-scan context as its start;
-/// the next scan captures the updated assignment. PhaseEnded/SolveEnded use the
-/// last captured context. Phase snapshots release at phase end, step snapshots at
-/// scan end. Owned snapshots explicitly obtained through cache() remain valid.
+/// Source scopes open lazily on the first nonzero-draw scan. A solver sequence
+/// keeps the solve scope across phases; bind_shared reuses this provider in several
+/// phases without resetting its solve cache. Standalone engine calls retain the
+/// single-phase private-session behavior. Unopened scans/phases emit no source
+/// events. Each source StepEnded uses its captured pre-scan context; phase/solve
+/// ends use the last capture. Keys release at their scope's end. Explicitly held
+/// snapshots remain valid. An opened solve cache survives unbound intervening
+/// phases and closes even if a later phase fails before opening this provider.
 ///
 /// Source size/weight/collection failures must not masquerade as no candidates.
 /// try_moves returns those errors to direct callers; the infallible MoveProvider
@@ -85,6 +86,7 @@ pub struct CachedMoveProvider<C, T, S, W, F, G> {
     capture: F,
     mapper: G,
     config: CachedProviderConfig,
+    solve: bool,
     phase: bool,
     step: bool,
 }
@@ -109,6 +111,7 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64, F, G>
         mapper: G,
     ) -> Result<Self, SelectionCacheError> {
         let scope = match config.scope {
+            ProviderCacheScope::Solve => SelectionCacheScope::Solve,
             ProviderCacheScope::Phase => SelectionCacheScope::Phase,
             ProviderCacheScope::Step => SelectionCacheScope::Step,
         };
@@ -124,6 +127,7 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64, F, G>
             capture,
             mapper,
             config,
+            solve: false,
             phase: false,
             step: false,
         })
@@ -156,15 +160,32 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64, F, G>
             self.source_event(event)?;
         }
         self.context = None;
+        self.solve = false;
         self.phase = false;
         self.step = false;
         Ok(())
     }
     fn lifecycle(&mut self, event: MoveProviderEvent) {
         match event {
+            MoveProviderEvent::SolveStarted => {
+                assert!(
+                    !self.solve && !self.phase && self.cache.state() == SelectionCacheState::Idle,
+                    "cached provider needs reset before a new solve"
+                );
+                self.solve = true;
+            }
+            MoveProviderEvent::SolveEnded => {
+                assert!(
+                    self.solve && !self.phase && !self.step,
+                    "cached provider solve ended during a phase"
+                );
+                self.reset().expect("balanced source solve");
+            }
             MoveProviderEvent::PhaseStarted => {
                 assert!(
-                    !self.phase && self.cache.state() == SelectionCacheState::Idle,
+                    !self.phase
+                        && (self.cache.state() == SelectionCacheState::Idle
+                            || (self.solve && self.cache.state() == SelectionCacheState::Solving)),
                     "cached provider needs reset before a new phase"
                 );
                 self.phase = true;
@@ -189,7 +210,15 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64, F, G>
                     self.phase && !self.step,
                     "cached provider phase ended during a scan"
                 );
-                self.reset().expect("balanced source session");
+                if self.solve {
+                    if self.cache.state() == SelectionCacheState::Phase {
+                        self.source_event(SelectionLifecycleEvent::PhaseEnded)
+                            .expect("balanced source phase");
+                    }
+                    self.phase = false;
+                } else {
+                    self.reset().expect("balanced source session");
+                }
             }
         }
     }

@@ -120,7 +120,7 @@ fn solve_calculator_impl<
     c: impl Into<SolverSequence<'c, S>>,
     observer: PlanObserver<'_, Assignment<V>, S>,
     mut command: CommandCallback<'_, Assignment<V>, Move<V>, S, ScoringError>,
-    mut providers: Option<&mut PhaseMoveProviders<'_, FiniteProblem<V>, Assignment<V>, Move<V>>>,
+    providers: Option<&mut PhaseMoveProviders<'_, FiniteProblem<V>, Assignment<V>, Move<V>>>,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     let c = c.into();
     if let Some(providers) = &providers {
@@ -155,12 +155,14 @@ fn solve_calculator_impl<
             assignment,
         }
     };
+    let mut providers = crate::solver_extensions::ProviderSolve::new(providers);
     run(
         c.limits,
         &c.phases,
         initial,
         observation,
         |index, a, request, time, observation| {
+            providers.start();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -576,9 +578,7 @@ fn solve_list_calculator_impl<
     c: impl Into<SolverSequence<'c, S>>,
     observer: PlanObserver<'_, ListAssignment<V>, S>,
     mut command: CommandCallback<'_, ListAssignment<V>, ListMove<V>, S, ListScoringError>,
-    mut providers: Option<
-        &mut PhaseMoveProviders<'_, ListProblem<V>, ListAssignment<V>, ListMove<V>>,
-    >,
+    providers: Option<&mut PhaseMoveProviders<'_, ListProblem<V>, ListAssignment<V>, ListMove<V>>>,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     let c = c.into();
     if let Some(providers) = &providers {
@@ -620,12 +620,14 @@ fn solve_list_calculator_impl<
             assignment,
         }
     };
+    let mut providers = crate::solver_extensions::ProviderSolve::new(providers);
     run(
         c.limits,
         &c.phases,
         initial,
         observation,
         |index, a, request, time, observation| {
+            providers.start();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -1039,7 +1041,7 @@ fn solve_mixed_calculator_impl<
     c: impl Into<MixedSolverSequence<'c, S>>,
     observer: PlanObserver<'_, MixedAssignment<B, L>, S>,
     mut command: CommandCallback<'_, MixedAssignment<B, L>, MixedMove<B, L>, S, MixedScoringError>,
-    mut providers: Option<&mut crate::solver_extensions::MixedPhaseProviders<'_, B, L>>,
+    providers: Option<&mut crate::solver_extensions::MixedPhaseProviders<'_, B, L>>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     let c = c.into();
     if let Some(providers) = &providers {
@@ -1089,12 +1091,14 @@ fn solve_mixed_calculator_impl<
         |phase| providers.as_ref().is_some_and(|p| p.contains(phase)),
         |e| MixedLocalSearchError::from(MixedScoringError::from(MixedError::Lists(e))),
     )?;
+    let mut providers = crate::solver_extensions::ProviderSolve::new(providers);
     run(
         c.limits,
         &phases,
         initial,
         observation,
         |index, a, request, time, observation| {
+            providers.start();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()

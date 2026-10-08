@@ -1,6 +1,6 @@
 //! Typed callbacks and move-provider bindings for complete solver plans.
 use crate::{CustomPhaseContext, CustomPhaseError, MoveProvider, SolverError, SolverEvent};
-use std::collections::BTreeMap;
+use std::{collections::BTreeMap, error::Error, fmt};
 
 /// Mutable providers keyed by zero-based index in the full solver phase plan.
 /// Construction and local-search phases can be bound. Other phases retain their
@@ -12,34 +12,84 @@ pub struct PhaseMoveProviders<'a, P, A, M> {
     /// Maximum raw proposals per bound construction phase, including rejected
     /// moves. Defaults to 100,000. Does not affect local-search providers.
     pub max_construction_scans: u64,
-    bindings: BTreeMap<usize, &'a mut dyn MoveProvider<P, A, M>>,
+    bindings: BTreeMap<usize, usize>,
+    providers: Vec<Option<&'a mut dyn MoveProvider<P, A, M>>>,
 }
 impl<P, A, M> Default for PhaseMoveProviders<'_, P, A, M> {
     fn default() -> Self {
         Self {
             bindings: BTreeMap::new(),
+            providers: Vec::new(),
             max_construction_scans: 100_000,
         }
     }
 }
 impl<'a, P, A, M> PhaseMoveProviders<'a, P, A, M> {
-    /// Bind or replace a provider. Invalid phase indices are rejected at solve
-    /// entry, before graph factories, scoring, commands or events are invoked.
+    /// Bind or replace one phase. Returns its old provider only when that was the
+    /// last phase bound to it; a shared provider stays borrowed by its other phases.
+    /// Invalid phase indices are rejected before solve callbacks.
     pub fn bind(
         &mut self,
         phase: usize,
         provider: &'a mut dyn MoveProvider<P, A, M>,
     ) -> Option<&'a mut dyn MoveProvider<P, A, M>> {
-        self.bindings.insert(phase, provider)
+        let previous = self.remove(phase);
+        let slot = self.store(provider);
+        self.bindings.insert(phase, slot);
+        previous
     }
+    /// Borrow one provider once and reuse it in every selected phase. Duplicate
+    /// indices are deduplicated. Empty lists and existing bindings are rejected
+    /// atomically; use remove() explicitly to replace a shared binding.
+    pub fn bind_shared(
+        &mut self,
+        phases: impl IntoIterator<Item = usize>,
+        provider: &'a mut dyn MoveProvider<P, A, M>,
+    ) -> Result<(), MoveProviderBindingError> {
+        let phases: std::collections::BTreeSet<_> = phases.into_iter().collect();
+        if phases.is_empty() {
+            return Err(MoveProviderBindingError::EmptyPhases);
+        }
+        if let Some(&phase) = phases.iter().find(|&&phase| self.contains(phase)) {
+            return Err(MoveProviderBindingError::AlreadyBound { phase });
+        }
+        let slot = self.store(provider);
+        for phase in phases {
+            self.bindings.insert(phase, slot);
+        }
+        Ok(())
+    }
+    fn store(&mut self, provider: &'a mut dyn MoveProvider<P, A, M>) -> usize {
+        if let Some(slot) = self.providers.iter().position(Option::is_none) {
+            self.providers[slot] = Some(provider);
+            slot
+        } else {
+            let slot = self.providers.len();
+            self.providers.push(Some(provider));
+            slot
+        }
+    }
+    /// Remove a phase binding. Returns the provider only after its last binding
+    /// is removed, because a shared provider cannot be mutably borrowed twice.
     pub fn remove(&mut self, phase: usize) -> Option<&'a mut dyn MoveProvider<P, A, M>> {
-        self.bindings.remove(&phase)
+        let slot = self.bindings.remove(&phase)?;
+        if self.bindings.values().any(|&other| other == slot) {
+            None
+        } else {
+            self.providers[slot].take()
+        }
     }
     pub fn contains(&self, phase: usize) -> bool {
         self.bindings.contains_key(&phase)
     }
     pub(crate) fn get(&mut self, phase: usize) -> Option<&mut (dyn MoveProvider<P, A, M> + 'a)> {
-        self.bindings.get_mut(&phase).map(|p| &mut **p)
+        let slot = *self.bindings.get(&phase)?;
+        self.providers[slot].as_deref_mut()
+    }
+    fn event(&mut self, event: crate::MoveProviderEvent) {
+        for provider in self.providers.iter_mut().flatten() {
+            provider.event(event);
+        }
     }
     pub(crate) fn validate<E>(
         &self,
@@ -52,6 +102,63 @@ impl<'a, P, A, M> PhaseMoveProviders<'a, P, A, M> {
             }
         }
         Ok(())
+    }
+}
+/// Invalid shared provider registration. No binding changes on error.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum MoveProviderBindingError {
+    EmptyPhases,
+    AlreadyBound { phase: usize },
+}
+impl fmt::Display for MoveProviderBindingError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "move provider binding: {self:?}")
+    }
+}
+impl Error for MoveProviderBindingError {}
+
+/// A real solver invocation owns one lifecycle for every distinct binding.
+/// Start lazily at its first scoring kernel, after all shared plan validation.
+/// Diagnostics reuse the same kernel closure and cannot open a second lifecycle.
+pub(crate) struct ProviderSolve<'r, 'p, P, A, M> {
+    providers: Option<&'r mut PhaseMoveProviders<'p, P, A, M>>,
+    started: bool,
+}
+impl<'r, 'p, P, A, M> ProviderSolve<'r, 'p, P, A, M> {
+    pub(crate) fn new(providers: Option<&'r mut PhaseMoveProviders<'p, P, A, M>>) -> Self {
+        Self {
+            providers,
+            started: false,
+        }
+    }
+    pub(crate) fn start(&mut self) {
+        if !self.started {
+            self.started = true;
+            if let Some(providers) = &mut self.providers {
+                providers.event(crate::MoveProviderEvent::SolveStarted);
+            }
+        }
+    }
+}
+impl<'r, 'p, P, A, M> std::ops::Deref for ProviderSolve<'r, 'p, P, A, M> {
+    type Target = Option<&'r mut PhaseMoveProviders<'p, P, A, M>>;
+    fn deref(&self) -> &Self::Target {
+        &self.providers
+    }
+}
+impl<P, A, M> std::ops::DerefMut for ProviderSolve<'_, '_, P, A, M> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.providers
+    }
+}
+impl<P, A, M> Drop for ProviderSolve<'_, '_, P, A, M> {
+    fn drop(&mut self) {
+        if self.started
+            && !std::thread::panicking()
+            && let Some(providers) = &mut self.providers
+        {
+            providers.event(crate::MoveProviderEvent::SolveEnded);
+        }
     }
 }
 /// Command callback for an entered custom phase.

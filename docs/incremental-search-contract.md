@@ -2141,7 +2141,7 @@ returns a move or rejects that occurrence. Cached keys need not implement `Clone
 The mapper can filter changing eligibility while a phase cache retains stable keys.
 Use step scope when key membership or weights themselves must follow assignments.
 
-`CachedProviderConfig` chooses phase/step scope, original/weighted-random ordering,
+`CachedProviderConfig` chooses solve/phase/step scope, original/weighted-random ordering,
 maximum retained candidates, maximum draws per scan and a seed. Draw limits include
 mapper rejections, so an all-rejected random stream terminates. Reopening a scan
 uses the same cached keys and seed plus completed steps (wrapping); no hidden random
@@ -2149,13 +2149,15 @@ state is advanced across openings. Zero draws and unopened scans do not capture
 context, build a cache or emit source events. Reaching a draw cap is not proof that
 no further productive move exists.
 
-Source lifecycle begins lazily at the first opening, and ends with its provider
-phase. Source SolveStarted/SolveEnded describe this private selection session;
-they do not describe the entire solver sequence. Whole-solve cache scope is absent
-from this adapter. Every opened scan has balanced StepStarted/StepEnded, using its
-captured pre-scan context. Phase/session end uses the most recently captured context.
-Keys release at the configured boundary; explicitly retained snapshots remain valid.
-Automatic fresh phase-score diagnostics do not reopen the source.
+Source lifecycle begins lazily at the first opening. Solver sequences send one
+SolveStarted/SolveEnded pair per distinct registered provider, and retain an opened
+source session across phases. Bind the same provider to several phases with
+`PhaseMoveProviders::bind_shared`; solve caches then build once and survive unbound
+intervening phases. Standalone engine calls keep a one-phase private session. Every
+opened source scan has balanced StepStarted/StepEnded, using its captured pre-scan
+context. Phase/solve end uses the most recently captured context. Keys release at
+the configured boundary; explicitly retained snapshots remain valid. Automatic fresh
+phase-score diagnostics do not restart provider lifecycles or reopen sources.
 
 `try_moves` returns source size/weight/collection errors to direct callers. The
 existing infallible `MoveProvider` interface panics on those errors instead of
@@ -2165,8 +2167,36 @@ It can continue cleanup if an end callback previously panicked, because the cach
 advances lifecycle state before invoking the callback. External callback effects
 cannot be rolled back. Reset must not run during an active engine invocation.
 
-Six native tests exercise both scopes on all nine scoring/model backends, repeated
+Six native tests exercise all three scopes on all nine scoring/model backends, shared
+providers across two phases, repeated
 solves and diagnostic scoring, construction with current-assignment filtering,
 weighted sampling/replay and bounded rejection, lazy unopened/zero-draw paths,
 source errors and panic recovery, and non-Clone key ownership with held snapshots.
 They add no upstream test-method credit.
+
+
+### Shared providers and solve lifecycles
+
+`PhaseMoveProviders::bind_shared` borrows a provider once for multiple phase indices.
+Duplicate indices are deduplicated; empty lists and collisions are rejected without
+changing bindings. Existing binding validation still checks every phase before user
+callbacks. `bind` replaces one alias while preserving others; `bind`/`remove` return
+the previous provider only when its final binding is removed.
+
+All nine solver backends own one provider solve scope. It begins at the first phase
+kernel after shared plan validation and closes on success or a returned error,
+including later graph-factory failure. All distinct registered providers participate,
+including those whose phase is never reached. Entering a zero-budget kernel emits
+only solve events; phases/scans preserve their zero-budget suppression. A run that
+never enters a kernel emits no solve events. Start/phase/scan callbacks follow the
+ordinary solve clock; solve-end cleanup runs after result timing is finalized.
+Callbacks add no score/move work counts. Panic unwinding skips
+further user callbacks; affected state must be reset before reuse. Source end events
+can be resumed with CachedMoveProvider::reset after a caught panic. Do not wrap a
+cached provider in a callback that resets it during an active solve; it already owns
+its cache lifecycle. PhaseResetMoveProvider remains available for resumable queues.
+
+Five additional native regressions cover atomic registration, replacement/removal
+of aliases, validation and early-stop boundaries, unbound intervening phases, later
+factory errors and caught-panic recovery. Upstream lifecycle-method credit still
+requires complete case adaptations; native ownership alone does not confer it.

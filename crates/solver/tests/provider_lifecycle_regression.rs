@@ -41,6 +41,8 @@ impl<P, A, M, Q: MoveProvider<P, A, M>> MoveProvider<P, A, M> for Tracked<Q> {
     fn event(&mut self, event: MoveProviderEvent) {
         assert_eq!(self.cursors.get(), 0, "event before cursor destruction");
         self.log.borrow_mut().push(match event {
+            SolveStarted => "solve+",
+            SolveEnded => "solve-",
             PhaseStarted => "phase+",
             StepStarted => "step+",
             StepEnded => "step-",
@@ -190,6 +192,8 @@ fn actual_phase_and_scan_boundaries_in_all_nine_backends_without_diagnostic_repl
             assert_eq!(
                 *log.borrow(),
                 vec![
+                    "solve+",
+                    "solve+",
                     "phase+",
                     "step+",
                     "open",
@@ -203,6 +207,8 @@ fn actual_phase_and_scan_boundaries_in_all_nine_backends_without_diagnostic_repl
                     "drop",
                     "step-",
                     "phase-",
+                    "solve-",
+                    "solve-",
                 ]
             );
         }};
@@ -573,6 +579,8 @@ struct Factory {
 impl PlacementMoveFactory<FiniteProblem<i32>, Assignment<i32>, usize, Move<i32>> for Factory {
     fn event(&mut self, e: MoveProviderEvent) {
         self.log.borrow_mut().push(match e {
+            SolveStarted => "solve+",
+            SolveEnded => "solve-",
             PhaseStarted => "phase+",
             StepStarted => "step+",
             StepEnded => "step-",

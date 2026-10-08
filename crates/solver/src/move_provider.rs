@@ -67,10 +67,14 @@ impl<M, I: Iterator<Item = M>> Iterator for ProvidedMoves<'_, M, I> {
     }
 }
 
-/// Lifecycle of one provider-backed construction or local-search phase.
-/// There are no whole-solve events: each standalone engine invocation is a phase,
-/// and solver sequences deliver these only to providers whose phase is entered.
-/// No events are emitted for failed preflight validation, a zero scoring budget or cancellation
+/// Lifecycle of provider-backed solver execution. Solver sequences deliver a
+/// single solve scope to each distinct registered provider, starting lazily at the
+/// first scoring kernel after plan validation. Runs that never enter a scoring
+/// kernel emit no solve events; entering a zero-budget kernel still opens the
+/// solve scope without opening a provider phase.
+/// Standalone engines emit phase/scan events only. Phase events reach only providers
+/// whose construction or local-search phase is entered.
+/// No phase/scan events are emitted for failed preflight validation, a zero scoring budget or cancellation
 /// detected before initialization. PhaseStarted precedes director creation; errors
 /// returned afterward still close the phase. A scored phase may have no scans.
 ///
@@ -82,6 +86,11 @@ impl<M, I: Iterator<Item = M>> Iterator for ProvidedMoves<'_, M, I> {
 /// reset affected provider state before reuse. Ordinary Rust destructors still run.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum MoveProviderEvent {
+    /// Solver sequence entered its first scoring kernel. Sent once per distinct
+    /// binding, including bindings for phases the run may never reach.
+    SolveStarted,
+    /// Solver sequence returned successfully or with an error. Not sent on panic.
+    SolveEnded,
     PhaseStarted,
     StepStarted,
     StepEnded,

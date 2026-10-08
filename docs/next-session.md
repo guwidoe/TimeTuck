@@ -17715,3 +17715,63 @@ Gate18335 TERMINAL0, log wall window 139s; only lib/new regression rerun
 (2 RUN,648 REUSE),46 Python jobs reused. Evidence71376 TERMINAL0 confirms live
 freshness. All verification handles terminal. No prebuild, benchmark or browser
 rerun. Full rewrite goal remains active.
+
+
+## Whole-solve provider scopes and shared phase bindings
+
+Baselineaf67db3. PhaseMoveProviders now separates phase-to-slot bindings from unique
+borrowed provider storage. bind_shared deduplicates indices and atomically rejects
+empty/colliding registrations. bind/remove release a provider reference only after
+its final alias is removed; replacing one alias preserves the rest. New public
+MoveProviderBindingError. No unsafe or duplicate mutable references.
+
+ProviderSolve owns the bindings around all9 solver kernels. It starts lazily on the
+first kernel invocation after all shared plan validation; returns and errors close
+all distinct registered providers once (including unused later bindings). Diagnostic
+fresh phase scoring reuses the already started guard. New MoveProviderEvent SolveStarted
+and SolveEnded forward through existing wrappers/factories. Phase/step engine scopes
+remain unchanged; panic unwinding skips callbacks. A zero-budget kernel still emits
+solve events with no phase/scan events; runs that never enter a kernel emit none.
+
+CachedMoveProvider gains Solve scope and a solver-owned lifecycle flag. Source scopes
+remain lazy; solve caches survive phase handoffs and unbound intervening phases, phase
+caches rebuild at each opened phase and step caches at each opened scan. Source scopes
+close even if a later graph factory fails before provider phase start. Standalone
+engines keep private one-phase sessions. reset closes a caught-panic session before
+reuse; it must not be called inside an active solve. Existing PhaseResetMoveProvider
+is for providers that need an explicit phase reset, not this self-managed cache.
+
+Existing cached-provider matrix now covers all3 scopes, two phases shared by one
+provider, repeat solves and fresh diagnostics on all9 backends (54 runs). Existing
+lifecycle tests include distinct global callbacks. Five new native tests cover shared
+registration errors/dedup, alias release/replacement, plan validation/early limits,
+unbound intermediate phase, later factory error, panic and explicit recovery.
+Focused39157 TERMINAL0 (6 cached+7 lifecycle+5 solve tests); compile76857 TERMINAL0.
+Initial focused79935 TERMINAL101: zero-budget kernel expected no events; corrected
+fixture/docs to match explicit kernel-entry solve semantics, retaining zero work.
+No upstream production read or provenance changes. Required gate53596 started on
+frozen Rust. No benchmark refresh or UI changes.
+
+Next candidate: revisit SwapMoveSelectorTest originalLeftEqualsRight,
+emptyOriginalLeftEqualsRight and originalLeftUnequalsRight full assertions now that
+source solve/phase/step events can be driven through shared providers. Read tests
+and existing entity_swap_cases/partial provenance entries; do not grant credit from
+lifecycle ownership alone. Native pair enumeration must generate ordered candidates
+and full source metadata/lifecycle assertions must be retained (2 phases,2+3 scans),
+including empty traversal cases. Test doubles may log callbacks but must not supply
+hard-coded expected move sequences in place of real enumeration. No adaptation made
+in this batch and no new provenance credit claimed.
+
+Required solve-provider gate TERMINAL0. 4902 Rust tests and 242 doctests passed.
+Rust jobs: {'RUN': 584, 'REUSE': 67}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 8a0d82ab326a5cb752d5d1173099db3b1fc55355d43eb61b4f3b35ae1282e6fe
+Live freshness matched verification digest: c7c0c40e45f70850f4ed05892c3d3e3602bee5575e6f3bcfc8ccea7f2ac73a36.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/solve-provider-final-check.log; evidence work/solve-provider-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Final gate53596 TERMINAL0, log wall window 593s. Warm29156 TERMINAL0
+compiled535 uncached remaining targets in3m15s, overlapping the gate, without
+writing evidence. Evidence20202 TERMINAL0 confirms live freshness. All verification
+handles terminal. No benchmark or browser rerun. Goal remains active.

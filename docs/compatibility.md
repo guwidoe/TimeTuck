@@ -4572,12 +4572,12 @@ from construction and local search in all nine solver backends. Notifications
 forward through filters, enabled union children, mixed component providers,
 construction queues and placement factories. Optional phase resets preserve the
 existing default of resumable provider state. Returned errors close open scopes;
-panic unwinding skips user callbacks. These are native phase/scan events, not
-Timefold whole-solve selector lifecycle equivalence or automatic SelectionCache
-context adaptation, and confer no additional upstream test credit.
+panic unwinding skips user callbacks. These are native events and do not claim Java selector lifecycle equivalence;
+they confer no additional upstream test credit.
 
 CachedMoveProvider now connects native selection caches to real construction and
-local search, with phase/step scope, bounded weighted draws and current-assignment
-move mapping. Its source lifecycle is a private session within one provider phase;
-it does not claim whole-solve cache/lifecycle parity. Native integration tests cover
-all nine backends; upstream method coverage is unchanged.
+local search, with solve/phase/step scope, bounded weighted draws and current-assignment
+move mapping. Shared bindings let a single borrowed provider retain a solve cache
+across phases. All nine backends own one solve lifecycle per distinct registered
+provider, closing on returned errors; standalone engines use one-phase sessions.
+Native integration tests cover these paths; upstream method coverage is unchanged.
