@@ -17214,3 +17214,33 @@ until80546 is terminal and evidence recorded. After that, fast-forward this bran
 onto main (or merge any documentation-only gate note first), then run one required
 check.sh for the combined final Rust state. Reuse focused scratch evidence above.
 Keep the goal active. Do not mark the main gate passed merely from this commit.
+
+Required graph-batching gate TERMINAL0. 4845 Rust tests and 241 doctests passed.
+Rust jobs: {'RUN': 573, 'REUSE': 67}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 20b5ffcd3a6e620e7b723917085cb844f86f611ca1a45a54b10c49736ae1efcd
+Live freshness matched verification digest: ee89111ff3929c93b0ce24759aa97857fced9f7a149a158bd7abe51cd69d20bb.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/graph-batching-final-check.log; evidence work/graph-batching-evidence.json.
+No benchmark/browser/release reruns. All verification sessions terminal; goal remains active.
+
+Baseline408a62c verification completed: gate80546/warm35614/evidence59434 allterminal0.
+573Rustjobs ran,67reused;46Pythonjobs reused. Source and live freshness matched.
+Then fast-forwardedmain to2dda522 (existence/coalescing/replay integration). The
+above baseline evidence describes408a62c, not the new2dda522 source. The final
+combined check.sh is next; the15focused scratch checks already passed and are
+reused. Worktree branch2dda522 clean and available until integration is finalized.
+
+Required coalesced-stream gate TERMINAL0. 4850 Rust tests and 241 doctests passed.
+Rust jobs: {'RUN': 577, 'REUSE': 65}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 221f044b2a0f96802a43b2e1e28ceb0460bc1538d48b3f3a83d0fe27dd806ebf
+Live freshness matched verification digest: 6459cd99f6d067c0e9ba4caa2b8c28db9939110b13aa825f627555d4800637c7.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/coalesced-stream-final-check.log; evidence work/coalesced-stream-evidence.json.
+No benchmark/browser/release reruns. All verification sessions terminal; goal remains active.
+Combined coalesced-stream gate56408/warm28593/evidence1398 TERMINAL0.
+577Rustjobs ran,65reused;46Pythonjobs reused. Warm compilation took2m36s with
+8jobs and prior shared-graph target names (no extra input scan, no evidence writes).
+Main2dda522 fully verified. The scratch workspace subsequently advanced to undo
+assertions; its earlier coalescing evidence remains pinned to the integrated files.
