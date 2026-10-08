@@ -17675,3 +17675,43 @@ compiled572 uncached remaining targets in2m18s without writing evidence; it over
 the gate. Evidence11230 TERMINAL0 confirms live freshness. Focused53748 TERMINAL0;
 all verification handles consumed. Prior failed compile/focused82025/95093/7313/97789
 TERMINAL101; successful final state covered by gate. No benchmark or browser rerun.
+
+## Cached sources driving solver moves
+
+Baselinec6d21ed. Isolated cached_move_provider module adds CachedMoveProvider,
+CachedProviderConfig, ProviderCacheScope (Phase/Step), CachedProviderError and
+root reexports. Owns existing SelectionCache; captures owned context lazily at
+first opening per scan; mapper borrows retained keys and receives current p/a/step.
+Phase caches retain keys/weights while mapper sees changing assignments; step caches
+rebuild. Original/random selection uses existing cache iterators, seed+steps wrapping.
+Draw limit includes mapper rejections (bounds all-rejected random sources); source
+collection has a separate maximum. No Clone requirement on context/keys. Zero-draw
+or unopened scans do not capture/build/emit source events. End events use the scan's
+captured context; phase/session ends use the latest capture. Held snapshots survive.
+
+Private source SolveStarted/Ended bracket one entered provider phase's lazy selection
+session, not the enclosing solver. Whole-solve cache scope intentionally not offered
+until a real solve-level owner exists. try_moves returns typed cache/OutsideStep errors;
+infallible MoveProvider panics on source failures, never treats failures as no moves.
+Engine panic skips user callbacks as documented by c6d21ed; reset closes partially
+opened scopes, with retry after a panicking end callback using cache's advanced state.
+No production upstream read or provenance changes. Six native tests cover both scopes
+on all9 backends, repeated solves/fresh phase diagnostics, construction with changed
+assignments, bounded/replayed random draws, lazy zero/unopened scans, size/candidate
+failures and engine panic recovery, and non-Clone keys/retained-snapshot lifetimes.
+Focused17102 TERMINAL0; compile20464 TERMINAL0. Required gate18335 runs on frozen Rust.
+No prebuild needed for this isolated addition. No benchmarks or browser refresh planned.
+
+Required cached-provider gate TERMINAL0. 4897 Rust tests and 242 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 648}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: a8bb3003d6f26d8fa11cf4e6f16aaa3e522f599c3775c3a9158862fcef665d69
+Live freshness matched verification digest: a3451955654c1ce9099aae10f0b37e5749b5e55f09be123cb299a0647a9bcb3b.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/cached-provider-final-check.log; evidence work/cached-provider-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate18335 TERMINAL0, log wall window 139s; only lib/new regression rerun
+(2 RUN,648 REUSE),46 Python jobs reused. Evidence71376 TERMINAL0 confirms live
+freshness. All verification handles terminal. No prebuild, benchmark or browser
+rerun. Full rewrite goal remains active.

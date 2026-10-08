@@ -4575,3 +4575,9 @@ existing default of resumable provider state. Returned errors close open scopes;
 panic unwinding skips user callbacks. These are native phase/scan events, not
 Timefold whole-solve selector lifecycle equivalence or automatic SelectionCache
 context adaptation, and confer no additional upstream test credit.
+
+CachedMoveProvider now connects native selection caches to real construction and
+local search, with phase/step scope, bounded weighted draws and current-assignment
+move mapping. Its source lifecycle is a private session within one provider phase;
+it does not claim whole-solve cache/lifecycle parity. Native integration tests cover
+all nine backends; upstream method coverage is unchanged.

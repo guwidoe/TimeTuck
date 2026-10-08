@@ -2130,3 +2130,43 @@ scoring paths, combine with list construction and shared limits on all three mix
 backends, and exercise optional subsets, schema/pins, retries and bounded lazy
 consumption. No new upstream method credit: existing queued entity fixture mappings
 remain unchanged, and this adapter does not add Java selector lifecycle wiring.
+
+### Cached selection sources in actual search
+
+`CachedMoveProvider` connects an existing `SelectionSource` and `SelectionCache`
+to construction/local-search engines. A context callback captures owned selection
+facts at the first opening of each scan. A separate mapper receives each borrowed
+key together with the current problem, assignment and completed-step counter, and
+returns a move or rejects that occurrence. Cached keys need not implement `Clone`.
+The mapper can filter changing eligibility while a phase cache retains stable keys.
+Use step scope when key membership or weights themselves must follow assignments.
+
+`CachedProviderConfig` chooses phase/step scope, original/weighted-random ordering,
+maximum retained candidates, maximum draws per scan and a seed. Draw limits include
+mapper rejections, so an all-rejected random stream terminates. Reopening a scan
+uses the same cached keys and seed plus completed steps (wrapping); no hidden random
+state is advanced across openings. Zero draws and unopened scans do not capture
+context, build a cache or emit source events. Reaching a draw cap is not proof that
+no further productive move exists.
+
+Source lifecycle begins lazily at the first opening, and ends with its provider
+phase. Source SolveStarted/SolveEnded describe this private selection session;
+they do not describe the entire solver sequence. Whole-solve cache scope is absent
+from this adapter. Every opened scan has balanced StepStarted/StepEnded, using its
+captured pre-scan context. Phase/session end uses the most recently captured context.
+Keys release at the configured boundary; explicitly retained snapshots remain valid.
+Automatic fresh phase-score diagnostics do not reopen the source.
+
+`try_moves` returns source size/weight/collection errors to direct callers. The
+existing infallible `MoveProvider` interface panics on those errors instead of
+returning an empty neighborhood. Engine panic unwinding skips user lifecycle
+callbacks; `reset` closes the partially opened selection session before reuse.
+It can continue cleanup if an end callback previously panicked, because the cache
+advances lifecycle state before invoking the callback. External callback effects
+cannot be rolled back. Reset must not run during an active engine invocation.
+
+Six native tests exercise both scopes on all nine scoring/model backends, repeated
+solves and diagnostic scoring, construction with current-assignment filtering,
+weighted sampling/replay and bounded rejection, lazy unopened/zero-draw paths,
+source errors and panic recovery, and non-Clone key ownership with held snapshots.
+They add no upstream test-method credit.

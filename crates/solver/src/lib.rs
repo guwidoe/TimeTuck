@@ -1112,3 +1112,8 @@ pub use phase_metadata::SolverPhaseMetadata;
 
 mod entity_construction;
 pub use entity_construction::{EntityConstruction, EntityConstructionPlacement};
+
+mod cached_move_provider;
+pub use cached_move_provider::{
+    CachedMoveProvider, CachedProviderConfig, CachedProviderError, ProviderCacheScope,
+};
