@@ -97,28 +97,44 @@ fn independent_checks_run_for_all_phase_kinds_and_all_nine_backends_without_chan
                 checked.push((phase, kind));
                 Ok(Some(SimpleScore::ZERO))
             };
-            let mut command = |_, _: &mut CustomPhaseContext<'_, _, _, _, _>| Ok(());
+            let commands = Cell::new(0);
+            let events = RefCell::new(vec![]);
+            let mut notify = |event: SolverEvent<'_, $a, SimpleScore>| {
+                events.borrow_mut().push(format!("{event:?}"))
+            };
+            let mut command = |_, _: &mut CustomPhaseContext<'_, _, _, _, _>| {
+                commands.set(commands.get() + 1);
+                Ok(())
+            };
             let plain = $solve(
                 &$p,
                 $scorer,
                 $plan,
                 SolverExtensions {
                     command: Some(&mut command),
+                    events: Some(&mut notify),
                     ..Default::default()
                 },
             )
             .unwrap();
+            let expected_events = events.take();
+            assert_eq!(commands.get(), 1);
+            let mut audited_plan = $plan;
+            audited_plan.limits.assert_phase_scores = true;
             let audited = $solve(
                 &$p,
                 $scorer,
-                $plan,
+                audited_plan,
                 SolverExtensions {
                     command: Some(&mut command),
+                    events: Some(&mut notify),
                     score_check: Some(&mut audit),
                     ..Default::default()
                 },
             )
             .unwrap();
+            assert_eq!(commands.get(), 2);
+            assert_eq!(*events.borrow(), expected_events);
             assert_eq!(audited, plain);
             assert_eq!(
                 checked,
@@ -240,11 +256,14 @@ fn partial_unscored_and_initial_only_outputs_have_explicit_audit_semantics() {
             Ok(Some(SimpleScore::ZERO.with_structural(-missing)))
         };
         let plan = SolverSequence {
+            limits: SolverLimits {
+                assert_phase_scores: true,
+                ..Default::default()
+            },
             phases: vec![SolverPhase::Construction(ConstructionConfig {
                 max_evaluations: limit,
                 ..Default::default()
             })],
-            ..Default::default()
         };
         let r = solve_with_extensions(
             &p,
@@ -276,7 +295,13 @@ fn partial_unscored_and_initial_only_outputs_have_explicit_audit_semantics() {
     let r = solve_with_extensions(
         &p,
         &n,
-        SolverSequence::default(),
+        SolverSequence {
+            limits: SolverLimits {
+                assert_phase_scores: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        },
         SolverExtensions {
             score_check: Some(&mut audit),
             ..Default::default()

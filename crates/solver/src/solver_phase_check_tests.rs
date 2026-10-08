@@ -99,3 +99,63 @@ fn score_without_new_assignment_checks_the_retained_phase_entry() {
         ]
     );
 }
+
+#[test]
+fn automatic_phase_check_time_counts_without_advancing_search_or_work() {
+    let elapsed = Cell::new(Duration::ZERO);
+    let mut clock = || elapsed.get();
+    let mut actual = 0;
+    let mut diagnostics = 0;
+    let result: Result<_, SolverError<()>> = run_with_clock_observed(
+        SolverLimits {
+            assert_phase_scores: true,
+            max_evaluations: 1,
+            max_time: Some(Duration::from_secs(1)),
+            ..Default::default()
+        },
+        &[
+            SolverPhase::Construction(Default::default()),
+            SolverPhase::LocalSearch(Default::default()),
+        ],
+        || InitialState {
+            assignment: 0usize,
+            complete: true,
+            movable: true,
+        },
+        &mut PlanObservation::new(None),
+        |index, a, request, time, observation| {
+            assert_eq!(index, 0);
+            if observation.initial_only {
+                diagnostics += 1;
+                let PhaseRequest::Custom(c, _, _) = request else {
+                    panic!("diagnostic kernel")
+                };
+                assert_eq!(c.max_evaluations, 1);
+                assert_eq!(c.max_move_evaluations, Some(0));
+                assert!(c.cancellation.is_none());
+                assert!(time.monitor().is_none());
+                elapsed.set(Duration::from_secs(2));
+            } else {
+                actual += 1;
+            }
+            Ok(PhaseOutput {
+                assignment: a,
+                score: Some(SimpleScore::ZERO),
+                complete: true,
+                work: SolverWork {
+                    evaluations: 1,
+                    ..Default::default()
+                },
+                termination: PhaseTermination::Construction(ConstructionTermination::Completed),
+            })
+        },
+        &mut clock,
+    );
+    let r = result.unwrap();
+    assert_eq!((actual, diagnostics), (1, 1));
+    assert_eq!(r.termination, SolverTermination::TimeLimit);
+    assert_eq!(r.work.evaluations, 1);
+    assert_eq!(r.work.completed_steps, 0);
+    assert_eq!(r.work.construction_steps, 0);
+    assert_eq!(r.phases.len(), 1);
+}

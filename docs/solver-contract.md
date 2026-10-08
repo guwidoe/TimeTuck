@@ -1864,3 +1864,41 @@ existing infinity-based `InitializingScoreBound`. Callers remain responsible for
 valid trend declarations across every completion, including overflow behavior;
 a pessimistic bound alone is not a feasible incumbent. Decimal score definitions
 continue to use the existing infinity-based trend API when bounds are needed.
+
+## Automatic phase score checks
+
+Set `SolverLimits::assert_phase_scores` to recalculate every scored phase output
+using a fresh scoring backend before handoff and initialization notification. The
+default is false. Basic, list and mixed plans support this for scoped networks,
+stream factories and incremental calculator factories, across construction, local,
+repair, custom and exact phases. Immovable initial-only solves are also checked.
+Unscored outputs are skipped, including zero-score-budget phases.
+
+```rust
+let config = SolverConfig::<SimpleScore> {
+    limits: SolverLimits { assert_phase_scores: true, ..Default::default() },
+    ..Default::default()
+};
+let result = solve(&problem, &network, config)?;
+```
+
+Fresh scoring uses an owned snapshot and the backend's initial scoring kernel;
+it does not run custom commands, reopen providers, generate moves, or publish new
+progress/initialization events. Diagnostic work is excluded from phase/solve work
+counters and score/move/step budgets. A completed scored phase is checked even if
+its search budget or cancellation has stopped further search. Diagnostic elapsed
+time belongs to the shared deadline; checks cannot preempt slow user callbacks.
+Existing best events emitted inside a phase cannot be retracted after a failure.
+
+`PhaseScoreMismatch` reports the original phase index/kind and actual/expected
+scores. Fresh backend scoring/factory errors preserve their underlying errors as
+Phase or InitialScoring failures; panics propagate. A successful fresh check then
+runs any separately configured `SolverExtensions::score_check`, allowing a second,
+independent objective implementation. Rebuilding the same scorer detects incremental
+state corruption and nonrepeatable objectives, but cannot detect a deterministic
+mistake shared by both calculations. Stream/calculator factories must build equivalent
+objectives each time and keep independent mutable state.
+
+This is a native phase-boundary diagnostic, not an implementation of Timefold's
+complete environment-mode policy set, shadow-event tracking or phase factory caches.
+It does not replace per-candidate `assert_scores` or independent expected-score checks.

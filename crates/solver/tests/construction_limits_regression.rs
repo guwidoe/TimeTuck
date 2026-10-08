@@ -42,7 +42,9 @@ struct Outcome {
     assigned: usize,
     phases: usize,
 }
-fn run_all(config: SolverSequence<'_>, order: MixedConstructionOrder) -> Vec<Outcome> {
+fn run_all(mut config: SolverSequence<'_>, order: MixedConstructionOrder) -> Vec<Outcome> {
+    // Phase diagnostics must preserve partial outputs, exact budgets and step counters.
+    config.limits.assert_phase_scores = true;
     let p = FiniteProblem::new(vec![Variable::new(vec![0, 1]); 4]).unwrap();
     let l = ListProblem::new(
         vec![0, 1, 2, 3],

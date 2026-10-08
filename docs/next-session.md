@@ -17579,3 +17579,49 @@ Gate23533 and evidence15770 TERMINAL0. Gate log wall window 142s.
 No broad prebuild or benchmark refresh; lib/new regression are the only Rust jobs
 rerun (645 reused), plus format/clippy/doctests. All verification handles terminal;
 existing dashboard server remains available.
+
+## Automatic fresh phase scoring
+
+Baseline2751416. SolverLimits::assert_phase_scores (defaultfalse) now verifies each
+scored phase output and immovable initial-only output through the backend's fresh
+initial-scoring kernel. Shared solver_phase_assertions helper invokes the existing
+no-command Custom kernel with one scoring evaluation, zero moves, isolated control
+and observation state. It does not recurse into solve, reopen providers, execute
+commands or emit events. Diagnostic work is discarded from result counters; real
+elapsed cost is observed by the shared solve clock. Fresh checks precede extension
+checks and handoff/initialization events; mismatches preserve original phase metadata.
+Factory/scoring errors map to Phase/InitialScoring with underlying errors; panics
+propagate. No checks for unscored outputs. Factories must reproduce the objective.
+This does not implement all seven Timefold environment modes or independent-objective
+validation; existing manual expected-score callbacks remain available after success.
+
+Five new integration tests inject nondeterminism into all9 scoring paths, incremental
+drift into all3 calculator models, initial-only/zero-budget boundaries, factory
+error/panic, and exhausted budgets/provider non-replay. Existing phase-check matrix
+now compares complete results/events/work and command counts with automatic checks
+across all5 phase kinds and9 backends. Existing construction-limit matrix also enables
+automatic diagnostics for partial outputs and all9 paths. A new controlled-clock
+unit test proves check cost consumes shared time without work/step increments.
+Focused55635 successful log; native lib plus5automatic/4phase/7construction tests.
+One new provider fixture initially returned an iterator instead of the closure API's
+Vec and was corrected before successful checks. No upstream implementation read or
+new provenance entries. Required gate follows on frozen Rust; no benchmark refresh.
+
+First required gate63165 stopped at Clippy for a redundant test-only struct default
+update; removed it, retaining work/automatic-phase-check-first-check.log. Final gate
+96398 runs on the corrected frozen state. Focused55635 TERMINAL0; old compile/focused
+handles4397/26108 TERMINAL0 and17331 TERMINAL101 (provider fixture type correction).
+
+Required automatic-phase-check gate TERMINAL0. 4884 Rust tests and 242 doctests passed.
+Rust jobs: {'RUN': 191, 'REUSE': 457}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 5a17fad8792235b54c7575b1ecc5521eaa6bbfcba21d90bbd5e44bd839bb1d1d
+Live freshness matched verification digest: 71eb090a7961ba5767ff42326f150940c8a2fbf744b7609a9e578b1100984653.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/automatic-phase-check-final-check.log; evidence work/automatic-phase-check-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Final gate96398 TERMINAL0; warm95468 TERMINAL0 built162 uncached remaining targets
+in1m39s without writing verification evidence. Evidence55557 records final report
+freshness. No benchmark refresh or frontend/browser rerun. All verification handles
+terminal; full goal remains active.

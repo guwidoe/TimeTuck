@@ -4560,3 +4560,9 @@ initialization without caller-written candidate factories. It supports all three
 basic/mixed scoring backends and composes with existing mixed list construction.
 Original regressions cover cross-column objectives, nullable subsets, pins,
 interruption, ordering and lazy products; no additional upstream method credit.
+
+Native SolverLimits::assert_phase_scores now automatically rebuilds scoring for
+each scored phase output in all nine model/backend paths, before handoff and
+initialization notification. Original corruption, budget, event, failure and
+controlled-time regressions verify the behavior. It remains opt-in and is not
+full Timefold environment-mode compatibility; no additional source method credit.

@@ -3,6 +3,8 @@
 mod bounded;
 #[path = "solver_exact.rs"]
 mod exact;
+#[path = "solver_phase_assertions.rs"]
+mod phase_assertions;
 use crate::*;
 use std::{error::Error, fmt, time::Duration};
 
@@ -43,6 +45,13 @@ pub enum IncompleteHandoffPolicy {
 /// Diagnostic callbacks are excluded from both evaluation counters.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct SolverLimits<'a, S = SimpleScore> {
+    /// Recalculate each scored phase output using a fresh backend before handoff
+    /// and initialization notification, including initial-only immovable solves.
+    /// Diagnostic scoring is outside work counters/budgets; its time belongs to
+    /// the solve deadline. No providers, commands or progress events are replayed.
+    /// Stream/calculator factories must return the same objective on each call.
+    /// Disabled by default; independent extension checks remain separately available.
+    pub assert_phase_scores: bool,
     /// Composed solve-wide limits, polled within search/custom phases and at
     /// phase boundaries and within construction candidate scans.
     pub termination: Option<&'a SearchTermination<'a>>,
@@ -69,6 +78,7 @@ pub struct SolverLimits<'a, S = SimpleScore> {
 impl<S> Default for SolverLimits<'_, S> {
     fn default() -> Self {
         Self {
+            assert_phase_scores: false,
             termination: None,
             max_evaluations: 100_000,
             max_move_evaluations: None,
@@ -989,6 +999,17 @@ where
             | SolverError::Phase { error, .. } => SolverError::InitialScoring { error },
             other => other,
         })?;
+        if limits.assert_phase_scores {
+            phase_assertions::verify(
+                0,
+                SolverPhaseKind::Initial,
+                out.assignment
+                    .as_ref()
+                    .expect("initial scoring retains assignment"),
+                out.score.as_ref(),
+                &mut phase,
+            )?;
+        }
         observation.check_score(
             0,
             SolverPhaseKind::Initial,
@@ -1139,6 +1160,15 @@ where
         let initial = Some(result.assignment.clone());
         let kind = request.kind();
         let mut out = phase(index, initial, request, &mut time, observation)?;
+        if limits.assert_phase_scores {
+            phase_assertions::verify(
+                index,
+                kind,
+                out.assignment.as_ref().unwrap_or(&result.assignment),
+                out.score.as_ref(),
+                &mut phase,
+            )?;
+        }
         observation.check_score(
             index,
             kind,
