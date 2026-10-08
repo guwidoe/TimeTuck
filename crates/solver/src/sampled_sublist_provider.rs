@@ -31,7 +31,9 @@ pub enum SampledSubListNeighborhood {
 ///
 /// Opening validates inputs and builds only span indexes, not a move catalog.
 /// Candidates are drawn lazily, then checked by applying/undoing on a temporary
-/// assignment. This adds a snapshot clone per candidate emitted by the sampler.
+/// assignment, created only when the first candidate is inspected and reused
+/// throughout that traversal. The ordinary move guard still takes its own undo
+/// snapshot for each trial; dropping it restores the reusable assignment.
 /// Mixed moves preserve all basic variables. Standard engine budgets, acceptance,
 /// undo and score assertions continue to apply.
 ///
@@ -88,9 +90,10 @@ impl SampledSubListProvider {
                 self.attempts_per_step,
             )?),
         };
+        let mut trial = None;
         Ok(candidates.filter(move |movement| {
-            let mut trial = assignment.clone();
-            let Ok(applied) = problem.apply(&mut trial, movement) else {
+            let trial = trial.get_or_insert_with(|| assignment.clone());
+            let Ok(applied) = problem.apply(trial, movement) else {
                 return false;
             };
             *applied != *assignment

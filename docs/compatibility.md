@@ -3823,10 +3823,13 @@ It rebuilds indexes from each current assignment, seeds by completed step, prese
 sample order and duplicates, and rejects dependency violations and unchanged states
 before scoring. Native attempt limits bound rejected work; an empty sample is not
 proof of local optimality. Missing values require a separate construction phase.
-Four original regressions cover sampler replay including seed overflow, partial
+Five original regressions cover sampler replay including seed overflow, partial
 consumption and changed snapshots, pins/ranges/dependencies, empty/invalid inputs,
-and complete list/mixed plans with both policies. No additional upstream method
-credit, Java random trace parity or performance improvement is claimed.
+complete list/mixed plans with both policies, and clone costs. Validation now creates
+a working assignment lazily on the first proposal and reuses it until traversal
+ends. It saves one full-assignment clone per proposal after the first; ordinary
+move-guard undo snapshots remain. No additional upstream method credit, Java
+random trace parity or general timing improvement is claimed.
 
 SlotReservationMap supplies bounded index remapping with implicit identities,
 small sparse logs and one-way dense promotion. The test-specified transition is

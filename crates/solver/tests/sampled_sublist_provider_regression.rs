@@ -188,3 +188,85 @@ fn complete_list_and_mixed_plans_improve_with_both_policies() {
         assert_eq!(result.assignment.basic().values(), &[Some(7)]);
     }
 }
+
+#[derive(Debug)]
+struct CountedValue {
+    id: i32,
+    clones: std::rc::Rc<std::cell::Cell<usize>>,
+}
+impl Clone for CountedValue {
+    fn clone(&self) -> Self {
+        self.clones.set(self.clones.get() + 1);
+        Self {
+            id: self.id,
+            clones: self.clones.clone(),
+        }
+    }
+}
+impl PartialEq for CountedValue {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
+    }
+}
+impl Eq for CountedValue {}
+
+#[test]
+fn validation_reuses_one_lazy_working_copy_without_changing_proposals() {
+    let clones = std::rc::Rc::new(std::cell::Cell::new(0));
+    let values = (0..16)
+        .map(|id| CountedValue {
+            id,
+            clones: clones.clone(),
+        })
+        .collect::<Vec<_>>();
+    let p = ListProblem::new(
+        values.clone(),
+        vec![
+            ListEntity::new(values[..8].to_vec()),
+            ListEntity::new(values[8..].to_vec()),
+        ],
+    )
+    .unwrap()
+    .allowing_unassigned();
+    let a = p.initial_assignment();
+    for policy in policies() {
+        let provider = SampledSubListProvider::new(policy, 43, 128);
+        let candidates: Vec<ListMove<CountedValue>> = match policy {
+            SampledSubListNeighborhood::Change(c) => {
+                sampled_sublist_change_moves(&p, &a, c, 43, 128)
+                    .unwrap()
+                    .collect()
+            }
+            SampledSubListNeighborhood::Swap(c) => sampled_sublist_swap_moves(&p, &a, c, 43, 128)
+                .unwrap()
+                .collect(),
+        };
+        assert!(candidates.len() > 1);
+        clones.set(0);
+        let expected = candidates
+            .iter()
+            .filter(|m| {
+                let mut fresh = a.clone();
+                p.apply(&mut fresh, m).is_ok_and(|trial| *trial != a)
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        let fresh_clones = clones.get();
+        clones.set(0);
+        let cursor = provider.select(&p, &a, 0).unwrap();
+        assert_eq!(clones.get(), 0, "opening does not clone assignment values");
+        drop(cursor);
+        assert_eq!(clones.get(), 0, "an unused traversal does not clone values");
+        let actual = provider.select(&p, &a, 0).unwrap().collect::<Vec<_>>();
+        let reused_clones = clones.get();
+        assert_eq!(actual, expected);
+        assert_eq!(fresh_clones - reused_clones, (candidates.len() - 1) * 16);
+        clones.set(0);
+        let empty = SampledSubListProvider {
+            attempts_per_step: 0,
+            ..provider
+        };
+        assert_eq!(empty.select(&p, &a, 0).unwrap().count(), 0);
+        assert_eq!(clones.get(), 0);
+    }
+}

@@ -18586,3 +18586,42 @@ plus5native regressions. Twelve fixture records appended, prior ledger unchanged
 no new complete method credits;2916/4855=60.062%,0failed. Full staged source/test
 and provenance changes reviewed. All handles terminal; ready to commit. No
 benchmarks or browser checks repeated; full rewrite remains active/incomplete.
+
+## Reusable sublist validation assignment
+
+Baselinee816917 clean; previous goal turn progressed with entity-driven sublist
+sampling committed after verification. Replaced per-proposal outer assignment
+clone in SampledSubListProvider.select with a lazy traversal-local working copy.
+Existing move guards restore it on success/rejection/unwind; each new opening
+still captures its own current assignment. Underlying undo snapshots remain.
+Added an original clone-count regression for both policies: exact proposal order
+matches fresh-copy reference, and saved value-clone calls equal
+(raw_proposals-1)*assigned_values. Unused and zero-attempt cursors clone no values.
+Existing rejection, replay, changed-assignment and actual solver regressions pass.
+Focus46446 TERMINAL0,5tests,15.18s build. No provenance changes or method credits.
+
+Native microbenchmark89271 TERMINAL0:8workloads (i32/String,32/128values,change/swap),
+2warmups+6measured alternating samples,32traversals x128attempts/sample. Optimized
+harness links debug rlib; this is NOT Java comparison or release performance.
+All before/after output sequences/counts agree. Wide timing variation precludes a
+general speedup claim; deterministic result is reduced clone work. Results
+work/sublist-scratch-performance.json and source work/sublist_scratch_bench.rs.
+Initial3401 run had extra boxing in the reference and shorter samples; discard
+those timings (work/sublist-scratch-bench-initial.jsonl). Final harness removes it.
+Frozen source/tests/tools. Required gate log work/sublist-scratch-final-check.log.
+Full goal remains active/incomplete.
+
+Required sublist-scratch gate TERMINAL0. 5003 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 674}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2916, 'failed': 0, 'pending': 1657, 'excluded': 282, 'unverified': 0, 'percent': 60.062}.
+Source before/after matched: 632104150f8b70c014039b70ea1947f5f000084584fc542f4600a7bc494030ac
+Live freshness matched verification digest: 56d5b92218c69f2a2256896e74331461415636db03114431b37ed77bad03dbbb.
+Prior ledger records unchanged; added no provenance records or upstream method credits.
+Log work/sublist-scratch-final-check.log; evidence work/sublist-scratch-evidence.json.
+No Java comparison benchmarks refreshed; native clone microbenchmark is separate and prior comparisons retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate19294 TERMINAL0, approximately136s log wall span. Evidence51816 TERMINAL0.
+Two Rust jobs ran,674 reused;46 Python jobs reused. All5003Rust tests and243doctests
+pass. Source stable and live freshness matched; provenance unchanged. Staged source,
+regression and documentation diffs inspected. Native timing remains exploratory;
+no general speedup claim. Full rewrite remains active/incomplete.
