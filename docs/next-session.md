@@ -18512,3 +18512,31 @@ evidence85095 TERMINAL0. All4984 Rust tests and243doctests passed;605 Rust jobs
 ran,67 reused,all46 Python jobs reused. Source stable and live report freshness
 confirmed. No upstream credits added;2913/4855 remains60%. Both jobs finished,
 so inputs can now change after committing this diagnostics batch.
+
+## Pillar-change and custom deadline source cases
+
+Baseline9490ae0: diagnostics committed after full terminal-success verification.
+Promoted the prepared pillar-change case and2 custom-phase deadline cases with
+3provenance cases +4fixtures. Production solver unchanged. Direct draft evidence
+reused during preparation; final required gate covers the promoted files. Removed
+the draft-only assertion requiring phase callback entry, since a cooperative
+deadline can expire before entry. Remaining source assertions are preserved.
+Frozen Rust/provenance/tools. Required gate log work/pillar-and-deadline-final-check.log.
+No benchmark refresh or frontend changes. Goal remains active/incomplete.
+
+Required pillar-and-deadline gate TERMINAL0. 4987 Rust tests and 243 doctests passed.
+Rust jobs: {'REUSE': 672, 'RUN': 2}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2916, 'failed': 0, 'pending': 1657, 'excluded': 282, 'unverified': 0, 'percent': 60.062}.
+Source before/after matched: 596302a3ebe8a999e34a495a4619ee16109014f8a156d63f60ab445e369e778b
+Live freshness matched verification digest: d5f4c5fae455c1992846cbdf3881f646d02a65dfd18f13f5a6ba3988e51cfed0.
+Prior ledger records unchanged; appended3 upstream cases and4fixtures.
+Log work/pillar-and-deadline-final-check.log; evidence work/pillar-and-deadline-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate30918 TERMINAL0, approximately141s log wall span. Evidence84261
+TERMINAL0. Two new Rust targets ran;672 Rust jobs,46 Python jobs and243doctests
+reused successful unchanged-input evidence. Aggregate4987Rust tests pass.
+All3 newly registered methods individually report passed. Coverage2916/4855
+(60.062%),0failed,1657pending,282excluded,0unverified. Live freshness matched.
+Full staged source/provenance diff inspected. No benchmarks or UI checks repeated.
+All handles terminal; ready to commit. Full rewrite remains active/incomplete.

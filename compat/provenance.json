@@ -43809,6 +43809,51 @@
       "upstream_test": "iterator",
       "local_test": "random_change_iterator",
       "modifications": "Preserve entities B/A/C, source values1/2/3, anchors2/3, scripted destination ranks3/0/1, exact three move codes and last requested integer bound5. Native destination order resolves the three ranks before pairing with finite sources. PRE-removal metadata is preserved while native execution adjusts same-list positions. Explicit typed model replaces score director and shadow supplies; no Java PRNG parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/pillar_change_source_cases.rs",
+      "id": "PillarChangeMoveSelectorTest.original",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/PillarChangeMoveSelectorTest.java",
+      "upstream_test": "original",
+      "local_test": "original",
+      "modifications": "Preserve four unassigned entities, values1/2/3, all three full-pillar change codes, iterator exhaustion, finite metadata and size3. Native grouped and keyed source composition produces Pillar.change_move operations; typed slots and lifecycle events replace reflected variable descriptors and mocked scopes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/custom_phase_deadline_cases.rs",
+      "id": "DefaultCustomPhaseTest.solverTermination",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/phase/custom/DefaultCustomPhaseTest.java",
+      "upstream_test": "solverTermination",
+      "local_test": "solver_termination",
+      "modifications": "Preserve two initialized entities and two values, always-penalizing objective, cooperative polling command, 10ms limit at the original solver/phase scope and elapsed >= limit assertion. Native monotonic clock replaces wall-clock milliseconds. Five-second watchdog fails a broken polling deadline instead of hanging; additional native assertions check score, unchanged assignment and phase reason when the command is entered."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/custom_phase_deadline_cases.rs",
+      "id": "DefaultCustomPhaseTest.phaseTermination",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/phase/custom/DefaultCustomPhaseTest.java",
+      "upstream_test": "phaseTermination",
+      "local_test": "phase_termination",
+      "modifications": "Preserve two initialized entities and two values, always-penalizing objective, cooperative polling command, 10ms limit at the original solver/phase scope and elapsed >= limit assertion. Native monotonic clock replaces wall-clock milliseconds. Five-second watchdog fails a broken polling deadline instead of hanging; additional native assertions check score, unchanged assignment and phase reason when the command is entered."
     }
   ],
   "fixtures": [
@@ -59814,6 +59859,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/TestRandom.java",
       "upstream_test": "nextInt/assertIntBoundJustRequested",
       "modifications": "Three explicit ranks3/0/1 and captured last bound reproduce the used random-draw contract with native ListDestinationOrder.random_iter_with. No other generator methods or seeded traces adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/pillar_change_source_cases.rs",
+      "id": "PlannerAssert.pillar_change_source",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfMoveSelector/assertAllCodesOfIterableSelector/assertAllCodesOfIterator",
+      "modifications": "Preserve ordered complete move-code sequence, repeated exhaustion, finite metadata and exact size. Typed iterator Option replaces Java hasNext/non-null checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/pillar_change_source_cases.rs",
+      "id": "SelectorTestUtils.pillar_change_source",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "mockEntitySelector/mockIterableValueSelector/solvingStarted/phaseStarted/stepStarted",
+      "modifications": "Finite original-order typed sources and explicit native events replace mock iterators, reflected descriptors and linked scopes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/custom_phase_deadline_cases.rs",
+      "id": "TestdataSolution.custom_phase_deadline",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve two values and two initialized entities assigned round-robin. Typed variable slots replace generated identity strings and bean descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/custom_phase_deadline_cases.rs",
+      "id": "TestdataConstraintProvider.custom_phase_deadline",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataConstraintProvider.java",
+      "upstream_test": "defineConstraints/alwaysPenalizingConstraint",
+      "modifications": "Native per-variable constraints penalize each assigned entity by one, preserving the source objective while replacing Java stream descriptors."
     }
   ]
 }
