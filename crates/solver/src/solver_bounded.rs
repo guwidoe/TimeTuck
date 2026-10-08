@@ -210,6 +210,7 @@ mod tests {
             unimproved_expired: false,
             unimproved_steps_limit: None,
             steps: StepProgress::default(),
+            construction_steps: 0,
             started: false,
             steps_expired: false,
         }

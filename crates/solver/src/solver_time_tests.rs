@@ -305,6 +305,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         unimproved_expired: false,
         unimproved_steps_limit: None,
         steps: StepProgress::default(),
+        construction_steps: 0,
         started: false,
         steps_expired: false,
     };
@@ -327,6 +328,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         unimproved_expired: false,
         unimproved_steps_limit: None,
         steps: StepProgress::default(),
+        construction_steps: 0,
         started: false,
         steps_expired: false,
     };
@@ -440,6 +442,7 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
         unimproved_expired: false,
         unimproved_steps_limit: None,
         steps: StepProgress::default(),
+        construction_steps: 0,
         started: false,
         steps_expired: false,
     };
@@ -490,6 +493,7 @@ fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> Solve
         unimproved_expired: false,
         unimproved_steps_limit: Some(limit),
         steps: StepProgress::default(),
+        construction_steps: 0,
         started: false,
         steps_expired: false,
     }

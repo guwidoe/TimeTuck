@@ -129,6 +129,9 @@ pub struct SolverWork {
     pub constraint_evaluations: u128,
     /// Local-search steps and accepted changed repair/fine moves; excludes construction steps.
     pub completed_steps: u64,
+    /// Completed construction placements, including scored no-change and retained
+    /// prefixes; excludes discarded scans. Separate from search stagnation.
+    pub construction_steps: u64,
     pub accepted_moves: u64,
     /// Started ruin-and-recreate attempts, including incomplete, rejected and unchanged repairs.
     /// Reconstruction candidates are counted separately in `move_evaluations`.
@@ -145,6 +148,7 @@ impl SolverWork {
         self.move_evaluations += other.move_evaluations;
         self.constraint_evaluations += other.constraint_evaluations;
         self.completed_steps += other.completed_steps;
+        self.construction_steps += other.construction_steps;
         self.accepted_moves += other.accepted_moves;
         self.repair_attempts += other.repair_attempts;
         self.fine_move_attempts += other.fine_move_attempts;
@@ -374,6 +378,7 @@ struct SolveControl<'c> {
     unimproved_expired: bool,
     unimproved_steps_limit: Option<u64>,
     steps: StepProgress,
+    construction_steps: u64,
     started: bool,
     steps_expired: bool,
 }
@@ -384,6 +389,7 @@ impl SolveControl<'_> {
             let progress = SearchProgress {
                 elapsed: self.last,
                 completed_steps: self.steps.completed_steps(),
+                construction_steps: self.construction_steps,
                 unimproved_steps: self.started.then(|| self.steps.unimproved_steps()),
                 unimproved_time: self.last_improvement.map(|last| self.last - last),
             };
@@ -442,6 +448,10 @@ impl SolveControl<'_> {
     }
 }
 impl crate::time_limit::SearchControl for SolveControl<'_> {
+    fn complete_construction_step(&mut self) {
+        self.construction_steps = self.construction_steps.saturating_add(1);
+        self.condition_reached();
+    }
     fn construction_stopped(&mut self) -> bool {
         self.condition_reached()
     }
@@ -861,6 +871,7 @@ where
         unimproved_expired: false,
         unimproved_steps_limit: limits.max_unimproved_steps,
         steps: StepProgress::default(),
+        construction_steps: 0,
         started: false,
         steps_expired: false,
     };
@@ -1270,6 +1281,7 @@ macro_rules! repaired {
             move_evaluations: r.repair_move_evaluations + r.fine_move_evaluations,
             constraint_evaluations: r.constraint_evaluations,
             completed_steps: r.accepted_moves,
+            construction_steps: 0,
             accepted_moves: r.accepted_moves,
             repair_attempts: r.attempts,
             fine_move_attempts: r.fine_move_attempts,
@@ -1295,6 +1307,7 @@ macro_rules! constructed {
             evaluations: r.evaluations,
             move_evaluations: r.move_evaluations(),
             constraint_evaluations: r.constraint_evaluations,
+            construction_steps: r.completed_steps,
             ..Default::default()
         };
         PhaseOutput {
@@ -1346,6 +1359,7 @@ fn provider_constructed<A, S>(r: ProviderConstructionResult<A, S>) -> PhaseOutpu
             evaluations: r.evaluations,
             move_evaluations: r.evaluations.saturating_sub(1),
             constraint_evaluations: r.constraint_evaluations,
+            construction_steps: r.completed_steps,
             ..Default::default()
         },
         termination: PhaseTermination::Construction(reason),

@@ -245,6 +245,7 @@ impl StatisticsState {
                         move_evaluations,
                         constraint_evaluations,
                         completed_steps,
+                        construction_steps,
                         accepted_moves,
                         repair_attempts,
                         fine_move_attempts,
@@ -256,6 +257,7 @@ impl StatisticsState {
                         || work.move_evaluations < old.move_evaluations
                         || work.constraint_evaluations < old.constraint_evaluations
                         || work.completed_steps < old.completed_steps
+                        || work.construction_steps < old.construction_steps
                         || work.accepted_moves < old.accepted_moves
                         || work.repair_attempts < old.repair_attempts
                         || work.fine_move_attempts < old.fine_move_attempts

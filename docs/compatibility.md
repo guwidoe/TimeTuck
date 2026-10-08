@@ -4547,3 +4547,10 @@ A fresh stream comparison retains matching Java/Rust scores in all 128 generated
 validation cases and all 8 timed workloads. Scoring-callback counts match the prior
 Rust run, while observed solve times are 28–44% lower with compact indexed batches.
 These development measurements use limited warmup/samples; Java remains faster.
+
+Native solve-wide ConstructionSteps/CombinedSteps conditions now bound construction
+placements across phases and optionally combine them with local/repair steps. All
+three models and all three scoring backends, including custom construction providers,
+share the controls. Solve/phase/job work exposes construction_steps separately from
+search stagnation. Original regressions cover these behaviors; no additional upstream
+method credit or Java step/lifecycle equivalence is claimed.

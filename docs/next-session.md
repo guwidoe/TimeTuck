@@ -17502,3 +17502,40 @@ The previous transient-candidate draft is now applied and covered by this batch;
 do not apply it again. New compact join batching is also implemented and verified.
 Report/evidence session83104 records final source/freshness. No frontend change or
 browser rerun; original-suite percentage remains 59.382%, with no new method credit.
+
+## Solve-wide construction step limits
+
+Baseline49d4f76. Added SearchLimit::ConstructionSteps and CombinedSteps with a
+separate SearchProgress counter. Ordinary and provider construction notify the
+shared control after completed placements in basic/list/mixed models; search
+stagnation is unaffected. Combined counts use saturating addition. Initial scoring,
+custom commands and exact candidates are not counted as steps. Retained interrupted
+prefixes and scored no-change placements count; discarded scans and empty pools do
+not. Each provider composite is one placement, regardless of initialized item count.
+SolverWork exposes construction_steps for phase/solve reporting; job statistics
+accumulate it, reject decreasing absolute snapshots and mark overflow explicitly.
+Existing Steps retains its search-only behavior. No upstream implementation read,
+no provenance changes or method credit.
+
+Seven new native regressions cover 0..5 construction budgets across sequential,
+pooled/value-queue placements, both mixed orders, all nine scoring paths, multiple
+construction phases and subsequent search, AND composition/legacy Steps, prefix
+retention/discard, custom composite providers in all nine paths, optional no-change,
+exact overflow thresholds and managed statistics. Final focused56964 TERMINAL0;
+earlier focused85991 includes library, existing composite termination and job
+statistics checks. New test compilation typos fixed before final passing checks.
+Required gate started on frozen Rust state; no benchmark refresh planned.
+
+Required construction-limits gate TERMINAL0. 4871 Rust tests and 241 doctests passed.
+Rust jobs: {'RUN': 577, 'REUSE': 69}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: f41d9d769e38ca100b3391c46ab389567f099d781f004834fc8fec487618c5c2
+Live freshness matched verification digest: 1622869f4f763144980d0bb0fca874c9cf76bc9dcab7b9d5d5a4971c8e85df35.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/construction-limits-final-check.log; evidence work/construction-limits-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate26213 and evidence26912 TERMINAL0. Prebuild65604 TERMINAL0 compiled554
+uncached remaining targets in4m00s, selected using each job cache key; no evidence
+records were written by this helper. No verification workers remain. Dashboard
+backend report/freshness verified; no frontend change or browser check.

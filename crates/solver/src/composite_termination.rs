@@ -71,14 +71,22 @@ impl<C> TerminationExpression<'_, C> {
     }
 }
 
-/// Limits composed by SolverLimits::termination. Step counters span local and
-/// repair phases; initialization and construction do not count. Elapsed time
-/// spans the entire solve. Stagnation begins at the first search phase and resets
+/// Limits composed by SolverLimits::termination. Search steps span local and
+/// repair phases. Construction steps are counted separately; CombinedSteps sums
+/// both counters. Initialization, custom commands and exact candidates are not
+/// steps. Elapsed time spans the entire solve. Stagnation begins at the first search phase and resets
 /// only on strict improvement. Before search starts, stagnation leaves are not reached and have no
 /// progress estimate. Hard budgets and cancellation remain independent safeguards.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SearchLimit {
+    /// Completed local steps and accepted changed repair/fine moves.
     Steps(u64),
+    /// Completed construction placements across all construction phases. Includes
+    /// scored no-change placements and retained interrupted prefixes; excludes
+    /// discarded incomplete scans and placements with no evaluated candidate.
+    ConstructionSteps(u64),
+    /// Sum of construction and search steps; neither counter resets at handoff.
+    CombinedSteps(u64),
     UnimprovedSteps(u64),
     Time(Duration),
     UnimprovedTime(Duration),
@@ -100,6 +108,7 @@ pub type SearchTermination<'a> = TerminationExpression<'a, SearchLimit>;
 pub struct SearchProgress {
     pub elapsed: Duration,
     pub completed_steps: u64,
+    pub construction_steps: u64,
     pub unimproved_steps: Option<u64>,
     pub unimproved_time: Option<Duration>,
 }
@@ -111,6 +120,19 @@ impl SearchLimit {
                 StepCountLimit::new(n).is_reached(progress.completed_steps),
                 StepCountLimit::new(n).progress(progress.completed_steps),
             ),
+            Self::ConstructionSteps(n) => (
+                StepCountLimit::new(n).is_reached(progress.construction_steps),
+                StepCountLimit::new(n).progress(progress.construction_steps),
+            ),
+            Self::CombinedSteps(n) => {
+                let steps = progress
+                    .completed_steps
+                    .saturating_add(progress.construction_steps);
+                (
+                    StepCountLimit::new(n).is_reached(steps),
+                    StepCountLimit::new(n).progress(steps),
+                )
+            }
             Self::UnimprovedSteps(n) => {
                 let Some(steps) = progress.unimproved_steps else {
                     return Some(TerminationState {

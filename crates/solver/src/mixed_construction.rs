@@ -409,8 +409,12 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 }
             };
             result.evaluations += selection.evaluations;
-            result.completed_steps +=
-                u64::from(selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit));
+            let completed =
+                selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);
+            result.completed_steps += u64::from(completed);
+            if completed && let Some(shared) = &mut shared {
+                shared.complete_construction_step();
+            }
             result.constraint_evaluations += selection.constraint_evaluations;
             let installed = selection.selected.as_ref().is_some_and(|movement| {
                 if matches!(movement.basic, Move::Change { .. }) {

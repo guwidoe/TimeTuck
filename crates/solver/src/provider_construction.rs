@@ -455,6 +455,9 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         result.constraint_evaluations += selection.constraint_evaluations;
         let completed = selection.evaluations > 0 && can_commit();
         result.completed_steps += u64::from(completed);
+        if completed && let Some(shared) = &mut shared {
+            shared.complete_construction_step();
+        }
         if config.assert_scores {
             director.assert_consistent()?;
         }

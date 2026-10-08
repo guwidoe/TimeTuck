@@ -202,8 +202,12 @@ pub(crate) fn construction_impl_with_clock_monitored<
             result.constraint_evaluations += selection.constraint_evaluations;
             let installed = matches!(selection.selected, Some(ListMove::Assign { .. }));
             result.assigned_values += usize::from(installed);
-            result.completed_steps +=
-                u64::from(selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit));
+            let completed =
+                selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);
+            result.completed_steps += u64::from(completed);
+            if completed && let Some(shared) = &mut shared {
+                shared.complete_construction_step();
+            }
             if config.assert_scores {
                 director.assert_consistent()?;
             }

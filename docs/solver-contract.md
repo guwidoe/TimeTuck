@@ -1365,9 +1365,12 @@ repair timings remain repair-only and do not measure this weighted mode.
 
 `SolverLimits::termination` accepts a borrowed `SearchTermination` tree: `All`,
 `Any`, or `Condition(SearchLimit)`. Conditions currently cover completed search
-steps, unimproved search steps, elapsed solve time and unimproved search time.
-Counters span local/repair phases; phase changes do not reset them. Construction
-is excluded from step/stagnation counts. Strict improvements reset stagnation until
+steps, construction steps, combined construction/search steps, unimproved search
+steps, elapsed solve time and unimproved search time. Phase changes do not reset
+counters. `Steps` retains its local/repair semantics; `ConstructionSteps` counts
+construction placements and `CombinedSteps` sums both with saturation. Custom
+commands and exact candidates are not steps. Construction is excluded from
+stagnation counts. Strict improvements reset stagnation until
 the whole expression becomes true; individual children of AND are not latched.
 The reached expression stays latched, preserving late improvements in the result.
 
@@ -1375,11 +1378,37 @@ Expressions are polled at phase boundaries, within local search, between repair
 attempts, between exact-search candidates/nodes, and by custom-command checks.
 Construction polls between candidates and retains the best evaluated prefix,
 reporting `ConstructionTermination::Condition`. It does not advance search steps
-or start/reset stagnation tracking. Elapsed time includes setup/scoring;
+or start/reset stagnation tracking. Each completed placement advances the separate
+construction counter, including a scored no-change placement or retained interrupted
+prefix. A discarded incomplete scan or empty candidate pool does not count. One
+provider composite is one placement even when it initializes several items. Phase
+and solve `SolverWork::construction_steps` expose this work independently of
+`completed_steps`; managed job statistics accumulate it and detect overflow or
+regressing absolute updates. Elapsed time includes setup/scoring;
 active callbacks are cooperative and may overshoot. Existing hard budgets and
 cancellation remain independent. `SolverTermination::Condition` identifies this
 stop; phase reports retain the corresponding phase reason. Full exact exhaustion
 still proves optimality when it coincides with a condition becoming true.
+
+For example, limit the complete construction/search sequence to 100 placements
+and search steps combined:
+
+```rust
+let condition = SearchTermination::Condition(SearchLimit::CombinedSteps(100));
+let config = SolverConfig::<SimpleScore> {
+    limits: SolverLimits { termination: Some(&condition), ..Default::default() },
+    ..Default::default()
+};
+let result = solve(&problem, &network, config)?;
+let construction_steps = result.work.construction_steps;
+let search_steps = result.work.completed_steps;
+```
+
+Use `ConstructionSteps(100)` to count only initialization work. This is still a
+solve-wide stop: reaching the construction threshold ends the entire solve,
+potentially with a partial result.
+Use `ConstructionConfig::max_steps` to stop only one construction phase and then
+continue with the next phase.
 
 `TerminationExpression<C>::evaluate` also supports caller-defined conditions and
 scope applicability. Inapplicable leaves return None; unsupported progress estimates
