@@ -58,13 +58,14 @@ fn manager<'a>(
             step(control, 4)?;
             Ok(Score(-h.0))
         },
-    );
+    )
+    .with_preflight(move |_| step(control, 5));
     (manager, input, double)
 }
 #[test]
 fn every_adapter_failure_and_panic_restores_initialized_and_uninitialized_sessions() {
     for initialized in [false, true] {
-        for stage in 1..=4 {
+        for stage in 1..=5 {
             for panic in [false, true] {
                 if stage == 1 && !panic {
                     continue;

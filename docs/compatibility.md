@@ -4322,3 +4322,10 @@ and mixed managers now report the first incorrect shadow field and owned expecte
 actual contents, even for neighbors outside the model. Original checks cover
 field precedence and rejection before scoring. The Java score-only error-message
 method remains pending; native diagnostics use model indices, not Java object paths.
+
+Native list and mixed declarative solution managers now combine built-in list
+fields with custom graph projections in one atomic refresh. Assignment validation
+precedes readers; score-only checks built-in fields and the supplied domain
+validator without refreshing the graph. Original tests cover both model types,
+changed rows/basic variables, callback failure rollback, invalid assignments,
+cycles and recovery. This native API integration grants no upstream method credit.

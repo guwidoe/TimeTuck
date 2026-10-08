@@ -189,7 +189,7 @@ pub type MixedSolutionManager<'a, B, V, S> = SolutionManager<
     SolutionRefreshError<MixedScoringError, V>,
 >;
 
-fn project<V: Eq + Clone>(
+pub(crate) fn project<V: Eq + Clone>(
     problem: &ListProblem<V>,
     a: &ListAssignment<V>,
 ) -> ListSolutionShadows<V> {
@@ -207,7 +207,7 @@ fn project<V: Eq + Clone>(
         })
         .collect()
 }
-fn check_projection<V: Eq + Clone, E>(
+pub(crate) fn check_projection<V: Eq + Clone, E>(
     problem: &ListProblem<V>,
     a: &ListAssignment<V>,
     shadows: &[ListBuiltinValues<usize, V>],

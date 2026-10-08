@@ -16545,3 +16545,39 @@ in full (no adaptation/credit); these rely on JVM error, generic and factory-moc
 semantics. DiminishedReturnsScoreRingBufferTest method list inspected; native
 DiminishedReturns already uses VecDeque, so do not add redundant storage merely
 for internal array-layout credits. No new source read outside Community tests.
+
+## Combined list/mixed declarative refresh
+
+New list_declarative_manager module exposes ListDerivedShadows, ModelShadowError
+and list/mixed_declarative_solution_manager factories. They preflight model
+validity, refresh typed ShadowSession and built-in projections atomically, then
+validate custom outputs/score. ScoreOnly skips graph and checks stored built-ins
+plus the application's custom validator. No automatic claim that custom derived
+values are current without that validator. ShadowsOnly retains old score.
+ShadowSolutionManager.with_preflight supports assignment validation before all
+other callbacks for every policy. Native callbacks remain responsible for
+external effects/interior mutation. No new upstream cases or fixture copying.
+Compile93378 terminal0. Focused29114 terminal0 for first three new integration
+tests, after correcting one test delimiter. Then added cycle/recovery integration
+and extended generic failure/panic matrix through preflight stage5, for final gate.
+New tests exercise both list/mixed models, real changed assignments, atomic failure
+recovery, no readers on invalid model, stale custom outputs and cache reuse.
+Rust and report inputs frozen after formatting; no benchmark/release/browser reruns.
+
+Required list-declarative gate TERMINAL0. 4780 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 7, 'REUSE': 611}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2868, 'failed': 0, 'pending': 1705, 'excluded': 282, 'unverified': 0, 'percent': 59.073}.
+Source before/after matched: 86580fbc623cbcd8eb65c94f60c1391c5cdf83175e174dc59496b88e3c5b9492
+Live freshness matched verification digest: 41ec79d5f60a090fa492b3026e68f400a2ec50222cb2b7c61659571f7fb40adf.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/list-declarative-final-check.log; evidence work/list-declarative-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual final gate2747 and evidence57913 both terminal0; no active builds/checks.
+Live dashboard freshness matched. Next useful native integration: adapt managed
+shadows to IncrementalCalculator so candidate moves use the graph automatically.
+Read native incremental_calculator.rs trait (reset/before/after_change and fallible
+calculate_score_with_matches), and calculator_backend.rs through move apply.
+Director winner replay applies callbacks without rescoring: a bridge must refresh
+shadows during reset/after_change, including inverse notifications, and score only
+when asked. Keep ordinary score structural component zero; directors supply it.
+No bridge written yet; this batch is explicit refresh integration only.

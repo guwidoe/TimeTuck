@@ -27,6 +27,8 @@ impl<K: fmt::Debug + 'static, E: Error + 'static> Error for ShadowSolutionError<
     }
 }
 
+type Preflight<'a, A, E> = dyn FnMut(&A) -> Result<(), E> + 'a;
+
 type Project<'a, 's, K, A, H, E> = dyn FnMut(&A, &ShadowSession<'a, 's, K, A>) -> Result<H, E> + 'a;
 type Validate<'a, A, H, E> = dyn FnMut(&A, &H) -> Result<(), E> + 'a;
 type Calculate<'a, A, H, S, E> = dyn FnMut(&A, &H) -> Result<S, E> + 'a;
@@ -45,6 +47,7 @@ type Calculate<'a, A, H, S, E> = dyn FnMut(&A, &H) -> Result<S, E> + 'a;
 /// interior state; external effects and callback captures are not rolled back.
 /// Panicking destructors during successful publication are excluded.
 pub struct ShadowSolutionManager<'a, 's, K, A, H, S, E> {
+    preflight: Option<Box<Preflight<'a, A, E>>>,
     session: ShadowSession<'a, 's, K, A>,
     project: Box<Project<'a, 's, K, A, H, E>>,
     validate: Box<Validate<'a, A, H, E>>,
@@ -58,11 +61,18 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
         calculate: impl FnMut(&A, &H) -> Result<S, E> + 'a,
     ) -> Self {
         Self {
+            preflight: None,
             session,
             project: Box::new(project),
             validate: Box::new(validate),
             calculate: Box::new(calculate),
         }
+    }
+    /// Check the assignment before any graph reader or other adapter runs,
+    /// including ScoreOnly. Replaces any previously installed preflight callback.
+    pub fn with_preflight(mut self, check: impl FnMut(&A) -> Result<(), E> + 'a) -> Self {
+        self.preflight = Some(Box::new(check));
+        self
     }
     pub fn session(&self) -> &ShadowSession<'a, 's, K, A> {
         &self.session
@@ -83,6 +93,9 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
         solution: &'r mut ManagedSolution<A, H, S>,
         policy: SolutionUpdatePolicy,
     ) -> Result<Option<&'r S>, ShadowSolutionError<K, E>> {
+        if let Some(check) = &mut self.preflight {
+            check(&solution.assignment).map_err(ShadowSolutionError::Adapter)?;
+        }
         if policy == SolutionUpdatePolicy::ScoreOnly {
             (self.validate)(&solution.assignment, &solution.shadows)
                 .map_err(ShadowSolutionError::Adapter)?;

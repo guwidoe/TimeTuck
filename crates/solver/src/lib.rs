@@ -1087,3 +1087,9 @@ pub use benchmark_ranking::{
 
 mod shadow_solution_manager;
 pub use shadow_solution_manager::{ShadowSolutionError, ShadowSolutionManager};
+
+mod list_declarative_manager;
+pub use list_declarative_manager::{
+    ListDeclarativeSolutionManager, ListDerivedShadows, MixedDeclarativeSolutionManager,
+    ModelShadowError, list_declarative_solution_manager, mixed_declarative_solution_manager,
+};
