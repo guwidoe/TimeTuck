@@ -43749,6 +43749,66 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Native always-repeating SelectionSource with declared size 1000 and always-false predicate replaces mocked move selector. Explicit phase event and caller-configured interval 1000 replace mocked phase termination plumbing. Preserve false/true termination sequence, empty filtered traversal and exactly 2000 child next calls; additionally assert two polls and explicit stop reason. Rust unit occurrences replace unused dummy move objects; Option exhaustion replaces Java hasNext. No universal upstream polling-cadence claim outside this supplied case."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "ListChangeMoveSelectorTest.random",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "random",
+      "local_test": "random_changes",
+      "modifications": "Preserve cycling source values and destination positions, all five move codes, continuation and never-ending metadata. ZippedSelectionSource pairs independent streams; existing list_value_changes preserves PRE-removal selection metadata and resolves native POST-removal execution coordinates. Explicit solve/phase events replace mocked scope links; no Java random generator is involved in this scripted case."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "ListChangeMoveSelectorTest.randomAllowsUnassignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "randomAllowsUnassignedValues",
+      "local_test": "random_changes_allow_unassigned",
+      "modifications": "Preserve six cycling source values/destinations including missing value4 and unassignment, all five asserted codes, continuation and never-ending metadata. The extra successful draw replacing hasNext additionally constructs the supplied unassignment. Typed optional list model replaces shadow-variable supplies; ZippedSelectionSource plus list_value_changes resolves assignment/relocation/unassignment against the unchanged fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "RandomListSwapIteratorTest.iterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomListSwapIteratorTest.java",
+      "upstream_test": "iterator",
+      "local_test": "random_swap_iterator",
+      "modifications": "Preserve finite paired value orders and complete four-code sequence, including equal-value No change, reverse orientation and exhaustion. Existing native list swap resolver supplies actual no-op/swap moves; typed list positions replace inverse/index shadow supplies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "RandomListChangeIteratorTest.iterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomListChangeIteratorTest.java",
+      "upstream_test": "iterator",
+      "local_test": "random_change_iterator",
+      "modifications": "Preserve entities B/A/C, source values1/2/3, anchors2/3, scripted destination ranks3/0/1, exact three move codes and last requested integer bound5. Native destination order resolves the three ranks before pairing with finite sources. PRE-removal metadata is preserved while native execution adjusts same-list positions. Explicit typed model replaces score director and shadow supplies; no Java PRNG parity claimed."
     }
   ],
   "fixtures": [
@@ -59702,6 +59762,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertAllCodesOfValueSelector/assertAllCodesOfIterableSelector/assertAllCodesOfIterator",
       "modifications": "Native assertions preserve every code, exact size, finite metadata and repeated exhaustion. Rust typed references replace non-null iterator assertions; no unrelated helper contracts adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "PlannerAssert.zipped_list_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfIterator/assertCodesOfNeverEndingMoveSelector/assertCodesOfNeverEndingIterableSelector/assertCodesOfNeverEndingIterator",
+      "modifications": "Preserve exact finite sequences including exhaustion, repeating prefixes and continuation, and never-ending metadata. Native typed iterators replace non-null assertions; an extra successful draw replaces hasNext. No size assertion is added for random move helpers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "TestdataListUtils.zipped_list_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListUtils.java",
+      "upstream_test": "mockIterableValueSelector/mockNeverEndingIterableValueSelector/mockNeverEndingDestinationSelector/mockAllowsUnassignedValuesNeverEndingDestinationSelector",
+      "modifications": "Native finite and cycling Script sources preserve input occurrence order, repeated items, finite count and repeating metadata. Typed list fixture replaces descriptor and shadow plumbing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "SelectorTestUtils.zipped_list_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "mockIterableValueSelector/solvingStarted/phaseStarted",
+      "modifications": "Finite original-order scripted traversal and explicit source events replace mock iterators and linked scopes. Descriptor/reflection setup is omitted; no production selector implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/zipped_list_selection_cases.rs",
+      "id": "TestRandom.zipped_list_selection",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/TestRandom.java",
+      "upstream_test": "nextInt/assertIntBoundJustRequested",
+      "modifications": "Three explicit ranks3/0/1 and captured last bound reproduce the used random-draw contract with native ListDestinationOrder.random_iter_with. No other generator methods or seeded traces adapted."
     }
   ]
 }

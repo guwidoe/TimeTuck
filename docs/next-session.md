@@ -18362,3 +18362,57 @@ Gate84566 TERMINAL0, wall385s including clippy105s and library rebuild.
 Eight Rust jobs ran,661 reused; all46 Python jobs reused. Evidence58106 TERMINAL0
 confirms source stability, exact1case/0fixture delta and live dashboard freshness.
 No benchmarks or UI checks repeated. All handles terminal. Ready to commit.
+
+## Lazy pairing of independent selection streams
+
+Baseline4f844de clean. Previous goal turn progressed: termination inside rejected
+filter loops committed, all checks passed and report fresh. Added and exported
+ZippedSelectionSource<L,R>, supporting heterogeneous/no-Clone payloads and finite
+or repeating streams. No collection; lazy child factories, left-first reads,
+one unmatched left occurrence possible when right exhausts, fused afterward.
+Reopen restarts child traversals; lifecycle forwarded once per child left/right.
+Known empty size0; both finite/exact sizes give min; any repeating/unknown child
+otherwise means unknown exact size. This avoids treating repeating metadata as
+proof against early cooperative termination. Repeating metadata true iff both
+children advertise it. Existing limited/cache/provider composition is supported.
+
+Read pinned RandomListChangeIteratorTest, RandomListSwapIteratorTest,
+ListChangeMoveSelectorTest random/randomAllowsUnassignedValues plus test-only
+PlannerAssert, TestdataListUtils, SelectorTestUtils and TestRandom contracts.
+Adapted4 complete methods preserving finite exhaustion or repeating continuation,
+full codes, original PRE-removal metadata and final destination draw bound5.
+Native list_value_changes/list_value_swap_moves validate and resolve actual moves.
+The destination-iterator fixture pre-resolves scripted ranks3/0/1 through the
+existing ListDestinationOrder before pairing with finite sources; no seeded Java
+randomness claim. Added4cases/4helperfixtures. Existing partial random-swap prefix
+fixtures stay partial; their selector-wide repeating policy was not changed.
+
+Four native regressions cover metadata/laziness/reopen/empty combinations,
+nonclone payloads and unmatched read/fuse, all lifecycle events plus independent
+filters, and actual balanced-list local search via bounded repeating pairs and
+CachedMoveProvider. Source remains generic across other native model providers.
+Focus46666 TERMINAL101: test used basic scoring conventions for list network;
+fixed entity/value counts and ListScope/ListFact binding. Focus45725 TERMINAL0,
+4 adapted and4 native tests passed. Final edits made repeating-size metadata
+conservative and added explicit finite swap exhaustion; required gate validates
+that final state.
+
+Frozen Rust/provenance/tools. Required gate23969 running, log
+work/zipped-selection-final-check.log. No broad prebuild/benchmark refresh.
+On TERMINAL0 run work/record_zipped_selection_evidence.py, inspect staged diff,
+commit. Full rewrite remains incomplete and active.
+
+Required zipped-selection gate TERMINAL0. 4981 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 668}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2913, 'failed': 0, 'pending': 1660, 'excluded': 282, 'unverified': 0, 'percent': 60.0}.
+Source before/after matched: 53816010f1ce2a3fb48619b45d4d579c5f94adf26390ea37ca06a4bb3bfd9451
+Live freshness matched verification digest: 07b66d071bae428f233b4cdd3a4f89fce626aa348f8a92d5b6bf9db0c7f9157f.
+Prior ledger records unchanged; appended4cases and4fixtures.
+Log work/zipped-selection-final-check.log; evidence work/zipped-selection-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate23969 TERMINAL0, wall503s. Three Rust jobs ran (library and two new
+targets);668 reused. All46 Python jobs reused;243 doctests passed on a fresh run.
+Evidence15689 TERMINAL0 confirms source stability, exact4case/4fixture delta and
+live report freshness. Report2913/4855=60.0%,0failed,1660pending,282excluded.
+All handles terminal. No benchmarks or browser checks repeated. Ready to commit.

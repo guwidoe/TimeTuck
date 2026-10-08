@@ -1950,3 +1950,27 @@ cadence across accepted/rejected candidates, reopen/drop/panic behavior, cap
 precedence and cancellation during actual scoped and stream basic search. This
 does not claim a global Java polling cadence or add upstream credit for native
 regressions.
+
+### Pairing independent selection streams
+
+`ZippedSelectionSource` lazily pairs corresponding occurrences from two sources,
+including sources with different payload types. It does not collect inputs or
+require cloneable payloads. Both sources receive lifecycle events in left/right
+order. Child factories open on the first requested pair. Reads happen left first;
+if the right child ends, one unmatched left occurrence may have been consumed.
+Either child ending fuses the cursor; reopening creates fresh child traversals.
+
+Apply pin/value filters to individual children when each input must advance
+independently, or filter the paired source when rejecting whole combinations.
+Never-ending metadata requires both children to advertise repetition. Exact size
+is reported only for known empty inputs or two finite inputs with known sizes;
+repetition alone cannot guarantee nonempty output or rule out cancellation.
+Bound repeating pairs with `LimitedSelectionSource` before using a scoped
+`CachedMoveProvider`, whose mapper resolves candidates against the current model
+and assignment. Source iterators remain cooperative.
+
+Four adapted list cases preserve scripted change/swap orders, selected positions,
+no-ops, optional assignment, continuation metadata, and the destination draw bound.
+They use existing native move validation and PRE-to-POST-removal coordinate
+conversion. They do not assert Java seeded random-stream parity. Native regressions
+also drive a scored list search through bounded repeating value/destination pairs.

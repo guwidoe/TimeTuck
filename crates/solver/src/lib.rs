@@ -1142,3 +1142,6 @@ pub use keyed_selection_source::{
     KeyedSelectionDraw, KeyedSelectionError, KeyedSelectionIter, KeyedSelectionLimits,
     KeyedSelectionPair, KeyedSelectionSamples, KeyedSelectionSnapshot, KeyedSelectionSource,
 };
+
+mod zipped_selection;
+pub use zipped_selection::ZippedSelectionSource;
