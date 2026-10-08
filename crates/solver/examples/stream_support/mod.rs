@@ -11,6 +11,9 @@ pub struct Network<'a> {
     pub preferences: StreamConstraint<usize, (usize, IntSummary)>,
 }
 pub fn build(case: &Case) -> Result<Network<'_>, Box<dyn Error>> {
+    build_with_batching(case, false)
+}
+pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Box<dyn Error>> {
     if case.weights.len() > 10000
         || case
             .weights
@@ -27,12 +30,25 @@ pub fn build(case: &Case) -> Result<Network<'_>, Box<dyn Error>> {
         (id, value, case.weights[id][value])
     })?;
     let edges = b.source::<usize, (usize, usize, usize)>();
-    let a = b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?;
-    let ab = b.join_equal(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0)?;
+    let a = if batched {
+        b.join_batched(edges.port(), &jobs, |e| e.1, |j: &Job| j.0, |_, _| true)?
+    } else {
+        b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?
+    };
+    let ab = if batched {
+        b.join_batched(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0, |_, _| true)?
+    } else {
+        b.join_equal(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0)?
+    };
     let conflicts = b.filter(&ab, |((_, a), b)| a.1 == b.1)?;
     let identities = b.map(&conflicts, |((e, _), _)| e.0)?;
     let conflicts = b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?;
     let grouped = b.group_collect(&jobs, |&(_, v, w)| (v, w))?;
+    let grouped = if batched {
+        b.coalesce_updates(&grouped)?
+    } else {
+        grouped
+    };
     let nonzero = b.filter(&grouped, |(_, s)| s.sum != 0)?;
     let preferences = b.score("preferences", &nonzero, |(_, s)| {
         HardSoftScore::new(0, impact(s.sum))

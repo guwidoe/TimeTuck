@@ -17300,3 +17300,85 @@ warm58881 terminal0 and adjusted-case97690 terminal0. Final gate reused642Rustjo
 and46Pythonjobs, ran onlyconstruction_cancellation amongRusttargets, plusformatting,
 clippy and doctests. All verification sessions terminal; dashboard85195 stayslive.
 No further changes to verified Rust/provenance. No benchmark/browser/release reruns.
+
+## Stream batching performance comparison
+
+Extended original stream benchmark adapters with change/swap neighborhoods and
+native batched/immediate graph selection. Existing stream_oracle build stays on
+its immediate graph; benchmark defaults to batched joins plus explicit coalescing
+before grouped soft scoring. Java uses public SwapMoveSelectorConfig and the same
+original ordering, step limit and acceptor/forager settings as change workloads.
+Native swap candidate budget bounds ordered movable pairs; step limits control
+termination. Benchmark report adds neighborhood metadata and8workloads, preserving
+its existing Java/Rust report shape. Python rejects changed swap multiplicities
+and independently computes swap-reachable small optima; large32/96variable swap
+cases start from seeded permutations of balanced planted colors. No production
+Timefold source read, no provenance/pin changes. Ten evidence-parser/workload unit
+checks passed, including multiplicity rejection and constrained optimum behavior.
+Benchmark preparation now builds only its stream_benchmark Rust example and2stream
+Java adapters after common Community preparation; unrelated collector oracles are
+not executed or rebuilt by this measurement. Required maincheck is next, then a
+fresh Java/Rust measurement and report freshness check. No timing claims yet.
+
+The first stream timing attempt (session40909) was stopped with exit143 after
+finding that the swap budget counted unordered pairs although native swap_moves
+emits both directions. It could end early with EvaluationLimit; its swap timings
+and apparent Java quality divergence are invalid for the planned 50-step comparison.
+Preserved diagnostics in work/stream-batching-performance-truncated-budget.log;
+no report was published from that interrupted run. Corrected the bound to n*(n-1),
+added a runtime rejection of evaluation-budget termination, and added an example
+regression that performs four constant-score steps and observes all eight ordered
+swap trials plus initialization. The amended gate is session12802; its result
+supersedes the earlier example-only verification. No shared solver changes.
+The new example regression initially used the default strict-improvement acceptor,
+which correctly stopped on a score tie (gate12802 exit101). Set HillClimbing
+explicitly to match the benchmark. Focused example check passed; the selective
+final gate retry is session57236. Neither failure changes shared solver behavior.
+
+Next implementation opportunity found during measurement: native
+neighborhood.rs swap_moves_ordered explicitly emits both (a,b) and (b,a), while
+pinned SwapMoveSelectorTest.originalLeftEqualsRight expects the six unique pairs
+for four entities. The public native behavior already promises directed iteration,
+so add a unique-pair selector or explicit policy rather than silently changing all
+existing Swap consumers. Read the complete relevant upstream test and fixtures
+before adapting/crediting it; only its first170lines were inspected this turn.
+Current timing compares the engines' existing candidate work under equal steps,
+not identical enumeration. No new provenance entries from this inspection.
+
+Corrected final gate57236 TERMINAL0. Corrected stream measurement3132 TERMINAL0:
+50steps,1warmup,3samples x2fresh processes per runtime/workload (six timed samples).
+128/128 small cases valid and equal-score; each runtime reaches the independently
+enumerated neighborhood optimum in115/128 cases. All8timed workloads match scores.
+Rust/Java median milliseconds in work/stream-performance.json:
+- hill/change32:120.105/37.489; change96:409.110/64.446.
+- tabu/change32:125.500/42.992; change96:396.013/78.240.
+- hill/swap32:1816.959/67.681; swap96:18095.507/393.393.
+- tabu/swap32:1727.079/73.970; swap96:18689.719/436.603.
+The96swap runs now reach(-2,-2) in both runtimes; the earlier apparent quality gap
+was the corrected benchmark-budget bug, not evidence of a solver score defect.
+These are provisional development timings with limited warmup/samples; do not
+compare their ratios directly with older runs using different warmup or source.
+Native directed swap duplication remains part of measured work. Other benchmarks
+were not rerun. Focused current-binary immediate/batched diagnostic47610 is next.
+
+Required stream-batching-benchmark gate TERMINAL0. 4854 Rust tests and 241 doctests passed.
+Rust jobs: {'REUSE': 642, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 5dbb88bf5e33f9de5c484ca96a6ffbf8301e147cdb48cbbea29c09f8a0b7c8ed
+Live freshness matched verification digest: f76324e77461212d98fb8d060305d22e7ad0ad3bac0bb8b5ff50fb01d74637e9.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/stream-batching-benchmark-final-check.log; evidence work/stream-batching-benchmark-evidence.json.
+Only stream performance refreshed; unrelated measurements retained. No browser rerun for this report-only refresh. Goal remains active.
+Focused mode diagnostic47610 TERMINAL0 (work/stream-batch-mode-comparison.json):
+hill/change32 immediate66.597ms vs batched122.248ms; hill/swap32 immediate889.318ms
+vs batched1656.898ms (one warmup,three samples). A single unwarmed96swap probe was
+9339.255ms vs18376.271ms; treat that timing as diagnostic only. Scores agree between
+modes, including(-2,-2) for96swap. Batching reduces terminal callbacks (swap32:
+273693 ->207036; swap96:2625414 ->1916249) but is currently slower. Investigate
+batch bookkeeping costs; do not claim speedup from reduced callback counts.
+Report refresh/evidence70143 TERMINAL0; stream measurement is current in dashboard,
+all8workloads present, live freshness matches. All task measurement/check handles
+are terminal; dashboard server remains live. Required final gate reused642Rust
+jobs and46Pythonjobs, ran one changed Rust example;4854Rust tests/241doctests pass.
+No source-method credit added. Goal remains active; unique swap selection is the
+next concrete implementation opportunity, followed by measured batching overhead.

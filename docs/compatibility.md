@@ -4500,3 +4500,16 @@ hidden by replaying a winner that repairs their cache. Diagnostic work remains
 outside search evaluation counters. This strengthens `assert_scores`; it does not
 claim full Java environment-mode scheduling or tracked-variable parity. Three
 native fault-injection regressions add no upstream-method credit.
+
+The incremental-stream performance adapter now supports native batched joins and
+coalesced group scoring, with explicit immediate mode available for comparison.
+Matched Java/Rust swap workloads complement the original change workloads.
+Swap results must preserve pins and value multiplicities; small-case optimum
+checks enumerate only assignments reachable by that neighborhood. Timed swap
+workloads use seeded balanced colors, so the planted zero-score optimum remains
+reachable. These original benchmark cases add no upstream-method credit.
+The native `Neighborhood::Swap` currently enumerates both directed orders of each
+pair. The pinned `SwapMoveSelectorTest.originalLeftEqualsRight` specifies one
+unordered pair per same-selector pass. Timings therefore compare the current
+engines under equal step limits, not identical candidate counts. Avoiding native
+reverse duplicates is pending; do not infer pure propagation cost from these runs.

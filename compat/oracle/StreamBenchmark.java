@@ -5,6 +5,7 @@ import java.util.List;
 import ai.timefold.solver.core.api.solver.SolverFactory;
 import ai.timefold.solver.core.config.heuristic.selector.common.SelectionOrder;
 import ai.timefold.solver.core.config.heuristic.selector.move.generic.ChangeMoveSelectorConfig;
+import ai.timefold.solver.core.config.heuristic.selector.move.generic.SwapMoveSelectorConfig;
 import ai.timefold.solver.core.config.localsearch.LocalSearchPhaseConfig;
 import ai.timefold.solver.core.config.localsearch.decider.acceptor.AcceptorType;
 import ai.timefold.solver.core.config.localsearch.decider.acceptor.LocalSearchAcceptorConfig;
@@ -15,7 +16,13 @@ import ai.timefold.solver.core.config.solver.termination.TerminationConfig;
 
 public final class StreamBenchmark {
     public static void main(String[] args) throws Exception {
-        if (args.length != 4) throw new IllegalArgumentException("expected hill|tabu steps warmup samples");
+        if (args.length < 4 || args.length > 5) throw new IllegalArgumentException("expected hill|tabu steps warmup samples [change|swap]");
+        String neighborhood = args.length == 5 ? args[4] : "change";
+        var selector = switch (neighborhood) {
+            case "change" -> new ChangeMoveSelectorConfig().withSelectionOrder(SelectionOrder.ORIGINAL);
+            case "swap" -> new SwapMoveSelectorConfig().withSelectionOrder(SelectionOrder.ORIGINAL);
+            default -> throw new IllegalArgumentException("unknown neighborhood");
+        };
         String algorithm = args[0];
         int steps = Integer.parseInt(args[1]), warmup = Integer.parseInt(args[2]), samples = Integer.parseInt(args[3]);
         if (steps < 1 || warmup < 0 || samples < 1) throw new IllegalArgumentException("invalid counts");
@@ -25,7 +32,7 @@ public final class StreamBenchmark {
             default -> throw new IllegalArgumentException("unknown algorithm");
         };
         var phase = new LocalSearchPhaseConfig()
-            .withMoveSelectorConfig(new ChangeMoveSelectorConfig().withSelectionOrder(SelectionOrder.ORIGINAL))
+            .withMoveSelectorConfig(selector)
             .withAcceptorConfig(acceptor)
             .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(Integer.MAX_VALUE)
                 .withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))

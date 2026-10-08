@@ -1,8 +1,9 @@
 """Original checks that stream evidence rejects incorrect scores and match identities."""
 import copy
+from collections import Counter
 import unittest
 
-from benchmark_streams import parse_result, workload
+from benchmark_streams import parse_result, workload, optimum_for_neighborhood
 from differential_streams import expected_matches, optimum, score, states, validate
 
 
@@ -82,6 +83,27 @@ class StreamEvidenceTests(unittest.TestCase):
         case = {'id': 'empty', 'value_count': 1, 'initial': [0], 'pins': [True],
                 'edges': [], 'weights': [[0]]}
         self.assertEqual(parse_result(case, 'empty\t1\t0\t0\t0\t0')['score_calls'], 0)
+
+    def test_swap_responses_preserve_multiplicities_and_reachable_optima(self):
+        row = 'stream\t100\t-1\t41\t0,1,0\t8'
+        self.assertEqual(parse_result(self.case, row, 'swap')['score'], [-1, 41])
+        with self.assertRaisesRegex(ValueError, 'multiplicities'):
+            parse_result(self.case, 'stream\t100\t-1\t13\t0,1,1\t8', 'swap')
+        self.assertEqual(optimum_for_neighborhood(self.case, 'swap'), (-1, 41))
+        case = {'id': 'single', 'value_count': 2, 'initial': [0],
+                'pins': [False], 'edges': [], 'weights': [[-1, 0]]}
+        self.assertEqual(optimum_for_neighborhood(case, 'change'), (0, 0))
+        self.assertEqual(optimum_for_neighborhood(case, 'swap'), (0, -1))
+        with self.assertRaisesRegex(ValueError, 'Unknown neighborhood'):
+            parse_result(self.case, row, 'unknown')
+
+    def test_swap_workloads_have_balanced_reachable_planted_optima(self):
+        for n in [32, 96]:
+            case = workload(n, 'swap')
+            optimum_values = [i % 4 for i in range(n)]
+            self.assertEqual(Counter(case['initial']), Counter(optimum_values))
+            self.assertEqual(score(case, optimum_values), (0, 0))
+            self.assertEqual(case, workload(n, 'swap'))
 
     def test_large_workloads_have_planted_zero_optimum(self):
         for n in [32, 96]:

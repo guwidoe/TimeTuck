@@ -9,14 +9,26 @@ use std::{
     time::Instant,
 };
 use timetuck::{
-    Acceptance, LocalSearchConfig, MoveSelection, Neighborhood, RejectedMovePolicy,
-    stream_local_search,
+    Acceptance, LocalSearchConfig, LocalSearchTermination, MoveSelection, Neighborhood,
+    RejectedMovePolicy, stream_local_search,
 };
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if args.len() != 5 {
-        return Err("expected hill|tabu steps warmup samples".into());
+    if !(5..=7).contains(&args.len()) {
+        return Err(
+            "expected hill|tabu steps warmup samples [change|swap] [batched|immediate]".into(),
+        );
     }
+    let neighborhood = match args.get(5).map(String::as_str).unwrap_or("change") {
+        "change" => Neighborhood::Change,
+        "swap" => Neighborhood::Swap,
+        _ => return Err("unknown neighborhood".into()),
+    };
+    let batched = match args.get(6).map(String::as_str).unwrap_or("batched") {
+        "batched" => true,
+        "immediate" => false,
+        _ => return Err("unknown graph mode".into()),
+    };
     let acceptance = match args[1].as_str() {
         "hill" => Acceptance::HillClimbing,
         "tabu" => Acceptance::VariableTabu {
@@ -36,36 +48,33 @@ fn main() -> Result<(), Box<dyn Error>> {
         if !case.problem.is_complete(&case.problem.initial_assignment()) {
             return Err("complete initial assignment required".into());
         }
-        let changes: u64 = case
-            .problem
-            .variables()
-            .iter()
-            .filter(|v| !v.is_pinned())
-            .map(|v| (v.domain().len() - 1) as u64)
-            .sum();
-        let budget = steps
-            .checked_mul(changes)
-            .and_then(|v| v.checked_add(1))
-            .ok_or("budget overflow")?;
+        let budget = evaluation_budget(&case, neighborhood, steps)?;
         let config = LocalSearchConfig {
             acceptance,
             max_accepted_moves: u64::MAX,
             max_steps: steps,
             rejected_moves: RejectedMovePolicy::BestScore,
             max_evaluations: budget,
-            neighborhood: Neighborhood::Change,
+            neighborhood,
             selection: MoveSelection::BestAccepted,
             ..LocalSearchConfig::default()
         };
         for run in 0..warmup.checked_add(samples).ok_or("sample overflow")? {
             let started = Instant::now();
-            let network = stream_support::build(&case)?;
+            let network = stream_support::build_with_batching(&case, batched)?;
             let result = stream_local_search(
                 black_box(&case.problem),
                 network.graph,
                 network.source,
                 config,
             )?;
+            if matches!(
+                result.termination,
+                LocalSearchTermination::EvaluationLimit
+                    | LocalSearchTermination::MoveEvaluationLimit
+            ) {
+                return Err("evaluation budget truncated the step-limited benchmark".into());
+            }
             let best = result.best.ok_or("missing result")?;
             if stream_support::score(&case, &best.assignment) != best.score
                 || !case.problem.is_complete(&best.assignment)
@@ -92,4 +101,65 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
     Ok(())
+}
+
+fn evaluation_budget(
+    case: &solver_support::Case,
+    neighborhood: Neighborhood,
+    steps: u64,
+) -> Result<u64, Box<dyn Error>> {
+    let changes: u64 = case
+        .problem
+        .variables()
+        .iter()
+        .filter(|v| !v.is_pinned())
+        .map(|v| (v.domain().len() - 1) as u64)
+        .sum();
+    let candidates = if neighborhood == Neighborhood::Swap {
+        let movable = case
+            .problem
+            .variables()
+            .iter()
+            .filter(|v| !v.is_pinned())
+            .count() as u64;
+        movable
+            .checked_mul(movable.saturating_sub(1))
+            .ok_or("candidate count overflow")?
+    } else {
+        changes
+    };
+    steps
+        .checked_mul(candidates)
+        .and_then(|v| v.checked_add(1))
+        .ok_or_else(|| "budget overflow".into())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn swap_budget_allows_every_requested_step() {
+        let case = solver_support::Case::parse("budget\t2\t0,1\t00\t\t0,0,0,0", true).unwrap();
+        let network = stream_support::build_with_batching(&case, true).unwrap();
+        let result = stream_local_search(
+            &case.problem,
+            network.graph,
+            network.source,
+            LocalSearchConfig {
+                acceptance: Acceptance::HillClimbing,
+                neighborhood: Neighborhood::Swap,
+                max_steps: 4,
+                max_evaluations: evaluation_budget(&case, Neighborhood::Swap, 4).unwrap(),
+                max_accepted_moves: u64::MAX,
+                selection: MoveSelection::BestAccepted,
+                ..LocalSearchConfig::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(result.termination, LocalSearchTermination::StepLimit);
+        assert_eq!(result.completed_steps, 4);
+        // Native swap iteration emits both (a,b) and (b,a), plus initialization.
+        assert_eq!(result.evaluations, 9);
+    }
 }
