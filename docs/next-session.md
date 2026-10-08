@@ -19342,3 +19342,82 @@ input/group updates and an explicit batched grouping boundary, preserving native
 identity, callback and rollback contracts. Second join/filter and rollback remain
 larger hotspots; do not assume grouping alone closes the gap. No next-batch Rust
 edits yet. Do not repeat successful checks for this state. Goal remains incomplete.
+
+
+## Atomic integer group batching
+
+Baseline2e2a0be, clean start after adaptive row journals/profile. New
+GroupNode.apply_batch prepares each touched collector once, coalesces last input
+values, preserves existing group keys, installs both maps under nested reversible
+guards, and avoids remove/reinsert of existing input rows. New explicit graph
+ group_collect_batched maps final puts once and publishes final summaries, with
+journal/saved snapshot/clear/restore support. Ordinary group_collect/direct apply
+and generic collectors keep their semantics. Batched benchmark now uses this
+boundary instead of Group +CoalescedUpdatesNode. Private get_key_value retrieves
+stored representatives; map guards support remove; reuse join last_updates.
+Original Rust/tests only; no provenance changes/upstream credits.
+
+Final focus/build90055 TERMINAL0:4 new cases,2 coalescing,9 incremental cases;
+release29.19s. Initial73160 missing explicit constructor I,K fixed before success.
+Regressions cover300 deterministic full-summary scans (including wrapping extremes),
+representative stability, every-comparison panic recovery, final-only solver scores,
+mapping/sink failures, activity pruning and datasets. Focus log
+work/group-batch-focus.log. Native16039 TERMINAL0:
+work/group-batch-native-performance.json, group-batch-comparison.log. Two alternating
+process pairs,20steps/1warmup/3samples, hill/tabu xchange/swap x32/96; exact assignments,
+scores/callbacks matched. Archived binaries group-batch-before/after.
+Median whole-process CPU before/after ms (warmup and both sizes included):
+hill/change477.9865/481.063; tabu/change458.4745/401.179;
+hill/swap7881.4805/6608.027 (-16.2%); tabu/swap7624.322/6608.9005 (-13.3%).
+96-variable elapsed medians hill swaps1813.324/1434.037ms, tabu1705.144/1570.545ms.
+Smaller workloads mixed; scoped development measurements, not universal gains.
+
+Final required gate58658 TERMINAL0 including docs/Python; prebuild3m15s. Earlier
+preflight52901 failed a test-only is_multiple_of lint; equivalent expression fixed,
+then restarted only after terminal101. No implementation/benchmark changes.
+Matched Java14261 TERMINAL0:128 independently valid cases,128 equal scores.
+Report/evidence/isolated profile46049 TERMINAL0. All batch handles terminal;
+source stable through verification and measurement. No browser rerun or unrelated
+benchmark refresh. Staged implementation reviewed; only final handoff edits followed.
+
+Gate: 5151 Rust tests, 243 doctests. Rust jobs {'RUN': 664, 'REUSE': 31}; Python {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3005, 'failed': 0, 'pending': 1568, 'excluded': 282, 'unverified': 0, 'percent': 61.895}.
+Source: dadf582d70d4b883ce2b3f23995658def0e9214e31127c94354cec881f3f7d5e
+Verification/live freshness: 5a4232792558f34ff70b87a30fb6627a1edf6c3c9cc5dfbd4afd38c93a40e75f
+Evidence work/group-batch-evidence.json; prior ledger unchanged.
+
+Matched Java measurement 2026-10-08T20:50:38.610718+00:00; source digest
+ee8c1c3d5c15edfa27422a87fee572a876a8bf553f01ff5ffa3518e1a49722fe. Median ms Rust / Java:
+- Hill climbing · change · 32 variables: 28.439 / 37.111.
+- Hill climbing · change · 96 variables: 87.382 / 55.204.
+- Tabu · change · 32 variables: 24.842 / 37.481.
+- Tabu · change · 96 variables: 83.897 / 71.661.
+- Hill climbing · swap · 32 variables: 158.828 / 65.121.
+- Hill climbing · swap · 96 variables: 1578.557 / 179.421.
+- Tabu · swap · 32 variables: 152.997 / 68.346.
+- Tabu · swap · 96 variables: 1587.437 / 198.898.
+Large swaps remain8–9x slower than Community. Do not compare separate runs on
+this variable host as if they were paired experiments.
+
+Fresh isolated profile work/group-batch-profile.json/log; helper
+work/profile_group_batch.py. Same96-variable tabu swap case,20steps and exact
+assignments/scores/callbacks as previous work/stream-journals-profile.json.
+Copied AVL nodes2,522,667 ->1,032,162 (-59.08%); new nodes371,673 ->233,429 (-37.20%).
+Instrumented spans: second join426ms, rollback312ms, joined-row filter253ms,
+conflict terminal149ms, BatchedGroup130ms (previous Group243ms), first join130ms.
+Timer overhead distorts times; operation counts are concrete for this workload,
+not general allocation counts or a replacement for ordinary benchmark timings.
+
+Read-only next-target investigation: second indexed join materializes every matched
+payload before a Filter caches all pairs, including rejects. Existing join_batched
+uses BatchedJoinNode with retained accepted payloads and pending-round semantics;
+do not silently alter that public standalone contract. Consider a compact explicit
+filtered indexed graph join: evaluate residual predicates during core final-pair
+preparation, clone payloads only for accepted pairs, retain accepted IDs alone to
+suppress absent retractions, and journal that ID set with existing JoinNode row
+checkpoints. This can combine the two measured largest apply costs. Preserve one
+predicate evaluation per final candidate, deterministic pair order, rollback,
+snapshots, activity/consistency rebuilding and score-call counts. Add an internal
+pair-projection hook to join_batch reused by ordinary/unfiltered joins, keeping
+existing API behavior. No next-batch edits yet. Full rewrite remains incomplete;
+reuse this batch's successful evidence rather than rerunning it.

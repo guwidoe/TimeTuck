@@ -4,7 +4,7 @@ use super::{JoinChanges, JoinComparison, JoinNode, JoinSide, TupleChange, health
 type PreparedChange<I, K, T> = (I, Option<(K, T)>);
 type PreparedChanges<I, K, T> = Vec<PreparedChange<I, K, T>>;
 
-fn last_updates<I: Ord, T>(
+pub(super) fn last_updates<I: Ord, T>(
     changes: impl IntoIterator<Item = TupleChange<I, T>>,
 ) -> Vec<(I, Option<T>)> {
     let mut out: Vec<_> = changes

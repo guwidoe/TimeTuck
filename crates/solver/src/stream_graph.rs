@@ -2437,3 +2437,5 @@ pub mod coalesced;
 
 #[cfg(test)]
 mod journal_tests;
+
+mod grouped_batch;

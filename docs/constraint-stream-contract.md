@@ -2002,3 +2002,26 @@ root rollback, avoiding an extra value log on top of mandatory copy-on-write.
 Opening such a nested checkpoint first preserves enclosing journal entry states.
 Unshared roots use compact value logs. Insertion reuses the old value found during
 its comparison pass to record undo, without a second traversal of the tree.
+
+
+## Atomic integer grouping rounds
+
+`GroupNode::apply_batch` retains the last change per input ID, with the first
+representative of repeated IDs. It prepares each affected integer collector once,
+then publishes one final summary or retraction per group in key order. Existing
+group-key representatives survive temporary emptiness within a round; a new group
+uses its first final key in sorted input-ID order. Absent-to-absent groups emit
+nothing. Counts, distinct values, wrapping sums, extrema and duplicate occurrence
+removal retain IntCollector semantics. Atomic rounds replace existing input rows
+without removing/reinserting their tree nodes. Nested map guards protect both
+input and summary installation against comparison panics. Output keys/summaries
+are prepared before installation; stable keys and non-panicking destructors remain
+required. Saved snapshots and graph trial journals preserve normal rollback.
+
+`StreamGraphBuilder::group_collect_batched` is an explicit integer-aggregation
+boundary. It maps only final surviving puts per input ID and enables batched
+score-director updates when observed. Downstream filtering/scoring/datasets receive
+final group state once per round. Direct transaction `apply` and ordinary
+`group_collect` retain immediate behavior. Generic user-defined collectors retain
+their existing per-event semantics. The batched benchmark uses this boundary in
+place of ordinary grouping followed by a separate coalescing node.

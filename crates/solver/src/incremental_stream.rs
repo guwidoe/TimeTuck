@@ -27,6 +27,7 @@
 //! assert_eq!(score.score(), SimpleScore::ZERO);
 //! ```
 
+mod group_batch;
 mod join_batch;
 mod partitioned;
 pub use partitioned::{JoinPartitionState, PartitionedJoinNode};
@@ -460,9 +461,11 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         I: 'static,
         K: 'static,
     {
-        (self.inputs, self.groups) = *checkpoint
+        let (inputs, groups) = *checkpoint
             .downcast::<(SnapshotMap<I, (K, i64)>, SnapshotMap<K, IntCollector>)>()
             .expect("group checkpoint type");
+        self.inputs.install_snapshot(inputs);
+        self.groups.install_snapshot(groups);
         self.poisoned = false;
     }
 

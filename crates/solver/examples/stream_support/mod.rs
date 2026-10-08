@@ -43,11 +43,10 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
     let conflicts = b.filter(&ab, |((_, a), b)| a.1 == b.1)?;
     let identities = b.map(&conflicts, |((e, _), _)| e.0)?;
     let conflicts = b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?;
-    let grouped = b.group_collect(&jobs, |&(_, v, w)| (v, w))?;
     let grouped = if batched {
-        b.coalesce_updates(&grouped)?
+        b.group_collect_batched(&jobs, |&(_, v, w)| (v, w))?
     } else {
-        grouped
+        b.group_collect(&jobs, |&(_, v, w)| (v, w))?
     };
     let nonzero = b.filter(&grouped, |(_, s)| s.sum != 0)?;
     let preferences = b.score("preferences", &nonzero, |(_, s)| {

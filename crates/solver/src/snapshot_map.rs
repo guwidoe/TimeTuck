@@ -336,12 +336,15 @@ impl<K: Ord, V> SnapshotMap<K, V> {
         range
     }
     pub fn get(&self, key: &K) -> Option<&V> {
+        self.get_key_value(key).map(|(_, value)| value)
+    }
+    pub(crate) fn get_key_value(&self, key: &K) -> Option<(&K, &V)> {
         let mut next = self.root.as_deref();
         while let Some(n) = next {
             match key.cmp(&n.key) {
                 Ordering::Less => next = n.left.as_deref(),
                 Ordering::Greater => next = n.right.as_deref(),
-                Ordering::Equal => return Some(&n.value),
+                Ordering::Equal => return Some((&n.key, &n.value)),
             }
         }
         None
