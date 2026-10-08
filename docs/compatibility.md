@@ -4369,3 +4369,14 @@ session field registration is still checked independently. One complete upstream
 missing-referenced-entities case preserves the four-visit/two-owner graph and all
 three required diagnostic relationships. Native typed errors replace Java text;
 no static Java API or annotation lifecycle parity is claimed.
+
+The complete score-only wrong-inverse-owner SolutionManager case preserves the
+four-visit concurrent fixture and rejects b1 pointing at e2 while stored in e1.
+Typed value/expected-owner/actual-owner fields replace Java diagnostic text;
+caller data remains unchanged and no shadow reader executes.
+
+Shadow managers can append preflight checks while retaining the list/mixed model
+validation installed by their constructors. Checks run in order under every
+update policy and stop before graph/score callbacks on failure. Explicit
+replacement remains available. Original tests cover callback order, rejection,
+panic recovery and preservation of initialized and uninitialized state.

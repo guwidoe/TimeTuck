@@ -16746,3 +16746,41 @@ identities under ScoreOnly; existing shared concurrent fixture is unchanged.
 Apply once after this commit, preferably with related implementation work, then
 run final gate. Only1case/no new fixture records. It is the remaining method in
 SolutionManagerTest; do not claim draft compatibility before integration.
+
+## Composable manager preflight and remaining SolutionManager case
+
+Applied work/list-owner-draft/apply.py once:1case/no new fixture records; fixture
+is unchanged and already attributed. Installed source case matches tested draft
+apart from fixture path made relative. Do not rerun unchanged focused source test.
+ShadowSolutionManager now stores a flat vector of preflight callbacks. Existing
+with_preflight explicitly replaces all; and_preflight appends while retaining
+factory-installed model validation. Every update policy stops at first failure
+before readers/adapters; no recursive closure chaining or new type bounds.
+Referenced-entity validator docs recommend and_preflight to retain model checks.
+Focused14009 terminal0:2native tests assert factory rejection before user checks,
+ordered append, first-error/panic short circuit, preservation before/after first
+refresh, ScoreOnly recovery, and explicit replacement of a prior chain.
+No upstream production/Enterprise reads. Inputs frozen for final gate after fmt.
+
+Required manager-preflight gate TERMINAL0. 4800 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 12, 'REUSE': 615}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2873, 'failed': 0, 'pending': 1700, 'excluded': 282, 'unverified': 0, 'percent': 59.176}.
+Source before/after matched: b83ab8fc023bab0ebfa98ad862056ed65e23ddb5a89d5090485adc4237084c35
+Live freshness matched verification digest: 2479dc42114c48b9050767830643342fec20a5b5f9e2a2f133ba8534a32b73e7.
+Existing provenance prefixes unchanged; appended1case and0fixtures.
+Log work/manager-preflight-final-check.log; evidence work/manager-preflight-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual gate51527 and evidence13393 terminal0. All9 methods in the pinned
+SolutionManagerTest now report passed through documented Rust adaptations;
+this is not overall Java API/ABI parity. No active check handles or pending drafts.
+Read-only next-work investigation: ScoreDirectorFactoryFactoryTest lines1–390
+(not full file) specify environment-specific network factories and score-match
+policies; native phase configs currently expose assert_scores booleans, so do not
+claim that configuration suite from existing correctness checks. Also read full
+SolverFactoryTest.localSearchAfterUnterminatedLocalSearch and
+validateInitializationPhases (lines174–287). Native local phases always have a
+finite max_steps (default1000), so unreachable unbounded Java defaults do not map
+literally. Native first-initialized event already tracks the phase preceding first
+local/repair phase; inspect solver.rs PlanObservation and run_plan before extending
+configuration introspection or adapting the initialization metadata method.
+Work/list-owner-draft/apply.py is now APPLIED; never apply again.

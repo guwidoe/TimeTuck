@@ -126,7 +126,8 @@ pub fn missing_referenced_shadow_entities<K: Clone + Eq + Hash>(
 }
 
 /// Reject an incomplete entity set before refreshing shadows. This can be used
-/// in `ShadowSolutionManager::with_preflight`; both strict and tolerant refreshes
+/// in `ShadowSolutionManager::and_preflight` to retain existing model validation;
+/// both strict and tolerant refreshes
 /// must reject missing entities. It does not assert that a session contains all
 /// fields: session-level preflight still performs that separate check.
 pub fn validate_referenced_shadow_entities<K: Clone + Eq + Hash>(

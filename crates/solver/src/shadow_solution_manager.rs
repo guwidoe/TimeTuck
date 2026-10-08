@@ -49,7 +49,7 @@ type Calculate<'a, A, H, S, E> = dyn FnMut(&A, &H) -> Result<S, E> + 'a;
 /// Panicking destructors during successful publication are excluded.
 pub struct ShadowSolutionManager<'a, 's, K, A, H, S, E> {
     consistency: ShadowConsistencyPolicy,
-    preflight: Option<Box<Preflight<'a, A, E>>>,
+    preflight: Vec<Box<Preflight<'a, A, E>>>,
     session: ShadowSession<'a, 's, K, A>,
     project: Box<Project<'a, 's, K, A, H, E>>,
     validate: Box<Validate<'a, A, H, E>>,
@@ -64,7 +64,7 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
     ) -> Self {
         Self {
             consistency: ShadowConsistencyPolicy::RequireConsistent,
-            preflight: None,
+            preflight: Vec::new(),
             session,
             project: Box::new(project),
             validate: Box::new(validate),
@@ -72,9 +72,20 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
         }
     }
     /// Check the assignment before any graph reader or other adapter runs,
-    /// including ScoreOnly. Replaces any previously installed preflight callback.
+    /// including ScoreOnly. Replaces all previously installed preflight callbacks.
+    /// Use `and_preflight` to preserve factory-installed model validation.
     pub fn with_preflight(mut self, check: impl FnMut(&A) -> Result<(), E> + 'a) -> Self {
-        self.preflight = Some(Box::new(check));
+        self.preflight.clear();
+        self.preflight.push(Box::new(check));
+        self
+    }
+    /// Append an assignment check without replacing existing checks, including
+    /// the model validation installed by list and mixed manager factories.
+    /// Checks run in insertion order under every update policy and stop at the
+    /// first error or panic, before any graph or scoring callback. A later
+    /// `with_preflight` call explicitly replaces the entire chain.
+    pub fn and_preflight(mut self, check: impl FnMut(&A) -> Result<(), E> + 'a) -> Self {
+        self.preflight.push(Box::new(check));
         self
     }
     /// Control consistency for graph refreshes; ScoreOnly continues to use the
@@ -104,7 +115,7 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
         solution: &'r mut ManagedSolution<A, H, S>,
         policy: SolutionUpdatePolicy,
     ) -> Result<Option<&'r S>, ShadowSolutionError<K, E>> {
-        if let Some(check) = &mut self.preflight {
+        for check in &mut self.preflight {
             check(&solution.assignment).map_err(ShadowSolutionError::Adapter)?;
         }
         if policy == SolutionUpdatePolicy::ScoreOnly {
