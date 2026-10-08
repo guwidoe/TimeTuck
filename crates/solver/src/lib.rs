@@ -1136,3 +1136,9 @@ pub use pair_selection_source::{PairSelectionIter, PairSelectionSource, Selectio
 
 mod subgroup_selection;
 pub use subgroup_selection::{SubgroupSamples, SubgroupSelectionError, SubgroupSelectionSource};
+
+mod keyed_selection_source;
+pub use keyed_selection_source::{
+    KeyedSelectionDraw, KeyedSelectionError, KeyedSelectionIter, KeyedSelectionLimits,
+    KeyedSelectionPair, KeyedSelectionSamples, KeyedSelectionSnapshot, KeyedSelectionSource,
+};

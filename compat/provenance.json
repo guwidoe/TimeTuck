@@ -43629,6 +43629,66 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Empty iterators with never-ending metadata across three steps in two phases, all six child event counts. Native grouped source plus SubgroupSelectionSource replace descriptors and mocked scopes. Typed slots replace named entities. Nonempty cases inject the source bounded-index scripts through try_open_with; one further successful sample replaces hasNext. This preserves observable draws but does not claim Java PRNG identity or internal draw-consumption counts. Native seeded sampling is independently tested."
+    },
+    {
+      "id": "ChangeMoveSelectorTest.original",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorTest.java",
+      "upstream_test": "original",
+      "local_path": "crates/solver/tests/dependent_change_source_cases.rs",
+      "local_test": "original",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all twelve key-major codes, exact sizes and repeated exhaustion across five steps/two phases, including a/b then c/d assignment initialization while retaining non-doable targets. KeyedSelectionSource and typed key/value source callbacks replace Java selector descriptors and scopes. Preserve all six lifecycle counters independently for both children (solve1/phase2/step5). Current assignment lives in the context; candidate membership deliberately does not filter current no-ops. Rust iterator references replace non-null checks; an extra successful random draw replaces hasNext."
+    },
+    {
+      "id": "ChangeMoveSelectorTest.emptyEntitySelectorOriginal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorTest.java",
+      "upstream_test": "emptyEntitySelectorOriginal",
+      "local_path": "crates/solver/tests/dependent_change_source_cases.rs",
+      "local_test": "empty_entity_selector_original",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve empty selection, zero size and repeated exhaustion for no entities and three values across five steps/two phases. KeyedSelectionSource and typed key/value source callbacks replace Java selector descriptors and scopes. Preserve all six lifecycle counters independently for both children (solve1/phase2/step5). Current assignment lives in the context; candidate membership deliberately does not filter current no-ops. Rust iterator references replace non-null checks; an extra successful random draw replaces hasNext."
+    },
+    {
+      "id": "ChangeMoveSelectorTest.emptyValueSelectorOriginal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorTest.java",
+      "upstream_test": "emptyValueSelectorOriginal",
+      "local_path": "crates/solver/tests/dependent_change_source_cases.rs",
+      "local_test": "empty_value_selector_original",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve empty selection, zero size and repeated exhaustion for four entities and no values across five steps/two phases. KeyedSelectionSource and typed key/value source callbacks replace Java selector descriptors and scopes. Preserve all six lifecycle counters independently for both children (solve1/phase2/step5). Current assignment lives in the context; candidate membership deliberately does not filter current no-ops. Rust iterator references replace non-null checks; an extra successful random draw replaces hasNext."
+    },
+    {
+      "id": "ChangeMoveSelectorTest.randomSelection",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorTest.java",
+      "upstream_test": "randomSelection",
+      "local_path": "crates/solver/tests/dependent_change_source_cases.rs",
+      "local_test": "random_selection",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all eight repeated entity/first-value codes per step, continuation and random metadata across five steps/two phases, including initialized current assignments. Native draw callbacks cycle the original mocked entity order and select the first value from each mocked value opening; this expresses the supplied iterator policies, not Java seeded PRNG parity. KeyedSelectionSource and typed key/value source callbacks replace Java selector descriptors and scopes. Preserve all six lifecycle counters independently for both children (solve1/phase2/step5). Current assignment lives in the context; candidate membership deliberately does not filter current no-ops. Rust iterator references replace non-null checks; an extra successful random draw replaces hasNext."
     }
   ],
   "fixtures": [
@@ -59530,6 +59590,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfNeverEndingPillarSelector/assertCodesOfNeverEndingIterableSelector/assertCodesOfNeverEndingIterator/assertEmptyNeverEndingPillarSelector/assertEmptyNeverEndingIterableSelector/verifyPhaseLifecycle",
       "modifications": "Preserve exact requested prefixes, continuing nonempty selection, empty exhaustion and never-ending metadata, and all six child lifecycle counts. Native typed iterator references replace non-null assertions; no size assertion is imposed because pillar helpers use DO_NOT_ASSERT_SIZE. One additional successful draw replaces Java hasNext."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/dependent_change_source_cases.rs",
+      "id": "PlannerAssert.dependent_change_sources",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfMoveSelector/assertAllCodesOfIterableSelector/assertAllCodesOfIterator/assertCodesOfNeverEndingMoveSelector/assertCodesOfNeverEndingIterableSelector/assertCodesOfNeverEndingIterator/verifyPhaseLifecycle",
+      "modifications": "Preserve code ordering, finite size and exhaustion, nonempty random continuation, isNeverEnding and all six lifecycle counters for both children. Random helper imposes no size assertion. Typed Rust iterators replace non-null checks; one additional successful draw replaces hasNext."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/dependent_change_source_cases.rs",
+      "id": "SelectorTestUtils.dependent_change_sources",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "mockEntitySelector/mockValueSelector/solvingStarted/phaseStarted/doInsideStep/stepStarted",
+      "modifications": "Explicit events replace mocked scope links. Entity callback returns original ordered slots and value callback returns a new original-order value traversal per key, both finite with exact sizes. Random adaptation supplies a repeating original-order key index policy and selects the first item of each value traversal. No descriptor/reflection/mocking framework or production implementation is ported."
     }
   ]
 }

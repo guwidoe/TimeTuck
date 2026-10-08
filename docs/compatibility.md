@@ -4642,3 +4642,15 @@ never-ending source. Native tests include full small-subset draw multiplicities,
 invalid draw/cap handling, non-Clone occurrence ownership, seeded continuation,
 and actual scored solver execution including an empty source. No performance
 comparison was refreshed for this increment.
+
+Four ChangeMoveSelectorTest methods now preserve all finite and random output
+prefixes, empty dimensions, current-assignment changes without dropping non-doable
+targets, and both children's lifecycle counts across two phases/five steps.
+KeyedSelectionSource collects bounded per-key value pools through PlacementSource,
+with original key-major traversal or direct random key/value draws. Original-mode
+snapshots can feed phase-cached move providers while mapping against current
+assignments. Native random sampling chooses eligible keys then their values;
+the source adaptation explicitly supplies the mocked cyclic entity/first-value
+policies and does not claim Java seeded traces. Separate native tests cover unequal
+per-key pools, duplicate occurrence identity, caps/errors, held non-Clone snapshots,
+seed replay and actual scored search with entity-specific value domains.

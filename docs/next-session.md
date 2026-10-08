@@ -18180,3 +18180,94 @@ next deliberate report refresh. Full rewrite goal remains incomplete and active.
 
 Live freshness97874 TERMINAL0 confirms the retained2901/4855 report is now stale;
 no historical evidence was rewritten. All work handles terminal.
+
+## Keyed entity/value selection sources
+
+Baselinee9d576f, previous goal turn was committed verification-tool progress with
+34 Python checks and a21target profile comparison. Tree clean at start. Read
+ChangeMoveSelectorTest plus SelectorTestUtils mock/source/lifecycle helpers and
+existing PlannerAssert contracts; no production implementation read.
+
+Added KeyedSelectionSource over finite SelectionSource keys and per-key
+PlacementSource values. Collect once until event/edit/invalidate, separately cap
+keys/per-key values/total values, validate exact declared counts, reject unbounded
+sources. No partial snapshot on failure. Events invalidate and forward once to
+each child even if empty; callbacks are cooperative and not rolled back. Snapshots
+own Arc occurrence pools without K/V/C Clone, omit empty keys and preserve duplicate
+occurrences. Original traversal is key-major/exact-size/fused, retaining supplied
+no-ops/non-doable candidates. Optional native random stream chooses eligible key
+then value, with caller-provided key-aware bounded draws available for adapters;
+invalid draws yield one error then fuse. Native RNG continues across opens/events,
+reseed restarts. Infinite metadata remains true when empty, cardinality zero lets
+LimitedSelectionSource/CachedMoveProvider handle empty random sources correctly.
+
+Existing DependentSelection is a distinct homogeneous lazy prefix-factory traversal;
+this adapter supplies heterogeneous bounded pools and cache/provider integration.
+Initialcompile22533 TERMINAL101 exposed the already-used module/type name. Restored
+the existing dependent_selection.rs byte-for-byte from clean baseline and moved
+new implementation to keyed_selection_source.rs with KeyedSelection names. No
+existing dependent-selection code changed. Format36251 TERMINAL0. Focus57599
+TERMINAL0 (4source); focus86823 TERMINAL0 (4source+5native). The latter initially
+waited for the prior compile lock; no test behavior failure occurred.
+
+All4ChangeMoveSelectorTest methods preserve codes/metadata, assignment transitions
+and six child lifecycle counts each (solve1/phase2/step5). Random input policy
+explicitly cycles the mocked original entity iterator and selects the first value
+from each mocked value opening; no Java PRNG claim. Recorded4cases+2helperfixtures.
+Five native regressions cover different/empty/duplicate per-key pools, ownership,
+cap/declaration errors and retry, bad random draws, seed replay, and actual phase-
+cached solver search with variable-specific domains [0,1]/[0,2]/[0,3]. That solve
+reaches [1,2,3],score6 with one key collection and three per-key value openings.
+
+Frozen Rust/provenance. Required gate81285 running; prebuild28089 compiles all
+workspace targets with8jobs/no-run and writes no verification evidence. The previous
+verification_inputs.py optimization invalidates old execution keys once, so this
+batch deliberately rebuilds those records. Preserve old logs until actual reruns;
+no retagging or benchmark refresh. No UI/rendering change; report data check only.
+
+Continuation handoff: gate81285 and prebuild28089 both confirmed LIVE by their
+handles again after >15minutes. No failure observed; gate is waiting for the Cargo
+lock during clippy while all-target no-run compilation progresses with8workers.
+Individual rustc targets change between observations; one large solver integration
+target is taking much longer than smaller targets. Available memory17GB, no
+observed OOM. Do not restart either job on elapsed time alone. Keep Rust/scripts/
+provenance frozen until gate terminates. Resume by polling these same handles.
+After TERMINAL0 run work/record_keyed_selection_evidence.py, verify live freshness,
+append exact evidence, inspect staged diff and commit. The working tree changes
+are staged, including4sourcecases/5nativecases/2fixture records; nothing committed
+yet for this batch. No dashboard evidence refreshed or benchmark run yet.
+
+Read-ahead while compilation ran: EntitySelectorFactoryTest's remaining methods
+primarily assert JVM wrapper class identities/config; do not add unused metadata
+just to claim them. Read IterableFromSolutionPropertyValueSelectorTest fully and
+TestdataObjectSorter (test helper in impl/heuristic/selector/common). Its3methods
+sort months [jan,feb,mar,apr,may,jun] by code across cache Solve/Phase/Step, with
+2then3steps and all code/finite-size/exhaustion checks each time. Existing
+OrderedSelectionCache has sorted_by,event,snapshot,is_never_ending,size and should
+cover this. Draft in work/solution_property_value_cases.rs is NOT installed,
+compiled, provenanced or credited. After current batch commit, consider adapting
+those3methods plus sorter/helper provenance without another core behavior change.
+
+Continuation: prebuild28089 TERMINAL0, all targets compiled in19m24s. Gate81285
+remains LIVE and has advanced from lock wait into clippy. Preserve it; no restart
+or edits to Rust/scripts/provenance. Previous turn was implementation progress;
+this continuation is a verified wait until the gate completes.
+
+Required keyed-selection gate TERMINAL0. 4965 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 666}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 2905, 'failed': 0, 'pending': 1668, 'excluded': 282, 'unverified': 0, 'percent': 59.835}.
+Source before/after matched: 061c6c896ae4525130e100cf4b0ec37f7ddaf0042bacf51761b5b148a83313ae
+Live freshness matched verification digest: e501a0c373c665b90e5f9debe6301240ac243622d2a04db26bf81e5e07aad5e1.
+Prior ledger records unchanged; appended4cases and2fixtures.
+Log work/keyed-selection-final-check.log; evidence work/keyed-selection-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate81285 TERMINAL0. All666 Rust jobs and46 Python jobs ran successfully;4965
+Rust tests and243 doctests passed. Gate wall2353s includes waiting for the19m24s
+prebuild; do not sum those overlapping durations. This was the deliberate one-time
+cache refresh after verification helper changes, not the normal selective path.
+Evidence48761 TERMINAL0 confirms source stability, exact4case/2fixture additions
+and live report freshness. All work handles terminal. No benchmarks or browser
+checks repeated. Current report2905/4855=59.835%,0failed,1668pending,282excluded.
+Ready to commit; following batch should reuse these fresh records. Keep the full
+rewrite goal active. Sorted property-value draft remains unverified in work/.
