@@ -350,3 +350,26 @@ Thirteen additional Community list/sublist factory methods cover construction,
 deduction failures and disabled reversal. Four methods asserting never-ending
 random sublist selectors and one list cache-transfer method remain pending;
 native finite union ordering does not satisfy those assertions.
+
+`SchemaVariableSlots::bind_basic` and `bind_list` also produce typed field handles
+for custom move programs. Each handle retains an immutable model reference and
+an owned mapping from entity rows to native slots; it can outlive the schema.
+Binding checks genuine field kind, value type, optional policy, slot bounds and
+within-field aliases. Reads use the supplied current assignment and check its
+shape. They require an otherwise valid assignment of the bound model.
+
+Basic fields expose borrowed optional ranges, pin status, reads, changes and swaps.
+List fields expose entity-specific ranges, current values and positions, pin
+boundaries, assignments, relocations, swaps, spans and unassignment. Positions use
+binding rows, while produced native moves use model slots. Position lookup hides
+values owned by other fields. Range iteration borrows payloads; no payload clone
+or cached mutable field contents are needed. Move constructors resolve rows only;
+apply through the original model/director to validate domains, indices and pins
+and to retain normal scoring/undo. Fully pinned lists report their length as the
+first unpinned index but still reject every edit, including append.
+
+Five additional Community MoveDirector methods preserve field reads, positions,
+optional range membership and pin-index assertions. Original custom-phase tests
+exercise temporary evaluation and committed edits across basic/list/mixed models
+and both scoring backends, plus nested edit-session rollback. Java notification
+callbacks, reflection and unscoped range overloads are not implied.

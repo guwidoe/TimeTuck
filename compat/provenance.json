@@ -45639,6 +45639,81 @@
       "local_path": "crates/solver/tests/schema_list_factory_cases.rs",
       "local_test": "sub_list_swap_disable_select_reversing_move_too",
       "modifications": "Preserve complete family construction, explicit/implicit list-variable deduction failures, or disabled-reversal assertions with native typed schema metadata and branch configuration. Native errors replace Java exceptions and retain the diagnostic cause with native wording. Random draw traces are not asserted by these methods; four sublist never-ending methods and list cache-transfer method remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "MoveDirectorTest.readBasicVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "readBasicVariable",
+      "local_test": "read_basic_variable",
+      "modifications": "Preserve all asserted basic/list values, element positions, null range membership and pin boundaries using typed schema field bindings. Borrowed string identities replace Java test values; native entity row zero replaces object identity. List locations derive from the current assignment instead of a mocked state supply. Optional range case retains the generated two-value/two-entity fixture and both membership assertions. No Java reflection or scoring-factory lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "MoveDirectorTest.getValueRangeIncludesNullForUnassignedAllowingVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "getValueRangeIncludesNullForUnassignedAllowingVariable",
+      "local_test": "get_value_range_includes_null_for_unassigned_allowing_variable",
+      "modifications": "Preserve all asserted basic/list values, element positions, null range membership and pin boundaries using typed schema field bindings. Borrowed string identities replace Java test values; native entity row zero replaces object identity. List locations derive from the current assignment instead of a mocked state supply. Optional range case retains the generated two-value/two-entity fixture and both membership assertions. No Java reflection or scoring-factory lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "MoveDirectorTest.readListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "readListVariable",
+      "local_test": "read_list_variable",
+      "modifications": "Preserve all asserted basic/list values, element positions, null range membership and pin boundaries using typed schema field bindings. Borrowed string identities replace Java test values; native entity row zero replaces object identity. List locations derive from the current assignment instead of a mocked state supply. Optional range case retains the generated two-value/two-entity fixture and both membership assertions. No Java reflection or scoring-factory lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "MoveDirectorTest.getFirstUnpinnedIndexDefaultsToZero",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "getFirstUnpinnedIndexDefaultsToZero",
+      "local_test": "get_first_unpinned_index_defaults_to_zero",
+      "modifications": "Preserve all asserted basic/list values, element positions, null range membership and pin boundaries using typed schema field bindings. Borrowed string identities replace Java test values; native entity row zero replaces object identity. List locations derive from the current assignment instead of a mocked state supply. Optional range case retains the generated two-value/two-entity fixture and both membership assertions. No Java reflection or scoring-factory lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "MoveDirectorTest.getFirstUnpinnedIndexReadsPlanningPinToIndex",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorTest.java",
+      "upstream_test": "getFirstUnpinnedIndexReadsPlanningPinToIndex",
+      "local_test": "get_first_unpinned_index_reads_planning_pin_to_index",
+      "modifications": "Preserve all asserted basic/list values, element positions, null range membership and pin boundaries using typed schema field bindings. Borrowed string identities replace Java test values; native entity row zero replaces object identity. List locations derive from the current assignment instead of a mocked state supply. Optional range case retains the generated two-value/two-entity fixture and both membership assertions. No Java reflection or scoring-factory lifecycle claim."
     }
   ],
   "fixtures": [
@@ -61956,6 +62031,71 @@
       "upstream_test": "genuine variable declaration",
       "local_path": "crates/solver/tests/schema_list_factory_cases.rs",
       "modifications": "Adapt value/valueList names, basic/list kind and required assignment flag into Rust typed metadata. Marker types replace Java test domain classes; no production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "field-binding-TestdataEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "genuine field declaration, pin metadata or generateSolution(2, 2)",
+      "modifications": "Adapt field names, basic/list kinds, optional flag and pinned-prefix metadata; optional solution generation preserves two named values and two entities assigned cyclically. Native typed schema and immutable model metadata replace Java annotations and getters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "field-binding-TestdataListEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "genuine field declaration, pin metadata or generateSolution(2, 2)",
+      "modifications": "Adapt field names, basic/list kinds, optional flag and pinned-prefix metadata; optional solution generation preserves two named values and two entities assigned cyclically. Native typed schema and immutable model metadata replace Java annotations and getters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "field-binding-TestdataPinnedWithIndexListEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListEntity.java",
+      "upstream_test": "genuine field declaration, pin metadata or generateSolution(2, 2)",
+      "modifications": "Adapt field names, basic/list kinds, optional flag and pinned-prefix metadata; optional solution generation preserves two named values and two entities assigned cyclically. Native typed schema and immutable model metadata replace Java annotations and getters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "field-binding-TestdataAllowsUnassignedEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEntity.java",
+      "upstream_test": "genuine field declaration, pin metadata or generateSolution(2, 2)",
+      "modifications": "Adapt field names, basic/list kinds, optional flag and pinned-prefix metadata; optional solution generation preserves two named values and two entities assigned cyclically. Native typed schema and immutable model metadata replace Java annotations and getters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/field_binding_cases.rs",
+      "id": "field-binding-TestdataAllowsUnassignedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "genuine field declaration, pin metadata or generateSolution(2, 2)",
+      "modifications": "Adapt field names, basic/list kinds, optional flag and pinned-prefix metadata; optional solution generation preserves two named values and two entities assigned cyclically. Native typed schema and immutable model metadata replace Java annotations and getters."
     }
   ]
 }

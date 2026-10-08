@@ -19644,3 +19644,38 @@ No benchmarks refreshed; prior measurements retain their dates and computed fres
 Final prebuild/check54815 and live evidence74547 TERMINAL0. All task handles
 terminal; staged changes reviewed. Source/tests/provenance stayed frozen through
 the gate. Reuse this verification for unchanged inputs. No next-batch edits.
+
+## Typed field bindings for custom move programs
+
+Baseline5bb83a9, clean start. New field_binding module exports BasicFieldBinding,
+ListFieldBinding, BasicFieldRange, FieldListPosition and FieldBindingError.
+SchemaVariableSlots.bind_basic/bind_list checks field kind/type/policy and slot
+bounds/aliases once. Handles own row mappings, borrow immutable problems, outlive
+schemas, and read current assignments. Basic optional ranges borrow payloads;
+list ranges preserve entity restrictions and position lookup hides other fields.
+Move constructors map bound rows to native indices; directors retain validation,
+scoring and undo. Reads check assignment shape and require valid model state.
+
+Five complete MoveDirector read/range/pin methods and five test-domain declaration/
+generation fixture records added. No notification/reflection or unscoped-range
+parity claimed. Five native regressions cover binding failures, optional range
+iteration, reordered/subset slots, live positions, all list move constructors,
+nested rollback, pin rejection and custom phases across all six model/backend
+combinations. Only Community tests/test-domain declarations read; upstream unchanged.
+Library49911 and focus66296 TERMINAL0 (5 adapted +5 native). Final gate37577 runs
+frozen source/provenance after clippy50.49s;3 affected targets,699 reusable.
+No benchmark/browser reruns for this API integration/report-only refresh.
+
+Required field-binding gate TERMINAL0. 5204 Rust tests and 245 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 699}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3040, 'failed': 0, 'pending': 1533, 'excluded': 282, 'unverified': 0, 'percent': 62.616}.
+Source before/after matched: 5eb7ab45d17ac921ce151a91f84583e15faada441c06ba8446a447afd0862ce5
+Live freshness matched verification digest: 6d3674c31ad7207a5a7e9ae4817322eb8fee0efc49a6e71cbf1d23b4f071eb20.
+Prior ledger records unchanged; Appended5 complete field access methods and5 declaration/generation fixtures.
+Log work/field-binding-final-check.log; evidence work/field-binding-evidence.json.
+No benchmarks refreshed; prior measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final gate37577 and live evidence75382 TERMINAL0. Prebuild31.50s. Source/tests/
+provenance frozen through gate; final staged review complete. All task handles
+terminal. Existing benchmark measurements retain dates/freshness. No next-batch
+source edits; goal active/incomplete. Reuse this verification on unchanged inputs.

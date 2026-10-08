@@ -1167,3 +1167,8 @@ pub use schema_move_selection::{
     SchemaMoveBranch, SchemaMoveBranchKind, SchemaMoveConfig, SchemaMoveError, SchemaMoveKind,
     SchemaMovePlan, SchemaMoveProvider, SchemaVariableSlots,
 };
+
+mod field_binding;
+pub use field_binding::{
+    BasicFieldBinding, BasicFieldRange, FieldBindingError, FieldListPosition, ListFieldBinding,
+};
