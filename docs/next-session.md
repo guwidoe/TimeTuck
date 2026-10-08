@@ -16417,3 +16417,29 @@ Live freshness matched verification digest: febe6f5253a198755a5e38d2fa8a4bb61604
 Existing provenance prefixes unchanged; appended17cases and1fixtures.
 Log work/benchmark-results-final-check.log; evidence work/benchmark-results-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Integrated serial benchmark runner
+
+Applied work/apply_benchmark_runner.py (do not reapply). Module, regression tests
+and example match the already tested draft byte-for-byte after formatting; only
+root exports added. No repeated focused tests. Six original checks cover cloned
+input/timer boundaries, successful-only timing, fixed schedule/seeds, retained
+warm-up errors, cancellation/completeness, rejected shapes/count overflow, and
+real finite solver results. BenchmarkRunReport exposes typed trial outcomes,
+measured-only exact summaries and per-configuration/problem timing. No Java
+benchmark runner/CSV/report equivalence claimed; provenance unchanged.
+Required gate7656 running on frozen inputs, log work/benchmark-runner-final-check.log.
+No compilation warm-up started (only new runner targets require compilation).
+Prepared work/record_benchmark_runner_evidence.py expects0cases/0fixtures vs3ffdbaf.
+Previous broad gate28286 and warm38549 both terminal0 (warm14m42s), evidence63163
+terminal0. Live freshness matched without dashboard restart; dashboard7726 remains
+running. No benchmark refresh, release run or browser rerun required.
+
+Required gate7656 TERMINAL0. 4753 Rust tests and 233 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 609}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2854, 'failed': 0, 'pending': 1719, 'excluded': 282, 'unverified': 0, 'percent': 58.785}.
+Source before/after matched: bee8fdb418ea0caff4ae00a46c0752bd9a6a208b0c47d11e601cfd06b4a0003c
+Live freshness matched verification digest: f05c36d0ea3966b17cd5c6e77183a279488130e55c1277ce4ead946aca9007bd.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/benchmark-runner-final-check.log; evidence work/benchmark-runner-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

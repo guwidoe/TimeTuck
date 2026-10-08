@@ -4278,3 +4278,14 @@ Four original regressions additionally exercise exact overflowing integer totals
 failed/partial/empty outcomes, decimal equality and sums, extreme decimal scales,
 tiny relative changes, zero/IEEE arithmetic, and real exhaustive-search results
 under different evaluation budgets. No solver speed or runner parity claim.
+
+The native serial benchmark runner now schedules warm-ups separately from measured
+repetitions, matches deterministic seeds across configurations, clones each problem
+before timing, records typed failures, and supports cancellation between trials.
+Measured summaries feed the existing exact ranking API; timing summaries exclude
+warm-ups and failed callbacks. Reports distinguish completion from success and
+retain the exact trials completed before cancellation. Six original checks cover
+measurement boundaries, repeatability, errors, cancellation, validation, and real
+solver outcomes. The benchmark_configs example demonstrates three search budgets
+on two problems. This native harness adds no upstream method credit and does not
+claim Java benchmark/report timing or a measured Timefold speed comparison.
