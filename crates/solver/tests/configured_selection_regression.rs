@@ -49,8 +49,8 @@ fn config(order: SelectionOrder) -> SelectionConfig {
         ..Default::default()
     }
 }
-fn policy() -> SelectionPolicy {
-    SelectionPolicy {
+fn policy() -> ConfiguredSelectionPolicy {
+    ConfiguredSelectionPolicy {
         source_minimum_scope: Phase,
         ..Default::default()
     }
@@ -175,7 +175,7 @@ fn configuration_errors_precede_factory_and_scope_inheritance_is_explicit() {
     ));
     let b = SelectionBuilder::<i32, i32>::new(SelectionConfig::default());
     let p = b
-        .resolve(SelectionPolicy {
+        .resolve(ConfiguredSelectionPolicy {
             minimum_scope: Phase,
             inherited_order: Original,
             ..Default::default()
@@ -185,7 +185,7 @@ fn configuration_errors_precede_factory_and_scope_inheritance_is_explicit() {
     assert_eq!(p.order, Original);
     assert!(!p.source.random);
     let mut s = SelectionBuilder::new(cfg)
-        .build(SelectionPolicy::default(), |r| {
+        .build(ConfiguredSelectionPolicy::default(), |r| {
             assert!(r.random);
             Rows::new(vec![1])
         })
@@ -343,7 +343,7 @@ fn cache_and_order_builds_do_not_clone_payloads_and_iteration_clones_only_yielde
     let clones = Rc::new(Cell::new(0));
     let mut s = SelectionBuilder::new(config(Sorted))
         .with_comparator(|_: &(), a: &Item, b: &Item| a.0.cmp(&b.0))
-        .build(SelectionPolicy::default(), |_| Items {
+        .build(ConfiguredSelectionPolicy::default(), |_| Items {
             rows: vec![Item(2, clones.clone()), Item(1, clones.clone())],
         })
         .unwrap();

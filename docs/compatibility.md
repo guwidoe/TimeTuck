@@ -4738,10 +4738,30 @@ factory's requested mode; cached sources must enumerate finite occurrences.
 The pipeline implements SelectionSource and integrates with CachedMoveProvider;
 cache/order builds share payload storage and only yielded owned items are cloned.
 
-38 Entity/Value/MoveSelectorFactory methods now have native adaptations. Explicit
-source policies and executable plans replace reflective descriptor discovery and
-Java wrapper-type assertions. The native source identity remains inspectable.
-Value-selector sorting methods that distinguish reflected entity-scoped versus
-solution-scoped ranges, mimic-reference validation and automatic list-value
-filter configuration remain pending; do not infer their completion from this
-shared pipeline. Existing separate keyed sources and replay APIs are unchanged.
+All 43 Entity/Value/MoveSelectorFactory methods now have native adaptations.
+Explicit source policies and executable plans replace reflective descriptor
+configuration and Java wrapper-type assertions. Both shared solution ranges and
+separate entity-context value sources support phase sorting. Optional list value
+filtering selects assigned/unassigned/all modes for optional lists and bypasses
+those filters for required lists. Reflective Java instantiation remains outside
+the native API; callers supply the source type and cache policy explicitly.
+
+ConfiguredSelectionPolicy is the distinct public cache policy name; it avoids
+colliding with the private construction selection-policy trait in verification
+input discovery. Configured selection now supports per-opening yielded-item
+limits, including zero without opening a direct source, while ending_iter visits
+all finite occurrences independent of that cap or random weights. Unknown source
+cardinality remains unknown; capped random caches report exact draw counts only
+when availability is known. Ending traversal rejects uncached repeating sources.
+
+SelectionRegistry provides typed named recording and replay handles. The recording
+owner alone receives lifecycle events; replay inherits its behavior and rejects
+configuration overrides/callbacks. Duplicate/empty names fail before configured
+source construction; failed construction does not publish a name. Removing a name
+leaves previously acquired replay handles attached to their original owner.
+SubListSource connects native bounded span indexes to configured/recorded sources
+without materializing the full span catalog in uncached mode. Bounds, whole pins
+and pinned prefixes apply. Three sublist factory cases and the finite random-limit
+ending-iterator case have complete adaptations. The sublist factory rejection of
+an explicit maximum-size property combined with a mimic reference remains pending;
+that combined reflective configuration shape has no native counterpart here.

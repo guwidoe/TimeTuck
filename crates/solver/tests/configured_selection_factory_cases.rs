@@ -29,10 +29,10 @@ impl SelectionSource<(), i32> for Source {
         }
     }
 }
-fn policy(minimum: SelectionCacheScope) -> SelectionPolicy {
-    SelectionPolicy {
+fn policy(minimum: SelectionCacheScope) -> ConfiguredSelectionPolicy {
+    ConfiguredSelectionPolicy {
         source_minimum_scope: minimum,
-        ..SelectionPolicy::default()
+        ..ConfiguredSelectionPolicy::default()
     }
 }
 fn config(scope: SelectionCacheScope, order: SelectionOrder) -> SelectionConfig {
@@ -324,7 +324,7 @@ mod movement {
     fn non_movable_filter() {
         let mut s = SelectionBuilder::<(), i32>::new(SelectionConfig::default())
             .build_filtered(
-                SelectionPolicy {
+                ConfiguredSelectionPolicy {
                     minimum_scope: Phase,
                     ..Default::default()
                 },

@@ -24,12 +24,12 @@ pub enum SelectionSortOrder {
 /// Step for solution entities and Phase for values stable throughout a phase.
 /// The source cache can outlive a shorter sorting/shuffling/weighting cache.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct SelectionPolicy {
+pub struct ConfiguredSelectionPolicy {
     pub minimum_scope: SelectionCacheScope,
     pub source_minimum_scope: SelectionCacheScope,
     pub inherited_order: SelectionOrder,
 }
-impl Default for SelectionPolicy {
+impl Default for ConfiguredSelectionPolicy {
     fn default() -> Self {
         Self {
             minimum_scope: SelectionCacheScope::Uncached,
@@ -45,6 +45,9 @@ pub struct SelectionConfig {
     pub sort_order: Option<SelectionSortOrder>,
     pub maximum_candidates: usize,
     pub seed: u64,
+    /// Maximum yielded items per opening, not work rejected inside the source.
+    /// ending_iter deliberately ignores this cap.
+    pub selected_count_limit: Option<usize>,
 }
 impl Default for SelectionConfig {
     fn default() -> Self {
@@ -54,6 +57,7 @@ impl Default for SelectionConfig {
             sort_order: None,
             maximum_candidates: 100_000,
             seed: 0,
+            selected_count_limit: None,
         }
     }
 }
@@ -145,7 +149,13 @@ impl<C, T> SelectionBuilder<C, T> {
         self.weight = Some(Box::new(weight));
         self
     }
-    pub fn resolve(&self, policy: SelectionPolicy) -> Result<SelectionPlan, SelectionBuildError> {
+    pub(crate) fn has_replay_overrides(&self) -> bool {
+        self.config != SelectionConfig::default() || self.sorter.is_some() || self.weight.is_some()
+    }
+    pub fn resolve(
+        &self,
+        policy: ConfiguredSelectionPolicy,
+    ) -> Result<SelectionPlan, SelectionBuildError> {
         use SelectionOrder::*;
         let order = self.config.order.unwrap_or(policy.inherited_order);
         let requested = wider(
@@ -189,7 +199,7 @@ impl<C, T> SelectionBuilder<C, T> {
     /// has unknown size until collected. Bound infinite sources before filtering.
     pub fn build_filtered<S: SelectionSource<C, T>, F: FnMut(&C, &T) -> bool>(
         self,
-        policy: SelectionPolicy,
+        policy: ConfiguredSelectionPolicy,
         factory: impl FnOnce(SelectionSourceRequest) -> S,
         predicate: F,
     ) -> Result<ConfiguredSelection<C, T, crate::FilteredSelectionSource<S, F>>, SelectionBuildError>
@@ -200,7 +210,7 @@ impl<C, T> SelectionBuilder<C, T> {
     }
     pub fn build<S: SelectionSource<C, T>>(
         self,
-        policy: SelectionPolicy,
+        policy: ConfiguredSelectionPolicy,
         factory: impl FnOnce(SelectionSourceRequest) -> S,
     ) -> Result<ConfiguredSelection<C, T, S>, SelectionBuildError> {
         let plan = self.resolve(policy)?;
@@ -227,6 +237,7 @@ impl<C, T> SelectionBuilder<C, T> {
             random: SplitMix64::new(self.config.seed),
             prepared: None,
             opening_seed: self.config.seed,
+            selected_count_limit: self.config.selected_count_limit,
         })
     }
 }
@@ -266,6 +277,7 @@ pub struct ConfiguredSelection<C, T, S> {
     random: SplitMix64,
     prepared: Option<Prepared<T>>,
     opening_seed: u64,
+    selected_count_limit: Option<usize>,
 }
 fn next_state(
     state: SelectionCacheState,
@@ -321,6 +333,9 @@ impl<C, T, S: SelectionSource<C, T>> ConfiguredSelection<C, T, S> {
         }
     }
     pub fn is_never_ending(&self) -> bool {
+        self.selected_count_limit.is_none() && self.repeats()
+    }
+    fn repeats(&self) -> bool {
         if matches!(self.storage, Storage::Direct { .. }) {
             self.source().is_never_ending()
         } else {
@@ -331,21 +346,34 @@ impl<C, T, S: SelectionSource<C, T>> ConfiguredSelection<C, T, S> {
         }
     }
     pub fn size(&mut self, context: &C) -> Result<Option<usize>, SelectionCacheError> {
-        match &mut self.storage {
+        let repeats = self.repeats();
+        let count = match &mut self.storage {
             Storage::Direct { source, state } => {
                 if *state != SelectionCacheState::Step {
                     return Err(SelectionCacheError::NotReady);
                 }
-                Ok(source.size(context))
+                if self.selected_count_limit == Some(0) {
+                    return Ok(Some(0));
+                }
+                source.size(context)
             }
-            Storage::Cached(_) => Ok(Some(
-                self.prepared
+            Storage::Cached(_) => {
+                let p = self
+                    .prepared
                     .as_ref()
-                    .ok_or(SelectionCacheError::NotReady)?
-                    .values
-                    .len(),
-            )),
-        }
+                    .ok_or(SelectionCacheError::NotReady)?;
+                if self.selected_count_limit.is_some() && repeats && p.values.active_len() == 0 {
+                    return Ok(Some(0));
+                }
+                Some(p.values.len())
+            }
+        };
+        Ok(match self.selected_count_limit {
+            Some(0) => Some(0),
+            Some(limit) if repeats && count.is_some_and(|n| n > 0) => Some(limit),
+            Some(limit) => count.map(|n| n.min(limit)),
+            None => count,
+        })
     }
     pub fn event(
         &mut self,
@@ -425,6 +453,66 @@ impl<C, T, S: SelectionSource<C, T>> ConfiguredSelection<C, T, S> {
     /// Shuffled order is fixed for the step; repeated openings see the same order.
     /// Direct source openings use the source's own random state, not this seed.
     pub fn iter<'a>(
+        &'a mut self,
+        context: &'a C,
+        seed: u64,
+    ) -> Result<Box<dyn Iterator<Item = T> + 'a>, SelectionCacheError>
+    where
+        T: Clone + 'a,
+    {
+        let limit = self.selected_count_limit;
+        if limit == Some(0) {
+            if matches!(self.storage, Storage::Direct { .. }) {
+                if self.state() != SelectionCacheState::Step {
+                    return Err(SelectionCacheError::NotReady);
+                }
+            } else if self.prepared.is_none() {
+                return Err(SelectionCacheError::NotReady);
+            }
+            return Ok(Box::new(std::iter::empty()));
+        }
+        let iter = self.raw_iter(context, seed)?;
+        Ok(match limit {
+            Some(limit) => Box::new(iter.take(limit)),
+            None => iter,
+        })
+    }
+    /// Finite traversal ignoring the selected-count cap and random weights.
+    /// Cached random selection visits source occurrences once in original order;
+    /// sorted/shuffled selection retains its prepared order. An uncached repeating
+    /// source has no finite snapshot and returns UnboundedSource.
+    pub fn ending_iter<'a>(
+        &'a mut self,
+        context: &'a C,
+    ) -> Result<Box<dyn Iterator<Item = T> + 'a>, SelectionCacheError>
+    where
+        T: Clone + 'a,
+    {
+        if let Storage::Direct { source, state } = &mut self.storage {
+            if *state != SelectionCacheState::Step {
+                return Err(SelectionCacheError::NotReady);
+            }
+            if source.is_never_ending() {
+                return Err(SelectionCacheError::UnboundedSource);
+            }
+            return Ok(Box::new(source.open(context).fuse()));
+        }
+        let p = self
+            .prepared
+            .as_ref()
+            .ok_or(SelectionCacheError::NotReady)?;
+        if matches!(
+            self.plan.order,
+            SelectionOrder::Sorted | SelectionOrder::Shuffled
+        ) {
+            Ok(Box::new(
+                p.indices.iter().map(|&i| p.values.items()[i].clone()),
+            ))
+        } else {
+            Ok(Box::new(p.values.items().iter().cloned()))
+        }
+    }
+    fn raw_iter<'a>(
         &'a mut self,
         context: &'a C,
         seed: u64,

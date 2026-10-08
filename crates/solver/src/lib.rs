@@ -1148,6 +1148,10 @@ pub use zipped_selection::ZippedSelectionSource;
 
 mod configured_selection;
 pub use configured_selection::{
-    ConfiguredSelection, SelectionBuildError, SelectionBuilder, SelectionConfig, SelectionOrder,
-    SelectionPlan, SelectionPolicy, SelectionSortOrder, SelectionSourceRequest,
+    ConfiguredSelection, ConfiguredSelectionPolicy, SelectionBuildError, SelectionBuilder,
+    SelectionConfig, SelectionOrder, SelectionPlan, SelectionSortOrder, SelectionSourceRequest,
 };
+
+mod selection_registry;
+pub use assignment_selection::{OptionalListValueFilter, SubListSource};
+pub use selection_registry::{RegisteredSelection, SelectionRegistrationError, SelectionRegistry};

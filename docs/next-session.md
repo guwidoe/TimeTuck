@@ -18982,3 +18982,64 @@ No benchmark rerun: stream performance now correctly reports stale because the
 new policy name is selected through the scanner collision above. Preserve prior
 measurement dates; do not edit their source hashes. Staged source/tests/provenance
 reviewed. Goal remains active and incomplete.
+
+## Selection recording, limits and value filtering
+
+Previous turn progressed:49cded8 committed configured-selection pipeline. This
+turn began clean and read handoff/compatibility. Renamed ONLY the new public
+SelectionPolicy to ConfiguredSelectionPolicy (private construction policy and
+existing PillarSelectionPolicy unchanged). rust_test_inputs confirms unrelated
+basic_configured_families no longer selects configured_selection.rs. Last cache
+stores only one result per job, so transition away from the former false inputs
+may still cause a broad run once; future unrelated edits avoid the collision.
+
+Added per-opening selected_count_limit and ending_iter to configured selection.
+Zero avoids direct source size/open calls; counts remain unknown for unknown
+repeating sources, weighted zero-availability counts0, and ending traversal
+ignores cap/weights while rejecting uncached repeating sources. Added typed
+SelectionRegistry, RegisteredSelection and builder recording/replaying methods:
+validate names before factory, publish only successful builds, reject replay
+configuration overrides, owner-only lifecycle, and existing handles survive
+name removal. OptionalListValueFilter chooses Assigned/Unassigned/All only for
+optional lists; required lists bypass it. SubListSource adapts native span indexes
+to original or uncached random sources with pins/bounds and no expanded catalog.
+
+Nine newly adapted source methods (selection_wiring_cases.rs) complete all43
+Entity/Value/MoveSelectorFactory methods, plus three SubListSelectorFactory cases
+and SelectedCountLimitEntitySelectorTest.endingIteratorRandomOrder. Explicit
+source types/policies replace reflected class/descriptor assertions. Separate
+entity contexts and a shared solution range both sort correctly. All six list
+filter configurations preserved. Sublist max-size-plus-mimic rejection remains
+pending because that reflective configuration shape has no native counterpart.
+Nine provenance records, no fixtures. Five original integration regressions cover
+budgets, zero/unknown sources, shared replay identity/lifecycle, registry failure
+atomicity and pinned sublist sampling through recording. Earlier38+7 pipeline
+cases rerun because the API/limit behavior changed.
+
+Final focus5402 TERMINAL0:38+7+9+5 cases pass. Earlier73010 compile failure from
+an overly broad rename of Pillar exports corrected;63394 TERMINAL0. Focus48262
+used wrong pinned setter and unused import, fixed;26128 TERMINAL0 then5402 final.
+All earlier handles terminal. Required final check completed on frozen source.
+No benchmarks needed for optional source/configuration APIs. Preserve original
+measurement dates and computed freshness. No browser rerun for backend reports.
+Goal remains active/incomplete.
+
+Final gate11212 TERMINAL0; clippy passed in2m13s and123 library tests passed.
+Compile-only all-target prebuild79322 TERMINAL0 (-j12),13m37s; all remaining gate tests passed.
+Other machine workloads (npm/Go/browser processes) are active; do not terminate
+unrelated processes or infer build failure from elapsed time. Evidence10661 TERMINAL0.
+All batch handles terminal. No benchmarks or browser work running for this batch.
+
+After this cache-key transition, do not automatically prebuild every target for
+optional selector edits. Let selective verification reuse unrelated jobs and
+compile only affected targets; blanket all-target compilation defeats that saving.
+Broad shared-solver changes still need broad regression coverage.
+
+Required selection-wiring gate TERMINAL0. 5114 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 618, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2994, 'failed': 0, 'pending': 1579, 'excluded': 282, 'unverified': 0, 'percent': 61.668}.
+Source before/after matched: 122d29e6f5dae21eb26f98a4fdc50050f7db693ffb6c46dcb1cac86e24e0660e
+Live freshness matched verification digest: 6a8e3080a59a458ba59e0d46fa9cd3a613402e05227979eb10e6cc6d96f3cf86.
+Prior ledger records unchanged; 9 new provenance cases/upstream method credits; no fixture changes.
+Log work/selection-wiring-final-check.log; evidence work/selection-wiring-evidence.json.
+No benchmark refresh; previous measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.

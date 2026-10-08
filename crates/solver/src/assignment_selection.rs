@@ -195,6 +195,31 @@ pub enum ListValueSelection {
 /// full/prefix pins; unassigned values have their own selection mode. Eligibility
 /// for a particular destination must still be checked by the move provider.
 pub struct ListValueSource(pub ListValueSelection);
+/// Optional-list assignment filtering. Required lists bypass these filters so
+/// construction can still select values that have not yet been placed.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum OptionalListValueFilter {
+    All,
+    Assigned,
+    Unassigned,
+}
+impl ListValueSource {
+    pub fn configured<V: Eq + Clone>(
+        problem: &ListProblem<V>,
+        filter: OptionalListValueFilter,
+    ) -> Self {
+        Self(if !problem.allows_unassigned() {
+            ListValueSelection::All
+        } else {
+            match filter {
+                OptionalListValueFilter::All => ListValueSelection::All,
+                OptionalListValueFilter::Assigned => ListValueSelection::Assigned,
+                OptionalListValueFilter::Unassigned => ListValueSelection::Unassigned,
+            }
+        })
+    }
+}
+
 fn selected_list_value<V: Eq + Clone>(
     context: &ListSelectionContext<'_, V>,
     mode: ListValueSelection,
@@ -238,5 +263,70 @@ impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, V> for ListValu
                 .filter(move |v| selected_list_value(context, mode, v))
                 .cloned(),
         )
+    }
+}
+
+/// A native list-span source for configured selectors and named recording.
+/// Stores size bounds and random state; indexes the current validated context on
+/// each opening without retaining/cloning list values or materializing all spans.
+/// Uniform random ranks sample spans with replacement; native draws do not match
+/// Java entity-first traces. SourceRequest::random selects that mode only for
+/// uncached random pipelines; cache builders receive finite original enumeration.
+pub struct SubListSource {
+    bounds: crate::SubListSize,
+    random: bool,
+    seed: u64,
+}
+impl SubListSource {
+    pub fn configured(
+        request: crate::SelectionSourceRequest,
+        bounds: crate::SubListSize,
+        seed: u64,
+    ) -> Self {
+        Self {
+            bounds,
+            random: request.random,
+            seed,
+        }
+    }
+    pub fn bounds(&self) -> crate::SubListSize {
+        self.bounds
+    }
+}
+impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, crate::ListRange>
+    for SubListSource
+{
+    fn is_never_ending(&self) -> bool {
+        self.random
+    }
+    fn size(&mut self, c: &ListSelectionContext<'_, V>) -> Option<usize> {
+        crate::SubListSelection::new(c.problem, c.assignment, self.bounds)
+            .expect("validated list context")
+            .len()
+            .try_into()
+            .ok()
+    }
+    fn open<'a>(
+        &'a mut self,
+        c: &'a ListSelectionContext<'_, V>,
+    ) -> Box<dyn Iterator<Item = crate::ListRange> + 'a>
+    where
+        crate::ListRange: 'a,
+    {
+        let index = crate::SubListSelection::new(c.problem, c.assignment, self.bounds)
+            .expect("validated list context");
+        if self.random {
+            let mut random = crate::random::SplitMix64::new(self.seed);
+            self.seed = self.seed.wrapping_add(1);
+            Box::new(std::iter::from_fn(move || {
+                if index.is_empty() {
+                    None
+                } else {
+                    index.at(random.below_wide(index.len()))
+                }
+            }))
+        } else {
+            Box::new((0..index.len()).map(move |rank| index.at(rank).unwrap()))
+        }
     }
 }
