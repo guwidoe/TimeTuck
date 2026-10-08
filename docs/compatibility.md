@@ -4627,5 +4627,18 @@ SharedStepSelectionSource shares bounded collected snapshots across step-scoped
 selectors. Each view forwards its own child lifecycle; callers must include source
 configuration and immutable input revision in shared keys. Native regressions
 exercise independent cursors, ownership, failure recovery and two actual solver
-providers sharing one source collection per scan. Random subpillar traces remain
-pending. Existing built-in pillar providers are unchanged.
+providers sharing one source collection per scan. Existing built-in pillar
+providers are unchanged.
+
+Four further DefaultPillarSelectorTest methods preserve scripted random subgroup
+selection, fixed sizes, ordered consecutive members and empty random sources.
+Together with the previous four adaptations, all eight methods in this source
+class now have complete native adaptations. Injected bounded draws preserve the
+asserted prefixes and metadata; native seeded streams do not promise Java PRNG
+identity. SubgroupSelectionSource caches bounded finite group inputs and samples
+directly without enumerating subsets. LimitedSelectionSource bounds candidate
+materialization for CachedMoveProvider and now preserves zero size for an empty
+never-ending source. Native tests include full small-subset draw multiplicities,
+invalid draw/cap handling, non-Clone occurrence ownership, seeded continuation,
+and actual scored solver execution including an empty source. No performance
+comparison was refreshed for this increment.

@@ -1133,3 +1133,6 @@ pub use shared_selection::{
 mod pair_selection_source;
 pub use grouped_selection::{GroupedSelection, GroupedSelectionSource, SelectionGroup};
 pub use pair_selection_source::{PairSelectionIter, PairSelectionSource, SelectionPair};
+
+mod subgroup_selection;
+pub use subgroup_selection::{SubgroupSamples, SubgroupSelectionError, SubgroupSelectionSource};

@@ -18094,3 +18094,53 @@ Three Rust jobs ran;659 Rust and46 Python jobs reused.4946 Rust tests and243
 doctests passed. Evidence41815 TERMINAL0 confirms live report freshness and exact
 2-case/0-fixture delta. All work handles terminal; no benchmark/browser rerun.
 Full rewrite goal remains active.
+
+## Direct subgroup source sampling
+
+Baseline3f48cd8, previous goal turn was verified committed implementation progress;
+tree clean at start. Read remaining four DefaultPillarSelectorTest methods and
+PlannerAssert random/empty selector and iterator contracts. No production source
+read. Implemented SubgroupSelectionSource over bounded finite group sources with
+SubPillarSelection size/window policies. Cache eligible groups until event/edit/
+invalidate, forward every event once, preserve non-Clone occurrence identity.
+Optional comparator sorts members then groups by first member. Separate group and
+total member caps; sizes below minimum excluded. Random source metadata remains
+never-ending even when empty, with exact zero size then and unknown size otherwise.
+try_open_with returns an owned snapshot/iterator with injected bounded index draws;
+invalid draws yield one typed error then fuse. Native seed continues across opens,
+explicit reseed restarts; no Java PRNG identity claim. Sparse ordered remaining-rank
+sampling takes O(k) scratch/O(k²) time for k arbitrary members; no subset enumeration.
+Full groups share their Arc, contiguous groups use one start draw.
+
+LimitedSelectionSource now preserves Some(0) size for empty random children, so
+bounded empty sampling works in SelectionCache/CachedMoveProvider instead of a
+false declared-count error. Four source cases retain every asserted code, continued
+or empty behavior, never-ending metadata and all six lifecycle counts; native one
+extra successful draw replaces hasNext. One assertion-helper fixture recorded.
+All8 DefaultPillarSelectorTest methods now adapted; no other credits inferred.
+Six native regressions cover exact small-subset multiplicities, group/size/member/
+window bad draws and fusion, group/member caps, ordering panic retry, empty bounds,
+20000 non-Clone members sampled40 without combination expansion, snapshot ownership,
+seed continuation/restart, and actual scored solver with nonempty/empty sources.
+Compile96367 TERMINAL0; source focus22688 TERMINAL0 (4 cases); focus52246 TERMINAL0
+(4source+6native). Changed only native drop counter to atomic before final gate to
+avoid wrapping a thread-local counter in Arc payloads. No benchmark/UI changes.
+Required gate61706 running against frozen Rust/provenance.
+
+Required subgroup-selection gate TERMINAL0. 4956 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 6, 'REUSE': 658}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2901, 'failed': 0, 'pending': 1672, 'excluded': 282, 'unverified': 0, 'percent': 59.753}.
+Source before/after matched: 410f4cdfa62a4c12aa62e16bd74aa1d04e21034f44645b460a68606f0bf57615
+Live freshness matched verification digest: 65d507ac8450df381781610a4c1fcd37ddcb1575be1a9fe0c3bfd33a7117b6d9.
+Prior ledger records unchanged; appended4cases and1fixture.
+Log work/subgroup-selection-final-check.log; evidence work/subgroup-selection-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate61706 TERMINAL0;6 Rust jobs RUN,658 REUSE,46 Python jobs reused.4956 Rust tests
+and243 doctests passed. Log wall792s, much larger than focused test execution;
+reuse decisions still spend material time computing inputs/checksums. Next useful
+verification improvement is profiling that overhead without rerunning functionality;
+run_rust_tests calls rust_test_inputs/digest for each of664targets in one process.
+No tooling change made in this batch. Evidence37890 TERMINAL0 confirms live report
+freshness and exact4case/1fixture additions. All work handles terminal, no benchmark
+or browser rerun. Rewrite goal remains incomplete and active.

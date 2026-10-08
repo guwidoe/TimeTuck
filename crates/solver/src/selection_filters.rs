@@ -29,7 +29,7 @@ impl<C, T, S: SelectionSource<C, T>> SelectionSource<C, T> for LimitedSelectionS
     }
     fn size(&mut self, context: &C) -> Option<usize> {
         let size = self.source.size(context);
-        if self.maximum == 0 {
+        if self.maximum == 0 || size == Some(0) {
             Some(0)
         } else if self.source.is_never_ending() {
             Some(self.maximum)
