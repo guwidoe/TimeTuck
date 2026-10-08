@@ -18144,3 +18144,39 @@ run_rust_tests calls rust_test_inputs/digest for each of664targets in one proces
 No tooling change made in this batch. Evidence37890 TERMINAL0 confirms live report
 freshness and exact4case/1fixture additions. All work handles terminal, no benchmark
 or browser rerun. Rewrite goal remains incomplete and active.
+
+## Verification dependency-walk overhead
+
+Baseline76308c0; previous goal turn was verified committed solver progress; clean
+worktree confirmed. Last gate took792s despite658 Rust job reuses, so profile only
+dependency selection/hashing, not solver functionality. Read current handoff and
+compatibility rules. No Rust/upstream/ledger/report data changes in this batch.
+
+work/profile_verification_inputs.py profiles every30th integration target (21targets)
+in a fresh Python process. Before36939 TERMINAL0:19.548s,8,572,703calls. Main costs
+were scanning every conditional impl rule for every selected module, rediscovering
+file graph paths, and repeated attributed-module regexes. Conditional rules now
+indexed by both prerequisites; only new dependency words wake relevant rules.
+Receiver/member order and fixed-point discovery remain supported. Attribute parsing
+is cached by source content. Module walk forms relative child names directly,
+avoiding repeated absolute-to-relative conversions. Source files are still freshly
+read/discovered per selection; no mtime-only cache or freshness weakening added.
+
+After49411 TERMINAL0:8.009s,4,478,559calls for the same21targets (~59%less profiled
+wall time). Exact selected input sets AND behavior digests match saved baseline;
+behavior digest excludes the three verification plumbing files themselves, whose
+contents naturally changed. This is a local profiling comparison, not a claim
+about full-gate or solver benchmark speed. Artifacts work/verification-profile-
+{before,after}.{json,prof,log}. Existing34 verification-cache tests passed in1.833s,
+30394 TERMINAL0, including late factory receivers/trait members, blanket/forwarding
+impls, content edits with restored mtimes, new/deleted modules, source changes
+mid-command, and actual command reuse. No redundant Rust suite or benchmarks run.
+
+This helper is itself a tracked verification input, so cached job keys become stale
+once after this tooling change. Existing logs/records/results retain original
+hashes/dates; do not retag them. Next coherent Rust batch will populate new keys.
+Historical dashboard data is retained; live freshness must show stale until the
+next deliberate report refresh. Full rewrite goal remains incomplete and active.
+
+Live freshness97874 TERMINAL0 confirms the retained2901/4855 report is now stale;
+no historical evidence was rewritten. All work handles terminal.

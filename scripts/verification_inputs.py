@@ -336,6 +336,26 @@ def dependency_words(source):
     return frozenset(words)
 
 
+@lru_cache(maxsize=8)
+def conditional_dependency_rules(owner_items):
+    """Wake an implementation rule only when one of its prerequisites appears."""
+    by_word = {}
+    for key, paths in owner_items:
+        if key.startswith(('@trait-impl:', '@trait-method:', '@inherent-member:')):
+            kind, receiver, member = key.split(':', 2)
+            trigger = member if kind == '@trait-impl' else '@trait-member:' + member
+            rule = (receiver, trigger, paths)
+            by_word.setdefault(trigger, []).append(rule)
+            if receiver != '*' and receiver != trigger:
+                by_word.setdefault(receiver, []).append(rule)
+    return MappingProxyType({word: tuple(rules) for word, rules in by_word.items()})
+
+
+@lru_cache(maxsize=2048)
+def attributed_rust_modules(source):
+    return tuple(re.findall(r'(?:#\[[^\]]*\]\s*)+(?:pub(?:\([^)]*\))?\s+)?mod\s+(\w+)\s*;', source))
+
+
 def selected_library_inputs(entries, root=ROOT):
     """Development dependency scan, at module granularity (not a Rust compiler).
 
@@ -359,12 +379,7 @@ def selected_library_inputs(entries, root=ROOT):
              for name, source in sorted(library_texts.items()) if name != facade}
     facade_source = (root / facade).read_text() if (root / facade).is_file() else ''
     owners = library_symbol_owners(tuple(texts.items()), facade_source)
-    trait_rules = []
-    for key, paths in owners.items():
-        if key.startswith(('@trait-impl:', '@trait-method:', '@inherent-member:')):
-            kind, receiver, member = key.split(':', 2)
-            trigger = member if kind == '@trait-impl' else '@trait-member:' + member
-            trait_rules.append((receiver, trigger, paths))
+    rules_by_word = conditional_dependency_rules(tuple(owners.items()))
     selected, pending, referenced = set(), list(entries), set()
     while pending:
         name = pending.pop()
@@ -377,7 +392,7 @@ def selected_library_inputs(entries, root=ROOT):
             _, literals = rust_file_references(library_texts.get(name, ''))
             pending.extend((root / Path(name).parent / literal).resolve().relative_to(root.resolve()).as_posix()
                            for literal in literals)
-            attributed = re.findall(r'(?:#\[[^\]]*\]\s*)+(?:pub(?:\([^)]*\))?\s+)?mod\s+(\w+)\s*;', texts.get(name, ''))
+            attributed = attributed_rust_modules(texts.get(name, ''))
             path = root / name
             base = path.parent if path.name in ('mod.rs', 'lib.rs') else path.with_suffix('')
             for module in attributed:
@@ -386,15 +401,15 @@ def selected_library_inputs(entries, root=ROOT):
         else:
             pending.extend(rust_entry_inputs(name, root, include_test_items=name in entries or not name.startswith('crates/solver/src/')) - selected)
         source = texts[name] if name in texts and name not in entries else rust_dependencies_text((root / name).read_text())
-        words = dependency_words(source)
-        referenced.update(words)
-        for word in words:
-            pending.extend(owners.get(word, set()) - selected)
-        # Iterate to a fixed point: a factory/helper can reveal a concrete receiver
-        # after the call site's trait/member has already been visited.
-        for receiver, trigger, paths in trait_rules:
-            if trigger in referenced and (receiver == '*' or receiver in referenced):
-                pending.extend(paths - selected)
+        new_words = dependency_words(source) - referenced
+        referenced.update(new_words)
+        for word in new_words:
+            pending.extend(owners.get(word, frozenset()) - selected)
+            # Either prerequisite can arrive first, including via a factory in a
+            # later module. Reconsider only rules affected by newly revealed names.
+            for receiver, trigger, paths in rules_by_word.get(word, ()):
+                if trigger in referenced and (receiver == '*' or receiver in referenced):
+                    pending.extend(paths - selected)
     modules = {p for p in selected if p.startswith('crates/solver/src/')}
     referenced.update(Path(p).stem for p in modules)
     projected = FACADE_INPUT + json.dumps(sorted(referenced), separators=(',', ':'))
@@ -422,11 +437,12 @@ def rust_entry_graph(entry, root=ROOT, *, include_test_items=True):
         if not include_test_items:
             source = production_rust(source)
         texts[name] = source
-        base = path.parent if path.name in ('mod.rs', 'lib.rs') or path.parent.name in ('tests', 'examples') else path.with_suffix('')
+        relative = Path(name)
+        base = relative.parent if relative.name in ('mod.rs', 'lib.rs') or relative.parent.name in ('tests', 'examples') else relative.with_suffix('')
         modules, literals = rust_file_references(source)
         for module in modules:
             for child in [base / f'{module}.rs', base / module / 'mod.rs']:
-                if child.is_file(): edges[name].add(child.relative_to(root).as_posix())
+                if (root / child).is_file(): edges[name].add(child.as_posix())
         for literal in literals:
             edges[name].add((path.parent / literal).resolve().relative_to(root.resolve()).as_posix())
         pending.extend(edges[name])
