@@ -337,3 +337,16 @@ Seventeen Community change/swap factory methods are fully adapted, including
 variable/entity deduction, union shape and list-family unfolding. The two methods
 that transfer configured list cache/comparator settings remain pending. There is
 no reflection, Java class construction or Enterprise nearby-selection support.
+
+Explicit `ListChange`, `ListSwap`, `SubListChange` and `SubListSwap` select only
+list fields, including when basic entity types coexist. Named basic fields are
+rejected unless another eligible entity supplies that name as a list field.
+Sublist branches retain length bounds, reversal controls and relocation's optional
+unassignment setting. Both span endpoints stay within the bound list slots; pins,
+ranges, undo and mixed-model isolation use the existing native move kernels.
+Explicit unassignment on a required-list problem fails before iteration.
+
+Thirteen additional Community list/sublist factory methods cover construction,
+deduction failures and disabled reversal. Four methods asserting never-ending
+random sublist selectors and one list cache-transfer method remain pending;
+native finite union ordering does not satisfy those assertions.

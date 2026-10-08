@@ -1,4 +1,4 @@
-//! Resolve typed planning metadata into executable change/swap neighborhoods.
+//! Resolve typed planning metadata into executable basic, list and sublist neighborhoods.
 use crate::*;
 use std::{collections::BTreeSet, error::Error, fmt};
 
@@ -6,6 +6,18 @@ use std::{collections::BTreeSet, error::Error, fmt};
 pub enum SchemaMoveKind {
     Change,
     Swap,
+    ListChange,
+    ListSwap,
+    SubListChange(SubListChangeConfig),
+    SubListSwap(SubListSwapConfig),
+}
+impl SchemaMoveKind {
+    fn list_only(self) -> bool {
+        !matches!(self, Self::Change | Self::Swap)
+    }
+    fn accepts_secondary(self) -> bool {
+        matches!(self, Self::Swap | Self::ListSwap | Self::SubListSwap(_))
+    }
 }
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SchemaMoveBranchKind {
@@ -13,10 +25,15 @@ pub enum SchemaMoveBranchKind {
     BasicSwap,
     ListChange,
     ListSwap,
+    SubListChange(SubListChangeConfig),
+    SubListSwap(SubListSwapConfig),
 }
 /// Select entity types and genuine variable names. Empty names select all genuine
-/// variables; shadow variables never form neighborhoods. Selection preserves schema
-/// declaration order. Random order interleaves finite child neighborhoods; it does
+/// variables; shadow variables never form neighborhoods. List-only kinds ignore
+/// basic fields during deduction and reject explicitly selected basic fields.
+/// Sublist configurations retain their bounds, reversal and unassignment policy.
+/// Selection preserves schema declaration order. Random order interleaves finite
+/// child neighborhoods; it does
 /// not promise Java random traces or random ordering inside a child.
 ///
 /// ```
@@ -56,7 +73,7 @@ impl SchemaMoveConfig {
         &self,
         schema: &'s PlanningSchema,
     ) -> Result<SchemaMovePlan<'s>, SchemaMoveError> {
-        if self.kind == SchemaMoveKind::Change && self.secondary_entity.is_some() {
+        if !self.kind.accepts_secondary() && self.secondary_entity.is_some() {
             return Err(SchemaMoveError::UnexpectedSecondaryEntity);
         }
         if let (Some(a), Some(b)) = (self.entity, self.secondary_entity)
@@ -81,6 +98,7 @@ impl SchemaMoveConfig {
             schema.genuine_entities().collect()
         };
         let mut branches = Vec::new();
+        let mut non_list_field = None;
         for entity in entities {
             let all: Vec<_> = entity.genuine_variables().collect();
             if !self
@@ -98,10 +116,21 @@ impl SchemaMoveConfig {
                 }
                 continue;
             }
-            let fields: Vec<_> = all
+            let mut fields: Vec<_> = all
                 .into_iter()
                 .filter(|v| names.is_empty() || names.contains(v.name()))
                 .collect();
+            if self.kind.list_only() {
+                if !names.is_empty()
+                    && let Some(field) = fields
+                        .iter()
+                        .find(|v| !matches!(v.kind(), PlanningVariableKind::List { .. }))
+                {
+                    non_list_field.get_or_insert_with(|| field.name().to_owned());
+                    continue;
+                }
+                fields.retain(|v| matches!(v.kind(), PlanningVariableKind::List { .. }));
+            }
             let basics: Vec<_> = fields
                 .iter()
                 .copied()
@@ -118,11 +147,19 @@ impl SchemaMoveConfig {
                     (SchemaMoveKind::Change, PlanningVariableKind::Basic { .. }) => {
                         SchemaMoveBranchKind::BasicChange
                     }
-                    (SchemaMoveKind::Change, PlanningVariableKind::List { .. }) => {
-                        SchemaMoveBranchKind::ListChange
+                    (
+                        SchemaMoveKind::Change | SchemaMoveKind::ListChange,
+                        PlanningVariableKind::List { .. },
+                    ) => SchemaMoveBranchKind::ListChange,
+                    (
+                        SchemaMoveKind::Swap | SchemaMoveKind::ListSwap,
+                        PlanningVariableKind::List { .. },
+                    ) => SchemaMoveBranchKind::ListSwap,
+                    (SchemaMoveKind::SubListChange(config), PlanningVariableKind::List { .. }) => {
+                        SchemaMoveBranchKind::SubListChange(config)
                     }
-                    (SchemaMoveKind::Swap, PlanningVariableKind::List { .. }) => {
-                        SchemaMoveBranchKind::ListSwap
+                    (SchemaMoveKind::SubListSwap(config), PlanningVariableKind::List { .. }) => {
+                        SchemaMoveBranchKind::SubListSwap(config)
                     }
                     _ => continue,
                 };
@@ -133,6 +170,12 @@ impl SchemaMoveConfig {
             }
         }
         if branches.is_empty() {
+            if self.kind.list_only() {
+                if let Some(name) = non_list_field {
+                    return Err(SchemaMoveError::ListVariableRequired(name));
+                }
+                return Err(SchemaMoveError::CannotDeduceListVariable);
+            }
             return Err(SchemaMoveError::NoMatchingVariables);
         }
         Ok(SchemaMovePlan {
@@ -173,6 +216,8 @@ pub enum SchemaMoveError {
     DuplicateName(String),
     UnknownVariable(String),
     NoMatchingVariables,
+    CannotDeduceListVariable,
+    ListVariableRequired(String),
     ForeignSchema,
     DuplicateBinding(String),
     MissingBinding(String),
@@ -196,7 +241,11 @@ pub enum SchemaMoveError {
 }
 impl fmt::Display for SchemaMoveError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "schema move selection: {self:?}")
+        match self {
+            Self::CannotDeduceListVariable => f.write_str("cannot unfold list selector: a planning list variable cannot be deduced automatically"),
+            Self::ListVariableRequired(name) => write!(f, "{name} is not a planning list variable; a list selector cannot be deduced automatically"),
+            _ => write!(f, "schema move selection: {self:?}"),
+        }
     }
 }
 impl Error for SchemaMoveError {}
@@ -420,6 +469,23 @@ impl BoundBranch {
                 p,
                 a,
                 Neighborhood::UniqueSwap,
+                order,
+            )),
+            SchemaMoveBranchKind::SubListChange(config) => {
+                config
+                    .validate(p)
+                    .map_err(|e| SchemaMoveError::InvalidModel(e.to_string()))?;
+                Ok(crate::list_neighborhood::ordered(
+                    p,
+                    a,
+                    Neighborhood::SubListChange(config),
+                    order,
+                ))
+            }
+            SchemaMoveBranchKind::SubListSwap(config) => Ok(crate::list_neighborhood::ordered(
+                p,
+                a,
+                Neighborhood::SubListSwap(config),
                 order,
             )),
             _ => Err(SchemaMoveError::WrongModel),

@@ -19609,3 +19609,38 @@ All task handles terminal; final staged review complete. No further source edits
 required for this batch. Configured-list cache/comparator transfer remains a
 separate unimplemented scope; do not claim those two factory methods. Reuse this
 verification on unchanged inputs, and do not refresh unrelated benchmarks.
+
+## Schema-derived list and sublist selection
+
+Baseline d63cb71. Extend schema providers with explicit ListChange/ListSwap and
+configured SubListChange/SubListSwap. Deduction skips basic fields, rejects named
+basic fields, retains span bounds/reversal/unassignment policy, and binds both
+endpoints to selected slots. Existing lazy kernels supply moves for list/mixed
+models; explicit required-list unassignment fails before iteration.
+
+Read four Community list/sublist factory test files and two test-domain field
+declarations. Added13 fully adapted methods and2 fixture records; four
+never-ending random-selector methods and one cache-transfer method remain pending.
+Native4 regressions cover mixed entity deduction, candidate sequences, span
+bounds/reversal, optional unassignment, apply/undo, pins, scoped slots, refreshed
+assignments, and list/mixed solves through both scoring backends.
+
+Library62902 and focus40065 TERMINAL0 (40 focused tests including existing schema
+regressions). Final prebuild/check54815 tracks frozen source/tests/provenance;
+clippy58.27s, prebuild35.83s,5 affected Rust targets and695 reusable targets.
+No benchmark refresh: existing move kernels unchanged. No browser rerun for
+backend report refresh. work/build_schema_list_cases.py has append guards;
+do not rerun after provenance additions. Goal remains active/incomplete.
+
+Required schema-list gate TERMINAL0. 5194 Rust tests and 244 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 695}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3035, 'failed': 0, 'pending': 1538, 'excluded': 282, 'unverified': 0, 'percent': 62.513}.
+Source before/after matched: 9e7211085e4c1c2f0f4d38123dd9bd19eb249dd1fd7c813dc4bcb3ed06eff88b
+Live freshness matched verification digest: b28dee89773186846837c06c50cca4aab6932798f81176ee84ecfac3b9ae3879.
+Prior ledger records unchanged; Appended13 complete factory methods and2 declaration fixtures.
+Log work/schema-list-final-check.log; evidence work/schema-list-evidence.json.
+No benchmarks refreshed; prior measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final prebuild/check54815 and live evidence74547 TERMINAL0. All task handles
+terminal; staged changes reviewed. Source/tests/provenance stayed frozen through
+the gate. Reuse this verification for unchanged inputs. No next-batch edits.
