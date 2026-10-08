@@ -264,6 +264,9 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     /// uses seed + completed_steps (wrapping), independently of other randomness.
     pub tie_breaking: crate::TieBreaking,
     pub rejected_moves: RejectedMovePolicy,
+    /// Verify scoring at initialization, on candidate states, after each
+    /// candidate rollback (including early selection), and at step boundaries.
+    /// Diagnostic calculations do not increase search evaluation counters.
     pub assert_scores: bool,
 }
 impl<S> Default for LocalSearchConfig<'_, S> {

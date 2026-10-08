@@ -166,6 +166,9 @@ pub struct ConstructionConfig<'a> {
     pub max_time: Option<std::time::Duration>,
     pub pick_early: ConstructionPickEarly,
     /// Extra diagnostic full recomputations are excluded from reported work.
+    /// Verify scoring at initialization, on candidate states, after each
+    /// candidate rollback (including early selection), and at step boundaries.
+    /// Diagnostic calculations do not increase search evaluation counters.
     pub assert_scores: bool,
 }
 impl Default for ConstructionConfig<'_> {

@@ -17244,3 +17244,59 @@ Combined coalesced-stream gate56408/warm28593/evidence1398 TERMINAL0.
 8jobs and prior shared-graph target names (no extra input scan, no evidence writes).
 Main2dda522 fully verified. The scratch workspace subsequently advanced to undo
 assertions; its earlier coalescing evidence remains pinned to the integrated files.
+
+## Post-undo score assertions
+
+Inspected pinned public solver-diagnostics documentation and existing native search
+loops. assert_scores checked candidate states but did not immediately validate the
+restored state after each trial. A calculator with a faulty inverse callback could
+be silently repaired by the next candidate or winner replay. Added post-drop
+assert_consistent in all9selectors (basic/list/mixed x network/stream/calculator).
+Early-selection decisions are computed before dropping the candidate, then rollback
+is checked before any break or winner installation. Calculator health checks still
+precede diagnostics. Search evaluation/constraint counters exclude these checks.
+Updated assertion-option docs in local_search.rs and construction.rs.
+
+New native undo_assertion_regression injects a cache error only when restoring the
+entry assignment. All3tests failed on baseline2dda522 (scratch34246terminal101),
+then passed with the fix (scratch91355terminal0). Each model tests assertions-off
+with broken undo, assertions-on with healthy undo, and assertions-on with broken
+undo. The faulty checked run stops after forward+undo callbacks (2), before winner
+replay; successful runs use3change callbacks and still report2evaluations and
+2constraint evaluations. Initial-only/fresh diagnostic calculators remain correct.
+Related scratch51444terminal0: calculator_search_regression6,
+calculator_solver_regression8, list_stream_regression9, score_consistency3,
+solver_incremental_corruption_cases3. Total32focused tests passed; no rerun needed
+on these unchanged inputs. Logs work/undo-assertions/{before,after,regressions}.log.
+All changed files copied byte-for-byte from tested scratch workspace. No upstream
+production source read/copied, provenance unchanged. This is not an implementation
+of all7EnvironmentMode schedules; do not credit the old work-only policy draft.
+Required main gate is next. Current goal remains active.
+Managed stream-batch-boundaries worktree was merged; archive requested after its
+final verification. Previous commits remain in main history.
+First required undo gate2785 TERMINAL101; warm58881 TERMINAL0. All targets completed;
+only construction_move_limit_keeps_precedence_if_diagnostics_cancel_after_observation
+failed: it expected5diagnostic callback invocations, now6 with the new post-undo
+check. Preserved full log aswork/undo-assertions-first-check.log. Updated the native
+fixture to cover cancellation on candidate diagnostic(call4), rollback diagnostic
+(call5), and installed-prefix diagnostic(call6). Calls4/5 stop enumeration before
+observing the cap; call6 retains observed move-limit precedence. Evaluation counts,
+assigned prefix and completion assertions stay unchanged. Focused scratch97690
+TERMINAL0 for the updated case across6backends and construction orders. Copied
+that tested fixture into main; production Rust unchanged. Retrying the required
+selective gate reuses successful jobs; no warm/rebuild sweep needed for this edit.
+Archive of the merged stream-batch-boundaries worktree is confirmed in artifacts.
+
+Required undo-assertions gate TERMINAL0. 4853 Rust tests and 241 doctests passed.
+Rust jobs: {'REUSE': 642, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 110d7e845a3924b44038fdabe8381c527aab9dc66ce57a0d0297eeef428d6107
+Live freshness matched verification digest: 534c3f7344008362b824c77336b60cf93e9a72c211a5423cc9e83804744bcc19.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/undo-assertions-final-check.log; evidence work/undo-assertions-evidence.json.
+No benchmark/browser/release reruns. All verification sessions terminal; goal remains active.
+Final undo-assertions gate51013/evidence3089 TERMINAL0; prior gate2785 terminal101,
+warm58881 terminal0 and adjusted-case97690 terminal0. Final gate reused642Rustjobs
+and46Pythonjobs, ran onlyconstruction_cancellation amongRusttargets, plusformatting,
+clippy and doctests. All verification sessions terminal; dashboard85195 stayslive.
+No further changes to verified Rust/provenance. No benchmark/browser/release reruns.

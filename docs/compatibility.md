@@ -4491,3 +4491,12 @@ Explicit coalesce_updates boundaries also publish only final per-identity derive
 updates, allowing aggregate constraints to score a changed group once per batch.
 Batch-enabled consistency checks now use batched source replay. Five native
 integration regressions across these two extensions add no upstream-method credit.
+
+Native assertion-enabled move selection now verifies restored scoring state after
+every candidate rollback, including early selection and the final candidate before
+winner installation. This applies to network, stream and calculator backends for
+basic, list and mixed models. Broken calculator undo callbacks can no longer be
+hidden by replaying a winner that repairs their cache. Diagnostic work remains
+outside search evaluation counters. This strengthens `assert_scores`; it does not
+claim full Java environment-mode scheduling or tracked-variable parity. Three
+native fault-injection regressions add no upstream-method credit.

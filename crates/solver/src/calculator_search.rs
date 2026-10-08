@@ -116,6 +116,9 @@ where
             let stop = forager.is_quit_early() || (accepted && quit_early.should_pick(score));
             drop(candidate);
             self.healthy()?;
+            if assert_scores {
+                self.assert_consistent()?;
+            }
             if stop {
                 break;
             }

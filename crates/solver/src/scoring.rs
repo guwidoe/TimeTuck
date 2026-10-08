@@ -537,7 +537,13 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                     })
                 },
             )?;
-            if forager.is_quit_early() || (accepted && quit_early.should_pick(candidate.score())) {
+            let stop =
+                forager.is_quit_early() || (accepted && quit_early.should_pick(candidate.score()));
+            drop(candidate);
+            if assert_scores {
+                self.assert_consistent()?;
+            }
+            if stop {
                 break;
             }
         }

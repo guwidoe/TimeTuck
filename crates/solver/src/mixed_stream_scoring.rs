@@ -328,7 +328,13 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
                     graph: candidate.graph.capture()?,
                 })
             })?;
-            if forager.is_quit_early() || (accepted && quit_early.should_pick(candidate.score())) {
+            let stop =
+                forager.is_quit_early() || (accepted && quit_early.should_pick(candidate.score()));
+            drop(candidate);
+            if assert_scores {
+                self.assert_consistent()?;
+            }
+            if stop {
                 break;
             }
         }

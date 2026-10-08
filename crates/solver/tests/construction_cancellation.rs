@@ -588,10 +588,11 @@ fn construction_candidate_budgets_exclude_initialization_and_diagnostics() {
 fn construction_move_limit_keeps_precedence_if_diagnostics_cancel_after_observation() {
     for mode in 0..6 {
         for order in ORDERS {
-            // Initial score + diagnostic; first candidate + diagnostic; installed
-            // prefix diagnostic. Request four closes enumeration before the cap
-            // is observed. Request five arrives after the cap was observed.
-            for at in [4, 5] {
+            // Initial score + diagnostic; first candidate + diagnostic; rollback
+            // diagnostic; installed prefix diagnostic. Requests four and five
+            // close enumeration before the cap is observed. Request six arrives
+            // after the cap was observed.
+            for at in [4, 5, 6] {
                 let token = CancellationToken::new();
                 let calls = Cell::new(0);
                 let r = run(
@@ -612,7 +613,7 @@ fn construction_move_limit_keeps_precedence_if_diagnostics_cancel_after_observat
                 );
                 assert_eq!(
                     r.reason,
-                    if at == 4 {
+                    if at <= 5 {
                         ConstructionTermination::Cancelled
                     } else {
                         ConstructionTermination::MoveEvaluationLimit
@@ -622,7 +623,7 @@ fn construction_move_limit_keeps_precedence_if_diagnostics_cancel_after_observat
                 assert_eq!(r.callbacks, 2);
                 assert_eq!(r.assigned, 1);
                 assert!(!r.complete);
-                assert_eq!(calls.get(), 5);
+                assert_eq!(calls.get(), 6);
             }
         }
     }
