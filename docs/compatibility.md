@@ -4307,3 +4307,11 @@ snapshot reconstruction replaces live Java ranking-weight references. Four origi
 checks cover an independent quadratic oracle, differing score scales, ties/invalid
 configurations, runner integration/cancellation, and a 20,000-row tie group with
 100 million comparisons per configuration. No statistical significance claim.
+
+Three SolutionManager update-policy methods now use a native manager that owns a
+declarative shadow session. All initial/result score and first-shadow nullability
+assertions and generated seven-entity/five-value fixture are preserved; explicit
+registration replaces Java descriptors and factory variants. Original regressions
+exercise cache/output rollback after callback errors and panics, pending graph
+edits, cycles, retries and policy callback exclusion. No Java lifecycle parity
+or additional inconsistent/list method credit is claimed.

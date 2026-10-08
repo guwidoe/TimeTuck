@@ -16481,3 +16481,36 @@ Live freshness matched verification digest: da4014b98b0c08583507a42f9d7d7fb711cc
 Existing provenance prefixes unchanged; appended10cases and1fixtures.
 Log work/benchmark-ranking-final-check.log; evidence work/benchmark-ranking-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Transactional declarative solution manager
+
+Added ShadowSolutionManager owning a ShadowSession plus projection, validation
+and scoring callbacks. Everything/ShadowsOnly require consistent registered
+sources; ScoreOnly bypasses the session. Callback errors/panics restore cached
+values, dependencies and pending edits before output publication. No Clone
+requirement on solution outputs; callback external/interior effects excluded.
+Three complete TEST-ONLY SolutionManagerTest update-policy methods adapted, plus
+three generated-domain fixtures; seven entities/five values and score -11.
+Native four regressions cover failure/panic stages before/after initial refresh,
+retry/cache reuse, nonclone outputs, policy exclusion, cycles and pending dirty
+notifications. Focused test command terminal0 (7 tests); initial compile typo
+SimpleScore::of corrected to native new before final focused run.
+No production/Enterprise source reads. Broad gate is next; input files frozen
+after this note. No benchmarks/release/browser reruns needed.
+
+Required shadow-solution-manager gate TERMINAL0. 4774 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 613}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2867, 'failed': 0, 'pending': 1706, 'excluded': 282, 'unverified': 0, 'percent': 59.053}.
+Source before/after matched: 8657576d0032223d3056b5bea12bd825c260f419e774840e141a346afa95ba75
+Live freshness matched verification digest: 47251733f163e949e15d024cba2206f2654cf05c2783abea60d0df9becf7cf2a.
+Existing provenance prefixes unchanged; appended3cases and3fixtures.
+Log work/shadow-solution-manager-final-check.log; evidence work/shadow-solution-manager-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual gate59138 and evidence52814 both terminal0. No active build/check handles.
+Live dashboard freshness matched the completed report. Next scope investigation
+read all remaining SolutionManagerTest method identities, full updateEverythingList,
+updateOnlyScoreFailsIfListVariableInconsistent and SolutionManagerSource enum.
+Also read all four TEST-ONLY list/shadowhistory domain fixture files. No list
+adaptation drafted or credited. Score-only wrong-owner diagnostic remains coarser
+in native SolutionRefreshError::ShadowMismatch; preserve this distinction if
+adapting its source assertion. Goal remains incomplete and active.

@@ -1084,3 +1084,6 @@ mod benchmark_ranking;
 pub use benchmark_ranking::{
     BenchmarkComparison, BenchmarkStanding, BenchmarkStandingError, rank_benchmarks,
 };
+
+mod shadow_solution_manager;
+pub use shadow_solution_manager::{ShadowSolutionError, ShadowSolutionManager};
