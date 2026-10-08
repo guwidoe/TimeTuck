@@ -4389,3 +4389,12 @@ event. The complete seven-scenario SolverFactory initialization case is adapted;
 original cases additionally cover native exact/repair phases, sequence edits,
 all781 short sequences, runtime alignment and pinned-model skips. Native typed
 metadata replaces Java phase-list/interface introspection.
+
+Independent phase-score validation is now available through SolverExtensions for
+all nine network, stream and calculator solve routes. A caller supplies a separate
+score calculation per selected phase; mismatches and calculation errors abort
+before handoff/initialization events. Initial-only and partial scored outputs are
+covered; unscored outputs are skipped. Validation time consumes the shared deadline
+without increasing search work counters. Prior best notifications are not undone.
+This is a native runtime building block, not a claim that all Timefold environment
+modes or their exact assertion schedules are implemented; those remain pending.

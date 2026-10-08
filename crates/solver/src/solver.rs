@@ -215,6 +215,19 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    /// An independent phase check disagreed with the phase's returned score.
+    PhaseScoreMismatch {
+        phase: usize,
+        kind: SolverPhaseKind,
+        actual: String,
+        expected: String,
+    },
+    /// The independent phase checker could not produce an expected score.
+    PhaseScoreCheckFailed {
+        phase: usize,
+        kind: SolverPhaseKind,
+        reason: String,
+    },
     /// Scoring or graph preparation failed before any configured phase ran.
     InitialScoring {
         error: E,
@@ -269,6 +282,20 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::PhaseScoreMismatch {
+                phase,
+                kind,
+                actual,
+                expected,
+            } => write!(
+                f,
+                "phase {phase} ({kind:?}) score corruption: actual {actual}, expected {expected}"
+            ),
+            Self::PhaseScoreCheckFailed {
+                phase,
+                kind,
+                reason,
+            } => write!(f, "phase {phase} ({kind:?}) score check failed: {reason}"),
             Self::InitialScoring { error } => write!(f, "initial scoring failed: {error}"),
             Self::InvalidScoreTrend { phase, error } => write!(f, "phase {phase}: {error}"),
             Self::InvalidOptimisticBound {
@@ -314,6 +341,8 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::Custom { error, .. } => Some(error),
             Self::Repair { error, .. } => Some(error),
             Self::EmptyPlan
+            | Self::PhaseScoreMismatch { .. }
+            | Self::PhaseScoreCheckFailed { .. }
             | Self::InvalidOptimisticBound { .. }
             | Self::IncompleteLocalSearch { .. }
             | Self::ConflictingCancellation { .. }
@@ -568,6 +597,21 @@ pub enum SolverEvent<'a, A, S> {
 enum PlanCallback<'a, A, S> {
     Best(&'a mut dyn FnMut(SolverUpdate<'_, A, S>)),
     Events(&'a mut dyn FnMut(SolverEvent<'_, A, S>)),
+    Checked {
+        events: Option<&'a mut crate::SolverEventCallback<'a, A, S>>,
+        check: &'a mut crate::PhaseScoreCheck<'a, A, S>,
+    },
+}
+impl<'a, A, S> PlanCallback<'a, A, S> {
+    fn extensions(
+        events: Option<&'a mut crate::SolverEventCallback<'a, A, S>>,
+        check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
+    ) -> Option<Self> {
+        match check {
+            Some(check) => Some(Self::Checked { events, check }),
+            None => events.map(Self::Events),
+        }
+    }
 }
 type PlanObserver<'a, A, S> = Option<PlanCallback<'a, A, S>>;
 struct PlanObservation<'a, A, S> {
@@ -587,6 +631,50 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             repaired_initial: false,
         }
     }
+    fn has_events(&self) -> bool {
+        matches!(
+            &self.callback,
+            Some(
+                PlanCallback::Best(_)
+                    | PlanCallback::Events(_)
+                    | PlanCallback::Checked {
+                        events: Some(_),
+                        ..
+                    }
+            )
+        )
+    }
+    fn check_score<E>(
+        &mut self,
+        phase: usize,
+        kind: SolverPhaseKind,
+        assignment: &A,
+        actual: Option<&S>,
+    ) -> Result<(), SolverError<E>> {
+        let (Some(PlanCallback::Checked { check, .. }), Some(actual)) =
+            (&mut self.callback, actual)
+        else {
+            return Ok(());
+        };
+        let expected = check(phase, kind, assignment).map_err(|reason| {
+            SolverError::PhaseScoreCheckFailed {
+                phase,
+                kind,
+                reason,
+            }
+        })?;
+        if let Some(expected) = expected
+            && &expected != actual
+        {
+            return Err(SolverError::PhaseScoreMismatch {
+                phase,
+                kind,
+                actual: format!("{actual:?}"),
+                expected: format!("{expected:?}"),
+            });
+        }
+        Ok(())
+    }
     fn initialize(
         &mut self,
         phase: usize,
@@ -594,8 +682,15 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         result: &SolverResult<A, S>,
         termination: PhaseTermination,
     ) {
-        let Some(PlanCallback::Events(callback)) = &mut self.callback else {
-            return;
+        let callback = match &mut self.callback {
+            Some(
+                PlanCallback::Events(callback)
+                | PlanCallback::Checked {
+                    events: Some(callback),
+                    ..
+                },
+            ) => callback,
+            _ => return,
         };
         if initialization_phase != Some(phase) {
             return;
@@ -632,6 +727,9 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         });
     }
     fn notify(&mut self, phase: usize, kind: SolverPhaseKind, update: SolutionUpdate<'_, A, S>) {
+        if !self.has_events() {
+            return;
+        }
         let Some(callback) = &mut self.callback else {
             return;
         };
@@ -658,7 +756,12 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             };
             match callback {
                 PlanCallback::Best(callback) => callback(update),
-                PlanCallback::Events(callback) => callback(SolverEvent::Best(update)),
+                PlanCallback::Events(callback)
+                | PlanCallback::Checked {
+                    events: Some(callback),
+                    ..
+                } => callback(SolverEvent::Best(update)),
+                PlanCallback::Checked { events: None, .. } => {}
             }
         }
     }
@@ -875,6 +978,14 @@ where
             | SolverError::Phase { error, .. } => SolverError::InitialScoring { error },
             other => other,
         })?;
+        observation.check_score(
+            0,
+            SolverPhaseKind::Initial,
+            out.assignment
+                .as_ref()
+                .expect("initial scoring retains assignment"),
+            out.score.as_ref(),
+        )?;
         result.assignment = out.assignment.expect("initial scoring retains assignment");
         result.complete = out.complete;
         result.score = out.score;
@@ -1015,7 +1126,14 @@ where
             (PhaseRequest::LocalSearch(c), owned.0, owned.1)
         };
         let initial = Some(result.assignment.clone());
+        let kind = request.kind();
         let mut out = phase(index, initial, request, &mut time, observation)?;
+        observation.check_score(
+            index,
+            kind,
+            out.assignment.as_ref().unwrap_or(&result.assignment),
+            out.score.as_ref(),
+        )?;
         let r = &mut result;
         if let (Some(assignment), Some(score)) = (out.assignment.take(), out.score.as_ref())
             && ((!r.complete && out.complete) || r.score.as_ref().is_none_or(|best| score > best))
@@ -1392,7 +1510,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -1412,7 +1530,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             }
 
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
@@ -1733,7 +1851,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -1753,7 +1871,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             }
 
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
@@ -2017,7 +2135,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -2040,7 +2158,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
             }
 
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
@@ -2313,7 +2431,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -2337,7 +2455,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                 error: LocalSearchError::from(StreamScoringError::from(e)),
             })?;
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
@@ -2622,7 +2740,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -2646,7 +2764,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                 error: ListLocalSearchError::from(ListStreamScoringError::from(e)),
             })?;
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
@@ -2953,7 +3071,7 @@ fn solve_mixed_stream_impl<
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -2981,7 +3099,7 @@ fn solve_mixed_stream_impl<
                 error: MixedLocalSearchError::from(MixedStreamScoringError::from(e)),
             })?;
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
@@ -3481,7 +3599,7 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         p,
         n,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3505,7 +3623,7 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         p,
         n,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3522,7 +3640,7 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
         p,
         n,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3546,7 +3664,7 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
         p,
         graph,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3575,7 +3693,7 @@ pub fn solve_list_stream_with_extensions<
         p,
         graph,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3598,7 +3716,7 @@ pub fn solve_mixed_stream_with_extensions<
         p,
         graph,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3613,3 +3731,7 @@ pub use calculator::{
     solve_mixed_calculator, solve_mixed_calculator_with_events,
     solve_mixed_calculator_with_extensions, solve_mixed_calculator_with_observer,
 };
+
+#[cfg(test)]
+#[path = "solver_phase_check_tests.rs"]
+mod phase_check_tests;

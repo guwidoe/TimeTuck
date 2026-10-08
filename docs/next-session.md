@@ -16837,3 +16837,58 @@ preload methods assert exact Java pair-walk counts (6 vs12); do not fabricate
 those inefficient counts in native joins just for coverage. Activity first3methods
 verify downstream lifecycle notifications and remain pending; structural flags
 alone do not satisfy them. No test adaptations/drafts added for these join methods.
+
+## Independent phase score checks across all backends
+
+Added PhaseScoreCheck callback and SolverExtensions.score_check, wired through
+all9 extension entry points. Receives phase index/kind and borrowed assignment;
+Some(expected) compares full score including structural state, None skips, Err
+aborts with PhaseScoreCheckFailed; mismatches return PhaseScoreMismatch with owned
+actual/expected Debug strings. Common runner checks scored output before handoff
+and initialization; no-new-assignment outputs use retained entry. Initial-only
+scoring uses index0/Initial; unscored outputs and unentered phases do not invoke it.
+Checks need not enable best/initialization observation: has_events keeps normal
+backend fast paths when no event consumer is installed. Earlier best events may
+already have been delivered; they are not undone. Callback panics propagate.
+All validation work excluded from evaluation counters, included in shared time.
+No automatic environment-mode behavior claimed and no upstream credits added.
+Compile81496 terminal0. Initial focused97562 failed only two new-test mixed config
+field/type mistakes, corrected to nested search settings. Focused98663 terminal0:
+4native tests cover5phase kinds across9backends, work parity, partial/zero/initial
+outputs, callback failure/panic and real incremental-score corruption detection.
+Unit14074 terminal0:2tests prove deterministic deadline consumption and retained
+entry selection for scored phases without a new assignment. New API doctest added.
+Environment-policy work draft remains unintegrated; use this runtime capability
+when designing actual assertion policies, never equate every mode with one flag.
+Final Rust inputs frozen after fmt; broad shared-runner coverage required.
+
+First final gate24025 and prebuild30607 terminal101: the two existing
+exhaustive SolverError matches in owned_scores and solver_support/fixture
+needed the new diagnostic variants. Both now reject these impossible-in-fixture
+errors explicitly; no behavior assertions weakened. Saved first failure logs under
+work/phase-score-check-*-first-failure.log (gate uses phase-score-check-first-failure.log).
+Corrected gate71077, warm32285 and evidence6923 terminal0. Warm compiled525
+pending targets only; no tests/cache evidence written. Prior focused checks unchanged.
+Reviewed EnvironmentModeTest assertions; full environment-mode scheduling still
+requires step/move/undo diagnostics and reproducibility, beyond this phase hook.
+
+Next implementation candidate identified from remaining stream cases: complete
+FlattenLastUniNodeTest (insertAndRetract, modify) read, tests only. It requires
+duplicate-preserving occurrence matching across reorders, including retained B/X
+update events and retractions of unmatched occurrences, with deferred delivery.
+Current FlatMapNode intentionally uses positional IDs and caches only lengths;
+new_canonical only canonicalizes payloads within each expansion, not stable IDs.
+Do not credit these source cases through equivalent final multisets alone: their
+lifecycle/no-interaction assertions need a genuine native event adaptation. A new
+opt-in keyed occurrence expansion could preserve existing positional semantics.
+DiminishedReturnsScoreRingBufferTest only lines1–200 read; exact internal array
+layout assertions are not a reason to replace idiomatic native storage.
+
+Required phase-score-check gate TERMINAL0. 4809 Rust tests and 235 doctests passed.
+Rust jobs: {'RUN': 558, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2874, 'failed': 0, 'pending': 1699, 'excluded': 282, 'unverified': 0, 'percent': 59.197}.
+Source before/after matched: d173544e0e23194b333102af30c07c0b900be361a77a2e6a6824914449ac3995
+Live freshness matched verification digest: 0e4d1f6be7f1aeb1099447fa1272370b4f76f9e6727c1fa7e6e66bdf0e242ebe.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/phase-score-check-final-check.log; evidence work/phase-score-check-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

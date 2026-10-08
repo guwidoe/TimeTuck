@@ -59,8 +59,39 @@ pub type SolverCommandCallback<'a, A, M, S, E> = dyn FnMut(usize, &mut CustomPha
 /// Progress and initialization events use the same semantics as solve_with_events.
 pub type SolverEventCallback<'a, A, S> = dyn FnMut(SolverEvent<'_, A, S>) + 'a;
 
-/// Combine per-phase move providers, custom commands and progress events.
-/// Pass to one of the six `solve*_with_extensions` entry points. Existing plan
+/// Independently calculate a phase output's expected score. Return None to skip
+/// that phase, or an error to reject the solve. `kind == Initial` with index zero
+/// identifies initial-only scoring on an immovable model. Unscored phases and
+/// phases that were never entered do not invoke this callback.
+///
+/// The assignment is the phase output (or retained entry if the phase produced
+/// no new assignment). Include structural incompleteness in the expected score.
+/// Checks run before phase handoff and initialization notification; best events
+/// already emitted during search cannot be retracted. A mismatch or callback
+/// error aborts the solve. Panics propagate. Callbacks must not mutate domain
+/// facts through interior state. Diagnostic work is excluded from evaluation
+/// counters, but its elapsed time belongs to the shared solve deadline.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1_i64,2])])?;
+/// let mut n = ConstraintNetwork::new(1);
+/// n.add_constraint("value", vec![0], |v| SimpleScore::new(v[0].copied().unwrap_or(0)))?;
+/// let mut check = |_, _, a: &Assignment<i64>| {
+///     let missing = a.values().iter().filter(|v| v.is_none()).count() as i64;
+///     Ok(Some(SimpleScore::new(a.values().iter().flatten().sum()).with_structural(-missing)))
+/// };
+/// let result = solve_with_extensions(&p, &n, SolverSequence::default(), SolverExtensions {
+///     score_check: Some(&mut check), ..Default::default()
+/// })?;
+/// assert_eq!(result.score, Some(SimpleScore::new(2)));
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+pub type PhaseScoreCheck<'a, A, S> =
+    dyn FnMut(usize, crate::SolverPhaseKind, &A) -> Result<Option<S>, String> + 'a;
+
+/// Combine per-phase move providers, commands, progress events and score checks.
+/// Pass to a `solve*_with_extensions` entry point, including calculators. Existing plan
 /// validation, retained-best handoffs, shared budgets and cancellation still apply.
 ///
 /// ```
@@ -97,6 +128,7 @@ pub struct SolverExtensions<'a, P, A, M, S, E> {
     pub move_providers: PhaseMoveProviders<'a, P, A, M>,
     pub command: Option<&'a mut SolverCommandCallback<'a, A, M, S, E>>,
     pub events: Option<&'a mut SolverEventCallback<'a, A, S>>,
+    pub score_check: Option<&'a mut PhaseScoreCheck<'a, A, S>>,
 }
 impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
     fn default() -> Self {
@@ -104,6 +136,7 @@ impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
             move_providers: PhaseMoveProviders::default(),
             command: None,
             events: None,
+            score_check: None,
         }
     }
 }

@@ -103,7 +103,7 @@ pub fn solve_calculator_with_extensions<
         p,
         factory,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -165,7 +165,7 @@ fn solve_calculator_impl<
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -185,7 +185,7 @@ fn solve_calculator_impl<
             }
 
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
@@ -559,7 +559,7 @@ pub fn solve_list_calculator_with_extensions<
         p,
         factory,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -630,7 +630,7 @@ fn solve_list_calculator_impl<
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -650,7 +650,7 @@ fn solve_list_calculator_impl<
             }
 
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
@@ -1021,7 +1021,7 @@ pub fn solve_mixed_calculator_with_extensions<
         p,
         factory,
         c,
-        extensions.events.map(PlanCallback::Events),
+        PlanCallback::extensions(extensions.events, extensions.score_check),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -1099,7 +1099,7 @@ fn solve_mixed_calculator_impl<
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
                 };
-                let observed = observation.callback.is_some();
+                let observed = observation.has_events();
                 let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                     observation.notify(index, SolverPhaseKind::RuinRecreate, update)
                 };
@@ -1122,7 +1122,7 @@ fn solve_mixed_calculator_impl<
             }
 
             let request = request.with_time(time);
-            let observed = observation.callback.is_some();
+            let observed = observation.has_events();
             let kind = request.kind();
             let initial_only = observation.initial_only;
             let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
