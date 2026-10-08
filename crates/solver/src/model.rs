@@ -226,15 +226,22 @@ impl<V: Eq> FiniteProblem<V> {
                 actual: assignment.values.len(),
             });
         }
-        for (i, (variable, value)) in self.variables.iter().zip(&assignment.values).enumerate() {
-            if let Some(value) = value
-                && !variable.domain.contains(value)
-            {
-                return Err(variable.range_error(i, value));
-            }
-            if variable.pinned && variable.initial != *value {
-                return Err(ModelError::PinnedValueChanged { variable: i });
-            }
+        for i in 0..self.variables.len() {
+            self.validate_variable(assignment, i)?;
+        }
+        Ok(())
+    }
+
+    fn validate_variable(&self, assignment: &Assignment<V>, i: usize) -> Result<(), ModelError> {
+        let variable = &self.variables[i];
+        let value = &assignment.values[i];
+        if let Some(value) = value
+            && !variable.domain.contains(value)
+        {
+            return Err(variable.range_error(i, value));
+        }
+        if variable.pinned && variable.initial != *value {
+            return Err(ModelError::PinnedValueChanged { variable: i });
         }
         Ok(())
     }
@@ -307,8 +314,39 @@ impl<V: Eq + Clone> FiniteProblem<V> {
         movement: &Move<V>,
     ) -> Result<AppliedMove<'a, V>, ModelError> {
         self.validate(assignment)?;
+        self.apply_validated(assignment, movement)
+    }
+
+    // Owning directors validate at construction/reset and expose immutable state.
+    // Raw move application checks every index and cannot change assignment length.
+    // Only written slots can violate a domain or pin in the final transaction.
+    pub(crate) fn apply_validated<'a>(
+        &self,
+        assignment: &'a mut Assignment<V>,
+        movement: &Move<V>,
+    ) -> Result<AppliedMove<'a, V>, ModelError> {
         let transaction = assignment.apply(movement)?;
-        self.validate(&transaction)?;
+        match movement {
+            Move::Change { variable, .. } => self.validate_variable(&transaction, *variable)?,
+            Move::Swap { left, right } => {
+                self.validate_variable(&transaction, *left.min(right))?;
+                if left != right {
+                    self.validate_variable(&transaction, *left.max(right))?;
+                }
+            }
+            Move::Composite(_) => {
+                let mut touched: Vec<_> = transaction
+                    .prior_values()
+                    .iter()
+                    .map(|w| w.variable)
+                    .collect();
+                touched.sort_unstable();
+                touched.dedup();
+                for variable in touched {
+                    self.validate_variable(&transaction, variable)?;
+                }
+            }
+        }
         Ok(transaction)
     }
 }

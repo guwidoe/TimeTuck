@@ -4701,3 +4701,16 @@ leave completed removals and other callback mutations in place. Ten TupleList
 and five ElementAwareLinkedList methods preserve all their observable assertions;
 Java intrusive storage slots and randomized-iterator traces remain pending.
 This extends the native collection API; it does not change stream-graph storage.
+
+Basic-variable transactions now validate public input once and validate only
+written slots in the final state. Owning basic and mixed scoped/stream/calculator
+score directors reuse their validated state. Change/swap leaves avoid allocating
+a touched-slot set; composites deduplicate journaled slots and preserve ascending
+validation-error priority. Raw move index checks, rollback, temporary unassignment,
+and final-only domain/pin rules remain intact. Constructors and calculator resets
+still validate all external values. Three original regressions cover six backends,
+unrelated comparison work, invalid input, final failures and repaired intermediate
+composites. Stable Clone/Eq value identity remains required.
+Three additional SwapMoveProvider methods preserve complete multivariable move
+inclusion/exclusion cases, including a forbidden whole swap with one legal column
+and optional missing third values. Explicit selected rows replace Java metadata.

@@ -18790,3 +18790,73 @@ No benchmarks refreshed; prior performance measurements retain their freshness s
 Staged implementation, adapted cases, native regressions and provenance reviewed.
 Required gate completed successfully; no source/provenance/tool edits during it.
 Ready to commit; full rewrite remains active. No benchmark or browser reruns.
+
+## Incremental basic validation and multivariable swap cases
+
+Previous turn progressed:aba799f committed; started clean. Read handoff and
+compatibility. FiniteProblem public apply validates external input fully, then
+uses a private validated-state path. Owning basic scoped/stream/calculator and
+all mixed backends now use that path. Only final written slots need domain/pin
+validation; Change/Swap avoid allocating a touched set, composites sort/deduplicate
+journaled slots to retain ascending error precedence. Raw index checks and undo
+journals remain. Constructor/reset boundaries still fully validate. Stable value
+Clone/Eq is assumed as in existing list optimization. Mixed/calculator full
+snapshots are unchanged. Three native regressions cover all six basic/mixed
+backends with unrelated equality counters, public invalid input, error order,
+late failures, temporary invalid composites repaired at completion and rollback.
+Focused28221 TERMINAL0 (3 new basic +3 existing list regressions).
+Three complete SwapMoveProvider adaptations and2 test-domain fixture records
+cover multivariable swaps, excluded tertiary columns, and mixed legality with
+optional null third values. Focus20902 TERMINAL0,3tests. Existing provenance
+records unchanged. No production upstream implementation read.
+Baseline release build85740 TERMINAL0,35.51s, preserved aba799f executable as
+work/basic-validation-before. Rust/tests/scripts/provenance frozen after fmt.
+Prebuild76866, required gate17889 and matched stream benchmark87309 are TERMINAL0.
+Logs: work/basic-validation-prebuild.log, basic-validation-final-check.log,
+basic-validation-java-performance.log. Release executable copied to
+work/basic-validation-after; work/compare_basic_validation.py completed.
+All handles in this batch are terminal; do not restart completed checks.
+It requires exact final assignments/scores/score-call counts and independently
+validates scores. Other benchmarks remain stale. Backend report refresh does not
+need browser verification. Goal remains active/incomplete.
+
+Prebuild76866 TERMINAL0,6m35s (overlaps release benchmark build and later gate).
+Matched Java stream comparison87309 TERMINAL0:128/128 valid and equal-score,
+114 independently optimal in each engine. 20steps,1warmup,3samples,2forks.
+Rust/Java ms hill/change32 90.324/123.913,96 306.096/198.372;
+tabu/change32 105.191/179.596,96 335.923/167.334;
+hill/swap32 648.272/237.440,96 6368.379/586.447;
+tabu/swap32 540.189/196.888,96 4313.853/325.431. Concurrent compilation on
+development host; do not compare these absolute values with earlier runs.
+Native alternating comparison91589 TERMINAL0: exact final assignments, scores and
+score-call counts match aba799f on all samples. 4alternating process pairs,
+1warmup+3samples,20steps,12samples/version/workload. Timings vary widely:
+speedup ratios hill/change32 1.204,96 1.106;tabu/change32 .986,96 1.380;
+hill/swap32 .693,96 .888;tabu/swap32 1.316,96 .727. Some apparent regressions;
+NO end-to-end speedup claimed. Example96hill/swap process medians varied4.076–8.605s
+before and3.189–6.706s after. Raw work/basic-validation-native-performance.json.
+To assess the unresolved timing concern, additional native CPU-use comparison
+10640 TERMINAL0 (work/compare_basic_validation_cpu.py), only4swap workloads,
+2alternating pairs,1warmup+2samples,20steps. It records child user+system CPU
+including process startup and all three solves, not per-solve latency. Early
+results are also mixed. Do not repeatedly rerun without a new specific concern.
+Next performance work should identify stream join/propagation costs; this change
+proves reduced domain-comparison work, not resolution of the Java stream gap.
+
+Required basic-validation gate TERMINAL0. 5052 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 614, 'REUSE': 71}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2947, 'failed': 0, 'pending': 1626, 'excluded': 282, 'unverified': 0, 'percent': 60.7}.
+Source before/after matched: 106535d6e97d9a6e1c287514b336893976650c84f07ca01a138e08e054e986ee
+Live freshness matched verification digest: 0dd862902a6360c846222045ca7195481e96199d65953ba7fcf8f9e39f38437d.
+Prior ledger records unchanged; added 3 provenance cases/upstream method credits and 2 fixture records.
+Log work/basic-validation-final-check.log; evidence work/basic-validation-evidence.json.
+Only matched stream performance refreshed; unrelated measurements retain their freshness status. Native alternating comparison is separate. No browser rerun for this report-only refresh. Goal remains active.
+
+CPU comparison10640 TERMINAL0 with exact native results/call counts preserved.
+Before/after whole-process CPU ms: hill32 984.545/1074.498;hill96 11989.266/11027.371;
+tabu32 1191.012/1128.145;tabu96 13671.615/14182.946. Mixed results confirm no
+general end-to-end improvement claim. Raw work/basic-validation-cpu-performance.json.
+Gate17889 TERMINAL0; source frozen throughout. Evidence38176 confirms stable
+source, unchanged old provenance records and live report freshness. Stream
+performance status current; unrelated measurements retain their own freshness.
+Staged source/test/provenance reviewed; ready to commit. Goal remains active.

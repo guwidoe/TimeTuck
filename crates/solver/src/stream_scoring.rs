@@ -143,7 +143,9 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         &mut self,
         movement: &Move<V>,
     ) -> Result<StreamScoredMove<'_, 'a, V, S>, StreamScoringError> {
-        let assignment = self.problem.apply(&mut self.assignment, movement)?;
+        let assignment = self
+            .problem
+            .apply_validated(&mut self.assignment, movement)?;
         let mut graph = self.graph.transaction();
         let mut updates = StreamBatch::new();
         for variable in movement.touched_variables() {

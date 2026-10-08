@@ -597,7 +597,9 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
     /// Compute a candidate transaction. Errors and ordinary panic unwinding
     /// restore values; caches remain unchanged until `ScoredMove::commit`.
     pub fn apply(&mut self, movement: &Move<V>) -> Result<ScoredMove<'_, V, S>, ScoringError> {
-        let transaction = self.problem.apply(&mut self.assignment, movement)?;
+        let transaction = self
+            .problem
+            .apply_validated(&mut self.assignment, movement)?;
         let mut affected: Vec<_> = transaction
             .prior_values()
             .iter()

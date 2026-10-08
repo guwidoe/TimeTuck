@@ -152,7 +152,7 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
     ) -> Result<AppliedMixedMove<'a, B, L>, MixedError> {
         let mut candidate = assignment.clone();
         self.basic
-            .apply(&mut candidate.basic, &movement.basic)
+            .apply_validated(&mut candidate.basic, &movement.basic)
             .map_err(MixedError::Basic)?
             .commit();
         self.lists

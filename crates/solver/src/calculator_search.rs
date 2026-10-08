@@ -48,7 +48,7 @@ crate::calculator_backend::calculator_backend!(
     ScoringError,
     basic_changes,
     basic_structure,
-    apply
+    apply_validated
 );
 fn basic_changes<V>(movement: &Move<V>) -> Vec<usize> {
     movement.touched_variables()
