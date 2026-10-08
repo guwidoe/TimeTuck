@@ -19515,3 +19515,45 @@ inspect current JoinNode row access first. No next-batch source edits yet.
 All batch handles terminal. Implementation and final staged diff reviewed. Goal remains
 active/incomplete. Reuse successful gate and native comparison; no reruns needed
 for this source state. Unrelated benchmark measurements retain dates/freshness.
+
+## Rejected grouped filtered-join membership experiment
+
+Baselinee71ae24. Attempted per-left-row accepted membership (inline empty/single,
+small sorted vectors, persistent dense indexes with64/32 promotion/demotion) and
+one final left-payload lookup per candidate group. Added two original regressions
+for every ID-clone failure and dense one-flip bounded cloning/storage transitions.
+Final focused19tests passed, release1m11s (30816 TERMINAL0). No upstream credits.
+
+First prototype33324 TERMINAL0 matched native outcomes/calls but regressed measured
+CPU: hill/change+13%,tabu/change+8%,hill/swapflat,tabu/swap+25%. Its isolated profile
+had exactly matching case/config/assignments/scores/callback counts versus
+filtered-index-profile.json; copied nodes1,708,526 ->1,029,618 (-39.74%), new nodes
+463,766 ->233,429 (-49.67%), value undo1,520,640 ->1,858,904. Those counters exclude
+new vector allocations and did not establish faster execution. Archived first
+measurements work/grouped-membership-first-native-performance.json/profile.json.
+
+Added inline empty/one-ID storage and a one-pair branch avoiding temporary vectors.
+Final paired comparison3390 TERMINAL0: all assignments/scores/callbacks matched.
+Whole-process CPU ms before/after (includes warmup and both sizes):
+hill/change710.386/673.1885; tabu/change623.703/664.363;
+hill/swap8358.094/9645.8815 (+15.4%); tabu/swap10173.6595/8877.869 (-12.7%).
+96-variable hill-swap elapsed1801.421/2223.133ms (+23.4%); tabu2194.294/1979.625ms.
+Host timings remain noisy, but consistent hill-swap CPU regression across both
+pairs defeats retaining this as a general optimization. All measurements are in
+work/grouped-membership-native-performance.json/comparison.log; executable hashes
+recorded there, binaries grouped-membership-before/after.
+
+Discarded ALL production/test/contract edits from this experiment before a broad
+gate. Archived final sources under work/grouped-membership-rejected/ (repository
+relative paths). Tracked Rust and contract restored byte-for-byte from e71ae24;
+reuse its successful gate and current matched Java/report evidence. No broad check,
+new Java comparison or browser rerun needed for this documentation-only outcome.
+No task processes live. Target/release may still contain the rejected executable;
+normal Cargo rebuilds before use, or use the hashed baseline archive. Never label
+rejected measurements as current. Goal remains active/incomplete.
+
+Do not keep optimizing this representation from allocation counts alone. Shared
+host noise and separate membership-map lookups/journal work obscure wins. Next
+work should deliver a substantive missing native solver behavior or a larger
+execution-path improvement with a direct behavioral/performance comparison;
+avoid another small membership-layout experiment without new evidence.
