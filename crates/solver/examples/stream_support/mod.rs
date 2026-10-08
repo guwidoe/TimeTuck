@@ -36,9 +36,10 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
         b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?
     };
     let conflicts = if batched {
-        b.join_batched(
+        b.join_compare_recomputed_batched(
             &a,
             &jobs,
+            JoinComparison::Equal,
             |(e, _)| e.2,
             |j: &Job| j.0,
             |(_, a), b| a.1 == b.1,

@@ -18,7 +18,7 @@ fn relation(c: JoinComparison, l: i32, r: i32) -> bool {
     }
 }
 #[test]
-fn all_relations_match_scans_and_evaluate_each_affected_final_pair_once() {
+fn both_retention_modes_match_scans_and_documented_predicate_counts() {
     for comparison in [
         JoinComparison::Equal,
         JoinComparison::LessThan,
@@ -26,7 +26,7 @@ fn all_relations_match_scans_and_evaluate_each_affected_final_pair_once() {
         JoinComparison::GreaterThan,
         JoinComparison::GreaterThanOrEqual,
     ] {
-        for pruning in [false, true] {
+        for (pruning, recompute) in [(false, false), (true, false), (false, true), (true, true)] {
             let calls = Cell::new(0);
             let mut b = StreamGraphBuilder::<SimpleScore>::new();
             if pruning {
@@ -34,19 +34,30 @@ fn all_relations_match_scans_and_evaluate_each_affected_final_pair_once() {
             }
             let left = b.source::<usize, Row>();
             let right = b.source::<usize, Row>();
-            let joined = b
-                .join_compare_filtered_batched(
+            let predicate = |l: &Row, r: &Row| {
+                calls.set(calls.get() + 1);
+                (l.1 - r.1).rem_euclid(3) == 0
+            };
+            let joined = if recompute {
+                b.join_compare_recomputed_batched(
                     left.port(),
                     right.port(),
                     comparison,
                     |r| r.0,
                     |r| r.0,
-                    |l, r| {
-                        calls.set(calls.get() + 1);
-                        (l.1 - r.1).rem_euclid(3) == 0
-                    },
+                    predicate,
                 )
-                .unwrap();
+            } else {
+                b.join_compare_filtered_batched(
+                    left.port(),
+                    right.port(),
+                    comparison,
+                    |r| r.0,
+                    |r| r.0,
+                    predicate,
+                )
+            }
+            .unwrap();
             let dataset = b.dataset(&joined).unwrap();
             b.score("pairs", &joined, |(l, r)| SimpleScore::new(l.1 + r.1))
                 .unwrap();
@@ -89,6 +100,18 @@ fn all_relations_match_scans_and_evaluate_each_affected_final_pair_once() {
                                 usize::from(changed_l.contains(&i) || changed_r.contains(&j));
                             if (a.1 - b.1).rem_euclid(3) == 0 {
                                 expected.insert((i, j), (*a, *b));
+                            }
+                        }
+                    }
+                }
+                if recompute {
+                    for (&i, a) in &l {
+                        for (&j, b) in &r {
+                            if (changed_l.contains(&i) || changed_r.contains(&j))
+                                && relation(comparison, a.0, b.0)
+                                && !expected.contains_key(&(i, j))
+                            {
+                                expected_calls += 1;
                             }
                         }
                     }
@@ -237,21 +260,36 @@ impl Ord for Id {
 }
 #[test]
 fn every_comparison_failure_restores_inputs_and_accepted_ids_without_comparisons() {
+    for recompute in [false, true] {
+        comparison_failures(recompute);
+    }
+}
+fn comparison_failures(recompute: bool) {
     let budget = Rc::new(Cell::new(0));
     let id = |i| Id(i, budget.clone());
     let fresh = || {
         let mut b = StreamGraphBuilder::<SimpleScore>::new();
         let left = b.source::<Id, i32>();
         let right = b.source::<Id, i32>();
-        let joined = b
-            .join_batched(
+        let joined = if recompute {
+            b.join_compare_recomputed_batched(
+                left.port(),
+                right.port(),
+                JoinComparison::Equal,
+                |_| (),
+                |_| (),
+                |l, r| (l + r) % 2 == 0,
+            )
+        } else {
+            b.join_batched(
                 left.port(),
                 right.port(),
                 |_| (),
                 |_| (),
                 |l, r| (l + r) % 2 == 0,
             )
-            .unwrap();
+        }
+        .unwrap();
         let dataset = b.dataset(&joined).unwrap();
         let mut g = b.build();
         let mut batch = StreamBatch::new();
@@ -311,4 +349,120 @@ fn every_comparison_failure_restores_inputs_and_accepted_ids_without_comparisons
         assert_eq!(rows(&g, &dataset), expected);
         g.assert_consistent().unwrap();
     }
+}
+
+#[test]
+fn recomputing_prior_acceptance_can_panic_without_installing_any_join_state() {
+    let fail = Cell::new(false);
+    let calls = Cell::new(0);
+    let mut b = StreamGraphBuilder::<SimpleScore>::new();
+    let left = b.source::<usize, i32>();
+    let right = b.source::<usize, i32>();
+    let joined = b
+        .join_compare_recomputed_batched(
+            left.port(),
+            right.port(),
+            JoinComparison::Equal,
+            |_| (),
+            |_| (),
+            |l, r| {
+                calls.set(calls.get() + 1);
+                assert!(!fail.get() || *l != 1, "prior predicate failure");
+                l == r
+            },
+        )
+        .unwrap();
+    let dataset = b.dataset(&joined).unwrap();
+    b.score("pair", &joined, |_| SimpleScore::new(1)).unwrap();
+    let mut g = b.build();
+    {
+        let mut t = g.transaction();
+        t.apply(&left, TupleChange::put(0, 1)).unwrap();
+        t.apply(&right, TupleChange::put(0, 1)).unwrap();
+        t.commit().unwrap();
+    }
+    let before = g.dataset_rows(&dataset).unwrap().clone();
+    calls.set(0);
+    fail.set(true);
+    let mut t = g.transaction();
+    assert!(catch_unwind(AssertUnwindSafe(|| t.apply(&left, TupleChange::put(0, 2)))).is_err());
+    assert_eq!(calls.get(), 2);
+    drop(t);
+    fail.set(false);
+    assert_eq!(g.dataset_rows(&dataset).unwrap(), &before);
+    assert_eq!(g.score(), SimpleScore::new(1));
+    {
+        let mut t = g.transaction();
+        t.apply(&left, TupleChange::put(0, 2)).unwrap();
+        assert_eq!(t.score().unwrap(), SimpleScore::ZERO);
+        t.assert_consistent().unwrap();
+    }
+    assert_eq!(g.dataset_rows(&dataset).unwrap(), &before);
+    {
+        let mut t = g.transaction();
+        t.apply(&left, TupleChange::put(0, 2)).unwrap();
+        t.commit().unwrap();
+    }
+    assert!(g.dataset_rows(&dataset).unwrap().is_empty());
+    {
+        let mut t = g.transaction();
+        t.apply(&right, TupleChange::put(0, 2)).unwrap();
+        t.commit().unwrap();
+    }
+    assert_eq!(g.dataset_rows(&dataset).unwrap()[&(0, 0)], (2, 2));
+    g.assert_consistent().unwrap();
+}
+#[test]
+fn recomputed_self_join_coalesces_both_sides_and_restores_nested_snapshots() {
+    let p = FiniteProblem::new(vec![
+        Variable::new(vec![0, 1]).with_initial(0),
+        Variable::new(vec![0, 1]).with_initial(1),
+    ])
+    .unwrap();
+    let mut b = StreamGraphBuilder::new();
+    let source = b.source::<usize, (usize, Option<i32>)>();
+    let joined = b
+        .join_compare_recomputed_batched(
+            source.port(),
+            source.port(),
+            JoinComparison::Equal,
+            |_| (),
+            |_| (),
+            |(i, a), (j, b)| i < j && a == b,
+        )
+        .unwrap();
+    b.score("equal", &joined, |_| SimpleScore::new(1)).unwrap();
+    let mut d = StreamScoreDirector::new(&p, b.build(), source, p.initial_assignment()).unwrap();
+    assert_eq!(d.score(), SimpleScore::ZERO);
+    {
+        let mut edits = d.edit_session().unwrap();
+        edits
+            .apply(&Move::Change {
+                variable: 1,
+                value: Some(0),
+            })
+            .unwrap();
+        assert_eq!(edits.score(), SimpleScore::new(1));
+        {
+            let mut nested = edits.nested().unwrap();
+            nested
+                .apply(&Move::Composite(vec![
+                    Move::Change {
+                        variable: 0,
+                        value: Some(1),
+                    },
+                    Move::Change {
+                        variable: 1,
+                        value: Some(1),
+                    },
+                ]))
+                .unwrap();
+            assert_eq!(nested.score(), SimpleScore::new(1));
+            nested.assert_consistent().unwrap();
+        }
+        assert_eq!(edits.assignment().values(), &[Some(0), Some(0)]);
+    }
+    assert_eq!(d.assignment(), &p.initial_assignment());
+    assert_eq!(d.score(), SimpleScore::ZERO);
+    d.assert_consistent().unwrap();
 }

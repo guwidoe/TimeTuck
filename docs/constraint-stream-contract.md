@@ -2048,3 +2048,27 @@ retains its eager/deferred queues, committed pair dataset, retry/discard APIs an
 existing behavior. The batched stream benchmark combines its second indexed join
 and residual conflict filter through graph join_batched; other graph users obtain
 the compact storage through the same existing API.
+
+### Filtered joins without retained pair membership
+
+`join_compare_recomputed_batched` is an opt-in equality/range join retaining input
+rows and indexes only. It emits the same ordered final replacements/retractions
+as the retained-ID filtered join, but determines whether a vanished/rejected pair
+needs retraction from its previous input rows. Final matching pairs run the
+predicate once; a pair with no final accepted output may also run it on its old
+matching rows. Predicates must be pure functions of immutable row contents.
+Existing `join_compare_filtered_batched` and `join_batched` retain their original
+once-per-final-matching-pair callback contract.
+
+This removes the potentially quadratic accepted-ID table from the join. Candidate
+batches, outputs, downstream caches and retained snapshots can still consume
+substantial memory. Only accepted final payloads are cloned. Both old/new predicate
+work completes before join-row installation, so predicate and comparison failures
+retain normal graph rollback. Saved states, nested snapshots, consistency checks,
+activity pruning and self-joins use the existing transaction lifecycle.
+
+The native batched stream comparison adapter now uses this operator for its cheap
+conflict predicate. A paired development measurement showed lower swap CPU time
+with identical assignments/scores/scoring-call counts, while change-move timings
+were mixed. This is a workload-specific tradeoff, not a universal speedup or proof
+of Java performance parity; expensive predicates can favor retained membership.

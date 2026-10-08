@@ -4,12 +4,12 @@ use super::*;
 type PairPredicate<'a, L, R> = dyn Fn(&L, &R) -> bool + 'a;
 struct FilteredIndexedJoin<'a, I, J, L, R, K> {
     join: JoinNode<'a, I, J, L, R, K>,
-    visible: SnapshotMap<(I, J), ()>,
+    visible: Option<SnapshotMap<(I, J), ()>>,
     predicate: Box<PairPredicate<'a, L, R>>,
 }
 struct FilteredCheckpoint {
     join: Box<dyn Any>,
-    visible: Box<dyn Any>,
+    visible: Option<Box<dyn Any>>,
 }
 impl<
     I: Ord + Clone + 'static,
@@ -26,32 +26,47 @@ impl<
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new(FilteredCheckpoint {
             join: self.join.checkpoint(),
-            visible: Box::new(self.visible.clone()),
+            visible: self
+                .visible
+                .as_ref()
+                .map(|m| Box::new(m.clone()) as Box<dyn Any>),
         })
     }
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
         Box::new(FilteredCheckpoint {
             join: self.join.begin_journal_checkpoint(),
-            visible: self.visible.begin_checkpoint(),
+            visible: self.visible.as_mut().map(|m| m.begin_checkpoint()),
         })
     }
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
         let saved = saved
             .downcast::<FilteredCheckpoint>()
             .expect("filtered join checkpoint");
-        self.visible.commit_checkpoint(saved.visible);
+        if let Some(saved) = saved.visible {
+            self.visible
+                .as_mut()
+                .expect("retained membership")
+                .commit_checkpoint(saved);
+        }
         self.join.commit_journal_checkpoint(saved.join);
     }
     fn restore(&mut self, saved: Box<dyn Any>) {
         let saved = saved
             .downcast::<FilteredCheckpoint>()
             .expect("filtered join checkpoint");
-        self.visible.restore_checkpoint(saved.visible);
+        if let Some(saved) = saved.visible {
+            self.visible
+                .as_mut()
+                .expect("retained membership")
+                .restore_checkpoint(saved);
+        }
         self.join.restore_checkpoint(saved.join);
     }
     fn clear(&mut self) {
         self.join.clear();
-        self.visible.clear();
+        if let Some(visible) = &mut self.visible {
+            visible.clear();
+        }
     }
     fn apply(
         &mut self,
@@ -66,28 +81,36 @@ impl<
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
+        let left = inputs
+            .iter()
+            .filter(|(right, _)| !right)
+            .map(|(_, event)| typed::<I, L>(event).clone());
+        let right = inputs
+            .iter()
+            .filter(|(right, _)| *right)
+            .map(|(_, event)| typed::<J, R>(event).clone());
+        let Some(visible) = &mut self.visible else {
+            let changes = self
+                .join
+                .apply_batch_recomputed(left, right, &self.predicate);
+            return Ok(changes
+                .into_iter()
+                .map(|change| Rc::new(change) as Event)
+                .collect());
+        };
         let predicate = &self.predicate;
-        let changes = self.join.apply_batch_projected(
-            inputs
-                .iter()
-                .filter(|(right, _)| !right)
-                .map(|(_, event)| typed::<I, L>(event).clone()),
-            inputs
-                .iter()
-                .filter(|(right, _)| *right)
-                .map(|(_, event)| typed::<J, R>(event).clone()),
-            |left, right| predicate(left, right).then(|| (left.clone(), right.clone())),
-        );
-        // The graph's outer checkpoint covers join installation and this ID set.
-        // Stable accepted IDs need no map replacement; their payload is downstream.
+        let changes = self.join.apply_batch_projected(left, right, |left, right| {
+            predicate(left, right).then(|| (left.clone(), right.clone()))
+        });
+        // Retained mode preserves its once-per-final-pair predicate contract.
         let mut output = Vec::with_capacity(changes.len());
         for change in changes {
             if change.value.is_some() {
-                if !self.visible.contains_key(&change.id) {
-                    self.visible.insert(change.id.clone(), ());
+                if !visible.contains_key(&change.id) {
+                    visible.insert(change.id.clone(), ());
                 }
                 output.push(Rc::new(change) as Event);
-            } else if self.visible.remove(&change.id) {
+            } else if visible.remove(&change.id) {
                 output.push(Rc::new(change) as Event);
             }
         }
@@ -119,11 +142,62 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         right_key: impl Fn(&R) -> K + 'a,
         predicate: impl Fn(&L, &R) -> bool + 'a,
     ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.filtered_indexed_join(
+            left, right, comparison, left_key, right_key, predicate, true,
+        )
+    }
+    /// Batched equality/range join retaining only input rows and their indexes,
+    /// with no accepted-pair table. Persistent join state is linear in input rows;
+    /// output/candidate batches and downstream state may still be quadratic.
+    ///
+    /// Each final matching affected pair evaluates the predicate once. If it is
+    /// rejected or disappears, the predicate may also run on its previously
+    /// matching rows to decide whether to retract. Predicates must be pure and
+    /// depend solely on row contents. This trades repeated predicate work for
+    /// reduced retained state; prefer the retained variant for expensive predicates.
+    /// Accepted replacements, output ordering, transactions, saved candidates and
+    /// activity/consistency rebuilding follow `join_compare_filtered_batched`.
+    pub fn join_compare_recomputed_batched<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+        predicate: impl Fn(&L, &R) -> bool + 'a,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+        self.filtered_indexed_join(
+            left, right, comparison, left_key, right_key, predicate, false,
+        )
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn filtered_indexed_join<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+        predicate: impl Fn(&L, &R) -> bool + 'a,
+        retained: bool,
+    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
         self.validate(left)?;
         self.validate(right)?;
         let out = self.push(FilteredIndexedJoin {
             join: JoinNode::<I, J, L, R, K>::comparing(comparison, left_key, right_key),
-            visible: SnapshotMap::new(),
+            visible: retained.then(SnapshotMap::new),
             predicate: Box::new(predicate),
         });
         self.connect(left.node, out.node, false);

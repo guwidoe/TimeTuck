@@ -140,11 +140,43 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         right: impl IntoIterator<Item = TupleChange<J, R>>,
         mut pair: impl FnMut(&L, &R) -> Option<U>,
     ) -> Vec<TupleChange<(I, J), U>> {
+        self.apply_batch_with_previous::<false, U>(left, right, &mut pair, |_, _| false)
+    }
+    // Re-evaluate prior acceptance only when the final pair emits no payload.
+    // All callbacks finish before installation, preserving standalone atomicity.
+    pub(crate) fn apply_batch_recomputed(
+        &mut self,
+        left: impl IntoIterator<Item = TupleChange<I, L>>,
+        right: impl IntoIterator<Item = TupleChange<J, R>>,
+        predicate: &dyn Fn(&L, &R) -> bool,
+    ) -> JoinChanges<I, J, L, R> {
+        self.apply_batch_with_previous::<true, _>(
+            left,
+            right,
+            |l, r| predicate(l, r).then(|| (l.clone(), r.clone())),
+            predicate,
+        )
+    }
+    fn prior_matches(&self, i: &I, j: &J, predicate: &mut impl FnMut(&L, &R) -> bool) -> bool {
+        self.left
+            .rows
+            .get(i)
+            .zip(self.right.rows.get(j))
+            .filter(|((lk, _), (rk, _))| self.comparison.matches(lk, rk))
+            .is_some_and(|((_, l), (_, r))| predicate(l, r))
+    }
+    fn apply_batch_with_previous<const RECOMPUTE: bool, U>(
+        &mut self,
+        left: impl IntoIterator<Item = TupleChange<I, L>>,
+        right: impl IntoIterator<Item = TupleChange<J, R>>,
+        mut pair: impl FnMut(&L, &R) -> Option<U>,
+        mut previous: impl FnMut(&L, &R) -> bool,
+    ) -> Vec<TupleChange<(I, J), U>> {
         healthy(self.is_poisoned());
         let mut left = project(last_updates(left), &self.left_key);
         let mut right = project(last_updates(right), &self.right_key);
         if unchanged(&self.left, &left) && unchanged(&self.right, &right) {
-            return self.replace_payloads(left, right, &mut pair);
+            return self.replace_payloads::<RECOMPUTE, U>(left, right, &mut pair, &mut previous);
         }
         let mut next_left = self.left.clone();
         let mut next_right = self.right.clone();
@@ -183,7 +215,9 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
                 .zip(next_right.rows.get(&j))
                 .filter(|((lk, _), (rk, _))| self.comparison.matches(lk, rk))
                 .and_then(|((_, l), (_, r))| pair(l, r));
-            out.push(TupleChange { id: (i, j), value });
+            if value.is_some() || !RECOMPUTE || self.prior_matches(&i, &j, &mut previous) {
+                out.push(TupleChange { id: (i, j), value });
+            }
         }
         self.left.rows.install_snapshot(next_left.rows);
         self.left.index = next_left.index;
@@ -195,11 +229,12 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     }
     // Every changed row exists and retains its key, so old membership is final
     // membership. Prepare all output/callback work before mutating row payloads.
-    fn replace_payloads<U>(
+    fn replace_payloads<const RECOMPUTE: bool, U>(
         &mut self,
         left: PreparedChanges<I, K, L>,
         right: PreparedChanges<J, K, R>,
         pair: &mut impl FnMut(&L, &R) -> Option<U>,
+        previous: &mut impl FnMut(&L, &R) -> bool,
     ) -> Vec<TupleChange<(I, J), U>> {
         let mut candidates = Vec::new();
         affected(
@@ -228,7 +263,9 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
                 final_payload(&self.left, &left, &i),
                 final_payload(&self.right, &right, &j),
             );
-            output.push(TupleChange { id: (i, j), value });
+            if value.is_some() || !RECOMPUTE || self.prior_matches(&i, &j, previous) {
+                output.push(TupleChange { id: (i, j), value });
+            }
         }
         // These nested guards also protect standalone joins against comparison
         // panics during final installation. Graph trials retain an outer journal.

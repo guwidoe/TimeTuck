@@ -19679,3 +19679,59 @@ Final gate37577 and live evidence75382 TERMINAL0. Prebuild31.50s. Source/tests/
 provenance frozen through gate; final staged review complete. All task handles
 terminal. Existing benchmark measurements retain dates/freshness. No next-batch
 source edits; goal active/incomplete. Reuse this verification on unchanged inputs.
+
+## Recomputed filtered joins: remove accepted-pair storage
+
+Baseline3b19537. Add opt-in join_compare_recomputed_batched: final accepted pairs
+emit replacements; rejected/vanished pairs consult old matching rows to decide
+retraction. No accepted-ID table. Input rows/indexes remain; batches/downstream
+state may still be quadratic. Pure predicates can run again on old rows. Retained
+join_batched/join_compare_filtered_batched preserve their callback contract.
+Both modes share prepared atomic join processing; callbacks finish before row
+installation. Benchmark's batched conflict predicate now uses recomputed mode.
+
+Focus/release85726 TERMINAL0:18 focused tests passed, release57.27s. Random rounds
+compare both modes over all5relations with/without activity pruning and expected
+callback counts. Added prior-predicate panic and nested self-join snapshot checks;
+expanded all-comparison-failure rollback to both modes before final gate. Native
+only; no upstream credits/provenance changes. Full gate41510 runs frozen state.
+
+Native73074 TERMINAL0: work/recomputed-join-native-performance.json and comparison.log.
+Before binary work/grouped-membership-before is the verified e71ae24 archive, SHA
+863e38137b8e050bf3c733820251f5a553befef415d8ab2a5a801a991dc71f0e. Relevant graph/join/
+benchmark sources unchanged between e71ae24 and pre-batch3b19537; later commits
+added independent schema APIs. After binary work/recomputed-join-after built from
+this batch, SHA recorded in JSON. Two alternating process pairs,20steps,1warmup,
+3samples each,size32/96; exact native assignments/scores/scoring-call counts match.
+CPU median before/after ms (whole process including warmups and both sizes):
+hill/change853.3515/896.086,tabu/change689.1955/744.2575,
+hill/swap13356.9055/8850.865 (-33.73%),tabu/swap12300.3155/10500.471 (-14.63%).
+96-variable elapsed hill swaps2923.6254/2015.9155ms,tabu2802.3647/2025.3778ms.
+Both swap pairs improve; change timings mixed/no reliable general win. Shared-host
+variance still limits generalization. Retain as an explicit memory/CPU tradeoff,
+not universal speedup. Current existing Java report remains stale until refreshed.
+
+Required recomputed-join gate TERMINAL0. 5206 Rust tests and 245 doctests passed.
+Rust jobs: {'RUN': 668, 'REUSE': 34}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3040, 'failed': 0, 'pending': 1533, 'excluded': 282, 'unverified': 0, 'percent': 62.616}.
+Source before/after matched: bbd75891c270454b2da93c7521bc1705f0960c1d67a8a3c6732a8b2610c5cd97
+Live freshness matched verification digest: 5d65cfddf051566b4b0ae9ccec9d2fafdc2115e7004406a8af9d2653ae5337a1.
+Prior ledger records unchanged; No provenance changes or upstream method credits.
+Log work/recomputed-join-final-check.log; evidence work/recomputed-join-evidence.json.
+Only the stream performance comparison is refreshed; unrelated measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Full prebuild/check41510 TERMINAL0; prebuild14m14s, clippy35.13s.
+Matched Java31083 TERMINAL0:128 valid,128 equal-score cases. Same20-step,
+1warmup,3sample,2fork configuration as prior comparison. Measurement date 2026-10-08T23:14:59.139660+00:00
+Measurement input digest a3f4e642d0c533e434996ac40e4fbffe43cd0fe6def8b2c696b8dc1aba3cb9df.
+Large hill swaps: Rust2367.542/Java324.018ms (7.31x slower).
+Large tabu swaps: Rust1964.042/Java280.448ms (7.00x slower).
+Still no Java performance parity. Native paired gains compare archived Rust
+executables; separate Java/Rust runs must not be used as before/after evidence.
+Only stream measurements refreshed; unrelated evidence keeps dates/freshness.
+
+Report/live evidence11968 TERMINAL0; stream-performance is current, generated
+2026-10-08T23:14:59.139660+00:00. All task handles terminal. Final source and staged
+diff reviewed; no source changes after the gate. Goal remains active/incomplete.
+Reuse successful verification and measurements for unchanged inputs. No next-batch
+source edits or browser rerun.
