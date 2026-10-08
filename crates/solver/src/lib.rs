@@ -1096,3 +1096,8 @@ pub use list_declarative_manager::{
 
 mod shadow_calculator;
 pub use shadow_calculator::ShadowCalculator;
+
+mod referenced_shadow_entities;
+pub use referenced_shadow_entities::{
+    missing_referenced_shadow_entities, validate_referenced_shadow_entities,
+};

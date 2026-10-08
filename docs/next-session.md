@@ -16710,3 +16710,39 @@ referenced-entities source case. Direct case test terminal0 after changing Any
 object alias comparison to ptr::addr_eq (vtable addresses may differ across
 codegen units even for the same object). No crate/provenance edits for that draft
 yet. Native regressions and integration remain to do; do not count draft credit.
+
+## Transitive missing-entity preflight
+
+Added referenced_shadow_entities module: missing_referenced_shadow_entities and
+validate_referenced_shadow_entities walk compiled declarative references breadth
+first, including omitted owners. Hash sets deduplicate field pairs and cycles;
+identity is concrete type/key, distinct objects with equal identities rejected.
+Compare Any object addresses with ptr::addr_eq, not vtable-bearing ptr::eq.
+All paths must belong to one schema. Builtin/fact references do not count as
+missing declarative owners. Session field registration remains a separate check.
+Manager preflight composes this with strict or tolerant policies before callbacks.
+One complete SolutionManager missing-referenced-entities source case +2fixture
+records added. Six test-only process-lifetime objects preserve cyclic borrowed
+fixture links; no production allocation/leak. Typed errors preserve all three
+required relationships; no Java message/annotation/static API parity claimed.
+Draft direct rustc combined run terminal0:1source+3native tests covering transitive
+order, dedup/types, identity/schema failures, initialized/uninitialized manager
+preservation and recovery across all update policies. Installed files match draft;
+no repeated focused run. Final Rust inputs frozen after formatting below.
+
+Required referenced-shadow gate TERMINAL0. 4797 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 622}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2872, 'failed': 0, 'pending': 1701, 'excluded': 282, 'unverified': 0, 'percent': 59.156}.
+Source before/after matched: ac9563d0617a94dad207b414e92cc9d22cf5f85e3f548abc2715810f0892c7c1
+Live freshness matched verification digest: e116b337d2000aa79df355520cca449cd2d8869c9c11777ddc1c1bd407da74d9.
+Existing provenance prefixes unchanged; appended1case and2fixtures.
+Log work/referenced-shadow-final-check.log; evidence work/referenced-shadow-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual final gate45281 and evidence62466 terminal0; no warm helper needed.
+Next complete source case is drafted/tested but NOT APPLIED:
+work/list-owner-draft/list_owner_solution_cases.rs and apply.py. Direct rustc
+terminal0, preserving crossed concurrent fixture and exact b1/e1/e2 wrong-owner
+identities under ScoreOnly; existing shared concurrent fixture is unchanged.
+Apply once after this commit, preferably with related implementation work, then
+run final gate. Only1case/no new fixture records. It is the remaining method in
+SolutionManagerTest; do not claim draft compatibility before integration.

@@ -4360,3 +4360,12 @@ after the same registrations. Adding nodes invalidates the builder cache for
 future bindings only. Original tests verify linear key-copy count for a fixed
 registered graph and retention of earlier bindings' node boundary; no wall-clock
 performance or upstream method credit is claimed for this memory improvement.
+
+Transitive entity preflight follows compiled declarative source paths even through
+entities omitted from the supplied set. It reports owned field relationships,
+deduplicates paths, terminates cycles and rejects ambiguous identities or mixed
+schemas. It composes with solution-manager preflight before any refresh callback;
+session field registration is still checked independently. One complete upstream
+missing-referenced-entities case preserves the four-visit/two-owner graph and all
+three required diagnostic relationships. Native typed errors replace Java text;
+no static Java API or annotation lifecycle parity is claimed.
