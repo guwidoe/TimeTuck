@@ -15,6 +15,13 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/benchmark_ranking_cases.rs` adapts all eight
+  `TotalRankSolverRankingWeightFactoryTest` methods and both individual-result
+  comparator methods from the Community benchmark tool. Score and shared-problem
+  setup adapts `AbstractSolverRankingComparatorTest`. Native snapshots are rebuilt
+  after score/group updates instead of retaining live Java weight objects.
+  Complete source identities and modifications are in `compat/provenance.json`.
+
 - `crates/solver/tests/benchmark_results_cases.rs` adapts all methods from
   `TotalScoreSolverRankingComparatorTest`, `WorstScoreSolverRankingComparatorTest`,
   `ResilientScoreComparatorTest`, and `ScoreDifferencePercentageTest` in the

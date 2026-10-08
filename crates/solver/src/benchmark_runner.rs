@@ -131,6 +131,31 @@ impl<S, E> BenchmarkRunReport<S, E> {
     }
 }
 impl<S: Score, E> BenchmarkRunReport<S, E> {
+    /// Rank complete measured runs, matching both problem and repetition.
+    /// Warm-ups never contribute; inspect is_successful for warm-up failures.
+    pub fn standings(
+        &self,
+    ) -> Result<Vec<crate::BenchmarkStanding>, crate::BenchmarkStandingError> {
+        if !self.is_complete() {
+            return Err(crate::BenchmarkStandingError::IncompleteRun);
+        }
+        let entries = self
+            .trials
+            .iter()
+            .filter(|t| !t.trial.warmup)
+            .map(|t| {
+                Ok(crate::BenchmarkComparison {
+                    configuration: t.trial.configuration,
+                    problem: (t.trial.problem, t.trial.repetition),
+                    outcome: match &t.result {
+                        Ok(value) => BenchmarkOutcome::success(&value.score, value.initialized)?,
+                        Err(_) => BenchmarkOutcome::Failure,
+                    },
+                })
+            })
+            .collect::<Result<Vec<_>, BenchmarkResultError>>()?;
+        crate::rank_benchmarks(self.configurations, &entries)
+    }
     /// Aggregate measured outcomes for one configuration. A cancelled report may
     /// contain different run counts; compare summaries only after checking completeness.
     /// Warm-up failures are retained in trials/is_successful, never score rankings.

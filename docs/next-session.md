@@ -16443,3 +16443,41 @@ Live freshness matched verification digest: f05c36d0ea3966b17cd5c6e77183a2794881
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/benchmark-runner-final-check.log; evidence work/benchmark-runner-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Relative benchmark standings
+
+New benchmark_ranking module ranks matched problem-key outcomes by wins/ties/losses
+then exact total-summary tie-breaker. Equal-score bands and per-config prefix
+counts avoid enumerating pairs; stable one-based competition ranks, explicit
+unknown-config errors, empty/disjoint/missing/repeated-key behavior documented.
+BenchmarkOutcome.compare exposes failure/completeness/exact score order.
+BenchmarkRunReport.standings requires a complete schedule and pairs problem plus
+repetition, excluding warmups. Raw repeated keys compare all cross-config pairs.
+Full TEST-ONLY TotalRankSolverRankingWeightFactoryTest and both individual result
+comparator tests read; +10complete methods/+1shared setup fixture adapted with
+all scores, initialization changes, grouping changes and assertions retained.
+Recompute owned weights after edits instead of live Java weight object references.
+No production/Enterprise reads; helper's unasserted speed/report metadata omitted.
+Focused80864 TERMINAL0:10source+4native. Native cases compare prefix counts with
+independent pair enumeration, differing problem score scales, ties/empty/errors,
+runner cancellation and paired repetitions, and20,000tied rows (100million ties
+per config without pair enumeration). Replaced two modulo predicates with
+is_multiple_of before gate, no behavior change. Initial gate1214 reached all Rust
+targets, but a Rustdoc complexity-bound correction during library checking changed
+its inputs; library result correctly not cached, report rejected stale source.
+No runtime assertion failure. Log work/benchmark-ranking-superseded-check.log.
+Corrected gate99137 LIVE on frozen inputs, log work/benchmark-ranking-final-check.log;
+no warm-up needed. Prepared work/record_benchmark_ranking_evidence.py references
+99137 and expects10cases/1fixture vs9750962; run after terminal0. Unaffected target
+results from first gate are reusable. No repeat of unchanged focused checks.
+Last completed dashboard2854/4855=58.785%,4753Rust233docs;10new methods pending
+successful full-gate evidence. No benchmark/release/browser reruns; goal active.
+
+Required gate99137 TERMINAL0. 4767 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 1, 'REUSE': 613}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2864, 'failed': 0, 'pending': 1709, 'excluded': 282, 'unverified': 0, 'percent': 58.991}.
+Source before/after matched: 1409d0468e0743428593ac965c812073be63bf2afd51b4f5b7c1fb0c08cde0c3
+Live freshness matched verification digest: da4014b98b0c08583507a42f9d7d7fb711cc385e1d6afeca1ac0968dde966107.
+Existing provenance prefixes unchanged; appended10cases and1fixtures.
+Log work/benchmark-ranking-final-check.log; evidence work/benchmark-ranking-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

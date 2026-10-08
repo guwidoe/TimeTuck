@@ -1079,3 +1079,8 @@ pub use benchmark_runner::{
     BenchmarkObservation, BenchmarkRunReport, BenchmarkSchedule, BenchmarkScheduleError,
     BenchmarkTiming, BenchmarkTrial, BenchmarkTrialResult,
 };
+
+mod benchmark_ranking;
+pub use benchmark_ranking::{
+    BenchmarkComparison, BenchmarkStanding, BenchmarkStandingError, rank_benchmarks,
+};

@@ -4289,3 +4289,21 @@ measurement boundaries, repeatability, errors, cancellation, validation, and rea
 solver outcomes. The benchmark_configs example demonstrates three search budgets
 on two problems. This native harness adds no upstream method credit and does not
 claim Java benchmark/report timing or a measured Timefold speed comparison.
+
+Relative benchmark standings now compare outcomes only within matching problem
+keys, excluding comparisons inside one configuration. Equal-score bands and
+per-configuration prefix counts compute wins/ties/losses without enumerating all
+pairs. Quality order is wins, ties, fewer losses, then the existing exact summary
+tie-breaker. Display ranks are one-based competition ranks and ties retain config
+order. Repeated keys compare all cross-configuration pairs; missing keys add no
+synthetic losses. Disjoint sets expose zero comparisons and use the numeric
+summary fallback, which is not a matched performance comparison. Runner standings
+require a complete schedule and match both problem and repetition, excluding warm-ups.
+Ten complete upstream methods now have adaptations: all eight TotalRankSolverRankingWeightFactoryTest
+methods and ScoreSubSingleBenchmarkRankingComparatorTest.compareTo plus
+TotalScoreSingleBenchmarkRankingComparatorTest.compareTo. All score values,
+initialization updates, group relations and assertions are preserved. Native
+snapshot reconstruction replaces live Java ranking-weight references. Four original
+checks cover an independent quadratic oracle, differing score scales, ties/invalid
+configurations, runner integration/cancellation, and a 20,000-row tie group with
+100 million comparisons per configuration. No statistical significance claim.

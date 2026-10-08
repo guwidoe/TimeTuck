@@ -153,6 +153,26 @@ pub enum BenchmarkOutcome {
     Failure,
 }
 impl BenchmarkOutcome {
+    /// Compare one result: success before failure, completeness before score.
+    pub fn compare(&self, other: &Self) -> Ordering {
+        match (self, other) {
+            (Self::Failure, Self::Failure) => Ordering::Equal,
+            (Self::Failure, _) => Ordering::Less,
+            (_, Self::Failure) => Ordering::Greater,
+            (
+                Self::Success {
+                    score: a,
+                    initialized: ai,
+                },
+                Self::Success {
+                    score: b,
+                    initialized: bi,
+                },
+            ) => (*ai && a.structural >= 0)
+                .cmp(&(*bi && b.structural >= 0))
+                .then_with(|| a.cmp(b)),
+        }
+    }
     pub fn success<S: Score>(score: &S, initialized: bool) -> Result<Self, BenchmarkResultError> {
         Ok(Self::Success {
             score: BenchmarkScore::from_score(score)?,
