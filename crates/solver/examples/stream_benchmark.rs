@@ -16,12 +16,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if !(5..=7).contains(&args.len()) {
         return Err(
-            "expected hill|tabu steps warmup samples [change|swap] [batched|immediate]".into(),
+            "expected hill|tabu steps warmup samples [change|swap|swap-directed] [batched|immediate]".into(),
         );
     }
     let neighborhood = match args.get(5).map(String::as_str).unwrap_or("change") {
         "change" => Neighborhood::Change,
-        "swap" => Neighborhood::Swap,
+        "swap" => Neighborhood::UniqueSwap,
+        "swap-directed" => Neighborhood::Swap,
         _ => return Err("unknown neighborhood".into()),
     };
     let batched = match args.get(6).map(String::as_str).unwrap_or("batched") {
@@ -115,7 +116,7 @@ fn evaluation_budget(
         .filter(|v| !v.is_pinned())
         .map(|v| (v.domain().len() - 1) as u64)
         .sum();
-    let candidates = if neighborhood == Neighborhood::Swap {
+    let candidates = if matches!(neighborhood, Neighborhood::Swap | Neighborhood::UniqueSwap) {
         let movable = case
             .problem
             .variables()
@@ -125,6 +126,11 @@ fn evaluation_budget(
         movable
             .checked_mul(movable.saturating_sub(1))
             .ok_or("candidate count overflow")?
+            / if neighborhood == Neighborhood::UniqueSwap {
+                2
+            } else {
+                1
+            }
     } else {
         changes
     };
@@ -141,25 +147,27 @@ mod tests {
     #[test]
     fn swap_budget_allows_every_requested_step() {
         let case = solver_support::Case::parse("budget\t2\t0,1\t00\t\t0,0,0,0", true).unwrap();
-        let network = stream_support::build_with_batching(&case, true).unwrap();
-        let result = stream_local_search(
-            &case.problem,
-            network.graph,
-            network.source,
-            LocalSearchConfig {
-                acceptance: Acceptance::HillClimbing,
-                neighborhood: Neighborhood::Swap,
-                max_steps: 4,
-                max_evaluations: evaluation_budget(&case, Neighborhood::Swap, 4).unwrap(),
-                max_accepted_moves: u64::MAX,
-                selection: MoveSelection::BestAccepted,
-                ..LocalSearchConfig::default()
-            },
-        )
-        .unwrap();
-        assert_eq!(result.termination, LocalSearchTermination::StepLimit);
-        assert_eq!(result.completed_steps, 4);
-        // Native swap iteration emits both (a,b) and (b,a), plus initialization.
-        assert_eq!(result.evaluations, 9);
+        for (neighborhood, evaluations) in [(Neighborhood::Swap, 9), (Neighborhood::UniqueSwap, 5)]
+        {
+            let network = stream_support::build_with_batching(&case, true).unwrap();
+            let result = stream_local_search(
+                &case.problem,
+                network.graph,
+                network.source,
+                LocalSearchConfig {
+                    acceptance: Acceptance::HillClimbing,
+                    neighborhood,
+                    max_steps: 4,
+                    max_evaluations: evaluation_budget(&case, neighborhood, 4).unwrap(),
+                    max_accepted_moves: u64::MAX,
+                    selection: MoveSelection::BestAccepted,
+                    ..LocalSearchConfig::default()
+                },
+            )
+            .unwrap();
+            assert_eq!(result.termination, LocalSearchTermination::StepLimit);
+            assert_eq!(result.completed_steps, 4);
+            assert_eq!(result.evaluations, evaluations);
+        }
     }
 }

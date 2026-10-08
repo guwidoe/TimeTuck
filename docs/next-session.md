@@ -17382,3 +17382,66 @@ are terminal; dashboard server remains live. Required final gate reused642Rust
 jobs and46Pythonjobs, ran one changed Rust example;4854Rust tests/241doctests pass.
 No source-method credit added. Goal remains active; unique swap selection is the
 next concrete implementation opportunity, followed by measured batching overhead.
+
+## Unique swap search integration
+
+Added Neighborhood::UniqueSwap and ChangeAndUniqueSwap, plus unique_swap_moves and
+list_unique_swap_moves. A shared lazy iterator retains only later encounter-order
+positions, so it does not construct reverse candidates or allocate a visited-pair
+set. Existing directed APIs keep their sequences. Pins/ranges/null transfers and
+optional list replacement semantics are preserved. Configured basic value orders
+also support the combined family. Mixed components, weighted neighborhood unions,
+and all nine network/stream/calculator model combinations use the same routing.
+Existing EntitySwapProvider already has unordered multi-column row selection;
+this adds lightweight ordinary single-slot/list-position search integration.
+
+Four original regressions cover pin/range/optional legality, reordered selections,
+combined change prefixes, value ordering, empty/singleton/pinned neighborhoods,
+and all nine backends both directly and through unions. On three-step two-item
+models, basic/list candidate evaluations drop from6 to3, and mixed joint candidate
+evaluations drop from24 to9, with identical best scores and active score assertions.
+Focused57112 TERMINAL0 (first3tests+benchmark example); final-focused28867 result
+is in work/unique-swaps-final-focused.log. Stream adapter selects unique swaps by
+default, retains swap-directed for controlled measurements, and tests both budgets.
+No upstream test translated or additional provenance credit. Full gate follows;
+source files must remain frozen while it runs. Current baseline de755b9.
+
+Final-focused28867 TERMINAL0 (four regressions). Full gate85105 TERMINAL0:
+4858Rust tests/241doctests,575Rust jobs run and69reused;45Python jobs reused and1run.
+Warm40918 TERMINAL0 in5m55s. Source before/after matched; no live verification
+workers remain. Stream measurement19026 is running with the same50steps,
+1warmup,3samples,2forks as the preceding directed run. Historical comparison saved
+as work/stream-performance-directed-de755b9.json before refreshing; do not relabel it.
+A small unapplied/untested draft, work/batched-join-transient-candidates.patch,
+replaces only the temporary join candidate SnapshotMap with a BTreeSet. It leaves
+persistent state unchanged. This is a later investigation, with no speed claim;
+it was not applied to this batch or included in its verification evidence.
+
+Required unique-swaps gate TERMINAL0. 4858 Rust tests and 241 doctests passed.
+Rust jobs: {'RUN': 575, 'REUSE': 69}; Python jobs: {'REUSE': 45, 'RUN': 1}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: 0fb1392797c0f70d689f2f8aed1a076fef06c7db9b794456926d38033ee8d83d
+Live freshness matched verification digest: aa64b1d6e0c5998b58162e6d40376a6324d83b606d457ebc5dc4f468e048599d.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/unique-swaps-final-check.log; evidence work/unique-swaps-evidence.json.
+Only stream performance refreshed; unrelated measurements retained. No browser rerun for this report-only refresh. Goal remains active.
+
+Unique-swap measurement19026 and report/evidence14769 TERMINAL0. Same 50-step,
+1-warmup, 3-sample, 2-process settings as the preceding directed run. All 128 small
+cases match Java scores; both runtimes reach 115 independent optima. All 8 timed
+workloads also match Java scores. Dashboard stream status is current and records
+rust_swap_pairs=unique; live freshness matches the final verification digest.
+Swap medians, preceding directed -> unique (milliseconds):
+- Hill/32: 1816.959 -> 858.300; Java 97.497 in the fresh run.
+- Hill/96: 18095.507 -> 9169.942; Java 426.508.
+- Tabu/32: 1727.079 -> 853.138; Java 82.690.
+- Tabu/96: 18689.719 -> 9127.457; Java 425.580.
+Observed improvement is 1.97–2.12x on these swap workloads; limited warmup/samples
+remain a caveat. Terminal callbacks approximately halve: hill/32 207036 -> 103528,
+96-variable cases 1916249 -> 958163. Java remains substantially faster. Unrelated
+measurements were not refreshed, no frontend changes or browser rerun. No new
+upstream-method credit; original-suite result remains 2883/4855 (59.382%).
+All verification and measurement handles are terminal; dashboard server stays live.
+Goal remains active. Next optional batching-overhead patch is still unapplied and
+unverified in work/batched-join-transient-candidates.patch; do not reuse these
+verification or timing results after applying it.

@@ -4510,6 +4510,22 @@ workloads use seeded balanced colors, so the planted zero-score optimum remains
 reachable. These original benchmark cases add no upstream-method credit.
 The native `Neighborhood::Swap` currently enumerates both directed orders of each
 pair. The pinned `SwapMoveSelectorTest.originalLeftEqualsRight` specifies one
-unordered pair per same-selector pass. Timings therefore compare the current
-engines under equal step limits, not identical candidate counts. Avoiding native
-reverse duplicates is pending; do not infer pure propagation cost from these runs.
+unordered pair per same-selector pass. The initial directed-mode timings compare
+engines under equal step limits, not identical candidate counts. The unique mode
+below removes reverse pairs; do not infer pure propagation cost from solve timings.
+
+`UniqueSwap` and `ChangeAndUniqueSwap` now provide lazy first-orientation pair
+selection for basic variables and assigned list positions, including mixed models
+and neighborhood unions. They retain pins, mutual ranges, selected variable order,
+change-value ordering, and optional list replacements. Existing `Swap` and
+`ChangeAndSwap` retain directed pairs. This complements the existing unordered
+entity-row provider without building row schemas for ordinary single-slot swaps.
+Removing reverse duplicates changes finite-budget and sampling behavior; the new
+modes are explicit opt-ins. Four native regressions cover enumeration and all nine
+model/scoring combinations with score assertions. They add no upstream-method
+credit. Stream benchmark `swap` now uses unique pairs; `swap-directed` preserves
+the prior adapter mode. A fresh comparison validates 128 generated cases and all 8
+timed workloads with matching Java/Rust scores. Observed swap solve times are
+roughly half those in the preceding directed run under the same step/warmup/sample
+settings; Java remains faster. These limited-sample development measurements are
+not a general speed guarantee or additional upstream-method credit.

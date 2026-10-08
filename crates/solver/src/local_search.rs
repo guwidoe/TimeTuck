@@ -151,7 +151,13 @@ pub enum Neighborhood {
     Change,
     /// Only swaps; useful as an independently weighted union child.
     Swap,
+    /// Visit each eligible basic/list pair once in encounter order. Optional list
+    /// replacements remain available. Useful with deterministic best selection;
+    /// removing reverse duplicates changes sampling weights and finite budgets.
+    UniqueSwap,
     ChangeAndSwap,
+    /// Changes followed by unique swaps (including optional list replacements).
+    ChangeAndUniqueSwap,
     /// Move whole equal-value groups of unpinned basic slots. Lists retain
     /// ordinary changes and optional swaps; mixed joint moves use both sets.
     Pillar {

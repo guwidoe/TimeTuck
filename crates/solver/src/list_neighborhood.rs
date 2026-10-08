@@ -88,35 +88,46 @@ pub(crate) fn swaps<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     a: &'a ListAssignment<V>,
     order: I,
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
-    positions(p, a, order.clone()).flat_map(move |left| {
-        let assigned = positions(p, a, order.clone())
-            .filter(move |&right| {
-                right != left
-                    && p.accepts(left.entity, &a.lists()[right.entity][right.index])
-                    && p.accepts(right.entity, &a.lists()[left.entity][left.index])
-            })
-            .map(move |right| ListMove::Swap { left, right });
-        let unassigned = p
-            .allows_unassigned()
-            .then(|| p.values().iter())
-            .into_iter()
-            .flatten()
-            .filter(move |v| a.location(v).is_none() && p.accepts(left.entity, v))
-            .map(move |value| {
-                ListMove::Composite(vec![
-                    ListMove::Unassign {
-                        entity: left.entity,
-                        start: left.index,
-                        end: left.index + 1,
-                    },
-                    ListMove::Assign {
-                        value: value.clone(),
-                        destination: left,
-                    },
-                ])
-            });
-        assigned.chain(unassigned)
-    })
+    swap_pairs(p, a, order, false)
+}
+fn swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    order: I,
+    unique: bool,
+) -> impl Iterator<Item = ListMove<V>> + 'a {
+    positions(p, a, order.clone())
+        .enumerate()
+        .flat_map(move |(offset, left)| {
+            let assigned = positions(p, a, order.clone())
+                .skip(if unique { offset + 1 } else { 0 })
+                .filter(move |&right| {
+                    right != left
+                        && p.accepts(left.entity, &a.lists()[right.entity][right.index])
+                        && p.accepts(right.entity, &a.lists()[left.entity][left.index])
+                })
+                .map(move |right| ListMove::Swap { left, right });
+            let unassigned = p
+                .allows_unassigned()
+                .then(|| p.values().iter())
+                .into_iter()
+                .flatten()
+                .filter(move |v| a.location(v).is_none() && p.accepts(left.entity, v))
+                .map(move |value| {
+                    ListMove::Composite(vec![
+                        ListMove::Unassign {
+                            entity: left.entity,
+                            start: left.index,
+                            end: left.index + 1,
+                        },
+                        ListMove::Assign {
+                            value: value.clone(),
+                            destination: left,
+                        },
+                    ])
+                });
+            assigned.chain(unassigned)
+        })
 }
 /// Assign each currently unassigned value at every unpinned insertion position.
 /// Valid for required partial construction and optional complete assignments.
@@ -152,6 +163,16 @@ pub fn list_swap_moves<'a, V: Eq + Clone>(
     p.validate(a)?;
     Ok(swaps(p, a, 0..p.entities().len()))
 }
+/// Visit each eligible assigned-position pair once, retaining its first
+/// orientation. Optional replacements remain once per source/value combination.
+/// Enumeration is lazy and does not retain a set of visited pairs.
+pub fn list_unique_swap_moves<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
+    p.validate(a)?;
+    Ok(swap_pairs(p, a, 0..p.entities().len(), true))
+}
 /// Enumerate the selected neighborhood. Gather yields bounded selected groups;
 /// MassListChange uses assigned-only groups with explicit size/null policy;
 /// TwoOpt yields only reversals/tail swaps. Other modes include relocations and
@@ -184,8 +205,13 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
         }
         _ => {}
     }
-    if neighborhood == Neighborhood::Swap {
-        return Box::new(swaps(p, a, order));
+    if matches!(neighborhood, Neighborhood::Swap | Neighborhood::UniqueSwap) {
+        return Box::new(swap_pairs(
+            p,
+            a,
+            order,
+            neighborhood == Neighborhood::UniqueSwap,
+        ));
     }
     // Keep the selected family behind one pointer. Nested mixed products must
     // not carry every possible iterator's state on the caller's stack.
@@ -231,7 +257,14 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     let removed = unassigns(p, a, order.clone());
     let swapped = neighborhood
         .includes_swaps()
-        .then(|| swaps(p, a, order.clone()))
+        .then(|| {
+            swap_pairs(
+                p,
+                a,
+                order.clone(),
+                neighborhood == Neighborhood::ChangeAndUniqueSwap,
+            )
+        })
         .into_iter()
         .flatten();
     let max_length = match neighborhood {

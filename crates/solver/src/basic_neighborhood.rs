@@ -77,6 +77,7 @@ impl BasicNeighborhood<'_> {
                 self.neighborhood,
                 Neighborhood::Change
                     | Neighborhood::ChangeAndSwap
+                    | Neighborhood::ChangeAndUniqueSwap
                     | Neighborhood::Assign
                     | Neighborhood::Unassign
                     | Neighborhood::Pillar { .. }

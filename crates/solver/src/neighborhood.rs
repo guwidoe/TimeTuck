@@ -59,18 +59,43 @@ pub fn swap_moves<'a, V: Eq + Clone>(
         0..problem.variables().len(),
     ))
 }
+/// Enumerate each eligible unordered pair once, in variable encounter order.
+/// Pins, mutual ranges and optional values follow `swap_moves`. The first
+/// orientation is retained; no set of previously emitted pairs is allocated.
+pub fn unique_swap_moves<'a, V: Eq + Clone>(
+    problem: &'a FiniteProblem<V>,
+    assignment: &'a Assignment<V>,
+) -> Result<impl Iterator<Item = Move<V>> + 'a, ModelError> {
+    problem.validate(assignment)?;
+    Ok(swap_pairs(
+        problem,
+        assignment,
+        0..problem.variables().len(),
+        true,
+    ))
+}
 pub(crate) fn swap_moves_ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     problem: &'a FiniteProblem<V>,
     assignment: &'a Assignment<V>,
     order: I,
 ) -> impl Iterator<Item = Move<V>> + 'a {
+    swap_pairs(problem, assignment, order, false)
+}
+fn swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    problem: &'a FiniteProblem<V>,
+    assignment: &'a Assignment<V>,
+    order: I,
+    unique: bool,
+) -> impl Iterator<Item = Move<V>> + 'a {
     let inner = order.clone();
     order
-        .map(move |i| (i, &problem.variables()[i]))
-        .filter(|(_, v)| !v.is_pinned())
-        .flat_map(move |(i, a)| {
+        .enumerate()
+        .map(move |(offset, i)| (offset, i, &problem.variables()[i]))
+        .filter(|(_, _, v)| !v.is_pinned())
+        .flat_map(move |(offset, i, a)| {
             inner
                 .clone()
+                .skip(if unique { offset + 1 } else { 0 })
                 .map(move |j| (j, &problem.variables()[j]))
                 .filter_map(move |(j, b)| {
                     (i != j
@@ -130,8 +155,16 @@ pub(crate) fn ordered_with_values<'a, V: Eq + Clone, I: Iterator<Item = usize> +
             problem, assignment, selection, order,
         ));
     }
-    if neighborhood == crate::Neighborhood::Swap {
-        return Box::new(swap_moves_ordered(problem, assignment, order));
+    if matches!(
+        neighborhood,
+        crate::Neighborhood::Swap | crate::Neighborhood::UniqueSwap
+    ) {
+        return Box::new(swap_pairs(
+            problem,
+            assignment,
+            order,
+            neighborhood == crate::Neighborhood::UniqueSwap,
+        ));
     }
     if let crate::Neighborhood::MassAssign(size) | crate::Neighborhood::MassUnassign(size) =
         neighborhood
@@ -161,7 +194,14 @@ pub(crate) fn ordered_with_values<'a, V: Eq + Clone, I: Iterator<Item = usize> +
     }
     let swaps = neighborhood
         .includes_swaps()
-        .then(|| swap_moves_ordered(problem, assignment, order.clone()))
+        .then(|| {
+            swap_pairs(
+                problem,
+                assignment,
+                order.clone(),
+                neighborhood == crate::Neighborhood::ChangeAndUniqueSwap,
+            )
+        })
         .into_iter()
         .flatten();
     Box::new(change_moves_with_values(problem, assignment, order, values).chain(swaps))
