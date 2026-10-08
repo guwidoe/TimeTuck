@@ -4347,3 +4347,16 @@ the concurrent-visit fixture and HardSoft(-4,0) result. Original integration che
 show local search escaping the crossed cyclic start and exact search finding
 HardSoft(0,-240), plus strict/tolerant transitions and failure rollback. This does
 not claim Java alignment scheduling, supplier counts or annotation lifecycle parity.
+
+Two strict inconsistent-solution update methods additionally preserve reversed
+list/dependency fixtures and exact four-field loop membership. Caller-owned Rust
+solution identity and unchanged contents replace the Java exception solution
+property; typed errors replace class/message fragments. Both source methods use
+ordinary update despite the shadow-only name. Java exception API parity is not
+claimed; adapted assertions and fixture substitutions are recorded in provenance.
+
+Native dependency bindings now share an immutable node catalog when created
+after the same registrations. Adding nodes invalidates the builder cache for
+future bindings only. Original tests verify linear key-copy count for a fixed
+registered graph and retention of earlier bindings' node boundary; no wall-clock
+performance or upstream method credit is claimed for this memory improvement.

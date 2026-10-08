@@ -43149,6 +43149,36 @@
       "local_path": "crates/solver/tests/inconsistent_shadow_cases.rs",
       "local_test": "update_only_score_declarative_shadows",
       "modifications": "Preserved crossed ordered lists, all four value identities, both concurrent groups, supplied owner/index/previous/next fields, true inconsistency flags, and returned/stored HardSoft(-4,0) assertions. Native list/declarative manager replaces Java factory variants and descriptors; stable entity indices replace references. ScoreOnly preserves supplied flags without evaluating graph, additionally asserted by reader count. No Java annotation lifecycle equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/strict_solution_manager_cases.rs",
+      "id": "SolutionManagerTest.updateInconsistent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolutionManagerTest.java",
+      "upstream_test": "updateInconsistent",
+      "local_test": "update_inconsistent",
+      "modifications": "Preserved reversed [a2,a1] list, mandatory a2-after-a1 dependency, one-hour durations, strict update rejection and exactly one loop containing start/end fields for both values. Typed native Inconsistent report plus consistency message replace Java exception-class/message fragments. The native caller retains solution ownership: pointer identity and unchanged full data replace the exception solution-reference property. Explicit native construction replaces both Java factory variants/non-null assertion. Both source methods call ordinary update, preserved despite the second method name; no Java exception formatting or ownership API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/strict_solution_manager_cases.rs",
+      "id": "SolutionManagerTest.updateOnlyShadowVariablesInconsistent",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolutionManagerTest.java",
+      "upstream_test": "updateOnlyShadowVariablesInconsistent",
+      "local_test": "update_only_shadow_variables_inconsistent",
+      "modifications": "Preserved reversed [a2,a1] list, mandatory a2-after-a1 dependency, one-hour durations, strict update rejection and exactly one loop containing start/end fields for both values. Typed native Inconsistent report plus consistency message replace Java exception-class/message fragments. The native caller retains solution ownership: pointer identity and unchanged full data replace the exception solution-reference property. Explicit native construction replaces both Java factory variants/non-null assertion. Both source methods call ordinary update, preserved despite the second method name; no Java exception formatting or ownership API parity claimed."
     }
   ],
   "fixtures": [
@@ -58933,6 +58963,58 @@
       "upstream_test": "defineConstraints",
       "local_path": "crates/solver/tests/support/concurrent_shadow_fixture.rs",
       "modifications": "Native HardSoft callback preserves one hard penalty per inconsistent visit and negative minutes-to-finish soft penalties for assigned consistent visits. Explicit eligibility check replaces ordinary forEach inconsistency filtering; no Java stream wiring parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/strict_solution_manager_cases.rs",
+      "id": "TestdataDependencyNoInconsistentFieldValue.strict_solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldValue.java",
+      "upstream_test": "calculateStartTime/calculateEndTime",
+      "modifications": "Native typed graph retains a2 dependency on a1, list predecessor dependency, max-ready start and one-hour end offset. Minutes from epoch replace LocalDateTime/Duration; nullable fields replace Java nulls. Ids a1/a2 retained. Annotation and accessor boilerplate omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/strict_solution_manager_cases.rs",
+      "id": "TestdataDependencyNoInconsistentFieldEntity.strict_solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldEntity.java",
+      "upstream_test": "values/startTime/pinnedToIndex",
+      "modifications": "One native ListEntity preserves reversed ordered values, default zero pinned prefix and epoch-zero start. Stable owner index0 replaces e1 identity; getters/setters omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/strict_solution_manager_cases.rs",
+      "id": "TestdataDependencyNoInconsistentFieldSolution.strict_solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldSolution.java",
+      "upstream_test": "constructor/entities/values/score",
+      "modifications": "Native ListProblem/ManagedSolution preserve value universe, ordered entity list and optional HardSoft score. Descriptor/annotation boilerplate omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/strict_solution_manager_cases.rs",
+      "id": "TestdataDependencyNoInconsistentFieldConstraintProvider.strict_solution_manager",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/no_inconsistent_field/TestdataDependencyNoInconsistentFieldConstraintProvider.java",
+      "upstream_test": "finishTasksAsSoonAsPossible",
+      "modifications": "Native score callback preserves negative sum of assigned finish minutes relative to epoch-zero owner start. Additional callback count verifies strict inconsistency rejection precedes scoring. No stream wiring parity claimed."
     }
   ]
 }

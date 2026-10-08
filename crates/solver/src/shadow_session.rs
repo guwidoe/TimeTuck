@@ -143,6 +143,7 @@ enum Operation<'a, W> {
 }
 type SourceResolver<'a, 's, K, W> =
     dyn Fn(&W) -> Result<Vec<(PlanningVariableRef<'s>, K)>, ShadowSessionError> + 'a;
+type SourceCatalog<'s, K> = Rc<Vec<(PlanningVariableRef<'s>, K)>>;
 struct Node<'a, 's, K, W> {
     variable: PlanningVariableRef<'s>,
     entity: K,
@@ -156,6 +157,7 @@ pub struct ShadowSessionBuilder<'a, 's, K, W> {
     schema: &'s PlanningSchema,
     identity: Rc<()>,
     nodes: Vec<Node<'a, 's, K, W>>,
+    source_catalog: Option<SourceCatalog<'s, K>>,
     edges: BTreeSet<(usize, usize)>,
 }
 impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
@@ -164,6 +166,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             schema,
             identity: Rc::new(()),
             nodes: vec![],
+            source_catalog: None,
             edges: BTreeSet::new(),
         }
     }
@@ -199,6 +202,9 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             sources: None,
             fixed_sources: vec![],
         });
+        // Bound resolvers retain their original registration boundary. Only
+        // subsequent bindings need a new catalog after a node is added.
+        self.source_catalog = None;
         Ok(node)
     }
     /// Read a basic variable or an externally maintained shadow. All readers
@@ -263,6 +269,9 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
     /// Resolver errors occur before readers/suppliers; cycles remain runtime
     /// states. Do not mutate captured facts or the supplied world in a resolver.
     /// Manual edges and compiled paths cannot also control the same target.
+    /// Bindings made after the same registrations share one immutable catalog;
+    /// adding nodes creates a new catalog for subsequent bindings, without
+    /// expanding earlier bindings' registration boundary.
     pub fn bind_dependencies<T>(
         &mut self,
         target: &ShadowNode<T>,
@@ -282,11 +291,14 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             ));
         }
         let identity = self.identity.clone();
-        let fields = self
-            .nodes
-            .iter()
-            .map(|node| (node.variable, node.entity.clone()))
-            .collect::<Vec<_>>();
+        let fields = Rc::clone(self.source_catalog.get_or_insert_with(|| {
+            Rc::new(
+                self.nodes
+                    .iter()
+                    .map(|node| (node.variable, node.entity.clone()))
+                    .collect(),
+            )
+        }));
         self.nodes[index].sources = Some(Box::new(move |world| {
             resolve(world)?
                 .iter()

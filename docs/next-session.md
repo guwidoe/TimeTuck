@@ -16679,3 +16679,34 @@ Also read full SolutionManagerTest missing-referenced-entities case313–358. It
 expects transitive missing edges a1.start->a2, a2.ready->b2, b2.start->b1; current
 missing-source diagnostics inspect registered targets only, so do not claim full
 coverage from the existing direct-edge report. Goal remains active/incomplete.
+
+## Shared native binding catalogs and strict source cases
+
+Applied work/strict-solution-draft/apply.py once; do not reapply. Added two complete
+strict source methods and4fixtures. Installed test file matches the already tested
+draft byte-for-byte, so no repeated focused run. Native caller-owned solution
+identity/unchanged contents replace the Java exception solution property; typed
+Inconsistent report and message replace Java exception class/text fragments.
+ShadowSessionBuilder now caches an Rc node catalog shared by bindings made after
+the same registrations. New registration clears only the builder cache; existing
+resolvers retain their original catalog/boundary. K Clone remains bound only on
+binding, not all builder use. Fixed-graph binding metadata now O(N+B), rather than
+O(N*B); no timing claim. Focused5868 terminal0:256 nodes/255 bindings copy keys256
+times; later nodes available to newer bindings remain invalid for earlier ones,
+with cache preserved on rejected refresh. No new production/Enterprise reads.
+Final gate inputs frozen after formatting; no benchmark/release/browser reruns.
+
+Required shadow-catalog gate TERMINAL0. 4793 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 551, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2871, 'failed': 0, 'pending': 1702, 'excluded': 282, 'unverified': 0, 'percent': 59.135}.
+Source before/after matched: ce8461357e0ab61f611c86f7119114f3f2380da9e91f0d3e1146b5e6280d1526
+Live freshness matched verification digest: 680c6d27dc5b4e6a03accc4446a11c82a32eb2b3d979a77729edd33b888ddab8.
+Existing provenance prefixes unchanged; appended2cases and4fixtures.
+Log work/shadow-catalog-final-check.log; evidence work/shadow-catalog-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Gate59697, warm16018 and evidence15609 all terminal0. Current next work is only
+in work/referenced-shadow-draft/: transitive entity preflight plus full missing
+referenced-entities source case. Direct case test terminal0 after changing Any
+object alias comparison to ptr::addr_eq (vtable addresses may differ across
+codegen units even for the same object). No crate/provenance edits for that draft
+yet. Native regressions and integration remain to do; do not count draft credit.
