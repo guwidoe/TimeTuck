@@ -2096,3 +2096,37 @@ Four original regressions cover all six optional-target permutations across eigh
 single-target families and flat/schema grouping (288 configurations), stable ties
 with non-Clone values, pins/ranges, invalid orders, distinct union children and
 one-move-budget order sensitivity in both complete basic scoring backends.
+
+## Multi-variable entity construction
+
+`EntityConstruction` binds disjoint variable rows to one basic problem. Rows define
+entity and column order without changing model IDs; different widths and omitted
+slots are allowed. `SeparateVariables` finishes one column at a time, while
+`JointVariables` lazily scores Cartesian combinations as composite moves. This lets
+constraints spanning several columns guide initialization together. Existing values
+and pinned slots are preserved; row/slot validity is checked when building the
+provider. Pins retain their native per-slot meaning.
+
+`OptionalConstruction::Preserve` skips optional columns. Both other policies allow
+an optional column to stay empty within a joint candidate, including an empty-domain
+column, while another column initializes. All-empty combinations are omitted; the
+construction engine owns the explicit no-change choice for EvaluateUnassigned.
+Its existing final no-change probe after provider exhaustion can add one placement
+when optional slots remain. Pass the same optional policy to provider and engine.
+The whole composite score determines acceptance; required structural progress
+retains priority over ordinary score levels.
+
+Storage and cursor state are linear in selected slots; neither domains nor the
+Cartesian product are materialized or cloned at setup. Candidate values are cloned
+only as the lazy product advances. `QueuedMoveProvider` supplies the existing retry,
+advancement, rewind and reset semantics. Budget interruption with DiscardIncompleteStep
+retains the same row for retry. Basic/mixed solver extensions accept the provider;
+direct mixed use preserves lists, and MixedConstructionProvider schedules it with
+list construction in either component order. Shared construction limits count one
+joint placement, independently of how many columns it initializes.
+
+Original regressions compare sequential and joint choices on all six basic/mixed
+scoring paths, combine with list construction and shared limits on all three mixed
+backends, and exercise optional subsets, schema/pins, retries and bounded lazy
+consumption. No new upstream method credit: existing queued entity fixture mappings
+remain unchanged, and this adapter does not add Java selector lifecycle wiring.

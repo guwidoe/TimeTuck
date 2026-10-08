@@ -1109,3 +1109,6 @@ pub use referenced_shadow_entities::{
 
 mod phase_metadata;
 pub use phase_metadata::SolverPhaseMetadata;
+
+mod entity_construction;
+pub use entity_construction::{EntityConstruction, EntityConstructionPlacement};

@@ -17539,3 +17539,43 @@ Gate26213 and evidence26912 TERMINAL0. Prebuild65604 TERMINAL0 compiled554
 uncached remaining targets in4m00s, selected using each job cache key; no evidence
 records were written by this helper. No verification workers remain. Dashboard
 backend report/freshness verified; no frontend change or browser check.
+
+## Multi-variable entity construction provider
+
+Baseline521cb17. New EntityConstruction provider wraps native QueuedMoveProvider
+and lazy MoveProduct. Rows are validated using BasicEntityRows, with disjoint slots,
+variable widths and stable row/column order. SeparateVariables initializes columns
+sequentially; JointVariables scores atomic combinations. Pins/assigned slots are
+preserved. Preserve omits optional slots; other policies allow optional None inside
+joint candidates, so harmful/empty-domain optional columns do not block required
+initialization. All-empty candidates are omitted; existing engine EvaluateUnassigned
+adds its no-change choice, including a final exhaustion probe if optional slots
+remain. That probe can count as an additional placement; tests/docs preserve this
+existing behavior rather than claiming every call counts exactly the row count.
+Basic and direct mixed MoveProvider implementations plus existing
+MixedConstructionProvider cover six scoring paths and mixed list scheduling.
+No existing solver implementation changed except new root module/reexports.
+
+Seven native tests cover a coupled objective where joint construction scores8 versus
+sequential2 on all six basic/mixed backends; mixed component order/shared construction
+limits on three backends; domain-order/optional/pin preservation; atomic discard,
+zero-budget and resume; schema/foreign-problem rejection; two lazy draws from2^32
+combinations with bounded clones; and optional subsets/empty-domain columns.
+Final focused34886 TERMINAL0: new7 plus mixed-provider5 and queued-provider7.
+Initial type/lifetime errors fixed, and one test expectation corrected to count the
+existing EvaluateUnassigned final no-change probe. No upstream production read;
+no copied fixtures or new provenance entries. Required gate follows on frozen Rust.
+
+Required entity-construction gate TERMINAL0. 4878 Rust tests and 242 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 645}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: a206662c4e8fd4a73d934f3032733034d0b6aa7409473f40600f720d38e07771
+Live freshness matched verification digest: 84b89832df7cb256468a57adbee1b0264fc89b1b6c72d83da86982e398e25be0.
+Existing provenance prefixes unchanged; appended0cases and0fixtures.
+Log work/entity-construction-final-check.log; evidence work/entity-construction-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate23533 and evidence15770 TERMINAL0. Gate log wall window 142s.
+No broad prebuild or benchmark refresh; lib/new regression are the only Rust jobs
+rerun (645 reused), plus format/clippy/doctests. All verification handles terminal;
+existing dashboard server remains available.

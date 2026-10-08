@@ -4554,3 +4554,9 @@ three models and all three scoring backends, including custom construction provi
 share the controls. Solve/phase/job work exposes construction_steps separately from
 search stagnation. Original regressions cover these behaviors; no additional upstream
 method credit or Java step/lifecycle equivalence is claimed.
+
+Native EntityConstruction now provides separate-column or atomic joint-row
+initialization without caller-written candidate factories. It supports all three
+basic/mixed scoring backends and composes with existing mixed list construction.
+Original regressions cover cross-column objectives, nullable subsets, pins,
+interruption, ordering and lazy products; no additional upstream method credit.
