@@ -1,7 +1,7 @@
 //! Shared transaction implementation for the three native calculator backends.
 macro_rules! calculator_backend {
     ($director:ident, $guard:ident, [$($v:ident),+], $assignment:ty, $problem:ty,
-     $movement:ty, $change:ty, $error:ident, $describe:path, $structure:path) => {
+     $movement:ty, $change:ty, $error:ident, $describe:path, $structure:path, $apply:ident) => {
 /// A calculator backend for native moves. Change descriptors identify the
 /// slots touched by the whole move. Callbacks see complete
 /// pre/post assignments, including for composites and their inverse updates.
@@ -131,7 +131,7 @@ where
     ) -> Result<$guard<'_, 'p, $($v,)+ C, F>, $error> {
         self.healthy()?;
         let mut candidate = self.assignment().clone();
-        self.problem.apply(&mut candidate, movement)?.commit();
+        self.problem.$apply(&mut candidate, movement)?.commit();
         let variables = $describe(movement);
         let previous_score = self.score.clone();
         let prior = Some(self.assignment().clone());

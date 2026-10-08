@@ -27,11 +27,10 @@ use crate::StreamBatch;
 use crate::mixed_scoring::{MixedSelection, with_structure};
 use crate::mixed_search_scoring::MixedSearchDirector;
 use crate::{
-    AdditiveScore, AppliedMixedMove, GraphError, GraphTransaction, ListAssignment,
-    ListStreamSources, ListValueRow, MixedAssignment, MixedConstructionConfig,
-    MixedConstructionResult, MixedError, MixedLocalSearchConfig, MixedLocalSearchError,
-    MixedLocalSearchResult, MixedMove, MixedProblem, MixedScoringError, PlanningStreamSource,
-    StreamGraph, StreamGraphBuilder, TupleChange,
+    AdditiveScore, AppliedMixedMove, GraphError, GraphTransaction, ListStreamSources, ListValueRow,
+    MixedAssignment, MixedConstructionConfig, MixedConstructionResult, MixedError,
+    MixedLocalSearchConfig, MixedLocalSearchError, MixedLocalSearchResult, MixedMove, MixedProblem,
+    MixedScoringError, PlanningStreamSource, StreamGraph, StreamGraphBuilder, TupleChange,
 };
 use std::{error::Error, fmt};
 
@@ -196,7 +195,9 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         &mut self,
         movement: &MixedMove<B, L>,
     ) -> Result<MixedStreamScoredMove<'_, 'a, B, L, S>, MixedStreamScoringError> {
-        let assignment = self.problem.apply(&mut self.assignment, movement)?;
+        let assignment = self
+            .problem
+            .apply_validated(&mut self.assignment, movement)?;
         with_structure(S::ZERO, self.problem, &assignment)?;
         let mut graph = self.graph.transaction();
         let mut updates = StreamBatch::new();
@@ -214,11 +215,10 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             )?;
         }
         for (i, v) in self.problem.lists().values().iter().enumerate() {
-            let belongs = |a: &ListAssignment<L>| {
-                a.location(v)
-                    .is_some_and(|p| touched.binary_search(&p.entity).is_ok())
-            };
-            if belongs(assignment.original().lists()) || belongs(assignment.lists()) {
+            if touched.iter().any(|&entity| {
+                assignment.original().lists().lists()[entity].contains(v)
+                    || assignment.lists().lists()[entity].contains(v)
+            }) {
                 updates.push(
                     &self.sources.lists.values,
                     TupleChange::put(i, ListValueRow::from_assignment(i, v, assignment.lists())),

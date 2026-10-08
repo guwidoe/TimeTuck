@@ -10,7 +10,7 @@ pub struct MixedCalculatorChange {
     pub basic_variables: Vec<usize>,
     pub list_entities: Vec<usize>,
 }
-crate::calculator_backend::calculator_backend!(MixedCalculatorScoreDirector, MixedCalculatorMove, [B, L], MixedAssignment<B, L>, MixedProblem<B, L>, MixedMove<B, L>, MixedCalculatorChange, MixedScoringError, mixed_changes, mixed_structure);
+crate::calculator_backend::calculator_backend!(MixedCalculatorScoreDirector, MixedCalculatorMove, [B, L], MixedAssignment<B, L>, MixedProblem<B, L>, MixedMove<B, L>, MixedCalculatorChange, MixedScoringError, mixed_changes, mixed_structure, apply_validated);
 fn mixed_changes<B, L>(movement: &MixedMove<B, L>) -> MixedCalculatorChange {
     MixedCalculatorChange {
         basic_variables: movement.basic.touched_variables(),

@@ -4664,9 +4664,21 @@ validation error or ordinary panic unwinding. The full pre-move `original()` vie
 is materialized lazily and cached; `original_list(entity)` borrows pre-move contents
 without copying unrelated entities. Both scoped and stream list scoring discover
 value dependencies from the touched lists before/after the move, avoiding the full
-historical assignment. Full model validation remains unchanged and scans the
-assignment; observed edits and mixed-model outer transactions may still take full
-snapshots. Five original regressions cover all move kinds, commit/rollback,
+historical assignment. External model validation remains complete; validated move
+layout checks now inspect touched entities. Observed edits and mixed-model outer
+transactions may still take full snapshots. Five original regressions cover all move kinds, commit/rollback,
 late errors, cloning panics, lazy snapshot recovery, Send/Sync preservation and
 both list scoring backends. These checks add no upstream method credit. Native
 microbenchmarks are separate from the existing Java performance comparisons.
+
+List mutation now preserves registry membership and uniqueness through primitive
+operation checks, validates final pins/receiving ranges on touched entities and
+retains global dependency-cycle validation. Public apply/initialization/reset
+boundaries still validate the full input. All six list/mixed scoring backends
+reuse their exclusively owned validated assignments between moves; bounded sublist
+sampling reuses its validated scratch assignment. Mixed value-dependency discovery
+also inspects only touched old/new lists. Three original regressions confirm no
+unrelated value comparisons across all six backends, invalid external input remains
+rejected, and final pin/range/global-cycle violations roll back atomically while
+restored intermediate violations remain permitted. Existing transaction, calculator,
+dependency and sampled-provider regressions also pass. No upstream credits added.

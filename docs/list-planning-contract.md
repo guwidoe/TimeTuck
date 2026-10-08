@@ -55,7 +55,12 @@ when nested composite children revisit it. Untouched lists are not cloned, and
 rollback swaps saved lists back without cloning. `original_list` borrows the
 pre-move contents of an entity; `original()` lazily clones and caches a complete
 pre-move assignment when requested. Incremental list scoring reads the affected
-lists directly. Full model validation still scans the assignment.
+lists directly. External assignments receive full model validation. During a
+validated move, each primitive preserves global membership and uniqueness; final
+pin and receiver-range checks inspect only the referenced entities. Opt-in
+dependency-cycle checks remain global. List and mixed scoring directors retain
+validated assignments between moves and omit repeated entry validation; public
+move application and calculator resets continue to validate external input fully.
 
 Thirty-four adapted upstream methods preserve assertions in five assign,
 six swap, nine change, two span-unassign, seven sublist-change and five sublist-swap methods. See `compat/provenance.json`.

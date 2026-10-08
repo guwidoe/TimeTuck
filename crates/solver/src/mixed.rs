@@ -142,13 +142,21 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
         movement: &MixedMove<B, L>,
     ) -> Result<AppliedMixedMove<'a, B, L>, MixedError> {
         self.validate(assignment)?;
+        self.apply_validated(assignment, movement)
+    }
+    // Owning score directors validate on entry and only install validated moves.
+    pub(crate) fn apply_validated<'a>(
+        &self,
+        assignment: &'a mut MixedAssignment<B, L>,
+        movement: &MixedMove<B, L>,
+    ) -> Result<AppliedMixedMove<'a, B, L>, MixedError> {
         let mut candidate = assignment.clone();
         self.basic
             .apply(&mut candidate.basic, &movement.basic)
             .map_err(MixedError::Basic)?
             .commit();
         self.lists
-            .apply(&mut candidate.lists, &movement.lists)
+            .apply_validated(&mut candidate.lists, &movement.lists)
             .map_err(MixedError::Lists)?
             .commit();
         let original = Some(std::mem::replace(assignment, candidate));

@@ -93,7 +93,7 @@ impl SampledSubListProvider {
         let mut trial = None;
         Ok(candidates.filter(move |movement| {
             let trial = trial.get_or_insert_with(|| assignment.clone());
-            let Ok(applied) = problem.apply(trial, movement) else {
+            let Ok(applied) = problem.apply_validated(trial, movement) else {
                 return false;
             };
             *applied != *assignment

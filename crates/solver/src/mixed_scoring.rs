@@ -21,8 +21,8 @@
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
 use crate::{
-    AdditiveScore, AppliedMixedMove, ListAssignment, ListElement, MixedAssignment, MixedError,
-    MixedMove, MixedProblem,
+    AdditiveScore, AppliedMixedMove, ListElement, MixedAssignment, MixedError, MixedMove,
+    MixedProblem,
 };
 use std::{error::Error, fmt};
 
@@ -668,7 +668,9 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         &mut self,
         movement: &MixedMove<B, L>,
     ) -> Result<ScoredMixedMove<'_, B, L, S>, MixedScoringError> {
-        let transaction = self.problem.apply(&mut self.assignment, movement)?;
+        let transaction = self
+            .problem
+            .apply_validated(&mut self.assignment, movement)?;
         let mut affected: Vec<_> = movement
             .basic
             .touched_variables()
@@ -680,12 +682,10 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             affected.extend(&self.network.entity_dependents[entity]);
         }
         for (i, value) in self.problem.lists().values().iter().enumerate() {
-            let belongs = |assignment: &ListAssignment<L>| {
-                assignment
-                    .location(value)
-                    .is_some_and(|position| touched.binary_search(&position.entity).is_ok())
-            };
-            if belongs(transaction.original().lists()) || belongs(transaction.lists()) {
+            if touched.iter().any(|&entity| {
+                transaction.original().lists().lists()[entity].contains(value)
+                    || transaction.lists().lists()[entity].contains(value)
+            }) {
                 affected.extend(&self.network.value_dependents[i]);
             }
         }

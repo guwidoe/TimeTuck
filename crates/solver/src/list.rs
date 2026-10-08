@@ -430,6 +430,9 @@ impl<V: Eq + Clone> ListProblem<V> {
     /// nested composites. Composite operations use current indices and validate
     /// pins/ranges once at the final state. Errors and ordinary panic unwinding
     /// restore the changed lists without cloning values during rollback.
+    /// Validate external input in full. Primitive edits preserve registry membership
+    /// and uniqueness, so final layout checks inspect only referenced entities.
+    /// Opt-in dependency-cycle checks still examine the global dependency graph.
     pub fn apply<'a>(
         &self,
         assignment: &'a mut ListAssignment<V>,
@@ -441,9 +444,26 @@ impl<V: Eq + Clone> ListProblem<V> {
         &self,
         assignment: &'a mut ListAssignment<V>,
         movement: &ListMove<V>,
-        mut record: impl FnMut(&V),
+        record: impl FnMut(&V),
     ) -> Result<AppliedListMove<'a, V>, ListError> {
         self.validate(assignment)?;
+        self.apply_validated_recording(assignment, movement, record)
+    }
+    // Only for owners that validated the assignment on entry and retain exclusive
+    // control of every subsequent edit (including rollback and winner installs).
+    pub(crate) fn apply_validated<'a>(
+        &self,
+        assignment: &'a mut ListAssignment<V>,
+        movement: &ListMove<V>,
+    ) -> Result<AppliedListMove<'a, V>, ListError> {
+        self.apply_validated_recording(assignment, movement, |_| {})
+    }
+    fn apply_validated_recording<'a>(
+        &self,
+        assignment: &'a mut ListAssignment<V>,
+        movement: &ListMove<V>,
+        mut record: impl FnMut(&V),
+    ) -> Result<AppliedListMove<'a, V>, ListError> {
         // Save before any mutation. Invalid entities are diagnosed by the normal
         // operation checks, retaining their ordering relative to earlier errors.
         let saved = movement
@@ -612,7 +632,37 @@ impl<V: Eq + Clone> ListProblem<V> {
                 ListMove::Composite(steps) => pending.extend(steps.iter().rev()),
             }
         }
-        self.validate(&transaction)?;
+        // Primitive edits preserve global value membership and uniqueness:
+        // Assign checks both explicitly; all other variants only move/remove
+        // existing values, and span swaps reject overlap before mutation.
+        // Only referenced lists can change their pins or receiver membership.
+        for (entity, _) in transaction.saved.as_ref().unwrap() {
+            let list = &transaction.assignment.lists[*entity];
+            let meta = &self.entities[*entity];
+            if (meta.pinned && *list != meta.initial)
+                || (!meta.pinned
+                    && list.get(..meta.pinned_prefix) != Some(&meta.initial[..meta.pinned_prefix]))
+            {
+                return Err(ListError::PinChanged { entity: *entity });
+            }
+            for (index, value) in list.iter().enumerate() {
+                if !self.accepts(*entity, value) {
+                    return Err(self.range_error(
+                        ListPosition {
+                            entity: *entity,
+                            index,
+                        },
+                        value,
+                        ListError::ValueOutsideEntityRange { entity: *entity },
+                    ));
+                }
+            }
+        }
+        // Dynamic predecessor cycles may involve untouched lists as well.
+        let values = self.inconsistent_values_unchecked(&transaction)?;
+        if !values.is_empty() {
+            return Err(ListError::DependencyCycle { values });
+        }
         Ok(transaction)
     }
 }

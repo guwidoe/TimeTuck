@@ -18672,3 +18672,59 @@ Live freshness matched verification digest: 82f3bc0c41ef27a09000b8e20d1e24f2fee0
 Prior ledger records unchanged; added no provenance records or upstream method credits.
 Log work/list-undo-final-check.log; evidence work/list-undo-evidence.json.
 No Java comparison benchmarks refreshed; native undo microbenchmark is separate and prior comparisons retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+## Incremental list validation
+
+Previous turn progressed:15d991f committed after gate44232 and evidence72834 passed.
+Started clean; read current handoff/compatibility. Applied prior draft and extended
+it across all six list/mixed scoring backends via a calculator macro apply-method
+parameter (basic backend retains its original apply). Public list/mixed apply and
+calculator entry/reset validate full external input. Internal owning directors and
+validated sampled-sublist scratch skip redundant entry validation. Primitive move
+checks preserve global registry membership/uniqueness; final checks inspect touched
+pins/ranges and retain global dependency traversal. Mixed value dependency discovery
+now inspects only touched old/new lists. Normal clone/identity invariants still apply.
+Three native regressions cover all six backends with unrelated comparison counters,
+external invalid shapes/duplicates/values/pins, calculator reset, final pin/range
+rollback, restored intermediate violations and a cycle spanning both lists.
+Focus1469 TERMINAL101 (test Variable constructor), fixed; focus6310 TERMINAL0,
+35tests across six relevant targets. No provenance changes or method credits.
+
+Baseline release build81530 TERMINAL0,53.18s. Preserved15d991f executable at
+work/list-validation-before and six-workload native baseline at
+work/list-validation-before.json (20steps,1warmup,3samples,2processes), using existing
+list benchmark workload/scoring/validation. Historical Java report preserved at
+work/list-performance-before-incremental-validation.json. Same matched Rust/Java
+list comparison63063 completed, updating only list
+performance. Benchmark methodology text updated for touched snapshots/validation.
+Rust/tests/provenance/scripts frozen after formatter. Parallel compile-only26075, required gate26617 and matched benchmark63063
+are now all TERMINAL0. No browser check
+needed for backend-only report refresh. Full goal remains active/incomplete.
+
+Prebuild26075 TERMINAL0,4m10s (overlaps gate/benchmark). Matched list benchmark
+63063 TERMINAL0:192/192valid,189equal-score small cases;6larger workloads all
+independently valid. Rust/Java median ms: construct16 .246/90.333,32 1.089/48.164;
+hill16 7.870/68.036,32 29.802/220.568; two-opt16 .577/65.291,32 1.474/59.941.
+Engine-specific order/quality differ; no general speed superiority claim.
+Native alternating release comparison75038 TERMINAL0: four process pairs,
+20steps,1warmup,3samples/process,12samples/version/workload. Before/after medians:
+construct16 .216933/.118535;32 .9841905/.4616785;hill16 7.223191/3.594812;
+hill32 45.901089/20.157262;two-opt16 .353185/.2617285;32 1.099427/.718903.
+Ratios1.35–2.28,26–56%less time. All final assignments/scores/score-call counts
+match baseline15d991f exactly. Development-host timings; current matched Java
+comparison ran during compilation load, so do not mix its absolute times with
+the separate alternating Rust experiment. JSON: work/list-validation-native-performance.json.
+Required gate26617 TERMINAL0,492s log wall span; source unchanged and staged diff
+reviewed. Evidence73490 TERMINAL0 confirms unchanged provenance, stable source and
+live report freshness. List performance status is current. All678 Rust jobs and
+46 Python jobs ran this gate;5011Rust tests and243doctests passed. No failures.
+No additional benchmark, browser, or release correctness reruns. Ready to commit.
+
+Required list-validation gate TERMINAL0. 5011 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 678}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 2916, 'failed': 0, 'pending': 1657, 'excluded': 282, 'unverified': 0, 'percent': 60.062}.
+Source before/after matched: 58bde873f23943d9e8222396e6be5c1c49edf77b333ca31d5dfaddfcd879f31d
+Live freshness matched verification digest: 1c897c6e2129f2fd46ea87fc790979001a3522467e6cbc381be1936eea03f17e.
+Prior ledger records unchanged; added no provenance records or upstream method credits.
+Log work/list-validation-final-check.log; evidence work/list-validation-evidence.json.
+Only the matched list performance comparison refreshed; other measurements retain their freshness status. Native before/after release comparison is separate. No browser rerun for this report-only refresh. Goal remains active.

@@ -358,9 +358,10 @@ pub(crate) fn with_structure<V: Eq + Clone, S: AdditiveScore>(
 }
 
 /// Owns a validated working assignment and cached contributions. List edits
-/// snapshot the touched lists; callback evaluation is incremental, while model
-/// validation still scans the assignment. Value dependency discovery inspects
-/// only the touched lists before and after the edit.
+/// snapshot the touched lists. Entry validation is complete; subsequent edits
+/// preserve global membership/uniqueness and check touched pins/ranges plus global
+/// dependencies. Value dependency discovery inspects the touched lists before
+/// and after the edit. Callback evaluation is incremental.
 pub struct ListScoreDirector<'p, 'c, V, S> {
     problem: &'p ListProblem<V>,
     network: &'p ListConstraintNetwork<'c, V, S>,
@@ -629,7 +630,9 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         &mut self,
         movement: &ListMove<V>,
     ) -> Result<ScoredListMove<'_, V, S>, ListScoringError> {
-        let transaction = self.problem.apply(&mut self.assignment, movement)?;
+        let transaction = self
+            .problem
+            .apply_validated(&mut self.assignment, movement)?;
         let touched = movement.touched_entities();
         let mut affected: Vec<_> = touched
             .iter()
