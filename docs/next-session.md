@@ -16784,3 +16784,56 @@ literally. Native first-initialized event already tracks the phase preceding fir
 local/repair phase; inspect solver.rs PlanObservation and run_plan before extending
 configuration introspection or adapting the initialization metadata method.
 Work/list-owner-draft/apply.py is now APPLIED; never apply again.
+
+## Inspectable phase roles and shared initialization boundary
+
+Added SolverPhaseMetadata, phase.kind(), kind.can_initialize(), and sequence
+initialization_phase()/phase_metadata() for both ordinary and mixed sequences.
+Inspection borrows current config and yields owned descriptors without score state,
+so edits cannot leave cached metadata stale. Construction/custom/exact can initialize;
+Initial is not a configured phase. Only the predecessor of first local/repair is
+last-initializing, absent for no improvement or improvement at index0.
+Runtime PlanObservation/run_plan share the same helper; event skip/failure/limit
+semantics are unchanged. Full SolverFactoryTest.validateInitializationPhases
+adapted with all7 configs and capability/last flags. +1case/no fixtures.
+Initial focused39988 failed compilation only in new test: wrong repair limit/pin
+method names and unconstrained default score; corrected to existing max_attempts,
+with_pinned and explicit SimpleScore. Focused89703 terminal0:1source+2native tests,
+including all781 length0..4 phase sequences in basic/mixed metadata and8 runtime
+sequences plus pinned-model skip. No upstream production/Enterprise reads.
+Final inputs frozen after fmt; shared runtime edit requires broad selected coverage.
+
+Required phase-metadata gate TERMINAL0. 4803 Rust tests and 234 doctests passed.
+Rust jobs: {'RUN': 557, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2874, 'failed': 0, 'pending': 1699, 'excluded': 282, 'unverified': 0, 'percent': 59.197}.
+Source before/after matched: 5e345f0be582f3fb5f4d2d25d63a57129557d4226fe24cf0d7466fa33fdeed7a
+Live freshness matched verification digest: 6091b345a633c36255911b2f2887768531248c4791bfefcd409dbea145196312.
+Existing provenance prefixes unchanged; appended1case and0fixtures.
+Log work/phase-metadata-final-check.log; evidence work/phase-metadata-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Actual gate64035, warm68128 and evidence66504 terminal0. Warm compiled556 pending
+targets only; no tests/cache evidence written by the helper. No live check handles.
+
+Next work-only draft: work/environment-policy-draft/environment_policy.rs plus
+9 complete EnvironmentModeUtil source cases/harness; standalone rustc terminal0.
+NOT INTEGRATED, no provenance/compatibility credit. Global/phase resolution and
+validation only; runtime assertion modes are NOT implemented by this draft.
+Before exposing this as solver behavior, connect policy to actual check timing,
+seed handling and factory/phase execution; do not map every assertion mode to the
+existing assert_scores boolean or claim tracked/nonintrusive semantics from it.
+Pinned public solver-diagnostics.adoc lines1–235 read, including ordering of all7
+modes and global/phase rules; docs path is docs/src/modules/ROOT/pages/
+running-timefold-solver/solver-diagnostics.adoc. Full EnvironmentModeUtilTest read.
+EnvironmentModeTest output was truncated: do not claim full review of that file.
+ScoreDirectorFactoryFactoryTest lines1–390 only read in previous batch.
+Draft phase_modes(false) explicitly lists declared modes including restatement;
+source tests cover only absent/actual overrides, so preserve this documented native
+choice or gather additional public/test evidence before claiming broader parity.
+
+Read full UnindexedJoinBiNodeTest and JoinBiNodeActivityTest (TEST files only).
+First two unindexed methods assert fact replacement under near/far settle distance;
+current native constant-key join supports stable payload replacement. Remaining
+preload methods assert exact Java pair-walk counts (6 vs12); do not fabricate
+those inefficient counts in native joins just for coverage. Activity first3methods
+verify downstream lifecycle notifications and remain pending; structural flags
+alone do not satisfy them. No test adaptations/drafts added for these join methods.

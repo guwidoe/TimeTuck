@@ -4380,3 +4380,12 @@ validation installed by their constructors. Checks run in order under every
 update policy and stop before graph/score callbacks on failure. Explicit
 replacement remains available. Original tests cover callback order, rejection,
 panic recovery and preservation of initialized and uninitialized state.
+
+Phase inspection exposes kind, initialization capability and the last phase
+before the first improvement phase, for basic/list and mixed sequences. The
+runtime initialization event uses the same boundary calculation. Metadata is
+configuration-only: skipped, failed or budget-limited solves need not emit an
+event. The complete seven-scenario SolverFactory initialization case is adapted;
+original cases additionally cover native exact/repair phases, sequence edits,
+all781 short sequences, runtime alignment and pinned-model skips. Native typed
+metadata replaces Java phase-list/interface introspection.

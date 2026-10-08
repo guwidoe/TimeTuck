@@ -1101,3 +1101,6 @@ mod referenced_shadow_entities;
 pub use referenced_shadow_entities::{
     missing_referenced_shadow_entities, validate_referenced_shadow_entities,
 };
+
+mod phase_metadata;
+pub use phase_metadata::SolverPhaseMetadata;

@@ -590,14 +590,14 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
     fn initialize(
         &mut self,
         phase: usize,
-        first_local: Option<usize>,
+        initialization_phase: Option<usize>,
         result: &SolverResult<A, S>,
         termination: PhaseTermination,
     ) {
         let Some(PlanCallback::Events(callback)) = &mut self.callback else {
             return;
         };
-        if first_local != Some(phase + 1) {
+        if initialization_phase != Some(phase) {
             return;
         }
         let (kind, terminated_early) = match termination {
@@ -812,12 +812,8 @@ where
                 error,
             })?;
     }
-    let first_local = local.iter().position(|p| {
-        matches!(
-            p,
-            SolverPhase::LocalSearch(_) | SolverPhase::RuinRecreate(_)
-        )
-    });
+    let initialization_phase =
+        crate::phase_metadata::initialization_index(local.iter().map(SolverPhase::kind));
     let initial = initial();
     let mut result = SolverResult {
         assignment: initial.assignment,
@@ -1035,7 +1031,7 @@ where
             work: out.work,
             score: out.score,
         });
-        observation.initialize(index, first_local, r, out.termination);
+        observation.initialize(index, initialization_phase, r, out.termination);
         use PhaseTermination::{
             Construction as C, Custom as U, Exact as X, LocalSearch as L, RuinRecreate as R,
         };
