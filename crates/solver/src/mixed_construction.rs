@@ -175,7 +175,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
     let mut director = make_director(initial)?;
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
-    if config.assert_scores {
+    if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
@@ -427,7 +427,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     false
                 }
             });
-            if config.assert_scores {
+            if config.assert_scores || config.assert_step_scores {
                 director.assert_consistent()?;
             }
             if installed {

@@ -219,7 +219,7 @@ where
         assignment: director.assignment().clone(),
         score: director.score(),
     });
-    if config.assert_scores {
+    if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
     time_budget.start_search();
@@ -336,7 +336,7 @@ where
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }
-        if config.assert_scores {
+        if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
         provider.end_step();

@@ -135,6 +135,7 @@ fn construction_policies_budgets_and_phase_handoff_match_full_scoring() {
                     max_evaluations: budget,
                     pick_early: policy,
                     assert_scores: true,
+                    assert_step_scores: false,
                 };
                 let expected = greedy_construction(&p, &network, config).unwrap();
                 let (g, s) = graph(Rc::new(Cell::new(0)));

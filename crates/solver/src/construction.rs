@@ -170,6 +170,10 @@ pub struct ConstructionConfig<'a> {
     /// candidate rollback (including early selection), and at step boundaries.
     /// Diagnostic calculations do not increase search evaluation counters.
     pub assert_scores: bool,
+    /// Check initialization and completed scan/placement boundaries without
+    /// candidate-state or rollback rescoring. Full assert_scores takes precedence.
+    /// Diagnostic work is excluded from evaluation counters but consumes time.
+    pub assert_step_scores: bool,
 }
 impl Default for ConstructionConfig<'_> {
     fn default() -> Self {
@@ -184,6 +188,7 @@ impl Default for ConstructionConfig<'_> {
             max_time: None,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
+            assert_step_scores: false,
         }
     }
 }
@@ -352,7 +357,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
     let mut director = create(initial)?;
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
-    if config.assert_scores {
+    if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
@@ -459,7 +464,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
         }
         let installed = matches!(selection.selected, Some(Move::Change { .. }));
         result.assigned_variables += usize::from(installed);
-        if config.assert_scores {
+        if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
         if installed {

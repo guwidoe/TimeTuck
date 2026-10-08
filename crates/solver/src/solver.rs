@@ -1398,6 +1398,7 @@ fn provider_construction_config(
         cancellation: c.cancellation,
         max_time: c.max_time,
         assert_scores: c.assert_scores,
+        assert_step_scores: c.assert_step_scores,
     }
 }
 fn provider_constructed<A, S>(r: ProviderConstructionResult<A, S>) -> PhaseOutput<A, S> {

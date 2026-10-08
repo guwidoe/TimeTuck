@@ -27,6 +27,7 @@ fn settings(order: MixedConstructionOrder, budget: u64) -> MixedConstructionConf
             max_evaluations: budget,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
+            assert_step_scores: false,
         },
         order,
     }

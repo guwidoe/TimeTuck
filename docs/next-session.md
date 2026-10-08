@@ -18416,3 +18416,99 @@ targets);668 reused. All46 Python jobs reused;243 doctests passed on a fresh run
 Evidence15689 TERMINAL0 confirms source stability, exact4case/4fixture delta and
 live report freshness. Report2913/4855=60.0%,0failed,1660pending,282excluded.
 All handles terminal. No benchmarks or browser checks repeated. Ready to commit.
+
+## Native step-boundary score diagnostics
+
+Baselinefe01179 clean. Previous goal turn progressed: lazy zipped sources committed,
+4upstream cases/4native regressions passed, report reached2913/4855=60%.
+Read existing environment-policy draft, pinned EnvironmentModeUtilTest and relevant
+DefaultSolverTest methods, plus pinned public solver-diagnostics.adoc. Those legacy
+modes need additional runtime behavior (undo, nonintrusive/tracked checks and seed
+policy); draft stays unintegrated and no metadata-only compatibility is claimed.
+
+Added assert_step_scores=false to ConstructionConfig, LocalSearchConfig,
+ProviderConstructionConfig and RuinRecreateConfig. Existing initialization and
+boundary assert_consistent calls now run for either full or step checks; candidate
+and rollback checks still require existing assert_scores. Both flags do not cause
+duplicate checks. Changed all basic/list/mixed generic construction/search engines,
+provider construction, solver-to-provider conversion and ruin reconstruction config.
+These generic engines serve scoped, stream and calculator routes. Check callbacks
+stay outside evaluation counters but consume elapsed time. No checks are added to
+phases that never start or initial-only immovable solve paths. Step-only diagnostics
+are a native option, NOT full Timefold STEP_ASSERT parity; no upstream credits.
+
+Three original regression methods contain a72-run initialization fault matrix
+(9backends x construction/local/ruin plus provider construction x flag off/on),
+a24-run local commit-fault/count matrix (3models x4flag combinations xbroken/valid),
+and64-run construction matrix (basic/list/mixed-basic/mixed-list x builtin/provider
+x4flags xbroken/valid). On valid one-candidate scans step checks create3scorers,
+plain1 and full more; both flags equal full. Work counters/results unchanged.
+All enabled routes reject deliberate corruption; step flags reach completed
+construction placements and preserve provider config conversion.
+
+Compile82732 TERMINAL0. Focus93832 TERMINAL0 initial2methods. Focus11043 TERMINAL0
+final3methods. Updated four existing tests' exhaustive ConstructionConfig literals
+with assert_step_scores:false, preserving their behavior. No source test/provenance
+edits. Frozen Rust/tools. Required gate running in
+work/step-diagnostics-final-check.log; resume its exact handle from tool output.
+After TERMINAL0 run work/record_step_diagnostics_evidence.py, inspect staged diff
+and commit. No benchmark or frontend change. Full rewrite remains active/incomplete.
+
+Required final gate handle88505; keep it running and inputs frozen.
+
+Gate88505 remains live; early broad regression has13RUN/2REUSE and no failures.
+Started all-target no-run compilation with8jobs to avoid serial rebuild costs for
+shared engine/config changes. This produces no verification evidence. Preserve
+the existing gate; do not restart. Prebuild log work/step-diagnostics-prebuild.log;
+exact handle is in tool output. Keep Rust/tools/provenance frozen through both.
+
+Goal continuation: previous timing-only turn produced timing evidence; current
+turn confirmed both gate88505 and prebuild99206 live by polling their handles.
+Prepared work/pillar_change_source_cases.rs while production inputs remain frozen.
+It adapts PillarChangeMoveSelectorTest.original through GroupedSelectionSource ->
+KeyedSelectionSource -> Pillar.change_move, preserving all three codes, exhaustion,
+finite metadata and size3. Not compiled, not promoted and no provenance/credit yet.
+Read full upstream method and PlannerAssert iterable-selector helper. Register
+method + helper fixtures before promotion; do not claim this draft passes.
+
+Next continuation advanced the pending source-case drafts while inputs stayed
+frozen. Pillar draft compiled directly against the current debug rlib and passed
+(session38760 TERMINAL0, work/pillar-change-source-draft-test.log). This bypasses
+Cargo only for an ignored draft; it is not a substitute for the required gate.
+Read DefaultCustomPhaseTest, DefaultPhaseCommandContextTest and test fixtures
+TestdataSolution.generateSolution + TestdataConstraintProvider. Custom phases
+already exist across native backends; do not add a duplicate implementation.
+Prepared work/custom_phase_deadline_cases.rs, two 10ms cooperative deadline cases
+at solver/phase scope, round-robin two-entity fixture and score-2 objective. Direct
+compile/run23974 TERMINAL0 (2 passed). Afterwards removed an unnecessary phase
+callback-entry assertion: either deadline may elapse before callback invocation.
+Final draft still needs its normal gate after promotion. Four context methods stay
+pending: source callback/score-call-count contracts differ from native inspection.
+Prepared work/pending-source-cases-provenance.json (3cases +4fixtures) for the two
+draft files. Register before promotion, change their provisional provenance comments,
+and preserve prior records. No current coverage credit or production changes.
+Gate88505 and prebuild99206 remain live, exact handles successfully polled. Most
+recent build observation:552 binaries written since prebuild start,8 rustc jobs
+active including large solver integration target. Keep frozen inputs and both jobs;
+no restart. On gate TERMINAL0 run existing evidence helper and commit diagnostics
+before promoting drafts. Full objective remains active and incomplete.
+
+Prebuild99206 TERMINAL0,18m39 reported compile time, overlapping gate88505.
+Do not sum overlapping durations. Gate resumed broad regression automatically;
+latest observation103RUN/17REUSE, no failures. Draft provenance IDs do not collide
+and all3 source methods remain pending in the existing report.
+
+Required step-diagnostics gate TERMINAL0. 4984 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 605, 'REUSE': 67}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2913, 'failed': 0, 'pending': 1660, 'excluded': 282, 'unverified': 0, 'percent': 60.0}.
+Source before/after matched: 1626400707b5623d26356c741daf47b8b12fe68be788bb66db2d6261805d0f8a
+Live freshness matched verification digest: 5a4333a9cd6b1ff3befc36c89967a6c1dfb8fb4d7c152269d7f49aa7fe21a225.
+Prior ledger records unchanged; added no upstream cases or fixtures.
+Log work/step-diagnostics-final-check.log; evidence work/step-diagnostics-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate88505 TERMINAL0, approximately1960s log wall span. Prebuild99206 and
+evidence85095 TERMINAL0. All4984 Rust tests and243doctests passed;605 Rust jobs
+ran,67 reused,all46 Python jobs reused. Source stable and live report freshness
+confirmed. No upstream credits added;2913/4855 remains60%. Both jobs finished,
+so inputs can now change after committing this diagnostics batch.

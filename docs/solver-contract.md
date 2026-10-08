@@ -1974,3 +1974,30 @@ no-ops, optional assignment, continuation metadata, and the destination draw bou
 They use existing native move validation and PRE-to-POST-removal coordinate
 conversion. They do not assert Java seeded random-stream parity. Native regressions
 also drive a scored list search through bounded repeating value/destination pairs.
+
+### Score checks at step boundaries
+
+`ConstructionConfig`, `ProviderConstructionConfig`, `LocalSearchConfig` and
+`RuinRecreateConfig` now have `assert_step_scores`, disabled by default. It enables
+existing initialization and scan/placement-boundary consistency checks without
+rescoring each candidate or each rollback. The setting reaches basic, list and
+mixed engines with scoped, stream and calculator scoring. Solver-bound construction
+providers inherit it, and ruin/recreate passes it to reconstruction and initial
+scoring. A phase that never starts does not gain checks; use the separate solver
+phase-score option for initial-only solves.
+
+`assert_scores` still enables the full candidate/rollback/commit checks. Enabling
+both flags does not duplicate checks. Step checks can catch a corrupted committed
+state, but can miss a temporary corruption repaired before the next boundary.
+They do not implement Timefold's complete STEP_ASSERT environment-mode contract,
+which also specifies undo checks. The environment-policy draft remains unintegrated;
+no new upstream method credit is claimed for this native option.
+
+Diagnostics do not consume reported evaluation budgets, but callback time still
+belongs to cooperative deadlines. Original fault-injection regressions exercise
+all nine backend routes at initialization, provider construction and reconstruction,
+and committed-state failures in basic/list/mixed local search and construction.
+For a one-candidate calculator scan, step checks create three scorer instances
+(initial plus two diagnostics); full checks create more. Search work and retained
+results agree when scoring is correct. This is a callback-count observation, not
+a wall-clock performance claim.

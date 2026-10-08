@@ -123,6 +123,10 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     pub placement: ConstructionPlacement,
     pub pick_early: ConstructionPickEarly,
     pub assert_scores: bool,
+    /// Check initialization and completed scan/placement boundaries without
+    /// candidate-state or rollback rescoring. Full assert_scores takes precedence.
+    /// Diagnostic work is excluded from evaluation counters but consumes time.
+    pub assert_step_scores: bool,
 }
 impl<S> Default for RuinRecreateConfig<'_, S> {
     fn default() -> Self {
@@ -145,6 +149,7 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
             placement: ConstructionPlacement::Sequential,
             pick_early: ConstructionPickEarly::Never,
             assert_scores: false,
+            assert_step_scores: false,
         }
     }
 }

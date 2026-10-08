@@ -269,6 +269,7 @@ fn construction_matches_scoped_selection_for_both_orders_policies_and_budget_pre
                             max_evaluations,
                             pick_early,
                             assert_scores: false,
+                            assert_step_scores: false,
                         },
                     };
                     let expected = greedy_mixed_construction(&p, &n, config).unwrap();

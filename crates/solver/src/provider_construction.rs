@@ -38,6 +38,10 @@ pub struct ProviderConstructionConfig<'a> {
     pub cancellation: Option<&'a CancellationToken>,
     pub max_time: Option<Duration>,
     pub assert_scores: bool,
+    /// Check initialization and completed scan/placement boundaries without
+    /// candidate-state or rollback rescoring. Full assert_scores takes precedence.
+    /// Diagnostic work is excluded from evaluation counters but consumes time.
+    pub assert_step_scores: bool,
 }
 impl Default for ProviderConstructionConfig<'_> {
     fn default() -> Self {
@@ -52,6 +56,7 @@ impl Default for ProviderConstructionConfig<'_> {
             cancellation: None,
             max_time: None,
             assert_scores: false,
+            assert_step_scores: false,
         }
     }
 }
@@ -377,7 +382,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     let mut director = create(result.assignment.clone())?;
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_evaluations();
-    if config.assert_scores {
+    if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
     director.notify_best(|a| shape.complete(a));
@@ -464,7 +469,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         if completed && let Some(shared) = &mut shared {
             shared.complete_construction_step();
         }
-        if config.assert_scores {
+        if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
         drop(proposals);

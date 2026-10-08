@@ -404,6 +404,7 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
                     max_evaluations,
                     pick_early,
                     assert_scores: true,
+                    assert_step_scores: false,
                 };
                 let expected = greedy_list_construction(&p, &n, config).unwrap();
                 let (g, s) = route_graph();

@@ -274,6 +274,10 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     /// candidate rollback (including early selection), and at step boundaries.
     /// Diagnostic calculations do not increase search evaluation counters.
     pub assert_scores: bool,
+    /// Check initialization and completed scan/placement boundaries without
+    /// candidate-state or rollback rescoring. Full assert_scores takes precedence.
+    /// Diagnostic work is excluded from evaluation counters but consumes time.
+    pub assert_step_scores: bool,
 }
 impl<S> Default for LocalSearchConfig<'_, S> {
     fn default() -> Self {
@@ -302,6 +306,7 @@ impl<S> Default for LocalSearchConfig<'_, S> {
             tie_breaking: crate::TieBreaking::First,
             rejected_moves: RejectedMovePolicy::Stop,
             assert_scores: false,
+            assert_step_scores: false,
         }
     }
 }
@@ -672,7 +677,7 @@ where
         assignment: director.assignment().clone(),
         score: director.score(),
     });
-    if config.assert_scores {
+    if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
     time_budget.start_search();
@@ -798,7 +803,7 @@ where
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }
-        if config.assert_scores {
+        if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
         provider.end_step();

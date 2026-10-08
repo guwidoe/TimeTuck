@@ -132,6 +132,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         max_time: remaining(),
         pick_early: config.pick_early,
         assert_scores: config.assert_scores,
+        assert_step_scores: config.assert_step_scores,
         ..Default::default()
     };
     let initial = rebuild(problem, initial, construction)?;
