@@ -86,6 +86,176 @@ impl SubListSelection {
     pub fn is_empty(&self) -> bool {
         self.total == 0
     }
+    /// Number of eligible spans in one entity. Missing, pinned and too-short
+    /// entities have no eligible spans. Entity lookup is logarithmic.
+    pub fn entity_len(&self, entity: usize) -> u128 {
+        self.block_for_entity(entity)
+            .map_or(0, |block| block.through - block.before)
+    }
+    fn block_for_entity(&self, entity: usize) -> Option<&SpanBlock> {
+        self.blocks
+            .binary_search_by_key(&entity, |block| block.entity)
+            .ok()
+            .map(|index| &self.blocks[index])
+    }
+    /// Entity-local rank in descending length, then ascending start order.
+    /// These ranks exclude the pinned prefix, just like global ranks.
+    pub fn at_entity(&self, entity: usize, rank: u128) -> Option<ListRange> {
+        let block = self.block_for_entity(entity)?;
+        if rank >= block.through - block.before {
+            return None;
+        }
+        self.at(block.before + rank)
+    }
+    fn draw_entity(&self, entity: usize, draw: &mut impl FnMut(u128) -> u128) -> Option<ListRange> {
+        let bound = self.entity_len(entity);
+        if bound == 0 {
+            return None;
+        }
+        let rank = draw(bound);
+        assert!(rank < bound, "sublist draw must be less than its bound");
+        self.at_entity(entity, rank)
+    }
+    /// Draw a span within each selected entity, retaining duplicate occurrences
+    /// and the input's weighting. For example, mapping selected values to their
+    /// owners weights entities by the value selector, instead of by span count.
+    /// Missing, pinned and too-short entities consume a read but no rank draw.
+    ///
+    /// The read limit applies across the whole iterator, including rejected
+    /// entities, so an endless ineligible input cannot hang a scan. An empty
+    /// index reads neither input nor randomness. Opening is lazy; exhaustion
+    /// fuses the cursor. Rebuild the index after changing the assignment.
+    pub fn random_iter_for_entities_with<'a>(
+        &'a self,
+        entities: impl IntoIterator<Item = usize> + 'a,
+        maximum_entity_reads: usize,
+        mut draw: impl FnMut(u128) -> u128 + 'a,
+    ) -> impl FusedIterator<Item = ListRange> + 'a {
+        let mut entities = entities.into_iter().take(if self.is_empty() {
+            0
+        } else {
+            maximum_entity_reads
+        });
+        std::iter::from_fn(move || {
+            entities
+                .by_ref()
+                .find_map(|entity| self.draw_entity(entity, &mut draw))
+        })
+        .fuse()
+    }
+    /// Combine entity-conditioned span draws with independently supplied
+    /// destinations. Each proposal draws the entity-local span rank, reads one
+    /// destination, then draws a reversal bit (bound 2) when enabled for a
+    /// relocation. None yields unassignment without a reversal draw.
+    ///
+    /// Destinations use native POST-removal indices. Proposals retain duplicates,
+    /// no-ops and invalid receivers/indices; validate them against the problem
+    /// before scoring. Unlike sampled_sublist_change_moves, this function does
+    /// not invent destinations, canonicalize proposals or filter receiver ranges.
+    /// It permits singleton spans when this index was built with minimum one.
+    ///
+    /// Source exhaustion, destination exhaustion or the entity-read limit ends
+    /// and fuses the traversal. A missing destination can consume one span draw.
+    /// Skipped entities do not consume destinations or randomness. Draw callbacks
+    /// must return ranks below the supplied bound; otherwise iteration panics.
+    pub fn change_samples_with<'a, V: 'a>(
+        &'a self,
+        entities: impl IntoIterator<Item = usize> + 'a,
+        destinations: impl IntoIterator<Item = Option<ListPosition>> + 'a,
+        maximum_entity_reads: usize,
+        reversing: bool,
+        mut draw: impl FnMut(u128) -> u128 + 'a,
+    ) -> impl FusedIterator<Item = ListMove<V>> + 'a {
+        let mut entities = entities.into_iter().take(if self.is_empty() {
+            0
+        } else {
+            maximum_entity_reads
+        });
+        let mut destinations = destinations.into_iter();
+        std::iter::from_fn(move || {
+            let span = entities
+                .by_ref()
+                .find_map(|entity| self.draw_entity(entity, &mut draw))?;
+            Some(match destinations.next()? {
+                None => ListMove::Unassign {
+                    entity: span.entity,
+                    start: span.start,
+                    end: span.end,
+                },
+                Some(destination) => {
+                    let reverse = if reversing {
+                        let bit = draw(2);
+                        assert!(bit < 2, "reversal draw must be less than its bound");
+                        bit != 0
+                    } else {
+                        false
+                    };
+                    ListMove::SubListChange {
+                        entity: span.entity,
+                        start: span.start,
+                        end: span.end,
+                        destination,
+                        reverse,
+                    }
+                }
+            })
+        })
+        .fuse()
+    }
+    /// Pair independently selected entities, drawing one span from each index
+    /// and then an optional reversal bit (including for singleton spans).
+    /// The read limit applies separately to each entity stream for the whole
+    /// traversal. Each side skips ineligible entities before pairing.
+    ///
+    /// Same-entity pairs are ordered by starting index; equal starts retain
+    /// input order. Cross-entity pairs retain their input order. Overlaps and
+    /// invalid receiving ranges remain proposals and must be rejected before
+    /// scoring. Either empty index exhausts without reading either input.
+    /// As with change_samples_with, callbacks and inputs are lazy and exhaustion
+    /// fuses the cursor; a missing right side may consume one left span draw.
+    pub fn swap_samples_with<'a, V: 'a>(
+        &'a self,
+        right: &'a Self,
+        entities: (
+            impl IntoIterator<Item = usize> + 'a,
+            impl IntoIterator<Item = usize> + 'a,
+        ),
+        maximum_entity_reads: usize,
+        reversing: bool,
+        mut draw: impl FnMut(u128) -> u128 + 'a,
+    ) -> impl FusedIterator<Item = ListMove<V>> + 'a {
+        let limit = if self.is_empty() || right.is_empty() {
+            0
+        } else {
+            maximum_entity_reads
+        };
+        let mut left_entities = entities.0.into_iter().take(limit);
+        let mut right_entities = entities.1.into_iter().take(limit);
+        std::iter::from_fn(move || {
+            let mut l = left_entities
+                .by_ref()
+                .find_map(|entity| self.draw_entity(entity, &mut draw))?;
+            let mut r = right_entities
+                .by_ref()
+                .find_map(|entity| right.draw_entity(entity, &mut draw))?;
+            if l.entity == r.entity && l.start > r.start {
+                std::mem::swap(&mut l, &mut r);
+            }
+            let reverse = if reversing {
+                let bit = draw(2);
+                assert!(bit < 2, "reversal draw must be less than its bound");
+                bit != 0
+            } else {
+                false
+            };
+            Some(ListMove::SubListSwap {
+                left: l,
+                right: r,
+                reverse,
+            })
+        })
+        .fuse()
+    }
     /// Return a span by rank; out-of-range ranks have no span.
     pub fn at(&self, rank: u128) -> Option<ListRange> {
         let block = self

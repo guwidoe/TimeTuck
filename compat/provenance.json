@@ -59911,6 +59911,162 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataConstraintProvider.java",
       "upstream_test": "defineConstraints/alwaysPenalizingConstraint",
       "modifications": "Native per-variable constraints penalize each assigned entity by one, preserving the source objective while replacing Java stream descriptors."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListChangeMoveSelectorTest.randomUnrestricted.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomUnrestricted",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListChangeMoveSelectorTest.randomAllowsUnassignedValues.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomAllowsUnassignedValues",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListChangeMoveSelectorTest.randomReversing.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomReversing",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListChangeMoveSelectorTest.randomWithSubListSizeBounds.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomWithSubListSizeBounds",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListChangeMoveSelectorTest.skipSubListsSmallerThanMinimumSize.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "skipSubListsSmallerThanMinimumSize",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListSwapMoveSelectorTest.sameEntityUnrestricted.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "sameEntityUnrestricted",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListSwapMoveSelectorTest.sameEntityWithSubListSizeBounds.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "sameEntityWithSubListSizeBounds",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListSwapMoveSelectorTest.reversing.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "reversing",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListSwapMoveSelectorTest.skipSubListsSmallerThanMinimumSize.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "skipSubListsSmallerThanMinimumSize",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomSubListSwapMoveSelectorTest.allowsUnassignedValues.entity_sublist_proposals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "allowsUnassignedValues",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial proposal-sequence adaptation only; no upstream method credit. Preserve original lists, optional unassigned value, bounds, anchor-owner order, scripted span/reversal ranks, all ordered move codes, continuation and final integer bound when asserted. Entity indices replace value-to-owner lookup; explicit finite native read budget replaces unbounded selector metadata. Source hasNext sentinels -1 become valid zero ranks for a native next() continuation probe. Selector cardinality and lifecycle assertions remain unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.entity_sublist_sequences",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingMoveSelector/assertCodesOfNeverEndingIterableSelector/assertCodesOfNeverEndingIterator",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Partial helper adaptation: preserve ordered move codes and a successful continuation probe. Iterator next replaces hasNext; selector size and isNeverEnding metadata assertions are explicitly not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestRandom.entity_sublist_sequences",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/TestRandom.java",
+      "upstream_test": "nextInt/nextBoolean/assertIntBoundJustRequested",
+      "local_path": "crates/solver/tests/entity_sublist_sequence_fixtures.rs",
+      "modifications": "Finite scripted span ranks and boolean choices, over-read rejection and final span-bound assertions are preserved. Native booleans use bound2 instead of Java unbounded nextInt. Unused negative sentinels are replaced with valid zero ranks for the native next continuation probe; the resulting complete script must be consumed exactly. No Java PRNG parity."
     }
   ]
 }

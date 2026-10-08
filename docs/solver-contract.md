@@ -2001,3 +2001,34 @@ For a one-candidate calculator scan, step checks create three scorer instances
 (initial plus two diagnostics); full checks create more. Search work and retained
 results agree when scoring is correct. This is a callback-count observation, not
 a wall-clock performance claim.
+
+### Entity-driven sublist proposals
+
+`SubListSelection` now exposes `entity_len` and `at_entity` alongside global
+ranks. Entity-local ranks have the same descending-length/ascending-start order,
+excluding whole pins and pinned prefixes. Missing and ineligible entities have
+zero spans. Lookups use the existing per-entity index; no span catalog is built.
+
+`random_iter_for_entities_with` samples within externally selected entities.
+Callers can supply value-owner selections, explicit entity weights or replayed
+entity orders. This differs from the existing sampler's uniform distribution over
+all spans. `change_samples_with` combines these draws with destination inputs;
+`swap_samples_with` draws each side independently. Rank/reversal callbacks permit
+native randomness or explicit replay. The existing seeded samplers are unchanged.
+
+Each iterator bounds entity reads, including skipped entities; swaps apply that
+bound independently to both inputs. Skipped entities consume neither randomness
+nor destinations. Empty span indexes consume no inputs. Exhaustion fuses the
+cursor, including when an input itself could resume after returning None. A missing
+right side can consume one unmatched left draw. Callback effects are not rolled
+back if iteration panics.
+
+These APIs emit proposals, retaining duplicates, no-ops, overlaps and invalid
+receivers. Destinations use native **post-removal** indices without adjustment.
+Callers must validate proposals before scoring them. Same-entity swap proposals
+normalize by start index, preserving ties; cross-entity side order remains intact.
+Unassignment consumes no reversal draw. Rebuild indexes after assignment changes.
+Original regressions exercise read budgets, pins, independent draw order, rollback
+and actual list/mixed solves. Ten pinned upstream proposal sequences are retained
+as attributed partial fixtures; selector cardinality, unbounded metadata and
+lifecycle remain outside these iterators, so those fixtures earn no method credit.

@@ -18540,3 +18540,49 @@ All3 newly registered methods individually report passed. Coverage2916/4855
 (60.062%),0failed,1657pending,282excluded,0unverified. Live freshness matched.
 Full staged source/provenance diff inspected. No benchmarks or UI checks repeated.
 All handles terminal; ready to commit. Full rewrite remains active/incomplete.
+
+## Entity-driven sublist sampling
+
+Baseline7dd502a clean. Previous goal turn progressed: diagnostics9490ae0 and three
+complete source cases7dd502a committed; report2916/4855. Read handoff/compatibility,
+then pinned RandomSubListChangeMoveSelectorTest and the sequence methods of
+RandomSubListSwapMoveSelectorTest. Read selector-based sublist change doability
+and execution test contracts: native POST-removal destinations remain appropriate;
+raw proposal metadata may include invalid/no-op destinations. No production Java read.
+
+Implemented SubListSelection.entity_len/at_entity and bounded entity-conditioned
+rank, change and swap sampling methods. Independent entity streams skip ineligible
+owners without drawing or consuming destinations; total read caps prevent endless
+rejection. Changes preserve POST-removal destination coordinates; swaps normalize
+same-entity starts only. Invalid/overlapping/no-op proposals remain for caller
+validation. Empty indexes consume no inputs and exhaustion fuses. Existing seeded
+samplers unchanged. No new exports/config fields or solver-engine changes.
+
+Added5 original regressions (including actual list and mixed solves) and10 partial
+upstream sequence fixtures. Twelve provenance fixtures record the ten source
+methods plus PlannerAssert/TestRandom adaptations; no complete method credits.
+Compile11461 TERMINAL0 for initial rank/change version; focus81522 TERMINAL0 for
+final rank/change/swap code and15tests (34.20s build). Then tightened scripted
+fixtures to finite draws with exact consumption, replacing cycling scripts. Final
+gate must validate that final test state. Source/contract changes reviewed; no
+performance claim or benchmark refresh. Full goal remains active/incomplete.
+
+Required entity-sublist gate TERMINAL0. 5002 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 6, 'REUSE': 670}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2916, 'failed': 0, 'pending': 1657, 'excluded': 282, 'unverified': 0, 'percent': 60.062}.
+Source before/after matched: 4dac2da495f9a04f72b7ed995408e902c4b65e8b8dc5883d4fc119d8028da291
+Live freshness matched verification digest: 79779b7ea1d95f8903b312b50d60984dfaad6b9fb7903c496532536e822cc64f.
+Prior ledger records unchanged; appended12 partial fixture records and no upstream method credits.
+Log work/entity-sublist-final-check.log; evidence work/entity-sublist-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+First gate79978 TERMINAL101 at clippy: collapsible_if in a new native test.
+Preserved log work/entity-sublist-first-check.log. Collapsed the nested condition;
+no behavior change. Final gate24193 TERMINAL0, approximately447s log wall span.
+Evidence85541 TERMINAL0: source stability and live dashboard freshness confirmed.
+Six Rust jobs ran,670 reused; all46 Python jobs reused. All5002Rust tests and
+243doctests pass. The final finite-script versions passed all10 sequence fixtures
+plus5native regressions. Twelve fixture records appended, prior ledger unchanged,
+no new complete method credits;2916/4855=60.062%,0failed. Full staged source/test
+and provenance changes reviewed. All handles terminal; ready to commit. No
+benchmarks or browser checks repeated; full rewrite remains active/incomplete.
