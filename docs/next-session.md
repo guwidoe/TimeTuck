@@ -19421,3 +19421,97 @@ snapshots, activity/consistency rebuilding and score-call counts. Add an interna
 pair-projection hook to join_batch reused by ordinary/unfiltered joins, keeping
 existing API behavior. No next-batch edits yet. Full rewrite remains incomplete;
 reuse this batch's successful evidence rather than rerunning it.
+
+
+## Compact filtered indexed graph joins
+
+Baselinea74216c, clean tree. Prior turn committed atomic grouping with native
+swap CPU improvements and measured59% fewer copied tree nodes. This batch targets
+the second join and filter, still the largest operator costs. Internal JoinNode
+apply_batch_projected evaluates final pair projection before installation, reused
+by unchanged public unfiltered apply_batch. New FilteredIndexedJoin retains side
+indexes/rows and accepted IDs only; predicate runs once per affected final key
+match, rejected payloads are never cloned, and stable accepted IDs need no write.
+Journal/full snapshots cover both join and membership. Existing graph join_batched
+now delegates to this engine; new join_compare_filtered_batched supports all five
+relations. Standalone BatchedJoinNode pending/eager/committed-pair APIs unchanged.
+Batched benchmark now combines second join+filter through existing join_batched.
+No upstream source reads, provenance changes or method credits.
+
+Fmt38276/39869 TERMINAL0. Focus/build73156 TERMINAL0:3 new regressions,7 existing
+graph-batching,6 indexed-join and1 all-comparison journal regression (17 total),
+release1m03s. New cases cover120 deterministic rounds x5relations x2activity modes,
+independent pair scans and exact predicate counts; zero opposite-row clones across
+32 rejected pairs; every comparison failure restores inputs/accepted IDs without
+comparisons during rollback. Existing tests cover self-joins, score overflows,
+basic/list/mixed moves, callbacks, saved winners and activity/consistency rebuilding.
+Logs work/filtered-index-focus.log and work/filtered-index-build.log.
+
+Native58435 TERMINAL0, work/filtered-index-native-performance.json. Exact native
+assignments, scores and callback counts matched. Median whole-process CPU ms
+before/after (warmup and both sizes included): hill/change969.965/925.6805;
+tabu/change878.3665/809.975; hill/swap20637.6315/20985.484;
+tabu/swap25469.876/15186.867. Large variation: hill-swap before[25306,15969],
+after[28284,13687]; tabu before[16586,34354],after[17972,12401]. Elapsed medians
+96-variable hill swaps4629.778/3658.101ms, tabu5311.492/3482.636ms. Host noise
+precludes a reliable general speedup claim. Retain compact storage and proven
+zero opposite-payload cloning for rejected pairs with measured limitations.
+
+Preflight17080 TERMINAL101: graph replacement left standalone BatchedJoinNode's
+private clear/checkpoint/restore bridge unused. Removed these unreferenced crate-
+private helpers; standalone public APIs unchanged. No runtime benchmark path was
+changed by cleanup. Native archive remains evidence of its recorded executable,
+not relabeled under a new source digest. Matched Java built the final source.
+Failed log work/filtered-index-preflight-failed.log. Final prebuild+gate22565
+TERMINAL0 including doctests/Python. Prebuild5m36s;5154Rust/243docs passed;
+662Rust jobs ran,34 reused,46Python jobs reused. No failures after the private
+helper cleanup. Staged implementation/tests reviewed; no additional source changes.
+Matched Java18958 TERMINAL0:128 valid cases,128 equal scores. Report/live freshness and isolated profile62580 TERMINAL0.
+No source changes after the final gate. Goal active/incomplete; no browser rerun.
+
+Required filtered-index gate TERMINAL0. 5154 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 662, 'REUSE': 34}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3005, 'failed': 0, 'pending': 1568, 'excluded': 282, 'unverified': 0, 'percent': 61.895}.
+Source before/after matched: 5d9b67cc1714eb7f6233a3ee2f1084d947fdc34f128f7141383502307cc2e107
+Live freshness matched verification digest: b2c52b23ef602c40d78830b35608c9d0e961be371dc0acb7eda04ac0f0b42b81.
+Prior ledger records unchanged; No new provenance cases or fixture changes; no upstream method credits.
+Log work/filtered-index-final-check.log; evidence work/filtered-index-evidence.json.
+Stream native and matched Java measurements refreshed for the compact filtered indexed joins; unrelated measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Matched Java measurement 2026-10-08T21:32:01.664435+00:00; measurement source digest
+d9d943a0ecbdd5fbcca597f3fe5bcc6b15f93a1fc5c2e51a5eb127d6d5b7f850. Median ms Rust / Java:
+- Hill climbing · change · 32 variables: 76.033 / 131.042.
+- Hill climbing · change · 96 variables: 167.760 / 127.472.
+- Tabu · change · 32 variables: 59.623 / 84.488.
+- Tabu · change · 96 variables: 412.517 / 361.936.
+- Hill climbing · swap · 32 variables: 845.687 / 422.479.
+- Hill climbing · swap · 96 variables: 7082.585 / 838.389.
+- Tabu · swap · 32 variables: 499.768 / 246.423.
+- Tabu · swap · 96 variables: 7404.117 / 1126.528.
+Large swaps remain6.6–8.4x slower in this matched run. Both runtimes showed
+higher elapsed times than the previous run; do not use separate noisy runs to
+claim before/after speedups. Native paired evidence remains mixed as recorded above.
+
+Fresh profile work/filtered-index-profile.json/log, isolated instrumented build;
+source stable. Same case/config/assignments/scores/callback counts as
+work/group-batch-profile.json confirmed. Copied AVL nodes1,032,162 ->1,708,526
+(+65.53%); new nodes233,429 ->463,766 (+98.68%); value undo records2,345,068
+->1,520,640 (-35.16%). Compact accepted-ID storage trades rejected payload clones
+for structural set insert/remove work. Do not claim an allocation improvement.
+Dominant instrumented spans: filtered second join971ms, rollback451ms, first
+join263ms, terminal259ms, grouping248ms, checkpoints178ms. Host/timer overhead
+precludes comparing these times directly with the prior profile.
+
+Next coherent performance batch: investigate accepted membership stored per left
+input row with sorted accepted right IDs, including empty rows. That would retain
+only linear row metadata plus accepted IDs, and use replacement journals when
+acceptance changes instead of structurally inserting/removing global pair keys.
+Combine grouped membership updates with join processing changes before one broad
+gate. Preserve final-pair predicate counts, pair ordering, old-key representatives,
+row removal, comparison/clone failure recovery, saved candidates, and snapshots.
+This is a proposed implementation direction, not implemented or measured evidence;
+inspect current JoinNode row access first. No next-batch source edits yet.
+
+All batch handles terminal. Implementation and final staged diff reviewed. Goal remains
+active/incomplete. Reuse successful gate and native comparison; no reruns needed
+for this source state. Unrelated benchmark measurements retain dates/freshness.

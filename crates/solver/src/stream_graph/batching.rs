@@ -1,6 +1,5 @@
 //! Topological batch scheduling and native batched join adapters.
 use super::*;
-use crate::{BatchedJoinNode, JoinEvaluation, TupleLifecycleEvent};
 
 /// Heterogeneous changes belonging to one graph. Adding a foreign source fails
 /// without adding that change. With explicit `apply_batch`, repeated changes to
@@ -39,64 +38,15 @@ impl StreamBatch {
         self.events.is_empty()
     }
 }
-struct BatchedJoin<'a, I, J, L, R, K>(BatchedJoinNode<'a, I, J, L, R, K>);
-impl<
-    I: Ord + Clone + 'static,
-    J: Ord + Clone + 'static,
-    L: Clone + 'static,
-    R: Clone + 'static,
-    K: Ord + Clone + 'static,
-    S: AdditiveScore,
-> Node<S> for BatchedJoin<'_, I, J, L, R, K>
-{
-    fn prefers_batch(&self) -> bool {
-        true
-    }
-    fn checkpoint(&self) -> Box<dyn Any> {
-        self.0.checkpoint()
-    }
-    fn clear(&mut self) {
-        self.0.clear();
-    }
-    fn restore(&mut self, saved: Box<dyn Any>) {
-        self.0.restore(saved);
-    }
-    fn apply(
-        &mut self,
-        right: bool,
-        event: &Event,
-        a: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
-        <Self as Node<S>>::apply_batch(self, &[(right, event.clone())], a)
-    }
-    fn apply_batch(
-        &mut self,
-        inputs: &[(bool, Event)],
-        _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
-        for (right, event) in inputs {
-            if *right {
-                self.0.enqueue_right(typed::<J, R>(event).clone());
-            } else {
-                self.0.enqueue_left(typed::<I, L>(event).clone());
-            }
-        }
-        Ok(erase(
-            self.0
-                .propagate()
-                .into_iter()
-                .map(TupleLifecycleEvent::into_change),
-        ))
-    }
-}
 impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     /// Equality-indexed filtered join that coalesces inputs in graph batches.
     /// Building an observed batched join enables batched planning updates in the
     /// basic/list/mixed stream score directors. Direct transaction `apply` remains
     /// immediate; `apply_batch` settles both inputs together. Callbacks must depend
     /// only on immutable row contents; intermediate source values are not evaluated.
-    /// Accepted-pair storage can be quadratic. Pure callback and panic/rollback
-    /// requirements are the same as for standalone BatchedJoinNode.
+    /// Stores input rows/indexes and accepted pair IDs; rejected pair payloads
+    /// are never cloned or retained. Accepted-ID storage can be quadratic. Pure
+    /// callback and panic/rollback requirements match standalone BatchedJoinNode.
     pub fn join_batched<
         I: Ord + Clone + 'static,
         J: Ord + Clone + 'static,
@@ -111,17 +61,14 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         right_key: impl Fn(&R) -> K + 'a,
         predicate: impl Fn(&L, &R) -> bool + 'a,
     ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
-        self.validate(left)?;
-        self.validate(right)?;
-        let out = self.push(BatchedJoin(BatchedJoinNode::<I, J, L, R, K>::new(
-            JoinEvaluation::Deferred,
+        self.join_compare_filtered_batched(
+            left,
+            right,
+            JoinComparison::Equal,
             left_key,
             right_key,
             predicate,
-        )));
-        self.connect(left.node, out.node, false);
-        self.connect(right.node, out.node, true);
-        Ok(out)
+        )
     }
 }
 type BatchInputs = Vec<(bool, Event)>;

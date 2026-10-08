@@ -129,11 +129,22 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         left: impl IntoIterator<Item = TupleChange<I, L>>,
         right: impl IntoIterator<Item = TupleChange<J, R>>,
     ) -> JoinChanges<I, J, L, R> {
+        self.apply_batch_projected(left, right, |l, r| Some((l.clone(), r.clone())))
+    }
+    // Projection happens only on final matching candidates, before installation.
+    // Rejected candidates carry a retraction; graph callers suppress IDs that
+    // were never published. The public unfiltered operation keeps its contract.
+    pub(crate) fn apply_batch_projected<U>(
+        &mut self,
+        left: impl IntoIterator<Item = TupleChange<I, L>>,
+        right: impl IntoIterator<Item = TupleChange<J, R>>,
+        mut pair: impl FnMut(&L, &R) -> Option<U>,
+    ) -> Vec<TupleChange<(I, J), U>> {
         healthy(self.is_poisoned());
         let mut left = project(last_updates(left), &self.left_key);
         let mut right = project(last_updates(right), &self.right_key);
         if unchanged(&self.left, &left) && unchanged(&self.right, &right) {
-            return self.replace_payloads(left, right);
+            return self.replace_payloads(left, right, &mut pair);
         }
         let mut next_left = self.left.clone();
         let mut next_right = self.right.clone();
@@ -171,9 +182,7 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
                 .get(&i)
                 .zip(next_right.rows.get(&j))
                 .filter(|((lk, _), (rk, _))| self.comparison.matches(lk, rk))
-                .map(|((_, l), (_, r))| (l.clone(), r.clone()));
-            // Each candidate matched before or after the round. A missing final
-            // match therefore retracts an actual old pair, never a transient one.
+                .and_then(|((_, l), (_, r))| pair(l, r));
             out.push(TupleChange { id: (i, j), value });
         }
         self.left.rows.install_snapshot(next_left.rows);
@@ -186,11 +195,12 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     }
     // Every changed row exists and retains its key, so old membership is final
     // membership. Prepare all output/callback work before mutating row payloads.
-    fn replace_payloads(
+    fn replace_payloads<U>(
         &mut self,
         left: PreparedChanges<I, K, L>,
         right: PreparedChanges<J, K, R>,
-    ) -> JoinChanges<I, J, L, R> {
+        pair: &mut impl FnMut(&L, &R) -> Option<U>,
+    ) -> Vec<TupleChange<(I, J), U>> {
         let mut candidates = Vec::new();
         affected(
             &self.left,
@@ -214,10 +224,10 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         candidates.dedup();
         let mut output = Vec::with_capacity(candidates.len());
         for (i, j) in candidates {
-            let value = Some((
-                final_payload(&self.left, &left, &i).clone(),
-                final_payload(&self.right, &right, &j).clone(),
-            ));
+            let value = pair(
+                final_payload(&self.left, &left, &i),
+                final_payload(&self.right, &right, &j),
+            );
             output.push(TupleChange { id: (i, j), value });
         }
         // These nested guards also protect standalone joins against comparison

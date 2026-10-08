@@ -1911,7 +1911,8 @@ inputs settle together. Each affected final candidate pair is evaluated once and
 surviving pair payloads are updated once. Source callbacks and batched predicates
 must be pure and work from immutable inputs. Other operators retain their ordinary
 per-event behavior and checked arithmetic, including possible intermediate errors.
-Accepted pairs are stored, so dense joins use quadratic memory.
+Accepted pair IDs are stored, so dense joins can still use quadratic memory;
+input payloads live in side indexes and accepted output payloads live downstream.
 
 Basic, list and mixed stream score directors automatically submit complete initial
 and move updates as batches when a batched join reaches a scoring constraint or
@@ -2025,3 +2026,25 @@ final group state once per round. Direct transaction `apply` and ordinary
 `group_collect` retain immediate behavior. Generic user-defined collectors retain
 their existing per-event semantics. The batched benchmark uses this boundary in
 place of ordinary grouping followed by a separate coalescing node.
+
+
+## Compact filtered indexed joins
+
+Graph `join_batched` uses the compact indexed engine with equality keys.
+`join_compare_filtered_batched` additionally supports all five ordered-key
+relations. A shared internal final-pair projection hook evaluates the residual
+predicate once for each affected final key match, before cloning its payload.
+Rejected pairs allocate no output payloads and are not retained. The graph node
+stores accepted pair IDs only, suppresses rejected-to-rejected/absent-to-absent
+retractions, and emits surviving accepted replacements in pair-ID order. An
+unchanged accepted ID needs no ID-map replacement. Input rows, indexes and
+accepted IDs all participate in graph journals and saved-candidate snapshots.
+
+This preserves graph callback, direct-apply, batch, rollback, activity and
+consistency contracts. Projections and predicates remain pure and stable; graph
+transactions restore both side state and accepted membership after failures,
+including comparisons that fail after pair preparation. Standalone BatchedJoinNode
+retains its eager/deferred queues, committed pair dataset, retry/discard APIs and
+existing behavior. The batched stream benchmark combines its second indexed join
+and residual conflict filter through graph join_batched; other graph users obtain
+the compact storage through the same existing API.

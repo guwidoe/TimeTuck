@@ -2439,3 +2439,5 @@ pub mod coalesced;
 mod journal_tests;
 
 mod grouped_batch;
+
+mod filtered_indexed;
