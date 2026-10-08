@@ -18271,3 +18271,47 @@ and live report freshness. All work handles terminal. No benchmarks or browser
 checks repeated. Current report2905/4855=59.835%,0failed,1668pending,282excluded.
 Ready to commit; following batch should reuse these fresh records. Keep the full
 rewrite goal active. Sorted property-value draft remains unverified in work/.
+
+## Sorted solution-property value ranges
+
+Baseline f0c676a, clean tree. Previous implementation batch completed and committed;
+latest user timing audit established 66% build/test elapsed time from 11:32-13:13,
+83% for the most recent batch, because verification helper changes invalidated all
+job keys. This batch leaves verifier/core inputs unchanged.
+
+Installed solution_property_value_cases.rs from the reviewed draft. Adapted all
+three IterableFromSolutionPropertyValueSelectorTest methods against existing
+OrderedSelectionCache, preserving ascending month codes, finite metadata, exact
+size and repeated exhaustion at every step (two phases, two then three steps).
+Typed property context and explicit events replace reflection/range-manager and
+mock scope links. Recorded three cases and two helper fixtures; only ascending
+list sorting is adapted from TestdataObjectSorter. No production source read.
+Focused78441 TERMINAL0, three tests passed; no core implementation change.
+Required gate56774 running, work/solution-property-final-check.log. Do not rerun or
+edit verification inputs until terminal. Once successful, run
+work/record_solution_property_evidence.py, inspect staged changes and commit.
+
+Read-ahead: MixedMoveSelectorTest's ten pending cases assert wrapper counting and
+legacy Neighborhoods API rejection of weighted unions. Native weighted provider
+unions already work; adding unused wrapper metadata would not advance solving.
+ElementDestinationSelectorTest remaining refresh/discard methods assert dynamic
+mimic iterator invalidation and Java hasNext/discard callbacks. Do not claim those
+from finite destination snapshots. PillarChangeMoveSelectorTest.original is a
+single all-unassigned four-entity pillar times three-value traversal; existing
+GroupedSelectionSource plus KeyedSelectionSource can support an eventual complete
+adaptation without a new production algorithm.
+
+Required solution-property gate TERMINAL0. 4968 Rust tests and 243 doctests passed.
+Rust jobs: {'REUSE': 666, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2908, 'failed': 0, 'pending': 1665, 'excluded': 282, 'unverified': 0, 'percent': 59.897}.
+Source before/after matched: c5380ab5e7b56b71fadd0655177bf6f4f28b4f3086c399bfb3376ffc96568ed8
+Live freshness matched verification digest: 6237f10a693474b347e708db9ccc13c09f80f9fd531dc489e02eed31b8bd75a7.
+Prior ledger records unchanged; appended3cases and2fixtures.
+Log work/solution-property-final-check.log; evidence work/solution-property-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate56774 TERMINAL0, 162s elapsed. Exactly one new Rust target ran; all666
+existing Rust jobs and all46 Python jobs reused prior successful evidence.
+Evidence70842 TERMINAL0; live freshness matched. No prebuild, benchmarks, release
+rerun or browser checks. Ready to commit this compatibility-only increment;
+full solver rewrite remains incomplete and active.

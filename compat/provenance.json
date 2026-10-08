@@ -43689,6 +43689,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all eight repeated entity/first-value codes per step, continuation and random metadata across five steps/two phases, including initialized current assignments. Native draw callbacks cycle the original mocked entity order and select the first value from each mocked value opening; this expresses the supplied iterator policies, not Java seeded PRNG parity. KeyedSelectionSource and typed key/value source callbacks replace Java selector descriptors and scopes. Preserve all six lifecycle counters independently for both children (solve1/phase2/step5). Current assignment lives in the context; candidate membership deliberately does not filter current no-ops. Rust iterator references replace non-null checks; an extra successful random draw replaces hasNext."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solution_property_value_cases.rs",
+      "id": "IterableFromSolutionPropertyValueSelectorTest.originalSelectionCacheTypeSolver",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/IterableFromSolutionPropertyValueSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypeSolver",
+      "local_test": "original_selection_cache_type_solver",
+      "modifications": "Typed context value source and OrderedSelectionCache replace reflected solution range, value-range manager and mocked scopes. Preserve original month input, ascending code order, finite metadata, exact size and iterator exhaustion at every step across two phases of two and three steps, with solve/phase/step cache scopes respectively. Explicit lifecycle events replace mock scope links; no Java API or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solution_property_value_cases.rs",
+      "id": "IterableFromSolutionPropertyValueSelectorTest.originalSelectionCacheTypePhase",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/IterableFromSolutionPropertyValueSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypePhase",
+      "local_test": "original_selection_cache_type_phase",
+      "modifications": "Typed context value source and OrderedSelectionCache replace reflected solution range, value-range manager and mocked scopes. Preserve original month input, ascending code order, finite metadata, exact size and iterator exhaustion at every step across two phases of two and three steps, with solve/phase/step cache scopes respectively. Explicit lifecycle events replace mock scope links; no Java API or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solution_property_value_cases.rs",
+      "id": "IterableFromSolutionPropertyValueSelectorTest.originalSelectionCacheTypeStep",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/value/IterableFromSolutionPropertyValueSelectorTest.java",
+      "upstream_test": "originalSelectionCacheTypeStep",
+      "local_test": "original_selection_cache_type_step",
+      "modifications": "Typed context value source and OrderedSelectionCache replace reflected solution range, value-range manager and mocked scopes. Preserve original month input, ascending code order, finite metadata, exact size and iterator exhaustion at every step across two phases of two and three steps, with solve/phase/step cache scopes respectively. Explicit lifecycle events replace mock scope links; no Java API or reflection parity claimed."
     }
   ],
   "fixtures": [
@@ -59616,6 +59661,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
       "upstream_test": "mockEntitySelector/mockValueSelector/solvingStarted/phaseStarted/doInsideStep/stepStarted",
       "modifications": "Explicit events replace mocked scope links. Entity callback returns original ordered slots and value callback returns a new original-order value traversal per key, both finite with exact sizes. Random adaptation supplies a repeating original-order key index policy and selects the first item of each value traversal. No descriptor/reflection/mocking framework or production implementation is ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solution_property_value_cases.rs",
+      "id": "TestdataObjectSorter.solution_property_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/TestdataObjectSorter.java",
+      "upstream_test": "constructor/sort(List)",
+      "modifications": "Adapt default ascending code comparator used by these cases to Rust str ordering. No reverse-order or set-sort contract is exercised or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solution_property_value_cases.rs",
+      "id": "PlannerAssert.solution_property_values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfValueSelector/assertAllCodesOfIterableSelector/assertAllCodesOfIterator",
+      "modifications": "Native assertions preserve every code, exact size, finite metadata and repeated exhaustion. Rust typed references replace non-null iterator assertions; no unrelated helper contracts adapted."
     }
   ]
 }
