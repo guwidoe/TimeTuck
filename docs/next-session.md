@@ -18040,3 +18040,57 @@ Gate30742 TERMINAL0, log wall131s;3 Rust jobs RUN,657 REUSE and46 Python
 jobs reused.4939 Rust tests and243 doctests passed. Evidence56306 TERMINAL0
 confirms live report freshness and exact2-case/1-fixture additions. All work handles
 terminal. No prebuild/benchmark/browser rerun. Full rewrite goal remains active.
+
+## Shared selection snapshot leases
+
+Baseline7498c45. Previous user timing turn produced measurement evidence but no
+implementation; resumed current shared-selection work and consumed compile34180
+TERMINAL0. Read DefaultPillarSelectorTest reusePillarCache and
+stepCacheClearedOnPhaseEnded only; no upstream production code read.
+
+SharedSelectionPool is a thread-local explicit-key weak registry; active leases
+share one non-Clone payload, snapshots can outlive leases without keeping demand
+active. Last lease removes the entry. Builders execute outside RefCell borrows,
+failed/panicking builders publish no partial result; reentrant live publication
+wins. Caller keys must identify equivalent sources/configuration/input revision.
+SharedStepSelectionSource wraps bounded SelectionProduct collection; StepStarted
+acquires, StepEnded releases; PhaseEnded/SolveEnded close unfinished inner scopes.
+Each view forwards its own balanced child lifecycle, not globally deduplicated
+callbacks. Invalid events leave state untouched; failed starts can be closed and
+retried. Drop releases leases without user callbacks. Separate views/iterators share
+Arc occurrences, preserving independent cursors and held snapshots. Works with
+GroupedSelectionSource and Step-scoped CachedMoveProvider.
+
+Added2 source methods preserving all shared active-count assertions, including
+skipped StepEnded. Native source views replace common Java source identity with
+explicit equal keys over equivalent owned children; recorded in provenance.
+Five original regressions cover non-Clone ownership/drop, builder errors/panic/
+reentry, independent cursors/events/revision keys, failed-start cleanup and real
+ProviderUnion solver integration with two differently mapped cached sources.
+Real solve reaches [2,2], score4, collecting once per scan across both providers.
+Focused31487 TERMINAL101: test source lifetime bounds and returned closure capture
+fixed. Focus75922 TERMINAL0:2source+5native. Required gate16021 running against
+frozen Rust/provenance. No benchmark refresh or UI change; full goal incomplete.
+
+While gate ran, inspected remaining four DefaultPillarSelectorTest random/subpillar
+methods and existing native PillarSelectionPolicy::sample. Source random scripts
+assert whole-group choice, size then partial member draws (or contiguous start).
+Existing native sampler intentionally uses different seeded draws; do not grant
+source trace credits without explicit draw adaptation and all helper assertions.
+Sequential source orders entities a,f,d,e,c,b but expects group order a/bd/cef;
+current generic grouping preserves encounter order, so that test remains pending.
+
+Required shared-selection gate TERMINAL0. 4946 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 659}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2897, 'failed': 0, 'pending': 1676, 'excluded': 282, 'unverified': 0, 'percent': 59.67}.
+Source before/after matched: ec6098f77715582a0fbc804425e14421468faa6dbefa046853c2beb5d0f5c583
+Live freshness matched verification digest: c5f1044eab77c2526f89353cea06a1ff8ddbf681b1e01d5386afb7f113f17194.
+Prior ledger records unchanged; appended2cases and0fixtures.
+Log work/shared-selection-final-check.log; evidence work/shared-selection-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Gate16021 TERMINAL0, log wall497s (includes verification input hashing/reporting).
+Three Rust jobs ran;659 Rust and46 Python jobs reused.4946 Rust tests and243
+doctests passed. Evidence41815 TERMINAL0 confirms live report freshness and exact
+2-case/0-fixture delta. All work handles terminal; no benchmark/browser rerun.
+Full rewrite goal remains active.

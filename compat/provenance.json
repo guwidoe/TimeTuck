@@ -43539,6 +43539,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all ordered pillar codes across phases with two then one steps, b/f value changes, finite metadata and exact sizes, repeated iterator exhaustion, and all six child lifecycle counters (solve1/phase2/step3). Native GroupedSelectionSource groups source-generated entity IDs by current value equality, retaining encounter/member order. Explicit lifecycle events replace mocked Java scopes and reflection descriptors; Rust-typed values replace named fixture objects. No random selection, shared supply-manager counts or Java cache identity claimed."
+    },
+    {
+      "id": "DefaultPillarSelectorTest.reusePillarCache",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/pillar/DefaultPillarSelectorTest.java",
+      "upstream_test": "reusePillarCache",
+      "local_path": "crates/solver/tests/shared_pillar_source_cases.rs",
+      "local_test": "reuse_pillar_cache",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve six entities with values [1,2,3,2,3,3], two whole-pillar selectors and every shared demand count assertion across solve/phase/step events. Native SharedSelectionPool leases and SharedStepSelectionSource views over actual GroupedSelectionSource replace Java SupplyManager, descriptors and mocked scopes. Equal explicit keys identify equivalent sources; each view owns a separate equivalent entity source and forwards its own balanced lifecycle. Normal step endings release demands in order 2/1/0 before phase/solve end."
+    },
+    {
+      "id": "DefaultPillarSelectorTest.stepCacheClearedOnPhaseEnded",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/pillar/DefaultPillarSelectorTest.java",
+      "upstream_test": "stepCacheClearedOnPhaseEnded",
+      "local_path": "crates/solver/tests/shared_pillar_source_cases.rs",
+      "local_test": "step_cache_cleared_on_phase_ended",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve six entities with values [1,2,3,2,3,3], two whole-pillar selectors and every shared demand count assertion across solve/phase/step events. Native SharedSelectionPool leases and SharedStepSelectionSource views over actual GroupedSelectionSource replace Java SupplyManager, descriptors and mocked scopes. Equal explicit keys identify equivalent sources; each view owns a separate equivalent entity source and forwards its own balanced lifecycle. Skip both step-ended calls; phase endings release demands in order 2/1/0 and both solve endings retain zero. Native views synthesize child step-ended callbacks on phase end; source method does not assert child callback counts."
     }
   ],
   "fixtures": [

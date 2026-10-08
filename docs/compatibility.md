@@ -4621,5 +4621,11 @@ Two DefaultPillarSelectorTest methods now preserve all ordered whole-pillar grou
 assignment changes between steps, finite sizes/exhaustion and six child lifecycle
 event counts across two phases. GroupedSelectionSource adds bounded stable grouping
 and snapshot reuse for selector composition; CachedMoveProvider can use it for
-current-assignment pillar moves. Shared Java supply reference counts and random
-subpillar traces remain pending. Existing built-in pillar providers are unchanged.
+current-assignment pillar moves. Two additional methods preserve shared demand
+counts, including phase cleanup when StepEnded is skipped. SharedSelectionPool provides explicit keyed leases, and
+SharedStepSelectionSource shares bounded collected snapshots across step-scoped
+selectors. Each view forwards its own child lifecycle; callers must include source
+configuration and immutable input revision in shared keys. Native regressions
+exercise independent cursors, ownership, failure recovery and two actual solver
+providers sharing one source collection per scan. Random subpillar traces remain
+pending. Existing built-in pillar providers are unchanged.

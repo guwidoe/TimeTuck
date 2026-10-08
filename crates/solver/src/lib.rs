@@ -1126,6 +1126,10 @@ pub use cached_move_provider::{
 };
 
 mod grouped_selection;
+mod shared_selection;
+pub use shared_selection::{
+    SharedSelectionError, SharedSelectionLease, SharedSelectionPool, SharedStepSelectionSource,
+};
 mod pair_selection_source;
 pub use grouped_selection::{GroupedSelection, GroupedSelectionSource, SelectionGroup};
 pub use pair_selection_source::{PairSelectionIter, PairSelectionSource, SelectionPair};
