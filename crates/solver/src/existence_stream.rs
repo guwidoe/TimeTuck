@@ -242,3 +242,5 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         output
     }
 }
+
+pub mod batched;

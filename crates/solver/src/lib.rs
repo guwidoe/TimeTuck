@@ -167,6 +167,7 @@ pub use average_collector::{AverageCollector, AverageOverflow};
 mod distinct_stream;
 pub use distinct_stream::DistinctNode;
 mod existence_stream;
+pub use existence_stream::batched::{BatchedExistsNode, ExistenceEvaluation, TupleLifecycleEvent};
 pub use existence_stream::{ExistenceMode, ExistsNode};
 pub mod incremental_stream;
 pub use incremental_stream::{

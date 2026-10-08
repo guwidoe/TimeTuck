@@ -43299,6 +43299,21 @@
       "local_path": "crates/solver/tests/compound_membership_cases.rs",
       "local_test": "contains_any",
       "modifications": "Preserved all source input collections, scalars, argument directions, expected booleans and empty-collection combinations. Presence of the single native graph pair replaces the internal Java enum matches call, using an empty JoinConditions conjunction plus the corresponding collection operation. Native vector/scalar keys replace Java List.of and Object inputs; sequential replacement additionally exercises removal of formerly matching pairs. No Java enum/API parity, null policy, or duplicate-multiplicity behavior beyond these source assertions is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnindexedIfExistsUniNodeRoundsTest.incrementalRoundsAgreeWithBruteForce",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/UnindexedIfExistsUniNodeRoundsTest.java",
+      "upstream_test": "incrementalRoundsAgreeWithBruteForce",
+      "local_path": "crates/solver/tests/batched_existence_cases.rs",
+      "local_test": "incremental_rounds_agree_with_brute_force",
+      "modifications": "Preserved all six rounds, fact values, tuple identities, retract/reinsert order, left/right updates, removals, brute-force fact membership and final empty live state. Native BatchedExistsNode eager/deferred evaluation modes replace the two settle-distance parameter values; explicit propagate replaces prepareForSettle/Propagator. Production TupleLifecycleEvent variants drive a strict downstream tracker: duplicate Insert, Update of an absent identity and unbalanced Retract fail independently of final fact membership. Native numeric IDs replace Java tuple identity and store positions. Exact final ID-to-payload maps add stronger occurrence checks. No Java layer-distance threshold, tuple storage layout, cross-read algorithm or predicate-call trace parity is claimed; the source expressly asserts round answers and lifecycle balance."
     }
   ],
   "fixtures": [

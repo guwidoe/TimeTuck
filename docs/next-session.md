@@ -17053,3 +17053,56 @@ No benchmark/browser/release reruns. All verification sessions terminal; goal re
 Gate17745, warm49788 (0 pending targets), evidence41735 terminal0.
 Final gate wall window 168s; Rust3RUN/632REUSE and Python46REUSE.
 Dashboard remains served by session85195; freshness matches current report.
+
+## Batched existence lifecycle
+
+Added BatchedExistsNode, ExistenceEvaluation::{Eager,Deferred}, and production
+TupleLifecycleEvent::{Insert,Update,Retract}. Child module existence_stream/batched
+uses the existing indexed ExistsNode algorithm on private roots; parent algorithm
+unchanged. Eager enqueue retains staged roots and persistent dirty-ID set; deferred
+queues inputs for retry. Propagate coalesces to one event per affected identity in
+ID order. Final absent/absent produces no event; visible remove/reinsert produces
+Update. rows() exposes only committed state; discard_pending rolls back the round.
+No claim of reducing pair evaluations or changing graph scheduling. Dense pair
+storage remains documented; callback effects/destructor panics excluded.
+Full UnindexedIfExistsUniNodeRoundsTest was read in prior batch and adapted now:
+all six rounds, same values and tuple identities, two timing modes, strict live
+tracker consumes production event kinds. Numeric identities replace Java tuple
+store objects; exact row maps strengthen final set assertions. +1source case0fixtures.
+Also read full FusedEqualIndexTest/RandomAccessLeafIndexerTest and AbstractIndexerTest
+while selecting work; their independent native capabilities substantially exist.
+No adapters or credits added for those files, and no upstream production read.
+Focused74205 terminal0: source1 + native3 tests. Additional clone-panic regression
+has separate log work/batched-existence-clone.log. Native churn compares320rounds/
+2240inputs across both modes and both timings to independent scans, asserts exact
+lifecycle events, retry/discard, callback evaluation timing and committed visibility.
+Initial compile failed on a staged-state borrow crossing assignment; scoped the
+trial before installation. Pending dirty IDs use persistent roots (no whole-set
+copy per eager enqueue). Final Rust/provenance state frozen after formatting.
+First gate67127 terminal101 during clippy: the extra clone-panic fixture never
+inserts a right ID, so Rust needed its right identity type annotated explicitly.
+Focused25980 had the same fixture compile error. Added only that type annotation;
+focused24000 terminal0 for the clone-panic case. First gate log preserved as
+work/batched-existence-first-failure.log. New final gate uses corrected frozen state.
+Gate29276 and warm80591 deliberately stopped terminal143 before changing
+exports: reexporting new names inside existence_stream selected the new child for
+all users of the old node, causing unrelated reruns. No scanner/cache changes.
+Moved the new exports directly to the crate facade through a public child module;
+parent production content is unchanged apart from the ignored module declaration.
+Probe88992 terminal0: cancellation and existence_stream_regression selected the
+batched child before but exclude it after; batched_existence_cases still includes
+it. Saved work/batched-existence-inputs-{before,after}.json. Superseded gate log
+work/batched-existence-broad-superseded.log. Successful jobs remain genuine cached
+results; no record rewriting. Final gate now runs on frozen corrected exports.
+
+Required batched-existence gate TERMINAL0. 4831 Rust tests and 239 doctests passed.
+Rust jobs: {'RUN': 37, 'REUSE': 600}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2880, 'failed': 0, 'pending': 1693, 'excluded': 282, 'unverified': 0, 'percent': 59.32}.
+Source before/after matched: 0ef22b26f8940ebd4f352e3e60e8b6e1b8b66ade89271a590734454d5c79718d
+Live freshness matched verification digest: 18090f825e8921ec2c49a68786aed39badb36dc4866e578639ca2e3971c7f6b6.
+Existing provenance prefixes unchanged; appended1case and0fixtures.
+Log work/batched-existence-final-check.log; evidence work/batched-existence-evidence.json.
+No benchmark/browser/release reruns. All verification sessions terminal; goal remains active.
+Final gate91563 and evidence19465 terminal0. Prior warm80591 was
+stopped (terminal143), not left running. Rust37RUN/600REUSE; Python46REUSE.
+All verification sessions terminal; existing dashboard session85195 remains live.

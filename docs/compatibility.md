@@ -4442,3 +4442,16 @@ Native regressions cover incremental updates, dropped transactions, self-joins,
 activity pruning and projection/residual/downstream panic recovery. The existing
 ordered existence adapter shares the witness reducer and its regressions pass.
 No new upstream test methods are claimed by these original regression tests.
+
+BatchedExistsNode adds explicit round boundaries to the native existence index.
+Eager evaluation stages private roots during enqueue; deferred evaluation retains
+inputs for propagation. Both evaluate in input order and emit at most one explicit
+TupleLifecycleEvent per affected left identity, reflecting final round visibility.
+Insert/update/retract distinctions are produced by the solver, not inferred by a
+test adapter. Committed rows remain observable until propagation succeeds; pending
+work can be discarded or retried after callback/clone failures. Transient changes
+are coalesced downstream; this does not reduce underlying pair evaluation work or
+change the immediate stream-graph scheduler. Equality buckets still prune work;
+matching-pair storage can be quadratic. The complete six-round upstream existence
+case is adapted for both native timing modes with strict lifecycle balance checks.
+Java layer distances/internal scheduling are not reproduced.
