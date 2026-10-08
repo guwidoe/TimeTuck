@@ -4455,3 +4455,17 @@ change the immediate stream-graph scheduler. Equality buckets still prune work;
 matching-pair storage can be quadratic. The complete six-round upstream existence
 case is adapted for both native timing modes with strict lifecycle balance checks.
 Java layer distances/internal scheduling are not reproduced.
+
+BatchedJoinNode adds equality-indexed filtered join rounds with production
+Insert/Update/Retract events. Deferred rounds coalesce each input ID to its last
+value, update both sides, and deduplicate candidate pairs before predicates.
+Eager rounds stage each input immediately; both publish only final pair payloads.
+Preload temporarily selects eager evaluation on an empty node and restores the
+configured mode after propagation. Pending rounds can be discarded; preparation
+failures preserve committed state and pending inputs for retry. Accepted pairs
+are stored explicitly, so dense joins require quadratic space. This standalone
+policy does not change immediate stream-graph scheduling.
+Three UnindexedJoinBiNodeTest methods are fully adapted: both payload refreshes
+and preload/control behavior. The separate no-preload test explicitly requires
+two predicate walks per pair; native deferred rounds intentionally evaluate each
+candidate once. That method remains pending, with no compatibility credit.

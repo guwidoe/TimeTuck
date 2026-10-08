@@ -567,3 +567,5 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
         Ok(())
     }
 }
+
+pub mod batched_join;

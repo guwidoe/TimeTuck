@@ -170,6 +170,7 @@ mod existence_stream;
 pub use existence_stream::batched::{BatchedExistsNode, ExistenceEvaluation, TupleLifecycleEvent};
 pub use existence_stream::{ExistenceMode, ExistsNode};
 pub mod incremental_stream;
+pub use incremental_stream::batched_join::{BatchedJoinNode, JoinEvaluation};
 pub use incremental_stream::{
     FilterNode, GroupNode, JoinComparison, JoinNode, JoinPartitionState, PartitionedJoinNode,
     ScoreNode, StructuralStreamContribution, TupleChange,

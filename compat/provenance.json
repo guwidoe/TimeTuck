@@ -43314,6 +43314,51 @@
       "local_path": "crates/solver/tests/batched_existence_cases.rs",
       "local_test": "incremental_rounds_agree_with_brute_force",
       "modifications": "Preserved all six rounds, fact values, tuple identities, retract/reinsert order, left/right updates, removals, brute-force fact membership and final empty live state. Native BatchedExistsNode eager/deferred evaluation modes replace the two settle-distance parameter values; explicit propagate replaces prepareForSettle/Propagator. Production TupleLifecycleEvent variants drive a strict downstream tracker: duplicate Insert, Update of an absent identity and unbalanced Retract fail independently of final fact membership. Native numeric IDs replace Java tuple identity and store positions. Exact final ID-to-payload maps add stronger occurrence checks. No Java layer-distance threshold, tuple storage layout, cross-read algorithm or predicate-call trace parity is claimed; the source expressly asserts round answers and lifecycle balance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnindexedJoinBiNodeTest.updateLeft_refreshesLeftFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/bi/UnindexedJoinBiNodeTest.java",
+      "upstream_test": "updateLeft_refreshesLeftFact",
+      "local_path": "crates/solver/tests/batched_join_cases.rs",
+      "local_test": "update_left_refreshes_left_fact",
+      "modifications": "Preserved initial L1/R1 insertion and the subsequent updated left or right payload, with exact production Insert/Update lifecycle events. Both native eager and deferred evaluation modes replace the two settle-distance values. Numeric occurrence IDs replace Java tuple objects/store trackers; explicit propagation replaces prepareForSettle plus Propagator. No Java layer-distance threshold or internal read-path parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnindexedJoinBiNodeTest.updateRight_refreshesRightFact",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/bi/UnindexedJoinBiNodeTest.java",
+      "upstream_test": "updateRight_refreshesRightFact",
+      "local_path": "crates/solver/tests/batched_join_cases.rs",
+      "local_test": "update_right_refreshes_right_fact",
+      "modifications": "Preserved initial L1/R1 insertion and the subsequent updated left or right payload, with exact production Insert/Update lifecycle events. Both native eager and deferred evaluation modes replace the two settle-distance values. Numeric occurrence IDs replace Java tuple objects/store trackers; explicit propagation replaces prepareForSettle plus Propagator. No Java layer-distance threshold or internal read-path parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnindexedJoinBiNodeTest.preload_readsEagerlyThenDefersAgain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/bi/UnindexedJoinBiNodeTest.java",
+      "upstream_test": "preload_readsEagerlyThenDefersAgain",
+      "local_path": "crates/solver/tests/batched_join_cases.rs",
+      "local_test": "preload_reads_eagerly_then_defers_again",
+      "modifications": "Preserved eager preload of 2 left by 3 right tuples, exactly 6 predicate calls, explicit preload end, a separate non-preloaded control, counter reset, a second round adding 1 tuple per side, and equal predicate work against the control. Duplicate R2 fact values retain distinct identities. Native begin_preload/end_preload and propagate replace Java lifecycle hooks; final 12-pair assertions strengthen the case. Native deferred evaluation checks each candidate once, so the separate upstream withoutPreload_walksEachPairTwice method is deliberately NOT adapted or claimed."
     }
   ],
   "fixtures": [

@@ -17106,3 +17106,46 @@ No benchmark/browser/release reruns. All verification sessions terminal; goal re
 Final gate91563 and evidence19465 terminal0. Prior warm80591 was
 stopped (terminal143), not left running. Rust37RUN/600REUSE; Python46REUSE.
 All verification sessions terminal; existing dashboard session85195 remains live.
+
+## Batched filtered joins
+
+BatchedJoinNode/JoinEvaluation added in incremental_stream/batched_join.rs.
+Root exports reference the child directly, avoiding parent reexport invalidation.
+Equality keys and an arbitrary predicate define pairs. Deferred pending maps keep
+last input per ID; prepare updates both JoinSide indexes, unions old/new candidate
+pairs for changed IDs, and evaluates each final equality candidate once. Eager
+mode prepares each enqueue on persistent roots. Dirty pair roots accumulate without
+whole-set cloning. Propagation emits one balanced lifecycle event per pair and
+refreshes both payloads; committed rows are unchanged until success. Discard/retry
+supported. Preload requires an empty node/no pending round and restores configured
+evaluation on end; unmatched inputs prevent another preload. Dense pair memory
+and pure callback requirements documented; graph immediate scheduling unchanged.
+Read complete UnindexedJoinBiNodeTest (test source only); adapted both payload
+refresh methods and preload/control method (+3source cases0fixtures). The separate
+withoutPreload_walksEachPairTwice remains pending: native deferred evaluation
+checks each final candidate once, avoiding source's explicit duplicate walk count.
+Focused35548 terminal0:3source+4native tests. Native220rounds/1980updates compare
+both timing modes against independent pair scans, enforce balanced event IDs,
+cover rekeys/removals/replacements/rollback, transient pair suppression and payload
+refresh. Deferred100replacements of one left ID plus another left and40right rows
+project only42final inputs; 37right keys are excluded and only6predicates run.
+A later two-side update checks4unique pairs (3+2-1); right removal invokes neither
+projection nor predicate. Preload bounds and callback-failure retry/discard tested.
+Initial compile62540 terminal101: SnapshotMap iterates by reference, not ownership;
+fixed pending-map merge to borrow and clone before installation. No production
+upstream source read. Final Rust/provenance frozen after successful focused tests.
+
+Required batched-join gate TERMINAL0. 4838 Rust tests and 240 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 636}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2883, 'failed': 0, 'pending': 1690, 'excluded': 282, 'unverified': 0, 'percent': 59.382}.
+Source before/after matched: da7951ceb682c16ab6bdb8e083024086dc4dd2f73848938243c4c9066817d1a6
+Live freshness matched verification digest: 82ec42dc00fd678bffa2058e4e92a2051c7b2aba2f4e645350aefecdb55e2357.
+Existing provenance prefixes unchanged; appended3cases and0fixtures.
+Log work/batched-join-final-check.log; evidence work/batched-join-evidence.json.
+No benchmark/browser/release reruns. All verification sessions terminal; goal remains active.
+Gate5527/evidence69969 terminal0; no warm compile job needed. Probe32141
+terminal0 confirms cancellation and batched_existence_regression exclude the new
+join module while batched_join_cases includes it. Rust3RUN/636REUSE, Python46REUSE.
+All verification sessions terminal; dashboard server session85195 remains live.
+JoinBiNodeActivityTest test source was also reread while waiting; no change or
+compatibility credit: pending methods require downstream activity notifications.
