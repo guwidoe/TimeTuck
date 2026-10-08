@@ -689,10 +689,12 @@ pub use provider_construction::{
 };
 
 mod placement_queue;
+mod placement_queue_provider;
 pub use placement_queue::{
     PlacementError, PlacementFn, PlacementOrder, PlacementQueue, PlacementSnapshot,
     PlacementSource, PooledPlacements, SinglePlacementKey, UngroupedPlacement, pooled_placements,
 };
+pub use placement_queue_provider::{PlacementProviderError, PlacementQueueProvider};
 
 mod unique_sampling;
 pub use unique_sampling::{

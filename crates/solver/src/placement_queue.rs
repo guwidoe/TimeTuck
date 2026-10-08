@@ -189,6 +189,17 @@ impl<C, K, M, KS: SelectionSource<C, K>, S: PlacementSource<C, K, M>>
     pub fn state(&self) -> SelectionCacheState {
         self.keys.state()
     }
+    pub fn order(&self) -> PlacementOrder {
+        self.order
+    }
+    /// Number of key/child occurrences in one complete pass. Available while
+    /// the phase key cache is live; counts empty candidate pools as placements.
+    pub fn placement_count(&self) -> Result<u128, PlacementError> {
+        if self.failed {
+            return Err(PlacementError::Unavailable);
+        }
+        Ok(self.keys.size()? as u128 * self.children.len() as u128)
+    }
     pub fn event(
         &mut self,
         event: SelectionLifecycleEvent,

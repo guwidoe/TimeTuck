@@ -17883,3 +17883,58 @@ Gate10851 TERMINAL0, log wall146s;7 Rust jobs RUN and648 REUSE,46 Python
 jobs reused. Evidence32093 TERMINAL0 confirms fresh live report.4919 Rust tests
 and242 doctests passed. No prebuild/benchmark/browser rerun. All new work handles
 terminal; full rewrite goal remains active.
+
+## Automatic construction placement queue integration
+
+Baseline3283d17; preceding goal batch was progress and worktree revalidated clean.
+PlacementQueueProvider wraps an idle PlacementQueue, captures an owned context at
+first scan opening and maps candidate tokens with current problem/assignment/step,
+key and child index. No Clone requirement on context/key/token. Exact-size/candidate
+caps remain in PlacementQueue. Empty pools and pools entirely rejected by the mapper
+are skipped. Owned shared snapshots replay on reopening within the same active scan;
+every new scan advances even if completed-step argument repeats. Phase restarts
+rebuild keys and reset cursor. Existing QueuedMoveProvider resumable behavior untouched.
+
+Explicit source solve/phase/step scopes open lazily through engine events, including
+shared solver bindings across phases and private standalone sessions. End events use
+pre-scan captures. No source callbacks on unopened scans. Step/phase boundaries drop
+retained snapshots; failures propagate via typed try_moves or panic from infallible
+MoveProvider. reset closes scopes after caught callback/mapper panics. Underlying
+PlacementQueue state advances before callbacks; reset may be retried if end callback
+panics. Constructor rejects already active queues.
+
+New PlacementQueue::order/placement_count expose read-only order and u128 key*child
+pass length. Count includes empty pools and needs a healthy live phase cache. Adapter
+counts every visited pool since installation. Successful construction installation
+resets that count; rejected optional choices continue only while more finite keys or
+an unfinished cyclic pass remain. A wholly empty/rejected pass stops. It is a
+construction scheduler, not an unbounded local-search candidate source.
+
+Seven native regressions: repeated solves with one provider shared across2 phases
+(exact all-source events/pre-scan contexts and phase-key capture); optional score
+rejections/empty pools/once+cycle stopping; cyclic dependency revisit after install;
+partial scan reopening and all-mapper rejection bounds; malformed-size errors and
+caught mapper panic/reset; unopened-phase laziness/non-Clone token lifetimes; real
+list+mixed construction preserving configured order. Focus14341 TERMINAL0:7new+5
+existing adapted placement methods+7 existing queue regressions. Compile53551
+TERMINAL0. Initial focus65894/66393 TERMINAL101 for test closure lane type inference
+and wrong work-counter field; corrected usize annotation/construction_steps.
+
+Added a public executable construction example. Required gate runs on final frozen
+Rust including that example. No upstream method credits or ledger changes. Inspected
+pending placement factory and level-score-state tests to select work; did not adapt
+them or read upstream production. No benchmarks refreshed or UI changes.
+
+Required placement-provider gate TERMINAL0. 4926 Rust tests and 243 doctests passed.
+Rust jobs: {'RUN': 4, 'REUSE': 652}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2890, 'failed': 0, 'pending': 1683, 'excluded': 282, 'unverified': 0, 'percent': 59.526}.
+Source before/after matched: fddf89a59901d3c7b20a532e6852af763e08a3dfe3d9ddc816a3934dfc73ee5c
+Live freshness matched verification digest: 6b2a8caccdd92e8d20b63f61d345a0e79fb95e1901a202b8914489a5d738da88.
+Entire provenance ledger unchanged; no new upstream method credit.
+Log work/placement-provider-final-check.log; evidence work/placement-provider-evidence.json.
+No benchmarks refreshed; existing measurements retain their freshness status. No browser rerun for this report-only refresh. Goal remains active.
+
+Final gate61092 TERMINAL0, log wall140s;4 Rust jobs RUN,652 REUSE,46 Python
+jobs reused.4926 Rust tests and243 doctests passed. Evidence42806 TERMINAL0
+confirms live report freshness and byte-equivalent ledger data. No prebuild,
+benchmark refresh or browser rerun. All work handles terminal. Goal remains active.

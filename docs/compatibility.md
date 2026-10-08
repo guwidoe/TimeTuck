@@ -4600,3 +4600,11 @@ and retains duplicate input occurrences. Native seeds, explicit probe/output bud
 and immutable left-bound views replace Java random/lifecycle APIs; these cases do
 not establish infinite iterator or PRNG trace equivalence. The two remaining
 random entity-range source methods are still pending.
+
+PlacementQueueProvider now connects the existing phase-cached placement sources
+to actual basic, list and mixed construction engines. It owns lazy source lifecycle
+scopes, maps tokens using current assignments, skips empty/rejected pools, replays
+within a scan and stops cyclic scheduling after a full pass without installation.
+Every phase rebuilds keys; this adapter does not resume the old queue cursor across
+phase boundaries. Seven original integration/regression tests cover the bridge.
+These native solver integrations add no upstream method credits.
