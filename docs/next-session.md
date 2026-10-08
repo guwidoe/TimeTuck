@@ -16408,3 +16408,12 @@ and run its integrated gate once. No repeat of unchanged draft focused checks.
 At last poll both28286 and38549 confirmed live; warm compiler actively processes
 Rust targets. Keep handles, do not restart. Broad cache refresh stems from earlier
 verifier script edit; source/provenance remain frozen until that evidence is saved.
+
+Required gate28286 TERMINAL0. 4747 Rust tests and 232 doctests passed.
+Rust jobs: {'RUN': 610}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 2854, 'failed': 0, 'pending': 1719, 'excluded': 282, 'unverified': 0, 'percent': 58.785}.
+Source before/after matched: 80ec03e3e1cd21208a5107b3b4333c04865f1bb8410a33c0e69f1ef3633d57c7
+Live freshness matched verification digest: febe6f5253a198755a5e38d2fa8a4bb6160480fb8c6cd08837318936dd4cae3b.
+Existing provenance prefixes unchanged; appended17cases and1fixtures.
+Log work/benchmark-results-final-check.log; evidence work/benchmark-results-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.

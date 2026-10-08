@@ -15,6 +15,15 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/benchmark_results_cases.rs` adapts all methods from
+  `TotalScoreSolverRankingComparatorTest`, `WorstScoreSolverRankingComparatorTest`,
+  `ResilientScoreComparatorTest`, and `ScoreDifferencePercentageTest` in the
+  Community benchmark tool, plus score/initialization setup from
+  `AbstractSolverRankingComparatorTest`. Native owned summaries replace Java
+  report objects; unasserted helper metadata is omitted. The source method named
+  `divide` actually calls multiplication, and those assertions remain unchanged.
+  Exact upstream paths, methods, and modifications are in `compat/provenance.json`.
+
 - `crates/solver/tests/unique_sampling_cases.rs` adapts five methods from
   `DefaultUniqueRandomIteratorTest` and `DefaultRepeatingRandomIteratorTest`,
   plus `AbstractIndexerTest.toEntries`. Native iterators preserve occurrence
