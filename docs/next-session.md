@@ -16892,3 +16892,58 @@ Live freshness matched verification digest: 0e4d1f6be7f1aeb1099447fa1272370b4f76
 Existing provenance prefixes unchanged; appended0cases and0fixtures.
 Log work/phase-score-check-final-check.log; evidence work/phase-score-check-evidence.json.
 No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+## Stable keyed expansion with duplicate lifecycle preservation
+
+Added StableFlatMapNode with immediate apply and deferred enqueue/propagate.
+Pairs new outputs with earliest unmatched old equal-key occurrence, retains IDs
+across reordering and refreshes payloads; removes unmatched old occurrences before
+new puts. New IDs increase per input lifetime; empty expansions retain cursor,
+retract resets lifetime. SnapshotMap contains keys/IDs only, no output payloads.
+Batch propagation prepares all changes on a private root before publication,
+retaining both prior state and full queue on mapping/key/comparison/clone panic.
+Pending queues reject immediate apply; retractions do not run callbacks.
+flat_map_stable graph method uses normal routing/checkpoints/activity pruning.
+No positional API behavior changed. Both complete FlattenLastUniNodeTest methods
+adapted with production deferred delivery and downstream occurrence-ID lifecycle
+classification; all expected events and noninteractions preserved. +2cases,0fixtures.
+Focused25439 failed only missing graph adapter generic I annotation; corrected.
+Focused65800 terminal0:2source+4native tests. Native tests cover duplicate order,
+non-key payload refresh, empty/retract lifetime, atomic queue retry, no payload
+Clone requirement, callbacks on retract, graph scores/rollback/panic with pruning
+both off/on. Inputs frozen after formatting for one coherent final gate.
+
+While final gate runs: selective reuse still over-invalidates new graph APIs.
+Direct inspection of rust_test_inputs(cancellation.rs) includes both new stable
+expansion modules although that unchanged test cannot call flat_map_stable.
+selected_library_inputs follows all child-module edges; library_symbol_owners
+also attaches all inherent extension implementations to every use of the type.
+A future targeted improvement should follow inherent method uses and module
+references selectively while retaining foreign-trait/implicit behavior dependencies,
+with focused dependency-selection regressions. Do not relabel existing evidence.
+
+Required stable-flat-map gate TERMINAL0. 4815 Rust tests and 236 doctests passed.
+Rust jobs: {'RUN': 560, 'REUSE': 72}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2876, 'failed': 0, 'pending': 1697, 'excluded': 282, 'unverified': 0, 'percent': 59.238}.
+Source before/after matched: e88c080a8113f70d7778d17d0cc53f4a019c495a4d1c920a5d0278925237c7bf
+Live freshness matched verification digest: 72db8d9011921f0c9952c0f73c113fa05f2c670dd234e4238dbc98e6a23fdff1.
+Existing provenance prefixes unchanged; appended2cases and0fixtures.
+Log work/stable-flat-map-final-check.log; evidence work/stable-flat-map-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+
+First full gate60772, warm32682, evidence35064 terminal0. Warm compiled527
+pending targets only. Final review tightened source fixture identity: named static
+string references now guarantee interned duplicate identity without relying on
+compiler literal deduplication. Only the source-case test and provenance wording
+changed; production/native tests unchanged. First-pass log/evidence retained;
+selective gate below refreshes this changed source-case target and report.
+
+Required stable-flat-map gate TERMINAL0. 4815 Rust tests and 236 doctests passed.
+Rust jobs: {'REUSE': 631, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 2876, 'failed': 0, 'pending': 1697, 'excluded': 282, 'unverified': 0, 'percent': 59.238}.
+Source before/after matched: 8cc6ea17617d5a608ef6900a295fa0c5f726ebc32261c1abe46e2130b0a2b2a0
+Live freshness matched verification digest: 21785c5a13b3f92acc310124965f00d39fe78d7250316fd211af3ea5676c955e.
+Existing provenance prefixes unchanged; appended2cases and0fixtures.
+Log work/stable-flat-map-final-check.log; evidence work/stable-flat-map-evidence.json.
+No benchmark/browser/release reruns. All sessions terminal; goal remains active.
+Final selective gate19106 and evidence50327 terminal0; no live sessions.

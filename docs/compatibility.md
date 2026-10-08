@@ -4398,3 +4398,13 @@ covered; unscored outputs are skipped. Validation time consumes the shared deadl
 without increasing search work counters. Prior best notifications are not undone.
 This is a native runtime building block, not a claim that all Timefold environment
 modes or their exact assertion schedules are implemented; those remain pending.
+
+StableFlatMapNode and StreamGraphBuilder.flat_map_stable add keyed occurrence
+matching across reorderings. Equal keys retain separate IDs in previous occurrence
+order; new payloads update survivors, unmatched old occurrences retract, and new
+occurrences receive fresh IDs within the input lifetime. Standalone enqueue/
+propagate defers mapping and delivery and prepares whole batches before publishing.
+Graph integration uses ordinary immediate routing, transactional rollback and
+activity pruning. Both complete FlattenLastUniNodeTest methods now preserve all
+deferred lifecycle and duplicate event assertions through a native consumer.
+Existing positional expansion remains available; stable IDs do not encode order.
