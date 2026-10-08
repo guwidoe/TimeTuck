@@ -205,6 +205,20 @@ struct NodeArithmetic {
     totals: crate::ScoringArithmetic,
 }
 trait Node<S: AdditiveScore> {
+    fn prefers_batch(&self) -> bool {
+        false
+    }
+    fn apply_batch(
+        &mut self,
+        inputs: &[(bool, Event)],
+        arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
+        let mut out = Vec::new();
+        for (side, event) in inputs {
+            out.extend(self.apply(*side, event, arithmetic)?);
+        }
+        Ok(out)
+    }
     fn constraint_weight(&self) -> Option<&S> {
         None
     }
@@ -258,6 +272,22 @@ fn erase<I: 'static, T: 'static>(changes: impl IntoIterator<Item = TupleChange<I
 
 struct SourceNode<I, T>(SnapshotMap<I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for SourceNode<I, T> {
+    fn apply_batch(
+        &mut self,
+        inputs: &[(bool, Event)],
+        arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
+        let mut latest = BTreeMap::new();
+        for (_, event) in inputs {
+            latest.insert(typed::<I, T>(event).id.clone(), event.clone());
+        }
+        let mut out = Vec::new();
+        for event in latest.into_values() {
+            out.extend(<Self as Node<S>>::apply(self, false, &event, arithmetic)?);
+        }
+        Ok(out)
+    }
+
     fn source_count(&self) -> Option<usize> {
         Some(self.0.len())
     }
@@ -1975,7 +2005,27 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
 
     pub fn build(mut self) -> StreamGraph<'a, S> {
         self.prune_disabled_constraints();
+        let mut observed: Vec<_> = self
+            .nodes
+            .iter()
+            .map(|node| {
+                node.dataset_rows().is_some()
+                    || (node.matches().is_some()
+                        && node
+                            .constraint_weight()
+                            .is_none_or(|weight| *weight != S::ZERO))
+            })
+            .collect();
+        for id in (0..observed.len()).rev() {
+            observed[id] |= self.edges[id].iter().any(|edge| observed[edge.node]);
+        }
+        let batched_updates = self
+            .nodes
+            .iter()
+            .enumerate()
+            .any(|(id, node)| node.prefers_batch() && observed[id]);
         let mut graph = StreamGraph {
+            batched_updates,
             activity_rules: self.activity_rules,
             active: None,
             owner: self.owner,
@@ -1993,6 +2043,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    batched_updates: bool,
     activity_rules: Vec<ActivityRule>,
     active: Option<Vec<bool>>,
     owner: Rc<()>,
@@ -2317,3 +2368,5 @@ impl<S: AdditiveScore> Drop for GraphTransaction<'_, '_, S> {
         }
     }
 }
+
+pub mod batching;

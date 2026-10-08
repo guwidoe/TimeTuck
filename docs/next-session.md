@@ -17149,3 +17149,36 @@ join module while batched_join_cases includes it. Rust3RUN/636REUSE, Python46REU
 All verification sessions terminal; dashboard server session85195 remains live.
 JoinBiNodeActivityTest test source was also reread while waiting; no change or
 compatibility credit: pending methods require downstream activity notifications.
+
+## Stream graph and solver batch integration
+
+StreamBatch (heterogeneous, one graph, cloneable Rc payloads) and explicit
+GraphTransaction.apply_batch settle sources first (last update per ID), then drain
+sparse node queues topologically. Node.apply_batch defaults to per-event behavior;
+SourceNode coalesces IDs and new join_batched adapter queues both sides then emits
+final lifecycle changes. Activity planning runs after all source changes; a changed
+plan clears/rebuilds operators once from all final source facts. Existing failed
+transaction semantics, score totals/arithmetic and checkpoint journals retained.
+BatchedJoinNode gained internal clear/checkpoint/restore; graph checkpoints require
+settled rounds and restore clears failed pending queues. Basic/list/mixed scoring
+constructors and apply collect final updates and use apply_updates: observed
+batched joins select batching, ordinary graphs retain original sequential routing.
+Build computes observer reachability backwards; unused/disabled batched nodes do
+not enable the automatic mode. Captured datasets count as observers. Direct apply
+remains immediate. No claim that all ordinary operators coalesce internal outputs.
+Focused33617 terminal0: new6 cases plus basic5/list9/mixed7 existing integration
+regressions, including legacy callback counts, clone failures and seeded policies.
+Added saved-best-candidate check and observer-reachability selection; focused2900
+had fixture compile errors (LocalSearchResult uses best, not direct score/assignment).
+Fixed fixture field paths. Focused23459 terminal0:all7 native batch cases.
+300 rounds across pruning modes compare pair payloads and source caches to direct
+maps, including explicit empty-right transitions and rollback. Other cases cover
+source coalescing before mapping, self joins, foreign batches, projection/predicate/
+sink panics, checked overflow, all3scoring backends, multi-move scopes and saved
+best installation without callback replay. Basic composite scores1final pair;
+list/mixed examples score2final pairs. Initial compile63214 required explicit ID
+generics in erased graph builder adapter; fixed before focused tests.
+Removed one redundant explicit unit expression before final formatting. No upstream
+sources adapted/read for implementation; provenance unchanged. This changes shared
+graph routing, so broad dependent regression coverage is required, with selective
+reuse for unaffected targets. Rust inputs frozen for final gate after formatting.

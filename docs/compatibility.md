@@ -4469,3 +4469,13 @@ Three UnindexedJoinBiNodeTest methods are fully adapted: both payload refreshes
 and preload/control behavior. The separate no-preload test explicitly requires
 two predicate walks per pair; native deferred rounds intentionally evaluate each
 candidate once. That method remains pending, with no compatibility credit.
+
+Batched joins now integrate with transactional stream graphs and all three native
+stream score directors. StreamBatch/apply_batch coalesce source identities and
+schedule nodes topologically; join_batched settles both inputs together. Basic,
+list and mixed initial/move updates opt into batches when an observed batched join
+is declared. Activity transitions trigger one final-source rebuild. Checkpoint,
+rollback, checked-score errors, scope restoration and saved-winner installation
+include batched join state. Ordinary graphs keep sequential delivery; other
+operators retain per-event semantics. Seven original regressions exercise this
+runtime integration; no additional upstream method credit is claimed.

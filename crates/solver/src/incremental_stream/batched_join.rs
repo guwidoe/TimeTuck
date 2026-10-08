@@ -205,6 +205,37 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         right.insert(change.id, change.value);
         self.enqueue(SnapshotMap::new(), right);
     }
+    pub(crate) fn clear(&mut self) {
+        self.state = State::new();
+        self.discard_pending();
+        self.preloading = false;
+    }
+    pub(crate) fn checkpoint(&self) -> Box<dyn std::any::Any>
+    where
+        I: 'static,
+        J: 'static,
+        L: 'static,
+        R: 'static,
+        K: 'static,
+    {
+        assert_eq!(
+            self.pending_count, 0,
+            "graph checkpoints require settled joins"
+        );
+        Box::new(self.state.clone())
+    }
+    pub(crate) fn restore(&mut self, saved: Box<dyn std::any::Any>)
+    where
+        I: 'static,
+        J: 'static,
+        L: 'static,
+        R: 'static,
+        K: 'static,
+    {
+        self.state = *saved.downcast().expect("batched join checkpoint");
+        self.discard_pending();
+        self.preloading = false;
+    }
     pub fn pending_len(&self) -> usize {
         self.pending_count
     }

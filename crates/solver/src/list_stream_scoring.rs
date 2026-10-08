@@ -19,6 +19,7 @@
 //! d.assert_consistent()?;
 //! # Ok::<(),Box<dyn std::error::Error>>(())
 //! ```
+use crate::StreamBatch;
 use crate::list_scoring::{ListSelection, with_structure};
 use crate::list_search_scoring::ListSearchDirector;
 use crate::{
@@ -133,15 +134,17 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         problem.validate(&assignment)?;
         sources.validate(&graph)?;
         let mut tx = graph.transaction();
+        let mut updates = StreamBatch::new();
         for (i, list) in assignment.lists().iter().enumerate() {
-            tx.apply(&sources.entities, TupleChange::put(i, (i, list.clone())))?;
+            updates.push(&sources.entities, TupleChange::put(i, (i, list.clone())))?;
         }
         for (i, value) in problem.values().iter().enumerate() {
-            tx.apply(
+            updates.push(
                 &sources.values,
                 TupleChange::put(i, ListValueRow::from_assignment(i, value, &assignment)),
             )?;
         }
+        tx.apply_updates(updates)?;
         let initial_constraint_evaluations = tx.score_evaluations();
         tx.commit()?;
         Ok(Self {
@@ -199,8 +202,9 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         let assignment = self.problem.apply(&mut self.assignment, movement)?;
         let touched = movement.touched_entities();
         let mut graph = self.graph.transaction();
+        let mut updates = StreamBatch::new();
         for &entity in &touched {
-            graph.apply(
+            updates.push(
                 &self.sources.entities,
                 TupleChange::put(entity, (entity, assignment.lists()[entity].clone())),
             )?;
@@ -211,12 +215,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                     .is_some_and(|p| touched.binary_search(&p.entity).is_ok())
             };
             if belongs(assignment.original()) || belongs(&assignment) {
-                graph.apply(
+                updates.push(
                     &self.sources.values,
                     TupleChange::put(i, ListValueRow::from_assignment(i, value, &assignment)),
                 )?;
             }
         }
+        graph.apply_updates(updates)?;
         let score = with_structure(graph.score()?, self.problem, &assignment);
         Ok(ListStreamScoredMove {
             assignment,

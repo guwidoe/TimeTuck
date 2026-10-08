@@ -23,6 +23,7 @@
 //! d.assert_consistent()?;
 //! # Ok::<(),Box<dyn std::error::Error>>(())
 //! ```
+use crate::StreamBatch;
 use crate::mixed_scoring::{MixedSelection, with_structure};
 use crate::mixed_search_scoring::MixedSearchDirector;
 use crate::{
@@ -121,21 +122,23 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         sources.validate(&graph)?;
         with_structure(S::ZERO, problem, &assignment)?;
         let mut tx = graph.transaction();
+        let mut updates = StreamBatch::new();
         for (i, v) in assignment.basic().values().iter().enumerate() {
-            tx.apply(&sources.basic, TupleChange::put(i, (i, v.clone())))?;
+            updates.push(&sources.basic, TupleChange::put(i, (i, v.clone())))?;
         }
         for (i, list) in assignment.lists().lists().iter().enumerate() {
-            tx.apply(
+            updates.push(
                 &sources.lists.entities,
                 TupleChange::put(i, (i, list.clone())),
             )?;
         }
         for (i, v) in problem.lists().values().iter().enumerate() {
-            tx.apply(
+            updates.push(
                 &sources.lists.values,
                 TupleChange::put(i, ListValueRow::from_assignment(i, v, assignment.lists())),
             )?;
         }
+        tx.apply_updates(updates)?;
         let initial_constraint_evaluations = tx.score_evaluations();
         tx.commit()?;
         Ok(Self {
@@ -196,15 +199,16 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         let assignment = self.problem.apply(&mut self.assignment, movement)?;
         with_structure(S::ZERO, self.problem, &assignment)?;
         let mut graph = self.graph.transaction();
+        let mut updates = StreamBatch::new();
         for i in movement.basic.touched_variables() {
-            graph.apply(
+            updates.push(
                 &self.sources.basic,
                 TupleChange::put(i, (i, assignment.basic().values()[i].clone())),
             )?;
         }
         let touched = movement.lists.touched_entities();
         for &i in &touched {
-            graph.apply(
+            updates.push(
                 &self.sources.lists.entities,
                 TupleChange::put(i, (i, assignment.lists().lists()[i].clone())),
             )?;
@@ -215,12 +219,13 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                     .is_some_and(|p| touched.binary_search(&p.entity).is_ok())
             };
             if belongs(assignment.original().lists()) || belongs(assignment.lists()) {
-                graph.apply(
+                updates.push(
                     &self.sources.lists.values,
                     TupleChange::put(i, ListValueRow::from_assignment(i, v, assignment.lists())),
                 )?;
             }
         }
+        graph.apply_updates(updates)?;
         let score = with_structure(graph.score()?, self.problem, &assignment)?;
         Ok(MixedStreamScoredMove {
             assignment,

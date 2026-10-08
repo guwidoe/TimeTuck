@@ -1892,3 +1892,29 @@ using the configured relation and its reverse respectively. Neither query requir
 an input row on the querying side. Results follow ordered key and occurrence ID;
 absent partitions/sides yield empty iterators. Multiple equalities use tuple keys,
 and pure equality can use a unit ordered key. No runtime speed claim is made.
+
+## Batched source changes and solver scoring
+
+StreamBatch collects heterogeneous source changes for one graph. Foreign-source
+pushes fail without adding that change. GraphTransaction.apply_batch retains only
+the last change per source ID, updates source caches, and visits affected derived
+nodes in topological order. It preserves the transaction failure/drop contract.
+Activity pruning observes final source emptiness and rebuilds operator caches at
+most once per batch when the activity plan changes. Source/ID order determines
+routing; this API does not preserve intermediate input values or callback order.
+
+StreamGraphBuilder.join_batched adds an equality-indexed filtered join whose two
+inputs settle together. Each affected final candidate pair is evaluated once and
+surviving pair payloads are updated once. Source callbacks and batched predicates
+must be pure and work from immutable inputs. Other operators retain their ordinary
+per-event behavior and checked arithmetic, including possible intermediate errors.
+Accepted pairs are stored, so dense joins use quadratic memory.
+
+Basic, list and mixed stream score directors automatically submit complete initial
+and move updates as batches when a batched join reaches a scoring constraint or
+captured dataset. Graphs without an observed batched join retain ordered immediate
+source delivery. Explicit transaction.apply remains immediate for every graph.
+Checkpoint capture, saved-winner installation, multi-move scopes and diagnostic
+rebuilds include the new join state. Diagnostic rebuilding may evaluate callbacks
+again; commit and saved-winner installation do not replay them. No runtime benchmark
+speedup is claimed from the reduced callback-count regression cases.

@@ -26,6 +26,7 @@
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
 
+use crate::StreamBatch;
 use crate::scoring::with_structure;
 use crate::{
     AdditiveScore, AppliedMove, Assignment, FiniteProblem, GraphError, GraphTransaction,
@@ -93,9 +94,11 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             return Err(StreamScoringError::PlanningSourceNotEmpty);
         }
         let mut transaction = graph.transaction();
+        let mut updates = StreamBatch::new();
         for (index, value) in assignment.values().iter().enumerate() {
-            transaction.apply(&source, TupleChange::put(index, (index, value.clone())))?;
+            updates.push(&source, TupleChange::put(index, (index, value.clone())))?;
         }
+        transaction.apply_updates(updates)?;
         let initial_constraint_evaluations = transaction.score_evaluations();
         transaction.commit()?;
         Ok(Self {
@@ -142,12 +145,14 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     ) -> Result<StreamScoredMove<'_, 'a, V, S>, StreamScoringError> {
         let assignment = self.problem.apply(&mut self.assignment, movement)?;
         let mut graph = self.graph.transaction();
+        let mut updates = StreamBatch::new();
         for variable in movement.touched_variables() {
-            graph.apply(
+            updates.push(
                 &self.source,
                 TupleChange::put(variable, (variable, assignment.values()[variable].clone())),
             )?;
         }
+        graph.apply_updates(updates)?;
         let score = with_structure(graph.score()?, self.problem, &assignment);
         Ok(StreamScoredMove {
             assignment,
