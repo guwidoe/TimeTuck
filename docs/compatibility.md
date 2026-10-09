@@ -4856,3 +4856,15 @@ contract. Existing random-prefix fixture credits remain partial; no new upstream
 methods or fixtures are claimed. Value-swap validation reuses a private working
 copy; exact clone counts are documented in the list planning contract. No new
 wall-clock or Java performance measurement is claimed.
+
+All six `IteratorBiasIT` methods now have native adaptations, preserving the
+original one-million/200000 trial counts, physical gap fixtures, bucket weights,
+all parameter combinations and five-sigma binomial limits. Coverage includes
+repeated draws at eleven positions, retirement of two interior identities,
+all 120 five-element permutations, comparison queries in both directions,
+overlapping membership deduplication and multi-bucket unique draws at positions
+1/2/10. Native seed-zero PRNG streams replace Java random traces; query ordering
+and Java iterator classes are not parity claims. Repeated-draw checkpoints share
+one traversal per trial, preserving each requested marginal. These tests passed
+without a solver implementation change; they establish previously missing bias
+evidence, not a newly fixed bias or a performance improvement.

@@ -20528,3 +20528,41 @@ prebuild27.64s;5Rust jobs ran/725reused;46Python jobs reused.5370Rust tests and
 248doctests pass, including extended list/mixed search through both backends.
 Reviewed Rust matches checked source. No provenance/benchmark/UI changes.
 All task handles terminal except dashboard81616; goal remains active/incomplete.
+
+## Statistical iterator-bias coverage
+
+Baseline4071b02; previous goal turn was progress. Reviewed remaining test-only
+MixedMoveSelectorTest and initial BruteForceTest, destination refresh/discard cases,
+then moved to selection-bias contracts. Do not add unused Java wrapper/callback
+facades just to claim methods. No production source or Enterprise source read.
+
+Adapted all six IteratorBiasIT methods with two fixture/helper records for
+AbstractBiasIT and BiasReport. Preserve every draw-index/layout/query parameter,
+1000000/200000 trial counts, bucket sizes1/3/6, overlapping identity fixture and
+five-sigma binomial bound. Native PRNG streams and query APIs substitute for Java.
+Repeated draws checkpoint all eleven n values per trial (original methods reset
+the same root for each n), avoiding redundant full prefixes. Unique-drain case
+uses RetiringRandom with retirement after each draw, matching wrapper semantics.
+No claim about other unique APIs or Java PRNG traces. No solver code change needed.
+
+Focused70209 TERMINAL0 in61.35s: six complete statistical tests passed. Ran through
+verification_cache.run_job with the exact final-gate command/key, so the expensive
+new job can be reused without repeating its samples. Existing tests unchanged.
+Final gate51875 launched on frozen test source. Logs
+work/iterator-bias-prebuild.log and work/iterator-bias-final-check.log.
+No benchmarks or browser work. Goal remains active/incomplete.
+
+Required iterator-bias gate TERMINAL0. 5376 Rust tests and 248 doctests passed.
+Rust jobs: {'REUSE': 731}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3135, 'failed': 0, 'pending': 1438, 'excluded': 282, 'unverified': 0, 'percent': 64.573}.
+Source before/after matched: 4b63ec6587d63e10a5f1f394913f59f6a22bda340608e52e489b941bd70d59cd
+Live freshness matched verification digest: 697905e493020dcda8ef10d0ac266501bd0fc7ea37fb4aae66e3d9d10225278d.
+Prior ledger records unchanged; Six methods and two helper fixture records appended.
+Log work/iterator-bias-final-check.log; evidence work/iterator-bias-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate51875 and report/live evidence33372 TERMINAL0. All731Rust jobs reused,
+including newly verified bias tests; all46Python jobs reused.5376Rust tests and
+248doctests pass. Six new methods individually report passed. Prior ledger prefix
+unchanged; six case and two helper fixture appends verified. Test source frozen
+since focused run. No production implementation change, benchmark or UI refresh.
+Goal remains active/incomplete; only dashboard81616 remains live.

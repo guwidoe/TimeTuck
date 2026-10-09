@@ -750,3 +750,9 @@ pinned Community `SelectorBasedCompositeMoveTest` (Apache-2.0). Native variants,
 ordered write journals and stable variable/value identities replace Java classes
 and mocks. Exact method identities and substitutions are recorded in
 `compat/provenance.json`. The checked builder and its regressions are original.
+
+`crates/solver/tests/iterator_bias_cases.rs` adapts all six pinned Community
+`IteratorBiasIT` methods and test helpers from `AbstractBiasIT` and `BiasReport`
+(Apache-2.0). Trial counts, layout fixtures, expected shares and statistical bounds
+are preserved; native indexed queries and PRNGs replace Java objects and traces.
+Exact method/helper identities and substitutions are in `compat/provenance.json`.
