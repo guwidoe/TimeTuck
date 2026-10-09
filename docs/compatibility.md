@@ -5200,3 +5200,27 @@ consumers. A future repartition edit selects 553 jobs, compared with 661 jobs in
 the preceding repartition increment. No verification results are relabeled; changed input sets require a new
 successful run. This reorganizes existing implementation boundaries without changing
 sampling algorithms, solver behavior, the upstream pin or compatibility credits.
+
+
+## Basic move doability and repeated candidate checks
+
+`FiniteProblem::is_move_doable` checks whether a valid change, swap or nested
+composite changes the final assignment. `move_checker` validates a source snapshot
+once and borrows it for repeated queries. Subsequent checks inspect only written
+variables, require Eq but not Clone, and do not mutate, score or invoke listeners.
+Primitive checks allocate no scratch space. Composite checks use borrowed final
+values and preserve execution-order index errors followed by sorted final
+pin/domain errors, including range diagnostics. Restoring/empty composites return
+false. Required variables may be unassigned in partial planning states, as with
+native move application.
+
+Three Community methods preserve every change-doability, change-execution and
+entity-range swap-doability assertion. Native final-net-change semantics differ
+from the upstream composite method's OR of child doability; that method remains
+pending. Invalid moves return native model errors rather than a false result.
+Original regressions compare nested checks to transactional application, cover
+non-Clone values, restored invalid intermediate states, and count comparisons on
+1,024-variable snapshots. A lazy custom provider filters unchanged/invalid moves
+before scoring with both basic scoring backends. This is an opt-in API: existing
+provider behavior and evaluation budgets are unchanged. No wall-clock speedup or
+additional Java lifecycle equivalence is claimed.

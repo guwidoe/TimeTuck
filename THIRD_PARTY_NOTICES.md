@@ -798,3 +798,9 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   plus their two-entity setup and the `TestdataEasyScoreCalculator` test fixture.
   Native structural completeness metadata remains separate from ordinary scores;
   typed profile errors replace Java exceptions. See `compat/provenance.json`.
+
+- `crates/solver/tests/basic_change_doability_cases.rs` adapts two methods from
+  Community `SelectorBasedChangeMoveTest` and the entity-range doability method
+  from `SelectorBasedSwapMoveTest` (Apache-2.0). Native basic variables and checked
+  move queries replace descriptor/director plumbing. Exact identities and
+  substitutions are recorded in `compat/provenance.json`.

@@ -22,6 +22,7 @@ pub use score::{
 pub mod model;
 pub mod moves;
 pub mod search;
+pub use model::move_check::BasicMoveChecker;
 pub use model::{FiniteProblem, ModelError, Variable};
 pub use moves::{AppliedMove, Assignment, Move, MoveError, PriorValue};
 pub use search::{ScoredAssignment, SearchResult, Termination, exhaustive_search};

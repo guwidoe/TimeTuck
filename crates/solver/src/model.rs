@@ -1,5 +1,7 @@
 //! Finite basic-variable planning domains, separate from score calculation.
 
+pub(crate) mod move_check;
+
 use crate::moves::{AppliedMove, Assignment, Move, MoveError};
 use std::{error::Error, fmt};
 

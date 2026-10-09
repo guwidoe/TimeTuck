@@ -47529,6 +47529,51 @@
       "local_test": "unimproved_steps_inapplicable_at_construction_phase",
       "status": "implemented",
       "modifications": "Preserve the original one-unimproved-step limit, construction-phase rejection and diagnostic identification of UnimprovedStepCount. Native phase-profile binding and its typed InapplicableToConstruction error replace Java factory configuration and IllegalStateException; diagnostic wording is native. No upstream production implementation is used."
+    },
+    {
+      "id": "SelectorBasedChangeMoveTest.isMoveDoable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/basic_change_doability_cases.rs",
+      "local_test": "change_is_doable_against_each_current_value",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all three current-value doability assertions against a fixed target. Native optional finite variable index0 and string IDs replace entity descriptors, test-domain objects and a mocked director. Setup is inline; no helper fixture copied. The query also validates native domains/pins."
+    },
+    {
+      "id": "SelectorBasedChangeMoveTest.doMove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "doMove",
+      "local_path": "crates/solver/tests/basic_change_doability_cases.rs",
+      "local_test": "change_executes_even_when_current_value_already_matches",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all three execution/result assertions, including unchanged current value. Native checked transactions replace Java move execution and its easy score director. Optional variable index0 and string IDs replace descriptor/entity/value objects. No scoring or Java director lifecycle equivalence claimed; setup inline."
+    },
+    {
+      "id": "SelectorBasedSwapMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_path": "crates/solver/tests/basic_change_doability_cases.rs",
+      "local_test": "swap_doability_uses_each_entity_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves both directions and equal-value rejection for a/b and b/c, plus same-entity rejection. Ordered native optional finite variables and integer IDs replace three entity objects, descriptors and mocked range-aware score director. Preserves all three entity-specific ranges; setup inline, no helper fixture copied."
     }
   ],
   "fixtures": [

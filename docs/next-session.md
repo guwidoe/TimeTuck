@@ -21242,3 +21242,40 @@ At approximately01:07 Oct10, preceding10hours coverage rose3040->3161 (+121metho
 Batch related shared-code changes before the required final gate to avoid paying
 broad compilation repeatedly; retain focused checks and honest performance evidence.
 Goal active/incomplete.
+
+
+## Basic move checks (verified)
+
+Baseline ca4d1aa; previous turn made progress by committing dependency isolation.
+Added FiniteProblem::is_move_doable and move_checker, with BasicMoveChecker borrowing
+a validated immutable snapshot. Eq-only, no Clone requirement; primitives allocate
+no scratch; composites track borrowed final values and check execution-order indices
+before sorted final domain/pin errors. Matches native apply's partial-state rules.
+A checker validates the source once; subsequent checks only inspect written slots.
+Public export comes directly from model::move_check at the crate root, avoiding an
+unrelated model-level reexport dependency. Implementation is original.
+
+Three adapted methods (two SelectorBasedChangeMoveTest and entity-range swap doability)
+with provenance/notices; no fixtures. Five original regressions include transactional
+nested comparisons, non-Clone values, error ordering/restoration,9value comparisons
+for3checks on1,024variables, and lazy providers on both scoring backends with both
+first/best-accepted selection. Existing provider/budget behavior is unchanged.
+Focused39084 TERMINAL0:8tests pass,1.80s compilation. Initial35023 failed only the
+provider inspected-count assertion (first-accepted stops early); test now explicitly
+covers both selection policies. No production change was required for that failure.
+
+Initial gate24374 was deliberately stopped (confirmed143) after detecting the model
+reexport unnecessarily selected555targets. Logs retained as *-interrupted.log.
+Final gate30982 and evidence26511 TERMINAL0. Fmt/Clippy pass(56.82s); final affected
+compilation23.81s;47Rust jobs ran,704Rust and46Python jobs reused. All5452Rust tests
+and250doctests pass. Coverage3164/4855=65.170%,0failed,1409pending,282excluded,
+0unverified. Live/report freshness matches. Doctest compilation remained active for
+roughly4.5minutes; it was not restarted. List benchmark measurements remain stale;
+no benchmarks/browser rerun and no wall-clock speedup claimed.
+Source:3be1c0d20bf37026947afaa6f171e8b3940ccf45a87178c1c5542358cbf07312
+Verification:0ad4b968640fe7b38dbd9496ee349805109bb15506e82118d16a3a5330a5c193
+Logs work/basic-move-check-{focused,prebuild,final-check}.log; final evidence
+work/basic-move-check-evidence.json. Dependency proof work/basic-move-check-dependencies.json
+confirms unchanged normalized model content and correct selected child inputs.
+No Rust changes after this final gate; reuse successful evidence. All task-owned
+check/evidence handles terminal. Goal active/incomplete.
