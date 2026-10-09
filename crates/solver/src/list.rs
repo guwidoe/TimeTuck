@@ -3,6 +3,8 @@
 //! Values use stable `Eq` identities. Owner, index and neighbor views are derived
 //! from the lists, so they cannot become stale after a move or rollback.
 
+pub(crate) mod move_check;
+
 use std::{error::Error, fmt, ops::Deref, sync::OnceLock};
 
 /// One entity's initial ordered values and immutable pinning metadata.

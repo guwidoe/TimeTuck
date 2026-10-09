@@ -21279,3 +21279,47 @@ work/basic-move-check-evidence.json. Dependency proof work/basic-move-check-depe
 confirms unchanged normalized model content and correct selected child inputs.
 No Rust changes after this final gate; reuse successful evidence. All task-owned
 check/evidence handles terminal. Goal active/incomplete.
+
+
+## Borrowed list candidate checks (verified)
+
+Baseline b08a133; previous turn made progress (basic checker committed). Added
+ListProblem::is_move_doable/move_checker and ListMoveChecker in list/move_check.rs.
+Source validation happens once per checker. Queries replay all list move variants
+and nested composites on references copied only for touched rows; no V clones.
+Operation-order geometry/identity errors precede sorted final pins/ranges, followed
+by the global dependency graph. Preserves payload-sensitive range diagnostics,
+partial states and restored intermediate violations. Root export avoids coupling
+unrelated consumers through list.rs. Existing solver/provider behavior unchanged.
+
+Five complete Community doability methods with provenance/notices; no copied
+helper fixtures. Disabled list-change range method unclaimed. Sublist-swap source
+methods remain pending because their out-of-bounds/source-range assumptions differ
+from native checked states. Six original regressions:4,000 primitive/nested candidate
+comparisons to apply, pin/range restoration/error order, global cycles, clone counts,
+unequal/reversed spans/deep composites, and all four list/mixed scoring paths.
+Focused77685 TERMINAL0:11tests,6.88s compile. Initial47548 passed the first4originals.
+
+Final gate70143/evidence31795 TERMINAL0. Fmt/Clippy pass(47.78s); affected-target
+prebuild21.63s. 5Rust jobs ran;748Rust and46Python jobs reused. All5463Rust tests and
+250doctests pass. Coverage3169/4855=65.273%,0failed,1404pending,282excluded,0unverified.
+Report/live freshness matches. No benchmark/browser rerun; older list timings stay
+stale. No wall-clock speedup claim. No Rust changes after the final gate.
+Source:e7b8695e2ec7047965566f42e3c53a8b1011d43e99480b5144e24414c3fc90b7
+Verification:8d4018726ecf3fdf7bd8eaa34807109db13a14fb2bd7ad9c11af6c4d6d1b6482
+Logs work/list-move-check-{focused,prebuild,final-check}.log; evidence
+work/list-move-check-evidence.json; dependency proof work/list-move-check-dependencies.json.
+
+Next concrete performance target: MixedProblem::apply_validated clones the entire
+joint assignment per candidate. Consider transferring basic undo journals and saved
+list rows from successful component guards into AppliedMixedMove, with rollback
+restoring only touched data. Keep atomic rollback on error/panic. Add original_list
+and lazy original snapshots like AppliedListMove; switch the two current original()
+callers in mixed_scoring.rs/mixed_stream_scoring.rs to borrow saved list rows.
+Preserve error order and metadata/score rollback; measure full native solves before
+claiming a gain. work/mixed_journal_probe.rs is an original UNVERIFIED, uncompiled
+next-batch benchmark draft outside Cargo targets:32/96values,4routes,12steps,scoped/
+stream and change/swap,1warmup3samples,independent final score validation and hashes.
+Compile/archive a baseline BEFORE altering production execution. The joint mixed
+checker could compose the basic/list checkers in a future batch; it is not implemented.
+All current task-owned check/evidence handles terminal. Goal remains active/incomplete.

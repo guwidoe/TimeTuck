@@ -5224,3 +5224,32 @@ non-Clone values, restored invalid intermediate states, and count comparisons on
 before scoring with both basic scoring backends. This is an opt-in API: existing
 provider behavior and evaluation budgets are unchanged. No wall-clock speedup or
 additional Java lifecycle equivalence is claimed.
+
+
+## List candidate validity without planning-value clones
+
+`ListProblem::is_move_doable` and `move_checker` cover assignment, relocation,
+swap, removal, reversed sublist relocation/exchange and nested composites.
+The reusable `ListMoveChecker` validates the immutable source once. Each query
+copies references only for touched rows, checks operation-order geometry and
+identity errors, then final pins and receiver ranges in entity order. Models with
+dependencies also check the global predecessor graph. Source/model state, scores
+and listeners are untouched. Empty/restoring composites return false; invalid
+candidates return the native `apply` error, including payload-sensitive diagnostics.
+Required values may be unassigned in partial states, consistent with native apply.
+
+Five Community methods preserve all list-change, list-swap and sublist-change
+boolean doability assertions, including entity-provided ranges. The adapter maps
+native errors to false where the upstream predicate rejects an invalid candidate.
+The disabled list-change range method is not claimed. Sublist-swap doability
+methods remain pending: one accepts spans beyond the supplied source list, and
+the other starts outside its declared range; native checked source/geometry
+semantics do not match those methods. No Java listener-lifecycle claim is made.
+
+Six original regressions compare 4,000 primitive/nested candidates to transactional
+application, exercise final pin/range restoration and global dependency cycles,
+check unequal reversed spans and deep composites, and prove zero planning-value
+clones while preserving diagnostic payloads. Lazy providers integrate the checker
+with all four list/mixed scoring paths, filtering before candidate scoring.
+This opt-in API does not replace existing solver provider or budget behavior.
+No wall-clock speedup is claimed; scratch references still require allocations.

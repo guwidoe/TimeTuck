@@ -804,3 +804,9 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   from `SelectorBasedSwapMoveTest` (Apache-2.0). Native basic variables and checked
   move queries replace descriptor/director plumbing. Exact identities and
   substitutions are recorded in `compat/provenance.json`.
+
+- `crates/solver/tests/list_move_doability_cases.rs` adapts five pinned Community
+  doability methods from `SelectorBasedListChangeMoveTest`,
+  `SelectorBasedListSwapMoveTest` and `SelectorBasedSubListChangeMoveTest`
+  (Apache-2.0). Native validation errors map to false for boolean assertions;
+  identities and substitutions are recorded in `compat/provenance.json`.

@@ -47574,6 +47574,81 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserves both directions and equal-value rejection for a/b and b/c, plus same-entity rejection. Ordered native optional finite variables and integer IDs replace three entity objects, descriptors and mocked range-aware score director. Preserves all three entity-specific ranges; setup inline, no helper fixture copied."
+    },
+    {
+      "id": "SelectorBasedListChangeMoveTest.isMoveDoable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/list_move_doability_cases.rs",
+      "local_test": "list_change_doability",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All four same-position, within-list, post-removal bounds and cross-entity assertions. Native list variables and integer IDs replace Java entity/descriptor mocks and range-manager plumbing. The boolean adapter maps native invalid-move errors and unchanged results to false. Setup is inline; no upstream helper is copied; native source validation and listener lifecycle remain distinct."
+    },
+    {
+      "id": "SelectorBasedListSwapMoveTest.isMoveDoable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/list_move_doability_cases.rs",
+      "local_test": "list_swap_doability",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All three same-position, within-list and cross-entity assertions. Native list variables and integer IDs replace Java entity/descriptor mocks and range-manager plumbing. The boolean adapter maps native invalid-move errors and unchanged results to false. Setup is inline; no upstream helper is copied; native source validation and listener lifecycle remain distinct."
+    },
+    {
+      "id": "SelectorBasedListSwapMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_path": "crates/solver/tests/list_move_doability_cases.rs",
+      "local_test": "list_swap_entity_ranges",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves both ordered per-entity ranges, initial lists, all four identities and the single valid-swap assertion. Native list variables and integer IDs replace Java entity/descriptor mocks and range-manager plumbing. The boolean adapter maps native invalid-move errors and unchanged results to false. Setup is inline; no upstream helper is copied; native source validation and listener lifecycle remain distinct."
+    },
+    {
+      "id": "SelectorBasedSubListChangeMoveTest.isMoveDoable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/list_move_doability_cases.rs",
+      "local_test": "sublist_change_doability",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All five unchanged, within-list bounds and cross-entity assertions; source start/length becomes native half-open range. Native list variables and integer IDs replace Java entity/descriptor mocks and range-manager plumbing. The boolean adapter maps native invalid-move errors and unchanged results to false. Setup is inline; no upstream helper is copied; native source validation and listener lifecycle remain distinct."
+    },
+    {
+      "id": "SelectorBasedSubListChangeMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_path": "crates/solver/tests/list_move_doability_cases.rs",
+      "local_test": "sublist_change_entity_ranges",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All six range-membership assertions across forward/reversed spans; retains the source initial order 1,4,2 and both entity ranges. Source start/length becomes native half-open range. Native list variables and integer IDs replace Java entity/descriptor mocks and range-manager plumbing. The boolean adapter maps native invalid-move errors and unchanged results to false. Setup is inline; no upstream helper is copied; native source validation and listener lifecycle remain distinct."
     }
   ],
   "fixtures": [

@@ -82,6 +82,7 @@ pub mod list;
 mod list_dependencies;
 mod list_lifecycle;
 mod list_observation;
+pub use list::move_check::ListMoveChecker;
 pub use list::{
     AppliedListMove, ListAssignment, ListElement, ListEntity, ListError, ListMove, ListPosition,
     ListProblem, ListRange,
