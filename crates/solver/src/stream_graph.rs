@@ -2443,3 +2443,6 @@ mod journal_tests;
 mod grouped_batch;
 
 mod filtered_indexed;
+
+mod fixed_links;
+pub use fixed_links::FixedLinkedStreamPort;

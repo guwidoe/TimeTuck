@@ -20184,3 +20184,64 @@ prior gate before/after; aggregate log checksum and live/report digests match.
 Use that digest for gate reuse, not differential_scores.source_digest (legacy
 measurement fingerprint). No Rust/test/provenance change remains; only rejection
 notes are committed. Existing dashboard measurements retain original freshness.
+
+## Compile fixed stream relationships into adjacency
+
+Baseline c63f65c. New join_fixed_links_batched accepts immutable unique
+relationship IDs and endpoint IDs, evaluates only incident links, and removes
+intermediate edge/job tuples and dynamic join indexes for this specialization.
+Ordinary joins remain available for changing relationship facts. Native benchmark
+batched mode now uses fixed links; immediate control and Java adapters retain
+ordinary edge/job joins. Graph construction/adjacency remain inside timed setup.
+Five original regressions cover scan agreement, duplicate/coalesced inputs,
+asymmetric/self/parallel links, work scaling, callback/installation failure,
+rollback, saved candidates, rebuild and nested planning trials. Focus39502
+TERMINAL0. No upstream production read, copied fixtures or compatibility credits.
+Release90462 and alternating native comparison38568 TERMINAL0. Before archive
+work/join-payload-cache-before comes from4822d4c, with identical production Rust
+to c63f65c. After work/fixed-links-after; SHA256s and full samples in
+work/fixed-links-performance.json. 20steps/1warmup/3samples,2 alternating process
+pairs,32/96 variables, hill/tabu and change/swap. Exact assignments/scores/scoring
+call counts match; every sample independently rescored.
+Whole-process CPU hill/change: 392.029 -> 271.351ms (30.8% reduction).
+Whole-process CPU tabu/change: 487.586 -> 287.308ms (41.1% reduction).
+Whole-process CPU hill/swap: 6080.007 -> 4604.076ms (24.3% reduction).
+Whole-process CPU tabu/swap: 16933.901 -> 8183.230ms (51.7% reduction).
+CPU includes warmups and both sizes; it is not per-solve latency. All eight
+latency medians improved; host variability limits generalization. Fixed-link
+workloads only, not a universal dynamic-join or solver speedup.
+
+Matched Java50604 TERMINAL0: 128 valid, 128 equal-score cases.
+Generated 2026-10-09T16:09:18.147148+00:00; input digest 60bb3c16127dd32dd59e01a23635e8fa8fa9d7052f527a0b8872d9c05ee0659b.
+96-variable hill/change: Rust 57.392/Java 64.031ms; Rust/Java 0.90.
+96-variable tabu/change: Rust 57.752/Java 58.866ms; Rust/Java 0.98.
+96-variable hill/swap: Rust 799.312/Java 242.393ms; Rust/Java 3.30.
+96-variable tabu/swap: Rust 887.169/Java 289.169ms; Rust/Java 3.07.
+Only stream performance refreshed; unrelated measurements retain their dates
+and computed freshness. No browser rerun for backend-only report refresh.
+User throughput clarification: the ten-hour window in the saved complaint was
+2883 ->2916 (+0.680 percentage points), not today's3040 ->3123 (+1.710).
+Corrected the initial response. Earlier timing audit measured66%build/test in
+one slice and83%in its latest batch after cache-helper invalidation; do not
+extrapolate those ratios to the full ten hours. Performance remains a priority.
+Final prebuild: fmt/clippy passed, clippy27.72s;638affected targets and86
+reusable. Compilation17m18s, with the large solver integration target finishing
+last after nearly all other integration binaries. Ample memory was available;
+compiler remained active. This is compilation cost, not test-execution time.
+Final check79887 continues on frozen source. Profile the fixed-link graph before
+selecting another performance change; prior dynamic-join hotspot timings no
+longer describe this benchmark topology. No new profile has been run yet.
+
+Required fixed-links gate TERMINAL0. 5342 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 638, 'REUSE': 86}; Python jobs: {'REUSE': 45, 'RUN': 1}.
+Dashboard: {'total': 4855, 'passed': 3123, 'failed': 0, 'pending': 1450, 'excluded': 282, 'unverified': 0, 'percent': 64.325}.
+Source before/after matched: b675f08d1e10e0901bbd28621070a6278ed7265acc79b1c6908b4cc3a99a21ef
+Live freshness matched verification digest: ae1c9bea3240e85b3a7b428d2f4ffdeebd75635da587978d4aac0ef9105450de.
+Prior ledger records unchanged; No new upstream methods or fixture records.
+Log work/fixed-links-final-check.log; evidence work/fixed-links-evidence.json.
+Only the stream comparison was deliberately refreshed; other measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final check79887 and evidence5223 TERMINAL0. 5342Rust/246doctests pass;
+638Rust targets ran,86reused;1Python ran,45reused. All new native regressions
+pass; no upstream credits added. Stream measurement digest remains current.
+Staged implementation/tests/benchmark equal the reviewed and verified files.
+All task handles terminal except dashboard81616. Goal active/incomplete.

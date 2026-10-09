@@ -1199,3 +1199,5 @@ pub use termination_profile::{TerminationProfile, TerminationProfileError};
 
 mod termination_resolver;
 pub use termination_resolver::{ResolvedTermination, TerminationResolver};
+
+pub use stream_graph::FixedLinkedStreamPort;

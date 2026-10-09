@@ -29,26 +29,21 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
         let value = v.unwrap();
         (id, value, case.weights[id][value])
     })?;
-    let edges = b.source::<usize, (usize, usize, usize)>();
-    let a = if batched {
-        b.join_equal_batched(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?
-    } else {
-        b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?
-    };
-    let identities = if batched {
-        b.join_compare_map_batched(
-            &a,
+    let (identities, edges) = if batched {
+        let linked = b.join_fixed_links_batched(
             &jobs,
-            JoinComparison::Equal,
-            |(e, _)| e.2,
-            |j: &Job| j.0,
-            |(_, a), b| a.1 == b.1,
-            |(e, _), _| e.0,
-        )?
+            &jobs,
+            case.edges.iter().enumerate().map(|(e, &(i, j))| (e, i, j)),
+            |_, a, b| a.1 == b.1,
+            |&e, _, _| e,
+        )?;
+        (linked, None)
     } else {
+        let edges = b.source::<usize, (usize, usize, usize)>();
+        let a = b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?;
         let ab = b.join_equal(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0)?;
         let conflicts = b.filter(&ab, |((_, a), b)| a.1 == b.1)?;
-        b.map(&conflicts, |((e, _), _)| e.0)?
+        (b.map(&conflicts, |((e, _), _)| e.0)?, Some(edges))
     };
     let conflicts = b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?;
     let grouped = if batched {
@@ -61,11 +56,13 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
         HardSoftScore::new(0, impact(s.sum))
     })?;
     let mut graph = b.build();
-    let mut tx = graph.transaction();
-    for (id, &(a, b)) in case.edges.iter().enumerate() {
-        tx.apply(&edges, TupleChange::put(id, (id, a, b)))?;
+    if let Some(edges) = edges {
+        let mut tx = graph.transaction();
+        for (id, &(a, b)) in case.edges.iter().enumerate() {
+            tx.apply(&edges, TupleChange::put(id, (id, a, b)))?;
+        }
+        tx.commit()?;
     }
-    tx.commit()?;
     Ok(Network {
         graph,
         source,

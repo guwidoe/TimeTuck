@@ -2160,3 +2160,33 @@ All assignments, scores and score-call counts matched, with independent score
 validation. Timing varied substantially between pairs; no general speedup or Java
 comparison is claimed. Raw results and immutable executable checksums are retained
 in work/join-payload-cache-{eager,lazy}-performance.json. No compatibility credits.
+
+
+`join_fixed_links_batched` compiles immutable relationships between stable input
+IDs. Callers supply unique relationship IDs and left/right endpoint IDs; parallel
+relationships and self-links are supported. Missing endpoints suppress output.
+Output IDs contain all three identities, and batched replacements visit only
+incident links, coalescing changes to both endpoints before predicate/projection.
+Relationship metadata is retained across graph rebuilds; changing relationships
+requires a new graph. Dynamic relationship facts still use ordinary joins.
+
+The node retains O(links) immutable adjacency plus linked input rows, with no
+accepted-pair table or intermediate edge/job tuples. Pure callbacks may be rerun
+on old inputs to decide retractions. Existing graph journals, snapshots, saved
+candidates, rollback and nested planning trials apply. Five original regressions
+cover full-scan agreement, repeated updates, asymmetric inputs, self-links,
+incident-only visits, input validation, failure recovery and saved candidates.
+This native specialization earns no additional upstream-method credit.
+
+The native stream benchmark now uses this operator in batched mode; its fixed
+relationships are compiled inside timed setup. The immediate control and Java
+adapter retain ordinary edge/job joins. Two alternating native process pairs
+(20 steps, one warmup, three samples, 32/96 variables) preserved assignments,
+scores and scoring-call counts, with 24–52% lower whole-process CPU across the
+four algorithm/neighborhood combinations. These numbers include warmups and
+both sizes, not per-solve latency. A fresh matched Java comparison validates
+128 equal-score cases; the 96-variable change workloads are near parity while
+swaps remain 3.1–3.3 times slower. Development-host measurements are specific
+to this fixed-relationship workload, not general solver or dynamic-join parity.
+Raw native evidence: work/fixed-links-performance.json; Java comparison:
+work/stream-performance.json (measurement dates and freshness retained).
