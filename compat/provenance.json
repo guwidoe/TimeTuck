@@ -45714,6 +45714,96 @@
       "upstream_test": "getFirstUnpinnedIndexReadsPlanningPinToIndex",
       "local_test": "get_first_unpinned_index_reads_planning_pin_to_index",
       "modifications": "Preserve all asserted basic/list values, element positions, null range membership and pin boundaries using typed schema field bindings. Borrowed string identities replace Java test values; native entity row zero replaces object identity. List locations derive from the current assignment instead of a mocked state supply. Optional range case retains the generated two-value/two-entity fixture and both membership assertions. No Java reflection or scoring-factory lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/schema_transition_cases.rs",
+      "id": "ChangeMoveProviderTest.constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "local_test": "change_rejects_explicit_crossing_on_required_variable",
+      "modifications": "Preserve optional/required metadata assertions, accepted/rejected provider configuration and the optional basic change membership/no-op assertions. Native typed schema resolution replaces Java metamodel/provider construction. crossing_unassigned is the native spelling of crossingNull, including the asserted diagnostic substring; typed errors replace IllegalArgumentException. The optional two-entity fixture keeps the first entity unassigned and the second on Generated Value 1; stable slot IDs replace entity object identity. No Java reflection or random trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/schema_transition_cases.rs",
+      "id": "ListChangeMoveProviderTest.crossingNullDefaultsToAllowsUnassignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullDefaultsToAllowsUnassignedValues",
+      "local_test": "list_change_accepts_crossing_for_optional_variable",
+      "modifications": "Preserve optional/required metadata assertions, accepted/rejected provider configuration and the optional basic change membership/no-op assertions. Native typed schema resolution replaces Java metamodel/provider construction. crossing_unassigned is the native spelling of crossingNull, including the asserted diagnostic substring; typed errors replace IllegalArgumentException. The optional two-entity fixture keeps the first entity unassigned and the second on Generated Value 1; stable slot IDs replace entity object identity. No Java reflection or random trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/schema_transition_cases.rs",
+      "id": "ListChangeMoveProviderTest.crossingNullTrueRequiresAllowsUnassignedValues",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListChangeMoveProviderTest.java",
+      "upstream_test": "crossingNullTrueRequiresAllowsUnassignedValues",
+      "local_test": "list_change_crossing_requires_optional_variable",
+      "modifications": "Preserve optional/required metadata assertions, accepted/rejected provider configuration and the optional basic change membership/no-op assertions. Native typed schema resolution replaces Java metamodel/provider construction. crossing_unassigned is the native spelling of crossingNull, including the asserted diagnostic substring; typed errors replace IllegalArgumentException. The optional two-entity fixture keeps the first entity unassigned and the second on Generated Value 1; stable slot IDs replace entity object identity. No Java reflection or random trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/schema_transition_cases.rs",
+      "id": "ListAssignMoveProviderTest.constructorRejectsNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListAssignMoveProviderTest.java",
+      "upstream_test": "constructorRejectsNonUnassignedVariable",
+      "local_test": "list_assign_rejects_required_variable",
+      "modifications": "Preserve optional/required metadata assertions, accepted/rejected provider configuration and the optional basic change membership/no-op assertions. Native typed schema resolution replaces Java metamodel/provider construction. crossing_unassigned is the native spelling of crossingNull, including the asserted diagnostic substring; typed errors replace IllegalArgumentException. The optional two-entity fixture keeps the first entity unassigned and the second on Generated Value 1; stable slot IDs replace entity object identity. No Java reflection or random trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/schema_transition_cases.rs",
+      "id": "ListUnassignMoveProviderTest.failsOnNonUnassignedListVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ListUnassignMoveProviderTest.java",
+      "upstream_test": "failsOnNonUnassignedListVariable",
+      "local_test": "list_unassign_rejects_required_variable",
+      "modifications": "Preserve optional/required metadata assertions, accepted/rejected provider configuration and the optional basic change membership/no-op assertions. Native typed schema resolution replaces Java metamodel/provider construction. crossing_unassigned is the native spelling of crossingNull, including the asserted diagnostic substring; typed errors replace IllegalArgumentException. The optional two-entity fixture keeps the first entity unassigned and the second on Generated Value 1; stable slot IDs replace entity object identity. No Java reflection or random trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/schema_transition_cases.rs",
+      "id": "ChangeMoveProviderTest.fromSolutionAllowsUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "fromSolutionAllowsUnassigned",
+      "local_test": "optional_basic_change_without_crossing_skips_unassigned_sources",
+      "modifications": "Preserve optional/required metadata assertions, accepted/rejected provider configuration and the optional basic change membership/no-op assertions. Native typed schema resolution replaces Java metamodel/provider construction. crossing_unassigned is the native spelling of crossingNull, including the asserted diagnostic substring; typed errors replace IllegalArgumentException. The optional two-entity fixture keeps the first entity unassigned and the second on Generated Value 1; stable slot IDs replace entity object identity. No Java reflection or random trace claim."
     }
   ],
   "fixtures": [
@@ -62096,6 +62186,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
       "upstream_test": "genuine field declaration, pin metadata or generateSolution(2, 2)",
       "modifications": "Adapt field names, basic/list kinds, optional flag and pinned-prefix metadata; optional solution generation preserves two named values and two entities assigned cyclically. Native typed schema and immutable model metadata replace Java annotations and getters."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/schema_transition_cases.rs",
+      "id": "schema-transitions-TestdataAllowsUnassignedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution(2, 2)",
+      "modifications": "Preserve Generated Value 0/1, two entity slots, first unassigned and second assigned to the second value. Native immutable domains and optional slots replace Java entity/fact objects; no production source copied."
     }
   ]
 }

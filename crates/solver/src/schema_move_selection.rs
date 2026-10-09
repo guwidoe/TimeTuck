@@ -5,6 +5,8 @@ use std::{collections::BTreeSet, error::Error, fmt};
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SchemaMoveKind {
     Change,
+    Assign,
+    Unassign,
     Swap,
     ListChange,
     ListSwap,
@@ -13,7 +15,10 @@ pub enum SchemaMoveKind {
 }
 impl SchemaMoveKind {
     fn list_only(self) -> bool {
-        !matches!(self, Self::Change | Self::Swap)
+        !matches!(
+            self,
+            Self::Change | Self::Assign | Self::Unassign | Self::Swap
+        )
     }
     fn accepts_secondary(self) -> bool {
         matches!(self, Self::Swap | Self::ListSwap | Self::SubListSwap(_))
@@ -22,8 +27,12 @@ impl SchemaMoveKind {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SchemaMoveBranchKind {
     BasicChange,
+    BasicAssign,
+    BasicUnassign,
     BasicSwap,
     ListChange,
+    ListAssign,
+    ListUnassign,
     ListSwap,
     SubListChange(SubListChangeConfig),
     SubListSwap(SubListSwapConfig),
@@ -52,6 +61,9 @@ pub enum SchemaMoveBranchKind {
 #[derive(Clone, Debug)]
 pub struct SchemaMoveConfig {
     pub kind: SchemaMoveKind,
+    /// Change/ListChange only. None follows variable optionality; false skips
+    /// transitions into or out of unassignment; true requires optional fields.
+    pub crossing_unassigned: Option<bool>,
     pub entity: Option<PlanningType>,
     pub secondary_entity: Option<PlanningType>,
     pub variables: Vec<String>,
@@ -62,6 +74,7 @@ impl SchemaMoveConfig {
     pub fn new(kind: SchemaMoveKind) -> Self {
         Self {
             kind,
+            crossing_unassigned: None,
             entity: None,
             secondary_entity: None,
             variables: Vec::new(),
@@ -69,10 +82,22 @@ impl SchemaMoveConfig {
             selected_count_limit: None,
         }
     }
+    pub fn with_crossing_unassigned(mut self, enabled: bool) -> Self {
+        self.crossing_unassigned = Some(enabled);
+        self
+    }
     pub fn resolve<'s>(
         &self,
         schema: &'s PlanningSchema,
     ) -> Result<SchemaMovePlan<'s>, SchemaMoveError> {
+        if self.crossing_unassigned.is_some()
+            && !matches!(
+                self.kind,
+                SchemaMoveKind::Change | SchemaMoveKind::ListChange
+            )
+        {
+            return Err(SchemaMoveError::CrossingPolicyRequiresChange);
+        }
         if !self.kind.accepts_secondary() && self.secondary_entity.is_some() {
             return Err(SchemaMoveError::UnexpectedSecondaryEntity);
         }
@@ -131,6 +156,26 @@ impl SchemaMoveConfig {
                 }
                 fields.retain(|v| matches!(v.kind(), PlanningVariableKind::List { .. }));
             }
+            for field in &fields {
+                let optional = matches!(
+                    field.kind(),
+                    PlanningVariableKind::Basic {
+                        allows_unassigned: true
+                    } | PlanningVariableKind::List {
+                        allows_unassigned: true
+                    }
+                );
+                if !optional && self.crossing_unassigned == Some(true) {
+                    return Err(SchemaMoveError::CrossingUnassigned(field.name().into()));
+                }
+                if !optional
+                    && matches!(self.kind, SchemaMoveKind::Assign | SchemaMoveKind::Unassign)
+                {
+                    return Err(SchemaMoveError::TransitionRequiresOptional(
+                        field.name().into(),
+                    ));
+                }
+            }
             let basics: Vec<_> = fields
                 .iter()
                 .copied()
@@ -144,6 +189,18 @@ impl SchemaMoveConfig {
             }
             for field in fields {
                 let kind = match (self.kind, field.kind()) {
+                    (SchemaMoveKind::Assign, PlanningVariableKind::Basic { .. }) => {
+                        SchemaMoveBranchKind::BasicAssign
+                    }
+                    (SchemaMoveKind::Unassign, PlanningVariableKind::Basic { .. }) => {
+                        SchemaMoveBranchKind::BasicUnassign
+                    }
+                    (SchemaMoveKind::Assign, PlanningVariableKind::List { .. }) => {
+                        SchemaMoveBranchKind::ListAssign
+                    }
+                    (SchemaMoveKind::Unassign, PlanningVariableKind::List { .. }) => {
+                        SchemaMoveBranchKind::ListUnassign
+                    }
                     (SchemaMoveKind::Change, PlanningVariableKind::Basic { .. }) => {
                         SchemaMoveBranchKind::BasicChange
                     }
@@ -180,6 +237,7 @@ impl SchemaMoveConfig {
         }
         Ok(SchemaMovePlan {
             schema,
+            crossing_unassigned: self.crossing_unassigned,
             branches,
             order: self.order,
             selected_count_limit: self.selected_count_limit,
@@ -194,6 +252,7 @@ pub struct SchemaMoveBranch<'s> {
 #[derive(Debug)]
 pub struct SchemaMovePlan<'s> {
     schema: &'s PlanningSchema,
+    crossing_unassigned: Option<bool>,
     branches: Vec<SchemaMoveBranch<'s>>,
     pub order: UnionOrder,
     pub selected_count_limit: Option<usize>,
@@ -209,6 +268,9 @@ pub struct SchemaVariableSlots<'s> {
 pub enum SchemaMoveError {
     Schema(PlanningSchemaError),
     UnexpectedSecondaryEntity,
+    CrossingPolicyRequiresChange,
+    CrossingUnassigned(String),
+    TransitionRequiresOptional(String),
     IncompatibleEntities {
         left: PlanningType,
         right: PlanningType,
@@ -242,6 +304,8 @@ pub enum SchemaMoveError {
 impl fmt::Display for SchemaMoveError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::CrossingUnassigned(name)=>write!(f,"crossing_unassigned requires optional field {name}"),
+            Self::TransitionRequiresOptional(name)=>write!(f,"assign/unassign provider requires optional field {name}"),
             Self::CannotDeduceListVariable => f.write_str("cannot unfold list selector: a planning list variable cannot be deduced automatically"),
             Self::ListVariableRequired(name) => write!(f, "{name} is not a planning list variable; a list selector cannot be deduced automatically"),
             _ => write!(f, "schema move selection: {self:?}"),
@@ -331,6 +395,7 @@ impl<'s> SchemaMovePlan<'s> {
             };
             branches.push(BoundBranch {
                 kind: branch.kind,
+                crossing_unassigned: self.crossing_unassigned,
                 fields,
                 swap,
             });
@@ -352,6 +417,7 @@ struct BoundField {
 #[derive(Clone, Debug)]
 struct BoundBranch {
     kind: SchemaMoveBranchKind,
+    crossing_unassigned: Option<bool>,
     fields: Vec<BoundField>,
     swap: Option<EntitySwapProvider>,
 }
@@ -433,9 +499,25 @@ impl BoundBranch {
         }
         match self.kind {
             SchemaMoveBranchKind::BasicChange => {
-                Ok(Box::new(crate::neighborhood::change_moves_ordered(
+                let crossing = self.crossing_unassigned != Some(false);
+                Ok(Box::new(
+                    crate::neighborhood::change_moves_ordered(
+                        p,
+                        a,
+                        self.fields[0]
+                            .slots
+                            .iter()
+                            .copied()
+                            .filter(move |&i| crossing || a.values()[i].is_some()),
+                    )
+                    .filter(move |m| crossing || matches!(m, Move::Change { value: Some(_), .. })),
+                ))
+            }
+            SchemaMoveBranchKind::BasicAssign | SchemaMoveBranchKind::BasicUnassign => {
+                Ok(Box::new(crate::assignment_neighborhood::single(
                     p,
                     a,
+                    self.kind == SchemaMoveBranchKind::BasicUnassign,
                     self.fields[0].slots.iter().copied(),
                 )))
             }
@@ -460,11 +542,23 @@ impl BoundBranch {
         }
         let order = self.fields[0].slots.iter().copied();
         match self.kind {
-            SchemaMoveBranchKind::ListChange => Ok(Box::new(
-                crate::list_neighborhood::changes(p, a, order.clone())
-                    .chain(crate::list_neighborhood::assigns(p, a, order.clone()))
-                    .chain(crate::list_neighborhood::unassigns(p, a, order)),
-            )),
+            SchemaMoveBranchKind::ListChange => {
+                if self.crossing_unassigned == Some(false) {
+                    Ok(Box::new(crate::list_neighborhood::changes(p, a, order)))
+                } else {
+                    Ok(Box::new(
+                        crate::list_neighborhood::changes(p, a, order.clone())
+                            .chain(crate::list_neighborhood::assigns(p, a, order.clone()))
+                            .chain(crate::list_neighborhood::unassigns(p, a, order)),
+                    ))
+                }
+            }
+            SchemaMoveBranchKind::ListAssign => {
+                Ok(Box::new(crate::list_neighborhood::assigns(p, a, order)))
+            }
+            SchemaMoveBranchKind::ListUnassign => {
+                Ok(Box::new(crate::list_neighborhood::unassigns(p, a, order)))
+            }
             SchemaMoveBranchKind::ListSwap => Ok(crate::list_neighborhood::ordered(
                 p,
                 a,
@@ -550,13 +644,17 @@ impl SchemaMoveProvider {
         let mut children: Vec<Box<dyn Iterator<Item = MixedMove<B, L>> + 'a>> = Vec::new();
         for branch in &self.branches {
             match branch.kind {
-                SchemaMoveBranchKind::BasicChange | SchemaMoveBranchKind::BasicSwap => children
-                    .push(Box::new(branch.basic(p.basic(), a.basic(), step)?.map(
+                SchemaMoveBranchKind::BasicChange
+                | SchemaMoveBranchKind::BasicAssign
+                | SchemaMoveBranchKind::BasicUnassign
+                | SchemaMoveBranchKind::BasicSwap => {
+                    children.push(Box::new(branch.basic(p.basic(), a.basic(), step)?.map(
                         |basic| MixedMove {
                             basic,
                             lists: ListMove::Composite(vec![]),
                         },
-                    ))),
+                    )))
+                }
                 _ => children.push(Box::new(branch.list(p.lists(), a.lists())?.map(|lists| {
                     MixedMove {
                         basic: Move::Composite(vec![]),

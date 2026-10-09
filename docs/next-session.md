@@ -19975,3 +19975,40 @@ source equals the gate source exactly.3 Rust targets ran;704 Rust and46 Python
 targets reused unchanged evidence. All task handles terminal except the dashboard.
 No Rust changes after measurement/gate; staged implementation and documentation
 reviewed. Existing Java measurements retain their dates/freshness. Goal incomplete.
+
+
+## Schema-bound assignment transition providers
+
+Baseline9fb440f. SchemaMoveKind Assign/Unassign resolves selected optional basic
+and list fields into lazy transition branches, including mixed providers. Required
+selected fields fail resolution; unrelated unbound model fields may remain required.
+Change/ListChange gain crossing_unassigned: false preserves assignment status,
+true requires optional metadata, None preserves prior initialization/default behavior.
+Unsupported policy/kind combinations fail explicitly. Existing native primitives
+preserve ordering, values/ranges, pins and list prefixes; all normal provider solver
+hooks/scoring/rollback remain in use.
+
+Build90073 TERMINAL101: misplaced plan field in resolve signature, fixed before tests.
+Focus10472 TERMINAL0: three original transition tests plus ten existing schema
+selection/sublist regressions passed. Final15697 TERMINAL0 adds six complete adapted
+Community tests, for19 passing focused methods. Original tests cover scoped moves,
+required fields outside bindings, pinned slots/prefixes, per-move undo and complete
+assign/unassign searches through all six basic/list/mixed full/stream paths.
+Provenance adds6 methods and1 two-entity optional fixture. Required final gate starts
+on frozen Rust source; no performance or browser rerun needed for this feature.
+
+Required schema-transitions gate TERMINAL0. 5240 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 10, 'REUSE': 699}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3046, 'failed': 0, 'pending': 1527, 'excluded': 282, 'unverified': 0, 'percent': 62.739}.
+Source before/after matched: 1ce061ea6699555e539dd47c1e91f2c7486aca7100fa382118b9d2bc481197ac
+Live freshness matched verification digest: 215de5724643c18c0d5afc70a26f1b0d9819041c06256b17934d42267dd17f48.
+Prior ledger records unchanged; Six complete Community methods and one fixture added.
+Log work/schema-transitions-final-check.log; evidence work/schema-transitions-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final prebuild/check52175 and report/live evidence55721 TERMINAL0. Clippy20.53s;
+prebuild4.87s.10 Rust targets ran,699 Rust and46 Python jobs reused unchanged inputs.
+All six new adapted methods are verified in the dashboard; prior provenance entries
+remain unchanged. Final source/staged implementation, tests and provenance reviewed.
+No Rust changes after the gate. All task handles terminal except dashboard81926.
+Goal remains active/incomplete; reuse these checks for unchanged relevant inputs.

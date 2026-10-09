@@ -2229,3 +2229,24 @@ lifecycle events and shared/separate source construction. Three original regress
 cover occurrence identity, limits/misdeclared sizes/unbounded input, a 100-million-pair
 product retaining 20,000 non-Clone inputs, and real solver phases consuming all 30
 swaps with one solve/two phase/five scan lifecycle per child.
+
+
+Schema-bound move selection now supports `SchemaMoveKind::Assign` and `Unassign`
+for selected optional basic and list fields, including combined mixed-model
+providers. These variants require every selected field to allow unassigned values;
+required fields are rejected during resolution, even when their slots are pinned.
+Selection remains lazy and preserves field/slot ordering, ranges, pins and list
+prefixes. Scoped assign/unassign providers do not impose optionality on unrelated
+model fields outside the binding.
+
+`SchemaMoveConfig::with_crossing_unassigned(false)` applies to Change/ListChange:
+basic changes skip currently unassigned slots and omit unassignment targets; list
+changes only relocate currently assigned values. True requires optional metadata
+for every selected field. None preserves existing default change behavior,
+including initialization of missing required values. Other move families reject
+an explicit crossing policy instead of silently ignoring it. Dedicated transitions
+can be composed through existing provider unions and phase plans. Construction,
+local search, scoring, saved candidates and rollback use the same provider path.
+Six Community tests preserve accepted/rejected metadata configurations and optional
+change membership; three original tests cover scopes/pins and assign/unassign
+search through all six basic/list/mixed full/stream paths. No Java trace claim.
