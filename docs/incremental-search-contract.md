@@ -2250,3 +2250,29 @@ local search, scoring, saved candidates and rollback use the same provider path.
 Six Community tests preserve accepted/rejected metadata configurations and optional
 change membership; three original tests cover scopes/pins and assign/unassign
 search through all six basic/list/mixed full/stream paths. No Java trace claim.
+
+## Validated termination profiles
+
+`TerminationProfile` provides optional spent/unimproved time, signed external
+step/move counts and exact rational diminished-return tuning. It rejects negative
+counts, nonpositive ratios/windows, and the service-policy combination of
+unimproved time with step/move counts. Lower-level native solver controls retain
+their existing unrestricted combinations. Fallback merging fills each missing
+field independently, preserves explicit zero and revalidates the complete result;
+failed merges mutate neither input. No fallback returns a borrowed profile.
+
+`with_limits`, `with_sequence` and `with_mixed_sequence` scope the bound settings
+around a callback that can return owned solve results. Specified time/move budgets
+replace those fields; unspecified controls survive. The profile's search-step cap
+is OR-composed with an existing solve-wide expression and spans phases, excluding
+construction. The temporary expression cannot escape the callback. No score clone
+is needed. Supplying either diminished tuning field replaces local-phase policies,
+using 30 seconds or ratio 1/10000 for the missing tuning field; supplying neither
+preserves existing policies. Other phase kinds and mixed component order survive.
+
+All 21 service SolverTerminationConfigTest methods have native adaptations, with
+rational values and explicit None constructor defaults recorded in provenance.
+These configuration cases do not establish Java runtime counters or timer scopes.
+Original tests exercise cross-phase steps, candidate budgets, inherited expressions
+and zero-work stopping through all six native solver paths, plus mixed-policy
+binding with a non-Clone score, exact defaults and atomic conflict rejection.

@@ -46344,6 +46344,321 @@
       "local_path": "crates/solver/tests/great_circle_cases.rs",
       "local_test": "calculate_distance",
       "modifications": "Preserve both literal city-coordinate pairs and exact expected rounded meters 939748 and 442297. An independently implemented spherical distance function replaces the Java provider/ObjectMapper setup. No road-distance, driving-speed default, bulk JSON or network-service equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.rejectsZeroMinimumImprovementRatio",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "rejectsZeroMinimumImprovementRatio",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "rejects_zero_ratio",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.rejectsNegativeStepCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "rejectsNegativeStepCountLimit",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "rejects_negative_steps",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.rejectsNegativeMoveCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "rejectsNegativeMoveCountLimit",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "rejects_negative_moves",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.acceptsZeroCountLimits",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "acceptsZeroCountLimits",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "accepts_zero_counts",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.rejectsUnimprovedSpentLimitCombinedWithStepCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "rejectsUnimprovedSpentLimitCombinedWithStepCountLimit",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "rejects_stagnation_with_steps",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.rejectsUnimprovedSpentLimitCombinedWithMoveCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "rejectsUnimprovedSpentLimitCombinedWithMoveCountLimit",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "rejects_stagnation_with_moves",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.rejectsNegativeMinimumImprovementRatio",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "rejectsNegativeMinimumImprovementRatio",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "rejects_negative_ratio",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.acceptsNullMinimumImprovementRatio",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "acceptsNullMinimumImprovementRatio",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "accepts_missing_ratio",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.acceptsPositiveMinimumImprovementRatio",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "acceptsPositiveMinimumImprovementRatio",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "accepts_positive_ratio",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.fiveArgConstructorPreservesLegacyShapeAndDefaultsMoveCountLimitToNull",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "fiveArgConstructorPreservesLegacyShapeAndDefaultsMoveCountLimitToNull",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "legacy_five_fields_default_moves",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.threeArgConstructorDefaultsDiminishedReturnsTuningToNull",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "threeArgConstructorDefaultsDiminishedReturnsTuningToNull",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "three_fields_default_tuning",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.fourArgConstructorDefaultsDiminishedReturnsTuningToNull",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "fourArgConstructorDefaultsDiminishedReturnsTuningToNull",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "four_fields_default_tuning",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.acceptsMoveCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "acceptsMoveCountLimit",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "accepts_move_limit",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.moveCountLimitAndStepCountLimitCanCombine",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "moveCountLimitAndStepCountLimitCanCombine",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "counts_combine",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.overrideFillsMissingDiminishedReturnsTuningFromFallback",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "overrideFillsMissingDiminishedReturnsTuningFromFallback",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "fallback_fills_tuning",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.overrideKeepsPrimaryDiminishedReturnsTuningWhenPresent",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "overrideKeepsPrimaryDiminishedReturnsTuningWhenPresent",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "primary_keeps_tuning",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.overrideFillsMissingMoveCountLimitFromFallback",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "overrideFillsMissingMoveCountLimitFromFallback",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "fallback_fills_moves",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.overrideKeepsPrimaryMoveCountLimitWhenPresent",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "overrideKeepsPrimaryMoveCountLimitWhenPresent",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "primary_keeps_moves",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.overrideRejectsMoveCountLimitCombinedWithUnimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "overrideRejectsMoveCountLimitCombinedWithUnimprovedSpentLimit",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "merge_rejects_moves_with_stagnation",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.overrideRejectsStepCountLimitCombinedWithUnimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "overrideRejectsStepCountLimitCombinedWithUnimprovedSpentLimit",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "merge_rejects_steps_with_stagnation",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverTerminationConfigTest.nullConfigurationOverrideReturnsThis",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "nullConfigurationOverrideReturnsThis",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "local_test": "absent_fallback_keeps_identity",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
     }
   ],
   "fixtures": [
@@ -62856,6 +63171,19 @@
       "upstream_test": "calculateDistance",
       "local_path": "crates/solver/tests/great_circle_cases.rs",
       "modifications": "Preserve both literal city-coordinate pairs and exact expected rounded meters 939748 and 442297. An independently implemented spherical distance function replaces the Java provider/ObjectMapper setup. No road-distance, driving-speed default, bulk JSON or network-service equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "service-termination-profile-fixtures",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/termination/SolverTerminationConfigTest.java",
+      "upstream_test": "constructor and override duration/count/ratio fixtures",
+      "local_path": "crates/solver/tests/termination_profile_cases.rs",
+      "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
     }
   ]
 }

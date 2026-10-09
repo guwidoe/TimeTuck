@@ -20100,3 +20100,36 @@ upstream methods are verified; zero unverified. Source stayed frozen after the
 bulk allocation change and formatting. Five Rust targets ran,714 reused,46Python
 reused. All task handles terminal except the dashboard. Staged changes reviewed;
 no performance records refreshed and no browser rerun for report-only changes.
+
+## Validated termination profiles bound to native solves
+
+Baseline1a8baa5. New TerminationProfile merges optional budgets/tuning, preserves
+explicit zero, validates service-policy conflicts and binds borrowed expressions
+for a scoped callback. Search-step caps OR with existing expressions and span
+phases; candidate budgets and supplied diminished tuning reach native runtime.
+No cloning requirement on score types; mixed order and unrelated settings survive.
+21 complete service SolverTerminationConfig methods +1fixture gain provenance;
+exact rational inputs/explicit None arguments replace Java doubles/overloads.
+Compile62049 TERMINAL101 fixed missing S:'a bounds. Focus2907:21adaptations passed,
+2native fixtures stopped early under strict-improvement on a flat objective.
+Set HillClimbing to allow plateau steps; final2947 TERMINAL0, all5native regressions
+pass including cross-phase steps, move budgets and zero-work/existing-expression
+checks through all6paths. Final source frozen for required gate. No benchmarks.
+
+Required termination-profile gate TERMINAL0. 5313 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 718}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3103, 'failed': 0, 'pending': 1470, 'excluded': 282, 'unverified': 0, 'percent': 63.913}.
+Source before/after matched: 980816b2011da6f08e31bbd298a9d6e2a026d18a1578f349fcfa346443cfad8d
+Live freshness matched verification digest: 84da6fc3bfb084b96868f908d8680d2ef252770aafab1a76fe20217d16832d45.
+Prior ledger records unchanged; 21 complete Community methods and one fixture source added.
+Log work/termination-profile-final-check.log; evidence work/termination-profile-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate62623 and report/live evidence18699 TERMINAL0. All21 new mappings verified;
+no Rust changes after gate. Dashboard81926 was terminal143 (connection refused);
+restarted as81616, live freshness matches. Three Rust targets ran,718Rust/46Python
+reused. Staged source/provenance reviewed. Goal remains incomplete.
+Next concrete gap from read-only TerminationServiceTest inspection: worker policy
+resolves platform/request precedence, suppresses conflicting platform defaults and
+disables diminished returns when stagnation/step/move limits select another policy.
+The native profile binder intentionally applies supplied tuning; worker resolution
+is a separate pending layer. No worker fixtures copied or credits claimed yet.

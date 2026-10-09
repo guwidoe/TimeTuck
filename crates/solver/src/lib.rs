@@ -1193,3 +1193,6 @@ pub use great_circle::{
     GreatCircleError, GreatCircleMatrices, GreatCircleRouting, ROUTING_EARTH_RADIUS_METERS,
     TravelEstimate, great_circle_distance,
 };
+
+mod termination_profile;
+pub use termination_profile::{TerminationProfile, TerminationProfileError};
