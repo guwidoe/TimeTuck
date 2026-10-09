@@ -1176,3 +1176,12 @@ mod field_binding;
 pub use field_binding::{
     BasicFieldBinding, BasicFieldRange, FieldBindingError, FieldListPosition, ListFieldBinding,
 };
+
+mod distance_matrix;
+pub use distance_matrix::{
+    CachedLocation, DirectedDistanceMatrix, LocationIndex, MAX_MATRIX_LOCATIONS, RoutingError,
+};
+mod geo_location;
+pub use geo_location::{GeoLocation, LocationInterner, UniqueLocations};
+mod timeframe_matrix;
+pub use timeframe_matrix::TimeframeMatrices;

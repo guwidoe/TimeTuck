@@ -1073,3 +1073,31 @@ occurrences through ScalingSequencedSet and returns detached Arc handles without
 cloning payloads. Duplicate IDs fail before mutation; removal uses captured IDs.
 Use stable occurrence IDs when score calculations depend on output order, ensuring
 that incremental updates and a full graph replay produce the same result.
+
+## Indexed routing costs and departure timeframes
+
+`DirectedDistanceMatrix<K>` stores directed i64 costs in caller-defined units.
+Stable matrix-scoped `LocationIndex` handles survive growth and avoid key hashing
+while scoring. Zero is a stored cost, missing edges return None, and foreign
+handles are rejected. Registration preserves insertion order; storage is dense
+O(capacity squared), lookup O(1). The native capacity bound is 32767 locations;
+it is not a promise about Java's internal array limit. `route_cost` supports open
+and closed paths, empty routes, and explicit missing-edge/overflow errors.
+
+`GeoLocation` validates finite degree coordinates and normalizes signed zero.
+`LocationInterner` shares canonical Arc identities; `UniqueLocations` preserves
+encounter order and flags equal coordinates supplied through distinct allocations.
+`TimeframeMatrices` borrows separate matrices for each measure. Untimed queries
+prefer the single matrix, then the first available timeframe. Timed queries use
+the resolver-selected frame; a configured but missing frame/edge is an error.
+The single matrix is a timed fallback only if no timeframe table is configured.
+Callers own units, clock types and bucket semantics; no timezone/traffic model,
+road-network distance provider or Java serialization contract is implied.
+
+The 23 adapted methods in LongArrayDistanceMatrixTest, LocationTest and
+UniqueLocationAccumulatorTest preserve their cases with native types and explicit
+provenance. The original `matrix_routes` example uses cached indexes in a real
+list-planning solve: 5040 complete assignments, optimal 0hard/-12soft, independently
+checked against direct coordinate distances. Original regressions exercise foreign
+handles, signed costs, missing versus zero edges, overflow, canonical coordinates,
+frame errors without fallback and zero key hashes across 10000 cached reads.

@@ -45849,6 +45849,351 @@
       "upstream_test": "fromEntityAllowsUnassigned",
       "local_test": "optional_entity_ranges_honor_disabled_crossing",
       "modifications": "Preserve all positive/negative move membership assertions, no-op exclusions, two value/entity identities, per-entity ranges and disabled optional crossing. Native typed schema/provider and slot IDs replace Java metamodel/entity identity. Domain vectors represent selected value ranges; an explicit native fact array also includes the third non-range fact. Follow the actual entity fixture generator, which appends the current value to each range if absent, rather than the stale comment claiming the second value is out of range. No weakening of model domain validation or Java reflection claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.getIndex",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "getIndex",
+      "local_path": "crates/solver/src/lib.rs",
+      "local_test": "distance_matrix::cases::get_index",
+      "modifications": "Preserve the entire expectedIndices fixture and exact tested loop bounds. Assert an independently derived native triangular pair index; directed storage adds a separate direction bit. No production implementation was consulted. The Cargo unit-test target is lib.rs; the adapted test source is distance_matrix/cases.rs, separately recorded as a fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.cacheShortIndexInLocation",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "cacheShortIndexInLocation",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "cache_index_in_location",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.putNoResize",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "putNoResize",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "put_no_resize",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.putWithResize",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "putWithResize",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "put_with_resize",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.valuesPreservedAfterResize",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "valuesPreservedAfterResize",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "values_preserved_after_resize",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.manyPutWithResize",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "manyPutWithResize",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "many_put_with_resize",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.tooLargeExpectedSizeFailFast",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "tooLargeExpectedSizeFailFast",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "too_large_expected_size_fail_fast",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.tooSmallExpectedSizeFailFast",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "tooSmallExpectedSizeFailFast",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "too_small_expected_size_fail_fast",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.tooLargeResizeFailFast",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "tooLargeResizeFailFast",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "too_large_resize_fail_fast",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.tooSmallResizeFailFast",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "tooSmallResizeFailFast",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "too_small_resize_fail_fast",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.invalidLatitudeShouldFail",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "invalidLatitudeShouldFail",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "invalid_latitude_should_fail",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LongArrayDistanceMatrixTest.invalidLongitudeShouldFail",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "invalidLongitudeShouldFail",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "local_test": "invalid_longitude_should_fail",
+      "modifications": "Preserve all coordinate fixtures, sequential directed costs, cached ordinal assertions, growth to 24, and the complete 1800-location/3240000-cell write/read case. Native Option and matrix-scoped handles replace EMPTY_INDEX and short indexes. Typed errors replace Java exceptions; capacity diagnostics identify the supplied count and bounds with native wording. MAX_MATRIX_LOCATIONS is an independent native limit; max+1 rejection is preserved without asserting the Java private constant has the same numeric value. Invalid-coordinate diagnostic content is preserved. No Java API/ABI or allocation-limit parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.picksCorrectTravelTimeMatrixPerTimeframe",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "picksCorrectTravelTimeMatrixPerTimeframe",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "picks_correct_travel_time_per_timeframe",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.picksCorrectDistanceMatrixPerTimeframe",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "picksCorrectDistanceMatrixPerTimeframe",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "picks_correct_distance_per_timeframe",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.timeframelessAndTimeframeOverloadsUseTheirOwnMatrices",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "timeframelessAndTimeframeOverloadsUseTheirOwnMatrices",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "timeframeless_and_timeframe_lookups_use_their_own_matrices",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.timeframelessLookupFallsBackToFirstTimeframeMatrix",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "timeframelessLookupFallsBackToFirstTimeframeMatrix",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "timeframeless_lookup_falls_back_to_first_timeframe",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.timeframeLookupFallsBackToSingleMatrix",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "timeframeLookupFallsBackToSingleMatrix",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "timeframe_lookup_falls_back_to_single",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.missingTimeframeCellThrows",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "missingTimeframeCellThrows",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "missing_timeframe_cell_throws",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.unconfiguredTimeframeLookupThrows",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "unconfiguredTimeframeLookupThrows",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "unconfigured_timeframe_lookup_throws",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LocationTest.outOfBoundsIndexThrows",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "outOfBoundsIndexThrows",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "local_test": "out_of_bounds_index_throws",
+      "modifications": "Preserve all two-location costs, independent time/distance matrices, precedence/fallback assertions, empty slots and resolver index 5. Native u8 hours 8/16/22 replace UTC timestamps because the test resolver observes only hour; no timezone conversion is claimed. Borrowed per-measure matrix sets replace matrix fields on Location. Integral caller-defined units replace TravelTime/TravelDistance wrappers. Typed RoutingError variants replace exceptions; missing-frame diagnostics use the measure-neutral No matrix fetched, and out-of-bounds diagnostics retain that phrase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniqueLocationAccumulatorTest.emptyLocations",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/UniqueLocationAccumulatorTest.java",
+      "upstream_test": "emptyLocations",
+      "local_path": "crates/solver/tests/location_accumulator_cases.rs",
+      "local_test": "empty_locations",
+      "modifications": "Preserve both coordinate pairs, every duplicate/nonduplicate boolean, empty output, exact final size and encounter order. Arc identity and an explicit native LocationInterner replace Java object identity and LocationDeduplicator; repeated canonical Arcs are not conflicting duplicates, equal coordinates through distinct Arcs are."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniqueLocationAccumulatorTest.duplicateLocationsDetected",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/UniqueLocationAccumulatorTest.java",
+      "upstream_test": "duplicateLocationsDetected",
+      "local_path": "crates/solver/tests/location_accumulator_cases.rs",
+      "local_test": "duplicate_locations_detected",
+      "modifications": "Preserve both coordinate pairs, every duplicate/nonduplicate boolean, empty output, exact final size and encounter order. Arc identity and an explicit native LocationInterner replace Java object identity and LocationDeduplicator; repeated canonical Arcs are not conflicting duplicates, equal coordinates through distinct Arcs are."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UniqueLocationAccumulatorTest.noDuplicateLocations",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/UniqueLocationAccumulatorTest.java",
+      "upstream_test": "noDuplicateLocations",
+      "local_path": "crates/solver/tests/location_accumulator_cases.rs",
+      "local_test": "no_duplicate_locations",
+      "modifications": "Preserve both coordinate pairs, every duplicate/nonduplicate boolean, empty output, exact final size and encounter order. Arc identity and an explicit native LocationInterner replace Java object identity and LocationDeduplicator; repeated canonical Arcs are not conflicting duplicates, equal coordinates through distinct Arcs are."
     }
   ],
   "fixtures": [
@@ -62283,6 +62628,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
       "upstream_test": "generateSolution(2, 2)",
       "modifications": "Preserve Generated Value 0/1 and two initially assigned entity identities. Native immutable domains replace Java range lists. Entity-provided ranges start with the first value and include each current value, as the generator actually implements; optional metadata is preserved. The incomplete solution also retains a third fact excluded from both domains."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "routing-index-fixture",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "expectedIndices",
+      "local_path": "crates/solver/src/distance_matrix/cases.rs",
+      "modifications": "Preserve all eight fixture rows and the original getIndex loop bounds."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "routing-distance-fixtures",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/impl/LongArrayDistanceMatrixTest.java",
+      "upstream_test": "cacheShortIndexInLocation; putNoResize; putWithResize; valuesPreservedAfterResize; manyPutWithResize; invalidLatitudeShouldFail; invalidLongitudeShouldFail",
+      "local_path": "crates/solver/tests/distance_matrix_cases.rs",
+      "modifications": "Preserve two/four coordinate fixtures, 1800 coordinates generated with i*0.1 for -900 <= i < 900, directed row-major costs, growth hint 24, and invalid coordinate cases. Native matrix and handles replace Java objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "routing-timeframe-fixtures",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/LocationTest.java",
+      "upstream_test": "INDEX_RESOLVER; MORNING_AT; AFTERNOON_AT; NIGHT_AT; matrix cost fixtures",
+      "local_path": "crates/solver/tests/timeframe_matrix_cases.rs",
+      "modifications": "Preserve coordinates (0,0)/(1,1), hours 8/16/22, thresholds 12/18 and all costs. Only observed hours are represented; no timestamp conversion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "routing-unique-location-fixtures",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/UniqueLocationAccumulatorTest.java",
+      "upstream_test": "duplicateLocationsDetected; noDuplicateLocations",
+      "local_path": "crates/solver/tests/location_accumulator_cases.rs",
+      "modifications": "Preserve both literal latitude/longitude pairs and encounter order. Native Arc allocation and interning replace Java references."
     }
   ]
 }

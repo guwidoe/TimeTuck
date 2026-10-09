@@ -20041,3 +20041,34 @@ Live freshness matched verification digest: de23bf20c1b72043a26a32785a411d489260
 Prior ledger records unchanged; Three complete Community methods and three fixture sources added.
 Log work/entity-range-final-check.log; evidence work/entity-range-evidence.json.
 No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+## Routing matrices and timeframe lookups
+
+Baseline 76d3657. New native directed matrices use stable matrix-scoped handles,
+dense pair storage and cached O(1) lookup; coordinates, canonical identity and
+borrowed timeframe selection integrate with list scoring through matrix_routes.
+Focus4157 TERMINAL0: 27 integration methods pass including all 3240000 directed
+writes/reads. Focus18744 TERMINAL0: adapted pair-index unit passes and example
+main searches 5040 assignments to 0hard/-12soft, checked by a coordinate oracle.
+Provenance adds 23 complete adapted methods and four fixtures. Native capacity
+bound, error types/wording, hour-only resolver input and caller-defined units are
+explicit adaptations; no Java allocation/serialization/units API parity claimed.
+The five original regressions include no hashing on cached scoring reads.
+No performance speedup claim or benchmark refresh; final required gate follows.
+Read-only additional routing tests: Haversine provider/waypoints/serialization and
+TravelTime adjustments remain pending. Their fixtures were not copied this batch.
+
+Required routing-matrix gate TERMINAL0. 5271 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 6, 'REUSE': 709}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3072, 'failed': 0, 'pending': 1501, 'excluded': 282, 'unverified': 0, 'percent': 63.275}.
+Source before/after matched: 615657c7a371cd33a6786026684be3c5eab09737d1f3cd1b0df4450935803840
+Live freshness matched verification digest: a6ae80ae2695ac9a4000b2aec2408fce3d68275e5bdf4fbf0b886b821de97658.
+Prior ledger records unchanged; 23 complete Community methods and four fixture sources added.
+Log work/routing-matrix-final-check.log; evidence work/routing-matrix-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final check48379 TERMINAL0: six Rust targets ran, 709 Rust and 46 Python targets
+reused. Evidence67416 TERMINAL0 after correcting the unit-test provenance target
+to lib.rs (actual fixture remains distance_matrix/cases.rs); refreshed report from
+existing passing Rust output without rerunning tests. All 23 new methods verified,
+zero unverified. No Rust edits after final gate. Staged implementation/tests and
+provenance reviewed. Goal remains incomplete; unchanged evidence is reusable.
