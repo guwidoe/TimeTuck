@@ -47139,6 +47139,21 @@
       "local_test": "multibucket_unique_weights_every_requested_draw_for_both_query_kinds",
       "status": "implemented",
       "modifications": "Preserve upstream trial counts, every parameter combination, expected shares, positive category counts and five-sigma binomial bounds. Native seeded sampling replaces Java PRNG traces and test-domain tuple wrappers. Preserve all six combinations of query flavor and draw position1/2/10, 200000 trials each and bucket sizes1/3/6. Native CandidateIndex.range(..=50) represents comparison; query_many([10,20,30]) represents contained-in matching against scalar keys. LazyConcat.samples supplies without-replacement draws. Integer keys and bucket identities replace string skill keys and labeled Java tuples. Root seed resets per combination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/dataset_bucket_bias_cases.rs",
+      "id": "DatasetBucketBiasIT.bucketsAreWeightedByRemainingSizeAtDraw",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/DatasetBucketBiasIT.java",
+      "upstream_test": "bucketsAreWeightedByRemainingSizeAtDraw",
+      "local_test": "buckets_weight_remaining_members_at_each_requested_draw",
+      "status": "implemented",
+      "modifications": "Preserve every draw-index parameter1/2/5, 200000 trials each, seed-zero root, probe key50, greater-than-or-equal join against keys10/20/30 with sizes2/3/5, positive category counts and five-sigma binomial bounds for shares0.2/0.3/0.5. Native CandidateIndex joins and borrowed CandidatePairs retirement replace cached Java dataset/session lookup and exhaustiveIterator; retire each successful draw to implement sampling without replacement. Stable numeric identities replace test-domain instances with duplicate code strings. Native SampleRandom supplies per-trial seeds; no Java PRNG trace or framework-session parity claimed."
     }
   ],
   "fixtures": [
@@ -63703,6 +63718,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
       "upstream_test": "expectUniform; expectWeights; assertWithinSigma; deviations",
       "modifications": "Adapt category coverage and binomial standard-deviation assertions to a small Rust count-array helper. Preserve expected probabilities and five-sigma threshold; additionally require tallies sum to all trials. Failure messages retain observed count, trials, probability and sigma. Omit logging tables and unrelated ratio assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/dataset_bucket_bias_cases.rs",
+      "id": "dataset-bucket-bias-statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectWeights; assertWithinSigma; deviations",
+      "modifications": "Adapt positive category coverage and binomial standard-deviation assertions with explicit 200000 trial count, expected0.2/0.3/0.5 probabilities and five-sigma threshold. Include observed count, draw position, expected probability and sigma in failure messages; omit logging tables and unrelated ratio assertions. Seed splitting follows the already documented native substitution for AbstractBiasIT.splitFrom."
     }
   ]
 }

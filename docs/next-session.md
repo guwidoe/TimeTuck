@@ -20566,3 +20566,43 @@ including newly verified bias tests; all46Python jobs reused.5376Rust tests and
 unchanged; six case and two helper fixture appends verified. Test source frozen
 since focused run. No production implementation change, benchmark or UI refresh.
 Goal remains active/incomplete; only dashboard81616 remains live.
+
+## Sparse retirement for indexed queries
+
+Baseline34363ef; previous goal turn was progress. New RetiringIndices supports
+uniform draws with replacement and explicit last-draw retirement over u128 ranks.
+Sparse BTreeMap remaps simulate swap-removal without materializing the source.
+LazyConcat::retiring and CandidatePairs::retiring borrow payloads and retain
+occurrence weighting; separate traversals do not mutate their source. Deferred
+supplier errors and panics leave the selected rank retireable. Rank sampler Clone
+forks its PRNG and remappings. No wall-clock or Java performance claim.
+
+Read pinned test-only DatasetBucketBiasIT and SamplingIteratorBiasIT, plus native
+query/random/retirement APIs. Adapted DatasetBucketBiasIT's sole method with all
+three draw positions1/2/5,200000trials each, key50>=10/20/30, bucket sizes2/3/5,
+five-sigma limits and helper attribution. SamplingIteratorBiasIT remains pending;
+raw query retirement does not implement its sample-assembler contract.
+
+Focused87991 TERMINAL0: three original integration regressions, one adapted
+statistical method and one original unit pass. Unit compares sparse and dense
+retirement on7sizes/32seeds, including repeated unretired draws; integrations cover
+u128::MAX with no allocation for10000draws and <=1000map entries after1000retirements,
+query borrowing, duplicate occurrences, independent traversals and supplier errors/
+panics. Final frozen-state gate80797 via work/prebuild_indexed_retirement.py;
+logs work/indexed-retirement-{focused,unit,prebuild,final-check}.log. One case and
+one helper fixture appended; old ledger records preserved. No browser/benchmark
+refresh. Goal remains active/incomplete.
+
+Required indexed-retirement gate TERMINAL0. 5381 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 18, 'REUSE': 715}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3136, 'failed': 0, 'pending': 1437, 'excluded': 282, 'unverified': 0, 'percent': 64.593}.
+Source before/after matched: 74de36e5220182897328dcccc3015aaf160872bd0e2c4774e6799c1f68b04ffa
+Live freshness matched verification digest: ebb6ad384085b1385f07fdf4d982af291a321a1c140ef19addb0eb3c77b62459.
+Prior ledger records unchanged; One upstream method and one helper fixture record appended.
+Log work/indexed-retirement-final-check.log; evidence work/indexed-retirement-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate80797 and report/live evidence21228 TERMINAL0. Clippy34s, affected
+prebuild2.92s;18Rust jobs ran/715reused;46Python jobs reused.5381Rust tests and
+248doctests pass. New dataset-bucket method individually passed; reviewed Rust
+unchanged. Source/verification/live freshness agrees. No timing comparison was
+refreshed. All task handles terminal except dashboard81616. Goal active/incomplete.

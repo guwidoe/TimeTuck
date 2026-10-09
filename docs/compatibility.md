@@ -4868,3 +4868,19 @@ and Java iterator classes are not parity claims. Repeated-draw checkpoints share
 one traversal per trial, preserving each requested marginal. These tests passed
 without a solver implementation change; they establish previously missing bias
 evidence, not a newly fixed bias or a performance improvement.
+
+`RetiringIndices` adds selective uniform retirement over virtual `u128` rank
+spaces with sparse remapping. `LazyConcat::retiring` and
+`CandidatePairs::retiring` expose it on borrowed indexed queries without copying
+payloads or materializing Cartesian products. Draws without retirement allocate
+no remapping entries; storage grows with retirements. Cloning a rank sampler forks
+its seed and retirement state. Supplier errors/panics leave the selected occurrence
+available for explicit retirement, while the underlying query remains unchanged.
+Original regressions compare against dense swap-removal, exercise huge spaces,
+independent forks, duplicate pair occurrences and lazy supplier failures.
+
+One additional `DatasetBucketBiasIT` method preserves all three 200000-trial
+parameter cases and five-sigma 20%/30%/50% bucket shares after successive draws.
+Native indexed greater-or-equal joins and retirement replace Java dataset/session
+iteration. Provenance records test/helper attribution and native PRNG substitution.
+This establishes query sampling behavior, not Java lifecycle or timing parity.

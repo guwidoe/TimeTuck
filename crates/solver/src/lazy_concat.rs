@@ -159,6 +159,11 @@ impl<'a, T> LazyConcat<'a, T> {
         };
         Ok(&values[index - start])
     }
+    /// Uniform repeated draws with caller-controlled retirement. Loading is lazy
+    /// and bookkeeping grows with retirements, not total candidate count.
+    pub fn retiring(&self, seed: u64) -> crate::RetiringCandidates<'_, 'a, T> {
+        crate::RetiringCandidates::new(self, seed)
+    }
     pub fn iter(
         &self,
     ) -> impl DoubleEndedIterator<Item = Result<&T, LazyConcatError>>

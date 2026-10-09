@@ -96,6 +96,10 @@ impl<'a, L, R> CandidatePairs<'a, L, R> {
     pub fn iter(&self) -> impl DoubleEndedIterator<Item = (&'a L, &'a R)> + FusedIterator + '_ {
         (0..self.length).map(|i| self.get(i).expect("rank inside pair space"))
     }
+    /// Uniform draws with explicit retirement and sparse per-traversal state.
+    pub fn retiring(&self, seed: u64) -> crate::RetiringCandidatePairs<'_, 'a, L, R> {
+        crate::RetiringCandidatePairs::new(self, seed)
+    }
     pub fn unique(&self, seed: u64) -> impl FusedIterator<Item = (&'a L, &'a R)> + '_ {
         unique_indices(self.length, seed).map(|i| {
             self.get(i.expect("seeded draw is in bounds"))

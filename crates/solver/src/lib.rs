@@ -1209,3 +1209,6 @@ mod termination_resolver;
 pub use termination_resolver::{ResolvedTermination, TerminationResolver};
 
 pub use stream_graph::FixedLinkedStreamPort;
+
+mod indexed_retirement;
+pub use indexed_retirement::{RetiringCandidatePairs, RetiringCandidates, RetiringIndices};

@@ -756,3 +756,9 @@ and mocks. Exact method identities and substitutions are recorded in
 (Apache-2.0). Trial counts, layout fixtures, expected shares and statistical bounds
 are preserved; native indexed queries and PRNGs replace Java objects and traces.
 Exact method/helper identities and substitutions are in `compat/provenance.json`.
+
+`crates/solver/tests/dataset_bucket_bias_cases.rs` adapts the pinned Community
+`DatasetBucketBiasIT` method and statistical helpers from `BiasReport`
+(Apache-2.0). Native indexed joins and retirement replace the Java dataset/session
+surface; exact source identities and substitutions are in `compat/provenance.json`.
+The sparse retirement implementation and native regressions are original.
