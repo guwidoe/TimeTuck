@@ -1185,3 +1185,11 @@ mod geo_location;
 pub use geo_location::{GeoLocation, LocationInterner, UniqueLocations};
 mod timeframe_matrix;
 pub use timeframe_matrix::TimeframeMatrices;
+
+mod routing_time;
+pub use routing_time::{Daypart, OffsetDeparture, RoutingTimeError};
+mod great_circle;
+pub use great_circle::{
+    GreatCircleError, GreatCircleMatrices, GreatCircleRouting, ROUTING_EARTH_RADIUS_METERS,
+    TravelEstimate, great_circle_distance,
+};

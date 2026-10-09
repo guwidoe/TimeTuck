@@ -46194,6 +46194,156 @@
       "local_path": "crates/solver/tests/location_accumulator_cases.rs",
       "local_test": "no_duplicate_locations",
       "modifications": "Preserve both coordinate pairs, every duplicate/nonduplicate boolean, empty output, exact final size and encounter order. Arc identity and an explicit native LocationInterner replace Java object identity and LocationDeduplicator; repeated canonical Arcs are not conflicting duplicates, equal coordinates through distinct Arcs are."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.boundariesAreHalfOpen",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "boundariesAreHalfOpen",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "boundaries_are_half_open",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.bucketsAreComparedInInputsOwnOffset",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "bucketsAreComparedInInputsOwnOffset",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "buckets_use_inputs_own_offset",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.allTimeframesReturnsExpectedKeys",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "allTimeframesReturnsExpectedKeys",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "all_timeframes_order",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.indexOfMatchesAllTimeframesOrder",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "indexOfMatchesAllTimeframesOrder",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "index_matches_order",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.timeframesOf_narrowIntervalWithinOneBucket",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "timeframesOf_narrowIntervalWithinOneBucket",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "narrow_interval",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.timeframesOf_intervalSpanningTwoBuckets",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "timeframesOf_intervalSpanningTwoBuckets",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "two_buckets",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.timeframesOf_toExactlyOnBoundaryIsExclusive",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "timeframesOf_toExactlyOnBoundaryIsExclusive",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "end_boundary_is_exclusive",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.timeframesOf_toJustPastBoundaryIncludesNextBucket",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "timeframesOf_toJustPastBoundaryIncludesNextBucket",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "just_past_boundary",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StaticDaypartBucketingTest.timeframesOf_zeroLengthIntervalCoversFromBucket",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "timeframesOf_zeroLengthIntervalCoversFromBucket",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "local_test": "zero_length_covers_start",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HaversineTravelTimeAndDistanceMatrixProviderTest.calculateDistance",
+      "status": "implemented",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/HaversineTravelTimeAndDistanceMatrixProviderTest.java",
+      "upstream_test": "calculateDistance",
+      "local_path": "crates/solver/tests/great_circle_cases.rs",
+      "local_test": "calculate_distance",
+      "modifications": "Preserve both literal city-coordinate pairs and exact expected rounded meters 939748 and 442297. An independently implemented spherical distance function replaces the Java provider/ObjectMapper setup. No road-distance, driving-speed default, bulk JSON or network-service equivalence is claimed."
     }
   ],
   "fixtures": [
@@ -62680,6 +62830,32 @@
       "upstream_test": "duplicateLocationsDetected; noDuplicateLocations",
       "local_path": "crates/solver/tests/location_accumulator_cases.rs",
       "modifications": "Preserve both literal latitude/longitude pairs and encounter order. Native Arc allocation and interning replace Java references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "static-daypart-time-fixtures",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/bucketing/StaticDaypartBucketingTest.java",
+      "upstream_test": "at; boundariesAreHalfOpen; bucketsAreComparedInInputsOwnOffset; interval fixtures",
+      "local_path": "crates/solver/tests/daypart_cases.rs",
+      "modifications": "Preserve every local-hour boundary, own-offset observation, ordered bucket/index assertion, 24-hour invariant and interval membership assertion. Native fixed-offset Unix seconds replace OffsetDateTime with the same 2024-01-01 UTC base; +02 represents the same instant with its own local hour. Typed enum values replace named Java timeframe constants; stable order Morning/Afternoon/Night is retained. No timezone database or daylight-saving conversion is claimed. The native interval contract additionally defines mixed endpoint offsets using the starting fixed offset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "haversine-city-distance-fixtures",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/HaversineTravelTimeAndDistanceMatrixProviderTest.java",
+      "upstream_test": "calculateDistance",
+      "local_path": "crates/solver/tests/great_circle_cases.rs",
+      "modifications": "Preserve both literal city-coordinate pairs and exact expected rounded meters 939748 and 442297. An independently implemented spherical distance function replaces the Java provider/ObjectMapper setup. No road-distance, driving-speed default, bulk JSON or network-service equivalence is claimed."
     }
   ]
 }

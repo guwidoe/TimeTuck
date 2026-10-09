@@ -1101,3 +1101,28 @@ list-planning solve: 5040 complete assignments, optimal 0hard/-12soft, independe
 checked against direct coordinate distances. Original regressions exercise foreign
 handles, signed costs, missing versus zero edges, overflow, canonical coordinates,
 frame errors without fallback and zero key hashes across 10000 cached reads.
+
+`great_circle_distance` now supplies rounded spherical meters with a 6371000m
+Earth radius. `GreatCircleRouting` requires an explicit positive speed in integer
+millimeters/second; it rounds travel seconds upward from integral meters. Bulk
+construction deduplicates coordinates, allocates each dense table once at final
+size, caches angular coordinates/cosines and evaluates each unordered pair once.
+Distances and times remain separate matrices with separate handle namespaces.
+This is a spherical estimate, not road routing or a claim about Java speed defaults.
+
+`OffsetDeparture` represents Unix seconds with a fixed UTC offset (up to +/-18h).
+`Daypart` provides Morning [06:00,12:00), Afternoon [12:00,18:00), and Night for the
+remaining hours, in that stable matrix-slot order. Individual classification uses
+the timestamp's own local hour. Interval coverage is [from,to), includes the start
+bucket for a zero-length interval, rejects reversed instants, and uses the start's
+fixed offset throughout. At most one day's boundaries need examination. Different
+endpoint offsets identify instants; they do not introduce a timezone transition.
+
+Nine complete StaticDaypartBucketing methods and the provider's calculateDistance
+method have provenance-backed adaptations. Other Haversine methods, provider
+serialization, road services and Java default driving-time conversion stay pending.
+The original geographic_routes example combines generated matrices and per-leg
+departure selection in exhaustive list search, then checks the winning score using
+direct geometry and clock comparisons. Original regressions cover polar/antipodal
+coordinates, rounding/overflow, all bulk pairs, duplicates, independent namespaces,
+overnight and extreme intervals, and an independent minute-walk bucket oracle.

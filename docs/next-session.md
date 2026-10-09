@@ -20072,3 +20072,31 @@ to lib.rs (actual fixture remains distance_matrix/cases.rs); refreshed report fr
 existing passing Rust output without rerunning tests. All 23 new methods verified,
 zero unverified. No Rust edits after final gate. Staged implementation/tests and
 provenance reviewed. Goal remains incomplete; unchanged evidence is reusable.
+
+## Geographic routing and fixed-offset dayparts
+
+Baseline276b5ea. Add great-circle estimates, explicit integer-speed travel times,
+complete distance/time matrices and fixed-offset daily buckets. Bulk computation
+deduplicates first, allocates dense tables at final size, caches trig inputs and
+measures each unordered pair once. Daypart interval work is bounded by one day.
+Focus2317 TERMINAL0: 16 tests pass and geographic_routes main solves120 assignments
+to0hard/-1511soft, checked by direct geometry and independent clock comparisons.
+After focus, bulk allocation changed from incremental growth to final-size tables;
+final gate and example rerun below cover that final Rust state. Provenance adds10
+complete upstream methods and2fixtures. Java default speed and JSON serialization
+remain pending; explicit speeds and spherical estimates are native APIs.
+
+Required geographic-routing gate TERMINAL0. 5287 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 714}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3082, 'failed': 0, 'pending': 1491, 'excluded': 282, 'unverified': 0, 'percent': 63.481}.
+Source before/after matched: 46b81950b4fa9b0b01f68551f6511a14a069e652df878181291cd5a4c7237561
+Live freshness matched verification digest: 6ca7d84f1a28e47c08997e4b6a99174536bdf948a25fefe7f360ad067435f94d.
+Prior ledger records unchanged; 10 complete Community methods and two fixture sources added.
+Log work/geographic-routing-final-check.log; evidence work/geographic-routing-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final prebuild/example/check75316 and report/live evidence77800 TERMINAL0.
+Final example remains0hard/-1511soft over120 complete assignments. All10 new
+upstream methods are verified; zero unverified. Source stayed frozen after the
+bulk allocation change and formatting. Five Rust targets ran,714 reused,46Python
+reused. All task handles terminal except the dashboard. Staged changes reviewed;
+no performance records refreshed and no browser rerun for report-only changes.
