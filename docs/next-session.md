@@ -19792,3 +19792,70 @@ scanner change; no cache migration or benchmark relabeling. Sources stayed fixed
 through the gate. Staged implementation/tests/docs reviewed. Dashboard81926 remains
 live; no other task process remains running. Goal active/incomplete. Reuse the
 successful gate for unchanged inputs. No next-batch source edits.
+
+## Project final joined payloads without an intermediate pair/map
+
+Baseline d3b4378. Fresh isolated profile74899 TERMINAL0, 20-step96-variable
+hill/swap: recomputed filtered join415.923ms, undo210.269ms, conflict terminal
+140.620ms, first join124.152ms, group120.034ms, separate conflict map23.968ms.
+Instrumentation distorts timings; these are hotspot evidence only. Files
+work/recomputed-index-profile.json/log; tracked sources were unchanged by profiling.
+
+New join_compare_map_batched borrows final matching input rows and invokes its
+mapper only on accepted affected pairs. No intermediate cloned pair or graph map
+node is required. Old acceptance is recomputed without projecting old payloads.
+Generic filtered node retains existing retained/recomputed APIs through pair-clone
+projections. Unchanged-key preparation reuses old references already fetched for
+unchanged inputs; previous predicates need no repeated known-unchanged key check.
+The batched benchmark projects edge IDs directly; immediate control is unchanged.
+
+Focus16514 TERMINAL101 before build (incorrect target names). Corrected80666
+TERMINAL0:21 focused tests, release build45.53s. Randomized comparisons now exercise
+retained/recomputed/projected joins across all5relations and both pruning settings,
+checking predicate/mapper counts. Three new original tests cover accepted pairs
+without opposite-row clones, mapper failure/retry for every relation, retractions,
+self-join final batches, foreign ports and rollback. No upstream credits added.
+After executable work/projected-join-after SHA256
+70e9f433400d2e95b0d9ad54c9efb2da5d12a8deb201256991da8c043c5af756.
+
+Native comparison29510 TERMINAL0: 2 alternating process pairs,20steps,1warmup,
+3samples,32/96variables. All native final assignments/scores/score-call counts
+match, and per-sample scores pass independent validation. Before is verified
+work/recomputed-join-after (a353836 archive SHA8f05f314...; relevant sources unchanged
+through d3b4378), not a new d3b4378 binary. Evidence
+work/projected-join-native-performance.json and comparison.log records full hashes.
+Whole-process CPU medians before/after milliseconds:
+hill/change847.1165/593.5205 (29.94% less; both pairs improve),
+tabu/change791.8425/786.9955 (mixed),
+hill/swap12242.133/11359.6935 (mixed; one pair regresses),
+tabu/swap10638.595/5031.7025 (52.70% less; both pairs improve).
+Includes warmups and both sizes; not per-solve latency. Large hill/swap elapsed
+medians2525.1304/3142.9914ms regress in this run; no general hill-swap win claimed.
+Large tabu/swap elapsed2169.4399/1129.3993ms. Shared-host timing variability limits
+claims. Retain opt-in projection for direct output and scoped observed gains;
+no universal speedup or Java performance parity claim.
+
+Matched Java16755 TERMINAL0:128 valid and128 equal-score cases, using unchanged
+20-step/1-warmup/3-sample/2-fork settings. Measurement generated
+2026-10-09T12:26:21.033637+00:00. Large hill swaps Rust1434.714/Java284.985ms
+(5.03x slower), large tabu swaps Rust1147.968/Java315.613ms (3.64x slower).
+This current comparison is not before/after proof; native paired evidence above
+supports the scoped change claims. Only stream performance refreshed. Final source
+is frozen for prebuild/check60601; no Rust edits after the release/measurement.
+
+Required projected-join gate TERMINAL0. 5213 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 662, 'REUSE': 42}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3040, 'failed': 0, 'pending': 1533, 'excluded': 282, 'unverified': 0, 'percent': 62.616}.
+Source before/after matched: e1a5248b0e3c41ffd0d69137586a4e1e3e47aec6808066eae4496d699936d44f
+Live freshness matched verification digest: 11f8c5cef6d2265224fd32423c1d143586802f8f15c0f2d0a0b5383d81d69630.
+Prior ledger records unchanged; No provenance changes or upstream method credits.
+Log work/projected-join-final-check.log; evidence work/projected-join-evidence.json.
+Only the stream performance comparison is refreshed; unrelated measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final prebuild/check60601 and report/live evidence6199 TERMINAL0. Clippy1m02s;
+prebuild2m59s. Native comparison's recorded after-source matches the full gate's
+source exactly. Stream-performance is current at its original measurement date;
+unrelated measurements retain their prior dates/stale status. No browser rerun.
+Implementation/tests/staged diff reviewed. No Rust changes after the gate. All task
+handles terminal except dashboard81926. Goal active/incomplete; reuse successful
+checks and this measurement when their relevant inputs are unchanged.

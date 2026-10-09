@@ -49,10 +49,13 @@ fn final_payload<'a, I: Ord + Clone, T: Clone, K: Ord + Clone>(
     side: &'a JoinSide<I, T, K>,
     changes: &'a [PreparedChange<I, K, T>],
     id: &I,
-) -> &'a T {
+) -> (&'a T, Option<&'a T>) {
     match changes.binary_search_by(|(changed, _)| changed.cmp(id)) {
-        Ok(i) => &changes[i].1.as_ref().expect("replacement row").1,
-        Err(_) => &side.rows.get(id).expect("matched row").1,
+        Ok(i) => (&changes[i].1.as_ref().expect("replacement row").1, None),
+        Err(_) => {
+            let old = &side.rows.get(id).expect("matched row").1;
+            (old, Some(old))
+        }
     }
 }
 fn update<I: Ord + Clone, T: Clone, K: Ord + Clone>(
@@ -144,16 +147,17 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     }
     // Re-evaluate prior acceptance only when the final pair emits no payload.
     // All callbacks finish before installation, preserving standalone atomicity.
-    pub(crate) fn apply_batch_recomputed(
+    pub(crate) fn apply_batch_recomputed_projected<U>(
         &mut self,
         left: impl IntoIterator<Item = TupleChange<I, L>>,
         right: impl IntoIterator<Item = TupleChange<J, R>>,
         predicate: &dyn Fn(&L, &R) -> bool,
-    ) -> JoinChanges<I, J, L, R> {
+        projection: &dyn Fn(&L, &R) -> U,
+    ) -> Vec<TupleChange<(I, J), U>> {
         self.apply_batch_with_previous::<true, _>(
             left,
             right,
-            |l, r| predicate(l, r).then(|| (l.clone(), r.clone())),
+            |l, r| predicate(l, r).then(|| projection(l, r)),
             predicate,
         )
     }
@@ -259,11 +263,18 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         candidates.dedup();
         let mut output = Vec::with_capacity(candidates.len());
         for (i, j) in candidates {
-            let value = pair(
-                final_payload(&self.left, &left, &i),
-                final_payload(&self.right, &right, &j),
-            );
-            if value.is_some() || !RECOMPUTE || self.prior_matches(&i, &j, previous) {
+            let (l, old_l) = final_payload(&self.left, &left, &i);
+            let (r, old_r) = final_payload(&self.right, &right, &j);
+            let value = pair(l, r);
+            // Membership is unchanged. Reuse payloads already read from the
+            // old rows; only changed inputs need another lookup for rejection.
+            let retract = value.is_none()
+                && RECOMPUTE
+                && previous(
+                    old_l.unwrap_or_else(|| &self.left.rows.get(&i).expect("matched row").1),
+                    old_r.unwrap_or_else(|| &self.right.rows.get(&j).expect("matched row").1),
+                );
+            if value.is_some() || !RECOMPUTE || retract {
                 output.push(TupleChange { id: (i, j), value });
             }
         }

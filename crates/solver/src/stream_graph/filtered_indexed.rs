@@ -2,10 +2,12 @@
 use super::*;
 
 type PairPredicate<'a, L, R> = dyn Fn(&L, &R) -> bool + 'a;
-struct FilteredIndexedJoin<'a, I, J, L, R, K> {
+type PairProjection<'a, L, R, U> = dyn Fn(&L, &R) -> U + 'a;
+struct FilteredIndexedJoin<'a, I, J, L, R, K, U> {
     join: JoinNode<'a, I, J, L, R, K>,
     visible: Option<SnapshotMap<(I, J), ()>>,
     predicate: Box<PairPredicate<'a, L, R>>,
+    projection: Box<PairProjection<'a, L, R, U>>,
 }
 struct FilteredCheckpoint {
     join: Box<dyn Any>,
@@ -17,8 +19,9 @@ impl<
     L: Clone + 'static,
     R: Clone + 'static,
     K: Ord + Clone + 'static,
+    U: 'static,
     S: AdditiveScore,
-> Node<S> for FilteredIndexedJoin<'_, I, J, L, R, K>
+> Node<S> for FilteredIndexedJoin<'_, I, J, L, R, K, U>
 {
     fn prefers_batch(&self) -> bool {
         true
@@ -90,17 +93,21 @@ impl<
             .filter(|(right, _)| *right)
             .map(|(_, event)| typed::<J, R>(event).clone());
         let Some(visible) = &mut self.visible else {
-            let changes = self
-                .join
-                .apply_batch_recomputed(left, right, &self.predicate);
+            let changes = self.join.apply_batch_recomputed_projected(
+                left,
+                right,
+                &self.predicate,
+                &self.projection,
+            );
             return Ok(changes
                 .into_iter()
                 .map(|change| Rc::new(change) as Event)
                 .collect());
         };
         let predicate = &self.predicate;
+        let projection = &self.projection;
         let changes = self.join.apply_batch_projected(left, right, |left, right| {
-            predicate(left, right).then(|| (left.clone(), right.clone()))
+            predicate(left, right).then(|| projection(left, right))
         });
         // Retained mode preserves its once-per-final-pair predicate contract.
         let mut output = Vec::with_capacity(changes.len());
@@ -143,7 +150,14 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         predicate: impl Fn(&L, &R) -> bool + 'a,
     ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
         self.filtered_indexed_join(
-            left, right, comparison, left_key, right_key, predicate, true,
+            left,
+            right,
+            comparison,
+            left_key,
+            right_key,
+            predicate,
+            |l, r| (l.clone(), r.clone()),
+            true,
         )
     }
     /// Batched equality/range join retaining only input rows and their indexes,
@@ -173,7 +187,48 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         predicate: impl Fn(&L, &R) -> bool + 'a,
     ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
         self.filtered_indexed_join(
-            left, right, comparison, left_key, right_key, predicate, false,
+            left,
+            right,
+            comparison,
+            left_key,
+            right_key,
+            predicate,
+            |l, r| (l.clone(), r.clone()),
+            false,
+        )
+    }
+    /// Filter and project an indexed join directly, without constructing cloned
+    /// pair payloads or routing them through a separate map node. The projection
+    /// borrows final input rows and runs once per accepted affected pair. It never
+    /// runs for retractions or rejected pairs. Output IDs remain `(left,right)`.
+    /// Output values need not implement Clone unless a downstream node requires it.
+    ///
+    /// Retains only input rows/indexes; prior acceptance is recomputed on a
+    /// rejected/disappearing pair, as in `join_compare_recomputed_batched`.
+    /// Both callbacks must be pure and depend solely on row contents. Callback
+    /// panics roll back graph state, including when a later pair fails. Batch
+    /// ordering, saved candidates and activity/consistency rebuilding retain the
+    /// ordinary indexed-join contracts. No mapper is run on the prior payload.
+    #[allow(clippy::too_many_arguments)]
+    pub fn join_compare_map_batched<
+        I: Ord + Clone + 'static,
+        J: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+        U: 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<J, R>,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+        predicate: impl Fn(&L, &R) -> bool + 'a,
+        projection: impl Fn(&L, &R) -> U + 'a,
+    ) -> Result<StreamPort<(I, J), U>, GraphError> {
+        self.filtered_indexed_join(
+            left, right, comparison, left_key, right_key, predicate, projection, false,
         )
     }
     #[allow(clippy::too_many_arguments)]
@@ -183,6 +238,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         L: Clone + 'static,
         R: Clone + 'static,
         K: Ord + Clone + 'static,
+        U: 'static,
     >(
         &mut self,
         left: &StreamPort<I, L>,
@@ -191,14 +247,16 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         left_key: impl Fn(&L) -> K + 'a,
         right_key: impl Fn(&R) -> K + 'a,
         predicate: impl Fn(&L, &R) -> bool + 'a,
+        projection: impl Fn(&L, &R) -> U + 'a,
         retained: bool,
-    ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
+    ) -> Result<StreamPort<(I, J), U>, GraphError> {
         self.validate(left)?;
         self.validate(right)?;
         let out = self.push(FilteredIndexedJoin {
             join: JoinNode::<I, J, L, R, K>::comparing(comparison, left_key, right_key),
             visible: retained.then(SnapshotMap::new),
             predicate: Box::new(predicate),
+            projection: Box::new(projection),
         });
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);

@@ -18,7 +18,7 @@ fn relation(c: JoinComparison, l: i32, r: i32) -> bool {
     }
 }
 #[test]
-fn both_retention_modes_match_scans_and_documented_predicate_counts() {
+fn retained_recomputed_and_mapped_joins_match_scans_and_callback_counts() {
     for comparison in [
         JoinComparison::Equal,
         JoinComparison::LessThan,
@@ -26,8 +26,17 @@ fn both_retention_modes_match_scans_and_documented_predicate_counts() {
         JoinComparison::GreaterThan,
         JoinComparison::GreaterThanOrEqual,
     ] {
-        for (pruning, recompute) in [(false, false), (true, false), (false, true), (true, true)] {
+        for (pruning, mode) in [
+            (false, 0),
+            (true, 0),
+            (false, 1),
+            (true, 1),
+            (false, 2),
+            (true, 2),
+        ] {
+            let recompute = mode != 0;
             let calls = Cell::new(0);
+            let projections = Cell::new(0);
             let mut b = StreamGraphBuilder::<SimpleScore>::new();
             if pruning {
                 b = b.with_activity_pruning();
@@ -38,7 +47,20 @@ fn both_retention_modes_match_scans_and_documented_predicate_counts() {
                 calls.set(calls.get() + 1);
                 (l.1 - r.1).rem_euclid(3) == 0
             };
-            let joined = if recompute {
+            let joined = if mode == 2 {
+                b.join_compare_map_batched(
+                    left.port(),
+                    right.port(),
+                    comparison,
+                    |r| r.0,
+                    |r| r.0,
+                    predicate,
+                    |l, r| {
+                        projections.set(projections.get() + 1);
+                        (*l, *r)
+                    },
+                )
+            } else if recompute {
                 b.join_compare_recomputed_batched(
                     left.port(),
                     right.port(),
@@ -118,10 +140,20 @@ fn both_retention_modes_match_scans_and_documented_predicate_counts() {
                 }
                 let before = g.dataset_rows(&dataset).unwrap().clone();
                 calls.set(0);
+                projections.set(0);
                 let mut trial = g.transaction();
                 trial.apply_batch(batch).unwrap();
                 if !pruning {
                     assert_eq!(calls.get(), expected_calls);
+                    if mode == 2 {
+                        assert_eq!(
+                            projections.get(),
+                            expected
+                                .keys()
+                                .filter(|(i, j)| changed_l.contains(i) || changed_r.contains(j))
+                                .count()
+                        );
+                    }
                 }
                 assert_eq!(
                     trial.graph().unwrap().dataset_rows(&dataset).unwrap(),

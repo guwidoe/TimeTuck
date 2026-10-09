@@ -35,20 +35,21 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
     } else {
         b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?
     };
-    let conflicts = if batched {
-        b.join_compare_recomputed_batched(
+    let identities = if batched {
+        b.join_compare_map_batched(
             &a,
             &jobs,
             JoinComparison::Equal,
             |(e, _)| e.2,
             |j: &Job| j.0,
             |(_, a), b| a.1 == b.1,
+            |(e, _), _| e.0,
         )?
     } else {
         let ab = b.join_equal(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0)?;
-        b.filter(&ab, |((_, a), b)| a.1 == b.1)?
+        let conflicts = b.filter(&ab, |((_, a), b)| a.1 == b.1)?;
+        b.map(&conflicts, |((e, _), _)| e.0)?
     };
-    let identities = b.map(&conflicts, |((e, _), _)| e.0)?;
     let conflicts = b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?;
     let grouped = if batched {
         b.group_collect_batched(&jobs, |&(_, v, w)| (v, w))?

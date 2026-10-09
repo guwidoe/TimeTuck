@@ -2072,3 +2072,20 @@ conflict predicate. A paired development measurement showed lower swap CPU time
 with identical assignments/scores/scoring-call counts, while change-move timings
 were mixed. This is a workload-specific tradeoff, not a universal speedup or proof
 of Java performance parity; expensive predicates can favor retained membership.
+
+`join_compare_map_batched` fuses a recomputed filtered indexed join with its final
+payload projection. The mapper borrows both final input rows, runs once per
+accepted affected pair, and produces the downstream value directly. Rejected pairs
+and retractions never invoke the mapper. Pair IDs, comparison relations, sorted
+final updates, batching, graph rollback and saved candidates retain the indexed
+join contract. Input callbacks must be pure and depend only on row contents;
+prior acceptance may be recomputed, but prior output values are never projected.
+Input rows/indexes are retained without a pair table. Candidate/output batches and
+downstream state may still be quadratic. Output values have no Clone bound at the
+join itself; downstream operators may impose one. This avoids intermediate pair
+payload clones and a separately routed map node. It is not a universal speed claim.
+The unchanged-key batch path also reuses already-read prior payload references
+when checking retractions, without repeating a known-unchanged key comparison.
+Original checks compare retained, recomputed and projected joins with pair scans
+for all five comparisons, with/without pruning, and test mapper counts/failures,
+self joins and rollback. No upstream method credits are added.
