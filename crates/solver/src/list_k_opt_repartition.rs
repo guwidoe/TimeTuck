@@ -58,25 +58,49 @@ fn repartition<V: Eq + Clone>(
         offset += length;
     }
     p.validate(&target)?;
-    let mut current = a.clone();
-    let mut moves = Vec::new();
-    for &e in entities {
-        for index in p.entities()[e].pinned_prefix()..target.lists()[e].len() {
-            let source = current
-                .location(&target.lists()[e][index])
-                .expect("assigned identity");
-            let destination = ListPosition { entity: e, index };
-            if source != destination {
-                let value = current.lists[source.entity].remove(source.index);
-                current.lists[e].insert(index, value);
-                moves.push(ListMove::Change {
-                    source,
-                    destination,
-                });
-            }
-        }
+    drop(target);
+    // The tour already identifies each suffix value uniquely. Track those integer
+    // identities instead of cloning/searching every payload in the assignment.
+    // Final-state validation above deliberately retains ranges, diagnostics and
+    // dependency checks, including their existing error precedence.
+    let mut current = Vec::with_capacity(entities.len());
+    let mut positions = Vec::with_capacity(values.len());
+    for (row, &entity) in entities.iter().enumerate() {
+        let length = a.lists()[entity].len() - p.entities()[entity].pinned_prefix();
+        let start = positions.len();
+        current.push((start..start + length).collect::<Vec<_>>());
+        positions.extend((0..length).map(|index| (row, index)));
     }
-    debug_assert!(current == target);
+    let mut moves = Vec::new();
+    let mut offset = 0;
+    for (row, (&entity, &length)) in entities.iter().zip(lengths).enumerate() {
+        for (index, &value) in tour[offset..offset + length].iter().enumerate() {
+            let (from_row, from_index) = positions[value];
+            if (from_row, from_index) == (row, index) {
+                continue;
+            }
+            current[from_row].remove(from_index);
+            for (index, &shifted) in current[from_row].iter().enumerate().skip(from_index) {
+                positions[shifted] = (from_row, index);
+            }
+            current[row].insert(index, value);
+            for (index, &shifted) in current[row].iter().enumerate().skip(index) {
+                positions[shifted] = (row, index);
+            }
+            moves.push(ListMove::Change {
+                source: ListPosition {
+                    entity: entities[from_row],
+                    index: p.entities()[entities[from_row]].pinned_prefix() + from_index,
+                },
+                destination: ListPosition {
+                    entity,
+                    index: p.entities()[entity].pinned_prefix() + index,
+                },
+            });
+        }
+        offset += length;
+    }
+    debug_assert!(current.iter().flatten().copied().eq(tour.iter().copied()));
     Ok(ListMove::Composite(moves))
 }
 impl<V: Eq + Clone> ListProblem<V> {

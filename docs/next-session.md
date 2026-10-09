@@ -21148,3 +21148,52 @@ Raw work/unimproved-profile-{focused,final-check}.log and
 work/unimproved-profile-evidence.json. All task-owned handles terminal. Goal remains
 active/incomplete; Java thread-interruption/environment-mode lifetime cases are
 still pending. No need to repeat these checks for a commit or context reset.
+
+
+## Multi-list k-opt relocation scratch optimization
+
+Baseline 6fb4a90; previous turn was progress. list_k_opt_repartition now builds
+current relocation positions with integer suffix identities instead of a second
+full assignment clone and repeated payload searches. Complete target validation
+is unchanged (ranges, diagnostic precedence, pins and dependency cycles). Original
+k_opt_repartition_scratch regression checks clone counts, empty destination lengths,
+large untouched pinned row, assigned payload preservation and undo.
+Baseline build/probe handle72026 TERMINAL0. Focused/release/measurement handle73655
+TERMINAL0:11 tests pass, including the existing 28,070 exhaustive tour/partition
+combinations plus list/mixed solver integration. Native generator medians for
+32/96/256values:0.375252->0.313727ms,1.111526->0.988767ms,4.003488->3.302065ms.
+Three alternating fresh-process forks,1warmup3samples,128attempts,k2..4,seed731;
+ordered move/result hashes match, every generated move applied/validated outside
+timing. Generation-only, no Java/full-solve speed claim. Evidence and source/
+executable/harness hashes:work/repartition-performance.json. Source frozen.
+
+Single-list k-opt already uses integer scratch; this payload-copy optimization
+is specific to multi-list repartitioning.
+
+Read-only cache diagnosis during verification: arity_join_cases currently selects
+172modules and reaches k-opt via a false bare-call collision: partitioned/batch.rs
+callback project -> solution_manager.rs pub(crate) fn project -> solver/neighborhood
+code. Diagnostic work/trace_repartition_inputs.py (handle14207 TERMINAL0). An in-memory
+rename of that helper to project_list_shadows reduces selection to148modules but
+still reaches k-opt via stream_graph/dataset -> neighborhood_dataset ->
+indexed_retirement -> lazy_concat -> unique_sampling -> value_range -> model/range
+and list solver code. Simulation work/trace_repartition_without_collision.py
+(handle3765 TERMINAL0). Renaming project alone WILL NOT solve the invalidation;
+module-level coarseness has independent paths. No tracked cache/source edits made.
+Known GreatDeluge ratio discrepancy is deliberate exact-vs-floating arithmetic;
+known two-opt differences use different candidate sampling. Neither is a new defect.
+
+
+### Repartition optimization: final verification
+
+Gate43463 and evidence98238 TERMINAL0. Fmt/Clippy pass (20.60s); affected-target
+compilation8m09s. All5444Rust tests and248doctests pass;661Rust jobs ran,88Rust
+and46Python jobs reused. Upstream coverage unchanged:3161/4855(65.108%),0failed,
+1412pending,282excluded,0unverified. Provenance unchanged. Live/report verification
+digests match and every measured Rust source hash still matches current source.
+Source 642135b7c90710a9149096c62c9f80450010b92c58269ebac3d24f99642aef5a
+Verification d1c338646554a78cc4c1def4a165857858876b1618cabb7af5e70a81bc7ffedd
+Evidence work/repartition-evidence.json. Older list performance is honestly stale;
+no benchmark/browser rerun or relabeling. New native generation-only measurements
+remain in work/repartition-performance.json. All task-owned handles are terminal.
+Goal remains active/incomplete. Reuse this evidence until relevant inputs change.

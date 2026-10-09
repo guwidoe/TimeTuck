@@ -5163,3 +5163,23 @@ its setting-specific diagnostic. Original integration tests cover all six solver
 paths, repeated phases versus shared stagnation, zero limits, missing/clear/fallback
 behavior, count validation, policy conflicts and actual resolved solves. This adds
 configuration support for existing native counters, not new timing/PRNG behavior.
+
+
+### Multi-list k-opt relocation scratch state
+
+Combined-cycle repartitioning now calculates current relocation positions using
+integer identities for the selected movable suffixes. It no longer clones a second
+complete assignment or searches payload identities to locate each relocation.
+The complete proposed assignment is still validated once for receiving ranges,
+pins and dependency cycles, with unchanged error precedence. Selected entity order,
+empty destinations, pinned prefixes, assigned payloads and ordered moves are retained.
+
+An original clone-count/payload regression supplements the existing exhaustive
+28,070 tour/partition checks and list/mixed solver integration cases. Native paired
+measurements at baseline 6fb4a90 show 11–18% lower median proposal-generation time
+for 32/96/256 values across four lists, 128 attempts, k2..4 and seed731. Three alternating
+fresh-process forks used one warmup and three samples; every generated move was
+applied and validated outside timing, and ordered move/result hashes matched across
+versions. These short generator measurements do not establish full-solve or Java
+speedups. Raw samples and source/executable identities are in
+work/repartition-performance.json. No new upstream method credits are claimed.
