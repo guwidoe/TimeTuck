@@ -5121,3 +5121,22 @@ match, and swap score-call counts remain identical. Java timing varies substanti
 from the preceding run, so the alternating native before/after comparison above is
 the stronger evidence for the implementation gain. Dashboard samples expose the
 observed timing ranges and retain the short-warmup/full-scoring methodology.
+
+
+### Phase-scoped termination profiles
+
+TerminationProfile now binds directly to construction and local-search configs.
+Specified time, move and step controls replace corresponding phase settings;
+unspecified settings, score-evaluation caps, cancellation, assertions and
+interruption policies remain intact. Local search also accepts stagnation time and
+diminished-returns tuning. Construction rejects those two improvement-only controls
+with a typed, setting-specific error before a solve starts. Phase step counters
+reset on invocation; existing solve-wide profile step semantics still count search
+steps, while explicit SearchLimit::CombinedSteps counts construction and search.
+
+Five TerminationTest methods preserve source construction score assertions and
+inapplicability diagnostics. The adapted duplicate-pair test fixture skips missing
+values; native structural incompleteness is tracked separately from its ordinary
+zero score. Original all-six-path regressions verify repeated phase step caps under
+a shared budget, zero candidate budgets and preservation/replacement of controls.
+No Java environment-mode, thread-interruption or wall-clock trace claim is added.

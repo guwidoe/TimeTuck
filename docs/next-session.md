@@ -21091,3 +21091,33 @@ work/sparse-values-reviewed-source.json. All task-owned handles terminal.
 Read-only reconnaissance: GraphStructureTest's12pending methods assert descriptor
 classification/inheritance. No native classifier was added; avoid creating unused
 Java-shaped enum APIs merely to claim those cases. Goal remains active/incomplete.
+
+
+## Phase-scoped termination-profile binding
+
+Baseline2c69508; previous turn was progress. TerminationProfile now exposes
+bind_construction/bind_local_search. Specified phase limits replace their matching
+controls; absent fields, cancellation, assertions, evaluation safety caps and
+interruption policy survive. Construction rejects stagnation time and slowdown
+with InapplicableToConstruction; local search accepts both. Global profile steps
+remain search-only; explicit CombinedSteps counts construction plus search.
+Five TerminationTest methods adapted with two fixture records, including ordered
+pair scoring from the upstream test-only TestdataEasyScoreCalculator. Native raw
+zero score is checked separately from structural completeness. Three original
+regressions exercise all-six-path repeated phase limits/shared caps, zero move
+limits and binding preservation. Source/provenance/notices updated; no pin change.
+
+Focused62716, final gate3678, initial evidence81652 and final report/evidence6811
+all TERMINAL0. Final report-only rerender corrected provenance prose, reusing the
+unchanged Rust execution logs.5438Rust tests/248doctests pass;7Rust jobs ran,
+740Rust and46Python jobs reused. Clippy32.05s. All five new source methods verified
+passed;3160/4855upstream methods(65.088%),0failed,1413pending,282excluded.
+Prior ledger records unchanged;5newcases/2fixtures. Live/report freshness agrees.
+Source 29408aced2b9597588cc20720840f8a4b327fea56af71d10b3355d70aa74eec2
+Verification b12d9cc997325119b936606447930f45609666f7bef476c6d4018d8a56eb595f
+Evidence work/phase-termination-evidence.json; final log
+work/phase-termination-final-check.log. List performance remains current by its
+job-specific digest; no benchmark or browser rerun. All task-owned handles are
+terminal; goal remains active/incomplete. Unimproved-step phase applicability,
+thread-interruption and Java environment-mode/score-director lifetime cases remain
+pending; do not infer coverage from the new time-stagnation binding.

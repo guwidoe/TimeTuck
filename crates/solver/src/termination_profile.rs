@@ -10,6 +10,7 @@ pub enum TerminationProfileError {
     InvalidRatio,
     ZeroWindow,
     ConflictingLimits { count: &'static str },
+    InapplicableToConstruction { setting: &'static str },
 }
 impl fmt::Display for TerminationProfileError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -21,6 +22,12 @@ impl fmt::Display for TerminationProfileError {
                 "minimumImprovementRatio numerator and denominator must be strictly positive",
             ),
             Self::ZeroWindow => f.write_str("slidingWindowDuration must be strictly positive"),
+            Self::InapplicableToConstruction { setting } => {
+                write!(
+                    f,
+                    "construction termination setting {setting} is not applicable"
+                )
+            }
             Self::ConflictingLimits { count } => {
                 write!(f, "unimprovedSpentLimit cannot be combined with {count}")
             }
@@ -151,6 +158,59 @@ impl TerminationProfile {
             DiminishedReturnsConfig::new(self.window.unwrap_or(defaults.window()), n, d)
                 .expect("validated profile"),
         )
+    }
+    /// Bind phase-local construction budgets, preserving unspecified settings,
+    /// cancellation, scoring assertions and candidate interruption policy.
+    /// Stagnation and diminished returns require an improvement phase and are
+    /// rejected before any solve starts. Explicit zero limits remain active.
+    pub fn bind_construction<'a>(
+        &self,
+        mut config: crate::ConstructionConfig<'a>,
+    ) -> Result<crate::ConstructionConfig<'a>, TerminationProfileError> {
+        if self.unimproved.is_some() {
+            return Err(TerminationProfileError::InapplicableToConstruction {
+                setting: "UnimprovedTimeMillisSpent",
+            });
+        }
+        if self.diminished_returns().is_some() {
+            return Err(TerminationProfileError::InapplicableToConstruction {
+                setting: "DiminishedReturns",
+            });
+        }
+        if let Some(limit) = self.spent {
+            config.max_time = Some(limit);
+        }
+        if let Some(limit) = self.steps {
+            config.max_steps = Some(limit);
+        }
+        if let Some(limit) = self.moves {
+            config.max_move_evaluations = Some(limit);
+        }
+        Ok(config)
+    }
+    /// Bind one local-search phase. Specified settings replace their respective
+    /// phase controls; missing settings and score-evaluation safety caps survive.
+    /// Unlike with_limits, this step counter resets at every phase invocation.
+    pub fn bind_local_search<'a, S>(
+        &self,
+        mut config: crate::LocalSearchConfig<'a, S>,
+    ) -> crate::LocalSearchConfig<'a, S> {
+        if let Some(limit) = self.spent {
+            config.max_time = Some(limit);
+        }
+        if let Some(limit) = self.unimproved {
+            config.max_unimproved_time = Some(limit);
+        }
+        if let Some(limit) = self.steps {
+            config.max_steps = limit;
+        }
+        if let Some(limit) = self.moves {
+            config.max_move_evaluations = Some(limit);
+        }
+        if let Some(policy) = self.diminished_returns() {
+            config.diminished_returns = Some(policy);
+        }
+        config
     }
     /// Apply specified shared budgets and OR a solve-wide search-step cap with
     /// any existing expression. The callback scopes the borrowed expression;

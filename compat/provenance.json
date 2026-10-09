@@ -47439,6 +47439,81 @@
       "local_test": "improved_initialized_during_move",
       "status": "implemented",
       "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "local_path": "crates/solver/tests/phase_termination_cases.rs",
+      "id": "TerminationTest.stepCountTerminationAtSolverLevel",
+      "upstream_test": "stepCountTerminationAtSolverLevel",
+      "local_test": "step_count_at_solver_level",
+      "status": "implemented",
+      "modifications": "Use explicit native CombinedSteps(1) for solve-wide construction/search accounting; preserve two entities/two values, missing initial assignments and ordinary zero score. Native structural incompleteness is tracked separately from the ordinary score; additionally verify partial state and one placement. Native typed model and scoped network replace reflection/configuration and easy-score plumbing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "local_path": "crates/solver/tests/phase_termination_cases.rs",
+      "id": "TerminationTest.stepCountTerminationAtPhaseLevel",
+      "upstream_test": "stepCountTerminationAtPhaseLevel",
+      "local_test": "step_count_at_phase_level",
+      "status": "implemented",
+      "modifications": "Bind a one-step termination profile to an actual native construction phase; preserve two entities/two values, missing assignments and ordinary zero score. Native structural missing-count metadata is separate; additionally verify partial state and one placement. Native typed model and scoped network replace reflection/configuration and easy-score plumbing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "local_path": "crates/solver/tests/phase_termination_cases.rs",
+      "id": "TerminationTest.diminishedReturnsTerminationAtSolverLevel",
+      "upstream_test": "diminishedReturnsTerminationAtSolverLevel",
+      "local_test": "diminished_returns_at_solver_level",
+      "status": "implemented",
+      "modifications": "Materialize the default native diminished window to represent an enabled empty Java tuning object; bind the shared profile to a construction-only solve. Preserve complete two-entity construction and zero score; solve-wide slowdown tuning is applied only to improvement phases. Native typed model and scoped network replace reflection/configuration and easy-score plumbing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "local_path": "crates/solver/tests/phase_termination_cases.rs",
+      "id": "TerminationTest.diminishedReturnsTerminationInapplicableAtPhaseLevel",
+      "upstream_test": "diminishedReturnsTerminationInapplicableAtPhaseLevel",
+      "local_test": "diminished_returns_inapplicable_at_construction_phase",
+      "status": "implemented",
+      "modifications": "Bind explicitly enabled default slowdown tuning to construction. Preserve rejection and diagnostic identification of the inapplicable DiminishedReturns setting using a typed native profile error instead of a Java IllegalStateException; diagnostic wording is native. Native typed model and scoped network replace reflection/configuration and easy-score plumbing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "local_path": "crates/solver/tests/phase_termination_cases.rs",
+      "id": "TerminationTest.unimprovedTimeSpentTerminationInapplicableAtPhaseLevel",
+      "upstream_test": "unimprovedTimeSpentTerminationInapplicableAtPhaseLevel",
+      "local_test": "unimproved_time_inapplicable_at_construction_phase",
+      "status": "implemented",
+      "modifications": "Bind the original one-millisecond stagnation limit to construction. Preserve rejection and diagnostic identification of the inapplicable UnimprovedTimeMillisSpent setting using a typed native profile error instead of a Java IllegalStateException; diagnostic wording is native. Native typed model and scoped network replace reflection/configuration and easy-score plumbing."
     }
   ],
   "fixtures": [
@@ -64133,6 +64208,32 @@
       "id": "best-recaller-retention-helper",
       "upstream_test": "doProcessWorkingSolutionDuringStep (both overloads); doProcessWorkingSolutionDuringMove (both overloads); InnerScoreWithSolution",
       "modifications": "Adapt common before/candidate setup and conditional assertions on retained solution and score into check. Explicit count/score tuples and stable string snapshot identities replace Java InnerScoreWithSolution and mocked scopes. Scoring, event-support and descriptor mocks are omitted; no upstream production implementation is used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "local_path": "crates/solver/tests/phase_termination_cases.rs",
+      "id": "phase-termination-two-entity-fixture",
+      "upstream_test": "two-value/two-entity uninitialized setup in stepCountTerminationAtSolverLevel, stepCountTerminationAtPhaseLevel, diminishedReturnsTerminationAtSolverLevel",
+      "modifications": "Preserve two independent basic variables, two reusable planning values and missing initial assignments; native numeric domains replace TestdataSolution generation/reflection. Helper fixture is shared by the adapted solve cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "local_path": "crates/solver/tests/phase_termination_cases.rs",
+      "id": "phase-termination-ordered-duplicate-score",
+      "upstream_test": "calculateScore",
+      "modifications": "Adapt the test fixture score: skip missing left values and penalize every ordered pair of distinct entities with equal assigned values. A native scoped callback replaces the Java easy-score fixture; no production implementation is used."
     }
   ]
 }

@@ -792,3 +792,9 @@ and helper identities and substitutions are in `compat/provenance.json`.
 Native snapshot identities and explicit required-unassigned counts replace mocked
 Java solutions and score-director scopes. Exact identities and substitutions are
 recorded in `compat/provenance.json`. The tracker and native regressions are original.
+
+- `crates/solver/tests/phase_termination_cases.rs` adapts five Community
+  `TerminationTest` methods for construction step limits and phase applicability,
+  plus their two-entity setup and the `TestdataEasyScoreCalculator` test fixture.
+  Native structural completeness metadata remains separate from ordinary scores;
+  typed profile errors replace Java exceptions. See `compat/provenance.json`.
