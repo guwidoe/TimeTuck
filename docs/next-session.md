@@ -21049,3 +21049,45 @@ empty (list_scoring.rs around640; mixed_scoring.rs around684). Skip unnecessary
 value-scope discovery in one coherent batch across both, measure against this
 baseline and retain all existing affected-value behavior. No production change
 for this target has been attempted yet. Avoid refreshing unrelated benchmarks.
+
+
+## Sparse value-scope indexing in list/mixed scoring
+
+Baseline f60ef2a; previous turn was progress. Both networks now index registry
+values only when their first value-scoped constraint is registered. Candidate
+invalidation scans these indices, preserving disabled weights for reactivation,
+repeated scopes, callback order, neighbors, validation and rollback. Entity-only
+networks avoid value identity scans. Two original sparse_list_scopes regressions
+check zero comparisons with no value scopes, linear sparse bounds, out-of-order
+and duplicate scopes, reactivation, undo/commit and full recomputation. No upstream
+method or provenance credits. Focused93063 TERMINAL0:21tests passed across four
+suites; optimized example build43.37s. Early test compile errors were corrected.
+
+Native before/after65672 TERMINAL0. Baseline executable copied before edits from
+verified f60ef2a; six full-scoring32/96-customer workloads,20steps, three alternating
+fresh-process forks,1warmup+3samples. Scores, assignments and callback counts all
+identical; every output independently validated. Runtime reduction38–79%;96swap
+916.353->191.082ms. Evidence work/sparse-values-performance.json stores all Rust
+source hashes and executable identities; raw log work/sparse-values-measure.log.
+
+Fresh Java comparison16334 TERMINAL0;320valid small cases/317equal scores,
+including128/128value-tabu agreements.96relocation417.974/1474.232ms Rust/Java;
+96swap213.280/738.283ms with identical score/callback counts. Java times varied
+substantially from previous run; use alternating native comparison for gain claims.
+Fresh work/list-performance.json retains sample ranges and short-warmup/full-score
+methodology. Other benchmark freshness remains independent; no browser/UI changes.
+
+Final required gate29914 and evidence65456 TERMINAL0. Format/Clippy pass(39.08s);
+affected-target compilation8m16s.5430Rust tests and248doctests pass.657Rust jobs ran,
+88Rust and46Python jobs reused.3155/4855upstream methods(64.985%),0failed.
+All Rust source hashes match the native measurement; provenance is unchanged.
+Live/report verification freshness matches and list-performance is current.
+Source 01e6a7445edc177fad35b809c8b775e3ae56b6f372b65753b2b9e48a0e952172
+Verification a4e14051fce302bd162c83eca24a3e3804d8e53ba4753af3ad4b06c71d73db8f
+List measurement 2cb25f9f0f52b9494b09160b6878e134b2c5283d7caf9d978e7fca65e1db996e
+Raw evidence work/sparse-values-evidence.json; reviewed source hashes in
+work/sparse-values-reviewed-source.json. All task-owned handles terminal.
+
+Read-only reconnaissance: GraphStructureTest's12pending methods assert descriptor
+classification/inheritance. No native classifier was added; avoid creating unused
+Java-shaped enum APIs merely to claim those cases. Goal remains active/incomplete.

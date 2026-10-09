@@ -118,6 +118,7 @@ pub struct ListConstraintNetwork<'a, V, S> {
     constraints: Vec<Constraint<'a, V, S>>,
     entity_dependents: Vec<Vec<usize>>,
     value_dependents: Vec<Vec<usize>>,
+    scoped_values: Vec<usize>,
 }
 impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
     pub fn new(entity_count: usize, value_count: usize) -> Self {
@@ -126,6 +127,7 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
             constraints: vec![],
             entity_dependents: vec![vec![]; entity_count],
             value_dependents: vec![vec![]; value_count],
+            scoped_values: vec![],
         }
     }
     pub fn entity_count(&self) -> usize {
@@ -248,7 +250,12 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         for &item in &scope {
             let dependents = match item {
                 ListScope::Entity(i) => &mut self.entity_dependents[i],
-                ListScope::Value(i) => &mut self.value_dependents[i],
+                ListScope::Value(i) => {
+                    if self.value_dependents[i].is_empty() {
+                        self.scoped_values.push(i);
+                    }
+                    &mut self.value_dependents[i]
+                }
             };
             if dependents.last() != Some(&index) {
                 dependents.push(index);
@@ -638,7 +645,10 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             .iter()
             .flat_map(|&e| self.network.entity_dependents[e].iter().copied())
             .collect();
-        for (i, value) in self.problem.values().iter().enumerate() {
+        // Entity-only constraints need no value identity lookup. Registration
+        // retains each scoped index once, including currently disabled weights.
+        for &i in &self.network.scoped_values {
+            let value = &self.problem.values()[i];
             if touched.iter().any(|&entity| {
                 transaction.original_list(entity).unwrap().contains(value)
                     || transaction.lists()[entity].contains(value)

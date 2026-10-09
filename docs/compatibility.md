@@ -5085,3 +5085,39 @@ incremental-scoring or universal speed claim. Full samples, runtime versions,
 source fingerprint and method are in work/list-performance.json, consumed by the
 existing dashboard list-solving section. Earlier modes were refreshed in the same
 run: 320 valid small cases overall, 317 equal-score cases (three two-opt differences).
+
+
+### Sparse value-scope discovery
+
+List and mixed scoped score networks now retain the indices that have registered
+value constraints. Candidate invalidation only discovers list membership for those
+indices. Entity-only networks perform no value identity comparisons for discovery;
+sparse networks avoid scanning unrelated registry values. Repeated scopes register
+an index once. Disabled weighted constraints remain indexed so reactivation between
+sessions retains normal updates. Callback ordering, conservative neighbor
+invalidation, model validation and transaction rollback are unchanged.
+
+Two original regressions cover list/mixed equality-operation bounds, repeated and
+out-of-order scopes, zero weights, reactivation, trial rollback, committed scores
+and independent full recomputation. Existing seeded scoring and weight cases also
+pass; no adapted upstream methods are added.
+
+A native comparison against f60ef2a uses complete four-route full-scoring solves,
+32/96 customers, relocation hill climbing or value tabu with relocations/ordered
+swaps, and 20-step limits. Three alternating fresh-process forks with one warmup
+and three samples retain identical scores, assignments and score-call counts.
+Median ms before/after: hill32 30.822/18.131, hill96 1111.185/256.585;
+value-change32 47.938/23.606, value-change96 1200.028/313.309;
+value-swap32 31.484/19.472, value-swap96 916.353/191.082.
+This is a 38–79% reduction on these entity-scoped workloads, not a general solver
+speedup or a claim about densely value-scoped graphs. Independent validation and
+source/executable hashes are recorded in work/sparse-values-performance.json.
+
+The Java/native list benchmark was also refreshed on this source (same three forks,
+one warmup and three samples). All 320 small cases validate, with 317 equal final
+scores; all 128 value-tabu cases agree. For 96 customers, median relocation time is
+417.974 ms Rust / 1474.232 ms Java; swap time is 213.280 / 738.283 ms. Final scores
+match, and swap score-call counts remain identical. Java timing varies substantially
+from the preceding run, so the alternating native before/after comparison above is
+the stronger evidence for the implementation gain. Dashboard samples expose the
+observed timing ranges and retain the short-warmup/full-scoring methodology.

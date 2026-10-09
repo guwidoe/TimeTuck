@@ -125,6 +125,7 @@ pub struct MixedConstraintNetwork<'a, B, L, S> {
     basic_dependents: Vec<Vec<usize>>,
     entity_dependents: Vec<Vec<usize>>,
     value_dependents: Vec<Vec<usize>>,
+    scoped_values: Vec<usize>,
 }
 impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<'a, B, L, S> {
     pub fn new(variable_count: usize, entity_count: usize, value_count: usize) -> Self {
@@ -134,6 +135,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             basic_dependents: vec![vec![]; variable_count],
             entity_dependents: vec![vec![]; entity_count],
             value_dependents: vec![vec![]; value_count],
+            scoped_values: vec![],
         }
     }
     pub fn variable_count(&self) -> usize {
@@ -261,7 +263,12 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             let dependents = match item {
                 MixedScope::Basic(i) => &mut self.basic_dependents[i],
                 MixedScope::ListEntity(i) => &mut self.entity_dependents[i],
-                MixedScope::ListValue(i) => &mut self.value_dependents[i],
+                MixedScope::ListValue(i) => {
+                    if self.value_dependents[i].is_empty() {
+                        self.scoped_values.push(i);
+                    }
+                    &mut self.value_dependents[i]
+                }
             };
             if dependents.last() != Some(&index) {
                 dependents.push(index);
@@ -681,7 +688,10 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         for &entity in &touched {
             affected.extend(&self.network.entity_dependents[entity]);
         }
-        for (i, value) in self.problem.lists().values().iter().enumerate() {
+        // Entity-only constraints need no value identity lookup. Registration
+        // retains each scoped index once, including currently disabled weights.
+        for &i in &self.network.scoped_values {
+            let value = &self.problem.lists().values()[i];
             if touched.iter().any(|&entity| {
                 transaction.original().lists().lists()[entity].contains(value)
                     || transaction.lists().lists()[entity].contains(value)
