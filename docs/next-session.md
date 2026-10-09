@@ -20919,3 +20919,47 @@ Prior provenance prefix unchanged;8cases+1helper appended. Reviewed source hashe
 saved to work/best-tracker-reviewed-source.json. Live/report freshness matches.
 No benchmark refresh; existing stream benchmark remains current by its selective
 input digest. All task build/check handles terminal; goal active/incomplete.
+
+## Avoid replaying scored moves for list value-tabu capture
+
+Baseline1914ab5; previous turn was progress. New private scored_list_values module
+provides scored_planning_values for list/mixed local-search candidate acceptance
+and selected-step memory updates. Contract: candidate already successfully applied
+and scored from supplied pre-move snapshot. Primitive capture reads only moved
+values; deduplicates in first-touch order. Empty/single-child composites avoid
+replay, multi-child composites retain public validation/replay for evolving indices.
+Mixed basic/list namespaces remain distinct. Public planning_values unchanged.
+
+Three original unit regressions: valid primitive catalog across pins/ranges versus
+public capture/apply,1000-value clone count1021->1(empty0), sequential composites
+and mixed namespaces. Existing value_tabu_regression independent histories cover
+all6backends. Focused64402 TERMINAL0; baseline release19418,baseline harness82176
+and41197, final release/native benchmark7376 all TERMINAL0. No new provenance.
+
+Whole-list-solve benchmark:32/96values,4lists,value-tabu tenure3/aspiration,
+best-accepted swap scans,10/30steps;3fresh-process forks,alternating order,
+1warmup+3samples. Medians before->after:32/10 14.106->7.406ms;
+96/10 548.163->201.445ms;32/30 51.898->24.949ms;96/30 1859.768->702.775ms.
+All scores, best assignments, callback counts and completed steps identical;
+independent score/model/completeness validation on every run. Native gain47–63%,
+not a Java/general solver claim. Evidence work/scored-values-performance.json;
+harness work/scored_values_benchmark.rs; baseline executable compiled from clean
+1914ab5 before Rust edits. Final benchmark source hashes record current Rust.
+No Java benchmark or browser refresh. Required final gate pending at this entry.
+
+Required scored-values gate TERMINAL0. 5425 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 656, 'REUSE': 88}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3155, 'failed': 0, 'pending': 1418, 'excluded': 282, 'unverified': 0, 'percent': 64.985}.
+Source before/after matched: 2f9703de53e4c9c0077b7626fbac66be8b37fb809bceb20b1ac37f7b49c2821a
+Live freshness matched verification digest: 9853dcb19da591e8726a97638c484d03db9ce8ed23b33890fab51efec61bef5c.
+Prior ledger records unchanged; No upstream methods or helper fixtures added; provenance unchanged.
+Log work/scored-values-final-check.log; evidence work/scored-values-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final frozen-source gate56686 and evidence94859 TERMINAL0. Clippy27.87s,
+affected-target compilation3m35s;656Rust jobs ran/88reused,46Python jobs reused.
+5425Rust tests and248doctests pass;3155/4855upstream methods(64.985%),0failed.
+All Rust source hashes match the measured candidate; saved review hashes in
+work/scored-values-reviewed-source.json. Provenance entirely unchanged. Live/report
+verification freshness matches. No Java benchmark/browser refresh. All task-owned
+build/check/measurement handles terminal; goal remains active/incomplete.

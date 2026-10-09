@@ -5009,3 +5009,28 @@ retention, score-director lifecycle or Java event timing. Native regressions exe
 partial and complete construction observers with both scoring backends, deterministic
 ties, missing required values, snapshot independence and panic recovery. No timing
 claim is made; clone/factory counts directly verify work avoided for rejected states.
+
+Value-tabu capture inside list and mixed local search now uses the already-scored
+candidate's validation. Primitive metadata reads the pre-move lists and copies only
+distinct moved values, preserving first-touch order and separate basic/list keys.
+Empty composites capture nothing; single-child wrappers are unwrapped iteratively.
+Multi-child composites retain the existing replay path because later coordinates
+refer to earlier edits. Public planning_values still performs full model, pin,
+range and dependency validation. The internal shortcut is used only after a
+candidate has successfully applied and scored from the corresponding snapshot.
+
+Original comparisons cover valid primitive moves across pins/ranges, sequential
+composites, namespaces, and all six existing value-tabu solver backends. A primitive
+one-value move on1000values clones1value for internal capture instead of1021in the
+public validation/replay path. No upstream methods are newly claimed.
+
+An optimized native before/after benchmark against1914ab5 measured complete list
+searches with four lists, value-tabu tenure3/aspiration and best-accepted swap scans.
+For32/96values at10steps, median runtimes were14.106->7.406ms and548.163->201.445ms;
+at30steps they were51.898->24.949ms and1859.768->702.775ms. Three fresh-process forks
+alternated baseline/candidate, with one warmup and three samples each. Scores,
+full best assignments, callback counts and completed steps matched; each result was
+independently rescored and validated. This47–63% reduction concerns these workloads,
+not Java performance or every solver configuration. Raw results/source identities:
+work/scored-values-performance.json. Existing dashboard benchmarks retain their
+measurement dates and computed freshness; no Java benchmark was refreshed.

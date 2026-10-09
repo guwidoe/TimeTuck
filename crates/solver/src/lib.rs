@@ -1227,3 +1227,5 @@ mod int_collector_counts;
 
 mod best_solution_tracker;
 pub use best_solution_tracker::{BestSolutionTracker, RankedSolution};
+
+mod scored_list_values;

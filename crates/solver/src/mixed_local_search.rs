@@ -367,9 +367,7 @@ where
                     vec![]
                 };
                 let values = if tracks_values {
-                    problem
-                        .planning_values(&snapshot, movement)
-                        .expect("scored move has valid value metadata")
+                    problem.scored_planning_values(&snapshot, movement)
                 } else {
                     Vec::new()
                 };
@@ -397,9 +395,7 @@ where
                 vec![]
             };
             let values = if tracks_values {
-                problem
-                    .planning_values(&snapshot, movement)
-                    .expect("scored move has valid value metadata")
+                problem.scored_planning_values(&snapshot, movement)
             } else {
                 Vec::new()
             };
