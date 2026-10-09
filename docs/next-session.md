@@ -21121,3 +21121,30 @@ job-specific digest; no benchmark or browser rerun. All task-owned handles are
 terminal; goal remains active/incomplete. Unimproved-step phase applicability,
 thread-interruption and Java environment-mode/score-director lifetime cases remain
 pending; do not infer coverage from the new time-stagnation binding.
+
+
+## Unimproved-step profile limits
+
+Baseline39edad2; previous turn was progress. Profiles and platform/request
+resolution now accept validated unimproved-step counts, including active zero,
+clear/missing values and fallback inheritance. Existing service-style count policy
+rejects stagnation-time conflicts; request counts suppress platform stagnation time,
+request stagnation time suppresses platform counts, and counts disable automatic
+diminished returns. Local binding uses the existing per-phase counter; shared
+binding uses the existing solve-wide counter. Direct binding retains unspecified
+controls, while resolved binding authoritatively replaces/clears this managed field.
+Construction rejects unimproved-step termination with a typed diagnostic.
+
+One adapted TerminationTest method plus four original regressions covering all six
+solver paths. Existing provenance records unchanged; one new case, no fixtures.
+Focused69124, final gate76652 and evidence73424 all TERMINAL0.5443Rust tests and
+248doctests pass;8Rust jobs ran,740Rust and46Python jobs reused.3161/4855upstream
+methods(65.108%),0failed,1412pending,282excluded,0unverified. Live/report freshness
+matches. List performance remains current under its own input digest; no benchmark
+or browser rerun. No native counter algorithm or timing behavior changed.
+Source 78ead247ab1cf017c7f1a1340b436ffcd7daff8d56908aaa4e43580d729b1231
+Verification 6d8eb70eb16ea1692eb1da625a9a24c43c2fb31d4ac8d76bba387a37a16fe4af
+Raw work/unimproved-profile-{focused,final-check}.log and
+work/unimproved-profile-evidence.json. All task-owned handles terminal. Goal remains
+active/incomplete; Java thread-interruption/environment-mode lifetime cases are
+still pending. No need to repeat these checks for a commit or context reset.

@@ -5140,3 +5140,26 @@ values; native structural incompleteness is tracked separately from its ordinary
 zero score. Original all-six-path regressions verify repeated phase step caps under
 a shared budget, zero candidate budgets and preservation/replacement of controls.
 No Java environment-mode, thread-interruption or wall-clock trace claim is added.
+
+
+### Unimproved-step profile limits
+
+TerminationProfile and TerminationResolver now support an optional signed-input
+unimproved-step budget. Negative values are rejected, zero remains active and None
+clears the setting. Fallbacks fill missing values and revalidate conflicts with
+stagnation time under the existing service-style count policy. Lower-level solver
+configs continue to allow combinations outside that profile policy.
+
+Direct profile binding preserves unspecified existing controls. Shared binding
+sets the solve-wide unimproved-step counter; local binding sets the phase counter,
+which resets on each phase invocation. Construction rejects this improvement-only
+setting. Platform defaults and request counts inherit/suppress each other according
+to the same rules as other counts; explicit request stagnation time clears platform
+counts, and any count disables automatic diminished returns. Resolved shared
+binding now authoritatively replaces or clears max_unimproved_steps too.
+
+One additional TerminationTest method preserves construction inapplicability and
+its setting-specific diagnostic. Original integration tests cover all six solver
+paths, repeated phases versus shared stagnation, zero limits, missing/clear/fallback
+behavior, count validation, policy conflicts and actual resolved solves. This adds
+configuration support for existing native counters, not new timing/PRNG behavior.

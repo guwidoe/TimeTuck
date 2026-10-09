@@ -44,6 +44,7 @@ pub struct TerminationProfile {
     spent: Option<Duration>,
     unimproved: Option<Duration>,
     steps: Option<u64>,
+    unimproved_steps: Option<u64>,
     moves: Option<u64>,
     window: Option<Duration>,
     ratio: Option<(u64, u64)>,
@@ -83,6 +84,7 @@ impl TerminationProfile {
             spent,
             unimproved,
             steps,
+            unimproved_steps: None,
             moves,
             window,
             ratio,
@@ -98,6 +100,11 @@ impl TerminationProfile {
             if self.steps.is_some() {
                 return Err(TerminationProfileError::ConflictingLimits {
                     count: "stepCountLimit",
+                });
+            }
+            if self.unimproved_steps.is_some() {
+                return Err(TerminationProfileError::ConflictingLimits {
+                    count: "unimprovedStepCountLimit",
                 });
             }
             if self.moves.is_some() {
@@ -116,6 +123,27 @@ impl TerminationProfile {
     }
     pub fn step_count_limit(&self) -> Option<u64> {
         self.steps
+    }
+    /// Configure completed search steps without a strict retained-best improvement.
+    /// None clears the setting; zero is an active limit. This service-style count
+    /// policy cannot coexist with stagnation time; native solver configs can.
+    pub fn with_unimproved_step_limit(
+        mut self,
+        limit: Option<i64>,
+    ) -> Result<Self, TerminationProfileError> {
+        self.unimproved_steps = limit
+            .map(|value| {
+                u64::try_from(value).map_err(|_| TerminationProfileError::NegativeCount {
+                    field: "unimprovedStepCountLimit",
+                    value,
+                })
+            })
+            .transpose()?;
+        self.validate()?;
+        Ok(self)
+    }
+    pub fn unimproved_step_count_limit(&self) -> Option<u64> {
+        self.unimproved_steps
     }
     pub fn move_count_limit(&self) -> Option<u64> {
         self.moves
@@ -139,6 +167,7 @@ impl TerminationProfile {
             spent: self.spent.or(b.spent),
             unimproved: self.unimproved.or(b.unimproved),
             steps: self.steps.or(b.steps),
+            unimproved_steps: self.unimproved_steps.or(b.unimproved_steps),
             moves: self.moves.or(b.moves),
             window: self.window.or(b.window),
             ratio: self.ratio.or(b.ratio),
@@ -170,6 +199,11 @@ impl TerminationProfile {
         if self.unimproved.is_some() {
             return Err(TerminationProfileError::InapplicableToConstruction {
                 setting: "UnimprovedTimeMillisSpent",
+            });
+        }
+        if self.unimproved_steps.is_some() {
+            return Err(TerminationProfileError::InapplicableToConstruction {
+                setting: "UnimprovedStepCount",
             });
         }
         if self.diminished_returns().is_some() {
@@ -204,6 +238,9 @@ impl TerminationProfile {
         if let Some(limit) = self.steps {
             config.max_steps = limit;
         }
+        if let Some(limit) = self.unimproved_steps {
+            config.max_unimproved_steps = Some(limit);
+        }
         if let Some(limit) = self.moves {
             config.max_move_evaluations = Some(limit);
         }
@@ -230,6 +267,9 @@ impl TerminationProfile {
         }
         if let Some(moves) = self.moves {
             limits.max_move_evaluations = Some(moves);
+        }
+        if let Some(steps) = self.unimproved_steps {
+            limits.max_unimproved_steps = Some(steps);
         }
         let Some(steps) = self.steps else {
             return run(limits);

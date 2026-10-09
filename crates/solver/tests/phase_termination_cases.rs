@@ -114,3 +114,20 @@ fn unimproved_time_inapplicable_at_construction_phase() {
     assert!(error.to_string().contains("not applicable"));
     assert!(error.to_string().contains("UnimprovedTimeMillisSpent"));
 }
+
+#[test]
+fn unimproved_steps_inapplicable_at_construction_phase() {
+    let error = TerminationProfile::default()
+        .with_unimproved_step_limit(Some(1))
+        .unwrap()
+        .bind_construction(ConstructionConfig::default())
+        .unwrap_err();
+    assert_eq!(
+        error,
+        TerminationProfileError::InapplicableToConstruction {
+            setting: "UnimprovedStepCount"
+        }
+    );
+    assert!(error.to_string().contains("not applicable"));
+    assert!(error.to_string().contains("UnimprovedStepCount"));
+}

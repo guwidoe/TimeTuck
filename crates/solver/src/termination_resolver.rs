@@ -29,6 +29,15 @@ impl TerminationResolver {
             platform: TerminationProfile::new(Some(spent), unimproved, steps, moves, None, None)?,
         })
     }
+    /// Add or clear the platform's unimproved-search-step budget. It follows the
+    /// same precedence as other counts and cannot coexist with stagnation time.
+    pub fn with_unimproved_step_limit(
+        mut self,
+        limit: Option<i64>,
+    ) -> Result<Self, TerminationProfileError> {
+        self.platform = self.platform.with_unimproved_step_limit(limit)?;
+        Ok(self)
+    }
     pub fn platform(&self) -> &TerminationProfile {
         &self.platform
     }
@@ -41,22 +50,31 @@ impl TerminationResolver {
         let empty = TerminationProfile::default();
         let r = request.unwrap_or(&empty);
         let p = &self.platform;
-        let (unimproved, steps, moves) = if r.unimproved_spent_limit().is_some() {
-            (r.unimproved_spent_limit(), None, None)
-        } else if r.step_count_limit().is_some() || r.move_count_limit().is_some() {
+        let (unimproved, steps, moves, unimproved_steps) = if r.unimproved_spent_limit().is_some() {
+            (r.unimproved_spent_limit(), None, None, None)
+        } else if r.step_count_limit().is_some()
+            || r.move_count_limit().is_some()
+            || r.unimproved_step_count_limit().is_some()
+        {
             (
                 None,
                 r.step_count_limit().or(p.step_count_limit()),
                 r.move_count_limit().or(p.move_count_limit()),
+                r.unimproved_step_count_limit()
+                    .or(p.unimproved_step_count_limit()),
             )
         } else {
             (
                 p.unimproved_spent_limit(),
                 p.step_count_limit(),
                 p.move_count_limit(),
+                p.unimproved_step_count_limit(),
             )
         };
-        let diminished = unimproved.is_none() && steps.is_none() && moves.is_none();
+        let diminished = unimproved.is_none()
+            && steps.is_none()
+            && moves.is_none()
+            && unimproved_steps.is_none();
         // All integer values originate in validated signed profile inputs.
         let profile = TerminationProfile::new(
             r.spent_limit().or(p.spent_limit()),
@@ -70,7 +88,9 @@ impl TerminationResolver {
                 None
             },
         )
-        .expect("resolved validated profiles cannot conflict");
+        .expect("resolved validated profiles cannot conflict")
+        .with_unimproved_step_limit(unimproved_steps.map(|n| n as i64))
+        .expect("resolved count policies cannot conflict");
         ResolvedTermination {
             profile,
             diminished,
@@ -99,6 +119,7 @@ impl ResolvedTermination {
         limits.max_time = self.profile.spent_limit();
         limits.max_unimproved_time = self.profile.unimproved_spent_limit();
         limits.max_move_evaluations = self.profile.move_count_limit();
+        limits.max_unimproved_steps = self.profile.unimproved_step_count_limit();
     }
     /// Bind effective shared limits and replace each local phase's slowdown
     /// policy, including clearing old tuning when disabled. Explicit phase-local
