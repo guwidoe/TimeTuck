@@ -762,3 +762,9 @@ Exact method/helper identities and substitutions are in `compat/provenance.json`
 (Apache-2.0). Native indexed joins and retirement replace the Java dataset/session
 surface; exact source identities and substitutions are in `compat/provenance.json`.
 The sparse retirement implementation and native regressions are original.
+
+`crates/solver/tests/sampling_iterator_bias_cases.rs` adapts both pinned Community
+`SamplingIteratorBiasIT` methods and statistical helpers from `BiasReport`
+(Apache-2.0). Native datasets, keyed sample assembly and PRNG streams replace Java
+objects/session APIs. All parameters, trial counts and probability bounds are
+preserved; exact identities and substitutions are in `compat/provenance.json`.

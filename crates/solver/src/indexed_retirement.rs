@@ -5,7 +5,10 @@ use std::{collections::BTreeMap, iter::FusedIterator};
 /// Uniform draws with replacement over live ranks. `retire` removes only the
 /// most recent draw, using sparse swap-removal. Equal payloads at distinct ranks
 /// remain distinct occurrences. No source materialization is needed, even for a
-/// `u128::MAX`-sized space. Storage is O(retirements), lookup O(log retirements).
+/// `u128::MAX`-sized space. Storage is O(retirements). Small prefixes use sparse
+/// lookup; after retiring at least 1/32 of a usize-sized space, remaining ranks
+/// become a dense vector with constant-time lookup/removal. Promotion preserves
+/// the exact draw order and can retain up to 31 times the retirement count.
 /// Drawing without retirement does not grow storage. Cloning forks all state.
 ///
 /// No draw is available to retire before the first draw, after a retirement, or
@@ -15,6 +18,8 @@ use std::{collections::BTreeMap, iter::FusedIterator};
 pub struct RetiringIndices {
     remaining: u128,
     moved: BTreeMap<u128, u128>,
+    dense: Option<Vec<u128>>,
+    length: u128,
     last: Option<u128>,
     random: SplitMix64,
 }
@@ -23,6 +28,8 @@ impl RetiringIndices {
         Self {
             remaining: length,
             moved: BTreeMap::new(),
+            dense: None,
+            length,
             last: None,
             random: SplitMix64::new(seed),
         }
@@ -30,8 +37,9 @@ impl RetiringIndices {
     pub fn remaining(&self) -> u128 {
         self.remaining
     }
+    /// Retained logical slots (sparse remappings or dense active ranks).
     pub fn stored_indices(&self) -> usize {
-        self.moved.len()
+        self.dense.as_ref().map_or(self.moved.len(), Vec::len)
     }
     pub fn is_empty(&self) -> bool {
         self.remaining == 0
@@ -47,17 +55,42 @@ impl RetiringIndices {
             self.random.below_wide(self.remaining)
         };
         self.last = Some(rank);
-        Some(self.moved.get(&rank).copied().unwrap_or(rank))
+        Some(match &self.dense {
+            Some(values) => values[rank as usize],
+            None => self.moved.get(&rank).copied().unwrap_or(rank),
+        })
     }
     pub fn retire(&mut self) -> Result<(), NoDrawToRetire> {
         let rank = self.last.take().ok_or(NoDrawToRetire)?;
         let end = self.remaining - 1;
-        let replacement = self.moved.remove(&end).unwrap_or(end);
-        self.moved.remove(&rank);
-        if rank != end && replacement != rank {
-            self.moved.insert(rank, replacement);
+        if let Some(values) = &mut self.dense {
+            values.swap_remove(rank as usize);
+        } else {
+            let replacement = self.moved.remove(&end).unwrap_or(end);
+            self.moved.remove(&rank);
+            if rank != end && replacement != rank {
+                self.moved.insert(rank, replacement);
+            }
         }
         self.remaining = end;
+        if self.dense.is_none()
+            && end > 0
+            && self.length - end >= self.length.div_ceil(32)
+            && let Ok(count) = usize::try_from(end)
+        {
+            // Allocation failure leaves the sparse representation usable. Fill
+            // in active-rank order, so promotion consumes no random numbers and
+            // preserves the exact same sequence as continued sparse sampling.
+            let mut values = Vec::new();
+            if values.try_reserve_exact(count).is_ok() {
+                values.extend(0..end);
+                for (&slot, &value) in &self.moved {
+                    values[slot as usize] = value;
+                }
+                self.dense = Some(values);
+                self.moved.clear();
+            }
+        }
         Ok(())
     }
 }

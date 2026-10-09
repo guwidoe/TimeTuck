@@ -561,8 +561,9 @@ pub use neighborhood_sample::{
 
 mod neighborhood_dataset;
 pub use neighborhood_dataset::{
-    CachedNeighborhoodJoin, DatasetPermutation, DatasetRandom, NeighborhoodDataset,
-    NeighborhoodDatasetStore, NeighborhoodJoin, repeated_keyed_samples, repeated_samples,
+    CachedNeighborhoodJoin, DatasetPermutation, DatasetRandom, LazyDatasetPermutation,
+    NeighborhoodDataset, NeighborhoodDatasetStore, NeighborhoodJoin, repeated_keyed_samples,
+    repeated_samples,
 };
 
 mod dataset_enumeration;

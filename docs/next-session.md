@@ -20606,3 +20606,65 @@ prebuild2.92s;18Rust jobs ran/715reused;46Python jobs reused.5381Rust tests and
 248doctests pass. New dataset-bucket method individually passed; reviewed Rust
 unchanged. Source/verification/live freshness agrees. No timing comparison was
 refreshed. All task handles terminal except dashboard81616. Goal active/incomplete.
+
+## Lazy permutations for small dataset samples
+
+Baseline45e98ef; previous goal turn was progress. NeighborhoodDataset samples,
+NeighborhoodJoin keyed samples and cached join samples previously shuffled all
+source indices even for a one-member result. Added LazyDatasetPermutation and
+lazy_exhaustive_iter, snapshot-owned with cloning only on yield. Final selection
+keeps eager ordering for draining rules or minimum>=ceil(dataset length/32), and
+uses lazy ordering otherwise. Sampler::exhausts_source is a stable optimization
+hint, forwarded by PillarSampler and true for draining SizeSampler rules. Lazy
+sample traces change; no Java/eager trace equivalence. Existing eager API unchanged.
+
+Initial sparse-only experiment had ~40x slower10000row full drains despite large
+prefix gains. Archived work/lazy-dataset-sparse-performance.json and
+work/lazy-dataset-sparse-candidate.patch. Added adaptive dense retirement after
+1/32 consumed, preserving exact rank order/PRNG sequence and falling back on
+allocation failure. Then retained eager traversal for known full/large samples;
+explicit lazy full drains remain slower and are documented as a tradeoff.
+
+Focused88225 TERMINAL0:34tests pass before adaptive storage. Adaptive1730 and
+formatting10577 TERMINAL0; unit dense-reference comparison and9integration cases
+pass. The promotion fill was simplified to linear identity fill plus remappings
+before the integration/release run; final broad gate remains authoritative.
+Final focused+measurement39503 covers4original lazy regressions,23existing adapted
+cases,6existing dataset regressions and2new upstream bias methods. Benchmark
+compares optimized native eager/lazy permutation prefixes, not whole solver or
+Java. Final raw work/lazy-dataset-performance.json records sources/executable,
+three processes, one warmup+five alternating samples per case; duplicate/range/
+length checks are outside timing. Two upstream methods and one helper fixture
+appended, preserving all200000trial combinations/five-sigma bounds. No UI change.
+Final focused+measurement39503 TERMINAL0. Final optimized medians (per traversal):
+100000rows/10draws eager956913ns vs lazy1275ns;100000/100:1080749ns vs25736ns.
+10000/10000 explicit full drain:85535ns eager vs289821ns lazy (~3.39x slower),
+so default full-drain/large-minimum sample rules retain eager ordering. These
+are isolated ordering measurements, not sampler/solver/Java-wide speedups; timings
+vary across runs. Release build25.66s. Native seeds/orders intentionally differ;
+both traversals verified requested length, uniqueness and in-range identities.
+Final gate60236 on frozen Rust via work/prebuild_lazy_dataset.py. No Java/dashboard
+benchmark refresh; older measurements retain their dates and freshness.
+
+Required lazy-dataset gate TERMINAL0. 5387 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 649, 'REUSE': 86}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3138, 'failed': 0, 'pending': 1435, 'excluded': 282, 'unverified': 0, 'percent': 64.634}.
+Source before/after matched: 315b3d7647df79f6f696edd29e8cfa51ea3dd63be95da0f5d3c7fdbb0fc6e8e7
+Live freshness matched verification digest: 7d193478cecba23c26e293e6dd32e4028554e3c0b16eac6d80952a298c2b4002.
+Prior ledger records unchanged; Two upstream methods and one helper fixture record appended.
+Log work/lazy-dataset-final-check.log; evidence work/lazy-dataset-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate60236 and report/live evidence27070 TERMINAL0. Broad rebuild7m08s;
+649Rust jobs ran,86reused;46Python jobs reused.5387Rust tests,248doctests pass.
+3138/4855upstream methods passed(64.634%),0failed,1435pending,282excluded.
+Reviewed source hashes unchanged; final evidence agrees with live dashboard.
+No further Rust edits after final verification began. Goal remains incomplete.
+
+Next-batch reconnaissance (no implementation yet): read pinned test-only
+SubListSamplingBiasIT in full. Its two pending methods use200000trials/five-sigma:
+uniform18admissible spans on7values,min2/max5; and entityweights2/3/5 via an
+independent seed1 assigned-value picker and seed0 span draws,min1/maxInteger.MAX_VALUE.
+Existing SubListSelection::random_iter_for_entities_with can preserve owner weighting;
+ListAssignment::location resolves actual selected-value owners. Do not substitute
+global span weighting for value-seeded entity weighting. This needs a complete
+adapter/provenance before any credit. No next-batch source changes were made.

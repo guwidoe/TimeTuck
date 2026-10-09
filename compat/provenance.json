@@ -47154,6 +47154,36 @@
       "local_test": "buckets_weight_remaining_members_at_each_requested_draw",
       "status": "implemented",
       "modifications": "Preserve every draw-index parameter1/2/5, 200000 trials each, seed-zero root, probe key50, greater-than-or-equal join against keys10/20/30 with sizes2/3/5, positive category counts and five-sigma binomial bounds for shares0.2/0.3/0.5. Native CandidateIndex joins and borrowed CandidatePairs retirement replace cached Java dataset/session lookup and exhaustiveIterator; retire each successful draw to implement sampling without replacement. Stable numeric identities replace test-domain instances with duplicate code strings. Native SampleRandom supplies per-trial seeds; no Java PRNG trace or framework-session parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/sampling_iterator_bias_cases.rs",
+      "id": "SamplingIteratorBiasIT.uniSamplingIteratorSeedsEveryRowUniformly",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/SamplingIteratorBiasIT.java",
+      "upstream_test": "uniSamplingIteratorSeedsEveryRowUniformly",
+      "local_test": "unary_samples_seed_every_row_uniformly",
+      "status": "implemented",
+      "modifications": "Preserve 200000 trials, ten distinct rows, exactly-one samples, root seed zero, positive category coverage and five-sigma uniform binomial bounds. NeighborhoodDataset.samples and SizeSampler replace cached Java dataset sampling; stable integer identities replace v0..v9 codes. Native seed splitting/order replace Java random traces."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/sampling_iterator_bias_cases.rs",
+      "id": "SamplingIteratorBiasIT.biSamplingIteratorMembersAreUniformAtEveryDrawPositionWithinASlice",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/SamplingIteratorBiasIT.java",
+      "upstream_test": "biSamplingIteratorMembersAreUniformAtEveryDrawPositionWithinASlice",
+      "local_test": "binary_samples_weight_members_at_each_requested_position",
+      "status": "implemented",
+      "modifications": "Preserve all draw positions1/2/5 with200000trials each, one probe, equal-key join, uniquely identified right rows grouped in sizes2/3/5 and five-sigma expected0.2/0.3/0.5 shares. Native NeighborhoodJoin.samples_for with PillarSampler(SizeSampler::exactly) replaces Java per-key sampling. Tuples (probe,bucket,member) replace prefixed value-code strings; native PRNG order differs from Java. The sample assembler is exercised, not merely a raw query iterator."
     }
   ],
   "fixtures": [
@@ -63731,6 +63761,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
       "upstream_test": "expectWeights; assertWithinSigma; deviations",
       "modifications": "Adapt positive category coverage and binomial standard-deviation assertions with explicit 200000 trial count, expected0.2/0.3/0.5 probabilities and five-sigma threshold. Include observed count, draw position, expected probability and sigma in failure messages; omit logging tables and unrelated ratio assertions. Seed splitting follows the already documented native substitution for AbstractBiasIT.splitFrom."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/sampling_iterator_bias_cases.rs",
+      "id": "sampling-iterator-bias-statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectUniform; expectWeights; assertWithinSigma; deviations",
+      "modifications": "Adapt positive category counts and five-sigma binomial assertions for the original200000trials, ten uniform unary categories and binary shares0.2/0.3/0.5. Include actual count, probability and sigma on failure; additionally assert count total. Omit log tables and unrelated ratio assertions."
     }
   ]
 }

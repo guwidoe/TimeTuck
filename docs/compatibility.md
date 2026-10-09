@@ -4884,3 +4884,32 @@ parameter cases and five-sigma 20%/30%/50% bucket shares after successive draws.
 Native indexed greater-or-equal joins and retirement replace Java dataset/session
 iteration. Provenance records test/helper attribution and native PRNG substitution.
 This establishes query sampling behavior, not Java lifecycle or timing parity.
+
+Dataset sampling now chooses between eager and lazy permutations. Small samples
+use `lazy_exhaustive_iter`, which retains the snapshot, clones payloads on demand
+and starts with sparse rank bookkeeping. Full-drain rules and minimum sizes at
+least one thirty-second of the dataset retain eager Fisher-Yates ordering.
+`Sampler::exhausts_source` is a stable optimization hint (false for custom rules
+unless overridden); `SizeSampler::all` and its keyed wrapper forward the hint.
+Sample decisions, distinct membership, minimum failures and snapshot isolation
+remain unchanged. Native small-sample order changes, without Java trace parity.
+
+Retiring rank storage now promotes to dense remaining indices after at least
+1/32 of its original space has retired and the remainder fits usize. Promotion
+preserves active-rank order and consumes no randomness; failed allocation keeps
+sparse storage. Dense capacity is bounded by the consumed fraction. Huge virtual
+spaces and untouched/prefix queries retain sparse state.
+
+Both `SamplingIteratorBiasIT` methods additionally preserve all original200000
+trial cases, unary uniformity, binary draw positions1/2/5 and five-sigma20/30/50%
+shares through actual sample assembly. Original regressions cover100000row
+prefixes, eager full-drain selection, clones, replay, cached/uncached keyed
+filters, minimum handling and held snapshots after source updates.
+
+An isolated optimized native ordering benchmark on the final source measured a
+10-row prefix of100000rows at0.957ms eager versus0.00128ms lazy (construction outside
+timing). Explicit10000row full drains were0.0855ms eager versus0.290ms lazy; normal
+full-drain sample rules retain eager order. Raw results include three processes,
+warmups, alternating samples and source/executable identities in
+`work/lazy-dataset-performance.json`. These are ordering costs, not whole-solver
+or Java speedups. Old dashboard performance records retain their dates/freshness.

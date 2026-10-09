@@ -145,6 +145,26 @@ impl<T: Clone> NeighborhoodDataset<T> {
             order: order.into_iter(),
         }
     }
+    /// Lazy uniform permutation for prefix sampling. Opening takes one seed
+    /// from the caller and clones only the snapshot handle. Each consumed row
+    /// uses adaptive sparse/dense rank bookkeeping; payloads clone on demand.
+    /// The independent random stream means partial consumption does not change
+    /// the caller's later draws. Order differs from exhaustive_iter's eager
+    /// Fisher-Yates permutation; both preserve every source occurrence once.
+    pub fn lazy_exhaustive_iter(&self, random: &mut SampleRandom) -> LazyDatasetPermutation<T> {
+        let seed = random.index(NonZeroUsize::new(usize::MAX).unwrap()) as u64;
+        LazyDatasetPermutation {
+            rows: self.rows.clone(),
+            indices: crate::RetiringIndices::new(self.len() as u128, seed),
+        }
+    }
+    fn sample_order(&self, random: &mut SampleRandom, eager: bool) -> SampleOrder<T> {
+        if eager {
+            SampleOrder::Eager(self.exhaustive_iter(random))
+        } else {
+            SampleOrder::Lazy(self.lazy_exhaustive_iter(random))
+        }
+    }
     /// Sampling with replacement. Nonempty snapshots never run dry. Standard Rust
     /// consumers such as collect/for_each therefore require an explicit bound.
     pub fn random_iter<'a>(&self, random: &'a mut SampleRandom) -> DatasetRandom<'a, T> {
@@ -161,9 +181,53 @@ impl<T: Eq + Clone> NeighborhoodDataset<T> {
         seed: u64,
     ) -> impl FusedIterator<Item = Result<NeighborhoodSample<T>, SampleError>> + use<T, S> {
         let snapshot = self.clone();
-        repeated_samples(move |r| snapshot.exhaustive_iter(r), rule, seed)
+        let eager = rule.exhausts_source() || rule.minimum_size() >= self.len().div_ceil(32);
+        repeated_samples(move |r| snapshot.sample_order(r, eager), rule, seed)
     }
 }
+/// Snapshot-owning lazy permutation. Equal payloads at different source rows
+/// remain distinct occurrences. Bookkeeping starts sparse, then switches to
+/// dense indices after sufficient consumption. No Clone work is
+/// performed until next() yields a member. Native random ordering is reproducible
+/// but not compatible with the eager permutation or Java PRNG traces.
+pub struct LazyDatasetPermutation<T> {
+    rows: Arc<[T]>,
+    indices: crate::RetiringIndices,
+}
+impl<T> LazyDatasetPermutation<T> {
+    pub fn stored_indices(&self) -> usize {
+        self.indices.stored_indices()
+    }
+}
+impl<T: Clone> Iterator for LazyDatasetPermutation<T> {
+    type Item = T;
+    fn next(&mut self) -> Option<T> {
+        let index = self.indices.draw()?;
+        self.indices.retire().expect("rank was drawn");
+        Some(self.rows[index as usize].clone())
+    }
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let n = self.indices.remaining() as usize;
+        (n, Some(n))
+    }
+}
+impl<T: Clone> ExactSizeIterator for LazyDatasetPermutation<T> {}
+impl<T: Clone> FusedIterator for LazyDatasetPermutation<T> {}
+
+enum SampleOrder<T> {
+    Eager(DatasetPermutation<T>),
+    Lazy(LazyDatasetPermutation<T>),
+}
+impl<T: Clone> Iterator for SampleOrder<T> {
+    type Item = T;
+    fn next(&mut self) -> Option<T> {
+        match self {
+            Self::Eager(i) => i.next(),
+            Self::Lazy(i) => i.next(),
+        }
+    }
+}
+
 pub struct DatasetPermutation<T> {
     rows: Arc<[T]>,
     order: std::vec::IntoIter<usize>,
@@ -307,12 +371,13 @@ impl<A: Eq + Clone, B: Eq + Clone, F: Fn(&A, &B) -> bool> NeighborhoodJoin<A, B,
         seed: u64,
     ) -> impl FusedIterator<Item = Result<NeighborhoodSample<B>, SampleError>> {
         let present = self.left.iter().any(|a| a == &key);
+        let eager = rule.exhausts_source() || rule.minimum_size() >= self.right.len().div_ceil(32);
         repeated_keyed_samples(
             key,
             move |key, r| {
                 let key = key.clone();
                 self.right
-                    .exhaustive_iter(r)
+                    .sample_order(r, eager)
                     .filter(move |b| present && (self.predicate)(&key, b))
             },
             rule,
@@ -371,6 +436,7 @@ impl<A: Ord + Clone, B: Eq + Clone> CachedNeighborhoodJoin<A, B> {
         seed: u64,
     ) -> impl FusedIterator<Item = Result<NeighborhoodSample<B>, SampleError>> + use<A, B, S> {
         let slice = self.slice(&key);
-        repeated_keyed_samples(key, move |_, r| slice.exhaustive_iter(r), rule, seed)
+        let eager = rule.exhausts_source() || rule.minimum_size() >= slice.len().div_ceil(32);
+        repeated_keyed_samples(key, move |_, r| slice.sample_order(r, eager), rule, seed)
     }
 }

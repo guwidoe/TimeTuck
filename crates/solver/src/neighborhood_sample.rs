@@ -127,6 +127,13 @@ impl Error for SampleError {}
 /// target_size is a hint/contract, not an assembler-enforced stopping point;
 /// the rule itself decides when to stop. minimum_size is the accepted-member floor.
 pub trait Sampler<T> {
+    /// Stable traversal hint: true when this rule intends to drain its source.
+    /// Assemblers preserve decisions regardless of the hint; datasets use it to
+    /// choose eager ordering instead of optimizing a small prefix. Custom rules
+    /// default to prefix sampling. Keep the hint fixed during repeated sampling.
+    fn exhausts_source(&self) -> bool {
+        false
+    }
     fn reset(&mut self, _random: &mut SampleRandom) {}
     fn minimum_size(&self) -> usize {
         1
@@ -150,6 +157,9 @@ pub trait KeyedSampler<K, T>: Sampler<T> {
 #[derive(Clone, Debug)]
 pub struct PillarSampler<S>(pub S);
 impl<T, S: Sampler<T>> Sampler<T> for PillarSampler<S> {
+    fn exhausts_source(&self) -> bool {
+        self.0.exhausts_source()
+    }
     fn reset(&mut self, r: &mut SampleRandom) {
         self.0.reset(r);
     }
@@ -228,6 +238,9 @@ impl SizeSampler {
     }
 }
 impl<T> Sampler<T> for SizeSampler {
+    fn exhausts_source(&self) -> bool {
+        self.drain
+    }
     fn reset(&mut self, r: &mut SampleRandom) {
         self.reset(r);
     }
