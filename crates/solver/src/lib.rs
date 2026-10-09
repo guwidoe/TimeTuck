@@ -1222,3 +1222,5 @@ pub use filtered_pair_sampling::FilteredPairSampler;
 
 mod provider_group;
 pub use provider_group::MoveProviderGroup;
+
+mod int_collector_counts;

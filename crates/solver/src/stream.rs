@@ -15,7 +15,7 @@
 //! assert_eq!(score, HardSoftScore::new(-2, 0));
 //! ```
 
-use crate::SnapshotMap;
+use crate::int_collector_counts::IntCollectorCounts;
 use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::hash::Hash;
@@ -40,7 +40,7 @@ pub struct IntSummary {
 /// Insertion panics before modifying state if the total count would overflow.
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct IntCollector {
-    values: SnapshotMap<i64, usize>,
+    values: IntCollectorCounts,
     count: usize,
     sum: i64,
 }
@@ -52,21 +52,15 @@ impl IntCollector {
 
     pub fn insert(&mut self, value: i64) {
         let count = self.count.checked_add(1).expect("collector count overflow");
-        self.values
-            .insert(value, self.values.get(&value).copied().unwrap_or(0) + 1);
+        self.values.increment(value);
         self.count = count;
         self.sum = self.sum.wrapping_add(value);
     }
 
     /// Returns false without modifying state if this value is absent.
     pub fn remove(&mut self, value: i64) -> bool {
-        let Some(&count) = self.values.get(&value) else {
+        if !self.values.remove(value) {
             return false;
-        };
-        if count == 1 {
-            self.values.remove(&value);
-        } else {
-            self.values.insert(value, count - 1);
         }
         self.count -= 1;
         self.sum = self.sum.wrapping_sub(value);
@@ -78,8 +72,8 @@ impl IntCollector {
             count: self.count,
             distinct_count: self.values.len(),
             sum: self.sum,
-            min: self.values.first_key_value().map(|(&value, _)| value),
-            max: self.values.last_key_value().map(|(&value, _)| value),
+            min: self.values.min(),
+            max: self.values.max(),
         }
     }
 }

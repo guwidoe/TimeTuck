@@ -20799,3 +20799,52 @@ instrumentation overhead, not a current runtime comparison. work/current-stream-
 and work/stream-workspace-native-performance.json also contain earlier work;
 workspace baseline3f5407b. Do not rerun every benchmark or relabel old measurements.
 Use a deliberate focused current profile if returning to stream performance.
+
+## Inline integer collector frequencies
+
+Baseline dc2f71f. Added private IntCollectorCounts: sorted two-value inline
+frequencies, persistent tree promotion on third distinct value, demotion at one.
+Logical equality ignores representation. Shared IntCollector uses it; public
+behavior unchanged. Two original independent-multiset/snapshot/equality tests;
+no adapted cases or provenance changes. Final focused handle3741 TERMINAL0:
+2original+5existing adapted cases pass; release build and native timing complete.
+Initial four-entry variant caused4.38x threshold churn regression; hysteresis
+fixed rebuilding, then two entries gave better whole-solve results. Those rejected
+measurements remain labeled separately under work/inline-collector-*.
+
+Final eight-workload before/after medians improved2–9%, identical scores/full
+assignments/callback counts.96-variable tabu swap426.398->389.105ms. Three fresh
+processes, alternating runtimes, one warmup/five samples, independent score and
+move validation. Raw work/inline-collector-performance.json records executable
+and Rust source hashes. Isolated tree-churn microbench has up to7% overhead;
+do not claim universal improvement. Final work/collector-threshold-final.tsv.
+Profile work/swap-current-profile.json is instrumented diagnostic evidence only.
+
+Fresh Java stream benchmark handle16466 TERMINAL0:128valid/128equal-scorecases.
+96-variable hillchange Rust30.470/Java52.122ms; tabuchange29.654/56.704;
+hillswap411.347/181.660; tabuswap379.532/198.144. Large swap remains slower.
+Log work/inline-collector-java-performance.log; work/stream-performance.json
+contains measured results. No other benchmark or browser refresh. Final gate
+still pending at this entry; use following terminal evidence before committing.
+
+Required inline-collector gate TERMINAL0. 5411 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 693, 'REUSE': 49}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3147, 'failed': 0, 'pending': 1426, 'excluded': 282, 'unverified': 0, 'percent': 64.82}.
+Source before/after matched: 400bd648978a1ffe7914d66371439dabbae59d399549bcd379e977b960c3afc0
+Live freshness matched verification digest: 0b4a4150266fa0d9b12d80fa3d28eba1f365b76284cd276c0dfa5d402882fd03.
+Prior ledger records unchanged; No provenance changes or upstream coverage increase.
+Log work/inline-collector-final-check.log; evidence work/inline-collector-evidence.json.
+The stream Java comparison was refreshed; other performance measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final frozen-source gate36486 and evidence72584 TERMINAL0. Clippy30.25s,
+affected-target compilation6m25s;693Rust jobs ran,49Rust and46Python jobs reused.
+5411Rust tests and248doctests pass. Native timing source hashes match final Rust.
+Stream benchmark dashboard status current; source and live verification freshness
+match. All task build/check handles terminal; goal remains active/incomplete.
+
+Read-only next performance reconnaissance: grouped_batch.rs coalesces each batch
+through a fresh BTreeMap before projection; incremental_stream/group_batch.rs
+prepares touched collectors through contains_key/insert/get_mut repeated searches.
+These are possible allocation/lookup reductions, not measured improvements yet.
+Preserve first identity/key representatives, final payload mapping order, panic
+rollback and publication semantics. No next-batch source edits were made.

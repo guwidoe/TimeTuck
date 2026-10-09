@@ -4968,3 +4968,26 @@ introspected and their methods remain pending. Keep groups explicit until union
 compilation. Original regressions verify deep nesting, empty groups, lazy factory
 calls, grouping-independent traces, finite-leaf exhaustion, lifecycle forwarding,
 and provider-backed solving with both scoring backends. No timing claim is made.
+
+Integer stream collectors now store up to two distinct values inline and promote
+to persistent frequency trees on the third. Trees demote at one distinct value,
+avoiding rebuilds when repeatedly crossing two/three values. Equality compares
+logical frequencies across representations; held snapshots, wrapping sums,
+duplicate counts and extrema retain their semantics. Two original regressions
+cover repeated transitions and independently computed summaries; no upstream
+coverage credit is added.
+
+An isolated before/after benchmark against dc2f71f measured eight complete stream
+search workloads (32/96 variables, change/swap, hill climbing/tabu,20steps,
+three processes and five measured samples per process). Medians improved2–9%;
+96-variable tabu swap decreased426.4ms to389.1ms. Scores, assignments and callback
+counts matched. Small standalone tree-churn workloads still showed up to7%
+overhead; this is not a universal speedup. Raw evidence and source identities:
+work/inline-collector-performance.json and work/collector-threshold-final.tsv.
+
+A separate fresh Java comparison validated128runs and128equal-score cases.
+At96variables Rust/Java medians were30.47/52.12ms for hill change,
+29.65/56.70ms for tabu change,411.35/181.66ms for hill swap, and
+379.53/198.14ms for tabu swap. Thus larger swap workloads remain slower than
+Timefold. This refresh updates only the stream comparison; other measurements
+retain their existing dates and calculated freshness.
