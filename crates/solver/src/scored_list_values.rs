@@ -1,4 +1,5 @@
 //! Value-tabu metadata for candidates already validated by a score director.
+mod compound;
 use crate::{
     ListAssignment, ListMove, ListProblem, MixedAssignment, MixedMove, MixedPlanningValue,
     MixedProblem,
@@ -17,11 +18,7 @@ impl<V: Eq + Clone> ListProblem<V> {
             match children.as_slice() {
                 [] => return vec![],
                 [child] => movement = child,
-                _ => {
-                    return self
-                        .planning_values(before, movement)
-                        .expect("scored composite has valid value metadata");
-                }
+                _ => return compound::capture(before, movement),
             }
         }
         let mut values = Vec::new();

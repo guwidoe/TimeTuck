@@ -5014,9 +5014,10 @@ Value-tabu capture inside list and mixed local search now uses the already-score
 candidate's validation. Primitive metadata reads the pre-move lists and copies only
 distinct moved values, preserving first-touch order and separate basic/list keys.
 Empty composites capture nothing; single-child wrappers are unwrapped iteratively.
-Multi-child composites retain the existing replay path because later coordinates
-refer to earlier edits. Public planning_values still performs full model, pin,
-range and dependency validation. The internal shortcut is used only after a
+Multi-child composites replay coordinates on a draft of borrowed values, copying
+only touched list rows and preserving later children’s view of earlier edits.
+Only distinct captured values are cloned into the result. Public planning_values
+still performs full model, pin, range and dependency validation. The internal shortcut is used only after a
 candidate has successfully applied and scored from the corresponding snapshot.
 
 Original comparisons cover valid primitive moves across pins/ranges, sequential
@@ -5034,3 +5035,23 @@ independently rescored and validated. This47–63% reduction concerns these work
 not Java performance or every solver configuration. Raw results/source identities:
 work/scored-values-performance.json. Existing dashboard benchmarks retain their
 measurement dates and computed freshness; no Java benchmark was refreshed.
+
+Compound metadata capture now handles assignment, relocation, swaps, reversed
+sublist changes, unequal sublist swaps and unassignment without replaying model
+validation or cloning the whole assignment. The draft borrows values from the
+original assignment and move payloads; untouched rows are never copied. Nested
+children execute iteratively in order. First-touch payload identity survives a
+later unassign/reassign of an equal value. Snapshot clone failures cannot mutate
+the original assignment. The scored-candidate precondition remains internal.
+
+Original regressions compare200varied nested sequences and their final rows with
+validated application, cover every primitive, and check sparse clone counts and
+panic safety. The public validation path remains unchanged. A native full-solve
+benchmark against116ca39 uses a two-swap compound provider, four lists, value tabu,
+and32/96values at10/30steps. Medians before->after(ms):12.027->7.124,
+335.891->157.504,27.334->19.293,999.466->467.132. Three alternating fresh-process
+forks with warmup and three samples preserve identical scores, best assignments,
+callback counts and step counts; every result is independently rescored/validated.
+The29–53% runtime reduction is specific to these workloads. It is not a Java
+comparison. Raw evidence: work/compound-values-performance.json. No additional
+upstream-method credit or dashboard benchmark refresh is claimed.

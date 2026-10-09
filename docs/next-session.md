@@ -20963,3 +20963,50 @@ All Rust source hashes match the measured candidate; saved review hashes in
 work/scored-values-reviewed-source.json. Provenance entirely unchanged. Live/report
 verification freshness matches. No Java benchmark/browser refresh. All task-owned
 build/check/measurement handles terminal; goal remains active/incomplete.
+
+## Borrowed draft for scored compound value capture
+
+Baseline116ca39; previous turn was progress. Replaced the internal multi-child
+composite fallback with scored_list_values/compound.rs. MetadataDraft lazily copies
+only touched rows as borrowed references, then replays all primitive operations in
+ordered iterative traversal. Span reversal, unequal same-list replacement ordering,
+post-removal destinations and assigned payload references preserve native semantics.
+Distinct first-touch values are cloned only after replay; the original assignment
+is immutable on success/error/panic. Public planning_values validation unchanged;
+internal calls still require a move already successfully applied/scored from before.
+
+Focused44572 TERMINAL0: five scored-list unit tests plus list-gather/value-tabu
+regressions pass. Two new tests cover200varied nested sequences of up to12children, final rows,
+every primitive, touched-row count2, cloning only2values from1000, and clone panic
+preservation. Added a third original equal-identity reassign/first-payload test
+before the final benchmark; final gate verifies it. No provenance changes.
+
+Baseline release/harness46194 and final release/benchmark19647 TERMINAL0.
+Native before/after full solves use4lists and a provider composing each unique swap
+with a second fixed swap, value-tabu tenure3/aspiration, best-accepted selection,
+32/96values and10/30steps. Three fresh-process forks alternate baseline/candidate;
+1warmup+3samples. Median ms before->after:32/10 12.027->7.124;
+96/10 335.891->157.504;32/30 27.334->19.293;96/30 999.466->467.132.
+Scores, full best assignments, callback counts and completed steps identical;
+independent rescoring and model/completeness validation on every run. Gain29–53%
+for these workloads only; not a Java/global claim. Raw source/executable identities
+in work/compound-values-performance.json; harness work/compound_values_benchmark.rs.
+Final Rust source frozen; no Java/dashboard benchmark or browser refresh. Required gate pending.
+
+Required compound-values gate TERMINAL0. 5428 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 656, 'REUSE': 88}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3155, 'failed': 0, 'pending': 1418, 'excluded': 282, 'unverified': 0, 'percent': 64.985}.
+Source before/after matched: 3308ffe705f79f1e47780157ae65059bbc9f125b773f158514a17851a13d5e94
+Live freshness matched verification digest: d789ae03a3e7355d98fde721630ca2a8f2eeb54749167cfc4a71041acba78f62.
+Prior ledger records unchanged; No upstream methods or helper fixtures added; provenance unchanged.
+Log work/compound-values-final-check.log; evidence work/compound-values-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final compound gate20249 and evidence53868 TERMINAL0. Clippy28.58s; affected
+target compilation3m43s. All5428Rust tests and248doctests pass; source hashes
+match the measured candidate. No provenance changes or Java benchmark refresh.
+User clarification: performance remains a core priority; improve overall throughput
+by batching related shared-code changes and reusing unchanged verification.
+Committed checkpoints over roughly10hours:3040->3155upstream passes,62.616->64.985%.
+This is test-method coverage, not percentage completion of the entire rewrite.
+Goal remains active/incomplete.
