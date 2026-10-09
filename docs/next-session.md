@@ -20668,3 +20668,46 @@ Existing SubListSelection::random_iter_for_entities_with can preserve owner weig
 ListAssignment::location resolves actual selected-value owners. Do not substitute
 global span weighting for value-seeded entity weighting. This needs a complete
 adapter/provenance before any credit. No next-batch source changes were made.
+
+## Indexed value-seeded sublist sampling
+
+Baseline5a58ab5; previous goal turn was progress. Added borrowed
+ValueSeededSubListSelection with BTreeMap value-to-owner lookup and existing
+entity-local span ranking. No payload cloning, no per-draw linear owner search;
+lookup O(log n), after O(n log n) construction plus ordinary model validation.
+Unknown/unassigned/pinned/too-short seeds skip without rank draws; pinned-prefix
+seed exclusion is native policy. Bounded seed iterators count rejections, preserve
+multiplicity and fuse. Original tests cover independent span catalog, clone and
+comparison instrumentation, lazy/bounded inputs, replay and move/undo rebuilding.
+Adapted both SubListSamplingBiasIT methods with full200000trials,18span uniformity
+and2:3:5entity weights from real selected-value owner lookup. One BiasReport helper
+record appended; old ledger records remain unchanged. No Java or timing claim.
+Initial focused17633 TERMINAL0,2adapted+3original pass; final regression adds
+transaction/replay and counts Eq as well as Ord comparisons before final gate.
+
+Required value-seeded-sublist gate TERMINAL0. 5393 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 734}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3140, 'failed': 0, 'pending': 1433, 'excluded': 282, 'unverified': 0, 'percent': 64.676}.
+Source before/after matched: 2bd59038e4139cdccb4e6b458f882f3da5b91eb93cbfc7a11971072b14e823e8
+Live freshness matched verification digest: 766a68129179e1bf4911eb5482ac8a8bce0a0e38c9ffb8856b7edf155482f2d7.
+Prior ledger records unchanged; Two upstream methods and one helper fixture record appended.
+Log work/value-seeded-sublist-final-check.log; evidence work/value-seeded-sublist-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate29535 and live/report evidence64891 TERMINAL0. Clippy20.99s,
+affected-target prebuild6.04s;3Rust jobs ran/734reused,46Python jobs reused.
+5393Rust tests and248doctests pass;3140/4855upstream methods passed(64.676%).
+Reviewed final Rust unchanged; prior provenance prefix preserved. No benchmark or
+browser refresh. All task build/check handles terminal; dashboard remains live.
+Goal active/incomplete.
+
+Read-only next-batch reconnaissance: fully read pinned test-only
+LeftRetirementBiasIT (two pending methods) and PairFairnessBiasIT's remaining
+filteringOnlyJoin method. First:20entities,dead4/8/12/16,1000warmup then200000draws,
+uniform16surviving entities. Second:hard/easy predicate join,20values,hard has one
+match/easy20;400000draws with hard stillpositive in last100000 and50/50entity shares.
+Filtering-only pair case:620000draws, existing BucketedFixture sizes, smallest vs
+largest per-move share ratio>=5. This requires explicit left-uniform sampling,
+not existing global pair-uniform ordering. No production source read and no
+implementation written. DiminishedReturnsScoreRingBufferTest first190lines were
+also inspected: raw private ring-array/index assertions do not map to native
+history storage; do not build an unused Java-storage replica for coverage.

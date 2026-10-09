@@ -47184,6 +47184,36 @@
       "local_test": "binary_samples_weight_members_at_each_requested_position",
       "status": "implemented",
       "modifications": "Preserve all draw positions1/2/5 with200000trials each, one probe, equal-key join, uniquely identified right rows grouped in sizes2/3/5 and five-sigma expected0.2/0.3/0.5 shares. Native NeighborhoodJoin.samples_for with PillarSampler(SizeSampler::exactly) replaces Java per-key sampling. Tuples (probe,bucket,member) replace prefixed value-code strings; native PRNG order differs from Java. The sample assembler is exercised, not merely a raw query iterator."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/sublist_sampling_bias_cases.rs",
+      "id": "SubListSamplingBiasIT.drawnSpanIsUniformOverEveryAdmissiblePair",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/SubListSamplingBiasIT.java",
+      "upstream_test": "drawnSpanIsUniformOverEveryAdmissiblePair",
+      "local_test": "spans_are_uniform_over_every_admissible_pair",
+      "status": "implemented",
+      "modifications": "Preserve seven assigned values, optional-list model, fixed first-value seed, min2/max5, seed0, all18 independently enumerated start/end pairs,200000 non-null draws and five-sigma uniform bounds. Native value-to-owner index and entity-local span ranking replace the Java MoveDirector/descriptor/sampler surface. Numeric identities replace v0..v6 strings. Native random traces differ; additionally reject unexpected spans and assert trial total."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/sublist_sampling_bias_cases.rs",
+      "id": "SubListSamplingBiasIT.drawnEntityIsWeightedByUnpinnedSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/SubListSamplingBiasIT.java",
+      "upstream_test": "drawnEntityIsWeightedByUnpinnedSize",
+      "local_test": "seeded_entities_are_weighted_by_unpinned_size",
+      "status": "implemented",
+      "modifications": "Preserve three unpinned entities of sizes2/3/5 with distinct values, optional-list model,min1/maxInteger.MAX_VALUE, independent seed1 uniform assigned-value picker and seed0 span draws,200000 non-null draws and five-sigma0.2/0.3/0.5 shares. Native indexed value-to-owner lookup feeds entity-local span sampling. Numeric identities replace s/m/l-prefixed strings; no Java PRNG trace or descriptor lifecycle parity claimed."
     }
   ],
   "fixtures": [
@@ -63774,6 +63804,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
       "upstream_test": "expectUniform; expectWeights; assertWithinSigma; deviations",
       "modifications": "Adapt positive category counts and five-sigma binomial assertions for the original200000trials, ten uniform unary categories and binary shares0.2/0.3/0.5. Include actual count, probability and sigma on failure; additionally assert count total. Omit log tables and unrelated ratio assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/sublist_sampling_bias_cases.rs",
+      "id": "sublist-sampling-bias-statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectUniform; expectWeights; assertWithinSigma; deviations",
+      "modifications": "Adapt positive expected category counts and binomial five-sigma assertions for200000trials,18uniform spans and entity shares0.2/0.3/0.5. Preserve actual count/probability/sigma diagnostics, omit logging tables, add total-count assertion."
     }
   ]
 }

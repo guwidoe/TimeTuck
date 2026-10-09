@@ -768,3 +768,9 @@ The sparse retirement implementation and native regressions are original.
 (Apache-2.0). Native datasets, keyed sample assembly and PRNG streams replace Java
 objects/session APIs. All parameters, trial counts and probability bounds are
 preserved; exact identities and substitutions are in `compat/provenance.json`.
+
+`crates/solver/tests/sublist_sampling_bias_cases.rs` adapts both pinned Community
+`SubListSamplingBiasIT` methods and `BiasReport` statistical helpers (Apache-2.0).
+Native value ownership and span selection replace Java score-director plumbing;
+exact identities, parameters and substitutions are in `compat/provenance.json`.
+The indexed value-seeded selection implementation and regressions are original.

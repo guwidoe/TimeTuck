@@ -4913,3 +4913,20 @@ full-drain sample rules retain eager order. Raw results include three processes,
 warmups, alternating samples and source/executable identities in
 `work/lazy-dataset-performance.json`. These are ordering costs, not whole-solver
 or Java speedups. Old dashboard performance records retain their dates/freshness.
+
+`ValueSeededSubListSelection` provides an indexed, borrowed value-to-owner lookup
+feeding uniform entity-local sublist ranks. It avoids a linear assignment search
+for each selected value and does not clone value payloads. After validation,
+construction stores O(n) borrowed entries in O(n log n) time; lookup is O(log n)
+before rank selection. The borrow ties the index to its assignment snapshot.
+Unknown, unassigned, pinned and too-short seeds consume no rank draw. Excluding
+pinned-prefix seeds is an explicit native policy, not an additional upstream claim.
+Bounded iterators preserve repeated seed weighting and include rejections in their
+read limits. Rebuild the index after a move or model change.
+
+Both `SubListSamplingBiasIT` methods now preserve200000draws and five-sigma bounds:
+all18spans on7values with lengths2..5, and entity shares2:3:5 from independent,
+uniform assigned-value seeds. The new index performs the actual seed-to-owner
+mapping. Native PRNG streams replace Java traces; these cases add no solver-wide
+performance claim. Original regressions cover pins, every rank, borrowing,
+comparison counts, bounded lazy iteration, replay, relocation and undo.

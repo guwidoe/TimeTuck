@@ -1213,3 +1213,6 @@ pub use stream_graph::FixedLinkedStreamPort;
 
 mod indexed_retirement;
 pub use indexed_retirement::{RetiringCandidatePairs, RetiringCandidates, RetiringIndices};
+
+mod value_seeded_sublist;
+pub use value_seeded_sublist::ValueSeededSubListSelection;
