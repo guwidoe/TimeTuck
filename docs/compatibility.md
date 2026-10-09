@@ -4789,3 +4789,14 @@ process only queued nodes in topological order. Buffer reuse does not retain eve
 between batches. Original regressions cover commit/rollback reuse, failed batches,
 panic recovery, ordering and payload release. This optimization earns no additional
 upstream-method credit.
+
+
+The remaining three preview ChangeMoveProvider methods now preserve all move
+membership/no-op assertions for incomplete solution ranges, per-entity ranges and
+optional per-entity ranges with crossing disabled. The two entity-range generators
+append each current value if it is absent from the range; their comments claiming
+a current value outside the range are stale. Native domains preserve the actual
+fixture values instead of weakening model validation. Ten methods in this class
+now have complete adaptations; no production behavior needed changing for these
+three cases. The unrelated fact in the incomplete-range case stays outside the
+native variable domains. No Java reflection or registration API parity is claimed.

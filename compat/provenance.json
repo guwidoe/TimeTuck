@@ -45804,6 +45804,51 @@
       "upstream_test": "fromSolutionAllowsUnassigned",
       "local_test": "optional_basic_change_without_crossing_skips_unassigned_sources",
       "modifications": "Preserve optional/required metadata assertions, accepted/rejected provider configuration and the optional basic change membership/no-op assertions. Native typed schema resolution replaces Java metamodel/provider construction. crossing_unassigned is the native spelling of crossingNull, including the asserted diagnostic substring; typed errors replace IllegalArgumentException. The optional two-entity fixture keeps the first entity unassigned and the second on Generated Value 1; stable slot IDs replace entity object identity. No Java reflection or random trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_value_range_cases.rs",
+      "id": "ChangeMoveProviderTest.fromSolutionIncompleteValueRange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "fromSolutionIncompleteValueRange",
+      "local_test": "solution_range_ignores_registered_facts_outside_the_range",
+      "modifications": "Preserve all positive/negative move membership assertions, no-op exclusions, two value/entity identities, per-entity ranges and disabled optional crossing. Native typed schema/provider and slot IDs replace Java metamodel/entity identity. Domain vectors represent selected value ranges; an explicit native fact array also includes the third non-range fact. Follow the actual entity fixture generator, which appends the current value to each range if absent, rather than the stale comment claiming the second value is out of range. No weakening of model domain validation or Java reflection claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_value_range_cases.rs",
+      "id": "ChangeMoveProviderTest.fromEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "fromEntity",
+      "local_test": "entity_ranges_propose_only_other_legal_values",
+      "modifications": "Preserve all positive/negative move membership assertions, no-op exclusions, two value/entity identities, per-entity ranges and disabled optional crossing. Native typed schema/provider and slot IDs replace Java metamodel/entity identity. Domain vectors represent selected value ranges; an explicit native fact array also includes the third non-range fact. Follow the actual entity fixture generator, which appends the current value to each range if absent, rather than the stale comment claiming the second value is out of range. No weakening of model domain validation or Java reflection claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_value_range_cases.rs",
+      "id": "ChangeMoveProviderTest.fromEntityAllowsUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/ChangeMoveProviderTest.java",
+      "upstream_test": "fromEntityAllowsUnassigned",
+      "local_test": "optional_entity_ranges_honor_disabled_crossing",
+      "modifications": "Preserve all positive/negative move membership assertions, no-op exclusions, two value/entity identities, per-entity ranges and disabled optional crossing. Native typed schema/provider and slot IDs replace Java metamodel/entity identity. Domain vectors represent selected value ranges; an explicit native fact array also includes the third non-range fact. Follow the actual entity fixture generator, which appends the current value to each range if absent, rather than the stale comment claiming the second value is out of range. No weakening of model domain validation or Java reflection claim."
     }
   ],
   "fixtures": [
@@ -62199,6 +62244,45 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
       "upstream_test": "generateSolution(2, 2)",
       "modifications": "Preserve Generated Value 0/1, two entity slots, first unassigned and second assigned to the second value. Native immutable domains and optional slots replace Java entity/fact objects; no production source copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_value_range_cases.rs",
+      "id": "entity-value-range-incomplete",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/incomplete/TestdataIncompleteValueRangeSolution.java",
+      "upstream_test": "generateSolution(2, 2)",
+      "modifications": "Preserve Generated Value 0/1 and two initially assigned entity identities. Native immutable domains replace Java range lists. Entity-provided ranges start with the first value and include each current value, as the generator actually implements; optional metadata is preserved. The incomplete solution also retains a third fact excluded from both domains."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_value_range_cases.rs",
+      "id": "entity-value-range-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/TestdataEntityProvidingSolution.java",
+      "upstream_test": "generateSolution(2, 2)",
+      "modifications": "Preserve Generated Value 0/1 and two initially assigned entity identities. Native immutable domains replace Java range lists. Entity-provided ranges start with the first value and include each current value, as the generator actually implements; optional metadata is preserved. The incomplete solution also retains a third fact excluded from both domains."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/entity_value_range_cases.rs",
+      "id": "entity-value-range-optional-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "generateSolution(2, 2)",
+      "modifications": "Preserve Generated Value 0/1 and two initially assigned entity identities. Native immutable domains replace Java range lists. Entity-provided ranges start with the first value and include each current value, as the generator actually implements; optional metadata is preserved. The incomplete solution also retains a third fact excluded from both domains."
     }
   ]
 }

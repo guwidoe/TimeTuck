@@ -20012,3 +20012,32 @@ All six new adapted methods are verified in the dashboard; prior provenance entr
 remain unchanged. Final source/staged implementation, tests and provenance reviewed.
 No Rust changes after the gate. All task handles terminal except dashboard81926.
 Goal remains active/incomplete; reuse these checks for unchanged relevant inputs.
+
+
+## Complete the preview basic change-provider range cases
+
+Baseline d631096. Adapt the three remaining ChangeMoveProviderTest methods:
+fromSolutionIncompleteValueRange, fromEntity and fromEntityAllowsUnassigned.
+Preserve all positive/negative membership and no-op assertions, generated value
+identities, entity-specific ranges and disabled optional crossing. Source fixture
+inspection resolved misleading comments: both entity-range generators explicitly
+append the current value to the range if absent. Native model validation already
+fits the actual fixture; no production change or speculative range-selection API
+was needed. The incomplete-range fixture retains a third fact outside both domains.
+Three cases and three generator fixtures are added to provenance; prior entries
+remain unchanged. Focus76165 TERMINAL0: all3 adapted tests pass. Final test source
+frozen for required gate. No unrelated tests/benchmarks/browser rerun.
+
+Read-only BruteForceTest inspection: its six solve methods also assert exhaustive
+phase identity and step-index caps3/25/60. Native final-solution checks alone cannot
+earn these credits; all remain pending. No solver/scorer fixture was copied for
+those methods and no Java phase-step equivalence is claimed.
+
+Required entity-range gate TERMINAL0. 5243 Rust tests and 246 doctests passed.
+Rust jobs: {'REUSE': 709, 'RUN': 1}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3049, 'failed': 0, 'pending': 1524, 'excluded': 282, 'unverified': 0, 'percent': 62.801}.
+Source before/after matched: 70c6e6fd1408dda949202bf26103bef773932c6ac5d25ae97b7fa2a8b3f5de16
+Live freshness matched verification digest: de23bf20c1b72043a26a32785a411d4892609918b92f31684f6ce63f03fea60e.
+Prior ledger records unchanged; Three complete Community methods and three fixture sources added.
+Log work/entity-range-final-check.log; evidence work/entity-range-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
