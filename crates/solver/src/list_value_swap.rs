@@ -20,6 +20,7 @@ struct ValueSwapSelection<'a, V> {
     assignment: &'a ListAssignment<V>,
     locations: Vec<Option<ListPosition>>,
     selectable: Vec<bool>,
+    trial: Option<ListAssignment<V>>,
 }
 impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
     fn new(
@@ -47,6 +48,7 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
             assignment,
             locations,
             selectable,
+            trial: None,
         })
     }
     fn order(&self, values: &[V]) -> Result<Vec<usize>, ListError> {
@@ -64,7 +66,24 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
         }
         Ok(result)
     }
-    fn movement(&self, left: usize, right: usize, include_noops: bool) -> Option<ListMove<V>> {
+    fn eligible(&self, left: usize, right: usize, include_noops: bool) -> bool {
+        match (self.locations[left], self.locations[right]) {
+            (None, None) => include_noops,
+            (Some(l), Some(r)) if l == r => include_noops,
+            (Some(l), Some(r)) => {
+                self.problem
+                    .accepts(l.entity, &self.problem.values()[right])
+                    && self.problem.accepts(r.entity, &self.problem.values()[left])
+            }
+            (Some(at), None) => self
+                .problem
+                .accepts(at.entity, &self.problem.values()[right]),
+            (None, Some(at)) => self
+                .problem
+                .accepts(at.entity, &self.problem.values()[left]),
+        }
+    }
+    fn movement(&mut self, left: usize, right: usize, include_noops: bool) -> Option<ListMove<V>> {
         let p = self.problem;
         let movement = match (self.locations[left], self.locations[right]) {
             (None, None) => return include_noops.then(|| ListMove::Composite(vec![])),
@@ -103,8 +122,11 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
         };
         // Dependency constraints may reject a geometrically valid swap. Prepare
         // only the requested candidate; no Cartesian product is materialized.
-        let mut trial = self.assignment.clone();
-        drop(p.apply(&mut trial, &movement).ok()?);
+        // Opening validates the immutable base. Each guard restores this scratch
+        // assignment, including on rejection or unwind; avoid copying the entire
+        // assignment and revalidating its initial state for every candidate.
+        let trial = self.trial.get_or_insert_with(|| self.assignment.clone());
+        drop(p.apply_validated(trial, &movement).ok()?);
         Some(movement)
     }
 }
@@ -112,7 +134,7 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
 /// Value-driven swaps in caller-supplied order, including optional assigned/
 /// unassigned replacement. Unknown values or invalid assignments fail at opening.
 /// No candidates are built until iteration. Opening caches locations and filtered
-/// orders; each emitted nontrivial candidate validates a temporary assignment.
+/// orders; nontrivial candidates validate on one lazily cloned reusable assignment.
 /// `include_noops` retains equal-value and two-unassigned pairs as empty composites.
 /// Reverse pairs and duplicate inputs remain distinct candidates. Output indices
 /// belong only to this borrowed assignment snapshot.
@@ -133,7 +155,7 @@ pub fn list_value_swap_moves<'a, V: Clone + Eq>(
     pairing: ListSwapPairing,
     include_noops: bool,
 ) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
-    let selection = ValueSwapSelection::new(problem, assignment)?;
+    let mut selection = ValueSwapSelection::new(problem, assignment)?;
     let left = selection.order(left)?;
     let right = selection.order(right)?;
     let (mut i, mut j) = (0, 0);
@@ -173,7 +195,7 @@ pub fn sample_list_value_swaps<'a, V: Clone + Eq>(
     attempts: usize,
     include_noops: bool,
 ) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
-    let selection = ValueSwapSelection::new(problem, assignment)?;
+    let mut selection = ValueSwapSelection::new(problem, assignment)?;
     let values: Vec<_> = selection
         .selectable
         .iter()
@@ -268,6 +290,117 @@ impl<B: Clone + Eq, V: Clone + Eq>
                 basic: Move::Composite(vec![]),
                 lists,
             }),
+        )
+    }
+}
+
+/// Bounded value-swap sampling with configured left and right occurrence sets.
+/// Pins and required-unassigned values are removed independently from each set.
+/// Each attempt draws a left occurrence, then a right occurrence among partners
+/// accepted by both receiving ranges. Optional assigned/unassigned pairs replace
+/// the assigned member; equal/two-unassigned pairs require `include_noops`.
+/// Duplicate occurrences retain their sampling weight.
+///
+/// Dependency rejection and a left value with no partner consume attempts.
+/// Sampling is uniform over left occurrences then eligible right occurrences,
+/// not over valid moves. An empty sample is not a proof of a local optimum.
+/// Opening validates all identities and consumes no randomness or move catalog.
+/// It stores O(left + right + registered values) indices; each attempt scans the
+/// right occurrences. Candidate validation reuses one lazily cloned assignment.
+///
+/// Each opening starts a native PRNG at seed + completed_steps (wrapping).
+/// Reopening the same snapshot/step replays independently of partial consumption.
+/// Java random traces and never-ending selector metadata are not reproduced.
+#[derive(Clone, Debug)]
+pub struct SampledListValueSwapProvider<V> {
+    pub left: Vec<V>,
+    pub right: Vec<V>,
+    pub include_noops: bool,
+    pub seed: u64,
+    pub attempts_per_step: u64,
+}
+impl<V: Clone + Eq> SampledListValueSwapProvider<V> {
+    pub fn select<'a>(
+        &self,
+        problem: &'a ListProblem<V>,
+        assignment: &'a ListAssignment<V>,
+        completed_steps: u64,
+    ) -> Result<impl Iterator<Item = ListMove<V>> + use<'a, V>, ListError> {
+        let mut selection = ValueSwapSelection::new(problem, assignment)?;
+        let left = selection.order(&self.left)?;
+        let right = selection.order(&self.right)?;
+        let include_noops = self.include_noops;
+        let mut remaining = self.attempts_per_step;
+        let mut random = SampleRandom::new(self.seed.wrapping_add(completed_steps));
+        let mut choices = Vec::with_capacity(right.len());
+        Ok(std::iter::from_fn(move || {
+            let n = NonZeroUsize::new(left.len())?;
+            if right.is_empty() {
+                return None;
+            }
+            while remaining > 0 {
+                remaining -= 1;
+                let l = left[if n.get() == 1 { 0 } else { random.index(n) }];
+                choices.clear();
+                choices.extend(
+                    right
+                        .iter()
+                        .copied()
+                        .filter(|&r| selection.eligible(l, r, include_noops)),
+                );
+                let Some(n) = NonZeroUsize::new(choices.len()) else {
+                    continue;
+                };
+                let r = choices[if n.get() == 1 { 0 } else { random.index(n) }];
+                if let Some(movement) = selection.movement(l, r, include_noops) {
+                    return Some(movement);
+                }
+            }
+            None
+        })
+        .fuse())
+    }
+}
+impl<V: Clone + Eq> MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>
+    for SampledListValueSwapProvider<V>
+{
+    fn moves<'a>(
+        &'a mut self,
+        p: &'a ListProblem<V>,
+        a: &'a ListAssignment<V>,
+        step: u64,
+    ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a>
+    where
+        ListMove<V>: 'a,
+    {
+        Box::new(
+            self.select(p, a, step)
+                .expect("sampled swap provider requires valid configuration"),
+        )
+    }
+}
+impl<B: Clone + Eq, V: Clone + Eq>
+    MoveProvider<MixedProblem<B, V>, MixedAssignment<B, V>, MixedMove<B, V>>
+    for SampledListValueSwapProvider<V>
+{
+    fn moves<'a>(
+        &'a mut self,
+        p: &'a MixedProblem<B, V>,
+        a: &'a MixedAssignment<B, V>,
+        step: u64,
+    ) -> Box<dyn Iterator<Item = MixedMove<B, V>> + 'a>
+    where
+        MixedMove<B, V>: 'a,
+    {
+        p.validate(a)
+            .expect("sampled swap provider requires valid mixed assignment");
+        Box::new(
+            self.select(p.lists(), a.lists(), step)
+                .expect("sampled swap provider requires valid configuration")
+                .map(|lists| MixedMove {
+                    basic: Move::Composite(vec![]),
+                    lists,
+                }),
         )
     }
 }

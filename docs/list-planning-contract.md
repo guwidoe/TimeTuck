@@ -1153,3 +1153,24 @@ validation still scans the assignment; this change makes no new complexity or
 performance claim. Original regressions exercise both directions against direct
 prefix/suffix sums, including partial assignments, failures, saved candidates,
 deferred work and score-directed search. No additional upstream-method credit.
+
+## Range-conditioned value-swap sampling
+
+`SampledListValueSwapProvider` binds configured left/right value occurrences to
+list or mixed search. Each bounded attempt samples a pin-filtered left occurrence,
+then a right occurrence whose receiving ranges accept both values. Optional
+unassigned values participate through replacement moves. Duplicate occurrences
+retain weight; equal/two-unassigned pairs are controlled by `include_noops`.
+Dependencies are validated after sampling; rejected candidates consume attempts.
+This distribution is conditional on the selected left value, not uniform over
+valid moves. Each opening starts at `seed.wrapping_add(completed_steps)` and
+rebuilds positions from the current assignment. Partial consumption cannot alter
+later replay. Empty samples do not prove local optimality.
+
+Opening stores index/order vectors, not a Cartesian move catalog. Each attempt
+scans the right occurrences. All value-swap iterators now reuse one lazily cloned
+working assignment for candidate validation, restoring it through normal move
+rollback. Touched-list undo copies and dependency validation still occur. A
+counted-clone regression with 32 singleton lists and 20 proposals observes 72
+value clones (32 initial + 40 undo), rather than the former 680; this is an
+operation-count result, not a wall-clock or Java speedup measurement.

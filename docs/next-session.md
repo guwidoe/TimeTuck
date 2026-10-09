@@ -20488,3 +20488,43 @@ Final gate74504 and evidence31196 TERMINAL0. Correct-environment prebuild16s;
 Reviewed source remained unchanged through the gate; six new methods individually
 passed. Dashboard/live digest agrees. No benchmark or browser rerun. Goal remains
 active and incomplete. Do not repeat successful checks on unchanged inputs.
+
+## Range-conditioned sampled value swaps
+
+Baseline2e8e155; previous goal turn was progress. Read only the remaining pinned
+Community ListSwapMoveSelectorTest random/range/pinning/unassigned methods as
+behavioral context. Existing fixture cases are partial because native bounded
+sampling does not reproduce never-ending metadata/Java PRNG mixing. No new
+upstream adaptations or fixture copies; provenance remains unchanged.
+
+Added SampledListValueSwapProvider: independent configured left/right occurrence
+sets, pins filtered at opening, conditional two-way range filtering before right
+draw, duplicate weights, optional replacements/no-op control, bounded attempts,
+seed+step wrapping and deterministic reopening. Integrates list/mixed providers.
+All value-swap iterators now lazily clone one validation assignment and reuse it
+with apply_validated guards. The base was validated at opening, never escapes
+mutably, and guards restore it on rejection/unwind. Touched undo copies remain.
+
+Focused87797 TERMINAL0:9existing adapted/partial fixture cases,4existing regressions
+and4new originals passed. Then extended the new provider search regression from
+scoped-only to both backends for final checking. 27 partial states compare exact
+conditional draws, replay and changed-state reopening; pin/range/dependency/null
+cases and deterministic clone accounting.32singleton lists/20swaps:72value clones
+(32scratch+40undo) instead of680 from former per-candidate copies. No timing claim.
+Final frozen-state gate91643 launched via work/prebuild_value_swap.py; logs
+work/value-swap-prebuild.log and work/value-swap-final-check.log. Established full
+PATH retained to preserve verification reuse. No Java/benchmark/UI refresh.
+
+Required value-swap gate TERMINAL0. 5370 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 5, 'REUSE': 725}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3129, 'failed': 0, 'pending': 1444, 'excluded': 282, 'unverified': 0, 'percent': 64.449}.
+Source before/after matched: 51d93400f4f6593805103a8500569ba32434e9c9e1ea80dc9785bd579201413b
+Live freshness matched verification digest: e949f5883337213d8cea4381ac428cb9a197592215098eaf6e075812a9f1f7b0.
+Prior ledger records unchanged; No new upstream methods or fixture records.
+Log work/value-swap-final-check.log; evidence work/value-swap-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate91643 and report/live evidence38497 TERMINAL0. Clippy46.62s, affected
+prebuild27.64s;5Rust jobs ran/725reused;46Python jobs reused.5370Rust tests and
+248doctests pass, including extended list/mixed search through both backends.
+Reviewed Rust matches checked source. No provenance/benchmark/UI changes.
+All task handles terminal except dashboard81616; goal remains active/incomplete.

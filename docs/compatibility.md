@@ -4845,3 +4845,14 @@ as recorded in provenance. Arbitrary child doability predicates remain pending.
 Three original regressions exercise draft forks, both scoring backends, commit/
 rollback, model validation, temporary invalid writes, missing values, and injected
 clone failures during cycle preparation/application. These earn no method credit.
+
+Range-conditioned `SampledListValueSwapProvider` now integrates bounded sampling
+with list/mixed search. Pins, two-way receiving ranges, optional replacements,
+no-op policy and dependency rejection remain enforced. Original regressions
+compare native conditional draws over 27 partial assignments, duplicate weights,
+seed wrapping/replay, changed-state reopening and both scoring backends. Native
+random traces and bounded attempts differ from Java's never-ending selector
+contract. Existing random-prefix fixture credits remain partial; no new upstream
+methods or fixtures are claimed. Value-swap validation reuses a private working
+copy; exact clone counts are documented in the list planning contract. No new
+wall-clock or Java performance measurement is claimed.
