@@ -1070,7 +1070,9 @@ pub use pillar_selection_policy::{
 
 mod pillar_provider;
 pub use pillar_provider::PillarMoveProvider;
+mod scoped_pillar_provider;
 pub use pillar_schema::pillar_groups;
+pub use scoped_pillar_provider::ScopedPillarMoveProvider;
 
 mod sampled_pillar_provider;
 pub use sampled_pillar_provider::SampledPillarMoveProvider;

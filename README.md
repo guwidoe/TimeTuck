@@ -22,7 +22,9 @@ neighborhoods serve basic and mixed local search in both scoring backends. Bound
 subpillar selection also supports all member combinations or consecutive windows,
 with independent size bounds for each swap side. An explicit `PillarSchema` on the
 model groups aligned entity rows by selected column values; both scoring backends
-use it for basic and mixed search.
+use it for basic and mixed search. Scoped pillar providers can instead own separate
+schemas, built from typed field bindings, and combine neighborhoods for different
+entity types in the same search.
 Mixed greedy construction fills
 missing required values in an explicit basic/list order before local search; see `docs/mixed-planning-contract.md`. Scoped list/entity and element contributions support
 incremental candidate scoring with transactional cache updates. Another 512 original list-move cases check candidate,

@@ -60,7 +60,16 @@ impl PillarMoveProvider {
         p: &'a FiniteProblem<V>,
         a: &'a Assignment<V>,
     ) -> Result<impl Iterator<Item = Move<V>> + 'a, ModelError> {
-        let groups = Arc::new(pillar_groups(p, a)?);
+        Ok(self.select_groups(p, a, pillar_groups(p, a)?))
+    }
+
+    pub(crate) fn select_groups<'a, V: Eq + Clone>(
+        &'a self,
+        p: &'a FiniteProblem<V>,
+        a: &'a Assignment<V>,
+        groups: Vec<crate::Pillar>,
+    ) -> impl Iterator<Item = Move<V>> + 'a {
+        let groups = Arc::new(groups);
         let changes = {
             let groups = groups.clone();
             (0..if self.changes == PillarChangeMode::Disabled {
@@ -138,7 +147,7 @@ impl PillarMoveProvider {
                     })
                 })
         });
-        Ok(changes.chain(swaps))
+        changes.chain(swaps)
     }
 }
 impl<V: Eq + Clone> MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>> for PillarMoveProvider {

@@ -19755,3 +19755,40 @@ No claim of measured build-time improvement. No Rust/benchmark/browser reruns;
 Rust source and provenance unchanged. Existing records/dates were not rewritten.
 The next Rust batch's required gate establishes new scanner keys; existing solver
 verification remains a353836 (5206 Rust tests,245 doctests,3040/4855 methods).
+
+## Independently scoped pillar neighborhoods
+
+Baseline ab1e054. PillarMoveProvider.with_schema now owns a per-provider
+PillarSchema; multiple providers compose through ProviderUnion without replacing
+the problem's default schema. PillarSchema.groups validates assignment/slot bounds
+and groups only selected rows. Existing policy iterator is shared: all change,
+swap, optional-value, pin, range and subpillar semantics remain available.
+PillarSchema.from_fields builds aligned rows from genuine basic field bindings of
+one entity declaration. Structural metadata validation only; it does not claim to
+validate a concrete model's value types. Basic and mixed MoveProvider integrations
+retain lazy candidates, regroup per opening, and leave list variables unchanged.
+
+Focus95632 TERMINAL101: test used nonexistent ListEntity.with_initial; corrected
+the fixture to ListEntity.new(initial). Focus76385 TERMINAL0: 4 new native tests
+plus6 existing provider regressions passed. New tests cover metadata failures,
+independent scopes composed in basic/mixed search with both scoring backends,
+zero planning-value clones on opening, changed grouping, untouched default schema,
+pins/ranges/optional values and independent successor-set enumeration.
+No copied/adapted source cases or provenance changes; no new method credits.
+Final source frozen for prebuild/check41509. No benchmark or browser reruns needed.
+
+Required scoped-pillar gate TERMINAL0. 5210 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 703}; Python jobs: {'RUN': 46}.
+Dashboard: {'total': 4855, 'passed': 3040, 'failed': 0, 'pending': 1533, 'excluded': 282, 'unverified': 0, 'percent': 62.616}.
+Source before/after matched: a58cc8578a05e8512b9f20756866cb920016568be7b0d472b4967bec6567dae9
+Live freshness matched verification digest: 6221d29c063f72ab7f604f81c8580f96aa52f495c7b3ed14c9d13ec1bf74f42f.
+Prior ledger records unchanged; No provenance changes or upstream method credits.
+Log work/scoped-pillar-final-check.log; evidence work/scoped-pillar-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final prebuild/check41509 and report/live evidence21796 TERMINAL0. Clippy36.05s;
+prebuild6m04s. All703 Rust and46 Python jobs received fresh keys after ab1e054's
+scanner change; no cache migration or benchmark relabeling. Sources stayed fixed
+through the gate. Staged implementation/tests/docs reviewed. Dashboard81926 remains
+live; no other task process remains running. Goal active/incomplete. Reuse the
+successful gate for unchanged inputs. No next-batch source edits.

@@ -373,3 +373,23 @@ optional range membership and pin-index assertions. Original custom-phase tests
 exercise temporary evaluation and committed edits across basic/list/mixed models
 and both scoring backends, plus nested edit-session rollback. Java notification
 callbacks, reflection and unscoped range overloads are not implied.
+
+## Independently scoped pillar providers
+
+`PillarMoveProvider::with_schema` creates a `ScopedPillarMoveProvider` whose rows
+are independent of the problem's default pillar schema. Compose several through
+`ProviderUnion` to search different entity types or selected column sets in one
+basic or mixed solver. Each opening regroups current values; schemas may overlap
+between providers. Changes, swaps, subpillar bounds/comparators, optional values,
+pins and destination domains retain the existing pillar semantics. Mixed providers
+modify only basic variables. All solver backends accepting `MoveProvider` can use
+these providers. Opening copies grouping metadata but no planning values or model.
+
+`PillarSchema::from_fields` converts aligned `SchemaVariableSlots` for genuine
+basic fields of one entity declaration into rows. It rejects mixed declarations,
+foreign schemas, list/shadow fields, duplicate bindings, unequal lengths and slot
+aliasing. It is a structural conversion: it does not validate a concrete problem's
+value types or ranges. `PillarSchema::groups` and the scoped provider check slot
+bounds and the full assignment before grouping. Empty row sets remain invalid.
+Original regressions cover independent composition and search with both scoring
+backends; this addition claims no new adapted upstream methods or speedup.

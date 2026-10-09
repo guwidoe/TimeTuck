@@ -24,6 +24,34 @@ impl PillarSchema {
     pub fn rows(&self) -> &[Vec<usize>] {
         &self.rows
     }
+    /// Group this schema's rows against a current assignment, independently of
+    /// any schema attached to the problem. No planning values are cloned.
+    pub fn groups<V: Eq>(
+        &self,
+        p: &FiniteProblem<V>,
+        a: &Assignment<V>,
+    ) -> Result<Vec<Pillar>, ModelError> {
+        if let Some(&variable) = self
+            .rows
+            .iter()
+            .flatten()
+            .find(|&&v| v >= p.variables().len())
+        {
+            return Err(crate::MoveError {
+                variable,
+                variable_count: p.variables().len(),
+            }
+            .into());
+        }
+        p.validate(a)?;
+        Ok(groups(p, a, &self.rows, 0..p.variables().len())
+            .iter()
+            .map(|g| {
+                Pillar::from_rows(g.iter().map(|&i| self.rows[i].clone()).collect())
+                    .expect("nonempty disjoint schema rows")
+            })
+            .collect())
+    }
     pub(crate) fn validate(&self, variable_count: usize) -> Result<(), PillarError> {
         for &variable in self.rows.iter().flatten() {
             if variable >= variable_count {
