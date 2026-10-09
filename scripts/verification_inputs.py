@@ -313,26 +313,67 @@ def library_symbol_owners(texts, facade_source):
 
 
 @lru_cache(maxsize=2048)
-def dependency_words(source):
-    imports = ' '.join(text for text in re.findall(r'\buse\s+([^;]+);', source)
-                       if not re.match(r'(?:std|core|alloc)\s*::', text))
-    words = set(re.findall(r'\b\w+\b', imports))
+def dependency_words(source, external=False):
+    imports = re.findall(r'\buse\s+([^;]+);', source)
+    # Tests/examples have their own crate namespace. Their common:: helpers and
+    # std/dependency imports are not library exports, even when names collide.
+    aliases = {'timetuck'}
+    if external:
+        for text in imports:
+            alias = re.fullmatch(r'\s*timetuck\s+as\s+(\w+)\s*', text)
+            if alias: aliases.add(alias[1])
+    def library_import(text):
+        first = re.match(r'\s*(?:::)?\s*(\w+)', text)
+        return first is not None and (first[1] in aliases if external else
+                                     first[1] not in ('std', 'core', 'alloc'))
+    native_imports = [text for text in imports if library_import(text)]
+    shadowed = set()
+    if external:
+        # Remove local/imported names from glob-call and type discovery. Explicit
+        # timetuck paths are added separately and are not hidden by local names.
+        shadowed.update(re.findall(r'\b(?:struct|enum|trait|type|fn|mod)\s+(\w+)', source))
+        for text in imports:
+            if not library_import(text):
+                # Only imported bindings shadow a glob, not every path segment.
+                shadowed.update(alias or name for name, alias in re.findall(
+                    r'(?:^|::|[{,])\s*(\w+)(?:\s+as\s+(\w+))?\s*(?=[,}]|$)', text))
+    words = set(re.findall(r'\b\w+\b', ' '.join(native_imports)))
+    if not external:
+        words.update(re.findall(r'\b(?:crate|super|timetuck)::(\w+)', source))
     qualified = re.sub(r'\buse\s+[^;]+;', '', source)
-    for path in re.findall(r'\b\w+(?:\s*::\s*\w+)+', qualified):
-        parts = re.findall(r'\w+', path)
-        if parts[0] not in ('std', 'core', 'alloc'):
-            words.update(parts[:-1])
-    words.update(re.findall(r'\b(?:crate|super|timetuck)::(\w+)', source))
-    words.update(re.findall(r'\b[A-Z][A-Za-z0-9_]+\b', source))
+    explicit = set()
+    # These standard wrappers can carry library trait implementations. Preserve
+    # their canonical receivers even when qualified or imported with an alias.
+    for text in imports:
+        if re.match(r'\s*(?:std|alloc)\s*::', text):
+            explicit.update(re.findall(r'\b(?:Box|Rc|Arc)\b', text))
+    def path_words(match):
+        parts = re.findall(r'\w+', match[0])
+        if parts[0] in aliases:
+            explicit.update(parts[1:])
+            explicit.update('@trait-associated:' + target + ':' + member
+                            for target, member in zip(parts[1:], parts[2:]))
+        elif not external and parts[0] not in ('std', 'core', 'alloc'):
+            explicit.update(parts[:-1])
+        elif parts[0] in ('std', 'alloc') and parts[-1] in ('Box', 'Rc', 'Arc'):
+            explicit.add(parts[-1])
+        # Qualified local/external paths cannot become bare library identifiers.
+        # Bare imported types (Score::new) still identify their library receiver.
+        if external and (parts[0] in shadowed or parts[0][0].islower()):
+            return ' '
+        return match[0]
+    qualified = re.sub(r'\b\w+(?:\s*::\s*\w+)+', path_words, qualified)
+    words.update(set(re.findall(r'\b[A-Z][A-Za-z0-9_]+\b', qualified)) - shadowed)
     # Dot calls and associated items also work through glob-imported traits.
     words.update('@trait-member:' + name for name in
                  re.findall(r'(?:\.|::)\s*([A-Za-z_]\w*)', source))
     words.update('@trait-associated:' + target + ':' + member for target, member in
-                 re.findall(r'(?=\b(\w+)\s*::\s*(\w+))', source))
-    if re.search(r'\buse\s+(?:crate|timetuck|super)\b[^;]*\*', source):
-        calls = set(re.findall(r'(?<![.\w])([a-z_]\w*)\s*(?:::<[^;]+?>)?\s*\(', source))
+                 re.findall(r'(?=\b(\w+)\s*::\s*(\w+))', qualified))
+    if any('*' in text for text in native_imports):
+        calls = set(re.findall(r'(?<![.:\w])([a-z_]\w*)\s*(?:::<[^;]+?>)?\s*\(', qualified))
         local = set(re.findall(r'\bfn\s+(\w+)', source))
-        words.update(calls - local)
+        words.update(calls - local - shadowed)
+    words.update(explicit)
     return frozenset(words)
 
 
@@ -401,7 +442,7 @@ def selected_library_inputs(entries, root=ROOT):
         else:
             pending.extend(rust_entry_inputs(name, root, include_test_items=name in entries or not name.startswith('crates/solver/src/')) - selected)
         source = texts[name] if name in texts and name not in entries else rust_dependencies_text((root / name).read_text())
-        new_words = dependency_words(source) - referenced
+        new_words = dependency_words(source, external=not name.startswith('crates/solver/src/')) - referenced
         referenced.update(new_words)
         for word in new_words:
             pending.extend(owners.get(word, frozenset()) - selected)

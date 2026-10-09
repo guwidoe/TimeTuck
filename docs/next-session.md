@@ -19735,3 +19735,23 @@ Report/live evidence11968 TERMINAL0; stream-performance is current, generated
 diff reviewed; no source changes after the gate. Goal remains active/incomplete.
 Reuse successful verification and measurements for unchanged inputs. No next-batch
 source edits or browser rerun.
+
+## Namespace-aware verification dependencies
+
+Tool-only batch after a353836. Tests/examples now distinguish local/std imports
+and qualified helper calls from timetuck exports. Track actual imported bindings
+(including aliases), explicit library paths, helper-module dependencies and
+Box/Rc/Arc trait receivers. Internal crate/super calls remain tracked. This is
+still a module-level development heuristic, not Rust name resolution.
+
+Focused37 cache tests and full284 Python tests passed; logs
+work/namespace-cache-tests.log and work/namespace-python-tests.log. Read-only
+before/after scan of all702 Rust targets: touching join_batch/filtered_indexed
+selects668 before,660 after (8 score targets removed,0 newly selected).
+BendableScore test library modules134 ->6. Evidence work/namespace-impact.json.
+Remaining broad dependencies include actual module coupling: group_batch imports
+last_updates from join_batch, so collector/group users still select that file.
+No claim of measured build-time improvement. No Rust/benchmark/browser reruns;
+Rust source and provenance unchanged. Existing records/dates were not rewritten.
+The next Rust batch's required gate establishes new scanner keys; existing solver
+verification remains a353836 (5206 Rust tests,245 doctests,3040/4855 methods).

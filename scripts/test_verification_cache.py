@@ -67,6 +67,63 @@ class InputTests(unittest.TestCase):
         self.assertNotEqual(before[0], self.key(a))
         self.assertEqual(before[1], self.key(b))
 
+    def test_external_helpers_do_not_select_same_named_library_symbols(self):
+        entry = 'crates/solver/tests/a.rs'
+        search = self.root / 'crates/solver/src/search.rs'
+        search.write_text('pub struct Search; pub(crate) fn ordered() {}')
+        common = self.root / 'crates/solver/tests/common.rs'
+        common.write_text('pub fn ordered() {} pub struct Search;')
+        for caller in [
+            'use common::{ordered, Search}; fn run() { ordered(); }',
+            'use common::ordered; fn run() { ordered(); }',
+            'use common::ordered as helper; fn run() { helper(); }',
+            'fn run() { common::ordered(); let _ = common::Search; }',
+            'fn ordered() {} struct Search; fn run() { ordered(); }',
+        ]:
+            with self.subTest(caller=caller):
+                (self.root / entry).write_text(
+                    'mod common; use timetuck::*; fn score(_: Score) {} ' + caller)
+                selected = rust_test_inputs(entry, self.root)
+                self.assertNotIn('@rust-library:crates/solver/src/search.rs', selected)
+                self.assertIn('@rust-library:crates/solver/src/score.rs', selected)
+                self.assertIn(str(common.relative_to(self.root)), selected)
+        before = self.key(entry)
+        search.write_text('pub struct Search; pub(crate) fn ordered() { panic!() }')
+        self.assertEqual(before, self.key(entry))
+        common.write_text('pub fn ordered() { panic!() } pub struct Search;')
+        self.assertNotEqual(before, self.key(entry))
+
+    def test_library_paths_aliases_and_local_helper_dependencies_remain_tracked(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / 'crates/solver/src/search.rs').write_text(
+            'pub struct Search; pub fn ordered() {}')
+        for caller in [
+            'fn run() { timetuck::search::ordered(); }',
+            'use timetuck as solver; fn run() { solver::search::ordered(); }',
+            'use timetuck::search::ordered as helper; fn run() { helper(); }',
+            'use timetuck::search as model; fn run() { model::ordered(); }',
+            'use timetuck::*; use other::Search as Foreign; fn run(_: Search) {}',
+        ]:
+            with self.subTest(caller=caller):
+                (self.root / entry).write_text(caller)
+                self.assertIn('@rust-library:crates/solver/src/search.rs',
+                              rust_test_inputs(entry, self.root))
+        (self.root / entry).write_text('mod common; fn run() { common::ordered(); }')
+        (self.root / 'crates/solver/tests/common.rs').write_text(
+            'pub fn ordered() { timetuck::search::ordered(); }')
+        self.assertIn('@rust-library:crates/solver/src/search.rs',
+                      rust_test_inputs(entry, self.root))
+
+    def test_internal_qualified_free_functions_remain_tracked(self):
+        entry = 'crates/solver/tests/a.rs'
+        (self.root / entry).write_text('use timetuck::Score;')
+        (self.root / 'crates/solver/src/search.rs').write_text('pub(crate) fn ordered() {}')
+        for prefix in ['crate', 'super']:
+            (self.root / 'crates/solver/src/score.rs').write_text(
+                'pub struct Score; fn helper() { ' + prefix + '::ordered(); }')
+            self.assertIn('@rust-library:crates/solver/src/search.rs',
+                          rust_test_inputs(entry, self.root))
+
     def test_dependency_parsing_is_shared_across_targets_without_hiding_edits(self):
         library_symbol_owners.cache_clear()
         dependency_words.cache_clear()
