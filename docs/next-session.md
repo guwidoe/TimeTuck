@@ -20159,3 +20159,28 @@ Final gate24989 and report/live evidence40082 TERMINAL0. All20new mappings verif
 zero unverified. Three Rust targets ran,720Rust/46Python reused. Final Rust source
 unchanged since focused tests; staged source/provenance reviewed. Dashboard81616
 remains live. No benchmarks refreshed or browser rerun for this backend batch.
+
+## Rejected old-payload caches; baseline retained
+
+Baseline 4822d4c. Current profile8495 TERMINAL0 from an isolated instrumented copy:
+work/current-stream-profile.json/log. Top node times: filtered join335ms, undo205ms,
+conflict terminal123ms, first join112ms, group106ms; 1002649 AVL copied nodes,
+233141 new nodes. These are instrumented hotspots, not speedup measurements.
+Baseline build30908 TERMINAL0 archived work/join-payload-cache-before. Eager cache
+focus/build29372 and comparison93464 TERMINAL0; swap medians regress. Lazy cache
+focus/build/comparison65350 TERMINAL0; hill/swap improves but change and tabu/swap
+regress. All compared assignments/scores/score-call counts agree and independent
+score checks pass. Both candidates rejected; sole Rust edit restored exactly from
+HEAD. No new Rust gate needed for unchanged production inputs. Old successful
+verification remains applicable. No upstream method credits or Java refresh.
+Artifacts: work/join-payload-cache-{eager,lazy}-performance.json plus immutable
+before/eager/lazy executables with checked SHA256; comparison scripts/logs retained.
+The raw target/release/examples/stream_benchmark currently comes from the rejected
+lazy build: use cargo build before future measurements, or the archived baseline.
+Do not revive these caches based solely on fewer map lookups. Consider a broader
+reduction in join work; avoid repeating this experiment without new evidence.
+Restoration/freshness26840 TERMINAL0: verification_inputs.rust_digest matches
+prior gate before/after; aggregate log checksum and live/report digests match.
+Use that digest for gate reuse, not differential_scores.source_digest (legacy
+measurement fingerprint). No Rust/test/provenance change remains; only rejection
+notes are committed. Existing dashboard measurements retain original freshness.

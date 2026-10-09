@@ -2146,3 +2146,17 @@ identity replacement, second-witness changes, payload-clone failure/retry, pruni
 rollback and full/stream solver agreement. Removing one of two equal right witnesses
 against10,000 equal left rows emits one retraction with fewer than300 key comparisons.
 No upstream method credits are added.
+
+A native profile at 4822d4c still places the filtered indexed join ahead of graph
+rollback and conflict-terminal scoring (335ms, 205ms and 123ms respectively in one
+instrumented 96-variable hill/swap solve). Instrumentation includes overhead and
+is hotspot evidence only. Two attempted bounded old-payload caches were rejected:
+eager lookup regressed swap workloads; lazy lookup improved hill/swap but regressed
+change workloads and tabu/swap. Production join code was restored unchanged.
+
+Both experiments used the same baseline executable, alternating two process pairs,
+32/96 variables, hill/tabu and change/swap, 20 steps, one warmup and three samples.
+All assignments, scores and score-call counts matched, with independent score
+validation. Timing varied substantially between pairs; no general speedup or Java
+comparison is claimed. Raw results and immutable executable checksums are retained
+in work/join-payload-cache-{eager,lazy}-performance.json. No compatibility credits.
