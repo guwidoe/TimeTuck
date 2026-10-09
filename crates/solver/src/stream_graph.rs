@@ -263,6 +263,9 @@ trait Node<S: AdditiveScore> {
     fn source_rows(&self) -> Option<&dyn Any> {
         None
     }
+    fn is_constraint(&self) -> bool {
+        false
+    }
     fn matches(&self) -> Option<&dyn Any> {
         None
     }
@@ -874,6 +877,28 @@ enum TerminalEvaluation<'a, T, S> {
         impact: Box<WeightedImpact<'a, T, S>>,
     },
 }
+impl<T, S> TerminalEvaluation<'_, T, S> {
+    fn evaluate(&self, value: &T, name: &str, arithmetic: NodeArithmetic) -> Result<S, GraphError> {
+        match self {
+            TerminalEvaluation::Direct(evaluate) => Ok(evaluate(value)),
+            TerminalEvaluation::Weighted { weight, impact } => {
+                impact(value, weight, arithmetic.impact).map_err(|error| match error {
+                    crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                        GraphError::DecimalWeightArithmetic {
+                            constraint: name.to_owned(),
+                            error,
+                        }
+                    }
+                    crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                        GraphError::ScoreOverflow {
+                            constraint: Some(name.to_owned()),
+                        }
+                    }
+                })
+            }
+        }
+    }
+}
 struct TerminalJournal<S> {
     rows: usize,
     total: S,
@@ -957,6 +982,9 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             }
         }
     }
+    fn is_constraint(&self) -> bool {
+        true
+    }
     fn matches(&self) -> Option<&dyn Any> {
         Some(&self.matches)
     }
@@ -973,24 +1001,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         let contribution = change
             .value
             .as_ref()
-            .map(|value| match &self.evaluate {
-                TerminalEvaluation::Direct(evaluate) => Ok(evaluate(value)),
-                TerminalEvaluation::Weighted { weight, impact } => {
-                    impact(value, weight, arithmetic.impact).map_err(|error| match error {
-                        crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
-                            GraphError::DecimalWeightArithmetic {
-                                constraint: self.name.clone(),
-                                error,
-                            }
-                        }
-                        crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
-                            GraphError::ScoreOverflow {
-                                constraint: Some(self.name.clone()),
-                            }
-                        }
-                    })
-                }
-            })
+            .map(|value| self.evaluate.evaluate(value, &self.name, arithmetic))
             .transpose()?;
         if contribution
             .as_ref()
@@ -2062,7 +2073,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             .iter()
             .map(|node| {
                 node.dataset_rows().is_some()
-                    || (node.matches().is_some()
+                    || (node.is_constraint()
                         && node
                             .constraint_weight()
                             .is_none_or(|weight| *weight != S::ZERO))
@@ -2446,3 +2457,6 @@ mod filtered_indexed;
 
 mod fixed_links;
 pub use fixed_links::FixedLinkedStreamPort;
+
+mod fixed_slots;
+mod fixed_terminal;

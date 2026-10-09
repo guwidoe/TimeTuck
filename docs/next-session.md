@@ -20245,3 +20245,87 @@ Final check79887 and evidence5223 TERMINAL0. 5342Rust/246doctests pass;
 pass; no upstream credits added. Stream measurement digest remains current.
 Staged implementation/tests/benchmark equal the reviewed and verified files.
 All task handles terminal except dashboard81616. Goal active/incomplete.
+
+## Dense fixed stream state and scoring
+
+Baseline f38e1b3; previous goal turn made progress by committing fixed links.
+Fresh isolated profile31773 TERMINAL0 (work/fixed-links-profile.json/log):
+undo205ms, fixed links185ms, conflict terminal162ms, grouped collection149ms;
+975194 AVL copied nodes,231125 new nodes,1105920 value undo records. Instrumented
+hotspots only, not benchmark timings. Selected dense fixed-universe storage.
+
+Fixed links compile endpoint slots and replace input trees with nested journals
+of shared row pointers. New score_fixed/weighted/weighted_decimal terminals use
+the same storage and lazily materialize ordered match inspection. Shared impact
+evaluation preserves arithmetic errors; a constraint marker avoids forcing lazy
+match tables during structural activity checks. Snapshots copy O(declared IDs)
+pointers without cloning payloads; this tradeoff is explicit. Ordinary terminals
+and dynamic-ID joins remain available. Batched benchmark uses dense fixed scores;
+immediate control is unchanged. No upstream production read or new adaptations.
+
+Initial focus71266 TERMINAL0. Final focus89256: four fixed-link and five scoring
+regressions, two private units passed. Extended scoring focus35383: six tests
+passed, including callback-triggered installation clone failure, inspection
+retry, weighted overflow and exact decimal errors. Then release/paired native
+comparison35383 TERMINAL0. Baseline archive work/fixed-links-after is f38e1b3;
+after work/fixed-slots-after. Exact assignments/scores/scoring-call counts agree
+with independent rescoring. Measurements in work/fixed-slots-performance.json.
+Whole-process CPU hill/change: 515.004->308.234ms (40.1% lower).
+Whole-process CPU tabu/change: 426.085->393.615ms (7.6% lower).
+Whole-process CPU hill/swap: 6193.422->3065.119ms (50.5% lower).
+Whole-process CPU tabu/swap: 5438.814->4643.091ms (14.6% lower).
+CPU includes warmups and both sizes; it is not per-solve latency. Initial small
+tabu/swap median latency regressed. Focused follow-up41909 TERMINAL0: four
+alternating pairs,32variables,20steps,2warmups,5samples; CPU1005.187->940.523ms,
+latency139.808->133.201ms. Variation remains wide, including a regressing pair;
+claim no reliable small-tabu latency win. Raw work/fixed-slots-small-tabu-performance.json.
+
+Larger capture-cost check85320 TERMINAL0, same20steps/1warmup/3samples/2pairs:
+512-variable hill/change554.812->376.458ms;2048variables2622.602->1828.572ms.
+Combined process CPU13500.092->9670.729ms. Exact native outcomes agree and are
+independently rescored. Raw work/fixed-slots-large-performance.json.
+
+Matched Java6358 TERMINAL0: 128 valid, 128 equal-score cases.
+Generated 2026-10-09T16:59:59.099757+00:00; digest 5d79db59b384e42f5cff7977953ae2164ede67d5db85673dbd0001fa1477d389.
+96-variable hill/change: Rust 75.038/Java 115.383ms (Rust/Java 0.65).
+96-variable tabu/change: Rust 54.599/Java 151.239ms (Rust/Java 0.36).
+96-variable hill/swap: Rust 823.094/Java 386.502ms (Rust/Java 2.13).
+96-variable tabu/swap: Rust 965.855/Java 367.051ms (Rust/Java 2.63).
+Fresh comparison uses the same20step/1warmup/3sample/2fork configuration.
+Only stream measurements refreshed; unrelated records retain their freshness.
+Rust match materialization is explicitly outside the solve benchmark request;
+its cost remains available when callers inspect matches. No UI rendering change.
+
+Isolated post-change profile90345 TERMINAL0 (work/dense-state-profile.json/log).
+Same96-variable hill/swap20-step input, exact assignments/scores/call counts as
+pre-change profile. AVL copies975194->250389; new AVL nodes231125->308. Dense
+snapshots copy92640 row pointers across579 snapshots (193 saved candidates),
+with615009 dense writes and614744 undo records. Timing spans include contention
+with verification and extra counters; do not compare their milliseconds to the
+pre-change profile or claim a benchmark speedup from them. Operation counts are
+the intended evidence. Remaining group/input state still uses tree journals.
+
+Read-only gap review: DiminishedReturnsScoreRingBufferTest asserts Java-specific
+array layouts/read-write indices; do not add an unused Rust replica just to earn
+credits. No source or fixture from that review was adapted.
+Prepared unapplied/uncompiled work/transaction-workspace-draft.patch and
+work/group-coalescing-draft.patch with accompanying notes. The first reuses
+visited/journal buffers across trials while preserving nested scopes; the second
+removes duplicate grouping normalization after the graph already coalesces IDs.
+These are candidates for one coherent next batch, not verified improvements.
+Inspect and benchmark before accepting; main Rust source stayed frozen.
+
+Required fixed-slots gate TERMINAL0. 5349 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 639, 'REUSE': 86}; Python jobs: {'REUSE': 45, 'RUN': 1}.
+Dashboard: {'total': 4855, 'passed': 3123, 'failed': 0, 'pending': 1450, 'excluded': 282, 'unverified': 0, 'percent': 64.325}.
+Source before/after matched: 4a75435f9aa4fac970ca377919e9e53ac4e28276ca028e1c535dc20e46e23d09
+Live freshness matched verification digest: 859f1e58e30aa4b0dc7658760df0c338fa766f5d89ee9d7123db4a506bc828ac.
+Prior ledger records unchanged; No new upstream methods or fixture records.
+Log work/fixed-slots-final-check.log; evidence work/fixed-slots-evidence.json.
+Only the stream comparison was deliberately refreshed; other measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final prebuild/check9064 and report/live evidence31664 TERMINAL0. Clippy1m07s,
+compile11m34s;639Rust jobs ran,86reused;1Python ran,45reused.5349Rust tests and
+246doctests pass. Rust source frozen through all measurements and final checking;
+stream measurement digest remains current. Staged Rust/tests/benchmark match
+the reviewed and verified files. No upstream credits or new provenance fixtures.
+All task handles terminal except dashboard81616. Goal active/incomplete.

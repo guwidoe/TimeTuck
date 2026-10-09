@@ -106,7 +106,7 @@ impl<S: AdditiveScore> StreamGraph<'_, S> {
         for id in (0..size).rev() {
             let node = &self.nodes[id];
             let observed = node.dataset_rows().is_some()
-                || (node.matches().is_some()
+                || (node.is_constraint()
                     && node
                         .constraint_weight()
                         .is_none_or(|weight| *weight != S::ZERO));

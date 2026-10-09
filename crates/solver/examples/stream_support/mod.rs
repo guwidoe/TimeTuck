@@ -45,7 +45,19 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
         let conflicts = b.filter(&ab, |((_, a), b)| a.1 == b.1)?;
         (b.map(&conflicts, |((e, _), _)| e.0)?, Some(edges))
     };
-    let conflicts = b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?;
+    let conflicts = if batched {
+        b.score_fixed(
+            "conflicts",
+            &identities,
+            case.edges
+                .iter()
+                .enumerate()
+                .map(|(e, &(i, j))| ((e, i), j)),
+            |_| HardSoftScore::new(-1, 0),
+        )?
+    } else {
+        b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?
+    };
     let grouped = if batched {
         b.group_collect_batched(&jobs, |&(_, v, w)| (v, w))?
     } else {

@@ -2178,9 +2178,9 @@ cover full-scan agreement, repeated updates, asymmetric inputs, self-links,
 incident-only visits, input validation, failure recovery and saved candidates.
 This native specialization earns no additional upstream-method credit.
 
-The native stream benchmark now uses this operator in batched mode; its fixed
-relationships are compiled inside timed setup. The immediate control and Java
-adapter retain ordinary edge/job joins. Two alternating native process pairs
+The initial fixed-link benchmark (f38e1b3) used this operator in batched mode;
+its fixed relationships were compiled inside timed setup. The immediate control
+and Java adapter retain ordinary edge/job joins. Two alternating native process pairs
 (20 steps, one warmup, three samples, 32/96 variables) preserved assignments,
 scores and scoring-call counts, with 24–52% lower whole-process CPU across the
 four algorithm/neighborhood combinations. These numbers include warmups and
@@ -2188,5 +2188,44 @@ both sizes, not per-solve latency. A fresh matched Java comparison validates
 128 equal-score cases; the 96-variable change workloads are near parity while
 swaps remain 3.1–3.3 times slower. Development-host measurements are specific
 to this fixed-relationship workload, not general solver or dynamic-join parity.
-Raw native evidence: work/fixed-links-performance.json; Java comparison:
-work/stream-performance.json (measurement dates and freshness retained).
+Raw native evidence: work/fixed-links-performance.json; original Java run log:
+work/fixed-links-java.log. The latest Java results live in work/stream-performance.json.
+
+
+Fixed-link endpoint rows now occupy compiled dense slots. Each changed source ID
+is resolved once; incident links read endpoints by slot, and nested journals undo
+row replacements by moving old shared pointers. Full saved-candidate snapshots
+copy one pointer per declared endpoint, without cloning payloads. This trades
+linear snapshot cost for constant-time row access and cheaper trial updates.
+
+`score_fixed`, `score_fixed_weighted` and `score_fixed_weighted_decimal` accept
+a fixed universe of possible occurrence IDs. Duplicate declarations and incoming
+IDs outside that universe are rejected, including unknown retractions. The
+declared IDs supply canonical match keys. Integer/decimal weighting, overrides,
+zero-weight pruning, checked/wrapping arithmetic, explanations and rollback retain
+the ordinary scoring rules. Full snapshots copy O(declared IDs) row pointers.
+
+Ordered match inspection lazily materializes a SnapshotMap and caches it until
+state changes. It may clone IDs, payloads and scores; a clone panic leaves the
+scoring state intact and inspection can be retried. Retained match snapshots are
+independent. Activity detection uses a constraint marker and never forces this
+materialization. Dense terminals favor fixed universes with frequent trials and
+infrequent match inspection; they do not replace dynamically keyed terminals.
+
+Six original scoring regressions and a dense-journal unit test cover scan/tree
+agreement, nested commit/rollback, snapshot installation, payload/inspection
+panics, saved candidates, arithmetic failures, weighted overrides, exact decimal
+products and explanations. The existing fixed-link regressions exercise the new
+endpoint storage. No upstream-method or fixture credits are added.
+
+The dense-state comparison against f38e1b3 preserved native assignments, scores
+and scoring-call counts. Whole-process CPU medians fell about 8–51% across four
+algorithm/neighborhood combinations at 32/96 variables. Small tabu/swap latency
+was mixed: an initial regression and a noisy focused follow-up near parity.
+Separate 512/2048-variable hill/change comparisons improved median solve latency
+about 30–32%. These are development-host workload measurements, not universal
+speedups. Evidence: work/fixed-slots-performance.json,
+work/fixed-slots-small-tabu-performance.json and work/fixed-slots-large-performance.json.
+The refreshed Java comparison has 128 equal-score validation cases; large swaps
+still take about 2.1–2.6 times Java's time. Match inspection is outside that solve
+benchmark; the method records the lazy-materialization distinction explicitly.
