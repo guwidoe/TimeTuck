@@ -2,6 +2,7 @@
 use super::{JoinChanges, JoinComparison, JoinSide, TupleChange};
 use crate::SnapshotMap;
 use std::any::Any;
+mod batch;
 
 type Projection<'a, T, E, K> = dyn Fn(&T) -> (E, K) + 'a;
 #[derive(Clone)]

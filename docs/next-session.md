@@ -19859,3 +19859,29 @@ unrelated measurements retain their prior dates/stale status. No browser rerun.
 Implementation/tests/staged diff reviewed. No Rust changes after the gate. All task
 handles terminal except dashboard81926. Goal active/incomplete; reuse successful
 checks and this measurement when their relevant inputs are unchanged.
+
+## Atomic rounds for partitioned joins
+
+Baseline 2d0d859. PartitionedJoinNode.apply_batch coalesces updates on both
+sides before projecting keys and installs candidate shared partition roots only
+after preparing final pair outputs. join_partitioned_batched integrates this
+with graph transactions, pruning, self joins and saved candidate replay. Existing
+immediate APIs remain available. Persistent state contains input rows/indexes;
+temporary dense output remains potentially quadratic. No wall-time claim.
+
+Focus16260 TERMINAL0: five new native checks plus nine existing partitioned/shared
+partition checks passed. Added a sixth test for final-pair-only score handling;
+final focus14318 TERMINAL0: all six new tests passed. Coverage includes five
+relations, scan oracles, repeated IDs, partition changes, lazy sides, projection
+and payload clone counts, panic/retry, pruning, rollback and full/stream solver
+agreement. No adapted tests, provenance changes or upstream method credits.
+Final source frozen for required prebuild/check26001. No benchmark/browser rerun.
+
+Required partitioned-batch gate TERMINAL0. 5219 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 626, 'REUSE': 79}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3040, 'failed': 0, 'pending': 1533, 'excluded': 282, 'unverified': 0, 'percent': 62.616}.
+Source before/after matched: 3e369c3b434987e65d77b560ed4ff1b7238480e1d0cb6542445943394ec3c09f
+Live freshness matched verification digest: ea305bf2f5d43fe7ec38dfdc1be58af02a1450a243c89c699c6c26a8cecca5d2.
+Prior ledger records unchanged; No provenance changes or upstream method credits.
+Log work/partitioned-batch-final-check.log; evidence work/partitioned-batch-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.

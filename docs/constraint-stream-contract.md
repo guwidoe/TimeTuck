@@ -2089,3 +2089,20 @@ when checking retractions, without repeating a known-unchanged key comparison.
 Original checks compare retained, recomputed and projected joins with pair scans
 for all five comparisons, with/without pruning, and test mapper counts/failures,
 self joins and rollback. No upstream method credits are added.
+
+`PartitionedJoinNode::apply_batch` and `join_partitioned_batched` now accept both
+sides as one final-state round. They coalesce repeated input IDs before projecting
+keys, prepare shared partition roots off to the side, visit old/new matching ranges
+only within touched equality partitions, and emit one sorted final change per
+affected pair. Surviving pairs refresh; intermediate matches are never materialized.
+Rows may move between equality partitions and ordered keys in the same round.
+Immediate and batched standalone updates can be interleaved. Empty partitions are
+removed, and a side is initialized only when it receives a row.
+
+Ordinary iterator, projection, comparison and output-clone panics leave standalone
+state unchanged; graph checkpoints also restore downstream state. Destructors and
+external callback effects retain the existing exclusions. Graph observation enables
+batched planning updates, including self joins and saved candidate replay. Candidate
+and output vectors can still be quadratic for dense joins. Original scan-based,
+clone-count, panic, pruning, rollback and solver regressions cover this behavior;
+no new upstream method credits or wall-clock performance claims are made.
