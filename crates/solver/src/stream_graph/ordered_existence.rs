@@ -112,4 +112,62 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.connect(right.node, out.node, true);
         Ok(out)
     }
+    /// Ordered existence excluding equal left/right IDs. Both inputs must share
+    /// an identity namespace; they may be differently filtered/projected streams.
+    /// Uses final-state rounds and linear indexes, without retained pair links.
+    pub fn existence_other_compare_batched<
+        I: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<I, R>,
+        mode: ExistenceMode,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> K + 'a,
+        right_key: impl Fn(&R) -> K + 'a,
+    ) -> Result<StreamPort<I, L>, GraphError> {
+        self.existence_other_partitioned_batched(
+            left,
+            right,
+            mode,
+            comparison,
+            move |l| ((), left_key(l)),
+            move |r| ((), right_key(r)),
+        )
+    }
+    /// Equality-partitioned ordered existence excluding the same occurrence ID.
+    /// Singleton partitions never match themselves; duplicate keys still witness
+    /// other IDs. Different left/right projections and filters are supported.
+    /// ID identity must be stable and shared across the two inputs. Batched
+    /// visibility, pruning, rollback and saved candidates retain normal contracts.
+    pub fn existence_other_partitioned_batched<
+        I: Ord + Clone + 'static,
+        L: Clone + 'static,
+        R: Clone + 'static,
+        E: Ord + Clone + 'static,
+        K: Ord + Clone + 'static,
+    >(
+        &mut self,
+        left: &StreamPort<I, L>,
+        right: &StreamPort<I, R>,
+        mode: ExistenceMode,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> (E, K) + 'a,
+        right_key: impl Fn(&R) -> (E, K) + 'a,
+    ) -> Result<StreamPort<I, L>, GraphError> {
+        self.validate(left)?;
+        self.validate(right)?;
+        let out = self.push(OrderedExistence(
+            ExistsCompareNode::<I, I, L, R, E, K>::new_other(mode, comparison, left_key, right_key),
+        ));
+        if mode == ExistenceMode::NotExists {
+            self.activity_rules[out.node] = ActivityRule::Left;
+        }
+        self.connect(left.node, out.node, false);
+        self.connect(right.node, out.node, true);
+        Ok(out)
+    }
 }

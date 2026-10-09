@@ -2127,3 +2127,22 @@ partition moves and duplicate inputs. A 10,000-left-key boundary shift visits fe
 than 300 key comparisons and emits one row; 4,000-by-4,000 witness tests require no
 left payload clones for duplicate-witness updates. These are operation-count checks,
 not measured wall-clock gains or Java parity. No upstream method credit is added.
+
+
+`ExistsCompareNode::new_other`, `existence_other_compare_batched`, and
+`existence_other_partitioned_batched` exclude right occurrences with the same stable
+ID as the left row. Both inputs must share an identity namespace; payload types,
+projections and upstream filtering may differ. Existence/absence, all five comparisons,
+compound equality partitions, coalesced batches and graph rollback remain available.
+
+Only the identity-excluding constructor retains an additional linear right-key
+membership index. Equalities subtract the excluded witness from a key count.
+Inequalities use the next extremum when the excluded occurrence is the sole witness
+at the outer extremum. Right updates also reconsider old/new sole-witness IDs;
+changing a second witness can change visibility even if the outer boundary stays
+fixed. No matching-pair table or full left-bucket scan is required for this case.
+Original regressions cover all comparisons/modes, independent/filtered inputs,
+identity replacement, second-witness changes, payload-clone failure/retry, pruning,
+rollback and full/stream solver agreement. Removing one of two equal right witnesses
+against10,000 equal left rows emits one retraction with fewer than300 key comparisons.
+No upstream method credits are added.

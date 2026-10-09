@@ -19920,3 +19920,58 @@ Live freshness matched verification digest: 65c002d07bd0b688a341bb8ee64a8772e5b6
 Prior ledger records unchanged; No provenance changes or upstream method credits.
 Log work/ordered-existence-final-check.log; evidence work/ordered-existence-evidence.json.
 No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+
+## Ordered existence excluding equal occurrence IDs
+
+Baseline 4d1d842. New standalone constructor new_other and graph builders
+existence_other_compare_batched/existence_other_partitioned_batched exclude the
+same stable ID across two inputs sharing an identity namespace. Payload types and
+key projections may differ; filtered input ports preserve this identity contract.
+Only this mode retains additional linear key-to-right-ID memberships. Equalities
+subtract the excluded key occurrence; inequalities use the next extremum when the
+excluded right ID is the sole outer witness. Updates reconsider old/new sole IDs
+alongside ordinary boundary crossings, including changes to a second witness while
+the outer extremum remains unchanged. No matching-pair storage.
+
+Focus59635 TERMINAL0: six existing and five new tests passed. Final13341 TERMINAL0:
+six existing and six new tests passed after adding actual upstream graph filtering
+and clone-failure/retry coverage. Release library built22.38s. New tests cover all
+five comparisons/both modes, independent row/key changes, self joins, zero/one/two
+witnesses, identity replacement, pruning/rollback and solver saved candidates.
+Removing one of two equal witnesses among10,000 equal left rows emits only the
+remaining witness's self-retraction with fewer than300 key comparisons. No adapted
+fixtures, provenance changes or upstream method credits. Benchmark compilation58186
+TERMINAL0; native generic-vs-indexed measurement21121 started on frozen Rust source.
+
+
+Native measurement21121 TERMINAL0. work/ordered-other-performance.json records
+one warmup process and two alternating measured process pairs per variant/config.
+128/512 input rows; dense equality/8-partition less-than; both existence modes.
+Each process validates exact dataset rows and score after initialization and all
+16 rounds of8 self-source updates against an independent pair scan. Timers exclude
+oracle validation. All8 configurations improve initialization/update medians;
+every indexed update sample beats both generic samples for that configuration.
+512-row exists update medians: dense equality650.576982 ->0.8263745ms;
+8-partition less-than25.8727395 ->0.8703655ms. These are whole16-round native graph
+update workloads on a development host, not per-move, whole-solver, or Java results.
+Raw samples, source and executable hashes are recorded; no existing Java benchmark
+record was refreshed or relabeled. Required final prebuild/check21721 started.
+Native measured Rust digest: 95abe1ce4a0acb7fee1af58dc22cb7486dce46fa56c91356af8fe4f9c227344e
+Executable SHA256: 2fe33db1f08a35d1d8a27cd52245899cca257aa762514502bb0a53e4ad961252
+
+Required ordered-other gate TERMINAL0. 5231 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 704}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3040, 'failed': 0, 'pending': 1533, 'excluded': 282, 'unverified': 0, 'percent': 62.616}.
+Source before/after matched: 95abe1ce4a0acb7fee1af58dc22cb7486dce46fa56c91356af8fe4f9c227344e
+Live freshness matched verification digest: 9ecfc1271b415976ea33b4dabadb37cc2024a0f10552e646f573861ef42b1d9c.
+Prior ledger records unchanged; No provenance changes or upstream method credits.
+Log work/ordered-other-final-check.log; evidence work/ordered-other-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+
+Final gate21721 and report/live evidence78619 TERMINAL0. Native benchmark Rust
+source equals the gate source exactly.3 Rust targets ran;704 Rust and46 Python
+targets reused unchanged evidence. All task handles terminal except the dashboard.
+No Rust changes after measurement/gate; staged implementation and documentation
+reviewed. Existing Java measurements retain their dates/freshness. Goal incomplete.

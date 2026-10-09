@@ -7,6 +7,8 @@ use std::{
 };
 
 type KeyProjection<'a, T, E, K> = dyn Fn(&T) -> (E, K) + 'a;
+type Identity<I, J> = (fn(&I) -> J, fn(&J) -> I);
+type RightMembers<J, E, K> = SnapshotMap<(E, K), SnapshotMap<J, ()>>;
 
 fn last_updates<I: Ord, T>(
     changes: impl IntoIterator<Item = TupleChange<I, T>>,
@@ -35,6 +37,7 @@ struct State<I, J, L, E, K> {
     left: SnapshotMap<I, (E, K, L)>,
     right: SnapshotMap<J, (E, K)>,
     groups: SnapshotMap<E, Partition<I, K>>,
+    members: Option<RightMembers<J, E, K>>,
 }
 impl<I, J, L, E, K> State<I, J, L, E, K> {
     fn new() -> Self {
@@ -42,6 +45,7 @@ impl<I, J, L, E, K> State<I, J, L, E, K> {
             left: SnapshotMap::new(),
             right: SnapshotMap::new(),
             groups: SnapshotMap::new(),
+            members: None,
         }
     }
 }
@@ -63,18 +67,63 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, E: Ord + Clone, K: Ord + Clone>
             self.groups.insert(e, p);
         }
     }
-    fn matched(&self, e: &E, k: &K, c: JoinComparison) -> bool {
-        let p = self.groups.get(e);
+    fn matched(&self, e: &E, k: &K, c: JoinComparison, excluded: Option<&J>) -> bool {
+        let Some(p) = self.groups.get(e) else {
+            return false;
+        };
+        let excluded = excluded
+            .and_then(|id| self.right.get(id))
+            .filter(|(partition, _)| partition == e)
+            .map(|(_, key)| key);
         if c == JoinComparison::Equal {
-            p.is_some_and(|p| p.right.contains_key(k))
+            p.right.get(k).copied().unwrap_or(0) > usize::from(excluded == Some(k))
         } else {
-            boundary(p, c).is_some_and(|r| c.matches(k, r))
+            let Some(best) = boundary(Some(p), c) else {
+                return false;
+            };
+            if !c.matches(k, best) {
+                return false;
+            }
+            if excluded != Some(best) || p.right[best] > 1 {
+                return true;
+            }
+            let second = match c {
+                JoinComparison::LessThan | JoinComparison::LessThanOrEqual => {
+                    p.right.len().checked_sub(2)
+                }
+                _ => Some(1),
+            };
+            second
+                .and_then(|index| p.right.entry_at(index))
+                .is_some_and(|(next, _)| c.matches(k, next))
         }
     }
-    fn visible(&self, id: &I, c: JoinComparison, mode: ExistenceMode) -> bool {
-        self.left
-            .get(id)
-            .is_some_and(|(e, k, _)| self.matched(e, k, c) == (mode == ExistenceMode::Exists))
+    fn member(&self, e: &E, k: &K) -> Option<&J> {
+        if self.groups.get(e)?.right.get(k)? != &1 {
+            return None;
+        }
+        self.members
+            .as_ref()?
+            .get(&(e.clone(), k.clone()))?
+            .first_key_value()
+            .map(|(id, _)| id)
+    }
+    fn update_member(&mut self, id: &J, e: &E, k: &K, insert: bool) {
+        let Some(members) = &mut self.members else {
+            return;
+        };
+        let key = (e.clone(), k.clone());
+        let mut ids = members.get(&key).cloned().unwrap_or_default();
+        if insert {
+            ids.insert(id.clone(), ());
+        } else {
+            ids.remove(id);
+        }
+        if ids.is_empty() {
+            members.remove(&key);
+        } else {
+            members.insert(key, ids);
+        }
     }
     fn install_left(&mut self, id: I, row: Option<(E, K, L)>) {
         let old = self.left.get(&id);
@@ -115,6 +164,7 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, E: Ord + Clone, K: Ord + Clone>
         }
         if let Some((e, k)) = old {
             let (e, k) = (e.clone(), k.clone());
+            self.update_member(&id, &e, &k, false);
             let mut p = self.groups.get(&e).unwrap().clone();
             let n = p.right[&k];
             if n == 1 {
@@ -125,6 +175,7 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, E: Ord + Clone, K: Ord + Clone>
             self.save(e, p);
         }
         if let Some((e, k)) = &row {
+            self.update_member(&id, e, k, true);
             let mut p = self.groups.get(e).cloned().unwrap_or_else(Partition::new);
             p.right
                 .insert(k.clone(), p.right.get(k).copied().unwrap_or(0) + 1);
@@ -144,18 +195,20 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, E: Ord + Clone, K: Ord + Clone>
 ///
 /// Stores left rows/indexes and right ID-to-key mappings/key counts, never matching
 /// pairs or right payloads. For inequalities, only the minimum or maximum right
-/// key determines visibility. Right updates visit left keys only where that
-/// boundary changes; equal-key updates visit a bucket only on zero crossings.
+/// key determines ordinary visibility. Right updates visit crossed left keys;
+/// equality updates visit buckets only on zero crossings. Identity exclusion also
+/// checks sole-witness IDs and the next extremum, without scanning matching pairs.
 /// Both sides support atomic, coalesced final-state rounds and immediate updates.
 ///
 /// Keys/callbacks must be stable and pure. Ordinary iterator, projection, comparison
 /// and clone panics leave state unchanged; destructor panics and external effects
-/// are excluded. No arbitrary residual predicate or self-exclusion is supported;
-/// use ExistsNode for those cases. Self joins include matching self occurrences.
+/// are excluded. Use ExistsNode for arbitrary residual predicates. The ordinary
+/// constructor includes matching self occurrences; new_other excludes equal IDs.
 pub struct ExistsCompareNode<'a, I, J, L, R, E, K> {
     state: State<I, J, L, E, K>,
     comparison: JoinComparison,
     mode: ExistenceMode,
+    identity: Option<Identity<I, J>>,
     left_key: Box<KeyProjection<'a, L, E, K>>,
     right_key: Box<KeyProjection<'a, R, E, K>>,
 }
@@ -172,13 +225,23 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R, E: Ord + Clone, K: Ord + C
             state: State::new(),
             mode,
             comparison,
+            identity: None,
             left_key: Box::new(left_key),
             right_key: Box::new(right_key),
         }
     }
+    fn visible(&self, state: &State<I, J, L, E, K>, id: &I) -> bool {
+        let excluded = self.identity.map(|(to_right, _)| to_right(id));
+        state.left.get(id).is_some_and(|(e, k, _)| {
+            state.matched(e, k, self.comparison, excluded.as_ref())
+                == (self.mode == ExistenceMode::Exists)
+        })
+    }
     pub fn rows(&self) -> impl Iterator<Item = (&I, &L)> {
         self.state.left.iter().filter_map(|(id, (e, k, l))| {
-            (self.state.matched(e, k, self.comparison) == (self.mode == ExistenceMode::Exists))
+            let excluded = self.identity.map(|(to_right, _)| to_right(id));
+            (self.state.matched(e, k, self.comparison, excluded.as_ref())
+                == (self.mode == ExistenceMode::Exists))
                 .then_some((id, l))
         })
     }
@@ -239,6 +302,10 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R, E: Ord + Clone, K: Ord + C
                 continue;
             };
             if self.comparison == JoinComparison::Equal {
+                if let Some((_, to_left)) = self.identity {
+                    affected.extend(self.state.member(e, k).map(to_left));
+                    affected.extend(next.member(e, k).map(to_left));
+                }
                 if old.is_some_and(|p| p.right.contains_key(k)) != p.right.contains_key(k)
                     && let Some(ids) = p.left.get(k)
                 {
@@ -249,6 +316,10 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R, E: Ord + Clone, K: Ord + C
                     boundary(old, self.comparison),
                     boundary(new, self.comparison),
                 );
+                if let Some((_, to_left)) = self.identity {
+                    affected.extend(a.and_then(|k| self.state.member(e, k)).map(to_left));
+                    affected.extend(b.and_then(|k| next.member(e, k)).map(to_left));
+                }
                 if let Some((lo, hi)) = changed_range(a, b, self.comparison) {
                     for (_, ids) in p.left.range(lo, hi) {
                         affected.extend(ids.keys().cloned());
@@ -259,8 +330,8 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R, E: Ord + Clone, K: Ord + C
         let output = affected
             .into_iter()
             .filter_map(|id| {
-                let before = self.state.visible(&id, self.comparison, self.mode);
-                let after = next.visible(&id, self.comparison, self.mode);
+                let before = self.visible(&self.state, &id);
+                let after = self.visible(&next, &id);
                 if after && (!before || changed_left.contains(&id)) {
                     Some(TupleChange::put(
                         id.clone(),
@@ -278,6 +349,9 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R, E: Ord + Clone, K: Ord + C
     }
     pub(crate) fn clear(&mut self) {
         self.state = State::new();
+        if self.identity.is_some() {
+            self.state.members = Some(SnapshotMap::new());
+        }
     }
     pub(crate) fn checkpoint(&self) -> Box<dyn Any>
     where
@@ -330,4 +404,25 @@ fn changed_range<'a, K: Ord>(
         },
         _ => unreachable!(),
     })
+}
+
+impl<'a, I: Ord + Clone, L: Clone, R, E: Ord + Clone, K: Ord + Clone>
+    ExistsCompareNode<'a, I, I, L, R, E, K>
+{
+    /// Exclude the right occurrence with the same stable ID as each left row.
+    /// Both inputs must use the same identity namespace. Projections may differ.
+    /// Retains an additional linear right-key membership index to find the sole
+    /// witness at a key; no pair links are stored. Empty and singleton partitions,
+    /// duplicate keys and changing second-best witnesses retain final-batch semantics.
+    pub fn new_other(
+        mode: ExistenceMode,
+        comparison: JoinComparison,
+        left_key: impl Fn(&L) -> (E, K) + 'a,
+        right_key: impl Fn(&R) -> (E, K) + 'a,
+    ) -> Self {
+        let mut node = Self::new(mode, comparison, left_key, right_key);
+        node.identity = Some((I::clone, I::clone));
+        node.state.members = Some(SnapshotMap::new());
+        node
+    }
 }
