@@ -46659,6 +46659,306 @@
       "local_path": "crates/solver/tests/termination_profile_cases.rs",
       "local_test": "absent_fallback_keeps_identity",
       "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.nullInputUsesPlatformSpentLimitAndDiminishedReturnsDefaults",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "nullInputUsesPlatformSpentLimitAndDiminishedReturnsDefaults",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "default_spent_and_slowdown",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.perRequestDiminishedReturnsTuningIsForwarded",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "perRequestDiminishedReturnsTuningIsForwarded",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "request_tuning_forwarded",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.unimprovedSpentLimitDisablesDiminishedReturns",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "unimprovedSpentLimitDisablesDiminishedReturns",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "stagnation_disables_slowdown",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.stepCountLimitDisablesDiminishedReturns",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "stepCountLimitDisablesDiminishedReturns",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "steps_disable_slowdown",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.moveCountLimitDisablesDiminishedReturns",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "moveCountLimitDisablesDiminishedReturns",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "moves_disable_slowdown",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.stepCountLimitAndMoveCountLimitCombine",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "stepCountLimitAndMoveCountLimitCombine",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "counts_combine",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.nullSpentLimitOnRequestFallsBackToPlatformSpentLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "nullSpentLimitOnRequestFallsBackToPlatformSpentLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "missing_request_time_inherits",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.platformUnimprovedSpentLimitDisablesDiminishedReturnsWhenNoRequest",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "platformUnimprovedSpentLimitDisablesDiminishedReturnsWhenNoRequest",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "platform_stagnation_disables_slowdown",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.platformStepCountLimitDisablesDiminishedReturnsWhenNoRequest",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "platformStepCountLimitDisablesDiminishedReturnsWhenNoRequest",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "platform_steps_disable_slowdown",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.platformMoveCountLimitDisablesDiminishedReturnsWhenNoRequest",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "platformMoveCountLimitDisablesDiminishedReturnsWhenNoRequest",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "platform_moves_disable_slowdown",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.rejectsNegativePlatformStepCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "rejectsNegativePlatformStepCountLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "rejects_negative_platform_steps",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.rejectsNegativePlatformMoveCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "rejectsNegativePlatformMoveCountLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "rejects_negative_platform_moves",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.acceptsZeroPlatformCountLimits",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "acceptsZeroPlatformCountLimits",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "zero_platform_counts",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.rejectsPlatformUnimprovedSpentLimitCombinedWithStepCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "rejectsPlatformUnimprovedSpentLimitCombinedWithStepCountLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "rejects_platform_stagnation_and_steps",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.rejectsPlatformUnimprovedSpentLimitCombinedWithMoveCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "rejectsPlatformUnimprovedSpentLimitCombinedWithMoveCountLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "rejects_platform_stagnation_and_moves",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.perRequestStepCountLimitIgnoresPlatformUnimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "perRequestStepCountLimitIgnoresPlatformUnimprovedSpentLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "request_steps_ignore_platform_stagnation",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.perRequestMoveCountLimitIgnoresPlatformUnimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "perRequestMoveCountLimitIgnoresPlatformUnimprovedSpentLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "request_moves_ignore_platform_stagnation",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.perRequestUnimprovedSpentLimitIgnoresPlatformStepCountAndMoveCountLimits",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "perRequestUnimprovedSpentLimitIgnoresPlatformStepCountAndMoveCountLimits",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "request_stagnation_ignores_platform_counts",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.perRequestStepCountLimitStillInheritsPlatformMoveCountLimit",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "perRequestStepCountLimitStillInheritsPlatformMoveCountLimit",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "request_steps_inherit_other_count",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationServiceTest.perRequestMoveCountLimitOverridesPlatformDefault",
+      "status": "implemented",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "perRequestMoveCountLimitOverridesPlatformDefault",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "local_test": "request_moves_override_platform",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
     }
   ],
   "fixtures": [
@@ -63184,6 +63484,19 @@
       "upstream_test": "constructor and override duration/count/ratio fixtures",
       "local_path": "crates/solver/tests/termination_profile_cases.rs",
       "modifications": "Preserve every supplied duration/count, count-zero acceptance, invalid sign, incompatible-field diagnostic, getter/default, primary/fallback precedence and conflict assertion. Native validated TerminationProfile replaces the service record. Exact ratios (1/100, 1/1000, 1/2) replace asserted decimal double values; -1/100 and zero preserve invalid ratio cases, without a floating conversion contract. Explicit None fields represent omitted legacy constructor arguments; no Java overload API parity is claimed. Cow::Borrowed and pointer equality preserve the null-fallback same-instance assertion. Each merge is revalidated before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "worker-termination-resolution-fixtures",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/termination/TerminationServiceTest.java",
+      "upstream_test": "service; platform/request duration/count/ratio fixtures",
+      "local_path": "crates/solver/tests/termination_resolver_cases.rs",
+      "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
     }
   ]
 }

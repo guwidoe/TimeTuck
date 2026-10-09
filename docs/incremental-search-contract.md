@@ -2276,3 +2276,22 @@ These configuration cases do not establish Java runtime counters or timer scopes
 Original tests exercise cross-phase steps, candidate budgets, inherited expressions
 and zero-work stopping through all six native solver paths, plus mixed-policy
 binding with a non-Clone score, exact defaults and atomic conflict rejection.
+
+`TerminationResolver` now resolves validated platform defaults and optional request
+profiles into `ResolvedTermination`. Request stagnation suppresses platform counts;
+request counts suppress platform stagnation while inheriting the other compatible
+count. Missing spent time inherits the platform time, and explicit zero is never
+missing. Any selected stagnation/count policy disables diminished returns and drops
+ignored tuning. Otherwise slowdown is enabled with explicit request tuning or core
+defaults; absent tuning remains distinguishable from disabled slowdown.
+
+Resolved binding replaces shared spent/unimproved/move fields, including clearing
+suppressed pre-existing values. It sets or clears every local phase's diminished
+policy, retains other phase kinds/component order, and composes a selected step cap
+with existing shared expressions. Other native safeguards and explicit phase-local
+budgets remain active. Structured durations replace external platform strings.
+All 20 worker TerminationServiceTest methods have native adaptations. Four original
+regressions verify earliest-count stopping, suppression of zero conflicting limits,
+zero-work request overrides across all six solver paths, immutable inputs, and mixed
+policy/default binding without a Clone bound on score types. Configuration-key
+strings/exception types are native adaptations recorded in provenance.

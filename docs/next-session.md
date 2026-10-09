@@ -20133,3 +20133,29 @@ resolves platform/request precedence, suppresses conflicting platform defaults a
 disables diminished returns when stagnation/step/move limits select another policy.
 The native profile binder intentionally applies supplied tuning; worker resolution
 is a separate pending layer. No worker fixtures copied or credits claimed yet.
+
+## Platform/request termination resolution
+
+Baseline 46e0bf0. TerminationResolver/ResolvedTermination select request versus
+platform limits, suppress conflicting defaults, preserve explicit zero and
+compatible counts, and set/clear local diminished-return policies during binding.
+Resolved shared spent/unimproved/move fields replace pre-existing fields, including
+clearing suppressed values; unrelated safeguards and phase controls survive.
+Focus92114 TERMINAL0: 20 full worker TerminationService adaptations and 4 original
+regressions pass, including actual stopping/suppression across all six paths and
+mixed binding with non-Clone scores. Provenance adds 20 methods and one fixture;
+structured durations/rational tuning/native diagnostics are explicit adaptations.
+No production upstream source read. Final Rust source frozen for required gate.
+
+Required termination-resolver gate TERMINAL0. 5337 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 720}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3123, 'failed': 0, 'pending': 1450, 'excluded': 282, 'unverified': 0, 'percent': 64.325}.
+Source before/after matched: 1cb1b26af20e1d8754735699b992fa38ef70ed16ec3c03e82e0c04747124b37c
+Live freshness matched verification digest: 28b4d36249277d25623b53ba9703aa942ed3ab31348ba25278e85b3d4b08f36d.
+Prior ledger records unchanged; 20 complete Community methods and one fixture source added.
+Log work/termination-resolver-final-check.log; evidence work/termination-resolver-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate24989 and report/live evidence40082 TERMINAL0. All20new mappings verified,
+zero unverified. Three Rust targets ran,720Rust/46Python reused. Final Rust source
+unchanged since focused tests; staged source/provenance reviewed. Dashboard81616
+remains live. No benchmarks refreshed or browser rerun for this backend batch.
