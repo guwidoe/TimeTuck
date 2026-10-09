@@ -189,7 +189,7 @@ pub type MixedSolutionManager<'a, B, V, S> = SolutionManager<
     SolutionRefreshError<MixedScoringError, V>,
 >;
 
-pub(crate) fn project<V: Eq + Clone>(
+pub(crate) fn project_list_shadows<V: Eq + Clone>(
     problem: &ListProblem<V>,
     a: &ListAssignment<V>,
 ) -> ListSolutionShadows<V> {
@@ -218,7 +218,11 @@ pub(crate) fn check_projection<V: Eq + Clone, E>(
             actual: shadows.len(),
         });
     }
-    for (value, (expected, actual)) in project(problem, a).iter().zip(shadows).enumerate() {
+    for (value, (expected, actual)) in project_list_shadows(problem, a)
+        .iter()
+        .zip(shadows)
+        .enumerate()
+    {
         let mismatch = if expected.owner != actual.owner {
             Some(ListShadowMismatch::Owner {
                 expected: expected.owner,
@@ -262,7 +266,7 @@ pub fn list_solution_manager<'a, V: Eq + Clone + 'a, S: AdditiveScore + 'a>(
             problem
                 .validate(a)
                 .map_err(|e| SolutionRefreshError::Backend(ListScoringError::from(e)))?;
-            Ok(project(problem, a))
+            Ok(project_list_shadows(problem, a))
         },
         move |a, h| {
             problem
@@ -288,7 +292,7 @@ pub fn mixed_solution_manager<'a, B: Eq + Clone + 'a, V: Eq + Clone + 'a, S: Add
             problem
                 .validate(a)
                 .map_err(|e| SolutionRefreshError::Backend(MixedScoringError::from(e)))?;
-            Ok(project(problem.lists(), a.lists()))
+            Ok(project_list_shadows(problem.lists(), a.lists()))
         },
         move |a, h| {
             problem

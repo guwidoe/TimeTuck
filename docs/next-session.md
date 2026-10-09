@@ -21197,3 +21197,48 @@ Evidence work/repartition-evidence.json. Older list performance is honestly stal
 no benchmark/browser rerun or relabeling. New native generation-only measurements
 remain in work/repartition-performance.json. All task-owned handles are terminal.
 Goal remains active/incomplete. Reuse this evidence until relevant inputs change.
+
+
+## Sampling dependency boundaries (verified)
+
+Baseline6ce096a. Moved UniqueRangeSamples and its factory unchanged into
+unique_range_sampling.rs, and order_moves/WindowShuffle with their tests into
+candidate_window.rs. SplitMix64 and general index/slice sampling no longer import
+solver/model adapters. Renamed the internal project helper to project_list_shadows
+to avoid false dependency matches. Public exports and algorithm bodies unchanged;
+no scanner changes, new upstream credits, or provenance changes.
+
+Focused87850 TERMINAL0:42tests in six suites. Moved bodies compare byte-exact with
+baseline (work/check_sampling_boundaries.py). arity_join_cases inputs fell172->59
+modules; actual range/solver/shadow dependencies remain. Future repartition edits
+select553jobs instead of661 (108 fewer); work/sampling-boundaries.json and
+work/sampling-boundaries-kopt-dependents.json preserve selections.
+
+Final gate36392 and evidence27244 TERMINAL0. Fmt/Clippy pass (1m00s); affected-target
+prebuild7m51s; doctest compilation approximately4.5minutes. 5444Rust tests and
+248doctests pass. Rust661RUN/88REUSE, Python46REUSE. Coverage3161/4855=65.108%,
+0failed,1412pending,282excluded,0unverified. Report/live verification digest matches.
+Source:eef8fc5ad48178abd1fd359c714bb1914397fbc4e3e3c432f24e47fa163af73e
+Verification:5916f7183b2364345a11baedbd892b36ca005a7237756acf2b045b0e53e04fcb
+Logs work/sampling-boundaries-{focused,prebuild,final-check}.log; final evidence
+work/sampling-boundaries-evidence.json. List performance measurements remain stale;
+no benchmarks or browser checks repeated. Reuse this successful verification.
+
+Next implementation drafts are outside crates and UNVERIFIED:
+work/basic_move_check.rs (Eq-only FiniteProblem::is_move_doable; intended plain child
+module model/move_check.rs), work/basic_move_check_regression.rs (three originals),
+work/basic_change_doability_cases.rs (two test-only adaptations). Query validates
+source, execution-order indices and final sorted pin/domain state; detects final
+net change without Clone, mutation or scoring. Primitive paths allocate nothing;
+composites use borrowed overlays. Preserve partial-assignment allowance and error
+precedence. Integrate after this refactor, add a custom-provider integration test,
+and provenance/notices for SelectorBasedChangeMoveTest.isMoveDoable/doMove. Do not
+claim the composite upstream doability method: it ORs children against original
+state, unlike this final-net-effect contract. No upstream production was read.
+
+User emphasizes performance remains a core priority and overall throughput matters.
+At approximately01:07 Oct10, preceding10hours coverage rose3040->3161 (+121methods,
+62.616->65.108%, +2.492percentage points). This is coverage, not rewrite completion.
+Batch related shared-code changes before the required final gate to avoid paying
+broad compilation repeatedly; retain focused checks and honest performance evidence.
+Goal active/incomplete.

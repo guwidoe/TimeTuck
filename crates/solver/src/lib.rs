@@ -50,6 +50,7 @@ pub use step_termination::StepTermination;
 
 pub mod acceptance;
 pub use acceptance::{AcceptanceError, Acceptor, LateAcceptance};
+mod candidate_window;
 mod forager;
 mod random;
 pub use forager::{FinalistRanking, ForagerConfig, InvalidFinalistIndex, MoveForager, TieBreaking};
@@ -706,9 +707,11 @@ pub use placement_queue_provider::{PlacementProviderError, PlacementQueueProvide
 
 mod unique_sampling;
 pub use unique_sampling::{
-    UniqueIndices, UniqueRangeSamples, UniqueSampleError, UniqueSliceSamples, unique_indices,
-    unique_range_samples, unique_slice_samples,
+    UniqueIndices, UniqueSampleError, UniqueSliceSamples, unique_indices, unique_slice_samples,
 };
+
+mod unique_range_sampling;
+pub use unique_range_sampling::{UniqueRangeSamples, unique_range_samples};
 
 mod unique_pair_stream;
 pub use unique_pair_stream::UniquePairNode;

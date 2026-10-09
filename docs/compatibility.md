@@ -5183,3 +5183,20 @@ applied and validated outside timing, and ordered move/result hashes matched acr
 versions. These short generator measurements do not establish full-solve or Java
 speedups. Raw samples and source/executable identities are in
 work/repartition-performance.json. No new upstream method credits are claimed.
+
+
+### Sampling dependency boundaries
+
+The indexed planning-range sampler now lives separately from the general index
+and slice samplers. Candidate-window ordering likewise lives separately from the
+random generator. Their existing bodies and public exports are retained. The
+internal list-shadow projection helper has a specific name, avoiding a collision
+with unrelated stream projection callbacks in the development dependency scanner.
+
+The arity join target now selects 59 source modules instead of 172 and no longer
+selects local search, k-opt, or solution management. Checks retain the planning-range
+adapter for range sampling and candidate-window/k-opt code for actual list solver
+consumers. A future repartition edit selects 553 jobs, compared with 661 jobs in
+the preceding repartition increment. No verification results are relabeled; changed input sets require a new
+successful run. This reorganizes existing implementation boundaries without changing
+sampling algorithms, solver behavior, the upstream pin or compatibility credits.

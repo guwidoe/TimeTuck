@@ -349,11 +349,16 @@ where
             result.evaluations,
         );
         let selection = director.select_best(
-            crate::random::order_moves(moves, config.move_order, random.as_mut(), budget.remaining)
-                .take_while(|_| {
-                    !config.cancelled()
-                        && !time_budget.expired(&result.best.as_ref().expect("initial best").score)
-                }),
+            crate::candidate_window::order_moves(
+                moves,
+                config.move_order,
+                random.as_mut(),
+                budget.remaining,
+            )
+            .take_while(|_| {
+                !config.cancelled()
+                    && !time_budget.expired(&result.best.as_ref().expect("initial best").score)
+            }),
             budget.remaining,
             config.forager(
                 current.clone(),

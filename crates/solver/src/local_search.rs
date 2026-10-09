@@ -736,7 +736,7 @@ where
             result.evaluations,
         );
         let selection = director.select_best(
-            crate::random::order_moves(
+            crate::candidate_window::order_moves(
                 candidates,
                 config.move_order,
                 random.as_mut(),

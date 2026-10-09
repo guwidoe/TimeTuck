@@ -1,5 +1,5 @@
 //! Combine built-in list shadows and declarative session outputs atomically.
-use crate::solution_manager::{check_projection, project};
+use crate::solution_manager::{check_projection, project_list_shadows};
 use crate::{
     ListAssignment, ListError, ListProblem, ListSolutionShadows, MixedAssignment, MixedError,
     MixedProblem, ShadowSession, ShadowSolutionManager, SolutionRefreshError,
@@ -90,7 +90,7 @@ pub fn list_declarative_solution_manager<'a, 's, K: Eq + Clone, V: Eq + Clone + 
         move |assignment, graph| {
             let derived = derive(assignment, graph).map_err(ModelShadowError::Adapter)?;
             Ok(ListDerivedShadows {
-                builtin: project(problem, assignment),
+                builtin: project_list_shadows(problem, assignment),
                 derived,
             })
         },
@@ -137,7 +137,7 @@ pub fn mixed_declarative_solution_manager<
         move |assignment, graph| {
             let derived = derive(assignment, graph).map_err(ModelShadowError::Adapter)?;
             Ok(ListDerivedShadows {
-                builtin: project(problem.lists(), assignment.lists()),
+                builtin: project_list_shadows(problem.lists(), assignment.lists()),
                 derived,
             })
         },
