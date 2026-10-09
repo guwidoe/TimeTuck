@@ -780,3 +780,9 @@ The indexed value-seeded selection implementation and regressions are original.
 `BucketedFixture`, `AbstractBiasIT` and `BiasReport` helpers (Apache-2.0). Native
 filtered sampling and change moves replace Java stream/session plumbing; exact
 identities and substitutions are recorded in `compat/provenance.json`.
+
+`crates/solver/tests/provider_group_cases.rs` adapts three pinned Community
+`MixedMoveSelectorTest` methods, `MixedMoveSelectorSplitBiasIT`, and its endless
+provider/classification fixtures plus `BiasReport` statistics (Apache-2.0).
+Native explicit provider groups replace Java selector introspection. Exact test
+and helper identities and substitutions are in `compat/provenance.json`.

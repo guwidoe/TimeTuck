@@ -20761,3 +20761,41 @@ Current ProviderUnion accepts explicit u32 weights and lazily opens children;
 MoveUnion also uses explicit weights. Neither derives nested leaf counts. Do not
 claim automatic mixed-side weighting by simply hard-coding3/2in a test. This needs
 an actual grouping/weight derivation behavior if selected as the next feature.
+
+## Leaf-weighted provider groups
+
+Baseline7af6fe2; previous goal turn was progress. Added MoveProviderGroup explicit
+leaf/group composition and iterative leaf_count/into_union. Compilation flattens
+leaves once with unit weights, deriving3:2group split without manualweights.
+Sequential order preserved, factory opening stays lazy, existing ProviderUnion
+handles lifecycle and exhausted leaves. Empty trees reject. Opaque wrapped
+providers remain oneleaf; Java decorator/count rejection methods staypending.
+Four adapted methods (three MixedMoveSelectorTest counts + sole MixedMoveSelectorSplitBiasIT)
+and two fixture records appended. Full100000trial/five-sigma3/5vs2/5 assertions.
+Focused18283 TERMINAL0:4adapted+4original cases pass, including10000-level nesting,
+lazy factories/events, regrouped trace equivalence, finite exhaustion and both
+scoring backend solver integrations (bestscore4,4steps). No timing/Java/UI refresh.
+
+Required provider-group gate TERMINAL0. 5409 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 738}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3147, 'failed': 0, 'pending': 1426, 'excluded': 282, 'unverified': 0, 'percent': 64.82}.
+Source before/after matched: de4c6fe1a2270486fad681be7389ba7799856752e7b34270c853db24d2a21306
+Live freshness matched verification digest: 3d407752c11ac7c342d77abaef5f39a294c5bcbf6b3c624d5a50e679626bf066.
+Prior ledger records unchanged; Four upstream methods and two helper fixtures record appended.
+Log work/provider-group-final-check.log; evidence work/provider-group-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final frozen-source gate22232 and live/report evidence87380 TERMINAL0.
+Clippy16.76s, targeted prebuild3.58s;3Rust jobs ran/738reused,46Python jobs reused.
+5409Rust tests and248doctests pass;3147/4855upstream methods(64.820%),0failed.
+All18 methods under upstream impl/neighborhood/bias now individually reportpassed.
+Reviewed Rust unchanged; old provenance prefix preserved. No benchmark/browser
+refresh. All task build/check handles terminal; goal remains active/incomplete.
+
+Read-only performance reconnaissance while checking: work/dense-state-profile.json
+is an instrumented96-variable swap profile from2026-10-09T17:05:11Z, before later
+stream optimizations. Coarse hotspots were graph undo/drop, grouped_batch,
+fixed_links, checkpoint and fixed_terminal. This is stale profiling evidence with
+instrumentation overhead, not a current runtime comparison. work/current-stream-profile.log
+and work/stream-workspace-native-performance.json also contain earlier work;
+workspace baseline3f5407b. Do not rerun every benchmark or relabel old measurements.
+Use a deliberate focused current profile if returning to stream performance.

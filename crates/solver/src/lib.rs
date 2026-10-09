@@ -1219,3 +1219,6 @@ pub use value_seeded_sublist::ValueSeededSubListSelection;
 
 mod filtered_pair_sampling;
 pub use filtered_pair_sampling::FilteredPairSampler;
+
+mod provider_group;
+pub use provider_group::MoveProviderGroup;

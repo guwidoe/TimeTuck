@@ -4952,3 +4952,19 @@ Exact cached scans replace Java random probing; PRNG traces differ. Original
 checks cover cache bounds, trace equivalence, duplicate occurrences, panic retry,
 empty joins and provider-backed search with both scoring backends. Predicate-call
 counts establish caching behavior; no wall-clock or Java performance claim.
+
+`MoveProviderGroup` compiles explicit nested provider groups into a flat union of
+unit-weight leaves. Random selection therefore weights groups by their leaf
+counts, without manually assigning group weights. Sequential traversal preserves
+depth-first leaf order. Factories remain lazy, lifecycle events reach the leaves,
+and exhausted leaves leave the current scan. Counting and compilation are
+iterative; empty trees return the existing empty-provider error.
+
+Three `MixedMoveSelectorTest` methods now preserve plain/flat/nested leaf counts;
+`MixedMoveSelectorSplitBiasIT` preserves100000draws from3classic and2neighborhood
+leaves with five-sigma3:2shares. Actual provider compilation determines the split.
+A wrapped opaque provider counts as one leaf; arbitrary Java decorators are not
+introspected and their methods remain pending. Keep groups explicit until union
+compilation. Original regressions verify deep nesting, empty groups, lazy factory
+calls, grouping-independent traces, finite-leaf exhaustion, lifecycle forwarding,
+and provider-backed solving with both scoring backends. No timing claim is made.

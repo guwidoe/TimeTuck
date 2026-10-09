@@ -47259,6 +47259,66 @@
       "local_test": "filtering_only_join_preserves_small_bucket_per_pair_bias",
       "status": "implemented",
       "modifications": "Preserve bucket sizes10/20/40/80/160,620000draws, equality-of-bucket predicate, native change-move membership classification, positive smallest/largest counts and strictly greater-than-five per-member share ratio. Numeric bucket/member identities replace prefixed strings. Native left-uniform selection deliberately differs from pair-uniform indexed joins and uses exact matches instead of probabilistic probes. Additionally validate every emitted change belongs to its matching bucket."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/provider_group_cases.rs",
+      "id": "MixedMoveSelectorTest.plainSelectorCountsAsOne",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "plainSelectorCountsAsOne",
+      "local_test": "plain_selector_counts_as_one",
+      "status": "implemented",
+      "modifications": "Preserve one opaque selector counting as one leaf. Native MoveProviderGroup wraps an unopened provider; its factory panics if incorrectly invoked during counting. No Java selector class introspection claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/provider_group_cases.rs",
+      "id": "MixedMoveSelectorTest.flatUnionCountsChildren",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "flatUnionCountsChildren",
+      "local_test": "flat_union_counts_children",
+      "status": "implemented",
+      "modifications": "Preserve a flat union of three independent selectors counting as three. Native explicit provider groups retain the leaf identities and do not invoke factories during counting."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/provider_group_cases.rs",
+      "id": "MixedMoveSelectorTest.nestedUnionCountsLeaves",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "nestedUnionCountsLeaves",
+      "local_test": "nested_union_counts_leaves",
+      "status": "implemented",
+      "modifications": "Preserve a two-child inner union plus a third outer selector counting as three leaves. Native provider groups replace Java union objects; compiled groups also use these leaves for actual random selection, independently exercised by the split case."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/provider_group_cases.rs",
+      "id": "MixedMoveSelectorSplitBiasIT.splitsProportionallyToMoverCount",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/MixedMoveSelectorSplitBiasIT.java",
+      "upstream_test": "splitsProportionallyToMoverCount",
+      "local_test": "mixed_groups_split_proportionally_to_mover_count",
+      "status": "implemented",
+      "modifications": "Preserve three endless classic-labelled leaves and two endless neighborhood-labelled leaves in separate groups,100000draws, positive categories and five-sigma3/5 vs2/5 expected shares. Group compilation derives leaf weighting without manual3/2weights. Native providers yield non-null static string tags in place of Java dummy moves; three-variable/two-value finite model replaces descriptor/score-director setup. Forward all solve/phase/step lifecycle boundaries through ProviderUnion. Native seed0 replaces Java split PRNG traces; arbitrary Java decorator introspection and class-system parity remain outside this adaptation."
     }
   ],
   "fixtures": [
@@ -63914,6 +63974,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/LeftRetirementBiasIT.java",
       "upstream_test": "PickHardOrEasy.build",
       "modifications": "Adapt hard-only-first-value/easy-all-values filtering predicate with stable0/1entity identities and0..20value identities; native iterator assembles actual change moves."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/provider_group_cases.rs",
+      "id": "provider-group-endless-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/MixedMoveSelectorSplitBiasIT.java",
+      "upstream_test": "getMixedMoveSelector; getNeighborhoodsMoveSelector; neverEndingMoveProvider; neverEndingIterator; NeverEndingDummyMoveSelector; classify",
+      "modifications": "Adapt five original classic-a/b/c and neighborhood-a/b code tags into typed native endless providers, preserving grouping and classification by classic prefix. Non-null static string type replaces nullable Java dummy-move code check. Native provider group compilation replaces mixed-selector construction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/provider_group_cases.rs",
+      "id": "provider-group-bias-statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectWeights; assertWithinSigma; deviations",
+      "modifications": "Preserve100000trials, positive classic/neighborhood categories and binomial five-sigma0.6/0.4bounds. Include observed count, probability and sigma in failure diagnostics; omit logging tables."
     }
   ]
 }
