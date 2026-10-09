@@ -1224,3 +1224,6 @@ mod provider_group;
 pub use provider_group::MoveProviderGroup;
 
 mod int_collector_counts;
+
+mod best_solution_tracker;
+pub use best_solution_tracker::{BestSolutionTracker, RankedSolution};

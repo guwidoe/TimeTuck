@@ -4991,3 +4991,21 @@ At96variables Rust/Java medians were30.47/52.12ms for hill change,
 379.53/198.14ms for tabu swap. Thus larger swap workloads remain slower than
 Timefold. This refresh updates only the stream comparison; other measurements
 retain their existing dates and calculated freshness.
+
+`BestSolutionTracker` retains an owned assignment, score and explicit count of
+required unassigned values. Fewer missing required values outrank a better raw
+score; equal counts use normal score ordering and ties retain the first snapshot.
+Optional unassignment does not contribute to the count. Callers supply the score
+and count from the same evaluated state; the tracker does not rescore or mutate it.
+The lazy snapshot factory supports non-Clone saved states and runs only for strict
+improvements. The borrowed variant clones neither assignment nor score on rejection.
+Snapshot construction completes before replacement, preserving the old best on panic.
+
+All eight `BestSolutionRecallerTest` methods preserve original score/count inputs,
+improvement decisions and retained solution/score assertions. One native operation
+handles both candidate-move and completed-step observations. This reusable tracker
+can consume solver observers, but does not change automatic solver-wide partial
+retention, score-director lifecycle or Java event timing. Native regressions exercise
+partial and complete construction observers with both scoring backends, deterministic
+ties, missing required values, snapshot independence and panic recovery. No timing
+claim is made; clone/factory counts directly verify work avoided for rejected states.

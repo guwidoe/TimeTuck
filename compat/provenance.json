@@ -47319,6 +47319,126 @@
       "local_test": "mixed_groups_split_proportionally_to_mover_count",
       "status": "implemented",
       "modifications": "Preserve three endless classic-labelled leaves and two endless neighborhood-labelled leaves in separate groups,100000draws, positive categories and five-sigma3/5 vs2/5 expected shares. Group compilation derives leaf weighting without manual3/2weights. Native providers yield non-null static string tags in place of Java dummy moves; three-variable/two-value finite model replaces descriptor/score-director setup. Forward all solve/phase/step lifecycle boundaries through ProviderUnion. Native seed0 replaces Java split PRNG traces; arbitrary Java decorator introspection and class-system parity remain outside this adaptation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.unimprovedUninitializedProcessWorkingSolutionDuringStep",
+      "upstream_test": "unimprovedUninitializedProcessWorkingSolutionDuringStep",
+      "local_test": "unimproved_uninitialized_during_step",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.unimprovedUninitializedProcessWorkingSolutionDuringMove",
+      "upstream_test": "unimprovedUninitializedProcessWorkingSolutionDuringMove",
+      "local_test": "unimproved_uninitialized_during_move",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.unimprovedInitializedProcessWorkingSolutionDuringStep",
+      "upstream_test": "unimprovedInitializedProcessWorkingSolutionDuringStep",
+      "local_test": "unimproved_initialized_during_step",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.unimprovedInitializedProcessWorkingSolutionDuringMove",
+      "upstream_test": "unimprovedInitializedProcessWorkingSolutionDuringMove",
+      "local_test": "unimproved_initialized_during_move",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.improvedUninitializedProcessWorkingSolutionDuringStep",
+      "upstream_test": "improvedUninitializedProcessWorkingSolutionDuringStep",
+      "local_test": "improved_uninitialized_during_step",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.improvedUninitializedProcessWorkingSolutionDuringMove",
+      "upstream_test": "improvedUninitializedProcessWorkingSolutionDuringMove",
+      "local_test": "improved_uninitialized_during_move",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.improvedInitializedProcessWorkingSolutionDuringStep",
+      "upstream_test": "improvedInitializedProcessWorkingSolutionDuringStep",
+      "local_test": "improved_initialized_during_step",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "BestSolutionRecallerTest.improvedInitializedProcessWorkingSolutionDuringMove",
+      "upstream_test": "improvedInitializedProcessWorkingSolutionDuringMove",
+      "local_test": "improved_initialized_during_move",
+      "status": "implemented",
+      "modifications": "Preserve original raw scores, required-unassigned counts, improvement outcome, retained solution identity and retained score. Native owned snapshot tracker handles evaluated moves and completed steps through one consider operation; string identities replace mocked Java solutions, explicit counts replace InnerScore wrappers, and direct retained-state assertions replace score-director/scope mocks. This establishes tracker retention semantics, not Java event timing or automatic solver-wide partial retention."
     }
   ],
   "fixtures": [
@@ -64000,6 +64120,19 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
       "upstream_test": "expectWeights; assertWithinSigma; deviations",
       "modifications": "Preserve100000trials, positive classic/neighborhood categories and binomial five-sigma0.6/0.4bounds. Include observed count, probability and sigma in failure diagnostics; omit logging tables."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/recaller/BestSolutionRecallerTest.java",
+      "local_path": "crates/solver/tests/best_recaller_cases.rs",
+      "id": "best-recaller-retention-helper",
+      "upstream_test": "doProcessWorkingSolutionDuringStep (both overloads); doProcessWorkingSolutionDuringMove (both overloads); InnerScoreWithSolution",
+      "modifications": "Adapt common before/candidate setup and conditional assertions on retained solution and score into check. Explicit count/score tuples and stable string snapshot identities replace Java InnerScoreWithSolution and mocked scopes. Scoring, event-support and descriptor mocks are omitted; no upstream production implementation is used."
     }
   ]
 }

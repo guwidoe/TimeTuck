@@ -20881,3 +20881,41 @@ change is this documentation only. Prior dc0d5f9 verification remains applicable
 last Java stream measurement remains current for the restored implementation.
 No processes from this experiment remain live; goal remains active/incomplete.
 Do not repeat these allocation-only transformations based on the short-run gain.
+
+## Initialization-aware best snapshot tracker
+
+Baseline3327b78; previous turn was progress (measured rejection and restored source).
+New BestSolutionTracker<A,S> retains RankedSolution with explicit required-unassigned
+count, score and owned assignment. Counts compare first (fewer is better), then S:Ord;
+equal quality retains the original snapshot. consider supports lazy non-Clone snapshot
+factories, consider_ref clones assignment/score only on strict improvement. Preparation
+precedes replacement, preserving old state on clone/factory panic. No scoring callback
+or working-state mutation. Caller must count only missing required values, excluding
+optional unassignment, and supply count/score from the same candidate state.
+
+Adapted all8BestSolutionRecallerTest methods with original count/score pairs and
+retained solution+score assertions; one shared helper fixture. Native consider covers
+both evaluated moves and completed steps without claiming Java scope/event behavior.
+Three original regressions cover laziness, ties, rejection of partial candidates
+against a complete best, non-Clone snapshots, failed cloning and actual construction
+observer integration (partial/full, both network and stream backends). This is a
+reusable tracker, not a change to automatic solver-wide partial retention.
+Focused55750 TERMINAL0:8adapted+3original pass. No benchmark or browser refresh.
+Required final gate pending; use following terminal evidence before commit.
+
+Required best-tracker gate TERMINAL0. 5422 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 741}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3155, 'failed': 0, 'pending': 1418, 'excluded': 282, 'unverified': 0, 'percent': 64.985}.
+Source before/after matched: a610de258e46edf2f60705f134dbda83c4fc643baec20a9b57c98bcfc422c588
+Live freshness matched verification digest: 2a5467dc5f9c8156fac9ba9b134826dff518ed16ca60c7d16da6da11b374cb72.
+Prior ledger records unchanged; Eight upstream methods and one helper fixture record appended.
+Log work/best-tracker-final-check.log; evidence work/best-tracker-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+Final frozen-source gate98759 and evidence67842 TERMINAL0. Clippy42.15s,
+affected-target prebuild14.62s;3Rust jobs ran/741reused,46Python jobs reused.
+5422Rust tests and248doctests pass;3155/4855upstream methods(64.985%),0failed.
+Prior provenance prefix unchanged;8cases+1helper appended. Reviewed source hashes
+saved to work/best-tracker-reviewed-source.json. Live/report freshness matches.
+No benchmark refresh; existing stream benchmark remains current by its selective
+input digest. All task build/check handles terminal; goal active/incomplete.

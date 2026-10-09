@@ -786,3 +786,9 @@ identities and substitutions are recorded in `compat/provenance.json`.
 provider/classification fixtures plus `BiasReport` statistics (Apache-2.0).
 Native explicit provider groups replace Java selector introspection. Exact test
 and helper identities and substitutions are in `compat/provenance.json`.
+
+`crates/solver/tests/best_recaller_cases.rs` adapts all eight pinned Community
+`BestSolutionRecallerTest` methods and their shared retention helpers (Apache-2.0).
+Native snapshot identities and explicit required-unassigned counts replace mocked
+Java solutions and score-director scopes. Exact identities and substitutions are
+recorded in `compat/provenance.json`. The tracker and native regressions are original.
