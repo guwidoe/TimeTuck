@@ -20848,3 +20848,36 @@ prepares touched collectors through contains_key/insert/get_mut repeated searche
 These are possible allocation/lookup reductions, not measured improvements yet.
 Preserve first identity/key representatives, final payload mapping order, panic
 rollback and publication semantics. No next-batch source edits were made.
+
+## Rejected group-preparation optimization
+
+Baseline dc0d5f9; preceding turn was progress. Evaluated borrowed sorted graph
+coalescing plus three collector-preparation variants: borrowed entry map with
+owned materialization, borrowed entry map with reordered guarded installation,
+and a bounded small-vector preparation path (up to four changed rows), retaining
+trees for larger rounds. All four existing group regressions passed for each
+candidate, including every comparison-panic point, key representatives, final
+publication and solver rollback. Focused/build/timing handles58399,7198,39484,
+28761 all TERMINAL0. No new adapted tests or provenance claims.
+
+Final candidate's20-step whole-solve medians appeared to improve swap3–10%,
+with mixed change workloads. An unresolved variability concern prompted60-step
+swap measurements on the same frozen candidate: hill32 136.292->159.139ms,
+hill96 1280.598->1397.641ms, tabu32 207.819->213.065ms,
+tabu96 1637.503->1943.875ms. All scores, assignments and callback counts matched;
+three fresh processes, alternating order, warmup plus five samples per process.
+Long-run handle21421 TERMINAL0. Process CPU ratios were1.513hill and1.006tabu;
+wall-time and CPU results do not support a general speedup. Reject all candidates.
+
+Evidence: work/group-preparation-first-performance.json,
+work/group-preparation-second-performance.json,
+work/group-preparation-performance.json (small-vector20steps), and
+work/group-preparation-long-performance.json (small-vector60steps).
+Rejected source saved under work/group-preparation-rejected/. Both changed Rust
+files restored byte-for-byte from dc0d5f9; all Rust hashes match the previous
+verified/measured source. No broad gate or Java benchmark rerun: final committed
+change is this documentation only. Prior dc0d5f9 verification remains applicable;
+5411Rust tests,248doctests,3147/4855upstream methods(64.820%). The dashboard's
+last Java stream measurement remains current for the restored implementation.
+No processes from this experiment remain live; goal remains active/incomplete.
+Do not repeat these allocation-only transformations based on the short-run gain.
