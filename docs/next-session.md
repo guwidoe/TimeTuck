@@ -20711,3 +20711,53 @@ not existing global pair-uniform ordering. No production source read and no
 implementation written. DiminishedReturnsScoreRingBufferTest first190lines were
 also inspected: raw private ring-array/index assertions do not map to native
 history storage; do not build an unused Java-storage replica for coverage.
+
+## Left-uniform filtered pair sampling
+
+Baseline353769b; previous goal turn was progress. New FilteredPairSampler borrows
+left/right slices, uniformly draws live left occurrences and then matching rights.
+First visits scan the complete right input and retire only exactly empty rows.
+Bounded match cache retains indices globally up to caller budget; oversized rows
+retain counts and rescan to chosen rank. Cache budget does not alter native traces.
+Stable predicate/snapshot required, no payload cloning, lazy construction,
+empty-join fusion, panic leaves no partial cache or incorrect retirement.
+Three adapted bias methods, four helper fixtures appended with full warmups,
+200000/400000/620000draw counts and five-sigma/strict-share-ratio assertions.
+Initial focused1782 TERMINAL0:3adapted+4original passed. Added original lazy
+MoveProvider integration exercising snapshot rebuilding, dead rows, legal ranges
+and bestscore5 through both scoring backends with zero/full cache before finalgate.
+No Java benchmark/timing claim; predicate-call regressions verify cache work reuse.
+Initial final-prebuild83293 exited101 on E0195 in the new original provider test:
+its moves method omitted the trait's early-bound Move<i32>:'a clause. Added the
+matching bound; no production code changed. Final retry9066 on frozen source.
+Retry9066 was deliberately terminated143 during precompilation after discovering
+a false dependency expansion: new private Matches enum collided with existing
+pub(super) overlap_join/index.rs::Matches in the heuristic input scanner.654jobs
+were invalidated. Renamed only the new private enum to FilteredRowMatches; no
+behavior or verification tooling changed. Task-owned prebuild/compiler children
+terminated and livehandle9066 confirmedterminal143. Collision prebuild log saved
+as work/filtered-pair-collision-prebuild.log. Next gate is authoritative.
+
+Required filtered-pair gate TERMINAL0. 5401 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 736}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3143, 'failed': 0, 'pending': 1430, 'excluded': 282, 'unverified': 0, 'percent': 64.737}.
+Source before/after matched: 28442fa14a734191a37c4c4d58e56448422b782225b5cda02566553c11396c5a
+Live freshness matched verification digest: 22cbed79ef7a40828618e3ec092d6fa17012447dd4fe40027c2a1cf6e9cc63c5.
+Prior ledger records unchanged; Three upstream methods and four helper fixtures record appended.
+Log work/filtered-pair-final-check.log; evidence work/filtered-pair-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final frozen-source gate92817 and live/report evidence99940 TERMINAL0.
+Clippy18.46s, targeted prebuild12.27s;3Rust jobs ran/736reused,46Python jobs reused.
+5401Rust tests and248doctests pass;3143/4855upstream methods(64.737%),0failed.
+Reviewed Rust unchanged, prior ledger prefix preserved. No Java/performance/browser
+refresh. All task build/check handles terminal. Goal remains active/incomplete.
+The private-type rename restored cached test-solver verification, explicitly
+confirmed through the unchanged input key and stored log checksum before finalgate.
+
+Next reconnaissance: read MixedMoveSelectorSplitBiasIT fully (sole pending bias
+method). It constructs a group of3endless classic selectors and2endless native
+neighborhoods, then100000draws with five-sigma3/5 vs2/5 shares and lifecycle calls.
+Current ProviderUnion accepts explicit u32 weights and lazily opens children;
+MoveUnion also uses explicit weights. Neither derives nested leaf counts. Do not
+claim automatic mixed-side weighting by simply hard-coding3/2in a test. This needs
+an actual grouping/weight derivation behavior if selected as the next feature.

@@ -4930,3 +4930,25 @@ uniform assigned-value seeds. The new index performs the actual seed-to-owner
 mapping. Native PRNG streams replace Java traces; these cases add no solver-wide
 performance claim. Original regressions cover pins, every rank, borrowing,
 comparison counts, bounded lazy iteration, replay, relocation and undo.
+
+`FilteredPairSampler` adds explicit left-uniform filtered pair selection: choose
+an entity occurrence uniformly, then a matching value occurrence uniformly. This
+retains the filtering-only neighborhood's per-entity weighting and differs from
+existing indexed pair-uniform queries. The first visit scans the right side fully;
+only a proven empty row is retired. Rare matches cannot disappear due to an unlucky
+probe. The immutable-input predicate must stay stable for the traversal.
+
+A caller-specified global match-cache budget bounds retained right indices. Rows
+that exceed the budget retain only a count and rescan to the selected match.
+Caching changes predicate work, not the seeded trace. No payload cloning or full
+Cartesian pair catalog is required. Predicate panics do not install partial rows
+or retire the selected left. Empty joins fuse; nonempty sampling needs a bound.
+
+Two `LeftRetirementBiasIT` methods preserve interior retirement fairness and
+hard/easy reachability across400000draws; the filtering-only `PairFairnessBiasIT`
+method preserves the620000draw, size-normalized share-ratio assertion. Native
+change moves retain fixture identities and observable entity/value membership.
+Exact cached scans replace Java random probing; PRNG traces differ. Original
+checks cover cache bounds, trace equivalence, duplicate occurrences, panic retry,
+empty joins and provider-backed search with both scoring backends. Predicate-call
+counts establish caching behavior; no wall-clock or Java performance claim.

@@ -1216,3 +1216,6 @@ pub use indexed_retirement::{RetiringCandidatePairs, RetiringCandidates, Retirin
 
 mod value_seeded_sublist;
 pub use value_seeded_sublist::ValueSeededSubListSelection;
+
+mod filtered_pair_sampling;
+pub use filtered_pair_sampling::FilteredPairSampler;

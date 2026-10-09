@@ -774,3 +774,9 @@ preserved; exact identities and substitutions are in `compat/provenance.json`.
 Native value ownership and span selection replace Java score-director plumbing;
 exact identities, parameters and substitutions are in `compat/provenance.json`.
 The indexed value-seeded selection implementation and regressions are original.
+
+`crates/solver/tests/filtered_pair_bias_cases.rs` adapts pinned Community
+`LeftRetirementBiasIT` and the filtering-only `PairFairnessBiasIT` method, with
+`BucketedFixture`, `AbstractBiasIT` and `BiasReport` helpers (Apache-2.0). Native
+filtered sampling and change moves replace Java stream/session plumbing; exact
+identities and substitutions are recorded in `compat/provenance.json`.

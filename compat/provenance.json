@@ -47214,6 +47214,51 @@
       "local_test": "seeded_entities_are_weighted_by_unpinned_size",
       "status": "implemented",
       "modifications": "Preserve three unpinned entities of sizes2/3/5 with distinct values, optional-list model,min1/maxInteger.MAX_VALUE, independent seed1 uniform assigned-value picker and seed0 span draws,200000 non-null draws and five-sigma0.2/0.3/0.5 shares. Native indexed value-to-owner lookup feeds entity-local span sampling. Numeric identities replace s/m/l-prefixed strings; no Java PRNG trace or descriptor lifecycle parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/filtered_pair_bias_cases.rs",
+      "id": "LeftRetirementBiasIT.interiorRetirementsStayUniformOverSurvivingEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/LeftRetirementBiasIT.java",
+      "upstream_test": "interiorRetirementsStayUniformOverSurvivingEntities",
+      "local_test": "interior_retirements_leave_every_surviving_entity_uniform",
+      "status": "implemented",
+      "modifications": "Preserve20entities, interior dead indices4/8/12/16, one match per surviving entity,1000warmup draws,200000measured native change moves, all16live categories and five-sigma uniform bounds. Native exact filtered row scans replace Java indexed join/session traversal; since every live bucket has one match, left-uniform and indexed pair-uniform weights coincide. Test reads actual native move variable metadata. Seed0 native traces replace framework PRNG behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/filtered_pair_bias_cases.rs",
+      "id": "LeftRetirementBiasIT.hardToMatchEntityStaysReachableThroughoutTheRun",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/LeftRetirementBiasIT.java",
+      "upstream_test": "hardToMatchEntityStaysReachableThroughoutTheRun",
+      "local_test": "hard_to_match_entity_stays_reachable_throughout_the_run",
+      "status": "implemented",
+      "modifications": "Preserve hard/easy entities,20distinct values, hard matching only the first/easy all20,400000native change moves, hard positive in final100000draws and five-sigma50/50entity shares. Native FilteredPairSampler proves empty rows by full scans and caches matches instead of Java bounded random probes. Actual move variable metadata classifies entities; no Java random trace or MoveDirector lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/filtered_pair_bias_cases.rs",
+      "id": "PairFairnessBiasIT.filteringOnlyJoin_biasIsUnchangedButEveryPairStaysReachable",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/PairFairnessBiasIT.java",
+      "upstream_test": "filteringOnlyJoin_biasIsUnchangedButEveryPairStaysReachable",
+      "local_test": "filtering_only_join_preserves_small_bucket_per_pair_bias",
+      "status": "implemented",
+      "modifications": "Preserve bucket sizes10/20/40/80/160,620000draws, equality-of-bucket predicate, native change-move membership classification, positive smallest/largest counts and strictly greater-than-five per-member share ratio. Numeric bucket/member identities replace prefixed strings. Native left-uniform selection deliberately differs from pair-uniform indexed joins and uses exact matches instead of probabilistic probes. Additionally validate every emitted change belongs to its matching bucket."
     }
   ],
   "fixtures": [
@@ -63817,6 +63862,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
       "upstream_test": "expectUniform; expectWeights; assertWithinSigma; deviations",
       "modifications": "Adapt positive expected category counts and binomial five-sigma assertions for200000trials,18uniform spans and entity shares0.2/0.3/0.5. Preserve actual count/probability/sigma diagnostics, omit logging tables, add total-count assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/filtered_pair_bias_cases.rs",
+      "id": "filtered-pair-bucket-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BucketedFixture.java",
+      "upstream_test": "constructor; joiner; filteringJoiner; movesFor",
+      "modifications": "Adapt entity-per-bucket and unique bucket/member values including zero-size dead buckets. Tuples replace code-prefix strings; predicate equality and native Move::Change identities replace Java joiners and move sets."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/filtered_pair_bias_cases.rs",
+      "id": "filtered-pair-bias-statistics",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/BiasReport.java",
+      "upstream_test": "expectUniform; expectWeights; assertWithinSigma; deviations; assertShareRatioAtLeast",
+      "modifications": "Preserve positive expected categories, five-sigma binomial bounds and strictly greater-than-five size-normalized share ratio. Explicit trial counts replace report object; omit log tables and retain count/probability/deviation diagnostics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/filtered_pair_bias_cases.rs",
+      "id": "filtered-pair-move-assembly",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/AbstractBiasIT.java",
+      "upstream_test": "moveIterator; PickPair.build",
+      "modifications": "Native FilteredPairSampler.map(movement) replaces NeighborhoodTester and stream pick/pick/asMove assembly, constructing real Move::Change values and reading their variable metadata. Native seed0 replaces implicit framework random state."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/filtered_pair_bias_cases.rs",
+      "id": "filtered-pair-hard-easy",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/bias/LeftRetirementBiasIT.java",
+      "upstream_test": "PickHardOrEasy.build",
+      "modifications": "Adapt hard-only-first-value/easy-all-values filtering predicate with stable0/1entity identities and0..20value identities; native iterator assembles actual change moves."
     }
   ]
 }
