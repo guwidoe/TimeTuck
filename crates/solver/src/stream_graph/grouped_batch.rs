@@ -44,17 +44,18 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, K: Ord + Clone + 'static, S: 
         // Project only retained final payloads, before any group state changes.
         let mapped = latest
             .into_iter()
-            .map(|(id, change)| TupleChange {
-                id,
-                value: change.value.as_ref().map(|row| (self.0.mapping)(row)),
-            })
+            .map(|(id, change)| (id, change.value.as_ref().map(|row| (self.0.mapping)(row))))
             .collect::<Vec<_>>();
-        Ok(erase(self.0.node.apply_batch(mapped).into_iter().map(
-            |change| {
-                let key = change.id.clone();
-                change.map(|summary| (key, summary))
-            },
-        )))
+        Ok(erase(
+            self.0
+                .node
+                .apply_sorted_batch(mapped)
+                .into_iter()
+                .map(|change| {
+                    let key = change.id.clone();
+                    change.map(|summary| (key, summary))
+                }),
+        ))
     }
 }
 impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {

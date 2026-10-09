@@ -20,7 +20,16 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
         changes: impl IntoIterator<Item = TupleChange<I, (K, i64)>>,
     ) -> Vec<TupleChange<K, IntSummary>> {
         healthy(self.poisoned);
-        let changes = join_batch::last_updates(changes);
+        self.apply_sorted_batch(join_batch::last_updates(changes))
+    }
+
+    /// Internal publication path for already sorted, unique input IDs. The graph
+    /// boundary has coalesced these before invoking its row mapping callbacks.
+    pub(crate) fn apply_sorted_batch(
+        &mut self,
+        changes: Vec<(I, Option<(K, i64)>)>,
+    ) -> Vec<TupleChange<K, IntSummary>> {
+        healthy(self.poisoned);
         let mut groups = BTreeMap::<K, IntCollector>::new();
         // Preserve the stored representative even when the final row supplies a
         // different but equal key. Each touched collector is cloned only once.

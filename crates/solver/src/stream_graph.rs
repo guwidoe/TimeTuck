@@ -2089,6 +2089,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             .any(|(id, node)| node.prefers_batch() && observed[id]);
         let mut graph = StreamGraph {
             batch_workspace: batching::BatchWorkspace::default(),
+            transaction_workspaces: Vec::new(),
             batched_updates,
             activity_rules: self.activity_rules,
             active: None,
@@ -2106,7 +2107,14 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     }
 }
 
+#[derive(Default)]
+struct TransactionWorkspace {
+    visited: Vec<bool>,
+    journal: Vec<(usize, Box<dyn Any>)>,
+}
+
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    transaction_workspaces: Vec<TransactionWorkspace>,
     batch_workspace: batching::BatchWorkspace,
     batched_updates: bool,
     activity_rules: Vec<ActivityRule>,
@@ -2267,7 +2275,11 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         let original_score = self.score.clone();
         let original_active = self.active.clone();
         let arithmetic = self.arithmetic;
-        let visited = vec![false; self.nodes.len()];
+        // An outer transaction holds its workspace while diagnostics open a
+        // nested transaction. Spare workspaces therefore follow nesting depth.
+        let mut workspace = self.transaction_workspaces.pop().unwrap_or_default();
+        workspace.visited.resize(self.nodes.len(), false);
+        let TransactionWorkspace { visited, journal } = workspace;
         GraphTransaction {
             graph: self,
             original_score,
@@ -2275,7 +2287,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             arithmetic,
             replaying: false,
             visited,
-            journal: Vec::new(),
+            journal,
             failed: false,
             committed: false,
             score_evaluations: 0,
@@ -2431,14 +2443,22 @@ impl<S: AdditiveScore> Drop for GraphTransaction<'_, '_, S> {
         if !self.committed {
             self.graph.active = self.original_active.take();
             for (id, checkpoint) in self.journal.drain(..).rev() {
+                self.visited[id] = false;
                 self.graph.nodes[id].restore(checkpoint);
             }
             self.graph.score = std::mem::replace(&mut self.original_score, S::ZERO);
         } else {
             for (id, checkpoint) in self.journal.drain(..).rev() {
+                self.visited[id] = false;
                 self.graph.nodes[id].commit_checkpoint(checkpoint);
             }
         }
+        self.graph
+            .transaction_workspaces
+            .push(TransactionWorkspace {
+                visited: std::mem::take(&mut self.visited),
+                journal: std::mem::take(&mut self.journal),
+            });
     }
 }
 

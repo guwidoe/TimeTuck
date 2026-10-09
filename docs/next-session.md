@@ -20329,3 +20329,45 @@ compile11m34s;639Rust jobs ran,86reused;1Python ran,45reused.5349Rust tests and
 stream measurement digest remains current. Staged Rust/tests/benchmark match
 the reviewed and verified files. No upstream credits or new provenance fixtures.
 All task handles terminal except dashboard81616. Goal active/incomplete.
+
+## Transaction workspace reuse and grouping normalization
+
+Baseline1ce4b7a. Reuse per-transaction visited/journal allocation capacity, with
+separate workspaces for nested diagnostics; reset only checkpointed-node flags.
+Do not retain checkpoint payloads. Graph batched groups bypass a redundant
+normalization pass after graph-level coalescing. Two original unit regressions
+cover nested rebuilds, saved candidates, failure recovery and payload release.
+No upstream adaptations or provenance changes.
+
+Rejected shared input-event storage candidate is archived in
+work/shared-input-events-candidate.patch. Combined candidate regressed tabu/swap
+CPU17.9%; archived binary/results work/graph-allocation-combined and
+work/graph-allocation-combined-performance.json. Fixed-link/scoring source and
+regressions restored exactly to HEAD before retained-candidate measurement.
+Buffer/group-only comparison20419 TERMINAL0: exact native assignments, scores
+and score-call counts match; each sample independently rescored. Two alternating
+pairs,32/96variables,20steps,1warmup,3samples. Whole-process CPU medians: hill/change
+197.264->198.449ms;tabu/change212.083->206.384;hill/swap2202.495->2088.553;
+tabu/swap2496.046->2196.849. Timings mixed/noisy; no universal speedup claim.
+Raw work/graph-allocation-performance.json, executables include SHA256 identities.
+No Java or unrelated benchmark refresh; preserve stale measurement evidence.
+
+Focused checks24349 TERMINAL0 covered4group/4fixed-link integrations and5journal
+units (including both new tests). Retained source unchanged since those checks;
+restored fixed-link files have prior HEAD verification. Final required check29636
+completed successfully on frozen source; work/graph-allocation-prebuild.log and
+work/graph-allocation-final-check.log. No additional speculative performance variants.
+
+Required graph-allocation gate TERMINAL0. 5351 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 676, 'REUSE': 49}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3123, 'failed': 0, 'pending': 1450, 'excluded': 282, 'unverified': 0, 'percent': 64.325}.
+Source before/after matched: 7968220e98a7c89c9b5ec876181a8f41e9069654ee2627eb8a3c36d967323b04
+Live freshness matched verification digest: 11e3157f44efaff9a073c03ab740987a333a814b05642766c9b19aa99ce1d0df.
+Prior ledger records unchanged; No new upstream methods or fixture records.
+Log work/graph-allocation-final-check.log; evidence work/graph-allocation-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate29636 and evidence73480 TERMINAL0. Formatting/clippy passed; prebuild
+7m18s.676Rust jobs ran/49reused;46Python jobs reused.5351Rust tests/246doctests
+passed. Final reviewed staged Rust equals the tested and measured source.
+No Java or unrelated benchmark refresh, no browser rerun. Shared input-event
+experiment is not retained. Goal stays active; only dashboard81616 remains live.

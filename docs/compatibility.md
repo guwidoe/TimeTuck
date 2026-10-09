@@ -4800,3 +4800,12 @@ fixture values instead of weakening model validation. Ten methods in this class
 now have complete adaptations; no production behavior needed changing for these
 three cases. The unrelated fact in the incomplete-range case stays outside the
 native variable domains. No Java reflection or registration API parity is claimed.
+
+Graph transactions now reuse visited-node and checkpoint-journal buffers after
+commit or rollback. Nested consistency checks use separate workspaces; retained
+capacity follows maximum nesting depth, and checkpoint payloads are released.
+Batched integer grouping passes its already coalesced rows directly to the
+collector, preserving public batch ordering and last-update behavior. Original
+regressions cover nested rebuilds, saved candidates, callback failure and payload
+release. These changes add no upstream-method credit. Native timing samples are
+mixed across workloads; no general speedup or fresh Java comparison is claimed.
