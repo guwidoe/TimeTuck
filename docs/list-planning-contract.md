@@ -1126,3 +1126,30 @@ departure selection in exhaustive list search, then checks the winning score usi
 direct geometry and clock comparisons. Original regressions cover polar/antipodal
 coordinates, rounding/overflow, all bulk pairs, duplicates, independent namespaces,
 overnight and extreme intervals, and an independent minute-walk bucket oracle.
+
+## Directional list cascades
+
+`ListCascadeDirection::Previous` derives from the head towards the tail; `Next`
+derives from the tail towards the head. Existing cascade constructors retain
+Previous as their default. `ListCascadeCache::new_with_direction`,
+`new_deferred_with_direction` and `from_values_with_direction` select an immutable
+direction, retained by clones and transactional moves. The supplier receives only
+the selected neighbor's updated shadow (`previous_shadow` or `next_shadow`); the
+other shadow field is None. Both neighbor identities remain available. Equal
+results stop propagation in the selected direction, while independently dirty
+values still run. Seed import and queued updates keep their existing contracts.
+
+`ListShadowSession::new_with_direction` and `new_deferred_with_direction` provide
+the same choice for metadata-bound list fields. They rewire the selected neighbor
+dependencies when lists change; snapshots retain cached values and pending work.
+`list_cascade_stream_with_direction` binds either direction into list or mixed
+transactional scoring, including local-search candidate selection and rollback.
+Independent streams or sessions may use opposite directions for distinct fields.
+This does not introduce mutual recursion between those fields.
+
+Unassigned values still invoke standalone/session suppliers without neighbors;
+stream cascades retain an absent derived value and skip the supplier. Structural
+validation still scans the assignment; this change makes no new complexity or
+performance claim. Original regressions exercise both directions against direct
+prefix/suffix sums, including partial assignments, failures, saved candidates,
+deferred work and score-directed search. No additional upstream-method credit.

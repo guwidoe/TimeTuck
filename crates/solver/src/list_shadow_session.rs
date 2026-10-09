@@ -1,7 +1,8 @@
 //! Metadata-bound deferred list shadows over the existing dependency evaluator.
 use crate::{
-    DependencyCache, DependencyError, DependencyTopology, DerivedValue, ListVariableState,
-    PlanningType, PlanningVariableKind, PlanningVariableRef, SnapshotMap, VariableListLocation,
+    DependencyCache, DependencyError, DependencyTopology, DerivedValue, ListCascadeDirection,
+    ListVariableState, PlanningType, PlanningVariableKind, PlanningVariableRef, SnapshotMap,
+    VariableListLocation,
 };
 use std::{
     collections::{BTreeMap, BTreeSet},
@@ -29,16 +30,18 @@ impl<V> From<DependencyError<V>> for ListShadowError<V> {
         Self::Dependency(value)
     }
 }
-/// All structural inputs are from one complete field snapshot. The predecessor
-/// shadow is already updated. Unassigned values have no location or predecessor;
+/// All structural inputs are from one complete field snapshot. The selected neighbor
+/// shadow is already updated. Unassigned values have no location or neighbor;
 /// their supplier still runs when dirty, so it can clear or compute its result.
 pub struct ListShadowContext<'c, E, V, H> {
     pub value: &'c V,
     pub location: Option<&'c VariableListLocation<E, V>>,
     pub previous_shadow: Option<&'c H>,
+    /// Updated successor shadow for Next sessions; previous_shadow is then None.
+    pub next_shadow: Option<&'c H>,
 }
 type Supplier<'a, E, V, H> = dyn for<'c> FnMut(ListShadowContext<'c, E, V, H>) -> Option<H> + 'a;
-/// One typed shadow field cascading along the previous-element relation.
+/// One typed shadow field cascading along a selected list-neighbor relation.
 ///
 /// Bind a shared list state to a shadow field declared on the list's native
 /// value type. Each value has a stable identity and one result. Several fields
@@ -47,7 +50,7 @@ type Supplier<'a, E, V, H> = dyn for<'c> FnMut(ListShadowContext<'c, E, V, H>) -
 ///
 /// Source notifications accumulate without running suppliers. update_changed
 /// reads the latest complete list snapshot, detects structural changes, rewires
-/// predecessor dependencies and evaluates affected values once in dependency
+/// neighbor dependencies and evaluates affected values once in dependency
 /// order. Equal results stop propagation. Unassigned values remain in the fixed
 /// universe and are processed individually, without conflating missing indices.
 /// Owner additions/removals need no new session; a changed value universe does.
@@ -79,6 +82,7 @@ type Supplier<'a, E, V, H> = dyn for<'c> FnMut(ListShadowContext<'c, E, V, H>) -
 /// # Ok::<(),Box<dyn std::error::Error>>(())
 /// ```
 pub struct ListShadowSession<'a, 's, E, V, H> {
+    direction: ListCascadeDirection,
     state: ListVariableState<'s, E, V>,
     target: PlanningVariableRef<'s>,
     identity: Rc<()>,
@@ -103,6 +107,23 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         state: ListVariableState<'s, E, V>,
         target: PlanningVariableRef<'s>,
         values: impl IntoIterator<Item = V>,
+        supplier: impl for<'c> FnMut(ListShadowContext<'c, E, V, H>) -> Option<H> + 'a,
+    ) -> Result<Self, ListShadowError<V>> {
+        Self::new_deferred_with_direction(
+            state,
+            target,
+            values,
+            ListCascadeDirection::Previous,
+            supplier,
+        )
+    }
+    /// Bind a fixed propagation direction without running suppliers. Only the
+    /// selected neighbor's shadow is readable; structural metadata includes both.
+    pub fn new_deferred_with_direction(
+        state: ListVariableState<'s, E, V>,
+        target: PlanningVariableRef<'s>,
+        values: impl IntoIterator<Item = V>,
+        direction: ListCascadeDirection,
         supplier: impl for<'c> FnMut(ListShadowContext<'c, E, V, H>) -> Option<H> + 'a,
     ) -> Result<Self, ListShadowError<V>> {
         if !std::ptr::eq(
@@ -132,6 +153,7 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         let pending = topology.keys().iter().cloned().collect();
         let cache = DependencyCache::new(topology, |_, _| None);
         let session = Self {
+            direction,
             state,
             target,
             identity: Rc::new(()),
@@ -150,9 +172,29 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         values: impl IntoIterator<Item = V>,
         supplier: impl for<'c> FnMut(ListShadowContext<'c, E, V, H>) -> Option<H> + 'a,
     ) -> Result<Self, ListShadowError<V>> {
-        let mut session = Self::new_deferred(state, target, values, supplier)?;
+        Self::new_with_direction(
+            state,
+            target,
+            values,
+            ListCascadeDirection::Previous,
+            supplier,
+        )
+    }
+    /// Initialize all registered values using the selected neighbor direction.
+    pub fn new_with_direction(
+        state: ListVariableState<'s, E, V>,
+        target: PlanningVariableRef<'s>,
+        values: impl IntoIterator<Item = V>,
+        direction: ListCascadeDirection,
+        supplier: impl for<'c> FnMut(ListShadowContext<'c, E, V, H>) -> Option<H> + 'a,
+    ) -> Result<Self, ListShadowError<V>> {
+        let mut session =
+            Self::new_deferred_with_direction(state, target, values, direction, supplier)?;
         session.update_changed()?;
         Ok(session)
+    }
+    pub fn direction(&self) -> ListCascadeDirection {
+        self.direction
     }
     pub fn target(&self) -> PlanningVariableRef<'s> {
         self.target
@@ -239,8 +281,16 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
             if old != new {
                 dirty.insert(value.clone());
             }
-            let previous = old.and_then(|p| p.previous.as_ref());
-            let next = new.and_then(|p| p.previous.as_ref());
+            let (previous, next) = match self.direction {
+                ListCascadeDirection::Previous => (
+                    old.and_then(|p| p.previous.as_ref()),
+                    new.and_then(|p| p.previous.as_ref()),
+                ),
+                ListCascadeDirection::Next => (
+                    old.and_then(|p| p.next.as_ref()),
+                    new.and_then(|p| p.next.as_ref()),
+                ),
+            };
             if previous != next {
                 if let Some(v) = previous {
                     removals.push((value.clone(), v.clone()));
@@ -251,6 +301,7 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
             }
         }
         let supplier = &mut self.supplier;
+        let direction = self.direction;
         let changed = self.cache.update(
             &removals,
             &additions,
@@ -259,7 +310,12 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
                 supplier(ListShadowContext {
                     value,
                     location: positions.get(value),
-                    previous_shadow: inputs.first().and_then(|(_, v)| v.value.as_ref()),
+                    previous_shadow: (direction == ListCascadeDirection::Previous)
+                        .then(|| inputs.first().and_then(|(_, v)| v.value.as_ref()))
+                        .flatten(),
+                    next_shadow: (direction == ListCascadeDirection::Next)
+                        .then(|| inputs.first().and_then(|(_, v)| v.value.as_ref()))
+                        .flatten(),
                 })
             },
         )?;

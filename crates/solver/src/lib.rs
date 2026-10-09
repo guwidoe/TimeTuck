@@ -618,7 +618,9 @@ pub use temporal_value_range::{
 };
 
 mod list_cascade;
-pub use list_cascade::{ListCascadeCache, ListCascadeContext, ListCascadeError, ListCascadeMove};
+pub use list_cascade::{
+    ListCascadeCache, ListCascadeContext, ListCascadeDirection, ListCascadeError, ListCascadeMove,
+};
 
 mod node_order_queue;
 pub use node_order_queue::{NodeOrderQueue, UnknownOrderNode};
@@ -743,7 +745,9 @@ mod move_inspection;
 pub use move_inspection::{MoveInspection, inspect_list_move, inspect_mixed_move};
 
 mod list_cascade_stream;
-pub use list_cascade_stream::{ListCascadeStep, ListCascadeStream, list_cascade_stream};
+pub use list_cascade_stream::{
+    ListCascadeStep, ListCascadeStream, list_cascade_stream, list_cascade_stream_with_direction,
+};
 
 mod basic_inverse_stream;
 pub use basic_inverse_stream::{BasicInverseStream, basic_inverse_stream};

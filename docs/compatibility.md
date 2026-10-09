@@ -4809,3 +4809,11 @@ collector, preserving public batch ordering and last-update behavior. Original
 regressions cover nested rebuilds, saved candidates, callback failure and payload
 release. These changes add no upstream-method credit. Native timing samples are
 mixed across workloads; no general speedup or fresh Java comparison is claimed.
+
+Standalone list cascades, metadata-bound shadow sessions and list/mixed scoring
+streams now support next-element dependencies as well as previous-element
+dependencies. Next mode propagates from tail to head and exposes the updated
+next_shadow; existing constructors keep previous mode. Deferred updates, imported
+seeds, equality stopping, snapshot restoration and solver candidate rollback use
+the selected direction. Native prefix/suffix reference regressions add no upstream
+method credits, reflective graph-classification claim or performance measurement.

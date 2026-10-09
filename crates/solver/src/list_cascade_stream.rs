@@ -1,12 +1,12 @@
 //! Cascading list shadows inside transactional scoring graphs.
 use crate::{
-    AdditiveScore, DerivedValue, GraphError, ListPosition, ListProblem, ListStreamSources,
-    ListValueRow, StreamGraphBuilder, StreamPort,
+    AdditiveScore, DerivedValue, GraphError, ListCascadeDirection, ListPosition, ListProblem,
+    ListStreamSources, ListValueRow, StreamGraphBuilder, StreamPort,
 };
 
-/// Inputs for a deterministic list shadow. The predecessor's shadow has already
-/// been derived. None also represents an assigned predecessor with no derived
-/// value; inspect previous to distinguish it from the head of a list.
+/// Inputs for a deterministic list shadow. The selected neighbor's shadow has
+/// already been derived; the other direction's shadow is None. A selected neighbor
+/// may also have no derived value; inspect its identity to distinguish a boundary.
 /// Captured problem facts must remain immutable while the graph is in use.
 pub struct ListCascadeStep<'a, V, H> {
     pub value: &'a V,
@@ -14,6 +14,8 @@ pub struct ListCascadeStep<'a, V, H> {
     pub previous: Option<&'a V>,
     pub next: Option<&'a V>,
     pub previous_shadow: Option<&'a H>,
+    /// Updated successor shadow for Next cascades; previous_shadow is then None.
+    pub next_shadow: Option<&'a H>,
 }
 /// A stream keyed by the model's stable value-range index.
 pub type ListCascadeStream<V, H> = StreamPort<usize, (ListValueRow<V>, DerivedValue<H>)>;
@@ -55,21 +57,62 @@ where
     H: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 {
+    list_cascade_stream_with_direction(
+        builder,
+        sources,
+        problem,
+        ListCascadeDirection::Previous,
+        evaluate,
+    )
+}
+
+/// Bind forward or backward list propagation to transactional scoring. Only the
+/// selected neighbor supplies a shadow; both neighbor identities remain visible.
+/// Next cascades propagate changed shadows towards the head. Unassigned values
+/// remain absent and do not invoke suppliers, just as in list_cascade_stream.
+///
+/// ```
+/// use timetuck::*;
+/// let p = ListProblem::new(vec![2i64, 3], vec![ListEntity::new(vec![2, 3])])?;
+/// let mut b = StreamGraphBuilder::<SimpleScore>::new();
+/// let sources = ListStreamSources::new(&mut b);
+/// let remaining = list_cascade_stream_with_direction(&mut b, &sources, &p,
+///     ListCascadeDirection::Next, |c| Some(c.next_shadow.copied().unwrap_or(0) + *c.value))?;
+/// b.score("remaining", &remaining, |(_, v)| SimpleScore::new(-v.value.unwrap_or(0)))?;
+/// let d = ListStreamScoreDirector::new(&p, b.build(), sources, p.initial_assignment())?;
+/// assert_eq!(d.score(), SimpleScore::new(-8));
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+pub fn list_cascade_stream_with_direction<'a, V, H, S>(
+    builder: &mut StreamGraphBuilder<'a, S>,
+    sources: &ListStreamSources<V>,
+    problem: &ListProblem<V>,
+    direction: ListCascadeDirection,
+    evaluate: impl Fn(ListCascadeStep<'_, V, H>) -> Option<H> + 'a,
+) -> Result<ListCascadeStream<V, H>, GraphError>
+where
+    V: Eq + Clone + 'static,
+    H: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+{
     let values = problem.values().to_vec();
     builder.derive_dependencies(
         sources.values.port(),
         0..values.len(),
         move |row| {
-            row.previous
-                .as_ref()
-                .map(|v| {
-                    values
-                        .iter()
-                        .position(|x| x == v)
-                        .expect("cascade predecessor belongs to the bound model")
-                })
-                .into_iter()
-                .collect()
+            match direction {
+                ListCascadeDirection::Previous => &row.previous,
+                ListCascadeDirection::Next => &row.next,
+            }
+            .as_ref()
+            .map(|v| {
+                values
+                    .iter()
+                    .position(|x| x == v)
+                    .expect("cascade neighbor belongs to the bound model")
+            })
+            .into_iter()
+            .collect()
         },
         move |_, row, dependencies| {
             let position = row.position?;
@@ -78,7 +121,12 @@ where
                 position,
                 previous: row.previous.as_ref(),
                 next: row.next.as_ref(),
-                previous_shadow: dependencies.first().and_then(|(_, v)| v.value.as_ref()),
+                previous_shadow: (direction == ListCascadeDirection::Previous)
+                    .then(|| dependencies.first().and_then(|(_, v)| v.value.as_ref()))
+                    .flatten(),
+                next_shadow: (direction == ListCascadeDirection::Next)
+                    .then(|| dependencies.first().and_then(|(_, v)| v.value.as_ref()))
+                    .flatten(),
             })
         },
     )

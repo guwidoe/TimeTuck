@@ -20371,3 +20371,37 @@ Final gate29636 and evidence73480 TERMINAL0. Formatting/clippy passed; prebuild
 passed. Final reviewed staged Rust equals the tested and measured source.
 No Java or unrelated benchmark refresh, no browser rerun. Shared input-event
 experiment is not retained. Goal stays active; only dashboard81616 remains live.
+
+## Backward list-shadow propagation
+
+Baseline41b72af. Previous turn was progress. Added immutable Previous/Next
+ListCascadeDirection to standalone caches, metadata-bound ListShadowSession and
+list/mixed stream cascades. Existing constructors keep Previous; new directional
+constructors and stream function expose Next. Suppliers receive only the selected
+neighbor's current shadow. Deferred work, seed import, equality stopping, clone/
+checkpoint restoration and native scored moves preserve that direction.
+
+Focused41595 TERMINAL0:13tests passed, including four existing stream regressions
+expanded to both directions (partial permutations, rollback/panics, nested sessions,
+mixed moves and local-search comparison), three new native regressions with320
+seeded partial reorderings across cache/session references, deferred seed/equality
+checks and failure retries. No new adaptations or fixture copies; provenance
+unchanged. Read Community test-only GraphStructureTest and multi-directional value
+fixture for gap assessment, not production source. No graph-classification credit.
+Final required check86548 completed on frozen Rust, logs work/reverse-shadows-prebuild.log
+and work/reverse-shadows-final-check.log. Do not repeat focused checks or benchmarks
+for unchanged inputs. No performance refresh or browser work this batch.
+
+Required reverse-shadows gate TERMINAL0. 5354 Rust tests and 247 doctests passed.
+Rust jobs: {'RUN': 12, 'REUSE': 714}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3123, 'failed': 0, 'pending': 1450, 'excluded': 282, 'unverified': 0, 'percent': 64.325}.
+Source before/after matched: eba75392d0d7092c9eec75c36d0a3571e7d4032341a65e1cdb70da81441d108d
+Live freshness matched verification digest: 635ac9c9a1aab808e0b6201a67fcb41c358b4ba58ee3bc833b8d7baceffa83c4.
+Prior ledger records unchanged; No new upstream methods or fixture records.
+Log work/reverse-shadows-final-check.log; evidence work/reverse-shadows-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate86548 and evidence46798 TERMINAL0. Clippy51.18s, affected-target
+compile36s.12Rust jobs ran,714reused;46Python jobs reused.5354Rust tests and
+247doctests pass. Reviewed staged Rust matches verified source. No measurement
+refresh or source changes after the gate. All task handles terminal except the
+dashboard81616; goal remains active and incomplete.

@@ -30,8 +30,18 @@ impl<V> From<ListError> for ListCascadeError<V> {
     }
 }
 
-/// Inputs to one cascade calculation. `previous_shadow` is the already updated
-/// result of the preceding element in this same list. `current` is this element's
+/// Which neighbor supplies an already updated shadow. Previous propagates from
+/// the head to the tail; Next propagates from the tail to the head. Independent
+/// caches can calculate both directions over the same assignment.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ListCascadeDirection {
+    #[default]
+    Previous,
+    Next,
+}
+
+/// Inputs to one cascade calculation. The selected neighbor shadow is already
+/// updated; the other direction's shadow is None. `current` is this element's
 /// previous cached result. Unassigned values have no position or neighbors.
 /// A callback may read immutable facts and these inputs; it must not depend on
 /// other cached shadows or change its formula without explicit invalidation.
@@ -43,15 +53,17 @@ pub struct ListCascadeContext<'a, V, S> {
     pub previous: Option<&'a V>,
     pub next: Option<&'a V>,
     pub previous_shadow: Option<&'a S>,
+    /// Populated only for Next cascades; previous_shadow is then None.
+    pub next_shadow: Option<&'a S>,
     pub current: Option<&'a S>,
 }
 
 /// One independently propagated cascade, or several jointly updated fields in S.
 ///
 /// Updates compare owner/index/neighbor identities and explicitly dirty values.
-/// Calculations run in list order at most once per value, propagating forward
-/// only while their Option<S> result changes. Later independently dirty values
-/// still run after an earlier cascade stops. Use separate caches for independent
+/// Calculations run in dependency order at most once per value, propagating
+/// in the selected direction only while their Option<S> result changes.
+/// Independently dirty values still run after an earlier cascade stops. Use separate caches for independent
 /// callbacks; use a tuple/struct for fields updated together by one callback.
 ///
 /// List validation and structural change detection inspect the full assignment;
@@ -70,6 +82,7 @@ pub struct ListCascadeContext<'a, V, S> {
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
 pub struct ListCascadeCache<V, S> {
+    direction: ListCascadeDirection,
     problem: Arc<ListProblem<V>>,
     assignment: Arc<ListAssignment<V>>,
     positions: Arc<BTreeMap<V, ListPosition>>,
@@ -79,6 +92,7 @@ pub struct ListCascadeCache<V, S> {
 impl<V, S> Clone for ListCascadeCache<V, S> {
     fn clone(&self) -> Self {
         Self {
+            direction: self.direction,
             problem: self.problem.clone(),
             assignment: self.assignment.clone(),
             positions: self.positions.clone(),
@@ -118,7 +132,22 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
         assignment: &ListAssignment<V>,
         evaluate: impl FnMut(ListCascadeContext<'_, V, S>) -> Option<S>,
     ) -> Result<Self, ListCascadeError<V>> {
-        let mut cache = Self::from_values(problem, assignment, std::iter::empty())?;
+        Self::new_with_direction(
+            problem,
+            assignment,
+            ListCascadeDirection::Previous,
+            evaluate,
+        )
+    }
+    /// Initialize a cascade in dependency order for the selected neighbor.
+    pub fn new_with_direction(
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+        direction: ListCascadeDirection,
+        evaluate: impl FnMut(ListCascadeContext<'_, V, S>) -> Option<S>,
+    ) -> Result<Self, ListCascadeError<V>> {
+        let mut cache =
+            Self::from_values_with_direction(problem, assignment, direction, std::iter::empty())?;
         cache.update(assignment, problem.values(), evaluate)?;
         Ok(cache)
     }
@@ -128,6 +157,21 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
     pub fn from_values(
         problem: &ListProblem<V>,
         assignment: &ListAssignment<V>,
+        values: impl IntoIterator<Item = (V, S)>,
+    ) -> Result<Self, ListCascadeError<V>> {
+        Self::from_values_with_direction(
+            problem,
+            assignment,
+            ListCascadeDirection::Previous,
+            values,
+        )
+    }
+    /// Import seeds for the selected direction, without evaluating them. As with
+    /// from_values, callers must explicitly dirty seeds requiring recalculation.
+    pub fn from_values_with_direction(
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+        direction: ListCascadeDirection,
         values: impl IntoIterator<Item = (V, S)>,
     ) -> Result<Self, ListCascadeError<V>> {
         problem.validate(assignment)?;
@@ -146,6 +190,7 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
             shadows.insert(value, Some(shadow));
         }
         Ok(Self {
+            direction,
             problem: Arc::new(problem.clone()),
             assignment: Arc::new(assignment.clone()),
             positions: Arc::new(positions(assignment)),
@@ -155,6 +200,9 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
     }
     pub fn assignment(&self) -> &ListAssignment<V> {
         &self.assignment
+    }
+    pub fn direction(&self) -> ListCascadeDirection {
+        self.direction
     }
     pub fn shadows(&self) -> &SnapshotMap<V, Option<S>> {
         &self.shadows
@@ -178,7 +226,16 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
         problem: &ListProblem<V>,
         assignment: &ListAssignment<V>,
     ) -> Result<Self, ListCascadeError<V>> {
-        let mut cache = Self::from_values(problem, assignment, std::iter::empty())?;
+        Self::new_deferred_with_direction(problem, assignment, ListCascadeDirection::Previous)
+    }
+    /// Queue initialization without evaluating either neighbor direction.
+    pub fn new_deferred_with_direction(
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+        direction: ListCascadeDirection,
+    ) -> Result<Self, ListCascadeError<V>> {
+        let mut cache =
+            Self::from_values_with_direction(problem, assignment, direction, std::iter::empty())?;
         cache.pending = Arc::new(problem.values().iter().cloned().collect());
         Ok(cache)
     }
@@ -211,7 +268,7 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
         self.pending = Arc::new(roots);
         Ok(())
     }
-    /// Calculate pending roots and their affected successors at most once each.
+    /// Calculate pending roots and their affected dependents at most once each.
     /// A successful flush empties the queue; errors or callback unwinding retain
     /// both the queue and every stored shadow so the operation can be retried.
     pub fn flush_pending(
@@ -281,6 +338,7 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
                 previous: None,
                 next: None,
                 previous_shadow: None,
+                next_shadow: None,
                 current: shadows[value].as_ref(),
             });
             if shadows[value] != result {
@@ -290,17 +348,28 @@ impl<V: Ord + Clone, S: Eq> ListCascadeCache<V, S> {
         }
         for (entity, list) in assignment.lists().iter().enumerate() {
             let mut propagated = false;
-            for (index, value) in list.iter().enumerate() {
+            for offset in 0..list.len() {
+                let index = match self.direction {
+                    ListCascadeDirection::Previous => offset,
+                    ListCascadeDirection::Next => list.len() - 1 - offset,
+                };
+                let value = &list[index];
                 if !propagated && !roots.contains(value) {
                     continue;
                 }
                 let previous = index.checked_sub(1).and_then(|i| list.get(i));
+                let next = list.get(index + 1);
                 let result = evaluate(ListCascadeContext {
                     value,
                     position: Some(ListPosition { entity, index }),
                     previous,
-                    next: list.get(index + 1),
-                    previous_shadow: previous.and_then(|v| shadows[v].as_ref()),
+                    next,
+                    previous_shadow: (self.direction == ListCascadeDirection::Previous)
+                        .then(|| previous.and_then(|v| shadows[v].as_ref()))
+                        .flatten(),
+                    next_shadow: (self.direction == ListCascadeDirection::Next)
+                        .then(|| next.and_then(|v| shadows[v].as_ref()))
+                        .flatten(),
                     current: shadows[value].as_ref(),
                 });
                 propagated = shadows[value] != result;
