@@ -20448,3 +20448,43 @@ artifact hashes also match.16-slot unique pairs before/after0.769/0.986,0.770/0.
 0.840/0.824ms vary in sign; do not claim a stable tiny-history gain. No Java or
 dashboard performance refresh. All task handles terminal except dashboard81616.
 Goal remains active and incomplete.
+
+## Checked basic move preparation
+
+Baseline e8c6006. Previous response only explained throughput: no implementation
+progress. Resumed the existing unverified draft and completed BasicMoveBuilder,
+compose_basic_moves and original regressions. Builder uses validated private
+state, applies atomic groups with touched-slot validation, and supports changes,
+swaps and ordered right-rotation cycles. Finished moves retain nested child order;
+replay against the same base assignment. No mutable draft escapes. Clones fork.
+Read only the pinned Community SelectorBasedCompositeMoveTest as specification.
+Six adapted methods appended to provenance; prior entries and fixtures retained.
+Native write-journal multiplicity replaces mocked child execute calls, not Java
+score-director notification equivalence. isMoveDoable remains pending.
+
+Focused handle50683 TERMINAL0: six adapted cases plus three original regressions
+passed. Regressions cover scoring in both backends, commit/drop rollback, forked
+edits, ranges/pins/indices, atomic restoration and injected clone failures.
+Required final check launched as handle95564 via work/prebuild_basic_builder.py;
+logs work/basic-builder-prebuild.log and work/basic-builder-final-check.log.
+No benchmark refresh: new construction API, no performance claim or UI change.
+Correction: handle95564 was deliberately terminated (exit143) after discovering
+that this turn's shortened PATH invalidated all cached jobs. No completed gate
+from that attempt. Restarted once as handle74504 with the established environment:
+env -u RUST_LOG -u LC_ALL PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib bash -lc '...'.
+Keep that exact environment for later runs; PATH is part of verification keys.
+Aborted build log retained at work/basic-builder-wrong-env-prebuild.log.
+
+Required basic-builder gate TERMINAL0. 5366 Rust tests and 248 doctests passed.
+Rust jobs: {'RUN': 3, 'REUSE': 726}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3129, 'failed': 0, 'pending': 1444, 'excluded': 282, 'unverified': 0, 'percent': 64.449}.
+Source before/after matched: ba5262b7bb4383f1b62e65baa4151a8043dc6612241654e5a942c6e44eba98df
+Live freshness matched verification digest: 0a7f692682b960f76e61114f76196307944b57e536690b2f88f700cb557cdc91.
+Prior ledger records unchanged; Six upstream methods appended; no new fixture records.
+Log work/basic-builder-final-check.log; evidence work/basic-builder-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate74504 and evidence31196 TERMINAL0. Correct-environment prebuild16s;
+3Rust jobs ran/726reused,46Python jobs reused.5366Rust tests/248doctests pass.
+Reviewed source remained unchanged through the gate; six new methods individually
+passed. Dashboard/live digest agrees. No benchmark or browser rerun. Goal remains
+active and incomplete. Do not repeat successful checks on unchanged inputs.

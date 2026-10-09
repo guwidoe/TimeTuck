@@ -4825,3 +4825,23 @@ All score comparisons/clones finish before state publication, retaining unwind
 behavior. Existing pinned acceptance/replacement cases remain unchanged. Original
 regressions compare full history against independent scans and exercise every
 update branch under injected comparison/clone failures. No new method credits.
+
+## Checked compound basic moves
+
+`BasicMoveBuilder` prepares changes, swaps, ordered write groups and value cycles
+on a private validated assignment. Each operation reads earlier edits, validates
+its final domains/pins and rolls back on error or unwind. Groups may temporarily
+leave domains or alter pins if their final state restores validity. Required
+variables may be cleared during preparation; completeness is checked separately.
+Cloning forks a draft, and `finish` yields an ordinary `Move` for scoring/search.
+Replay requires the original starting state; it does not rebase or detect stale
+assignments. Preparation clones the assignment once and cycles clone selected
+values. No performance improvement is claimed for this new API.
+
+Six additional `SelectorBasedCompositeMoveTest` methods preserve construction,
+ordered equality, child execution multiplicity and interdependent change/swap
+behavior. Native variants and write journals substitute for Java types and mocks,
+as recorded in provenance. Arbitrary child doability predicates remain pending.
+Three original regressions exercise draft forks, both scoring backends, commit/
+rollback, model validation, temporary invalid writes, missing values, and injected
+clone failures during cycle preparation/application. These earn no method credit.

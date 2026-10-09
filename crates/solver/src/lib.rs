@@ -586,6 +586,9 @@ pub use value_exchange::{
     ValueExchangeConfig, ValueExchangeError, value_exchange_moves, value_exchange_moves_in_order,
 };
 
+mod basic_move_builder;
+pub use basic_move_builder::{BasicMoveBuildError, BasicMoveBuilder, compose_basic_moves};
+
 mod list_move_builder;
 pub use list_move_builder::{ListEditError, ListMoveBuilder};
 

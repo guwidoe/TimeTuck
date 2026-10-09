@@ -46959,6 +46959,96 @@
       "local_path": "crates/solver/tests/termination_resolver_cases.rs",
       "local_test": "request_moves_override_platform",
       "modifications": "Preserve every platform/request duration, count, zero/sign boundary, request precedence, inherited compatible count, suppressed conflicting limit, enabled/disabled diminished policy and explicit tuning assertion. Structured Duration inputs replace PT10S/PT5S strings; native exact rational ratios replace 0.01. No external configuration-string parser or Java DI/API parity is claimed. Native field diagnostics stepCountLimit/moveCountLimit/unimprovedSpentLimit replace Java configuration-key constants and typed errors replace TimefoldRuntimeException. Enabled default policy is represented separately from absent tuning fields. The Java OR-style assertion is adapted to independent native budget/policy bindings without an enclosing All expression; original six-path solve regressions additionally check first-reached count termination."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "local_path": "crates/solver/tests/composite_move_builder_cases.rs",
+      "status": "implemented",
+      "id": "SelectorBasedCompositeMoveTest.doMove",
+      "upstream_test": "doMove",
+      "local_test": "execute_each_child_once",
+      "modifications": "Replace three always-doable mocked dummy children with three native Change children on distinct variables. Observe exactly one write journal entry per child and the resulting values instead of Mockito execute invocation counts. This verifies native child execution multiplicity, not Java score-director callbacks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "local_path": "crates/solver/tests/composite_move_builder_cases.rs",
+      "status": "implemented",
+      "id": "SelectorBasedCompositeMoveTest.buildEmptyMove",
+      "upstream_test": "buildEmptyMove",
+      "local_test": "build_empty",
+      "modifications": "Preserve both empty collection and empty varargs construction assertions using Vec and array inputs. Native empty Composite is the no-change representation instead of a Java NoChange class."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "local_path": "crates/solver/tests/composite_move_builder_cases.rs",
+      "status": "implemented",
+      "id": "SelectorBasedCompositeMoveTest.buildOneElemMove",
+      "upstream_test": "buildOneElemMove",
+      "local_test": "build_single",
+      "modifications": "Preserve singleton collection and varargs construction assertions using Vec and array inputs. A native Change substitutes for DummyMove; construction returns the child variant directly."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "local_path": "crates/solver/tests/composite_move_builder_cases.rs",
+      "status": "implemented",
+      "id": "SelectorBasedCompositeMoveTest.buildTwoElemMove",
+      "upstream_test": "buildTwoElemMove",
+      "local_test": "build_two",
+      "modifications": "Preserve both repeated two-child construction assertions, composite type and ordered dummy/no-change child types. Native Change and empty Composite substitute for Java dummy and no-change types; add an exact child-count assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "local_path": "crates/solver/tests/composite_move_builder_cases.rs",
+      "status": "implemented",
+      "id": "SelectorBasedCompositeMoveTest.equals",
+      "upstream_test": "equals",
+      "local_test": "equality_keeps_order_and_shape",
+      "modifications": "Preserve collection-versus-varargs equality, unequal reversed order and inequality to a dummy child. Native structural Move equality and Change/empty Composite replace Java equality and dummy/no-change classes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "local_path": "crates/solver/tests/composite_move_builder_cases.rs",
+      "status": "implemented",
+      "id": "SelectorBasedCompositeMoveTest.interconnectedChildMoves",
+      "upstream_test": "interconnectedChildMoves",
+      "local_test": "interconnected_children_read_preceding_writes",
+      "modifications": "Preserve initial v1/v2 and final v2/v3 entity values after change-to-v3 then swap. Stable native variable indices and string value identities replace test-domain objects, reflection and mocked score director. Prepare through BasicMoveBuilder, replay the ordinary composite through checked FiniteProblem application."
     }
   ],
   "fixtures": [

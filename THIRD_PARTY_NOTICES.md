@@ -744,3 +744,9 @@ methods, with Lavish fixture and Tri/Quad helper attribution (Apache-2.0).
 `compat/provenance.json` records exact methods and the explicit fact-key/live-join
 substitutions. The precompute cache, graph integration and runtime regressions
 are independently implemented.
+
+`crates/solver/tests/composite_move_builder_cases.rs` adapts six methods from
+pinned Community `SelectorBasedCompositeMoveTest` (Apache-2.0). Native variants,
+ordered write journals and stable variable/value identities replace Java classes
+and mocks. Exact method identities and substitutions are recorded in
+`compat/provenance.json`. The checked builder and its regressions are original.
