@@ -2295,3 +2295,21 @@ regressions verify earliest-count stopping, suppression of zero conflicting limi
 zero-work request overrides across all six solver paths, immutable inputs, and mixed
 policy/default binding without a Clone bound on score types. Configuration-key
 strings/exception types are native adaptations recorded in provenance.
+
+Diversified late acceptance maintains the minimum-history multiplicity incrementally.
+A replacement that retains at least one minimum or introduces a lower minimum
+requires constant comparison work; removing the final minimum still scans the
+history. The selection and history-replacement rules are unchanged. Comparisons
+and any necessary score clone complete before publishing history changes.
+
+An isolated native comparison against commit `840d244` used 20,000 trials/completed
+steps, one warmup and five samples per process, three alternating process pairs,
+with both implementations in one optimized executable. Acceptance counts,
+minimum/multiplicity, cursor and ordered history fingerprints matched. For 400
+slots, repeated-minimum and oscillating traces improved from 14.621/11.345 ms to
+0.581/0.370 ms (25.2/30.7x). Unique minima retired every step improved only from
+14.226 to 13.334 ms. The 16-slot unique-minimum median regressed 0.772 to 0.827 ms;
+individual pairs varied in sign, so no consistent tiny-history win is claimed.
+These measure acceptor work, exclude initialization and final fingerprinting,
+and do not establish solver-wide or Java speedups. Raw results and executable/
+source identities: `work/dla-performance.json`.

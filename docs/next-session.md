@@ -20405,3 +20405,46 @@ compile36s.12Rust jobs ran,714reused;46Python jobs reused.5354Rust tests and
 247doctests pass. Reviewed staged Rust matches verified source. No measurement
 refresh or source changes after the gate. All task handles terminal except the
 dashboard81616; goal remains active and incomplete.
+
+## Incremental diversified-history minima
+
+Baseline840d244; previous goal turn was progress. Configuration gap assessment
+read test-only ScoreDirectorFactoryFactoryTest1-235/295-405, AcceptorFactoryTest
+and DefaultLevelScoreStateTest, plus native APIs. No new configuration facade or
+upstream adaptations. Tracing existing acceptors exposed repeated full history
+scans, and the implemented scope is a performance improvement to that real path.
+
+DiversifiedLateAcceptance now maintains minimum multiplicity in constant work
+except on eviction of the final minimum; then one scan finds/counts its successor.
+Comparisons/clones precede mutation. No acceptance, ordering or reset rule changes.
+Focused5623 TERMINAL0:8native integration tests plus2existing adapted unit cases
+pass. Three new regressions cover fixed comparison work at2/400/40000slots, full
+reference histories through repeated eviction, and each comparison/clone failure
+point across five update branches with retry.
+
+Release and isolated paired benchmark79212 TERMINAL0. Baseline own source archived
+in work/dla-baseline.rs; driver work/dla-benchmark.rs and executable work/dla-benchmark
+contain both implementations.3alternatingpairs,1warmup/5samples,20000trials for
+16/400/4000slots and unique/repeated/oscillating traces. Matching acceptance counts,
+minimum/multiplicity, cursor, ordered history fingerprint. Raw work/dla-performance.json
+records exact source/executable hashes.400slot repeated/oscillating25.2/30.7xfaster;
+unique1.067x.16slot unique0.772->0.827ms regression. This is isolated acceptor work,
+not solver-wide or Java speedup. No dashboard benchmark refresh or browser rerun.
+Required final gate64250 completed on frozen source via work/prebuild_dla.py; logs
+work/dla-prebuild.log and work/dla-final-check.log.
+
+Required dla gate TERMINAL0. 5357 Rust tests and 247 doctests passed.
+Rust jobs: {'RUN': 641, 'REUSE': 86}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3123, 'failed': 0, 'pending': 1450, 'excluded': 282, 'unverified': 0, 'percent': 64.325}.
+Source before/after matched: 1eda36812d5dbd864ba383d88f4839564c027bee682672c6c9446f8d474e0cd2
+Live freshness matched verification digest: 8ea48b77fed58d2474f83f3f064f120f646524c74e3b68a9f802d9cf16af5f89.
+Prior ledger records unchanged; No new upstream methods or fixture records.
+Log work/dla-final-check.log; evidence work/dla-evidence.json.
+No dashboard performance comparison was refreshed for this source; measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+Final gate64250 and evidence72591 TERMINAL0. Clippy21.16s; compile4m57s.
+641Rust jobs ran/86reused,46Python jobs reused;5357Rust tests/247doctests pass.
+Reviewed staged Rust remains identical to the measured/tested source; benchmark
+artifact hashes also match.16-slot unique pairs before/after0.769/0.986,0.770/0.783,
+0.840/0.824ms vary in sign; do not claim a stable tiny-history gain. No Java or
+dashboard performance refresh. All task handles terminal except dashboard81616.
+Goal remains active and incomplete.

@@ -52,30 +52,41 @@ impl<S: Score> DiversifiedLateAcceptance<S> {
         }
         let slot = &self.history[self.cursor];
         if candidate < *slot || (candidate > *slot && candidate > current) {
-            // Clone the new minimum before mutating state. Recomputing from all
-            // slots keeps counts exact even when equal scores enter or leave.
-            let worst = self
-                .history
-                .iter()
-                .enumerate()
-                .map(|(i, score)| if i == self.cursor { &candidate } else { score })
-                .min()
-                .expect("nonempty history")
-                .clone();
-            let occurrences = self
-                .history
-                .iter()
-                .enumerate()
-                .filter(|(i, score)| {
-                    if *i == self.cursor {
-                        candidate == worst
+            // Only removing the last minimum requires a scan. Prepare every
+            // comparison and fallible score clone before publishing the slot.
+            let (worst, occurrences) = match candidate.cmp(&self.worst) {
+                std::cmp::Ordering::Less => (Some(candidate.clone()), 1),
+                std::cmp::Ordering::Equal => {
+                    (None, self.occurrences + usize::from(*slot != self.worst))
+                }
+                std::cmp::Ordering::Greater => {
+                    let removes_minimum = *slot == self.worst;
+                    if !removes_minimum || self.occurrences > 1 {
+                        (None, self.occurrences - usize::from(removes_minimum))
                     } else {
-                        **score == worst
+                        let mut minimum = &candidate;
+                        let mut count = 1;
+                        for (i, score) in self.history.iter().enumerate() {
+                            if i == self.cursor {
+                                continue;
+                            }
+                            match score.cmp(minimum) {
+                                std::cmp::Ordering::Less => {
+                                    minimum = score;
+                                    count = 1;
+                                }
+                                std::cmp::Ordering::Equal => count += 1,
+                                std::cmp::Ordering::Greater => {}
+                            }
+                        }
+                        (Some(minimum.clone()), count)
                     }
-                })
-                .count();
+                }
+            };
             self.history[self.cursor] = candidate;
-            self.worst = worst;
+            if let Some(worst) = worst {
+                self.worst = worst;
+            }
             self.occurrences = occurrences;
         }
         true

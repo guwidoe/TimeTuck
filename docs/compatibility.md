@@ -4817,3 +4817,11 @@ next_shadow; existing constructors keep previous mode. Deferred updates, importe
 seeds, equality stopping, snapshot restoration and solver candidate rollback use
 the selected direction. Native prefix/suffix reference regressions add no upstream
 method credits, reflective graph-classification claim or performance measurement.
+
+Diversified late acceptance now updates its cached minimum and multiplicity
+without scanning history when a replacement preserves a minimum or supplies a
+new lower one. Removing the final minimum triggers one scan for its replacement.
+All score comparisons/clones finish before state publication, retaining unwind
+behavior. Existing pinned acceptance/replacement cases remain unchanged. Original
+regressions compare full history against independent scans and exercise every
+update branch under injected comparison/clone failures. No new method credits.
