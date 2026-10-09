@@ -1,7 +1,7 @@
 """Original regression tests for truthful list-solving evidence."""
 from copy import deepcopy
 import unittest
-from benchmark_lists import encode, generate, generate_extended, generate_two_opt, workload, optimum, parse_result, score
+from benchmark_lists import encode, generate, generate_extended, generate_two_opt, generate_search, workload, optimum, parse_result, score
 
 class ListSolverEvidenceTests(unittest.TestCase):
     def setUp(self):
@@ -82,6 +82,23 @@ class ListSolverEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'regressed'):parse_result(self.case,'case\t10\t0\t-36\t1;0\t3','two-opt')
         with self.assertRaisesRegex(ValueError,'optimum'):parse_result(self.case,self.good,'two-opt',(0,-5))
         with self.assertRaisesRegex(ValueError,'Unknown mode'):parse_result(self.case,self.good,'unknown')
+
+    def test_value_tabu_validates_quality_ranges_and_identical_starts(self):
+        originals=generate()['hill']+generate_extended()['hill']
+        for mode in ('value-tabu-change', 'value-tabu-swap'):
+            cases=generate_search(mode)
+            self.assertEqual(len(cases),64)
+            for c,before in zip(cases,originals):
+                expected=deepcopy(before);expected['id']=expected['id'].replace('hill',mode)
+                self.assertEqual(c,expected)
+            self.assertEqual(parse_result(self.case,self.good,mode,(0,-4))['score'],[0,-4])
+            with self.assertRaisesRegex(ValueError,'regressed'):
+                parse_result(self.case,'case\t10\t0\t-36\t1;0\t3',mode)
+            c=deepcopy(self.case);c['ranges']=[[1],[0]]
+            with self.assertRaisesRegex(ValueError,'entity range'):
+                parse_result(c,self.good,mode)
+            with self.assertRaisesRegex(ValueError,'optimum'):
+                parse_result(self.case,self.good,mode,(0,-5))
 
     def test_construction_range_rejection_is_independent_of_completeness_and_score(self):
         c=deepcopy(self.case);c['initial']=[[],[]];c['ranges']=[[1],[0]]

@@ -10,8 +10,19 @@ use std::{
 use timetuck::*;
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if args.len() != 5 || !["construct", "hill", "two-opt"].contains(&args[1].as_str()) {
-        return Err("construct|hill|two-opt steps warmup samples".into());
+    if args.len() != 5
+        || ![
+            "construct",
+            "hill",
+            "two-opt",
+            "value-tabu-change",
+            "value-tabu-swap",
+        ]
+        .contains(&args[1].as_str())
+    {
+        return Err(
+            "construct|hill|two-opt|value-tabu-change|value-tabu-swap steps warmup samples".into(),
+        );
     }
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
@@ -72,9 +83,18 @@ fn main() -> Result<(), Box<dyn Error>> {
                         },
                         max_steps: steps,
                         max_accepted_moves: u64::MAX,
-                        acceptance: Acceptance::HillClimbing,
+                        acceptance: if args[1].starts_with("value-tabu-") {
+                            Acceptance::ValueTabu {
+                                tenure: 3,
+                                aspiration: true,
+                            }
+                        } else {
+                            Acceptance::HillClimbing
+                        },
                         neighborhood: if args[1] == "two-opt" {
                             Neighborhood::TwoOpt { cross_entity: true }
+                        } else if args[1] == "value-tabu-swap" {
+                            Neighborhood::Swap
                         } else {
                             Neighborhood::Change
                         },

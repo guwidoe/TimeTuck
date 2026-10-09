@@ -15,6 +15,7 @@ import ai.timefold.solver.core.config.heuristic.selector.common.SelectionOrder;
 import ai.timefold.solver.core.config.heuristic.selector.entity.EntitySorterManner;
 import ai.timefold.solver.core.config.heuristic.selector.value.ValueSorterManner;
 import ai.timefold.solver.core.config.heuristic.selector.move.generic.list.ListChangeMoveSelectorConfig;
+import ai.timefold.solver.core.config.heuristic.selector.move.generic.list.ListSwapMoveSelectorConfig;
 import ai.timefold.solver.core.config.localsearch.LocalSearchPhaseConfig;
 import ai.timefold.solver.core.config.localsearch.decider.acceptor.*;
 import ai.timefold.solver.core.config.localsearch.decider.forager.*;
@@ -132,7 +133,7 @@ public final class ListSolverBenchmark {
     }
     static String lists(Problem p) {return p.vehicles.stream().map(e->e.stops.isEmpty()?"-":e.stops.stream().map(v->""+v.id).collect(Collectors.joining(","))).collect(Collectors.joining(";"));}
     public static void main(String[] args)throws Exception {
-        if(args.length!=4)throw new IllegalArgumentException("construct|hill|two-opt steps warmup samples");
+        if(args.length!=4)throw new IllegalArgumentException("construct|hill|two-opt|value-tabu-change|value-tabu-swap steps warmup samples");
         String mode=args[0]; int steps=Integer.parseInt(args[1]),warmup=Integer.parseInt(args[2]),samples=Integer.parseInt(args[3]);
         if(steps<1 || warmup<0 || samples<1)throw new IllegalArgumentException("counts");
         var config=new SolverConfig().withSolutionClass(Problem.class).withEntityClasses(Vehicle.class,Stop.class)
@@ -145,6 +146,15 @@ public final class ListSolverBenchmark {
             .withAcceptorConfig(new LocalSearchAcceptorConfig().withAcceptorTypeList(List.of(AcceptorType.HILL_CLIMBING)))
             .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(Integer.MAX_VALUE).withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))
             .withTerminationConfig(new TerminationConfig().withStepCountLimit(steps)));
+        else if(mode.equals("value-tabu-change") || mode.equals("value-tabu-swap")) {
+            var phase=new LocalSearchPhaseConfig()
+                .withAcceptorConfig(new LocalSearchAcceptorConfig().withValueTabuSize(3))
+                .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(Integer.MAX_VALUE).withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))
+                .withTerminationConfig(new TerminationConfig().withStepCountLimit(steps));
+            if(mode.equals("value-tabu-swap")) phase.withMoveSelectorConfig(new ListSwapMoveSelectorConfig().withSelectionOrder(SelectionOrder.ORIGINAL));
+            else phase.withMoveSelectorConfig(new ListChangeMoveSelectorConfig().withSelectionOrder(SelectionOrder.ORIGINAL));
+            config.withPhases(phase);
+        }
         else if(mode.equals("two-opt")) {
             config.withPreviewFeature(PreviewFeature.NEIGHBORHOODS).withPhases(new LocalSearchPhaseConfig()
                 .withMoveProviderClass(TwoOptNeighborhood.class)

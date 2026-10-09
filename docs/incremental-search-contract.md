@@ -1191,9 +1191,11 @@ one key and an empty selected-value list still ages existing tabu memory.
 All six solver paths derive trial and selected-step metadata from the same pre-step
 snapshot, only when a configured child needs value keys. Basic capture uses direct
 change/swap paths or a sparse borrowed-reference overlay for composites. It clones
-only distinct returned values, after index validation. List capture still replays a
-private snapshot; mixed capture still validates its full transaction before extracting
-component keys. All capture costs are included in native value-tabu timing. Capture
+only distinct returned values, after index validation. After a list candidate has
+successfully applied and scored, internal capture reads primitive moved values
+directly; compound capture replays coordinates on borrowed drafts of touched rows.
+Mixed capture keeps basic/list keys separate. Public metadata APIs retain full
+validation. All capture costs are included in native value-tabu timing. Capture
 does not invoke scoring or observers. Ordinary policies retain no value keys.
 
 All five ValueTabuAcceptorTest methods preserve every source acceptance assertion,

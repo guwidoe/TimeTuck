@@ -21010,3 +21010,42 @@ by batching related shared-code changes and reusing unchanged verification.
 Committed checkpoints over roughly10hours:3040->3155upstream passes,62.616->64.985%.
 This is test-method coverage, not percentage completion of the entire rewrite.
 Goal remains active/incomplete.
+
+
+## Public Java/native list value-tabu comparisons
+
+Baseline a2d4769; previous goal turn was progress. Extended existing Java public
+config adapter and native full-scoring example with value-tabu-change and
+value-tabu-swap (size3/aspiration, original order, best accepted/first tie,20steps).
+Original benchmark runner reuses complete original/ranged inputs, independently
+validates each output, enumerates small optima and adds16/32/96-customer timings.
+No production solver or provenance changes. Existing dashboard format renders the
+new workloads; no UI edits or browser rerun for this backend-only report refresh.
+
+Benchmark18863 TERMINAL0:12 focused Python validator tests passed; release example
+compiled in10.18s. Three fresh-process forks,1warmup+3samples, alternating runtimes.
+320valid small cases,317equal scores (three existing two-opt differences).
+All128value-tabu small cases agree with Java; all6timed value-tabu workloads have
+equal final scores. Medians ms Rust/Java: relocation16 3.998/90.608,
+32 23.474/121.569,96 507.758/498.238; swaps16 2.965/49.539,
+32 17.354/92.632,96 776.981/429.377. Swap score-call counts match; relocation counts
+differ. Setup/validation are timed; short JVM warmup and differing engine histories
+limit generalization. Large96swap exposes a concrete remaining native gap.
+Raw work/list-performance.json; log work/value-tabu-java-performance.log.
+
+Final gate94298 and evidence28030 TERMINAL0. Clippy1.90s, adapter compile0.26s.
+743Rust jobs reused/1ran;44Python jobs reused/2ran;5428Rust tests and248doctests pass.
+3155/4855upstream methods pass(64.985%),0failed; no upstream-method credits added.
+Source ddcdec4b8e1c93a873f336142e5c841bd0653fd8af05ea5e4f731f0d1f6fc72d
+Verification 9a3095184fcfbc5763aa0a7b852a48fbc797316ed253d0ad7b7223d7e16d8312
+List measurement c3d9061766894df08af9fd3a03d787cbd3b2012b72efc6d6a6b95e684c643420
+Dashboard/live verification freshness and current list measurement were checked;
+all other benchmark dates/freshness remain independently computed. Clean source
+measurement, all task-owned process handles terminal; goal remains incomplete.
+
+Next concrete performance target: ListScoreDirector::apply and mixed equivalent
+scan touched lists for every registered value even when value_dependents[i] is
+empty (list_scoring.rs around640; mixed_scoring.rs around684). Skip unnecessary
+value-scope discovery in one coherent batch across both, measure against this
+baseline and retain all existing affected-value behavior. No production change
+for this target has been attempted yet. Avoid refreshing unrelated benchmarks.

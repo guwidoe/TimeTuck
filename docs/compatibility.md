@@ -5055,3 +5055,33 @@ callback counts and step counts; every result is independently rescored/validate
 The29–53% runtime reduction is specific to these workloads. It is not a Java
 comparison. Raw evidence: work/compound-values-performance.json. No additional
 upstream-method credit or dashboard benchmark refresh is claimed.
+
+
+### List value-tabu comparison
+
+The original public Java/native list benchmark now covers fixed-size value tabu
+(size 3, aspiration), separately for relocations and ordered swaps. Both use
+complete identical starts, original candidate ordering, best accepted selection,
+first ties and a 20-step cap. Independent Python checks retain pins, entity ranges,
+ownership, completeness, full scores and non-regression; small-case optima are
+exhaustively enumerated. All 64 relocation and 64 swap cases have equal final
+scores across engines. These original cases add no upstream-method coverage.
+
+The 2026-10-09 comparison uses three alternating fresh-process forks, one warmup
+and three measured solves per process. Median milliseconds (Rust / Java):
+
+| Customers | Value tabu: relocation | Value tabu: swaps |
+| --- | ---: | ---: |
+| 16 | 3.998 / 90.608 | 2.965 / 49.539 |
+| 32 | 23.474 / 121.569 | 17.354 / 92.632 |
+| 96 | 507.758 / 498.238 | 776.981 / 429.377 |
+
+All six timed value-tabu workloads have identical final scores. Swap score-call
+counts also match; relocation counts differ. The larger swap workload exposes a
+remaining Rust performance gap. Timings include per-solve setup and output
+validation, with full scoring in both engines. Short JVM warmup and differing
+candidate/tie/tabu histories limit generalization; this is not a steady-state,
+incremental-scoring or universal speed claim. Full samples, runtime versions,
+source fingerprint and method are in work/list-performance.json, consumed by the
+existing dashboard list-solving section. Earlier modes were refreshed in the same
+run: 320 valid small cases overall, 317 equal-score cases (three two-opt differences).
