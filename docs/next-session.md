@@ -19885,3 +19885,38 @@ Live freshness matched verification digest: ea305bf2f5d43fe7ec38dfdc1be58af02a14
 Prior ledger records unchanged; No provenance changes or upstream method credits.
 Log work/partitioned-batch-final-check.log; evidence work/partitioned-batch-evidence.json.
 No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.
+
+
+## Ordered existence without stored matching pairs
+
+Baseline 69a8252. ExistsCompareNode supports all five comparisons and both modes,
+with equality partitions, coalesced batches and immediate wrappers. Graph builders
+existence_compare_batched/existence_partitioned_batched support activity pruning,
+self joins, transactions and saved candidates. Right payloads are projected then
+discarded; standalone R need not Clone. State contains input indexes and right key
+counts only. Equalities inspect zero crossings; inequalities visit only left keys
+crossed by changes to the minimum/maximum witness. Generic predicate existence
+remains available for residual filters/self-exclusion. New implementation is native;
+no copied fixtures, provenance changes or upstream credits.
+
+Focus42438 TERMINAL0: initial five tests passed. Final focus81626 TERMINAL0: six
+passed including full/stream search and saved candidate replay in both modes.
+Scan oracles cover all five comparisons and both modes; graph scans additionally
+cover pruning, rollback and self joins. Dense4,000-by-4,000 witnesses avoid left
+clones on duplicate updates; a one-key threshold shift among10,000 left rows emits
+one row with fewer than300 key comparisons. Panic/retry and downstream rollback
+are covered. No wall-clock claim or benchmark refresh. Final source frozen for gate.
+
+Initial prebuild28974 TERMINAL101 at clippy: projection fields needed a type alias.
+Added KeyProjection alias only; focused runtime behavior is unchanged. Final
+prebuild/check5458 uses frozen source. Clippy passed26.57s. Per-job input hashes
+select2 Rust targets and reuse704 unchanged targets; no source-key migration.
+
+Required ordered-existence gate TERMINAL0. 5225 Rust tests and 246 doctests passed.
+Rust jobs: {'RUN': 2, 'REUSE': 704}; Python jobs: {'REUSE': 46}.
+Dashboard: {'total': 4855, 'passed': 3040, 'failed': 0, 'pending': 1533, 'excluded': 282, 'unverified': 0, 'percent': 62.616}.
+Source before/after matched: c119c69c146d45691cc939fbfff5865a0cc803d5518c5965c0a72bee6779b130
+Live freshness matched verification digest: 65c002d07bd0b688a341bb8ee64a8772e5b6b58cf51849bd170368516f3213ec.
+Prior ledger records unchanged; No provenance changes or upstream method credits.
+Log work/ordered-existence-final-check.log; evidence work/ordered-existence-evidence.json.
+No benchmarks refreshed; existing measurements retain their dates and computed freshness. No browser rerun for this report-only refresh. Goal remains active.

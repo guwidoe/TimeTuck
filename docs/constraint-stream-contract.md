@@ -2106,3 +2106,24 @@ batched planning updates, including self joins and saved candidate replay. Candi
 and output vectors can still be quadratic for dense joins. Original scan-based,
 clone-count, panic, pruning, rollback and solver regressions cover this behavior;
 no new upstream method credits or wall-clock performance claims are made.
+
+
+`ExistsCompareNode` and the graph builders `existence_compare_batched` and
+`existence_partitioned_batched` specialize semi/anti joins for all five ordered
+comparisons. Equality prefixes can be compound tuples. Inputs are coalesced before
+key projection and each batch emits sorted final visibility changes, refreshing
+visible changed left payloads. Self joins include matching self occurrences.
+
+Persistent storage is linear in input/index entries, with no pair links or right
+payloads. Equalities use per-key right counts; inequalities use each partition's
+minimum/maximum witness key. Changes visit only left keys whose visibility can
+cross the old/new boundary. Duplicate witnesses or unchanged extrema emit nothing.
+These operators have no residual predicate or self-exclusion option; generic
+existence operators retain those capabilities. Standalone right payloads need not
+implement Clone. Graph transactions support pruning, rollback, and saved candidates.
+
+Original scan oracles cover both modes, all comparisons, empty/nonempty transitions,
+partition moves and duplicate inputs. A 10,000-left-key boundary shift visits fewer
+than 300 key comparisons and emits one row; 4,000-by-4,000 witness tests require no
+left payload clones for duplicate-witness updates. These are operation-count checks,
+not measured wall-clock gains or Java parity. No upstream method credit is added.

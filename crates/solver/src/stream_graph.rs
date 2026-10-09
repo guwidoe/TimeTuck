@@ -31,6 +31,7 @@
 
 mod activity;
 mod indexed_batch;
+mod ordered_existence;
 mod partitioned_batch;
 mod stable_flat_map;
 use activity::ActivityRule;

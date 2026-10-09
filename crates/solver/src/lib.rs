@@ -244,7 +244,9 @@ mod overlap_join;
 pub use overlap_join::OverlapJoinNode;
 
 mod equality_existence;
+mod ordered_existence;
 pub use equality_existence::ExistsEqualNode;
+pub use ordered_existence::ExistsCompareNode;
 
 mod step_progress;
 pub use step_progress::{StepCountLimit, StepProgress};
