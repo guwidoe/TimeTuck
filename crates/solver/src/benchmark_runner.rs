@@ -40,6 +40,28 @@ impl fmt::Display for BenchmarkScheduleError {
     }
 }
 impl Error for BenchmarkScheduleError {}
+/// A continuation must use the original configuration/problem ordering and values.
+/// Counts are checked; arbitrary generic input contents cannot be verified.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum BenchmarkResumeError {
+    ConfigurationCount { expected: usize, actual: usize },
+    ProblemCount { expected: usize, actual: usize },
+}
+impl fmt::Display for BenchmarkResumeError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::ConfigurationCount { expected, actual } => write!(
+                f,
+                "benchmark continuation requires {expected} configurations, got {actual}"
+            ),
+            Self::ProblemCount { expected, actual } => write!(
+                f,
+                "benchmark continuation requires {expected} problems, got {actual}"
+            ),
+        }
+    }
+}
+impl Error for BenchmarkResumeError {}
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct BenchmarkTrial {
     pub configuration: usize,
@@ -83,9 +105,108 @@ pub struct BenchmarkRunReport<S, E> {
     configurations: usize,
     problems: usize,
     planned_trials: usize,
+    schedule: BenchmarkSchedule,
+    segments: Vec<std::ops::Range<usize>>,
     trials: Vec<BenchmarkTrialResult<S, E>>,
 }
 impl<S, E> BenchmarkRunReport<S, E> {
+    pub fn schedule(&self) -> BenchmarkSchedule {
+        self.schedule
+    }
+    /// Nonempty ranges in trials(), one per execution that returned any callbacks.
+    /// Exposes interruptions: resumed timings need not share thermal/environment
+    /// conditions, even when their scores and trial seeds match.
+    pub fn execution_segments(&self) -> &[std::ops::Range<usize>] {
+        &self.segments
+    }
+    /// Continue at the first unexecuted trial, retaining all measurements and errors.
+    /// Uses this report's original schedule and seeds, with no repeated warm-ups.
+    /// A fresh cancellation token may stop this continuation again. A cancelled
+    /// token or complete report causes no cloning, callback execution or new segment.
+    ///
+    /// The caller must supply the SAME configuration/problem values in the SAME
+    /// order and the same measurement callback semantics. Only lengths can be
+    /// checked for arbitrary generic inputs; matching lengths do not prove identity.
+    /// Clone/timing/failure semantics match BenchmarkSchedule::run. Returned errors
+    /// are completed trials, never retries. On panic, already appended results remain;
+    /// the panicking callback has no result and may execute again if the caller resumes.
+    /// Inspect execution_segments when comparing resumed timings. For a cold restart
+    /// requiring new warm-ups, start a fresh report instead.
+    pub fn resume<C, P: Clone>(
+        &mut self,
+        configurations: &[C],
+        problems: &[P],
+        cancellation: Option<&CancellationToken>,
+        solve: impl FnMut(&C, P, BenchmarkTrial) -> Result<BenchmarkObservation<S>, E>,
+    ) -> Result<(), BenchmarkResumeError> {
+        let origin = Instant::now();
+        self.resume_with_clock(configurations, problems, cancellation, solve, || {
+            origin.elapsed()
+        })
+    }
+    fn resume_with_clock<C, P: Clone>(
+        &mut self,
+        configurations: &[C],
+        problems: &[P],
+        cancellation: Option<&CancellationToken>,
+        mut solve: impl FnMut(&C, P, BenchmarkTrial) -> Result<BenchmarkObservation<S>, E>,
+        mut clock: impl FnMut() -> Duration,
+    ) -> Result<(), BenchmarkResumeError> {
+        if configurations.len() != self.configurations {
+            return Err(BenchmarkResumeError::ConfigurationCount {
+                expected: self.configurations,
+                actual: configurations.len(),
+            });
+        }
+        if problems.len() != self.problems {
+            return Err(BenchmarkResumeError::ProblemCount {
+                expected: self.problems,
+                actual: problems.len(),
+            });
+        }
+        let first = self.trials.len();
+        // Decode the next flat index directly, avoiding a scan of completed trials.
+        let width = self.configurations * self.problems;
+        let warmups = self.schedule.warmup_runs * width;
+        for index in first..self.planned_trials {
+            if cancellation.is_some_and(CancellationToken::is_cancelled) {
+                break;
+            }
+            let warmup = index < warmups;
+            let offset = if warmup { index } else { index - warmups };
+            let repetition = offset / width;
+            let problem = (offset % width) / self.configurations;
+            let configuration = offset % self.configurations;
+            let seed = self
+                .schedule
+                .seed
+                .wrapping_add(repetition as u64)
+                .wrapping_add((problem as u64).wrapping_mul(0x9e3779b97f4a7c15))
+                ^ if warmup { 0xd1b54a32d192ed03 } else { 0 };
+            let input = problems[problem].clone();
+            let trial = BenchmarkTrial {
+                configuration,
+                problem,
+                repetition,
+                warmup,
+                seed,
+            };
+            let started = clock();
+            let result = solve(&configurations[configuration], input, trial);
+            let elapsed = clock().saturating_sub(started);
+            self.trials.push(BenchmarkTrialResult {
+                trial,
+                elapsed,
+                result,
+            });
+            if index == first {
+                self.segments.push(first..self.trials.len());
+            } else {
+                self.segments.last_mut().unwrap().end = self.trials.len();
+            }
+        }
+        Ok(())
+    }
     pub fn trials(&self) -> &[BenchmarkTrialResult<S, E>] {
         &self.trials
     }
@@ -247,8 +368,8 @@ impl BenchmarkSchedule {
         configurations: &[C],
         problems: &[P],
         cancellation: Option<&CancellationToken>,
-        mut solve: impl FnMut(&C, P, BenchmarkTrial) -> Result<BenchmarkObservation<S>, E>,
-        mut clock: impl FnMut() -> Duration,
+        solve: impl FnMut(&C, P, BenchmarkTrial) -> Result<BenchmarkObservation<S>, E>,
+        clock: impl FnMut() -> Duration,
     ) -> Result<BenchmarkRunReport<S, E>, BenchmarkScheduleError> {
         if configurations.is_empty() {
             return Err(BenchmarkScheduleError::NoConfigurations);
@@ -266,40 +387,13 @@ impl BenchmarkSchedule {
             configurations: configurations.len(),
             problems: problems.len(),
             planned_trials,
+            schedule: *self,
+            segments: vec![],
             trials: vec![],
         };
-        for (warmup, count) in [(true, self.warmup_runs), (false, self.measured_runs.get())] {
-            for repetition in 0..count {
-                for (problem, input) in problems.iter().enumerate() {
-                    let seed = self
-                        .seed
-                        .wrapping_add(repetition as u64)
-                        .wrapping_add((problem as u64).wrapping_mul(0x9e3779b97f4a7c15))
-                        ^ if warmup { 0xd1b54a32d192ed03 } else { 0 };
-                    for (configuration, config) in configurations.iter().enumerate() {
-                        if cancellation.is_some_and(CancellationToken::is_cancelled) {
-                            return Ok(report);
-                        }
-                        let input = input.clone();
-                        let trial = BenchmarkTrial {
-                            configuration,
-                            problem,
-                            repetition,
-                            warmup,
-                            seed,
-                        };
-                        let started = clock();
-                        let result = solve(config, input, trial);
-                        let elapsed = clock().saturating_sub(started);
-                        report.trials.push(BenchmarkTrialResult {
-                            trial,
-                            elapsed,
-                            result,
-                        });
-                    }
-                }
-            }
-        }
+        report
+            .resume_with_clock(configurations, problems, cancellation, solve, clock)
+            .expect("report dimensions were just validated");
         Ok(report)
     }
 }
@@ -555,5 +649,248 @@ mod tests {
                 (mismatch == 4).then_some(1.0)
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod resume_tests {
+    use super::*;
+    use crate::SimpleScore;
+    use std::cell::Cell;
+
+    fn observation(trial: BenchmarkTrial) -> Result<BenchmarkObservation<SimpleScore>, String> {
+        if trial.problem == 1 && trial.configuration == 1 && trial.repetition == 0 {
+            Err("retained failure".into())
+        } else {
+            Ok(BenchmarkObservation {
+                score: SimpleScore::new(trial.problem as i64),
+                initialized: true,
+                work: SolverWork {
+                    evaluations: trial.repetition as u64 + 1,
+                    ..Default::default()
+                },
+            })
+        }
+    }
+    fn tick(clock: &Cell<u64>, increment: u64) -> Duration {
+        clock.set(clock.get() + increment);
+        Duration::from_nanos(clock.get())
+    }
+    #[test]
+    fn resume_at_every_boundary_preserves_prefix_seeds_failures_and_timings() {
+        let schedule = BenchmarkSchedule {
+            warmup_runs: 1,
+            measured_runs: NonZeroUsize::new(2).unwrap(),
+            seed: u64::MAX,
+        };
+        let configurations = [0, 1];
+        let problems = [vec![10], vec![20]];
+        let full = schedule
+            .run(&configurations, &problems, None, |_, _, t| observation(t))
+            .unwrap();
+        for cut in 0..=full.planned_trials() {
+            let token = CancellationToken::new();
+            if cut == 0 {
+                token.cancel();
+            }
+            let clock = Cell::new(0);
+            let mut calls = 0;
+            let mut report = schedule
+                .run_with_clock(
+                    &configurations,
+                    &problems,
+                    Some(&token),
+                    |_, _, t| {
+                        calls += 1;
+                        if calls == cut {
+                            token.cancel();
+                        }
+                        observation(t)
+                    },
+                    || tick(&clock, 3),
+                )
+                .unwrap();
+            assert_eq!(report.trials().len(), cut);
+            let mut resumed = vec![];
+            report
+                .resume_with_clock(
+                    &configurations,
+                    &problems,
+                    None,
+                    |config, mut input, t| {
+                        assert_eq!(*config, t.configuration);
+                        assert_eq!(input, problems[t.problem]);
+                        input.push(999); // Every callback still receives a fresh clone.
+                        resumed.push(t);
+                        observation(t)
+                    },
+                    || tick(&clock, 5),
+                )
+                .unwrap();
+            assert_eq!(
+                resumed,
+                full.trials()[cut..]
+                    .iter()
+                    .map(|t| t.trial)
+                    .collect::<Vec<_>>()
+            );
+            assert_eq!(report.schedule(), schedule);
+            assert!(report.is_complete());
+            assert!(!report.is_successful());
+            for (i, (actual, expected)) in report.trials().iter().zip(full.trials()).enumerate() {
+                assert_eq!(actual.trial, expected.trial);
+                assert_eq!(
+                    actual.elapsed,
+                    Duration::from_nanos(if i < cut { 3 } else { 5 })
+                );
+                assert_eq!(
+                    actual
+                        .result
+                        .as_ref()
+                        .map(|r| (&r.score, r.initialized, r.work)),
+                    expected
+                        .result
+                        .as_ref()
+                        .map(|r| (&r.score, r.initialized, r.work))
+                );
+            }
+            let expected_segments: Vec<_> = [0..cut, cut..12]
+                .into_iter()
+                .filter(|r| !r.is_empty())
+                .collect();
+            assert_eq!(report.execution_segments(), expected_segments);
+            assert_eq!(report.summary(1).unwrap().unwrap().failure_count(), 1);
+            for (actual, expected) in report
+                .standings()
+                .unwrap()
+                .iter()
+                .zip(full.standings().unwrap())
+            {
+                assert_eq!(
+                    (
+                        actual.configuration,
+                        actual.rank,
+                        actual.wins,
+                        actual.ties,
+                        actual.losses
+                    ),
+                    (
+                        expected.configuration,
+                        expected.rank,
+                        expected.wins,
+                        expected.ties,
+                        expected.losses
+                    )
+                );
+                assert_eq!(actual.compare(&expected), std::cmp::Ordering::Equal);
+            }
+            let comparison = report.compare_timing(0, 1, 0).unwrap();
+            assert_eq!(comparison.comparable_pairs(), 2);
+        }
+    }
+    #[test]
+    fn invalid_shapes_and_cancelled_or_complete_resumes_preserve_history_without_work() {
+        #[derive(Debug)]
+        struct Input;
+        impl Clone for Input {
+            fn clone(&self) -> Self {
+                panic!("no cloning expected")
+            }
+        }
+        let token = CancellationToken::new();
+        token.cancel();
+        let schedule = BenchmarkSchedule::default();
+        let mut report = schedule
+            .run(
+                &[()],
+                &[Input],
+                Some(&token),
+                |_, _, _| -> Result<BenchmarkObservation<SimpleScore>, ()> { panic!() },
+            )
+            .unwrap();
+        let callback = |_: &(),
+                        _: Input,
+                        _: BenchmarkTrial|
+         -> Result<BenchmarkObservation<SimpleScore>, ()> {
+            panic!("no callback expected")
+        };
+        assert_eq!(
+            report.resume(&[], &[Input], None, callback),
+            Err(BenchmarkResumeError::ConfigurationCount {
+                expected: 1,
+                actual: 0
+            })
+        );
+        assert_eq!(
+            report.resume(&[()], &[], None, callback),
+            Err(BenchmarkResumeError::ProblemCount {
+                expected: 1,
+                actual: 0
+            })
+        );
+        report
+            .resume(&[()], &[Input], Some(&token), callback)
+            .unwrap();
+        assert!(report.trials().is_empty());
+        assert!(report.execution_segments().is_empty());
+        let mut complete = schedule
+            .run(&[()], &[()], None, |_, _, t| observation(t))
+            .unwrap();
+        let count = complete.trials().len();
+        complete
+            .resume(&[()], &[Input], None, |_, _, _| panic!())
+            .unwrap();
+        assert_eq!(complete.trials().len(), count);
+        assert_eq!(
+            complete.execution_segments(),
+            std::slice::from_ref(&(0..count))
+        );
+    }
+    #[test]
+    fn repeated_continuations_and_panic_keep_finished_trials_without_retries() {
+        let schedule = BenchmarkSchedule {
+            warmup_runs: 0,
+            measured_runs: NonZeroUsize::new(4).unwrap(),
+            seed: 81,
+        };
+        let stop = CancellationToken::new();
+        stop.cancel();
+        let mut report = schedule
+            .run(&[()], &[()], Some(&stop), |_, _, t| observation(t))
+            .unwrap();
+        for count in 1..=2 {
+            let stop = CancellationToken::new();
+            report
+                .resume(&[()], &[()], Some(&stop), |_, _, t| {
+                    stop.cancel();
+                    observation(t)
+                })
+                .unwrap();
+            assert_eq!(report.trials().len(), count);
+        }
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            report
+                .resume(&[()], &[()], None, |_, _, t| {
+                    if t.repetition == 3 {
+                        panic!("interrupted callback");
+                    }
+                    observation(t)
+                })
+                .unwrap();
+        }));
+        assert!(result.is_err());
+        assert_eq!(report.trials().len(), 3);
+        assert_eq!(report.execution_segments(), &[0..1, 1..2, 2..3]);
+        let mut calls = 0;
+        report
+            .resume(&[()], &[()], None, |_, _, t| {
+                calls += 1;
+                assert_eq!(t.repetition, 3);
+                observation(t)
+            })
+            .unwrap();
+        assert_eq!(calls, 1);
+        assert!(report.is_successful());
+        assert_eq!(report.execution_segments(), &[0..1, 1..2, 2..3, 3..4]);
     }
 }

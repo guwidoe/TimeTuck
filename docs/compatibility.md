@@ -5677,3 +5677,30 @@ An original partially assigned fixture (20 assigned, five missing) additionally
 exercises up to 32 steps of these combinations with assigned values available
 to the k-opt/sublist families.
 Both scenarios validate every published model and independently recompute its score.
+
+
+## Resuming native benchmark runs
+
+`BenchmarkRunReport::resume` continues cancelled schedules without rerunning
+completed warm-up or measured callbacks, including callbacks that returned errors.
+The report retains its original schedule/seed; direct flat-index decoding starts at
+the first unfinished trial. Earlier scores, work counts, errors and elapsed times
+are unchanged. The callback receives a fresh problem clone outside its timer.
+Shape mismatches reject before cloning or callbacks and leave the report intact.
+Callers must retain identical configuration/problem contents and order; the generic
+API checks counts, not arbitrary object identity or changed measurement semantics.
+
+`execution_segments` exposes which contiguous trial ranges were recorded by each
+execution, including warm-ups. A complete report or already-cancelled continuation
+adds no segment. A callback panic leaves previously appended results intact; the
+panicking trial has no result and can execute again after a caller catches the panic.
+Resumption does not rerun warm-ups, and interruptions can change thermal/load
+conditions. Timing ratios still express eligible equal-quality samples, not proof
+that interrupted measurements are environmentally comparable. This is in-memory
+continuation, not a persisted checkpoint or automatic retry system.
+
+Original controlled-clock checks cover every warm-up/measured/configuration/problem
+boundary, failed trials, prefix timing preservation, repeated cancellation, complete
+and pre-cancelled no-work calls, shape errors and panic recovery. A real exhaustive
+search integration proves six scheduled solves run only once across a continuation.
+No upstream method credit or new measured performance claim is added.

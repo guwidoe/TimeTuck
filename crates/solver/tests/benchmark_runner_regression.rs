@@ -183,3 +183,58 @@ fn benchmark_real_search_configs_over_multiple_problems() {
         }
     }
 }
+
+#[test]
+fn real_search_resumes_without_repeating_completed_work() {
+    let p = FiniteProblem::new(vec![Variable::new(vec![1_i64, 2, 3]); 2]).unwrap();
+    let problems = [p];
+    let configurations = [3_u64, 9];
+    let stop = CancellationToken::new();
+    let calls = std::cell::Cell::new(0);
+    let mut solve = |&budget: &u64, p: FiniteProblem<i64>, _: BenchmarkTrial| {
+        let r = exhaustive_search(
+            &p,
+            |a| SimpleScore::new(a.values().iter().flatten().sum()),
+            budget,
+        );
+        calls.set(calls.get() + 1);
+        if calls.get() == 3 {
+            stop.cancel();
+        }
+        Ok::<_, Infallible>(BenchmarkObservation {
+            score: r.best.unwrap().score,
+            initialized: true,
+            work: SolverWork {
+                evaluations: r.evaluations,
+                ..Default::default()
+            },
+        })
+    };
+    let mut report = schedule(1, 2)
+        .run(&configurations, &problems, Some(&stop), &mut solve)
+        .unwrap();
+    assert_eq!(calls.get(), 3);
+    assert!(!report.is_complete());
+    let elapsed: Vec<_> = report.trials().iter().map(|t| t.elapsed).collect();
+    report
+        .resume(&configurations, &problems, None, &mut solve)
+        .unwrap();
+    assert_eq!(calls.get(), 6);
+    assert!(report.is_successful());
+    assert_eq!(report.execution_segments(), &[0..3, 3..6]);
+    assert_eq!(
+        report.trials()[..3]
+            .iter()
+            .map(|t| t.elapsed)
+            .collect::<Vec<_>>(),
+        elapsed
+    );
+    for t in report.trials() {
+        assert_eq!(
+            t.result.as_ref().unwrap().work.evaluations,
+            configurations[t.trial.configuration]
+        );
+    }
+    assert_eq!(report.timing(1, 0).unwrap().successful_runs, 2);
+    assert_eq!(report.summary(1).unwrap().unwrap().run_count(), 2);
+}

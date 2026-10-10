@@ -22041,3 +22041,42 @@ Verification74fb604cb988871448f3de1398c72020b3db84ad82628f641ae8b3022088b52a
 Live/report freshness matches. Java list measurements remain stale. Evidence
 work/optional-union-evidence.json; work/optional-union-{prebuild,final-check}.log.
 No Rust edits after gate; no benchmark/browser rerun. Goal remains incomplete.
+
+## Resume native benchmark schedules
+
+Baseline9af0c4d; previous turn made verified source-case integration progress.
+BenchmarkRunReport now retains its original BenchmarkSchedule and nonempty execution
+segment ranges. resume(&mut self, configs, problems, token, callback) starts directly
+at the first unfinished trial using flat-index decoding. It retains completed
+warm-ups/measured scores, elapsed times, work and errors without cloning old results
+or retrying failures. Fresh inputs clone outside each callback timer. Shape errors
+reject before work; identical counts cannot prove input/order/callback identity,
+which remains the caller's contract. Completed/pre-cancelled calls do no work.
+Earlier appended results survive a caught callback panic; that unfinished callback
+may run again. Segments expose timing interruptions; no new warmups, persistence,
+automatic recovery, environment comparability or speedup claim is implied.
+
+Three controlled-clock tests cover all13cutpoints of a12trial schedule, error/seed/
+work/timing preservation, repeated cancellation, no-work calls, shape errors and
+panic recovery. A new real exhaustive-search integration completes6trials across
+2executions without repeats. Focus81367 compile failed on missing BenchmarkStanding
+PartialEq; changed assertion to public comparison/rank fields. Focus60456 passes7
+runner unit checks; Focus7402 passes6 integrations. Prebuild65614 failed Clippy's
+single-range-array test lint; fixed with slice::from_ref, no production change.
+Final prebuild/check/evidence6043 TERMINAL0: clippy30.56s,4target compile5.53s;
+4Rust RUN,762Rust/46Python REUSE. 5536Rust tests and251doctests pass.
+Coverage remains3190/4855=65.705%,0failed,1383pending,282excluded,0unverified.
+Source2ea73930deb422db7b5f0c3cda07069f4e05856405abf67127fc8f73d9de4bb9
+Verification2ee2ce4a64944f43646f6acbf5434aeb24cff08dd40c2c8a48345279247bf7d6
+Live/report freshness matches. Java list measurements stay stale. Evidence
+work/benchmark-resume-evidence.json; work/benchmark-resume-{prebuild,final-check}.log.
+No Rust changes after gate; no benchmark/browser rerun, no source credits/provenance
+changes. Goal remains incomplete.
+
+Reconnaissance: pending DefaultSolver environment-mode tests assert Java factory
+mode identity; native assertion booleans/phase rescoring already exist and do not
+prove that protocol. Full TEST-ONLY BenchmarkAggregatorTest read: filesystem input,
+XML config, timestamp directories and HTML/browser report workflows are distinct
+from existing in-memory rankings/timing. Do not add placeholder IO just for its
+error/null/file assertions. Native reusable list-state facilities also already exist;
+phase identity/reuse requires real driver integration, not another wrapper.

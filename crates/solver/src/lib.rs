@@ -1110,8 +1110,8 @@ pub use benchmark_results::{
 mod benchmark_runner;
 mod benchmark_timing;
 pub use benchmark_runner::{
-    BenchmarkObservation, BenchmarkRunReport, BenchmarkSchedule, BenchmarkScheduleError,
-    BenchmarkTiming, BenchmarkTrial, BenchmarkTrialResult,
+    BenchmarkObservation, BenchmarkResumeError, BenchmarkRunReport, BenchmarkSchedule,
+    BenchmarkScheduleError, BenchmarkTiming, BenchmarkTrial, BenchmarkTrialResult,
 };
 pub use benchmark_timing::{BenchmarkTimingComparison, BenchmarkTimingPair};
 
