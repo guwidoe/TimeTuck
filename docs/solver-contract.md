@@ -2059,3 +2059,29 @@ Original regressions exercise read budgets, pins, independent draw order, rollba
 and actual list/mixed solves. Ten pinned upstream proposal sequences are retained
 as attributed partial fixtures; selector cardinality, unbounded metadata and
 lifecycle remain outside these iterators, so those fixtures earn no method credit.
+
+## Retained stream phases
+
+`StreamScoreDirector`, `ListStreamScoreDirector` and `MixedStreamScoreDirector`
+now expose `run_construction` and `run_local_search`. These methods start from the
+bound assignment and reuse the same compiled graph, source identities, immutable
+facts and cached scores. Construction leaves its completed prefix installed; local
+search saves graph snapshots at initialization and strict best improvements, then
+installs the retained best assignment/graph on successful return. Restoring the best
+uses cached state, including list shadows and joined/grouped constraints, without
+scoring callbacks. Snapshots add storage proportional to graph state (with sharing
+where supported by its nodes).
+
+Each call starts fresh phase acceptance, random and termination state. The usual
+initial score evaluation still consumes one evaluation; already-completed graph
+initialization contributes zero new constraint callbacks. Search results report
+actual new constraint work, excluding diagnostics. Zero-budget and pre-cancelled
+calls preserve the director; validation still precedes those checks. A scoring error
+or callback panic leaves the last committed consistent step, which may differ from
+the phase-entry or best assignment. External callback side effects are not undone.
+
+These are explicit phase calls with per-call limits. Callers can use assignment
+replacement between calls. The existing `solve_*_stream` APIs retain their fresh
+factory-per-phase contract; shared plan limits, exact/custom/repair phases, event
+observers and extension providers are not routed through this API yet. This does
+not earn the upstream whole-solver list-state-identity test credit.

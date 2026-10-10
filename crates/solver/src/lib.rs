@@ -189,6 +189,7 @@ pub use stream_graph::{
     StreamConstraint, StreamDataset, StreamGraph, StreamGraphBuilder, StreamPort, StreamSource,
 };
 
+mod retained_stream_phase;
 mod stream_assignment_change;
 pub use stream_assignment_change::StreamAssignmentChange;
 

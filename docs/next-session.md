@@ -22147,3 +22147,36 @@ Verification41c8d38eb3a7d56dbe148dcf827e84b70889a7a6c7a1433ad83ca8993a18bdba
 Live/report freshness matches. Evidence work/assignment-replacement-evidence.json;
 logs work/assignment-replacement-{focus,prebuild,final-check}.log. No Rust changes
 after gate; Java measurements remain stale; no browser/benchmark rerun. Goal active.
+
+## Retained construction/local-search phases (baseline 3e7c4b3)
+
+Previous turn made verified progress with assignment replacement. All three stream
+directors now have run_construction/run_local_search. RetainedPhase borrows the
+initialized director and reports zero new initialization callbacks. Local search
+captures graph state through existing notify_best hooks and installs result.best
+plus its cached graph on success, without rescoring. Acceptance/random/termination
+state remains phase-local. Errors/panics retain the last committed consistent step;
+zero-budget/cancelled calls preserve the director. Full solve_*_stream entry points
+still have the documented fresh-factory-per-phase contract. Shared-plan integration,
+exact/custom/repair phases, observers and providers remain separate work.
+
+Five original tests compare construction and16localconfigs/model against fresh
+phases, callback deltas, shadows, cancellation, graph failures/panics and8accepted
+worsening steps with best-cache restoration. Focus94158 failed a test expectation
+of whole-phase rollback; corrected to documented last-committed step1. Focus89031
+passes5tests; release23.05s. Native same-binary benchmark47278 TERMINAL0 compares
+16basic variables,4/16phases,6annealingsteps,0/256/2048facts;3alternating processpairs,
+1warmup then3samples of16solves. Setup/final validation inside timer. Assignments,
+scores,evaluations,steps identical. Elapsed reductions20–43%without facts,71–94%with
+facts (short phases emphasize setup); not Java/general/long-phase claims. Probe
+initially used private apply_updates; switched public apply_batch before measuring.
+Results/source+binary hashes:work/retained-phase-performance.json. No sourcecredits.
+
+Final gate7243 TERMINAL0: Clippy17.64s;571target compile72s;
+571Rust RUN,197Rust/46Python REUSE;5549Rust tests+251doctests pass.
+Coverage3190/4855=65.705%,0failed,1383pending,282excluded,0unverified.
+Sourceca6abe20edaf30215e5128737c5d6e35bff2f49e4c2e089a98a4159d1caf979d
+Verification4460145fb203deddaa261400c9acb39500dbc84e6bb3a531758b576caeee528d
+Live/report freshness and benchmark source/binary hashes match. Evidence/logs:
+work/retained-phase-{evidence.json,prebuild.log,final-check.log,performance.json}.
+No Rust changes after gate; existing Java timings stale; no browser rerun. Goal active.

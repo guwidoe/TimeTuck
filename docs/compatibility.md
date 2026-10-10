@@ -5749,3 +5749,24 @@ constraints, list ownership/index/neighbor rows and aggregates, mixed partial/fu
 scoring, retained facts, nested rollback, model rejection before scoring, graph errors,
 callback/caller panic recovery and identity-equal payload updates. No upstream method
 credit, automatic phase reuse or measured speedup is claimed by this API increment.
+
+## Reuse stream directors through construction and local search
+
+All three stream directors now run repeated construction/local-search phases on
+existing graph state. Native regression checks compare construction and 16 local
+configurations per model against fresh graphs, preserving assignments, scores,
+evaluation/step/acceptance counts and termination. New constraint-callback counts
+exclude prior initialization. Additional checks cover cancellation, error/panic
+recovery, and eight accepted worsening steps whose best graph is restored without
+replaying immutable facts or planning scores. No source-method credit is added.
+
+A same-binary release probe compares fresh and retained basic phases: 16 variables,
+four or sixteen six-step annealing phases, and zero/256/2048 immutable fact rows.
+Three alternating process pairs each run one warm-up followed by three batches of
+16 solves. Timing includes model/graph setup and independent final-score validation.
+Final assignments, scores, score-evaluation counts and steps match. Without immutable
+facts, median elapsed time falls 20–43%; with facts, it falls 71–94%, reflecting the
+avoided repeated setup in these short phases. These are focused native comparisons,
+not Java comparisons or predictions for long phases. Details and source/binary
+hashes are in work/retained-phase-performance.json. Full solver plan entry points
+still request a fresh factory per phase; the new methods are explicit retained calls.

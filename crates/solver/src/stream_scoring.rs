@@ -123,6 +123,59 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             director.graph.install(graph);
         }))
     }
+    /// Run construction from the current assignment using the retained graph.
+    /// Cached initialization does not invoke callbacks or count as new constraint
+    /// work; the phase still consumes its usual initial score evaluation.
+    /// Errors or callback panics retain the last committed, consistent step.
+    pub fn run_construction(
+        &mut self,
+        config: ConstructionConfig,
+    ) -> Result<ConstructionResult<V, S>, StreamScoringError> {
+        let problem = self.problem;
+        let initial = self.assignment.clone();
+        crate::construction::construction_impl_monitored(None, problem, initial, config, |_| {
+            Ok(crate::retained_stream_phase::RetainedPhase {
+                director: self,
+                on_best: None,
+            })
+        })
+    }
+
+    /// Run local search with fresh phase acceptance/random state and the retained
+    /// scoring graph. On success, install the best assignment and cached graph
+    /// without rescoring. Zero-budget/cancelled phases leave this director unchanged.
+    /// Constraint work excludes the director's earlier initialization and diagnostics.
+    /// Errors or callback panics retain the last committed, consistent step.
+    pub fn run_local_search(
+        &mut self,
+        config: LocalSearchConfig<S>,
+    ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+        let problem = self.problem;
+        let initial = self.assignment.clone();
+        let mut best_graph = None;
+        let mut save_best = |director: &Self| {
+            best_graph = Some(director.graph.capture_full());
+        };
+        let result = crate::local_search::search_impl_monitored(
+            None,
+            problem,
+            Some(initial),
+            config,
+            |_| {
+                Ok(crate::retained_stream_phase::RetainedPhase {
+                    director: &mut *self,
+                    on_best: Some(&mut save_best),
+                })
+            },
+        )?;
+        if let Some(best) = &result.best {
+            self.assignment = best.assignment.clone();
+            self.graph
+                .install(best_graph.expect("scored phase records its initial best"));
+        }
+        Ok(result)
+    }
+
     /// Validate and score a new assignment using this director's compiled graph.
     /// All planning rows are refreshed, even if `Eq` compares only value identity;
     /// immutable fact sources and graph configuration are retained. Drop rolls back.
