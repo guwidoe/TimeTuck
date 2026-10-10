@@ -17,17 +17,16 @@ pub enum ListSwapPairing {
 
 struct ValueSwapSelection<'a, V> {
     problem: &'a ListProblem<V>,
-    assignment: &'a ListAssignment<V>,
     locations: Vec<Option<ListPosition>>,
     selectable: Vec<bool>,
-    trial: Option<ListAssignment<V>>,
+    checker: crate::ListMoveChecker<'a, V>,
 }
 impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
     fn new(
         problem: &'a ListProblem<V>,
         assignment: &'a ListAssignment<V>,
     ) -> Result<Self, ListError> {
-        problem.validate(assignment)?;
+        let checker = problem.move_checker(assignment)?;
         let locations: Vec<_> = problem
             .values()
             .iter()
@@ -45,10 +44,9 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
             .collect();
         Ok(Self {
             problem,
-            assignment,
             locations,
             selectable,
-            trial: None,
+            checker,
         })
     }
     fn order(&self, values: &[V]) -> Result<Vec<usize>, ListError> {
@@ -122,11 +120,8 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
         };
         // Dependency constraints may reject a geometrically valid swap. Prepare
         // only the requested candidate; no Cartesian product is materialized.
-        // Opening validates the immutable base. Each guard restores this scratch
-        // assignment, including on rejection or unwind; avoid copying the entire
-        // assignment and revalidating its initial state for every candidate.
-        let trial = self.trial.get_or_insert_with(|| self.assignment.clone());
-        drop(p.apply_validated(trial, &movement).ok()?);
+        // Validate against the immutable source without cloned scratch values.
+        self.checker.is_doable(&movement).ok()?;
         Some(movement)
     }
 }
@@ -134,7 +129,7 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
 /// Value-driven swaps in caller-supplied order, including optional assigned/
 /// unassigned replacement. Unknown values or invalid assignments fail at opening.
 /// No candidates are built until iteration. Opening caches locations and filtered
-/// orders; nontrivial candidates validate on one lazily cloned reusable assignment.
+/// orders; nontrivial candidates validate on borrowed rows without cloning values.
 /// `include_noops` retains equal-value and two-unassigned pairs as empty composites.
 /// Reverse pairs and duplicate inputs remain distinct candidates. Output indices
 /// belong only to this borrowed assignment snapshot.
@@ -306,7 +301,7 @@ impl<B: Clone + Eq, V: Clone + Eq>
 /// not over valid moves. An empty sample is not a proof of a local optimum.
 /// Opening validates all identities and consumes no randomness or move catalog.
 /// It stores O(left + right + registered values) indices; each attempt scans the
-/// right occurrences. Candidate validation reuses one lazily cloned assignment.
+/// right occurrences. Candidate validation borrows rows without cloning values.
 ///
 /// Each opening starts a native PRNG at seed + completed_steps (wrapping).
 /// Reopening the same snapshot/step replays independently of partial consumption.

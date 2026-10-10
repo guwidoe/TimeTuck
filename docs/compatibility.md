@@ -5358,3 +5358,50 @@ exercise invalid-source/candidate ordering, prove zero planning-value clones ove
 100 repeated queries, and run filtered joint search through both backends and
 first/best accepted selection. This adds a native API without upstream method
 credit or a runtime-speed claim; built-in candidate enumeration is unchanged.
+
+## Borrowed validation in list value providers
+
+Ordered, anchored and sampled list-value change/swap iterators now hold a validated
+`ListMoveChecker` for their immutable source. Change candidates no longer clone
+and revalidate the entire assignment per proposal. Swap candidates no longer use
+an owned scratch assignment or touched-row undo copies. Candidate validation
+borrows planning values; explicit move/metadata payloads remain owned. Existing
+sampling order, range/dependency filtering, duplicate weights and no-op inclusion
+are preserved. The result of the validity check is used even when the final move
+is unchanged, leaving existing `include_noops` rules in control.
+
+Original clone-cost regressions show zero validation value clones, including
+32 singleton lists and 20 swaps (previously 72 clones). Change results clone one
+metadata value, plus one move value for assignments. Replacement swaps clone one
+assigned value. Two new original tests check these costs alongside distinct
+registry/live payloads, large untouched pinned lists, replacement and no-op
+multiplicity. Thirty focused tests include existing exhaustive small-state,
+seeded sampling, dependencies and real list/mixed solver checks. No new upstream
+method credits are claimed.
+
+Paired full native list solves compare baseline `5ac8392` with borrowed validation.
+Both versions use four routes, 32/96 customers, best-accepted hill climbing, a
+12-step cap and seeded sampled anchored-change/value-swap providers (seed 731,
+256 attempts per step). Three alternating fresh-process pairs run one warmup and
+three timed solves each. Full independent rescoring and completeness validation
+pass; assignments, scores, evaluations, steps and constraint-call counts match.
+
+| Values | Backend | Provider | Before ms/solve | After ms/solve | Process CPU change |
+| ---: | --- | --- | ---: | ---: | ---: |
+| 32 | scoped | change | 5.554 | 3.193 | -35.1% |
+| 32 | scoped | swap | 2.033 | 2.158 | +9.7% |
+| 32 | stream | change | 25.518 | 22.528 | -14.4% |
+| 32 | stream | swap | 21.484 | 21.692 | +2.8% |
+| 96 | scoped | change | 14.982 | 4.558 | -69.8% |
+| 96 | scoped | swap | 3.415 | 3.374 | -3.7% |
+| 96 | stream | change | 83.470 | 62.145 | -21.9% |
+| 96 | stream | swap | 60.192 | 60.195 | -1.9% |
+
+Timed solves include director initialization and search; process CPU additionally
+includes warmup, model/graph setup, validation and process startup. Changes improve
+substantially in these workloads. Swap timing is mixed, including a 9.7% CPU
+regression for the smallest scoped case; eliminating clones does not establish a
+speedup for cheap integer values. This is not a Java or universal speed claim.
+Raw forks, samples, source and binary identities are in
+`work/borrowed-provider-performance.json`; baseline build metadata is in
+`work/borrowed-provider-baseline.json`. Older Java measurements remain stale.

@@ -45,14 +45,16 @@ struct ValueChangeSelection<'a, V> {
     problem: &'a ListProblem<V>,
     assignment: &'a ListAssignment<V>,
     locations: Vec<Option<ListPosition>>,
+    checker: crate::ListMoveChecker<'a, V>,
 }
 impl<'a, V: Clone + Eq> ValueChangeSelection<'a, V> {
     fn new(
         problem: &'a ListProblem<V>,
         assignment: &'a ListAssignment<V>,
     ) -> Result<Self, ListError> {
-        problem.validate(assignment)?;
+        let checker = problem.move_checker(assignment)?;
         Ok(Self {
+            checker,
             problem,
             assignment,
             locations: problem
@@ -161,8 +163,8 @@ impl<'a, V: Clone + Eq> ValueChangeSelection<'a, V> {
         if unchanged && !include_noops {
             return None;
         }
-        let mut trial = self.assignment.clone();
-        drop(self.problem.apply(&mut trial, &movement).ok()?);
+        // Existing include_noops handling decides whether unchanged moves survive.
+        self.checker.is_doable(&movement).ok()?;
         Some(ListValueChange {
             value: value.clone(),
             source,

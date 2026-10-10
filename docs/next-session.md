@@ -21456,3 +21456,43 @@ work/list_value_swap_borrowed.rs drafts holding the checker and dropping scratch
 validation. Source remains untouched. Measure a baseline BEFORE promoting these
 files; revise existing clone-count assertions and add payload/dependency/no-op
 regressions. These drafts are not tested and earn no evidence/coverage credit.
+
+## Borrowed list-provider validation (verified)
+
+Baseline5ac8392; previous turn made progress (mixed move checker committed).
+Baseline17556 TERMINAL0: release26.74s, compiled original full-list-solve probe,
+archived executable/source/library/harness hashes before any source edits.
+Promoted prior drafts: ValueChangeSelection/ValueSwapSelection hold ListMoveChecker;
+replace apply-to-copy/apply_validated scratch with borrowed validity queries.
+Preserve existing no-op handling by accepting both Ok(true) and Ok(false).
+Remove unused swap assignment/scratch fields; update API/contract documentation.
+Two new original payload/clone-cost tests, revise old scratch-clone regression to0.
+Focused61298 TERMINAL0:30tests,6.23s compile. No provenance additions.
+
+Prebuild80962 TERMINAL101: Clippy nested-if warning in new original test. Fixed
+condition only; first log archived. Revised prebuild/build/measurement77517
+TERMINAL0:Clippy5.28s,10affected targets compiled4.97s,747reusable,release27.16s.
+Raw work/borrowed-provider-performance.json:8full list solves32/96values,4routes,
+12step cap,seed731,256provider attempts per step; scoped/stream and change/swap.
+Three alternating fork pairs,1warmup3timed solves each, independent full scoring
+and completeness. Exact assignments/scores/evaluation/step/constraint counts match.
+CPU change improvements:35.1%/69.8%scoped,14.4%/21.9%stream. Swaps mixed:
+32scoped+9.7%,32stream+2.8%,96scoped-3.7%,96stream-1.9%. Record all cases, no universal
+or Java gain claim. Source unchanged since measurement.
+
+Final gate95462 and evidence98767 TERMINAL0. 10Rust jobs ran;747Rust and46Python
+jobs reused. All5475Rust tests and251doctests pass. Coverage3169/4855=65.273%,0failed,
+1404pending,282excluded,0unverified. Report/live freshness and exact measured-source/
+executable hashes match. No Rust changes after measurement or final gate.
+Source:1508a7581cb26621af033d255cc5b82500222ba8bf12585b1091dfa1ec7ca47e
+Verification:18a01af7c2b320a8a86ab4ba85620145d6bd05667b56bb1a241eb293cdf73fe2
+Logs work/borrowed-provider-{prebuild,final-check}.log; evidence
+work/borrowed-provider-evidence.json. No Java/browser rerun; older Java/list timings
+remain stale. All current task-owned handles terminal. Goal active/incomplete.
+
+Follow-up performance concern: smallest scoped value-swap case regressed9.7%CPU
+(2.033->2.158ms timed median) despite0validation value clones. The borrowed checker
+also computes final change equality even though provider filtering only needs
+validity. Do not claim all swap workloads improved. Any refinement should reuse
+these archived executable/source results as the verified baseline where applicable
+and compare full solves; no reruns merely because of a new commit/turn.

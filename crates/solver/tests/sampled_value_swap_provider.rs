@@ -239,7 +239,7 @@ impl PartialEq for Counted {
 }
 impl Eq for Counted {}
 #[test]
-fn ordered_and_sampled_selection_clone_working_assignment_only_once() {
+fn ordered_and_sampled_selection_validate_without_cloning_values() {
     let clones = Rc::new(Cell::new(0));
     let values: Vec<_> = (0..32)
         .map(|id| Counted {
@@ -264,8 +264,8 @@ fn ordered_and_sampled_selection_clone_working_assignment_only_once() {
         list_value_swap_moves(&p, &a, &left, &right, ListSwapPairing::Cartesian, false).unwrap();
     assert_eq!(clones.get(), 0);
     assert_eq!(moves.count(), 20);
-    // One 32-value working copy, then two touched singleton undo copies per move.
-    assert_eq!(clones.get(), 32 + 20 * 2);
+    // Validation borrows values; index-only swaps need no owned proposal payloads.
+    assert_eq!(clones.get(), 0);
     let c = SampledListValueSwapProvider {
         left,
         right,
@@ -277,5 +277,5 @@ fn ordered_and_sampled_selection_clone_working_assignment_only_once() {
     let moves = c.select(&p, &a, 0).unwrap();
     assert_eq!(clones.get(), 0);
     assert_eq!(moves.count(), 20);
-    assert_eq!(clones.get(), 32 + 20 * 2);
+    assert_eq!(clones.get(), 0);
 }

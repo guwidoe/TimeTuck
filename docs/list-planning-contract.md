@@ -1168,9 +1168,10 @@ rebuilds positions from the current assignment. Partial consumption cannot alter
 later replay. Empty samples do not prove local optimality.
 
 Opening stores index/order vectors, not a Cartesian move catalog. Each attempt
-scans the right occurrences. All value-swap iterators now reuse one lazily cloned
-working assignment for candidate validation, restoring it through normal move
-rollback. Touched-list undo copies and dependency validation still occur. A
-counted-clone regression with 32 singleton lists and 20 proposals observes 72
-value clones (32 initial + 40 undo), rather than the former 680; this is an
-operation-count result, not a wall-clock or Java speedup measurement.
+scans the right occurrences. Value-swap and value-change iterators validate their
+source once and check candidates through borrowed list rows. Validation copies no
+planning values; dependency validation still occurs. A counted-clone regression
+with 32 singleton lists and 20 swap proposals observes zero value clones, down
+from 72 (32 initial + 40 undo). Replacement swaps still own the newly assigned
+value. Value-change results own their registry metadata value, plus an assignment
+payload when needed. Existing no-op inclusion and sampling order are preserved.
