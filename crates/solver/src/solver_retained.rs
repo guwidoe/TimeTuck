@@ -1,16 +1,28 @@
 //! Shared solver control over one retained stream graph.
 use super::*;
 use std::cell::RefCell;
-type EventObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolverEvent<'_, A, S>)>;
 
 pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &FiniteProblem<V>,
     d: &mut StreamScoreDirector<'_, '_, V, S>,
     c: SolverSequence<'_, S>,
-    observer: EventObserver<'_, Assignment<V>, S>,
-    mut command: CommandCallback<'_, Assignment<V>, Move<V>, S, StreamScoringError>,
+    mut extensions: SolverExtensions<
+        '_,
+        FiniteProblem<V>,
+        Assignment<V>,
+        Move<V>,
+        S,
+        StreamScoringError,
+    >,
 ) -> Result<SolverResult<Assignment<V>, S>, SolverError<LocalSearchError>> {
     let phases = &c.phases;
+    extensions.move_providers.validate(phases.iter().map(|p| {
+        matches!(
+            p,
+            SolverPhase::Construction(_) | SolverPhase::LocalSearch(_)
+        )
+    }))?;
+    let mut command = extensions.command;
     if command.is_none()
         && let Some(phase) = phases
             .iter()
@@ -19,10 +31,18 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         return Err(SolverError::UnboundCustomPhase { phase });
     }
     validate_repair_candidates(phases, p)?;
-    validate_basic_phase_neighborhoods(p, phases, |_| false, LocalSearchError::from)?;
+    validate_basic_phase_neighborhoods(
+        p,
+        phases,
+        |phase| extensions.move_providers.contains(phase),
+        LocalSearchError::from,
+    )?;
     let raw_initial = d.assignment().clone();
     let prepared = raw_initial.clone();
-    let mut observation = PlanObservation::new(observer.map(PlanCallback::Events));
+    let mut observation = PlanObservation::new(PlanCallback::extensions(
+        extensions.events,
+        extensions.score_check,
+    ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
         required_unassigned_pin: required_pin_startup_issue(
@@ -34,12 +54,15 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         movable: p.variables().iter().any(|v| !v.is_pinned()),
         assignment: prepared,
     };
+    let mut providers =
+        crate::solver_extensions::ProviderSolve::new(Some(&mut extensions.move_providers));
     run(
         c.limits.clone(),
         phases,
         || initial,
         observation,
         |index, a, request, time, observation| {
+            providers.start();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -47,6 +70,28 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
             let mut notify = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                 observation.notify(index, kind, update)
             };
+            if let PhaseRequest::Construction(config) = &request {
+                let max_scanned_moves = providers
+                    .as_ref()
+                    .map_or(100_000, |p| p.max_construction_scans);
+                if let Some(provider) = providers.as_deref_mut().and_then(|p| p.get(index)) {
+                    return d
+                        .run_provider_construction_monitored(
+                            a.expect("construction provider handoff"),
+                            provider_construction_config(*config, max_scanned_moves),
+                            crate::provider_search::ProviderContext {
+                                provider,
+                                control: time.construction_monitor(),
+                                observer: observed.then_some(&mut notify),
+                            },
+                        )
+                        .map(provider_constructed)
+                        .map_err(|error| SolverError::Phase {
+                            phase: index,
+                            error: LocalSearchError::from(error),
+                        });
+                }
+            }
             match request {
                 PhaseRequest::Construction(config) => d
                     .run_construction_monitored(
@@ -66,6 +111,7 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                         a,
                         observed.then_some(&mut notify),
                         config,
+                        providers.as_deref_mut().and_then(|p| p.get(index)),
                     )
                     .map(|r| improved!(r))
                     .map_err(|error| SolverError::Phase {
@@ -223,10 +269,23 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     p: &ListProblem<V>,
     d: &mut ListStreamScoreDirector<'_, '_, V, S>,
     c: SolverSequence<'_, S>,
-    observer: EventObserver<'_, ListAssignment<V>, S>,
-    mut command: CommandCallback<'_, ListAssignment<V>, ListMove<V>, S, ListStreamScoringError>,
+    mut extensions: SolverExtensions<
+        '_,
+        ListProblem<V>,
+        ListAssignment<V>,
+        ListMove<V>,
+        S,
+        ListStreamScoringError,
+    >,
 ) -> Result<SolverResult<ListAssignment<V>, S>, SolverError<ListLocalSearchError>> {
     let phases = &c.phases;
+    extensions.move_providers.validate(phases.iter().map(|p| {
+        matches!(
+            p,
+            SolverPhase::Construction(_) | SolverPhase::LocalSearch(_)
+        )
+    }))?;
+    let mut command = extensions.command;
     if command.is_none()
         && let Some(phase) = phases
             .iter()
@@ -238,7 +297,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     validate_list_phase_neighborhoods(
         p,
         phases,
-        |_| false,
+        |phase| extensions.move_providers.contains(phase),
         |e| ListLocalSearchError::from(ListStreamScoringError::from(e)),
     )?;
     let raw_initial = d.assignment().clone();
@@ -247,7 +306,10 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         .map_err(|e| SolverError::InitialScoring {
             error: ListLocalSearchError::from(ListStreamScoringError::from(e)),
         })?;
-    let mut observation = PlanObservation::new(observer.map(PlanCallback::Events));
+    let mut observation = PlanObservation::new(PlanCallback::extensions(
+        extensions.events,
+        extensions.score_check,
+    ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
         required_unassigned_pin: None,
@@ -255,12 +317,15 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         movable: p.entities().iter().any(|v| !v.is_pinned()),
         assignment: prepared,
     };
+    let mut providers =
+        crate::solver_extensions::ProviderSolve::new(Some(&mut extensions.move_providers));
     run(
         c.limits.clone(),
         phases,
         || initial,
         observation,
         |index, a, request, time, observation| {
+            providers.start();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -268,6 +333,28 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
             let mut notify = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                 observation.notify(index, kind, update)
             };
+            if let PhaseRequest::Construction(config) = &request {
+                let max_scanned_moves = providers
+                    .as_ref()
+                    .map_or(100_000, |p| p.max_construction_scans);
+                if let Some(provider) = providers.as_deref_mut().and_then(|p| p.get(index)) {
+                    return d
+                        .run_provider_construction_monitored(
+                            a.expect("construction provider handoff"),
+                            provider_construction_config(*config, max_scanned_moves),
+                            crate::provider_search::ProviderContext {
+                                provider,
+                                control: time.construction_monitor(),
+                                observer: observed.then_some(&mut notify),
+                            },
+                        )
+                        .map(provider_constructed)
+                        .map_err(|error| SolverError::Phase {
+                            phase: index,
+                            error: ListLocalSearchError::from(error),
+                        });
+                }
+            }
             match request {
                 PhaseRequest::Construction(config) => d
                     .run_construction_monitored(
@@ -287,6 +374,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                         a,
                         observed.then_some(&mut notify),
                         config,
+                        providers.as_deref_mut().and_then(|p| p.get(index)),
                     )
                     .map(|r| improved!(r))
                     .map_err(|error| SolverError::Phase {
@@ -448,16 +536,16 @@ pub(crate) fn mixed<
     p: &MixedProblem<B, L>,
     d: &mut MixedStreamScoreDirector<'_, '_, B, L, S>,
     c: MixedSolverSequence<'_, S>,
-    observer: EventObserver<'_, MixedAssignment<B, L>, S>,
-    mut command: CommandCallback<
-        '_,
-        MixedAssignment<B, L>,
-        MixedMove<B, L>,
-        S,
-        MixedStreamScoringError,
-    >,
+    mut extensions: MixedSolverExtensions<'_, B, L, S, MixedStreamScoringError>,
 ) -> Result<SolverResult<MixedAssignment<B, L>, S>, SolverError<MixedLocalSearchError>> {
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
+    extensions.move_providers.validate(phases.iter().map(|p| {
+        matches!(
+            p,
+            SolverPhase::Construction(_) | SolverPhase::LocalSearch(_)
+        )
+    }))?;
+    let mut command = extensions.command;
     if command.is_none()
         && let Some(phase) = phases
             .iter()
@@ -469,13 +557,13 @@ pub(crate) fn mixed<
     validate_basic_phase_neighborhoods(
         p.basic(),
         &phases,
-        |_| false,
+        |phase| extensions.move_providers.contains(phase),
         |e| MixedLocalSearchError::from(MixedStreamScoringError::from(MixedError::Basic(e))),
     )?;
     validate_list_phase_neighborhoods(
         p.lists(),
         &phases,
-        |_| false,
+        |phase| extensions.move_providers.contains(phase),
         |e| MixedLocalSearchError::from(MixedStreamScoringError::from(MixedError::Lists(e))),
     )?;
     let raw_initial = d.assignment().clone();
@@ -484,7 +572,10 @@ pub(crate) fn mixed<
         .map_err(|e| SolverError::InitialScoring {
             error: MixedLocalSearchError::from(MixedStreamScoringError::from(e)),
         })?;
-    let mut observation = PlanObservation::new(observer.map(PlanCallback::Events));
+    let mut observation = PlanObservation::new(PlanCallback::extensions(
+        extensions.events,
+        extensions.score_check,
+    ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
         required_unassigned_pin: required_pin_startup_issue(
@@ -497,12 +588,15 @@ pub(crate) fn mixed<
             || p.lists().entities().iter().any(|v| !v.is_pinned()),
         assignment: prepared,
     };
+    let mut providers =
+        crate::solver_extensions::ProviderSolve::new(Some(&mut extensions.move_providers));
     run(
         c.limits.clone(),
         &phases,
         || initial,
         observation,
         |index, a, request, time, observation| {
+            providers.start();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -510,6 +604,28 @@ pub(crate) fn mixed<
             let mut notify = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                 observation.notify(index, kind, update)
             };
+            if let PhaseRequest::Construction(config) = &request {
+                let max_scanned_moves = providers
+                    .as_ref()
+                    .map_or(100_000, |p| p.max_construction_scans);
+                if let Some(provider) = providers.as_deref_mut().and_then(|p| p.get(index)) {
+                    return d
+                        .run_provider_construction_monitored(
+                            a.expect("construction provider handoff"),
+                            provider_construction_config(*config, max_scanned_moves),
+                            crate::provider_search::ProviderContext {
+                                provider,
+                                control: time.construction_monitor(),
+                                observer: observed.then_some(&mut notify),
+                            },
+                        )
+                        .map(provider_constructed)
+                        .map_err(|error| SolverError::Phase {
+                            phase: index,
+                            error: MixedLocalSearchError::from(error),
+                        });
+                }
+            }
             match request {
                 PhaseRequest::Construction(config) => d
                     .run_construction_monitored(
@@ -535,6 +651,7 @@ pub(crate) fn mixed<
                             search: config,
                             joint_moves: c.phases[index].local().joint_moves,
                         },
+                        providers.as_deref_mut().and_then(|p| p.get(index)),
                     )
                     .map(|r| improved!(r))
                     .map_err(|error| SolverError::Phase {

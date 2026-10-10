@@ -2084,8 +2084,8 @@ These explicit phase calls have per-call limits; callers can replace assignments
 between calls. For shared controls and events, use the retained whole-solve methods
 below. Existing `solve_*_stream` functions retain their fresh factory-per-phase
 contract. Retained sequences support all built-in phase kinds as described below;
-extension providers remain unfinished. No upstream whole-solver list-state-identity
-test credit is claimed.
+provider extensions are supported as described below. No upstream whole-solver
+list-state-identity test credit is claimed.
 
 ## Whole solves on a retained director
 
@@ -2134,5 +2134,29 @@ After an error or panic the last committed consistent candidate can be partial;
 phase execution does not promise whole-phase rollback. Existing fresh repair errors,
 including dependency cycles introduced by a sampled removal, remain errors here.
 
-Extension-provider orchestration remains unfinished. Existing free `solve_*_stream`
-functions preserve their factory-per-phase contract.
+Existing free `solve_*_stream` functions preserve their factory-per-phase contract.
+
+
+## Provider extensions on retained directors
+
+All three directors expose `run_solver_with_extensions(config, extensions)`, using
+the same `SolverExtensions`/`MixedSolverExtensions` as fresh solves. Providers bind
+to construction/local phase indices and may share one instance across several
+phases. Bound providers replace the built-in neighborhood for that phase. Custom
+commands, progress events and independent `score_check` callbacks compose with
+those bindings and ordinary shared budgets, scan limits and phase assertions.
+Checks operate on phase outputs before handoff; they never rerun commands/providers.
+
+Invalid bindings reject before new scoring or lifecycle notifications. A valid run
+starts one solve lifecycle per distinct provider at its first scoring kernel and
+closes it on success or returned error; panics do not invoke cleanup callbacks.
+Phase/step events retain the existing provider engine ordering, including iterator
+destruction before StepEnded. Callers must reset provider state after a panic.
+Independent score-check failures leave the director's last committed graph intact.
+
+`run_construction_with_provider` and `run_local_search_with_provider` offer standalone
+retained phases with per-call limits and ordinary phase/step events. Construction
+uses `ProviderConstructionConfig`, including scan caps and incomplete-scan policy;
+local search restores its best graph without rescoring. Earlier binding/fact setup
+is excluded from new work counters. These APIs reuse the existing provider engines;
+no separate candidate-selection or lifecycle implementation is introduced.

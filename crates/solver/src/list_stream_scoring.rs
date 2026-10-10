@@ -231,7 +231,64 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         &mut self,
         config: LocalSearchConfig<S>,
     ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
-        self.run_local_search_monitored(None, None, None, config)
+        self.run_local_search_monitored(None, None, None, config, None)
+    }
+
+    /// Run local search with a custom move provider on this retained graph.
+    /// Successful calls restore the best cached state; errors retain the last commit.
+    pub fn run_local_search_with_provider(
+        &mut self,
+        config: LocalSearchConfig<S>,
+        provider: &mut dyn crate::MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+    ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+        self.run_local_search_monitored(None, None, None, config, Some(provider))
+    }
+
+    /// Construct from provider proposals without rebuilding this graph or its facts.
+    pub fn run_construction_with_provider(
+        &mut self,
+        config: crate::ProviderConstructionConfig<'_>,
+        provider: &mut dyn crate::MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+    ) -> Result<crate::ProviderConstructionResult<ListAssignment<V>, S>, ListStreamScoringError>
+    {
+        self.run_provider_construction_monitored(
+            self.assignment.clone(),
+            config,
+            crate::provider_search::ProviderContext {
+                provider,
+                control: None,
+                observer: None,
+            },
+        )
+    }
+
+    pub(crate) fn run_provider_construction_monitored(
+        &mut self,
+        initial: ListAssignment<V>,
+        config: crate::ProviderConstructionConfig<'_>,
+        context: crate::provider_search::ProviderContext<
+            '_,
+            ListProblem<V>,
+            ListAssignment<V>,
+            ListMove<V>,
+            S,
+        >,
+    ) -> Result<crate::ProviderConstructionResult<ListAssignment<V>, S>, ListStreamScoringError>
+    {
+        crate::provider_construction::list_director(
+            self.problem,
+            initial,
+            config,
+            context,
+            |initial| {
+                let initialization_work = self.prepare_retained_phase(initial)?;
+                Ok(crate::retained_stream_phase::RetainedPhase {
+                    director: self,
+                    initialization_work,
+                    on_best: None,
+                })
+            },
+        )
     }
 
     pub(crate) fn run_local_search_monitored(
@@ -240,6 +297,9 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         initial: Option<ListAssignment<V>>,
         mut observer: crate::retained_stream_phase::Observer<'_, ListAssignment<V>, S>,
         config: LocalSearchConfig<S>,
+        provider: Option<
+            &mut (dyn crate::MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>> + '_),
+        >,
     ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
         let problem = self.problem;
         let initial = initial.unwrap_or_else(|| self.assignment.clone());
@@ -254,7 +314,8 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                 });
             }
         };
-        let result = crate::list_local_search::search_impl_monitored(
+        let clock = crate::provider_search::clock(&config);
+        let result = crate::list_local_search::search_impl_with_provider(
             shared,
             problem,
             initial,
@@ -267,6 +328,10 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                     on_best: Some(&mut save_best),
                 })
             },
+            clock,
+            provider.map(|p| {
+                p as &mut dyn crate::MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>
+            }),
         )?;
         if let Some(best) = &result.best {
             self.assignment = best.assignment.clone();
@@ -297,7 +362,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         config: impl Into<crate::SolverSequence<'c, S>>,
     ) -> Result<crate::SolverResult<ListAssignment<V>, S>, crate::SolverError<ListLocalSearchError>>
     {
-        crate::solver::retained::list(self.problem, self, config.into(), None, None)
+        self.run_solver_with_extensions(config, crate::SolverExtensions::default())
     }
     /// Run a retained sequence with synchronous solver lifecycle events.
     pub fn run_solver_with_events<'c>(
@@ -306,7 +371,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         mut observer: impl FnMut(crate::SolverEvent<'_, ListAssignment<V>, S>),
     ) -> Result<crate::SolverResult<ListAssignment<V>, S>, crate::SolverError<ListLocalSearchError>>
     {
-        crate::solver::retained::list(self.problem, self, config.into(), Some(&mut observer), None)
+        self.run_solver_with_extensions(
+            config,
+            crate::SolverExtensions {
+                events: Some(&mut observer),
+                ..Default::default()
+            },
+        )
     }
     /// Bind a typed command callback to custom phase indices in a retained sequence.
     pub fn run_solver_with_commands<'c>(
@@ -324,7 +395,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         ) -> Result<(), crate::CustomPhaseError<ListStreamScoringError>>,
     ) -> Result<crate::SolverResult<ListAssignment<V>, S>, crate::SolverError<ListLocalSearchError>>
     {
-        crate::solver::retained::list(self.problem, self, config.into(), None, Some(&mut command))
+        self.run_solver_with_extensions(
+            config,
+            crate::SolverExtensions {
+                command: Some(&mut command),
+                ..Default::default()
+            },
+        )
     }
     /// Run retained custom phases with the usual solver lifecycle events.
     pub fn run_solver_with_commands_and_events<'c>(
@@ -343,13 +420,31 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         mut observer: impl FnMut(crate::SolverEvent<'_, ListAssignment<V>, S>),
     ) -> Result<crate::SolverResult<ListAssignment<V>, S>, crate::SolverError<ListLocalSearchError>>
     {
-        crate::solver::retained::list(
-            self.problem,
-            self,
-            config.into(),
-            Some(&mut observer),
-            Some(&mut command),
+        self.run_solver_with_extensions(
+            config,
+            crate::SolverExtensions {
+                command: Some(&mut command),
+                events: Some(&mut observer),
+                ..Default::default()
+            },
         )
+    }
+    /// Run retained phases with move providers, commands, events and independent
+    /// phase score checks. A shared provider receives one solve lifecycle.
+    pub fn run_solver_with_extensions<'c>(
+        &mut self,
+        config: impl Into<crate::SolverSequence<'c, S>>,
+        extensions: crate::SolverExtensions<
+            '_,
+            ListProblem<V>,
+            ListAssignment<V>,
+            ListMove<V>,
+            S,
+            ListStreamScoringError,
+        >,
+    ) -> Result<crate::SolverResult<ListAssignment<V>, S>, crate::SolverError<ListLocalSearchError>>
+    {
+        crate::solver::retained::list(self.problem, self, config.into(), extensions)
     }
     pub(crate) fn install_retained_state(
         &mut self,

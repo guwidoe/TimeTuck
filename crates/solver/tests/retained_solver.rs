@@ -786,3 +786,657 @@ fn repair_only_sequences_preserve_temporary_pins_ranges_dependencies_and_budgets
         }
     }
 }
+
+struct RecordedProvider<Q> {
+    inner: Q,
+    events: std::rc::Rc<std::cell::RefCell<Vec<MoveProviderEvent>>>,
+}
+impl<P, A, M, Q: MoveProvider<P, A, M>> MoveProvider<P, A, M> for RecordedProvider<Q> {
+    fn event(&mut self, event: MoveProviderEvent) {
+        self.events.borrow_mut().push(event);
+        self.inner.event(event);
+    }
+    fn construction_placement_completed(&mut self, installed: bool) -> bool {
+        self.inner.construction_placement_completed(installed)
+    }
+    fn moves<'a>(&'a mut self, p: &'a P, a: &'a A, step: u64) -> Box<dyn Iterator<Item = M> + 'a>
+    where
+        M: 'a,
+    {
+        self.inner.moves(p, a, step)
+    }
+}
+fn extension_sequence(max_evaluations: u64) -> SolverSequence<'static> {
+    SolverSequence {
+        limits: SolverLimits {
+            max_evaluations,
+            assert_phase_scores: true,
+            ..Default::default()
+        },
+        phases: vec![
+            SolverPhase::Construction(ConstructionConfig::default()),
+            SolverPhase::Custom(CustomPhaseConfig::default()),
+            SolverPhase::LocalSearch(LocalSearchConfig {
+                max_steps: 6,
+                selection: MoveSelection::FirstAccepted,
+                acceptance: Acceptance::SimulatedAnnealing {
+                    starting_temperature: SimpleScore::new(100),
+                    seed: 17,
+                    cooling_steps: 50,
+                },
+                ..Default::default()
+            }),
+            SolverPhase::LocalSearch(LocalSearchConfig {
+                max_steps: 2,
+                ..Default::default()
+            }),
+        ],
+    }
+}
+
+#[test]
+fn retained_basic_extensions_preserve_providers_commands_events_and_score_checks() {
+    let p: FiniteProblem<i32> = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]); 2]).unwrap();
+    for max_evaluations in [0, 1, 10, 100] {
+        for max_scans in [0, 1, 40] {
+            let config = extension_sequence(max_evaluations);
+            let mut observations = Vec::new();
+            for retained in [false, true] {
+                let log = std::rc::Rc::new(std::cell::RefCell::new(Vec::new()));
+                let mut provider = RecordedProvider {
+                    inner: extension_basic_proposals,
+                    events: log.clone(),
+                };
+                let mut events = vec![];
+                let mut checks = vec![];
+                let mut commands = vec![];
+                let mut observe = |e: SolverEvent<'_, Assignment<i32>, SimpleScore>| {
+                    events.push(format!("{e:?}"))
+                };
+                let mut check = |phase, kind, a: &Assignment<i32>| {
+                    checks.push((phase, kind));
+                    Ok(Some(
+                        SimpleScore::new(a.values().iter().flatten().map(|v| i64::from(*v)).sum())
+                            .with_structural(
+                                -(a.values().iter().filter(|v| v.is_none()).count() as i64),
+                            ),
+                    ))
+                };
+                let mut command = |phase,
+                                   _: &mut CustomPhaseContext<
+                    '_,
+                    Assignment<i32>,
+                    Move<i32>,
+                    SimpleScore,
+                    StreamScoringError,
+                >| {
+                    assert_eq!(phase, 1);
+                    commands.push(phase);
+                    Ok(())
+                };
+                let mut ext = SolverExtensions {
+                    events: Some(&mut observe),
+                    command: Some(&mut command),
+                    score_check: Some(&mut check),
+                    ..Default::default()
+                };
+                ext.move_providers
+                    .bind_shared([0, 2, 3], &mut provider)
+                    .unwrap();
+                ext.move_providers.max_construction_scans = max_scans;
+                let result = if retained {
+                    let (g, source) = basic_graph();
+                    let mut d =
+                        StreamScoreDirector::new(&p, g, source, p.initial_assignment()).unwrap();
+                    let result = d.run_solver_with_extensions(config.clone(), ext).unwrap();
+                    assert_eq!(d.assignment(), &result.assignment);
+                    if let Some(score) = result.score {
+                        assert_eq!(d.score(), score);
+                    }
+                    d.assert_consistent().unwrap();
+                    result
+                } else {
+                    solve_stream_with_extensions(&p, || Ok(basic_graph()), config.clone(), ext)
+                        .unwrap()
+                };
+                let lifecycle = log.borrow().clone();
+                assert_eq!(
+                    lifecycle
+                        .iter()
+                        .filter(|e| **e == MoveProviderEvent::SolveStarted)
+                        .count(),
+                    1
+                );
+                assert_eq!(
+                    lifecycle
+                        .iter()
+                        .filter(|e| **e == MoveProviderEvent::SolveEnded)
+                        .count(),
+                    1
+                );
+                observations.push((normalize(result), events, checks, commands, lifecycle));
+            }
+            assert_eq!(
+                observations[0], observations[1],
+                "evaluations={max_evaluations}, scans={max_scans}"
+            );
+        }
+    }
+    // Standalone provider phases expose the same retained construction/search path.
+    let (g, source) = basic_graph();
+    let mut d = StreamScoreDirector::new(&p, g, source, p.initial_assignment()).unwrap();
+    let mut provider = extension_basic_proposals;
+    let mut actual = d
+        .run_construction_with_provider(ProviderConstructionConfig::default(), &mut provider)
+        .unwrap();
+    let (g, source) = basic_graph();
+    let mut expected = stream_construction_from_with_provider(
+        &p,
+        g,
+        source,
+        p.initial_assignment(),
+        ProviderConstructionConfig::default(),
+        &mut extension_basic_proposals,
+    )
+    .unwrap();
+    actual.constraint_evaluations = 0;
+    expected.constraint_evaluations = 0;
+    assert_eq!(format!("{actual:?}"), format!("{expected:?}"));
+    let initial = actual.assignment;
+    let local = LocalSearchConfig {
+        max_steps: 4,
+        ..Default::default()
+    };
+    let mut actual = d
+        .run_local_search_with_provider(local, &mut provider)
+        .unwrap();
+    let (g, source) = basic_graph();
+    let mut expected = stream_local_search_from_with_provider(
+        &p,
+        g,
+        source,
+        initial,
+        local,
+        &mut extension_basic_proposals,
+    )
+    .unwrap();
+    actual.constraint_evaluations = 0;
+    expected.constraint_evaluations = 0;
+    assert_eq!(format!("{actual:?}"), format!("{expected:?}"));
+    assert_eq!(d.assignment(), &actual.best.unwrap().assignment);
+    d.assert_consistent().unwrap();
+}
+
+#[test]
+fn retained_list_extensions_preserve_providers_commands_events_and_score_checks() {
+    let p: ListProblem<i32> =
+        ListProblem::new(vec![1, 2, 3], vec![ListEntity::new(vec![]); 2]).unwrap();
+    for max_evaluations in [0, 1, 10, 100] {
+        for max_scans in [0, 1, 40] {
+            let config = extension_sequence(max_evaluations);
+            let mut observations = Vec::new();
+            for retained in [false, true] {
+                let log = std::rc::Rc::new(std::cell::RefCell::new(Vec::new()));
+                let mut provider = RecordedProvider {
+                    inner: extension_list_proposals,
+                    events: log.clone(),
+                };
+                let mut events = vec![];
+                let mut checks = vec![];
+                let mut commands = vec![];
+                let mut observe = |e: SolverEvent<'_, ListAssignment<i32>, SimpleScore>| {
+                    events.push(format!("{e:?}"))
+                };
+                let mut check = |phase, kind, a: &ListAssignment<i32>| {
+                    checks.push((phase, kind));
+                    Ok(Some(
+                        SimpleScore::new(
+                            a.lists()
+                                .iter()
+                                .flat_map(|l| {
+                                    l.iter()
+                                        .enumerate()
+                                        .map(|(i, v)| (i as i64 + 1) * i64::from(*v))
+                                })
+                                .sum(),
+                        )
+                        .with_structural(
+                            -((p.values().len() - a.lists().iter().map(Vec::len).sum::<usize>())
+                                as i64),
+                        ),
+                    ))
+                };
+                let mut command = |phase,
+                                   _: &mut CustomPhaseContext<
+                    '_,
+                    ListAssignment<i32>,
+                    ListMove<i32>,
+                    SimpleScore,
+                    ListStreamScoringError,
+                >| {
+                    assert_eq!(phase, 1);
+                    commands.push(phase);
+                    Ok(())
+                };
+                let mut ext = SolverExtensions {
+                    events: Some(&mut observe),
+                    command: Some(&mut command),
+                    score_check: Some(&mut check),
+                    ..Default::default()
+                };
+                ext.move_providers
+                    .bind_shared([0, 2, 3], &mut provider)
+                    .unwrap();
+                ext.move_providers.max_construction_scans = max_scans;
+                let result = if retained {
+                    let (g, source) = list_graph();
+                    let mut d = ListStreamScoreDirector::new(&p, g, source, p.initial_assignment())
+                        .unwrap();
+                    let result = d.run_solver_with_extensions(config.clone(), ext).unwrap();
+                    assert_eq!(d.assignment(), &result.assignment);
+                    if let Some(score) = result.score {
+                        assert_eq!(d.score(), score);
+                    }
+                    d.assert_consistent().unwrap();
+                    result
+                } else {
+                    solve_list_stream_with_extensions(&p, || Ok(list_graph()), config.clone(), ext)
+                        .unwrap()
+                };
+                let lifecycle = log.borrow().clone();
+                assert_eq!(
+                    lifecycle
+                        .iter()
+                        .filter(|e| **e == MoveProviderEvent::SolveStarted)
+                        .count(),
+                    1
+                );
+                assert_eq!(
+                    lifecycle
+                        .iter()
+                        .filter(|e| **e == MoveProviderEvent::SolveEnded)
+                        .count(),
+                    1
+                );
+                observations.push((normalize(result), events, checks, commands, lifecycle));
+            }
+            assert_eq!(
+                observations[0], observations[1],
+                "evaluations={max_evaluations}, scans={max_scans}"
+            );
+        }
+    }
+    // Standalone provider phases expose the same retained construction/search path.
+    let (g, source) = list_graph();
+    let mut d = ListStreamScoreDirector::new(&p, g, source, p.initial_assignment()).unwrap();
+    let mut provider = extension_list_proposals;
+    let mut actual = d
+        .run_construction_with_provider(ProviderConstructionConfig::default(), &mut provider)
+        .unwrap();
+    let (g, source) = list_graph();
+    let mut expected = list_stream_construction_from_with_provider(
+        &p,
+        g,
+        source,
+        p.initial_assignment(),
+        ProviderConstructionConfig::default(),
+        &mut extension_list_proposals,
+    )
+    .unwrap();
+    actual.constraint_evaluations = 0;
+    expected.constraint_evaluations = 0;
+    assert_eq!(format!("{actual:?}"), format!("{expected:?}"));
+    let initial = actual.assignment;
+    let local = LocalSearchConfig {
+        max_steps: 4,
+        ..Default::default()
+    };
+    let mut actual = d
+        .run_local_search_with_provider(local, &mut provider)
+        .unwrap();
+    let (g, source) = list_graph();
+    let mut expected = list_stream_local_search_from_with_provider(
+        &p,
+        g,
+        source,
+        initial,
+        local,
+        &mut extension_list_proposals,
+    )
+    .unwrap();
+    actual.constraint_evaluations = 0;
+    expected.constraint_evaluations = 0;
+    assert_eq!(format!("{actual:?}"), format!("{expected:?}"));
+    assert_eq!(d.assignment(), &actual.best.unwrap().assignment);
+    d.assert_consistent().unwrap();
+}
+
+#[test]
+fn retained_mixed_extensions_preserve_providers_commands_events_and_score_checks() {
+    let p: MixedProblem<i32, i32> = MixedProblem::new(
+        FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]); 2]).unwrap(),
+        ListProblem::new(vec![1, 2, 3], vec![ListEntity::new(vec![]); 2]).unwrap(),
+    );
+    for max_evaluations in [0, 1, 10, 100] {
+        for max_scans in [0, 1, 40] {
+            let config = MixedSolverSequence {
+                limits: extension_sequence(max_evaluations).limits,
+                phases: extension_sequence(max_evaluations)
+                    .phases
+                    .into_iter()
+                    .map(|phase| match phase {
+                        SolverPhase::Construction(c) => {
+                            MixedSolverPhase::Construction(MixedConstructionConfig {
+                                construction: c,
+                                order: MixedConstructionOrder::ListsThenBasic,
+                            })
+                        }
+                        SolverPhase::Custom(c) => MixedSolverPhase::Custom(c),
+                        SolverPhase::LocalSearch(c) => {
+                            MixedSolverPhase::LocalSearch(MixedLocalSearchConfig {
+                                search: c,
+                                joint_moves: true,
+                            })
+                        }
+                        _ => unreachable!(),
+                    })
+                    .collect(),
+            };
+            let mut observations = Vec::new();
+            for retained in [false, true] {
+                let log = std::rc::Rc::new(std::cell::RefCell::new(Vec::new()));
+                let mut provider = RecordedProvider {
+                    inner: extension_mixed_proposals,
+                    events: log.clone(),
+                };
+                let mut events = vec![];
+                let mut checks = vec![];
+                let mut commands = vec![];
+                let mut observe = |e: SolverEvent<'_, MixedAssignment<i32, i32>, SimpleScore>| {
+                    events.push(format!("{e:?}"))
+                };
+                let mut check = |phase, kind, a: &MixedAssignment<i32, i32>| {
+                    checks.push((phase, kind));
+                    Ok(Some(
+                        SimpleScore::new(
+                            a.basic()
+                                .values()
+                                .iter()
+                                .zip(a.lists().lists())
+                                .map(|(v, l)| i64::from(v.unwrap_or(0)) * l.len() as i64)
+                                .sum(),
+                        )
+                        .with_structural(
+                            -((a.basic().values().iter().filter(|v| v.is_none()).count()
+                                + p.lists().values().len()
+                                - a.lists().lists().iter().map(Vec::len).sum::<usize>())
+                                as i64),
+                        ),
+                    ))
+                };
+                let mut command = |phase,
+                                   _: &mut CustomPhaseContext<
+                    '_,
+                    MixedAssignment<i32, i32>,
+                    MixedMove<i32, i32>,
+                    SimpleScore,
+                    MixedStreamScoringError,
+                >| {
+                    assert_eq!(phase, 1);
+                    commands.push(phase);
+                    Ok(())
+                };
+                let mut ext = SolverExtensions {
+                    events: Some(&mut observe),
+                    command: Some(&mut command),
+                    score_check: Some(&mut check),
+                    ..Default::default()
+                };
+                ext.move_providers
+                    .bind_shared([0, 2, 3], &mut provider)
+                    .unwrap();
+                ext.move_providers.max_construction_scans = max_scans;
+                let result = if retained {
+                    let (g, source) = mixed_graph();
+                    let mut d =
+                        MixedStreamScoreDirector::new(&p, g, source, p.initial_assignment())
+                            .unwrap();
+                    let result = d.run_solver_with_extensions(config.clone(), ext).unwrap();
+                    assert_eq!(d.assignment(), &result.assignment);
+                    if let Some(score) = result.score {
+                        assert_eq!(d.score(), score);
+                    }
+                    d.assert_consistent().unwrap();
+                    result
+                } else {
+                    solve_mixed_stream_with_extensions(
+                        &p,
+                        || Ok(mixed_graph()),
+                        config.clone(),
+                        ext,
+                    )
+                    .unwrap()
+                };
+                let lifecycle = log.borrow().clone();
+                assert_eq!(
+                    lifecycle
+                        .iter()
+                        .filter(|e| **e == MoveProviderEvent::SolveStarted)
+                        .count(),
+                    1
+                );
+                assert_eq!(
+                    lifecycle
+                        .iter()
+                        .filter(|e| **e == MoveProviderEvent::SolveEnded)
+                        .count(),
+                    1
+                );
+                observations.push((normalize(result), events, checks, commands, lifecycle));
+            }
+            assert_eq!(
+                observations[0], observations[1],
+                "evaluations={max_evaluations}, scans={max_scans}"
+            );
+        }
+    }
+    // Standalone provider phases expose the same retained construction/search path.
+    let (g, source) = mixed_graph();
+    let mut d = MixedStreamScoreDirector::new(&p, g, source, p.initial_assignment()).unwrap();
+    let mut provider = extension_mixed_proposals;
+    let mut actual = d
+        .run_construction_with_provider(ProviderConstructionConfig::default(), &mut provider)
+        .unwrap();
+    let (g, source) = mixed_graph();
+    let mut expected = mixed_stream_construction_from_with_provider(
+        &p,
+        g,
+        source,
+        p.initial_assignment(),
+        ProviderConstructionConfig::default(),
+        &mut extension_mixed_proposals,
+    )
+    .unwrap();
+    actual.constraint_evaluations = 0;
+    expected.constraint_evaluations = 0;
+    assert_eq!(format!("{actual:?}"), format!("{expected:?}"));
+    let initial = actual.assignment;
+    let local = LocalSearchConfig {
+        max_steps: 4,
+        ..Default::default()
+    };
+    let local = MixedLocalSearchConfig {
+        search: local,
+        joint_moves: true,
+    };
+    let mut actual = d
+        .run_local_search_with_provider(local, &mut provider)
+        .unwrap();
+    let (g, source) = mixed_graph();
+    let mut expected = mixed_stream_local_search_from_with_provider(
+        &p,
+        g,
+        source,
+        initial,
+        local,
+        &mut extension_mixed_proposals,
+    )
+    .unwrap();
+    actual.constraint_evaluations = 0;
+    expected.constraint_evaluations = 0;
+    assert_eq!(format!("{actual:?}"), format!("{expected:?}"));
+    assert_eq!(d.assignment(), &actual.best.unwrap().assignment);
+    d.assert_consistent().unwrap();
+}
+
+#[test]
+fn retained_extension_failures_close_lifecycles_without_rebuilding_facts() {
+    use std::{
+        cell::RefCell,
+        panic::{AssertUnwindSafe, catch_unwind},
+        rc::Rc,
+    };
+    for mode in 0..5 {
+        let p = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0)]).unwrap();
+        let mut observations = vec![];
+        for retained in [false, true] {
+            let facts = Cell::new(0);
+            let planning = Cell::new(0);
+            let graph = || {
+                let mut b = StreamGraphBuilder::new();
+                let source = b.source::<usize, (usize, Option<i32>)>();
+                b.score("planning", source.port(), |(_, value)| {
+                    planning.set(planning.get() + 1);
+                    SimpleScore::new(i64::from(value.unwrap_or(0)))
+                })
+                .unwrap();
+                let f = b.source::<usize, i32>();
+                b.score("immutable", f.port(), |_| {
+                    facts.set(facts.get() + 1);
+                    SimpleScore::new(10)
+                })
+                .unwrap();
+                let mut g = b.build();
+                let mut tx = g.transaction();
+                let mut batch = StreamBatch::new();
+                batch.push(&f, TupleChange::put(0, 1)).unwrap();
+                tx.apply_batch(batch).unwrap();
+                tx.commit().unwrap();
+                (g, source)
+            };
+            let events = Rc::new(RefCell::new(vec![]));
+            let mut provider = RecordedProvider {
+                events: events.clone(),
+                inner: |_: &FiniteProblem<i32>, _: &Assignment<i32>, _: u64| {
+                    assert_ne!(mode, 4, "provider panic");
+                    vec![Move::Change {
+                        variable: if mode == 3 { 99 } else { 0 },
+                        value: Some(2),
+                    }]
+                },
+            };
+            let mut check = |_, _, _: &Assignment<i32>| {
+                if mode == 2 {
+                    Err("independent check failed".to_owned())
+                } else {
+                    Ok(Some(SimpleScore::new(999)))
+                }
+            };
+            let mut ext = SolverExtensions::default();
+            ext.move_providers
+                .bind(if mode == 0 { 9 } else { 0 }, &mut provider);
+            if mode == 1 || mode == 2 {
+                ext.score_check = Some(&mut check);
+            }
+            let config = SolverSequence {
+                phases: vec![SolverPhase::LocalSearch(LocalSearchConfig {
+                    max_steps: 1,
+                    ..Default::default()
+                })],
+                ..Default::default()
+            };
+            let outcome = if retained {
+                let (g, source) = graph();
+                let mut d =
+                    StreamScoreDirector::new(&p, g, source, p.initial_assignment()).unwrap();
+                let before = planning.get();
+                let outcome = catch_unwind(AssertUnwindSafe(|| {
+                    d.run_solver_with_extensions(config, ext)
+                }));
+                assert_eq!(facts.get(), 1, "retained call replayed immutable facts");
+                if mode == 0 {
+                    assert_eq!(planning.get(), before);
+                }
+                if mode == 1 || mode == 2 {
+                    assert_eq!(d.assignment().values(), &[Some(2)]);
+                } else {
+                    assert_eq!(d.assignment().values(), &[Some(0)]);
+                }
+                d.assert_consistent().unwrap();
+                outcome
+            } else {
+                catch_unwind(AssertUnwindSafe(|| {
+                    solve_stream_with_extensions(&p, || Ok(graph()), config, ext)
+                }))
+            };
+            let outcome = match outcome {
+                Ok(Err(error)) => format!("{error:?}"),
+                Err(_) => {
+                    assert_eq!(mode, 4);
+                    "panic".to_owned()
+                }
+                Ok(Ok(_)) => panic!("expected failure"),
+            };
+            let log = events.borrow().clone();
+            if mode == 0 {
+                assert!(log.is_empty());
+            } else if mode == 4 {
+                assert!(!log.contains(&MoveProviderEvent::SolveEnded));
+            } else {
+                assert_eq!(log.last(), Some(&MoveProviderEvent::SolveEnded));
+            }
+            observations.push((outcome, log));
+        }
+        assert_eq!(observations[0], observations[1], "mode {mode}");
+    }
+}
+
+fn extension_basic_proposals(
+    p: &FiniteProblem<i32>,
+    a: &Assignment<i32>,
+    _: u64,
+) -> Vec<Move<i32>> {
+    change_moves(p, a).unwrap().collect()
+}
+fn extension_list_proposals(
+    p: &ListProblem<i32>,
+    a: &ListAssignment<i32>,
+    _: u64,
+) -> Vec<ListMove<i32>> {
+    list_assign_moves(p, a)
+        .unwrap()
+        .chain(list_change_moves(p, a).unwrap())
+        .chain(list_swap_moves(p, a).unwrap())
+        .collect()
+}
+fn extension_mixed_proposals(
+    p: &MixedProblem<i32, i32>,
+    a: &MixedAssignment<i32, i32>,
+    step: u64,
+) -> Vec<MixedMove<i32, i32>> {
+    extension_basic_proposals(p.basic(), a.basic(), step)
+        .into_iter()
+        .map(|basic| MixedMove {
+            basic,
+            lists: ListMove::Composite(vec![]),
+        })
+        .chain(
+            extension_list_proposals(p.lists(), a.lists(), step)
+                .into_iter()
+                .map(|lists| MixedMove {
+                    basic: Move::Composite(vec![]),
+                    lists,
+                }),
+        )
+        .collect()
+}

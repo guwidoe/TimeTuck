@@ -5808,7 +5808,7 @@ phase assertions and lifecycle events. Exact and repair candidates update the
 retained planning rows; successful phases restore the best assignment and graph
 without replaying score callbacks or immutable facts. Custom best notifications
 capture matching graph state; catching an observer panic invalidates that phase.
-Extension-provider integration remains separate.
+Provider-extension integration is covered by the following increment.
 
 Four original regressions compare fresh and retained results across all three
 models, exact strategies and budgets, mixed sequences, events, custom best restore,
@@ -5830,3 +5830,31 @@ figures are not Java comparisons or general long-phase performance guarantees.
 Samples, work counts and source/probe/binary hashes are recorded in
 work/retained-sequence-performance.json. Prior measurements retain their source
 identity, and existing Java dashboard timings remain stale.
+
+
+## Retained provider integration
+
+Retained basic/list/mixed solves now accept provider bindings, custom commands,
+events and independent phase score checks together. Standalone retained construction
+and local-search methods also accept providers. Four original regressions compare
+fresh and retained results, lifecycle/progress events, command invocations and check
+calls across 36 combinations of evaluation/scan limits and model types, including
+a provider shared across construction and two local phases around a custom phase.
+Standalone phases compare full results with constraint-work counts normalized.
+
+Failures cover invalid bindings, score mismatches, check errors, malformed local
+moves and provider panic, with exact fresh/retained lifecycle and error comparisons.
+Retained graph consistency, committed-state preservation and absence of repeated
+immutable-fact callbacks are checked separately. Provider adapters use the existing
+selection engines; no upstream method credit or Java lifecycle claim is added.
+
+The native whole-sequence probe now binds one shared change-move provider to every
+construction/local phase, alongside custom, repair, completion and bounded exact
+phases. Four variables, four/sixteen six-phase groups, zero/256/2048 facts, three
+alternating process pairs and one warm-up plus three samples of four solves per
+process are unchanged. Timers include initial model/graph/fact setup and independent
+validation. All final assignments, scores, evaluations and step counts match.
+Median elapsed time falls about 15% without facts and 89–98% with immutable facts.
+This measures repeated setup in short native phases; it is not a Java comparison
+or a general solver speedup. Samples and source/probe/binary hashes are in
+work/retained-extensions-performance.json; older Java measurements remain stale.

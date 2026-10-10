@@ -22264,3 +22264,52 @@ work/retained-sequence-{evidence.json,prebuild.log,final-check.log,performance.j
 No Rust changes after gate. No browser rerun; existing Java timings remain stale.
 Goal active. Next gap: retained extension providers; the older list-state-supply
 identity source case still requires its own full protocol, not graph reuse alone.
+
+## Retained provider extensions (baseline aa07f7d)
+
+Previous turn made committed/verified progress on all built-in retained phases.
+New run_solver_with_extensions on basic/list/mixed directors composes shared phase
+providers, commands, events and independent score checks. Standalone retained
+run_construction_with_provider/run_local_search_with_provider use existing engines;
+no new selection/lifecycle engine. ProviderSolve validates bindings and emits one
+solve lifecycle per distinct provider; diagnostic kernels do not replay phases.
+Bound providers replace built-in neighborhood validation; normal limits/scan caps,
+phase checks, graph consistency and best-cache restoration remain in force.
+
+Four originals compare 36 evaluation/scan/model combinations plus standalone phases,
+including a shared provider around a custom phase, all events/check/command calls,
+invalid bindings, score mismatch/check errors, malformed moves and provider panic.
+Fact counters prove no replay before diagnostics. Focus77220 passes four tests.
+Initial tests incorrectly used DefaultNeighborhood for required construction;
+that provider only assigns optional missing values. Replaced with explicit native
+change/assign/change/swap proposal functions; full construction/local now exercised.
+Borrowed trait-object lifetime inference was fixed with explicit shorter reborrows;
+shared mixed aliases resolve Clippy complexity. No source adaptations or credits.
+
+Measurement21043 TERMINAL0: release22.25s; same-binary full basic sequences with
+one shared change provider at construction/local indices in4/16six-phase groups,
+4variables,0/256/2048facts;3alternating process pairs,1warmup+3samples of4solves.
+Model/graph/fact setup and independent validation inside timer. Assignments/scores/
+evaluations/steps all match. Median wall ratios .854/.848 without facts,.106/.090
+with256,.037/.017 with2048. Native short-phase setup probe, not Java/general claims.
+work/retained-extensions-performance.json preserves raw samples and original hashes.
+After measurement only redundant test expressions were removed and two type aliases
+moved before the test module for Clippy. Benchmark reused: recorder verifies the exact
+alias relocation against the original source hash, every other production file,
+probe and binary unchanged. It does not rewrite old hashes or measurements.
+
+Final gate43894 TERMINAL0: Clippy16.14s;572target compile63s;572Rust RUN,
+197Rust/46Python REUSE;5561Rust tests+251doctests pass. Coverage3190/4855=65.705%,
+0failed,1383pending,282excluded,0unverified. Source
+ d2c7f196d8a99ab2352be4bf6db5e3904c14a8738790cdbe6a96caa7558a8f6e;
+verification0314bfa2724cc042edf5e1015439dbfe96094213acde82ce4922dc8157b980e6.
+Report/live freshness matched; original benchmark/probe/binary evidence reused as
+specified above. Logs/evidence:work/retained-extensions-{prebuild.log,final-check.log,
+evidence.json,performance.json}. No Rust changes after gate; no browser rerun;
+existing Java timing remains stale. Early prebuild82236/43081 stopped at Clippy
+(test needless-update/Copy clones, then alias placement); no broad Rust suite ran
+on those attempts. Goal active. Retained built-in phases/provider integration now
+complete for these native APIs; this is not completion of the rewrite. Concrete
+remaining issue: the existing repair dependency-cycle failure reproduced by the
+repair matrix in retained_solver.rs (also fresh) warrants focused handling; avoid
+reopening already-recorded reflection/private-protocol test-credit investigations.

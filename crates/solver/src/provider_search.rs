@@ -15,7 +15,9 @@ pub(crate) struct ProviderContext<'a, P, A, M, S> {
     pub control: Option<&'a mut dyn crate::time_limit::SearchControl>,
     pub observer: Option<&'a mut ProviderObserver<'a, A, S>>,
 }
-fn clock<S>(config: &LocalSearchConfig<'_, S>) -> impl FnMut() -> std::time::Duration + use<S> {
+pub(crate) fn clock<S>(
+    config: &LocalSearchConfig<'_, S>,
+) -> impl FnMut() -> std::time::Duration + use<S> {
     crate::time_limit::monotonic_clock(
         config.max_time.is_some()
             || config.max_unimproved_time.is_some()

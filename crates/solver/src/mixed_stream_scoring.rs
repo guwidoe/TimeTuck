@@ -226,7 +226,58 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         &mut self,
         config: MixedLocalSearchConfig<S>,
     ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
-        self.run_local_search_monitored(None, None, None, config)
+        self.run_local_search_monitored(None, None, None, config, None)
+    }
+
+    /// Run local search with a custom move provider on this retained graph.
+    /// Successful calls restore the best cached state; errors retain the last commit.
+    pub fn run_local_search_with_provider(
+        &mut self,
+        config: MixedLocalSearchConfig<S>,
+        provider: &mut dyn crate::MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+    ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+        self.run_local_search_monitored(None, None, None, config, Some(provider))
+    }
+
+    /// Construct from provider proposals without rebuilding this graph or its facts.
+    pub fn run_construction_with_provider(
+        &mut self,
+        config: crate::ProviderConstructionConfig<'_>,
+        provider: &mut dyn crate::MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+    ) -> Result<crate::ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedStreamScoringError>
+    {
+        self.run_provider_construction_monitored(
+            self.assignment.clone(),
+            config,
+            crate::provider_search::ProviderContext {
+                provider,
+                control: None,
+                observer: None,
+            },
+        )
+    }
+
+    pub(crate) fn run_provider_construction_monitored(
+        &mut self,
+        initial: MixedAssignment<B, L>,
+        config: crate::ProviderConstructionConfig<'_>,
+        context: MixedProviderContext<'_, B, L, S>,
+    ) -> Result<crate::ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedStreamScoringError>
+    {
+        crate::provider_construction::mixed_director(
+            self.problem,
+            initial,
+            config,
+            context,
+            |initial| {
+                let initialization_work = self.prepare_retained_phase(initial)?;
+                Ok(crate::retained_stream_phase::RetainedPhase {
+                    director: self,
+                    initialization_work,
+                    on_best: None,
+                })
+            },
+        )
     }
 
     pub(crate) fn run_local_search_monitored(
@@ -235,6 +286,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         initial: Option<MixedAssignment<B, L>>,
         mut observer: crate::retained_stream_phase::Observer<'_, MixedAssignment<B, L>, S>,
         config: MixedLocalSearchConfig<S>,
+        provider: Option<&mut MixedProvider<'_, B, L>>,
     ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
         let problem = self.problem;
         let initial = initial.unwrap_or_else(|| self.assignment.clone());
@@ -249,7 +301,8 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 });
             }
         };
-        let result = crate::mixed_local_search::search_impl_monitored(
+        let clock = crate::provider_search::clock(&config.search);
+        let result = crate::mixed_local_search::search_impl_with_provider(
             shared,
             problem,
             initial,
@@ -262,6 +315,14 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                     on_best: Some(&mut save_best),
                 })
             },
+            clock,
+            provider.map(|p| {
+                p as &mut dyn crate::MoveProvider<
+                    MixedProblem<B, L>,
+                    MixedAssignment<B, L>,
+                    MixedMove<B, L>,
+                >
+            }),
         )?;
         if let Some(best) = &result.best {
             self.assignment = best.assignment.clone();
@@ -294,7 +355,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         crate::SolverResult<MixedAssignment<B, L>, S>,
         crate::SolverError<MixedLocalSearchError>,
     > {
-        crate::solver::retained::mixed(self.problem, self, config.into(), None, None)
+        self.run_solver_with_extensions(config, crate::SolverExtensions::default())
     }
     /// Run a retained sequence with synchronous solver lifecycle events.
     pub fn run_solver_with_events<'c>(
@@ -305,7 +366,13 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         crate::SolverResult<MixedAssignment<B, L>, S>,
         crate::SolverError<MixedLocalSearchError>,
     > {
-        crate::solver::retained::mixed(self.problem, self, config.into(), Some(&mut observer), None)
+        self.run_solver_with_extensions(
+            config,
+            crate::SolverExtensions {
+                events: Some(&mut observer),
+                ..Default::default()
+            },
+        )
     }
     /// Bind a typed command callback to custom phase indices in a retained sequence.
     pub fn run_solver_with_commands<'c>(
@@ -325,7 +392,13 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         crate::SolverResult<MixedAssignment<B, L>, S>,
         crate::SolverError<MixedLocalSearchError>,
     > {
-        crate::solver::retained::mixed(self.problem, self, config.into(), None, Some(&mut command))
+        self.run_solver_with_extensions(
+            config,
+            crate::SolverExtensions {
+                command: Some(&mut command),
+                ..Default::default()
+            },
+        )
     }
     /// Run retained custom phases with the usual solver lifecycle events.
     pub fn run_solver_with_commands_and_events<'c>(
@@ -346,13 +419,26 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         crate::SolverResult<MixedAssignment<B, L>, S>,
         crate::SolverError<MixedLocalSearchError>,
     > {
-        crate::solver::retained::mixed(
-            self.problem,
-            self,
-            config.into(),
-            Some(&mut observer),
-            Some(&mut command),
+        self.run_solver_with_extensions(
+            config,
+            crate::SolverExtensions {
+                command: Some(&mut command),
+                events: Some(&mut observer),
+                ..Default::default()
+            },
         )
+    }
+    /// Run retained phases with move providers, commands, events and independent
+    /// phase score checks. A shared provider receives one solve lifecycle.
+    pub fn run_solver_with_extensions<'c>(
+        &mut self,
+        config: impl Into<crate::MixedSolverSequence<'c, S>>,
+        extensions: crate::MixedSolverExtensions<'_, B, L, S, MixedStreamScoringError>,
+    ) -> Result<
+        crate::SolverResult<MixedAssignment<B, L>, S>,
+        crate::SolverError<MixedLocalSearchError>,
+    > {
+        crate::solver::retained::mixed(self.problem, self, config.into(), extensions)
     }
     pub(crate) fn install_retained_state(
         &mut self,
@@ -698,6 +784,16 @@ pub(crate) fn mixed_stream_local_search_from_monitored<
         |initial| MixedStreamScoreDirector::new(problem, graph, sources, initial),
     )
 }
+
+type MixedProvider<'p, B, L> =
+    dyn crate::MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>> + 'p;
+type MixedProviderContext<'p, B, L, S> = crate::provider_search::ProviderContext<
+    'p,
+    MixedProblem<B, L>,
+    MixedAssignment<B, L>,
+    MixedMove<B, L>,
+    S,
+>;
 
 #[cfg(test)]
 mod selection_tests {
