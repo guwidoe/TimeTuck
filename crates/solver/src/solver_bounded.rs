@@ -19,7 +19,7 @@ impl<A, S> Retained<A, S> for Saved<A, S> {
 }
 struct Context<'a, 'm, 'o, A, S, F, C> {
     config: ExactPhaseConfig<'a, S>,
-    timer: TimeBudget<'m, C>,
+    timer: TimeBudget<'m, C, S>,
     evaluate: F,
     observer: Observer<'o, A, S>,
     constraint_evaluations: u128,
@@ -133,7 +133,7 @@ pub(super) fn error<E, F: From<E>, S: fmt::Debug>(
 pub(super) fn run<T: BranchTree, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
-    control: &mut SolveControl<'_>,
+    control: &mut SolveControl<'_, S>,
     prepare: impl FnOnce() -> (T, Option<T::Assignment>),
     evaluate: impl FnMut(&T::Assignment) -> Result<(S, u128), E>,
     observer: Observer<'_, T::Assignment, S>,
@@ -144,7 +144,7 @@ pub(super) fn run<T: BranchTree, S: AdditiveScore, E>(
 pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
-    control: &mut SolveControl<'_>,
+    control: &mut SolveControl<'_, S>,
     prepare: impl FnOnce() -> (T, Option<T::Assignment>),
     evaluate: impl FnMut(&T::Assignment) -> Result<(S, u128), E>,
     observer: Observer<'_, T::Assignment, S>,
@@ -206,6 +206,9 @@ mod tests {
     fn control(clock: &mut dyn FnMut() -> Duration) -> SolveControl<'_> {
         SolveControl {
             move_counter: None,
+            step_metrics: None,
+            metric_phase: None,
+            metric_step: 0,
             lifecycle: Default::default(),
             condition: None,
             condition_expired: false,

@@ -22865,3 +22865,32 @@ verification3bf791ef183b96c7c0124a462d37dc229eaf0c9aea41eb9eaae7f1b083a98a56.
 No Rust changes after successful final gate; no repeated tests or browser checks.
 Java/list measurements remain stale. Dashboard responded; no server restart needed.
 Goal remains active and incomplete.
+
+## Completed-step score metrics (baseline cd3b86b)
+
+Add SolverStepMetric and snapshot last_step/completed_step_count across construction,
+provider construction, local search, repair and committed custom moves. Preserve
+worsening steps across best restoration; previews/exact/diagnostics/failed attempts
+publish none. Custom execute attempts now emit lifecycle boundaries; caught callback
+panics invalidate the phase. SearchControl/TimeBudget/SolveControl carry generic S,
+without new public static/serialization bounds. Disabled score/completeness closures
+stay unevaluated. Three original regressions+one lazy-publication unit check, plus
+strengthened twelve-backend and repair/provider metrics checks. Source adaptation:
+SolverMetricsIT.solveStepScoreMetrics (+one method,three helpers), using StepStarted
+to match the source's previous-step observation; native StepEnded sees current score.
+Focused30948 TERMINAL0 (20 tests). Final19821 running cache-aware prebuild then
+scripts/check.sh: Clippy53.79s passed;595affected targets/197reused. Rust frozen;
+logs work/step-metrics-{prebuild,final-check}.log. Record with
+work/record_step_metrics.py after terminal success (baselinecd3b86b,+1case/+3fixtures).
+No performance claim, benchmark refresh or UI change. Goal remains active.
+
+Final19821 TERMINAL0: affected-target compile9m43s;595Rust RUN/197REUSE,
+46PythonREUSE;5719Rust tests+256doctests pass. Coverage3284/4855=67.642%,
+0failed,1307pending,264excluded,0unverified. Recorder49524 TERMINAL0 checks
+source unchanged,provenance prefix/+1case/+3fixtures,new method passed and dashboard
+freshness. Evidence work/step-metrics-evidence.json. Source
+4f7946510bb044abb7ea77cafe9149a619b030ca47045524e60bd37213925979;
+verificationb95f5a9fc3696b7c1153737695117064371ce7d2f15db2fa2ea47bda9b565208.
+No Rust changes or repeated tests after the gate. Java/list timings remain stale;
+no benchmark/browser refresh. StepEnded callback failure retains a step already
+published; pre-publication failures retain the earlier observation. Goal incomplete.

@@ -3,8 +3,8 @@ use crate::SolverPhaseKind;
 
 /// Notifications from one solver invocation. Phase/step indices are zero based;
 /// attempted steps are numbered independently within each entered phase. Exact
-/// and custom phases do not produce step events (their work is evaluations and
-/// commands). Repair attempts may end without completing an accepted solver step.
+/// enumeration has no steps. Each custom `execute` attempt is a step; previews
+/// and diagnostics are not. Repair attempts may end without completing an accepted solver step.
 ///
 /// Callbacks run inline; shared solve deadlines include their time. Returning a normal error
 /// closes open steps/phases and the solve. Panics propagate without calling more

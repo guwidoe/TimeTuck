@@ -10,7 +10,7 @@ pub(super) fn verify<A: Clone, S: AdditiveScore, E>(
         usize,
         Option<A>,
         PhaseRequest<'_, S>,
-        &mut SolveControl<'_>,
+        &mut SolveControl<'_, S>,
         &mut PlanObservation<'_, A, S>,
     ) -> Result<PhaseOutput<A, S>, SolverError<E>>,
 ) -> Result<(), SolverError<E>> {
@@ -21,6 +21,9 @@ pub(super) fn verify<A: Clone, S: AdditiveScore, E>(
     let mut clock = || Duration::ZERO;
     let mut time = SolveControl {
         move_counter: None,
+        step_metrics: None,
+        metric_phase: None,
+        metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
         condition_expired: false,

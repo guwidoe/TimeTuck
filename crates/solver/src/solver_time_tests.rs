@@ -294,8 +294,11 @@ fn elapsed_time_precedes_shared_goals_but_preserves_phase_reports() {
 #[test]
 fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time() {
     let mut disabled = || panic!("disabled global clock");
-    let mut time = SolveControl {
+    let mut time: SolveControl<'_> = SolveControl {
         move_counter: None,
+        step_metrics: None,
+        metric_phase: None,
+        metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
         condition_expired: false,
@@ -319,8 +322,11 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
     assert!(!time.shared_bound);
     let mut samples = [ms(3), ms(1), ms(8), ms(2), ms(10), ms(0)].into_iter();
     let mut clock = || samples.next().unwrap();
-    let mut time = SolveControl {
+    let mut time: SolveControl<'_> = SolveControl {
         move_counter: None,
+        step_metrics: None,
+        metric_phase: None,
+        metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
         condition_expired: false,
@@ -435,8 +441,11 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
     use crate::time_limit::SearchControl;
     let elapsed = Cell::new(ms(10_000));
     let mut clock = || elapsed.get();
-    let mut time = SolveControl {
+    let mut time: SolveControl<'_> = SolveControl {
         move_counter: None,
+        step_metrics: None,
+        metric_phase: None,
+        metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
         condition_expired: false,
@@ -490,6 +499,9 @@ fn equal_score_moves_and_new_phase_initialization_do_not_reset_shared_stagnation
 fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> SolveControl<'a> {
     SolveControl {
         move_counter: None,
+        step_metrics: None,
+        metric_phase: None,
+        metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
         condition_expired: false,

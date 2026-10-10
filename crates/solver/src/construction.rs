@@ -301,7 +301,7 @@ pub fn greedy_construction_from<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn greedy_construction_from_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Assignment<V>,
@@ -324,7 +324,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
     S: AdditiveScore,
     D: SearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     initial: Assignment<V>,
     config: ConstructionConfig,
@@ -465,7 +465,12 @@ pub(crate) fn construction_impl_with_clock_monitored<
         let completed = selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);
         result.completed_steps += u64::from(completed);
         if let Some(shared) = &mut shared {
-            shared.step_ended(completed);
+            crate::time_limit::finish_step(
+                *shared,
+                completed,
+                || director.score(),
+                || problem.is_complete(director.assignment()),
+            );
         }
         if completed && let Some(shared) = &mut shared {
             shared.complete_construction_step();
@@ -512,7 +517,7 @@ pub(crate) fn construction_impl_monitored<
     S: AdditiveScore,
     D: SearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     initial: Assignment<V>,
     config: ConstructionConfig,
@@ -524,9 +529,9 @@ pub(crate) fn construction_impl_monitored<
 
 /// Preserve independent phase time limits while polling only construction-applicable
 /// shared controls. Never start/reset a search clock or increment search steps.
-pub(crate) fn construction_stop<C: FnMut() -> std::time::Duration>(
-    time: &mut crate::time_limit::TimeBudget<'_, C>,
-    shared: &mut Option<&mut dyn crate::time_limit::SearchControl>,
+pub(crate) fn construction_stop<S, C: FnMut() -> std::time::Duration>(
+    time: &mut crate::time_limit::TimeBudget<'_, C, S>,
+    shared: &mut Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Option<ConstructionTermination> {
     if time.expired() {
         Some(ConstructionTermination::TimeLimit)
@@ -562,10 +567,10 @@ impl<'a> ConstructionScan<'a> {
             stopped: std::cell::Cell::new(None),
         }
     }
-    pub(crate) fn proceed<C: FnMut() -> std::time::Duration>(
+    pub(crate) fn proceed<S, C: FnMut() -> std::time::Duration>(
         &self,
-        time: &mut crate::time_limit::TimeBudget<'_, C>,
-        shared: &mut Option<&mut dyn crate::time_limit::SearchControl>,
+        time: &mut crate::time_limit::TimeBudget<'_, C, S>,
+        shared: &mut Option<&mut dyn crate::time_limit::SearchControl<S>>,
     ) -> bool {
         let reason = self.stopped.get().or_else(|| {
             if self.config.cancelled() {

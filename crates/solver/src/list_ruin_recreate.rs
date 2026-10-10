@@ -74,7 +74,7 @@ pub(crate) fn ruin_recreate_list_search_from_observed<V: Eq + Clone, S: Additive
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
     network
         .validate(problem, &initial)
@@ -135,7 +135,7 @@ pub(crate) fn ruin_recreate_list_stream_search_from_observed<
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
     run(problem, initial, config, observer, shared, |p, a, mut c| {
         let start = c.max_time.map(|_| Instant::now());
@@ -153,7 +153,7 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     mut rebuild: impl FnMut(
         &ListProblem<V>,
         ListAssignment<V>,

@@ -82,7 +82,7 @@ pub(crate) fn ruin_recreate_mixed_search_from_observed<
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
     network
         .validate(problem, &initial)
@@ -146,7 +146,7 @@ pub(crate) fn ruin_recreate_mixed_stream_search_from_observed<
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
     run(problem, initial, config, observer, shared, |p, a, mut c| {
         let start = c.construction.max_time.map(|_| Instant::now());
@@ -164,7 +164,7 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     mut rebuild: impl FnMut(
         &MixedProblem<B, L>,
         MixedAssignment<B, L>,

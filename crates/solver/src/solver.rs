@@ -392,8 +392,11 @@ enum PhaseRequest<'a, S> {
 }
 // Clock readings are elapsed from entry to run(), including plan validation.
 // Clip immediately before phase entry, after any graph factory preparation.
-struct SolveControl<'c> {
+struct SolveControl<'c, S = crate::SimpleScore> {
     move_counter: Option<crate::move_metrics::MoveCounter>,
+    step_metrics: Option<crate::solver_metrics::MetricWriter<S>>,
+    metric_phase: Option<(usize, SolverPhaseKind)>,
+    metric_step: u64,
     lifecycle: crate::solver_lifecycle::Lifecycle<'c>,
     condition: Option<&'c SearchTermination<'c>>,
     condition_expired: bool,
@@ -410,7 +413,7 @@ struct SolveControl<'c> {
     started: bool,
     steps_expired: bool,
 }
-impl SolveControl<'_> {
+impl<S: Score> SolveControl<'_, S> {
     fn condition_reached(&mut self) -> bool {
         if let Some(condition) = self.condition {
             self.sample();
@@ -445,11 +448,11 @@ impl SolveControl<'_> {
                 .is_some_and(|limit| self.steps.unimproved_steps() >= limit);
         self.steps_expired
     }
-    fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
+    fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
         (self.condition.is_some() || self.lifecycle.enabled() || self.move_counter.is_some())
             .then_some(self)
     }
-    fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
+    fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
         if self.move_counter.is_some()
             || self.lifecycle.enabled()
             || self.condition.is_some()
@@ -478,15 +481,30 @@ impl SolveControl<'_> {
         }
     }
 }
-impl crate::time_limit::SearchControl for SolveControl<'_> {
+impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         self.move_counter.clone()
+    }
+    fn monitors_step_scores(&self) -> bool {
+        self.step_metrics.is_some()
+    }
+    fn record_step_score(&mut self, score: S, complete: bool) {
+        if let (Some(writer), Some((phase, kind))) = (&self.step_metrics, self.metric_phase) {
+            writer.step(crate::SolverStepMetric {
+                phase,
+                kind,
+                step: self.metric_step,
+                score,
+                complete,
+            });
+        }
     }
     fn step_started(&mut self) {
         self.lifecycle.start_step();
     }
     fn step_ended(&mut self, completed: bool) {
         self.lifecycle.end_step(completed);
+        self.metric_step = self.metric_step.saturating_add(1);
     }
     fn complete_construction_step(&mut self) {
         self.construction_steps = self.construction_steps.saturating_add(1);
@@ -535,8 +553,8 @@ impl crate::time_limit::SearchControl for SolveControl<'_> {
         }
     }
 }
-impl<S> PhaseRequest<'_, S> {
-    fn with_time(mut self, time: &mut SolveControl<'_>) -> Self {
+impl<S: Score> PhaseRequest<'_, S> {
+    fn with_time(mut self, time: &mut SolveControl<'_, S>) -> Self {
         match &mut self {
             Self::Construction(c) => time.bound(&mut c.max_time),
             Self::LocalSearch(c) => time.bound(&mut c.max_time),
@@ -842,7 +860,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         }
     }
 }
-impl<S> PhaseRequest<'_, S> {
+impl<S: Score> PhaseRequest<'_, S> {
     fn kind(&self) -> SolverPhaseKind {
         match self {
             Self::Construction(_) => SolverPhaseKind::Construction,
@@ -880,7 +898,7 @@ fn run<A, S: AdditiveScore, E>(
         usize,
         Option<A>,
         PhaseRequest<'_, S>,
-        &mut SolveControl<'_>,
+        &mut SolveControl<'_, S>,
         &mut PlanObservation<'_, A, S>,
     ) -> Result<PhaseOutput<A, S>, SolverError<E>>,
 ) -> Result<SolverResult<A, S>, SolverError<E>>
@@ -904,7 +922,7 @@ fn run_with_clock<A: Clone, S: AdditiveScore, E>(
         usize,
         Option<A>,
         PhaseRequest<'_, S>,
-        &mut SolveControl<'_>,
+        &mut SolveControl<'_, S>,
     ) -> Result<PhaseOutput<A, S>, E>,
     clock: &mut dyn FnMut() -> Duration,
 ) -> Result<SolverResult<A, S>, SolverError<E>> {
@@ -929,7 +947,7 @@ fn run_with_clock_observed<A, S: AdditiveScore, E>(
         usize,
         Option<A>,
         PhaseRequest<'_, S>,
-        &mut SolveControl<'_>,
+        &mut SolveControl<'_, S>,
         &mut PlanObservation<'_, A, S>,
     ) -> Result<PhaseOutput<A, S>, SolverError<E>>,
     clock: &mut dyn FnMut() -> Duration,
@@ -944,6 +962,9 @@ where
     let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
     let mut time = SolveControl {
         move_counter: None,
+        step_metrics: None,
+        metric_phase: None,
+        metric_step: 0,
         lifecycle: crate::solver_lifecycle::Lifecycle::new(
             lifecycle_enabled.then_some(&mut lifecycle_callback),
         ),
@@ -1029,6 +1050,7 @@ where
         _ => None,
     };
     time.move_counter = metrics.as_ref().map(|m| m.moves.clone());
+    time.step_metrics = metrics.as_ref().map(|m| m.writer.clone());
     observation.metric_writer = metrics.as_ref().map(|m| m.writer.clone());
     let outcome = (|| {
         time.lifecycle.start();
@@ -1252,6 +1274,8 @@ where
             };
             let initial = Some(result.assignment.clone());
             let kind = request.kind();
+            time.metric_phase = Some((index, kind));
+            time.metric_step = 0;
             time.lifecycle.start_phase(index, kind);
             let output = phase(index, initial, request, &mut time, observation);
             if let (Some(metrics), Ok(out)) = (&observation.metric_writer, &output) {

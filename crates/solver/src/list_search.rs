@@ -162,7 +162,7 @@ where
     S: Score,
     F: FnMut(&ListAssignment<V>) -> S,
 {
-    let mut timer = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
+    let mut timer = crate::time_limit::TimeBudget::<_, S>::new(config.max_time, None, clock);
     let mut result = ListSearchResult {
         best: None,
         evaluations: 0,

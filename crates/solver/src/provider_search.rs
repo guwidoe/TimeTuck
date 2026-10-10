@@ -12,7 +12,7 @@ use crate::{
 
 pub(crate) struct ProviderContext<'a, P, A, M, S> {
     pub provider: &'a mut dyn MoveProvider<P, A, M>,
-    pub control: Option<&'a mut dyn crate::time_limit::SearchControl>,
+    pub control: Option<&'a mut dyn crate::time_limit::SearchControl<S>>,
     pub observer: Option<&'a mut ProviderObserver<'a, A, S>>,
 }
 pub(crate) fn clock<S>(

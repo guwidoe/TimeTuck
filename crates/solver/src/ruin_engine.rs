@@ -88,7 +88,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     initial: P::Assignment,
     config: RuinRecreateConfig<S>,
     mut observer: crate::ruin_engine::RepairObserver<'_, P::Assignment, S>,
-    mut shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    mut shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     mut rebuild: impl FnMut(
         &P,
         P::Assignment,
@@ -428,7 +428,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             }
         }
         if let Some(shared) = &mut shared {
-            shared.step_ended(completed);
+            crate::time_limit::finish_step(*shared, completed, || current.1.clone(), || true);
         }
     }
 }

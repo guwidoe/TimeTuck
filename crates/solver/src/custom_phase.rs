@@ -177,7 +177,7 @@ pub struct CustomPhaseContext<'a, A, M, S, E> {
     work: CustomPhaseWork,
     stop: Option<CustomPhaseTermination>,
     failed: bool,
-    shared: Option<&'a mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&'a mut dyn crate::time_limit::SearchControl<S>>,
     move_counter: Option<crate::move_metrics::MoveCounter>,
     target: Option<S>,
     stop_when_feasible: bool,
@@ -274,8 +274,11 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         if !self.begin() {
             return Ok(None);
         }
-        // A caught scoring/commit panic must not hide unknown callback work.
+        // A caught lifecycle/scoring/commit panic must not hide unknown work.
         self.failed = true;
+        if let Some(shared) = &mut self.shared {
+            shared.step_started();
+        }
         let work = &mut self.work;
         let result = self.director.trial(movement, &mut |_, _, count| {
             work.constraint_evaluations += count;
@@ -302,6 +305,11 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             });
             self.failed = false;
         }
+        self.failed = true;
+        if let Some(shared) = &mut self.shared {
+            crate::time_limit::finish_step(*shared, true, || score.clone(), || complete);
+        }
+        self.failed = false;
         Ok(Some(score))
     }
     /// Run a visitor while a scored move is applied, then undo it. The visitor
@@ -443,7 +451,7 @@ pub(crate) fn run_monitored<A: Clone, M, S: Score, D: CommandDirector<A, M, S>>(
         &mut CustomPhaseContext<'_, A, M, S, D::Error>,
     ) -> Result<(), CustomPhaseError<D::Error>>,
     observer: impl FnMut(SolutionUpdate<'_, A, S>),
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     target: Option<S>,
     stop_when_feasible: bool,
 ) -> Result<CustomPhaseResult<A, S>, CustomPhaseError<D::Error>> {
@@ -472,7 +480,7 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
     ) -> Result<(), CustomPhaseError<D::Error>>,
     mut observer: impl FnMut(SolutionUpdate<'_, A, S>),
     mut clock: impl FnMut() -> Duration,
-    mut shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    mut shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     target: Option<S>,
     stop_when_feasible: bool,
 ) -> Result<CustomPhaseResult<A, S>, CustomPhaseError<D::Error>> {
@@ -844,8 +852,26 @@ pub fn mixed_stream_custom_phase_with_observer<
 
 // Reborrow the optional outer monitor without tying the command context to the
 // lifetime of the solve's mutable trait-object reference.
-struct SharedControl<'a>(Option<&'a mut dyn crate::time_limit::SearchControl>);
-impl crate::time_limit::SearchControl for SharedControl<'_> {
+struct SharedControl<'a, S>(Option<&'a mut dyn crate::time_limit::SearchControl<S>>);
+impl<S> crate::time_limit::SearchControl<S> for SharedControl<'_, S> {
+    fn monitors_step_scores(&self) -> bool {
+        self.0.as_ref().is_some_and(|m| m.monitors_step_scores())
+    }
+    fn record_step_score(&mut self, score: S, complete: bool) {
+        if let Some(m) = &mut self.0 {
+            m.record_step_score(score, complete);
+        }
+    }
+    fn step_started(&mut self) {
+        if let Some(m) = &mut self.0 {
+            m.step_started();
+        }
+    }
+    fn step_ended(&mut self, completed: bool) {
+        if let Some(m) = &mut self.0 {
+            m.step_ended(completed);
+        }
+    }
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         crate::move_metrics::from_control(&self.0)
     }

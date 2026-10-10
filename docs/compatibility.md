@@ -6216,3 +6216,15 @@ lookups improve from4.9146to1.1339ms globally and5.6539to0.9901ms per entity
 remain about7–14% slower, and an eight-value full global lookup is about10% slower.
 Raw samples, source/probe/binary hashes: work/span-rank-performance.json.
 This is a native component measurement, not Java or end-to-end solver performance.
+
+## Current-step score monitoring
+
+One additional SolverMetricsIT method preserves the three none-only construction
+steps, five ordered custom changes, previous-step hard/soft observations, final
+step count and target score. Native typed snapshots replace Micrometer; native
+StepStarted observes the previous score corresponding to the source listener's
+one-update delay. Native StepEnded observes the newly completed score. Three
+source helpers are attributed separately. This does not claim Java listener
+registration order, exporters or tag behavior. Original regressions cover
+worsening scores, restoration, failed/caught-panicking custom steps, exclusions,
+all twelve solver paths and lazy disabled monitoring.

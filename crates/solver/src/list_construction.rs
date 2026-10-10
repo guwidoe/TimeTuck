@@ -71,7 +71,7 @@ pub fn greedy_list_construction_from<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn greedy_list_construction_from_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     network: &ListConstraintNetwork<'_, V, S>,
     initial: ListAssignment<V>,
@@ -88,7 +88,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
     S: AdditiveScore,
     D: ListSearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: ConstructionConfig,
@@ -211,7 +211,12 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);
             result.completed_steps += u64::from(completed);
             if let Some(shared) = &mut shared {
-                shared.step_ended(completed);
+                crate::time_limit::finish_step(
+                    *shared,
+                    completed,
+                    || director.score(),
+                    || problem.is_complete(director.assignment()),
+                );
             }
             if completed && let Some(shared) = &mut shared {
                 shared.complete_construction_step();
@@ -254,7 +259,7 @@ pub(crate) fn construction_impl_monitored<
     S: AdditiveScore,
     D: ListSearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: ConstructionConfig,

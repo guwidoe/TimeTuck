@@ -49359,6 +49359,21 @@
       "upstream_test": "nextElement_listSizeFarBelowMinimum",
       "local_test": "next_element_list_size_far_below_minimum",
       "modifications": "Retain minimum5/maximum6 and list length2 rejection with a minimum-length diagnostic. Native immutable index validates at construction; the Java minimumSubListSize term in the asserted message is rendered as minimum span length. No unsigned-underflow-generated bogus span is accepted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/step_score_metrics_cases.rs",
+      "id": "SolverMetricsIT.solveStepScoreMetrics",
+      "status": "implemented",
+      "upstream_test": "solveStepScoreMetrics",
+      "local_test": "solve_step_score_metrics",
+      "modifications": "Retain three uninitialized entities, none/reward values, hard-zero/reward-count scoring, none-only construction, target0hard/3soft, all five ordered custom changes, three skipped initialization observations, all five hard/soft observation assertions0,1,2,1,2, final step counter7 and final hard0/soft3. Native typed snapshots replace Micrometer gauges and per-run identities replace UUID tags. Observe native StepStarted to read the preceding completed score: this corresponds to the source StepEnded listener that runs one metric update behind; native StepEnded instead sees the new score. One custom execute corresponds to each single-move source command; Java reflection, meter names and callback registration order are not claimed. Successful Rust solve and completeness replace non-null solution."
     }
   ],
   "fixtures": [
@@ -66534,6 +66549,45 @@
       "id": "TriangleElementFactoryTest.triangleElementValueOf.parameters",
       "upstream_test": "triangleElementValueOf",
       "modifications": "Copy all ten index/level/indexOnLevel tuples from the overloaded static MethodSource provider into a Rust array, preserving order and values. The original Java parameterized method and provider have the same name; this fixture records the provider, separately from the method case."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/step_score_metrics_cases.rs",
+      "id": "SolverMetricsIT.BestScoreMetricEasyScoreCalculator.calculateScore.step_metrics",
+      "upstream_test": "BestScoreMetricEasyScoreCalculator.calculateScore",
+      "modifications": "Adapt the test helper reward-prefix count into a native hard-zero/soft-count constraint over three variables; missing values contribute zero."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/step_score_metrics_cases.rs",
+      "id": "SolverMetricsIT.NoneValueSelectionFilter.accept.step_metrics",
+      "upstream_test": "NoneValueSelectionFilter.accept",
+      "modifications": "Adapt the test helper none-only selection filter into a construction provider that emits the none assignment for the next unassigned variable."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/step_score_metrics_cases.rs",
+      "id": "SolverMetricsIT.SetTestdataEntityValueCustomPhaseCommand.changeWorkingSolution.step_metrics",
+      "upstream_test": "SetTestdataEntityValueCustomPhaseCommand.changeWorkingSolution",
+      "modifications": "Adapt the test helper into five native CustomPhaseContext.execute calls with registry variable indices replacing working-object lookup and metamodel access. Preserve the source target sequence and each committed score."
     }
   ]
 }

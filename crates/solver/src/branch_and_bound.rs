@@ -325,13 +325,13 @@ pub(crate) trait BranchContext<A, S, R> {
     fn stop(&mut self, evaluations: u64, best: Option<&S>) -> Option<BranchTermination>;
     fn improved(&mut self, best: &R);
 }
-struct StandaloneContext<'a, 'm, F, O, C> {
+struct StandaloneContext<'a, 'm, F, O, C, S> {
     evaluate: F,
     observer: O,
     config: BranchAndBoundConfig<'a>,
-    time: crate::time_limit::TimeBudget<'m, C>,
+    time: crate::time_limit::TimeBudget<'m, C, S>,
 }
-impl<A, S: Score, R, F, O, C> BranchContext<A, S, R> for StandaloneContext<'_, '_, F, O, C>
+impl<A, S: Score, R, F, O, C> BranchContext<A, S, R> for StandaloneContext<'_, '_, F, O, C, S>
 where
     F: FnMut(&A, usize) -> BranchEvaluation<S>,
     O: FnMut(&R),
@@ -358,7 +358,7 @@ pub(crate) fn search_tree<T, S, R>(
     evaluate: impl FnMut(&T::Assignment, usize) -> BranchEvaluation<S>,
     config: BranchAndBoundConfig<'_>,
     observer: impl FnMut(&R),
-    time: crate::time_limit::TimeBudget<'_, impl FnMut() -> Duration>,
+    time: crate::time_limit::TimeBudget<'_, impl FnMut() -> Duration, S>,
 ) -> Result<BoundedSearchResult<R>, InvalidOptimisticBound<S>>
 where
     T: crate::branch_tree::BranchTree,
@@ -564,10 +564,10 @@ where
     }
     Ok(result)
 }
-fn stop(
+fn stop<S>(
     config: BranchAndBoundConfig<'_>,
     evaluations: u64,
-    time: &mut crate::time_limit::TimeBudget<'_, impl FnMut() -> Duration>,
+    time: &mut crate::time_limit::TimeBudget<'_, impl FnMut() -> Duration, S>,
 ) -> Option<BranchTermination> {
     if evaluations >= config.max_evaluations {
         Some(BranchTermination::EvaluationLimit)

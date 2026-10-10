@@ -2178,3 +2178,21 @@ consume no random draw, attempt or score/candidate evaluation. The sampler recei
 one slot per raw candidate, including rejections, and polls cooperative controls
 between slots. Models without dependencies retain their prior candidates and random
 draw order, using the existing iterator allocation without a checker.
+
+## Live step-score metrics
+
+`SolveMetricSnapshot.last_step` carries the phase index/kind, attempted step index,
+score and completeness of the last successfully completed step. It includes
+construction, local-search and accepted changed repair steps, plus every committed
+custom `execute` move. It retains worsening scores even if a phase later restores
+its best state. `completed_step_count` counts these publications across phases;
+custom commits do not change existing search-step termination counters.
+
+Snapshots publish before `StepEnded`; `StepStarted` sees the preceding completed
+step. Custom execute attempts now emit these lifecycle boundaries, while previews,
+initial scoring, exact enumeration and diagnostics do not. Failed attempts preserve
+the last published step. Publication remains visible if a subsequent StepEnded
+callback fails. Failed/panicked runs retain that observation, and a new run starts
+empty. Caught custom lifecycle panics invalidate the command phase.
+Score types remain generic, without a new static-lifetime or serialization bound.
+Disabled monitoring does not clone scores or scan completeness for publication.

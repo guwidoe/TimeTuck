@@ -14,6 +14,7 @@ fn config() -> SolverConfig<'static> {
     SolverConfig {
         local_search: vec![LocalSearchConfig {
             max_steps: 3,
+            acceptance: Acceptance::HillClimbing,
             ..Default::default()
         }],
         ..Default::default()
@@ -24,6 +25,11 @@ fn final_matches<A>(metrics: &SolverMetrics<SimpleScore>, r: &SolverResult<A, Si
     assert!(s.active.is_empty());
     let last = s.latest.unwrap();
     assert_eq!(last.work, r.work);
+    assert_eq!(
+        last.completed_step_count,
+        r.work.construction_steps + r.work.completed_steps
+    );
+    assert_eq!(last.last_step.is_some(), last.completed_step_count > 0);
     assert_eq!(last.move_evaluations.total(), r.work.move_evaluations);
     assert_eq!(last.best_score, r.score);
     assert_eq!(last.complete, r.complete);

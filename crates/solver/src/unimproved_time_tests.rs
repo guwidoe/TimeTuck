@@ -8,7 +8,7 @@ fn ms(value: u64) -> Duration {
 #[test]
 fn phase_budget_does_not_arm_stagnation_during_initialization() {
     let now = Cell::new(ms(0));
-    let mut budget = TimeBudget::new(None, Some(ms(1000)), || now.get());
+    let mut budget = TimeBudget::<_, crate::SimpleScore>::new(None, Some(ms(1000)), || now.get());
     now.set(ms(10000));
     assert_eq!(budget.stop(), None);
     budget.record_improvement(); // Initialization events must not arm the timer.
@@ -34,10 +34,12 @@ fn phase_budget_does_not_arm_stagnation_during_initialization() {
 #[test]
 fn elapsed_deadline_still_counts_initialization_and_precedes_stagnation() {
     let now = Cell::new(ms(0));
-    let mut budget = TimeBudget::new(Some(ms(10)), Some(ms(1)), || now.get());
+    let mut budget =
+        TimeBudget::<_, crate::SimpleScore>::new(Some(ms(10)), Some(ms(1)), || now.get());
     now.set(ms(10));
     assert_eq!(budget.stop(), Some(LocalSearchTermination::TimeLimit));
-    let mut budget = TimeBudget::new(Some(ms(10)), Some(ms(10)), || now.get());
+    let mut budget =
+        TimeBudget::<_, crate::SimpleScore>::new(Some(ms(10)), Some(ms(10)), || now.get());
     now.set(ms(0));
     budget.start_search();
     now.set(ms(10));

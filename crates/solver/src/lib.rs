@@ -1277,7 +1277,7 @@ pub use move_metrics::{MoveEvaluationCounts, MoveEvaluationKind};
 mod solver_metrics;
 pub use solver_metrics::{
     SolveMetricOutcome, SolveMetricSnapshot, SolverMetricDimensions, SolverMetrics,
-    SolverMetricsSnapshot,
+    SolverMetricsSnapshot, SolverStepMetric,
 };
 
 mod sublist_rank;

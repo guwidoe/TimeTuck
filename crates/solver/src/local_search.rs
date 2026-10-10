@@ -514,7 +514,7 @@ pub fn local_search_from<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Assignment<V>,
@@ -533,7 +533,7 @@ fn local_search_impl<V: Eq + Clone, S: AdditiveScore>(
 }
 
 fn local_search_impl_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Option<Assignment<V>>,
@@ -553,7 +553,7 @@ fn local_search_impl_monitored<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn search_impl_monitored<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
@@ -590,7 +590,7 @@ pub(crate) fn search_impl_with_clock_monitored<
     S: AdditiveScore,
     D: SearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
@@ -604,7 +604,7 @@ where
 }
 
 pub(crate) fn search_impl_with_provider<V: Eq + Clone, S: AdditiveScore, D: SearchDirector<V, S>>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
@@ -809,7 +809,11 @@ where
         if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
-        time_budget.end_step(selection.selected.is_some());
+        time_budget.end_step(
+            selection.selected.is_some(),
+            || director.score(),
+            || problem.is_complete(director.assignment()),
+        );
         provider.end_step();
         if notify_improvement {
             director.notify_best(|_| true);

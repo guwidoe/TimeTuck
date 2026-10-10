@@ -83,8 +83,8 @@ impl MoveCounter {
         MoveEvaluationCounts(std::array::from_fn(|i| self.0[i].load(Ordering::Relaxed)))
     }
 }
-pub(crate) fn from_control(
-    shared: &Option<&mut dyn crate::time_limit::SearchControl>,
+pub(crate) fn from_control<S>(
+    shared: &Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Option<MoveCounter> {
     shared.as_ref().and_then(|s| s.move_counter())
 }

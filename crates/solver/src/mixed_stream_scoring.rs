@@ -189,7 +189,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
 
     pub(crate) fn run_construction_monitored(
         &mut self,
-        shared: Option<&mut dyn crate::time_limit::SearchControl>,
+        shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
         initial: Option<MixedAssignment<B, L>>,
         mut observer: crate::retained_stream_phase::Observer<'_, MixedAssignment<B, L>, S>,
         config: MixedConstructionConfig,
@@ -287,7 +287,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
 
     pub(crate) fn run_local_search_monitored(
         &mut self,
-        shared: Option<&mut dyn crate::time_limit::SearchControl>,
+        shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
         initial: Option<MixedAssignment<B, L>>,
         mut observer: crate::retained_stream_phase::Observer<'_, MixedAssignment<B, L>, S>,
         config: MixedLocalSearchConfig<S>,
@@ -753,7 +753,7 @@ pub(crate) fn greedy_mixed_stream_construction_from_monitored<
     L: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     graph: StreamGraph<'_, S>,
     sources: MixedStreamSources<B, L>,
@@ -791,7 +791,7 @@ pub(crate) fn mixed_stream_local_search_from_monitored<
     L: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     graph: StreamGraph<'_, S>,
     sources: MixedStreamSources<B, L>,

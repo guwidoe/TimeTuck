@@ -93,7 +93,7 @@ pub fn list_local_search_from<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn list_local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     network: &ListConstraintNetwork<'_, V, S>,
     initial: ListAssignment<V>,
@@ -107,7 +107,7 @@ pub(crate) fn list_local_search_from_monitored<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn search_impl_monitored<V: Eq + Clone, S: AdditiveScore, D: ListSearchDirector<V, S>>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
@@ -144,7 +144,7 @@ pub(crate) fn search_impl_with_clock_monitored<
     S: AdditiveScore,
     D: ListSearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
@@ -162,7 +162,7 @@ pub(crate) fn search_impl_with_provider<
     S: AdditiveScore,
     D: ListSearchDirector<V, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<S>,
@@ -343,7 +343,11 @@ where
         if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
-        time_budget.end_step(selection.selected.is_some());
+        time_budget.end_step(
+            selection.selected.is_some(),
+            || director.score(),
+            || problem.is_complete(director.assignment()),
+        );
         provider.end_step();
         if notify_improvement {
             director.notify_best(|_| true);

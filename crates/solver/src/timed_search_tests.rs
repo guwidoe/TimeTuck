@@ -269,9 +269,11 @@ fn time_budget_clamps_regression_and_latches_expiry() {
         Duration::from_millis(10),
     ]
     .into_iter();
-    let mut budget = time_limit::TimeBudget::new(Some(Duration::from_millis(10)), None, || {
-        times.next().expect("expiry must latch")
-    });
+    let mut budget = time_limit::TimeBudget::<_, crate::SimpleScore>::new(
+        Some(Duration::from_millis(10)),
+        None,
+        || times.next().expect("expiry must latch"),
+    );
     assert!(!budget.expired());
     assert!(!budget.expired());
     assert!(budget.expired());
@@ -445,9 +447,11 @@ fn stagnation_budget_clamps_backwards_samples_and_handles_max_duration() {
         Duration::MAX,
     ]
     .into_iter();
-    let mut b = time_limit::TimeBudget::new(None, Some(Duration::from_nanos(2)), || {
-        times.next().unwrap()
-    });
+    let mut b = time_limit::TimeBudget::<_, crate::SimpleScore>::new(
+        None,
+        Some(Duration::from_nanos(2)),
+        || times.next().unwrap(),
+    );
     b.start_search();
     assert_eq!(b.stop(), None);
     assert_eq!(b.stop(), Some(Stop::UnimprovedTimeLimit));

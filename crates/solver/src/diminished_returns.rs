@@ -254,7 +254,7 @@ fn soft_gain<S: Score>(to: &S, from: &S) -> Decimal {
 /// Existing time/stagnation controls retain precedence. Diminished returns arms
 /// at the first candidate-boundary poll, after initial scoring and notification.
 pub(crate) struct LocalTimeBudget<'a, S, C> {
-    base: crate::time_limit::TimeBudget<'a, C>,
+    base: crate::time_limit::TimeBudget<'a, C, S>,
     rate: Option<DiminishedReturns<S>>,
     significant: Option<crate::SignificantImprovement<S>>,
 }
@@ -262,7 +262,7 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     pub(crate) fn new(
         config: &crate::LocalSearchConfig<S>,
         clock: C,
-        shared: Option<&'a mut dyn crate::time_limit::SearchControl>,
+        shared: Option<&'a mut dyn crate::time_limit::SearchControl<S>>,
     ) -> Result<Self, DiminishedReturnsError> {
         Ok(Self {
             significant: config
@@ -290,8 +290,13 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     pub(crate) fn start_step(&mut self) {
         self.base.start_step();
     }
-    pub(crate) fn end_step(&mut self, completed: bool) {
-        self.base.end_step(completed);
+    pub(crate) fn end_step(
+        &mut self,
+        completed: bool,
+        score: impl FnOnce() -> S,
+        complete: impl FnOnce() -> bool,
+    ) {
+        self.base.end_step(completed, score, complete);
     }
     pub(crate) fn complete_step(&mut self, improved: bool, best: &S) {
         self.base.complete_step(improved);

@@ -8,7 +8,7 @@ type ExactObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolutionUpdate<'_, A, S>
 pub(super) fn run_observed<A: Clone, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
-    control: &mut SolveControl<'_>,
+    control: &mut SolveControl<'_, S>,
     enumerate: impl FnOnce(&mut dyn FnMut(&A) -> bool) -> bool,
     evaluate: impl FnMut(&A) -> Result<(S, u128), E>,
     observer: ExactObserver<'_, A, S>,
@@ -58,7 +58,7 @@ pub(super) fn visit_mixed_strategy<B: Eq + Clone, L: Eq + Clone>(
 pub(super) fn run_with_clock<A: Clone, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
-    control: &mut SolveControl<'_>,
+    control: &mut SolveControl<'_, S>,
     enumerate: impl FnOnce(&mut dyn FnMut(&A) -> bool) -> bool,
     evaluate: impl FnMut(&A) -> Result<(S, u128), E>,
     clock: impl FnMut() -> Duration,
@@ -69,7 +69,7 @@ pub(super) fn run_with_clock<A: Clone, S: AdditiveScore, E>(
 pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
-    control: &mut SolveControl<'_>,
+    control: &mut SolveControl<'_, S>,
     enumerate: impl FnOnce(&mut dyn FnMut(&A) -> bool) -> bool,
     mut evaluate: impl FnMut(&A) -> Result<(S, u128), E>,
     clock: impl FnMut() -> Duration,

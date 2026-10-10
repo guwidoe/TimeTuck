@@ -375,7 +375,7 @@ fn basic_construction<
     S: AdditiveScore,
     C: IncrementalCalculator<Assignment<V>, Score = S, Change = Vec<usize>>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &FiniteProblem<V>,
     factory: &impl Fn() -> C,
     initial: Assignment<V>,
@@ -398,7 +398,7 @@ fn basic_local<
     S: AdditiveScore,
     C: IncrementalCalculator<Assignment<V>, Score = S, Change = Vec<usize>>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &FiniteProblem<V>,
     factory: &impl Fn() -> C,
     initial: Assignment<V>,
@@ -468,7 +468,7 @@ fn basic_repair<
     initial: Assignment<V>,
     config: RuinRecreateConfig<'_, S>,
     observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
     crate::ruin_engine::run(
         p,
@@ -846,7 +846,7 @@ fn list_construction<
     S: AdditiveScore,
     C: IncrementalCalculator<ListAssignment<V>, Score = S, Change = Vec<usize>>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &ListProblem<V>,
     factory: &impl Fn() -> C,
     initial: ListAssignment<V>,
@@ -869,7 +869,7 @@ fn list_local<
     S: AdditiveScore,
     C: IncrementalCalculator<ListAssignment<V>, Score = S, Change = Vec<usize>>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &ListProblem<V>,
     factory: &impl Fn() -> C,
     initial: ListAssignment<V>,
@@ -939,7 +939,7 @@ fn list_repair<
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<'_, S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
     crate::ruin_engine::run(
         p,
@@ -1345,7 +1345,7 @@ fn mixed_construction<
     S: AdditiveScore,
     C: IncrementalCalculator<MixedAssignment<B, L>, Score = S, Change = MixedCalculatorChange>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &MixedProblem<B, L>,
     factory: &impl Fn() -> C,
     initial: MixedAssignment<B, L>,
@@ -1369,7 +1369,7 @@ fn mixed_local<
     S: AdditiveScore,
     C: IncrementalCalculator<MixedAssignment<B, L>, Score = S, Change = MixedCalculatorChange>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &MixedProblem<B, L>,
     factory: &impl Fn() -> C,
     initial: MixedAssignment<B, L>,
@@ -1435,7 +1435,7 @@ fn mixed_repair<
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<'_, S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
     crate::ruin_engine::run(
         p,

@@ -194,7 +194,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
 
     pub(crate) fn run_construction_monitored(
         &mut self,
-        shared: Option<&mut dyn crate::time_limit::SearchControl>,
+        shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
         initial: Option<ListAssignment<V>>,
         mut observer: crate::retained_stream_phase::Observer<'_, ListAssignment<V>, S>,
         config: ConstructionConfig,
@@ -298,7 +298,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
 
     pub(crate) fn run_local_search_monitored(
         &mut self,
-        shared: Option<&mut dyn crate::time_limit::SearchControl>,
+        shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
         initial: Option<ListAssignment<V>>,
         mut observer: crate::retained_stream_phase::Observer<'_, ListAssignment<V>, S>,
         config: LocalSearchConfig<S>,
@@ -731,7 +731,7 @@ pub(crate) fn greedy_list_stream_construction_from_monitored<
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     graph: StreamGraph<'_, S>,
     sources: ListStreamSources<V>,
@@ -763,7 +763,7 @@ pub(crate) fn list_stream_local_search_from_monitored<
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     graph: StreamGraph<'_, S>,
     sources: ListStreamSources<V>,

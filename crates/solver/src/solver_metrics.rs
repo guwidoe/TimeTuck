@@ -29,11 +29,23 @@ pub enum SolveMetricOutcome {
     Failed,
     Panicked,
 }
+/// Last successfully completed step, independent of the best score. Attempts
+/// are numbered from zero within each phase; unsuccessful attempts leave this
+/// snapshot unchanged. Construction may publish partial assignments.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct SolverStepMetric<S> {
+    pub phase: usize,
+    pub kind: crate::SolverPhaseKind,
+    pub step: u64,
+    pub score: S,
+    pub complete: bool,
+}
 /// One invocation. Work is published after each scoring phase returns and on
 /// success at solve end; an unfinished/failed phase's partial aggregate work is unavailable.
 /// Move-family counts update independently and retain observed partial work.
 /// Best scores update during phases, before user best-event callbacks. This is
-/// not a current-step score. Duration includes callbacks and score diagnostics;
+/// separate from `last_step`, which also tracks worsening completed steps.
+/// Duration includes callbacks and score diagnostics;
 /// diagnostic evaluations do not contribute to the solver's work counters.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct SolveMetricSnapshot<S> {
@@ -45,6 +57,10 @@ pub struct SolveMetricSnapshot<S> {
     pub move_evaluations: crate::MoveEvaluationCounts,
     pub last_phase: Option<usize>,
     pub best_score: Option<S>,
+    /// Last completed construction/local-search/repair step or committed custom
+    /// move. Published before StepEnded callbacks; exact enumeration has no steps.
+    pub last_step: Option<SolverStepMetric<S>>,
+    pub completed_step_count: u64,
     pub complete: bool,
     pub outcome: Option<SolveMetricOutcome>,
 }
@@ -86,7 +102,10 @@ struct Inner<S> {
 /// Attach through `SolverExtensions::metrics`. Clones share the monitor and may
 /// observe simultaneous solves from different threads when the score is Send.
 /// Disabled solves acquire no metric locks. Enabled solves publish on best-score
-/// changes and phase completion. Move-family counts use per-run atomics without
+/// changes, completed steps and phase completion. Step scores publish before
+/// StepEnded callbacks and survive best-state restoration at phase/solve end.
+/// Exact enumeration, diagnostic scores, previews and failed attempts do not
+/// publish steps. Move-family counts use per-run atomics without
 /// acquiring the monitor lock for each candidate evaluation.
 ///
 /// Invalid plans rejected before execution do not start a metric run. Normal
@@ -189,6 +208,8 @@ impl<S: Score> SolverMetrics<S> {
                     move_evaluations: Default::default(),
                     last_phase: None,
                     best_score: None,
+                    last_step: None,
+                    completed_step_count: 0,
                     complete: false,
                     outcome: None,
                 },
@@ -217,6 +238,12 @@ impl<S> Clone for MetricWriter<S> {
     }
 }
 impl<S: Score> MetricWriter<S> {
+    pub(crate) fn step(&self, step: SolverStepMetric<S>) {
+        self.update(|r| {
+            r.last_step = Some(step);
+            r.completed_step_count = r.completed_step_count.saturating_add(1);
+        });
+    }
     pub(crate) fn best(&self, score: &S, complete: bool) {
         // Clone user score values before locking so a user Clone panic cannot
         // poison the monitor or cause its unwind guard to lock recursively.

@@ -117,7 +117,7 @@ pub fn mixed_local_search_from<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn mixed_local_search_from_monitored<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     network: &MixedConstraintNetwork<'_, B, L, S>,
     initial: MixedAssignment<B, L>,
@@ -136,7 +136,7 @@ pub(crate) fn search_impl_monitored<
     S: AdditiveScore,
     D: MixedSearchDirector<B, L, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
@@ -179,7 +179,7 @@ pub(crate) fn search_impl_with_clock_monitored<
     S: AdditiveScore,
     D: MixedSearchDirector<B, L, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
@@ -209,7 +209,7 @@ pub(crate) fn search_impl_with_provider<
     S: AdditiveScore,
     D: MixedSearchDirector<B, L, S>,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     initial: MixedAssignment<B, L>,
     settings: MixedLocalSearchConfig<S>,
@@ -417,7 +417,11 @@ where
         if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
-        time_budget.end_step(selection.selected.is_some());
+        time_budget.end_step(
+            selection.selected.is_some(),
+            || director.score(),
+            || problem.is_complete(director.assignment()),
+        );
         provider.end_step();
         if notify_improvement {
             director.notify_best(|_| true);

@@ -319,10 +319,10 @@ engine!(
 );
 engine!(MixedEngine, MixedSearchDirector, [B, L], MixedAssignment<B, L>, MixedMove<B, L>);
 
-fn interruption(
+fn interruption<S>(
     c: ProviderConstructionConfig,
     start: Instant,
-    shared: &mut Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: &mut Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Option<ProviderConstructionTermination> {
     if c.cancellation.is_some_and(CancellationToken::is_cancelled) {
         Some(ProviderConstructionTermination::Cancelled)
@@ -357,7 +357,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     config: ProviderConstructionConfig,
     provider: Provider<'_, F>,
     create: impl FnOnce(F::Assignment) -> Result<D, D::Error>,
-    mut shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    mut shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<Outcome<F, S>, D::Error> {
     let move_counter = crate::move_metrics::from_control(&shared);
     use ProviderConstructionTermination as Stop;
@@ -472,7 +472,12 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         let completed = selection.evaluations > 0 && can_commit();
         result.completed_steps += u64::from(completed);
         if let Some(shared) = &mut shared {
-            shared.step_ended(completed);
+            crate::time_limit::finish_step(
+                *shared,
+                completed,
+                || director.score(),
+                || shape.complete(director.assignment()),
+            );
         }
         if completed && let Some(shared) = &mut shared {
             shared.complete_construction_step();

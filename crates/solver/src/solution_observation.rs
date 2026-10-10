@@ -120,7 +120,7 @@ pub fn greedy_construction_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn greedy_construction_from_with_observer_monitored<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Assignment<V>,
@@ -155,7 +155,7 @@ pub fn local_search_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn local_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     network: &ConstraintNetwork<'_, V, S>,
     initial: Assignment<V>,
@@ -225,7 +225,7 @@ pub(crate) fn greedy_stream_construction_from_with_observer_monitored<
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     graph: StreamGraph<'_, S>,
     source: PlanningStreamSource<V>,
@@ -263,7 +263,7 @@ pub(crate) fn stream_local_search_from_observed<
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &FiniteProblem<V>,
     graph: StreamGraph<'_, S>,
     source: PlanningStreamSource<V>,
@@ -364,7 +364,7 @@ pub(crate) fn greedy_list_construction_from_with_observer_monitored<
     V: Eq + Clone,
     S: AdditiveScore,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     network: &ListConstraintNetwork<'_, V, S>,
     initial: ListAssignment<V>,
@@ -399,7 +399,7 @@ pub fn list_local_search_from_with_observer<V: Eq + Clone, S: AdditiveScore>(
 }
 
 pub(crate) fn list_local_search_from_observed<V: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     network: &ListConstraintNetwork<'_, V, S>,
     initial: ListAssignment<V>,
@@ -463,7 +463,7 @@ pub(crate) fn greedy_list_stream_construction_from_with_observer_monitored<
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     graph: StreamGraph<'_, S>,
     sources: ListStreamSources<V>,
@@ -506,7 +506,7 @@ pub(crate) fn list_stream_local_search_from_observed<
     V: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &ListProblem<V>,
     graph: StreamGraph<'_, S>,
     sources: ListStreamSources<V>,
@@ -617,7 +617,7 @@ pub(crate) fn greedy_mixed_construction_from_with_observer_monitored<
     L: Eq + Clone,
     S: AdditiveScore,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     network: &MixedConstraintNetwork<'_, B, L, S>,
     initial: MixedAssignment<B, L>,
@@ -652,7 +652,7 @@ pub fn mixed_local_search_from_with_observer<B: Eq + Clone, L: Eq + Clone, S: Ad
 }
 
 pub(crate) fn mixed_local_search_from_observed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     network: &MixedConstraintNetwork<'_, B, L, S>,
     initial: MixedAssignment<B, L>,
@@ -725,7 +725,7 @@ pub(crate) fn greedy_mixed_stream_construction_from_with_observer_monitored<
     L: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     graph: StreamGraph<'_, S>,
     sources: MixedStreamSources<B, L>,
@@ -772,7 +772,7 @@ pub(crate) fn mixed_stream_local_search_from_observed<
     L: Eq + Clone + 'static,
     S: AdditiveScore + 'static,
 >(
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     problem: &MixedProblem<B, L>,
     graph: StreamGraph<'_, S>,
     sources: MixedStreamSources<B, L>,

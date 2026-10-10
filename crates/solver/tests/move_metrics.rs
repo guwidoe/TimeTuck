@@ -254,6 +254,12 @@ fn reconstruction_and_fine_attempts_use_distinct_counts() {
         };
         assert!(c.get(kind) > 0);
         assert_eq!(c.get(kind), c.total());
+        let snapshot = m.snapshot().latest.unwrap();
+        assert_eq!(snapshot.completed_step_count, r.work.completed_steps);
+        if let Some(step) = snapshot.last_step {
+            assert_eq!(step.kind, SolverPhaseKind::RuinRecreate);
+            assert!(step.complete);
+        }
     }
 }
 #[test]
@@ -297,4 +303,9 @@ fn provider_construction_skips_invalid_proposals_and_counts_composites_once() {
     assert!(r.complete);
     assert_eq!(counts(&m, &r).get(MoveEvaluationKind::Composite), 1);
     assert_eq!(counts(&m, &r).total(), 1);
+    let snapshot = m.snapshot().latest.unwrap();
+    assert_eq!(snapshot.completed_step_count, 1);
+    let step = snapshot.last_step.unwrap();
+    assert_eq!(step.score, r.score.unwrap());
+    assert!(step.complete);
 }

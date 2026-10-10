@@ -27,10 +27,14 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 }
 
 /// Optional solve-wide observer; phase timers and step counters stay independent.
-pub(crate) trait SearchControl {
+pub(crate) trait SearchControl<S = crate::SimpleScore> {
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         None
     }
+    fn monitors_step_scores(&self) -> bool {
+        false
+    }
+    fn record_step_score(&mut self, _score: S, _complete: bool) {}
     fn step_started(&mut self) {}
     fn step_ended(&mut self, _completed: bool) {}
     /// Construction does not start/reset search stagnation or advance search steps.
@@ -44,15 +48,15 @@ pub(crate) trait SearchControl {
     fn stop(&mut self) -> Option<crate::LocalSearchTermination>;
 }
 
-pub(crate) struct TimeBudget<'m, C> {
-    shared: Option<&'m mut dyn SearchControl>,
+pub(crate) struct TimeBudget<'m, C, S = crate::SimpleScore> {
+    shared: Option<&'m mut dyn SearchControl<S>>,
     limit: Option<ElapsedTimeLimit>,
     unimproved_limit: Option<crate::UnimprovedTimeLimit>,
     clock: C,
     last: Duration,
     reason: Option<crate::LocalSearchTermination>,
 }
-impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
+impl<'m, C: FnMut() -> Duration, S> TimeBudget<'m, C, S> {
     pub(crate) fn new(limit: Option<Duration>, unimproved: Option<Duration>, clock: C) -> Self {
         Self {
             shared: None,
@@ -63,7 +67,7 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
             reason: None,
         }
     }
-    pub(crate) fn with_shared(mut self, shared: Option<&'m mut dyn SearchControl>) -> Self {
+    pub(crate) fn with_shared(mut self, shared: Option<&'m mut dyn SearchControl<S>>) -> Self {
         self.shared = shared;
         self
     }
@@ -72,9 +76,14 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
             shared.step_started();
         }
     }
-    pub(crate) fn end_step(&mut self, completed: bool) {
+    pub(crate) fn end_step(
+        &mut self,
+        completed: bool,
+        score: impl FnOnce() -> S,
+        complete: impl FnOnce() -> bool,
+    ) {
         if let Some(shared) = &mut self.shared {
-            shared.step_ended(completed);
+            finish_step(*shared, completed, score, complete);
         }
     }
     pub(crate) fn complete_step(&mut self, improved: bool) {
@@ -138,5 +147,71 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
     }
     pub(crate) fn expired(&mut self) -> bool {
         self.stop().is_some()
+    }
+}
+
+/// Publish only completed steps. Lazy closures avoid score clones and completion
+/// scans when a solve has no metrics attached.
+pub(crate) fn finish_step<S>(
+    control: &mut dyn SearchControl<S>,
+    completed: bool,
+    score: impl FnOnce() -> S,
+    complete: impl FnOnce() -> bool,
+) {
+    if completed && control.monitors_step_scores() {
+        control.record_step_score(score(), complete());
+    }
+    control.step_ended(completed);
+}
+
+#[cfg(test)]
+mod step_metric_tests {
+    use super::*;
+    #[derive(Default)]
+    struct Control {
+        enabled: bool,
+        published: Option<(i32, bool)>,
+        ended: bool,
+    }
+    impl SearchControl<i32> for Control {
+        fn monitors_step_scores(&self) -> bool {
+            self.enabled
+        }
+        fn record_step_score(&mut self, score: i32, complete: bool) {
+            self.published = Some((score, complete));
+        }
+        fn step_ended(&mut self, _: bool) {
+            self.ended = true;
+        }
+        fn start_search(&mut self) {}
+        fn record_improvement(&mut self) {}
+        fn complete_step(&mut self, _: bool) {}
+        fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
+            None
+        }
+    }
+    #[test]
+    fn disabled_or_incomplete_steps_do_not_clone_scores_or_scan_completeness() {
+        for (enabled, completed) in [(false, true), (true, false)] {
+            let mut c = Control {
+                enabled,
+                ..Default::default()
+            };
+            finish_step(
+                &mut c,
+                completed,
+                || panic!("unneeded score"),
+                || panic!("unneeded completeness"),
+            );
+            assert!(c.ended);
+            assert!(c.published.is_none());
+        }
+        let mut c = Control {
+            enabled: true,
+            ..Default::default()
+        };
+        finish_step(&mut c, true, || 7, || false);
+        assert_eq!(c.published, Some((7, false)));
+        assert!(c.ended);
     }
 }

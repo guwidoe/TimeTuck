@@ -332,7 +332,7 @@ pub(crate) fn ruin_recreate_search_from_observed<V: Eq + Clone, S: AdditiveScore
     initial: Assignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
     if network.variable_count() != problem.variables().len() {
         return Err(LocalSearchError::from(ScoringError::VariableCount {
@@ -395,7 +395,7 @@ pub(crate) fn ruin_recreate_stream_search_from_observed<
     initial: Assignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
     run(problem, initial, config, observer, shared, |p, a, mut c| {
         let start = c.max_time.map(|_| Instant::now());
@@ -413,7 +413,7 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
     initial: Assignment<V>,
     config: RuinRecreateConfig<S>,
     observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
-    shared: Option<&mut dyn crate::time_limit::SearchControl>,
+    shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     mut rebuild: impl FnMut(
         &FiniteProblem<V>,
         Assignment<V>,
