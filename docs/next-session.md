@@ -22794,3 +22794,34 @@ freshness; evidence work/move-metrics-evidence.json.
 Source 50b5e4995bb04577ed6a5492ff7162a8681ebeea21bae23db75248aec86f8444;
 verification 02000a8f9b495144532101695afc4af9fbb2dd9100f9362445273c2a34351ca9.
 No Rust changes or repeated checks after success; Java/list timings remain stale.
+
+## Coordinate-only sublist rank decoding (baseline bec2f3f)
+
+Add SubListRankIndex with typed bounds/short-list errors, uniform injected draws,
+exact u128 counts and virtual usize::MAX support. Integrate it into SubListSelection;
+entity-local lookup removes a duplicate entity search. Up to8lengths use a short
+search, otherwise integer sqrt plus exact correction. Global lookup reuses its
+already-validated bound internally. No floating-point approximation or value clones.
+Five TriangleElementFactoryTest methods+one ten-row fixture attributed;4originals
+cover exhaustive small ranks, wide boundary/oracle comparisons, pins and bad draws.
+Initial native oracle had a test-expression intermediate overflow, fixed with
+parentheses; production was unchanged. Focus/native runs succeeded. Release25761
+TERMINAL0,36.86s; final measurement55876 TERMINAL0, checksums all match.
+Full4,096-span-range lookups4.3–5.7x faster; all entity-local workloads improve;
+some narrow global cases7–14% slower,8-value full global10% slower. Native only.
+Initial sqrt-only and first hybrid measurements retained in work/span-rank-initial
+and work/span-rank-hybrid; final work/span-rank-performance.json has exact hashes.
+Rust frozen before final gate via prebuild_span_rank.py then scripts/check.sh;
+log work/span-rank-final-check.log. Recorder record_span_rank.py expects+5cases,
++1fixture and checks live/report freshness. No Java benchmark or browser rerun.
+Goal active/incomplete.
+
+Final59622 TERMINAL0: Clippy47.04s, compile28.72s;17Rust RUN/772REUSE,
+46Python REUSE;5708Rust tests+256doctests pass. Coverage3283/4855=67.621%,
+0failed,1308pending,264excluded,0unverified. Recorder33977 TERMINAL0 verifies
+source/provenance/freshness and exact benchmark/probe/binary/implementation hashes.
+The dashboard server was absent (connection refused); restarted unchanged on8765
+with live handle53731. No browser rerun. Evidence work/span-rank-evidence.json.
+Source 843eee5d3752888ad3836f7eeb27fe34365504a821ff14317697bc6146b77e75;
+verification 6343d72e1ddd95867e0c5f4f2a329d692a05c7bee7fb0a516bb5cc97f6c184f0.
+No Rust edits or repeated checks after success. Java/list performance remains stale.

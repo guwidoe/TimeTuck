@@ -6188,3 +6188,31 @@ Original tests cover all twelve model/backend paths, concurrent isolation, live
 step-end visibility, rejected/duplicate/composite candidates, errors and reuse,
 provider filtering, custom trial/commit budgets, exact strategies and repair counts.
 No runtime-overhead or end-to-end performance claim is made for this instrumentation.
+
+## Coordinate-only sublist ranks
+
+`SubListRankIndex` indexes eligible contiguous spans from a list length and
+inclusive length bounds, without allocating a list or cloning values. It rejects
+invalid bounds and lists below the minimum; maximum length is clamped. Ranks
+follow descending length then ascending start. Counts and intermediate arithmetic
+use u128, including virtual usize::MAX lists. Up to eight lengths use a short
+search; broader indexes use an integer square root with an exact correction.
+`SubListSelection` uses this decoder, preserving entity order and pinned prefixes;
+entity-local lookup no longer searches the entity table twice.
+
+Five Community TriangleElementFactoryTest methods and their ten-row parameter
+fixture are fully adapted. Native ranges are expressed in one-based triangular
+coordinates for the original assertions. Validation occurs at index construction
+instead of deferred drawing; Rust error terminology replaces Java field names.
+No Java RNG, production implementation, or 32-bit arithmetic-limit parity is claimed.
+Original tests enumerate all small ranks and check virtual maximum-size boundaries
+against an independent binary-search oracle, plus pinned multi-entity integration.
+
+Matched native release measurements against bec2f3f time 50,000 lookups per sample,
+excluding model validation/index construction. Three alternating process pairs,
+three warmups and five samples each preserve all checksums. Full-range 4,096-value
+lookups improve from4.9146to1.1339ms globally and5.6539to0.9901ms per entity
+(4.3–5.7x). All eight entity-local workloads improve; some narrow global workloads
+remain about7–14% slower, and an eight-value full global lookup is about10% slower.
+Raw samples, source/probe/binary hashes: work/span-rank-performance.json.
+This is a native component measurement, not Java or end-to-end solver performance.

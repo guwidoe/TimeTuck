@@ -9,16 +9,19 @@ use std::iter::FusedIterator;
 struct SpanBlock {
     entity: usize,
     prefix: usize,
-    longest: usize,
-    lengths: usize,
-    first_width: u128,
-    before: u128,
+    ranks: crate::SubListRankIndex,
     through: u128,
 }
 impl SpanBlock {
-    fn count_lengths(&self, lengths: usize) -> u128 {
-        let k = lengths as u128;
-        k * (2 * self.first_width + k - 1) / 2
+    fn at(&self, rank: u128) -> Option<ListRange> {
+        self.ranks.at(rank).map(|range| self.translate(range))
+    }
+    fn translate(&self, range: std::ops::Range<usize>) -> ListRange {
+        ListRange {
+            entity: self.entity,
+            start: self.prefix + range.start,
+            end: self.prefix + range.end,
+        }
     }
 }
 
@@ -28,8 +31,10 @@ impl SpanBlock {
 /// Every eligible span gets one rank, independent of its length or entity.
 ///
 /// Only per-entity metadata is retained. After ordinary model validation, building
-/// the index takes O(entities) space/time and rank lookup takes O(log entities +
-/// log list length). Counts use u128; no list values are cloned. Coordinates remain
+/// the index takes O(entities) space/time. Rank lookup searches the entity table
+/// and decodes the span with an integer square root or a short bounded search.
+/// Counts use u128; no
+/// list values are cloned. Coordinates remain
 /// tied to the original snapshot: build a new index after changing an assignment.
 ///
 /// ```
@@ -65,18 +70,15 @@ impl SubListSelection {
             if longest < size.minimum() {
                 continue;
             }
-            let mut block = SpanBlock {
+            let ranks = crate::SubListRankIndex::new(available, size.minimum(), size.maximum())
+                .expect("validated bounds and sufficient movable length");
+            total += ranks.span_count();
+            blocks.push(SpanBlock {
                 entity,
                 prefix,
-                longest,
-                lengths: longest - size.minimum() + 1,
-                first_width: (available - longest + 1) as u128,
-                before: total,
-                through: 0,
-            };
-            total += block.count_lengths(block.lengths);
-            block.through = total;
-            blocks.push(block);
+                ranks,
+                through: total,
+            });
         }
         Ok(Self { blocks, total })
     }
@@ -90,7 +92,7 @@ impl SubListSelection {
     /// entities have no eligible spans. Entity lookup is logarithmic.
     pub fn entity_len(&self, entity: usize) -> u128 {
         self.block_for_entity(entity)
-            .map_or(0, |block| block.through - block.before)
+            .map_or(0, |block| block.ranks.span_count())
     }
     fn block_for_entity(&self, entity: usize) -> Option<&SpanBlock> {
         self.blocks
@@ -101,12 +103,9 @@ impl SubListSelection {
     /// Entity-local rank in descending length, then ascending start order.
     /// These ranks exclude the pinned prefix, just like global ranks.
     pub fn at_entity(&self, entity: usize, rank: u128) -> Option<ListRange> {
-        let block = self.block_for_entity(entity)?;
-        if rank >= block.through - block.before {
-            return None;
-        }
-        self.at(block.before + rank)
+        self.block_for_entity(entity)?.at(rank)
     }
+
     fn draw_entity(&self, entity: usize, draw: &mut impl FnMut(u128) -> u128) -> Option<ListRange> {
         let bound = self.entity_len(entity);
         if bound == 0 {
@@ -258,26 +257,14 @@ impl SubListSelection {
     }
     /// Return a span by rank; out-of-range ranks have no span.
     pub fn at(&self, rank: u128) -> Option<ListRange> {
-        let block = self
-            .blocks
-            .get(self.blocks.partition_point(|b| b.through <= rank))?;
-        let offset = rank - block.before;
-        let (mut lo, mut hi) = (0, block.lengths);
-        while lo < hi {
-            let mid = lo + (hi - lo) / 2;
-            if block.count_lengths(mid + 1) <= offset {
-                lo = mid + 1;
-            } else {
-                hi = mid;
-            }
-        }
-        let length = block.longest - lo;
-        let start = block.prefix + (offset - block.count_lengths(lo)) as usize;
-        Some(ListRange {
-            entity: block.entity,
-            start,
-            end: start + length,
-        })
+        let group = self.blocks.partition_point(|b| b.through <= rank);
+        let block = self.blocks.get(group)?;
+        let before = if group == 0 {
+            0
+        } else {
+            self.blocks[group - 1].through
+        };
+        Some(block.translate(block.ranks.at_valid_rank(rank - before)))
     }
     /// Uniform draws with replacement. Nonempty selections repeat indefinitely;
     /// empty selections immediately exhaust. Consumers must bound repeated draws.

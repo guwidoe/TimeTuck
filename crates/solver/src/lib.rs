@@ -1279,3 +1279,6 @@ pub use solver_metrics::{
     SolveMetricOutcome, SolveMetricSnapshot, SolverMetricDimensions, SolverMetrics,
     SolverMetricsSnapshot,
 };
+
+mod sublist_rank;
+pub use sublist_rank::{SubListRankError, SubListRankIndex};
