@@ -5448,3 +5448,38 @@ stream results are mixed, including a 1% CPU increase for the 96-value swap case
 This is not a universal or Java speed claim. Raw samples, source and executable
 hashes are in `work/primitive-check-performance.json` and baseline metadata in
 `work/primitive-check-baseline.json`. Earlier Java measurements remain stale.
+
+## Refreshed Community list-solver comparison
+
+Measured after backend commit `b680250`, using the existing original Community
+public-API comparison at 20 steps, three warmups, five samples and three process
+forks. The 320 independent validation cases are valid; 317 have equal scores.
+The three small validation differences remain in two-opt. Twelve timing workloads
+are retained with score quality and callback counts, including three unequal-score
+timing rows. This refresh reuses unchanged Rust verification and adds no coverage.
+
+| Workload | Rust ms/solve | Java ms/solve | Rust score | Java score |
+| --- | ---: | ---: | --- | --- |
+| Construction · 16 customers | 0.138 | 20.697 | 0/-958 | 0/-958 |
+| Construction · 32 customers | 0.598 | 31.127 | 0/-1080 | 0/-1062 |
+| Hill climbing · 16 customers | 3.069 | 52.975 | 0/-1336 | 0/-1336 |
+| Hill climbing · 32 customers | 24.773 | 151.691 | 0/-1644 | 0/-1644 |
+| Two-opt · 16 customers | 0.336 | 18.672 | 0/-1250 | 0/-1254 |
+| Two-opt · 32 customers | 0.922 | 22.129 | 0/-1964 | 0/-2070 |
+| Value tabu · relocation · 16 customers | 8.723 | 65.639 | 0/-1336 | 0/-1336 |
+| Value tabu · relocation · 32 customers | 37.023 | 227.375 | 0/-1644 | 0/-1644 |
+| Value tabu · relocation · 96 customers | 161.394 | 702.884 | 0/-4520 | 0/-4520 |
+| Value tabu · swaps · 16 customers | 2.521 | 31.723 | 0/-660 | 0/-660 |
+| Value tabu · swaps · 32 customers | 13.314 | 113.031 | 0/-970 | 0/-970 |
+| Value tabu · swaps · 96 customers | 269.569 | 1375.691 | 0/-3660 | 0/-3660 |
+
+Full per-solve setup, solving and assignment/score/shadow checks are timed;
+model/network/factory construction, input parsing and process startup are excluded.
+Both sides use full scoring. Move sampling, tie handling, tabu tenure and fallback
+can differ, so compare quality/work beside time rather than assuming equal work.
+Concurrent CPU-intensive activity was observed on the host near the final workload;
+the saved sample ranges remain available. Previous data used one warmup and three
+samples, so this refresh is not a controlled before/after optimization measurement.
+The list-solver section is current; other older benchmark sections remain stale.
+Raw results: `work/list-performance.json`; prior snapshot:
+`work/list-performance-before-b680250.json`. No frontend or Rust source changed.

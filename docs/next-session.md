@@ -21539,3 +21539,32 @@ per-job measurement inputs/cache; inspect reuse/inputs and do not force unrelate
 benchmarks or repeat the Rust gate. These differ from the native sampled-provider
 probe and must not be represented as measuring its exact gain. Backend report
 refresh only requires data/freshness checks, not another browser inspection.
+
+## Deliberate list/Community benchmark refresh (verified)
+
+Baselineb680250; previous turn made progress (direct primitive checks committed).
+No Rust, reporting code or frontend changes. Reused exact5477Rust/251doctest proof.
+Measurement/report67093 TERMINAL0; public Community list adapter compiled, native
+example release4.84s. Default20steps,3warmups,5samples,3forks (old dataset1warmup,
+3samples). 320validationcases valid,317equal scores; three two-opt differences
+unchanged. Rust266/Java263proven optima across small cases. Twelve timing workloads,
+nine equal-score, three unequal timing rows retained. Fresh96value-tabu relocation:
+Rust161.394ms/Java702.884ms,score0/-4520both; swaps269.569ms/1375.691ms,0/-3660both.
+Full scores, ownership, pins and non-regression independently validated. Native and
+Java move/work semantics differ; no equal-work/general solver speed claim.
+Observed concurrent CPU-heavy host work near final workload; preserve sample ranges.
+Old snapshot work/list-performance-before-b680250.json; fresh work/list-performance.json.
+Logs work/list-refresh-b680250{,-report}.log.
+
+Evidence96740 TERMINAL0 via work/record_list_refresh_b680250.py. Exact unchanged
+Rust source/log checksum, measurement input digest, live data/report timestamps and
+freshness verified. List performance current; other12performance sections stale.
+Dashboard auto reloads15seconds; no browser rerun for unchanged rendering/data contract.
+Coverage3169/4855=65.273%,0failed,1404pending,282excluded,0unverified.
+Source:f7aa9893dec0588dd4c0d1029119d034769b3477181999fb37269eced621934e
+Verification:af45b64a9333f917e5fe2cb5f03ef536f31f5f962d433aff5103e8f4f7d58128
+List measurement:fc7e2e78af6fffb54d566f23224a80fa3996a1cb59b0e56e76c0fcab9203696d
+Measured:2026-10-10T02:08:42.583337+00:00
+Evidence work/list-refresh-b680250-evidence.json. Docs-only diff review, no repeated
+Rust gate. All current handles terminal. Goal active/incomplete; resume substantive
+solver work, do not refresh these measurements again solely due to a new turn/commit.
