@@ -393,3 +393,27 @@ value types or ranges. `PillarSchema::groups` and the scoped provider check slot
 bounds and the full assignment before grouping. Empty row sets remain invalid.
 Original regressions cover independent composition and search with both scoring
 backends; this addition claims no new adapted upstream methods or speedup.
+
+Exact list and mixed search now enumerate dependency-free insertion coordinates
+without allocating a candidate vector for each expanded node. Iterator lengths
+remain exact, including optional omission after all insertion positions. This
+preserves breadth indices and counters when bounds or budgets stop expansion.
+Mixed search forwards either component's iterator without a second collection.
+When dependencies are enabled, valid coordinates are still collected to establish
+an exact count, but candidate validation resolves parent values to registry indices
+once and tests insertion topology without cloning planning values. Full owned
+children are constructed only when visited. The frontier continues to own full
+assignments; this does not change its memory limit,
+search order, callback semantics or optimality conditions.
+
+A native comparison against `cb6e269` uses five 97-byte string values and three
+lists, optionally combined with two binary basic variables, under depth-first and
+breadth-first search. Three alternating process pairs each run one warmup and
+three measured solves. Callback-trace and final-state hashes, evaluation/leaf/
+expansion/pruning counts and peak frontier all match. Dependency-constrained list
+workloads use 24–28% less median process CPU; mixed dependency workloads use 5–8%
+less. Unconstrained results vary from effectively unchanged to lower CPU use.
+The host had concurrent workloads, and raw samples are retained. Timing includes
+tree preparation and trace hashing; process CPU also includes setup and warmup.
+This is a native comparison, not a Java or general solver speed claim. Evidence:
+`work/exact-choices-performance.json`, harness `work/exact_choices_probe.rs`.

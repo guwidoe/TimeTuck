@@ -21646,3 +21646,47 @@ verification f4154de5ebb7571beee78beb07e6a379a9fca061e04068617fc080d3b38d7c97.
 Logs/evidence:work/sublist-borrowed-{focused,prebuild,final-check}.log and
 work/sublist-borrowed-evidence.json. No Rust edits after gate; all handles terminal.
 Goal remains active/incomplete. Reuse this evidence until relevant inputs change.
+
+## Exact list/mixed choice generation (verified)
+
+Baselinecb6e269; previous goal turn made progress. BranchTree now lends exact-size
+insertion iterators without per-node candidate vectors; MixedTree forwards its
+component iterator without collecting again. Dependency filtering resolves parent
+payloads to registry IDs once, builds hypothetical predecessor edges, and checks
+topology without cloning planning values or constructing trial children. Fixed
+edges are acyclic and dynamic edges join assigned values, so any cycle is exactly
+an assigned-value structural failure. Actual children/frontier ownership remain
+unchanged. Two original regressions cover exact lengths/order/pins/ranges/optional
+omission and zero payload clones against owned-child dependency validation.
+
+Initial generic ListMoveChecker-based variant regressed; source/results saved in
+work/exact-choices-generic-checker-rejected.{rs,json}. Do not repeat that approach.
+First focus63557 failed lifetime capture; explicit lending lifetimes fixed it.
+Focus73453 passed30tests, final topology focus/measurement24838 TERMINAL0.
+Measurement work/exact-choices-performance.json and harness work/exact_choices_probe.rs:
+five97-byte String values,three lists,optionallytwo binary basic variables,
+with/without fixed dependencies,depth/breadth,12000evaluations. Three alternating
+fork pairs,one warmup/three timed solves. Callback/final-state hashes and all work
+counters match. Dependency-list CPU24–28% lower,mixed-dependency5–8% lower; other
+rows range from unchanged(+0.2%) to16% lower. Shared host had concurrent CPU work.
+No Java/global speed claim. Final measured source hashes match. For subsequent
+performance experiments, measure the candidate after focused tests BEFORE broad
+prebuilding; the first rejected variant unnecessarily rebuilt563targets.
+
+Final prebuild/check/evidence22135 TERMINAL0:Clippy21.80s,563target compile2m59s;
+5493Rust/251doctests pass,563Rust RUN/196REUSE,46PythonREUSE. Coverage unchanged
+3181/4855=65.52%,0failed,1392pending,282excluded,0unverified. Provenance unchanged.
+Live freshness matches; Java list measurement now stale under its existing inputs,
+not rerun or relabeled. Backend report refreshed; no browser or UI change.
+Source9d5f663c2eb3ee0ee6692fda560279278430ace0bd6fa4d874920c7f30afc1ce;
+verification6dba4830ca76e3411d56c67fe389976704a824f50c46aba0f032a228ee8b5c04.
+Evidence work/exact-choices-evidence.json; final logs work/exact-choices-{prebuild-final,
+final-check,focused-final,release-final}.log. No Rust changes after gate; handles
+terminal. Goal active/incomplete; reuse unchanged evidence.
+
+Coverage reconnaissance did not produce adaptations: SolverContextManagerTest
+asserts Java director identity/release and metric policy; ReachableValuesTest's
+remaining methods include runtime type/sorter-instance identity. SubListSwap
+isMoveDoable explicitly accepts out-of-bounds spans, and its entity-range method
+starts with an out-of-range value. BruteForceTest's phase/step caps remain the known
+mismatch; do not revisit those tests just to adapt final-solution assertions alone.
