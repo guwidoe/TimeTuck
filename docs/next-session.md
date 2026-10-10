@@ -22080,3 +22080,39 @@ XML config, timestamp directories and HTML/browser report workflows are distinct
 from existing in-memory rankings/timing. Do not add placeholder IO just for its
 error/null/file assertions. Native reusable list-state facilities also already exist;
 phase identity/reuse requires real driver integration, not another wrapper.
+
+## Resolve dependency registry identities once per list candidate
+
+Baselinefe296be; previous turn made verified benchmark continuation progress.
+ListProblem::inconsistent_values_unchecked now resolves each value in a multi-value
+row once, replacing repeated adjacent-pair lookups. Preallocate dynamic edges and
+track assigned registry IDs for diagnostics. Singleton IDs are resolved only when
+cycles exist, preserving assigned downstream singletons through missing dependency
+nodes. With no dynamic edges, return immediately: native DependencyGraph::new has
+already rejected fixed cycles. Existing Eq+Clone bounds, source validation/error
+ordering, preparation and candidate rollback semantics remain intact. Temporary
+assigned mask adds O(registry-size) bytes alongside existing graph scratch.
+
+Three original unit checks bound comparison counts, cover singleton downstream
+cycle diagnostics/repair and no-edge layouts. Focus10435 passes3new unit tests and
+6existing list/mixed dependency integrations. No upstream reads/credits this batch.
+Baseline12040 TERMINAL0 built current release27.10s with frozen-source/harness/binary
+hashes; candidate10435 TERMINAL0 release33.00s plus measurement. Reused native
+work/dependency_cycle_probe.rs:4routes,32/96values,6steps,change/swap,best-accepted,
+sparse/dense dependencies,scoped/stream,3alternating fresh-process pairs,1warmup+
+3timed solves each. All final assignment hashes/scores/evals/steps/constraint counts
+match; full recomputation/model validation outside timing. At96values CPU39–41%
+lower scoped,28–33%lower stream; wall36–42%/27–31%lower. At32values scopedCPU19–26%
+lower; streamCPUonly3–4%lower and wall more variable. Workload-specific native
+before/after, not a Java comparison/general speedup. Raw samples/source/binary hashes:
+work/dependency-index-performance.json. No broad prebuild until measurement passed.
+
+Final prebuild/check/evidence47408 TERMINAL0: clippy25.06s,569target compile3m34s.
+569Rust RUN,197Rust/46Python REUSE. 5539Rust tests and251doctests pass.
+Coverage3190/4855=65.705%,0failed,1383pending,282excluded,0unverified.
+Source7e31f0db62174bc2b2a9c9ab3689d37f398e8de375e5762b1c3d297f1a1dfe05
+Verificationfd1be0c57065a5c624e1f190d3ba232b3ba6e211e6011006cd3fd8cf21d0ca11
+Evidence also checks performance source/binary hashes still match. Live/report
+freshness matches; older Java list measurements remain stale. Evidence and logs:
+work/dependency-index-evidence.json,work/dependency-index-{prebuild,final-check}.log.
+No Rust edits after gate; no browser rerun. Goal remains incomplete.

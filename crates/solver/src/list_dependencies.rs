@@ -59,21 +59,40 @@ impl<V: Eq + Clone> ListProblem<V> {
                 .position(|v| v == value)
                 .expect("validated registry")
         };
-        let dynamic: Vec<_> = assignment
+        let edge_count = assignment
             .lists()
             .iter()
-            .flat_map(|list| {
-                list.windows(2)
-                    .map(|pair| (index(&pair[1]), index(&pair[0])))
-            })
-            .collect();
+            .map(|list| list.len().saturating_sub(1))
+            .sum();
+        // Fixed dependencies were checked for cycles when the model was built.
+        // Without list predecessor edges there can be no new cycle.
+        if edge_count == 0 {
+            return Ok(vec![]);
+        }
+        let mut dynamic = Vec::with_capacity(edge_count);
+        let mut assigned = vec![false; self.values().len()];
+        for list in assignment.lists().iter().filter(|list| list.len() > 1) {
+            let mut previous = None;
+            for value in list {
+                let id = index(value);
+                assigned[id] = true;
+                if let Some(parent) = previous {
+                    dynamic.push((id, parent));
+                }
+                previous = Some(id);
+            }
+        }
         let inconsistent = graph
             .inconsistent_nodes(&dynamic)
             .map_err(ListError::Dependency)?;
-        Ok(inconsistent
-            .into_iter()
-            .filter(|&i| assignment.location(&self.values()[i]).is_some())
-            .collect())
+        // Singletons add no edges, but can be downstream of a cycle through
+        // fixed dependencies (including paths through unassigned values).
+        if !inconsistent.is_empty() {
+            for list in assignment.lists().iter().filter(|list| list.len() == 1) {
+                assigned[index(&list[0])] = true;
+            }
+        }
+        Ok(inconsistent.into_iter().filter(|&i| assigned[i]).collect())
     }
 
     /// Remove all assigned cycle members and their downstream dependents together.
@@ -104,5 +123,92 @@ impl<V: Eq + Clone> ListProblem<V> {
                 list.retain(|v| !bad.iter().any(|&i| self.values()[i] == *v));
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod indexing_tests {
+    use super::*;
+    use crate::ListEntity;
+    use std::{cell::Cell, rc::Rc};
+
+    #[derive(Clone)]
+    struct Counted(usize, Rc<Cell<usize>>);
+    impl PartialEq for Counted {
+        fn eq(&self, other: &Self) -> bool {
+            self.1.set(self.1.get() + 1);
+            self.0 == other.0
+        }
+    }
+    impl Eq for Counted {}
+
+    #[test]
+    fn candidate_dependencies_do_not_repeat_registry_searches_for_adjacent_edges() {
+        let comparisons = Rc::new(Cell::new(0));
+        let values: Vec<_> = (0..96).map(|i| Counted(i, comparisons.clone())).collect();
+        let p = ListProblem::new(values.clone(), vec![ListEntity::new(values)])
+            .unwrap()
+            .with_dependencies(vec![vec![]; 96])
+            .unwrap();
+        let a = p.initial_assignment();
+        comparisons.set(0);
+        assert!(p.inconsistent_values_unchecked(&a).unwrap().is_empty());
+        // At most one full registry lookup per assigned value. Allows future
+        // indexing implementations to do better; the former edge-pair scan fails.
+        assert!(comparisons.get() <= (1..=96).sum::<usize>());
+    }
+
+    #[test]
+    fn singleton_downstream_values_are_reported_through_unassigned_dependencies() {
+        let p = ListProblem::new(
+            (0..7).collect(),
+            vec![
+                ListEntity::new(vec![1, 0]),
+                ListEntity::new(vec![3]),
+                ListEntity::new(vec![6]),
+            ],
+        )
+        .unwrap()
+        .with_dependencies(vec![
+            vec![],
+            vec![0],
+            vec![1],
+            vec![2],
+            vec![3],
+            vec![4],
+            vec![],
+        ])
+        .unwrap();
+        let a = p.initial_assignment();
+        assert_eq!(p.inconsistent_values(&a).unwrap(), vec![0, 1, 3]);
+        assert_eq!(
+            p.prepare_assignment(&a).unwrap().lists(),
+            &[vec![], vec![], vec![6]]
+        );
+        assert_eq!(a.lists(), &[vec![1, 0], vec![3], vec![6]]);
+    }
+
+    #[test]
+    fn empty_and_singleton_rows_need_no_value_searches() {
+        let comparisons = Rc::new(Cell::new(0));
+        let values: Vec<_> = (0..32).map(|i| Counted(i, comparisons.clone())).collect();
+        let entities = values
+            .iter()
+            .cloned()
+            .map(|v| ListEntity::new(vec![v]))
+            .chain([ListEntity::new(vec![])])
+            .collect();
+        let p = ListProblem::new(values, entities)
+            .unwrap()
+            .with_dependencies(
+                (0..32)
+                    .map(|i| if i == 0 { vec![] } else { vec![i - 1] })
+                    .collect(),
+            )
+            .unwrap();
+        let a = p.initial_assignment();
+        comparisons.set(0);
+        assert!(p.inconsistent_values_unchecked(&a).unwrap().is_empty());
+        assert_eq!(comparisons.get(), 0);
     }
 }

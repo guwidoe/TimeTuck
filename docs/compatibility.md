@@ -5704,3 +5704,34 @@ boundary, failed trials, prefix timing preservation, repeated cancellation, comp
 and pre-cancelled no-work calls, shape errors and panic recovery. A real exhaustive
 search integration proves six scheduled solves run only once across a continuation.
 No upstream method credit or new measured performance claim is added.
+
+
+## List dependency validation lookup reduction
+
+Structural list validation now resolves each value in a non-singleton row once
+when building dynamic predecessor edges, replacing repeated lookups for adjacent
+pairs. An assigned-index mask filters cycle/downstream diagnostics without searching
+the assignment for every inconsistent node. Singleton identities are resolved only
+when cycles exist, so assigned downstream singletons remain reported even through
+unassigned intermediate dependencies. Empty/singleton-only layouts need no dynamic
+graph traversal: fixed cycles have already been rejected during model construction.
+No new value bounds, clones, source mutation, error-order or score semantics are added.
+The mask uses temporary O(registry-size) bytes alongside existing graph scratch.
+
+Measured against fe296be with the original native four-route dependency probe:
+32/96 values, six-step best-accepted change/swap search, sparse and denser fixed
+constraints, both scoped/stream scoring. Three alternating fresh-process pairs,
+one warm-up plus three timed solves per process. Exact final assignments, scores,
+evaluations, steps and constraint-evaluation counts match; full rescoring and model
+validation run outside timing. Setup is excluded from solve wall time; process CPU
+includes setup/warm-up/validation/startup. Source/binary/harness hashes are recorded
+in `work/dependency-index-performance.json`.
+
+For 96 values, median process CPU falls 39–41% for scoped scoring and 28–33% for
+stream scoring; solve wall time falls 36–42% and 27–31%, respectively. At 32 values,
+scoped CPU falls 19–26%; stream CPU moves only 3–4% and wall results are more
+variable. These are workload-specific native before/after results, not new Java
+comparisons or a general solver speed guarantee. Existing Java timings stay stale.
+Three original tests bound registry comparisons, preserve singleton/downstream
+cycle diagnostics and preparation, and cover layouts without predecessor edges.
+No new upstream method credit is added.
