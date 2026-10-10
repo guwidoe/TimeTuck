@@ -15,7 +15,7 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
-- `crates/solver/tests/consumer_support_cases.rs` adapts three complete
+- `crates/solver/tests/consumer_support_cases.rs` adapts all four
   `ConsumerSupportTest` methods, its problem-change/publication helpers, and the
   initialized `TestdataSolution.generateSolution` fixture. Native manager callbacks,
   revision receipts and Arc identity replace Java consumer/future/domain objects.

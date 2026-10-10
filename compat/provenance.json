@@ -47934,6 +47934,21 @@
       "upstream_test": "problemChangesCompleteExceptionally_afterExceptionInConsumer",
       "local_test": "problem_changes_complete_exceptionally_after_exception_in_consumer",
       "modifications": "Preserve the pending problem change, intermediate solution publication, throwing best consumer, exact root message Test exception, and exceptional future completion. A real queued live job and revision-scoped publisher replace mock registration and ConsumerSupport; a native consumer panic maps to ProblemChangeFailure::ConsumerPanicked with the exact message. The native callback diagnostic is also asserted. Bounded receipt waits replace CompletableFuture.get; Rust typed failures replace Java ExecutionException/RuntimeException classes. Unobserved producer metadata is omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/consumer_support_cases.rs",
+      "status": "implemented",
+      "id": "ConsumerSupportTest.pendingProblemChangesAreCanceled_afterFinalBestSolutionIsConsumed",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/ConsumerSupportTest.java",
+      "upstream_test": "pendingProblemChangesAreCanceled_afterFinalBestSolutionIsConsumed",
+      "local_test": "pending_problem_changes_are_canceled_after_final_best_solution_is_consumed",
+      "modifications": "Preserve pending first receipt after intermediate publication without a best consumer, successful first receipt after final delivery, and cancellation of the subsequently registered pending change. Native final-only delivery with a no-op consumer replaces null callbacks; finish_after_run plus the returned default fixture replaces explicit consumeFinalBestSolution. Real queued live jobs and no-op changes replace mocked registration, bounded channels replace synchronous sequencing, and typed Cancelled receipts replace CancellationException. Reuse the attributed 5-value/7-entity default fixture and publication/registration adaptations. No explicit job cancellation is used."
     }
   ],
   "fixtures": [

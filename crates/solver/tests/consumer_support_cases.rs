@@ -186,3 +186,46 @@ fn problem_changes_complete_exceptionally_after_exception_in_consumer() {
     );
     manager.shutdown().unwrap();
 }
+
+#[test]
+fn pending_problem_changes_are_canceled_after_final_best_solution_is_consumed() {
+    let mut manager = Manager::new(1).unwrap();
+    let (blocker, release_worker) = occupy_worker(&manager);
+    let (published, publications) = mpsc::channel();
+    let (finish, finished) = mpsc::channel();
+    let job = manager
+        .submit_with_progress(
+            1,
+            (),
+            LiveSolverConfig {
+                delivery: LiveDelivery::Final,
+                ..Default::default()
+            },
+            move |_, _, _, progress| {
+                assert_eq!(progress.revision(), 1);
+                assert!(!progress.publish(default_solution()));
+                published.send(()).unwrap();
+                finished.recv_timeout(WAIT).unwrap();
+                assert!(progress.finish_after_run());
+                Ok(default_solution())
+            },
+            |_, _| {},
+        )
+        .unwrap();
+    let first = job.add_problem_change(|_| Ok(())).unwrap();
+    release_worker.send(()).unwrap();
+    publications.recv_timeout(WAIT).unwrap();
+    assert!(first.try_result().is_none());
+    let pending = job.add_problem_change(|_| Ok(())).unwrap();
+    finish.send(()).unwrap();
+    assert_eq!(first.wait_timeout(WAIT), Some(Ok(())));
+    assert_eq!(first.try_result(), Some(Ok(())));
+    assert_eq!(
+        pending.wait_timeout(WAIT),
+        Some(Err(ProblemChangeFailure::Cancelled))
+    );
+    assert!(job.wait_timeout(WAIT).unwrap().is_ok());
+    assert!(blocker.wait_timeout(WAIT).unwrap().is_ok());
+    assert!(job.callback_failures().is_empty());
+    manager.shutdown().unwrap();
+}

@@ -21979,3 +21979,35 @@ Verification 687a8b494e89f85384803b03e006492c6ba3f7836a7b9ef2912b0cf93058624a
 Live/report freshness matches; older Java list performance remains stale. Evidence
 work/consumer-support-evidence.json; logs work/consumer-support-{prebuild,final-check}.log.
 No Rust changes after gate. No benchmark/browser rerun. Goal remains active/incomplete.
+
+## Graceful completion of live revisions
+
+Baseline580227a. Prior turn answered throughput concern without code changes;
+revalidated clean tree and implemented the recorded remaining consumer gap.
+LiveSolverProgress::finish_after_run requests completion after successful callback
+return, for daemon/non-daemon and Best/Final delivery. Atomic per-run request keeps
+the publisher usable by scoped threads. It does not cancel the run token. The
+successful return closes submissions, skips queued revisions, and RunGuard cancels
+unapplied receipts while retaining applied receipts for successful consumption.
+Solve/consumer failures retain existing behavior; no rollback or preemption added.
+
+Three original tests cover four delivery/daemon configurations, scoped requests,
+idempotence, blocked delivery, unapplied change nonexecution, submission rejection,
+work/model-revision statistics, daemon exit without token cancellation, and applied
+receipt failures. Fourth complete ConsumerSupportTest source method now adapted:
+first receipt pending after intermediate, succeeds at final delivery, later queued
+receipt cancelled without explicit job cancellation. Read complete pinned TEST-ONLY
+source; one provenance case added, existing attributed helper/default fixtures reused.
+All four source consumer methods now pass; notices/contracts updated.
+
+Focus39913 failed compile for nonexistent statistics Default; corrected fixture.
+Focus6414 passed all4 source cases and2 native checks; third expected error omitted
+existing 'solver failed: ' prefix. Corrected assertion; Focus39464 all3 native pass.
+Final prebuild/check/evidence39464 TERMINAL0: clippy20.78s,12target compile8.40s;
+12Rust jobs RUN,753Rust/46Python REUSE. 5530Rust tests and251doctests pass.
+3189/4855=65.685%,0failed,1384pending,282excluded,0unverified.
+Source4c62e03e528aa59617abdcec6bcf0723942d11ed8491bd828e6b367f8da10aaf
+Verificationdb0a62a073bb251c1d4c9495ee0e4bd9065f0b70e439426dd10730a4c9ccade3
+Live/report freshness matches; old Java list measurements remain stale. Evidence
+work/live-finish-evidence.json; work/live-finish-{prebuild,final-check}.log.
+No Rust edits after gate, no benchmark/browser rerun. Goal remains incomplete.

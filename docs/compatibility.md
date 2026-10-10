@@ -5630,9 +5630,10 @@ confidence interval, or new Java performance claim is added.
 
 ## Community asynchronous consumer delivery
 
-Three complete `ConsumerSupportTest` methods now exercise native manager delivery:
+All four `ConsumerSupportTest` methods now exercise native manager delivery:
 `skipAhead`, `problemChangesComplete_afterFinalBestSolutionIsConsumed`, and
-`problemChangesCompleteExceptionally_afterExceptionInConsumer`. The adaptations
+`problemChangesCompleteExceptionally_afterExceptionInConsumer`, plus
+`pendingProblemChangesAreCanceled_afterFinalBestSolutionIsConsumed`. The adaptations
 preserve publication of one-, two- and three-entity initialized snapshots, exactly
 first/last consumption under a blocked consumer, absence of consumer errors,
 pending receipts before final consumption, final snapshot identity, successful
@@ -5642,8 +5643,15 @@ receipt failures replace Java latches, mocks, futures and exception classes.
 The 5-value/7-entity default fixture and modulo initialization are preserved.
 All test/helper fixture substitutions and licensing are recorded in provenance.
 
-The fourth method, automatic cancellation of changes still pending at final
-consumption, remains pending: live native jobs ordinarily process queued changes
-through additional revisions. These adaptations do not claim that different
-finalization protocol, Java consumer internals, or producer identity beyond the
-explicit construction phase origin in the skip-ahead case.
+The final cancellation case uses `finish_after_run` and a returned final solution
+to represent explicit final delivery. Its already-applied receipt completes only
+after consumption; the subsequently queued, unapplied change is cancelled without
+explicit job cancellation. Native final-only delivery uses a no-op consumer in
+place of the source null callbacks. No Java consumer internals or producer identity
+beyond the construction phase origin in the skip-ahead case are claimed.
+
+Three original graceful-completion regressions additionally cover daemon and
+ordinary jobs, Best and Final delivery, concurrent scoped completion requests,
+queued-change rejection/cancellation, blocked consumers, unchanged work counters,
+and solve/consumer failures. Graceful completion does not cancel the current token
+or turn a solve failure into success.

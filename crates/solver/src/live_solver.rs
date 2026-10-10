@@ -5,7 +5,10 @@ use std::{
     collections::{HashMap, VecDeque},
     error::Error,
     fmt, io,
-    sync::{Arc, Condvar, Mutex, OnceLock, Weak},
+    sync::{
+        Arc, Condvar, Mutex, OnceLock, Weak,
+        atomic::{AtomicBool, Ordering},
+    },
     time::Duration,
 };
 
@@ -17,7 +20,7 @@ pub enum LiveDelivery {
 }
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct LiveSolverConfig {
-    /// Wait without polling after normal termination; explicit cancellation exits.
+    /// Wait after normal termination; cancellation or finish_after_run exits.
     pub daemon: bool,
     /// Final delivery waits for job completion, including in daemon mode.
     pub delivery: LiveDelivery,
@@ -148,6 +151,7 @@ struct QueuedChange<P> {
 struct Data<P> {
     accepting: bool,
     cancelled: bool,
+    finishing: bool,
     next: u64,
     applied: u64,
     queue: VecDeque<QueuedChange<P>>,
@@ -166,6 +170,7 @@ impl<P> State<P> {
             data: Mutex::new(Data {
                 accepting: true,
                 cancelled: false,
+                finishing: false,
                 next: 0,
                 applied: 0,
                 queue: VecDeque::new(),
@@ -250,7 +255,7 @@ impl<P> State<P> {
             d.accepting = false;
             d.running = None;
             let applied = if started { d.applied } else { 0 };
-            let error = if d.cancelled || !started {
+            let error = if d.cancelled || d.finishing || !started {
                 ProblemChangeFailure::Cancelled
             } else {
                 ProblemChangeFailure::Stopped
@@ -312,10 +317,23 @@ pub struct LiveSolverProgress<'a, R> {
     enabled: bool,
     token: &'a CancellationToken,
     progress: &'a SolverProgress<LiveSolution<R>>,
+    finish_requested: AtomicBool,
 }
 impl<R> LiveSolverProgress<'_, R> {
     pub fn revision(&self) -> u64 {
         self.revision
+    }
+    /// Finish this job after the current solve callback returns successfully,
+    /// including in daemon mode. The returned solution is delivered normally;
+    /// queued, unapplied changes are cancelled without starting another run.
+    /// Applied receipts still require successful consumer completion.
+    ///
+    /// Returns true for the first request. This does not cancel the current token
+    /// or preempt the callback. Submissions can still be accepted until the callback
+    /// returns; those queued changes will be cancelled. A solve error or consumer
+    /// failure retains its normal failure semantics. The request cannot be undone.
+    pub fn finish_after_run(&self) -> bool {
+        !self.finish_requested.swap(true, Ordering::Relaxed)
     }
     /// Queue an owned best snapshot for the existing job consumer. False means
     /// it was not queued; true does not guarantee successful consumer execution.
@@ -394,7 +412,7 @@ impl<P, R, E> LiveSolverJob<P, R, E> {
 ///
 /// The solve closure controls reconciliation and ordinary termination. Rebuilding
 /// models resets phase/solve limits; cancellation cannot preempt arbitrary user code.
-/// This API publishes completed runs, not intermediate improvements within a run.
+/// Progress-enabled submissions also publish intermediate improvements.
 ///
 /// ```
 /// use timetuck::*;
@@ -658,6 +676,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                     enabled: config.delivery == LiveDelivery::Best,
                     token: &token,
                     progress: &progress,
+                    finish_requested: AtomicBool::new(false),
                 };
                 let (result, work) = solve(
                     &problem,
@@ -666,6 +685,11 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                     &publisher,
                 )
                 .map_err(LiveSolveError::Solve)?;
+                if publisher.finish_requested.load(Ordering::Relaxed) {
+                    let mut d = guard.state.data.lock().unwrap();
+                    d.finishing = true;
+                    d.accepting = false;
+                }
                 if let Some(work) = work {
                     progress.add_work(work);
                 }
@@ -680,11 +704,15 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                 progress.timing(false);
                 let mut d = guard.state.data.lock().unwrap();
                 d.running = None;
-                while config.daemon && d.queue.is_empty() && !d.cancelled && !global.is_cancelled()
+                while config.daemon
+                    && d.queue.is_empty()
+                    && !d.cancelled
+                    && !d.finishing
+                    && !global.is_cancelled()
                 {
                     d = guard.state.ready.wait(d).unwrap();
                 }
-                if d.cancelled || global.is_cancelled() || d.queue.is_empty() {
+                if d.cancelled || d.finishing || global.is_cancelled() || d.queue.is_empty() {
                     d.accepting = false;
                     break;
                 }

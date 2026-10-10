@@ -920,6 +920,15 @@ panic containment, cancellation and receipt-failure behavior.
 `submit_with_statistics_and_progress` combines this with model inspection and
 actual work from the returned `LiveRun`. Publication itself adds no work counters.
 
+`LiveSolverProgress::finish_after_run` requests successful completion after this
+callback returns, including in daemon mode. It neither cancels the current token
+nor preempts solving. The first request returns true; subsequent requests return
+false. Requests cannot be withdrawn. New changes may still queue until the callback
+returns successfully; then submissions close and queued, unapplied receipts fail
+with Cancelled without another solve. Applied receipts remain delivery-gated, and
+the returned result is delivered normally. A later solve error or consumer panic
+retains ordinary failure behavior; settled receipts never change.
+
 The API requires explicit model/scorer rebuilding and warm reconciliation; it does not
 provide Java reflection, ProblemChangeDirector, automatic object graph repair or
 full real-time-planning compatibility. Ordinary SolverManager jobs are unchanged.
