@@ -270,6 +270,20 @@ fn checks_clone_no_planning_values_and_preserve_payload_sensitive_diagnostics() 
     };
     let error = checker.is_doable(&assignment).unwrap_err();
     assert!(format!("{error:?}").contains("127:candidate"));
+    for movement in [
+        ListMove::Change {
+            source: pos(0, 0),
+            destination: pos(1, 0),
+        },
+        ListMove::Swap {
+            left: pos(1, 0),
+            right: pos(0, 0),
+        },
+    ] {
+        let error = checker.is_doable(&movement).unwrap_err();
+        assert!(format!("{error:?}").contains("0:left"));
+    }
+
     let movement = ListMove::Composite(vec![
         ListMove::SubListChange {
             entity: 0,
@@ -523,4 +537,115 @@ fn unequal_span_swaps_and_deep_composites_keep_pre_move_coordinates() {
         Err(ListError::ValueOutsideDomain)
     );
     compare(&p, &a, &unknown);
+}
+
+#[test]
+fn primitive_geometry_pins_and_range_error_order_match_transactions_exhaustively() {
+    for mode in 0..7 {
+        let mut entities = vec![
+            ListEntity::new(vec![0, 1, 2]),
+            ListEntity::new(vec![3, 4]),
+            ListEntity::new(vec![]),
+        ];
+        if mode == 1 || mode == 6 {
+            entities[0] = entities[0].clone().with_pinned(true);
+        }
+        if mode == 2 || mode == 5 {
+            entities[1] = entities[1].clone().with_pinned(true);
+        }
+        if mode == 3 {
+            for e in &mut entities[..2] {
+                *e = e.clone().with_pinned_prefix(1);
+            }
+        }
+        if mode >= 4 {
+            entities[0] = entities[0]
+                .clone()
+                .with_value_range(vec![0, 1, 2])
+                .with_range_diagnostics("row", "values", usize::to_string);
+            entities[1] = entities[1]
+                .clone()
+                .with_value_range(vec![3, 4])
+                .with_range_diagnostics("row", "values", usize::to_string);
+        }
+        let p = ListProblem::new((0..5).collect(), entities).unwrap();
+        let a = p.initial_assignment();
+        for e in 0..4 {
+            for i in 0..4 {
+                for f in 0..4 {
+                    for j in 0..4 {
+                        compare(
+                            &p,
+                            &a,
+                            &ListMove::Swap {
+                                left: pos(e, i),
+                                right: pos(f, j),
+                            },
+                        );
+                        compare(
+                            &p,
+                            &a,
+                            &ListMove::Change {
+                                source: pos(e, i),
+                                destination: pos(f, j),
+                            },
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn plain_primitive_checks_do_not_compare_unaffected_values() {
+    use std::{cell::Cell, rc::Rc};
+    #[derive(Clone, Debug)]
+    struct Value(usize, Rc<Cell<usize>>);
+    impl PartialEq for Value {
+        fn eq(&self, other: &Self) -> bool {
+            self.1.set(self.1.get() + 1);
+            self.0 == other.0
+        }
+    }
+    impl Eq for Value {}
+    for n in [32, 256] {
+        let calls = Rc::new(Cell::new(0));
+        let v = |i| Value(i, calls.clone());
+        let p = ListProblem::new(
+            (0..n).map(v).collect(),
+            vec![
+                ListEntity::new((0..n / 2).map(v).collect()),
+                ListEntity::new((n / 2..n).map(v).collect()),
+            ],
+        )
+        .unwrap();
+        let a = p.initial_assignment();
+        let c = p.move_checker(&a).unwrap();
+        calls.set(0);
+        for _ in 0..100 {
+            assert_eq!(
+                c.is_doable(&ListMove::Swap {
+                    left: pos(0, n / 2 - 1),
+                    right: pos(1, n / 2 - 1)
+                }),
+                Ok(true)
+            );
+            assert_eq!(
+                c.is_doable(&ListMove::Change {
+                    source: pos(0, n / 2 - 1),
+                    destination: pos(1, n / 2)
+                }),
+                Ok(true)
+            );
+            assert_eq!(
+                c.is_doable(&ListMove::Swap {
+                    left: pos(0, 0),
+                    right: pos(0, 0)
+                }),
+                Ok(false)
+            );
+        }
+        assert_eq!(calls.get(), 0);
+    }
 }

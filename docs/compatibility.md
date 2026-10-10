@@ -5405,3 +5405,46 @@ speedup for cheap integer values. This is not a Java or universal speed claim.
 Raw forks, samples, source and binary identities are in
 `work/borrowed-provider-performance.json`; baseline build metadata is in
 `work/borrowed-provider-baseline.json`. Older Java measurements remain stale.
+
+## Direct primitive list candidate checks
+
+On models without list dependencies, borrowed `ListMoveChecker` checks primitive
+change/swap geometry, affected pins and incoming ranges directly, without copying
+row references or allocating a candidate row map. The validated source already
+establishes unique value identities, unchanged pins and existing range membership;
+only incoming values require new range checks. Same-position moves remain no-ops.
+Index errors retain execution order; final pin/range errors retain entity order.
+Actual moved payloads remain available to range diagnostics. Dependency-enabled
+models and composite/span/assignment moves retain the general borrowed validator.
+
+Two additional original regressions compare 3,584 primitive proposals with real
+transactions across geometry, pin and range combinations, and check that 100
+repeated plain queries at 32/256 values perform zero value comparisons after
+source validation. Existing payload diagnostics now cover direct change/swap
+rejections. Twenty-seven focused tests pass, including earlier randomized and
+mixed/provider checks. No additional upstream-method credits are claimed.
+
+Paired full list solves compare baseline `4c1af0b` with direct checks, reusing its
+verified executable rather than rebuilding the baseline. Workloads and measurement
+scope match the preceding provider section. Final assignments, scores, evaluation
+counts, completed steps and constraint calls match across every sample; full
+independent score/completeness checks pass.
+
+| Values | Backend | Provider | Before ms/solve | After ms/solve | Process CPU change |
+| ---: | --- | --- | ---: | ---: | ---: |
+| 32 | scoped | change | 3.195 | 2.582 | -20.2% |
+| 32 | scoped | swap | 2.159 | 1.849 | -13.5% |
+| 32 | stream | change | 22.645 | 21.857 | -2.3% |
+| 32 | stream | swap | 18.898 | 19.110 | -1.8% |
+| 96 | scoped | change | 4.130 | 4.212 | -7.1% |
+| 96 | scoped | swap | 3.746 | 3.180 | -16.3% |
+| 96 | stream | change | 64.611 | 64.142 | -6.2% |
+| 96 | stream | swap | 57.854 | 61.093 | +1.0% |
+
+Process CPU includes warmup, setup, validation and startup; timed medians include
+only director initialization/search. Scoped CPU improves 7–20% here, including
+13–16% for swaps. Elapsed and process CPU results differ in several small cases;
+stream results are mixed, including a 1% CPU increase for the 96-value swap case.
+This is not a universal or Java speed claim. Raw samples, source and executable
+hashes are in `work/primitive-check-performance.json` and baseline metadata in
+`work/primitive-check-baseline.json`. Earlier Java measurements remain stale.

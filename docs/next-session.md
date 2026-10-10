@@ -21496,3 +21496,46 @@ also computes final change equality even though provider filtering only needs
 validity. Do not claim all swap workloads improved. Any refinement should reuse
 these archived executable/source results as the verified baseline where applicable
 and compare full solves; no reruns merely because of a new commit/turn.
+
+## Direct primitive list checks (verified)
+
+Baseline4c1af0b; previous turn made progress (borrowed providers committed).
+Verified current Rust source and archived after executable against borrowed-provider
+performance metadata; copied it to primitive-check-before with fresh baseline
+metadata, no rebuild. Nodependency primitive Change/Swap now validate geometry,
+affected pins and incoming ranges without scratch rows or value equality. Unique
+source identities make nontrivial primitives changed; same-position returnsfalse.
+Preserve source/index/final-entity error order, actual-value range diagnostics.
+General validator unchanged for dependencies and other/composite move families.
+
+Focused10853 TERMINAL0:27tests,5.72s compile. Added2 original regressions:3,584
+transaction comparisons and zero Eq calls for100repeated checks at32/256values;
+extended existing payload diagnostic test. No new provenance records.
+Prebuild/build/measurement12628 TERMINAL0:Clippy19.87s,15affected targets compile5.14s,
+742reusable,release27.20s. Eight full provider-backed solves use previous exact
+harness:seed731,256attempts,12stepcap,32/96values,change/swap,scoped/stream,
+3alternating fork pairs,1warmup3timed solves. Independent scores/completeness and
+exact final assignments/evaluation/step/constraint counts match.
+CPU deltas32scopedchange-20.2%,swap-13.5%;96scopedchange-7.1%,swap-16.3%.
+32streamchange-2.3%,swap-1.8%;96streamchange-6.2%,swap+1.0%. Elapsed medians differ
+in a few cases; all8results/limitations documented. No universal/Java claim.
+Raw work/primitive-check-performance.json. Source unchanged since measurement.
+Final gate77293 and evidence56276 TERMINAL0. 15Rust jobs ran;742Rust and46Python
+jobs reused. All5477Rust tests and251doctests pass. Coverage3169/4855=65.273%,0failed,
+1404pending,282excluded,0unverified. Report/live freshness and exact measured-source/
+executable hashes match. No Rust changes after measurement or final gate.
+Source:f7aa9893dec0588dd4c0d1029119d034769b3477181999fb37269eced621934e
+Verification:af45b64a9333f917e5fe2cb5f03ef536f31f5f962d433aff5103e8f4f7d58128
+Logs work/primitive-check-{prebuild,final-check}.log; evidence
+work/primitive-check-evidence.json. No Java/browser rerun; older Java/list timings
+remain stale. All task-owned handles terminal. Goal active/incomplete.
+
+Read-only dashboard follow-up: all13 original Java performance sections currently
+show stale. After these accumulated backend optimizations, a deliberate refresh
+of relevant whole-solver comparisons can make the requested dashboard useful again.
+Use scripts/benchmark_lists.py (list-performance: construction/hill/two-opt/value-tabu)
+and, if relevant, benchmark_streams.py (basic incremental stream search). They use
+per-job measurement inputs/cache; inspect reuse/inputs and do not force unrelated
+benchmarks or repeat the Rust gate. These differ from the native sampled-provider
+probe and must not be represented as measuring its exact gain. Backend report
+refresh only requires data/freshness checks, not another browser inspection.

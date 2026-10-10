@@ -5,7 +5,9 @@ use std::collections::BTreeMap;
 /// Repeated candidate checks against one validated immutable list snapshot.
 ///
 /// Construct through [`ListProblem::move_checker`]. Queries borrow planning values
-/// and copy references only for touched rows. They do not clone planning values,
+/// and copy references only for touched rows when needed. Primitive changes and
+/// swaps on models without dependencies use direct checks without scratch rows.
+/// They do not clone planning values,
 /// mutate the source, score, or notify listeners. Dependency-enabled models still
 /// check the global predecessor graph after validating the candidate's final rows.
 /// Equality must remain stable while the checker is borrowed.
@@ -44,6 +46,43 @@ impl<V: Eq + Clone> ListMoveChecker<'_, V> {
     /// final pins/ranges in entity order and dependencies. Intermediate pin/range
     /// violations may be restored by a composite, exactly as for native `apply`.
     pub fn is_doable(&self, movement: &ListMove<V>) -> Result<bool, ListError> {
+        if self.problem.dependencies.is_none() {
+            match movement {
+                ListMove::Swap { left, right } => {
+                    let a = self.element(*left)?;
+                    let b = self.element(*right)?;
+                    if left == right {
+                        return Ok(false);
+                    }
+                    self.validate_pair(*left, Some(b), *right, Some(a))?;
+                    return Ok(true);
+                }
+                ListMove::Change {
+                    source,
+                    destination,
+                } => {
+                    let value = self.element(*source)?;
+                    let length = self
+                        .assignment
+                        .list(destination.entity)
+                        .ok_or(ListError::EntityIndex {
+                            entity: destination.entity,
+                            count: self.assignment.lists().len(),
+                        })?
+                        .len()
+                        - usize::from(source.entity == destination.entity);
+                    if destination.index > length {
+                        return Err(ListError::InsertionIndex(*destination));
+                    }
+                    if source == destination {
+                        return Ok(false);
+                    }
+                    self.validate_pair(*source, None, *destination, Some(value))?;
+                    return Ok(true);
+                }
+                _ => {}
+            }
+        }
         let mut draft = CandidateRows {
             problem: self.problem,
             before: self.assignment,
@@ -55,6 +94,71 @@ impl<V: Eq + Clone> ListMoveChecker<'_, V> {
             .rows
             .iter()
             .any(|(&e, row)| !row.iter().copied().eq(self.assignment.lists()[e].iter())))
+    }
+
+    fn element(&self, position: ListPosition) -> Result<&V, ListError> {
+        self.assignment
+            .list(position.entity)
+            .ok_or(ListError::EntityIndex {
+                entity: position.entity,
+                count: self.assignment.lists().len(),
+            })?
+            .get(position.index)
+            .ok_or(ListError::ElementIndex(position))
+    }
+
+    // The validated source contains each identity at most once. A nontrivial
+    // primitive changes the pins iff it edits a pinned position. Within one row,
+    // all values already satisfy that row's range; across rows only arrivals need
+    // range checks. Preserve final validation's entity order (pins before ranges).
+    fn validate_pair(
+        &self,
+        left: ListPosition,
+        left_value: Option<&V>,
+        right: ListPosition,
+        right_value: Option<&V>,
+    ) -> Result<(), ListError> {
+        if left.entity == right.entity {
+            return self.validate_point(
+                ListPosition {
+                    entity: left.entity,
+                    index: left.index.min(right.index),
+                },
+                None,
+            );
+        }
+        if left.entity < right.entity {
+            self.validate_point(left, left_value)?;
+            self.validate_point(right, right_value)
+        } else {
+            self.validate_point(right, right_value)?;
+            self.validate_point(left, left_value)
+        }
+    }
+
+    fn validate_point(
+        &self,
+        position: ListPosition,
+        incoming: Option<&V>,
+    ) -> Result<(), ListError> {
+        let meta = &self.problem.entities[position.entity];
+        if meta.pinned || position.index < meta.pinned_prefix {
+            return Err(ListError::PinChanged {
+                entity: position.entity,
+            });
+        }
+        if let Some(value) = incoming
+            && !self.problem.accepts(position.entity, value)
+        {
+            return Err(self.problem.range_error(
+                position,
+                value,
+                ListError::ValueOutsideEntityRange {
+                    entity: position.entity,
+                },
+            ));
+        }
+        Ok(())
     }
 }
 
