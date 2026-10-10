@@ -2083,15 +2083,17 @@ the phase-entry or best assignment. External callback side effects are not undon
 These explicit phase calls have per-call limits; callers can replace assignments
 between calls. For shared controls and events, use the retained whole-solve methods
 below. Existing `solve_*_stream` functions retain their fresh factory-per-phase
-contract. Retained exact/custom/repair phases and extension providers remain
-unfinished. No upstream whole-solver list-state-identity test credit is claimed.
+contract. Retained sequences support all built-in phase kinds as described below;
+extension providers remain unfinished. No upstream whole-solver list-state-identity
+test credit is claimed.
 
 ## Whole solves on a retained director
 
 All three stream directors expose `run_solver(config)` and
-`run_solver_with_events(config, observer)`. Basic/list methods accept `SolverConfig`;
-mixed accepts `MixedSolverConfig`. They run construction followed by the configured
-local-search phases through the existing shared solver controller, including score
+`run_solver_with_events(config, observer)`. Basic/list methods accept `SolverSequence`
+or `SolverConfig`; mixed methods accept `MixedSolverSequence` or `MixedSolverConfig`.
+Ordered construction, local, custom, exact and ruin/recreate phases use the existing
+shared solver controller, including score
 and candidate budgets, cancellation, deadlines, stagnation, composed termination,
 score/feasibility goals, incomplete-handoff policy and frozen-model initialization.
 Mixed construction order and each local phase's joint-move setting are preserved.
@@ -2114,7 +2116,23 @@ Diagnostic work is excluded from work counters, while elapsed time remains part 
 the solve deadline. Events and the controller's initial-only scoring path do not
 rebuild graph topology or rerun immutable-fact setup.
 
-The retained API currently accepts the construction/local-search configurations,
-not arbitrary `SolverSequence`/`MixedSolverSequence` plans. Retained exact, custom,
-repair and extension-provider orchestration remain unfinished. Existing free
-`solve_*_stream` functions preserve their factory-per-phase contract.
+`run_solver_with_commands` and `run_solver_with_commands_and_events` bind typed
+custom commands by phase index. Unbound custom phases reject before scoring;
+initial-only checks never execute user commands. Successful custom phases restore
+their best cached graph, even if the last accepted command worsened the score.
+A caught best-observer panic invalidates the custom phase just like a caught scoring
+panic, so it cannot silently return a best assignment with an older graph snapshot.
+
+Exact enumeration, completion and branch-and-bound replace planning rows within the
+same graph. Successful scoring commits each candidate; best notifications capture
+its graph. The returned best (or unchanged prior best) is installed without scoring.
+Ruin/recreate uses temporary model pins/ranges for reconstruction selection while the
+bound model retains scoring identities, value registry and dependency rules. Its
+initial scoring, fine moves and repeated reconstructions share the graph. Rejected
+or incomplete candidates are replaced by the retained best on successful return.
+After an error or panic the last committed consistent candidate can be partial;
+phase execution does not promise whole-phase rollback. Existing fresh repair errors,
+including dependency cycles introduced by a sampled removal, remain errors here.
+
+Extension-provider orchestration remains unfinished. Existing free `solve_*_stream`
+functions preserve their factory-per-phase contract.

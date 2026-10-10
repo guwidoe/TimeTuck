@@ -285,28 +285,82 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         Ok(work)
     }
 
-    /// Run construction and ordered local-search phases under shared solve limits,
-    /// retaining this graph and starting from this director's current assignment.
-    /// Earlier graph initialization is outside this call's work/time counters.
-    pub fn run_solver(
+    /// Run an ordered solver sequence on this retained graph, starting from its
+    /// current assignment. Earlier initialization is outside this call's counters.
+    pub fn run_solver<'c>(
         &mut self,
-        config: crate::MixedSolverConfig<'_, S>,
+        config: impl Into<crate::MixedSolverSequence<'c, S>>,
     ) -> Result<
         crate::SolverResult<MixedAssignment<B, L>, S>,
         crate::SolverError<MixedLocalSearchError>,
     > {
-        crate::solver::retained::mixed(self.problem, self, config, None)
+        crate::solver::retained::mixed(self.problem, self, config.into(), None, None)
     }
-    /// Run a retained solve with the standard synchronous solver lifecycle events.
-    pub fn run_solver_with_events(
+    /// Run a retained sequence with synchronous solver lifecycle events.
+    pub fn run_solver_with_events<'c>(
         &mut self,
-        config: crate::MixedSolverConfig<'_, S>,
+        config: impl Into<crate::MixedSolverSequence<'c, S>>,
         mut observer: impl FnMut(crate::SolverEvent<'_, MixedAssignment<B, L>, S>),
     ) -> Result<
         crate::SolverResult<MixedAssignment<B, L>, S>,
         crate::SolverError<MixedLocalSearchError>,
     > {
-        crate::solver::retained::mixed(self.problem, self, config, Some(&mut observer))
+        crate::solver::retained::mixed(self.problem, self, config.into(), Some(&mut observer), None)
+    }
+    /// Bind a typed command callback to custom phase indices in a retained sequence.
+    pub fn run_solver_with_commands<'c>(
+        &mut self,
+        config: impl Into<crate::MixedSolverSequence<'c, S>>,
+        mut command: impl FnMut(
+            usize,
+            &mut crate::CustomPhaseContext<
+                '_,
+                MixedAssignment<B, L>,
+                MixedMove<B, L>,
+                S,
+                MixedStreamScoringError,
+            >,
+        ) -> Result<(), crate::CustomPhaseError<MixedStreamScoringError>>,
+    ) -> Result<
+        crate::SolverResult<MixedAssignment<B, L>, S>,
+        crate::SolverError<MixedLocalSearchError>,
+    > {
+        crate::solver::retained::mixed(self.problem, self, config.into(), None, Some(&mut command))
+    }
+    /// Run retained custom phases with the usual solver lifecycle events.
+    pub fn run_solver_with_commands_and_events<'c>(
+        &mut self,
+        config: impl Into<crate::MixedSolverSequence<'c, S>>,
+        mut command: impl FnMut(
+            usize,
+            &mut crate::CustomPhaseContext<
+                '_,
+                MixedAssignment<B, L>,
+                MixedMove<B, L>,
+                S,
+                MixedStreamScoringError,
+            >,
+        ) -> Result<(), crate::CustomPhaseError<MixedStreamScoringError>>,
+        mut observer: impl FnMut(crate::SolverEvent<'_, MixedAssignment<B, L>, S>),
+    ) -> Result<
+        crate::SolverResult<MixedAssignment<B, L>, S>,
+        crate::SolverError<MixedLocalSearchError>,
+    > {
+        crate::solver::retained::mixed(
+            self.problem,
+            self,
+            config.into(),
+            Some(&mut observer),
+            Some(&mut command),
+        )
+    }
+    pub(crate) fn install_retained_state(
+        &mut self,
+        assignment: MixedAssignment<B, L>,
+        graph: crate::stream_graph::GraphState<S>,
+    ) {
+        self.assignment = assignment;
+        self.graph.install(graph);
     }
 
     /// Validate and score a new assignment using this director's compiled graph.

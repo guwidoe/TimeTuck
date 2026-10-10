@@ -22223,3 +22223,44 @@ work/retained-solver-{evidence.json,prebuild.log,final-check.log,performance.jso
 No Rust changes after gate, no source credits, old Java timings stale, no UI rerun.
 Goal active. Next retained orchestration gap: arbitrary exact/custom/repair sequences
 and providers; do not claim those from the construction/local configuration API.
+
+## All built-in retained solver phases (baseline f1b711e)
+
+The throughput complaint's recorded window was 2883->2916 source methods
+(+0.680 percentage points), not a claim that performance is unimportant. Avoid
+repeated gap reconnaissance and small batches that each rebuild shared code.
+
+Retained basic/list/mixed directors now accept arbitrary SolverSequence/MixedSolverSequence
+and bind typed custom commands with/without events. Exact enumeration/completion/bounded,
+custom and ruin/recreate reuse one graph alongside construction/local. Exact candidates
+commit scored replacements; best notifications capture matching graph state. Repair
+selection uses temporary pins/ranges while the director retains original registry and
+dependencies. Successful phases restore best cached state without scoring; errors/panics
+leave last committed consistent (possibly partial) candidates. Caught custom best-observer
+panics latch failure. Existing fresh-factory functions keep their contract; extension
+providers remain a gap. No upstream production read, adaptations or source credits.
+
+Four new originals cover exact strategies/budgets, all-five-kind handoffs/events across
+three models, custom best restoration/unbound/panic errors, and repair pins/ranges/
+dependencies/optionalness/budgets. Initial repair fixture used minimum5>maximum2; fixed
+minimum1. Existing fresh repair can fail when removal introduces a dependency cycle;
+retained matches its errors and remains consistent. Nondependency variants cover success.
+Focus58957 repair matrix passed; earlier focus72407 passed seven retained-solver plus
+five retained-phase cases. Clippy library6.14s, release23.57s. Final native measurement
+58957 terminal0: four variables,4/16groups of CH/custom/repair/completion/6step annealing/
+bounded80evals,0/256/2048facts;3alternating process pairs,1warmup+3samples of4solves.
+Setup and independent final validation included. All assignments/scores/evals/steps match.
+Median wall ratios .875/.810 without facts,.103/.093 with256,.038/.017 with2048.
+These short setup-sensitive native cases are not Java/general/long-phase predictions.
+Source/probe/binary hashes and samples:work/retained-sequence-performance.json.
+
+Final gate49259 TERMINAL0: Clippy20.33s;572target compile70s;572Rust RUN,
+197Rust/46Python REUSE;5557Rust tests+251doctests pass. Coverage3190/4855=65.705%,
+0failed,1383pending,282excluded,0unverified. Source
+583be31e8b5f1153050bea1c516a602a148cbc78c5d50a4d1ccec6f5d278c647;
+verification3833e3a29e3538403a3964dedf5ff8b2ed27ed7d02e2aa0b50d49050093e2916.
+Report/live freshness and measurement source/binary hashes matched. Evidence/logs:
+work/retained-sequence-{evidence.json,prebuild.log,final-check.log,performance.json}.
+No Rust changes after gate. No browser rerun; existing Java timings remain stale.
+Goal active. Next gap: retained extension providers; the older list-state-supply
+identity source case still requires its own full protocol, not graph reuse alone.

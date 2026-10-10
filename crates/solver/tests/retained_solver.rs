@@ -322,3 +322,467 @@ fn lifecycle_cancellation_invalid_plans_and_phase_assertions_preserve_cached_sta
     bias.set(0);
     d.assert_consistent().unwrap();
 }
+
+fn exact_configs() -> Vec<ExactPhaseConfig<'static>> {
+    [
+        ExactSearchStrategy::Enumerate,
+        ExactSearchStrategy::Complete,
+        ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig::default()),
+    ]
+    .into_iter()
+    .flat_map(|strategy| {
+        [0, 1, 3, 100].map(|max_evaluations| ExactPhaseConfig {
+            strategy: strategy.clone(),
+            max_evaluations,
+            ..Default::default()
+        })
+    })
+    .collect()
+}
+#[test]
+fn retained_exact_strategies_match_fresh_results_events_and_best_graphs() {
+    let bp = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]); 2]).unwrap();
+    let lp = ListProblem::new(
+        vec![1, 2],
+        vec![ListEntity::new(vec![]), ListEntity::new(vec![])],
+    )
+    .unwrap();
+    let mp = MixedProblem::new(bp.clone(), lp.clone());
+    for exact in exact_configs() {
+        let config = SolverSequence {
+            phases: vec![SolverPhase::Exact(exact.clone())],
+            ..Default::default()
+        };
+        let mut actual_events = vec![];
+        let mut expected_events = vec![];
+        let expected = solve_stream_with_events(
+            &bp,
+            || Ok(basic_graph()),
+            config.clone(),
+            |e| expected_events.push(format!("{e:?}")),
+        )
+        .unwrap();
+        let (g, s) = basic_graph();
+        let mut d = StreamScoreDirector::new(&bp, g, s, bp.initial_assignment()).unwrap();
+        let initial = d.assignment().clone();
+        let actual = d
+            .run_solver_with_events(config.clone(), |e| actual_events.push(format!("{e:?}")))
+            .unwrap();
+        assert_eq!(actual_events, expected_events);
+        assert_eq!(normalize(actual.clone()), normalize(expected));
+        assert_eq!(d.assignment(), &actual.assignment);
+        if let Some(score) = actual.score {
+            assert_eq!(d.score(), score);
+        } else {
+            assert_eq!(d.assignment(), &initial);
+        }
+        d.assert_consistent().unwrap();
+        actual_events.clear();
+        expected_events.clear();
+        let expected = solve_list_stream_with_events(
+            &lp,
+            || Ok(list_graph()),
+            config.clone(),
+            |e| expected_events.push(format!("{e:?}")),
+        )
+        .unwrap();
+        let (g, s) = list_graph();
+        let mut d = ListStreamScoreDirector::new(&lp, g, s, lp.initial_assignment()).unwrap();
+        let actual = d
+            .run_solver_with_events(config, |e| actual_events.push(format!("{e:?}")))
+            .unwrap();
+        assert_eq!(actual_events, expected_events);
+        assert_eq!(normalize(actual.clone()), normalize(expected));
+        assert_eq!(d.assignment(), &actual.assignment);
+        if let Some(score) = actual.score {
+            assert_eq!(d.score(), score);
+        }
+        d.assert_consistent().unwrap();
+        let config = MixedSolverSequence {
+            phases: vec![MixedSolverPhase::Exact(exact)],
+            ..Default::default()
+        };
+        actual_events.clear();
+        expected_events.clear();
+        let expected = solve_mixed_stream_with_events(
+            &mp,
+            || Ok(mixed_graph()),
+            config.clone(),
+            |e| expected_events.push(format!("{e:?}")),
+        )
+        .unwrap();
+        let (g, s) = mixed_graph();
+        let mut d = MixedStreamScoreDirector::new(&mp, g, s, mp.initial_assignment()).unwrap();
+        let actual = d
+            .run_solver_with_events(config, |e| actual_events.push(format!("{e:?}")))
+            .unwrap();
+        assert_eq!(actual_events, expected_events);
+        assert_eq!(normalize(actual.clone()), normalize(expected));
+        assert_eq!(d.assignment(), &actual.assignment);
+        if let Some(score) = actual.score {
+            assert_eq!(d.score(), score);
+        }
+        d.assert_consistent().unwrap();
+    }
+}
+fn ordered_sequence() -> SolverSequence<'static> {
+    SolverSequence {
+        limits: SolverLimits {
+            assert_phase_scores: true,
+            ..Default::default()
+        },
+        phases: vec![
+            SolverPhase::Construction(ConstructionConfig::default()),
+            SolverPhase::Custom(CustomPhaseConfig::default()),
+            SolverPhase::RuinRecreate(RuinRecreateConfig {
+                max_attempts: 4,
+                ..Default::default()
+            }),
+            SolverPhase::Exact(ExactPhaseConfig {
+                strategy: ExactSearchStrategy::Complete,
+                ..Default::default()
+            }),
+            SolverPhase::LocalSearch(LocalSearchConfig {
+                max_steps: 2,
+                ..Default::default()
+            }),
+            SolverPhase::Exact(ExactPhaseConfig {
+                strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig::default()),
+                ..Default::default()
+            }),
+        ],
+    }
+}
+#[test]
+fn custom_repair_exact_and_local_handoffs_share_one_graph_in_every_model() {
+    let bp = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]); 2]).unwrap();
+    let mut actual_events = vec![];
+    let mut expected_events = vec![];
+    let command = |index,
+                   ctx: &mut CustomPhaseContext<
+        '_,
+        Assignment<i32>,
+        Move<i32>,
+        SimpleScore,
+        StreamScoringError,
+    >| {
+        assert_eq!(index, 1);
+        ctx.execute(&Move::Change {
+            variable: 0,
+            value: Some(0),
+        })?;
+        Ok(())
+    };
+    let expected = solve_stream_with_commands_and_events(
+        &bp,
+        || Ok(basic_graph()),
+        ordered_sequence(),
+        command,
+        |e| expected_events.push(format!("{e:?}")),
+    )
+    .unwrap();
+    let (g, s) = basic_graph();
+    let mut d = StreamScoreDirector::new(&bp, g, s, bp.initial_assignment()).unwrap();
+    let actual = d
+        .run_solver_with_commands_and_events(ordered_sequence(), command, |e| {
+            actual_events.push(format!("{e:?}"))
+        })
+        .unwrap();
+    assert_eq!(actual_events, expected_events);
+    assert_eq!(normalize(actual.clone()), normalize(expected));
+    assert_eq!(d.assignment(), &actual.assignment);
+    assert_eq!(Some(d.score()), actual.score);
+    d.assert_consistent().unwrap();
+
+    let lp = ListProblem::new(
+        vec![1, 2, 3],
+        vec![ListEntity::new(vec![1]), ListEntity::new(vec![])],
+    )
+    .unwrap();
+    actual_events.clear();
+    expected_events.clear();
+    let command = |index,
+                   ctx: &mut CustomPhaseContext<
+        '_,
+        ListAssignment<i32>,
+        ListMove<i32>,
+        SimpleScore,
+        ListStreamScoringError,
+    >| {
+        assert_eq!(index, 1);
+        let left = ctx.assignment().location(&1).unwrap();
+        let right = ctx.assignment().location(&3).unwrap();
+        ctx.execute(&ListMove::Swap { left, right })?;
+        Ok(())
+    };
+    let expected = solve_list_stream_with_commands_and_events(
+        &lp,
+        || Ok(list_graph()),
+        ordered_sequence(),
+        command,
+        |e| expected_events.push(format!("{e:?}")),
+    )
+    .unwrap();
+    let (g, s) = list_graph();
+    let mut d = ListStreamScoreDirector::new(&lp, g, s, lp.initial_assignment()).unwrap();
+    let actual = d
+        .run_solver_with_commands_and_events(ordered_sequence(), command, |e| {
+            actual_events.push(format!("{e:?}"))
+        })
+        .unwrap();
+    assert_eq!(actual_events, expected_events);
+    assert_eq!(normalize(actual.clone()), normalize(expected));
+    assert_eq!(d.assignment(), &actual.assignment);
+    assert_eq!(Some(d.score()), actual.score);
+    d.assert_consistent().unwrap();
+
+    let mp = MixedProblem::new(bp, lp);
+    let base = ordered_sequence();
+    let config = MixedSolverSequence {
+        limits: base.limits,
+        phases: base
+            .phases
+            .into_iter()
+            .map(|phase| match phase {
+                SolverPhase::Construction(construction) => {
+                    MixedSolverPhase::Construction(MixedConstructionConfig {
+                        construction,
+                        order: MixedConstructionOrder::ListsThenBasic,
+                    })
+                }
+                SolverPhase::LocalSearch(search) => {
+                    MixedSolverPhase::LocalSearch(MixedLocalSearchConfig {
+                        search,
+                        joint_moves: true,
+                    })
+                }
+                SolverPhase::Custom(c) => MixedSolverPhase::Custom(c),
+                SolverPhase::Exact(c) => MixedSolverPhase::Exact(c),
+                SolverPhase::RuinRecreate(search) => {
+                    MixedSolverPhase::RuinRecreate(MixedRuinRecreateConfig {
+                        search,
+                        order: MixedConstructionOrder::ListsThenBasic,
+                    })
+                }
+            })
+            .collect(),
+    };
+    actual_events.clear();
+    expected_events.clear();
+    let command = |index,
+                   ctx: &mut CustomPhaseContext<
+        '_,
+        MixedAssignment<i32, i32>,
+        MixedMove<i32, i32>,
+        SimpleScore,
+        MixedStreamScoringError,
+    >| {
+        assert_eq!(index, 1);
+        ctx.execute(&MixedMove {
+            basic: Move::Change {
+                variable: 0,
+                value: Some(0),
+            },
+            lists: ListMove::Composite(vec![]),
+        })?;
+        Ok(())
+    };
+    let expected = solve_mixed_stream_with_commands_and_events(
+        &mp,
+        || Ok(mixed_graph()),
+        config.clone(),
+        command,
+        |e| expected_events.push(format!("{e:?}")),
+    )
+    .unwrap();
+    let (g, s) = mixed_graph();
+    let mut d = MixedStreamScoreDirector::new(&mp, g, s, mp.initial_assignment()).unwrap();
+    let actual = d
+        .run_solver_with_commands_and_events(config, command, |e| {
+            actual_events.push(format!("{e:?}"))
+        })
+        .unwrap();
+    assert_eq!(actual_events, expected_events);
+    assert_eq!(normalize(actual.clone()), normalize(expected));
+    assert_eq!(d.assignment(), &actual.assignment);
+    assert_eq!(Some(d.score()), actual.score);
+    d.assert_consistent().unwrap();
+}
+#[test]
+fn custom_best_restore_unbound_validation_and_caught_observer_panics() {
+    use std::panic::{AssertUnwindSafe, catch_unwind};
+    let p = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0)]).unwrap();
+    let config = SolverSequence {
+        phases: vec![SolverPhase::Custom(CustomPhaseConfig::default())],
+        ..Default::default()
+    };
+    let (g, s) = basic_graph();
+    let mut d = StreamScoreDirector::new(&p, g, s, p.initial_assignment()).unwrap();
+    assert!(matches!(
+        d.run_solver(config.clone()),
+        Err(SolverError::UnboundCustomPhase { phase: 0 })
+    ));
+    assert!(matches!(
+        d.run_solver(SolverSequence {
+            phases: vec![],
+            ..Default::default()
+        }),
+        Err(SolverError::EmptyPlan)
+    ));
+    let result = d
+        .run_solver_with_commands(config.clone(), |_, ctx| {
+            ctx.execute(&Move::Change {
+                variable: 0,
+                value: Some(2),
+            })?;
+            ctx.execute(&Move::Change {
+                variable: 0,
+                value: Some(0),
+            })?;
+            Ok(())
+        })
+        .unwrap();
+    assert_eq!(result.score, Some(SimpleScore::new(2)));
+    assert_eq!(d.score(), SimpleScore::new(2));
+    assert_eq!(d.assignment().values(), &[Some(2)]);
+    d.replace_assignment(p.initial_assignment())
+        .unwrap()
+        .commit();
+    let error = d
+        .run_solver_with_commands_and_events(
+            config,
+            |_, ctx| {
+                assert!(
+                    catch_unwind(AssertUnwindSafe(|| ctx.execute(&Move::Change {
+                        variable: 0,
+                        value: Some(2)
+                    })))
+                    .is_err()
+                );
+                Ok(())
+            },
+            |event| {
+                if let SolverEvent::Best(update) = event
+                    && update.score == SimpleScore::new(2)
+                {
+                    panic!("observer failure");
+                }
+            },
+        )
+        .unwrap_err();
+    assert!(matches!(
+        error,
+        SolverError::Custom {
+            error: CustomPhaseError::IgnoredOperationError,
+            ..
+        }
+    ));
+    d.assert_consistent().unwrap();
+}
+
+#[test]
+fn repair_only_sequences_preserve_temporary_pins_ranges_dependencies_and_budgets() {
+    let bp = FiniteProblem::new(vec![
+        Variable::new(vec![0, 1, 2])
+            .with_initial(1)
+            .with_pinned(true),
+        Variable::new(vec![0, 1, 2]).with_initial(0),
+    ])
+    .unwrap();
+    let lp = ListProblem::new(
+        vec![1, 2, 3],
+        vec![
+            ListEntity::new(vec![1, 3]).with_pinned_prefix(1),
+            ListEntity::new(vec![2]).with_value_range(vec![2, 3]),
+        ],
+    )
+    .unwrap();
+    for dependencies in [false, true] {
+        let lp = if dependencies {
+            lp.clone()
+                .with_dependencies(vec![vec![], vec![], vec![1]])
+                .unwrap()
+        } else {
+            lp.clone()
+        };
+        for optional in [false, true] {
+            let lp = if optional {
+                lp.clone().allowing_unassigned()
+            } else {
+                lp.clone()
+            };
+            let mp = MixedProblem::new(bp.clone(), lp.clone());
+            for max_evaluations in [0, 1, 7, 50] {
+                let repair = RuinRecreateConfig {
+                    seed: 37,
+                    max_attempts: 10,
+                    max_evaluations,
+                    minimum_ruined: 1,
+                    maximum_ruined: 2,
+                    move_weights: RepairMoveWeights {
+                        change: 1,
+                        swap: 1,
+                        repair: 3,
+                    },
+                    ..Default::default()
+                };
+                let config = SolverSequence {
+                    phases: vec![SolverPhase::RuinRecreate(repair.clone())],
+                    ..Default::default()
+                };
+                let expected = solve_stream(&bp, || Ok(basic_graph()), config.clone()).unwrap();
+                let (g, s) = basic_graph();
+                let mut d = StreamScoreDirector::new(&bp, g, s, bp.initial_assignment()).unwrap();
+                let actual = d.run_solver(config.clone()).unwrap();
+                assert_eq!(normalize(actual.clone()), normalize(expected));
+                assert_eq!(d.assignment(), &actual.assignment);
+                if let Some(score) = actual.score {
+                    assert_eq!(d.score(), score);
+                }
+                d.assert_consistent().unwrap();
+                let expected = solve_list_stream(&lp, || Ok(list_graph()), config);
+                let (g, s) = list_graph();
+                let mut d =
+                    ListStreamScoreDirector::new(&lp, g, s, lp.initial_assignment()).unwrap();
+                let actual = d.run_solver(SolverSequence {
+                    phases: vec![SolverPhase::RuinRecreate(repair.clone())],
+                    ..Default::default()
+                });
+                assert_eq!(
+                    format!("{:?}", actual.as_ref().map(|r| normalize(r.clone()))),
+                    format!("{:?}", expected.map(normalize))
+                );
+                if let Ok(actual) = actual {
+                    assert_eq!(d.assignment(), &actual.assignment);
+                    if let Some(score) = actual.score {
+                        assert_eq!(d.score(), score);
+                    }
+                }
+                d.assert_consistent().unwrap();
+                let config = MixedSolverSequence {
+                    phases: vec![MixedSolverPhase::RuinRecreate(MixedRuinRecreateConfig {
+                        search: repair,
+                        order: MixedConstructionOrder::ListsThenBasic,
+                    })],
+                    ..Default::default()
+                };
+                let expected = solve_mixed_stream(&mp, || Ok(mixed_graph()), config.clone());
+                let (g, s) = mixed_graph();
+                let mut d =
+                    MixedStreamScoreDirector::new(&mp, g, s, mp.initial_assignment()).unwrap();
+                let actual = d.run_solver(config);
+                assert_eq!(
+                    format!("{:?}", actual.as_ref().map(|r| normalize(r.clone()))),
+                    format!("{:?}", expected.map(normalize))
+                );
+                if let Ok(actual) = actual {
+                    assert_eq!(d.assignment(), &actual.assignment);
+                    if let Some(score) = actual.score {
+                        assert_eq!(d.score(), score);
+                    }
+                }
+                d.assert_consistent().unwrap();
+            }
+        }
+    }
+}

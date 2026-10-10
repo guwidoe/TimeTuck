@@ -83,6 +83,7 @@ pub struct CustomPhaseResult<A, S> {
 }
 
 pub(crate) trait CommandDirector<A, M, S> {
+    fn notify_best(&mut self, _complete: bool) {}
     type Error;
     fn assignment(&self) -> &A;
     fn score(&self) -> S;
@@ -288,11 +289,14 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             if let Some(shared) = &mut self.shared {
                 shared.record_improvement();
             }
+            self.failed = true;
+            self.director.notify_best(complete);
             (self.observer)(SolutionUpdate {
                 assignment: &self.best_assignment,
                 score: score.clone(),
                 complete,
             });
+            self.failed = false;
         }
         Ok(Some(score))
     }
@@ -496,6 +500,7 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
     let best_assignment = director.assignment().clone();
     let best_score = director.score();
     let best_complete = complete(&best_assignment);
+    director.notify_best(best_complete);
     observer(SolutionUpdate {
         assignment: &best_assignment,
         score: best_score.clone(),

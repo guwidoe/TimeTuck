@@ -237,22 +237,58 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         Ok(work)
     }
 
-    /// Run construction and ordered local-search phases under shared solve limits,
-    /// retaining this graph and starting from this director's current assignment.
-    /// Earlier graph initialization is outside this call's work/time counters.
-    pub fn run_solver(
+    /// Run an ordered solver sequence on this retained graph, starting from its
+    /// current assignment. Earlier initialization is outside this call's counters.
+    pub fn run_solver<'c>(
         &mut self,
-        config: crate::SolverConfig<'_, S>,
+        config: impl Into<crate::SolverSequence<'c, S>>,
     ) -> Result<crate::SolverResult<Assignment<V>, S>, crate::SolverError<LocalSearchError>> {
-        crate::solver::retained::basic(self.problem, self, config, None)
+        crate::solver::retained::basic(self.problem, self, config.into(), None, None)
     }
-    /// Run a retained solve with the standard synchronous solver lifecycle events.
-    pub fn run_solver_with_events(
+    /// Run a retained sequence with synchronous solver lifecycle events.
+    pub fn run_solver_with_events<'c>(
         &mut self,
-        config: crate::SolverConfig<'_, S>,
+        config: impl Into<crate::SolverSequence<'c, S>>,
         mut observer: impl FnMut(crate::SolverEvent<'_, Assignment<V>, S>),
     ) -> Result<crate::SolverResult<Assignment<V>, S>, crate::SolverError<LocalSearchError>> {
-        crate::solver::retained::basic(self.problem, self, config, Some(&mut observer))
+        crate::solver::retained::basic(self.problem, self, config.into(), Some(&mut observer), None)
+    }
+    /// Bind a typed command callback to custom phase indices in a retained sequence.
+    pub fn run_solver_with_commands<'c>(
+        &mut self,
+        config: impl Into<crate::SolverSequence<'c, S>>,
+        mut command: impl FnMut(
+            usize,
+            &mut crate::CustomPhaseContext<'_, Assignment<V>, Move<V>, S, StreamScoringError>,
+        ) -> Result<(), crate::CustomPhaseError<StreamScoringError>>,
+    ) -> Result<crate::SolverResult<Assignment<V>, S>, crate::SolverError<LocalSearchError>> {
+        crate::solver::retained::basic(self.problem, self, config.into(), None, Some(&mut command))
+    }
+    /// Run retained custom phases with the usual solver lifecycle events.
+    pub fn run_solver_with_commands_and_events<'c>(
+        &mut self,
+        config: impl Into<crate::SolverSequence<'c, S>>,
+        mut command: impl FnMut(
+            usize,
+            &mut crate::CustomPhaseContext<'_, Assignment<V>, Move<V>, S, StreamScoringError>,
+        ) -> Result<(), crate::CustomPhaseError<StreamScoringError>>,
+        mut observer: impl FnMut(crate::SolverEvent<'_, Assignment<V>, S>),
+    ) -> Result<crate::SolverResult<Assignment<V>, S>, crate::SolverError<LocalSearchError>> {
+        crate::solver::retained::basic(
+            self.problem,
+            self,
+            config.into(),
+            Some(&mut observer),
+            Some(&mut command),
+        )
+    }
+    pub(crate) fn install_retained_state(
+        &mut self,
+        assignment: Assignment<V>,
+        graph: crate::stream_graph::GraphState<S>,
+    ) {
+        self.assignment = assignment;
+        self.graph.install(graph);
     }
 
     /// Validate and score a new assignment using this director's compiled graph.

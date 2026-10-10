@@ -67,6 +67,12 @@ impl<A, M, S, D: crate::custom_phase::CommandDirector<A, M, S>>
     crate::custom_phase::CommandDirector<A, M, S> for RetainedPhase<'_, D>
 {
     type Error = D::Error;
+    fn notify_best(&mut self, complete: bool) {
+        self.director.notify_best(complete);
+        if let Some(on_best) = &mut self.on_best {
+            on_best(self.director, complete);
+        }
+    }
     fn assignment(&self) -> &A {
         self.director.assignment()
     }

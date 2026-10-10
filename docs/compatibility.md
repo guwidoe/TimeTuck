@@ -5785,7 +5785,7 @@ initial best; a fresh solve suppresses the repair baseline, which is checked as 
 explicit event difference. Invalid plans perform no new scoring, initialization
 callbacks can cancel later phases, and phase checks detect changed scoring callbacks.
 Five earlier retained-phase regressions remain covered. No upstream method credit is
-added; retained arbitrary phase-sequence support is still incomplete.
+added. Arbitrary retained phase sequences are covered by the following increment.
 
 The original native short-phase probe now also compares full `solve_stream`
 against `run_solver`: 16 variables, four/sixteen six-step annealing phases,
@@ -5797,3 +5797,36 @@ evaluations and steps match. Median elapsed time falls 29–42% without facts an
 performance or long-phase predictions. work/retained-solver-performance.json holds
 samples and source/probe/binary hashes. Earlier retained-phase measurements describe
 the previous explicit-phase implementation and are not relabeled as current.
+
+
+## Retained arbitrary solver sequences
+
+Basic/list/mixed directors accept ordered sequences of all five built-in phase
+kinds, including exact enumeration/completion/branch-and-bound, typed custom
+commands and ruin/recreate. The ordinary controller still handles shared limits,
+phase assertions and lifecycle events. Exact and repair candidates update the
+retained planning rows; successful phases restore the best assignment and graph
+without replaying score callbacks or immutable facts. Custom best notifications
+capture matching graph state; catching an observer panic invalidates that phase.
+Extension-provider integration remains separate.
+
+Four original regressions compare fresh and retained results across all three
+models, exact strategies and budgets, mixed sequences, events, custom best restore,
+unbound commands, caught observer panics, and repair pins/ranges/dependencies with
+required/optional lists. The repair matrix preserves existing fresh-path errors
+when sampled removals introduce a dependency cycle, and checks director consistency
+after failure. Errors leave the last committed consistent candidate, which can be
+partial. No upstream method credit or Java lifecycle identity claim is added.
+
+A focused same-binary native probe compares fresh and retained full basic solves:
+four variables and four/sixteen groups of construction, custom, repair, completion,
+six-step annealing and bounded exact search capped at 80 evaluations. Three
+alternating process pairs each use one warm-up followed by three batches of four
+solves. Timing includes initial model/graph/fact setup and independent final-score
+validation. Final assignments, scores, evaluations and steps match in every case.
+Median elapsed time falls 12–19% without facts and 90–98% with 256/2048 immutable
+fact rows. These short phases deliberately expose repeated setup costs; these
+figures are not Java comparisons or general long-phase performance guarantees.
+Samples, work counts and source/probe/binary hashes are recorded in
+work/retained-sequence-performance.json. Prior measurements retain their source
+identity, and existing Java dashboard timings remain stale.
