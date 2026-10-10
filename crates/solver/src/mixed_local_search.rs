@@ -302,6 +302,7 @@ where
             result.termination = reason;
             return Ok(result);
         }
+        time_budget.start_step();
         provider.start_step();
         let snapshot = director.assignment().clone();
         let mut basic_order: Vec<_> = if provider.is_none() {
@@ -414,6 +415,7 @@ where
         if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }
+        time_budget.end_step(selection.selected.is_some());
         provider.end_step();
         if notify_improvement {
             director.notify_best(|_| true);

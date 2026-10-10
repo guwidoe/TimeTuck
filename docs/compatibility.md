@@ -5970,3 +5970,29 @@ Median milliseconds old/new:100entities/10changes0.00516/0.00176;
 10000entities/100changes1.16482/0.12367;10000entities/10000changes1.92727/0.75929.
 This measures snapshot diagnostics, not Java or end-to-end solving. Raw samples and
 source/binary/probe hashes:work/snapshot-comparison-performance.json.
+
+## Solver lifecycle callbacks
+
+`SolverExtensions::lifecycle` attaches a borrowed listener for solve, phase and
+step start/end events. It works with basic, list and mixed models on scoped,
+calculator, fresh-stream and retained-stream backends. Indices are zero-based;
+step indices restart per phase. Construction and local-search providers share the
+same notifications. Repair steps describe attempts, with `completed` identifying
+accepted changes. Exact/custom phases expose phase events only; their native work
+units remain evaluations/commands. No Java scope objects or registry API implied.
+
+Normal errors close an open attempt with `completed: false`, then close the phase
+and solve. Panics propagate without further lifecycle callbacks during unwind.
+Validation failures emit nothing; frozen models emit only solve start/end. Score
+assertion diagnostics do not create a second lifecycle. Callbacks run inline and
+their time counts toward shared solve deadlines. Leaving the field unset on a
+subsequent invocation detaches the listener.
+
+The complete PhaseLifecycleTest.verifyEventCounts adaptation preserves six event
+counts across the initial 17-entity solve, reinitialization of one returned entity,
+and listener removal. All four basic-model backends run that adaptation. Original
+regressions cover all model/backend combinations, unchanged assignment/score/work,
+provider-driven phases, five-phase plans, error/panic/cancellation and frozen models.
+One source method is credited; this is not general listener API parity. Performance
+has not been remeasured for these hooks; existing measurements retain their own
+freshness status.

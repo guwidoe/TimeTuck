@@ -42,6 +42,7 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     let mut observation = PlanObservation::new(PlanCallback::extensions(
         extensions.events,
         extensions.score_check,
+        extensions.lifecycle,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -309,6 +310,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     let mut observation = PlanObservation::new(PlanCallback::extensions(
         extensions.events,
         extensions.score_check,
+        extensions.lifecycle,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -575,6 +577,7 @@ pub(crate) fn mixed<
     let mut observation = PlanObservation::new(PlanCallback::extensions(
         extensions.events,
         extensions.score_check,
+        extensions.lifecycle,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {

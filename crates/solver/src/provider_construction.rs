@@ -406,6 +406,9 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         if result.scanned_moves == config.max_scanned_moves {
             break Stop::ScanLimit;
         }
+        if let Some(shared) = &mut shared {
+            shared.step_started();
+        }
         provider.start_step();
         let base = director.assignment().clone();
         let mut proposals = provider.provider().expect("construction provider").moves(
@@ -466,6 +469,9 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         result.constraint_evaluations += selection.constraint_evaluations;
         let completed = selection.evaluations > 0 && can_commit();
         result.completed_steps += u64::from(completed);
+        if let Some(shared) = &mut shared {
+            shared.step_ended(completed);
+        }
         if completed && let Some(shared) = &mut shared {
             shared.complete_construction_step();
         }

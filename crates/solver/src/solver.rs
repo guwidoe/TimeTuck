@@ -393,6 +393,7 @@ enum PhaseRequest<'a, S> {
 // Clock readings are elapsed from entry to run(), including plan validation.
 // Clip immediately before phase entry, after any graph factory preparation.
 struct SolveControl<'c> {
+    lifecycle: crate::solver_lifecycle::Lifecycle<'c>,
     condition: Option<&'c SearchTermination<'c>>,
     condition_expired: bool,
     limit: Option<Duration>,
@@ -444,10 +445,11 @@ impl SolveControl<'_> {
         self.steps_expired
     }
     fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
-        self.condition.is_some().then_some(self)
+        (self.condition.is_some() || self.lifecycle.enabled()).then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
-        if self.condition.is_some()
+        if self.lifecycle.enabled()
+            || self.condition.is_some()
             || self.unimproved_limit.is_some()
             || self.unimproved_steps_limit.is_some()
         {
@@ -474,6 +476,12 @@ impl SolveControl<'_> {
     }
 }
 impl crate::time_limit::SearchControl for SolveControl<'_> {
+    fn step_started(&mut self) {
+        self.lifecycle.start_step();
+    }
+    fn step_ended(&mut self, completed: bool) {
+        self.lifecycle.end_step(completed);
+    }
     fn complete_construction_step(&mut self) {
         self.construction_steps = self.construction_steps.saturating_add(1);
         self.condition_reached();
@@ -635,17 +643,24 @@ enum PlanCallback<'a, A, S> {
     Events(&'a mut dyn FnMut(SolverEvent<'_, A, S>)),
     Checked {
         events: Option<&'a mut crate::SolverEventCallback<'a, A, S>>,
-        check: &'a mut crate::PhaseScoreCheck<'a, A, S>,
+        check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
+        lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
     },
 }
 impl<'a, A, S> PlanCallback<'a, A, S> {
     fn extensions(
         events: Option<&'a mut crate::SolverEventCallback<'a, A, S>>,
         check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
+        lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
     ) -> Option<Self> {
-        match check {
-            Some(check) => Some(Self::Checked { events, check }),
-            None => events.map(Self::Events),
+        if check.is_some() || lifecycle.is_some() {
+            Some(Self::Checked {
+                events,
+                check,
+                lifecycle,
+            })
+        } else {
+            events.map(Self::Events)
         }
     }
 }
@@ -665,6 +680,12 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             complete: false,
             initial_only: false,
             repaired_initial: false,
+        }
+    }
+    fn take_lifecycle(&mut self) -> Option<&'a mut crate::SolverLifecycleCallback<'a>> {
+        match &mut self.callback {
+            Some(PlanCallback::Checked { lifecycle, .. }) => lifecycle.take(),
+            _ => None,
         }
     }
     fn has_events(&self) -> bool {
@@ -687,8 +708,12 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         assignment: &A,
         actual: Option<&S>,
     ) -> Result<(), SolverError<E>> {
-        let (Some(PlanCallback::Checked { check, .. }), Some(actual)) =
-            (&mut self.callback, actual)
+        let (
+            Some(PlanCallback::Checked {
+                check: Some(check), ..
+            }),
+            Some(actual),
+        ) = (&mut self.callback, actual)
         else {
             return Ok(());
         };
@@ -897,7 +922,15 @@ fn run_with_clock_observed<A, S: AdditiveScore, E>(
 where
     A: Clone,
 {
+    // Reborrow through a local adapter so callback storage does not tie the
+    // solve clock and termination references to the caller's callback lifetime.
+    let mut callback = observation.take_lifecycle();
+    let lifecycle_enabled = callback.is_some();
+    let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
     let mut time = SolveControl {
+        lifecycle: crate::solver_lifecycle::Lifecycle::new(
+            lifecycle_enabled.then_some(&mut lifecycle_callback),
+        ),
         condition: limits.termination,
         condition_expired: false,
         limit: limits.max_time,
@@ -972,6 +1005,7 @@ where
     {
         return Err(SolverError::PinnedUnassignedVariable { variable });
     }
+    time.lifecycle.start();
     let mut result = SolverResult {
         assignment: initial.assignment,
         complete: initial.complete,
@@ -1192,7 +1226,10 @@ where
         };
         let initial = Some(result.assignment.clone());
         let kind = request.kind();
-        let mut out = phase(index, initial, request, &mut time, observation)?;
+        time.lifecycle.start_phase(index, kind);
+        let output = phase(index, initial, request, &mut time, observation);
+        time.lifecycle.end_phase();
+        let mut out = output?;
         if limits.assert_phase_scores {
             phase_assertions::verify(
                 index,
@@ -3714,7 +3751,11 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         p,
         n,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3738,7 +3779,11 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         p,
         n,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3755,7 +3800,11 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
         p,
         n,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3779,7 +3828,11 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
         p,
         graph,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3808,7 +3861,11 @@ pub fn solve_list_stream_with_extensions<
         p,
         graph,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -3831,7 +3888,11 @@ pub fn solve_mixed_stream_with_extensions<
         p,
         graph,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )

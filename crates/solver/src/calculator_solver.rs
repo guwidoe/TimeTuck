@@ -103,7 +103,11 @@ pub fn solve_calculator_with_extensions<
         p,
         factory,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -567,7 +571,11 @@ pub fn solve_list_calculator_with_extensions<
         p,
         factory,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )
@@ -1030,7 +1038,11 @@ pub fn solve_mixed_calculator_with_extensions<
         p,
         factory,
         c,
-        PlanCallback::extensions(extensions.events, extensions.score_check),
+        PlanCallback::extensions(
+            extensions.events,
+            extensions.score_check,
+            extensions.lifecycle,
+        ),
         extensions.command,
         Some(&mut extensions.move_providers),
     )

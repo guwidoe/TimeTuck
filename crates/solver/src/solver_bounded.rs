@@ -199,6 +199,7 @@ mod tests {
     }
     fn control(clock: &mut dyn FnMut() -> Duration) -> SolveControl<'_> {
         SolveControl {
+            lifecycle: Default::default(),
             condition: None,
             condition_expired: false,
             limit: None,

@@ -439,6 +439,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
             result.evaluations,
         );
         let scan = crate::construction::ConstructionScan::new(config);
+        if let Some(shared) = &mut shared {
+            shared.step_started();
+        }
         let selection = director.select_best(
             moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
             budget.remaining,
@@ -459,6 +462,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
         result.constraint_evaluations += selection.constraint_evaluations;
         let completed = selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);
         result.completed_steps += u64::from(completed);
+        if let Some(shared) = &mut shared {
+            shared.step_ended(completed);
+        }
         if completed && let Some(shared) = &mut shared {
             shared.complete_construction_step();
         }

@@ -323,6 +323,10 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             }
             weights[family] = 0;
         };
+        if let Some(shared) = &mut shared {
+            shared.step_started();
+        }
+        let mut completed = false;
         let candidate = if family == 2 || family >= pool_start {
             let mut pool_candidates;
             let movable = if family == 2 {
@@ -398,6 +402,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                     acceptor.step_ended(candidate.1.clone(), &variables, &movement, &values);
                     current = candidate;
                     result.accepted_moves += 1;
+                    completed = true;
                     if let Some(shared) = &mut shared {
                         shared.complete_step(improved);
                     }
@@ -411,6 +416,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                     complete: true,
                 });
             }
+        }
+        if let Some(shared) = &mut shared {
+            shared.step_ended(completed);
         }
     }
 }

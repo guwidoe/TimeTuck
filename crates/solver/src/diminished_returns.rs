@@ -287,6 +287,12 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     pub(crate) fn record_improvement(&mut self) {
         self.base.record_improvement();
     }
+    pub(crate) fn start_step(&mut self) {
+        self.base.start_step();
+    }
+    pub(crate) fn end_step(&mut self, completed: bool) {
+        self.base.end_step(completed);
+    }
     pub(crate) fn complete_step(&mut self, improved: bool, best: &S) {
         self.base.complete_step(improved);
         if let Some(limit) = &mut self.significant {

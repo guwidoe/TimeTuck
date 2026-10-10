@@ -20,6 +20,7 @@ pub(super) fn verify<A: Clone, S: AdditiveScore, E>(
     // of its own; elapsed time is still observed by the real solve's next poll.
     let mut clock = || Duration::ZERO;
     let mut time = SolveControl {
+        lifecycle: Default::default(),
         condition: None,
         condition_expired: false,
         limit: None,

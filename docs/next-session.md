@@ -22484,3 +22484,35 @@ Benchmark source/probe/binary hashes unchanged after gate. No Rust edits afterwa
 no browser/Java benchmark rerun. Logs work/snapshot-comparison-{prebuild,final-check}.log;
 evidence work/snapshot-comparison-evidence.json. Goal active/incomplete.
 Do not rerun this successful evidence solely for the next turn/commit.
+
+## Solve/phase/step lifecycle notifications (baseline f240d0d)
+
+Previous conversational turn audited throughput but made no implementation change;
+resumed the existing unfinished lifecycle batch. SolverExtensions now accepts an
+optional borrowed callback across basic/list/mixed and scoped/calculator/fresh/
+retained stream backends. Shared search controls carry step notifications; the
+orchestrator brackets actual phases, diagnostics excluded. Repair attempts expose
+completed acceptance; exact/custom phases expose no artificial step counts.
+Normal errors close scopes, pre-start validation emits nothing, unwind skips
+callbacks, frozen inputs emit only solve boundaries. Omission detaches per solve.
+
+Focused87489 TERMINAL0: original matrix/cancellation plus source count test pass
+following missing mixed-construction hook fix. Expanded focus38040 caught local
+provider generation occurring before StepStarted; moved start ahead of provider
+hooks in all three local-search engines. Corrected42270 TERMINAL0: five original
+regressions pass, including full plans/providers/assertions/error/panic/frozen models.
+One complete PhaseLifecycleTest case and six helper/domain fixtures attributed.
+No upstream production read; no benchmark or browser rerun. No measured hook
+performance claim. Final batch25212 runs prebuild followed by scripts/check.sh;
+helpers work/prebuild_solver_lifecycle.py and work/record_solver_lifecycle.py.
+
+Final25212 TERMINAL0: Clippy29.03s, affected-target compile5m14s;
+579Rust RUN,197Rust/46Python REUSE;5595Rust tests+252doctests pass.
+Coverage3204/4855=65.994%,0failed,1369pending,282excluded,0unverified.
+Source bebe1223ea22b342f8ac7cbed930d1ca9d4fd9f428af1718e760e3534ca4f968;
+verification22ad20d328ca139fc4581a64768eea9509b8e41cddd334fe929fa017269e1b58.
+Recorder97919 TERMINAL0 confirmed source-before/after match, provenance prefix plus
+one case/six fixtures, source method passed, and live/report verification freshness.
+Existing Java/list performance is stale, not rerun. No Rust edits after final gate.
+Evidence work/solver-lifecycle-evidence.json; prebuild/final logs use same prefix.
+Goal active/incomplete. Reuse this verification until relevant inputs change.

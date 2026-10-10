@@ -1254,3 +1254,6 @@ pub use combinatorics::{
     CombinatoricsError, binomial_coefficient, factorial, list_arrangements_scaled_log, log_in_base,
     scaled_log,
 };
+
+mod solver_lifecycle;
+pub use solver_lifecycle::{SolverLifecycleCallback, SolverLifecycleEvent};

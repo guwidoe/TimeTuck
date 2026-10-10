@@ -246,6 +246,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
                         basic: Move::Composite(vec![]),
                         lists: ListMove::Composite(vec![]),
                     }));
+                if let Some(shared) = &mut shared {
+                    shared.step_started();
+                }
                 director.select_best(
                     moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                     budget.remaining,
@@ -294,6 +297,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 if config.step_limit_reached(result.completed_steps) {
                     result.termination = ConstructionTermination::StepLimit;
                     break 'phases;
+                }
+                if let Some(shared) = &mut shared {
+                    shared.step_started();
                 }
                 director.select_best(
                     moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
@@ -348,6 +354,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
                                         lists: ListMove::Composite(vec![]),
                                     }),
                             );
+                        if let Some(shared) = &mut shared {
+                            shared.step_started();
+                        }
                         director.select_best(
                             moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                             budget.remaining,
@@ -393,6 +402,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
                                         lists: ListMove::Composite(vec![]),
                                     }),
                             );
+                        if let Some(shared) = &mut shared {
+                            shared.step_started();
+                        }
                         director.select_best(
                             moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                             budget.remaining,
@@ -412,6 +424,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
             let completed =
                 selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);
             result.completed_steps += u64::from(completed);
+            if let Some(shared) = &mut shared {
+                shared.step_ended(completed);
+            }
             if completed && let Some(shared) = &mut shared {
                 shared.complete_construction_step();
             }

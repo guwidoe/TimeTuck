@@ -10,7 +10,8 @@ fn phase_check_time_consumes_shared_deadline_without_consuming_evaluations() {
         elapsed.set(Duration::from_secs(2));
         Ok(Some(SimpleScore::ZERO))
     };
-    let mut observation = PlanObservation::new(PlanCallback::extensions(None, Some(&mut check)));
+    let mut observation =
+        PlanObservation::new(PlanCallback::extensions(None, Some(&mut check), None));
     let mut entered = vec![];
     let result: Result<_, SolverError<()>> = run_with_clock_observed(
         SolverLimits {
@@ -56,7 +57,8 @@ fn score_without_new_assignment_checks_the_retained_phase_entry() {
         checked.push((index, kind, *a));
         Ok(Some(SimpleScore::ZERO))
     };
-    let mut observation = PlanObservation::new(PlanCallback::extensions(None, Some(&mut check)));
+    let mut observation =
+        PlanObservation::new(PlanCallback::extensions(None, Some(&mut check), None));
     let mut clock = || Duration::ZERO;
     let phases = [
         SolverPhase::Construction(Default::default()),

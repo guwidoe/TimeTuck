@@ -28,6 +28,8 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 
 /// Optional solve-wide observer; phase timers and step counters stay independent.
 pub(crate) trait SearchControl {
+    fn step_started(&mut self) {}
+    fn step_ended(&mut self, _completed: bool) {}
     /// Construction does not start/reset search stagnation or advance search steps.
     fn complete_construction_step(&mut self) {}
     fn construction_stopped(&mut self) -> bool {
@@ -61,6 +63,16 @@ impl<'m, C: FnMut() -> Duration> TimeBudget<'m, C> {
     pub(crate) fn with_shared(mut self, shared: Option<&'m mut dyn SearchControl>) -> Self {
         self.shared = shared;
         self
+    }
+    pub(crate) fn start_step(&mut self) {
+        if let Some(shared) = &mut self.shared {
+            shared.step_started();
+        }
+    }
+    pub(crate) fn end_step(&mut self, completed: bool) {
+        if let Some(shared) = &mut self.shared {
+            shared.step_ended(completed);
+        }
     }
     pub(crate) fn complete_step(&mut self, improved: bool) {
         if let Some(shared) = &mut self.shared {

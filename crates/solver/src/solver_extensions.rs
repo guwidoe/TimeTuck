@@ -236,6 +236,8 @@ pub struct SolverExtensions<'a, P, A, M, S, E> {
     pub move_providers: PhaseMoveProviders<'a, P, A, M>,
     pub command: Option<&'a mut SolverCommandCallback<'a, A, M, S, E>>,
     pub events: Option<&'a mut SolverEventCallback<'a, A, S>>,
+    /// Optional solve/phase/step notifications. Omit on a later solve to detach.
+    pub lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
     pub score_check: Option<&'a mut PhaseScoreCheck<'a, A, S>>,
 }
 impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
@@ -245,6 +247,7 @@ impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
             command: None,
             events: None,
             score_check: None,
+            lifecycle: None,
         }
     }
 }
