@@ -15,6 +15,12 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/consumer_support_cases.rs` adapts three complete
+  `ConsumerSupportTest` methods, its problem-change/publication helpers, and the
+  initialized `TestdataSolution.generateSolution` fixture. Native manager callbacks,
+  revision receipts and Arc identity replace Java consumer/future/domain objects.
+  Exact source identities and substitutions are in `compat/provenance.json`.
+
 - `crates/solver/tests/benchmark_ranking_cases.rs` adapts all eight
   `TotalRankSolverRankingWeightFactoryTest` methods and both individual-result
   comparator methods from the Community benchmark tool. Score and shared-problem

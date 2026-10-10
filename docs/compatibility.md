@@ -5627,3 +5627,23 @@ unmatched trials and invalid indices. Existing real finite-search benchmark
 coverage additionally proves that unequal-quality budgets receive no aggregate
 timing ratio. No upstream method credit, refreshed timing measurement, statistical
 confidence interval, or new Java performance claim is added.
+
+## Community asynchronous consumer delivery
+
+Three complete `ConsumerSupportTest` methods now exercise native manager delivery:
+`skipAhead`, `problemChangesComplete_afterFinalBestSolutionIsConsumed`, and
+`problemChangesCompleteExceptionally_afterExceptionInConsumer`. The adaptations
+preserve publication of one-, two- and three-entity initialized snapshots, exactly
+first/last consumption under a blocked consumer, absence of consumer errors,
+pending receipts before final consumption, final snapshot identity, successful
+completion after that consumer, and exceptional completion with the exact original
+consumer error message. Native channels, real queued jobs, Arc identity and typed
+receipt failures replace Java latches, mocks, futures and exception classes.
+The 5-value/7-entity default fixture and modulo initialization are preserved.
+All test/helper fixture substitutions and licensing are recorded in provenance.
+
+The fourth method, automatic cancellation of changes still pending at final
+consumption, remains pending: live native jobs ordinarily process queued changes
+through additional revisions. These adaptations do not claim that different
+finalization protocol, Java consumer internals, or producer identity beyond the
+explicit construction phase origin in the skip-ahead case.

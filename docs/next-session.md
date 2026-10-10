@@ -21944,3 +21944,38 @@ Live/report freshness matches. Older Java list performance remains stale. Eviden
 work/paired-timings-evidence.json; logs work/paired-timings-{prebuild,final-check}.log.
 No Rust changes after gate. No benchmark or browser rerun; no dashboard UI/data-contract
 change. Goal remains active/incomplete.
+
+
+## Community consumer delivery source cases
+
+Baselinefa9c5a0. Read the complete pinned TEST-ONLY ConsumerSupportTest and the
+TestdataSolution.generateSolution overloads. Three complete adaptations now cover
+skipAhead, problemChangesComplete_afterFinalBestSolutionIsConsumed, and
+problemChangesCompleteExceptionally_afterExceptionInConsumer. Preserve exact
+first/last consumption and1/3entity counts, no callback errors, pending receipt
+before final-only consumption, Arc pointer identity of the final solution, receipt
+completion afterward, and exceptional completion with exact Test exception message.
+Real queued native jobs replace mocked registration; bounded channels replace
+latches. Native typed panic failures replace Java exception classes. Fixture counts
+1/1,2/2,3/3 and default5values/7entities retain modulo initial assignments.
+Provenance adds3cases/3fixtures, with notices and explicit substitutions. Source
+construction phase0 is preserved in skipAhead; unobserved live producer metadata
+is omitted. No production solver changes in this batch.
+
+The fourth source method (cancel pending changes at explicit final delivery) stays
+pending. Native live jobs ordinarily restart through queued revisions; current
+intermediate publisher does not offer a successful finish-after-this-run request.
+Do not count explicit job cancellation as proving automatic finalization semantics.
+This is a potential concrete remaining lifecycle feature, not another duplicate
+coalescing/filtering adapter.
+
+Focus24087 TERMINAL0:3source cases pass (initial missing callback type annotation
+corrected). Final prebuild/check/evidence92504 TERMINAL0. Clippy0.23s;1target
+compile0.04s. One Rust job ran,763Rust/46Python reused. 5526Rust tests and
+251doctests pass. Coverage3188/4855=65.664%,0failed,1385pending,282excluded,
+0unverified. All3new source methods individually report passed.
+Source 7cee5ff50ccc0edcae46b56fc7b270a5390f4fcd7fb1d062699e0ec057e7af4f
+Verification 687a8b494e89f85384803b03e006492c6ba3f7836a7b9ef2912b0cf93058624a
+Live/report freshness matches; older Java list performance remains stale. Evidence
+work/consumer-support-evidence.json; logs work/consumer-support-{prebuild,final-check}.log.
+No Rust changes after gate. No benchmark/browser rerun. Goal remains active/incomplete.
