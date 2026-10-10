@@ -22409,3 +22409,41 @@ Report/live verification freshness matched; list measurement now visibly stale.
 Logs work/retained-facts-{prebuild,final-check}.log; evidence
 work/retained-facts-evidence.json. No Rust edits after gate. Goal active/incomplete.
 Do not rerun this evidence solely for the next turn or commit.
+
+## Combinatorics and direct native scale estimates (baseline d1aa58d)
+
+Previous turn made committed/verified retained fact-update progress. This batch adds
+independent checked factorial/binomial, base/scaled logarithms and ordered-list log
+arrangements, plus native ProblemStatistics::assignment_scale for all three models.
+Optional lists use log-sum-exp; compensated sums reduce accumulated floating error.
+List metadata dimensions are shared with unchanged exact-count semantics. Existing
+ProblemScale and managed-range logarithmic reporting are reused, not reimplemented.
+
+Six complete pinned MathUtilsTest cases adapted with provenance; all parameter rows,
+assertions and failure strings retained. Independent insertion enumeration replaces
+upstream permutation/dedup helper; no production upstream read. Native boundary tests
+cover empty/optional/pinned/ranged/dependency models against exact BigUint counts,
+large scale, overflow, invalid inputs and Pascal/symmetry identities. Focus26301
+TERMINAL0:3 originals+6 adapted pass. Initial cargo check needed f64 total annotation.
+
+Release60125 TERMINAL0 (22.57s build): native metadata probe compares full exact
+statistics against scale-only queries, setup excluded. Three alternating processes,
+3warmups and5samples of10calls per variant. All labels/logarithms agree (1e-8).
+Scale/exact wall ratios .293/.172 basic1000/10000; .382/.266 list256required/optional;
+.060/.011 list2048required/optional. Different query outputs; no Java/solver speedup.
+Raw work/assignment-scale-performance.json and assignment-scale-pair{1,2,3}.csv.
+
+Final8043 TERMINAL0: Clippy30.33s, compile1m48s,98Rust RUN,674Rust/46Python
+REUSE;5579Rust tests+252doctests pass. Coverage3196/4855=65.829%,0failed,
+1377pending,282excluded,0unverified. Source
+6e5020eb72cdb87262ed1266683d12cb31ce31c77bb42ab525544868adc6e088;
+verification0087c0b2d12620db9c0fe9c16dd80a82bd4e96eb842e7b8c2b8a3bd6113d65fd.
+Report/live verification freshness matched; existing Java/list measurement remains
+stale. Benchmark source/probe/binary hashes verified unchanged after gate. No Rust
+changes after final check or benchmark; no browser/Java benchmark rerun. Logs/evidence:
+work/assignment-scale-{prebuild,final-check}.log and assignment-scale-evidence.json.
+Goal active/incomplete. Do not repeat these checks for a turn or commit alone.
+Read-only reconnaissance: DynamicIntArray20 cases are still pending; no native need
+for that standalone utility was established. TerminationConfig6 includes unit-field
+getter semantics unlike native Duration profiles; AcceptorFactory6 includes Java
+class identity/preview gating. Do not reopen those just for easy coverage credits.

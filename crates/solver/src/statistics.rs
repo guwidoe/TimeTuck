@@ -30,11 +30,48 @@ pub struct ProblemSizeStatistics {
     pub value_count: usize,
     pub assignment_space: AssignmentSpace,
 }
+/// Floating logarithm of a count, or of a labelled upper bound when list ranges
+/// or dependencies restrict it. This metadata does not prove score feasibility.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct AssignmentScale {
+    pub scale: crate::ProblemScale,
+    pub upper_bound: bool,
+}
 /// Inspect model metadata without scoring or enumerating assignments.
 pub trait ProblemStatistics {
     fn problem_size_statistics(&self) -> ProblemSizeStatistics;
+    /// Logarithmic assignment count. Native models override this to avoid building
+    /// an arbitrary-precision integer. Zero possibilities use negative infinity.
+    fn assignment_scale(&self) -> AssignmentScale {
+        let space = self.problem_size_statistics().assignment_space;
+        AssignmentScale {
+            scale: crate::ProblemScale::from_count(&space.count),
+            upper_bound: !space.exact,
+        }
+    }
 }
 impl<V: Eq> ProblemStatistics for FiniteProblem<V> {
+    fn assignment_scale(&self) -> AssignmentScale {
+        let mut sum = crate::combinatorics::LogSum::default();
+        for variable in self.variables() {
+            let choices = if variable.is_pinned() {
+                usize::from(variable.initial().is_some() || variable.allows_unassigned()) as f64
+            } else {
+                variable.domain().len() as f64 + f64::from(variable.allows_unassigned())
+            };
+            if choices == 0.0 {
+                return AssignmentScale {
+                    scale: crate::ProblemScale::from_log10(f64::NEG_INFINITY),
+                    upper_bound: false,
+                };
+            }
+            sum.add(choices.ln());
+        }
+        AssignmentScale {
+            scale: crate::ProblemScale::from_log10(sum.value() * std::f64::consts::LOG10_E),
+            upper_bound: false,
+        }
+    }
     fn problem_size_statistics(&self) -> ProblemSizeStatistics {
         let mut values = vec![];
         let mut count = BigUint::from(1u8);
@@ -62,39 +99,57 @@ impl<V: Eq> ProblemStatistics for FiniteProblem<V> {
         }
     }
 }
+fn list_dimensions<V: Eq + Clone>(problem: &ListProblem<V>) -> (usize, usize, bool) {
+    let fixed: Vec<_> = problem
+        .entities()
+        .iter()
+        .flat_map(|e| {
+            let length = if e.is_pinned() {
+                e.initial().len()
+            } else {
+                e.pinned_prefix()
+            };
+            e.initial()[..length].iter()
+        })
+        .collect();
+    let free: Vec<_> = problem
+        .values()
+        .iter()
+        .filter(|v| !fixed.contains(v))
+        .collect();
+    let owners: Vec<_> = problem
+        .entities()
+        .iter()
+        .filter(|e| !e.is_pinned())
+        .collect();
+    let restricted = owners.iter().any(|e| {
+        e.value_range()
+            .is_some_and(|r| free.iter().any(|v| !r.contains(v)))
+    });
+    (free.len(), owners.len(), restricted)
+}
 impl<V: Eq + Clone> ProblemStatistics for ListProblem<V> {
+    fn assignment_scale(&self) -> AssignmentScale {
+        let (free, owners, restricted) = list_dimensions(self);
+        AssignmentScale {
+            scale: crate::ProblemScale::from_log10(
+                crate::combinatorics::list_arrangements_ln(free, owners, self.allows_unassigned())
+                    * std::f64::consts::LOG10_E,
+            ),
+            upper_bound: restricted || self.dependencies.is_some(),
+        }
+    }
     fn problem_size_statistics(&self) -> ProblemSizeStatistics {
-        let fixed: Vec<_> = self
-            .entities()
-            .iter()
-            .flat_map(|e| {
-                let length = if e.is_pinned() {
-                    e.initial().len()
-                } else {
-                    e.pinned_prefix()
-                };
-                e.initial()[..length].iter()
-            })
-            .collect();
-        let free: Vec<_> = self
-            .values()
-            .iter()
-            .filter(|v| !fixed.contains(v))
-            .collect();
-        let owners: Vec<_> = self.entities().iter().filter(|e| !e.is_pinned()).collect();
-        let restricted = owners.iter().any(|e| {
-            e.value_range()
-                .is_some_and(|r| free.iter().any(|v| !r.contains(v)))
-        });
+        let (free, owners, restricted) = list_dimensions(self);
         // k selected values can be ordered and split among m labelled suffixes
         // in m*(m+1)*...*(m+k-1) ways. Optional values sum over every subset size.
         let mut arrangements = BigUint::from(1u8);
         let mut choose = BigUint::from(1u8);
         let mut count = BigUint::from(1u8);
-        for k in 1..=free.len() {
-            arrangements *= BigUint::from(owners.len()) + BigUint::from(k - 1);
+        for k in 1..=free {
+            arrangements *= BigUint::from(owners) + BigUint::from(k - 1);
             if self.allows_unassigned() {
-                choose *= BigUint::from(free.len() - k + 1);
+                choose *= BigUint::from(free - k + 1);
                 choose /= BigUint::from(k);
                 count += &choose * &arrangements;
             }
@@ -114,6 +169,14 @@ impl<V: Eq + Clone> ProblemStatistics for ListProblem<V> {
     }
 }
 impl<B: Eq + Clone, L: Eq + Clone> ProblemStatistics for MixedProblem<B, L> {
+    fn assignment_scale(&self) -> AssignmentScale {
+        let basic = self.basic().assignment_scale();
+        let lists = self.lists().assignment_scale();
+        AssignmentScale {
+            scale: crate::ProblemScale::from_log10(basic.scale.log10() + lists.scale.log10()),
+            upper_bound: basic.upper_bound || lists.upper_bound,
+        }
+    }
     fn problem_size_statistics(&self) -> ProblemSizeStatistics {
         let a = self.basic().problem_size_statistics();
         let b = self.lists().problem_size_statistics();

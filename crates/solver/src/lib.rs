@@ -368,8 +368,8 @@ pub use live_solver::*;
 
 mod statistics;
 pub use statistics::{
-    AssignmentSpace, ProblemSizeStatistics, ProblemStatistics, RevisionProblemSize,
-    SolverJobStatistics,
+    AssignmentScale, AssignmentSpace, ProblemSizeStatistics, ProblemStatistics,
+    RevisionProblemSize, SolverJobStatistics,
 };
 
 mod reference_stream;
@@ -1248,3 +1248,9 @@ mod scored_list_values;
 mod configured_move_provider;
 mod provider_selection_session;
 pub use configured_move_provider::{ConfiguredMoveProvider, ConfiguredProviderConfig};
+
+mod combinatorics;
+pub use combinatorics::{
+    CombinatoricsError, binomial_coefficient, factorial, list_arrangements_scaled_log, log_in_base,
+    scaled_log,
+};

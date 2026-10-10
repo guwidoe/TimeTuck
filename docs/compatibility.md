@@ -5919,3 +5919,29 @@ foreign handles, overflow and subsequent solves compared with freshly built grap
 using the changed facts. The API does not modify model domains, pins, entities,
 constraint weights or graph topology, nor integrate automatic live-job revision
 handling. No upstream-method credit or elapsed-time performance claim is added.
+
+## Combinatorics and native assignment scale
+
+Six complete MathUtilsTest adaptations cover every factorial/binomial input row,
+factorial failure diagnostic, base logarithm assertion and tolerance, fixed-point
+log assertion, and ordered-list arrangement assertion. The manual small arrangement
+comparison uses independent exhaustive insertion rather than the source permutation
+helper. Production combinatorics are independent native implementations; provenance
+records all six methods.
+
+`ProblemStatistics::assignment_scale()` estimates the logarithm directly for basic,
+list and mixed models without constructing the arbitrary-precision count or computing
+all metadata. It preserves pins, optional values, empty spaces and the exact-count
+API's restricted-range/dependency upper-bound distinction. Floating approximation
+is explicit; the original exact statistics remain available. Managed-range reporting
+already had its separate metadata estimate and retains its semantics.
+
+A native release probe compares the new scale-only query with full exact statistics
+on the same models, excluding model construction. Three processes alternate order,
+with three warmup calls and five samples of ten calls each; all reported logarithms
+agree within 1e-8 and labels agree. Median milliseconds (exact/scale): basic1000
+0.01743/0.00511,basic10000 0.35724/0.06141,list256 required0.00488/0.00186,
+list256optional0.03222/0.00856,list2048required0.20856/0.01250,
+list2048optional6.35586/0.06987. Exact statistics return additional metadata;
+these are distinct queries, not equal-work solver or Java speedups. Raw samples,
+source/probe/binary hashes:work/assignment-scale-performance.json.
