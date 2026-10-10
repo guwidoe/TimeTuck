@@ -6130,3 +6130,18 @@ lookup improved1.480527ms→1.373064ms. These are local native microbenchmarks,
 not Java comparisons or end-to-end solver speed. Raw samples, hashes and all
 workloads:work/pair-join-performance.json. The initial mixed-block-layout trial is
 retained separately in work/pair-join-initial and is not the final implementation.
+
+
+## Independent retirement adapters
+
+Generic `RetiringIndices`, lazy-group `RetiringCandidates` and pair-specific
+`RetiringCandidatePairs` now occupy separate modules. All implementation bodies,
+public root exports and existing test cases are unchanged. The development input
+scanner can therefore follow generic retirement without importing pair joins.
+An audit of all784Rust targets reduced pair/index dependencies from672to16
+integration/example jobs and lazy-group dependencies from672to18. The library
+unit-test job remains dependent on all library source. Generic retirement still
+feeds672integration/example jobs; its algorithm changes need that coverage.
+Evidence:work/retirement-dependencies-{before,after}.json and
+work/retirement-dependency-reduction.json. No cache records or old result hashes
+were rewritten. No new compatibility credit or runtime performance claim.

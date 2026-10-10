@@ -22698,3 +22698,47 @@ report freshness. Final benchmark source exactly matches verified source; probe,
 both binaries and measured implementation file hashes still match. Evidence
 work/pair-join-evidence.json and work/pair-join-performance.json. No Rust edits
 or repeat tests after successful gate. Java/list timings remain stale. Goal active.
+
+
+## Independent retirement adapters (baselined4f1dfe)
+
+Previous turn made committed/verified ordered-join performance progress. Split
+indexed_retirement.rs into generic ranks plus retiring_candidates.rs and
+retiring_candidate_pairs.rs. Public root exports preserved; exact body comparison
+against work/retirement-original.rs confirms both adapters, generic implementation
+and its unit tests unchanged. No verification-tool logic, provenance or test changes.
+
+Dependency audit34929 TERMINAL0 before28.29s;41272 TERMINAL0 after27.23s,784targets.
+CandidatePairs/CandidateIndex dependencies672→16integration/example jobs;
+LazyConcat672→18; generic RetiringIndices remains672. Library unit target depends
+on all Rust source separately.656unrelated jobs removed from pair dependency set.
+Asserted ordinary solver_metrics independent, pair regressions still dependent.
+Raw work/retirement-dependencies-{before,after}.{json,log}, reduction.json;
+helper audit_retirement_dependencies.py. No existing cache result relabelled.
+
+Final gate uses prebuild_retirement_split.py then scripts/check.sh; recorder
+record_retirement_split.py verifies unchanged provenance. No focused Rust rerun,
+benchmark or browser rerun for this body-preserving split. Rust frozen for gate.
+Previous native pair benchmark remains evidence of its original recorded source;
+no benchmark hashes changed. Goal active/incomplete.
+
+Final handle38410: Clippy29.71s and compile2m38s passed; regression execution
+continues. Independent next-scope reconnaissance: LazyConcat::iter currently maps
+every rank through get(), doing a binary group search per item. A group cursor
+could make sequential traversal linear while retaining logarithmic nth/nth_back.
+Preserve deferred supplier loading, cached length errors, both-end interleaving,
+exact size/fusion and panic advancement. Existing lazy_concat_cases/regression
+cover much of this; add only missing traversal boundaries and measure native
+before/after if pursuing it. The module now affects18integration/example jobs,
+plus library tests. No code or claims for this prospective optimization yet.
+
+Final38410 TERMINAL0:673Rust RUN/111Rust REUSE/46Python REUSE;
+5684Rust tests+255doctests pass. Coverage remains3273/4855=67.415%,0failed,
+1318pending,264excluded,0unverified. Source
+2d8cc424bc4873cb0942b2e96b7748f6ded0826fab53361ca510e94ca934e096;
+verification1c852028484990e4adcb6a0ff9af5ba2e1f8dc385ccc1becf9cd77860659918e.
+Recorder86748 TERMINAL0 validates successful unchanged source, unchanged provenance
+and live/report freshness. Evidence work/retirement-split-evidence.json. No Rust
+changes after gate, no benchmark/browser reruns. This first check seeds the new
+module inputs; future pair-only changes affect16integration/example jobs plus
+library unit tests (17versus673). Goal remains active/incomplete.

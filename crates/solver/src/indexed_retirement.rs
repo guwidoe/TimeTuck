@@ -1,5 +1,5 @@
-//! Sparse retirement over indexed candidate spaces, including virtual pair sets.
-use crate::{CandidatePairs, LazyConcat, LazyConcatError, NoDrawToRetire, random::SplitMix64};
+//! Sparse retirement over rank spaces, independent of candidate payloads.
+use crate::{NoDrawToRetire, random::SplitMix64};
 use std::{collections::BTreeMap, iter::FusedIterator};
 
 /// Uniform draws with replacement over live ranks. `retire` removes only the
@@ -108,80 +108,6 @@ impl Iterator for RetiringIndices {
     }
 }
 impl FusedIterator for RetiringIndices {}
-
-/// Borrowed retiring draws from concatenated groups. Deferred groups load only
-/// when selected. Supplier errors retain their normal cached behavior and may be
-/// retired like successful draws. A supplier panic leaves its drawn rank pending
-/// for retirement; no supplier effect is rolled back. Retiring never mutates the
-/// view or its underlying index. Other iterators remain independent.
-pub struct RetiringCandidates<'q, 'a, T> {
-    view: &'q LazyConcat<'a, T>,
-    indices: RetiringIndices,
-}
-impl<'q, 'a, T> RetiringCandidates<'q, 'a, T> {
-    pub fn new(view: &'q LazyConcat<'a, T>, seed: u64) -> Self {
-        Self {
-            view,
-            indices: RetiringIndices::new(view.len() as u128, seed),
-        }
-    }
-    pub fn remaining(&self) -> u128 {
-        self.indices.remaining()
-    }
-    pub fn stored_indices(&self) -> usize {
-        self.indices.stored_indices()
-    }
-    pub fn retire(&mut self) -> Result<(), NoDrawToRetire> {
-        self.indices.retire()
-    }
-}
-impl<'q, T> Iterator for RetiringCandidates<'q, '_, T> {
-    type Item = Result<&'q T, LazyConcatError>;
-    fn next(&mut self) -> Option<Self::Item> {
-        self.indices.next().map(|i| self.view.get(i as usize))
-    }
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        self.indices.size_hint()
-    }
-}
-impl<T> FusedIterator for RetiringCandidates<'_, '_, T> {}
-
-/// Retire selected pair occurrences without building their Cartesian product.
-/// Repeating/overlapping blocks retain occurrence weights. Payloads are borrowed
-/// without Clone. The underlying view and all other traversals remain unchanged.
-pub struct RetiringCandidatePairs<'q, 'a, L, R> {
-    view: &'q CandidatePairs<'a, L, R>,
-    indices: RetiringIndices,
-}
-impl<'q, 'a, L, R> RetiringCandidatePairs<'q, 'a, L, R> {
-    pub fn new(view: &'q CandidatePairs<'a, L, R>, seed: u64) -> Self {
-        Self {
-            view,
-            indices: RetiringIndices::new(view.len(), seed),
-        }
-    }
-    pub fn remaining(&self) -> u128 {
-        self.indices.remaining()
-    }
-    pub fn stored_indices(&self) -> usize {
-        self.indices.stored_indices()
-    }
-    pub fn retire(&mut self) -> Result<(), NoDrawToRetire> {
-        self.indices.retire()
-    }
-}
-impl<'a, L, R> Iterator for RetiringCandidatePairs<'_, 'a, L, R> {
-    type Item = (&'a L, &'a R);
-    fn next(&mut self) -> Option<Self::Item> {
-        self.indices
-            .next()
-            .map(|i| self.view.get(i).expect("live pair rank"))
-    }
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        self.indices.size_hint()
-    }
-}
-impl<L, R> FusedIterator for RetiringCandidatePairs<'_, '_, L, R> {}
 
 #[cfg(test)]
 mod tests {

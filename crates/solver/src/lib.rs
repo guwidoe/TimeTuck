@@ -1227,7 +1227,11 @@ pub use termination_resolver::{ResolvedTermination, TerminationResolver};
 pub use stream_graph::FixedLinkedStreamPort;
 
 mod indexed_retirement;
-pub use indexed_retirement::{RetiringCandidatePairs, RetiringCandidates, RetiringIndices};
+pub use indexed_retirement::RetiringIndices;
+mod retiring_candidates;
+pub use retiring_candidates::RetiringCandidates;
+mod retiring_candidate_pairs;
+pub use retiring_candidate_pairs::RetiringCandidatePairs;
 
 mod value_seeded_sublist;
 pub use value_seeded_sublist::ValueSeededSubListSelection;
