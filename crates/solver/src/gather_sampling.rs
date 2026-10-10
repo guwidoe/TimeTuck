@@ -84,11 +84,13 @@ pub fn sampled_list_gather_moves<'a, V: Clone + Eq>(
     let destinations = ListDestinationIndex::new(problem, assignment, config.unassignment)?;
     // Every group query is a subset of this set; establish count safety once.
     destinations.for_values(&[])?;
+    let locations = problem.value_locations(assignment);
     let eligible: Vec<_> = problem
         .values()
         .iter()
-        .filter(|v| {
-            assignment.location(v).is_none_or(|pos| {
+        .enumerate()
+        .filter(|(id, _)| {
+            locations[*id].is_none_or(|pos| {
                 let owner = &problem.entities()[pos.entity];
                 !owner.is_pinned() && pos.index >= owner.pinned_prefix()
             })
@@ -111,7 +113,7 @@ pub fn sampled_list_gather_moves<'a, V: Clone + Eq>(
                 let selected = i + draw(&mut random, indices.len() - i);
                 indices.swap(i, selected);
             }
-            let borrowed: Vec<_> = indices[..size].iter().map(|&i| eligible[i]).collect();
+            let borrowed: Vec<_> = indices[..size].iter().map(|&i| eligible[i].1).collect();
             let members: Vec<V> = borrowed.iter().map(|v| (*v).clone()).collect();
             let receiving = destinations
                 .for_values(&members)
@@ -121,7 +123,10 @@ pub fn sampled_list_gather_moves<'a, V: Clone + Eq>(
                 if crate::list_gather_neighborhood::unchanged(assignment, &borrowed, position) {
                     return None;
                 }
-            } else if borrowed.iter().all(|v| assignment.location(v).is_none()) {
+            } else if indices[..size]
+                .iter()
+                .all(|&i| locations[eligible[i].0].is_none())
+            {
                 return None;
             }
             problem.gather_move(assignment, &members, destination).ok()

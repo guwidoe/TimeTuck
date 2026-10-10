@@ -100,6 +100,17 @@ impl<V: Eq + Clone> ListProblem<V> {
 }
 
 impl<V: Eq + Clone> ListProblem<V> {
+    // Sparse callers can retain direct lookup; bulk callers use this only when
+    // the registry supports a linear assignment traversal.
+    pub(crate) fn indexed_value_locations(
+        &self,
+        assignment: &ListAssignment<V>,
+    ) -> Option<Vec<Option<ListPosition>>> {
+        self.value_index
+            .as_ref()
+            .map(|_| self.value_locations(assignment))
+    }
+
     // Callers already validated assignment membership and uniqueness.
     pub(crate) fn value_locations(
         &self,

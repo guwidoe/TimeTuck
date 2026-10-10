@@ -3,6 +3,25 @@ use crate::{
     ListAssignment, ListError, ListMove, ListPosition, ListProblem, ListRange, Neighborhood,
 };
 
+use std::sync::{Arc, OnceLock};
+
+// Defer the snapshot until the iterator is polled. Eq-only registries keep their
+// lazy direct lookup; indexed registries scan assigned values once.
+pub(crate) fn unassigned_ids<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+) -> impl Iterator<Item = usize> + 'a {
+    std::iter::once_with(move || p.indexed_value_locations(a)).flat_map(move |locations| {
+        p.values().iter().enumerate().filter_map(move |(id, v)| {
+            locations
+                .as_ref()
+                .map_or_else(|| a.location(v), |rows| rows[id])
+                .is_none()
+                .then_some(id)
+        })
+    })
+}
+
 pub(crate) fn positions<'a, V: Eq + Clone>(
     p: &'a ListProblem<V>,
     a: &'a ListAssignment<V>,
@@ -32,17 +51,15 @@ pub(crate) fn assigns<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     a: &'a ListAssignment<V>,
     order: I,
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
-    p.values()
-        .iter()
-        .filter(move |v| a.location(v).is_none())
-        .flat_map(move |value| {
-            insertions(p, a, order.clone())
-                .filter(move |position| p.accepts(position.entity, value))
-                .map(move |destination| ListMove::Assign {
-                    value: value.clone(),
-                    destination,
-                })
-        })
+    unassigned_ids(p, a).flat_map(move |id| {
+        let value = &p.values()[id];
+        insertions(p, a, order.clone())
+            .filter(move |position| p.accepts(position.entity, value))
+            .map(move |destination| ListMove::Assign {
+                value: value.clone(),
+                destination,
+            })
+    })
 }
 pub(crate) fn changes<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     p: &'a ListProblem<V>,
@@ -96,6 +113,11 @@ fn swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     order: I,
     unique: bool,
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
+    // Shared by source positions, but initialized only when a replacement is
+    // requested. Assigned swaps and required models need no missing-value scan.
+    let missing = p
+        .allows_unassigned()
+        .then(|| Arc::new(OnceLock::<Vec<usize>>::new()));
     positions(p, a, order.clone())
         .enumerate()
         .flat_map(move |(offset, left)| {
@@ -107,25 +129,30 @@ fn swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
                         && p.accepts(right.entity, &a.lists()[left.entity][left.index])
                 })
                 .map(move |right| ListMove::Swap { left, right });
-            let unassigned = p
-                .allows_unassigned()
-                .then(|| p.values().iter())
-                .into_iter()
-                .flatten()
-                .filter(move |v| a.location(v).is_none() && p.accepts(left.entity, v))
-                .map(move |value| {
-                    ListMove::Composite(vec![
-                        ListMove::Unassign {
-                            entity: left.entity,
-                            start: left.index,
-                            end: left.index + 1,
-                        },
-                        ListMove::Assign {
-                            value: value.clone(),
-                            destination: left,
-                        },
-                    ])
-                });
+            let cache = missing.clone();
+            let mut cursor = 0;
+            let unassigned = std::iter::from_fn(move || {
+                let ids = cache
+                    .as_ref()?
+                    .get_or_init(|| unassigned_ids(p, a).collect());
+                let id = *ids.get(cursor)?;
+                cursor += 1;
+                Some(&p.values()[id])
+            })
+            .filter(move |v| p.accepts(left.entity, v))
+            .map(move |value| {
+                ListMove::Composite(vec![
+                    ListMove::Unassign {
+                        entity: left.entity,
+                        start: left.index,
+                        end: left.index + 1,
+                    },
+                    ListMove::Assign {
+                        value: value.clone(),
+                        destination: left,
+                    },
+                ])
+            });
             assigned.chain(unassigned)
         })
 }

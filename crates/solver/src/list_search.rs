@@ -213,11 +213,8 @@ pub(crate) fn visit_list_from<V: Eq + Clone>(
     if !problem.can_complete(&working) {
         return true;
     }
-    let remaining: Vec<_> = problem
-        .values()
-        .iter()
-        .filter(|v| working.location(v).is_none())
-        .cloned()
+    let remaining: Vec<_> = crate::list_neighborhood::unassigned_ids(problem, &working)
+        .map(|id| problem.values()[id].clone())
         .collect();
     if remaining.is_empty() {
         return (problem.dependencies.is_some() && problem.validate(&working).is_err())

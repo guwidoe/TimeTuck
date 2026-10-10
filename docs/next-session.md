@@ -22894,3 +22894,52 @@ verificationb95f5a9fc3696b7c1153737695117064371ce7d2f15db2fa2ea47bda9b565208.
 No Rust changes or repeated tests after the gate. Java/list timings remain stale;
 no benchmark/browser refresh. StepEnded callback failure retains a step already
 published; pre-publication failures retain the earlier observation. Goal incomplete.
+
+## List snapshot reuse (baseline c472fd5)
+
+Previous conversational turn audited throughput but made no implementation changes.
+Batch replaces repeated assignment scans across indexed anchor selection, receiver
+ranges, lazy optional assignment/replacement enumeration, construction membership,
+exact remaining-value enumeration, gather eligibility and ruin/recreate removal,
+ranges and movement metadata. Eq-only fallback retained; sparse anchors direct.
+Optional swaps share one lazily initialized missing-ID cache per immutable iterator;
+construction updates its membership mask only for installed assignments. Candidate
+orders, pins, ranges, duplicate inputs, cloning and seeded work counts preserved.
+One private repair oracle and four original public regressions; no provenance delta.
+Focused19789/30450 TERMINAL0 (private test and four public tests); release baseline
+88462 and after30450 TERMINAL0. Probe work/list-scans-probe.rs, measurement84743
+runs three alternating process pairs with two warmups/five samples; includes native
+three-attempt repair solves and component opens/enumeration. No Java claim/UI change.
+Rust frozen after a test-only Vec-to-array cleanup. Final gate not yet started.
+
+Measurement84743 TERMINAL0: all component/full-result checksums agree. At4096,
+anchors6.7x and receivers5.9x faster;512optional swaps2.1x; complete three-attempt
+repair median769.919→725.712ms (4096),13.098→11.161ms (512). Small32anchor+16%,
+receiver2.15x slower; sparseanchors within3%. Raw before/after samples+hashes in
+work/list-scans-performance.json. Final42866 running prebuild_list_scans.py then
+scripts/check.sh; logs work/list-scans-{prebuild,final-check}.log. No Rust changes
+since freeze. After success use record_list_scans.py (c472fd5,zero provenance delta)
+and verify benchmark hashes/source, then stage/review/commit. Goal remains active.
+
+Diagnostic3746 TERMINAL0 confirms the repair probe actually performs3attempts,
+3complete reconstructions and7score evaluations at every size, AttemptLimit.
+Output work/list-scans-counts.log; no timing from this diagnostic is used.
+Next concrete performance target from code inspection (not profiled yet):
+list_construction.rs builds moves with insertions(...).filter(accepts), repeating
+identical receiver range/hash checks at every insertion slot, including all slots
+for unselected missing values excluded by repair ranges. Check eligibility once
+per entity before yielding its insertion indices; consider sharing with ordinary
+assigns and pooled eligibility. Preserve entity/slot/candidate order and cancellation
+semantics. Do not edit this frozen batch/restart its successful checks for that.
+
+Final42866 TERMINAL0: Clippy40.47s, affected-target compile7m12s;
+596Rust RUN/197REUSE/46PythonREUSE;5724Rust tests+256doctests pass.
+Coverage3284/4855=67.642%,0failed,1307pending,264excluded,0unverified.
+Recorder66120 TERMINAL0 verifies unchanged source, zero provenance delta, live
+report freshness and all native benchmark source/probe/binary/implementation hashes.
+Evidence work/list-scans-evidence.json. Source
+9271fcfe35252ad3d51a2b6d35e131d7e04bb01841da932edad42dcfc2a14e7a;
+verification012ad79bde27d4b15f6bb9e4a455b08715b890e0e92427b46e744720ebba0878.
+No Rust edits or repeated tests after successful gate. Java performance remains
+stale; no UI change or browser rerun. Dashboard was already live; no restart.
+Goal active/incomplete. Small indexed receiver/anchor regressions remain documented.

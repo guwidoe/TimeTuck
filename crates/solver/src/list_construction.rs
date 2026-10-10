@@ -129,7 +129,12 @@ pub(crate) fn construction_impl_with_clock_monitored<
     director.notify_best(|assignment| problem.is_complete(assignment));
     result.termination = ConstructionTermination::Completed;
     if !problem.allows_unassigned() || config.optional != crate::OptionalConstruction::Preserve {
-        for value in problem.values() {
+        // Construction only installs assignments (or a no-op). Track membership
+        // by registry identity instead of searching the evolving lists each step.
+        let mut assigned = problem
+            .indexed_value_locations(director.assignment())
+            .map(|rows| rows.into_iter().map(|p| p.is_some()).collect::<Vec<_>>());
+        for (value_id, value) in problem.values().iter().enumerate() {
             if config.cancelled() {
                 result.termination = ConstructionTermination::Cancelled;
                 break;
@@ -142,17 +147,20 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 problem
                     .values()
                     .iter()
-                    .filter(|v| {
-                        director.assignment().location(v).is_none()
-                            && insertions(
-                                problem,
-                                director.assignment(),
-                                0..problem.entities().len(),
-                            )
+                    .enumerate()
+                    .filter(|(id, v)| {
+                        !assigned.as_ref().map_or_else(
+                            || director.assignment().location(v).is_some(),
+                            |rows| rows[*id],
+                        ) && insertions(problem, director.assignment(), 0..problem.entities().len())
                             .any(|position| problem.accepts(position.entity, v))
                     })
+                    .map(|(_, value)| value)
                     .collect()
-            } else if director.assignment().location(value).is_none() {
+            } else if !assigned.as_ref().map_or_else(
+                || director.assignment().location(value).is_some(),
+                |rows| rows[value_id],
+            ) {
                 vec![value]
             } else {
                 continue;
@@ -206,6 +214,13 @@ pub(crate) fn construction_impl_with_clock_monitored<
             result.evaluations += selection.evaluations;
             result.constraint_evaluations += selection.constraint_evaluations;
             let installed = matches!(selection.selected, Some(ListMove::Assign { .. }));
+            if let Some(ListMove::Assign { value, .. }) = &selection.selected
+                && let Some(rows) = &mut assigned
+            {
+                rows[problem
+                    .value_index(value)
+                    .expect("registered construction value")] = true;
+            }
             result.assigned_values += usize::from(installed);
             let completed =
                 selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);

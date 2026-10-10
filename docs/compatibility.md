@@ -6228,3 +6228,31 @@ source helpers are attributed separately. This does not claim Java listener
 registration order, exporters or tag behavior. Original regressions cover
 worsening scores, restoration, failed/caught-panicking custom steps, exclusions,
 all twelve solver paths and lazy disabled monitoring.
+
+## List assignment snapshot reuse
+
+Native indexed list models now reuse registry-position snapshots for bulk anchor
+selection, optional assignment/replacement candidates, gather eligibility, repair
+removal/range rebuilding and repair acceptance metadata. Destination receiver
+indexes use the model's indexed ranges. Construction tracks assigned registry IDs
+as candidates are committed; exact enumeration shares missing-value discovery.
+Sparse anchor queries retain direct lookup. Eq-only models remain supported.
+Optional replacement membership is cached once per immutable iterator and opened
+only after its assigned swaps are consumed; candidate order and payload cloning
+remain lazy. No new upstream-method credit is claimed. Original regressions cover
+pins, ranges, duplicate anchors/removals, missing values, metadata order, bounded
+membership work, iterator Send/Sync, small-layout sequences, and identical seeded
+construction/gather/repair results and counters between indexed and ordinary models.
+
+Native before/after release measurements against c472fd5 use four ranged entities,
+half-assigned registries, two warmups/five samples per process and three alternating
+process pairs. Public validation is timed; model construction is excluded. At 4,096
+values, twenty bulk anchor opens fall from 58.976 to 8.802 ms (6.7x), receiver opens
+from 180.457 to 30.513 ms (5.9x). At 512 values, four full optional-swap enumerations
+fall from 99.604 to 48.280 ms (2.1x). Complete seeded three-attempt repair runs have
+matching assignment/score/work/termination hashes: 13.098 to 11.161 ms at 512 values
+and 769.919 to 725.712 ms at 4,096 values. These modest whole-solve gains do not imply the
+component speedups apply to whole solves. Small 32-value anchor opens regress 16%
+and receiver setup is 2.15x slower; sparse two-anchor timings remain within 3%.
+Evidence and exact source/probe/binary hashes: work/list-scans-performance.json.
+No Java timing refresh or general solver-speed claim is made.

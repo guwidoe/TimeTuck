@@ -105,12 +105,19 @@ impl<'a, V: Clone + Eq> ListDestinationSelector<'a, V> {
                 });
             }
         }
+        // Two or three anchor queries do not justify indexing the whole layout.
+        let locations = (anchors.len() >= 32)
+            .then(|| problem.indexed_value_locations(assignment))
+            .flatten();
         let mut positions = vec![];
         for value in anchors {
             let id = problem
                 .value_index(value)
                 .ok_or(ListError::ValueOutsideDomain)?;
-            if let Some(at) = assignment.location(value) {
+            let at = locations
+                .as_ref()
+                .map_or_else(|| assignment.location(value), |rows| rows[id]);
+            if let Some(at) = at {
                 let meta = &problem.entities()[at.entity];
                 if !meta.is_pinned() && at.index >= meta.pinned_prefix() {
                     positions.push((

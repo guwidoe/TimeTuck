@@ -179,7 +179,9 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
     type Value = V;
     fn validate_complete(&self, a: &ListAssignment<V>) -> Result<(), RuinRecreateError> {
         self.validate(a).map_err(model_error)?;
-        if !self.is_complete(a) {
+        if !self.allows_unassigned()
+            && a.lists().iter().map(Vec::len).sum::<usize>() != self.values().len()
+        {
             return Err(RuinRecreateError::IncompleteInitialAssignment);
         }
         Ok(())
@@ -194,11 +196,12 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
         self.entities().len()
     }
     fn movable(&self, a: &ListAssignment<V>) -> Vec<usize> {
+        let locations = self.value_locations(a);
         self.values()
             .iter()
             .enumerate()
             .filter_map(|(i, v)| {
-                let eligible = match a.location(v) {
+                let eligible = match locations[i] {
                     Some(pos) => {
                         !self.entities()[pos.entity].is_pinned()
                             && pos.index >= self.entities()[pos.entity].pinned_prefix()
@@ -214,7 +217,19 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
             .collect()
     }
     fn repair(&self, a: &ListAssignment<V>, selected: &[usize]) -> Result<Self, RuinRecreateError> {
-        let selected: Vec<_> = selected.iter().map(|&i| &self.values()[i]).collect();
+        let locations = self.value_locations(a);
+        let mut selected_ids = vec![false; self.values().len()];
+        let mut removed = vec![Vec::new(); self.entities().len()];
+        for &id in selected {
+            selected_ids[id] = true;
+            if let Some(at) = locations[id] {
+                removed[at.entity].push(at.index);
+            }
+        }
+        for row in &mut removed {
+            row.sort_unstable();
+            row.dedup();
+        }
         let entities = self
             .entities()
             .iter()
@@ -222,18 +237,20 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
             .map(|(i, m)| {
                 let kept = a.lists()[i]
                     .iter()
-                    .filter(|v| !selected.contains(v))
-                    .cloned()
+                    .enumerate()
+                    .filter(|(index, _)| removed[i].binary_search(index).is_err())
+                    .map(|(_, value)| value.clone())
                     .collect();
                 // Exclude only unselected missing values; changing the registry would
                 // invalidate value-scoped constraints and stream identity indices.
                 let range = self
                     .values()
                     .iter()
-                    .filter(|v| {
-                        self.accepts(i, v) && (selected.contains(v) || a.location(v).is_some())
+                    .enumerate()
+                    .filter(|(id, v)| {
+                        (selected_ids[*id] || locations[*id].is_some()) && self.accepts(i, v)
                     })
-                    .cloned()
+                    .map(|(_, value)| value.clone())
                     .collect();
                 ListEntity::new(kept)
                     .with_pinned(m.is_pinned())
@@ -305,12 +322,72 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
             .iter()
             .map(|&i| (i, new.lists()[i].clone()))
             .collect();
+        let before = self.value_locations(old);
+        let after = self.value_locations(new);
         let values = self
             .values()
             .iter()
-            .filter(|v| old.location(v) != new.location(v))
-            .cloned()
+            .enumerate()
+            .filter(|(id, _)| before[*id] != after[*id])
+            .map(|(_, value)| value.clone())
             .collect();
         (changed, movement, values)
+    }
+}
+
+#[cfg(test)]
+mod snapshot_tests {
+    use super::*;
+    use crate::ruin_engine::RepairModel;
+
+    #[test]
+    fn repair_snapshots_preserve_registry_ranges_pins_and_metadata() {
+        let entities = vec![
+            ListEntity::new(vec![0, 1])
+                .with_pinned_prefix(1)
+                .with_value_range(vec![0, 1, 2, 3]),
+            ListEntity::new(vec![4, 3]),
+            ListEntity::new(vec![5])
+                .with_pinned(true)
+                .with_value_range(vec![5]),
+        ];
+        let values = vec![5, 0, 4, 1, 3, 2, 6];
+        for p in [
+            ListProblem::new(values.clone(), entities.clone()).unwrap(),
+            ListProblem::new_indexed(values, entities).unwrap(),
+        ] {
+            let a = p.initial_assignment();
+            assert!(matches!(
+                p.validate_complete(&a),
+                Err(RuinRecreateError::IncompleteInitialAssignment)
+            ));
+            let p = p.allowing_unassigned();
+            p.validate_complete(&a).unwrap();
+            assert_eq!(p.movable(&a), vec![2, 3, 4, 5, 6]);
+            let repaired = p.repair(&a, &[3, 3, 5]).unwrap();
+            assert_eq!(repaired.values(), p.values());
+            assert_eq!(
+                repaired.initial_assignment().lists(),
+                &[vec![0], vec![4, 3], vec![5]]
+            );
+            assert_eq!(
+                repaired.entities()[0].value_range(),
+                Some([0, 1, 3, 2].as_slice())
+            );
+            assert_eq!(
+                repaired.entities()[1].value_range(),
+                Some([5, 0, 4, 1, 3, 2].as_slice())
+            );
+            assert_eq!(repaired.entities()[2].value_range(), Some([5].as_slice()));
+            assert_eq!(repaired.entities()[0].pinned_prefix(), 1);
+            assert!(repaired.entities()[2].is_pinned());
+            assert!(repaired.allows_unassigned());
+            let next = ListAssignment::new(vec![vec![0, 2, 1], vec![3, 4], vec![5]]);
+            p.validate(&next).unwrap();
+            let (entities, movement, values) = p.metadata(&a, &next);
+            assert_eq!(entities, vec![0, 1]);
+            assert_eq!(movement, vec![(0, vec![0, 2, 1]), (1, vec![3, 4])]);
+            assert_eq!(values, vec![4, 1, 3, 2]);
+        }
     }
 }

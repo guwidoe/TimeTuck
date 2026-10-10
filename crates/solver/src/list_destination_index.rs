@@ -134,16 +134,7 @@ impl<'a, V: Clone + Eq> ListDestinationIndex<'a, V> {
         let receivers = problem
             .values()
             .iter()
-            .map(|v| {
-                spans
-                    .iter()
-                    .map(|s| {
-                        problem.entities()[s.entity]
-                            .value_range()
-                            .is_none_or(|r| r.contains(v))
-                    })
-                    .collect()
-            })
+            .map(|v| spans.iter().map(|s| problem.accepts(s.entity, v)).collect())
             .collect();
         Ok(Self {
             problem,
