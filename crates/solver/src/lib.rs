@@ -103,9 +103,11 @@ pub mod list_search;
 pub use list_search::{ListSearchResult, ScoredListAssignment, exhaustive_list_search};
 
 pub mod mixed;
+mod mixed_move_check;
 pub use mixed::{
     AppliedMixedMove, MixedAssignment, MixedError, MixedMove, MixedPlanningValue, MixedProblem,
 };
+pub use mixed_move_check::MixedMoveChecker;
 pub mod mixed_search;
 pub use mixed_search::{MixedSearchResult, ScoredMixedAssignment, exhaustive_mixed_search};
 

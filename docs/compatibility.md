@@ -5338,3 +5338,23 @@ use 5–9% less median process CPU; this is not a Java comparison or a claim abo
 all list workloads. Source/executable hashes, raw samples and per-fork values are
 recorded in `work/stream-position-performance.json`. Earlier Java measurements
 remain stale until deliberately rerun.
+
+## Borrowed joint candidate validation
+
+`MixedProblem::move_checker` validates and borrows both source components once.
+`MixedMoveChecker::is_doable` checks subsequent proposals without cloning planning
+values or mutating the assignment. `MixedProblem::is_move_doable` provides the
+single-query form. A joint proposal is valid only if both component moves are
+valid, and is doable if either final component differs under equality. Restoring
+composites return false; partial planning states remain supported.
+
+Source errors precede candidate errors. Within each stage, basic errors precede
+list errors, matching native mixed transactions. A basic change never bypasses
+list validation. Existing component checkers retain pin, range and dependency
+rules. Lazy providers can use the joint checker with either scoring backend.
+
+Four original regressions compare 240 joint proposals against transactions,
+exercise invalid-source/candidate ordering, prove zero planning-value clones over
+100 repeated queries, and run filtered joint search through both backends and
+first/best accepted selection. This adds a native API without upstream method
+credit or a runtime-speed claim; built-in candidate enumeration is unchanged.

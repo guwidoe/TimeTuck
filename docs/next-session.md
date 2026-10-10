@@ -21414,3 +21414,45 @@ Read-only follow-up checked DefaultPhaseCommandContextTest again; its four cases
 remain unsuitable for direct adaptation because exact callback/score-call-count
 contracts differ from native evaluate_inspected (already recorded earlier here).
 Do not repeat that investigation or add duplicate custom-phase implementation.
+
+## Borrowed mixed candidate checks (verified)
+
+Baselinef1d37a9; previous turn made progress (stream position optimization committed).
+New mixed_move_check module composes BasicMoveChecker/ListMoveChecker into
+MixedProblem::move_checker/is_move_doable and MixedMoveChecker. Source validation
+basic then list precedes both candidate checks; candidate basic then list, even if
+basic changes. Either final component changed =>true. No planning-value clones.
+Root export avoids modifying mixed.rs and widening unrelated verification inputs.
+Four original regressions:240 transaction comparisons including partial/restoring
+states, source/candidate error order,100queries with0clones, lazyjointproviders both
+backends/first+bestaccepted. Focused55526 TERMINAL0:4tests,compile7.46s. No upstream
+provenance changes, no builtin enumeration changes, no performance claim.
+Final gate68588 and evidence25678 TERMINAL0. Fmt/Clippy pass(30.75s); affected-target
+prebuild6.75s. 6Rust jobs ran;750Rust and46Python jobs reused. All5473Rust tests and
+251doctests pass. Coverage3169/4855=65.273%,0failed,1404pending,282excluded,0unverified.
+Report/live freshness matches. No Rust changes after final verification.
+Source:3e56dbbed12c64bcea78334103dea30abf8750ed369c3335bd282c588c82f76b
+Verification:480ccd7adc3012b5e389358dc90c2efff97a843c14b542c1dc2027c3754e7343
+Logs work/mixed-move-check-{prebuild,final-check}.log; evidence
+work/mixed-move-check-evidence.json. No benchmark/browser rerun; older timings remain
+stale. Goal active/incomplete.
+
+Concrete next performance target: ValueChangeSelection::candidate in
+list_value_change.rs clones the full assignment and calls apply per proposal.
+ValueSwapSelection in list_value_swap.rs clones one full scratch assignment and
+uses apply_validated per proposal. Both borrow immutable validated sources and
+could hold ListMoveChecker, use is_doable(...).ok()? to reject only invalid moves,
+and preserve existing include_noops filtering (do not drop Ok(false) automatically).
+Change candidates still clone registry value for public ListValueChange and Assign
+payloads; swap replacements still clone the assigned proposal value. Remove only
+validation/scratch clones. Preserve sampler draws, errors, payloads and dependencies.
+Existing list_value_change_regression and sampled/value-swap regressions include
+native solver execution; clone expectations for scratch need updating. Record a
+baseline before edits and compare full provider-backed solves. No production edits
+for this follow-up have been made.
+
+Prepared UNINTEGRATED/UNVERIFIED work/list_value_change_borrowed.rs and
+work/list_value_swap_borrowed.rs drafts holding the checker and dropping scratch
+validation. Source remains untouched. Measure a baseline BEFORE promoting these
+files; revise existing clone-count assertions and add payload/dependency/no-op
+regressions. These drafts are not tested and earn no evidence/coverage credit.
