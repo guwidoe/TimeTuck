@@ -22355,3 +22355,28 @@ changes; preserve raw quality/work differences and avoid refreshing unrelated su
 The top pending-method counts include160 Java migration tests plus factory/reflection
 and service tests; do not mistake those for160 missing native solver features or add
 redundant wrappers merely to increase credit. No new upstream source was inspected.
+
+## Focused Java/list measurement refresh (baseline 9c03dc5)
+
+Previous goal turn made verified repair-fine-cycle progress. This turn changes
+measurement/report evidence only; no Rust, oracle, rendering or reporting code edits.
+Benchmark40716 TERMINAL0: native release25.98s,default20steps/3warmups/5samples/3forks,
+same inputs/settings/Community artifact hashes as prior data. 320valid,317equal scores,
+Rust266/Java263small-case optima. Twelve timing workloads:9equal scores,3unequal
+(construction32,two-opt16/32) retained.96value-tabu relocation Rust93.199ms/Java327.420ms,
+score0/-4520,188161/186321scorecalls; swaps72.870ms/202.318ms,score0/-3660,182401calls both.
+Both runtimes faster than the prior dataset; no isolated before/after Rust speedup
+claim. Timing covers full scoring, not the new retained graph API. Raw sample ranges
+preserved. Old snapshotwork/list-performance-before-9c03dc5.json; newwork/list-performance.json.
+
+Report/evidence96198 TERMINAL0: unchanged5564Rust/251doctest proof/log checksum reused;
+measurement input fingerprint,current source and live HTTP report/freshness matched.
+List sectioncurrent,other12performance sectionsstale; no repeated Rust gate/browser.
+Coverage3190/4855=65.705%,0failed,1383pending,282excluded,0unverified.
+Source5ab6898cae099e5c1c1d780645355147ba70cb6a0305a3021c96680cf15f1f56;
+verification3b38ee14eca9d4fe7e51ac39e784cc247e268af0bb15a3e3915af01a6149cc8c.
+List measurement9343e76bd6dee8bb677ad85cea0b968ae562a47dbd3b8922bc92b49d94c1c4e5;
+measured2026-10-10T07:29:45.526658+00:00. Logswork/list-refresh-9c03dc5{,-report}.log;
+evidencework/list-refresh-9c03dc5-evidence.json; recorderwork/record_list_refresh_9c03dc5.py.
+Docs-only review/commit. Goal remains active; resume substantive implementation,
+not another refresh solely because of the next turn/commit.

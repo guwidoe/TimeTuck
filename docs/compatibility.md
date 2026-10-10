@@ -5879,3 +5879,27 @@ compound neighborhoods and both mixed construction orders. Final results and eva
 counts match. Independent transitive closure checks dependency validity; retained
 stream callbacks permit documented intermediate row updates, with complete published
 states checked independently. No upstream method credit or performance claim is added.
+
+## List/Community timings at solver revision 9c03dc5
+
+The focused list comparison was refreshed on 2026-10-10 at 07:29:45 UTC, using
+20 steps, three warm-ups, five samples and three alternating process forks. All
+320 small validation cases remain valid;317 have equal Java/Rust scores. Rust
+reaches266 independently proven optima and Java263, with the same three two-opt
+quality differences as before. Nine of12 timing workloads have equal scores;
+construction32 and both two-opt timing workloads retain their unequal scores.
+
+At96customers, relocation tabu measures Rust93.199ms (85.262–101.109) versus
+Java327.420ms (303.201–342.860), both scoring0/-4520. Score-call counts differ:
+188161Rust versus186321Java. Swap tabu measures Rust72.870ms (65.251–81.478) versus
+Java202.318ms (185.431–222.598), both scoring0/-3660 with182401calls each. These are
+medians and observed sample ranges, not confidence intervals. Full-scoring public
+Community/native adapters include solve setup and validation; they do not measure
+the retained incremental graph API, identical traces, or general solver performance.
+
+Workloads, settings and Community artifact hashes match the previous measurement.
+Both runtimes are substantially faster in this run, so historical elapsed-time
+changes do not isolate the effect of Rust changes. Preserve samples and quality/work
+differences when comparing. Raw data:work/list-performance.json; previous snapshot:
+work/list-performance-before-9c03dc5.json. The dashboard's list section is refreshed;
+other performance families keep their older measurement dates and stale status.
