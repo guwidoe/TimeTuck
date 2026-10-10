@@ -47949,6 +47949,21 @@
       "upstream_test": "pendingProblemChangesAreCanceled_afterFinalBestSolutionIsConsumed",
       "local_test": "pending_problem_changes_are_canceled_after_final_best_solution_is_consumed",
       "modifications": "Preserve pending first receipt after intermediate publication without a best consumer, successful first receipt after final delivery, and cancellation of the subsequently registered pending change. Native final-only delivery with a no-op consumer replaces null callbacks; finish_after_run plus the returned default fixture replaces explicit consumeFinalBestSolution. Real queued live jobs and no-op changes replace mocked registration, bounded channels replace synchronous sequencing, and typed Cancelled receipts replace CancellationException. Reuse the attributed 5-value/7-entity default fixture and publication/registration adaptations. No explicit job cancellation is used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/optional_list_union_solver_cases.rs",
+      "status": "implemented",
+      "id": "AllowsUnassignedValuesListVariableSolverTest.runSolver",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/AllowsUnassignedValuesListVariableSolverTest.java",
+      "upstream_test": "runSolver",
+      "local_test": "run_solver",
+      "modifications": "Preserve all six enum configurations, five initially empty optional list owners, 25 values, negative assigned-count scorer, construction followed by local search, combined entity/value/move tabu tenure 1, accepted-candidate limit 100, step limit 1000, and returned-solution assertion. Run both native scoring backends with candidate/rollback/full-score assertions replacing TRACKED_FULL_ASSERT. Native typed model/solver sequence replaces reflection/factory configuration. Explicit deterministic seed 0, equal child weights, best-accepted random ties, best-rejected fallback and finite per-step enumeration replace Java default selector/forager behavior; k-opt uses combined-cycle repartition proposals with k=2..3 and 200 attempts per step. Sampling distribution, traces, work counts, Java shadow listeners and private tracked-assert machinery are not claimed. Native solution/model/score assertions supplement the source result assertion; the separate partial-initialization case earns no upstream credit."
     }
   ],
   "fixtures": [
@@ -64747,6 +64762,71 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
       "upstream_test": "generateSolution overloads",
       "modifications": "Preserve initialized fixtures with value/entity counts (1,1), (2,2), (3,3) and default (5,7), including entity i assigned to value i modulo value count. Native value/assignment indices replace named Java objects; unasserted generated labels, reflection annotations and score property are omitted. Arc identity is retained where asserted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/optional_list_union_solver_cases.rs",
+      "id": "AllowsUnassignedValuesListVariableSolverTest.ListVariableMoveType.native_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/AllowsUnassignedValuesListVariableSolverTest.java",
+      "upstream_test": "ListVariableMoveType enum",
+      "modifications": "Retain all six child-family combinations and k-opt bounds 2..3. Native finite per-step neighborhoods replace Java selector config objects. Equal-weight seeded union retains enabled families; native configurable sublist defaults and bounded combined-cycle repartition sampling are explicit substitutions, not Java distribution/PRNG parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/optional_list_union_solver_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListEasyScoreCalculator.optional_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Preserve negative total assigned value count, expressed by both summed entity-scoped constraints and entity stream scoring; independent observer recomputation uses total list lengths."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/optional_list_union_solver_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListEntity.optional_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "constructors and valueList",
+      "modifications": "Preserve five initially empty optional owner lists in source order. Integer owner indices replace e0..e4 names; native allowing_unassigned replaces planning annotations. No Java descriptor implementation or identity API is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/optional_list_union_solver_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListValue.optional_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "constructor and shadow properties",
+      "modifications": "Distinct integer values 0..24 replace v0..v24 objects. Native assignment-derived owner/index/neighbor views replace mutable annotated shadow fields; no Java listener lifecycle is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/optional_list_union_solver_cases.rs",
+      "id": "TestdataAllowsUnassignedValuesListSolution.optional_union",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "valueList and entityList properties",
+      "modifications": "Native ListProblem and returned SolverResult replace the solution container, list value range and score property. Five owners and 25 values retain source encounter order. Unused generator/meta-model/descriptor helpers are omitted."
     }
   ]
 }

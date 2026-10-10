@@ -15,6 +15,12 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/optional_list_union_solver_cases.rs` adapts the complete
+  `AllowsUnassignedValuesListVariableSolverTest.runSolver` parameterized method,
+  all six move-family configurations and its optional-list test-domain fixtures
+  and easy scorer. Native configuration/sampling substitutions are recorded in
+  `compat/provenance.json`; the additional partially assigned scenario is original.
+
 - `crates/solver/tests/consumer_support_cases.rs` adapts all four
   `ConsumerSupportTest` methods, its problem-change/publication helpers, and the
   initialized `TestdataSolution.generateSolution` fixture. Native manager callbacks,

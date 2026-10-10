@@ -22011,3 +22011,33 @@ Verificationdb0a62a073bb251c1d4c9495ee0e4bd9065f0b70e439426dd10730a4c9ccade3
 Live/report freshness matches; old Java list measurements remain stale. Evidence
 work/live-finish-evidence.json; work/live-finish-{prebuild,final-check}.log.
 No Rust edits after gate, no benchmark/browser rerun. Goal remains incomplete.
+
+## Optional-list end-to-end union configurations
+
+Baselinec4f5253. Previous turn made verified implementation progress (graceful
+live completion). Read complete pinned TEST-ONLY AllowsUnassignedValuesListVariableSolverTest,
+its easy scorer and three domain fixture classes. Existing native union/tabu/list
+components already support the requested combination; no duplicate solver code added.
+Complete runSolver adaptation preserves all6 configurations,5empty optional lists,
+25values,negative assigned-count scoring,construction plus local search,all3tabu
+policies tenure1,accepted candidate limit100,step limit1000,and non-null result.
+Both scoped/stream backends run with candidate/rollback/boundary score assertions;
+observers independently recompute scores and validate every published assignment.
+Native seeded finite unions and bounded k2..3 repartition sampling explicitly
+replace Java defaults/distributions; no trace/private-assert/listener parity claim.
+One method credit plus5fixtures. Original partially assigned20/25 fixture exercises
+all6configurations on both backends for up to32steps, without extra source credit.
+
+Focus86331 compile failed on misnamed BestRejected enum; corrected to BestScore.
+Focus46534 source runSolver passed (all12solves). Original extra stress test was
+still running at~2min and intentionally SIGTERM-stopped; reduced only the original
+extra case from1000to32steps. The source case keeps1000. Final gate reran final
+source; do not claim the interrupted focused suite was successful.
+Final prebuild/check/evidence54258 TERMINAL0: clippy0.17s,1target compile0.50s;
+new target2tests passes81.76s. 1Rust RUN,765Rust/46Python REUSE,doctests REUSE.
+5532Rust tests and251doctests pass. 3190/4855=65.705%,0failed,1383pending,
+282excluded,0unverified. Sourcea6868e11cbd4334d3a9136c6eef5cd3c349b3435937b0ae3fa98c4254a8bd8df
+Verification74fb604cb988871448f3de1398c72020b3db84ad82628f641ae8b3022088b52a
+Live/report freshness matches. Java list measurements remain stale. Evidence
+work/optional-union-evidence.json; work/optional-union-{prebuild,final-check}.log.
+No Rust edits after gate; no benchmark/browser rerun. Goal remains incomplete.

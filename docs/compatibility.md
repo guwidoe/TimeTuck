@@ -5655,3 +5655,25 @@ ordinary jobs, Best and Final delivery, concurrent scoped completion requests,
 queued-change rejection/cancellation, blocked consumers, unchanged work counters,
 and solve/consumer failures. Graceful completion does not cancel the current token
 or turn a solve failure into success.
+
+
+## Optional-list solver configuration combinations
+
+The complete `AllowsUnassignedValuesListVariableSolverTest.runSolver` method now
+runs all six source move-family combinations across scoped and stream scoring:
+change/swap, each sublist extension, k-opt alone, change/swap/k-opt, and all families.
+The fixture retains five empty optional lists and 25 values with negative assigned
+count scoring. Construction precedes local search with all three tabu policies at
+tenure 1, accepted-candidate limit 100 and step limit 1000. Candidate, rollback and
+boundary score assertions replace the Java tracked full-assert mode; a returned
+solution is required for every source configuration.
+
+Native seed 0, equal-weight finite unions, best-accepted selection with random ties,
+best-rejected fallback and 200 combined-cycle k-opt proposals per step make the
+native configuration explicit. K-opt keeps bounds 2..3. These substitutions do not
+claim Java random distributions, search traces, private assertion machinery or
+shadow-listener lifecycle. The source method receives one credit, not six or twelve.
+An original partially assigned fixture (20 assigned, five missing) additionally
+exercises up to 32 steps of these combinations with assigned values available
+to the k-opt/sublist families.
+Both scenarios validate every published model and independently recompute its score.
