@@ -1261,3 +1261,9 @@ pub use solver_lifecycle::{SolverLifecycleCallback, SolverLifecycleEvent};
 mod json_patch;
 pub use json_patch::{JsonPatch, JsonPatchError, JsonPatchErrorKind, JsonPatchMode};
 pub use serde_json::Value as JsonValue;
+
+mod score_json;
+pub use score_json::{
+    JsonScore, ScoreEnvelope, ScoreJsonError, ScoreJsonFormat, score_from_json, score_to_json,
+    weight_overrides_from_json, weight_overrides_to_json,
+};

@@ -48909,6 +48909,276 @@
       "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
       "local_test": "test_add_freeze_departures_before_time",
       "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.SimpleScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/SimpleScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "simple_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.SimpleScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/SimpleScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "simple_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardSoftScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardSoftScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_soft_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardSoftScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardSoftScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_soft_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardMediumSoftScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardMediumSoftScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_medium_soft_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardMediumSoftScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardMediumSoftScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_medium_soft_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.BendableScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/BendableScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "bendable_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.BendableScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/BendableScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "bendable_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.SimpleBigDecimalScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/SimpleBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "simple_big_decimal_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.SimpleBigDecimalScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/SimpleBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "simple_big_decimal_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardSoftBigDecimalScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardSoftBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_soft_big_decimal_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardSoftBigDecimalScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardSoftBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_soft_big_decimal_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardMediumSoftBigDecimalScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardMediumSoftBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_medium_soft_big_decimal_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardMediumSoftBigDecimalScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardMediumSoftBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "hard_medium_soft_big_decimal_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.BendableBigDecimalScoreJacksonRoundTripTest.serializeAndDeserialize",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/BendableBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "bendable_big_decimal_score_round_trip",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.BendableBigDecimalScoreJacksonRoundTripTest.serializeAndDeserializeWithNegativeStructuralScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/BendableBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserializeWithNegativeStructuralScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "bendable_big_decimal_score_negative_structural",
+      "modifications": "Preserve nullable and scored wrapper round-trips, every input level and structural value, exact JSON score-string shape and decoded score equality. Native typed codecs and JSON object wrappers replace Java mapper annotations and classes; exact string equality strengthens the whitespace-tolerant source regex. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.TimefoldJacksonModuleTest.polymorphicScore",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/TimefoldJacksonModuleTest.java",
+      "upstream_test": "polymorphicScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "polymorphic_score",
+      "modifications": "Preserve both successive polymorphic score types, both bendable dimensions, all six decoded-score assertions and the unchanged statically typed fields. Native tagged ScoreEnvelope values replace Java runtime type dispatch; no Jackson polymorphic wire-tag or mapper registration compatibility is claimed. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.TimefoldJacksonModuleTest.constraintWeightOverrides",
+      "status": "implemented",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/TimefoldJacksonModuleTest.java",
+      "upstream_test": "constraintWeightOverrides",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "local_test": "constraint_weight_overrides",
+      "modifications": "Preserve both named HardSoft weights, exact serialized string values and decoded-map equality. Deterministic native constraint-name maps and generic score parsing replace Java custom module/deserializer registration. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
     }
   ],
   "fixtures": [
@@ -65902,6 +66172,162 @@
       "upstream_test": "complete JSON model input fixture",
       "local_path": "crates/solver/tests/fixtures/model_patch/VISIT_GROUP_input.json",
       "modifications": "Copied byte-for-byte; used by the employee scheduling or field-service routing patch cases. No schema or model production code copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.BendableBigDecimalScoreJacksonRoundTripTest.TestBendableBigDecimalScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/BendableBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestBendableBigDecimalScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.BendableScoreJacksonRoundTripTest.TestBendableLongScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/BendableScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestBendableLongScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardMediumSoftBigDecimalScoreJacksonRoundTripTest.TestHardMediumSoftBigDecimalScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardMediumSoftBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestHardMediumSoftBigDecimalScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardMediumSoftScoreJacksonRoundTripTest.TestHardMediumSoftScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardMediumSoftScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestHardMediumSoftScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardSoftBigDecimalScoreJacksonRoundTripTest.TestHardSoftBigDecimalScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardSoftBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestHardSoftBigDecimalScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.HardSoftScoreJacksonRoundTripTest.TestHardSoftLongScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/HardSoftScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestHardSoftLongScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.SimpleBigDecimalScoreJacksonRoundTripTest.TestSimpleBigDecimalScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/SimpleBigDecimalScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestSimpleBigDecimalScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.SimpleScoreJacksonRoundTripTest.TestSimpleLongScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/SimpleScoreJacksonRoundTripTest.java",
+      "upstream_test": "TestSimpleLongScoreWrapper score field, constructors and getScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic JSON {score: ...} wrapper and explicit Rust type replace the per-family Java field/getter wrapper and mapper annotations. Null, exact field name and score payload are retained; reflective constructors are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.assertSerializeAndDeserialize_and_TestScoreWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/AbstractScoreJacksonRoundTripTest.java",
+      "upstream_test": "assertSerializeAndDeserialize and TestScoreWrapper",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Native helper serializes the score field, parses the actual JSON string, decodes the concrete score, checks equality, and checks exact expected JSON instead of a whitespace-tolerant regex."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.serializeAndDeserialize",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/AbstractJacksonRoundTripTest.java",
+      "upstream_test": "serializeAndDeserialize",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "serde_json text round-trip replaces mapper writeValueAsString/readValue on wrapper instances; no Java runtime reflection or exception wrapping copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.TestTimefoldJacksonModuleWrapper",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/TimefoldJacksonModuleTest.java",
+      "upstream_test": "TestTimefoldJacksonModuleWrapper",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "JSON objects retain bendableScore, hardSoftScore and polymorphicScore fields; native tagged envelopes retain dynamic type/dimensions and typed fields remain plain score strings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "Jackson3.CustomConstraintWeightOverridesDeserializer.parseScore",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/TimefoldJacksonModuleTest.java",
+      "upstream_test": "CustomConstraintWeightOverridesDeserializer.parseScore",
+      "local_path": "crates/solver/tests/score_json_cases.rs",
+      "modifications": "Generic weight_overrides_from_json::<HardSoftScore> selects the same hard/soft score family without Java custom module registration."
     }
   ]
 }

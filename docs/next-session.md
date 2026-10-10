@@ -22564,3 +22564,35 @@ work/model-patch-evidence.json. Measured implementation/Cargo/probe/binary hashe
 still match; only existing-test inference annotations differ from benchmark source
 state. Existing Java/list metrics remain stale. No Rust edits after successful gate.
 Goal active/incomplete; do not rerun this evidence solely for the next turn/commit.
+
+## Exact JSON scores and named weights (baseline20e1fd3)
+
+Previous turn made committed/verified49-method JSON patch progress. Added score
+JSON strings/null for all8native families, deterministic constraint-weight maps and
+validated ScoreEnvelope type/dimension tags. Typed decode rejects shape/family
+mismatches. Runtime bendable validation scans supplied tokens without allocating
+attacker-specified dimensions. Positive structural state gains an explicit prefix
+at this persistence boundary; existing Display behavior stays unchanged.
+
+Read TEST-ONLY persistence/jackson score round-trip classes, two abstract helpers
+and TimefoldJacksonModuleTest.18complete methods+12fixtures now override initial
+persistence exclusions individually; no claim for Java registration/service loading
+or Jackson polymorphic tags. Native envelopes preserve the round-trip assertions.
+No production upstream read. Reconnaissance also read service date-time tests and
+SolverMetricsIT's first260lines; no adaptations/implementation from those reads.
+
+Focus61559 TERMINAL0:18adapted pass.82624 TERMINAL0:3original matrix/error/weighted
+solver regressions pass. New module/exposes only; Cargo unchanged. No benchmark
+or UI refresh. Final3142 runs prebuild_score_json.py then scripts/check.sh; evidence
+recorder record_score_json.py. Source/provenance frozen before gate; goal active.
+
+Final3142 TERMINAL0: clippy30.07s, affected-target compilation18.86s;
+5Rust RUN/776Rust REUSE/46Python REUSE;5671Rust tests+254doctests pass.
+Coverage3271/4855=67.374%,0failed,1320pending,264excluded,0unverified.
+Source697a0ae4e555a9a381ba4497fcbf857f7326868c826dfcfd65fb233dae5b1ce6;
+verification09bd8a3455101f5f4a54dd1157eae1938416be19a3fd7f859ef9ae1f64abbe4a.
+Recorder90838 TERMINAL0 validates unchanged successful source, provenance prefix
+plus18methods/12fixtures, all new methods passed and live/report freshness.
+Evidence work/score-json-evidence.json. No Rust changes after successful gate;
+no benchmark or browser rerun. Java/list measurements remain visibly stale.
+Goal active/incomplete. Reuse this verification while relevant inputs are unchanged.

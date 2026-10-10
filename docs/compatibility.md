@@ -6033,3 +6033,31 @@ atomically. This isolates avoided copying, not Java performance or solver speed.
 Raw samples and source/binary hashes:work/model-patch-performance.json.
 References: https://www.rfc-editor.org/rfc/rfc6902 and
 https://docs.rs/serde_json/1.0.151/serde_json/enum.Value.html.
+
+## JSON scores and constraint-weight overrides
+
+Native JSON codecs now cover all eight integer/decimal score families, including
+const-generic bendable dimensions. `score_to_json`/`score_from_json` use score strings
+or null; they reject JSON numeric values and preserve integer width, decimal
+precision and structural state without floating conversion. Positive structural
+state is emitted explicitly (unlike Display) to avoid losing it during persistence.
+`weight_overrides_to_json`/`weight_overrides_from_json` encode deterministic named
+score maps, preserve explicit zero weights and identify invalid entries by name.
+Decoded weights bind through the existing graph validation and solver APIs.
+
+`ScoreEnvelope` adds a native type tag and explicit bendable dimensions for
+heterogeneous transport. Parsing validates payloads and dimensions without
+allocating arrays sized by untrusted dimensions. Typed decoding rejects a family
+or shape mismatch. Envelope score text is retained; native typed parsers determine
+canonical typed values. These native tags are not a Jackson polymorphic wire-tag
+compatibility claim.
+
+Sixteen score round-trip methods plus TimefoldJacksonModuleTest's polymorphic-score
+and weight-override methods retain every data assertion. These 18 methods now
+supersede the initial persistence exclusion individually via the provenance ledger.
+The broad framework exclusion remains: mapper registration, reflection, service
+loading and Java persistence integrations are not claimed. Twelve test helper/
+wrapper fixtures are attributed. Original regressions cover all families at full
+integer width, arbitrary decimal precision, negative/zero/positive structural
+state, malformed types/shapes, empty dimensions and actual weighted solving.
+No solver performance algorithm or dependency changed; no benchmark refresh.
