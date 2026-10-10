@@ -1,7 +1,7 @@
 //! Transactional stream scoring for ordered-list variables and their shadow views.
 //!
 //! Both bound sources start empty. Every entity and registered value has a row,
-//! including empty lists and unassigned values. Other sources are immutable facts.
+//! including empty lists and unassigned values. Other sources are facts, updated explicitly through `edit_facts`.
 //! Changes deliver final entity lists, then affected value views; callbacks may
 //! see intermediate joins, but the completed candidate is consistent.
 //!
@@ -500,6 +500,22 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.graph.constraint_scores()
+    }
+    /// Change external fact rows without rebuilding the scoring graph. Planning
+    /// sources are protected, preserving assignment/shadow consistency. Drop or
+    /// unwind rolls back; commit retains all updates. Finish this transaction
+    /// before continuing search, whose acceptance history starts afresh.
+    /// This does not change model domains, pins, entities, or graph topology.
+    pub fn edit_facts(&mut self) -> crate::FactTransaction<'_, 'a, S> {
+        let structural = self.score().structural();
+        crate::FactTransaction::new(
+            &mut self.graph,
+            vec![
+                self.sources.entities.node_id(),
+                self.sources.values.node_id(),
+            ],
+            structural,
+        )
     }
     pub fn assert_consistent(&mut self) -> Result<(), ListStreamScoringError> {
         self.graph.assert_consistent()?;

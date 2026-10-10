@@ -5903,3 +5903,19 @@ changes do not isolate the effect of Rust changes. Preserve samples and quality/
 differences when comparing. Raw data:work/list-performance.json; previous snapshot:
 work/list-performance-before-9c03dc5.json. The dashboard's list section is refreshed;
 other performance families keep their older measurement dates and stale status.
+
+## Retained external fact updates
+
+Basic, list and mixed stream directors expose `edit_facts()`. Individual and
+heterogeneous batched fact insertions, replacements and retractions update the
+existing graph; commit keeps them, while drop/unwind restores cached state without
+callback replay. All bound planning sources are protected, including through a
+batch. Rejected sources, scoring errors and caught callback panics prevent partial
+commit. Trial scores retain the assignment's structural component.
+
+Original `retained_facts` integration tests cover all three models, joined costs,
+unchanged assignments/shadows, unaffected source callbacks, rollback, protection,
+foreign handles, overflow and subsequent solves compared with freshly built graphs
+using the changed facts. The API does not modify model domains, pins, entities,
+constraint weights or graph topology, nor integrate automatic live-job revision
+handling. No upstream-method credit or elapsed-time performance claim is added.

@@ -184,9 +184,10 @@ pub use incremental_stream::{
 pub mod stream_graph;
 pub use stream_graph::batching::StreamBatch;
 pub use stream_graph::{
-    ConcatId, ConcatenatedStreamPort, GraphError, GraphTransaction, GroupedListStreamPort,
-    JoinedStreamPort, NodeActivity, SharedFilter, SharedFlatMap, SharedMap, StreamActivity,
-    StreamConstraint, StreamDataset, StreamGraph, StreamGraphBuilder, StreamPort, StreamSource,
+    ConcatId, ConcatenatedStreamPort, FactTransaction, GraphError, GraphTransaction,
+    GroupedListStreamPort, JoinedStreamPort, NodeActivity, SharedFilter, SharedFlatMap, SharedMap,
+    StreamActivity, StreamConstraint, StreamDataset, StreamGraph, StreamGraphBuilder, StreamPort,
+    StreamSource,
 };
 
 mod retained_stream_phase;

@@ -29,6 +29,8 @@
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
 
+mod facts;
+pub use facts::FactTransaction;
 mod activity;
 mod indexed_batch;
 mod ordered_existence;
@@ -91,6 +93,7 @@ pub type ConcatenatedStreamPort<L, R, T> = StreamPort<ConcatId<L, R>, T>;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GraphError {
     ForeignPort,
+    ProtectedPlanningSource,
     DuplicateConstraint(String),
     UnknownConstraintWeights {
         unknown: Vec<String>,
@@ -133,6 +136,9 @@ impl fmt::Display for GraphError {
                 write!(f, "constraint {name:?} has a structural weight component")
             }
             Self::Dependency(reason) => write!(f, "invalid derived dependency: {reason}"),
+            Self::ProtectedPlanningSource => {
+                f.write_str("planning sources cannot be changed by a fact transaction")
+            }
             Self::ForeignPort => f.write_str("stream port belongs to another graph"),
             Self::DuplicateConstraint(name) => write!(f, "duplicate stream constraint: {name}"),
             Self::StructuralContribution(name) => {
@@ -189,6 +195,9 @@ impl<I, T> Clone for StreamSource<I, T> {
     }
 }
 impl<I, T> StreamSource<I, T> {
+    pub(crate) fn node_id(&self) -> usize {
+        self.0.node
+    }
     pub fn port(&self) -> &StreamPort<I, T> {
         &self.0
     }

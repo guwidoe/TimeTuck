@@ -22380,3 +22380,32 @@ measured2026-10-10T07:29:45.526658+00:00. Logswork/list-refresh-9c03dc5{,-report
 evidencework/list-refresh-9c03dc5-evidence.json; recorderwork/record_list_refresh_9c03dc5.py.
 Docs-only review/commit. Goal remains active; resume substantive implementation,
 not another refresh solely because of the next turn/commit.
+
+## Retained fact transactions (baseline 4aab2fa)
+
+Previous user-facing turn answered throughput concerns but made no implementation
+change; resumed implementation here. Added `edit_facts` to all three retained stream
+directors, sharing `FactTransaction` over existing graph transactions. It protects
+bound planning source IDs, including heterogeneous batches, preserves structural
+scores and poisons rejected/failed edits. Drop/panic rollback uses existing cached
+checkpoints. Next retained solve consumes changed facts without rebuilding unrelated
+sources. Model/domain/topology changes and automatic live-job integration remain out
+of scope for this API; no upstream source inspected or source-method credit added.
+
+Six original integration tests plus a public doctest cover fact insert/update/remove,
+all-model joined scores and structural state, unchanged assignments, unrelated
+callback counts, drop, protected/foreign sources, caught callback panic, checked
+overflow and subsequent solves versus fresh graphs. Initial focused four tests
+passed; later protection/overflow cases are included in final gate. First test compile
+needed explicit i64 closure arguments and MixedLocalSearchConfig's search field.
+No measured speedup claimed or unrelated benchmarks/browser checks repeated.
+
+Final batch30142 TERMINAL0: Clippy20.37s, compile4m17s,643Rust jobs RUN,
+127Rust/46Python REUSE;5570Rust tests+252doctests pass. Source
+bef713966c18cd59c4e3b155ecfa0a1985a36bec2b077b2557336f048d2a5736;
+verification7622347cc2c51fe8841a5c9209b4e5c934417a6299670e903f3db8ce60f702b3.
+Coverage3190/4855=65.705%,0failed,1383pending,282excluded,0unverified.
+Report/live verification freshness matched; list measurement now visibly stale.
+Logs work/retained-facts-{prebuild,final-check}.log; evidence
+work/retained-facts-evidence.json. No Rust edits after gate. Goal active/incomplete.
+Do not rerun this evidence solely for the next turn or commit.

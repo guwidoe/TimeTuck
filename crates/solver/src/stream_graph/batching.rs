@@ -8,8 +8,8 @@ use super::*;
 /// event payloads. Submission uses the ordinary graph transaction rollback contract.
 #[derive(Clone, Default)]
 pub struct StreamBatch {
-    owner: Option<Rc<()>>,
-    events: Vec<(usize, Event)>,
+    pub(super) owner: Option<Rc<()>>,
+    pub(super) events: Vec<(usize, Event)>,
 }
 impl StreamBatch {
     pub fn new() -> Self {
