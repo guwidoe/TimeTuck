@@ -22180,3 +22180,46 @@ Verification4460145fb203deddaa261400c9acb39500dbc84e6bb3a531758b576caeee528d
 Live/report freshness and benchmark source/binary hashes match. Evidence/logs:
 work/retained-phase-{evidence.json,prebuild.log,final-check.log,performance.json}.
 No Rust changes after gate; existing Java timings stale; no browser rerun. Goal active.
+
+## Whole construction/local solves on retained directors (baseline fc5d4bd)
+
+Previous turn made verified retained-phase progress. New run_solver and
+run_solver_with_events methods for all3directors accept SolverConfig or
+MixedSolverConfig. They reuse solver::run for shared budgets, time/stagnation,
+termination, cancellation, complete/partial handoffs, frozen initialization and
+lifecycle events. Mixed order/joint flags preserved. Current bound state starts the
+solve; prior graph binding/fact setup is outside this API's counters/deadline.
+RetainedPhase forwards complete-state notifications and new initialization work,
+and supports CommandDirector for the controller's initial-only/phase-check kernel.
+assert_phase_scores rebuild-checks retained graph consistency rather than invoking
+an external factory. Arbitrary sequences/exact/custom/repair/providers remain future
+integration; existing fresh factory entry points retain their contract.
+
+Focus37814 failed observer higher-ranked lifetime inference; explicit SolutionUpdate
+arguments fixed it (19863 passed). Focus10028 failed binding an invalid cyclic list
+assignment; prepare before binding, and explicitly check its extra initial-best event
+versus a fresh solve's suppressed repair baseline. Focus49450 passes4new+5existing
+retained-phase tests. Counter assertion54925 passed. 24configurations per scenario
+compare full normalized work/results and events across basic/frozen/list-dependency/
+mixed-order paths; callbacks accurately counted, invalid plans do no scoring,
+initialization callback can cancel, phase checks catch changed scoring closures.
+
+Prebuild29886 Clippy failed9type-complexity signatures; shared observer aliases fixed
+those, and a generated basic Ok/map_err wrapper was removed. Refresh release/measure
+on the final source in89078: release21.67s,Clippy18.51s passed. Full-solve native probe
+compares16variables,4/16six-step annealing phases,0/256/2048facts,3alternating process
+pairs,1warmup+3batches of16solves. Includes initial binding/model/fact setup and final
+independent validation. Assignments/scores/evaluations/steps equal. Final median wall
+ratios .714/.576 without facts, .284/.115 with256facts, .220/.068 with2048facts.
+Short setup-sensitive workload, not Java/long-phase guarantee. Results and full
+source/probe/binary hashes:work/retained-solver-performance.json. No source credits.
+
+Final89078 TERMINAL0:572target compile107s;572Rust RUN,197Rust/46Python REUSE;
+5553Rust tests+251doctests pass. Coverage3190/4855=65.705%,0failed,1383pending,
+282excluded,0unverified. Source021a5e11b13b69078b76529a6dfe3d57e35b07a8cab12acfa036cb37999a5e14
+Verificationb184d124b1639f45e042e4778f7f6fb8f47533e84317f185b441744cdc4bd624
+Live/report freshness and final benchmark source/binary hashes match. Evidence:
+work/retained-solver-{evidence.json,prebuild.log,final-check.log,performance.json}.
+No Rust changes after gate, no source credits, old Java timings stale, no UI rerun.
+Goal active. Next retained orchestration gap: arbitrary exact/custom/repair sequences
+and providers; do not claim those from the construction/local configuration API.

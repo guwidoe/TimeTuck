@@ -2080,8 +2080,41 @@ calls preserve the director; validation still precedes those checks. A scoring e
 or callback panic leaves the last committed consistent step, which may differ from
 the phase-entry or best assignment. External callback side effects are not undone.
 
-These are explicit phase calls with per-call limits. Callers can use assignment
-replacement between calls. The existing `solve_*_stream` APIs retain their fresh
-factory-per-phase contract; shared plan limits, exact/custom/repair phases, event
-observers and extension providers are not routed through this API yet. This does
-not earn the upstream whole-solver list-state-identity test credit.
+These explicit phase calls have per-call limits; callers can replace assignments
+between calls. For shared controls and events, use the retained whole-solve methods
+below. Existing `solve_*_stream` functions retain their fresh factory-per-phase
+contract. Retained exact/custom/repair phases and extension providers remain
+unfinished. No upstream whole-solver list-state-identity test credit is claimed.
+
+## Whole solves on a retained director
+
+All three stream directors expose `run_solver(config)` and
+`run_solver_with_events(config, observer)`. Basic/list methods accept `SolverConfig`;
+mixed accepts `MixedSolverConfig`. They run construction followed by the configured
+local-search phases through the existing shared solver controller, including score
+and candidate budgets, cancellation, deadlines, stagnation, composed termination,
+score/feasibility goals, incomplete-handoff policy and frozen-model initialization.
+Mixed construction order and each local phase's joint-move setting are preserved.
+Phase outputs, initialization notifications and best-event suppression use the same
+controller as fresh-graph solves.
+
+The solve starts from the director's current valid assignment. Graph construction,
+fact loading and original binding have already happened and are outside this call's
+evaluation, callback and time counters. Constraint counts include only new work;
+score-evaluation and candidate budgets keep their normal semantics. On successful
+scored return, the director retains the result assignment and its best cached graph.
+Errors or callback panics keep the last committed consistent state. Callers must
+prepare invalid dependency layouts before constructing a director; an already
+prepared initial state emits an ordinary first-best event, unlike a fresh solve's
+suppressed repair-baseline event.
+
+`assert_phase_scores` rebuilds/checks the retained graph through `assert_consistent`
+at phase boundaries; it cannot test reproducibility of an external graph factory.
+Diagnostic work is excluded from work counters, while elapsed time remains part of
+the solve deadline. Events and the controller's initial-only scoring path do not
+rebuild graph topology or rerun immutable-fact setup.
+
+The retained API currently accepts the construction/local-search configurations,
+not arbitrary `SolverSequence`/`MixedSolverSequence` plans. Retained exact, custom,
+repair and extension-provider orchestration remain unfinished. Existing free
+`solve_*_stream` functions preserve their factory-per-phase contract.

@@ -6,9 +6,12 @@ use crate::{
     search_scoring::SearchDirector,
 };
 
-type BestCallback<'a, D> = Option<&'a mut dyn FnMut(&D)>;
+pub(crate) type Observer<'a, A, S> = Option<&'a mut dyn FnMut(crate::SolutionUpdate<'_, A, S>)>;
+
+type BestCallback<'a, D> = Option<&'a mut dyn FnMut(&D, bool)>;
 pub(crate) struct RetainedPhase<'a, D> {
     pub director: &'a mut D,
+    pub initialization_work: u128,
     pub on_best: BestCallback<'a, D>,
 }
 macro_rules! retained {
@@ -17,10 +20,15 @@ macro_rules! retained {
             type Error = D::Error;
             fn assignment(&self) -> &$assignment { self.director.assignment() }
             fn score(&self) -> S { self.director.score() }
-            fn initial_constraint_evaluations(&self) -> u128 { 0 }
+            fn initial_constraint_evaluations(&self) -> u128 { self.initialization_work }
             fn notify_best(&mut self, complete: impl FnOnce(&$assignment) -> bool) {
-                self.director.notify_best(complete);
-                if let Some(on_best) = &mut self.on_best { on_best(self.director); }
+                if let Some(on_best) = &mut self.on_best {
+                    let complete = complete(self.director.assignment());
+                    self.director.notify_best(|_| complete);
+                    on_best(self.director, complete);
+                } else {
+                    self.director.notify_best(complete);
+                }
             }
             fn assert_consistent(&mut self) -> Result<(), Self::Error> {
                 self.director.assert_consistent()
@@ -54,3 +62,31 @@ retained!(
     crate::list_scoring::ListSelection<V>
 );
 retained!((B,L), MixedSearchDirector, MixedAssignment<B,L>, MixedMove<B,L>, crate::mixed_scoring::MixedSelection<B,L>);
+
+impl<A, M, S, D: crate::custom_phase::CommandDirector<A, M, S>>
+    crate::custom_phase::CommandDirector<A, M, S> for RetainedPhase<'_, D>
+{
+    type Error = D::Error;
+    fn assignment(&self) -> &A {
+        self.director.assignment()
+    }
+    fn score(&self) -> S {
+        self.director.score()
+    }
+    fn initial_evaluations(&self) -> u128 {
+        self.initialization_work
+    }
+    fn preview(&self, movement: &M) -> Result<Option<crate::MoveInspection<A>>, Self::Error> {
+        self.director.preview(movement)
+    }
+    fn assert_consistent(&mut self) -> Result<(), Self::Error> {
+        self.director.assert_consistent()
+    }
+    fn trial(
+        &mut self,
+        movement: &M,
+        visit: &mut dyn FnMut(&A, S, u128) -> bool,
+    ) -> Result<(), Self::Error> {
+        self.director.trial(movement, visit)
+    }
+}

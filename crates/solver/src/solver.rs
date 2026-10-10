@@ -1453,6 +1453,9 @@ macro_rules! improved {
     }};
 }
 
+#[path = "solver_retained.rs"]
+pub(crate) mod retained;
+
 type CommandCallback<'a, A, M, S, E> = Option<
     &'a mut dyn FnMut(
         usize,

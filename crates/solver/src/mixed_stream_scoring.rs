@@ -179,17 +179,39 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         &mut self,
         config: MixedConstructionConfig,
     ) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
+        self.run_construction_monitored(None, None, None, config)
+    }
+
+    pub(crate) fn run_construction_monitored(
+        &mut self,
+        shared: Option<&mut dyn crate::time_limit::SearchControl>,
+        initial: Option<MixedAssignment<B, L>>,
+        mut observer: crate::retained_stream_phase::Observer<'_, MixedAssignment<B, L>, S>,
+        config: MixedConstructionConfig,
+    ) -> Result<MixedConstructionResult<B, L, S>, MixedStreamScoringError> {
         let problem = self.problem;
-        let initial = self.assignment.clone();
+        let initial = initial.unwrap_or_else(|| self.assignment.clone());
+        let observed = observer.is_some();
+        let mut notify = |director: &Self, complete| {
+            if let Some(observer) = &mut observer {
+                observer(crate::SolutionUpdate {
+                    assignment: director.assignment(),
+                    score: director.score(),
+                    complete,
+                });
+            }
+        };
         crate::mixed_construction::construction_impl_monitored(
-            None,
+            shared,
             problem,
             initial,
             config,
-            |_| {
+            |initial| {
+                let initialization_work = self.prepare_retained_phase(initial)?;
                 Ok(crate::retained_stream_phase::RetainedPhase {
                     director: self,
-                    on_best: None,
+                    initialization_work,
+                    on_best: observed.then_some(&mut notify),
                 })
             },
         )
@@ -204,20 +226,39 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         &mut self,
         config: MixedLocalSearchConfig<S>,
     ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+        self.run_local_search_monitored(None, None, None, config)
+    }
+
+    pub(crate) fn run_local_search_monitored(
+        &mut self,
+        shared: Option<&mut dyn crate::time_limit::SearchControl>,
+        initial: Option<MixedAssignment<B, L>>,
+        mut observer: crate::retained_stream_phase::Observer<'_, MixedAssignment<B, L>, S>,
+        config: MixedLocalSearchConfig<S>,
+    ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
         let problem = self.problem;
-        let initial = self.assignment.clone();
+        let initial = initial.unwrap_or_else(|| self.assignment.clone());
         let mut best_graph = None;
-        let mut save_best = |director: &Self| {
+        let mut save_best = |director: &Self, complete| {
             best_graph = Some(director.graph.capture_full());
+            if let Some(observer) = &mut observer {
+                observer(crate::SolutionUpdate {
+                    assignment: director.assignment(),
+                    score: director.score(),
+                    complete,
+                });
+            }
         };
         let result = crate::mixed_local_search::search_impl_monitored(
-            None,
+            shared,
             problem,
             initial,
             config,
-            |_| {
+            |initial| {
+                let initialization_work = self.prepare_retained_phase(initial)?;
                 Ok(crate::retained_stream_phase::RetainedPhase {
                     director: &mut *self,
+                    initialization_work,
                     on_best: Some(&mut save_best),
                 })
             },
@@ -228,6 +269,44 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 .install(best_graph.expect("scored phase records its initial best"));
         }
         Ok(result)
+    }
+
+    pub(crate) fn prepare_retained_phase(
+        &mut self,
+        initial: MixedAssignment<B, L>,
+    ) -> Result<u128, MixedStreamScoringError> {
+        // These inputs come from this solve's own assignment snapshots/preparation.
+        if self.assignment == initial {
+            return Ok(0);
+        }
+        let change = self.replace_assignment(initial)?;
+        let work = change.constraint_evaluations();
+        change.commit();
+        Ok(work)
+    }
+
+    /// Run construction and ordered local-search phases under shared solve limits,
+    /// retaining this graph and starting from this director's current assignment.
+    /// Earlier graph initialization is outside this call's work/time counters.
+    pub fn run_solver(
+        &mut self,
+        config: crate::MixedSolverConfig<'_, S>,
+    ) -> Result<
+        crate::SolverResult<MixedAssignment<B, L>, S>,
+        crate::SolverError<MixedLocalSearchError>,
+    > {
+        crate::solver::retained::mixed(self.problem, self, config, None)
+    }
+    /// Run a retained solve with the standard synchronous solver lifecycle events.
+    pub fn run_solver_with_events(
+        &mut self,
+        config: crate::MixedSolverConfig<'_, S>,
+        mut observer: impl FnMut(crate::SolverEvent<'_, MixedAssignment<B, L>, S>),
+    ) -> Result<
+        crate::SolverResult<MixedAssignment<B, L>, S>,
+        crate::SolverError<MixedLocalSearchError>,
+    > {
+        crate::solver::retained::mixed(self.problem, self, config, Some(&mut observer))
     }
 
     /// Validate and score a new assignment using this director's compiled graph.

@@ -5770,3 +5770,30 @@ avoided repeated setup in these short phases. These are focused native compariso
 not Java comparisons or predictions for long phases. Details and source/binary
 hashes are in work/retained-phase-performance.json. Full solver plan entry points
 still request a fresh factory per phase; the new methods are explicit retained calls.
+
+## Retained whole-solve control
+
+Bound basic/list/mixed stream directors now run their construction/local-search
+configuration under the ordinary shared solver controller via `run_solver` and
+`run_solver_with_events`. Original tests compare full results (apart from the
+intentionally reduced constraint-work counts) and lifecycle events with fresh
+solves across 24 configurations per scenario: evaluation/candidate caps, zero time,
+shared stagnation, score/feasibility goals, phase assertions and partial construction.
+Scenarios include frozen basics, prepared list dependencies and both mixed
+construction orders with joint moves. A pre-bound repaired assignment emits its
+initial best; a fresh solve suppresses the repair baseline, which is checked as an
+explicit event difference. Invalid plans perform no new scoring, initialization
+callbacks can cancel later phases, and phase checks detect changed scoring callbacks.
+Five earlier retained-phase regressions remain covered. No upstream method credit is
+added; retained arbitrary phase-sequence support is still incomplete.
+
+The original native short-phase probe now also compares full `solve_stream`
+against `run_solver`: 16 variables, four/sixteen six-step annealing phases,
+zero/256/2048 immutable facts, three alternating process pairs, one warm-up plus
+three timed batches of 16 solves. Timers include initial graph binding, model/fact
+setup and independent final validation on both paths. Final assignments, scores,
+evaluations and steps match. Median elapsed time falls 29–42% without facts and
+72–93% with fact setup; this measures short phases where setup matters, not Java
+performance or long-phase predictions. work/retained-solver-performance.json holds
+samples and source/probe/binary hashes. Earlier retained-phase measurements describe
+the previous explicit-phase implementation and are not relabeled as current.
