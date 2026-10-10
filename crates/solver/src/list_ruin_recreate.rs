@@ -264,10 +264,21 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
         &'a self,
         a: &'a ListAssignment<V>,
         neighborhood: RepairNeighborhood<'a>,
-    ) -> Result<Box<dyn Iterator<Item = ListMove<V>> + 'a>, RuinRecreateError> {
-        Ok(Box::new(
-            list_moves(self, a, neighborhood.standard()?).map_err(model_error)?,
-        ))
+    ) -> Result<crate::ruin_engine::FineMoves<'a, ListMove<V>>, RuinRecreateError> {
+        let moves = list_moves(self, a, neighborhood.standard()?).map_err(model_error)?;
+        if self.dependencies.is_none() {
+            return Ok(crate::ruin_engine::FineMoves::All(Box::new(moves)));
+        }
+        let checker = self.move_checker(a).map_err(model_error)?;
+        Ok(crate::ruin_engine::FineMoves::Checked(Box::new(moves.map(
+            move |movement| {
+                (!matches!(
+                    checker.is_doable(&movement),
+                    Err(ListError::DependencyCycle { .. })
+                ))
+                .then_some(movement)
+            },
+        ))))
     }
     fn apply_fine(
         &self,

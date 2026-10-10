@@ -748,6 +748,8 @@ fn repair_only_sequences_preserve_temporary_pins_ranges_dependencies_and_budgets
                     phases: vec![SolverPhase::RuinRecreate(repair.clone())],
                     ..Default::default()
                 });
+                assert!(expected.is_ok(), "fresh repair failed: {expected:?}");
+                assert!(actual.is_ok(), "retained repair failed: {actual:?}");
                 assert_eq!(
                     format!("{:?}", actual.as_ref().map(|r| normalize(r.clone()))),
                     format!("{:?}", expected.map(normalize))
@@ -771,6 +773,8 @@ fn repair_only_sequences_preserve_temporary_pins_ranges_dependencies_and_budgets
                 let mut d =
                     MixedStreamScoreDirector::new(&mp, g, s, mp.initial_assignment()).unwrap();
                 let actual = d.run_solver(config);
+                assert!(expected.is_ok(), "fresh repair failed: {expected:?}");
+                assert!(actual.is_ok(), "retained repair failed: {actual:?}");
                 assert_eq!(
                     format!("{:?}", actual.as_ref().map(|r| normalize(r.clone()))),
                     format!("{:?}", expected.map(normalize))

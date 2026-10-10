@@ -503,18 +503,20 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
         &'a self,
         a: &'a Assignment<V>,
         neighborhood: RepairNeighborhood<'a>,
-    ) -> Result<Box<dyn Iterator<Item = Move<V>> + 'a>, RuinRecreateError> {
+    ) -> Result<crate::ruin_engine::FineMoves<'a, Move<V>>, RuinRecreateError> {
         self.validate(a).map_err(LocalSearchError::from)?;
         self.validate_neighborhood(neighborhood)?;
-        if let RepairNeighborhood::Basic(c) = neighborhood {
-            return Ok(crate::basic_neighborhood::configured(self, a, c));
-        }
-        Ok(crate::neighborhood::ordered(
-            self,
-            a,
-            neighborhood.standard()?,
-            0..self.variables().len(),
-        ))
+        let moves = if let RepairNeighborhood::Basic(c) = neighborhood {
+            crate::basic_neighborhood::configured(self, a, c)
+        } else {
+            crate::neighborhood::ordered(
+                self,
+                a,
+                neighborhood.standard()?,
+                0..self.variables().len(),
+            )
+        };
+        Ok(crate::ruin_engine::FineMoves::All(moves))
     }
     fn apply_fine(
         &self,

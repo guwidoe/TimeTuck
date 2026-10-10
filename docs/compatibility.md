@@ -5813,9 +5813,9 @@ Provider-extension integration is covered by the following increment.
 Four original regressions compare fresh and retained results across all three
 models, exact strategies and budgets, mixed sequences, events, custom best restore,
 unbound commands, caught observer panics, and repair pins/ranges/dependencies with
-required/optional lists. The repair matrix preserves existing fresh-path errors
-when sampled removals introduce a dependency cycle, and checks director consistency
-after failure. Errors leave the last committed consistent candidate, which can be
+required/optional lists. The repair matrix originally recorded fresh-path dependency errors and director
+consistency after failure. The fine-sampling correction below now requires these
+scenarios to succeed; the failure came from a sampled fine move, not removal. Errors leave the last committed consistent candidate, which can be
 partial. No upstream method credit or Java lifecycle identity claim is added.
 
 A focused same-binary native probe compares fresh and retained full basic solves:
@@ -5858,3 +5858,24 @@ Median elapsed time falls about 15% without facts and 89–98% with immutable fa
 This measures repeated setup in short native phases; it is not a Java comparison
 or a general solver speedup. Samples and source/probe/binary hashes are in
 work/retained-extensions-performance.json; older Java measurements remain stale.
+
+
+## Dependency-safe hybrid repair sampling
+
+List and mixed repair searches now reject dependency-cyclic fine proposals before
+random selection. This applies to ordinary/compound list families and configured
+mixed singles/joint moves. All-cyclic families become unavailable; rejected proposals
+do not consume attempts, scoring work or reservoir draws. Cooperative cancellation
+and time checks still occur between rejected raw candidates. Models without dependency
+rules keep the same candidates, draw order and iterator allocation.
+
+The previously failing seed-37 retained/fresh matrix now requires successful solves.
+Two new unit regressions verify one pollable slot per raw proposal, all-cyclic
+`NoAvailableMoves` without candidate scoring, and preservation of legal basic singles
+while rejecting cyclic mixed singles/joints. One original integration matrix compares
+432 list/mixed configurations across scoped, fresh-stream and retained-stream scoring:
+required/optional values, pins/ranges, three seeds, three score budgets, fine/hybrid/
+compound neighborhoods and both mixed construction orders. Final results and evaluation/attempt
+counts match. Independent transitive closure checks dependency validity; retained
+stream callbacks permit documented intermediate row updates, with complete published
+states checked independently. No upstream method credit or performance claim is added.

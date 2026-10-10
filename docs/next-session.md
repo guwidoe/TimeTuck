@@ -22313,3 +22313,45 @@ complete for these native APIs; this is not completion of the rewrite. Concrete
 remaining issue: the existing repair dependency-cycle failure reproduced by the
 repair matrix in retained_solver.rs (also fresh) warrants focused handling; avoid
 reopening already-recorded reflection/private-protocol test-credit investigations.
+
+## Dependency-safe fine sampling in repair (baseline 412c315)
+
+Previous turn made committed/verified retained-provider progress. The recorded
+repair failure is now diagnosed correctly: reservoir sampling picked a cyclic
+fine move and apply_fine aborted. It was not a reconstruction/removal failure.
+Requiring success in the seed37 retained matrix reproduces the old error in
+work/repair-cycle-before.log (terminal101); focus61105 passes after the fix.
+
+List and configured mixed fine iterators now use borrowed list checkers to mark
+DependencyCycle proposals ineligible. Other errors remain eligible for the existing
+apply/error path. Basic-only mixed proposals survive. FineMoves has All/Checked
+variants: no-dependency paths retain their old iterator allocation/candidates/order;
+checked paths yield one Option slot per raw proposal. None never enters the reservoir
+or consumes a draw, but returns to the outer loop for time/cancellation polling.
+Empty/all-cyclic families are removed normally; no eligible family => NoAvailableMoves.
+
+Two originals verify raw slot counts, zero fine scores/attempts for all-cyclic swaps,
+and configured mixed basic singles versus cyclic singles/joints. New hybrid matrix
+covers432 configurations across scoped/fresh/retained list/mixed solves: optionalness,
+pins/ranges,3seeds,3budgets,4family modes,both mixed orders. Outcomes/work match with
+independent dependency closure checks. Initial hybrid test incorrectly asserted
+validity inside retained graph intermediate row propagation; adjusted only retained
+callbacks to accept that documented state and check published states independently.
+Focus70140 hybrid passed1.27s; final All/Checked unit focus66357 passes2,Clippyall25.30s.
+No new source credit, production upstream reads, Java timings or performance claims.
+Existing raw graphs/factories retain their contracts. Final broad gate follows;
+helpers:work/prebuild_repair_cycle.py and work/record_repair_cycle.py.
+
+Final gate56986 TERMINAL0: cached compiler Clippy0.08s;572target compile188s;
+572Rust RUN,197Rust/46Python REUSE;5564Rust tests+251doctests pass.
+Coverage3190/4855=65.705%,0failed,1383pending,282excluded,0unverified.
+Source5ab6898cae099e5c1c1d780645355147ba70cb6a0305a3021c96680cf15f1f56;
+verification3b38ee14eca9d4fe7e51ac39e784cc247e268af0bb15a3e3915af01a6149cc8c.
+Report/live freshness matched; evidencework/repair-cycle-evidence.json and
+work/repair-cycle-{prebuild.log,final-check.log}. No Rust edits after gate; no
+benchmark/browser rerun. Goal active. A focused deliberate Java list-performance
+refresh (scripts/benchmark_lists.py) is now useful after the accumulated performance
+changes; preserve raw quality/work differences and avoid refreshing unrelated suites.
+The top pending-method counts include160 Java migration tests plus factory/reflection
+and service tests; do not mistake those for160 missing native solver features or add
+redundant wrappers merely to increase credit. No new upstream source was inspected.

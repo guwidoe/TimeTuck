@@ -4,6 +4,21 @@ use std::time::Instant;
 
 pub(crate) type RepairObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolutionUpdate<'_, A, S>)>;
 
+pub(crate) enum FineMoves<'a, M> {
+    // Keep the existing iterator allocation for models without dependency checks.
+    All(Box<dyn Iterator<Item = M> + 'a>),
+    Checked(Box<dyn Iterator<Item = Option<M>> + 'a>),
+}
+impl<M> Iterator for FineMoves<'_, M> {
+    type Item = Option<M>;
+    fn next(&mut self) -> Option<Self::Item> {
+        match self {
+            Self::All(moves) => moves.next().map(Some),
+            Self::Checked(moves) => moves.next(),
+        }
+    }
+}
+
 pub(crate) struct Repair<A, S> {
     pub assignment: A,
     pub score: Option<S>,
@@ -34,11 +49,13 @@ pub(crate) trait RepairModel: Sized {
         &self,
         neighborhood: RepairNeighborhood<'_>,
     ) -> Result<(), RuinRecreateError>;
+    // Yield one slot per raw candidate. None is a rejected structural cycle;
+    // the outer sampler still polls cancellation/time between rejected slots.
     fn fine_moves<'a>(
         &'a self,
         a: &'a Self::Assignment,
         neighborhood: RepairNeighborhood<'a>,
-    ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError>;
+    ) -> Result<FineMoves<'a, Self::FineMove>, RuinRecreateError>;
     fn apply_fine(
         &self,
         a: &Self::Assignment,
@@ -295,6 +312,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 let Some(movement) = moves.next() else {
                     break;
                 };
+                let Some(movement) = movement else { continue };
                 seen += 1;
                 if random.below(seen) == 0 {
                     selected = Some(movement);
@@ -394,5 +412,93 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 });
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod fine_dependency_tests {
+    use super::*;
+
+    #[test]
+    fn cyclic_proposals_leave_slots_for_control_polling_and_do_not_enter_the_reservoir() {
+        let lists = ListProblem::new(vec![0, 1, 2], vec![ListEntity::new(vec![0, 1, 2])])
+            .unwrap()
+            .with_dependencies(vec![vec![], vec![0], vec![1]])
+            .unwrap();
+        let initial = lists.initial_assignment();
+        let raw: Vec<_> = list_moves(&lists, &initial, Neighborhood::Swap)
+            .unwrap()
+            .collect();
+        assert!(!raw.is_empty());
+        assert!(raw.iter().all(|m| matches!(
+            lists.apply(&mut initial.clone(), m),
+            Err(ListError::DependencyCycle { .. })
+        )));
+        let slots: Vec<_> = lists
+            .fine_moves(&initial, RepairNeighborhood::Standard(Neighborhood::Swap))
+            .unwrap()
+            .collect();
+        assert_eq!(slots.len(), raw.len());
+        assert!(slots.iter().all(Option::is_none));
+        let network = ListConstraintNetwork::<_, SimpleScore>::new(1, 3);
+        let result = ruin_recreate_list_search_from(
+            &lists,
+            &network,
+            initial,
+            RuinRecreateConfig {
+                move_weights: RepairMoveWeights {
+                    change: 0,
+                    swap: 1,
+                    repair: 0,
+                },
+                max_attempts: 100,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            result.termination,
+            RuinRecreateTermination::NoAvailableMoves
+        );
+        assert_eq!(result.evaluations, 1);
+        assert_eq!(result.fine_move_attempts, 0);
+        assert_eq!(result.fine_move_evaluations, 0);
+    }
+
+    #[test]
+    fn configured_mixed_candidates_preserve_basic_singles_and_reject_cyclic_joint_moves() {
+        let p = MixedProblem::new(
+            FiniteProblem::new(vec![Variable::new(vec![0, 1]).with_initial(0)]).unwrap(),
+            ListProblem::new(vec![0, 1, 2], vec![ListEntity::new(vec![0, 1, 2])])
+                .unwrap()
+                .with_dependencies(vec![vec![], vec![0], vec![1]])
+                .unwrap(),
+        );
+        let a = p.initial_assignment();
+        let config = MixedNeighborhood {
+            basic: Some(Neighborhood::Change),
+            lists: Some(Neighborhood::Swap),
+            joint_moves: true,
+            ..Default::default()
+        };
+        let raw: Vec<_> = mixed_moves_configured(&p, &a, config).unwrap().collect();
+        let expected: Vec<_> = raw
+            .iter()
+            .map(|m| p.apply(&mut a.clone(), m).is_ok().then(|| m.clone()))
+            .collect();
+        let actual: Vec<_> = p
+            .fine_moves(&a, RepairNeighborhood::Mixed(config))
+            .unwrap()
+            .collect();
+        assert_eq!(actual, expected);
+        assert_eq!(actual.iter().flatten().count(), 1);
+        assert!(actual.len() > 1);
+        assert_eq!(
+            actual[0].as_ref().unwrap().basic,
+            Move::Change {
+                variable: 0,
+                value: Some(1)
+            }
+        );
     }
 }

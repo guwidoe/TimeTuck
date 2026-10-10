@@ -2131,8 +2131,8 @@ bound model retains scoring identities, value registry and dependency rules. Its
 initial scoring, fine moves and repeated reconstructions share the graph. Rejected
 or incomplete candidates are replaced by the retained best on successful return.
 After an error or panic the last committed consistent candidate can be partial;
-phase execution does not promise whole-phase rollback. Existing fresh repair errors,
-including dependency cycles introduced by a sampled removal, remain errors here.
+phase execution does not promise whole-phase rollback. Input and scoring errors remain errors. Dependency-cyclic fine candidates are
+handled as described below.
 
 Existing free `solve_*_stream` functions preserve their factory-per-phase contract.
 
@@ -2160,3 +2160,21 @@ uses `ProviderConstructionConfig`, including scan caps and incomplete-scan polic
 local search restores its best graph without rescoring. Earlier binding/fact setup
 is excluded from new work counters. These APIs reuse the existing provider engines;
 no separate candidate-selection or lifecycle implementation is introduced.
+
+
+## Dependency-safe fine sampling in repair search
+
+For list and mixed repair searches, fine-move families exclude proposals whose
+final list predecessor graph introduces a dependency cycle. A borrowed move checker
+validates the snapshot once and checks each proposal without applying it to live
+state or scoring it. Configured mixed families check list singles and joint moves;
+basic-only proposals remain eligible. Other model/scoring errors retain their usual
+failure behavior. Explicit moves and custom commands still report dependency cycles.
+
+Uniform reservoir sampling counts only the remaining candidates. A family with no
+eligible candidates is removed and its weight is redistributed normally; if every
+family is empty, search stops with `NoAvailableMoves`. Rejected cyclic proposals
+consume no random draw, attempt or score/candidate evaluation. The sampler receives
+one slot per raw candidate, including rejections, and polls cooperative controls
+between slots. Models without dependencies retain their prior candidates and random
+draw order, using the existing iterator allocation without a checker.

@@ -265,38 +265,64 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
         &'a self,
         a: &'a Self::Assignment,
         neighborhood: RepairNeighborhood<'a>,
-    ) -> Result<Box<dyn Iterator<Item = Self::FineMove> + 'a>, RuinRecreateError> {
+    ) -> Result<crate::ruin_engine::FineMoves<'a, Self::FineMove>, RuinRecreateError> {
         if let RepairNeighborhood::Basic(c) = neighborhood {
             self.validate(a).map_err(|e| {
                 RuinRecreateError::MixedNeighborhood(MixedNeighborhoodError::Model(e))
             })?;
             let moves = basic_moves_configured(self.basic(), a.basic(), c)
                 .map_err(RuinRecreateError::BasicNeighborhood)?;
-            return Ok(Box::new(moves.map(|basic| MixedMove {
-                basic,
-                lists: ListMove::Composite(vec![]),
-            })));
+            return Ok(crate::ruin_engine::FineMoves::Checked(Box::new(moves.map(
+                |basic| {
+                    Some(MixedMove {
+                        basic,
+                        lists: ListMove::Composite(vec![]),
+                    })
+                },
+            ))));
         }
         if let RepairNeighborhood::Mixed(c) = neighborhood {
-            return Ok(Box::new(
-                mixed_moves_configured(self, a, c).map_err(RuinRecreateError::MixedNeighborhood)?,
-            ));
+            let moves =
+                mixed_moves_configured(self, a, c).map_err(RuinRecreateError::MixedNeighborhood)?;
+            if self.lists().dependencies.is_none() {
+                return Ok(crate::ruin_engine::FineMoves::All(Box::new(moves)));
+            }
+            let checker = self.lists().move_checker(a.lists()).map_err(|e| {
+                RuinRecreateError::MixedNeighborhood(MixedNeighborhoodError::Model(
+                    MixedError::Lists(e),
+                ))
+            })?;
+            return Ok(crate::ruin_engine::FineMoves::Checked(Box::new(moves.map(
+                move |movement| {
+                    (!matches!(
+                        checker.is_doable(&movement.lists),
+                        Err(ListError::DependencyCycle { .. })
+                    ))
+                    .then_some(movement)
+                },
+            ))));
         }
         let basic = self
             .basic()
             .fine_moves(a.basic(), neighborhood)?
-            .map(|basic| MixedMove {
-                basic,
-                lists: ListMove::Composite(vec![]),
+            .map(|movement| {
+                movement.map(|basic| MixedMove {
+                    basic,
+                    lists: ListMove::Composite(vec![]),
+                })
             });
         let lists = self
             .lists()
             .fine_moves(a.lists(), neighborhood)?
-            .map(|lists| MixedMove {
-                basic: Move::Composite(vec![]),
-                lists,
+            .map(|movement| {
+                movement.map(|lists| MixedMove {
+                    basic: Move::Composite(vec![]),
+                    lists,
+                })
             });
-        Ok(Box::new(basic.chain(lists)))
+        Ok(crate::ruin_engine::FineMoves::Checked(Box::new(
+            basic.chain(lists),
+        )))
     }
     fn apply_fine(
         &self,
