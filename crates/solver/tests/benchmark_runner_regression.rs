@@ -171,4 +171,15 @@ fn benchmark_real_search_configs_over_multiple_problems() {
         );
     }
     assert_eq!(r.timing(1, 1).unwrap().successful_runs, 2);
+    for problem in 0..2 {
+        let comparison = r.compare_timing(0, 1, problem).unwrap();
+        assert!(comparison.schedule_complete);
+        assert_eq!(comparison.pairs.len(), 2);
+        assert_eq!(comparison.comparable_pairs(), 0);
+        assert_eq!(comparison.median_time_ratio(), None);
+        for pair in comparison.pairs {
+            assert_eq!(pair.quality_order(), Some(std::cmp::Ordering::Greater));
+            assert_eq!(pair.equal_work(), Some(false));
+        }
+    }
 }

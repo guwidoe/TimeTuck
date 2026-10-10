@@ -5602,3 +5602,28 @@ construction. These are bounded native workloads, not a general or Java speedup.
 Cached reverse edges require additional O(nodes + fixed edges) model storage.
 Evidence: `work/dependency-cycle-performance.json` and the original harness
 `work/dependency_cycle_probe.rs`. Existing Java dashboard timings remain stale.
+
+## Paired native benchmark timings
+
+`BenchmarkRunReport::compare_timing(baseline, candidate, problem)` compares the
+same measured problem/repetition/seed across two configurations. Reports borrow
+raw typed results, scores, elapsed durations and work counters; failed and
+unequal-quality pairs remain visible alongside unmatched trials. Warm-ups are
+excluded. Cancelled schedules retain their partial pairs and explicitly report
+that the schedule is incomplete.
+
+Each pair reports candidate-relative quality and whether work counters match.
+A candidate/baseline elapsed-time ratio is available only when both runs succeeded,
+are initialized, have equal scores, match problem/repetition/seed, and have nonzero
+elapsed durations. A ratio below one means less observed time. The aggregate is
+the median of these per-repetition ratios, with the eligible pair count exposed;
+it is not a ratio of total times. Filtering to successful equal-quality pairs can
+select a biased subset, so omitted results and schedule completeness must accompany
+any interpretation. Equal seeds do not imply equal algorithmic work or traces.
+
+Three original controlled-data regressions check pairing, quality, failures,
+initialization, zero times, even/odd medians, work differences, cancellation,
+unmatched trials and invalid indices. Existing real finite-search benchmark
+coverage additionally proves that unequal-quality budgets receive no aggregate
+timing ratio. No upstream method credit, refreshed timing measurement, statistical
+confidence interval, or new Java performance claim is added.

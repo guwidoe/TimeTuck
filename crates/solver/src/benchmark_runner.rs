@@ -131,6 +131,30 @@ impl<S, E> BenchmarkRunReport<S, E> {
     }
 }
 impl<S: Score, E> BenchmarkRunReport<S, E> {
+    /// Pair measured timings for one problem by repetition and seed. Returns None
+    /// for unknown configurations/problems. Comparing a configuration with itself
+    /// is allowed. Raw failed/unequal-quality pairs and cancelled-run gaps remain
+    /// visible; aggregate ratios use only initialized equal-quality successes.
+    pub fn compare_timing(
+        &self,
+        baseline: usize,
+        candidate: usize,
+        problem: usize,
+    ) -> Option<crate::BenchmarkTimingComparison<'_, S, E>> {
+        if baseline >= self.configurations
+            || candidate >= self.configurations
+            || problem >= self.problems
+        {
+            return None;
+        }
+        Some(crate::BenchmarkTimingComparison::from_trials(
+            baseline,
+            candidate,
+            problem,
+            self.is_complete(),
+            &self.trials,
+        ))
+    }
     /// Rank complete measured runs, matching both problem and repetition.
     /// Warm-ups never contribute; inspect is_successful for warm-up failures.
     pub fn standings(
@@ -336,5 +360,200 @@ mod tests {
         assert_eq!(r.summary(0).unwrap().unwrap().failure_count(), 1);
         assert!(r.is_complete());
         assert!(!r.is_successful());
+    }
+
+    #[test]
+    fn paired_timings_keep_quality_failures_zeroes_and_work_visible() {
+        for count in [9, 10] {
+            let clock = Cell::new(0);
+            let report = BenchmarkSchedule {
+                warmup_runs: 1,
+                measured_runs: NonZeroUsize::new(count).unwrap(),
+                seed: 731,
+            }
+            .run_with_clock(
+                &[0, 1, 2],
+                &[0, 1],
+                None,
+                |&configuration, _, trial| {
+                    let r = trial.repetition;
+                    let elapsed = if trial.warmup {
+                        1000
+                    } else {
+                        match (configuration, r) {
+                            (0, 1) => 100,
+                            (0, 8) | (1, 5) => 0,
+                            (1, 0) => 20,
+                            (1, 9) => 5,
+                            _ => 10,
+                        }
+                    };
+                    clock.set(clock.get() + elapsed);
+                    if trial.warmup
+                        || (configuration == 1 && r == 3)
+                        || (configuration == 0 && r == 6)
+                    {
+                        return Err("failed callback");
+                    }
+                    Ok(BenchmarkObservation {
+                        score: SimpleScore::new(i64::from(
+                            configuration == 1 && (r == 2 || r == 7),
+                        )),
+                        initialized: r != 4 && !(configuration == 1 && r == 7),
+                        work: SolverWork {
+                            evaluations: if configuration == 1 && r == 0 { 2 } else { 1 },
+                            ..Default::default()
+                        },
+                    })
+                },
+                || Duration::from_millis(clock.get()),
+            )
+            .unwrap();
+            assert!(!report.is_successful()); // Failed warm-ups remain visible in the run.
+            for problem in 0..2 {
+                let comparison = report.compare_timing(0, 1, problem).unwrap();
+                assert!(comparison.schedule_complete);
+                assert_eq!(comparison.pairs.len(), count);
+                assert!(comparison.baseline_unpaired.is_empty());
+                assert!(comparison.candidate_unpaired.is_empty());
+                assert_eq!(comparison.comparable_pairs(), count - 7);
+                assert_eq!(
+                    comparison.median_time_ratio(),
+                    Some(if count == 9 { 1.05 } else { 0.5 })
+                );
+                for (r, pair) in comparison.pairs.iter().enumerate() {
+                    assert_eq!(pair.baseline.trial.problem, problem);
+                    assert_eq!(pair.candidate.trial.problem, problem);
+                    assert_eq!(pair.baseline.trial.repetition, r);
+                    assert_eq!(pair.candidate.trial.repetition, r);
+                    assert_eq!(pair.baseline.trial.seed, pair.candidate.trial.seed);
+                    assert!(!pair.baseline.trial.warmup);
+                }
+                let pairs = &comparison.pairs;
+                assert_eq!(pairs[0].candidate_over_baseline(), Some(2.0));
+                assert_eq!(pairs[0].equal_work(), Some(false));
+                assert_eq!(pairs[1].equal_work(), Some(true));
+                assert_eq!(pairs[2].quality_order(), Some(std::cmp::Ordering::Greater));
+                assert_eq!(pairs[3].quality_order(), None);
+                assert_eq!(pairs[3].equal_work(), None);
+                assert_eq!(pairs[4].quality_order(), Some(std::cmp::Ordering::Equal));
+                assert_eq!(pairs[6].quality_order(), None);
+                assert_eq!(pairs[7].quality_order(), Some(std::cmp::Ordering::Less));
+                for pair in &pairs[2..9] {
+                    assert_eq!(pair.candidate_over_baseline(), None);
+                }
+                let reverse = report.compare_timing(1, 0, problem).unwrap();
+                assert_eq!(reverse.pairs[0].candidate_over_baseline(), Some(0.5));
+                assert_eq!(
+                    reverse.pairs[2].quality_order(),
+                    Some(std::cmp::Ordering::Less)
+                );
+                let same = report.compare_timing(0, 0, problem).unwrap();
+                assert_eq!(same.median_time_ratio(), Some(1.0));
+            }
+            assert!(report.compare_timing(3, 0, 0).is_none());
+            assert!(report.compare_timing(0, 3, 0).is_none());
+            assert!(report.compare_timing(0, 1, 2).is_none());
+        }
+    }
+
+    #[test]
+    fn cancelled_timing_comparison_keeps_unmatched_trials_without_inventing_pairs() {
+        let token = CancellationToken::new();
+        let clock = Cell::new(0);
+        let report = BenchmarkSchedule {
+            warmup_runs: 0,
+            measured_runs: NonZeroUsize::new(3).unwrap(),
+            seed: 7,
+        }
+        .run_with_clock(
+            &[(), ()],
+            &[()],
+            Some(&token),
+            |_, _, trial| {
+                clock.set(clock.get() + 10);
+                if trial.repetition == 1 {
+                    token.cancel();
+                }
+                Ok::<_, ()>(BenchmarkObservation {
+                    score: SimpleScore::ZERO,
+                    initialized: true,
+                    work: SolverWork::default(),
+                })
+            },
+            || Duration::from_millis(clock.get()),
+        )
+        .unwrap();
+        let comparison = report.compare_timing(0, 1, 0).unwrap();
+        assert!(!comparison.schedule_complete);
+        assert_eq!(comparison.pairs.len(), 1);
+        assert_eq!(comparison.baseline_unpaired.len(), 1);
+        assert_eq!(comparison.baseline_unpaired[0].trial.repetition, 1);
+        assert!(comparison.candidate_unpaired.is_empty());
+        assert_eq!(comparison.median_time_ratio(), Some(1.0));
+        let reverse = report.compare_timing(1, 0, 0).unwrap();
+        assert_eq!(reverse.candidate_unpaired.len(), 1);
+        assert!(reverse.baseline_unpaired.is_empty());
+        // A pre-cancelled report is distinct from a successful zero-time run.
+        let empty = BenchmarkSchedule::default()
+            .run(
+                &[(), ()],
+                &[()],
+                Some(&token),
+                |_, _, _| -> Result<BenchmarkObservation<SimpleScore>, ()> { panic!("cancelled") },
+            )
+            .unwrap();
+        let comparison = empty.compare_timing(0, 1, 0).unwrap();
+        assert!(!comparison.schedule_complete);
+        assert!(comparison.pairs.is_empty());
+        assert_eq!(comparison.median_time_ratio(), None);
+    }
+
+    #[test]
+    fn timing_pairs_require_equal_seeds_as_well_as_repetitions() {
+        let mut report = BenchmarkSchedule {
+            warmup_runs: 0,
+            measured_runs: NonZeroUsize::new(1).unwrap(),
+            seed: 9,
+        }
+        .run(&[(), ()], &[()], None, |_, _, _| {
+            Ok::<_, ()>(BenchmarkObservation {
+                score: SimpleScore::ZERO,
+                initialized: true,
+                work: SolverWork::default(),
+            })
+        })
+        .unwrap();
+        // Exercise pairing independently of the runner's equal-seed guarantee.
+        report.trials[1].trial.seed = 10;
+        let comparison = report.compare_timing(0, 1, 0).unwrap();
+        assert!(comparison.pairs.is_empty());
+        assert_eq!(comparison.baseline_unpaired.len(), 1);
+        assert_eq!(comparison.candidate_unpaired.len(), 1);
+        assert_eq!(comparison.comparable_pairs(), 0);
+        assert_eq!(comparison.median_time_ratio(), None);
+        for trial in &mut report.trials {
+            trial.elapsed = Duration::from_millis(1);
+        }
+        let original = report.trials[0].trial;
+        for mismatch in 0..5 {
+            report.trials[1].trial = original;
+            report.trials[1].trial.configuration = 1;
+            match mismatch {
+                0 => report.trials[1].trial.seed += 1,
+                1 => report.trials[1].trial.problem += 1,
+                2 => report.trials[1].trial.repetition += 1,
+                3 => report.trials[1].trial.warmup = true,
+                _ => {}
+            }
+            let pair = crate::BenchmarkTimingPair {
+                baseline: &report.trials[0],
+                candidate: &report.trials[1],
+            };
+            assert_eq!(
+                pair.candidate_over_baseline(),
+                (mismatch == 4).then_some(1.0)
+            );
+        }
     }
 }

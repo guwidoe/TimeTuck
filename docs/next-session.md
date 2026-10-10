@@ -21911,3 +21911,36 @@ null predicate identity and missing-inverse errors, while native sources know th
 assignment structure. No credit-only descriptor facades were added. Test-only
 AllowsUnassignedValuesListVariableSolverTest and its easy scorer were also read;
 its full six-configuration,1000-step asserted scenario remains pending.
+
+
+## Matched native benchmark timing comparisons
+
+Baseline1024b0f; previous goal turn added verified live intermediate delivery.
+BenchmarkRunReport::compare_timing now pairs one problem by repetition+seed across
+configurations, excluding warm-ups. Raw borrowed typed results, scores, times and
+work remain visible, including failed/unequal pairs and unmatched cancelled tails.
+BenchmarkTimingPair reports candidate-relative quality and equal work. Time ratios
+require matching metadata, both successful/initialized/equal-score, nonzero times.
+Publicly constructed mismatched pairs also reject ratios. The comparison exposes
+schedule completeness, comparable pair count and median of individual ratios
+(even counts average the middle two); omitted pairs can bias that subset. No
+confidence interval, identical-work/trace claim or new measured speedup implied.
+
+Focus56328 TERMINAL0:4 unit checks plus5 existing benchmark integrations. Final
+strengthened metadata-boundary check2658 TERMINAL0:4 unit checks. Three unit tests
+are new, and the real finite-search benchmark regression now verifies that different
+quality budgets never receive aggregate timing ratios. Covers two problems, three
+configs, warm-up errors, failures on either side, incomplete results, zero times,
+work differences, even/odd medians, cancellation, bounds, reversal/self-comparison.
+No upstream reads/adaptations or credits. TotalRank ranking was already implemented
+and fully adapted; do not recreate that functionality.
+
+Final prebuild/check/evidence26425 TERMINAL0. Clippy21.82s;4target compile3.45s.
+4Rust jobs ran,759Rust/46Python reused. 5523Rust tests and251doctests pass.
+Coverage3185/4855=65.602%,0failed,1388pending,282excluded,0unverified.
+Source 113a22c79ff77ccadf2512eefe324f3f01f967f68486005a83ca84a96dcddde1
+Verification e0c3cf30fc23c4396e02c4b83566246e8f6f1a6bee7a7a282af40b910c589d2f
+Live/report freshness matches. Older Java list performance remains stale. Evidence
+work/paired-timings-evidence.json; logs work/paired-timings-{prebuild,final-check}.log.
+No Rust changes after gate. No benchmark or browser rerun; no dashboard UI/data-contract
+change. Goal remains active/incomplete.

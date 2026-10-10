@@ -1108,10 +1108,12 @@ pub use benchmark_results::{
 };
 
 mod benchmark_runner;
+mod benchmark_timing;
 pub use benchmark_runner::{
     BenchmarkObservation, BenchmarkRunReport, BenchmarkSchedule, BenchmarkScheduleError,
     BenchmarkTiming, BenchmarkTrial, BenchmarkTrialResult,
 };
+pub use benchmark_timing::{BenchmarkTimingComparison, BenchmarkTimingPair};
 
 mod benchmark_ranking;
 pub use benchmark_ranking::{
