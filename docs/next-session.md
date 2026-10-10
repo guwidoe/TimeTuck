@@ -21870,3 +21870,44 @@ Live/report freshness matches. Older Java list performance remains stale. Eviden
 work/dependency-cycle-evidence.json; logs work/dependency-cycle-{prebuild,final-check}.log.
 No Rust changes after gate; reuse this evidence. No browser/Java benchmark rerun.
 Goal remains active/incomplete.
+
+
+## Intermediate best delivery during live solves
+
+Baseline8ea1d0a (previous goal turn committed measured dependency optimization).
+LiveSolverManager now exposes submit_with_progress and
+submit_with_statistics_and_progress. Both supply a borrowed LiveSolverProgress
+bound to the active run and its applied revision. publish queues owned snapshots
+through the existing consumer/coalescing machinery, without waiting for the solve
+to return. Only successful consumption acknowledges receipts through that revision.
+Publisher rejects intermediates after token cancellation or with Final delivery;
+an already accepted snapshot keeps its old revision if cancellation races it.
+Returned results still supply warm starts and ordinary completion delivery, possibly
+repeating the latest best. No score comparisons or automatic best retention added.
+Statistics count returned LiveRun work once; publication adds no invented counters.
+
+Six original channel-synchronized regressions cover early acknowledgement, later
+pending revisions, cancellation, slow-consumer coalescing with non-Clone snapshots,
+final-only delivery, consumer panic, later solve failure preserving an acknowledged
+receipt, and actual finite-solver observer publication with initialization-aware
+scores and exact work counters. Focus49085 TERMINAL0. Initial test-harness Arc
+ownership and missing structural-score expectations were corrected before this run.
+No new upstream credits, no benchmark or browser rerun.
+
+Final prebuild/check/evidence92600 TERMINAL0. Clippy36.46s;10target compile23.96s.
+10Rust jobs ran,753Rust/46Python reused. 5520Rust tests and251doctests pass.
+Coverage3185/4855=65.602%,0failed,1388pending,282excluded,0unverified.
+Source db82f5dfe6a25675b341e1a4e5a6a30bb075ff758e06a7a1c482874398db35bd
+Verification a11781188abdede4f431759d6b68648b32e4fe5a4ddc5fefea3be96058814952
+Live/report freshness matches; older Java list performance remains stale.
+Evidence work/live-progress-evidence.json; logs work/live-progress-{prebuild,final-check}.log.
+No Rust changes after gate. Goal remains active/incomplete.
+
+Reconnaissance to avoid repeating: BasicVariable BlackBox exact search asserts
+specific internal step traces and factory errors; not credited by native optima.
+BestSolutionHolder tests retain take/producer/cancellation protocols not fully
+represented by these original live-manager tests. EntityForEachFilter includes
+null predicate identity and missing-inverse errors, while native sources know their
+assignment structure. No credit-only descriptor facades were added. Test-only
+AllowsUnassignedValuesListVariableSolverTest and its easy scorer were also read;
+its full six-configuration,1000-step asserted scenario remains pending.

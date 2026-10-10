@@ -901,8 +901,26 @@ stops the live loop. A successful solver result can coexist with consumer failur
 No rollback of partially applied problem changes is promised. Previously settled
 receipts never change. Job waits include callback completion.
 
-This API publishes completed runs, not intermediate improvements during a run. It
-requires explicit model/scorer rebuilding and warm reconciliation; it does not
+`submit_with_progress` also supplies a borrowed `LiveSolverProgress` for the
+current run. Its `publish` method queues an owned intermediate best snapshot with
+the run's revision, allowing an ordinary solver observer to deliver improvements
+before the solve returns. Slow consumers coalesce waiting updates. Successful
+consumption acknowledges receipts only through that snapshot's revision; queued
+later changes remain pending. Acceptance into the queue alone is not acknowledgement.
+An acknowledged receipt stays successful even if the run later fails.
+
+The publisher cannot outlive its solve callback. It rejects new intermediate
+snapshots after the run's token is cancelled and in final-only delivery mode.
+Cancellation can race an already accepted publication, whose original revision
+still governs acknowledgement. Callers publish actual best snapshots; the manager
+does not compare their scores. Intermediate publication does not replace the
+returned result used for warm reconciliation, nor suppress its ordinary delivery,
+so the returned best may be delivered again. Consumer failure retains the existing
+panic containment, cancellation and receipt-failure behavior.
+`submit_with_statistics_and_progress` combines this with model inspection and
+actual work from the returned `LiveRun`. Publication itself adds no work counters.
+
+The API requires explicit model/scorer rebuilding and warm reconciliation; it does not
 provide Java reflection, ProblemChangeDirector, automatic object graph repair or
 full real-time-planning compatibility. Ordinary SolverManager jobs are unchanged.
 

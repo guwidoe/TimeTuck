@@ -294,6 +294,42 @@ pub struct LiveRun<R> {
     pub solution: R,
     pub work: SolverWork,
 }
+
+/// Best-solution publication scoped to one live solve and its problem revision.
+/// The publisher cannot outlive the solve callback. Published snapshots are
+/// independently owned and may be coalesced before consumption. Acceptance does
+/// not acknowledge problem changes: successful consumption does, for this
+/// revision and earlier revisions only.
+///
+/// Intermediate publication is disabled for Final delivery and once this run's
+/// cancellation token is set. Cancellation may race a publication already in
+/// progress; that snapshot still carries its original revision. The solve's
+/// returned result retains the existing final/warm-restart delivery semantics.
+/// Callers must publish actual best snapshots; this API does not compare scores
+/// or retain them as warm starts. The returned solve result supplies the warm start.
+pub struct LiveSolverProgress<'a, R> {
+    revision: u64,
+    enabled: bool,
+    token: &'a CancellationToken,
+    progress: &'a SolverProgress<LiveSolution<R>>,
+}
+impl<R> LiveSolverProgress<'_, R> {
+    pub fn revision(&self) -> u64 {
+        self.revision
+    }
+    /// Queue an owned best snapshot for the existing job consumer. False means
+    /// it was not queued; true does not guarantee successful consumer execution.
+    pub fn publish(&self, solution: R) -> bool {
+        if !self.enabled || self.token.is_cancelled() {
+            dispose(solution);
+            return false;
+        }
+        self.progress.publish(LiveSolution {
+            revision: self.revision,
+            solution: Arc::new(solution),
+        })
+    }
+}
 type InspectProblem<P> = Box<dyn Fn(&P) -> ProblemSizeStatistics + Send>;
 /// A live job handle. Cancellation remains latched across automatic restarts.
 pub struct LiveSolverJob<P, R, E> {
@@ -434,7 +470,35 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             problem,
             config,
             None,
-            move |p, old, token| solve(p, old, token).map(|r| (r, None)),
+            move |p, old, token, _| solve(p, old, token).map(|r| (r, None)),
+            consumer,
+        )
+    }
+    /// Publish best snapshots while a revision is still solving. Consumers run
+    /// asynchronously, serially per job, with the same coalescing and failure
+    /// handling as ordinary live results. A consumed intermediate snapshot can
+    /// acknowledge applied problem changes before this solve callback returns.
+    pub fn submit_with_progress(
+        &self,
+        id: u64,
+        problem: P,
+        config: LiveSolverConfig,
+        mut solve: impl FnMut(
+            &P,
+            Option<&R>,
+            &CancellationToken,
+            &LiveSolverProgress<'_, R>,
+        ) -> Result<R, E>
+        + Send
+        + 'static,
+        consumer: impl FnMut(u64, &R) + Send + 'static,
+    ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        self.submit_inner(
+            id,
+            problem,
+            config,
+            None,
+            move |p, old, token, progress| solve(p, old, token, progress).map(|r| (r, None)),
             consumer,
         )
     }
@@ -457,7 +521,37 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             problem,
             config,
             Some(Box::new(inspect)),
-            move |p, old, token| solve(p, old, token).map(|r| (r.solution, Some(r.work))),
+            move |p, old, token, _| solve(p, old, token).map(|r| (r.solution, Some(r.work))),
+            consumer,
+        )
+    }
+    /// Combine intermediate best publication with model inspection and actual
+    /// work returned by each solve. Publishing a snapshot does not add work;
+    /// counters are accumulated once from the returned LiveRun.
+    pub fn submit_with_statistics_and_progress(
+        &self,
+        id: u64,
+        problem: P,
+        config: LiveSolverConfig,
+        inspect: impl Fn(&P) -> ProblemSizeStatistics + Send + 'static,
+        mut solve: impl FnMut(
+            &P,
+            Option<&R>,
+            &CancellationToken,
+            &LiveSolverProgress<'_, R>,
+        ) -> Result<LiveRun<R>, E>
+        + Send
+        + 'static,
+        consumer: impl FnMut(u64, &R) + Send + 'static,
+    ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        self.submit_inner(
+            id,
+            problem,
+            config,
+            Some(Box::new(inspect)),
+            move |p, old, token, progress| {
+                solve(p, old, token, progress).map(|r| (r.solution, Some(r.work)))
+            },
             consumer,
         )
     }
@@ -467,7 +561,12 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
         problem: P,
         config: LiveSolverConfig,
         inspect: Option<InspectProblem<P>>,
-        mut solve: impl FnMut(&P, Option<&R>, &CancellationToken) -> Result<(R, Option<SolverWork>), E>
+        mut solve: impl FnMut(
+            &P,
+            Option<&R>,
+            &CancellationToken,
+            &LiveSolverProgress<'_, R>,
+        ) -> Result<(R, Option<SolverWork>), E>
         + Send
         + 'static,
         mut consumer: impl FnMut(u64, &R) + Send + 'static,
@@ -554,9 +653,19 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                 if let Some(inspect) = &inspect {
                     progress.record_problem_size(revision, inspect(&problem));
                 }
-                let (result, work) =
-                    solve(&problem, best.as_ref().map(|b| b.solution.as_ref()), &token)
-                        .map_err(LiveSolveError::Solve)?;
+                let publisher = LiveSolverProgress {
+                    revision,
+                    enabled: config.delivery == LiveDelivery::Best,
+                    token: &token,
+                    progress: &progress,
+                };
+                let (result, work) = solve(
+                    &problem,
+                    best.as_ref().map(|b| b.solution.as_ref()),
+                    &token,
+                    &publisher,
+                )
+                .map_err(LiveSolveError::Solve)?;
                 if let Some(work) = work {
                     progress.add_work(work);
                 }
