@@ -22596,3 +22596,41 @@ plus18methods/12fixtures, all new methods passed and live/report freshness.
 Evidence work/score-json-evidence.json. No Rust changes after successful gate;
 no benchmark or browser rerun. Java/list measurements remain visibly stale.
 Goal active/incomplete. Reuse this verification while relevant inputs are unchanged.
+
+
+## Live solver metrics batch (baseline10f3fa3)
+
+Previous turn made committed score-JSON progress. Added SolverMetrics snapshots
+through SolverExtensions and the common solver execution path: all3models x
+scoped/stream/calculator/retained. Concurrent invocation IDs remain independent;
+active durations, optional model dimensions, live best scores and phase work are
+readable from callbacks/other threads. Bounded latest-finished snapshot and total
+finished/error counts. Runs begin after startup validation. Failure/unwind guards
+close active state; end-lifecycle callback panics remain failures. Partial work of
+failed phases is unavailable; panic duration is last safely observed (no user clock
+call while unwinding). No candidate-level locking; no benchmark overhead claim.
+
+Read TEST-ONLY SolverMetricsIT methods solveMetrics/solveMetricsError and its
+error-calculator fixture; retain2complete methods+1fixture. Shared test config
+reuses existing lifecycle_support attribution. Also read range sort tests (they
+reject sorting, while native sorted snapshots intentionally support it); no changes
+or credit for these. Metrics registry/tag, per-type/step-score and live-size-update
+contracts remain separate pending work. No production upstream read.
+
+Check37659 TERMINAL0. Focus28855 TERMINAL101: event closures needed explicit
+higher-ranked event type annotations. Fixed19659 TERMINAL0:5original+2adapted pass,
+including all12backend paths, concurrent/normal/error/panic/callback cases.
+Final42143 runs prebuild_solver_metrics.py then scripts/check.sh; Rust/provenance
+frozen for gate. Helpers record_solver_metrics.py and solver_metrics_provenance.py;
+logs work/solver-metrics-*. No benchmark/browser rerun; goal remains active.
+
+Final42143 TERMINAL0: Clippy30.25s, affected-target compile5m32s;
+583Rust RUN/200Rust REUSE/46Python REUSE;5678Rust tests+255doctests pass.
+Coverage3273/4855=67.415%,0failed,1318pending,264excluded,0unverified.
+Source30e42734b09e70c7e8bc41dc84a43018d2eb45c9ad5c6cb19bd688797e2dfa68;
+verificationd0267f216d0848de59f183720769a7336c21ca07224ae71966cf07800ea9358d.
+Recorder39448 TERMINAL0 verifies unchanged successful source, provenance prefix
+plus2methods/1fixture, both new methods passed and live/report freshness.
+Evidence work/solver-metrics-evidence.json. No Rust changes after successful gate.
+Java/list benchmarks remain stale; no benchmark/browser rerun. Goal active/incomplete;
+reuse this evidence until relevant inputs change.

@@ -6061,3 +6061,37 @@ wrapper fixtures are attributed. Original regressions cover all families at full
 integer width, arbitrary decimal precision, negative/zero/positive structural
 state, malformed types/shapes, empty dimensions and actual weighted solving.
 No solver performance algorithm or dependency changed; no benchmark refresh.
+
+
+## Live solve metrics
+
+`SolverExtensions::metrics` attaches a shared `SolverMetrics<S>` monitor to all
+scoped, stream, calculator and retained-stream solve paths for basic, list and
+mixed models. Snapshots expose independent active invocation IDs, current active
+durations, supplied model dimensions, best score/completeness, work from returned
+phases, final termination and failure/panic outcomes. A cloned handle can be read
+from callbacks or another thread, including while several solves share a monitor.
+Finished history retains only the most recently completed invocation plus cumulative
+finished/error counters; assignments and constraint matches are never retained.
+
+Metric runs start after native plan/startup validation and before solve-start
+callbacks. Best scores publish before user best callbacks. Phase work publishes
+before phase-end callbacks. Final successful work matches SolverResult, including
+frozen initial-only and exact runs. Failed phases do not return their partial work;
+previous returned-phase work remains available. Diagnostics contribute duration but
+not search-work counters. On unwind, active runs close without invoking the custom
+clock again, so panic duration is the last safely sampled duration. Normal returns
+include solve-end callback time. Clock regressions cannot reduce a published duration.
+The monitor's clock does not change solver deadlines.
+
+Two SolverMetricsIT methods preserve all assertions: solveMetrics and
+solveMetricsError. Native snapshots replace Micrometer publication and explicit
+model dimensions come from native problem statistics. The error-score fixture
+retains its exact source message. Shared construction/ten-step zero-score helpers
+reuse their existing attribution. Registry names/tags, JVM default meters, current
+step scores, per-move-type counts and automatic live-problem dimension changes are
+not covered by these two adaptations. Original checks exercise all twelve execution
+paths against unmonitored results, concurrent runs, callback reentrancy, clock
+regression, failures/panics, cancellation, exact/frozen runs and validation failures.
+The disabled path takes no metric locks; enabled publication occurs on best changes
+and phase completion, not on every candidate. No timing-overhead claim is made.

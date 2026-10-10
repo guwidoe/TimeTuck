@@ -645,6 +645,7 @@ enum PlanCallback<'a, A, S> {
         events: Option<&'a mut crate::SolverEventCallback<'a, A, S>>,
         check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
         lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
+        metrics: Option<&'a crate::SolverMetrics<S>>,
     },
 }
 impl<'a, A, S> PlanCallback<'a, A, S> {
@@ -652,12 +653,14 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
         events: Option<&'a mut crate::SolverEventCallback<'a, A, S>>,
         check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
         lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
+        metrics: Option<&'a crate::SolverMetrics<S>>,
     ) -> Option<Self> {
-        if check.is_some() || lifecycle.is_some() {
+        if check.is_some() || lifecycle.is_some() || metrics.is_some() {
             Some(Self::Checked {
                 events,
                 check,
                 lifecycle,
+                metrics,
             })
         } else {
             events.map(Self::Events)
@@ -671,6 +674,7 @@ struct PlanObservation<'a, A, S> {
     complete: bool,
     initial_only: bool,
     repaired_initial: bool,
+    metric_writer: Option<crate::solver_metrics::MetricWriter<S>>,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
     fn new(callback: PlanObserver<'a, A, S>) -> Self {
@@ -680,6 +684,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             complete: false,
             initial_only: false,
             repaired_initial: false,
+            metric_writer: None,
         }
     }
     fn take_lifecycle(&mut self) -> Option<&'a mut crate::SolverLifecycleCallback<'a>> {
@@ -689,17 +694,18 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         }
     }
     fn has_events(&self) -> bool {
-        matches!(
-            &self.callback,
-            Some(
-                PlanCallback::Best(_)
-                    | PlanCallback::Events(_)
-                    | PlanCallback::Checked {
-                        events: Some(_),
-                        ..
-                    }
+        self.metric_writer.is_some()
+            || matches!(
+                &self.callback,
+                Some(
+                    PlanCallback::Best(_)
+                        | PlanCallback::Events(_)
+                        | PlanCallback::Checked {
+                            events: Some(_),
+                            ..
+                        }
+                )
             )
-        )
     }
     fn check_score<E>(
         &mut self,
@@ -801,6 +807,9 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
                 self.repaired_initial && self.score.is_none() && kind != SolverPhaseKind::Exact;
             self.score = Some(update.score.clone());
             self.complete = update.complete;
+            if let Some(metrics) = &self.metric_writer {
+                metrics.best(&update.score, update.complete);
+            }
             if repair_baseline {
                 return;
             }
@@ -1005,372 +1014,395 @@ where
     {
         return Err(SolverError::PinnedUnassignedVariable { variable });
     }
-    time.lifecycle.start();
-    let mut result = SolverResult {
-        assignment: initial.assignment,
-        complete: initial.complete,
-        score: None,
-        work: SolverWork::default(),
-        phases: Vec::new(),
-        termination: SolverTermination::PlanCompleted,
+    let mut metrics = match &observation.callback {
+        Some(PlanCallback::Checked {
+            metrics: Some(metrics),
+            ..
+        }) => Some(metrics.start()),
+        _ => None,
     };
-    if !initial.movable && !local.iter().any(|p| matches!(p, SolverPhase::Exact(_))) {
-        // Reuse the score-director initialization kernel with no user command.
-        // This is not an entered custom phase and therefore produces no phase
-        // report or FirstInitialized event. All plan validation above still runs.
-        if time.condition_reached() {
-            result.termination = SolverTermination::Condition;
-            return Ok(result);
-        }
-        if result.complete && limits.max_evaluations == 0 {
-            result.termination = SolverTermination::EvaluationLimit;
-            return Ok(result);
-        }
-        if result.complete
-            && limits
-                .cancellation
-                .is_some_and(CancellationToken::is_cancelled)
-        {
-            result.termination = SolverTermination::Cancelled;
-            return Ok(result);
-        }
-        observation.initial_only = true;
-        let out = phase(
-            0,
-            Some(result.assignment.clone()),
-            PhaseRequest::Custom(
-                CustomPhaseConfig {
-                    // A frozen incomplete assignment cannot become complete.
-                    // Still validate the score binding, before budget/cancel gates,
-                    // using the director kernel's unscored entry path.
-                    max_evaluations: if result.complete {
-                        limits.max_evaluations
-                    } else {
-                        0
-                    },
-                    max_move_evaluations: limits.max_move_evaluations,
-                    cancellation: limits.cancellation,
-                    max_time: None,
-                },
-                limits.best_score_limit.clone(),
-                limits.stop_when_feasible,
-            ),
-            &mut time,
-            observation,
-        )
-        .map_err(|error| match error {
-            SolverError::Custom {
-                error: CustomPhaseError::Scoring(error),
-                ..
+    observation.metric_writer = metrics.as_ref().map(|m| m.writer.clone());
+    let outcome = (|| {
+        time.lifecycle.start();
+        let mut result = SolverResult {
+            assignment: initial.assignment,
+            complete: initial.complete,
+            score: None,
+            work: SolverWork::default(),
+            phases: Vec::new(),
+            termination: SolverTermination::PlanCompleted,
+        };
+        if !initial.movable && !local.iter().any(|p| matches!(p, SolverPhase::Exact(_))) {
+            // Reuse the score-director initialization kernel with no user command.
+            // This is not an entered custom phase and therefore produces no phase
+            // report or FirstInitialized event. All plan validation above still runs.
+            if time.condition_reached() {
+                result.termination = SolverTermination::Condition;
+                return Ok(result);
             }
-            | SolverError::Phase { error, .. } => SolverError::InitialScoring { error },
-            other => other,
-        })?;
-        if limits.assert_phase_scores {
-            phase_assertions::verify(
+            if result.complete && limits.max_evaluations == 0 {
+                result.termination = SolverTermination::EvaluationLimit;
+                return Ok(result);
+            }
+            if result.complete
+                && limits
+                    .cancellation
+                    .is_some_and(CancellationToken::is_cancelled)
+            {
+                result.termination = SolverTermination::Cancelled;
+                return Ok(result);
+            }
+            observation.initial_only = true;
+            let out = phase(
+                0,
+                Some(result.assignment.clone()),
+                PhaseRequest::Custom(
+                    CustomPhaseConfig {
+                        // A frozen incomplete assignment cannot become complete.
+                        // Still validate the score binding, before budget/cancel gates,
+                        // using the director kernel's unscored entry path.
+                        max_evaluations: if result.complete {
+                            limits.max_evaluations
+                        } else {
+                            0
+                        },
+                        max_move_evaluations: limits.max_move_evaluations,
+                        cancellation: limits.cancellation,
+                        max_time: None,
+                    },
+                    limits.best_score_limit.clone(),
+                    limits.stop_when_feasible,
+                ),
+                &mut time,
+                observation,
+            )
+            .map_err(|error| match error {
+                SolverError::Custom {
+                    error: CustomPhaseError::Scoring(error),
+                    ..
+                }
+                | SolverError::Phase { error, .. } => SolverError::InitialScoring { error },
+                other => other,
+            })?;
+            if limits.assert_phase_scores {
+                phase_assertions::verify(
+                    0,
+                    SolverPhaseKind::Initial,
+                    out.assignment
+                        .as_ref()
+                        .expect("initial scoring retains assignment"),
+                    out.score.as_ref(),
+                    &mut phase,
+                )?;
+            }
+            observation.check_score(
                 0,
                 SolverPhaseKind::Initial,
                 out.assignment
                     .as_ref()
                     .expect("initial scoring retains assignment"),
                 out.score.as_ref(),
-                &mut phase,
             )?;
-        }
-        observation.check_score(
-            0,
-            SolverPhaseKind::Initial,
-            out.assignment
-                .as_ref()
-                .expect("initial scoring retains assignment"),
-            out.score.as_ref(),
-        )?;
-        result.assignment = out.assignment.expect("initial scoring retains assignment");
-        result.complete = out.complete;
-        result.score = out.score;
-        result.work = out.work;
-        if !result.complete {
-            result.termination = SolverTermination::NoCompleteAssignment;
+            result.assignment = out.assignment.expect("initial scoring retains assignment");
+            result.complete = out.complete;
+            result.score = out.score;
+            result.work = out.work;
+            if !result.complete {
+                result.termination = SolverTermination::NoCompleteAssignment;
+                return Ok(result);
+            }
+            let PhaseTermination::Custom(reason) = out.termination else {
+                unreachable!("initial scoring uses the custom director kernel")
+            };
+            use CustomPhaseTermination as C;
+            result.termination = match reason {
+                C::Completed if result.complete => SolverTermination::PlanCompleted,
+                C::Completed => SolverTermination::NoCompleteAssignment,
+                C::EvaluationLimit => SolverTermination::EvaluationLimit,
+                C::MoveEvaluationLimit => SolverTermination::MoveEvaluationLimit,
+                C::TimeLimit => SolverTermination::TimeLimit,
+                C::Cancelled => SolverTermination::Cancelled,
+                C::UnimprovedTimeLimit => SolverTermination::UnimprovedTimeLimit,
+                C::UnimprovedStepLimit => SolverTermination::UnimprovedStepLimit,
+                C::Condition => SolverTermination::Condition,
+                C::BestScoreLimit => SolverTermination::BestScoreLimit,
+                C::FeasibleScore => SolverTermination::FeasibleScore,
+            };
             return Ok(result);
         }
-        let PhaseTermination::Custom(reason) = out.termination else {
-            unreachable!("initial scoring uses the custom director kernel")
-        };
-        use CustomPhaseTermination as C;
-        result.termination = match reason {
-            C::Completed if result.complete => SolverTermination::PlanCompleted,
-            C::Completed => SolverTermination::NoCompleteAssignment,
-            C::EvaluationLimit => SolverTermination::EvaluationLimit,
-            C::MoveEvaluationLimit => SolverTermination::MoveEvaluationLimit,
-            C::TimeLimit => SolverTermination::TimeLimit,
-            C::Cancelled => SolverTermination::Cancelled,
-            C::UnimprovedTimeLimit => SolverTermination::UnimprovedTimeLimit,
-            C::UnimprovedStepLimit => SolverTermination::UnimprovedStepLimit,
-            C::Condition => SolverTermination::Condition,
-            C::BestScoreLimit => SolverTermination::BestScoreLimit,
-            C::FeasibleScore => SolverTermination::FeasibleScore,
-        };
-        return Ok(result);
-    }
-    for index in 0..local.len() {
-        if time.condition_reached() {
-            result.termination = SolverTermination::Condition;
-            break;
-        }
-        let used = result.work;
-        let remaining_scores = limits.max_evaluations - used.evaluations;
-        let remaining_moves = limits
-            .max_move_evaluations
-            .map(|max| max - used.move_evaluations);
-        if index > 0 {
-            let reason = if remaining_scores == 0 {
-                Some(SolverTermination::EvaluationLimit)
-            } else if remaining_moves == Some(0) {
-                Some(SolverTermination::MoveEvaluationLimit)
-            } else if time.expired() {
-                Some(SolverTermination::TimeLimit)
-            } else if time.stagnated() {
-                Some(SolverTermination::UnimprovedTimeLimit)
-            } else if time.step_stagnated() {
-                Some(SolverTermination::UnimprovedStepLimit)
-            } else {
-                None
-            };
-            if let Some(reason) = reason {
-                let r = &mut result;
-                r.termination = reason;
+        for index in 0..local.len() {
+            if time.condition_reached() {
+                result.termination = SolverTermination::Condition;
                 break;
             }
-        }
-        let construction_request = if let SolverPhase::Construction(c) = &local[index] {
-            Some(*c)
-        } else {
-            None
-        };
-        let (request, global_scores, global_moves) = if let Some(mut c) = construction_request {
-            let owned = (
-                remaining_scores <= c.max_evaluations,
-                remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
-            );
-            c.max_evaluations = c.max_evaluations.min(remaining_scores);
-            c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
-            c.cancellation = c.cancellation.or(limits.cancellation);
-            (PhaseRequest::Construction(c), owned.0, owned.1)
-        } else if let SolverPhase::RuinRecreate(mut c) = local[index].clone() {
-            let owned = (
-                remaining_scores <= c.max_evaluations,
-                remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
-            );
-            c.max_evaluations = c.max_evaluations.min(remaining_scores);
-            c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
-            c.cancellation = c.cancellation.or(limits.cancellation);
-            c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
-                (Some(a), Some(b)) => Some(a.min(b)),
-                (a, b) => a.or(b),
-            };
-            c.stop_when_feasible |= limits.stop_when_feasible;
-            (PhaseRequest::RuinRecreate(c), owned.0, owned.1)
-        } else if let SolverPhase::Custom(mut c) = local[index].clone() {
-            let owned = (
-                remaining_scores <= c.max_evaluations,
-                remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
-            );
-            c.max_evaluations = c.max_evaluations.min(remaining_scores);
-            c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
-            c.cancellation = c.cancellation.or(limits.cancellation);
-            (
-                PhaseRequest::Custom(
-                    c,
-                    limits.best_score_limit.clone(),
-                    limits.stop_when_feasible,
-                ),
-                owned.0,
-                owned.1,
-            )
-        } else if let SolverPhase::Exact(mut c) = local[index].clone() {
-            let owned = (
-                remaining_scores <= c.max_evaluations,
-                remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
-            );
-            c.max_evaluations = c.max_evaluations.min(remaining_scores);
-            c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
-            c.cancellation = c.cancellation.or(limits.cancellation);
-            c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
-                (Some(a), Some(b)) => Some(a.min(b)),
-                (a, b) => a.or(b),
-            };
-            c.stop_when_feasible |= limits.stop_when_feasible;
-            let prior = if result.complete {
-                result.score.clone()
+            let used = result.work;
+            let remaining_scores = limits.max_evaluations - used.evaluations;
+            let remaining_moves = limits
+                .max_move_evaluations
+                .map(|max| max - used.move_evaluations);
+            if index > 0 {
+                let reason = if remaining_scores == 0 {
+                    Some(SolverTermination::EvaluationLimit)
+                } else if remaining_moves == Some(0) {
+                    Some(SolverTermination::MoveEvaluationLimit)
+                } else if time.expired() {
+                    Some(SolverTermination::TimeLimit)
+                } else if time.stagnated() {
+                    Some(SolverTermination::UnimprovedTimeLimit)
+                } else if time.step_stagnated() {
+                    Some(SolverTermination::UnimprovedStepLimit)
+                } else {
+                    None
+                };
+                if let Some(reason) = reason {
+                    let r = &mut result;
+                    r.termination = reason;
+                    break;
+                }
+            }
+            let construction_request = if let SolverPhase::Construction(c) = &local[index] {
+                Some(*c)
             } else {
                 None
             };
-            (PhaseRequest::Exact(c, prior), owned.0, owned.1)
-        } else {
-            let SolverPhase::LocalSearch(mut c) = local[index].clone() else {
-                unreachable!()
+            let (request, global_scores, global_moves) = if let Some(mut c) = construction_request {
+                let owned = (
+                    remaining_scores <= c.max_evaluations,
+                    remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
+                );
+                c.max_evaluations = c.max_evaluations.min(remaining_scores);
+                c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
+                c.cancellation = c.cancellation.or(limits.cancellation);
+                (PhaseRequest::Construction(c), owned.0, owned.1)
+            } else if let SolverPhase::RuinRecreate(mut c) = local[index].clone() {
+                let owned = (
+                    remaining_scores <= c.max_evaluations,
+                    remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
+                );
+                c.max_evaluations = c.max_evaluations.min(remaining_scores);
+                c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
+                c.cancellation = c.cancellation.or(limits.cancellation);
+                c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
+                    (Some(a), Some(b)) => Some(a.min(b)),
+                    (a, b) => a.or(b),
+                };
+                c.stop_when_feasible |= limits.stop_when_feasible;
+                (PhaseRequest::RuinRecreate(c), owned.0, owned.1)
+            } else if let SolverPhase::Custom(mut c) = local[index].clone() {
+                let owned = (
+                    remaining_scores <= c.max_evaluations,
+                    remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
+                );
+                c.max_evaluations = c.max_evaluations.min(remaining_scores);
+                c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
+                c.cancellation = c.cancellation.or(limits.cancellation);
+                (
+                    PhaseRequest::Custom(
+                        c,
+                        limits.best_score_limit.clone(),
+                        limits.stop_when_feasible,
+                    ),
+                    owned.0,
+                    owned.1,
+                )
+            } else if let SolverPhase::Exact(mut c) = local[index].clone() {
+                let owned = (
+                    remaining_scores <= c.max_evaluations,
+                    remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
+                );
+                c.max_evaluations = c.max_evaluations.min(remaining_scores);
+                c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
+                c.cancellation = c.cancellation.or(limits.cancellation);
+                c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
+                    (Some(a), Some(b)) => Some(a.min(b)),
+                    (a, b) => a.or(b),
+                };
+                c.stop_when_feasible |= limits.stop_when_feasible;
+                let prior = if result.complete {
+                    result.score.clone()
+                } else {
+                    None
+                };
+                (PhaseRequest::Exact(c, prior), owned.0, owned.1)
+            } else {
+                let SolverPhase::LocalSearch(mut c) = local[index].clone() else {
+                    unreachable!()
+                };
+                let owned = (
+                    remaining_scores <= c.max_evaluations,
+                    remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
+                );
+                c.max_evaluations = c.max_evaluations.min(remaining_scores);
+                c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
+                c.cancellation = c.cancellation.or(limits.cancellation);
+                c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
+                    (Some(a), Some(b)) => Some(a.min(b)),
+                    (a, b) => a.or(b),
+                };
+                c.stop_when_feasible |= limits.stop_when_feasible;
+                (PhaseRequest::LocalSearch(c), owned.0, owned.1)
             };
-            let owned = (
-                remaining_scores <= c.max_evaluations,
-                remaining_moves.is_some_and(|n| c.max_move_evaluations.is_none_or(|m| n <= m)),
-            );
-            c.max_evaluations = c.max_evaluations.min(remaining_scores);
-            c.max_move_evaluations = smaller(c.max_move_evaluations, remaining_moves);
-            c.cancellation = c.cancellation.or(limits.cancellation);
-            c.best_score_limit = match (c.best_score_limit, limits.best_score_limit.clone()) {
-                (Some(a), Some(b)) => Some(a.min(b)),
-                (a, b) => a.or(b),
-            };
-            c.stop_when_feasible |= limits.stop_when_feasible;
-            (PhaseRequest::LocalSearch(c), owned.0, owned.1)
-        };
-        let initial = Some(result.assignment.clone());
-        let kind = request.kind();
-        time.lifecycle.start_phase(index, kind);
-        let output = phase(index, initial, request, &mut time, observation);
-        time.lifecycle.end_phase();
-        let mut out = output?;
-        if limits.assert_phase_scores {
-            phase_assertions::verify(
+            let initial = Some(result.assignment.clone());
+            let kind = request.kind();
+            time.lifecycle.start_phase(index, kind);
+            let output = phase(index, initial, request, &mut time, observation);
+            if let (Some(metrics), Ok(out)) = (&observation.metric_writer, &output) {
+                let mut work = result.work;
+                work.add(out.work);
+                metrics.phase(index, work);
+            }
+            time.lifecycle.end_phase();
+            let mut out = output?;
+            if limits.assert_phase_scores {
+                phase_assertions::verify(
+                    index,
+                    kind,
+                    out.assignment.as_ref().unwrap_or(&result.assignment),
+                    out.score.as_ref(),
+                    &mut phase,
+                )?;
+            }
+            observation.check_score(
                 index,
                 kind,
                 out.assignment.as_ref().unwrap_or(&result.assignment),
                 out.score.as_ref(),
-                &mut phase,
             )?;
-        }
-        observation.check_score(
-            index,
-            kind,
-            out.assignment.as_ref().unwrap_or(&result.assignment),
-            out.score.as_ref(),
-        )?;
-        let r = &mut result;
-        if let (Some(assignment), Some(score)) = (out.assignment.take(), out.score.as_ref())
-            && ((!r.complete && out.complete) || r.score.as_ref().is_none_or(|best| score > best))
-        {
-            r.assignment = assignment;
-            r.score = Some(score.clone());
-            r.complete = out.complete;
-        }
-        r.work.add(out.work);
-        r.phases.push(PhaseReport {
-            index,
-            termination: out.termination,
-            work: out.work,
-            score: out.score,
-        });
-        observation.initialize(index, initialization_phase, r, out.termination);
-        use PhaseTermination::{
-            Construction as C, Custom as U, Exact as X, LocalSearch as L, RuinRecreate as R,
-        };
-        let reason = match out.termination {
-            X(ExactPhaseTermination::Exhausted) => Some(if r.complete && r.score.is_some() {
-                SolverTermination::Optimal
-            } else {
-                SolverTermination::NoCompleteAssignment
-            }),
-            C(ConstructionTermination::NoCompleteAssignment) => {
-                Some(SolverTermination::NoCompleteAssignment)
-            }
-            R(RuinRecreateTermination::Cancelled)
-            | U(CustomPhaseTermination::Cancelled)
-            | C(ConstructionTermination::Cancelled)
-            | L(LocalSearchTermination::Cancelled)
-            | X(ExactPhaseTermination::Cancelled) => Some(SolverTermination::Cancelled),
-            R(RuinRecreateTermination::EvaluationLimit)
-            | U(CustomPhaseTermination::EvaluationLimit)
-            | C(ConstructionTermination::EvaluationLimit)
-            | L(LocalSearchTermination::EvaluationLimit)
-            | X(ExactPhaseTermination::EvaluationLimit)
-                if global_scores =>
+            let r = &mut result;
+            if let (Some(assignment), Some(score)) = (out.assignment.take(), out.score.as_ref())
+                && ((!r.complete && out.complete)
+                    || r.score.as_ref().is_none_or(|best| score > best))
             {
-                Some(SolverTermination::EvaluationLimit)
+                r.assignment = assignment;
+                r.score = Some(score.clone());
+                r.complete = out.complete;
             }
-            R(RuinRecreateTermination::MoveEvaluationLimit)
-            | U(CustomPhaseTermination::MoveEvaluationLimit)
-            | C(ConstructionTermination::MoveEvaluationLimit)
-            | L(LocalSearchTermination::MoveEvaluationLimit)
-            | X(ExactPhaseTermination::MoveEvaluationLimit)
-                if global_moves =>
-            {
-                Some(SolverTermination::MoveEvaluationLimit)
-            }
-            _ if limits
-                .cancellation
-                .is_some_and(CancellationToken::is_cancelled) =>
-            {
-                Some(SolverTermination::Cancelled)
-            }
-            R(RuinRecreateTermination::TimeLimit)
-            | U(CustomPhaseTermination::TimeLimit)
-            | C(ConstructionTermination::TimeLimit)
-            | L(LocalSearchTermination::TimeLimit)
-            | X(ExactPhaseTermination::TimeLimit)
-                if time.shared_bound =>
-            {
-                Some(SolverTermination::TimeLimit)
-            }
-            _ if time.expired() => Some(SolverTermination::TimeLimit),
-            _ if time.stagnated() => Some(SolverTermination::UnimprovedTimeLimit),
-            _ if time.step_stagnated() => Some(SolverTermination::UnimprovedStepLimit),
-            _ if time.condition_reached() => Some(SolverTermination::Condition),
-            _ if !r.complete
-                && !matches!(
-                    local.get(index + 1),
-                    Some(
-                        SolverPhase::Exact(_)
-                            | SolverPhase::Construction(_)
-                            | SolverPhase::Custom(_)
-                    )
-                ) =>
-            {
-                if limits.incomplete_handoff == IncompleteHandoffPolicy::Error
-                    && matches!(
-                        local.get(index + 1),
-                        Some(SolverPhase::LocalSearch(_) | SolverPhase::RuinRecreate(_))
-                    )
-                {
-                    // A phase-local step/other stop can coincide with exhausting
-                    // the shared budget. No following local phase would start.
-                    if r.work.evaluations >= limits.max_evaluations {
-                        Some(SolverTermination::EvaluationLimit)
-                    } else if limits
-                        .max_move_evaluations
-                        .is_some_and(|n| r.work.move_evaluations >= n)
-                    {
-                        Some(SolverTermination::MoveEvaluationLimit)
-                    } else {
-                        return Err(SolverError::IncompleteLocalSearch { phase: index + 1 });
-                    }
+            r.work.add(out.work);
+            r.phases.push(PhaseReport {
+                index,
+                termination: out.termination,
+                work: out.work,
+                score: out.score,
+            });
+            observation.initialize(index, initialization_phase, r, out.termination);
+            use PhaseTermination::{
+                Construction as C, Custom as U, Exact as X, LocalSearch as L, RuinRecreate as R,
+            };
+            let reason = match out.termination {
+                X(ExactPhaseTermination::Exhausted) => Some(if r.complete && r.score.is_some() {
+                    SolverTermination::Optimal
                 } else {
-                    Some(SolverTermination::IncompleteConstruction)
+                    SolverTermination::NoCompleteAssignment
+                }),
+                C(ConstructionTermination::NoCompleteAssignment) => {
+                    Some(SolverTermination::NoCompleteAssignment)
                 }
+                R(RuinRecreateTermination::Cancelled)
+                | U(CustomPhaseTermination::Cancelled)
+                | C(ConstructionTermination::Cancelled)
+                | L(LocalSearchTermination::Cancelled)
+                | X(ExactPhaseTermination::Cancelled) => Some(SolverTermination::Cancelled),
+                R(RuinRecreateTermination::EvaluationLimit)
+                | U(CustomPhaseTermination::EvaluationLimit)
+                | C(ConstructionTermination::EvaluationLimit)
+                | L(LocalSearchTermination::EvaluationLimit)
+                | X(ExactPhaseTermination::EvaluationLimit)
+                    if global_scores =>
+                {
+                    Some(SolverTermination::EvaluationLimit)
+                }
+                R(RuinRecreateTermination::MoveEvaluationLimit)
+                | U(CustomPhaseTermination::MoveEvaluationLimit)
+                | C(ConstructionTermination::MoveEvaluationLimit)
+                | L(LocalSearchTermination::MoveEvaluationLimit)
+                | X(ExactPhaseTermination::MoveEvaluationLimit)
+                    if global_moves =>
+                {
+                    Some(SolverTermination::MoveEvaluationLimit)
+                }
+                _ if limits
+                    .cancellation
+                    .is_some_and(CancellationToken::is_cancelled) =>
+                {
+                    Some(SolverTermination::Cancelled)
+                }
+                R(RuinRecreateTermination::TimeLimit)
+                | U(CustomPhaseTermination::TimeLimit)
+                | C(ConstructionTermination::TimeLimit)
+                | L(LocalSearchTermination::TimeLimit)
+                | X(ExactPhaseTermination::TimeLimit)
+                    if time.shared_bound =>
+                {
+                    Some(SolverTermination::TimeLimit)
+                }
+                _ if time.expired() => Some(SolverTermination::TimeLimit),
+                _ if time.stagnated() => Some(SolverTermination::UnimprovedTimeLimit),
+                _ if time.step_stagnated() => Some(SolverTermination::UnimprovedStepLimit),
+                _ if time.condition_reached() => Some(SolverTermination::Condition),
+                _ if !r.complete
+                    && !matches!(
+                        local.get(index + 1),
+                        Some(
+                            SolverPhase::Exact(_)
+                                | SolverPhase::Construction(_)
+                                | SolverPhase::Custom(_)
+                        )
+                    ) =>
+                {
+                    if limits.incomplete_handoff == IncompleteHandoffPolicy::Error
+                        && matches!(
+                            local.get(index + 1),
+                            Some(SolverPhase::LocalSearch(_) | SolverPhase::RuinRecreate(_))
+                        )
+                    {
+                        // A phase-local step/other stop can coincide with exhausting
+                        // the shared budget. No following local phase would start.
+                        if r.work.evaluations >= limits.max_evaluations {
+                            Some(SolverTermination::EvaluationLimit)
+                        } else if limits
+                            .max_move_evaluations
+                            .is_some_and(|n| r.work.move_evaluations >= n)
+                        {
+                            Some(SolverTermination::MoveEvaluationLimit)
+                        } else {
+                            return Err(SolverError::IncompleteLocalSearch { phase: index + 1 });
+                        }
+                    } else {
+                        Some(SolverTermination::IncompleteConstruction)
+                    }
+                }
+                _ if r.complete
+                    && r.score.as_ref().is_some_and(|score| {
+                        limits
+                            .best_score_limit
+                            .as_ref()
+                            .is_some_and(|target| score >= target)
+                    }) =>
+                {
+                    Some(SolverTermination::BestScoreLimit)
+                }
+                _ if r.complete
+                    && limits.stop_when_feasible
+                    && r.score.as_ref().is_some_and(Score::is_feasible) =>
+                {
+                    Some(SolverTermination::FeasibleScore)
+                }
+                _ => None,
+            };
+            if let Some(reason) = reason {
+                r.termination = reason;
+                break;
             }
-            _ if r.complete
-                && r.score.as_ref().is_some_and(|score| {
-                    limits
-                        .best_score_limit
-                        .as_ref()
-                        .is_some_and(|target| score >= target)
-                }) =>
-            {
-                Some(SolverTermination::BestScoreLimit)
-            }
-            _ if r.complete
-                && limits.stop_when_feasible
-                && r.score.as_ref().is_some_and(Score::is_feasible) =>
-            {
-                Some(SolverTermination::FeasibleScore)
-            }
-            _ => None,
-        };
-        if let Some(reason) = reason {
-            r.termination = reason;
-            break;
         }
+        Ok(result)
+    })();
+    // Include errors/panics in solve-end lifecycle callbacks in the metric outcome.
+    drop(time);
+    if let Some(metrics) = &mut metrics {
+        metrics.finish(&outcome);
     }
-    Ok(result)
+    observation.metric_writer = None;
+    outcome
 }
 
 macro_rules! repaired {
@@ -3755,6 +3787,7 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.events,
             extensions.score_check,
             extensions.lifecycle,
+            extensions.metrics,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -3783,6 +3816,7 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.events,
             extensions.score_check,
             extensions.lifecycle,
+            extensions.metrics,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -3804,6 +3838,7 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
             extensions.events,
             extensions.score_check,
             extensions.lifecycle,
+            extensions.metrics,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -3832,6 +3867,7 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
             extensions.events,
             extensions.score_check,
             extensions.lifecycle,
+            extensions.metrics,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -3865,6 +3901,7 @@ pub fn solve_list_stream_with_extensions<
             extensions.events,
             extensions.score_check,
             extensions.lifecycle,
+            extensions.metrics,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -3892,6 +3929,7 @@ pub fn solve_mixed_stream_with_extensions<
             extensions.events,
             extensions.score_check,
             extensions.lifecycle,
+            extensions.metrics,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),

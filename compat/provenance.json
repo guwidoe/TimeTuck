@@ -49179,6 +49179,36 @@
       "local_path": "crates/solver/tests/score_json_cases.rs",
       "local_test": "constraint_weight_overrides",
       "modifications": "Preserve both named HardSoft weights, exact serialized string values and decoded-map equality. Deterministic native constraint-name maps and generic score parsing replace Java custom module/deserializer registration. These data-format assertions now override the broad initial persistence exclusion for this method only; framework/service-provider integration remains excluded."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/solver_metrics_cases.rs",
+      "id": "SolverMetricsIT.solveMetrics",
+      "status": "implemented",
+      "upstream_test": "solveMetrics",
+      "local_test": "solve_metrics",
+      "modifications": "Retain two entities with two available values, zero-score construction plus ten search steps, best-event presence, active solve count and exact two-second controlled duration, all three model dimension assertions, fully assigned returned solution, idle duration/count zero, zero errors and positive score/move counts. Native mutex-backed snapshots replace Micrometer publication; an injected atomic clock replaces MockClock. Dimensions are explicitly supplied from native problem statistics. Inline callback completion replaces latch-await and successful Result replaces non-null solution. Native configuration reuses the attributed lifecycle_support fixture; no meter-name, tags, default-registry or exact search-trace parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/solver_metrics_cases.rs",
+      "id": "SolverMetricsIT.solveMetricsError",
+      "status": "implemented",
+      "upstream_test": "solveMetricsError",
+      "local_test": "solve_metrics_error",
+      "modifications": "Retain two entities/two values, score-calculation failure with the exact source message, unchanged exception propagation, one-second post-failure clock advance, zero active solves/duration and one failure. Rust unwind and catch_unwind replace Java IllegalStateException and stack-trace assertion; native snapshots replace Micrometer publication. The panic message is asserted, and no failed result is substituted. Reuse attributed native zero-score solver configuration, with scoring overridden by the source error fixture."
     }
   ],
   "fixtures": [
@@ -66328,6 +66358,19 @@
       "upstream_test": "CustomConstraintWeightOverridesDeserializer.parseScore",
       "local_path": "crates/solver/tests/score_json_cases.rs",
       "modifications": "Generic weight_overrides_from_json::<HardSoftScore> selects the same hard/soft score family without Java custom module registration."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/solver_metrics_cases.rs",
+      "id": "SolverMetricsIT.ErrorThrowingEasyScoreCalculator.metrics",
+      "upstream_test": "ErrorThrowingEasyScoreCalculator.calculateScore",
+      "modifications": "Native constraint callback always panics with the exact source error message, retaining score-time failure and propagation. No production calculator read or translated."
     }
   ]
 }

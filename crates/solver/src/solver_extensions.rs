@@ -238,6 +238,8 @@ pub struct SolverExtensions<'a, P, A, M, S, E> {
     pub events: Option<&'a mut SolverEventCallback<'a, A, S>>,
     /// Optional solve/phase/step notifications. Omit on a later solve to detach.
     pub lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
+    /// Optional live metrics; cloned handles can observe concurrent invocations.
+    pub metrics: Option<&'a crate::SolverMetrics<S>>,
     pub score_check: Option<&'a mut PhaseScoreCheck<'a, A, S>>,
 }
 impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
@@ -248,6 +250,7 @@ impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
             events: None,
             score_check: None,
             lifecycle: None,
+            metrics: None,
         }
     }
 }

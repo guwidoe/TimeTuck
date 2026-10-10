@@ -1267,3 +1267,9 @@ pub use score_json::{
     JsonScore, ScoreEnvelope, ScoreJsonError, ScoreJsonFormat, score_from_json, score_to_json,
     weight_overrides_from_json, weight_overrides_to_json,
 };
+
+mod solver_metrics;
+pub use solver_metrics::{
+    SolveMetricOutcome, SolveMetricSnapshot, SolverMetricDimensions, SolverMetrics,
+    SolverMetricsSnapshot,
+};
