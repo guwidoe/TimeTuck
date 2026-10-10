@@ -21721,3 +21721,32 @@ rejected performance variants and repeatedly revisiting known upstream contract 
 all slowed progress. Keep focused correctness/measurement before final broad build;
 reuse unchanged evidence, and avoid re-investigating the recorded gaps without a
 concrete implementation approach. No reliable whole-ten-hour time fraction measured.
+
+
+## Preserve structural dependencies during ruin-and-recreate
+
+Baseline5f12879. List RepairModel::repair rebuilt a temporary ListProblem without
+copying its dependency graph. Reproduced on unchanged production code: cyclic
+[1,0] reached a scoring callback (work/ruin-dependency-before.log,11817 TERMINAL101).
+The repair model now retains the graph and stable registry indices, so existing
+construction filters reject cyclic predecessor orderings before scoring. Mixed
+repair inherits the correction. No extra runtime validity pass or algorithm change
+on models without dependencies.
+
+Three original regressions run675 list/mixed solves across scoped/stream backends,
+three placements, both mixed component orders, seven score budgets, unpinned/prefix-pinned
+state variants, required/optional lists and dependency paths through unsampled
+missing values. Independent transitive closure rejects cycles inside scoring;
+final model validity, completeness, score and cross-backend work/results agree.
+No copied tests, fixture/provenance additions, upstream reads or compatibility credit.
+Focused52536 TERMINAL0:20tests including existing list/mixed reconstruction suites.
+No performance claim, benchmark refresh or UI check for this backend correction.
+
+Final prebuild/check/evidence80814 TERMINAL0. Clippy21.38s;565target compilation2m33s.
+565Rust jobs ran,197Rust/46Python reused. 5507Rust tests and251doctests passed.
+Coverage remains3185/4855=65.602%;0failed/1388pending/282excluded/0unverified.
+Source 337fbf9aaea4c5e5d2de23c7ca08f51e85cf75949a3f32a6b1555a7645698e4a
+Verification 488e6fd41bea8960ff5b7b0632f32be33f0c807cab75c77c92811547553d7365
+Live/report freshness matched; list measurements remain stale. Final logs
+work/ruin-dependency-{prebuild,final-check}.log and evidence JSON. Rust state
+unchanged since passing gate; reuse this verification. Goal active/incomplete.

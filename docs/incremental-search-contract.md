@@ -1763,6 +1763,11 @@ Insertion may change their indices/neighbors but cannot change a pinned prefix.
 Entity-specific ranges still constrain every insertion. Existing missing values
 outside the sample stay missing: temporary ranges exclude them during repair.
 The registry and its order never change, preserving scoped and stream value IDs.
+Temporary repair models also retain the structural dependency graph, including
+fixed paths through unsampled missing values. Reconstructed predecessor orderings
+that form cycles are rejected before scoring in both list and mixed repair. Removal
+keeps the relative order of retained values; new predecessor edges shorten existing
+paths, so removing a subset cannot introduce a cycle into a consistent incumbent.
 
 Sequential and ValueQueue placements use registry-order greedy insertion; Pooled
 compares every missing sampled value and legal insertion. Optional placement uses

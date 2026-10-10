@@ -241,7 +241,10 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
                     .with_value_range(range)
             })
             .collect();
-        let repair = Self::new(self.values().to_vec(), entities).map_err(model_error)?;
+        let mut repair = Self::new(self.values().to_vec(), entities).map_err(model_error)?;
+        // Repair retains registry identities, including missing values. Preserve
+        // fixed edges so reconstruction filters cyclic predecessor orderings too.
+        repair.dependencies = self.dependencies.clone();
         Ok(if self.allows_unassigned() {
             repair.allowing_unassigned()
         } else {
