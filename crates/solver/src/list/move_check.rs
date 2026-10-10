@@ -6,7 +6,7 @@ use std::collections::BTreeMap;
 ///
 /// Construct through [`ListProblem::move_checker`]. Queries borrow planning values
 /// and copy references only for touched rows when needed. Primitive changes, swaps,
-/// assignments and removals on dependency-free models use direct checks without
+/// assignments, removals and sublist moves on dependency-free models use direct checks without
 /// scratch rows.
 /// They do not clone planning values,
 /// mutate the source, score, or notify listeners. Dependency-enabled models still
@@ -139,6 +139,103 @@ impl<V: Eq + Clone> ListMoveChecker<'_, V> {
                     self.validate_pair(*source, None, *destination, Some(value))?;
                     return Ok(true);
                 }
+                ListMove::SubListChange {
+                    entity,
+                    start,
+                    end,
+                    destination,
+                    reverse,
+                } => {
+                    let values = self.row(*entity)?;
+                    if start > end || *end > values.len() {
+                        return Err(ListError::InvalidRange {
+                            entity: *entity,
+                            start: *start,
+                            end: *end,
+                        });
+                    }
+                    let count = end - start;
+                    let remaining = self.row(destination.entity)?.len()
+                        - if *entity == destination.entity {
+                            count
+                        } else {
+                            0
+                        };
+                    if destination.index > remaining {
+                        return Err(ListError::InsertionIndex(*destination));
+                    }
+                    if count == 0
+                        || (*entity == destination.entity
+                            && *start == destination.index
+                            && (!reverse || count == 1))
+                    {
+                        return Ok(false);
+                    }
+                    let source = ListPosition {
+                        entity: *entity,
+                        index: *start,
+                    };
+                    if *entity == destination.entity {
+                        self.validate_pair(source, None, *destination, None)?;
+                    } else if *entity < destination.entity {
+                        self.validate_point(source, None)?;
+                        self.validate_arrivals(*destination, &values[*start..*end], *reverse)?;
+                    } else {
+                        self.validate_arrivals(*destination, &values[*start..*end], *reverse)?;
+                        self.validate_point(source, None)?;
+                    }
+                    return Ok(true);
+                }
+                ListMove::SubListSwap {
+                    left,
+                    right,
+                    reverse,
+                } => {
+                    // Retain the primitive validator's short-circuit error order:
+                    // an empty/descending range precedes its entity lookup.
+                    for range in [left, right] {
+                        if range.start >= range.end || range.end > self.row(range.entity)?.len() {
+                            return Err(ListError::InvalidRange {
+                                entity: range.entity,
+                                start: range.start,
+                                end: range.end,
+                            });
+                        }
+                    }
+                    if left.entity == right.entity
+                        && left.start < right.end
+                        && right.start < left.end
+                    {
+                        return Err(ListError::OverlappingRanges {
+                            left: *left,
+                            right: *right,
+                        });
+                    }
+                    let a = ListPosition {
+                        entity: left.entity,
+                        index: left.start,
+                    };
+                    let b = ListPosition {
+                        entity: right.entity,
+                        index: right.start,
+                    };
+                    if left.entity == right.entity {
+                        self.validate_pair(a, None, b, None)?;
+                    } else {
+                        let left_values =
+                            &self.assignment.lists()[left.entity][left.start..left.end];
+                        let right_values =
+                            &self.assignment.lists()[right.entity][right.start..right.end];
+                        if left.entity < right.entity {
+                            self.validate_arrivals(a, right_values, *reverse)?;
+                            self.validate_arrivals(b, left_values, *reverse)?;
+                        } else {
+                            self.validate_arrivals(b, left_values, *reverse)?;
+                            self.validate_arrivals(a, right_values, *reverse)?;
+                        }
+                    }
+                    return Ok(true);
+                }
                 _ => {}
             }
         }
@@ -153,6 +250,51 @@ impl<V: Eq + Clone> ListMoveChecker<'_, V> {
             .rows
             .iter()
             .any(|(&e, row)| !row.iter().copied().eq(self.assignment.lists()[e].iter())))
+    }
+
+    fn row(&self, entity: usize) -> Result<&[V], ListError> {
+        self.assignment.list(entity).ok_or(ListError::EntityIndex {
+            entity,
+            count: self.assignment.lists().len(),
+        })
+    }
+
+    // All staying values already satisfy the entity range. Only arrivals can
+    // fail; visit them in final row order to retain payload and index diagnostics.
+    fn validate_arrivals(
+        &self,
+        destination: ListPosition,
+        incoming: &[V],
+        reverse: bool,
+    ) -> Result<(), ListError> {
+        self.validate_point(destination, None)?;
+        if self.problem.entities[destination.entity]
+            .value_range
+            .is_none()
+        {
+            return Ok(());
+        }
+        for offset in 0..incoming.len() {
+            let value = &incoming[if reverse {
+                incoming.len() - 1 - offset
+            } else {
+                offset
+            }];
+            let position = ListPosition {
+                entity: destination.entity,
+                index: destination.index + offset,
+            };
+            if !self.problem.accepts(destination.entity, value) {
+                return Err(self.problem.range_error(
+                    position,
+                    value,
+                    ListError::ValueOutsideEntityRange {
+                        entity: destination.entity,
+                    },
+                ));
+            }
+        }
+        Ok(())
     }
 
     fn element(&self, position: ListPosition) -> Result<&V, ListError> {

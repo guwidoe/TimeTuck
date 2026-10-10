@@ -21615,3 +21615,34 @@ exact four range callbacks and atLeastOnce updateShadowVariables; use existing
 ListLifecyclePlan/Flush, then same-row0<->1 after rollback =>[2,1]. No added behavior
 needed, but each complete mapping requires provenance/notices and final verification.
 No draft copied and no credits claimed yet. The source files are Community tests.
+
+## Borrowed sublist candidate validation and execution coverage (verified)
+
+Baseline941dc78. SampledSubListProvider now uses ListMoveChecker, eliminating
+trial/undo assignment clones. Direct SubListChange/SubListSwap validation handles
+geometry, no-ops/reversal, pins and ordered incoming-range diagnostics without
+scratch rows for dependency-free models. Dependencies/composites retain existing
+borrowed final-state validation. Original 24,192 sublist proposals compare against
+transactions; provider regression preserves proposal order with zero value clones.
+Nine complete Community execution methods + one six-row fixture are recorded in
+list_execution_notification_cases.rs/provenance/notices (source mapping details in
+compatibility.md). No upstream production read or changed.
+
+Focused81664 TERMINAL0:24tests. Prebuild/measurement46412 TERMINAL0; Clippy26.94s,
+18target prebuild6.92s,release41.64s. Initial baseline harness used invalid change
+minimum1; corrected to2 before measurements, baseline58973 TERMINAL0. Paired
+full-list-solve results match exact solution/score/evaluation/step/constraint counts.
+Scoped median process CPU improves23–53%; stream three rows about4% lower,96change
+2.8% higher (wall8.6% higher). No universal speed claim. Evidence/harness:
+work/sublist-borrowed-performance.json,work/sublist_borrowed_probe.rs; hashes match
+final Rust sources. Three alternating fork pairs, one warmup/three timed solves.
+
+Final scripts/check.sh + evidence57295 TERMINAL0:5491Rust/251docs pass,
+18Rust RUN/741REUSE,46PythonREUSE. Coverage3181/4855=65.52%,0failed,1392pending,
+282excluded,0unverified. Live report freshness matches; Java list measurement
+remains current by its own inputs. No Java benchmark or browser rerun. Source
+4ff8cd8d7bf537b0f095aea9c5edf41ec32e844c0045e7f7479561411ba0932d;
+verification f4154de5ebb7571beee78beb07e6a379a9fca061e04068617fc080d3b38d7c97.
+Logs/evidence:work/sublist-borrowed-{focused,prebuild,final-check}.log and
+work/sublist-borrowed-evidence.json. No Rust edits after gate; all handles terminal.
+Goal remains active/incomplete. Reuse this evidence until relevant inputs change.

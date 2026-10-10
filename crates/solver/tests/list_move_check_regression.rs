@@ -662,6 +662,38 @@ fn plain_primitive_checks_do_not_compare_unaffected_values() {
             }),
             Ok(true)
         );
+        for reverse in [false, true] {
+            for destination in [pos(0, 0), pos(0, n / 2 - 4), pos(1, 0)] {
+                assert_eq!(
+                    c.is_doable(&ListMove::SubListChange {
+                        entity: 0,
+                        start: 0,
+                        end: 4,
+                        destination,
+                        reverse,
+                    }),
+                    Ok(reverse || destination != pos(0, 0))
+                );
+            }
+            for entity in [0, 1] {
+                assert_eq!(
+                    c.is_doable(&ListMove::SubListSwap {
+                        left: ListRange {
+                            entity: 0,
+                            start: 0,
+                            end: 4
+                        },
+                        right: ListRange {
+                            entity,
+                            start: 5,
+                            end: 8
+                        },
+                        reverse,
+                    }),
+                    Ok(true)
+                );
+            }
+        }
         assert_eq!(calls.get(), 0);
     }
 }
@@ -713,6 +745,84 @@ fn assignment_and_removal_geometry_domains_and_pins_match_transactions() {
                             entity: e,
                             start: i,
                             end,
+                        },
+                    );
+                }
+            }
+        }
+    }
+}
+
+#[test]
+fn sublist_geometry_reversal_pins_and_arrival_diagnostics_match_transactions() {
+    for mode in 0..6 {
+        let mut entities = vec![
+            ListEntity::new(vec![0, 1, 2]),
+            ListEntity::new(vec![3, 4]),
+            ListEntity::new(vec![]),
+        ];
+        if mode == 1 {
+            entities[0] = entities[0].clone().with_pinned_prefix(1);
+        }
+        if mode == 2 || mode == 5 {
+            entities[1] = entities[1].clone().with_pinned(true);
+            entities[2] = entities[2].clone().with_pinned(true);
+        }
+        if mode >= 3 {
+            entities[0] = entities[0].clone().with_value_range(vec![0, 1, 2, 4]);
+            entities[1] = entities[1].clone().with_value_range(vec![1, 3, 4]);
+            for e in &mut entities {
+                *e = e
+                    .clone()
+                    .with_range_diagnostics("route", "visits", usize::to_string);
+            }
+        }
+        let mut p = ListProblem::new((0..5).collect(), entities).unwrap();
+        if mode == 4 {
+            p = p.with_dependencies(vec![vec![]; 5]).unwrap();
+        }
+        let a = p.initial_assignment();
+        let ranges: Vec<_> = (0..4)
+            .flat_map(|entity| {
+                [
+                    (0, 0),
+                    (0, 1),
+                    (0, 2),
+                    (0, 3),
+                    (1, 2),
+                    (1, 3),
+                    (2, 3),
+                    (2, 4),
+                    (2, 1),
+                ]
+                .map(move |(start, end)| ListRange { entity, start, end })
+            })
+            .collect();
+        for left in &ranges {
+            for reverse in [false, true] {
+                for entity in 0..4 {
+                    for index in 0..5 {
+                        compare(
+                            &p,
+                            &a,
+                            &ListMove::SubListChange {
+                                entity: left.entity,
+                                start: left.start,
+                                end: left.end,
+                                destination: pos(entity, index),
+                                reverse,
+                            },
+                        );
+                    }
+                }
+                for right in &ranges {
+                    compare(
+                        &p,
+                        &a,
+                        &ListMove::SubListSwap {
+                            left: *left,
+                            right: *right,
+                            reverse,
                         },
                     );
                 }

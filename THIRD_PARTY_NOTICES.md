@@ -817,3 +817,9 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   replace Mockito callback verification, and borrowed checks replace range-manager
   plumbing. Exact assertions and lifecycle differences are recorded in
   `compat/provenance.json`; no callback-order equivalence is claimed.
+
+- `crates/solver/tests/list_execution_notification_cases.rs` adapts nine Community
+  execution methods from selector-based list/sublist change and swap tests, plus
+  the six-row same-entity change parameter fixture (Apache-2.0). Native event
+  counters preserve exact callback counts and ranges; detailed mappings appear in
+  `compat/provenance.json`. No callback-order equivalence is claimed.

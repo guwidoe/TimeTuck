@@ -30,10 +30,10 @@ pub enum SampledSubListNeighborhood {
 /// run construction first when required membership is incomplete.
 ///
 /// Opening validates inputs and builds only span indexes, not a move catalog.
-/// Candidates are drawn lazily, then checked by applying/undoing on a temporary
-/// assignment, created only when the first candidate is inspected and reused
-/// throughout that traversal. The ordinary move guard still takes its own undo
-/// snapshot for each trial; dropping it restores the reusable assignment.
+/// Candidates are drawn lazily and checked against a borrowed immutable snapshot.
+/// No planning values are cloned and no candidate is applied merely to filter it.
+/// Dependency-free moves use direct geometry/pin/range checks; dependency-enabled
+/// models use borrowed draft rows and validate the final predecessor graph.
 /// Mixed moves preserve all basic variables. Standard engine budgets, acceptance,
 /// undo and score assertions continue to apply.
 ///
@@ -90,14 +90,8 @@ impl SampledSubListProvider {
                 self.attempts_per_step,
             )?),
         };
-        let mut trial = None;
-        Ok(candidates.filter(move |movement| {
-            let trial = trial.get_or_insert_with(|| assignment.clone());
-            let Ok(applied) = problem.apply_validated(trial, movement) else {
-                return false;
-            };
-            *applied != *assignment
-        }))
+        let checker = problem.move_checker(assignment)?;
+        Ok(candidates.filter(move |movement| checker.is_doable(movement) == Ok(true)))
     }
 }
 impl<V: Clone + Eq> MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>

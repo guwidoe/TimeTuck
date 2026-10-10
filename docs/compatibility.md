@@ -5509,3 +5509,36 @@ The separate unassign `doMove` method remains pending because its prohibition of
 all other callbacks conflicts with the native final Flush. No behavior or counts
 from that method are claimed. All three mappings and modifications are recorded
 in `compat/provenance.json` and the third-party notice.
+
+Nine additional Community list execution methods now have complete adaptations:
+change across entities and all six same-entity parameter rows, temporary swap and
+subsequent swap after rollback, and sublist change/swap in ordinary, reversing
+and same-entity forms. The range-only observer preserves exact callback counts
+and intervals, including absence of extra callbacks. The temporary-swap case uses
+lifecycle Flush for the source's shadow-update assertion. Callback order is not
+claimed. The parameter helper is recorded separately as a fixture.
+
+Sampled sublist providers now filter candidates against borrowed assignments,
+without cloning planning values or applying candidates to temporary assignments.
+Dependency-free sublist change/swap checks use coordinates, pin boundaries and
+incoming values only; unrestricted ranges need no value comparisons. Reversed
+arrivals retain final-row diagnostic order. Dependency-enabled models and
+composites retain final-state validation. Original tests compare geometry,
+reversal, pins and range errors with transactions and preserve sampled proposal
+order, attempt bounds and reopening behavior. These native regressions earn no
+additional upstream-method credit.
+
+The native before/after full-solve comparison against production state `941dc78`
+uses four routes, 32/96 values, a 12-step limit and 256 seeded proposals per step,
+with sublist lengths 2–4 for relocation and asymmetric 1–3/2–4 for swap. Three
+alternating process pairs each run one warmup and three timed solves. All final
+assignment hashes, scores, evaluation counts, step counts and constraint counts
+match, with independent full rescoring/completeness checks. Scoped scoring median
+process CPU falls 23–53%; stream scoring is mixed (about 4% lower in three rows,
+2.8% higher for 96-value relocation). Wall-clock samples also remain recorded,
+including an 8.6% increase for that relocation row. Process CPU includes setup,
+warmup and validation; timed solves exclude model/network construction. These are
+specific native workloads, not a Java speed comparison or a general speedup claim.
+Evidence: `work/sublist-borrowed-performance.json` and its original harness
+`work/sublist_borrowed_probe.rs`; the previous Java dashboard measurements are
+not rerun for this batch.

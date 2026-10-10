@@ -211,7 +211,7 @@ impl PartialEq for CountedValue {
 impl Eq for CountedValue {}
 
 #[test]
-fn validation_reuses_one_lazy_working_copy_without_changing_proposals() {
+fn borrowed_validation_preserves_proposals_without_cloning_values() {
     let clones = std::rc::Rc::new(std::cell::Cell::new(0));
     let values = (0..16)
         .map(|id| CountedValue {
@@ -251,16 +251,16 @@ fn validation_reuses_one_lazy_working_copy_without_changing_proposals() {
             })
             .cloned()
             .collect::<Vec<_>>();
-        let fresh_clones = clones.get();
+        assert!(clones.get() > 0);
         clones.set(0);
         let cursor = provider.select(&p, &a, 0).unwrap();
         assert_eq!(clones.get(), 0, "opening does not clone assignment values");
         drop(cursor);
         assert_eq!(clones.get(), 0, "an unused traversal does not clone values");
         let actual = provider.select(&p, &a, 0).unwrap().collect::<Vec<_>>();
-        let reused_clones = clones.get();
+        let borrowed_clones = clones.get();
         assert_eq!(actual, expected);
-        assert_eq!(fresh_clones - reused_clones, (candidates.len() - 1) * 16);
+        assert_eq!(borrowed_clones, 0);
         clones.set(0);
         let empty = SampledSubListProvider {
             attempts_per_step: 0,

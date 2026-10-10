@@ -47694,6 +47694,141 @@
       "upstream_test": "undoMove",
       "local_test": "unassign_last_reports_element_removal",
       "modifications": "Preserves removal of the third value, resulting list size two, and exactly one before/after unassigned callback for that value. Despite its source name this method does not perform undo. Native lifecycle event counters replace Mockito; the native final Flush is allowed because this source method does not assert absence of other interactions. Does not claim the separate doMove method with verifyNoMoreInteractions. Integer identities and entity index replace test objects/descriptors; setup inline, no helper fixture copied."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedListChangeMoveTest.doMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "doMove",
+      "local_test": "change_between_entities",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedListChangeMoveTest.doAndUndoMoveOnTheSameEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "doAndUndoMoveOnTheSameEntity",
+      "local_test": "same_entity_change_positions_and_notification_intervals",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used. Preserve all six parameter rows, no-op/out-of-bounds rejection, indexOf and element-at-index identities and full stringified value order. Map native invalid-move errors to false for the source doability assertion. Despite its name the source method does not undo."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedListSwapMoveTest.doMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "doMove",
+      "local_test": "temporary_swap_then_same_entity_swap",
+      "modifications": "Preserve temporary cross-entity swap contents, each exact range callback, at least one shadow-update notification, rollback-dependent subsequent same-entity swap and final contents. Native ListLifecyclePlan event counts replace Mockito and Flush represents updateShadowVariables; source does not assert callback order. Native integer identities replace named objects; no upstream production code or fixture helper copied."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedSubListChangeMoveTest.doMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "doMove",
+      "local_test": "sublist_change_between_entities",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used. Source start/length becomes a native half-open range."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedSubListChangeMoveTest.doReversingMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "doReversingMove",
+      "local_test": "sublist_change_reversed",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used. Source start/length becomes a native half-open range."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedSubListChangeMoveTest.doMoveOnSameEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "doMoveOnSameEntity",
+      "local_test": "sublist_change_same_entity",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used. Source start/length becomes a native half-open range."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedSubListSwapMoveTest.doMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "doMove",
+      "local_test": "sublist_swap_unequal_lengths",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedSubListSwapMoveTest.doReversingMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "doReversingMove",
+      "local_test": "sublist_swap_reversed",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedSubListSwapMoveTest.doMoveOnSameEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "doMoveOnSameEntity",
+      "local_test": "sublist_swap_same_entity",
+      "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used."
     }
   ],
   "fixtures": [
@@ -64414,6 +64549,19 @@
       "id": "phase-termination-ordered-duplicate-score",
       "upstream_test": "calculateScore",
       "modifications": "Adapt the test fixture score: skip missing left values and penalize every ordered pair of distinct entities with equal assigned values. A native scoped callback replaces the Java easy-score fixture; no production implementation is used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_execution_notification_cases.rs",
+      "id": "SelectorBasedListChangeMoveTest.same_entity_notification_parameters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "doAndUndoMoveOnTheSameEntity() MethodSource",
+      "modifications": "Preserve all six destination indices, expected ordered identities, null/no-op and out-of-bounds rows and -1 range sentinels. Java string IDs become integer values rendered to strings at assertion; Stream<Arguments> becomes a Rust vector. No test-method credit for this helper."
     }
   ]
 }
