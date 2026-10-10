@@ -216,8 +216,8 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         }
         for (i, v) in self.problem.lists().values().iter().enumerate() {
             if touched.iter().any(|&entity| {
-                assignment.original().lists().lists()[entity].contains(v)
-                    || assignment.lists().lists()[entity].contains(v)
+                assignment.lists().lists()[entity].contains(v)
+                    || assignment.original_list(entity).unwrap().contains(v)
             }) {
                 updates.push(
                     &self.sources.lists.values,

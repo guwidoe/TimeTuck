@@ -777,6 +777,11 @@ impl<V> AppliedListMove<'_, V> {
     pub fn commit(mut self) {
         self.saved = None;
     }
+
+    // A containing transaction takes over rollback after both components pass.
+    pub(crate) fn into_undo_lists(mut self) -> Vec<(usize, Vec<V>)> {
+        self.saved.take().expect("live list transaction")
+    }
     fn entity(&self, entity: usize) -> Result<&[V], ListError> {
         self.list(entity).ok_or(ListError::EntityIndex {
             entity,

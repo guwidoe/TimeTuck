@@ -693,8 +693,8 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         for &i in &self.network.scoped_values {
             let value = &self.problem.lists().values()[i];
             if touched.iter().any(|&entity| {
-                transaction.original().lists().lists()[entity].contains(value)
-                    || transaction.lists().lists()[entity].contains(value)
+                transaction.lists().lists()[entity].contains(value)
+                    || transaction.original_list(entity).unwrap().contains(value)
             }) {
                 affected.extend(&self.network.value_dependents[i]);
             }

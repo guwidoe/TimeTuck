@@ -1,6 +1,6 @@
 //! Joint basic-variable and ordered-list planning with atomic edits.
 
-use std::{error::Error, fmt, ops::Deref};
+use std::{error::Error, fmt, ops::Deref, sync::OnceLock};
 
 use crate::{
     Assignment, FiniteProblem, ListAssignment, ListError, ListMove, ListProblem, ModelError, Move,
@@ -131,9 +131,10 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
         self.basic.is_complete(&assignment.basic) && self.lists.is_complete(&assignment.lists)
     }
 
-    /// Prepare both edits in an isolated clone before installing either. Errors
-    /// and ordinary panic unwinding leave the original untouched. Dropping the
-    /// returned guard restores both components; commit keeps both. Clone/Eq must
+    /// Journal basic writes and save only touched list rows. Both component
+    /// guards remain armed until validation succeeds, so errors and ordinary
+    /// panic unwinding restore both components. Dropping the returned guard
+    /// restores both components; commit keeps both. Clone/Eq must
     /// preserve value identity without mutating shared state. Normal drop-guard
     /// limitations (abort, forget, panicking destructors) apply.
     pub fn apply<'a>(
@@ -150,19 +151,23 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
         assignment: &'a mut MixedAssignment<B, L>,
         movement: &MixedMove<B, L>,
     ) -> Result<AppliedMixedMove<'a, B, L>, MixedError> {
-        let mut candidate = assignment.clone();
-        self.basic
-            .apply_validated(&mut candidate.basic, &movement.basic)
-            .map_err(MixedError::Basic)?
-            .commit();
-        self.lists
-            .apply_validated(&mut candidate.lists, &movement.lists)
-            .map_err(MixedError::Lists)?
-            .commit();
-        let original = Some(std::mem::replace(assignment, candidate));
+        let basic = self
+            .basic
+            .apply_validated(&mut assignment.basic, &movement.basic)
+            .map_err(MixedError::Basic)?;
+        let lists = self
+            .lists
+            .apply_validated(&mut assignment.lists, &movement.lists)
+            .map_err(MixedError::Lists)?;
+        // No fallible work or user code between disarming these guards and
+        // installing their undo data in the joint guard.
+        let basic_prior = basic.into_undo_journal();
+        let saved_lists = Some(lists.into_undo_lists());
         Ok(AppliedMixedMove {
             assignment,
-            original,
+            basic_prior,
+            saved_lists,
+            original: OnceLock::new(),
         })
     }
 }
@@ -170,7 +175,9 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
 #[must_use = "dropping restores both components; call commit to keep changes"]
 pub struct AppliedMixedMove<'a, B, L> {
     assignment: &'a mut MixedAssignment<B, L>,
-    original: Option<MixedAssignment<B, L>>,
+    basic_prior: Vec<crate::PriorValue<B>>,
+    saved_lists: Option<Vec<(usize, Vec<L>)>>,
+    original: OnceLock<MixedAssignment<B, L>>,
 }
 impl<B, L> Deref for AppliedMixedMove<'_, B, L> {
     type Target = MixedAssignment<B, L>;
@@ -179,17 +186,64 @@ impl<B, L> Deref for AppliedMixedMove<'_, B, L> {
     }
 }
 impl<B, L> AppliedMixedMove<'_, B, L> {
-    pub fn original(&self) -> &MixedAssignment<B, L> {
-        self.original.as_ref().expect("live mixed transaction")
+    /// Borrow a basic slot before the entire move, including repeated writes.
+    /// Unknown variables return None; a known unassigned slot returns Some(None).
+    pub fn original_basic(&self, variable: usize) -> Option<&Option<B>> {
+        self.basic_prior
+            .iter()
+            .find(|prior| prior.variable == variable)
+            .map(|prior| &prior.value)
+            .or_else(|| self.assignment.basic.get(variable))
+    }
+    /// Borrow a pre-move list, without cloning any planning values.
+    pub fn original_list(&self, entity: usize) -> Option<&[L]> {
+        let saved = self.saved_lists.as_ref().expect("live mixed transaction");
+        match saved.binary_search_by_key(&entity, |(index, _)| *index) {
+            Ok(index) => Some(&saved[index].1),
+            Err(_) => self.assignment.lists.list(entity),
+        }
+    }
+    /// Materialize the complete pre-move snapshot once, on demand. Prefer the
+    /// borrowed component accessors when only particular slots or rows are needed.
+    /// Rollback does not depend on constructing this snapshot.
+    pub fn original(&self) -> &MixedAssignment<B, L>
+    where
+        B: Clone,
+        L: Clone,
+    {
+        self.original.get_or_init(|| {
+            // Repeated component writes keep their first pre-move value. Build
+            // the reference view in O(slots + writes), then clone each slot once.
+            let mut basic: Vec<_> = self.assignment.basic.values().iter().collect();
+            for prior in self.basic_prior.iter().rev() {
+                basic[prior.variable] = &prior.value;
+            }
+            MixedAssignment::new(
+                Assignment::new(basic.into_iter().cloned().collect()),
+                ListAssignment::new(
+                    (0..self.assignment.lists.lists().len())
+                        .map(|i| self.original_list(i).unwrap().to_vec())
+                        .collect(),
+                ),
+            )
+        })
     }
     pub fn commit(mut self) {
-        self.original = None;
+        self.saved_lists = None;
     }
 }
 impl<B, L> Drop for AppliedMixedMove<'_, B, L> {
     fn drop(&mut self) {
-        if let Some(mut original) = self.original.take() {
-            std::mem::swap(self.assignment, &mut original);
+        if let Some(mut saved) = self.saved_lists.take() {
+            for prior in self.basic_prior.iter_mut().rev() {
+                std::mem::swap(
+                    &mut self.assignment.basic.values[prior.variable],
+                    &mut prior.value,
+                );
+            }
+            for (entity, list) in &mut saved {
+                std::mem::swap(&mut self.assignment.lists.lists[*entity], list);
+            }
         }
     }
 }

@@ -21323,3 +21323,58 @@ stream and change/swap,1warmup3samples,independent final score validation and ha
 Compile/archive a baseline BEFORE altering production execution. The joint mixed
 checker could compose the basic/list checkers in a future batch; it is not implemented.
 All current task-owned check/evidence handles terminal. Goal remains active/incomplete.
+
+
+## Mixed transaction undo storage (verified)
+
+Baseline4773675, clean at start; previous turn made progress (list checker commit).
+Baseline63301 TERMINAL0 compiled optimized library/probe before source edits and
+archived work/mixed-journal-before, source/executable/library/harness hashes in
+work/mixed-journal-baseline.json. Probe32scopedchange smoke passed.
+Replaced whole MixedAssignment clone with component guard undo transfers, sparse
+basic write journal/touched list snapshots, clone-free borrowed before-state
+accessors and a lazy full snapshot. Scoring uses borrowed list rows. Three original
+regressions added; no provenance changes. Focused57588 TERMINAL0:24tests across
+mixed_transaction_journal,mixed_planning,mixed_scoring,mixed_stream_scoring.
+
+First paired measurement24939 TERMINAL0; archived in work/mixed-journal-first-
+performance.json and first-measurement.log; first candidate work/mixed-journal-after-first.
+Scoped swaps improved consistently, but32streamswap regressed and96stream wall
+samples varied strongly with host load. Revised full snapshot to O(slots+writes)
+and check current row membership before saved-row lookup.
+Revised build/measurement51591 TERMINAL0. Raw results in
+work/mixed-journal-performance.json; build/measurement logs under the same prefix.
+Same probe/baseline;8workloads,32/96values,scoped/stream,change/swap,3alternating forks,
+1warmup3samples; independent scores and exact assignments/counters match.
+Scoped median process CPU reductions18.2%,9.5%,11.0%,26.0% across32change/swap,
+96change/swap. Stream CPU changes are mixed:32change+4.2%,32swap-4.0%,96change-4.2%,
+96swap-10.0%. Process CPU includes warmup/setup/validation; elapsed samples time
+full solver calls. All eight results, including regression, documented in compatibility.
+No universal or Java speedup claim. Keep measured Rust source unchanged.
+
+Final gate12828 and evidence49339 completed successfully. Fmt/Clippy pass(29.43s);
+affected-target prebuild4m50s. 560Rust jobs ran;194Rust and46Python jobs reused.
+All5466Rust tests and250doctests pass. Coverage3169/4855=65.273%,0failed,
+1404pending,282excluded,0unverified. Report/live freshness matches; measured Rust
+source and executable hashes match final verification. Older list/Java measurements
+remain visibly stale. No Rust changes after measurement/final gate.
+Source:6e6931fa55726d8a75722770f4ef063a84f6dafcfe8f060386da46f554756963
+Verification:f953bf6e571c5fc680b6055f7b39a947cd25ab4654a5046e55e7a8c1bae45b8c
+Logs work/mixed-journal-{prebuild,final-check}.log; evidence
+work/mixed-journal-evidence.json. No Java/browser rerun. Goal active/incomplete.
+
+
+Read-only next-performance reconnaissance: both list_stream_scoring.rs and
+mixed_stream_scoring.rs first scan touched rows for membership, then call
+ListValueRow::from_assignment, which scans the entire assignment again via element().
+A next batch can retain the position from the current touched-row scan and construct
+neighbors directly; if absent there but present in a saved row, the value is now
+unassigned (all mutated rows are in touched_entities). Preserve updates for every
+affected registered value, even unused graph sources, and registry-value vs actual
+neighbor payloads. Do not skip unobserved sources: graph() exposes all bound rows.
+work/list_value_position.rs is an UNINTEGRATED/UNVERIFIED private-helper+unit-test
+draft outside Cargo targets. Reuse current mixed-journal-after executable as the next
+baseline only after this gate proves its source correspondence; no baseline rebuild
+is needed then. Add removal/reassignment, unequal sublists, cyclic composite, pinned
+and payload-sensitive scoring regressions, and compare full solves. This next edit
+has NOT been made to current source; completed gate12828 covers the measured state.

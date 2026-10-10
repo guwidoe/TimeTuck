@@ -105,6 +105,12 @@ impl<V> AppliedMove<'_, V> {
         self.journal.clear();
     }
 
+    // Transfer rollback ownership to a containing transaction. This performs no
+    // allocation, value clone or user callback after disarming the component.
+    pub(crate) fn into_undo_journal(mut self) -> Vec<PriorValue<V>> {
+        std::mem::take(&mut self.journal)
+    }
+
     fn write(&mut self, variable: usize, value: Option<V>) -> Result<(), MoveError> {
         let variable_count = self.assignment.values.len();
         let slot = self.assignment.values.get_mut(variable).ok_or(MoveError {

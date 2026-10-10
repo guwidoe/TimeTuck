@@ -5253,3 +5253,52 @@ clones while preserving diagnostic payloads. Lazy providers integrate the checke
 with all four list/mixed scoring paths, filtering before candidate scoring.
 This opt-in API does not replace existing solver provider or budget behavior.
 No wall-clock speedup is claimed; scratch references still require allocations.
+
+
+## Mixed transaction undo storage
+
+Mixed moves now retain the basic write journal and saved rows for touched lists,
+instead of cloning the entire joint assignment for every candidate. Component
+guards remain active through validation; errors and ordinary panic unwinding
+restore both components. Rollback swaps saved data back without cloning values.
+Borrowed `original_basic` and `original_list` accessors expose the pre-move state;
+scoped and stream scoring use the list accessor. The full `original()` snapshot
+is materialized once on demand, with linear basic-slot/write traversal. Like move
+application and the existing list snapshot API, this full view requires Clone
+value bounds. Unchanged list rows and basic variables are not copied on the normal
+candidate path. Candidate order, score rules and evaluation limits are unchanged.
+
+Three original regressions cover exact clone costs with large untouched regions,
+repeated writes and cached original views, injected failure at every clone/equality
+call, and retry after a panic during lazy snapshot construction. Existing mixed
+transaction and both scoring-backend cases also pass focused checks. This changes
+native execution/storage only and earns no upstream method credits.
+
+Paired native full solves compare baseline `4773675` with the journal candidate:
+32/96 customers and basic slots, four routes, a 12-step cap, best-accepted hill
+climbing, and change/swap neighborhoods. Three fresh-process fork pairs alternate
+version order, with one warmup and three timed solves per process. Every result
+passes independent full scoring and completeness checks; final assignments, scores,
+evaluation/step counts and constraint-call counts match exactly across versions.
+
+| Values | Backend | Moves | Before ms/solve | After ms/solve | Process CPU change |
+| ---: | --- | --- | ---: | ---: | ---: |
+| 32 | scoped | change | 12.246 | 8.997 | -18.2% |
+| 32 | scoped | swap | 7.700 | 7.365 | -9.5% |
+| 32 | stream | change | 118.353 | 117.857 | +4.2% |
+| 32 | stream | swap | 98.707 | 98.003 | -4.0% |
+| 96 | scoped | change | 112.602 | 89.939 | -11.0% |
+| 96 | scoped | swap | 89.088 | 63.599 | -26.0% |
+| 96 | stream | change | 2550.551 | 2440.970 | -4.2% |
+| 96 | stream | swap | 2537.327 | 2271.682 | -10.0% |
+
+Elapsed-time medians time director initialization and search; model/graph/network
+construction and independent validation are outside that timer. Process CPU
+includes all four solves (warmup included), setup and validation. Scoped workloads
+use 9–26% less median process CPU in these runs. Stream results are mixed; the
+32-value change case uses 4.2% more CPU despite nearly unchanged timed medians.
+Host load affected elapsed times, and this does not establish a universal speedup
+or a comparison against Java. Raw samples, source hashes, executable/harness
+identities and per-fork values are in `work/mixed-journal-performance.json`;
+`work/mixed-journal-baseline.json` records the untouched baseline build. Earlier
+candidate measurements remain separately archived; the table is the revised source.
