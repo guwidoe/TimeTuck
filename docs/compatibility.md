@@ -6095,3 +6095,38 @@ paths against unmonitored results, concurrent runs, callback reentrancy, clock
 regression, failures/panics, cancellation, exact/frozen runs and validation failures.
 The disabled path takes no metric locks; enabled publication occurs on best changes
 and phase completion, not on every candidate. No timing-overhead claim is made.
+
+
+## Compact ordered candidate joins
+
+Ordered `CandidateIndex::join` now stores a shared right-key group table and one
+range block for each matching left-key group. Two ordered key traversals locate
+monotonic prefix/suffix boundaries. Construction and metadata are O(left keys +
+right keys), replacing potentially quadratic matching-key-pair blocks. Candidate
+payloads and keys remain borrowed; no pair occurrences are materialized. Equality
+joins continue using direct bucket products. Explicit products may still be
+appended to an ordered joined view.
+
+Grouped rank lookup uses the outer pair-count prefix, then a right-group occurrence
+prefix. Within each selected key pair, left/right occurrence order is unchanged.
+Consequently iteration, reverse iteration, seeded unique/repeating draws and
+retirement retain their original pair ranks even with unequal buckets, removals,
+swap-compacted positions and rekeys. Pair arithmetic remains checked u128; an
+overflow leaves the existing view unchanged. Empty shared groups cannot shift
+later ranks. Original checks include a 10,000-key view representing 49,995,000 pairs
+with 9,999 range blocks, mixed grouped/direct blocks, virtual enormous zero-sized
+products, and actual ordered-pair local search with scoped and stream scoring.
+No additional upstream-method credit is claimed for this native optimization.
+
+Matched release measurements (three alternating process pairs, three warmups,
+five samples per process) compare the same indexes and deterministic rank checksums
+against4fded49. Index setup is excluded. At2,048 distinct keys, less-than join
+construction+128lookups+drop fell48.471506ms→0.048212ms; the matching key-pair
+blocks fell2,096,128→2,047 plus2,048shared groups.20,000lookups in a prebuilt view
+fell10.127176ms→2.854003ms.512-key construction fell0.591252ms→0.008893ms.
+Small/equality cases are mixed:32-key equality lookup0.596061ms→0.657167ms and
+2,048-key equality construction0.080378ms→0.090664ms, while2,048-key equality
+lookup improved1.480527ms→1.373064ms. These are local native microbenchmarks,
+not Java comparisons or end-to-end solver speed. Raw samples, hashes and all
+workloads:work/pair-join-performance.json. The initial mixed-block-layout trial is
+retained separately in work/pair-join-initial and is not the final implementation.

@@ -208,8 +208,12 @@ impl<K: Ord + Clone, I: Ord + Clone, T> CandidateIndex<K, I, T> {
     /// All occurrence pairs satisfying `left_key comparison right_key`.
     /// Uses borrowed Cartesian blocks for matching key groups, never a vector
     /// of all pairs. Equal payloads with different IDs remain distinct. Equality
-    /// uses one lookup per left key; ordered relations enumerate matching key
-    /// groups. Metadata may reach left-key-count times right-key-count.
+    /// uses one lookup per left key. Ordered relations share a right-group table
+    /// with a contiguous range per matching left key: metadata is O(left keys +
+    /// right keys), even when the logical pair count is quadratic. Construction
+    /// takes O(left keys + right keys) using ordered key boundaries; keys and payloads are borrowed.
+    /// Pair rank order and therefore seeded draws remain left key, right key,
+    /// left occurrence, right occurrence.
     /// Queries borrow both indexes; build a fresh view after mutation.
     pub fn join<'a, J: Ord + Clone, U>(
         &'a self,
@@ -217,25 +221,42 @@ impl<K: Ord + Clone, I: Ord + Clone, T> CandidateIndex<K, I, T> {
         comparison: crate::JoinComparison,
     ) -> Result<crate::IndexedCandidatePairs<'a, I, T, J, U>, crate::PairCountOverflow> {
         use crate::JoinComparison::*;
-        use std::ops::Bound::{Excluded, Included, Unbounded};
-        let mut pairs = crate::CandidatePairs::new();
-        for (key, left) in self.buckets.iter() {
-            if comparison == Equal {
+        if comparison == Equal {
+            let mut pairs = crate::CandidatePairs::new();
+            for (key, left) in self.buckets.iter() {
                 if let Some(other) = right.buckets.get(key) {
                     pairs.push_product(left, other)?;
                 }
-                continue;
             }
-            let bounds = match comparison {
-                LessThan => (Excluded(key.clone()), Unbounded),
-                LessThanOrEqual => (Included(key.clone()), Unbounded),
-                GreaterThan => (Unbounded, Excluded(key.clone())),
-                GreaterThanOrEqual => (Unbounded, Included(key.clone())),
+            return Ok(pairs);
+        }
+        if self.is_empty() || right.is_empty() {
+            return Ok(crate::CandidatePairs::new());
+        }
+        let groups: Vec<_> = right.buckets.iter().collect();
+        let mut pairs = crate::CandidatePairs::with_right_groups(
+            groups.iter().map(|(_, bucket)| bucket.as_slice()),
+        )?;
+        let mut boundary = 0;
+        let inclusive = matches!(comparison, LessThan | GreaterThanOrEqual);
+        for (key, left) in self.buckets.iter() {
+            // Both key sequences are ordered: advance the boundary once rather
+            // than scanning every matching group or searching it for each key.
+            while boundary < groups.len()
+                && if inclusive {
+                    groups[boundary].0 <= key
+                } else {
+                    groups[boundary].0 < key
+                }
+            {
+                boundary += 1;
+            }
+            let (start, end) = match comparison {
+                LessThan | LessThanOrEqual => (boundary, groups.len()),
+                GreaterThan | GreaterThanOrEqual => (0, boundary),
                 Equal => unreachable!(),
             };
-            for (_, other) in right.buckets.range(bounds) {
-                pairs.push_product(left, other)?;
-            }
+            pairs.push_group_product(left, start, end)?;
         }
         Ok(pairs)
     }

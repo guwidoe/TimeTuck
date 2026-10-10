@@ -22634,3 +22634,67 @@ plus2methods/1fixture, both new methods passed and live/report freshness.
 Evidence work/solver-metrics-evidence.json. No Rust changes after successful gate.
 Java/list benchmarks remain stale; no benchmark/browser rerun. Goal active/incomplete;
 reuse this evidence until relevant inputs change.
+
+
+## Compact ordered candidate-pair joins (baseline4fded49)
+
+Previous goal turn committed live metrics and completed its final gate. New native
+performance batch removes quadratic per-key-pair metadata in CandidateIndex::join.
+Shared right-group prefixes plus one range per matching left key; monotonic key
+boundaries make construction/storage O(L+R). Get restores the exact old key-major,
+then left/right occurrence rank order. Equality retains direct bucket products;
+explicit product append, sparse sampling and retirement remain supported. Keys and
+payloads borrowed, u128 pair arithmetic checked before mutation. No production
+upstream source read or translated, no new source-test credit/provenance edits.
+
+Baseline release62181 TERMINAL0 build22.95s before Rust edits; probe compiled to
+work/pair-join-before. Focus94011 TERMINAL101 exposed mistaken new test API use of
+retirement (returns pair tuple and retire() without arguments). Corrected58113
+TERMINAL0: old pair cases/regressions plus4new original integration tests pass.
+Added2unit checks for empty shared groups and atomic huge virtual overflow.
+After release37137 TERMINAL0 build23.29s, work/pair-join-after. Benchmark88262
+runs three alternating process pairs,3warmups/5samples; native construction+128
+lookups and20klookups-only, index setup excluded, checksums compared. Helper
+measure_pair_join.py retains raw CSVs and performance JSON. No Java/solver-wide
+speed claim; no browser changes. Final gate not started yet; Rust source frozen.
+
+First measurement88262 TERMINAL0 showed large ordered-construction gains but
+10-20% regressions on some equality lookups. First final-gate37249 was stopped
+explicitly (TERMINAL143) during input scanning after Clippy20.40s; no Rust test
+execution had begun. Revised storage keeps direct product entries unchanged and
+stores compressed range blocks separately, with a small direct lookup fast path.
+Old measurement/binary/CSVs remain in work/pair-join-initial; do not relabel them.
+Final-layout release76492 TERMINAL0 build22.51s. Measurement73773 now repeats the
+same matched benchmark against the unchanged baseline binary; no source edits
+while it runs. No full regression rerun yet; final gate must follow measurements.
+
+Measurement73773 TERMINAL0, final layout, all paired checksums match.2,048-key
+less-than build+128lookups+drop48.471506→0.048212ms;20klookups10.127176→2.854003ms.
+512-key build0.591252→0.008893ms. Small/equality timings mixed, retained honestly;
+32-key equality lookups0.596061→0.657167ms,2,048-key equality build0.080378→0.090664ms,
+lookup1.480527→1.373064ms. No whole-solver/Java speed claim. Final gate restarted
+on frozen final source (new exec handle recorded next); no full test suite ran
+for the discarded layout. Baseline binary unchanged; final source digest:
+378120225cd7f37ff30a39e67754891330a7f133479db68f5b210e149e0568f3
+
+Final42916 is live; Clippy17.91s passed,673targets selected/111reused. Investigated
+broad fanout WITHOUT changing verification/implementation during gate. Ad-hoc
+work/trace_pair_dependencies.py traces solver_metrics.rs -> lifecycle_support ->
+stream_graph -> stream_graph/dataset -> neighborhood_dataset -> RetiringIndices
+in indexed_retirement.rs -> CandidatePairs. Generic retirement, LazyConcat adapter
+and pair adapter share that module. Concrete next scope: split the generic index
+retirement from each adapter and keep public root exports, reducing irrelevant
+module dependencies. Do not modify/relabel existing verification hashes; current
+batch remains frozen and must finish its own gate first.
+
+Final42916 TERMINAL0: Clippy17.91s, affected-target compile1m33s;
+673Rust RUN/111Rust REUSE/46Python REUSE;5684Rust tests+255doctests pass.
+Coverage remains3273/4855=67.415%,0failed,1318pending,264excluded,0unverified;
+this native performance increment earns no new upstream-method credit.
+Source378120225cd7f37ff30a39e67754891330a7f133479db68f5b210e149e0568f3;
+verificationc7d19587942fad393a9630506fb6377b00b55874174e6238a69371834629c889.
+Recorder32390 TERMINAL0 verifies unchanged source, unchanged provenance and live/
+report freshness. Final benchmark source exactly matches verified source; probe,
+both binaries and measured implementation file hashes still match. Evidence
+work/pair-join-evidence.json and work/pair-join-performance.json. No Rust edits
+or repeat tests after successful gate. Java/list timings remain stale. Goal active.
