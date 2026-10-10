@@ -22116,3 +22116,34 @@ Evidence also checks performance source/binary hashes still match. Live/report
 freshness matches; older Java list measurements remain stale. Evidence and logs:
 work/dependency-index-evidence.json,work/dependency-index-{prebuild,final-check}.log.
 No Rust edits after gate; no browser rerun. Goal remains incomplete.
+
+## Transactional assignment replacement (baseline 0790ad0)
+
+All three stream directors now expose replace_assignment with a shared
+StreamAssignmentChange guard; stream MoveSession also installs replacements under
+its existing rollback boundary. Validate before callbacks, batch every planning row
+(including identity-equal changed payloads), retain compiled graph/facts, install the
+live assignment only after scoring succeeds. Drop/commit do not replay callbacks.
+Five original regression methods cover 81 basic partial states, grouped/joined/list
+shadow scoring, mixed full/partial states, facts, nested rollback, invalid models,
+graph errors and callback/caller panics. No upstream method credit or speedup claim.
+Focus67632 passed; earlier focus89058/15331 exposed test assumptions about the opaque
+MoveSession API, corrected with explicit session replacement and director() reads.
+
+Read-only reconnaissance before this batch: remaining DefaultConstructionForager
+structurally-flawed rejection has a distinct Java sentinel; don't reject ordinary
+negative structural partial scores. Remaining multi-entity k-opt methods need the
+actual implicit partition/notification contract: native explicit partitions already
+cover some output fixtures, but neither old-row boundary splitting nor flattened
+cycles explain Java's 3-opt fixture. No production source was read. Avoid redoing
+these probes or granting credit for those partial matches. Automatic retained graph
+state across solver phases is still separate work; this API does not implement it.
+
+Final gate16504 TERMINAL0: Clippy20.17s;570target compile70s;
+570Rust RUN,197Rust/46Python REUSE;5544Rust tests+251doctests pass.
+Coverage3190/4855=65.705%,0failed,1383pending,282excluded,0unverified.
+Source9e606a2943bc938f6d3d3d3d9c2e435edad11b09c0e56a7d812134fc8fc52cb9
+Verification41c8d38eb3a7d56dbe148dcf827e84b70889a7a6c7a1433ad83ca8993a18bdba
+Live/report freshness matches. Evidence work/assignment-replacement-evidence.json;
+logs work/assignment-replacement-{focus,prebuild,final-check}.log. No Rust changes
+after gate; Java measurements remain stale; no browser/benchmark rerun. Goal active.

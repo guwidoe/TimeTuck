@@ -412,3 +412,50 @@ fn incremental_moves_support_exact_enumeration_and_bounded_improvement() {
     assert_eq!(director.score(), HardSoftScore::ZERO);
     assert_eq!(total(director.assignment().values()), HardSoftScore::ZERO);
 }
+
+#[test]
+fn replacement_reuses_grouped_graph_for_every_partial_assignment() {
+    let p = FiniteProblem::new(vec![Variable::new(vec![0, 1]); 4]).unwrap();
+    let calls = Rc::new(Cell::new(0));
+    let (g, source) = network(calls.clone());
+    let mut d = StreamScoreDirector::new(&p, g, source, p.initial_assignment()).unwrap();
+    for state in 0..81 {
+        let before = d.assignment().clone();
+        let before_score = d.score();
+        let mut digits = state;
+        let next = Assignment::new(
+            (0..4)
+                .map(|_| {
+                    let v = match digits % 3 {
+                        0 => None,
+                        1 => Some(0),
+                        _ => Some(1),
+                    };
+                    digits /= 3;
+                    v
+                })
+                .collect(),
+        );
+        let trial = d.replace_assignment(next.clone()).unwrap();
+        assert_eq!(trial.assignment(), &next);
+        assert_eq!(trial.score(), total(next.values()));
+        assert_eq!(
+            trial
+                .graph()
+                .constraint_scores()
+                .collect::<BTreeMap<_, _>>(),
+            reference(next.values())
+        );
+        let work = calls.get();
+        if state % 2 == 0 {
+            trial.commit();
+            assert_eq!(d.assignment(), &next);
+        } else {
+            drop(trial);
+            assert_eq!(d.assignment(), &before);
+            assert_eq!(d.score(), before_score);
+        }
+        assert_eq!(calls.get(), work, "commit/drop must not rescore");
+    }
+    d.assert_consistent().unwrap();
+}

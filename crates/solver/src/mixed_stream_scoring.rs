@@ -171,6 +171,46 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             director.graph.install(graph);
         }))
     }
+    /// Validate and score a new assignment using this director's compiled graph.
+    /// All planning rows are refreshed, even if `Eq` compares only value identity;
+    /// immutable fact sources and graph configuration are retained. Drop rolls back.
+    /// Initialization work counters still describe the original construction.
+    pub fn replace_assignment(
+        &mut self,
+        next: MixedAssignment<B, L>,
+    ) -> Result<
+        crate::StreamAssignmentChange<'_, 'a, MixedAssignment<B, L>, S>,
+        MixedStreamScoringError,
+    > {
+        self.problem.validate(&next)?;
+        with_structure(S::ZERO, self.problem, &next)?;
+        let mut graph = self.graph.transaction();
+        let mut updates = StreamBatch::new();
+        for (i, value) in next.basic().values().iter().enumerate() {
+            updates.push(&self.sources.basic, TupleChange::put(i, (i, value.clone())))?;
+        }
+        for (i, list) in next.lists().lists().iter().enumerate() {
+            updates.push(
+                &self.sources.lists.entities,
+                TupleChange::put(i, (i, list.clone())),
+            )?;
+        }
+        for (i, value) in self.problem.lists().values().iter().enumerate() {
+            updates.push(
+                &self.sources.lists.values,
+                TupleChange::put(i, ListValueRow::from_assignment(i, value, next.lists())),
+            )?;
+        }
+        graph.apply_updates(updates)?;
+        let score = with_structure(graph.score()?, self.problem, &next)?;
+        Ok(crate::StreamAssignmentChange::new(
+            &mut self.assignment,
+            next,
+            graph,
+            score,
+        ))
+    }
+
     pub fn assignment(&self) -> &MixedAssignment<B, L> {
         &self.assignment
     }

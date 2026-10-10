@@ -189,6 +189,9 @@ pub use stream_graph::{
     StreamConstraint, StreamDataset, StreamGraph, StreamGraphBuilder, StreamPort, StreamSource,
 };
 
+mod stream_assignment_change;
+pub use stream_assignment_change::StreamAssignmentChange;
+
 pub mod stream_scoring;
 pub use stream_scoring::{
     PlanningStreamSource, StreamScoreDirector, StreamScoredMove, StreamScoringError,

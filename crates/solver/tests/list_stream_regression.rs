@@ -859,3 +859,60 @@ fn value_clone_failures_restore_model_and_both_planning_sources() {
     }
     assert!(failed > 20 && succeeded > 0);
 }
+
+#[test]
+fn replacements_refresh_all_shadows_and_rollback_inside_edit_sessions() {
+    let p = ListProblem::new(
+        vec![1, 2, 3, 4],
+        vec![
+            ListEntity::new(vec![1, 2]).with_pinned_prefix(1),
+            ListEntity::new(vec![3]),
+        ],
+    )
+    .unwrap();
+    let (g, sources) = graph();
+    let mut d =
+        ListStreamScoreDirector::new(&p, g, sources.clone(), p.initial_assignment()).unwrap();
+    for lists in [
+        vec![vec![1], vec![4, 2, 3]],
+        vec![vec![1, 3], vec![]],
+        vec![vec![1, 4, 3, 2], vec![]],
+    ] {
+        let next = ListAssignment::new(lists);
+        let mut session = d.edit_session().unwrap();
+        session.replace_assignment(next.clone()).unwrap();
+        inspect(
+            &p,
+            &next,
+            session.director().graph(),
+            &sources,
+            session.score(),
+        );
+        let mut trial = session.nested().unwrap();
+        trial.replace_assignment(p.initial_assignment()).unwrap();
+        inspect(
+            &p,
+            trial.assignment(),
+            trial.director().graph(),
+            &sources,
+            trial.score(),
+        );
+        drop(trial);
+        assert_eq!(session.assignment(), &next);
+        drop(session);
+        assert_eq!(d.assignment(), &p.initial_assignment());
+        inspect(&p, d.assignment(), d.graph(), &sources, d.score());
+    }
+    for bad in [
+        vec![vec![2, 1], vec![3]],
+        vec![vec![1], vec![2, 2]],
+        vec![vec![1], vec![99]],
+    ] {
+        assert!(matches!(
+            d.replace_assignment(ListAssignment::new(bad)),
+            Err(ListStreamScoringError::Model(_))
+        ));
+        assert_eq!(d.assignment(), &p.initial_assignment());
+    }
+    d.assert_consistent().unwrap();
+}

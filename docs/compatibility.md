@@ -5735,3 +5735,17 @@ comparisons or a general solver speed guarantee. Existing Java timings stay stal
 Three original tests bound registry comparisons, preserve singleton/downstream
 cycle diagnostics and preparation, and cover layouts without predecessor edges.
 No new upstream method credit is added.
+
+## Transactional stream assignment replacement
+
+All three stream scoring directors can validate and score an entire replacement
+assignment while retaining their compiled graph and immutable facts. The returned
+guard commits or restores assignment and cached graph together. Stream edit sessions
+also accept replacements, retaining their nested rollback behavior. Every planning
+row is refreshed so identity-only equality cannot conceal changed payloads.
+
+Original regressions cover all 81 partial basic assignments through grouped/joined
+constraints, list ownership/index/neighbor rows and aggregates, mixed partial/full
+scoring, retained facts, nested rollback, model rejection before scoring, graph errors,
+callback/caller panic recovery and identity-equal payload updates. No upstream method
+credit, automatic phase reuse or measured speedup is claimed by this API increment.

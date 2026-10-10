@@ -98,3 +98,31 @@ session!((V), ListScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, List
 session!((V), ListStreamScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListStreamScoringError, [V:Eq+Clone+'static,S:AdditiveScore+'static]);
 session!((B,L), MixedScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedScoringError, [B:Eq+Clone,L:Eq+Clone,S:AdditiveScore]);
 session!((B,L), MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedStreamScoringError, [B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static]);
+
+macro_rules! stream_replacement {
+    (($($v:ident),+), $director:ty, $assignment:ty, $error:ty) => {
+        impl<'p, 'c, $($v: Eq + Clone + 'static,)+ S: AdditiveScore + 'static>
+            MoveSession<'_, $director>
+        {
+            /// Install a validated/scored replacement, still subject to this
+            /// session's rollback. Failure leaves the successful prefix intact.
+            pub fn replace_assignment(&mut self, next: $assignment) -> Result<(), $error> {
+                self.director.replace_assignment(next)?.commit();
+                Ok(())
+            }
+        }
+    }
+}
+stream_replacement!(
+    (V),
+    StreamScoreDirector<'p, 'c, V, S>,
+    Assignment<V>,
+    StreamScoringError
+);
+stream_replacement!(
+    (V),
+    ListStreamScoreDirector<'p, 'c, V, S>,
+    ListAssignment<V>,
+    ListStreamScoringError
+);
+stream_replacement!((B,L), MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedStreamScoringError);

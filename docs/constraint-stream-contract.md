@@ -2229,3 +2229,30 @@ work/fixed-slots-small-tabu-performance.json and work/fixed-slots-large-performa
 The refreshed Java comparison has 128 equal-score validation cases; large swaps
 still take about 2.1–2.6 times Java's time. Match inspection is outside that solve
 benchmark; the method records the lazy-materialization distinction explicitly.
+
+## Replace an assignment without rebuilding the graph
+
+Basic, list and mixed stream directors expose `replace_assignment(next)`. The
+replacement must validate against the bound problem, including pins and ranges,
+before callbacks run. Partial assignments remain allowed with their usual structural
+score. The compiled graph, source identities, constraints, observations and immutable
+fact rows remain bound. Every planning row is refreshed in one transaction; this
+also updates payloads whose `Eq` implementation compares only identity. List value
+rows keep their registered value payload and derive position/previous/next from the
+replacement, matching initial binding and move semantics.
+
+The returned `StreamAssignmentChange` exposes the assignment, scored graph, score,
+terminal callback count and checkpoint count. Commit retains the replacement;
+drop or callback failure restores the previous assignment and graph without callback
+replay. The live assignment is installed only after scoring succeeds. Callback side
+effects outside the graph are not rolled back. Initialization counters continue to
+describe the original director construction. As with other guards, forgetting a guard,
+process abort and panicking destructors are outside ordinary rollback guarantees.
+
+Within a stream `MoveSession`, `replace_assignment` installs the replacement directly
+and returns `Result<(), _>`, following the session's `apply` convention. Replacement
+failure preserves prior session edits; successful replacements remain subject to
+nested and outer rollback. This does not change solver phase orchestration or establish
+upstream director identity/reuse compatibility. It avoids rebuilding the graph but
+still refreshes all planning rows; no throughput improvement is claimed without a
+workload measurement.

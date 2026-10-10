@@ -713,3 +713,37 @@ fn failed_rebuild_diagnostic_restores_cached_joint_score_and_remains_reusable() 
     assert_eq!(d.score(), SimpleScore::new(10));
     d.assert_consistent().unwrap();
 }
+
+#[test]
+fn replacement_preserves_facts_and_joint_scores_across_partial_and_full_states() {
+    for optional in [false, true] {
+        let p = problem(optional);
+        let (g, sources) = graph();
+        let mut d =
+            MixedStreamScoreDirector::new(&p, g, sources.clone(), p.initial_assignment()).unwrap();
+        for basic in [vec![None, None, Some(9)], vec![Some(-2), Some(0), Some(9)]] {
+            for lists in [vec![vec![11], vec![89, 47, 23]], vec![vec![11, 47], vec![]]] {
+                let next = MixedAssignment::new(
+                    Assignment::new(basic.clone()),
+                    ListAssignment::new(lists),
+                );
+                let before = d.assignment().clone();
+                let before_score = d.score();
+                let trial = d.replace_assignment(next.clone()).unwrap();
+                assert_eq!(trial.score(), direct(&p, &next));
+                assert_eq!(trial.assignment(), &next);
+                rows(trial.graph(), &sources, &p, &next);
+                assert!(trial.constraint_evaluations() > 0);
+                assert!(trial.checkpoint_count() > 0);
+                drop(trial);
+                assert_eq!(d.assignment(), &before);
+                assert_eq!(d.score(), before_score);
+                rows(d.graph(), &sources, &p, &before);
+                d.replace_assignment(next.clone()).unwrap().commit();
+                assert_eq!(d.assignment(), &next);
+                assert_eq!(d.score(), direct(&p, &next));
+            }
+        }
+        d.assert_consistent().unwrap();
+    }
+}
