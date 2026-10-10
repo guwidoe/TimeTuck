@@ -53,12 +53,7 @@ impl<V: Eq + Clone> ListProblem<V> {
         let Some(graph) = &self.dependencies else {
             return Ok(vec![]);
         };
-        let index = |value: &V| {
-            self.values()
-                .iter()
-                .position(|v| v == value)
-                .expect("validated registry")
-        };
+        let index = |value: &V| self.value_index(value).expect("validated registry");
         let edge_count = assignment
             .lists()
             .iter()

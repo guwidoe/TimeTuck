@@ -87,7 +87,7 @@ impl<V: Eq + Clone> ListMoveChecker<'_, V> {
                     {
                         return Err(ListError::AlreadyAssigned);
                     }
-                    if !self.problem.values.contains(value) {
+                    if !self.problem.contains_value(value) {
                         return Err(self.problem.range_error(
                             *destination,
                             value,
@@ -432,7 +432,7 @@ impl<'a, V: Eq + Clone> CandidateRows<'a, V> {
                     if self.contains(value) {
                         return Err(ListError::AlreadyAssigned);
                     }
-                    if !self.problem.values.contains(value) {
+                    if !self.problem.contains_value(value) {
                         return Err(self.problem.range_error(
                             *destination,
                             value,

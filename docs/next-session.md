@@ -22825,3 +22825,43 @@ with live handle53731. No browser rerun. Evidence work/span-rank-evidence.json.
 Source 843eee5d3752888ad3836f7eeb27fe34365504a821ff14317697bc6146b77e75;
 verification 6343d72e1ddd95867e0c5f4f2a329d692a05c7bee7fb0a516bb5cc97f6c184f0.
 No Rust edits or repeated checks after success. Java/list performance remains stale.
+
+## Indexed list models (baseline fd00fbf)
+
+Previous conversational turn explained throughput but made no implementation
+progress. This batch adds opt-in ListProblem::new_indexed and stable value_index,
+with collision-safe hashing and shared immutable range/registry indexes; Eq-only
+models remain supported. Construction/validation, dependency checks, candidate
+selection, list/mixed stream initialization/replacement/touched-value updates and
+exact stream scoring use indexed lookups. Repair rebuilds changed range indexes.
+Six original regressions cover collisions/clones, error precedence/diagnostics,
+all small assignment candidates and stream rollback, dependencies, list/mixed
+solving, repair and nonquadratic equality work. No upstream-method credit.
+Focused10555 TERMINAL0. An earlier test-only graph factory signature error was
+corrected to return Ok(graph()). Release22519 TERMINAL0; native index-versus-linear
+probe uses two warmups/five alternating samples with matching checksums. At8192
+values: construction26.5x,validation36.2x,lookup42.3x,director init6.3x,scored swap/
+rollback3.2x faster. At32values indexing is slower (construction/validation~4x,
+scored swaps22%); remains opt-in. No Java or whole-solver performance claim.
+Raw work/value-index-performance.{csv,json}, probe/source hashes recorded.
+Final58082 running prebuild_value_index.py then scripts/check.sh with frozen Rust;
+logs work/value-index-{prebuild,final-check}.log. After success, record using
+work/record_value_index.py (baselinefd00fbf,zero added cases/fixtures,benchmark
+source/hash checks). No UI changes; inspect backend freshness only. Dynamic range
+factories and standalone assignment.location still use linear lookup. Goal active.
+Remaining indexed selection opportunity: ListDestinationSelector::new still calls
+assignment.location for each anchor; repair eligibility/range rebuilding also
+scan assignment locations per registry value. These are concrete remaining scans,
+not covered by this batch's performance claims. Use value_locations snapshots if
+addressing them later; do not reopen this verified batch merely for those follow-ups.
+
+Final58082 TERMINAL0: Clippy28.49s, affected-target compile6m21s;
+593Rust jobs RUN/197REUSE/46PythonREUSE;5714Rust tests+256doctests pass.
+Coverage unchanged3283/4855=67.621%,0failed,1308pending,264excluded,0unverified.
+Recorder89514 TERMINAL0 verifies unchanged source/provenance, dashboard freshness
+and benchmark source/probe/implementation hashes. Evidence work/value-index-evidence.json.
+Source18a0f5bfade9338063d770aa0e01b8b2791fe4dbf33ae87da4b55e2c7d9bc5a2;
+verification3bf791ef183b96c7c0124a462d37dc229eaf0c9aea41eb9eaae7f1b083a98a56.
+No Rust changes after successful final gate; no repeated tests or browser checks.
+Java/list measurements remain stale. Dashboard responded; no server restart needed.
+Goal remains active and incomplete.

@@ -1184,3 +1184,22 @@ with 32 singleton lists and 20 swap proposals observes zero value clones, down
 from 72 (32 initial + 40 undo). Replacement swaps still own the newly assigned
 value. Value-change results own their registry metadata value, plus an assignment
 payload when needed. Existing no-op inclusion and sampling order are preserved.
+
+## Indexed list registries
+
+`ListProblem::new_indexed(values, entities)` accepts `Eq + Clone + Hash` values
+and builds immutable registry and per-entity range indexes. `value_index(&value)`
+returns the stable input-order registry ID. Equal values must hash equally; both
+identity and hash must remain stable for the model's lifetime. Collisions still
+compare equality. Ordinary `new` continues to support Eq-only values and avoids
+index storage; small models can benefit from its lower setup cost.
+
+Indexed construction, validation, dependency lookup, value-driven selection and
+list/mixed stream row updates use these indexes. Stream source IDs, update order,
+neighbor snapshots, error priority and candidate order remain unchanged. Model
+clones share immutable indexes. Resuming an assignment retains them; repair
+rebuilds indexes for its temporarily restricted ranges. Indexes do not store
+additional copies of value payloads. Dynamic-range factories still construct
+ordinary models, and standalone assignment location queries remain linear.
+
+This is a native performance option, with no additional upstream method credit.

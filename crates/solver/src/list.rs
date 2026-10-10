@@ -4,6 +4,7 @@
 //! from the lists, so they cannot become stale after a move or rollback.
 
 pub(crate) mod move_check;
+mod value_index;
 
 use std::{error::Error, fmt, ops::Deref, sync::OnceLock};
 
@@ -242,6 +243,7 @@ impl Error for ListError {
 #[derive(Clone, Debug)]
 pub struct ListProblem<V> {
     values: Vec<V>,
+    value_index: Option<std::sync::Arc<value_index::ValueIndex<V>>>,
     entities: Vec<ListEntity<V>>,
     allows_unassigned: bool,
     pub(crate) dependencies: Option<crate::DependencyGraph<usize>>,
@@ -270,6 +272,7 @@ impl<V: Eq + Clone> ListProblem<V> {
         }
         let problem = Self {
             values,
+            value_index: None,
             entities,
             allows_unassigned: false,
             dependencies: None,
@@ -316,6 +319,21 @@ impl<V: Eq + Clone> ListProblem<V> {
     pub fn values(&self) -> &[V] {
         &self.values
     }
+    /// Find a value's stable registry index using the model's identity semantics.
+    /// Indexed models use hashing with equality checks for collisions; ordinary
+    /// models retain a linear equality search.
+    pub fn value_index(&self, value: &V) -> Option<usize> {
+        match &self.value_index {
+            Some(index) => index.find(&self.values, value),
+            None => self.values.iter().position(|v| v == value),
+        }
+    }
+    pub(crate) fn contains_value(&self, value: &V) -> bool {
+        match &self.value_index {
+            Some(index) => index.find(&self.values, value).is_some(),
+            None => self.values.contains(value),
+        }
+    }
     pub fn entities(&self) -> &[ListEntity<V>] {
         &self.entities
     }
@@ -357,6 +375,10 @@ impl<V: Eq + Clone> ListProblem<V> {
             });
         }
         let mut seen = Vec::new();
+        let mut seen_ids = self
+            .value_index
+            .as_ref()
+            .map(|_| std::collections::HashSet::new());
         for (entity, (list, meta)) in assignment.lists.iter().zip(&self.entities).enumerate() {
             if (meta.pinned && *list != meta.initial)
                 || (!meta.pinned
@@ -366,20 +388,32 @@ impl<V: Eq + Clone> ListProblem<V> {
             }
             for (index, value) in list.iter().enumerate() {
                 let position = ListPosition { entity, index };
-                if !self.values.contains(value) {
-                    return Err(self.range_error(position, value, ListError::ValueOutsideDomain));
+                let id = match &self.value_index {
+                    Some(index) => index.find(&self.values, value),
+                    None => self.values.contains(value).then_some(0),
                 }
-                if !self.accepts(entity, value) {
+                .ok_or_else(|| self.range_error(position, value, ListError::ValueOutsideDomain))?;
+                let accepted = match &self.value_index {
+                    Some(index) => index.accepts(entity, id),
+                    None => self.accepts(entity, value),
+                };
+                if !accepted {
                     return Err(self.range_error(
                         position,
                         value,
                         ListError::ValueOutsideEntityRange { entity },
                     ));
                 }
-                if seen.contains(&value) {
-                    return Err(ListError::DuplicateAssignedValue);
+                if let Some(seen_ids) = &mut seen_ids {
+                    if !seen_ids.insert(id) {
+                        return Err(ListError::DuplicateAssignedValue);
+                    }
+                } else {
+                    if seen.contains(&value) {
+                        return Err(ListError::DuplicateAssignedValue);
+                    }
+                    seen.push(value);
                 }
-                seen.push(value);
             }
         }
         Ok(())
@@ -405,10 +439,15 @@ impl<V: Eq + Clone> ListProblem<V> {
     }
     // Callers already validate entity indices and global value membership.
     pub(crate) fn accepts(&self, entity: usize, value: &V) -> bool {
-        self.entities[entity]
-            .value_range
-            .as_ref()
-            .is_none_or(|range| range.contains(value))
+        let Some(range) = &self.entities[entity].value_range else {
+            return true;
+        };
+        match &self.value_index {
+            Some(index) => self
+                .value_index(value)
+                .is_some_and(|id| index.accepts(entity, id)),
+            None => range.contains(value),
+        }
     }
     // Valid partial states have no list-length restrictions. Every missing value
     // can be appended independently if any unpinned entity accepts it.
@@ -486,7 +525,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                     if transaction.location(value).is_some() {
                         return Err(ListError::AlreadyAssigned);
                     }
-                    if !self.values.contains(value) {
+                    if !self.contains_value(value) {
                         return Err(self.range_error(
                             *destination,
                             value,

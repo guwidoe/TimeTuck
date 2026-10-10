@@ -132,10 +132,14 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 TupleChange::put(i, (i, list.clone())),
             )?;
         }
+        let locations = problem.lists().value_locations(assignment.lists());
         for (i, v) in problem.lists().values().iter().enumerate() {
             updates.push(
                 &sources.lists.values,
-                TupleChange::put(i, ListValueRow::from_assignment(i, v, assignment.lists())),
+                TupleChange::put(
+                    i,
+                    ListValueRow::from_known_position(i, v, assignment.lists(), locations[i]),
+                ),
             )?;
         }
         tx.apply_updates(updates)?;
@@ -474,10 +478,14 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 TupleChange::put(i, (i, list.clone())),
             )?;
         }
+        let locations = self.problem.lists().value_locations(next.lists());
         for (i, value) in self.problem.lists().values().iter().enumerate() {
             updates.push(
                 &self.sources.lists.values,
-                TupleChange::put(i, ListValueRow::from_assignment(i, value, next.lists())),
+                TupleChange::put(
+                    i,
+                    ListValueRow::from_known_position(i, value, next.lists(), locations[i]),
+                ),
             )?;
         }
         graph.apply_updates(updates)?;
@@ -550,27 +558,25 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 TupleChange::put(i, (i, assignment.lists().lists()[i].clone())),
             )?;
         }
-        for (i, v) in self.problem.lists().values().iter().enumerate() {
-            let position = touched.iter().find_map(|&entity| {
-                assignment.lists().lists()[entity]
-                    .iter()
-                    .position(|value| value == v)
-                    .map(|index| crate::ListPosition { entity, index })
-            });
-            // Absent from all touched rows now means removed, not moved elsewhere.
-            if position.is_some()
-                || touched
-                    .iter()
-                    .any(|&entity| assignment.original_list(entity).unwrap().contains(v))
-            {
-                updates.push(
-                    &self.sources.lists.values,
-                    TupleChange::put(
+        for (i, position) in
+            self.problem
+                .lists()
+                .changed_value_positions(assignment.lists(), &touched, |entity| {
+                    assignment.original_list(entity).unwrap()
+                })
+        {
+            updates.push(
+                &self.sources.lists.values,
+                TupleChange::put(
+                    i,
+                    ListValueRow::from_known_position(
                         i,
-                        ListValueRow::from_known_position(i, v, assignment.lists(), position),
+                        &self.problem.lists().values()[i],
+                        assignment.lists(),
+                        position,
                     ),
-                )?;
-            }
+                ),
+            )?;
         }
         graph.apply_updates(updates)?;
         let score = with_structure(graph.score()?, self.problem, &assignment)?;

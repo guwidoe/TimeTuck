@@ -57,11 +57,7 @@ impl<'a, V: Clone + Eq> ValueChangeSelection<'a, V> {
             checker,
             problem,
             assignment,
-            locations: problem
-                .values()
-                .iter()
-                .map(|v| assignment.location(v))
-                .collect(),
+            locations: problem.value_locations(assignment),
         })
     }
     fn movable(&self, p: ListPosition) -> bool {
@@ -73,9 +69,7 @@ impl<'a, V: Clone + Eq> ValueChangeSelection<'a, V> {
             .iter()
             .map(|v| {
                 self.problem
-                    .values()
-                    .iter()
-                    .position(|x| x == v)
+                    .value_index(v)
                     .ok_or(ListError::ValueOutsideDomain)
             })
             .collect()

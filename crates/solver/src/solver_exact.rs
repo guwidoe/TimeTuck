@@ -200,10 +200,14 @@ fn put_lists<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     for (i, list) in a.lists().iter().enumerate() {
         tx.apply(&sources.entities, TupleChange::put(i, (i, list.clone())))?;
     }
+    let locations = p.value_locations(a);
     for (i, value) in p.values().iter().enumerate() {
         tx.apply(
             &sources.values,
-            TupleChange::put(i, ListValueRow::from_assignment(i, value, a)),
+            TupleChange::put(
+                i,
+                ListValueRow::from_known_position(i, value, a, locations[i]),
+            ),
         )?;
     }
     Ok(())

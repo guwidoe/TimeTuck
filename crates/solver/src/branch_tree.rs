@@ -139,9 +139,7 @@ impl<V: Eq + Clone> BranchTree for ListTree<'_, V> {
                     row.iter()
                         .map(|value| {
                             self.problem
-                                .values()
-                                .iter()
-                                .position(|v| v == value)
+                                .value_index(value)
                                 .expect("registered exact-search value")
                         })
                         .collect()

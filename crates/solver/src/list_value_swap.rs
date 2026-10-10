@@ -27,11 +27,7 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
         assignment: &'a ListAssignment<V>,
     ) -> Result<Self, ListError> {
         let checker = problem.move_checker(assignment)?;
-        let locations: Vec<_> = problem
-            .values()
-            .iter()
-            .map(|v| assignment.location(v))
-            .collect();
+        let locations: Vec<_> = problem.value_locations(assignment);
         let selectable = locations
             .iter()
             .map(|p| match p {
@@ -54,9 +50,7 @@ impl<'a, V: Eq + Clone> ValueSwapSelection<'a, V> {
         for v in values {
             let id = self
                 .problem
-                .values()
-                .iter()
-                .position(|x| x == v)
+                .value_index(v)
                 .ok_or(ListError::ValueOutsideDomain)?;
             if self.selectable[id] {
                 result.push(id);

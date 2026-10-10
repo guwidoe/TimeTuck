@@ -108,9 +108,7 @@ impl<'a, V: Clone + Eq> ListDestinationSelector<'a, V> {
         let mut positions = vec![];
         for value in anchors {
             let id = problem
-                .values()
-                .iter()
-                .position(|v| v == value)
+                .value_index(value)
                 .ok_or(ListError::ValueOutsideDomain)?;
             if let Some(at) = assignment.location(value) {
                 let meta = &problem.entities()[at.entity];
@@ -141,9 +139,7 @@ impl<'a, V: Clone + Eq> ListDestinationSelector<'a, V> {
             .iter()
             .map(|value| {
                 self.problem
-                    .values()
-                    .iter()
-                    .position(|v| v == value)
+                    .value_index(value)
                     .ok_or(ListError::ValueOutsideDomain)
             })
             .collect::<Result<Vec<_>, _>>()?;

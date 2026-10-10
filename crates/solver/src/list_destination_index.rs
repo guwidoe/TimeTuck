@@ -161,9 +161,7 @@ impl<'a, V: Clone + Eq> ListDestinationIndex<'a, V> {
         for value in values {
             let i = self
                 .problem
-                .values()
-                .iter()
-                .position(|v| v == value)
+                .value_index(value)
                 .ok_or(ListDestinationError::Model(ListError::ValueOutsideDomain))?;
             for (keep, allowed) in eligible.iter_mut().zip(&self.receivers[i]) {
                 *keep &= allowed;
