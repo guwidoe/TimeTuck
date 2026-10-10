@@ -35,11 +35,14 @@ fn execute(
     assert_eq!(callbacks.get() as u128, r.work.constraint_evaluations);
     assert_eq!(
         r.work.evaluations,
-        r.phases.iter().map(|p| p.work.evaluations).sum()
+        r.phases.iter().map(|p| p.work.evaluations).sum::<u64>()
     );
     assert_eq!(
         r.work.move_evaluations,
-        r.phases.iter().map(|p| p.work.move_evaluations).sum()
+        r.phases
+            .iter()
+            .map(|p| p.work.move_evaluations)
+            .sum::<u64>()
     );
     for phase in &r.phases {
         if matches!(phase.termination, PhaseTermination::Exact(_)) {

@@ -72,7 +72,10 @@ fn run_all(mut config: SolverSequence<'_>, order: MixedConstructionOrder) -> Vec
             }
             assert_eq!(
                 r.work.construction_steps,
-                r.phases.iter().map(|p| p.work.construction_steps).sum()
+                r.phases
+                    .iter()
+                    .map(|p| p.work.construction_steps)
+                    .sum::<u64>()
             );
             out.push(Outcome {
                 work: r.work,

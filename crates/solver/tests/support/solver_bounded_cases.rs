@@ -48,11 +48,14 @@ fn checked(
     );
     assert_eq!(
         r.work.evaluations,
-        r.phases.iter().map(|p| p.work.evaluations).sum()
+        r.phases.iter().map(|p| p.work.evaluations).sum::<u64>()
     );
     assert_eq!(
         r.work.move_evaluations,
-        r.phases.iter().map(|p| p.work.move_evaluations).sum()
+        r.phases
+            .iter()
+            .map(|p| p.work.move_evaluations)
+            .sum::<u64>()
     );
     for p in &r.phases {
         if matches!(p.termination, PhaseTermination::Exact(_)) {

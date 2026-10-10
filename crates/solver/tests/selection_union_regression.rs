@@ -23,7 +23,7 @@ fn finite_interleavings_preserve_occurrences_and_each_child_order() {
             })
             .unwrap();
             let rows = actual.by_ref().collect::<Result<Vec<_>, _>>().unwrap();
-            assert_eq!(rows.len(), counts.iter().sum());
+            assert_eq!(rows.len(), counts.iter().sum::<usize>());
             for (child, &count) in counts.iter().enumerate() {
                 assert_eq!(
                     rows.iter()

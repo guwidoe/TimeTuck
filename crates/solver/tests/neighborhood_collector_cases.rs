@@ -14,7 +14,7 @@ fn list_values(list: ListSnapshot<u64, i32>) -> Vec<i32> {
 }
 fn list_case<T>(one: T, two: T, map: impl Fn(u64, T) -> (u64, i32)) {
     let mut collector = CollectorSession::<(u64, i32), List>::new();
-    assert_eq!(list_values(collector.finish()), []);
+    assert_eq!(list_values(collector.finish()), Vec::<i32>::new());
     let h1 = collector.insert_with(|id| map(id, one)).unwrap();
     assert_eq!(list_values(collector.finish()), [1]);
     let h2 = collector.insert_with(|id| map(id, two)).unwrap();
@@ -22,7 +22,7 @@ fn list_case<T>(one: T, two: T, map: impl Fn(u64, T) -> (u64, i32)) {
     collector.remove(&h1).unwrap();
     assert_eq!(list_values(collector.finish()), [2]);
     collector.remove(&h2).unwrap();
-    assert_eq!(list_values(collector.finish()), []);
+    assert_eq!(list_values(collector.finish()), Vec::<i32>::new());
 }
 #[test]
 fn uni_to_list() {

@@ -22516,3 +22516,51 @@ one case/six fixtures, source method passed, and live/report verification freshn
 Existing Java/list performance is stale, not rerun. No Rust edits after final gate.
 Evidence work/solver-lifecycle-evidence.json; prebuild/final logs use same prefix.
 Goal active/incomplete. Reuse this verification until relevant inputs change.
+
+## Atomic JSON model patch batch (baseline fc851b3)
+
+Previous turn made committed/verified lifecycle progress. New JsonPatch supports
+six operations, strict pointers and explicit Community model selectors. Compiled
+paths are reused; in-place application uses an undo journal instead of copying the
+whole document. Normal errors revert all edits, including moves/root replacement
+and created arrays. Model selector replacements append; numeric indices replace
+in place. JSON-only service boundary: no automatic typed solver rebinding claimed.
+
+49 complete Community methods+2 full JSON fixtures;129 assertions preserved.
+Read only test sources/resources plus RFC6902 and serde_json public API docs.
+Payload extraction/transcription helper work/adapt_model_patch_tests.py. Initial
+adapter incorrectly renamed JSON key literals and cloned input instead of retaining
+Java input/result aliases; corrected. Source coordinate precision required enabled
+serde_json float_roundtrip;81976passed it. Six original regressions include rollback,
+strict errors, selector fanout, numeric equality and untouched-allocation identity.
+Focused16454 clippy found range syntax;18973 corrected clippy passed.58161 confirms
+partial-container rollback and ambiguous-move errors. No production upstream read.
+
+Release4026 TERMINAL0 (build25.55s),3native paired processes/3warmups/5samples;
+10000rows selector journal0.335767ms vs document-clone4.056464ms. Same output;
+parsing/setup excluded. Not Java or end-to-end solver speed. Raw work/model-patch-
+performance.json preserves samples and source/probe/binary hashes. Rust frozen;
+final4897 runs prebuild+scripts/check.sh. Helpers prebuild_model_patch.py and
+record_model_patch.py; all work/model-patch-* logs. No unrelated benchmarks/UI reruns.
+
+Final-gate integration correction: adding serde_json introduces primitive/JsonValue
+PartialEq alternatives. Existing untyped sums and empty expectations needed explicit
+numeric types (and one equivalent iterator-empty assertion). No existing assertion
+was removed.4897 and51805 TERMINAL101 before running tests; keep-going47095 exposed
+all remaining sites, now corrected.35370 is the current final gate. Initial logs
+preserved with first/second-failure names and model-patch-type-integration.log.
+Benchmark predates only these existing-test type annotations; measured module,
+Cargo inputs, probe and release binaries retain their recorded hashes. Do not
+rewrite its original source digest or rerun solely for those test annotations.
+
+Final35370 TERMINAL0: affected-target compile6m26s;779Rust RUN,46Python REUSE;
+5650Rust tests+253doctests pass. Cargo dependency changes required the full Rust
+build/run. Coverage3253/4855=67.003%,0failed,1320pending,282excluded,0unverified.
+Source3559890971512774b8379356b30eb13c95a18c890dd7b00995c18b55222cd9c9;
+verificationab84744aa46b615c2012c490e5d7318b4dcbc971754684e8266977ad55c0bb8e.
+Recorder10500 TERMINAL0 validates source-before/after,49new source methods passed,
+provenance prefix+49cases/2fixtures and live/report freshness. Evidence
+work/model-patch-evidence.json. Measured implementation/Cargo/probe/binary hashes
+still match; only existing-test inference annotations differ from benchmark source
+state. Existing Java/list metrics remain stale. No Rust edits after successful gate.
+Goal active/incomplete; do not rerun this evidence solely for the next turn/commit.

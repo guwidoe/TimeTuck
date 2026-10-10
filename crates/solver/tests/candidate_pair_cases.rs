@@ -101,7 +101,7 @@ fn just_in_time_join_unique_drain_covers_every_pair_exactly_once() {
     for (l, r) in pairs.unique(0) {
         assert!(seen.insert((l.id, r.id)));
     }
-    assert_eq!(seen.len(), sizes.iter().sum());
+    assert_eq!(seen.len(), sizes.iter().sum::<usize>());
     assert_eq!(seen, expected(&sizes));
 }
 #[test]

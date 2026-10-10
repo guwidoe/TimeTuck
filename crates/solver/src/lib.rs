@@ -1257,3 +1257,7 @@ pub use combinatorics::{
 
 mod solver_lifecycle;
 pub use solver_lifecycle::{SolverLifecycleCallback, SolverLifecycleEvent};
+
+mod json_patch;
+pub use json_patch::{JsonPatch, JsonPatchError, JsonPatchErrorKind, JsonPatchMode};
+pub use serde_json::Value as JsonValue;

@@ -48174,6 +48174,741 @@
       "local_path": "crates/solver/tests/solver_lifecycle_cases.rs",
       "local_test": "verify_event_counts",
       "modifications": "Preserve 17 uninitialized entities, two values, construction plus ten local-search steps, all six callback counts (1/2/27), clearing only the first returned entity (1/2/11), and no callbacks after detaching (0/0/0). Borrowed optional callbacks per solve replace persistent Java listener registration; rebuilding the native input preserves the returned values. Native constant-zero scoring and explicit HillClimbing replace factory defaults. Run against scoped, fresh stream, calculator and retained stream backends; no Java scope/reflection or stochastic trace parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_employee",
+      "modifications": "Preserve all 4 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddContractToEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddContractToEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_contract_to_employee",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddUnavailableTimeSpansToEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddUnavailableTimeSpansToEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_unavailable_time_spans_to_employee",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveContractFromEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveContractFromEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_contract_from_employee",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveContractFromEmployeeByName",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveContractFromEmployeeByName",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_contract_from_employee_by_name",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddSkillEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddSkillEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_skill_employee",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddSkillEmployeeNotExisting",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddSkillEmployeeNotExisting",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_skill_employee_not_existing",
+      "modifications": "Preserve all 1 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddPreferedTimeSpanForEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddPreferedTimeSpanForEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_prefered_time_span_for_employee",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveSkillFromEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveSkillFromEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_skill_from_employee",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveSkillFromEmployeeBySkillId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveSkillFromEmployeeBySkillId",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_skill_from_employee_by_skill_id",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testReplaceSkillEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testReplaceSkillEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_replace_skill_employee",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testReplaceTimeZoneForEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testReplaceTimeZoneForEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_replace_time_zone_for_employee",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveEmployeeWithSkill",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveEmployeeWithSkill",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_employee_with_skill",
+      "modifications": "Preserve all 1 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveEmployeeWithId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveEmployeeWithId",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_employee_with_id",
+      "modifications": "Preserve all 1 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveEmployeeByIndex",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveEmployeeByIndex",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_employee_by_index",
+      "modifications": "Preserve all 1 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddShift",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddShift",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_shift",
+      "modifications": "Preserve all 4 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddTagToShift",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddTagToShift",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_tag_to_shift",
+      "modifications": "Preserve all 4 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddTagToEmployee",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddTagToEmployee",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_tag_to_employee",
+      "modifications": "Preserve all 5 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testAddRequiredSkillsToShift",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testAddRequiredSkillsToShift",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_add_required_skills_to_shift",
+      "modifications": "Preserve all 4 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveRequiredSkillsFromShift",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveRequiredSkillsFromShift",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_required_skills_from_shift",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveRequiredSkillsFromShiftByName",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveRequiredSkillsFromShiftByName",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_required_skills_from_shift_by_name",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeSchedulingJsonPatchTest.testRemoveShiftById",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/EmployeeSchedulingJsonPatchTest.java",
+      "upstream_test": "testRemoveShiftById",
+      "local_path": "crates/solver/tests/employee_model_patch_cases.rs",
+      "local_test": "test_remove_shift_by_id",
+      "modifications": "Preserve all 1 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddVehicle",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddVehicle",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_vehicle",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddShiftToVehicle",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddShiftToVehicle",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_shift_to_vehicle",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddTagToVehicleByShiftIndex",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddTagToVehicleByShiftIndex",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_tag_to_vehicle_by_shift_index",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddTagToVehicleByShiftId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddTagToVehicleByShiftId",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_tag_to_vehicle_by_shift_id",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddSkillToVehicleByShiftId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddSkillToVehicleByShiftId",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_skill_to_vehicle_by_shift_id",
+      "modifications": "Preserve all 4 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceSkillsForVehicleByShiftId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceSkillsForVehicleByShiftId",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_skills_for_vehicle_by_shift_id",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceRequiredBreaksForVehicleByShiftId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceRequiredBreaksForVehicleByShiftId",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_required_breaks_for_vehicle_by_shift_id",
+      "modifications": "Preserve all 4 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveRequiredBreaksForVehicleByShiftId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveRequiredBreaksForVehicleByShiftId",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_required_breaks_for_vehicle_by_shift_id",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveRequiredBreaksForVehicleByShiftIdIndex",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveRequiredBreaksForVehicleByShiftIdIndex",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_required_breaks_for_vehicle_by_shift_id_index",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveShiftForVehicleByShiftId",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveShiftForVehicleByShiftId",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_shift_for_vehicle_by_shift_id",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveShiftForVehicleByIndex",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveShiftForVehicleByIndex",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_shift_for_vehicle_by_index",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddVisit",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddVisit",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_visit",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddVisitsRequiredSkill",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddVisitsRequiredSkill",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_visits_required_skill",
+      "modifications": "Preserve all 4 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveVisitsRequiredSkill",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveVisitsRequiredSkill",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_visits_required_skill",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveVisitsById",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveVisitsById",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_visits_by_id",
+      "modifications": "Preserve all 1 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceVisitsById",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceVisitsById",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_visits_by_id",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceVisitsByIndex",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceVisitsByIndex",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_visits_by_index",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceVisitsPriorityById",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceVisitsPriorityById",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_visits_priority_by_id",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceVisitsLocationById",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceVisitsLocationById",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_visits_location_by_id",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceVisitsPinnedResourceByPriority",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceVisitsPinnedResourceByPriority",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_visits_pinned_resource_by_priority",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddVisitGroup",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddVisitGroup",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_visit_group",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddVisitToVisitGroup",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddVisitToVisitGroup",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_visit_to_visit_group",
+      "modifications": "Preserve all 5 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testReplaceVisitFromVisitGroup",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testReplaceVisitFromVisitGroup",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_replace_visit_from_visit_group",
+      "modifications": "Preserve all 5 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveVisitFromVisitGroup",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveVisitFromVisitGroup",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_visit_from_visit_group",
+      "modifications": "Preserve all 3 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testRemoveSkill",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testRemoveSkill",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_remove_skill",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddSkill",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddSkill",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_skill",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FieldServiceRoutingJsonPatchTest.testAddFreezeDeparturesBeforeTime",
+      "status": "implemented",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/patch/FieldServiceRoutingJsonPatchTest.java",
+      "upstream_test": "testAddFreezeDeparturesBeforeTime",
+      "local_path": "crates/solver/tests/routing_model_patch_cases.rs",
+      "local_test": "test_add_freeze_departures_before_time",
+      "modifications": "Preserve all 2 original assertions, operation sequences, exact expected values and full original JSON input. JSON patch payload whitespace is normalized; identifiers use snake_case. serde_json values and native JsonPatch model mode replace Jackson nodes and JsonPatch.apply. In-place application preserves Java input/result aliasing, including second patches against the original reference. Owned local assertion snapshots replace borrowed Jackson node variables; Java stream filters/maps become equivalent Rust iterators. No production implementation read or translated."
     }
   ],
   "fixtures": [
@@ -65141,6 +65876,32 @@
       "upstream_test": "valueList, entityList and score properties",
       "local_path": "crates/solver/tests/solver_lifecycle_cases.rs",
       "modifications": "Native problem/assignment/result replace the container and returned solution; preserve both values, all entities and returned assignments. No descriptor or generator behavior copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JsonPatch.model_input.CONTRACT_RULES_input.json",
+      "upstream_path": "service/json/src/test/resources/ai/timefold/solver/service/json/internal/patch/CONTRACT_RULES_input.json",
+      "upstream_test": "complete JSON model input fixture",
+      "local_path": "crates/solver/tests/fixtures/model_patch/CONTRACT_RULES_input.json",
+      "modifications": "Copied byte-for-byte; used by the employee scheduling or field-service routing patch cases. No schema or model production code copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "JsonPatch.model_input.VISIT_GROUP_input.json",
+      "upstream_path": "service/json/src/test/resources/ai/timefold/solver/service/json/internal/patch/VISIT_GROUP_input.json",
+      "upstream_test": "complete JSON model input fixture",
+      "local_path": "crates/solver/tests/fixtures/model_patch/VISIT_GROUP_input.json",
+      "modifications": "Copied byte-for-byte; used by the employee scheduling or field-service routing patch cases. No schema or model production code copied."
     }
   ]
 }

@@ -389,19 +389,19 @@ fn execute(mode: usize, c: SolverConfig<'_>) -> Outcome {
     assert_eq!(callbacks.get() as u128, r.work.constraint_evaluations);
     assert_eq!(
         r.work.evaluations,
-        r.phases.iter().map(|p| p.work.evaluations).sum()
+        r.phases.iter().map(|p| p.work.evaluations).sum::<u64>()
     );
     assert_eq!(
         r.work.move_evaluations,
-        r.phases.iter().map(|p| p.work.move_evaluations).sum()
+        r.phases.iter().map(|p| p.work.move_evaluations).sum::<u64>()
     );
     assert_eq!(
         r.work.completed_steps,
-        r.phases.iter().map(|p| p.work.completed_steps).sum()
+        r.phases.iter().map(|p| p.work.completed_steps).sum::<u64>()
     );
     assert_eq!(
         r.work.accepted_moves,
-        r.phases.iter().map(|p| p.work.accepted_moves).sum()
+        r.phases.iter().map(|p| p.work.accepted_moves).sum::<u64>()
     );
     for (index, p) in r.phases.iter().enumerate() {
         assert_eq!(p.index, index);

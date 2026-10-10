@@ -491,7 +491,7 @@ fn shared_custom_budgets_bound_every_prefix_with_identical_observed_and_plain_re
                 assert!(r.work.move_evaluations <= moves);
                 assert_eq!(
                     r.work.evaluations,
-                    r.phases.iter().map(|p| p.work.evaluations).sum()
+                    r.phases.iter().map(|p| p.work.evaluations).sum::<u64>()
                 );
                 let bests: Vec<_> = events
                     .iter()

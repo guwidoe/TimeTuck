@@ -66,11 +66,14 @@ fn every_shared_score_and_move_prefix_caps_repeated_repairs() {
                 assert!(r.work.move_evaluations <= moves);
                 assert_eq!(
                     r.work.evaluations,
-                    r.phases.iter().map(|p| p.work.evaluations).sum()
+                    r.phases.iter().map(|p| p.work.evaluations).sum::<u64>()
                 );
                 assert_eq!(
                     r.work.move_evaluations,
-                    r.phases.iter().map(|p| p.work.move_evaluations).sum()
+                    r.phases
+                        .iter()
+                        .map(|p| p.work.move_evaluations)
+                        .sum::<u64>()
                 );
                 let per = if mode < 4 { 3 } else { 6 };
                 let mut es = 0;

@@ -80,7 +80,10 @@ fn fine_moves_obey_every_shared_budget_prefix_and_phase_work_sum() {
         );
         assert_eq!(
             r.work.fine_move_attempts,
-            r.phases.iter().map(|p| p.work.fine_move_attempts).sum()
+            r.phases
+                .iter()
+                .map(|p| p.work.fine_move_attempts)
+                .sum::<u64>()
         );
     }
 }

@@ -5996,3 +5996,40 @@ provider-driven phases, five-phase plans, error/panic/cancellation and frozen mo
 One source method is credited; this is not general listener API parity. Performance
 has not been remeasured for these hooks; existing measurements retain their own
 freshness status.
+
+## Atomic JSON model patches
+
+`JsonPatch::parse`/`from_value` compile reusable operations. `apply` edits a
+`JsonValue` in place and journals only touched values; any returned error rolls
+back the entire patch. `applied` explicitly clones input once for a preserved-input
+result. Add, remove, replace, copy, move and test are supported. Default strict
+mode uses standard JSON pointers and array indices, including escaped keys and
+root operations. Root removal leaves JSON null in this value-based API.
+
+Explicit `JsonPatchMode::Model` adds `[id=value]`, nested array predicates such as
+`[skills/id=Ambulance]`, bracketed scalar values and bare scalar-name array lookup.
+Selectors address all matches; an unmatched editing selector is a no-op. Add can
+create an absent array before `/-`. Selector replacement removes matching elements
+and appends replacements; numeric replacement stays in place. Copy/move require a
+single source and move requires a single destination; test requires at least one
+match. Selectors scan arrays. This patches JSON, not a bound solver graph: callers
+still perform domain validation and submit a typed problem change.
+
+All 22 EmployeeSchedulingJsonPatchTest and 27 FieldServiceRoutingJsonPatchTest
+methods are adapted with their 129 original assertions and two complete resource
+inputs. Both resources are copied byte-for-byte and attributed. Payload whitespace
+and Rust naming change; operation sequencing, input/result aliasing, expected
+values and assertions remain. The coordinate case requires serde_json's
+float_roundtrip feature to retain the source's decimal-to-double result. The new
+pinned dependency is serde_json1.0.151. Implementation sources are independent;
+only Community tests/fixtures and public specifications were consulted.
+
+Native release probe: three processes, three warmups, five alternating paired
+samples, 512 unrelated payload bytes per row; parsing/setup excluded and equal
+outputs checked. Journal/full-document-clone median milliseconds:100rows indexed
+0.000418/0.017795,selector0.004261/0.026241;10000rows indexed0.001642/3.353497,
+selector0.335767/4.056464. Both variants apply the same compiled patch and commit
+atomically. This isolates avoided copying, not Java performance or solver speed.
+Raw samples and source/binary hashes:work/model-patch-performance.json.
+References: https://www.rfc-editor.org/rfc/rfc6902 and
+https://docs.rs/serde_json/1.0.151/serde_json/enum.Value.html.

@@ -154,7 +154,7 @@ fn generated_shared_branch_updates_match_full_tagged_multisets_and_groups() {
             assert_eq!(*actual_key, key);
             assert_eq!(*score, SimpleScore::ZERO);
             assert_eq!(summary.count, rows.len());
-            assert_eq!(summary.sum, rows.iter().sum());
+            assert_eq!(summary.sum, rows.iter().sum::<i64>());
             assert_eq!(summary.min, rows.iter().min().copied());
             assert_eq!(summary.max, rows.iter().max().copied());
         }

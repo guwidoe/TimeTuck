@@ -56,10 +56,7 @@ fn overlap_does_not_override_legality_of_other_columns() {
     .unwrap();
     let a = p.initial_assignment();
     let s = provider(vec![vec![0], vec![1]], vec![0], vec![1], 1, 1);
-    assert_eq!(
-        s.partners(&p, &a, 0).unwrap().iter().collect::<Vec<_>>(),
-        vec![]
-    );
+    assert!(s.partners(&p, &a, 0).unwrap().iter().next().is_none());
     assert_eq!(s.select(&p, &a, 0).unwrap().next().unwrap().right, 0);
 }
 
