@@ -29,6 +29,24 @@ impl<V: Eq + Clone> ListProblem<V> {
         })
     }
 
+    /// Validate borrowed final rows whose membership is a permutation of a
+    /// previously validated assignment. Internal callers must establish entity
+    /// indices, unique membership and registry identity before using this path.
+    /// Omitted rows are unchanged; pins, ranges and dependencies are checked in
+    /// the same order as ordinary final-state candidate validation.
+    pub(crate) fn validate_permuted_rows<'a>(
+        &'a self,
+        before: &'a ListAssignment<V>,
+        rows: BTreeMap<usize, Vec<&'a V>>,
+    ) -> Result<(), ListError> {
+        CandidateRows {
+            problem: self,
+            before,
+            rows,
+        }
+        .validate_final()
+    }
+
     /// Whether this move is valid and changes the final assignment under value Eq.
     /// Invalid moves return the same errors as native `apply`. Empty and restoring
     /// composites return false. Required values may be temporarily unassigned, as

@@ -46,23 +46,27 @@ fn repartition<V: Eq + Clone>(
     {
         return Err(ListKOptError::Partition);
     }
-    let mut target = a.clone();
+    let mut target = std::collections::BTreeMap::new();
     let mut offset = 0;
     for (&e, &length) in entities.iter().zip(lengths) {
-        target.lists[e].truncate(p.entities()[e].pinned_prefix());
-        target.lists[e].extend(
-            tour[offset..offset + length]
-                .iter()
-                .map(|&i| values.get(i).expect("tour index").clone()),
-        );
+        let prefix = &a.lists()[e][..p.entities()[e].pinned_prefix()];
+        let row = prefix
+            .iter()
+            .chain(
+                tour[offset..offset + length]
+                    .iter()
+                    .map(|&i| values.get(i).expect("tour index")),
+            )
+            .collect();
+        target.insert(e, row);
         offset += length;
     }
-    p.validate(&target)?;
-    drop(target);
-    // The tour already identifies each suffix value uniquely. Track those integer
-    // identities instead of cloning/searching every payload in the assignment.
-    // Final-state validation above deliberately retains ranges, diagnostics and
-    // dependency checks, including their existing error precedence.
+    // The validated source and complete tour retain membership and registry
+    // identity. Check borrowed final rows before spending work on relocations;
+    // entity-order range diagnostics and global dependency checks are shared
+    // with ordinary move validation. No assigned payload is cloned.
+    p.validate_permuted_rows(a, target)?;
+    // Track integer suffix identities while constructing current-index moves.
     let mut current = Vec::with_capacity(entities.len());
     let mut positions = Vec::with_capacity(values.len());
     for (row, &entity) in entities.iter().enumerate() {

@@ -21793,3 +21793,39 @@ Source b02964397b3f21cbdf463ea9d476606ba06bca77a918f9de25cdb37396ea8a4a
 Verification b2a696664da290101dad2e28a0d890c6d1d16b3d004abccd78ba9498dbb0d017
 Evidence work/directed-borrowed-evidence.json; final logs work/directed-borrowed-
 {prebuild,final-check}.log. No Rust changes after gate. Goal remains active/incomplete.
+
+
+## Borrow k-opt repartition validation rows
+
+Baselineb4ac251. Repartition previously cloned every assigned payload and replacement
+suffix just to validate a target. It now builds borrowed destination rows and calls
+private ListProblem::validate_permuted_rows, sharing CandidateRows final pin/range/
+dependency validation. The validated source and complete tour establish unchanged
+membership/registry identity. Range diagnostics remain in entity order, including
+when caller entity order is reversed; rejection still precedes relocation generation.
+Existing integer position tracking and seeded proposal order are unchanged.
+
+Focused41132 TERMINAL0:13tests, including existing28070tour/partition cases and
+list/mixed integration. Strengthened sampled rejection fixture then reran its3tests
+in81880; allpass. Two new native tests compare56owned-validation results and require
+zero payload clones for valid/rejected range/dependency proposals. Prior134-value
+clone regression now requires zero rather than140clones. No upstream reads/credits.
+
+Before52843 TERMINAL0, revised release/measurement81880 TERMINAL0 (release26.17s).
+work/repartition_borrowed_probe.rs:four routes,32/96values,6step cap,hill climbing,
+sampled repartition k2..4,128attempts,seed731. Both backends; unrestricted and one
+forbidden incoming value per entity. Three alternating process pairs,1warmup3timed
+solves each. All final assignments/scores/evaluation/step/constraint counts match;
+full rescoring and completeness verified outside timing. Native process CPU96scoped
+27–33% lower; remaining rows mixed,-19.5%to+2.7%. Keep bounded workload claims; no
+universal/Java speedup. Samples/source/executable hashes in
+work/repartition-borrowed-performance.json. Benchmark preceded final broad build.
+
+Final prebuild/check/evidence90830 TERMINAL0. Clippy24.13s;565target compile3m32s.
+565Rust jobs ran,197Rust/46Python reused. All5511Rust tests and251doctests pass.
+Coverage unchanged3185/4855=65.602%,0failed,1388pending,282excluded,0unverified.
+Source 4375f4385fa5d28e60bd673de89675c7e25472d301d1b03538c85a033887fd5b
+Verification 65e98b498c5fde81151ca883f8df194036ed2a5eda859a1440d7c7b63c5edbd8
+Live/report freshness matches; older list performance remains stale. Final logs
+work/repartition-borrowed-{prebuild,final-check}.log; evidence JSON. No Rust change
+after the gate; reuse this evidence. No benchmark/browser rerun. Goal active/incomplete.

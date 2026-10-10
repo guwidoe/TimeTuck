@@ -5187,9 +5187,13 @@ configuration support for existing native counters, not new timing/PRNG behavior
 Combined-cycle repartitioning now calculates current relocation positions using
 integer identities for the selected movable suffixes. It no longer clones a second
 complete assignment or searches payload identities to locate each relocation.
-The complete proposed assignment is still validated once for receiving ranges,
-pins and dependency cycles, with unchanged error precedence. Selected entity order,
-empty destinations, pinned prefixes, assigned payloads and ordered moves are retained.
+Final receiving rows now borrow their payloads instead of cloning a complete
+assignment. A private permutation-validation path shares pin, range and dependency
+checks with ordinary candidate validation, preserving entity-order diagnostics.
+Source validation and the complete permutation establish unchanged membership and
+registry identity. Range rejection still precedes relocation construction. Selected
+entity order, empty destinations, pinned prefixes, assigned payloads and ordered
+moves are retained; neither validation nor relocation scratch clones payloads.
 
 An original clone-count/payload regression supplements the existing exhaustive
 28,070 tour/partition checks and list/mixed solver integration cases. Native paired
@@ -5200,6 +5204,18 @@ applied and validated outside timing, and ordered move/result hashes matched acr
 versions. These short generator measurements do not establish full-solve or Java
 speedups. Raw samples and source/executable identities are in
 work/repartition-performance.json. No new upstream method credits are claimed.
+
+A subsequent native full-solve comparison against `b4ac251` covers four routes,
+32/96 values, hill climbing capped at six steps and sampled repartition (k2..4,128 attempts,
+seed731), both scoring backends and unrestricted/restricted receiving ranges.
+Three alternating process pairs with one warmup and three timed solves each retain
+exact assignments, scores and work counts. The 96-value scoped workloads use
+27–33% less median process CPU; other rows range from 19.5% lower to 2.7% higher.
+This is a workload-specific result, with no universal or Java speedup claim.
+Full samples and executable/source hashes are in work/repartition-borrowed-performance.json.
+Two additional native regressions compare error results with owned final-state
+validation in both entity orders and require zero clones for yielded and rejected
+proposals, including dependency cycles. Existing upstream method counts are unchanged.
 
 
 ### Sampling dependency boundaries
