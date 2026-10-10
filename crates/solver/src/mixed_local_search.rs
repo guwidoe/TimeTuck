@@ -222,6 +222,7 @@ where
 {
     let config = settings.search;
     let joint_moves = settings.joint_moves;
+    let move_counter = crate::move_metrics::from_control(&shared);
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
@@ -367,6 +368,7 @@ where
                 progress.completed_steps(),
             ),
             |movement, score| {
+                crate::move_metrics::record(&move_counter, movement);
                 let keys = if tracks_entities {
                     tabu_keys(movement, problem.basic().variables().len())
                 } else {

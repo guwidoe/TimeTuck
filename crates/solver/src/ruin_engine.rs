@@ -95,6 +95,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         ConstructionConfig,
     ) -> Result<Repair<P::Assignment, S>, RuinRecreateError>,
 ) -> Result<RuinRecreateOutcome<(P::Assignment, S)>, RuinRecreateError> {
+    let move_counter = crate::move_metrics::from_control(&shared);
     let start = config.max_time.map(|_| Instant::now());
     problem.validate_complete(&initial)?;
     config.validate_candidates(problem.candidate_count())?;
@@ -359,6 +360,12 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 },
             )?;
             result.repair_move_evaluations += candidate.evaluations.saturating_sub(1);
+            if let Some(counter) = &move_counter {
+                counter.add(
+                    crate::MoveEvaluationKind::Reconstruction,
+                    candidate.evaluations.saturating_sub(1),
+                );
+            }
             if candidate.complete && candidate.score.is_some() {
                 result.complete_reconstructions += 1;
             }
@@ -378,6 +385,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 },
             )?;
             result.fine_move_evaluations += candidate.evaluations;
+            if let Some(counter) = &move_counter {
+                counter.add(crate::MoveEvaluationKind::FineRepair, candidate.evaluations);
+            }
             candidate
         };
         result.evaluations += candidate.evaluations;

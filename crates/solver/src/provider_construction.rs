@@ -266,6 +266,7 @@ trait Engine<A, M, S> {
         limit: u64,
         config: ProviderConstructionConfig,
         can_commit: impl Fn() -> bool,
+        move_counter: &Option<crate::move_metrics::MoveCounter>,
     ) -> Result<Selected, Self::Error>;
 }
 // Wrappers keep this entry point independent of existing search engine behavior.
@@ -294,12 +295,12 @@ macro_rules! engine {
             fn initial_evaluations(&self) -> u128 { self.0.initial_constraint_evaluations() }
             fn notify_best(&mut self, complete: impl FnOnce(&$assignment) -> bool) { self.0.notify_best(complete); }
             fn assert_consistent(&mut self) -> Result<(), Self::Error> { self.0.assert_consistent() }
-            fn select(&mut self, moves: impl Iterator<Item = $movement>, limit: u64, config: ProviderConstructionConfig, can_commit: impl Fn() -> bool) -> Result<Selected, Self::Error> {
+            fn select(&mut self, moves: impl Iterator<Item = $movement>, limit: u64, config: ProviderConstructionConfig, can_commit: impl Fn() -> bool, move_counter: &Option<crate::move_metrics::MoveCounter>) -> Result<Selected, Self::Error> {
                 let previous = self.0.score();
                 // Required initialization improves structural score even when the
                 // ordinary score worsens; optional-only moves must not worsen it.
                 let selection = self.0.select_best(moves, limit, false,
-                    |_, score| config.optional == OptionalConstruction::EvaluateUnassigned || score >= previous,
+                    |movement, score| { crate::move_metrics::record(move_counter, movement); config.optional == OptionalConstruction::EvaluateUnassigned || score >= previous },
                     ProviderSelection { previous: previous.clone(), pick: config.pick_early, can_commit },
                     config.assert_scores)?;
                 Ok(Selected { installed: selection.selected.is_some(), evaluations: selection.evaluations,
@@ -358,6 +359,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     create: impl FnOnce(F::Assignment) -> Result<D, D::Error>,
     mut shared: Option<&mut dyn crate::time_limit::SearchControl>,
 ) -> Result<Outcome<F, S>, D::Error> {
+    let move_counter = crate::move_metrics::from_control(&shared);
     use ProviderConstructionTermination as Stop;
     let start = Instant::now();
     let mut result = ProviderConstructionResult {
@@ -461,7 +463,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
             config.interruption == crate::ConstructionInterruption::KeepBestPrefix
                 || stopped.get().is_none()
         };
-        let selection = director.select(candidates, budget, config, can_commit)?;
+        let selection = director.select(candidates, budget, config, can_commit, &move_counter)?;
         let installed = selection.installed
             && (config.optional != OptionalConstruction::EvaluateUnassigned
                 || director.assignment() != &base);

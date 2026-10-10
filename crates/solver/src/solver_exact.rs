@@ -75,6 +75,7 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
     clock: impl FnMut() -> Duration,
     mut observer: ExactObserver<'_, A, S>,
 ) -> Result<PhaseOutput<A, S>, E> {
+    let move_counter = control.move_counter.clone();
     use ExactPhaseTermination as X;
     let mut timer = TimeBudget::new(config.max_time, None, clock).with_shared(control.monitor());
     let exhausted_reason = if matches!(config.strategy, ExactSearchStrategy::Complete) {
@@ -137,6 +138,9 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
         };
         out.work.evaluations += 1;
         out.work.move_evaluations += 1;
+        if let Some(counter) = &move_counter {
+            counter.add(crate::MoveEvaluationKind::ExactAssignment, 1);
+        }
         out.work.constraint_evaluations += callbacks;
         if score.structural() >= 0 && out.score.as_ref().is_none_or(|best| score > *best) {
             timer.record_improvement();

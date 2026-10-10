@@ -28,6 +28,9 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 
 /// Optional solve-wide observer; phase timers and step counters stay independent.
 pub(crate) trait SearchControl {
+    fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
+        None
+    }
     fn step_started(&mut self) {}
     fn step_ended(&mut self, _completed: bool) {}
     /// Construction does not start/reset search stagnation or advance search steps.

@@ -1272,6 +1272,8 @@ pub use score_json::{
     weight_overrides_from_json, weight_overrides_to_json,
 };
 
+mod move_metrics;
+pub use move_metrics::{MoveEvaluationCounts, MoveEvaluationKind};
 mod solver_metrics;
 pub use solver_metrics::{
     SolveMetricOutcome, SolveMetricSnapshot, SolverMetricDimensions, SolverMetrics,

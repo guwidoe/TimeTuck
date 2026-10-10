@@ -24,6 +24,7 @@ fn final_matches<A>(metrics: &SolverMetrics<SimpleScore>, r: &SolverResult<A, Si
     assert!(s.active.is_empty());
     let last = s.latest.unwrap();
     assert_eq!(last.work, r.work);
+    assert_eq!(last.move_evaluations.total(), r.work.move_evaluations);
     assert_eq!(last.best_score, r.score);
     assert_eq!(last.complete, r.complete);
     assert_eq!(
@@ -167,7 +168,13 @@ fn concurrent_runs_have_independent_identity_work_and_bounded_finished_history()
         let first = handles.remove(0).join().unwrap();
         let s = metrics.snapshot();
         assert_eq!(s.active.len(), 1);
-        assert_eq!(s.latest.unwrap().work, first.work);
+        let first_snapshot = s.latest.unwrap();
+        assert_eq!(first_snapshot.work, first.work);
+        assert_eq!(
+            first_snapshot.move_evaluations.total(),
+            first.work.move_evaluations
+        );
+        assert_eq!(s.active[0].move_evaluations.total(), 0);
         releases[1].send(()).unwrap();
         let second = handles.remove(0).join().unwrap();
         final_matches(&metrics, &second);

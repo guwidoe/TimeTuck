@@ -178,6 +178,7 @@ pub struct CustomPhaseContext<'a, A, M, S, E> {
     stop: Option<CustomPhaseTermination>,
     failed: bool,
     shared: Option<&'a mut dyn crate::time_limit::SearchControl>,
+    move_counter: Option<crate::move_metrics::MoveCounter>,
     target: Option<S>,
     stop_when_feasible: bool,
 }
@@ -256,6 +257,9 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         }
         self.work.evaluations += 1;
         self.work.move_evaluations += 1;
+        if let Some(counter) = &self.move_counter {
+            counter.add(crate::MoveEvaluationKind::Custom, 1);
+        }
         true
     }
     fn operation(&mut self, result: Result<(), E>) -> Result<(), CustomPhaseError<E>> {
@@ -509,6 +513,7 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
     if let Some(shared) = &mut shared {
         shared.start_search();
     }
+    let move_counter = crate::move_metrics::from_control(&shared);
     let mut shared = SharedControl(shared);
     let mut context = CustomPhaseContext {
         director: &mut director,
@@ -524,6 +529,7 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
         stop: None,
         failed: false,
         shared: Some(&mut shared),
+        move_counter,
         target,
         stop_when_feasible,
     };
@@ -840,6 +846,9 @@ pub fn mixed_stream_custom_phase_with_observer<
 // lifetime of the solve's mutable trait-object reference.
 struct SharedControl<'a>(Option<&'a mut dyn crate::time_limit::SearchControl>);
 impl crate::time_limit::SearchControl for SharedControl<'_> {
+    fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
+        crate::move_metrics::from_control(&self.0)
+    }
     fn start_search(&mut self) {
         if let Some(m) = &mut self.0 {
             m.start_search();

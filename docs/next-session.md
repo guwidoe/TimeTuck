@@ -22766,3 +22766,31 @@ Source 684f5a99853707fee8fb030690030bf436b990316ce5d73a51142fd4c6516a4a;
 verification 6398f5c23a5c5b11fade3d1a64837cf0389796e824a1d71cc6216fcdf1ac54f3.
 No Rust edits or repeated tests after success. Java/list benchmarks remain stale;
 no browser rerun for backend-only refresh. Goal active/incomplete.
+
+## Live move-family metrics (baseline e56ce8d)
+
+Add opt-in per-run atomic candidate counters to SolverMetrics snapshots across
+construction/provider construction, local search, exact enumeration/tree search,
+custom commands and repair. Native composite/mixed/exact/custom/repair families
+remain distinct. No monitor lock or allocation per increment; no atomic writes
+when monitoring is disabled. Reconstruction publishes after each rebuild and
+cannot recover partial failed rebuild work; custom counts attempted operations.
+Six original tests plus strengthened twelve-model/backend-path and concurrency checks pass;
+five full SolverMetricsIT methods adapted with provenance, no new fixtures.
+Focused91522 TERMINAL0 (16 tests). Initial54964 was a test-only field-name compile
+error, corrected from ruin_recreate to RepairMoveWeights.repair. Rust frozen for
+final31718 via prebuild_move_metrics.py then scripts/check.sh; log
+work/move-metrics-final-check.log. Clippy passed;591targets selected for compilation/196reused.
+Record with work/record_move_metrics.py after terminal success. No benchmark or
+browser rerun: backend-only report update, no performance-overhead claim.
+Goal active/incomplete; step-score metrics, tags/exporters and live dimension
+changes remain pending.
+
+Final31718 TERMINAL0: Clippy1m12s, affected-target compile10m17s;
+591Rust RUN/196REUSE/46Python REUSE;5699Rust tests+255doctests pass.
+Coverage3278/4855=67.518%,0failed,1313pending,264excluded,0unverified.
+Recorder18356 TERMINAL0 verifies unchanged source/provenance prefix and live/report
+freshness; evidence work/move-metrics-evidence.json.
+Source 50b5e4995bb04577ed6a5492ff7162a8681ebeea21bae23db75248aec86f8444;
+verification 02000a8f9b495144532101695afc4af9fbb2dd9100f9362445273c2a34351ca9.
+No Rust changes or repeated checks after success; Java/list timings remain stale.

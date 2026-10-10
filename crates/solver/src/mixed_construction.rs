@@ -145,6 +145,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
     clock: impl FnMut() -> std::time::Duration,
 ) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
     let mut shared = shared;
+    let move_counter = crate::move_metrics::from_control(&shared);
     let mut time = crate::time_limit::TimeBudget::new(settings.construction.max_time, None, clock);
     let config = settings.construction;
     problem.validate(&initial).map_err(D::Error::from)?;
@@ -254,6 +255,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     budget.remaining,
                     false,
                     |movement, score| {
+                        crate::move_metrics::record(&move_counter, movement);
                         if config.optional == crate::OptionalConstruction::EvaluateUnassigned {
                             return true;
                         }
@@ -306,6 +308,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     budget.remaining,
                     false,
                     |movement, score| {
+                        crate::move_metrics::record(&move_counter, movement);
                         if config.optional == crate::OptionalConstruction::EvaluateUnassigned {
                             return true;
                         }
@@ -361,7 +364,8 @@ pub(crate) fn construction_impl_with_clock_monitored<
                             moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                             budget.remaining,
                             false,
-                            |_, score| {
+                            |movement, score| {
+                                crate::move_metrics::record(&move_counter, movement);
                                 config.optional == crate::OptionalConstruction::EvaluateUnassigned
                                     || !variable.allows_unassigned()
                                     || score >= previous
@@ -409,7 +413,8 @@ pub(crate) fn construction_impl_with_clock_monitored<
                             moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
                             budget.remaining,
                             false,
-                            |_, score| {
+                            |movement, score| {
+                                crate::move_metrics::record(&move_counter, movement);
                                 config.optional == crate::OptionalConstruction::EvaluateUnassigned
                                     || !lists.allows_unassigned()
                                     || score >= previous

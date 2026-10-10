@@ -332,6 +332,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
     clock: impl FnMut() -> std::time::Duration,
 ) -> Result<ConstructionResult<V, S>, D::Error> {
     let mut shared = shared;
+    let move_counter = crate::move_metrics::from_control(&shared);
     let mut time = crate::time_limit::TimeBudget::new(config.max_time, None, clock);
     let mut result = ConstructionResult {
         complete: problem.is_complete(&initial),
@@ -447,6 +448,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
             budget.remaining,
             false,
             |movement, score| {
+                crate::move_metrics::record(&move_counter, movement);
                 if config.optional == OptionalConstruction::EvaluateUnassigned {
                     return true;
                 }

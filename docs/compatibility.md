@@ -6165,3 +6165,26 @@ workloads improve, including one-group cases. Setup and initial materialization
 are excluded. This is a component result, not Java or whole-solver performance.
 Raw samples, probe/binary/source hashes and timing medians are recorded in
 `work/concat-cursor-performance.json`; Java/list measurements remain stale.
+
+## Live move-family counts
+
+`SolveMetricSnapshot::move_evaluations` records native candidate families during
+an invocation. Opt-in per-run atomic counters avoid a monitor lock per candidate;
+without a monitor there is no counter allocation or atomic increment. Composite
+moves count once; a mixed move affecting both components uses its own family.
+Exact assignments/tree nodes, custom operations, reconstruction candidates and
+fine repair evaluations remain distinct. Counts include scored rejections and
+exclude initialization and diagnostic rescoring. Custom operations count attempts,
+including flawed inspections; reconstruction publishes after a rebuild and cannot
+recover partial work from a failed rebuild. Concurrent snapshots may straddle
+increments, and aggregate `work` still publishes at phase boundaries.
+
+Five adapted Community SolverMetricsIT methods cover basic/list construction,
+basic/list local search, and completion of preassigned entities with positive
+score/move counts. Explicit native neighborhoods replace Java defaults; single-list
+2-opt is represented by reversed SubListChange. No Java descriptor names, meter
+registration/tags, stochastic traces or exact Java evaluation counts are claimed.
+Original tests cover all twelve model/backend paths, concurrent isolation, live
+step-end visibility, rejected/duplicate/composite candidates, errors and reuse,
+provider filtering, custom trial/commit budgets, exact strategies and repair counts.
+No runtime-overhead or end-to-end performance claim is made for this instrumentation.

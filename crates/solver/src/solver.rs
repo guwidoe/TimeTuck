@@ -393,6 +393,7 @@ enum PhaseRequest<'a, S> {
 // Clock readings are elapsed from entry to run(), including plan validation.
 // Clip immediately before phase entry, after any graph factory preparation.
 struct SolveControl<'c> {
+    move_counter: Option<crate::move_metrics::MoveCounter>,
     lifecycle: crate::solver_lifecycle::Lifecycle<'c>,
     condition: Option<&'c SearchTermination<'c>>,
     condition_expired: bool,
@@ -445,10 +446,12 @@ impl SolveControl<'_> {
         self.steps_expired
     }
     fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
-        (self.condition.is_some() || self.lifecycle.enabled()).then_some(self)
+        (self.condition.is_some() || self.lifecycle.enabled() || self.move_counter.is_some())
+            .then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl> {
-        if self.lifecycle.enabled()
+        if self.move_counter.is_some()
+            || self.lifecycle.enabled()
             || self.condition.is_some()
             || self.unimproved_limit.is_some()
             || self.unimproved_steps_limit.is_some()
@@ -476,6 +479,9 @@ impl SolveControl<'_> {
     }
 }
 impl crate::time_limit::SearchControl for SolveControl<'_> {
+    fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
+        self.move_counter.clone()
+    }
     fn step_started(&mut self) {
         self.lifecycle.start_step();
     }
@@ -937,6 +943,7 @@ where
     let lifecycle_enabled = callback.is_some();
     let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
     let mut time = SolveControl {
+        move_counter: None,
         lifecycle: crate::solver_lifecycle::Lifecycle::new(
             lifecycle_enabled.then_some(&mut lifecycle_callback),
         ),
@@ -1021,6 +1028,7 @@ where
         }) => Some(metrics.start()),
         _ => None,
     };
+    time.move_counter = metrics.as_ref().map(|m| m.moves.clone());
     observation.metric_writer = metrics.as_ref().map(|m| m.writer.clone());
     let outcome = (|| {
         time.lifecycle.start();

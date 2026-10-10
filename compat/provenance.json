@@ -49209,6 +49209,81 @@
       "upstream_test": "solveMetricsError",
       "local_test": "solve_metrics_error",
       "modifications": "Retain two entities/two values, score-calculation failure with the exact source message, unchanged exception propagation, one-second post-failure clock advance, zero active solves/duration and one failure. Rust unwind and catch_unwind replace Java IllegalStateException and stack-trace assertion; native snapshots replace Micrometer publication. The panic message is asserted, and no failed result is substituted. Reuse attributed native zero-score solver configuration, with scoring overridden by the source error fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/move_metrics_cases.rs",
+      "status": "implemented",
+      "id": "SolverMetricsIT.chWithCustomMetrics",
+      "upstream_test": "chWithCustomMetrics",
+      "local_test": "ch_with_custom_metrics",
+      "modifications": "Retain three entities/three values with initial values missing, v2, v1, construction-only solve and positive change-move count read inside solving-ended callback. Native snapshot Change family replaces the Micrometer Java descriptor key. Zero ordinary score suffices for this method's count assertions; structural initialization still drives construction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/move_metrics_cases.rs",
+      "status": "implemented",
+      "id": "SolverMetricsIT.chWithListVariableAndCustomMetrics",
+      "upstream_test": "chWithListVariableAndCustomMetrics",
+      "local_test": "ch_with_list_variable_and_custom_metrics",
+      "modifications": "Retain three values, one initially empty list, construction-only solve and positive list-assignment count read inside solving-ended callback. Native snapshot ListAssign family replaces Micrometer descriptor key; zero ordinary objective preserves the count-focused test without asserting a scoring-provider port."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/move_metrics_cases.rs",
+      "status": "implemented",
+      "id": "SolverMetricsIT.lsWithCustomMetrics",
+      "upstream_test": "lsWithCustomMetrics",
+      "local_test": "ls_with_custom_metrics",
+      "modifications": "Retain three entities/three values initially v3,v2,v1, local-search-only solve, twenty-step upper bound, solving-ended collection, and both positive change and swap count assertions. Native Change and Swap families replace Micrometer keys. Deterministic zero ordinary objective and strict-improvement scan replace Java default search choices; no stochastic trace or exact count parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/move_metrics_cases.rs",
+      "status": "implemented",
+      "id": "SolverMetricsIT.lsWithListVariableAndCustomMetrics",
+      "upstream_test": "lsWithListVariableAndCustomMetrics",
+      "local_test": "ls_with_list_variable_and_custom_metrics",
+      "modifications": "Retain one list containing three values, local-search-only solve, twenty-score-calculation bound, solving-ended collection, and positive counts for list change, list swap and 2-opt. Explicit native sequential neighborhood union enables the same three families; single-list 2-opt is represented and counted as reversed SubListChange. Native snapshot primitive family names replace Java descriptor meter keys. Deterministic zero objective drives a complete rejection scan; no Java default stochastic trace claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "local_path": "crates/solver/tests/move_metrics_cases.rs",
+      "status": "implemented",
+      "id": "SolverMetricsIT.esWithInitializedEntitiesAndMetric",
+      "upstream_test": "esWithInitializedEntitiesAndMetric",
+      "local_test": "es_with_initialized_entities_and_metric",
+      "modifications": "Retain three entities/three values with initial missing,v2,v1, exact completion, a captured best event, a returned solution, stable identity of all three entities represented by native variable indices, assignment of the first entity, preservation of v2/v1 on the other two, and positive score/move counts after solve. Native Complete exact strategy expresses completion of preassigned input; snapshots replace late Micrometer registration/publication. No meter-name, registration lifecycle or Java search-tree trace parity claimed."
     }
   ],
   "fixtures": [

@@ -30,7 +30,8 @@ pub enum SolveMetricOutcome {
     Panicked,
 }
 /// One invocation. Work is published after each scoring phase returns and on
-/// success at solve end; an unfinished/failed phase's partial work is unavailable.
+/// success at solve end; an unfinished/failed phase's partial aggregate work is unavailable.
+/// Move-family counts update independently and retain observed partial work.
 /// Best scores update during phases, before user best-event callbacks. This is
 /// not a current-step score. Duration includes callbacks and score diagnostics;
 /// diagnostic evaluations do not contribute to the solver's work counters.
@@ -40,6 +41,8 @@ pub struct SolveMetricSnapshot<S> {
     pub dimensions: Option<SolverMetricDimensions>,
     pub duration: Duration,
     pub work: SolverWork,
+    /// Live candidate-family counts, independent of phase-boundary `work` publication.
+    pub move_evaluations: crate::MoveEvaluationCounts,
     pub last_phase: Option<usize>,
     pub best_score: Option<S>,
     pub complete: bool,
@@ -65,6 +68,7 @@ impl<S> SolverMetricsSnapshot<S> {
 }
 struct Run<S> {
     started: Duration,
+    moves: crate::move_metrics::MoveCounter,
     snapshot: SolveMetricSnapshot<S>,
 }
 struct State<S> {
@@ -82,7 +86,8 @@ struct Inner<S> {
 /// Attach through `SolverExtensions::metrics`. Clones share the monitor and may
 /// observe simultaneous solves from different threads when the score is Send.
 /// Disabled solves acquire no metric locks. Enabled solves publish on best-score
-/// changes and phase completion, never on each candidate evaluation.
+/// changes and phase completion. Move-family counts use per-run atomics without
+/// acquiring the monitor lock for each candidate evaluation.
 ///
 /// Invalid plans rejected before execution do not start a metric run. Normal
 /// errors and unwinding panics after execution starts close it automatically.
@@ -151,6 +156,7 @@ impl<S: Score> SolverMetrics<S> {
             .values_mut()
             .map(|r| {
                 r.snapshot.duration = r.snapshot.duration.max(now.saturating_sub(r.started));
+                r.snapshot.move_evaluations = r.moves.snapshot();
                 r.snapshot.clone()
             })
             .collect();
@@ -169,15 +175,18 @@ impl<S: Score> SolverMetrics<S> {
             .next
             .checked_add(1)
             .expect("metric run identity exhausted");
+        let moves = crate::move_metrics::MoveCounter::default();
         state.active.insert(
             id,
             Run {
                 started,
+                moves: moves.clone(),
                 snapshot: SolveMetricSnapshot {
                     run: id,
                     dimensions: self.inner.dimensions,
                     duration: Duration::ZERO,
                     work: SolverWork::default(),
+                    move_evaluations: Default::default(),
                     last_phase: None,
                     best_score: None,
                     complete: false,
@@ -190,6 +199,7 @@ impl<S: Score> SolverMetrics<S> {
                 metrics: self.clone(),
                 id,
             },
+            moves,
             closed: false,
         }
     }
@@ -236,6 +246,7 @@ impl<S: Score> MetricWriter<S> {
 }
 pub(crate) struct MetricRun<S: Score> {
     pub(crate) writer: MetricWriter<S>,
+    pub(crate) moves: crate::move_metrics::MoveCounter,
     closed: bool,
 }
 impl<S: Score> MetricRun<S> {
@@ -273,6 +284,7 @@ impl<S: Score> MetricRun<S> {
             if let Some(now) = now {
                 r.snapshot.duration = r.snapshot.duration.max(now.saturating_sub(r.started));
             }
+            r.snapshot.move_evaluations = r.moves.snapshot();
             r.snapshot.outcome = Some(outcome);
             state.completed = state.completed.saturating_add(1);
             if !matches!(outcome, SolveMetricOutcome::Completed(_)) {

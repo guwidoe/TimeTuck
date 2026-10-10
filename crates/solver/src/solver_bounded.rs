@@ -23,6 +23,7 @@ struct Context<'a, 'm, 'o, A, S, F, C> {
     evaluate: F,
     observer: Observer<'o, A, S>,
     constraint_evaluations: u128,
+    move_counter: Option<crate::move_metrics::MoveCounter>,
     bound: PartialScoreBound,
 }
 impl<A, S: AdditiveScore, E, F, C> BranchContext<A, S, Saved<A, S>>
@@ -35,6 +36,9 @@ where
     fn evaluate(&mut self, a: &A, _: usize) -> Result<TreeEvaluation<S>, E> {
         let (score, callbacks) = (self.evaluate)(a)?;
         self.constraint_evaluations += callbacks;
+        if let Some(counter) = &self.move_counter {
+            counter.add(crate::MoveEvaluationKind::ExactNode, 1);
+        }
         let optimistic_bound = match &self.bound {
             PartialScoreBound::Unknown => None,
             PartialScoreBound::NonIncreasing => Some(InitializingScoreBound::finite(
@@ -152,6 +156,7 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
     if let PartialScoreBound::Trend(trend) = &branch.bound {
         trend.validate(&S::ZERO).map_err(TreeSearchError::Trend)?;
     }
+    let move_counter = control.move_counter.clone();
     let timer = TimeBudget::new(config.max_time, None, clock).with_shared(control.monitor());
     let mut context = Context {
         config,
@@ -159,6 +164,7 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
         evaluate,
         observer,
         constraint_evaluations: 0,
+        move_counter,
         bound: branch.bound,
     };
     context.timer.start_search();
@@ -199,6 +205,7 @@ mod tests {
     }
     fn control(clock: &mut dyn FnMut() -> Duration) -> SolveControl<'_> {
         SolveControl {
+            move_counter: None,
             lifecycle: Default::default(),
             condition: None,
             condition_expired: false,

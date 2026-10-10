@@ -175,6 +175,7 @@ pub(crate) fn search_impl_with_provider<
 where
     ListLocalSearchError: From<D::Error>,
 {
+    let move_counter = crate::move_metrics::from_control(&shared);
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
@@ -293,6 +294,7 @@ where
                 progress.completed_steps(),
             ),
             |movement, score| {
+                crate::move_metrics::record(&move_counter, movement);
                 let keys = if tracks_entities {
                     movement.touched_entities()
                 } else {

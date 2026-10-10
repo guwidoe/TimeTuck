@@ -617,6 +617,7 @@ pub(crate) fn search_impl_with_provider<V: Eq + Clone, S: AdditiveScore, D: Sear
 where
     LocalSearchError: From<D::Error>,
 {
+    let move_counter = crate::move_metrics::from_control(&shared);
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     if provider.is_none() {
@@ -754,6 +755,7 @@ where
                 progress.completed_steps(),
             ),
             |movement, score| {
+                crate::move_metrics::record(&move_counter, movement);
                 let variables = if tracks_variables {
                     movement.touched_variables()
                 } else {
