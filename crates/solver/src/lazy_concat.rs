@@ -131,6 +131,16 @@ impl<'a, T> LazyConcat<'a, T> {
             });
         }
         let group = self.groups.partition_point(|g| g.end <= index);
+        self.get_in_group(group, index)
+    }
+    fn group_start(&self, group: usize) -> usize {
+        if group == 0 {
+            0
+        } else {
+            self.groups[group - 1].end
+        }
+    }
+    fn get_in_group(&self, group: usize, index: usize) -> Result<&T, LazyConcatError> {
         let start = if group == 0 {
             0
         } else {
@@ -164,13 +174,22 @@ impl<'a, T> LazyConcat<'a, T> {
     pub fn retiring(&self, seed: u64) -> crate::RetiringCandidates<'_, 'a, T> {
         crate::RetiringCandidates::new(self, seed)
     }
+    /// Sequential traversal keeps a group cursor at each end instead of doing
+    /// a binary search for every item. Skipping uses indexed group lookup and
+    /// never loads skipped suppliers. Creation and size queries remain passive.
     pub fn iter(
         &self,
     ) -> impl DoubleEndedIterator<Item = Result<&T, LazyConcatError>>
     + ExactSizeIterator
     + FusedIterator
     + '_ {
-        (0..self.length).map(|i| self.get(i))
+        GroupCursor {
+            source: self,
+            front: 0,
+            back: self.length,
+            front_group: 0,
+            back_group: self.groups.len().saturating_sub(1),
+        }
     }
     /// Seeded, lazy sampling without replacement over indexed occurrences. Only
     /// groups containing selected occurrences load. Allocation grows with draws,
@@ -184,3 +203,67 @@ impl<'a, T> LazyConcat<'a, T> {
             .map(|index| self.get(index.expect("seeded draws stay within their bound") as usize))
     }
 }
+
+// Ranks advance before resolving suppliers, preserving Map<Range>::next/nth
+// consumption when a caller catches a supplier panic and continues iteration.
+struct GroupCursor<'q, 'a, T> {
+    source: &'q LazyConcat<'a, T>,
+    front: usize,
+    back: usize,
+    front_group: usize,
+    back_group: usize,
+}
+impl<'q, T> Iterator for GroupCursor<'q, '_, T> {
+    type Item = Result<&'q T, LazyConcatError>;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.front == self.back {
+            return None;
+        }
+        let index = self.front;
+        self.front += 1;
+        if index >= self.source.groups[self.front_group].end {
+            self.front_group += 1;
+        }
+        Some(self.source.get_in_group(self.front_group, index))
+    }
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.back - self.front {
+            self.front = self.back;
+            return None;
+        }
+        self.front += n;
+        if self.front >= self.source.groups[self.front_group].end {
+            self.front_group = self.source.groups.partition_point(|g| g.end <= self.front);
+        }
+        self.next()
+    }
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let n = self.back - self.front;
+        (n, Some(n))
+    }
+}
+impl<T> DoubleEndedIterator for GroupCursor<'_, '_, T> {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        if self.front == self.back {
+            return None;
+        }
+        self.back -= 1;
+        if self.back < self.source.group_start(self.back_group) {
+            self.back_group -= 1;
+        }
+        Some(self.source.get_in_group(self.back_group, self.back))
+    }
+    fn nth_back(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.back - self.front {
+            self.back = self.front;
+            return None;
+        }
+        self.back -= n;
+        if self.back - 1 < self.source.group_start(self.back_group) {
+            self.back_group = self.source.groups.partition_point(|g| g.end < self.back);
+        }
+        self.next_back()
+    }
+}
+impl<T> ExactSizeIterator for GroupCursor<'_, '_, T> {}
+impl<T> FusedIterator for GroupCursor<'_, '_, T> {}

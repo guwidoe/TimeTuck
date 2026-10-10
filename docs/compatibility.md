@@ -6145,3 +6145,23 @@ feeds672integration/example jobs; its algorithm changes need that coverage.
 Evidence:work/retirement-dependencies-{before,after}.json and
 work/retirement-dependency-reduction.json. No cache records or old result hashes
 were rewritten. No new compatibility credit or runtime performance claim.
+
+
+## Lazy candidate traversal cursors
+
+`LazyConcat::iter` now tracks its current group at each end. Sequential traversal
+no longer binary-searches the group table for every item; `nth` and `nth_back`
+retain indexed skipping without loading skipped suppliers. Original regressions
+cover mixed-end skips against an independent rank oracle, cached supplier errors,
+panic advancement/retry, non-Clone pointer identity and virtual usize::MAX lengths.
+These native regressions earn no additional upstream-method credit.
+
+A matched native release benchmark against 3347e48 traverses 16,384 items, with
+borrowed, owned and populated deferred groups. Three alternating process pairs
+use three warmups and five samples, averaging 20 traversals per sample; all output
+checksums match. For 16,384 singleton groups, forward/reverse medians improve
+4.6–6.5 times across storage types; for 64 groups, 2.4–3.3 times. All 24 measured
+workloads improve, including one-group cases. Setup and initial materialization
+are excluded. This is a component result, not Java or whole-solver performance.
+Raw samples, probe/binary/source hashes and timing medians are recorded in
+`work/concat-cursor-performance.json`; Java/list measurements remain stale.

@@ -22742,3 +22742,27 @@ and live/report freshness. Evidence work/retirement-split-evidence.json. No Rust
 changes after gate, no benchmark/browser reruns. This first check seeds the new
 module inputs; future pair-only changes affect16integration/example jobs plus
 library unit tests (17versus673). Goal remains active/incomplete.
+
+
+## Lazy candidate traversal cursors (baseline3347e48)
+
+LazyConcat now uses bidirectional group cursors; sequential traversal avoids
+per-item binary searches. Indexed skipping stays lazy. Four original regressions
+cover mixed-end skips/errors, maximum lengths, supplier panics and identity.
+No provenance edits or additional upstream credit.
+
+Matched release measurement37262 succeeded: all24workloads improve;16,384singleton
+groups4.6–6.5x,64groups2.4–3.3x. Native populated traversal only, excluding setup
+and first materialization; no Java/whole-solver claim. Raw samples and hashes:
+work/concat-cursor-performance.json. Benchmark retains its original source hash;
+only test lint fixes followed it, with production/probe/binary hashes unchanged.
+
+Final56109 TERMINAL0: Clippy,20Rust jobs RUN/765REUSE,46PythonREUSE;
+5688Rust tests+255doctests pass. Initial2436 stopped at two test-style Clippy
+errors, both fixed before the successful gate. Recorder10024 TERMINAL0 checks
+unchanged source/provenance and live/report freshness. Coverage3273/4855=67.415%,
+0failed,1318pending,264excluded,0unverified. Evidence work/concat-cursor-evidence.json.
+Source 684f5a99853707fee8fb030690030bf436b990316ce5d73a51142fd4c6516a4a;
+verification 6398f5c23a5c5b11fade3d1a64837cf0389796e824a1d71cc6216fcdf1ac54f3.
+No Rust edits or repeated tests after success. Java/list benchmarks remain stale;
+no browser rerun for backend-only refresh. Goal active/incomplete.
