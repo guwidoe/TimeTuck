@@ -460,6 +460,40 @@ impl<C, T, S: SelectionSource<C, T>> ConfiguredSelection<C, T, S> {
     where
         T: Clone + 'a,
     {
+        // An uncached source already yields owned items; do not clone them just
+        // to share the borrowed mapping path used for retained cache entries.
+        if matches!(self.storage, Storage::Direct { .. }) {
+            if self.state() != SelectionCacheState::Step {
+                return Err(SelectionCacheError::NotReady);
+            }
+            let limit = self.selected_count_limit;
+            if limit == Some(0) {
+                return Ok(Box::new(std::iter::empty()));
+            }
+            let Storage::Direct { source, .. } = &mut self.storage else {
+                unreachable!()
+            };
+            let iter = source.open(context).fuse();
+            return Ok(match limit {
+                Some(limit) => Box::new(iter.take(limit)),
+                None => Box::new(iter),
+            });
+        }
+        self.map_iter(context, seed, T::clone)
+    }
+    /// Transform selected occurrences without cloning cached items. Uncached
+    /// sources yield owned items which are borrowed for the mapper call, then
+    /// dropped. All order, random seed, readiness and selected-count rules match
+    /// `iter`; a zero cap never opens a direct source or calls the mapper.
+    pub fn map_iter<'a, M: 'a>(
+        &'a mut self,
+        context: &'a C,
+        seed: u64,
+        mut map: impl FnMut(&T) -> M + 'a,
+    ) -> Result<Box<dyn Iterator<Item = M> + 'a>, SelectionCacheError>
+    where
+        T: 'a,
+    {
         let limit = self.selected_count_limit;
         if limit == Some(0) {
             if matches!(self.storage, Storage::Direct { .. }) {
@@ -471,12 +505,43 @@ impl<C, T, S: SelectionSource<C, T>> ConfiguredSelection<C, T, S> {
             }
             return Ok(Box::new(std::iter::empty()));
         }
-        let iter = self.raw_iter(context, seed)?;
+        let iter: Box<dyn Iterator<Item = M> + 'a> =
+            if let Storage::Direct { source, state } = &mut self.storage {
+                if *state != SelectionCacheState::Step {
+                    return Err(SelectionCacheError::NotReady);
+                }
+                Box::new(source.open(context).fuse().map(move |value| map(&value)))
+            } else {
+                let p = self
+                    .prepared
+                    .as_ref()
+                    .ok_or(SelectionCacheError::NotReady)?;
+                if matches!(
+                    self.plan.order,
+                    SelectionOrder::Random | SelectionOrder::Probabilistic
+                ) {
+                    let mut random = SplitMix64::new(seed);
+                    Box::new(std::iter::from_fn(move || {
+                        if p.values.active_len() == 0 {
+                            return None;
+                        }
+                        p.values
+                            .choose(random.unit())
+                            .expect("valid random draw")
+                            .map(&mut map)
+                    }))
+                } else if self.plan.order == SelectionOrder::Original {
+                    Box::new(p.values.items().iter().map(map))
+                } else {
+                    Box::new(p.indices.iter().map(move |&i| map(&p.values.items()[i])))
+                }
+            };
         Ok(match limit {
             Some(limit) => Box::new(iter.take(limit)),
             None => iter,
         })
     }
+
     /// Finite traversal ignoring the selected-count cap and random weights.
     /// Cached random selection visits source occurrences once in original order;
     /// sorted/shuffled selection retains its prepared order. An uncached repeating
@@ -510,46 +575,6 @@ impl<C, T, S: SelectionSource<C, T>> ConfiguredSelection<C, T, S> {
             ))
         } else {
             Ok(Box::new(p.values.items().iter().cloned()))
-        }
-    }
-    fn raw_iter<'a>(
-        &'a mut self,
-        context: &'a C,
-        seed: u64,
-    ) -> Result<Box<dyn Iterator<Item = T> + 'a>, SelectionCacheError>
-    where
-        T: Clone + 'a,
-    {
-        if let Storage::Direct { source, state } = &mut self.storage {
-            if *state != SelectionCacheState::Step {
-                return Err(SelectionCacheError::NotReady);
-            }
-            return Ok(Box::new(source.open(context).fuse()));
-        }
-        let p = self
-            .prepared
-            .as_ref()
-            .ok_or(SelectionCacheError::NotReady)?;
-        if matches!(
-            self.plan.order,
-            SelectionOrder::Random | SelectionOrder::Probabilistic
-        ) {
-            let mut random = SplitMix64::new(seed);
-            Ok(Box::new(std::iter::from_fn(move || {
-                if p.values.active_len() == 0 {
-                    return None;
-                }
-                p.values
-                    .choose(random.unit())
-                    .expect("valid random draw")
-                    .cloned()
-            })))
-        } else if self.plan.order == SelectionOrder::Original {
-            Ok(Box::new(p.values.items().iter().cloned()))
-        } else {
-            Ok(Box::new(
-                p.indices.iter().map(|&i| p.values.items()[i].clone()),
-            ))
         }
     }
 }

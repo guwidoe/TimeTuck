@@ -21690,3 +21690,34 @@ remaining methods include runtime type/sorter-instance identity. SubListSwap
 isMoveDoable explicitly accepts out-of-bounds spans, and its entity-range method
 starts with an out-of-range value. BruteForceTest's phase/step caps remain the known
 mismatch; do not revisit those tests just to adapt final-solution assertions alone.
+
+
+## Direct configured move providers
+
+Baseline a588891. ConfiguredMoveProvider connects all five configured selection
+orders directly to construction/local search, preserving source/order cache scopes
+without a second cache or Clone bounds on keys/context. ConfiguredSelection.map_iter
+borrows retained keys; uncached iter still returns owned items without cloning.
+Cached and configured providers now share private ProviderSelectionSession lifecycle.
+Seven native regressions cover all nine backends, construction, shared phases,
+independent cache lifetimes, caps/rejections, replay and panic/error reset. Four
+complete Community sorting methods and two helper fixtures have appended provenance
+and notices. No wall-clock performance claim or benchmark refresh for this adapter.
+
+Focused final log work/configured-provider-final-focus.log:24 tests passed.
+Final gate/evidence94668 TERMINAL0. Clippy35.71s;53 affected targets compile30.41s.
+53 Rust jobs ran,708 reused;46 Python jobs reused. 5504 Rust tests and251 doctests
+pass. Coverage3185/4855=65.602%,0failed,1388pending,282excluded,0unverified.
+Source 282bfe9e1bc536126ca2ba59a22e71d323400fc2f92b2e4f40fb39d1cc8be73d
+Verification b034c0b7026edc8ed5d2e3637ae9a035b919a4dc80caf7b5adf22089c728e9e8
+Live/report freshness matched; existing list performance remains visibly stale.
+Logs work/configured-provider-{prebuild,final-check}.log and evidence JSON. No browser
+rerun: backend report refresh only. Goal remains active and incomplete.
+
+User throughput concern: do not dismiss performance as a poor priority. Original
+saved complaint window2883->2916 was+0.680 percentage points. Current rolling window
+at05:12Oct10 was3123->3181, not the same interval. Broad shared-code compilation,
+rejected performance variants and repeatedly revisiting known upstream contract gaps
+all slowed progress. Keep focused correctness/measurement before final broad build;
+reuse unchanged evidence, and avoid re-investigating the recorded gaps without a
+concrete implementation approach. No reliable whole-ten-hour time fraction measured.

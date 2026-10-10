@@ -1,7 +1,7 @@
 //! Lifecycle-owned selection caches feeding current-assignment move generation.
 use crate::{
     CachedSelectionOrder, MoveProvider, MoveProviderEvent, SelectionCache, SelectionCacheError,
-    SelectionCacheScope, SelectionCacheState, SelectionLifecycleEvent, SelectionSource,
+    SelectionCacheScope, SelectionSource,
 };
 use std::{error::Error, fmt};
 
@@ -82,13 +82,10 @@ impl Error for CachedProviderError {}
 /// must return promptly. Rejected or capped output is not an exhaustion proof.
 pub struct CachedMoveProvider<C, T, S, W, F, G> {
     cache: SelectionCache<C, T, S, W>,
-    context: Option<C>,
+    session: crate::provider_selection_session::ProviderSelectionSession<C>,
     capture: F,
     mapper: G,
     config: CachedProviderConfig,
-    solve: bool,
-    phase: bool,
-    step: bool,
 }
 impl<C, T, S: SelectionSource<C, T>, F, G> CachedMoveProvider<C, T, S, fn(&C, &T) -> f64, F, G> {
     pub fn uniform(
@@ -123,13 +120,10 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64, F, G>
                 config.maximum_candidates,
                 weight,
             )?,
-            context: None,
+            session: Default::default(),
             capture,
             mapper,
             config,
-            solve: false,
-            phase: false,
-            step: false,
         })
     }
     pub fn cache(&self) -> &SelectionCache<C, T, S, W> {
@@ -139,88 +133,9 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64, F, G>
     pub fn source_mut(&mut self) -> &mut S {
         self.cache.source_mut()
     }
-    fn source_event(&mut self, event: SelectionLifecycleEvent) -> Result<(), SelectionCacheError> {
-        self.cache.event(
-            event,
-            self.context.as_ref().expect("opened selection context"),
-        )
-    }
-    /// End a private session, including one interrupted by a caught panic or a
-    /// failed cache build. Valid end events update cache state before callbacks;
-    /// if a callback panics, calling reset again continues from the remaining state.
-    /// Do not reset while an engine is using the provider.
+    /// Close active source scopes, including a session interrupted by a panic.
     pub fn reset(&mut self) -> Result<(), SelectionCacheError> {
-        loop {
-            let event = match self.cache.state() {
-                SelectionCacheState::Step => SelectionLifecycleEvent::StepEnded,
-                SelectionCacheState::Phase => SelectionLifecycleEvent::PhaseEnded,
-                SelectionCacheState::Solving => SelectionLifecycleEvent::SolveEnded,
-                SelectionCacheState::Idle => break,
-            };
-            self.source_event(event)?;
-        }
-        self.context = None;
-        self.solve = false;
-        self.phase = false;
-        self.step = false;
-        Ok(())
-    }
-    fn lifecycle(&mut self, event: MoveProviderEvent) {
-        match event {
-            MoveProviderEvent::SolveStarted => {
-                assert!(
-                    !self.solve && !self.phase && self.cache.state() == SelectionCacheState::Idle,
-                    "cached provider needs reset before a new solve"
-                );
-                self.solve = true;
-            }
-            MoveProviderEvent::SolveEnded => {
-                assert!(
-                    self.solve && !self.phase && !self.step,
-                    "cached provider solve ended during a phase"
-                );
-                self.reset().expect("balanced source solve");
-            }
-            MoveProviderEvent::PhaseStarted => {
-                assert!(
-                    !self.phase
-                        && (self.cache.state() == SelectionCacheState::Idle
-                            || (self.solve && self.cache.state() == SelectionCacheState::Solving)),
-                    "cached provider needs reset before a new phase"
-                );
-                self.phase = true;
-            }
-            MoveProviderEvent::StepStarted => {
-                assert!(
-                    self.phase && !self.step,
-                    "cached provider scan already active or phase missing"
-                );
-                self.step = true;
-            }
-            MoveProviderEvent::StepEnded => {
-                assert!(self.phase && self.step, "cached provider scan missing");
-                self.step = false;
-                if self.cache.state() == SelectionCacheState::Step {
-                    self.source_event(SelectionLifecycleEvent::StepEnded)
-                        .expect("balanced source scan");
-                }
-            }
-            MoveProviderEvent::PhaseEnded => {
-                assert!(
-                    self.phase && !self.step,
-                    "cached provider phase ended during a scan"
-                );
-                if self.solve {
-                    if self.cache.state() == SelectionCacheState::Phase {
-                        self.source_event(SelectionLifecycleEvent::PhaseEnded)
-                            .expect("balanced source phase");
-                    }
-                    self.phase = false;
-                } else {
-                    self.reset().expect("balanced source session");
-                }
-            }
-        }
+        self.session.reset(&mut self.cache)
     }
     pub fn try_moves<'a, P, A, M: 'a>(
         &'a mut self,
@@ -232,22 +147,12 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64, F, G>
         F: FnMut(&P, &A, u64) -> C,
         G: FnMut(&P, &A, u64, &T) -> Option<M>,
     {
-        if !self.phase || !self.step {
-            return Err(CachedProviderError::OutsideStep);
-        }
+        self.session.check_step()?;
         if self.config.maximum_draws == 0 {
             return Ok(Box::new(std::iter::empty()));
         }
-        if self.cache.state() != SelectionCacheState::Step {
-            self.context = Some((self.capture)(p, a, step));
-            if self.cache.state() == SelectionCacheState::Idle {
-                self.source_event(SelectionLifecycleEvent::SolveStarted)?;
-            }
-            if self.cache.state() == SelectionCacheState::Solving {
-                self.source_event(SelectionLifecycleEvent::PhaseStarted)?;
-            }
-            self.source_event(SelectionLifecycleEvent::StepStarted)?;
-        }
+        self.session
+            .open(&mut self.cache, || (self.capture)(p, a, step))?;
         let selections = self.cache.iter(self.config.seed.wrapping_add(step))?;
         let mapper = &mut self.mapper;
         Ok(Box::new(
@@ -264,7 +169,7 @@ where
     G: FnMut(&P, &A, u64, &T) -> Option<M>,
 {
     fn event(&mut self, event: MoveProviderEvent) {
-        self.lifecycle(event);
+        self.session.lifecycle(&mut self.cache, event);
     }
     fn moves<'a>(&'a mut self, p: &'a P, a: &'a A, step: u64) -> Box<dyn Iterator<Item = M> + 'a>
     where

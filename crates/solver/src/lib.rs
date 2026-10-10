@@ -1237,3 +1237,7 @@ mod best_solution_tracker;
 pub use best_solution_tracker::{BestSolutionTracker, RankedSolution};
 
 mod scored_list_values;
+
+mod configured_move_provider;
+mod provider_selection_session;
+pub use configured_move_provider::{ConfiguredMoveProvider, ConfiguredProviderConfig};

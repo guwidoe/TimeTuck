@@ -823,3 +823,8 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   the six-row same-entity change parameter fixture (Apache-2.0). Native event
   counters preserve exact callback counts and ranges; detailed mappings appear in
   `compat/provenance.json`. No callback-order equivalence is claimed.
+
+- `crates/solver/tests/comparator_sorting_cases.rs` adapts four Community comparator
+  and move-sorting methods, plus the numeric comparator helper and two-row
+  comparator configuration/helper fixtures (Apache-2.0). Native configured selection callbacks replace reflective
+  Java classes; full mappings and assertion details are in `compat/provenance.json`.

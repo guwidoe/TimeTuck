@@ -2177,6 +2177,30 @@ source errors and panic recovery, and non-Clone key ownership with held snapshot
 They add no upstream test-method credit.
 
 
+### Configured selections feeding solver moves
+
+`ConfiguredMoveProvider` connects a built `ConfiguredSelection` directly to the
+same construction/local-search engines. Original, sorted, shuffled, random and
+probabilistic orders retain their source and ordering cache scopes; there is no
+additional provider cache. `ConfiguredSelection::map_iter` maps borrowed keys,
+so neither the provider context nor keys require `Clone`. Uncached sources still
+own their yielded items and drop each after mapping; ordinary uncached `iter`
+continues returning those owned items without cloning them.
+
+`ConfiguredProviderConfig` supplies the scan draw cap and seed. Both the selection's
+count cap and the provider's draw cap apply before mapper rejection. Zero provider
+draws suppress context capture and source startup. Ordering callbacks use the
+cache-build context; the move mapper always receives the current assignment.
+A phase membership cache can therefore coexist with a step ordering cache.
+Lifecycle, shared phase binding, error handling and reset match `CachedMoveProvider`
+and use the same private session implementation.
+
+Seven native regressions exercise all nine backends, all five orders, independent
+cache scopes, construction, bounded rejection, replay, non-Clone keys and recovery.
+Four complete pinned Community comparator/sorting methods are separately adapted;
+the native provider integration itself adds no upstream method credit.
+
+
 ### Shared providers and solve lifecycles
 
 `PhaseMoveProviders::bind_shared` borrows a provider once for multiple phase indices.

@@ -47829,6 +47829,66 @@
       "upstream_test": "doMoveOnSameEntity",
       "local_test": "sublist_swap_same_entity",
       "modifications": "Preserve all source list contents, move coordinates and exact before/after notification intervals/counts. Native integer identities replace named test objects. Flatten native apply_observed range batches into individual callback records; exact total and multiplicities preserve verifyNoMoreInteractions. No callback-order equivalence is asserted; no upstream production code or descriptor implementation is used."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/comparator_sorting_cases.rs",
+      "id": "ComparatorFactorySelectionSorterTest.sortAscending",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/decorator/ComparatorFactorySelectionSorterTest.java",
+      "upstream_test": "sortAscending",
+      "local_test": "factory_sort_ascending",
+      "modifications": "Preserve source C,A,D,B identities and exact A,B,C,D iteration. Native comparator factory and phase selection replace Java sorter/solution objects; ASCII first-byte comparison equals the source first-character comparison for these fixtures."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/comparator_sorting_cases.rs",
+      "id": "ComparatorFactorySelectionSorterTest.sortDescending",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/decorator/ComparatorFactorySelectionSorterTest.java",
+      "upstream_test": "sortDescending",
+      "local_test": "factory_sort_descending",
+      "modifications": "Preserve source C,A,D,B identities and exact D,C,B,A iteration. Native comparator factory and descending configuration replace Java sorter/solution objects; ASCII first-byte comparison equals the source first-character comparison for these fixtures."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/comparator_sorting_cases.rs",
+      "id": "ComparatorSelectionSorterTest.sort",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/decorator/ComparatorSelectionSorterTest.java",
+      "upstream_test": "sort",
+      "local_test": "direct_comparator_preserves_duplicates_in_both_sort_directions",
+      "modifications": "Preserve the full 3,4,3,5,1 list, both comparator directions and sortedness assertions; additionally check duplicate retention. Unit context replaces the unused null solution and native numeric comparison replaces TestComparator."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/comparator_sorting_cases.rs",
+      "id": "SortingMoveSelectorTest.applySorting",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/SortingMoveSelectorTest.java",
+      "upstream_test": "applySorting",
+      "local_test": "move_sorting_applies_comparator_and_factory_with_phase_minimum",
+      "modifications": "Preserve both generateConfiguration rows (ascending comparator factory/direct comparator), phase minimum, solve/phase/step startup, jan,feb,mar,apr,may,jun inputs, exact sorted output, repeated exhausted iterator, finite-selector flag and size six. Inline the complete PlannerAssert selector assertions. Native callback configuration and lifecycle enums replace reflective classes, dummy move codes and mock scopes; no Java object identity or unrelated factory-method equivalence is claimed."
     }
   ],
   "fixtures": [
@@ -64562,6 +64622,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
       "upstream_test": "doAndUndoMoveOnTheSameEntity() MethodSource",
       "modifications": "Preserve all six destination indices, expected ordered identities, null/no-op and out-of-bounds rows and -1 range sentinels. Java string IDs become integer values rendered to strings at assertion; Stream<Arguments> becomes a Rust vector. No test-method credit for this helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/comparator_sorting_cases.rs",
+      "id": "SortingMoveSelectorTest.comparator_configuration_rows",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/decorator/SortingMoveSelectorTest.java",
+      "upstream_test": "generateConfiguration; TestCodeAssertableComparatorFactory; TestCodeAssertableComparator",
+      "modifications": "Adapt both ascending configuration rows to factory/direct boolean variants; native code comparisons replace the two test comparator helpers. The helper fixture earns no test-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/comparator_sorting_cases.rs",
+      "id": "ComparatorSelectionSorterTest.TestComparator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/decorator/ComparatorSelectionSorterTest.java",
+      "upstream_test": "TestComparator.compare",
+      "modifications": "Native i32 comparison supplies the test comparator used by both sort directions; no fixture method credit."
     }
   ]
 }
