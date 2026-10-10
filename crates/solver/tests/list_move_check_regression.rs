@@ -646,6 +646,77 @@ fn plain_primitive_checks_do_not_compare_unaffected_values() {
                 Ok(false)
             );
         }
+        assert_eq!(
+            c.is_doable(&ListMove::Unassign {
+                entity: 0,
+                start: 0,
+                end: 0
+            }),
+            Ok(false)
+        );
+        assert_eq!(
+            c.is_doable(&ListMove::Unassign {
+                entity: 0,
+                start: n / 2 - 2,
+                end: n / 2
+            }),
+            Ok(true)
+        );
         assert_eq!(calls.get(), 0);
+    }
+}
+
+#[test]
+fn assignment_and_removal_geometry_domains_and_pins_match_transactions() {
+    for mode in 0..5 {
+        let mut entities = vec![
+            ListEntity::new(vec![0, 1, 2]),
+            ListEntity::new(vec![3]),
+            ListEntity::new(vec![]),
+        ];
+        if mode == 1 {
+            entities[0] = entities[0].clone().with_pinned_prefix(1);
+        }
+        if mode == 2 {
+            entities[0] = entities[0].clone().with_pinned(true);
+            entities[2] = entities[2].clone().with_pinned(true);
+        }
+        if mode == 3 {
+            entities[0] = entities[0].clone().with_value_range(vec![0, 1, 2, 4]);
+            entities[1] = entities[1]
+                .clone()
+                .with_value_range(vec![3, 5])
+                .with_range_diagnostics("row", "values", usize::to_string);
+        }
+        let mut p = ListProblem::new((0..6).collect(), entities).unwrap();
+        if mode == 4 {
+            p = p.with_dependencies(vec![vec![]; 6]).unwrap();
+        }
+        let a = p.initial_assignment();
+        for e in 0..4 {
+            for i in 0..5 {
+                for value in 0..7 {
+                    compare(
+                        &p,
+                        &a,
+                        &ListMove::Assign {
+                            value,
+                            destination: pos(e, i),
+                        },
+                    );
+                }
+                for end in 0..5 {
+                    compare(
+                        &p,
+                        &a,
+                        &ListMove::Unassign {
+                            entity: e,
+                            start: i,
+                            end,
+                        },
+                    );
+                }
+            }
+        }
     }
 }

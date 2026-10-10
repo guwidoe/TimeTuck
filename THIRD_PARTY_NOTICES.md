@@ -810,3 +810,10 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   `SelectorBasedListSwapMoveTest` and `SelectorBasedSubListChangeMoveTest`
   (Apache-2.0). Native validation errors map to false for boolean assertions;
   identities and substitutions are recorded in `compat/provenance.json`.
+
+- `crates/solver/tests/list_assignment_lifecycle_cases.rs` adapts three pinned
+  Community methods from `SelectorBasedListAssignMoveTest` and
+  `SelectorBasedListUnassignMoveTest` (Apache-2.0). Native lifecycle event counts
+  replace Mockito callback verification, and borrowed checks replace range-manager
+  plumbing. Exact assertions and lifecycle differences are recorded in
+  `compat/provenance.json`; no callback-order equivalence is claimed.

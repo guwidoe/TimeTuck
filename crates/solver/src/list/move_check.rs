@@ -5,8 +5,9 @@ use std::collections::BTreeMap;
 /// Repeated candidate checks against one validated immutable list snapshot.
 ///
 /// Construct through [`ListProblem::move_checker`]. Queries borrow planning values
-/// and copy references only for touched rows when needed. Primitive changes and
-/// swaps on models without dependencies use direct checks without scratch rows.
+/// and copy references only for touched rows when needed. Primitive changes, swaps,
+/// assignments and removals on dependency-free models use direct checks without
+/// scratch rows.
 /// They do not clone planning values,
 /// mutate the source, score, or notify listeners. Dependency-enabled models still
 /// check the global predecessor graph after validating the candidate's final rows.
@@ -48,6 +49,64 @@ impl<V: Eq + Clone> ListMoveChecker<'_, V> {
     pub fn is_doable(&self, movement: &ListMove<V>) -> Result<bool, ListError> {
         if self.problem.dependencies.is_none() {
             match movement {
+                ListMove::Assign { value, destination } => {
+                    let length = self
+                        .assignment
+                        .list(destination.entity)
+                        .ok_or(ListError::EntityIndex {
+                            entity: destination.entity,
+                            count: self.assignment.lists().len(),
+                        })?
+                        .len();
+                    if destination.index > length {
+                        return Err(ListError::InsertionIndex(*destination));
+                    }
+                    if self
+                        .assignment
+                        .lists()
+                        .iter()
+                        .any(|row| row.contains(value))
+                    {
+                        return Err(ListError::AlreadyAssigned);
+                    }
+                    if !self.problem.values.contains(value) {
+                        return Err(self.problem.range_error(
+                            *destination,
+                            value,
+                            ListError::ValueOutsideDomain,
+                        ));
+                    }
+                    self.validate_point(*destination, Some(value))?;
+                    return Ok(true);
+                }
+                ListMove::Unassign { entity, start, end } => {
+                    let length = self
+                        .assignment
+                        .list(*entity)
+                        .ok_or(ListError::EntityIndex {
+                            entity: *entity,
+                            count: self.assignment.lists().len(),
+                        })?
+                        .len();
+                    if start > end || *end > length {
+                        return Err(ListError::InvalidRange {
+                            entity: *entity,
+                            start: *start,
+                            end: *end,
+                        });
+                    }
+                    if start == end {
+                        return Ok(false);
+                    }
+                    self.validate_point(
+                        ListPosition {
+                            entity: *entity,
+                            index: *start,
+                        },
+                        None,
+                    )?;
+                    return Ok(true);
+                }
                 ListMove::Swap { left, right } => {
                     let a = self.element(*left)?;
                     let b = self.element(*right)?;

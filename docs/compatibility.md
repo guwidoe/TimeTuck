@@ -5483,3 +5483,29 @@ samples, so this refresh is not a controlled before/after optimization measureme
 The list-solver section is current; other older benchmark sections remain stale.
 Raw results: `work/list-performance.json`; prior snapshot:
 `work/list-performance-before-b680250.json`. No frontend or Rust source changed.
+
+## Direct list assignment checks and lifecycle coverage
+
+Borrowed list checking now also handles assignment and span unassignment without
+candidate row copies on models without dependencies. Assignment preserves the
+native error sequence: destination geometry, already-assigned identity, global
+registry membership, then destination pins/range. It still scans identities where
+required. Unassignment checks geometry and affected pins directly; empty spans
+remain no-ops and required-list partial states remain legal. Dependency-enabled
+models continue through the general validator. No timing gain is claimed.
+
+One additional original regression compares 1,200 assignment/removal proposals
+with transactional execution, including invalid geometry, pins, receiving ranges
+and dependency-enabled fallback. The operation-count regression now includes
+unassignment without value comparisons after source validation.
+
+Three complete Community methods are adapted: assignment execution/temporary
+notifications, assignment doability with entity-specific ranges, and the unassign
+`undoMove` test's removal/notification assertions. The latter source method does
+not actually undo a move. Native lifecycle events replace Mockito verification;
+Flush represents the assignment test's shadow-update call. These source methods
+assert callback counts, not callback order. Native order remains distinct.
+The separate unassign `doMove` method remains pending because its prohibition of
+all other callbacks conflicts with the native final Flush. No behavior or counts
+from that method are claimed. All three mappings and modifications are recorded
+in `compat/provenance.json` and the third-party notice.

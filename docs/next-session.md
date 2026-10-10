@@ -21568,3 +21568,50 @@ Measured:2026-10-10T02:08:42.583337+00:00
 Evidence work/list-refresh-b680250-evidence.json. Docs-only diff review, no repeated
 Rust gate. All current handles terminal. Goal active/incomplete; resume substantive
 solver work, do not refresh these measurements again solely due to a new turn/commit.
+
+## Direct assignment checks and source lifecycle cases (verified)
+
+Baseline30d0547; previous turn made progress (fresh Java/list dashboard evidence).
+Read complete pinned SelectorBasedListAssignMoveTest and SelectorBasedListUnassignMoveTest;
+read test fixture TestdataListEntityProvidingEntity (empty lists in range constructor).
+No production upstream read. Existing native lifecycle already satisfies three
+source methods' actual assertions: assign.doMove,assign.isMoveDoableValueRangeProviderOnEntity,
+unassign.undoMove. Native event counts replace Mockito; Flush maps assignment's
+atLeastOnce shadow-update. No source callback-order assertion. Unassign.undoMove
+only executes and checks size/removal callbacks; it does not undo. Separate
+unassign.doMove remains pending because verifyNoMoreInteractions excludes native
+Flush. Registered3complete cases/0new fixtures and notice; native inline setup.
+
+ListMoveChecker now directly handles Assign/Unassign when no dependencies, preserving
+geometry/identity/global-domain/pin/range error order and partial states. No candidate
+row copies; assignment still scans for membership. Empty removal remains false.
+General dependency path unchanged. One original regression compares1,200proposals
+with apply; existing zero-Eq check extended to removal. No wall-clock speed claim.
+First focused35880 TERMINAL101 from inferred listener lifetime; fixed explicit
+ListLifecycleEvent annotation. Focused76355 TERMINAL0:25tests,6.43s compile.
+Final gate41662/evidence52601 TERMINAL0. Fmt/Clippy21.49s,affected-target prebuild8.08s.
+16Rust jobs ran;742Rust and46Python jobs reused. All5481Rust tests/251doctests pass.
+Coverage3172/4855=65.335%,0failed,1401pending,282excluded,0unverified. Three appended
+methods individually passed; prior ledger/fixtures unchanged. Report/live digest
+matches. Recent list-performance remains CURRENT by its own inputs; no benchmark
+rerun. No browser rerun for backend-only report refresh. No post-gate Rust changes.
+Source:c0c7a849bfc07f9de7b6b420199ad6be1a1e624022133d02f43efae61c96e514
+Verification:d3f217079515897b3670449cf58e2e3ca041e82b199a8c4cecc6ba4cfba2cb44
+Logs work/assignment-check-{prebuild,final-check}.log; evidence
+work/assignment-check-evidence.json. All handles terminal. Goal active/incomplete.
+
+Next concrete coverage batch, read-only reconnaissance completed during gate:
+SelectorBasedListChangeMoveTest.doMove and doAndUndoMoveOnTheSameEntity can use
+ListProblem::apply_observed (range-only events, NO Flush), unlike ListLifecyclePlan.
+Flatten each native event's ranges to individual before/after notifications; assert
+exact event multiset/total for source verifyNoMoreInteractions, without asserting
+callback order. Cross-entity source scenario is [1,2],[3],move0:1->1:1. Parametrized
+same-entity source starts[0,1,2,3,4],moves2->dest0..5;2and5notdoable. Valid cases
+assertdestinationindex,elementidentity,fullcontents and exact differing interval.
+Read full parameter method and all six doAndUndoMoveOnTheSameEntity helper entries;
+register that helper as fixture when adapting. Neither source method actually undoes.
+Also read full SelectorBasedListSwapMoveTest.doMove: temporary0:0<->1:0 on[1,2],[3],
+exact four range callbacks and atLeastOnce updateShadowVariables; use existing
+ListLifecyclePlan/Flush, then same-row0<->1 after rollback =>[2,1]. No added behavior
+needed, but each complete mapping requires provenance/notices and final verification.
+No draft copied and no credits claimed yet. The source files are Community tests.
