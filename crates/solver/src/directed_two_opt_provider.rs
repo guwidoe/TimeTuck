@@ -1,7 +1,7 @@
 //! Lazy directed two-opt search through the standard provider extension.
 use crate::{
     ListAssignment, ListError, ListMove, ListPosition, ListProblem, MixedAssignment, MixedMove,
-    MixedProblem, Move, MoveProvider, list_directed_two_opt_plan,
+    MixedProblem, Move, MoveProvider,
 };
 
 /// Enumerate forward and wrapped reversals by entity, first cut, second cut,
@@ -11,15 +11,17 @@ use crate::{
 /// successors from distinct cuts are retained; no all-candidate storage is built.
 ///
 /// Opening validates the current state but does not prepare moves. Each next call
-/// prepares candidates until it finds a valid changed result; candidate preparation
-/// owns temporary snapshots. This is a finite provider, not constant-time sampling.
+/// checks candidates until it finds a valid changed result. Candidate checks borrow
+/// planning values and never build lifecycle snapshots or clone their payloads.
+/// Wrapped reversals use positional scratch space. This is a finite provider,
+/// not constant-time sampling.
 /// It never assigns an unassigned value or removes assigned membership.
 pub fn list_directed_two_opt_moves<'a, V: Clone + Eq>(
     problem: &'a ListProblem<V>,
     assignment: &'a ListAssignment<V>,
     cross_entity: bool,
 ) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
-    problem.validate(assignment)?;
+    let checker = problem.move_checker(assignment)?;
     let local = (0..problem.entities().len())
         .filter(|&e| !problem.entities()[e].is_pinned())
         .flat_map(move |e| {
@@ -72,8 +74,13 @@ pub fn list_directed_two_opt_moves<'a, V: Clone + Eq>(
                 })
         });
     Ok(local.chain(cross).filter_map(move |(first, second)| {
-        let plan = list_directed_two_opt_plan(problem, assignment, first, second).ok()?;
-        (plan.assignment() != assignment).then(|| plan.movement().clone())
+        let movement =
+            crate::directed_two_opt::directed_two_opt_movement(problem, assignment, first, second)
+                .ok()?;
+        checker
+            .is_doable(&movement)
+            .unwrap_or(false)
+            .then_some(movement)
     }))
 }
 /// Supply directed list two-opt candidates at every local-search step. Use with

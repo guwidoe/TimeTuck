@@ -3656,15 +3656,32 @@ DirectedTwoOptProvider connects wrapped two-opt plans to native local search via
 MoveProvider for list and mixed models on both backends. list_directed_two_opt_moves
 validates its starting state, lazily scans directed cut pairs followed by unordered
 owner-pair tail exchanges, includes empty receiving tails, and omits no-op or invalid
-final states. Distinct cuts may have the same successor. Temporary preparation uses
-owned snapshots; no constant-time sampling or speedup is claimed. Mixed candidates
-leave basic variables unchanged; callers may combine additional providers explicitly.
+final states. Distinct cuts may have the same successor. Candidate construction now
+shares positional edits with lifecycle plans, then validates through a borrowed
+ListMoveChecker. It does not build lifecycle snapshots or clone planning values;
+wrapped reversals retain integer permutation scratch space. Source validation happens
+at list iterator opening, and dependency-enabled models check final predecessor edges.
+Explicit lifecycle plans retain their owned snapshots and notification behavior.
+Mixed candidates leave basic variables unchanged; callers may combine providers.
 
-Four original tests establish a wrapped-only single-step improvement for list and
-mixed search, both backends, retained basic assignments, pins/range/dependency filtering,
-empty receivers, lazy opening and bounded scoring. These are native integration
-checks and add no upstream-method credit. Built-in neighborhoods retain their prior
-behavior; custom-provider selection remains explicit.
+Six original tests establish wrapped-only improvements for list and mixed search on
+both backends, retained basic assignments, pins/range/dependency filtering, empty
+receivers and bounded scoring. An exhaustive small-case comparison preserves candidate
+order and multiplicity against lifecycle plans; clone counters cover full enumeration
+including range and dependency filtering. These add no upstream-method credit.
+Built-in neighborhoods retain their prior behavior; custom-provider selection remains
+explicit.
+
+A native before/after comparison against `95586e9` used 32/64 values on four routes,
+six-step best-accepted hill climbing, local-only/cross-entity directed two-opt and
+both scoring backends. Three alternating fresh-process pairs with one warmup and
+three timed solves each preserved exact assignments, scores and all work counters;
+independent rescoring and completeness checks passed. Median process CPU was 78–90%
+lower for scoped and 39–50% lower for stream scoring across these eight workloads.
+CPU includes process startup, setup, warmup and validation; timed solve latency
+excludes model/graph construction. This is a native workload result, not a Java or
+universal solver comparison. Full samples and source/executable hashes are in
+work/directed-borrowed-performance.json; unrelated benchmarks were not refreshed.
 
 ListDestinationIndex caches value-to-receiver membership and insertion intervals
 for a borrowed immutable list model/assignment. Single/group queries intersect

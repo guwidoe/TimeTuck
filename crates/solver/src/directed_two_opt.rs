@@ -35,6 +35,28 @@ pub fn list_directed_two_opt_plan<'p, V: Clone + Eq>(
     second: ListPosition,
 ) -> Result<ListLifecyclePlan<'p, V>, ListError> {
     problem.validate(before)?;
+    let movement = directed_two_opt_movement(problem, before, first, second)?;
+    let wrapped = first.entity == second.entity && first.index > second.index;
+    ListLifecyclePlan::prepare_with_scope(
+        problem,
+        before,
+        movement,
+        if wrapped {
+            ListNotificationScope::MovableSuffix
+        } else {
+            ListNotificationScope::ChangedRange
+        },
+    )
+}
+
+/// Build only the positional edit. Callers validate the source snapshot once;
+/// final pins, ranges and dependency checks belong to their plan or checker.
+pub(crate) fn directed_two_opt_movement<V: Clone + Eq>(
+    problem: &ListProblem<V>,
+    before: &ListAssignment<V>,
+    first: ListPosition,
+    second: ListPosition,
+) -> Result<ListMove<V>, ListError> {
     for cut in [first, second] {
         let row = before.list(cut.entity).ok_or(ListError::EntityIndex {
             entity: cut.entity,
@@ -128,14 +150,5 @@ pub fn list_directed_two_opt_plan<'p, V: Clone + Eq>(
         }
         ListMove::Composite(edits)
     };
-    ListLifecyclePlan::prepare_with_scope(
-        problem,
-        before,
-        movement,
-        if wrapped {
-            ListNotificationScope::MovableSuffix
-        } else {
-            ListNotificationScope::ChangedRange
-        },
-    )
+    Ok(movement)
 }

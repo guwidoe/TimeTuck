@@ -21750,3 +21750,46 @@ Verification 488e6fd41bea8960ff5b7b0632f32be33f0c807cab75c77c92811547553d7365
 Live/report freshness matched; list measurements remain stale. Final logs
 work/ruin-dependency-{prebuild,final-check}.log and evidence JSON. Rust state
 unchanged since passing gate; reuse this verification. Goal active/incomplete.
+
+
+## Borrow directed two-opt candidates without lifecycle snapshots
+
+Baseline95586e9. DirectedTwoOptProvider previously created full ListLifecyclePlans
+for every scanned cut pair, then copied the movement and discarded the snapshots.
+Extracted the unchanged positional movement construction into a private helper shared
+by public lifecycle plans and the provider. Provider opens a ListMoveChecker once and
+validates borrowed candidates, including final dependency graphs, without cloning
+planning values. Public lifecycle plans retain their snapshot/notification semantics;
+wrapped permutation scratch remains integer-based. Candidate order and multiplicity,
+pin/range/no-op exclusions and empty receiving tails are unchanged.
+
+Focused12478 TERMINAL0:19 tests. Two new original regressions compare448 small
+configurations against the owned lifecycle path and require zero payload clones
+through full enumeration, including dependency/range filtering. Existing list/mixed
+scoped/stream integration and lifecycle cases pass. No upstream reads or credits.
+
+Baseline60237 TERMINAL0,release32.11s. Revised release/measurement30928 TERMINAL0,
+release26.34s. Native benchmark work/directed_borrowed_probe.rs uses four routes,
+32/64 values,6-step hill climbing,local-only/cross-entity directed two-opt on both
+backends. Three alternating fresh-process pairs,1warmup3timed solves each. Exact
+assignments,scores,evaluation/step/constraint counts agree; all solutions independently
+rescored and checked complete. Scoped process CPU78–90% lower; stream39–50% lower
+across eight workloads. No universal or Java speed claim. Full samples, source and
+executable hashes:work/directed-borrowed-performance.json. Measurement preceded
+broad verification, as intended. No unrelated benchmark/browser refresh.
+
+Initial gate72895 used a mistyped PATH missing /usr/bin, falsely invalidating all
+762 jobs. Confirmed unchanged score-test key matches the prior result under correct
+PATH. Stopped only that pipeline and its descendants before tests (TERMINAL143),
+archived incorrect-path logs, and restarted with the canonical PATH. This was a
+command error, not a reason to broaden cache inputs or rehash old evidence.
+
+Corrected final prebuild/check/evidence16615 TERMINAL0. Clippy0.37s after initial
+22.61s;100affected targets reused compiled artifacts0.04s. 100Rust jobs ran,
+662Rust/46Python jobs reused. All5509Rust tests and251doctests passed.
+Coverage3185/4855=65.602%,0failed,1388pending,282excluded,0unverified. Provenance
+unchanged. Backend report/live freshness agree; existing list performance stays stale.
+Source b02964397b3f21cbdf463ea9d476606ba06bca77a918f9de25cdb37396ea8a4a
+Verification b2a696664da290101dad2e28a0d890c6d1d16b3d004abccd78ba9498dbb0d017
+Evidence work/directed-borrowed-evidence.json; final logs work/directed-borrowed-
+{prebuild,final-check}.log. No Rust changes after gate. Goal remains active/incomplete.
