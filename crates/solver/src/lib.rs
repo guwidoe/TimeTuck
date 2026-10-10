@@ -836,8 +836,8 @@ pub use list_change_recording::{
 
 mod solution_tracker;
 pub use solution_tracker::{
-    SolutionCorruptionReport, SolutionEventViolation, SolutionSnapshot, SolutionTracker,
-    SolutionTrackingError, VariableValueViolation, format_tracking_list,
+    SnapshotValue, SolutionCorruptionReport, SolutionEventViolation, SolutionSnapshot,
+    SolutionTracker, SolutionTrackingError, VariableValueViolation, format_tracking_list,
 };
 
 mod sorted_construction;

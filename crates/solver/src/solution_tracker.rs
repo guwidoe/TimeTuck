@@ -3,17 +3,12 @@ use crate::{
     MissingVariableEvent, PlanningSchema, PlanningType, PlanningVariableKind, PlanningVariableRef,
     VariableEventTracker,
 };
-use std::{
-    any::Any,
-    collections::{BTreeMap, BTreeSet},
-    error::Error,
-    fmt,
-    rc::Rc,
-};
+use std::{any::Any, collections::BTreeMap, error::Error, fmt, rc::Rc};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SolutionTrackingError {
     Metadata,
+    ValueType,
     DuplicateField,
     RegistrationClosed,
     ForeignSnapshot,
@@ -78,42 +73,146 @@ impl<E: fmt::Display> fmt::Display for VariableValueViolation<'_, E> {
         )
     }
 }
+/// A typed borrowed view into an owned snapshot. Scalar registrations store
+/// `Option<V>`; list registrations store `Vec<V>`. Entity keys and metadata are
+/// those captured by the registering tracker, independent of later world edits.
+#[derive(Debug)]
+pub struct SnapshotValue<'v, 's, E, V> {
+    pub variable: PlanningVariableRef<'s>,
+    pub entity: &'v E,
+    pub value: &'v V,
+}
+type ChangedValue<'v, E> = (&'v E, Option<&'v Captured>, Option<&'v Captured>);
+struct ChangedValues<'v, E> {
+    before: std::iter::Peekable<std::collections::btree_map::Iter<'v, E, Captured>>,
+    after: std::iter::Peekable<std::collections::btree_map::Iter<'v, E, Captured>>,
+}
+impl<'v, E: Ord> ChangedValues<'v, E> {
+    fn new(before: &'v BTreeMap<E, Captured>, after: &'v BTreeMap<E, Captured>) -> Self {
+        Self {
+            before: before.iter().peekable(),
+            after: after.iter().peekable(),
+        }
+    }
+}
+impl<'v, E: Ord> Iterator for ChangedValues<'v, E> {
+    type Item = ChangedValue<'v, E>;
+    fn next(&mut self) -> Option<Self::Item> {
+        loop {
+            let order = match (self.before.peek(), self.after.peek()) {
+                (Some((a, _)), Some((b, _))) => a.cmp(b),
+                (Some(_), None) => std::cmp::Ordering::Less,
+                (None, Some(_)) => std::cmp::Ordering::Greater,
+                (None, None) => return None,
+            };
+            match order {
+                std::cmp::Ordering::Less => {
+                    let (key, value) = self.before.next().unwrap();
+                    return Some((key, Some(value), None));
+                }
+                std::cmp::Ordering::Greater => {
+                    let (key, value) = self.after.next().unwrap();
+                    return Some((key, None, Some(value)));
+                }
+                std::cmp::Ordering::Equal => {
+                    let (key, a) = self.before.next().unwrap();
+                    let (_, b) = self.after.next().unwrap();
+                    if !(a.equal)(a.value.as_ref(), b.value.as_ref()) {
+                        return Some((key, Some(a), Some(b)));
+                    }
+                }
+            }
+        }
+    }
+}
+impl<E: Ord> std::iter::FusedIterator for ChangedValues<'_, E> {}
 impl<'s, E: Ord + Clone> SolutionSnapshot<'s, E> {
+    /// Get one typed captured value. Unknown fields return Metadata; missing
+    /// entities return None; a present value of another type returns ValueType.
+    pub fn get<V: 'static>(
+        &self,
+        variable: PlanningVariableRef<'s>,
+        entity: &E,
+    ) -> Result<Option<SnapshotValue<'_, 's, E, V>>, SolutionTrackingError> {
+        let (_, values) = self
+            .fields
+            .iter()
+            .find(|(field, _)| *field == variable)
+            .ok_or(SolutionTrackingError::Metadata)?;
+        values
+            .get_key_value(entity)
+            .map(|(entity, captured)| {
+                let value = captured
+                    .value
+                    .downcast_ref()
+                    .ok_or(SolutionTrackingError::ValueType)?;
+                Ok(SnapshotValue {
+                    variable,
+                    entity,
+                    value,
+                })
+            })
+            .transpose()
+    }
+    fn validate_comparison(&self, actual: &Self) -> Result<(), SolutionTrackingError> {
+        if !Rc::ptr_eq(&self.identity, &actual.identity)
+            || self.fields.len() != actual.fields.len()
+            || self
+                .fields
+                .iter()
+                .zip(&actual.fields)
+                .any(|((a, _), (b, _))| a != b)
+        {
+            return Err(SolutionTrackingError::ForeignSnapshot);
+        }
+        Ok(())
+    }
+    /// Borrow changed field/entity keys in registration order, then entity order.
+    /// Compares typed values; missing entities differ from present null values.
+    /// The merge walks both maps without allocating a key set or cloning keys.
+    /// Both snapshots must come from the same tracker and registration state.
+    pub fn changed_variables<'v>(
+        &'v self,
+        actual: &'v Self,
+    ) -> Result<impl Iterator<Item = (PlanningVariableRef<'s>, &'v E)> + 'v, SolutionTrackingError>
+    {
+        self.validate_comparison(actual)?;
+        Ok(self
+            .fields
+            .iter()
+            .zip(&actual.fields)
+            .flat_map(|((field, before), (_, after))| {
+                ChangedValues::new(before, after).map(move |(key, _, _)| (*field, key))
+            }))
+    }
+    /// Number of changed registered field/entity pairs, without diagnostic strings
+    /// or key allocations. Lists count once per changed list field, not per value.
+    /// Register only genuine fields when using this as planning mutation distance.
+    pub fn mutation_count(&self, actual: &Self) -> Result<usize, SolutionTrackingError> {
+        Ok(self.changed_variables(actual)?.count())
+    }
     /// Compare exact typed values, not their formatted labels. Missing entities
     /// are distinct from present entities with an unassigned (null) variable.
     pub fn differences(
         &self,
         actual: &Self,
     ) -> Result<Vec<VariableValueViolation<'s, E>>, SolutionTrackingError> {
-        if !Rc::ptr_eq(&self.identity, &actual.identity) || self.fields.len() != actual.fields.len()
-        {
-            return Err(SolutionTrackingError::ForeignSnapshot);
-        }
-        let mut out = vec![];
-        for ((variable, expected), (other, actual)) in self.fields.iter().zip(&actual.fields) {
-            if variable != other {
-                return Err(SolutionTrackingError::ForeignSnapshot);
-            }
-            for key in expected
-                .keys()
-                .chain(actual.keys())
-                .collect::<BTreeSet<_>>()
-            {
-                let a = expected.get(key);
-                let b = actual.get(key);
-                if matches!((a,b),(Some(a),Some(b)) if (a.equal)(a.value.as_ref(),b.value.as_ref()))
-                {
-                    continue;
-                }
-                out.push(VariableValueViolation {
-                    variable: *variable,
-                    entity: key.clone(),
-                    expected: a.map_or_else(|| "<missing entity>".into(), |v| v.text.clone()),
-                    actual: b.map_or_else(|| "<missing entity>".into(), |v| v.text.clone()),
-                });
-            }
-        }
-        Ok(out)
+        self.validate_comparison(actual)?;
+        Ok(self
+            .fields
+            .iter()
+            .zip(&actual.fields)
+            .flat_map(|((variable, expected), (_, actual))| {
+                ChangedValues::new(expected, actual).map(move |(key, a, b)| {
+                    VariableValueViolation {
+                        variable: *variable,
+                        entity: key.clone(),
+                        expected: a.map_or_else(|| "<missing entity>".into(), |v| v.text.clone()),
+                        actual: b.map_or_else(|| "<missing entity>".into(), |v| v.text.clone()),
+                    }
+                })
+            })
+            .collect())
     }
 }
 #[derive(Clone, Debug, Eq, PartialEq)]

@@ -5945,3 +5945,28 @@ list256optional0.03222/0.00856,list2048required0.20856/0.01250,
 list2048optional6.35586/0.06987. Exact statistics return additional metadata;
 these are distinct queries, not equal-work solver or Java speedups. Raw samples,
 source/probe/binary hashes:work/assignment-scale-performance.json.
+
+## Typed snapshot access and mutation counts
+
+Seven complete source cases are added: four AllVariablesAssertTest snapshot/access
+and changed-variable cases, plus MutationCounterTest's none/some/all cases. Typed
+snapshot views expose captured field handles, stable entity keys and immutable
+Option/Vec values. Native registered fields replace Java descriptors; provenance
+records the generators and mappings. The extended-entity descriptor counting case
+remains pending; no Java inheritance/reflection compatibility is claimed.
+
+`changed_variables()` borrows changed field/entity keys; `mutation_count()` counts
+those pairs without formatting diagnostics or cloning keys. Register genuine fields
+only for planning mutation distance. A changed list counts once, and a missing
+entity differs from a present null value. Comparisons retain registration order,
+then entity-key order. `differences()` now merges the ordered maps directly instead
+of allocating a key set and repeatedly looking up each key. Existing diagnostic
+strings and validation remain covered by their original tests.
+
+The release before/after probe (baseline d99cb68) excludes capture/setup and uses
+three alternating process pairs, three warmups and five samples of twenty calls.
+Matched change counts; correctness tests separately cover full diagnostic contents.
+Median milliseconds old/new:100entities/10changes0.00516/0.00176;
+10000entities/100changes1.16482/0.12367;10000entities/10000changes1.92727/0.75929.
+This measures snapshot diagnostics, not Java or end-to-end solving. Raw samples and
+source/binary/probe hashes:work/snapshot-comparison-performance.json.

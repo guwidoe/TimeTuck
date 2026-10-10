@@ -22447,3 +22447,40 @@ Read-only reconnaissance: DynamicIntArray20 cases are still pending; no native n
 for that standalone utility was established. TerminationConfig6 includes unit-field
 getter semantics unlike native Duration profiles; AcceptorFactory6 includes Java
 class identity/preview gating. Do not reopen those just for easy coverage credits.
+
+## Typed snapshot access and linear comparison (baseline d99cb68)
+
+Previous turn made committed/verified assignment-scale progress. This batch adds
+SolutionSnapshot::get<V> returning SnapshotValue metadata/key/typed borrowed value,
+changed_variables borrowing keys, and mutation_count without diagnostic allocation.
+A private merge iterator replaces the old temporary BTreeSet and repeated map lookups
+inside differences too. Comparisons preserve field registration/key order, typed
+value equality, missing-versus-null distinction and foreign snapshot rejection.
+
+Seven source cases+two generator fixtures recorded: AllVariablesAssertTest's four
+cases and MutationCounterTest none/some/all. Snapshot getters use Option<V>/Vec<V>.
+Stable integer entity/value identities replace Java objects/descriptors. The extended
+mutation case counts inherited descriptors repeatedly (79 instead of unique native
+fields); keep it pending, do not manufacture duplicate native fields for credit.
+PhaseLifecycleTest requires step-start/end listener registration/removal; native
+SolverEvent currently exposes phase/solution notifications, so it remains pending.
+No upstream production read. Reused existing SolutionTracker machinery.
+
+Focus89169 TERMINAL0:3new originals+7adapted+10existing tracker tests pass.
+Release8775 TERMINAL0 (22.07s build): baseline/current native differences probe,
+3alternatingprocesspairs,3warmups+5samplesof20comparisons,setup/captureexcluded.
+After/before wall ratios.341(100entities/10changes),.106(10000/100),.394(10000/10000).
+Benchmark verifies changed counts; correctness checks cover diagnostic contents.
+Not Java/solver speed claims. Raw work/snapshot-comparison-performance.json, pair
+CSV files, probe and before/after binaries preserve hashes and all samples.
+
+Final44850 TERMINAL0: Clippy29.51s, compile18.02s,5Rust RUN,769Rust/46Python
+REUSE;5589Rust tests+252doctests pass. Coverage3203/4855=65.973%,0failed,
+1370pending,282excluded,0unverified. Source
+ a5dd3884dd16fd776a79f2f78b450b9a76831c941f2f0695fe217fc84f674492;
+verification27eff5ecc0194f49fb25cc712e87ea256359f7205514954e6b23cc31671cf537.
+Report/live verification freshness matched; Java/list measurement remains stale.
+Benchmark source/probe/binary hashes unchanged after gate. No Rust edits afterward;
+no browser/Java benchmark rerun. Logs work/snapshot-comparison-{prebuild,final-check}.log;
+evidence work/snapshot-comparison-evidence.json. Goal active/incomplete.
+Do not rerun this successful evidence solely for the next turn/commit.

@@ -48054,6 +48054,111 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every source assertion, parameter row, numeric input, loop bound, rounding and floating tolerance with independent native combinatorics APIs. Result errors replace Java exceptions; factorial diagnostic strings are retained. For arrangement checks, exhaustive insertion of successive distinct values into ordered owner lists independently replaces the upstream permutation-and-deduplication helper; the 100000 fixed-point precision and rounded power-of-two comparison are retained. No production implementation or upstream permutation helper is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "AllVariablesAssertTest.testSnapshotBasicVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/AllVariablesAssertTest.java",
+      "upstream_test": "testSnapshotBasicVariables",
+      "local_test": "snapshot_basic_variables",
+      "modifications": "Preserve all original before/after variable assignments, snapshot variable/entity/value assertions and changed-variable membership. Native PlanningSchema field handles replace descriptors, stable integer entity keys replace entity objects, and integer value identities replace generated value objects. Typed Option/Vec snapshot access replaces Java Object getters; ascending native changed-key order strengthens the source any-order membership assertion. Scalar generator remains initialized round-robin; list generator remains nine values across three owners round-robin. No JVM descriptor or reflection equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "AllVariablesAssertTest.testSnapshotListVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/AllVariablesAssertTest.java",
+      "upstream_test": "testSnapshotListVariables",
+      "local_test": "snapshot_list_variables",
+      "modifications": "Preserve all original before/after variable assignments, snapshot variable/entity/value assertions and changed-variable membership. Native PlanningSchema field handles replace descriptors, stable integer entity keys replace entity objects, and integer value identities replace generated value objects. Typed Option/Vec snapshot access replaces Java Object getters; ascending native changed-key order strengthens the source any-order membership assertion. Scalar generator remains initialized round-robin; list generator remains nine values across three owners round-robin. No JVM descriptor or reflection equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "AllVariablesAssertTest.testSnapshotDiffBasicVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/AllVariablesAssertTest.java",
+      "upstream_test": "testSnapshotDiffBasicVariables",
+      "local_test": "snapshot_diff_basic_variables",
+      "modifications": "Preserve all original before/after variable assignments, snapshot variable/entity/value assertions and changed-variable membership. Native PlanningSchema field handles replace descriptors, stable integer entity keys replace entity objects, and integer value identities replace generated value objects. Typed Option/Vec snapshot access replaces Java Object getters; ascending native changed-key order strengthens the source any-order membership assertion. Scalar generator remains initialized round-robin; list generator remains nine values across three owners round-robin. No JVM descriptor or reflection equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "AllVariablesAssertTest.testSnapshotDiffListVariables",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/AllVariablesAssertTest.java",
+      "upstream_test": "testSnapshotDiffListVariables",
+      "local_test": "snapshot_diff_list_variables",
+      "modifications": "Preserve all original before/after variable assignments, snapshot variable/entity/value assertions and changed-variable membership. Native PlanningSchema field handles replace descriptors, stable integer entity keys replace entity objects, and integer value identities replace generated value objects. Typed Option/Vec snapshot access replaces Java Object getters; ascending native changed-key order strengthens the source any-order membership assertion. Scalar generator remains initialized round-robin; list generator remains nine values across three owners round-robin. No JVM descriptor or reflection equivalence is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "MutationCounterTest.countMutationsNone",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/mutation/MutationCounterTest.java",
+      "upstream_test": "countMutationsNone",
+      "local_test": "count_mutations_none",
+      "modifications": "Preserve the four a/b/c/d entities, original assignments [1,1,3,3], all target assignments and exact mutation counts 0/2/4. Stable integer entity keys and values replace named Java objects, and registered genuine scalar-field snapshot comparison replaces descriptor-driven MutationCounter. Inherited descriptor double-counting from the separate extended-entity case is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "MutationCounterTest.countMutationsSome",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/mutation/MutationCounterTest.java",
+      "upstream_test": "countMutationsSome",
+      "local_test": "count_mutations_some",
+      "modifications": "Preserve the four a/b/c/d entities, original assignments [1,1,3,3], all target assignments and exact mutation counts 0/2/4. Stable integer entity keys and values replace named Java objects, and registered genuine scalar-field snapshot comparison replaces descriptor-driven MutationCounter. Inherited descriptor double-counting from the separate extended-entity case is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "MutationCounterTest.countMutationsAll",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/mutation/MutationCounterTest.java",
+      "upstream_test": "countMutationsAll",
+      "local_test": "count_mutations_all",
+      "modifications": "Preserve the four a/b/c/d entities, original assignments [1,1,3,3], all target assignments and exact mutation counts 0/2/4. Stable integer entity keys and values replace named Java objects, and registered genuine scalar-field snapshot comparison replaces descriptor-driven MutationCounter. Inherited descriptor double-counting from the separate extended-entity case is not claimed."
     }
   ],
   "fixtures": [
@@ -64917,6 +65022,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
       "upstream_test": "valueList and entityList properties",
       "modifications": "Native ListProblem and returned SolverResult replace the solution container, list value range and score property. Five owners and 25 values retain source encounter order. Unused generator/meta-model/descriptor helpers are omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "TestdataSolution.snapshot_access",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int, int)",
+      "modifications": "Retain three initialized scalar entities with values selected round-robin from three values; integer keys/values replace generated object names and typed schema replaces annotations. No unrelated factory/reflection behavior copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/snapshot_access_cases.rs",
+      "id": "TestdataListSolution.snapshot_access",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateInitializedSolution and initialize",
+      "modifications": "Retain nine distinct values distributed round-robin into three owner lists. BTreeMap and Vec replace solution/entity/value objects. These snapshot assertions inspect genuine lists only; the fixture shadow-variable update is not reproduced or credited."
     }
   ]
 }
