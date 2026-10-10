@@ -21378,3 +21378,39 @@ baseline only after this gate proves its source correspondence; no baseline rebu
 is needed then. Add removal/reassignment, unequal sublists, cyclic composite, pinned
 and payload-sensitive scoring regressions, and compare full solves. This next edit
 has NOT been made to current source; completed gate12828 covers the measured state.
+
+## Reuse known list positions (verified)
+
+Baseline8190aec; previous turn made progress (mixed undo optimization committed).
+Verified exact baseline source and binary hashes from mixed-journal-performance;
+reused its after executable as work/stream-position-before without rebuilding.
+List/mixed stream update loops retain positions from touched rows, removing full
+assignment lookups for each affected value. New private list_value_position helper
+constructs registry payload/actual neighbors directly. Unobserved bound rows still
+update. Two original integration regressions plus one helper unit test; no upstream
+method credit. Focused21634 TERMINAL0:18tests, compile5.78s. Includes existing
+randomized/clone-failure rollback cases. No Rust changes after measurement.
+
+Release build/paired measurement6549 TERMINAL0; release build28.62s. Four full
+mixed stream solves,32/96values,change/swap,12stepcap,3alternating forks,1warmup3timed
+samples each. Independent full scores/completeness and exact result identities
+match. Median process CPU reductions7.0%,5.8%,5.2%,9.2%. Before/after ms/solve:
+96.163/91.409;88.839/83.823;2166.771/2096.020;2180.828/1972.058. CPU includes warmup,
+setup and validation. Native mixed-stream workloads only; no Java performance claim.
+Raw work/stream-position-performance.json; baseline work/stream-position-baseline.json.
+
+Final gate57193 and evidence16941 TERMINAL0. Fmt/Clippy pass(29.08s), affected-target
+prebuild2m30s. 559Rust jobs ran;196Rust and46Python jobs reused. All5469Rust tests and
+250doctests pass. Coverage3169/4855=65.273%,0failed,1404pending,282excluded,0unverified.
+Report/live freshness matches, and exact measured-source/executable hashes match.
+Source:a426503b1ca2d06e3155747213d1b884c2cc000853582f8629dd93b6958e5043
+Verification:6d88a1049f7f117366fc0b3f76d16d9ecf0406bc3824b42268eb83d4255895b1
+Logs work/stream-position-{prebuild,final-check}.log; evidence
+work/stream-position-evidence.json. Older Java/list measurements remain stale.
+No additional benchmark/browser run. No Rust changes after measurement or gate.
+Goal active/incomplete.
+
+Read-only follow-up checked DefaultPhaseCommandContextTest again; its four cases
+remain unsuitable for direct adaptation because exact callback/score-call-count
+contracts differ from native evaluate_inspected (already recorded earlier here).
+Do not repeat that investigation or add duplicate custom-phase implementation.

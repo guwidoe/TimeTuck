@@ -201,6 +201,7 @@ pub use snapshot_map::SnapshotMap;
 
 mod list_search_scoring;
 pub mod list_stream_scoring;
+mod list_value_position;
 pub use list_stream_scoring::{
     ListStreamScoreDirector, ListStreamScoredMove, ListStreamScoringError, ListStreamSources,
     ListValueRow, greedy_list_stream_construction, greedy_list_stream_construction_from,

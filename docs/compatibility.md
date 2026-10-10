@@ -5302,3 +5302,39 @@ or a comparison against Java. Raw samples, source hashes, executable/harness
 identities and per-fork values are in `work/mixed-journal-performance.json`;
 `work/mixed-journal-baseline.json` records the untouched baseline build. Earlier
 candidate measurements remain separately archived; the table is the revised source.
+
+## Reusing list positions during stream updates
+
+List and mixed stream directors now retain the position found while inspecting
+changed lists and build owner/index/neighbor metadata from that position. This
+removes a second full-assignment identity search for each affected value. Values
+removed from all changed lists receive an unassigned row. All affected registered
+rows still update, including sources without scoring consumers. Registry payloads
+remain distinct from actual neighbor payloads, and entity/value delivery order,
+move semantics and rollback are unchanged.
+
+Three original regressions cover payload-sensitive metadata, removal/reassignment,
+unequal reversed sublists, composites, pinned/untouched values, unobserved sources,
+commit and undo in both directors. Existing randomized and clone-failure stream
+regressions also pass. This optimization earns no upstream method credit.
+
+Paired full mixed stream solves use the same original route probe as the previous
+section, comparing baseline `8190aec` with this candidate. The baseline executable
+is reused after verifying its recorded source and binary hashes. Three alternating
+fresh-process pairs each run one warmup and three timed solves. Every result is
+independently rescored, and both versions produce identical final assignments,
+scores, evaluation counts, completed steps and constraint-call counts.
+
+| Values | Moves | Before ms/solve | After ms/solve | Process CPU change |
+| ---: | --- | ---: | ---: | ---: |
+| 32 | change | 96.163 | 91.409 | -7.0% |
+| 32 | swap | 88.839 | 83.823 | -5.8% |
+| 96 | change | 2166.771 | 2096.020 | -5.2% |
+| 96 | swap | 2180.828 | 1972.058 | -9.2% |
+
+Timed solves include director initialization and search. Process CPU also includes
+warmup, model/graph setup and independent validation. These four native workloads
+use 5–9% less median process CPU; this is not a Java comparison or a claim about
+all list workloads. Source/executable hashes, raw samples and per-fork values are
+recorded in `work/stream-position-performance.json`. Earlier Java measurements
+remain stale until deliberately rerun.

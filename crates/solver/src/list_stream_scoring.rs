@@ -212,13 +212,24 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             )?;
         }
         for (i, value) in self.problem.values().iter().enumerate() {
-            if touched.iter().any(|&entity| {
-                assignment.original_list(entity).unwrap().contains(value)
-                    || assignment.lists()[entity].contains(value)
-            }) {
+            let position = touched.iter().find_map(|&entity| {
+                assignment.lists()[entity]
+                    .iter()
+                    .position(|v| v == value)
+                    .map(|index| ListPosition { entity, index })
+            });
+            // A value formerly in a touched row cannot move to an untouched row.
+            if position.is_some()
+                || touched
+                    .iter()
+                    .any(|&entity| assignment.original_list(entity).unwrap().contains(value))
+            {
                 updates.push(
                     &self.sources.values,
-                    TupleChange::put(i, ListValueRow::from_assignment(i, value, &assignment)),
+                    TupleChange::put(
+                        i,
+                        ListValueRow::from_known_position(i, value, &assignment, position),
+                    ),
                 )?;
             }
         }

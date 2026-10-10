@@ -215,13 +215,24 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             )?;
         }
         for (i, v) in self.problem.lists().values().iter().enumerate() {
-            if touched.iter().any(|&entity| {
-                assignment.lists().lists()[entity].contains(v)
-                    || assignment.original_list(entity).unwrap().contains(v)
-            }) {
+            let position = touched.iter().find_map(|&entity| {
+                assignment.lists().lists()[entity]
+                    .iter()
+                    .position(|value| value == v)
+                    .map(|index| crate::ListPosition { entity, index })
+            });
+            // Absent from all touched rows now means removed, not moved elsewhere.
+            if position.is_some()
+                || touched
+                    .iter()
+                    .any(|&entity| assignment.original_list(entity).unwrap().contains(v))
+            {
                 updates.push(
                     &self.sources.lists.values,
-                    TupleChange::put(i, ListValueRow::from_assignment(i, v, assignment.lists())),
+                    TupleChange::put(
+                        i,
+                        ListValueRow::from_known_position(i, v, assignment.lists(), position),
+                    ),
                 )?;
             }
         }
