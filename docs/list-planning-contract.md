@@ -62,6 +62,15 @@ dependency-cycle checks remain global. List and mixed scoring directors retain
 validated assignments between moves and omit repeated entry validation; public
 move application and calculator resets continue to validate external input fully.
 
+Structural dependency checks use a cycle-only traversal, shared by assignment
+validation and borrowed move checks. The immutable dependency plan stores reverse
+fixed edges once; each check overlays dynamic predecessor edges and removes ready
+nodes. Remaining nodes are exactly cycles and their downstream dependents, reported
+in registry order and filtered to assigned values. Missing intermediate values
+still participate in the graph. Checks do not evaluate derived values or construct
+a result map. This trades additional O(nodes + fixed edges) plan storage for less
+work per candidate; public derived-value evaluation retains its callback ordering.
+
 Thirty-four adapted upstream methods preserve assertions in five assign,
 six swap, nine change, two span-unassign, seven sublist-change and five sublist-swap methods. See `compat/provenance.json`.
 The shared modulo-distribution fixture is attributed separately. Two sublist-change

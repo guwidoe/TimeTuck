@@ -21829,3 +21829,44 @@ Verification 65e98b498c5fde81151ca883f8df194036ed2a5eda859a1440d7c7b63c5edbd8
 Live/report freshness matches; older list performance remains stale. Final logs
 work/repartition-borrowed-{prebuild,final-check}.log; evidence JSON. No Rust change
 after the gate; reuse this evidence. No benchmark/browser rerun. Goal active/incomplete.
+
+
+## Cycle-only list dependency validation
+
+Baseline fbd63db. Previous goal turn made progress by identifying/removing the
+unfinished duplicate provider adapter, restoring verified sources. That draft is
+preserved under work/redundant-provider-adapters-draft; existing
+selection_filters::FilteredMoveProvider already supplies scan/output limits and
+lifecycle/construction forwarding. Do not restart the duplicate implementation.
+
+DependencyGraph now caches reverse fixed edges and has a private inconsistent_nodes
+traversal. Dynamic edges use a compact linked adjacency overlay; counted duplicates
+release symmetrically. Ready-node elimination leaves cycles and downstream nodes,
+sorted by key, without evaluating callbacks or building derived-value maps.
+List assignment validation and borrowed candidate checks use it, then retain only
+assigned nodes. Missing intermediate nodes still participate. Public evaluate and
+callback order are unchanged. Additional plan memory is O(nodes + fixed edges).
+
+Focused53389 TERMINAL0:22 tests, including3 new original graph regressions covering
+12,800 combinations of acyclic fixed / arbitrary dynamic three-node graphs with
+duplicates, arbitrary-key errors/order, recovery and20,000-node chains. Existing
+list/mixed dependency, repair and solver tests pass. No upstream reads/credits.
+
+Before83614 TERMINAL0; after release/measurement96238 TERMINAL0. Release31.27s.
+Original work/dependency_cycle_probe.rs:4routes,32/96values,6steps,change/swap,
+scoped/stream,sparse/denser fixed dependencies. Three alternating process pairs,
+1warmup3timed solves each. Assignments/hashes,scores,evaluations,steps,constraint
+counts match; independent full rescoring/model validation outside timing.
+Median process CPU58–77% lower scoped,37–68% lower stream; timed wall55–77% and
+35–71% lower respectively. Bounded native workloads, no general/Java speed claim.
+All measured source hashes still match. Evidence work/dependency-cycle-performance.json.
+
+Final prebuild/check/evidence1316 TERMINAL0. Clippy22.60s;642target compile4m27s.
+642Rust jobs ran,120Rust/46Python reused. 5514Rust tests and251doctests pass.
+Coverage3185/4855=65.602%,0failed,1388pending,282excluded,0unverified.
+Source 354feb5383d5595a24884f102cf88da2624992d47fe36ee74a040c8573b709d1
+Verification 48f50d0379107926207e2f4a406f998c077c08904b8659e0247ad6e253696461
+Live/report freshness matches. Older Java list performance remains stale. Evidence
+work/dependency-cycle-evidence.json; logs work/dependency-cycle-{prebuild,final-check}.log.
+No Rust changes after gate; reuse this evidence. No browser/Java benchmark rerun.
+Goal remains active/incomplete.

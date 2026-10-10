@@ -5575,3 +5575,30 @@ specific native workloads, not a Java speed comparison or a general speedup clai
 Evidence: `work/sublist-borrowed-performance.json` and its original harness
 `work/sublist_borrowed_probe.rs`; the previous Java dashboard measurements are
 not rerun for this batch.
+
+## Cycle-only structural dependency validation
+
+List assignment validation and borrowed candidate checks now use dependency
+reachability without evaluating derived values. Immutable reverse fixed edges
+are stored once; dynamic edges use a compact adjacency overlay. Removing ready
+nodes leaves cycle members and their downstream dependents, in registry order.
+Assigned-value filtering still happens after traversal, so missing intermediate
+values do not hide cycles. Derived-value callbacks and their ordering are unchanged.
+Three original regressions cover every three-node dynamic graph combined with all
+acyclic fixed graphs, duplicated edges, ordered diagnostics for arbitrary keys,
+empty graphs, recovery, and 20,000-node chains. Existing list and mixed dependency
+regressions cover initialization, pins, repair, and solver integration. No upstream
+method credits or new Java-equivalence claims are added.
+
+Against native baseline `fbd63db`, eight complete list-search workloads use four
+routes, 32/96 values, six steps, change/swap moves, scoped/stream scoring, and sparse
+or denser fixed dependencies. Three alternating process pairs each run one warmup
+and three timed solves. Final assignment hashes, scores, evaluation counts, step
+counts and constraint counts match; results also pass full rescoring and model
+validation. Median process CPU falls 58–77% with scoped scoring and 37–68% with
+stream scoring. Median timed-solve wall time falls 55–77% and 35–71%, respectively.
+Process CPU includes setup, warmup and validation; timed solves exclude model/graph
+construction. These are bounded native workloads, not a general or Java speedup.
+Cached reverse edges require additional O(nodes + fixed edges) model storage.
+Evidence: `work/dependency-cycle-performance.json` and the original harness
+`work/dependency_cycle_probe.rs`. Existing Java dashboard timings remain stale.

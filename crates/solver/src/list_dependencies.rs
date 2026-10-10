@@ -67,15 +67,12 @@ impl<V: Eq + Clone> ListProblem<V> {
                     .map(|pair| (index(&pair[1]), index(&pair[0])))
             })
             .collect();
-        let state = graph
-            .evaluate(&dynamic, |_, _| Some(()))
+        let inconsistent = graph
+            .inconsistent_nodes(&dynamic)
             .map_err(ListError::Dependency)?;
-        Ok(state
+        Ok(inconsistent
             .into_iter()
-            .filter_map(|(i, derived)| {
-                (derived.inconsistent && assignment.location(&self.values()[i]).is_some())
-                    .then_some(i)
-            })
+            .filter(|&i| assignment.location(&self.values()[i]).is_some())
             .collect())
     }
 

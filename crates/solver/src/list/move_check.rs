@@ -592,13 +592,10 @@ impl<'a, V: Eq + Clone> CandidateRows<'a, V> {
                     previous = Some(id);
                 }
             }
-            let state = graph
-                .evaluate(&dynamic, |_, _| Some(()))
+            let inconsistent = graph
+                .inconsistent_nodes(&dynamic)
                 .map_err(ListError::Dependency)?;
-            let values: Vec<_> = state
-                .into_iter()
-                .filter_map(|(i, derived)| (derived.inconsistent && assigned[i]).then_some(i))
-                .collect();
+            let values: Vec<_> = inconsistent.into_iter().filter(|&i| assigned[i]).collect();
             if !values.is_empty() {
                 return Err(ListError::DependencyCycle { values });
             }

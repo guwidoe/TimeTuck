@@ -69,6 +69,7 @@ pub struct DependencyGraph<K> {
     keys: Vec<K>,
     index: BTreeMap<K, usize>,
     fixed: Vec<Vec<usize>>,
+    fixed_dependents: Vec<Vec<usize>>,
 }
 impl<K: Ord + Clone> DependencyGraph<K> {
     pub fn new(nodes: impl IntoIterator<Item = (K, Vec<K>)>) -> Result<Self, DependencyError<K>> {
@@ -107,10 +108,80 @@ impl<K: Ord + Clone> DependencyGraph<K> {
                 cycles.into_iter().map(|i| keys[i].clone()).collect(),
             ));
         }
-        Ok(Self { keys, index, fixed })
+        let mut fixed_dependents = vec![vec![]; keys.len()];
+        for (node, dependencies) in fixed.iter().enumerate() {
+            for &dependency in dependencies {
+                fixed_dependents[dependency].push(node);
+            }
+        }
+        Ok(Self {
+            keys,
+            index,
+            fixed,
+            fixed_dependents,
+        })
     }
     pub fn keys(&self) -> &[K] {
         &self.keys
+    }
+
+    /// Cycle members and their downstream dependents in key order, without
+    /// evaluating or allocating derived values. Used by structural validation.
+    /// Duplicate edges contribute matching counts and releases, including edges
+    /// already in the fixed graph; deduplicating them is unnecessary here.
+    pub(crate) fn inconsistent_nodes(
+        &self,
+        dynamic: &[(K, K)],
+    ) -> Result<Vec<K>, DependencyError<K>> {
+        let mut pending: Vec<_> = self.fixed.iter().map(Vec::len).collect();
+        // An adjacency overlay with one allocation for all dynamic edges.
+        let mut heads = vec![usize::MAX; self.keys.len()];
+        let mut links = Vec::with_capacity(dynamic.len());
+        for (node, dependency) in dynamic {
+            let &i = self
+                .index
+                .get(node)
+                .ok_or_else(|| DependencyError::UnknownNode(node.clone()))?;
+            let &j =
+                self.index
+                    .get(dependency)
+                    .ok_or_else(|| DependencyError::UnknownDependency {
+                        node: node.clone(),
+                        dependency: dependency.clone(),
+                    })?;
+            pending[i] += 1;
+            links.push((i, heads[j]));
+            heads[j] = links.len() - 1;
+        }
+        let mut ready: Vec<_> = pending
+            .iter()
+            .enumerate()
+            .filter_map(|(i, &count)| (count == 0).then_some(i))
+            .collect();
+        while let Some(i) = ready.pop() {
+            let mut release = |j: usize| {
+                pending[j] -= 1;
+                if pending[j] == 0 {
+                    ready.push(j);
+                }
+            };
+            for &j in &self.fixed_dependents[i] {
+                release(j);
+            }
+            let mut edge = heads[i];
+            while edge != usize::MAX {
+                let (j, next) = links[edge];
+                release(j);
+                edge = next;
+            }
+        }
+        Ok(self
+            .keys
+            .iter()
+            .zip(pending)
+            .filter(|(_, count)| *count != 0)
+            .map(|(key, _)| key.clone())
+            .collect())
     }
     /// Evaluate explicitly aligned variables as one shared computation.
     ///
@@ -338,4 +409,112 @@ fn cycle_members(edges: &[Vec<usize>]) -> Vec<usize> {
         .collect();
     cycles.sort_unstable();
     cycles
+}
+
+#[cfg(test)]
+mod cycle_check_tests {
+    use super::*;
+
+    #[test]
+    fn cycle_only_checks_match_reachability_for_all_three_node_graph_pairs() {
+        fn edges(mask: usize) -> Vec<(usize, usize)> {
+            (0..3)
+                .flat_map(|i| {
+                    (0..3).filter_map(move |j| (mask & (1 << (3 * i + j)) != 0).then_some((i, j)))
+                })
+                .collect()
+        }
+        for fixed_mask in 0..512 {
+            let fixed = edges(fixed_mask);
+            let Ok(graph) = DependencyGraph::new((0..3).map(|i| {
+                (
+                    i,
+                    fixed
+                        .iter()
+                        .filter_map(|&(a, b)| (a == i).then_some(b))
+                        .collect(),
+                )
+            })) else {
+                continue;
+            };
+            for dynamic_mask in 0..512 {
+                let mut dynamic = edges(dynamic_mask);
+                let mut reach = [[false; 3]; 3];
+                for &(a, b) in fixed.iter().chain(&dynamic) {
+                    reach[a][b] = true;
+                }
+                for k in 0..3 {
+                    for i in 0..3 {
+                        for j in 0..3 {
+                            reach[i][j] |= reach[i][k] && reach[k][j];
+                        }
+                    }
+                }
+                let expected: Vec<_> = (0..3)
+                    .filter(|&i| (0..3).any(|c| reach[c][c] && (i == c || reach[i][c])))
+                    .collect();
+                // Duplicate both dynamic and fixed edges, and reverse their order.
+                dynamic.extend(dynamic.clone());
+                dynamic.extend(&fixed);
+                dynamic.reverse();
+                assert_eq!(
+                    graph.inconsistent_nodes(&dynamic).unwrap(),
+                    expected,
+                    "fixed {fixed_mask}, dynamic {dynamic_mask}"
+                );
+            }
+            assert!(graph.inconsistent_nodes(&[]).unwrap().is_empty());
+        }
+    }
+
+    #[test]
+    fn cycle_only_errors_and_sorted_results_preserve_arbitrary_keys() {
+        let graph = DependencyGraph::new([
+            ("z", vec!["b"]),
+            ("b", vec!["a"]),
+            ("a", vec![]),
+            ("free", vec![]),
+        ])
+        .unwrap();
+        for dynamic in [
+            vec![("a", "b"), ("missing", "also missing")],
+            vec![("a", "b"), ("b", "missing")],
+        ] {
+            assert_eq!(
+                graph.inconsistent_nodes(&dynamic).unwrap_err(),
+                graph.evaluate(&dynamic, |_, _| Some(())).unwrap_err()
+            );
+        }
+        assert_eq!(
+            graph.inconsistent_nodes(&[("a", "b")]).unwrap(),
+            ["a", "b", "z"]
+        );
+        assert!(graph.inconsistent_nodes(&[]).unwrap().is_empty());
+        assert!(
+            DependencyGraph::<usize>::new([])
+                .unwrap()
+                .inconsistent_nodes(&[])
+                .unwrap()
+                .is_empty()
+        );
+    }
+
+    #[test]
+    fn cycle_only_checks_handle_long_chains_and_repeated_fixed_edges() {
+        let graph = DependencyGraph::new(
+            (0..20_000).map(|i| (i, if i == 0 { vec![] } else { vec![i - 1] })),
+        )
+        .unwrap();
+        assert!(
+            graph
+                .inconsistent_nodes(&[(19_999, 0), (19_999, 0), (1, 0)])
+                .unwrap()
+                .is_empty()
+        );
+        assert_eq!(
+            graph.inconsistent_nodes(&[(0, 19_999)]).unwrap(),
+            (0..20_000).collect::<Vec<_>>()
+        );
+        assert!(graph.inconsistent_nodes(&[]).unwrap().is_empty());
+    }
 }
