@@ -2071,6 +2071,25 @@ and actual list/mixed solves. Ten pinned upstream proposal sequences are retaine
 as attributed partial fixtures; selector cardinality, unbounded metadata and
 lifecycle remain outside these iterators, so those fixtures earn no method credit.
 
+`EntitySubListSource::repeating` and `repeating_with_draw` add opt-in productive
+repetition to the composable source API. Their nonzero read limit applies to each
+requested span, including its successful entity read. A success resets the next
+request's budget; child exhaustion or a full run of rejected entities fuses the
+opening. Reopening rebuilds span coordinates and resets the read budget while
+continuing random state. The ordinary constructors retain a total read budget.
+Never-ending metadata is inherited from the repeating child and describes a
+capability; rejected or exhausted children can still end an opening.
+
+Ten separate complete adaptations exercise the composable change/swap sources:
+ordered proposal strings, catalog cardinalities where asserted, continued
+iteration, metadata and requested random bounds. Their fixture/provenance records
+include optional values, reversal, span bounds and short-entity rejection.
+Scripted owner indices replace Java value anchors, and a valid extra proposal
+replaces the source helper's `hasNext` check. Raw change proposal strings preserve
+the source's pre-removal coordinates; executable native moves still require
+coordinate conversion and validation. Java lifecycle methods and PRNG traces
+remain outside this coverage.
+
 ## Retained stream phases
 
 `StreamScoreDirector`, `ListStreamScoreDirector` and `MixedStreamScoreDirector`

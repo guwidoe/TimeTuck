@@ -24029,3 +24029,57 @@ baseline capture separate from retained best. Both local builds held until paren
 prebuild releases. All previous agent focused handles terminal. runner-c74801 TERMINAL
 255 SSH timeout; prior remote build state unknown, no duplicate restart. Goal
 active/incomplete; no blocker.
+
+
+Round17 VERIFIED; round18 four features integrated, combined gate running. This
+goal turn made progress. Round17 gate34337/recorder36615 TERMINAL0:
+6144Rust+270doctests,770RUN/104REUSE,46PythonREUSE;3318/4855(68.342%),
+1273pending264excluded0failed/unverified. Source d1badfd228bc4d56a7c587aaaaacf1d40291834ce865c1b8aa048a2113dc4fd1;
+verification50a83a11ac17d23061fff9b14033acea6ff809fe490f936a37d6fbbbd9c16928.
+work/parallel-round17-evidence.json; Java list measurements remain visibly stale.
+
+Round18 frozen Rustc75ab26/provenance6138689:
+d074912<-3345dfa explicit Start/Value/End open-path list reconnection;
+7275647<-1a60418 initialized-score goal progress and termination;
+1cfcfd8<-3f0b186 sparse retained winner snapshots basic/list/mixed scoped;
+c75ab26<-62a1ec0 repeating sublist sources +10complete source methods.
+Paths7tests+1doc;goals36focused(10new)+1doc;sparse18focused;
+repeating28focused+one corrected size4 assertion, all strict Clippy.
+All four final evidence sets copied/hash-checked under work/parallel-round18-evidence;
+stable patch IDs match; maps/review/freeze JSON retained. Repeating source audit
+read all10methods/helper assertions;10methods+10fixtures merged, expected3328
+after gate. Native-only features do not add source credit.
+
+Sparse performance15workloads270samples, samerunner-a actual retained one-step
+solves including initialization/restoration: large4096 sparse1.67-3.69x faster,
+tied peakheap~11.3x lower, tiny8cases2-4%slower(+501/600/659ns),densemixed1.16%
+slower(+13336ns);denseheap+512/512/1024B. Distinct target directories both actually
+compiled, binaries/library hashes retained. No Java/full-solver claim.
+
+38974 LIVE: stable launcher prebuild_parallel_round18.py then scripts/check.sh;
+fmt/Clippy PASS,781affected targets compiling/100unchanged reused. Logs
+work/parallel-round18-{prebuild,final-check}.log. After terminal0 run
+work/record_parallel_round18.py through stable launcher (prepared,NOT RUN).
+Do not change main Rust/provenance before gate+recorder. Docs-only contract edits
+are allowed; no Java benchmark/browser rerun needed.
+
+Three Astra/high agents continue. Dense branchcodex/retained-trial-validation
+from3f0b186 reuses transaction-local changed-value positions for scoped facts;
+runner-a owned,8focusedtests passed, strictClippy/release/measurement pending.
+Parent reviewed draft unknown-vs-unassigned and independent diagnostic fallback.
+Baseline compiled library from prior sparse run reused only after checking every
+Cargo/crates input vsbase; distinct new current target. Dependency next lazy live
+ListValueSwapSource over two child streams; fourcomplete ListSwapMoveSelectorTest
+methods eligible, seeded implementation-dependent cases staypending. Local build
+waits termination. Termination branchcodex/exact-branch-order from7275647:
+Arc<BranchOrder> full variable/domain/listvalue/entity permutations for bounded
+phase APIs only; validated once before callbacks, borrowed during expansion.
+Parent reviewed validation/tree mapping; requested full independent dependency
+leaf set, now passed.23unique tests incl360route solves passed/reused; final
+23377 strictClippy passed, doctest finishing. Nodecount511->257 on explicit
+constrained-variable case,sameoptimum;no wallclock/sourcecredit claim. Neither
+next-batch feature is integrated; keep round18 frozen.
+
+runner-c79551 and8811 TERMINAL255 SSHtimeouts this turn. User will bringEFSonline;
+prior dropped remote build process status remains unknown, do not duplicate
+restart. Local+runner-a productive; goal active/incomplete, no overall blocker.
