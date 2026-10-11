@@ -248,31 +248,47 @@ fn resolve_with_diagnostics<K: Eq + Clone, W>(
     world: &W,
     mode: RefreshMode,
 ) -> Result<(ResolvedSources, Vec<ShadowSourceReference<K>>), ShadowSessionError> {
-    if let Some(resolved) = session.reuse_resolved_sources(&session.edges, mode) {
-        return Ok((resolved, vec![]));
-    }
+    let sparse = session.can_resolve_notified(&session.edges, mode);
     let mut missing = Vec::new();
-    let mut edges = session.edges.as_ref().clone();
-    let mut signatures = Vec::with_capacity(session.nodes.len());
-    for (index, node) in session.nodes.iter().enumerate() {
+    let mut edges = if sparse {
+        Default::default()
+    } else {
+        session.edges.as_ref().clone()
+    };
+    let mut signatures = Vec::new();
+    let indices: Box<dyn Iterator<Item = usize> + '_> = if sparse {
+        Box::new(
+            session
+                .pending
+                .iter()
+                .copied()
+                .filter(|&i| session.nodes[i].sources.is_some()),
+        )
+    } else {
+        Box::new(0..session.nodes.len())
+    };
+    for index in indices {
+        let node = &session.nodes[index];
         if !mode.includes(index, &session.pending) {
-            let signature = session.resolved.get(index).cloned().flatten();
+            let signature = session.bindings.signature(index).cloned();
             if let Some(sources) = &signature {
                 edges.extend(sources.iter().map(|&source| (index, source)));
             }
-            signatures.push(signature);
+            signatures.push((index, signature));
             continue;
         }
         let resolve = match &node.sources {
             Some(SourceResolver::Native(resolve)) => {
                 let signature = resolve(world)?;
-                edges.extend(signature.iter().map(|&source| (index, source)));
-                signatures.push(Some(signature));
+                if !sparse {
+                    edges.extend(signature.iter().map(|&source| (index, source)));
+                }
+                signatures.push((index, Some(signature)));
                 continue;
             }
             Some(SourceResolver::Paths(resolve)) => resolve,
             None => {
-                signatures.push(None);
+                signatures.push((index, None));
                 continue;
             }
         };
@@ -283,7 +299,9 @@ fn resolve_with_diagnostics<K: Eq + Clone, W>(
                 .iter()
                 .position(|n| n.variable == field && n.entity == entity)
             {
-                edges.insert((index, source));
+                if !sparse {
+                    edges.insert((index, source));
+                }
                 signature.push(source);
                 continue;
             }
@@ -303,7 +321,15 @@ fn resolve_with_diagnostics<K: Eq + Clone, W>(
                 missing.push(reference);
             }
         }
-        signatures.push(Some(signature));
+        signatures.push((index, Some(signature)));
     }
-    Ok((session.share_resolved_sources(edges, signatures), missing))
+    let resolved = if sparse {
+        session.prepare_binding_updates(signatures)
+    } else {
+        session.share_resolved_sources(
+            edges,
+            signatures.into_iter().map(|(_, value)| value).collect(),
+        )
+    };
+    Ok((resolved, missing))
 }
