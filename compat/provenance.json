@@ -50574,6 +50574,51 @@
       "upstream_test": "randomWithPinning",
       "local_test": "random_with_pinning",
       "modifications": "Preserve every ordered output code and complete fixture: values1/2/3/4, A[1,2] with pinned prefix1, fully pinned B[4] (the source B[] comment is stale), C[3], source cycle[2,1,4,3,3], destination cycle[C0,A2,A1,C0]. Native live children use actual repeating cycles as the invoked TestdataListUtils helpers do. Native SolveStarted/PhaseStarted events replace mock score-director/shadow initialization; full PlannerAssert assertions preserve ordered outputs, continuation and never-ending capability; no size is asserted by that helper. Typed Rust iterator is non-null by construction. Candidate metadata retains selected PRE-removal positions while actual moves normalize native POST-removal indices. Do not claim Java RNG, reflection, hasNext invocation-count or notification parity. Original actual solver/range/rollback tests remain uncredited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "BruteForceTest.solveBasicVariableNotAllowedUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BruteForceTest.java",
+      "upstream_test": "solveBasicVariableNotAllowedUnassigned",
+      "local_test": "solve_basic_variable_not_allowed_unassigned",
+      "modifications": "Two required entities/two values; clear initial values; preserve ordered-pair duplicate penalty, score0 and deterministic assignment value0/value1; assert every actual exhaustive StepStarted index<3 and correct phase kind. Additional native count3 and optimality prove nonvacuous observation. Native exact phase with unknown bounds exhaustively explores the tree; input-order depth-first scheduling replaces Java solver factory construction. No claim of equal Java/native step counts. No inheritance or parameter provider exists in this source class."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "BruteForceTest.solveListVariableNotAllowedUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BruteForceTest.java",
+      "upstream_test": "solveListVariableNotAllowedUnassigned",
+      "local_test": "solve_list_variable_not_allowed_unassigned",
+      "modifications": "Three required distinct list values/two initially empty entities; preserve source singleton reward2, other-row reward1; assert every actual exhaustive StepStarted index<25 and correct phase kind, then no unassigned values. Native membership is inverse-owner presence. Additional native count9, score3 and optimality. Native exact phase with unknown bounds exhaustively explores the tree; input-order depth-first scheduling replaces Java solver factory construction. No claim of equal Java/native step counts. No inheritance or parameter provider exists in this source class."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "BruteForceTest.solveListVariableAllowedUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BruteForceTest.java",
+      "upstream_test": "solveListVariableAllowedUnassigned",
+      "local_test": "solve_list_variable_allowed_unassigned",
+      "modifications": "Three optional distinct list values/two initially empty entities; preserve penalty for every assigned value; assert every actual exhaustive StepStarted index<25 and correct phase kind, then exactly3 unassigned values. Native membership is inverse-owner presence. Additional native count15, score0 and optimality. Native exact phase with unknown bounds exhaustively explores the tree; input-order depth-first scheduling replaces Java solver factory construction. No claim of equal Java/native step counts. No inheritance or parameter provider exists in this source class."
     }
   ],
   "fixtures": [
@@ -69270,6 +69315,162 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
       "upstream_test": "solvingStarted and phaseStarted",
       "modifications": "Invoke native SolveStarted and PhaseStarted through both child sources and use validated native assignment context. Setup helpers contain no extra assertions; no Java lifecycle invocation-count credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(2,2)",
+      "modifications": "Preserve generated two-value/two-entity domain, followed by the source method clearing all initial values. Distinct stable integer IDs replace generated code objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "required value field",
+      "modifications": "FiniteProblem Variable encodes each required basic planning variable, initially unset."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "distinct generated values",
+      "modifications": "Distinct stable integer IDs preserve generated value identity and input order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataEasyScoreCalculator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Preserve every ordered unequal-entity pair with equal nonnull values costing1, including partial-node null handling."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataListSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateUninitializedSolution(3,2)",
+      "modifications": "Preserve three generated distinct values, two initially empty list entities and global domain."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataListEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "valueList",
+      "modifications": "Native ListEntity stores initially empty required planning list using global value registry."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataListValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "entity inverse relation",
+      "modifications": "Stable value IDs preserve distinct identity; membership in ListAssignment represents the source inverse-owner null assertion. No unused mutable shadow descriptor API is ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataListVarEasyScoreCalculator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListVarEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Preserve reward2 for each singleton list, reward1 for every other list including empty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataAllowsUnassignedValuesListSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "generateUninitializedSolution(3,2)",
+      "modifications": "Preserve three generated distinct values and two initially empty entities; native allowing_unassigned exposes optional list membership."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataAllowsUnassignedValuesListEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "valueList",
+      "modifications": "Preserve globally ranged list variable with allowsUnassignedValues=true."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataAllowsUnassignedValuesListValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "entity inverse relation",
+      "modifications": "Native list membership represents owner presence for all three generated stable value IDs. Unused neighbor/index reflection is not translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-phase-fixture-TestdataAllowsUnassignedValuesListEasyScoreCalculator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Preserve score equal to negative sum of list sizes."
     }
   ]
 }
