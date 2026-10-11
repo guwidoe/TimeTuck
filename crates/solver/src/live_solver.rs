@@ -501,9 +501,13 @@ impl<P, R, E> LiveSolverJob<P, R, E> {
 /// job cancellation remains latched across runs. No user code runs under queue locks.
 ///
 /// Results must own independent snapshots: do not share mutable problem facts
-/// between P and published R. Each completed solve is eligible for publication,
-/// even when a changed problem lowers its score. Best delivery can skip obsolete
-/// snapshots; a later consumed revision acknowledges all preceding changes.
+/// between P and published R. Completed solves publish even when a changed problem
+/// lowers its score, except an automatic restart skips the returned snapshot if
+/// newer changes are already queued. That result still seeds the next solve;
+/// previously queued snapshots remain eligible. Explicit cancellation or
+/// finish_after_run still delivers the last completed result. Publication samples
+/// pending changes before queueing, so a later accepted edit does not retract an
+/// admitted snapshot. A later consumed revision acknowledges preceding changes.
 /// Consumer panic fails pending receipts and stops the live loop cooperatively.
 /// Change/solve failures stop the job. Changes are not rolled back after failure.
 ///
@@ -871,7 +875,16 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                     revision,
                     solution: Arc::new(result),
                 };
-                if config.delivery == LiveDelivery::Best {
+                // An interrupted run remains the warm-start handoff, but must
+                // not overwrite a previously admitted best event when newer
+                // changes already require a restart. Explicit job stopping
+                // keeps its existing last-result delivery/receipt semantics.
+                let publish_return = config.delivery == LiveDelivery::Best && {
+                    let d = guard.state.data.lock().unwrap();
+                    d.next == revision || d.cancelled || d.finishing || global.is_cancelled()
+                };
+                // Publish/drop user snapshots outside the change queue lock.
+                if publish_return {
                     progress.publish(snapshot.clone());
                 }
                 best = Some(snapshot);
@@ -888,6 +901,13 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                 }
                 if d.cancelled || d.finishing || global.is_cancelled() || d.queue.is_empty() {
                     d.accepting = false;
+                    drop(d);
+                    // Cancellation may win after the admission sample (including
+                    // while an old handoff's user destructor runs). Do not lose
+                    // final delivery of the now-last completed result.
+                    if !publish_return && config.delivery == LiveDelivery::Best {
+                        progress.publish(best.as_ref().expect("completed run").clone());
+                    }
                     break;
                 }
             }
