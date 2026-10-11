@@ -23869,3 +23869,40 @@ annealing focused tests. Dense next substantive stream capability implementation
 runner-c read-only61131 TERMINAL255 connect timeout; remote prior-process state still
 unknown. User is bringing it online; do not duplicate previous remote work.
 Goal active/incomplete. docs/solver-contract.md documents round14 public APIs.
+
+
+Round15 FROZEN:Rust7b28e06,provenance3992396. Four integrations:
+-094a6d9 from6c989c1: unchanged diminished-rate arithmetic reuse;25focusedtests,
+384000referencepolls,96actual-search paired samples. Disabled decimal+5.9%
+countercase explicit.20artifacts/2files copied and checked.
+-c6855f5 from202b166: adaptive affected-constraint union,34focused+Clippy;
+1080samples/60workloads match. Large overlapping trials4.39-6.28x,retained
+search5.14x; tiny list disjoint+44.75ns/trial.32artifacts/6files copied/checked.
+-eae368c fromc93da06: elapsed-time annealing,27focused+Clippy,8newtests,
+18scoringroutes; phase-entry clock includes setup, once-per-step freezing,
+composite child sampling, independent resets.15artifacts/21files copied/checked.
+Public contract documented7a029dc. No general termination-gradient claim.
+-7b28e06 fromac27607: typed shadow binary lookup,9focused+Clippy;65validpaired
+localcases preserve results/read/callback counts.1024fanin full1.87x,notified
+3.53x,checkpoint3.62x;first-only+6.1%,tinycheckpoint+30ns. Initial shared-target
+release reused baseline artifact; old timings explicitly INVALID. Corrected
+current uses separate target and saved assembly confirms binary search.
+23artifacts/2files copied/checked. Union/diminished preserved logs confirm actual
+distinct32/22second release compiles and copied binaries; no rerun needed.
+All original/integrated patch IDs equal; mapping work/parallel-round15-commits.json.
+Evidence work/parallel-round15-evidence/{diminished,union,annealing,lookup}.
+No new source-method credit this batch.
+
+18828 LIVE:stable launcher prebuild_parallel_round15.py ->
+work/parallel-round15-prebuild.log then scripts/check.sh ->
+work/parallel-round15-final-check.log. Freeze main Rust/provenance untilterminal.
+After0 run work/record_parallel_round15.py via stable launcher (prepared,notrun).
+No Java/GUI rerun needed; prior measurements remain visibly stale.
+Allagent timings terminal. Three next Astra/high implementation lanes:
+-dense:incremental explanation replace/remove with checked arithmetic,affected
+facts/indictments,no justificationClone;runner-aavailable.
+-termination:stateful composed score-difference stagnation,independentleafhistory;
+no builds until worker free.
+-dependency:substantive shadow/domain capability selection;no builds.
+runner-c90332 TERMINAL255 still timeout; prior remote-process state unknown, no restart.
+Goal active/incomplete.
