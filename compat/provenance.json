@@ -50619,6 +50619,21 @@
       "upstream_test": "solveListVariableAllowedUnassigned",
       "local_test": "solve_list_variable_allowed_unassigned",
       "modifications": "Three optional distinct list values/two initially empty entities; preserve penalty for every assigned value; assert every actual exhaustive StepStarted index<25 and correct phase kind, then exactly3 unassigned values. Native membership is inverse-owner presence. Additional native count15, score0 and optimality. Native exact phase with unknown bounds exhaustively explores the tree; input-order depth-first scheduling replaces Java solver factory construction. No claim of equal Java/native step counts. No inheritance or parameter provider exists in this source class."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/decider/forager/DefaultConstructionHeuristicForagerTest.java",
+      "local_path": "crates/solver/tests/construction_forager.rs",
+      "id": "DefaultConstructionHeuristicForagerTest.foragerDoesNotPickARejectedStructurallyFlawedMove",
+      "status": "implemented",
+      "upstream_test": "foragerDoesNotPickARejectedStructurallyFlawedMove",
+      "local_test": "forager_does_not_pick_a_rejected_structurally_flawed_move",
+      "modifications": "Preserve previous ordinary-100/unassigned8 and candidate ordinary0/unassigned7 plus structural flaw-1. Native combined structural state maps candidate to-8; no separate Java InnerScore representation claim. The source initialized structurally-flawed rejection sentinel maps to accepted=false in native real MoveForager. BestAccepted disables early picking (source NEVER); enable ordinary rejected fallback to exercise the structural exclusion itself. Preserve no selected move and selected-count0, adding accepted-count0/no-early-exit assertions. Count assertions precede consuming native pick. No scoring, fake Java scope, or synthetic storage facade."
     }
   ],
   "fixtures": [
@@ -69471,6 +69486,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEasyScoreCalculator.java",
       "upstream_test": "calculateScore",
       "modifications": "Preserve score equal to negative sum of list sizes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/decider/forager/DefaultConstructionHeuristicForagerTest.java",
+      "local_path": "crates/solver/tests/construction_forager.rs",
+      "id": "construction-structural-build-step-scope",
+      "upstream_test": "buildStepScope",
+      "modifications": "Replace mocked phase/last-step/current-step links with actual ForagerConfig current/best score-100 and combined structural incompleteness-8. One real MoveForager construction starts its step state."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/decider/forager/DefaultConstructionHeuristicForagerTest.java",
+      "local_path": "crates/solver/tests/construction_forager.rs",
+      "id": "construction-structural-build-move-scope",
+      "upstream_test": "buildMoveScope",
+      "modifications": "Replace mocked move scope with saved candidate identity and real score. Combine seven missing assignments and one structural flaw into native structural-8/ordinary0; explicit rejected flag represents source initialized-score rejection sentinel. No separate Java score channels are claimed."
     }
   ]
 }
