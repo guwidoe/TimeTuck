@@ -281,6 +281,9 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
                 .transpose()?,
         })
     }
+    pub(crate) fn observe_best_score(&mut self, score: &S) {
+        self.base.observe_best_score(score);
+    }
     pub(crate) fn start_search(&mut self) {
         self.base.start_search();
     }

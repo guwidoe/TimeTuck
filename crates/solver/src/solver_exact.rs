@@ -92,6 +92,9 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
         termination: PhaseTermination::Exact(exhausted_reason),
     };
     timer.start_search();
+    if let Some(score) = &out.score {
+        timer.observe_best_score(score);
+    }
     let mut error = None;
     let exhausted = enumerate(&mut |a| {
         let reason = if out.work.evaluations >= config.max_evaluations {
@@ -110,6 +113,9 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
             Some(match reason {
                 LocalSearchTermination::TimeLimit => X::TimeLimit,
                 LocalSearchTermination::UnimprovedTimeLimit => X::UnimprovedTimeLimit,
+                LocalSearchTermination::SignificantImprovementTimeLimit => {
+                    X::SignificantImprovementTimeLimit
+                }
                 LocalSearchTermination::UnimprovedStepLimit => X::UnimprovedStepLimit,
                 LocalSearchTermination::StepCondition => X::Condition,
                 _ => unreachable!("timer only reports elapsed/stagnation limits"),
@@ -146,6 +152,7 @@ pub(super) fn run_with_clock_observed<A: Clone, S: AdditiveScore, E>(
         out.work.constraint_evaluations += callbacks;
         if score.structural() >= 0 && out.score.as_ref().is_none_or(|best| score > *best) {
             timer.record_improvement();
+            timer.observe_best_score(&score);
             out.assignment = Some(a.clone());
             out.score = Some(score);
             out.complete = true;

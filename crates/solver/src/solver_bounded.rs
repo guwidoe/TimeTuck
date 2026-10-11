@@ -70,6 +70,9 @@ where
             Some(match reason {
                 LocalSearchTermination::TimeLimit => B::TimeLimit,
                 LocalSearchTermination::UnimprovedTimeLimit => B::UnimprovedTimeLimit,
+                LocalSearchTermination::SignificantImprovementTimeLimit => {
+                    B::SignificantImprovementTimeLimit
+                }
                 LocalSearchTermination::UnimprovedStepLimit => B::UnimprovedStepLimit,
                 LocalSearchTermination::StepCondition => B::Condition,
                 _ => unreachable!("timer only reports elapsed/stagnation limits"),
@@ -88,6 +91,7 @@ where
     }
     fn improved(&mut self, best: &Saved<A, S>) {
         self.timer.record_improvement();
+        self.timer.observe_best_score(&best.score);
         if let Some(observer) = &mut self.observer {
             observer(SolutionUpdate {
                 assignment: &best.assignment,
@@ -108,6 +112,7 @@ impl From<BranchTermination> for ExactPhaseTermination {
             B::Cancelled => Self::Cancelled,
             B::TimeLimit => Self::TimeLimit,
             B::UnimprovedTimeLimit => Self::UnimprovedTimeLimit,
+            B::SignificantImprovementTimeLimit => Self::SignificantImprovementTimeLimit,
             B::UnimprovedStepLimit => Self::UnimprovedStepLimit,
             B::Condition => Self::Condition,
             B::BestScoreLimit => Self::BestScoreLimit,
@@ -172,6 +177,9 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
         bound: branch.bound,
     };
     context.timer.start_search();
+    if let Some(score) = &prior {
+        context.timer.observe_best_score(score);
+    }
     let (tree, root) = prepare();
     let result = run_tree(
         &tree,
@@ -222,6 +230,7 @@ mod tests {
             clock,
             last: Duration::ZERO,
             shared_bound: false,
+            significant: None,
             unimproved_limit: None,
             last_improvement: None,
             unimproved_expired: false,

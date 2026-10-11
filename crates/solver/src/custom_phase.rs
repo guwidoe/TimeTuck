@@ -30,6 +30,7 @@ pub enum CustomPhaseTermination {
     TimeLimit,
     Cancelled,
     UnimprovedTimeLimit,
+    SignificantImprovementTimeLimit,
     UnimprovedStepLimit,
     Condition,
     BestScoreLimit,
@@ -227,6 +228,9 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         }
         if self.stop.is_none() {
             self.stop = self.shared.as_mut().and_then(|m| match m.stop() {
+                Some(LocalSearchTermination::SignificantImprovementTimeLimit) => {
+                    Some(CustomPhaseTermination::SignificantImprovementTimeLimit)
+                }
                 Some(LocalSearchTermination::UnimprovedTimeLimit) => {
                     Some(CustomPhaseTermination::UnimprovedTimeLimit)
                 }
@@ -297,6 +301,7 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             self.best_complete = complete;
             if let Some(shared) = &mut self.shared {
                 shared.record_improvement();
+                shared.observe_best_score(&score);
             }
             self.failed = true;
             self.director.notify_best(complete);
@@ -524,6 +529,7 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
     });
     if let Some(shared) = &mut shared {
         shared.start_search();
+        shared.observe_best_score(&best_score);
     }
     let move_counter = crate::move_metrics::from_control(&shared);
     let mut shared = SharedControl(shared);
@@ -882,6 +888,11 @@ impl<S> crate::time_limit::SearchControl<S> for SharedControl<'_, S> {
     }
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         crate::move_metrics::from_control(&self.0)
+    }
+    fn observe_best_score(&mut self, score: &S) {
+        if let Some(m) = &mut self.0 {
+            m.observe_best_score(score);
+        }
     }
     fn start_search(&mut self) {
         if let Some(m) = &mut self.0 {

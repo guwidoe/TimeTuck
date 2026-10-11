@@ -150,6 +150,10 @@ impl<S: Score> SignificantImprovement<S> {
             self.terminated |= self.last.saturating_sub(*time) > self.config.window;
         }
     }
+    pub(crate) fn expired(&mut self, now: Duration) -> bool {
+        self.sample(now);
+        self.terminated
+    }
     pub fn is_terminated(&mut self, now: Duration, best: &S) -> bool {
         self.sample(now);
         if !self.terminated

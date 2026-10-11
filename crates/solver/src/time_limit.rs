@@ -45,6 +45,8 @@ pub(crate) trait SearchControl<S = crate::SimpleScore> {
     fn construction_stopped(&mut self) -> bool {
         false
     }
+    /// Observe a retained best, after search starts; no candidate rescoring.
+    fn observe_best_score(&mut self, _score: &S) {}
     fn start_search(&mut self);
     fn record_improvement(&mut self);
     fn complete_step(&mut self, improved: bool);
@@ -101,6 +103,11 @@ impl<'m, C: FnMut() -> Duration, S> TimeBudget<'m, C, S> {
     pub(crate) fn elapsed(&mut self) -> Duration {
         self.sample();
         self.last
+    }
+    pub(crate) fn observe_best_score(&mut self, score: &S) {
+        if let Some(shared) = &mut self.shared {
+            shared.observe_best_score(score);
+        }
     }
     pub(crate) fn start_search(&mut self) {
         if let Some(shared) = &mut self.shared {

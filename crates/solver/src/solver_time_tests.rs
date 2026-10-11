@@ -308,6 +308,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         clock: &mut disabled,
         last: Duration::ZERO,
         shared_bound: false,
+        significant: None,
         unimproved_limit: None,
         last_improvement: None,
         unimproved_expired: false,
@@ -338,6 +339,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         clock: &mut clock,
         last: Duration::ZERO,
         shared_bound: false,
+        significant: None,
         unimproved_limit: None,
         last_improvement: None,
         unimproved_expired: false,
@@ -459,6 +461,7 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
         clock: &mut clock,
         last: Duration::ZERO,
         shared_bound: false,
+        significant: None,
         unimproved_limit: Some(ms(10)),
         last_improvement: None,
         unimproved_expired: false,
@@ -517,6 +520,7 @@ fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> Solve
         clock,
         last: Duration::ZERO,
         shared_bound: false,
+        significant: None,
         unimproved_limit: None,
         last_improvement: None,
         unimproved_expired: false,
@@ -1134,3 +1138,6 @@ fn composed_limits_interrupt_construction_before_finishing_the_domain() {
         );
     }
 }
+
+#[path = "solver_significant_tests.rs"]
+mod significant_tests;

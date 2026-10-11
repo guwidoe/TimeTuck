@@ -653,3 +653,40 @@ fn inactive_score_quota_preserves_complete_multi_phase_execution() {
         assert!(actual.complete);
     }
 }
+
+#[test]
+fn inactive_shared_significant_window_preserves_work_across_twelve_backends() {
+    let policy =
+        SignificantImprovementConfig::new(std::time::Duration::MAX, SimpleScore::new(7)).unwrap();
+    for mode in 0..12 {
+        for phase in [
+            local(2),
+            SolverPhase::RuinRecreate(RuinRecreateConfig {
+                minimum_ruined: 1,
+                maximum_ruined: 1,
+                max_attempts: 2,
+                seed: 7,
+                ..Default::default()
+            }),
+            SolverPhase::Exact(ExactPhaseConfig::default()),
+            SolverPhase::Exact(ExactPhaseConfig {
+                strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig::default()),
+                ..Default::default()
+            }),
+        ] {
+            let mut c = SolverSequence {
+                limits: SolverLimits {
+                    assert_phase_scores: true,
+                    ..Default::default()
+                },
+                phases: vec![
+                    SolverPhase::Construction(ConstructionConfig::default()),
+                    phase,
+                ],
+            };
+            let baseline = run(mode, false, c.clone());
+            c.limits.significant_improvement = Some(&policy);
+            assert_eq!(run(mode, false, c), baseline, "mode={mode}");
+        }
+    }
+}

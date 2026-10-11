@@ -188,6 +188,7 @@ pub enum RuinRecreateTermination {
     BestScoreLimit,
     FeasibleScore,
     UnimprovedTimeLimit,
+    SignificantImprovementTimeLimit,
     UnimprovedStepLimit,
     Condition,
     TimeLimit,

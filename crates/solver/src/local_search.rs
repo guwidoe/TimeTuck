@@ -684,6 +684,7 @@ where
         director.assert_consistent()?;
     }
     time_budget.start_search();
+    time_budget.observe_best_score(&result.best.as_ref().expect("initial best").score);
     director.notify_best(|_| true);
     let mut progress = crate::StepProgress::default();
     loop {
@@ -789,6 +790,7 @@ where
                     assignment: director.assignment().clone(),
                     score: director.score(),
                 });
+                time_budget.observe_best_score(&result.best.as_ref().expect("retained best").score);
             }
             let variables = if tracks_variables {
                 movement.touched_variables()

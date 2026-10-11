@@ -69,6 +69,14 @@ pub struct SolverLimits<'a, S = SimpleScore> {
     /// Construction is excluded. Later phases/handoffs do not reset the timer.
     /// Only strict retained-best improvement resets it, before expiry.
     pub max_unimproved_time: Option<Duration>,
+    /// Solve-wide score-threshold stagnation. The first scored improvement phase
+    /// arms the timer; initial construction and preparation are excluded. Later
+    /// phases and their preparation do not reset it. A retained-best improvement
+    /// resets it only when its accumulated difference reaches the threshold.
+    /// Equality at the deadline continues; a late improvement is retained but
+    /// cannot revive expiry. Exact search without a prior score arms on its first
+    /// complete candidate. Phase-local policies remain independent.
+    pub significant_improvement: Option<&'a SignificantImprovementConfig<S>>,
     /// Completed local-search steps and accepted changed repair/fine moves since the last
     /// strict retained-best improvement.
     /// Counts across phases; construction and initialization do not count.
@@ -90,6 +98,7 @@ impl<S> Default for SolverLimits<'_, S> {
             max_move_evaluations: None,
             max_time: None,
             max_unimproved_time: None,
+            significant_improvement: None,
             max_unimproved_steps: None,
             cancellation: None,
             best_score_limit: None,
@@ -202,6 +211,7 @@ pub enum SolverTermination {
     MoveEvaluationLimit,
     TimeLimit,
     UnimprovedTimeLimit,
+    SignificantImprovementTimeLimit,
     UnimprovedStepLimit,
     Cancelled,
     BestScoreLimit,
@@ -406,6 +416,7 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     clock: &'c mut dyn FnMut() -> Duration,
     last: Duration,
     shared_bound: bool,
+    significant: Option<SignificantImprovement<S>>,
     unimproved_limit: Option<Duration>,
     last_improvement: Option<Duration>,
     unimproved_expired: bool,
@@ -443,6 +454,18 @@ impl<S: Score> SolveControl<'_, S> {
     fn sample(&mut self) {
         self.last = self.last.max((self.clock)());
     }
+    fn significant_stagnated(&mut self) -> bool {
+        if self
+            .significant
+            .as_ref()
+            .is_some_and(SignificantImprovement::is_started)
+        {
+            self.sample();
+            self.significant.as_mut().unwrap().expired(self.last)
+        } else {
+            false
+        }
+    }
     fn stagnated(&mut self) -> bool {
         if let (Some(limit), Some(last_improvement)) =
             (self.unimproved_limit, self.last_improvement)
@@ -467,6 +490,7 @@ impl<S: Score> SolveControl<'_, S> {
         if self.move_counter.is_some()
             || self.lifecycle.enabled()
             || self.condition.is_some()
+            || self.significant.is_some()
             || self.unimproved_limit.is_some()
             || self.unimproved_steps_limit.is_some()
         {
@@ -527,6 +551,17 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     fn construction_stopped(&mut self) -> bool {
         self.condition_reached()
     }
+    fn observe_best_score(&mut self, score: &S) {
+        if self.started && self.significant.is_some() {
+            self.sample();
+            let limit = self.significant.as_mut().unwrap();
+            if limit.is_started() {
+                limit.is_terminated(self.last, score);
+            } else {
+                limit.start(self.last, score.clone());
+            }
+        }
+    }
     fn start_search(&mut self) {
         self.started = true;
         if (self.condition.is_some() || self.unimproved_limit.is_some())
@@ -558,6 +593,8 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     fn stop(&mut self) -> Option<LocalSearchTermination> {
         if self.stagnated() {
             Some(LocalSearchTermination::UnimprovedTimeLimit)
+        } else if self.significant_stagnated() {
+            Some(LocalSearchTermination::SignificantImprovementTimeLimit)
         } else if self.step_stagnated() {
             Some(LocalSearchTermination::UnimprovedStepLimit)
         } else if self.condition_reached() {
@@ -922,7 +959,8 @@ where
     let mut clock = crate::time_limit::monotonic_clock(
         limits.termination.is_some()
             || limits.max_time.is_some()
-            || limits.max_unimproved_time.is_some(),
+            || limits.max_unimproved_time.is_some()
+            || limits.significant_improvement.is_some(),
     );
     run_with_clock_observed(limits, local, initial, &mut observation, phase, &mut clock)
 }
@@ -995,6 +1033,10 @@ where
         clock,
         last: Duration::ZERO,
         shared_bound: false,
+        significant: limits
+            .significant_improvement
+            .cloned()
+            .map(SignificantImprovement::new),
         unimproved_limit: limits.max_unimproved_time,
         last_improvement: None,
         unimproved_expired: false,
@@ -1177,6 +1219,9 @@ where
                 C::TimeLimit => SolverTermination::TimeLimit,
                 C::Cancelled => SolverTermination::Cancelled,
                 C::UnimprovedTimeLimit => SolverTermination::UnimprovedTimeLimit,
+                C::SignificantImprovementTimeLimit => {
+                    SolverTermination::SignificantImprovementTimeLimit
+                }
                 C::UnimprovedStepLimit => SolverTermination::UnimprovedStepLimit,
                 C::Condition => SolverTermination::Condition,
                 C::BestScoreLimit => SolverTermination::BestScoreLimit,
@@ -1203,6 +1248,8 @@ where
                     Some(SolverTermination::TimeLimit)
                 } else if time.stagnated() {
                     Some(SolverTermination::UnimprovedTimeLimit)
+                } else if time.significant_stagnated() {
+                    Some(SolverTermination::SignificantImprovementTimeLimit)
                 } else if time.step_stagnated() {
                     Some(SolverTermination::UnimprovedStepLimit)
                 } else {
@@ -1393,6 +1440,9 @@ where
                 }
                 _ if time.expired() => Some(SolverTermination::TimeLimit),
                 _ if time.stagnated() => Some(SolverTermination::UnimprovedTimeLimit),
+                _ if time.significant_stagnated() => {
+                    Some(SolverTermination::SignificantImprovementTimeLimit)
+                }
                 _ if time.step_stagnated() => Some(SolverTermination::UnimprovedStepLimit),
                 _ if time.condition_reached() => Some(SolverTermination::Condition),
                 _ if !r.complete

@@ -136,6 +136,7 @@ pub enum BranchTermination {
     MoveEvaluationLimit,
     /// Shared solve stagnation controls (ordered solver phases only).
     UnimprovedTimeLimit,
+    SignificantImprovementTimeLimit,
     UnimprovedStepLimit,
     Condition,
     /// Retained-score goals (ordered solver phases only).

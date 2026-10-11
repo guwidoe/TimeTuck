@@ -122,6 +122,7 @@ pub enum ExactPhaseTermination {
     MoveEvaluationLimit,
     TimeLimit,
     UnimprovedTimeLimit,
+    SignificantImprovementTimeLimit,
     UnimprovedStepLimit,
     Condition,
     Cancelled,
