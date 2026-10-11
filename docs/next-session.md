@@ -16,7 +16,74 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round40
+## Latest verified checkpoint — round41
+
+Main 5eb2d9a adds IdentityOrderedSet for shared domain objects. Full goal remains
+active and incomplete. No new agents or assignments.
+
+- Arc allocation identity distinguishes equal payloads and survives interior
+  mutation. Payloads need no Eq, Hash or Clone bounds. Pointer keys are private;
+  owning member Arcs keeps allocations alive. Removing and reinserting appends.
+- A hash index and reusable linked slots provide expected constant-time insert,
+  membership and removal, with storage bounded by peak simultaneous membership.
+  Borrowed exact-size, fused, double-ended iteration allocates/clones nothing.
+- Snapshots clone shared handles; caller-provided Option buffers avoid allocation
+  when sufficient. Short buffers stay untouched with an owned fallback. Larger
+  buffers clear the first extra slot and retain later slots. clear keeps capacity.
+
+Nine complete LinkedIdentityHashSetTest methods now have individual provenance.
+All source assertions, including four toArray shapes, use pointer identity.
+retainAll is an unsupported Java API shape and remains pending; no constant error
+stub or credit. No upstream production implementation read/copied/translated.
+Six original integration regressions cover mutable equal payloads, 10,000
+operations against an independent ordered reference, mixed-direction iteration
+and no reference-count increments, dirty/empty/short reusable buffers, object
+release, and independently mutable clones/thread transfer. An original library
+regression checks 10,000 remove/insert operations reuse storage at 64 members.
+These original checks earn no source credit. No production search/scoring hot
+path was changed; no new benchmark or Java speedup claim.
+
+runner-c authentication worked. Focused source/original target run passed 15 tests.
+After it, documentation/regression payload examples were changed to AtomicI32
+and clear drops payloads after resetting membership/order. The final gate covered
+these final inputs; do not repeat focused checks just because this is a new turn.
+
+Final runner-c gate and collector succeeded:
+
+- 6,659 Rust tests, 284 doctests; strict fmt/Clippy passed.
+- 3,498/4,855 source methods passing (72.049%); 791 pending,
+  566 excluded, zero failed/unverified. Pending 800→791; exclusions unchanged.
+- Only 3 Rust RUN (lib and two new targets), 961 Rust REUSE and 46 Python REUSE.
+  Final gate took 129.486 seconds including compilation and doctests.
+- Rust source e1f7738b3ed67f6e82deb234a4cfe64fd61d94fc82b66dce1cf054dcb76f50ce.
+- Report/verification 06252795c4ffe0091eaf7709690134c50916046d4607837c42a2b63317481e02.
+- Remote snapshot d4d0eb5c521af04647547bf5344174b6f685006525d466841519102743aa0a71.
+- Archive work/round41-runner-c-results.tar.gz (actual cache records/logs), SHA256
+  802d9f20e50370a6814c81c78f3e83b89755954c95782e8d85a983a8d4149be7.
+- Work artifacts: parallel-round41-freeze/evidence.json, remote-round41-focused*,
+  remote-round41-integration-final*, round41-postcommit-evidence.json. No workers
+  or collectors remain live. Seed next gate from the round41 final archive/root;
+  retain the stable CARGO_HOME recorded in work/round41-runner-c-check.py. Update the
+  seed filename explicitly: round41 launch/check scripts still reference round40.
+
+Dashboard server remains PID18158, port8765; check process before reuse. Backend
+report refresh/freshness verified via 127.0.0.1 and disabled HTTP proxies. No browser
+or Impeccable rerun. Java list performance remains visibly stale. Rust source and
+report source_digest have distinct scopes; report source_digest equals its
+verification_digest, not rust_digest. No pin change.
+
+Next prioritize substantive solver/domain gaps. SolverSolutionInheritanceTest
+(six methods) and SolverContextManagerTest (ten methods) test bodies were read
+this turn, without implementation or credit. Solution cases require actual
+inherited collections/ranges/scoring plus native metadata validation, not merely
+registration wrappers. Context cases require actual director/working-solution
+identity, metric matching, cumulative calculations, release and error handling.
+Existing EnvironmentProfile alone implements declaration validation, not runtime
+replacement; do not claim those methods from its passing configuration tests.
+Source fixture/provider paths for solution cases have not yet been reviewed.
+Do not repeat prior completed utility/factory/reflection/undo/ring audits.
+
+## Prior verified checkpoint — round40
 
 Main da07a93 integrates PlanningComposition: explicit registered/plain components
 and owned/projected ancestry compiled into canonical PlanningSchema definitions.
@@ -102,10 +169,9 @@ visibly stale. No new benchmark/Java speedup claim. Prior policy timing unchange
 Rust input digest differs from report source_digest, which is the report/
 verification digest; use the corresponding scopes when checking freshness.
 
-Next work should close substantive solver/domain gaps; do not add constant Java
-unsupported-method errors solely for credit. LinkedIdentityHashSetTest was reviewed
-once earlier; its nine identity/order methods are meaningful, retainAll is unsupported
-API shape. No implementation/credit yet. Do not repeat completed factory/reflection,
+The former next-work identity/order gap was completed in round41 above; retainAll
+remains pending. Do not add constant Java unsupported-method errors for credit.
+Do not repeat completed factory/reflection,
 RootVariableSource/undo/ring/provider audits. Full project remains incomplete.
 
 Prior round39 (e32a854/83bef39) integrated live catalog bounds, borrowed sample views,
