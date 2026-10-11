@@ -6944,8 +6944,9 @@ or stable hash keys while the backing set changes. Set members share their
 original Arc allocations; slice members are borrowed directly.
 
 DatasetRandom samples with replacement. Availability checks consume no random
-draws. Direct bulk consumption rejects nonempty datasets before drawing or calling
-user code: try_for_each_remaining returns a typed error, and Iterator::for_each
-raises that error as a typed panic. Bounded adapters such as take(limit) work
+draws. try_for_each_remaining rejects nonempty datasets before drawing or calling
+user code, returning a typed error. Direct owned Iterator::for_each raises that
+error as a typed panic. Other adapters and unbounded collection operations still
+require a caller-supplied limit. Bounded adapters such as take(limit) work
 normally, and empty datasets complete without callbacks. External signed expected
 set sizes require a positive usize value; native with_capacity(0) remains valid.

@@ -16,81 +16,92 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round38
+## Latest verified checkpoint — round39
 
-Main 0ed9037 adds native provider composition and reversible selection behavior:
+Main e32a854 integrates borrowed sample views, passive dataset availability/bulk
+consumption guards, signed external set-size validation, and live selection
+catalog-bound metadata. This batch is verified progress; the full goal remains
+active and incomplete. No agents or further assignments were created.
 
-- MoveProvider::neighborhood_count observes explicit structure without factories,
-  lifecycle/reset callbacks or candidate traversal. Unweighted unions sum checked
-  child counts; explicit weighted unions reject this query, even when weights are
-  equal, while retaining normal weighted runtime selection. Filters, phase-reset,
-  owned-move cache and selection-limit decorators forward metadata/errors.
-  Existing MoveProviderGroup still flattens iteratively with identical probabilities.
-- LimitedMoveProvider caps proposals per opening and skips the factory at zero.
-  CachedProviderMoves retains complete finite owned-move snapshots at step/phase/
-  solve scope, preserves duplicates, clones outputs lazily and clears on relevant
-  lifecycle boundaries/edits. Overflow reads at most one extra item and publishes
-  no partial snapshot. Choose it only for moves valid throughout the scope;
-  assignment-dependent keys still use the existing mapped CachedMoveProvider.
-- FilteredSelectionSource::cursor provides a real reversible ordered traversal.
-  It retains accepted move-only occurrences, bounds rejected work/history, lazily
-  opens the child once, and reuses history without new reads or predicate calls.
-  next_item/previous_item borrow payloads. Limit termination is not exhaustion.
-- CachedSelectionIter now has actual Original slice and Random weighted-sampling
-  variants. Ordered construction drops the unused random callback immediately,
-  rather than retaining/boxing it. Existing ordering, repetition, no-draw-on-empty
-  and exhaustion semantics passed; no timing claim was made.
+- NeighborhoodSampleView borrows a slice or live ScalingSequencedSet. Members
+  retain original allocations; no T: Clone requirement. Set edits remain visible
+  between traversals; active iterators retain the existing mutation guard. Slice
+  duplicates are skipped lazily. Bidirectional equality/hash match owned samples,
+  and a retained set member remains valid after removal/clear. Live hashes change
+  with the backing set and must not be used as stable keys while it changes.
+- StreamingSelection already had persistent receiver-cursor behavior. Its new
+  catalog_upper_bound uses checked declared contribution bounds without opening
+  children/events. Zero/unknown/overflow and ignored holes are distinguished.
+  Bound24 preserves the source declaration without inventing actual dependent
+  combination/draw cardinality; size remains unknown. Native factories generate
+  the complete six-code replay prefix, preserving receiver a through b->1+a->9.
+- DatasetRandom::has_next and try_for_each_remaining consume no randomness.
+  Nonempty unbounded bulk consumption rejects before callbacks/draws; direct
+  owned Iterator::for_each raises a typed error panic. Bounded take(limit) works;
+  empty datasets finish normally. This does not guard every iterator adapter or
+  unbounded collection operation. Existing next/draw behavior remains unchanged.
+- try_with_expected_size validates positive signed external hints, with typed
+  zero/negative errors and source message substrings. Native with_capacity(0)
+  remains valid and initializes real mutable storage.
 
-Nine complete source cases close three remaining families: all ten
-MixedMoveSelectorTest, all seven CachingEntitySelectorTest, and all five
-FilteringEntitySelectorTest methods now have adaptations. Provenance preserves
-exact structure counts, weighted rejection diagnostics, iterator strategies and
-ordered forward/backward traversal, unfiltered size4 and two-phase/five-step
-lifecycle/open/size counts. Native enum variants replace Java class assertions;
-no Java class identity or random trace claim. The source ordered-filter method's
-Solver suffix actually uses JUST_IN_TIME; preserve its actual configuration.
-Three additional PlannerAssert ordered/reverse helpers are attributed without credit.
+Seven complete source cases passed: both remaining Cartesian randomMimic methods,
+all three pending Sample.wrap methods, Dataset's random replacement/repetition
+method, and ScalingSequencedSet's expected-size validation. All 24 Cartesian and
+all 12 Sample source methods now have complete adaptations. Five additional original
+regressions cover move-only ownership, storage transitions, allocation identity,
+nullable/duplicate equality/hash, mutation guards, no-draw bulk errors/bounded
+adapters, catalog bounds and positive/native-zero construction. They earn no
+source-method credit. Test catalogs, helpers and domain identities are attributed.
 
-Seven original wrapper/cursor regressions cover lifecycle/duplicates, finite and
-infinite work ceilings, zero factories, overflow/error propagation, retained
-move-only ownership, backward/probe reuse, child edits and real basic solving in
-both score backends. The final focused selection run passed63tests. Development
-borrow errors from ending a cache scope while holding its iterator were fixed by
-explicitly dropping it. Initial strict Clippy found a modulo style warning in one
-original test; fixed with is_multiple_of. Failure logs remain, with no outstanding
-failure. Do not repeat focused checks/source-helper audits without changed inputs.
+The final focused run passed 12 tests on runner-c. Two initial compile-only failures in
+one original metadata regression were fixed with explicit generic/callback types;
+logs retained. A fixture review corrected the generated entities to initialized
+values before that final run. No runtime test or Clippy failure remains.
+Do not repeat focused checks or completed source/helper reviews unchanged.
 
-Final runner-c gate9224 and collector19133 finished successfully:
+Final runner-c gate and collector completed successfully:
 
-- 6,608 Rust tests and 282 doctests; strict format/Clippy passed.
-- 3,467/4,855 source methods passing (71.411%); 822 pending, 566 excluded,
-  zero failed/unverified. Backlog831→822; exclusions unchanged.
-- 850 affected Rust jobs ran; 108 Rust and46Python jobs reused unchanged runner-c
-  evidence. Final gate671.172seconds, including broad target compilation.
-- Source `5895a2395b30151fc6a30999578ef98d0828d0c3d8891ef5226951832a2dfdbc`.
-- Verification `baf5fd9cfbfa1bcf25f7f9cc8fbc385f99e43c59647e8509f4597cb27042fedf`.
-- Remote snapshot `7c31881236c8a4d595ed8564cbccc4bf4777540bb369236e14def5a6172cf326`.
-- work/parallel-round38-evidence.json, freeze, original manifest/log and
-  work/round38-runner-c-results.tar.gz retained. No worker/collector remains running.
-  Next runner-c batch seeds these real logs/output root and the stable CARGO_HOME in
-  work/round38-runner-c-check.py. Preserve original input keys/hashes/timestamps.
+- 6,620 Rust tests and 282 doctests; strict fmt/Clippy passed.
+- 3,474/4,855 source methods passing (71.555%);
+  815 pending, 566 excluded, zero failed/unverified. Backlog 822→815.
+- 862 affected Rust jobs ran; 98 Rust and
+  46 Python jobs reused unchanged runner-c evidence.
+- Final gate 683.551 seconds including broad compilation.
+- Source `605ab8fbb568180b047e89f93b21b94eeb3f2d1a4e5536a370f8bc8eba9f42b3`.
+- Verification `7280a76fa77ef012cefd9c14f3e1d6753bd9409703024e6dec934624d4a9d770`.
+- Remote snapshot `cc302875e31074954094aba5fd99ead53b7c81645865f4a8f7877bacab56d26e`.
+- Actual logs/manifests/freeze/evidence are retained in work/parallel-round39-*,
+  work/remote-round39-integration* and work/round39-runner-c-results.tar.gz. No worker
+  or collector remains running. Seed the next runner-c check from this archive/root and
+  the unchanged CARGO_HOME in work/round39-runner-c-check.py. Preserve original input
+  keys, checksums and timestamps; relocate output filenames only after validation.
 
-Dashboard http://localhost:8765 is current; report/freshness checked. Reuse its
-server. Backend refreshes need data inspection, not browser/Impeccable. Original-
-Java list measurements remain visibly stale. No new benchmarks/Java speed claim.
-Goal remains active and incomplete. No new subagents or follow-up assignments.
+Dashboard http://localhost:8765 is current; report data/freshness checked. Reuse
+its server. Backend-only refreshes need data inspection, not browser/Impeccable.
+Original-Java list measurements remain visibly stale. No new Java/performance
+measurement or speedup claim. Prior clock-policy code/measurements are unchanged.
 
-Potential next substantive selection gap: the two remaining randomMimic methods in
-CartesianProductMoveSelectorTest require a live recording/replaying product, with
-receiver context captured at its last child reopening and retained for its finite
-traversal even when the producer changes entity sooner. Independent SelectionProduct
-snapshots explicitly do not supply this behavior. Preserve full prefix, metadata
-and three child lifecycle assertions before granting credit; no implementation or
-provenance was added for these two. Existing next/replay/dependent facilities may
-help, but do not substitute a static fixture for live behavior. The eight remaining
-RootVariableSourceTest cases concern getter/field reflection precedence/validation;
-typed native paths already cover23methods and do not establish those Java behaviors.
-Do not repeat their completed reflection audit to obtain superficial source credit.
+Next substantive candidate: inherited planning-field composition. The 15 pending
+SolverEntityInheritanceTest methods were reviewed once; PlanningSchema currently
+explicitly leaves inheritance separate. Six methods assert actual final solve
+scores 2/4; nine assert invalid variable-defining ancestors, redefinition and
+multi-level/mixed declarations. They require real native metadata/solver behavior,
+complete individual test-domain/provider fixtures and accurate scope, not static
+errors for Java annotation shapes. No new inheritance code/provenance/credit yet.
+The interface-negative source method actually generates the class fixture; preserve
+that anomaly when adapting. Notes in work/round39-next-gap-notes.json.
+LinkedIdentityHashSetTest source was also reviewed once; retainAll is an unsupported
+Java method and must not become a constant error API solely for compatibility credit.
+Do not repeat completed RootVariableSource getter/reflection precedence audits.
+
+Prior round38 (0ed9037/23ed7bb) integrated provider composition, bounded cached moves,
+reversible filtering and real Original/Random cached iterator variants. It passed
+6,608Rust/282docs,3,467source methods,822pending;850RustRUN/108RustREUSE/46PythonREUSE,
+671.172seconds. runner-c snapshot7c31881236c8a4d595ed8564cbccc4bf4777540bb369236e14def5a6172cf326,
+work/round38-runner-c-results.tar.gz and full evidence retained. All10MixedMoveSelector,
+all7CachingEntitySelector and all5FilteringEntitySelector source methods adapted.
+No measurements were refreshed or Java class identity claimed. Completed checks,
+source reviews and the old gate must not be repeated solely for a new turn/commit.
 
 Prior round37 (df0da15/72bf2e3) integrated generic Duration clock storage/guarded
 pruning and four full custom structural-routing methods, including independent
