@@ -17,58 +17,75 @@ The user wants three concurrent GPT-6 Astra/high implementation agents,
 performance progress, occasional commits and selective verification reuse.
 Avoid repeated checks, benchmark sweeps and procedural overhead.
 
-## Latest verified checkpoint
+## Latest verified checkpoint — round24
 
-Round 23 gate 8358 and recorder 96507 completed successfully:
+Combined gate 57247 and recorder 3055 completed successfully:
 
-- 6,303 Rust tests and 276 doctests.
+- 6,323 Rust tests and 277 doctests.
 - 3,363/4,855 upstream methods passed (69.269%); 1,228 pending, 264 excluded,
   zero failed/unverified. These are annotated methods, not expanded invocations.
-- 809 Rust verification jobs ran; 99 Rust and 46 Python jobs reused valid evidence.
-- Source: `81c7cdad85a04fd8432971879af762413a8cf03d203dc7c15c638aee20b27c23`.
-- Verification: `4032f5d57fa3a00fdad95b49aacbf158b67bf71d7111ed45293af82d72ecee60`.
-- Evidence: `work/parallel-round23-evidence.json` and its evidence directory.
+- 815 Rust jobs ran; 97 Rust and 46 Python jobs reused unchanged evidence.
+- Source: `b52f091f6836b2ad832c51d30d3bc826e10d66eb5a02929712478264fd62d7e7`.
+- Verification: `24fad1388eb223c0f33ad15b14da6ff302059519fdcc3a235bcf6a7d704c2f33`.
+- Evidence: `work/parallel-round24-evidence.json` and its evidence directory.
 
-Integrated round23 commits: a9fab92 streamed child cursors; 68af365 group rebasing;
-8a67fd1 owned calculator edit batches; eb3ed76 compact primitive swap undo;
-21a9a27 builtin owner/rebase tests; d146073 live restart publication fix;
-bd388a4 provenance (+18 complete methods, +22 fixtures). Parent reviews, artifact
-hashes and integrated zero-context stable patch IDs are recorded.
+Integrated round24: 42a56b8 lazy weighted union, a1096d9 temporary calculator
+what-if rollback, 261a4ff compact primitive Change undo, ed7a5a4 persistent
+consumer sets. Full parent reviews, focused evidence and performance tradeoffs
+are retained. These native additions earn zero source-method credit.
+Previous round23: 6,303 Rust/276 docs, same 3,363 source methods; evidence retained.
 
 The dashboard is served at http://localhost:8765. Reuse the server. Backend-only
 refreshes require report/freshness inspection, not a repeated browser check.
 
-## Current integration batch — round24
+## Current integration batch — round25
 
-Four reviewed slices are committed on main after the verified checkpoint:
+Three reviewed slices plus provenance are committed on main:
 
-- 42a56b8 (agent 52dadff): opt-in lazy weighted union. First candidate opens/polls
- one enabled family instead of 64; default prefetched behavior stays unchanged.
- 11 focused tests + strict Clippy passed; final docs-only delta separately retained.
-- a1096d9 (agent b31a484): CalculatorSession temporary change/score/visit with
- independent snapshot rollback on success/error/panic. 29 focused tests + 1 doctest,
- strict Clippy passed. Independent Clone state required; no source-method credit.
-- 261a4ff (agent 71113a3): compact primitive Change undo for large list edits,
- including mixed moves. Removed payload stays armed across record callbacks;
- original rows clone lazily. 19 focused tests + Clippy; final materializer reran its
- unit + 5 integrations. 792 paired samples / 44 workloads preserve results/work/payloads.
+- 072934f (agent e73896a): opt-in best constraint-total metrics for fresh AND
+  retained calculator solves across basic/list/mixed construction, local, custom,
+  repair and exact routes. Immutable totals exclude justifications; matching-off,
+  unsupported and no-best states are explicit. No extra scoring/factory/reset/clone
+  work in the paired runtime matrix. 29 focused runtime tests and strict Clippy;
+  final three lint allowances separately proved. 18 artifacts/11 files hashed.
+- fe320ee (agent db37a1b): sparse phase-best assignment refresh tracks committed
+  changes including intervening non-best/net-zero steps, stages user Clone before
+  publication, and uses full fallback for tiny/dense/whole replacements. Lazy
+  bitmap allocation. 22 focused tests; final changed six + strict Clippy. Full
+  production, unit/public differential tests and actual-solve probe reviewed.
+  58 hashed artifacts/10 files; 864 paired samples/48 exact-equality workloads.
+- 1617a51 (agent 9200aa1): live list value/destination sources, pin filtering before
+  pairing, bounded rejected work, range/dependency validation, PRE-removal metadata
+  normalized to executable Change/Assign/Unassign. Borrowed and owned contexts;
+  real ConfiguredMoveProvider opens against current assignment. 18 distinct
+  focused tests + strict Clippy; final Rustdoc-only delta separately recorded.
+  14 artifacts/5 files hashed. Per-value factories/mimic semantics remain pending.
+- 7dcaa7c: provenance for one COMPLETE randomWithPinning method and six fixtures.
+  Parent reviewed full source method/helper assertions and local adaptation.
 
-- ed7a5a4 (agent 4afa8bf): persistent dependency consumer sets. 14 focused tests
- + strict Clippy passed; narrow paired timings retain construction/tiny costs.
+Main Rust+provenance frozen at 7dcaa7c. Combined job **96362 LIVE**: fmt/strict Clippy passed (31.47s);
+affected-target prebuild then one scripts/check.sh. Logs:
+`work/parallel-round25-{prebuild,final-check}.log`. Do not mutate crates/provenance
+until terminal zero. Then run:
+`python3 work/with-verification-environment.py python3 work/record_parallel_round25.py`
+once (prepared, NOT RUN). Expected source count 3364, not yet verified on main.
 
-All four slices are frozen at ed7a5a4. Combined job 57247 is LIVE: prebuild formatting,
-strict Clippy and affected-target compile, then one scripts/check.sh. Logs are
-work/parallel-round24-{prebuild,final-check}.log. Do not mutate crates/provenance
-until terminal 0. Then run the stable launcher with work/record_parallel_round24.py
-once (prepared, NOT RUN). Expected 3363 source methods; no new method credit here.
-
-Ready/copied evidence: `work/parallel-round24-reviewed.json`,
-`work/parallel-round24-evidence/`, `work/parallel-round24-commits.json`.
-Draft reviews: `work/parallel-round24-draft-reviews.json`.
-Prebuild/recorder scripts are prepared for the four final schemas and expected
-source count 3363. Never relabel old result hashes as new verification.
+Evidence/indexes are copied under `work/parallel-round25-evidence/`; all final
+committed files/artifacts hashed, integrated zero-context stable patch IDs match.
+Metadata: `work/parallel-round25-{reviewed,commits,freeze}.json`. Reviewed draft
+snapshots: `work/parallel-round25-draft/`. No need to repeat completed reviews.
 
 ## Performance evidence and limits
+
+Round25 sparse phase-best on runner-a, final job28365 terminal0/released:
+large4096 sparse usize1.411x/1.443x/1.446x basic/list/mixed; payload1.521x/1.464x/1.431x;
+wide list/mixed payload1.491x/1.469x. Countercases: basicusize64+14.3%(3.411us),
+basicusize single4096+17.8%(18.859us), mixedusize single+5.29%, tiny/32 payload+3.7–8.4%.
+Sparse peak +4240B one component/+8368B mixed; no-best final basicpayload+1.42%,
+list+0.23%, mixed−2.16%, peak overhead128B. All48 workload results/work/payload
+checksums match across864 samples. Original v1 basic no-best+71.8% and isolated
+clone diagnostic retained separately; cause not established. No tuning sweep.
+These are native baseline/current measurements, not original-Java comparisons.
 
 Compact Change on runner-a, actual 64-proposal solves with 4096 payload-owned values:
 cross-row 3.740x list / 3.258x mixed; same-row 1.898x / 2.109x. Cross-row peak allocation
@@ -91,25 +108,28 @@ Bundle: `work/parallel-round22-list-aligned/`. This report is now visibly stale
 for changed solver inputs. Do not automatically refresh every benchmark.
 Remote absolute-path verification records were not imported as local hits.
 
-## Three active agents and build machines
+## Three active GPT-6 Astra/high agents and build machines
 
 - dense_scoring: `/home/ralph/.codex/worktrees/dense-list-scoring/TimeTuck`.
-  Next: sparse phase-best assignment refresh in retained scoped search, including
-  intervening non-best commits, Clone panic staging and dense/tiny fallbacks.
+  Sparse phase-best slice committed db37a1b, all jobs terminal. Follow-up active:
+  choose next substantive scoped-scoring/list behavior family from pending tests,
+  preferably complete adaptations; no more snapshot tuning, avoid calculator and
+  list_value_change source modules. Awaiting proposed scope.
 - dependency_graph: `/home/ralph/.codex/worktrees/dependency-graph/TimeTuck`.
-  Inspecting the next missing Community selection/dependency behavior family.
-  runner-a 31453 is terminal and released.
+  Live source slice committed 9200aa1. Approved next: correlated value→destination
+  factory source with bounded per-value and total work; empty/rejected branches
+  advance values; actual provider integration. Reuse destination index. Remaining
+  Java random range traces do not justify method credit; avoid forced mappings.
 - termination: `/home/ralph/.codex/worktrees/diminished-returns/TimeTuck`.
-  Implementing opt-in best constraint-total metrics through fresh AND retained
-  calculator solves, basic/list/mixed and plan/exact/repair transitions, without
-  extra scoring. Preinitialized matching-disabled directors report unavailable;
-  noncalculator backends may be explicitly unsupported. Fresh calculator entry
-  points must enable requested matching; retained-only support is insufficient.
+  Metrics committed e73896a. Approved next: reproduce and fix retained calculator
+  exact/repair assignment==incoming shortcut losing Eq-by-ID payload differences,
+  returning stale scores. Keep fix at transition boundary with fresh-reference
+  and notification/accounting checks; no broad sparse exact optimization needed.
 
 Local: 20 threads / 32 GB, Rust 1.92 stable. Parent combined prebuild uses -j12;
 isolated focused -j2 agent work is allowed. Avoid local timings during builds.
 runner-a: developer@runner-a.internal, 8 threads / 48 GB, glibc 2.44. Coordinate benchmark windows.
-runner-c: developer@runner-c.internal, 16 threads / 16 GB; latest 30780 SSH timeout. User plans to wake
+runner-c: developer@runner-c.internal, 16 threads / 16 GB; SSH37898 and14302 timed out this turn. User plans to wake
 it; retry opportunistically, do not repeatedly ask or restart unknown old jobs.
 Use BatchMode=yes,ConnectTimeout=10,StrictHostKeyChecking=yes for SSH.
 
