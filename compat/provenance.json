@@ -54354,6 +54354,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Complete asserted behavior preserved through explicit native metadata/operations rather than Java reflection/API. Preserve full two-value/two-entity initialized fixture and ephemeral reconstruction, zero uses of main scope and one use of a separate child scope. Native parent ScoringContextManager owns actual scoring state; child managed context borrows that director and records real nested construction work, with direct heterogeneous handle comparison of actual resource slots. It never releases the parent director. Parent count remains zero while child count is positive, and outer close restores assignments. No identity-only token, mocked scope or Java internal scope/API parity claim."
+    },
+    {
+      "id": "RootVariableSourceTest.invalidParameter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "invalidParameter",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "invalid_parameter",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve invalid declarative supplier with Integer parameter against the registered planning-solution type, complete test-visible list/entity/value/shadow/previous/consistency roles, and the full guidance fragment. Rust explicit schema and typed solution-aware supplier binding replace annotation/reflection discovery; diagnostic uses the actual native qualified solution type in place of its Java qualified name. Rejection occurs before callback execution. Original valid supplier runs inside actual ShadowSession evaluation with current solution snapshots."
+    },
+    {
+      "id": "RootVariableSourceTest.preferGetterWhenFieldTheSameType",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "preferGetterWhenFieldTheSameType",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "prefer_getter_when_field_the_same_type",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve same-type name field/getter and asserted method choice. Native SourceAccessorKind::Getter replaces reflected Method; the selected borrowed callable returns the actual string field, additionally checked."
+    },
+    {
+      "id": "RootVariableSourceTest.preferGetterWhenGetterIsMoreSpecificThanField",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "preferGetterWhenGetterIsMoreSpecificThanField",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "prefer_getter_when_getter_is_more_specific_than_field",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve base-declared field, more specific subclass getter and asserted method choice. Rust embedded-base representation and registered real borrowed upcast replace Java assignability/cast; selected getter returns the actual subclass object without cloning. Full callback/path projection behavior has original runtime controls."
+    },
+    {
+      "id": "RootVariableSourceTest.preferGetterWhenGetterIsNotCovariantWithField",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "preferGetterWhenGetterIsNotCovariantWithField",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "prefer_getter_when_getter_is_not_covariant_with_field",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve String field, unrelated Integer getter returning1 and asserted method choice. Native borrowed static integer replaces computed boxed constant; the selected callable really returns1. No Java boxing/API behavior claimed."
+    },
+    {
+      "id": "RootVariableSourceTest.preferFieldWhenFieldMoreSpecificThanGetter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "preferFieldWhenFieldMoreSpecificThanGetter",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "prefer_field_when_field_more_specific_than_getter",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve subclass field, base getter and asserted field choice. Actual borrowed projection establishes native specificity; selected field yields the original subclass object. Rust embedded base replaces Java inheritance."
+    },
+    {
+      "id": "RootVariableSourceTest.useFieldIfNoGetter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "useFieldIfNoGetter",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "use_field_if_no_getter",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve single String field and absent getter with field choice. Native actual borrowed field callable replaces reflected Field, and its value is read."
+    },
+    {
+      "id": "RootVariableSourceTest.useGetterIfNoField",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "useGetterIfNoField",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "use_getter_if_no_field",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve absent field and getValue returning value with method choice. Native borrowed constant string callable replaces Java getter and its actual result is read."
+    },
+    {
+      "id": "RootVariableSourceTest.errorIfNoMember",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "errorIfNoMember",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "local_test": "error_if_no_member",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve empty TestClass, RootClass inner link, inner.value path, value member and typed invalid request containing all five asserted fragments. Diagnostic derives actual native root/owner type labels; missing callable candidates fail without manufacturing a member. Java reflection/API is not claimed."
     }
   ],
   "fixtures": [
@@ -75481,6 +75601,84 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain exact value code and external/working distinction with immutable code and Arc identities. Explicit planning-ID key schema replaces a mocked clone-producing lookup; the returned working Arc is real registered data."
+    },
+    {
+      "id": "RootVariableSourceTest.accessor_records",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "local TestClass/RootClass records",
+      "local_path": "crates/solver/tests/source_accessor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve source record shapes and field/getter declared types, selected member kind, constant getter results and missing-member path/root/owner names. Additional reads execute the chosen native borrowed callable."
+    },
+    {
+      "id": "DeclarativeExtendedValues.accessor_specificity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedBaseValue.java",
+      "upstream_test": "base previous/code and value subtype role",
+      "local_path": "crates/solver/tests/fixtures/source_accessor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Keep test-visible base code/previous and subtype relationship using embedded native base and safe borrowed upcast. Accessor-selection cases do not execute the reference declarative code-sum supplier."
+    },
+    {
+      "id": "DeclarativeExtendedSubclass.accessor_specificity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedSubclassValue.java",
+      "upstream_test": "subclass/base value roles",
+      "local_path": "crates/solver/tests/fixtures/source_accessor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain codeSum storage and actual base/subclass relationship for metadata choice. Rust embedding/projection replaces Java inheritance/casts; supplier logic is not copied/executed."
+    },
+    {
+      "id": "InvalidDeclarativeParameter.solution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/invalid/parameter/TestdataInvalidDeclarativeParameterSolution.java",
+      "upstream_test": "registered solution/entity/value/score roles",
+      "local_path": "crates/solver/tests/fixtures/source_accessor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain full declared collection/score storage and actual native planning-solution type; explicit schema registration replaces annotations. Invalid test is metadata-only upstream too; no generated runtime dataset or scoring is claimed."
+    },
+    {
+      "id": "InvalidDeclarativeParameter.entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/invalid/parameter/TestdataInvalidDeclarativeParameterEntity.java",
+      "upstream_test": "list field values",
+      "local_path": "crates/solver/tests/fixtures/source_accessor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain genuine list field and native value type in explicit metadata and storage."
+    },
+    {
+      "id": "InvalidDeclarativeParameter.value",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/invalid/parameter/TestdataInvalidDeclarativeParameterValue.java",
+      "upstream_test": "fact/group/previous/invalidParameter/inconsistent and shadowInvalidParameter(Integer)",
+      "local_path": "crates/solver/tests/fixtures/source_accessor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain all declared fixture storage, previous and invalid target shadow metadata, and invalid Integer/i32 solution parameter. Unreachable callback replaces null-returning source supplier to assert it is not executed. Native solution-aware callback validation and real positive shadow evaluation cover the operational feature."
     }
   ]
 }

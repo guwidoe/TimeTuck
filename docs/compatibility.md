@@ -7392,3 +7392,32 @@ claimed. Five originals cover positive dense/stream edits, shared/optional range
 journal atomicity and buffer lifetime, real work in all six scoped/stream backends,
 and rollback after errors/panics. Originals earn no method credit. Candidate
 loops are unchanged; no benchmark or throughput claim is added.
+
+
+## Executable source member selection — round55
+
+SourceAccessorOptions selects a real borrowed field/getter callable. Equal and
+unrelated types prefer the getter; a strictly more specific field wins. Registered
+safe upcasts establish native assignability, including transitive projections;
+cycles and duplicate relations fail. Selection happens once. SourcePathRegistry
+installs the chosen callable and projects its output to canonical schema metadata.
+Traversal and shadow dependency binding use that actual reader, without object
+clones or unsafe casts. Existing one/many registration keeps duplicate rejection.
+A missing member reports the actual path, root, owner and name.
+
+SolutionSourceSupplier validates the optional solution parameter against the
+registered planning-solution type and checks the declared shadow return type.
+The resulting binding owns a callable that evaluates the real entity/solution
+snapshot and supplies a value during ShadowSession evaluation. Wrong parameter
+metadata fails before calling the supplier. Native explicit registration replaces
+annotation/signature discovery and Java assignability/boxing/reflection APIs.
+
+Eight complete RootVariableSourceTest adaptations preserve field/getter kind
+preferences, missing-member diagnostics and the invalid supplier guidance. Native
+qualified type names replace the Java qualified solution name in that diagnostic.
+Test-visible extended/invalid-parameter fixture roles are attributed; reference
+supplier implementations are not copied. The unrelated integer getter uses a
+borrowed constant1. Four originals prove real dependency rewiring (result21 to11),
+borrowed subtype projection to schema, hierarchy/schema rejection atomicity and
+solution-aware shadow results (9 to27). Originals earn no method credit. No search
+candidate loops or benchmark claims change.

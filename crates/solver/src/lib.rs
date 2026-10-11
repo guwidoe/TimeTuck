@@ -1461,3 +1461,9 @@ pub use neighborhood_phase::{
 
 mod nested_solver_context;
 pub use nested_solver_context::{NestedScoreResource, NestedSolverError, NestedSolverView};
+
+mod source_member;
+pub use source_member::{
+    SelectedSourceAccessor, SolutionSourceSupplier, SourceAccessorKind, SourceAccessorOptions,
+    SourceMemberError, SourceTypeHierarchy,
+};

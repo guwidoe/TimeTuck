@@ -88,6 +88,41 @@ impl<'s> SourcePathRegistry<'s> {
             .entity::<E>()
             .is_ok_and(|e| e.variable(name).is_ok())
     }
+    /// Bind a supplier's optional solution parameter to the registered actual
+    /// solution type, validating before any callback executes.
+    pub fn solution_supplier<E: 'static, P: 'static, V: 'static>(
+        &self,
+        target: &str,
+        call: impl Fn(&E, &P) -> Option<V> + Send + Sync + 'static,
+    ) -> Result<crate::SolutionSourceSupplier<'s, E, P, V>, SourcePathError> {
+        let owner = PlanningType::of::<E>();
+        let fail = |reason: String| SourcePathError {
+            path: target.into(),
+            owner,
+            member: target.into(),
+            reason,
+        };
+        if PlanningType::of::<P>() != self.schema.solution_type() {
+            return Err(fail(format!(
+                "Maybe you included a parameter which is not a planning solution ({})?",
+                self.schema.solution_type().name()
+            )));
+        }
+        let target = self
+            .schema
+            .entity::<E>()
+            .and_then(|e| e.shadow_variable(target))
+            .map_err(|e| fail(e.to_string()))?;
+        if target.value_type() != PlanningType::of::<V>() {
+            return Err(fail(
+                "supplier return type differs from shadow metadata".into(),
+            ));
+        }
+        Ok(crate::SolutionSourceSupplier {
+            target,
+            call: Box::new(call),
+        })
+    }
     pub fn one<E: 'static, V: 'static>(
         &mut self,
         name: &str,
@@ -131,8 +166,57 @@ impl<'s> SourcePathRegistry<'s> {
         many: bool,
         get: Box<Getter>,
     ) -> Result<(), SourcePathError> {
+        self.insert_erased(
+            PlanningType::of::<E>(),
+            PlanningType::of::<V>(),
+            name,
+            role,
+            many,
+            get,
+        )
+    }
+    /// Install the chosen callable and its genuine projection to canonical schema
+    /// metadata. Candidate selection happens once; traversal never reselects.
+    pub fn one_selected<E: 'static>(
+        &mut self,
+        name: &str,
+        role: SourceMemberRole,
+        selected: crate::SelectedSourceAccessor<E>,
+        hierarchy: &crate::SourceTypeHierarchy,
+    ) -> Result<(), SourcePathError> {
         let owner = PlanningType::of::<E>();
-        let value = PlanningType::of::<V>();
+        let value = self
+            .schema
+            .entity::<E>()
+            .ok()
+            .and_then(|e| e.variable(name).ok())
+            .map_or(selected.value_type(), |v| v.value_type());
+        let read = selected
+            .projected(value, hierarchy)
+            .map_err(|error| SourcePathError {
+                path: name.into(),
+                owner,
+                member: name.into(),
+                reason: error.to_string(),
+            })?;
+        self.insert_erased(
+            owner,
+            value,
+            name,
+            role,
+            false,
+            Box::new(move |owner| read(owner).into_iter().collect()),
+        )
+    }
+    fn insert_erased(
+        &mut self,
+        owner: PlanningType,
+        value: PlanningType,
+        name: &str,
+        role: SourceMemberRole,
+        many: bool,
+        get: Box<Getter>,
+    ) -> Result<(), SourcePathError> {
         let fail = |reason: &str| SourcePathError {
             path: name.into(),
             owner,
@@ -151,7 +235,7 @@ impl<'s> SourcePathRegistry<'s> {
         }
         let variable = self
             .schema
-            .entity::<E>()
+            .entity_type(owner)
             .ok()
             .and_then(|e| e.variable(name).ok());
         match role {
