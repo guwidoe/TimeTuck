@@ -1409,3 +1409,9 @@ pub use solution_composition::{
     SolutionCompositionError, SolutionCompositionPolicy, SolutionEntityRecord, SolutionFieldRange,
     SolutionMemberCategory, SolutionMemberDefinition, SolutionMemberKind, SolutionRange,
 };
+
+mod list_destination_cursor;
+pub use list_destination_cursor::{
+    DestinationAvailability, DestinationCursorError, DestinationDraw, DestinationReplay,
+    DestinationSelectionView, ListDestinationCursor, ListDestinationSelectionSource,
+};

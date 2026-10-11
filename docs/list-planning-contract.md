@@ -1005,6 +1005,34 @@ partial consumption cannot disturb replay. A bounded empty sample does not prove
 optimality. Mixed moves preserve basic variables. No Java selector fallback or
 random-trace equivalence and no measured runtime improvement are claimed.
 
+`ListDestinationCursor` adds bounded, stateful traversal over raw entity IDs and
+value anchors on a borrowed immutable layout. It caches child lookahead and the
+prepared output across availability checks. `DestinationReplay` identifies the
+selected registered value and replay epoch; changing either discards cached
+choices and exhaustion without rewinding raw children. An unchanged replay does
+not repoll exhausted children. The selected value filters receiving ranges and
+excludes its own anchor. `value: None` supports already-filtered child streams,
+including source mocks; actual move construction still validates doability.
+
+Full entity pins, prefix pins and unassigned anchors are filtered against the
+actual layout. Entity suffixes include the append position even when the whole
+current list is prefix-pinned. Optional unassignment remains available with no
+receiving entity. Per-child read limits also bound large skips and invalid cycles;
+`reached_read_limit` distinguishes a bounded rejection from proven exhaustion.
+Caught child/draw panics poison that opening. Reopen after layout changes; replay
+refresh alone does not rebuild the borrowed assignment or its location index.
+
+`ListDestinationSelectionSource` forwards lifecycle events to both children and
+observes the context's replay selection on every pull. Original mode prefers
+entity starts, then anchors, then one optional unassignment per replay. Random
+mode samples available categories equally and entity suffix positions uniformly;
+raw child occurrence order/distribution remains the child's policy. This is not
+uniform sampling over all global insertion positions or Java random-call parity.
+The source composes with `ListValueChangeSource` and configured providers; original
+regressions exercise checked moves in dense/stream list and mixed local search.
+The old snapshot selector and existing provider policies remain available. No
+benchmark speedup is claimed for this addition.
+
 ## Pending edits and rebased recordings
 
 `PendingListChanges` holds the first open entity inline, activating a BTreeMap for

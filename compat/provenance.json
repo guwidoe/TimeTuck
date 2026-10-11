@@ -52824,6 +52824,126 @@
       "upstream_test": "solvingErrorBeforeSolvingStartedDoesNotThrow",
       "local_test": "solving_error_before_start_does_not_replace_the_failure",
       "modifications": "Before start, cleanup returns normally, preserves Boom, adds no release error, and closes the director. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.randomWithEntityValueRange",
+      "upstream_test": "randomWithEntityValueRange",
+      "local_test": "random_with_entity_value_range",
+      "modifications": "Preserve four selected-value cases and repeated hasNext checks: V3\u2192C[0], V1\u2192A[2], V2\u2192B[1], V5\u2192C[1]. Actual receiver ranges and own-anchor exclusion filter cycling raw entity/value children. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.randomPartiallyPinnedAndUnassigned",
+      "upstream_test": "randomPartiallyPinnedAndUnassigned",
+      "local_test": "random_partially_pinned_and_unassigned",
+      "modifications": "Preserve all nine outputs: null,A[1],B[0],C[1],D[2],D[3],A[2],D[2],D[3], then continued availability. Source entity draw IDs are native child occurrences; reverse anchor order contains missing/pinned identities and is filtered against actual prefix pins. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.randomUnassignedSingleEntity",
+      "upstream_test": "randomUnassignedSingleEntity",
+      "local_test": "random_unassigned_single_entity",
+      "modifications": "Preserve empty single entity A, unassigned V3, A[0] then null, continued availability and never-ending metadata. Actual random native source uses explicit seed 0; seed agreement beyond these observable assertions is not claimed. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.randomFullyPinned",
+      "upstream_test": "randomFullyPinned",
+      "local_test": "random_fully_pinned",
+      "modifications": "Preserve pinned-prefix A append A[2], empty B[0], fully pinned C exclusion and complete exhaustion despite cycling invalid anchors. Model-wide eligibility recognizes no movable anchors without endlessly polling the raw cycle. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.refreshReachableEntities",
+      "upstream_test": "refreshReachableEntities",
+      "local_test": "refresh_reachable_entities",
+      "modifications": "Preserve null for V1 whose sole receiving entity is fully pinned, then B[0] for V2 and continued availability. Explicit epoch/value selection refreshes real receiver eligibility; canonical model entity reference retains B identity. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.phaseLifecycle",
+      "upstream_test": "phaseLifecycle",
+      "local_test": "phase_lifecycle",
+      "modifications": "Preserve solving/phase start/end once and two step start/end events on both actual child sources, in order. Empty native list model replaces the empty descriptor/mock scopes; lifecycle callbacks delegate once. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.discardOldValues",
+      "upstream_test": "discardOldValues",
+      "local_test": "discard_old_values",
+      "modifications": "Preserve B[1],B[1], exhaustion and exactly one discarded entity lookahead. Source mocked value children are already filtered and deliberately yield B for V1 despite its receiving range; value=None trusts the already-filtered child, while explicit epoch changes invalidate cached entity/anchor state. Does not claim this mocked sequence is a valid real range-constrained move. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/ElementDestinationSelectorTest.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementDestinationSelectorTest.discardOldValuesAndResetState",
+      "upstream_test": "discardOldValuesAndResetState",
+      "local_test": "discard_old_values_and_reset_state",
+      "modifications": "Preserve nonnull, unavailable/NoSuchElement, nonnull, unavailable/NoSuchElement sequence. Non-fused entity signals [A,end,A,end], empty entity range and explicit native replay epoch changes replace the mock replay selector; native Exhausted is the exhaustion error. Unfiltered mocked children retain the source empty-range fixture behavior. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
     }
   ],
   "fixtures": [
@@ -73184,6 +73304,201 @@
       "id": "scoring-context-fixture-DummyConstraintProvider",
       "upstream_test": "defineConstraints returns an empty array",
       "modifications": "Actual zero-constraint dense network and stream graph replace the empty provider array. Source zero constraints are intentional, not an unsupported scoring stub; originals separately exercise scored construction/search and weights. Apache-2.0 fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataListEntityProvidingEntity",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataListEntityProvidingSolution",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataListEntityProvidingValue",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/pinned/TestdataPinnedUnassignedValuesListEntity.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataPinnedUnassignedValuesListEntity",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/pinned/TestdataPinnedUnassignedValuesListSolution.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataPinnedUnassignedValuesListSolution",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/pinned/TestdataPinnedUnassignedValuesListValue.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataPinnedUnassignedValuesListValue",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataAllowsUnassignedValuesListEntity",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataAllowsUnassignedValuesListSolution",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataAllowsUnassignedValuesListValue",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListEntity.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataPinnedWithIndexListEntity",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListSolution.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataPinnedWithIndexListSolution",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListValue.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataPinnedWithIndexListValue",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/pinned/TestdataListUnassignedPinnedEntityProvidingEntity.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataListUnassignedPinnedEntityProvidingEntity",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/pinned/TestdataListUnassignedPinnedEntityProvidingSolution.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataListUnassignedPinnedEntityProvidingSolution",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "local_path": "crates/solver/tests/destination_cursor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "destination-cursor-fixture-TestdataValue",
+      "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
+      "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
     }
   ]
 }

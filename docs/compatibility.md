@@ -27,6 +27,19 @@ Java whole-solve time scope, preemption or unimproved-time compatibility. Native
 unimproved-time stopping additionally has six original controlled-clock regressions
 covering all model/backend paths; upstream lifecycle methods remain pending.
 
+Eight additional ElementDestinationSelectorTest methods preserve random semantic
+destination choices with entity ranges, partial/full pinning and unassignment,
+reachable-entity refresh, both child lifecycle counts, stale-lookahead discard
+and exhausted-state reset. Native borrowed cursors use explicit replay epochs
+and canonical value indices; semantic draws replace Java TestRandom call traces.
+Discard/reset cases retain the source's deliberately prefiltered mock children,
+including otherwise invalid receiver ranges, without claiming those outputs are
+valid real moves. Nine original regressions additionally exercise bounded reads,
+cached peeks, invalid metadata, panic poisoning and actual dense/stream list/mixed
+search through the new source. Originals add no upstream-method credit. The
+native cursor/source contract is in `docs/list-planning-contract.md`; Java API,
+RNG trace equivalence and measured performance improvement are not established.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,
