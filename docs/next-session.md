@@ -16,7 +16,83 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round46
+## Latest verified checkpoint — round47
+
+Main 9a1fe04 adds prepared scoring-factory banks and independent director creation.
+Goal active/incomplete. No new agents/assignments; Community pin/submodule unchanged.
+
+All 32 ScoreDirectorFactoryFactoryTest methods now have complete native adaptations.
+Typed full-evaluation, incremental and stream callbacks create actual resources.
+PreparedScoreFactory shares Rc model/score shape/trend and immutable recipe identity;
+stream modes cache separate preparations, repeated same-mode requests reuse one.
+Full/incremental recipes share mode-independent preparation but preserve requested
+runtime modes. Source class identity becomes native strategy/resource identity;
+no Java API/reflection claim. Actual CalculatorSession owns source string 1/int7.
+Four fixture records attribute the source zero calculators/config helpers and full
+five-value/seven-entity initialized modulo assignment. Children copy *current*
+working input and preserve requested mode/match policy. Java child roles map to
+this single native operation; no thread creation/scheduling behavior is claimed.
+
+Factory matching defaults disabled until the caller applies the builder policy.
+Explicit full-assertion modes or constraint-total metrics enable it, BestScore alone
+does not. This differs from existing ScoringContextManager settings; that code is
+unchanged. Assertion factories are independent/concrete, default NonReproducible;
+nested assertions and primary modes weaker than StepAssert fail before preparation.
+The bank exposes the assertion route; it does not install automatic assertion/mode
+checks in top-level solves. Runtime callbacks must honor settings. Recipe data P
+must remain immutable; independent runtime nodes/indexes are still allocated at
+instantiation. This single-threaded Rc bank does not cache mutable graph topology.
+
+Eight original regressions earn no source credit: actual dense/stream scoring edits,
+rollback and current-state children, independent caches, every native mode/actual
+calculator matching registry, validation before callbacks, failure/panic retries,
+failed instantiation/child input without cache loss, safe recursive preparation,
+non-Clone cleanup ordering and metadata/assertion identity. Callback counts prove
+one successful preparation per key; no wall-clock speedup claim. Old performance
+comparisons remain visibly stale. Existing context/search/scoring paths are unchanged.
+
+Focused 32+8 tests passed. Initial focused compile used nonexistent BasicCalculatorChange
+in zero fixture; replaced with unit change (source callbacks are no-op). First final
+prebuild caught oversized test-fixture enum; boxed its Stream resource. Failed snapshots
+a73c4a... and 656d80... are not verification. Final strict fmt/Clippy and
+bash scripts/check.sh passed on runner-a; collector/dashboard freshness passed:
+
+- 6,780 Rust tests and 290 doctests.
+- 3,567/4,855 source methods passing (73.471%); 722 pending, 566 excluded,
+  zero failed/unverified. Pending 754→722, exclusions unchanged.
+- 3 Rust RUN (lib and two new scoring_factory_bank targets), 973 Rust REUSE,
+  46 Python REUSE. Complete final worker 216.324s; no cache keys retagged.
+- Rust source 0d81b4a7cb85c2dda217ecafd4bc607b0f1fdf21e6de9fe080f22a7089ddade2.
+- Report/verification 38f6219425bb009c27079faca3f6a58b6c8682c724c610f5acbfed65cd4aac62.
+- Final remote root 96c48637b6b8020275115df2f3356dbc75380e91313114164100d83e206e953c.
+- work/round47-runner-a-results.tar.gz SHA256
+  6eec6f8c4caf7ba4c0e179169a4f11b73e13dd7f2c459cb8364226c21d240ef8.
+- Evidence/freeze: work/parallel-round47-evidence.json and parallel-round47-freeze.json;
+  successful remote-round47-integration-verified*. Worker/collector finished.
+  Postcommit proof: work/verify_round47_postcommit.py and round47-postcommit-evidence.json.
+
+No runner-c probe/job this turn. Next remote gate should seed actual round47 archive/root;
+runner currently seeds round46. Keep stable Cargo home/vendor/jobs6, genuine keys,
+checksums and original dates. Reuse this verification until relevant inputs change.
+
+Next integrate an actual assembled solver factory: DefaultSolverFactoryTest has 22
+pending methods and its entire pinned TEST file was read this turn. Build on existing
+SolverFactory, EnvironmentProfile, ScoringContextManager and the new prepared bank;
+share model/scoring preparation, preserve global mode independently of all phase
+overrides, bind actual requested modes/limits into native solves and create independent
+runtime state. Two source solve cases use initialized 2-value/2-entity fixture; stream
+local search is bounded at 5 steps. Native worker count and seeded-supplier configuration
+are separate from launching workers or Java RNG parity. Missing schema/entity TYPE
+registration differs from valid registered models with zero runtime entities.
+
+Before adapting, read used TEST fixtures/helpers: testdataSolverConfig.xml,
+PlannerTestUtils.buildSolverConfig, TestdataConstraintProvider,
+DefaultSolverTest.DummyEasyScoreCalculator and noentity/TestdataNoEntitySolution.
+No production/Enterprise read. See work/round47-next-work.txt for exact resolver
+expectations, seed 123456 comparison and other concrete findings. No next Rust batch
+started. Continue compatibility backlog closure with performance important.
+
+## Prior verified checkpoint — round46
 
 Main 0828508 completes native segmented access/editing; goal active/incomplete.
 No new agents or assignments. Upstream pin and submodule remain unchanged.
