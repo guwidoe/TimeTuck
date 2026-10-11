@@ -24367,3 +24367,36 @@ Parent readfullDefaultProblemChangeDirectorTest4methods; realcachedsession plus
 Lavishfixtureadaptation needed before credit. Implementing, nofocusedhandle yet.
 Goalactive/incomplete; continue implementation while47656/6309run; no duplicate
 checks. Record finalresults thennextcoherentbatch, keepingoriginaltimingshonest.
+
+Latest update: round22 prebuild finished; gate47656 remains LIVE executing tests.
+Original remote6309 terminal0 but report was NOT accepted as current: injected
+root .cargo/config.toml changed fingerprint. Failed validator39233 exited1 before
+copying any report. Bundle retained work/parallel-round22-list-remote. Aligned
+launcher moves vendoring into isolated CARGO_HOME and asserts main digest before
+build/timing. New85436 TERMINAL0, validator95220 TERMINAL0; actual fresh run,
+no relabeling. Accepted exactreport copied towork/list-performance.json; gate's
+report generation will ingest it after Rust checks. Source2babf7fc8405a5c83c211dba5f173701dff1591bb3e22a1777bde43f025598bd,
+reporta7ce28c19eff8af433f5f64e31dc9460b128c0c1e660d4fa4cfaba6efb4f4879,
+generated2026-10-11T08:07:48.807048Z. 320valid/317equalscore;optimaRust266/Java263;
+12timings,nineequalscoreJava/Rust2.738–76.668x. Construction32Javabetter;
+twoopt16/32Rustbetter. runner-a i5-1135G7/glibc2.44/Rust1.92/Java25.0.4.1;
+not directly comparable to old local-host timing. Bundlework/parallel-round22-list-
+aligned/{list-performance,identity,verification-record,validated-summary}.json.
+Allmanifestinputs/artifacts/record/report checksums verified; remote cache record
+not imported as local cache. Alignedsnapshot c76997b2b69c9307371a82c382cf749873b849d4a846ce80faad4938fa8d41b4.
+runner-a released to dense; current compact-undo final measurement83192 LIVE.
+V1paired82780terminal0, regressions drove changed lazy materialization/guardboxing;
+original19focusedpassed, new5rerun+Clippyterminal0;14unchangedfocused reused.
+V1 evidence preserved. Parent compact-undo production review PENDING.
+
+Round23 copied artifacts into work/parallel-round23-evidence; reviews index:
+streaming15df33f approved production+all5tests,0sourcecredit (10artifacts/3files).
+rebasing4e650f7 full3source methods/helpers/localfixture review PENDING (7artifacts/
+1file); focused78748terminal0. edits95519ed production+full4upstreammethods read,
+local10tests/Lavishfixtures/provenance review PENDING (11artifacts/4files).
+Edit runtime27099terminal0:23tests+Clippy;finalfixturefmt delta retained explicitly.
+Neither pending adaptation is credited/integrated yet. All3agents continuing:
+densecompactundo;dependency selecting nextselection/shadowfamily;termination
+selecting nextsolver lifecyclefamily. Keep3Astra/high agents active as requested.
+Next:47656terminal->record_parallel_round22.py throughstablelauncher; verifylist
+status current then reportbackendfreshness, noUIcheck. MainRust/provenance frozen.
