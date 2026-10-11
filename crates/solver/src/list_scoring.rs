@@ -19,7 +19,8 @@
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
 use crate::{
-    AdditiveScore, AppliedListMove, ListAssignment, ListElement, ListError, ListMove, ListProblem,
+    AdditiveScore, AppliedListMove, ListAssignment, ListElement, ListError, ListMove, ListPosition,
+    ListProblem,
 };
 use std::{error::Error, fmt};
 
@@ -287,30 +288,77 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         problem.validate(assignment)?;
         Ok(())
     }
-    fn contribution(
+    // Snapshot only dense queries. Sparse scopes retain their allocation-free
+    // direct lookup, and Eq-only models need no new trait bounds. The snapshot
+    // belongs to this immutable scoring pass, never to a retained director cache.
+    fn value_locations(
         &self,
-        index: usize,
         problem: &ListProblem<V>,
         assignment: &ListAssignment<V>,
-    ) -> Result<S, ListScoringError> {
-        let constraint = &self.constraints[index];
-        if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
-            return Ok(S::ZERO);
+        constraints: impl Iterator<Item = usize>,
+    ) -> Option<Vec<Option<ListPosition>>> {
+        if self.scoped_values.len() < 64 || !problem.has_value_index() {
+            return None;
         }
-        let facts: Vec<_> = constraint
+        let threshold = 64.max(problem.values().len() / 8);
+        let queries = constraints
+            .filter(|&i| {
+                self.constraints[i]
+                    .weight
+                    .as_ref()
+                    .is_none_or(|w| *w != S::ZERO)
+            })
+            .flat_map(|i| &self.constraints[i].scope)
+            .filter(|scope| matches!(scope, ListScope::Value(_)))
+            .take(threshold)
+            .count();
+        (queries == threshold)
+            .then(|| problem.indexed_value_locations(assignment))
+            .flatten()
+    }
+
+    fn facts<'f>(
+        constraint: &Constraint<'_, V, S>,
+        problem: &'f ListProblem<V>,
+        assignment: &'f ListAssignment<V>,
+        locations: Option<&[Option<ListPosition>]>,
+    ) -> Vec<ListFact<'f, V>> {
+        constraint
             .scope
             .iter()
             .map(|scope| match *scope {
                 ListScope::Entity(i) => ListFact::Entity(&assignment.lists()[i]),
                 ListScope::Value(i) => {
                     let value = &problem.values()[i];
-                    ListFact::Value {
-                        value,
-                        element: assignment.element(value),
-                    }
+                    let element = match locations {
+                        None => assignment.element(value),
+                        Some(locations) => locations[i].map(|position| {
+                            let row = &assignment.lists()[position.entity];
+                            ListElement {
+                                position,
+                                previous: position.index.checked_sub(1).and_then(|i| row.get(i)),
+                                next: row.get(position.index + 1),
+                            }
+                        }),
+                    };
+                    ListFact::Value { value, element }
                 }
             })
-            .collect();
+            .collect()
+    }
+
+    fn contribution(
+        &self,
+        index: usize,
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+        locations: Option<&[Option<ListPosition>]>,
+    ) -> Result<S, ListScoringError> {
+        let constraint = &self.constraints[index];
+        if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+            return Ok(S::ZERO);
+        }
+        let facts = Self::facts(constraint, problem, assignment, locations);
         let score = (constraint.evaluate)(
             &facts,
             constraint.weight.as_ref().unwrap_or(&S::ZERO),
@@ -341,8 +389,9 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         assignment: &ListAssignment<V>,
     ) -> Result<S, ListScoringError> {
         self.validate(problem, assignment)?;
+        let locations = self.value_locations(problem, assignment, 0..self.constraint_count());
         let contributions = (0..self.constraint_count())
-            .map(|i| self.contribution(i, problem, assignment))
+            .map(|i| self.contribution(i, problem, assignment, locations.as_deref()))
             .collect::<Result<Vec<_>, _>>()?;
         let total = self
             .arithmetic
@@ -397,8 +446,10 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         assignment: ListAssignment<V>,
     ) -> Result<Self, ListScoringError> {
         network.validate(problem, &assignment)?;
+        let locations =
+            network.value_locations(problem, &assignment, 0..network.constraint_count());
         let contributions = (0..network.constraint_count())
-            .map(|i| network.contribution(i, problem, &assignment))
+            .map(|i| network.contribution(i, problem, &assignment, locations.as_deref()))
             .collect::<Result<Vec<_>, _>>()?;
         let total = network
             .arithmetic
@@ -424,25 +475,22 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         &self,
         mut explain: impl FnMut(&str, &[ListScope], &[ListFact<'_, V>], &S) -> (J, Vec<F>),
     ) -> crate::ScopedScoreExplanation<S, J, F> {
+        let locations = self.network.value_locations(
+            self.problem,
+            &self.assignment,
+            0..self.network.constraint_count(),
+        );
         let mut matches = crate::ScoreExplanation::default();
         for (constraint, score) in self.network.constraints.iter().zip(&self.contributions) {
             let explanation = if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
                 None
             } else {
-                let facts: Vec<_> = constraint
-                    .scope
-                    .iter()
-                    .map(|scope| match *scope {
-                        ListScope::Entity(i) => ListFact::Entity(&self.assignment.lists()[i]),
-                        ListScope::Value(i) => {
-                            let value = &self.problem.values()[i];
-                            ListFact::Value {
-                                value,
-                                element: self.assignment.element(value),
-                            }
-                        }
-                    })
-                    .collect();
+                let facts = ListConstraintNetwork::facts(
+                    constraint,
+                    self.problem,
+                    &self.assignment,
+                    locations.as_deref(),
+                );
                 Some(explain(&constraint.name, &constraint.scope, &facts, score))
             };
             matches
@@ -647,13 +695,27 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             .collect();
         // Entity-only constraints need no value identity lookup. Registration
         // retains each scoped index once, including currently disabled weights.
-        for &i in &self.network.scoped_values {
-            let value = &self.problem.values()[i];
-            if touched.iter().any(|&entity| {
-                transaction.original_list(entity).unwrap().contains(value)
-                    || transaction.lists()[entity].contains(value)
-            }) {
+        let changed = (self.network.scoped_values.len() >= 64)
+            .then(|| {
+                self.problem
+                    .indexed_changed_value_positions(&transaction, &touched, |entity| {
+                        transaction.original_list(entity).unwrap()
+                    })
+            })
+            .flatten();
+        if let Some(changed) = changed {
+            for (i, _) in changed {
                 affected.extend(&self.network.value_dependents[i]);
+            }
+        } else {
+            for &i in &self.network.scoped_values {
+                let value = &self.problem.values()[i];
+                if touched.iter().any(|&entity| {
+                    transaction.original_list(entity).unwrap().contains(value)
+                        || transaction.lists()[entity].contains(value)
+                }) {
+                    affected.extend(&self.network.value_dependents[i]);
+                }
             }
         }
         affected.sort_unstable();
@@ -664,9 +726,14 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
                 .as_ref()
                 .is_none_or(|w| *w != S::ZERO)
         });
+        let locations =
+            self.network
+                .value_locations(self.problem, &transaction, affected.iter().copied());
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
-            let contribution = self.network.contribution(i, self.problem, &transaction)?;
+            let contribution =
+                self.network
+                    .contribution(i, self.problem, &transaction, locations.as_deref())?;
             updates.push((i, contribution));
         }
         let score = self
@@ -733,7 +800,8 @@ fn consistency_report<V: Eq + Clone, S: AdditiveScore>(
             .iter()
             .zip(cached)
             .map(|(c, score)| (c.name.as_str(), score)),
-        |i| network.contribution(i, problem, assignment),
+        // Diagnostics deliberately rediscover positions without the scoring snapshot.
+        |i| network.contribution(i, problem, assignment, None),
         |fresh| {
             let sum = network
                 .arithmetic

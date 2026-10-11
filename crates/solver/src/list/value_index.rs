@@ -104,6 +104,10 @@ impl<V: Eq + Clone> ListProblem<V> {
 }
 
 impl<V: Eq + Clone> ListProblem<V> {
+    pub(crate) fn has_value_index(&self) -> bool {
+        self.value_index.is_some()
+    }
+
     // Internal callers already hold a valid registry ID; avoid rehashing its
     // value for every receiver. Eq-only models retain ordinary range membership.
     pub(crate) fn accepts_registered(&self, entity: usize, id: usize) -> bool {
@@ -153,6 +157,22 @@ impl<V: Eq + Clone> ListProblem<V> {
             Some(index) => Self::new_using_hash(self.values.clone(), entities, index.hash),
             None => Self::new(self.values.clone(), entities),
         }
+    }
+
+    // Dense callers can opt into one touched-row traversal without making the
+    // Eq-only fallback scan the entire registry for sparse queries.
+    pub(crate) fn indexed_changed_value_positions<'a>(
+        &self,
+        assignment: &ListAssignment<V>,
+        touched: &[usize],
+        original: impl Fn(usize) -> &'a [V],
+    ) -> Option<Vec<(usize, Option<ListPosition>)>>
+    where
+        V: 'a,
+    {
+        self.value_index
+            .as_ref()
+            .map(|_| self.changed_value_positions(assignment, touched, original))
     }
 
     // Preserve registry update order and include removed values. For indexed models
