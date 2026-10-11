@@ -5,6 +5,7 @@
 
 mod assigned_membership;
 pub(crate) mod move_check;
+mod span_movement;
 mod value_index;
 
 use std::{error::Error, fmt, ops::Deref, sync::OnceLock};
@@ -475,6 +476,8 @@ impl<V: Eq + Clone> ListProblem<V> {
     /// Validate external input in full. Primitive edits preserve registry membership
     /// and uniqueness, so final layout checks inspect only referenced entities.
     /// Opt-in dependency-cycle checks still examine the global dependency graph.
+    /// Span edits move existing payloads; they do not promise per-leaf Clone or
+    /// Drop calls. Undo snapshots still clone each referenced row once.
     pub fn apply<'a>(
         &self,
         assignment: &'a mut ListAssignment<V>,
@@ -574,17 +577,30 @@ impl<V: Eq + Clone> ListProblem<V> {
                     if destination.index > destination_length {
                         return Err(ListError::InsertionIndex(*destination));
                     }
-                    let mut span: Vec<_> = transaction.assignment.lists[*entity]
-                        .drain(*start..*end)
-                        .collect();
-                    for value in &span {
-                        record(value);
+                    if *entity == destination.entity {
+                        for value in &transaction.assignment.lists[*entity][*start..*end] {
+                            record(value);
+                        }
+                        span_movement::relocate(
+                            &mut transaction.assignment.lists[*entity],
+                            *start,
+                            *end,
+                            destination.index,
+                            *reverse,
+                        );
+                    } else {
+                        let mut span: Vec<_> = transaction.assignment.lists[*entity]
+                            .drain(*start..*end)
+                            .collect();
+                        for value in &span {
+                            record(value);
+                        }
+                        if *reverse {
+                            span.reverse();
+                        }
+                        transaction.assignment.lists[destination.entity]
+                            .splice(destination.index..destination.index, span);
                     }
-                    if *reverse {
-                        span.reverse();
-                    }
-                    transaction.assignment.lists[destination.entity]
-                        .splice(destination.index..destination.index, span);
                 }
                 ListMove::SubListSwap {
                     left,
@@ -611,25 +627,18 @@ impl<V: Eq + Clone> ListProblem<V> {
                             right: *right,
                         });
                     }
-                    let mut a = transaction.entity(left.entity)?[left.start..left.end].to_vec();
-                    let mut b = transaction.entity(right.entity)?[right.start..right.end].to_vec();
-                    for value in a.iter().chain(&b) {
+                    for value in transaction.entity(left.entity)?[left.start..left.end]
+                        .iter()
+                        .chain(&transaction.entity(right.entity)?[right.start..right.end])
+                    {
                         record(value);
                     }
-                    if *reverse {
-                        a.reverse();
-                        b.reverse();
-                    }
-                    // Replace the later span first so pre-move indices remain valid.
-                    if left.entity == right.entity && left.start < right.start {
-                        transaction.assignment.lists[right.entity]
-                            .splice(right.start..right.end, a);
-                        transaction.assignment.lists[left.entity].splice(left.start..left.end, b);
-                    } else {
-                        transaction.assignment.lists[left.entity].splice(left.start..left.end, b);
-                        transaction.assignment.lists[right.entity]
-                            .splice(right.start..right.end, a);
-                    }
+                    span_movement::exchange(
+                        &mut transaction.assignment.lists,
+                        *left,
+                        *right,
+                        *reverse,
+                    );
                 }
                 ListMove::Swap { left, right } => {
                     transaction.element_index(*left)?;
