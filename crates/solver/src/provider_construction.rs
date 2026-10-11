@@ -2,10 +2,7 @@
 //! assignment boundary; construction accepts only monotonic initialization.
 //! Unlike provider local search, malformed or non-initializing proposals are
 //! skipped and counted. No exhaustion of a custom pool proves infeasibility.
-use std::{
-    cell::Cell,
-    time::{Duration, Instant},
-};
+use std::{cell::Cell, time::Duration};
 
 use crate::list_search_scoring::ListSearchDirector;
 use crate::mixed_search_scoring::MixedSearchDirector;
@@ -322,12 +319,12 @@ engine!(MixedEngine, MixedSearchDirector, [B, L], MixedAssignment<B, L>, MixedMo
 
 fn interruption<S>(
     c: ProviderConstructionConfig,
-    start: Instant,
+    elapsed: &impl Fn() -> std::time::Duration,
     shared: &mut Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Option<ProviderConstructionTermination> {
     if c.cancellation.is_some_and(CancellationToken::is_cancelled) {
         Some(ProviderConstructionTermination::Cancelled)
-    } else if c.max_time.is_some_and(|limit| start.elapsed() >= limit) {
+    } else if c.max_time.is_some_and(|limit| elapsed() >= limit) {
         Some(ProviderConstructionTermination::TimeLimit)
     } else if shared.as_mut().is_some_and(|s| s.construction_stopped()) {
         Some(ProviderConstructionTermination::Condition)
@@ -363,7 +360,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     let move_counter = crate::move_metrics::from_control(&shared);
     let score_counter = crate::score_evaluations::from_control(&shared);
     use ProviderConstructionTermination as Stop;
-    let start = Instant::now();
+    let elapsed = crate::solver_clock::monitored_clock(config.max_time.is_some(), &shared);
     let mut result = ProviderConstructionResult {
         complete: shape.complete(&initial),
         assignment: initial,
@@ -378,7 +375,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     if config.max_evaluations == 0 {
         return Ok(result);
     }
-    if let Some(reason) = interruption(config, start, &mut shared) {
+    if let Some(reason) = interruption(config, &elapsed, &mut shared) {
         result.termination = reason;
         return Ok(result);
     }
@@ -397,7 +394,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         || shape.complete(director.assignment()),
     );
     result.termination = loop {
-        if let Some(reason) = interruption(config, start, &mut shared) {
+        if let Some(reason) = interruption(config, &elapsed, &mut shared) {
             break reason;
         }
         if shape.remaining(director.assignment(), config.optional) == 0 {
@@ -438,7 +435,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 return None;
             }
             loop {
-                stopped.set(interruption(config, start, &mut shared));
+                stopped.set(interruption(config, &elapsed, &mut shared));
                 if stopped.get().is_none() && emitted == budget {
                     stopped.set(Some(budget_reason));
                 }
@@ -451,7 +448,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 }
                 let movement = proposals.next();
                 result.scanned_moves += u64::from(movement.is_some());
-                if let Some(reason) = interruption(config, start, &mut shared) {
+                if let Some(reason) = interruption(config, &elapsed, &mut shared) {
                     stopped.set(Some(reason));
                     ended = true;
                     return None;
@@ -520,7 +517,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         }
         if let Some(reason) = stopped
             .get()
-            .or_else(|| interruption(config, start, &mut shared))
+            .or_else(|| interruption(config, &elapsed, &mut shared))
         {
             break reason;
         }

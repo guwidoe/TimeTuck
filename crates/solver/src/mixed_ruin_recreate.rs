@@ -1,6 +1,5 @@
 //! Joint sampling and reconstruction of mixed basic/list models.
 use crate::*;
-use std::time::Instant;
 
 /// Shared ruin limits and placement with an explicit component encounter order.
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -165,11 +164,12 @@ pub(crate) fn ruin_recreate_mixed_stream_search_from_observed<
         observer,
         shared,
         |p, a, mut c, monitor| {
-            let start = c.construction.max_time.map(|_| Instant::now());
+            let elapsed =
+                crate::solver_clock::monitored_clock(c.construction.max_time.is_some(), &monitor);
             let (graph, sources) = graph()
                 .map_err(|e| MixedLocalSearchError::from(MixedStreamScoringError::from(e)))?;
-            if let (Some(limit), Some(start)) = (c.construction.max_time, start) {
-                c.construction.max_time = Some(limit.saturating_sub(start.elapsed()));
+            if let Some(limit) = c.construction.max_time {
+                c.construction.max_time = Some(limit.saturating_sub(elapsed()));
             }
             crate::mixed_stream_scoring::greedy_mixed_stream_construction_from_monitored(
                 monitor, p, graph, sources, a, c,

@@ -319,7 +319,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                 });
             }
         };
-        let clock = crate::provider_search::clock(&config);
+        let clock = crate::provider_search::clock(&config, &shared);
         let result = crate::list_local_search::search_impl_with_provider(
             shared,
             problem,

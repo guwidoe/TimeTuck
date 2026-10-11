@@ -109,6 +109,7 @@ pub fn solve_calculator_with_extensions<
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -416,11 +417,12 @@ fn basic_local<
     provider: Option<&mut dyn MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     let controls = config.clone();
-    let clock = crate::time_limit::monotonic_clock(
+    let clock = crate::solver_clock::monitored_clock(
         controls.max_time.is_some()
             || controls.max_unimproved_time.is_some()
             || controls.diminished_returns.is_some()
             || controls.significant_improvement.is_some(),
+        &shared,
     );
     crate::local_search::search_impl_with_provider(
         shared,
@@ -587,6 +589,7 @@ pub fn solve_list_calculator_with_extensions<
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -896,11 +899,12 @@ fn list_local<
     provider: Option<&mut dyn MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>>,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     let controls = config.clone();
-    let clock = crate::time_limit::monotonic_clock(
+    let clock = crate::solver_clock::monitored_clock(
         controls.max_time.is_some()
             || controls.max_unimproved_time.is_some()
             || controls.diminished_returns.is_some()
             || controls.significant_improvement.is_some(),
+        &shared,
     );
     crate::list_local_search::search_impl_with_provider(
         shared,
@@ -1064,6 +1068,7 @@ pub fn solve_mixed_calculator_with_extensions<
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -1405,11 +1410,12 @@ fn mixed_local<
     provider: Option<MixedProvider<'_, B, L>>,
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
     let controls = config.search.clone();
-    let clock = crate::time_limit::monotonic_clock(
+    let clock = crate::solver_clock::monitored_clock(
         controls.max_time.is_some()
             || controls.max_unimproved_time.is_some()
             || controls.diminished_returns.is_some()
             || controls.significant_improvement.is_some(),
+        &shared,
     );
     crate::mixed_local_search::search_impl_with_provider(
         shared,

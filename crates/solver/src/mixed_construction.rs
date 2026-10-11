@@ -571,6 +571,7 @@ pub(crate) fn construction_impl_monitored<
     settings: MixedConstructionConfig,
     make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
 ) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
-    let clock = crate::time_limit::monotonic_clock(settings.construction.max_time.is_some());
+    let clock =
+        crate::solver_clock::monitored_clock(settings.construction.max_time.is_some(), &shared);
     construction_impl_with_clock_monitored(shared, problem, initial, settings, make_director, clock)
 }

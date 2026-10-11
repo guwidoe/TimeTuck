@@ -562,11 +562,12 @@ pub(crate) fn search_impl_monitored<V: Eq + Clone, S: AdditiveScore, D: SearchDi
 where
     LocalSearchError: From<D::Error>,
 {
-    let clock = crate::time_limit::monotonic_clock(
+    let clock = crate::solver_clock::monitored_clock(
         config.max_time.is_some()
             || config.max_unimproved_time.is_some()
             || config.diminished_returns.is_some()
             || config.significant_improvement.is_some(),
+        &shared,
     );
     search_impl_with_clock_monitored(shared, problem, initial, config, create, clock)
 }

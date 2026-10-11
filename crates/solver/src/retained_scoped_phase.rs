@@ -241,7 +241,7 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
                 });
             }
         };
-        let clock = crate::provider_search::clock(&config$(.$clock_field)?);
+        let clock = crate::provider_search::clock(&config$(.$clock_field)?, &shared);
         let mut tracked = self.start_retained_tracking();
         let result = crate::$search::search_impl_with_provider(shared, problem, ($initial)(initial), config, |initial| {
             let initialization_work = tracked.prepare_retained_phase(initial)?;

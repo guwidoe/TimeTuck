@@ -1,7 +1,7 @@
 //! Native exact phases over complete assignments. Stream candidates roll back to
 //! the empty planning sources between scores; immutable graph facts remain intact.
 use super::*;
-use crate::time_limit::{TimeBudget, monotonic_clock};
+use crate::time_limit::TimeBudget;
 
 type ExactObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolutionUpdate<'_, A, S>)>;
 
@@ -13,7 +13,10 @@ pub(super) fn run_observed<A: Clone, S: AdditiveScore, E>(
     evaluate: impl FnMut(&A) -> Result<(S, u128), E>,
     observer: ExactObserver<'_, A, S>,
 ) -> Result<PhaseOutput<A, S>, E> {
-    let clock = monotonic_clock(config.max_time.is_some());
+    let clock = crate::solver_clock::elapsed_clock(
+        config.max_time.is_some(),
+        control.clock_session.as_ref(),
+    );
     run_with_clock_observed(config, prior, control, enumerate, evaluate, clock, observer)
 }
 

@@ -17,12 +17,14 @@ pub(crate) struct ProviderContext<'a, P, A, M, S> {
 }
 pub(crate) fn clock<S>(
     config: &LocalSearchConfig<'_, S>,
+    shared: &Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> impl FnMut() -> std::time::Duration + use<S> {
-    crate::time_limit::monotonic_clock(
+    crate::solver_clock::monitored_clock(
         config.max_time.is_some()
             || config.max_unimproved_time.is_some()
             || config.diminished_returns.is_some()
             || config.significant_improvement.is_some(),
+        shared,
     )
 }
 
@@ -78,7 +80,7 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
         }
         .into());
     }
-    let clock = clock(&config);
+    let clock = clock(&config, &context.control);
     if let Some(observer) = context.observer {
         crate::local_search::search_impl_with_provider(
             context.control,
@@ -140,7 +142,7 @@ pub(crate) fn basic_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.validate_acceptance()?;
     crate::stream_scoring::validate_source(&graph, &source)?;
-    let clock = clock(&config);
+    let clock = clock(&config, &context.control);
     if let Some(observer) = context.observer {
         crate::local_search::search_impl_with_provider(
             context.control,
@@ -196,7 +198,7 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     config.validate_acceptance()?;
     n.validate(p, &initial)?;
-    let clock = clock(&config);
+    let clock = clock(&config, &context.control);
     if let Some(observer) = context.observer {
         crate::list_local_search::search_impl_with_provider(
             context.control,
@@ -258,7 +260,7 @@ pub(crate) fn list_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     config.validate_acceptance()?;
     sources.validate(&graph)?;
-    let clock = clock(&config);
+    let clock = clock(&config, &context.control);
     if let Some(observer) = context.observer {
         crate::list_local_search::search_impl_with_provider(
             context.control,
@@ -314,7 +316,7 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
     config.search.validate_acceptance()?;
     n.validate(p, &initial)?;
-    let clock = clock(&config.search);
+    let clock = clock(&config.search, &context.control);
     if let Some(observer) = context.observer {
         crate::mixed_local_search::search_impl_with_provider(
             context.control,
@@ -381,7 +383,7 @@ pub(crate) fn mixed_stream<
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
     config.search.validate_acceptance()?;
     sources.validate(&graph)?;
-    let clock = clock(&config.search);
+    let clock = clock(&config.search, &context.control);
     if let Some(observer) = context.observer {
         crate::mixed_local_search::search_impl_with_provider(
             context.control,

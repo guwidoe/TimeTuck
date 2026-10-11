@@ -306,7 +306,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 });
             }
         };
-        let clock = crate::provider_search::clock(&config.search);
+        let clock = crate::provider_search::clock(&config.search, &shared);
         let result = crate::mixed_local_search::search_impl_with_provider(
             shared,
             problem,

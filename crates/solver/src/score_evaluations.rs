@@ -30,16 +30,19 @@ pub(crate) fn record(counter: &Option<ScoreCounter>) {
 
 /// Rebuilds contribute scores to the solve, but their placements are not outer
 /// construction steps and their moves keep the existing reconstruction family.
-/// Only install this proxy when live score termination needs candidate polling.
+/// Install this proxy for live score termination or an injected solve clock.
 pub(crate) fn rebuilding<S, R>(
     shared: &mut Option<&mut dyn SearchControl<S>>,
     run: impl FnOnce(Option<&mut dyn SearchControl<S>>) -> R,
 ) -> R {
-    if from_control(shared).is_none() {
+    if from_control(shared).is_none() && shared.as_ref().and_then(|s| s.clock_session()).is_none() {
         return run(None);
     }
     struct Rebuild<'a, S>(&'a mut dyn SearchControl<S>);
     impl<S> SearchControl<S> for Rebuild<'_, S> {
+        fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
+            self.0.clock_session()
+        }
         fn score_counter(&self) -> Option<ScoreCounter> {
             self.0.score_counter()
         }

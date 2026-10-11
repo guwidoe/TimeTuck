@@ -1,6 +1,5 @@
 //! List-specific removal, pin preservation and acceptance identities for repair.
 use crate::*;
-use std::time::Instant;
 
 impl From<ListLocalSearchError> for RuinRecreateError {
     fn from(e: ListLocalSearchError) -> Self {
@@ -154,11 +153,11 @@ pub(crate) fn ruin_recreate_list_stream_search_from_observed<
         observer,
         shared,
         |p, a, mut c, monitor| {
-            let start = c.max_time.map(|_| Instant::now());
+            let elapsed = crate::solver_clock::monitored_clock(c.max_time.is_some(), &monitor);
             let (graph, sources) =
                 graph().map_err(|e| ListLocalSearchError::from(ListStreamScoringError::from(e)))?;
-            if let (Some(limit), Some(start)) = (c.max_time, start) {
-                c.max_time = Some(limit.saturating_sub(start.elapsed()));
+            if let Some(limit) = c.max_time {
+                c.max_time = Some(limit.saturating_sub(elapsed()));
             }
             crate::list_stream_scoring::greedy_list_stream_construction_from_monitored(
                 monitor, p, graph, sources, a, c,

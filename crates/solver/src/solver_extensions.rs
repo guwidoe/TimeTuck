@@ -267,6 +267,8 @@ pub type SolverFailureCallback<'a, A, S> = dyn FnMut(SolverFailure<'_, A, S>) + 
 pub struct SolverExtensions<'a, P, A, M, S, E> {
     pub move_providers: PhaseMoveProviders<'a, P, A, M>,
     pub command: Option<&'a mut SolverCommandCallback<'a, A, M, S, E>>,
+    /// Optional common clock for solve and phase budgets; see [`crate::SolverClock`].
+    pub clock: Option<&'a crate::SolverClock>,
     pub events: Option<&'a mut SolverEventCallback<'a, A, S>>,
     /// Optional solve/phase/step notifications. Omit on a later solve to detach.
     pub lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
@@ -282,6 +284,7 @@ impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
             move_providers: PhaseMoveProviders::default(),
             command: None,
             events: None,
+            clock: None,
             score_check: None,
             failure: None,
             lifecycle: None,

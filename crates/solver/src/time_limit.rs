@@ -28,6 +28,10 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 
 /// Optional solve-wide observer; phase timers and step counters stay independent.
 pub(crate) trait SearchControl<S = crate::SimpleScore> {
+    fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
+        None
+    }
+
     fn score_counter(&self) -> Option<crate::score_evaluations::ScoreCounter> {
         None
     }

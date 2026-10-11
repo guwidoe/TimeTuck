@@ -466,7 +466,7 @@ pub(crate) fn run_monitored<A: Clone, M, S: Score, D: CommandDirector<A, M, S>>(
     target: Option<S>,
     stop_when_feasible: bool,
 ) -> Result<CustomPhaseResult<A, S>, CustomPhaseError<D::Error>> {
-    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    let clock = crate::solver_clock::monitored_clock(config.max_time.is_some(), &shared);
     run_monitored_with_clock(
         initial,
         config,
@@ -873,6 +873,9 @@ pub fn mixed_stream_custom_phase_with_observer<
 // lifetime of the solve's mutable trait-object reference.
 struct SharedControl<'a, S>(Option<&'a mut dyn crate::time_limit::SearchControl<S>>);
 impl<S> crate::time_limit::SearchControl<S> for SharedControl<'_, S> {
+    fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
+        self.0.as_ref().and_then(|s| s.clock_session())
+    }
     fn monitors_step_scores(&self) -> bool {
         self.0.as_ref().is_some_and(|m| m.monitors_step_scores())
     }

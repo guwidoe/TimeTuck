@@ -1,6 +1,5 @@
 //! Shared bounded search loop; model-specific removal and metadata stay separate.
 use crate::*;
-use std::time::Instant;
 
 pub(crate) type RepairObserver<'a, A, S> = Option<&'a mut dyn FnMut(SolutionUpdate<'_, A, S>)>;
 
@@ -97,7 +96,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     ) -> Result<Repair<P::Assignment, S>, RuinRecreateError>,
 ) -> Result<RuinRecreateOutcome<(P::Assignment, S)>, RuinRecreateError> {
     let move_counter = crate::move_metrics::from_control(&shared);
-    let start = config.max_time.map(|_| Instant::now());
+    let elapsed = crate::solver_clock::monitored_clock(config.max_time.is_some(), &shared);
     problem.validate_complete(&initial)?;
     config.validate_candidates(problem.candidate_count())?;
     if config.minimum_ruined == 0 || config.minimum_ruined > config.maximum_ruined {
@@ -118,11 +117,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             .cancellation
             .is_some_and(CancellationToken::is_cancelled)
     };
-    let remaining = || {
-        config
-            .max_time
-            .map(|limit| limit.saturating_sub(start.expect("timed").elapsed()))
-    };
+    let remaining = || config.max_time.map(|limit| limit.saturating_sub(elapsed()));
     let mut result = RuinRecreateOutcome {
         best: None,
         evaluations: 0,

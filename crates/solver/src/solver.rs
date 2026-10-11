@@ -421,6 +421,7 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     condition_uses_moves: bool,
     limit: Option<Duration>,
     clock: &'c mut dyn FnMut() -> Duration,
+    clock_session: Option<crate::solver_clock::ClockSession>,
     last: Duration,
     shared_bound: bool,
     significant: Option<SignificantImprovement<S>>,
@@ -508,11 +509,13 @@ impl<S: Score> SolveControl<'_, S> {
     fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
         ((self.condition.is_some() || self.scored_condition.is_some())
             || self.lifecycle.enabled()
-            || self.move_counter.is_some())
+            || self.move_counter.is_some()
+            || self.clock_session.is_some())
         .then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
-        if self.move_counter.is_some()
+        if self.clock_session.is_some()
+            || self.move_counter.is_some()
             || self.lifecycle.enabled()
             || (self.condition.is_some() || self.scored_condition.is_some())
             || self.significant.is_some()
@@ -542,6 +545,9 @@ impl<S: Score> SolveControl<'_, S> {
     }
 }
 impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
+    fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
+        self.clock_session.as_ref()
+    }
     fn score_counter(&self) -> Option<crate::score_evaluations::ScoreCounter> {
         self.score_counter.clone()
     }
@@ -765,6 +771,7 @@ enum PlanCallback<'a, A, S> {
         lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
         metrics: Option<&'a crate::SolverMetrics<S>>,
         failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
+        clock: Option<&'a crate::SolverClock>,
     },
 }
 impl<'a, A, S> PlanCallback<'a, A, S> {
@@ -774,14 +781,21 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
         lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
         metrics: Option<&'a crate::SolverMetrics<S>>,
         failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
+        clock: Option<&'a crate::SolverClock>,
     ) -> Option<Self> {
-        if check.is_some() || lifecycle.is_some() || metrics.is_some() || failure.is_some() {
+        if check.is_some()
+            || lifecycle.is_some()
+            || metrics.is_some()
+            || failure.is_some()
+            || clock.is_some()
+        {
             Some(Self::Checked {
                 events,
                 check,
                 lifecycle,
                 metrics,
                 failure,
+                clock,
             })
         } else {
             events.map(Self::Events)
@@ -796,6 +810,7 @@ struct PlanObservation<'a, A, S> {
     initial_only: bool,
     repaired_initial: bool,
     metric_writer: Option<crate::solver_metrics::MetricWriter<S>>,
+    clock_session: Option<crate::solver_clock::ClockSession>,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
     fn new(callback: PlanObserver<'a, A, S>) -> Self {
@@ -806,6 +821,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             initial_only: false,
             repaired_initial: false,
             metric_writer: None,
+            clock_session: None,
         }
     }
     fn take_lifecycle(&mut self) -> Option<&'a mut crate::SolverLifecycleCallback<'a>> {
@@ -1024,13 +1040,27 @@ fn run<A, S: AdditiveScore, E: std::fmt::Debug>(
 where
     A: Clone,
 {
-    let mut clock = crate::time_limit::monotonic_clock(
-        limits.termination.is_some()
-            || limits.scored_termination.is_some()
-            || limits.max_time.is_some()
-            || limits.max_unimproved_time.is_some()
-            || limits.significant_improvement.is_some(),
-    );
+    observation.clock_session = match &observation.callback {
+        Some(PlanCallback::Checked {
+            clock: Some(source),
+            ..
+        }) => Some(crate::solver_clock::ClockSession::new(source)),
+        _ => None,
+    };
+    let enabled = limits.termination.is_some()
+        || limits.scored_termination.is_some()
+        || limits.max_time.is_some()
+        || limits.max_unimproved_time.is_some()
+        || limits.significant_improvement.is_some();
+    let session = observation.clock_session.clone();
+    let mut real = crate::time_limit::monotonic_clock(enabled && session.is_none());
+    let mut clock = || {
+        if enabled {
+            session.as_ref().map_or_else(&mut real, |s| s.elapsed())
+        } else {
+            Duration::ZERO
+        }
+    };
     run_with_clock_observed(limits, local, initial, &mut observation, phase, &mut clock)
 }
 #[cfg(test)]
@@ -1111,6 +1141,7 @@ where
                 .is_some_and(crate::ScoredSearchTermination::needs_move_counts),
         limit: limits.max_time,
         clock,
+        clock_session: observation.clock_session.clone(),
         last: Duration::ZERO,
         shared_bound: false,
         significant: limits
@@ -4038,6 +4069,7 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4068,6 +4100,7 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4091,6 +4124,7 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4121,6 +4155,7 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4156,6 +4191,7 @@ pub fn solve_list_stream_with_extensions<
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4185,6 +4221,7 @@ pub fn solve_mixed_stream_with_extensions<
             extensions.lifecycle,
             extensions.metrics,
             extensions.failure,
+            extensions.clock,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),

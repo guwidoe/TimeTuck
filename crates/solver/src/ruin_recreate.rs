@@ -1,10 +1,6 @@
 //! Seeded ruin-and-recreate configuration, results and basic-variable support.
 use crate::*;
-use std::{
-    error::Error,
-    fmt,
-    time::{Duration, Instant},
-};
+use std::{error::Error, fmt, time::Duration};
 
 /// A fine-move family used alongside reconstruction. Standard families use the
 /// existing per-model interpretation; Mixed permits independent components and
@@ -413,11 +409,11 @@ pub(crate) fn ruin_recreate_stream_search_from_observed<
         observer,
         shared,
         |p, a, mut c, monitor| {
-            let start = c.max_time.map(|_| Instant::now());
+            let elapsed = crate::solver_clock::monitored_clock(c.max_time.is_some(), &monitor);
             let (graph, source) =
                 graph().map_err(|e| LocalSearchError::from(StreamScoringError::from(e)))?;
-            if let (Some(limit), Some(start)) = (c.max_time, start) {
-                c.max_time = Some(limit.saturating_sub(start.elapsed()));
+            if let Some(limit) = c.max_time {
+                c.max_time = Some(limit.saturating_sub(elapsed()));
             }
             crate::stream_scoring::greedy_stream_construction_from_monitored(
                 monitor, p, graph, source, a, c,

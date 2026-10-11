@@ -539,7 +539,7 @@ pub(crate) fn construction_impl_monitored<
     config: ConstructionConfig,
     create: impl FnOnce(Assignment<V>) -> Result<D, D::Error>,
 ) -> Result<ConstructionResult<V, S>, D::Error> {
-    let clock = crate::time_limit::monotonic_clock(config.max_time.is_some());
+    let clock = crate::solver_clock::monitored_clock(config.max_time.is_some(), &shared);
     construction_impl_with_clock_monitored(shared, problem, initial, config, create, clock)
 }
 

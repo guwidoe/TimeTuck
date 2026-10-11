@@ -145,11 +145,12 @@ pub(crate) fn search_impl_monitored<
 where
     MixedLocalSearchError: From<D::Error>,
 {
-    let clock = crate::time_limit::monotonic_clock(
+    let clock = crate::solver_clock::monitored_clock(
         settings.search.max_time.is_some()
             || settings.search.max_unimproved_time.is_some()
             || settings.search.diminished_returns.is_some()
             || settings.search.significant_improvement.is_some(),
+        &shared,
     );
     search_impl_with_clock_monitored(shared, problem, initial, settings, make_director, clock)
 }

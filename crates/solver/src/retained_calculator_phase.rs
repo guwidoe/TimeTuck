@@ -82,7 +82,7 @@ where C: IncrementalCalculator<$assignment, Change = $change> + Clone,
                 });
             }
         };
-        let clock = crate::provider_search::clock(&config$(.$clock_field)?);
+        let clock = crate::provider_search::clock(&config$(.$clock_field)?, &shared);
         let result = crate::$search::search_impl_with_provider(shared, problem, ($initial)(initial), config, |initial| {
             let initialization_work = self.prepare_retained_phase(initial)?;
             Ok(crate::retained_stream_phase::RetainedPhase {

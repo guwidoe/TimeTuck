@@ -2,7 +2,7 @@
 use super::*;
 use crate::branch_and_bound::{BranchContext, Retained, TreeEvaluation, TreeSearchError, run_tree};
 use crate::branch_tree::BranchTree;
-use crate::time_limit::{TimeBudget, monotonic_clock};
+use crate::time_limit::TimeBudget;
 
 type Observer<'a, A, S> = Option<&'a mut dyn FnMut(SolutionUpdate<'_, A, S>)>;
 struct Saved<A, S> {
@@ -145,7 +145,10 @@ pub(super) fn run<T: BranchTree, S: AdditiveScore, E>(
     evaluate: impl FnMut(&T::Assignment) -> Result<(S, u128), E>,
     observer: Observer<'_, T::Assignment, S>,
 ) -> Result<PhaseOutput<T::Assignment, S>, TreeSearchError<E, S>> {
-    let clock = monotonic_clock(config.max_time.is_some());
+    let clock = crate::solver_clock::elapsed_clock(
+        config.max_time.is_some(),
+        control.clock_session.as_ref(),
+    );
     run_with_clock(config, prior, control, prepare, evaluate, observer, clock)
 }
 pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
@@ -240,6 +243,7 @@ mod tests {
             condition_uses_moves: false,
             limit: None,
             clock,
+            clock_session: None,
             last: Duration::ZERO,
             shared_bound: false,
             significant: None,
