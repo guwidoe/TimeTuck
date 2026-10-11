@@ -1035,6 +1035,7 @@ struct PlanObservation<'a, A, S> {
     initial_only: bool,
     repaired_initial: bool,
     metric_writer: Option<crate::solver_metrics::MetricWriter<S>>,
+    constraint_capture: Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     clock_session: Option<crate::solver_clock::ClockSession>,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
@@ -1135,8 +1136,18 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             initial_only: false,
             repaired_initial: false,
             metric_writer: None,
+            constraint_capture: None,
             clock_session: None,
         }
+    }
+    fn enable_constraint_metrics(
+        &mut self,
+    ) -> Option<crate::solver_metrics::ConstraintMetricCapture<S>> {
+        if matches!(&self.callback, Some(PlanCallback::Checked { metrics: Some(m), .. }) if m.requests_constraint_totals())
+        {
+            self.constraint_capture = Some(Default::default());
+        }
+        self.constraint_capture.clone()
     }
     fn take_lifecycle(&mut self) -> Option<&'a mut crate::SolverLifecycleCallback<'a>> {
         match &mut self.callback {
@@ -1270,6 +1281,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         if !self.has_events() {
             return;
         }
+        let totals = self.constraint_capture.as_ref().map(|c| c.snapshot());
         let Some(callback) = &mut self.callback else {
             return;
         };
@@ -1281,7 +1293,7 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             self.score = Some(update.score.clone());
             self.complete = update.complete;
             if let Some(metrics) = &self.metric_writer {
-                metrics.best(&update.score, update.complete);
+                metrics.best(&update.score, update.complete, totals);
             }
             if repair_baseline {
                 return;
@@ -1558,6 +1570,11 @@ where
     });
     time.step_metrics = metrics.as_ref().map(|m| m.writer.clone());
     observation.metric_writer = metrics.as_ref().map(|m| m.writer.clone());
+    if observation.constraint_capture.is_some()
+        && let Some(writer) = &observation.metric_writer
+    {
+        writer.constraint_source();
+    }
     let mut result = SolverResult {
         assignment: initial.assignment,
         complete: initial.complete,
@@ -1843,6 +1860,15 @@ where
                 && ((!r.complete && out.complete)
                     || r.score.as_ref().is_none_or(|best| score > best))
             {
+                // Construction retains its final assignment, which can tie an
+                // earlier best using different contributions. Its last director
+                // notification describes precisely this retained handoff.
+                if kind == SolverPhaseKind::Construction
+                    && let (Some(capture), Some(writer)) =
+                        (&observation.constraint_capture, &observation.metric_writer)
+                {
+                    writer.best(score, out.complete, Some(capture.snapshot()));
+                }
                 r.assignment = assignment;
                 r.score = Some(score.clone());
                 r.complete = out.complete;

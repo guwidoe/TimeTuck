@@ -32,6 +32,7 @@ where
     session: CalculatorSession<$assignment, C>,
     score: C::Score,
     failure: Option<MatchRegistryError>,
+    metric_capture: Option<crate::solver_metrics::ConstraintMetricCapture<C::Score>>,
 }
 impl<'p, $($v,)+ C, F> $director<'p, $($v,)+ C, F>
 where
@@ -55,7 +56,20 @@ where
             session,
             score,
             failure: None,
+            metric_capture: None,
         })
+    }
+    pub(crate) fn with_metric_capture(mut self, capture: Option<crate::solver_metrics::ConstraintMetricCapture<C::Score>>) -> Self {
+        self.metric_capture = capture;
+        self
+    }
+    pub(crate) fn capture_metrics(&self) {
+        if let Some(capture) = &self.metric_capture { capture.capture(self.registry()); }
+    }
+    pub(crate) fn track_metrics(&mut self, capture: Option<crate::solver_metrics::ConstraintMetricCapture<C::Score>>) -> crate::calculator_backend::CalculatorMetricScope<'_, Self> {
+        assert!(self.metric_capture.is_none(), "nested calculator metric scope");
+        self.metric_capture = capture;
+        crate::calculator_backend::CalculatorMetricScope { director: self, clear: |d| d.metric_capture = None }
     }
     fn calculate(
         problem: &$problem,
@@ -241,3 +255,24 @@ where
     };
 }
 pub(crate) use calculator_backend;
+
+pub(crate) struct CalculatorMetricScope<'a, D> {
+    pub(crate) director: &'a mut D,
+    pub(crate) clear: fn(&mut D),
+}
+impl<D> std::ops::Deref for CalculatorMetricScope<'_, D> {
+    type Target = D;
+    fn deref(&self) -> &D {
+        self.director
+    }
+}
+impl<D> std::ops::DerefMut for CalculatorMetricScope<'_, D> {
+    fn deref_mut(&mut self) -> &mut D {
+        self.director
+    }
+}
+impl<D> Drop for CalculatorMetricScope<'_, D> {
+    fn drop(&mut self) {
+        (self.clear)(self.director);
+    }
+}

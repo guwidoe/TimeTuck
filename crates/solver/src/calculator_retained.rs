@@ -46,6 +46,9 @@ where
         extensions.phase_terminations,
         extensions.stateful_termination,
     ));
+    let capture = observation.enable_constraint_metrics();
+    let mut metric_scope = d.track_metrics(capture);
+    let d = &mut *metric_scope;
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
         required_unassigned_pin: required_pin_startup_issue(
@@ -172,6 +175,7 @@ where
                         Ok((director.score()?, work))
                     };
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {
+                        director.borrow().capture_metrics();
                         best_state = director.borrow().capture_retained();
                         notify(update);
                     };
@@ -214,6 +218,7 @@ where
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {
+                        director.borrow().capture_metrics();
                         best_state = director.borrow().capture_retained();
                         notify(update);
                     };
@@ -322,6 +327,9 @@ where
         extensions.phase_terminations,
         extensions.stateful_termination,
     ));
+    let capture = observation.enable_constraint_metrics();
+    let mut metric_scope = d.track_metrics(capture);
+    let d = &mut *metric_scope;
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
         required_unassigned_pin: None,
@@ -444,6 +452,7 @@ where
                         Ok((director.score()?, work))
                     };
                     let mut best = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                        director.borrow().capture_metrics();
                         best_state = director.borrow().capture_retained();
                         notify(update);
                     };
@@ -486,6 +495,7 @@ where
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                        director.borrow().capture_metrics();
                         best_state = director.borrow().capture_retained();
                         notify(update);
                     };
@@ -593,6 +603,9 @@ where
         extensions.phase_terminations,
         extensions.stateful_termination,
     ));
+    let capture = observation.enable_constraint_metrics();
+    let mut metric_scope = d.track_metrics(capture);
+    let d = &mut *metric_scope;
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
         required_unassigned_pin: required_pin_startup_issue(
@@ -727,6 +740,7 @@ where
                             Ok((director.score()?, work))
                         };
                     let mut best = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                        director.borrow().capture_metrics();
                         best_state = director.borrow().capture_retained();
                         notify(update);
                     };
@@ -769,6 +783,7 @@ where
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                        director.borrow().capture_metrics();
                         best_state = director.borrow().capture_retained();
                         notify(update);
                     };

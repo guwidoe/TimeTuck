@@ -74,6 +74,9 @@ where
     fn score(&self) -> C::Score {
         self.score.clone()
     }
+    fn notify_best(&mut self, _complete: impl FnOnce(&Assignment<V>) -> bool) {
+        self.capture_metrics();
+    }
     fn initial_constraint_evaluations(&self) -> u128 {
         1
     }
@@ -152,6 +155,9 @@ where
     }
     fn score(&self) -> C::Score {
         self.score.clone()
+    }
+    fn notify_best(&mut self, _complete: bool) {
+        self.capture_metrics();
     }
     fn initial_evaluations(&self) -> u128 {
         1

@@ -1,4 +1,4 @@
-//! Opt-in monitoring of active solves, without retaining assignments or match data.
+//! Opt-in monitoring of active solves, without retaining assignments or justifications.
 use crate::{ProblemSizeStatistics, Score, SolverResult, SolverTermination, SolverWork};
 use std::{
     collections::BTreeMap,
@@ -40,6 +40,30 @@ pub struct SolverStepMetric<S> {
     pub score: S,
     pub complete: bool,
 }
+/// One constraint's ordinary score and active match count. Zero-score and empty
+/// registered constraints are retained; no justifications or assignments are copied.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ConstraintTotalMetric<S> {
+    pub score: S,
+    pub match_count: usize,
+}
+/// Why requested totals are unavailable. Unavailable is distinct from an enabled
+/// calculator reporting a verified empty registry; totals never validate that the
+/// calculator's independent score agrees with its registered contributions.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ConstraintTotalUnavailable {
+    UnsupportedBackend,
+    MatchingDisabled,
+    NoBestYet,
+    RegistryUnavailable,
+    FinalScoreNotObserved,
+}
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum BestConstraintTotals<S> {
+    Disabled,
+    Unavailable(ConstraintTotalUnavailable),
+    Available(Arc<BTreeMap<String, ConstraintTotalMetric<S>>>),
+}
 /// One invocation. Work is published after each scoring phase returns and on
 /// success at solve end; an unfinished/failed phase's partial aggregate work is unavailable.
 /// Move-family counts update independently and retain observed partial work.
@@ -57,6 +81,7 @@ pub struct SolveMetricSnapshot<S> {
     pub move_evaluations: crate::MoveEvaluationCounts,
     pub last_phase: Option<usize>,
     pub best_score: Option<S>,
+    pub best_constraint_totals: BestConstraintTotals<S>,
     /// Last completed construction/local-search/repair step or committed custom
     /// move. Published before StepEnded callbacks; exact enumeration has no steps.
     pub last_step: Option<SolverStepMetric<S>>,
@@ -128,11 +153,13 @@ struct Inner<S> {
 /// ```
 pub struct SolverMetrics<S> {
     inner: Arc<Inner<S>>,
+    constraint_totals: bool,
 }
 impl<S> Clone for SolverMetrics<S> {
     fn clone(&self) -> Self {
         Self {
             inner: self.inner.clone(),
+            constraint_totals: self.constraint_totals,
         }
     }
 }
@@ -154,6 +181,7 @@ impl<S: Score> SolverMetrics<S> {
         clock: impl Fn() -> Duration + Send + Sync + 'static,
     ) -> Self {
         Self {
+            constraint_totals: false,
             inner: Arc::new(Inner {
                 state: Mutex::new(State {
                     next: 0,
@@ -166,6 +194,22 @@ impl<S: Score> SolverMetrics<S> {
                 dimensions,
             }),
         }
+    }
+    /// Request best constraint totals for subsequent solves using this handle.
+    /// Fresh calculator plans enable optional match collection. Retained calculator
+    /// plans use their existing setting without reset; construct their director with
+    /// `request_matches = true`. Other backends report UnsupportedBackend.
+    /// Totals publish with the best score before best-event callbacks, including
+    /// partial construction states. Scoring callbacks and work counts are unchanged.
+    /// Copying totals costs O(registered constraints); fresh exact search also copies
+    /// totals for each evaluated node because its calculator is then dropped.
+    /// Clones made before this builder retain their original request setting.
+    pub fn with_best_constraint_totals(mut self) -> Self {
+        self.constraint_totals = true;
+        self
+    }
+    pub(crate) fn requests_constraint_totals(&self) -> bool {
+        self.constraint_totals
     }
     pub fn snapshot(&self) -> SolverMetricsSnapshot<S> {
         let now = (self.inner.clock)();
@@ -208,6 +252,13 @@ impl<S: Score> SolverMetrics<S> {
                     move_evaluations: Default::default(),
                     last_phase: None,
                     best_score: None,
+                    best_constraint_totals: if self.constraint_totals {
+                        BestConstraintTotals::Unavailable(
+                            ConstraintTotalUnavailable::UnsupportedBackend,
+                        )
+                    } else {
+                        BestConstraintTotals::Disabled
+                    },
                     last_step: None,
                     completed_step_count: 0,
                     complete: false,
@@ -238,18 +289,27 @@ impl<S> Clone for MetricWriter<S> {
     }
 }
 impl<S: Score> MetricWriter<S> {
+    pub(crate) fn constraint_source(&self) {
+        self.update(|r| {
+            r.best_constraint_totals =
+                BestConstraintTotals::Unavailable(ConstraintTotalUnavailable::NoBestYet)
+        });
+    }
     pub(crate) fn step(&self, step: SolverStepMetric<S>) {
         self.update(|r| {
             r.last_step = Some(step);
             r.completed_step_count = r.completed_step_count.saturating_add(1);
         });
     }
-    pub(crate) fn best(&self, score: &S, complete: bool) {
+    pub(crate) fn best(&self, score: &S, complete: bool, totals: Option<BestConstraintTotals<S>>) {
         // Clone user score values before locking so a user Clone panic cannot
         // poison the monitor or cause its unwind guard to lock recursively.
         let score = score.clone();
         self.update(|r| {
             r.best_score = Some(score);
+            if let Some(totals) = totals {
+                r.best_constraint_totals = totals;
+            }
             r.complete = complete;
         });
     }
@@ -281,6 +341,13 @@ impl<S: Score> MetricRun<S> {
         if let Ok(r) = result {
             let score = r.score.clone();
             self.writer.update(|s| {
+                if s.best_score != score
+                    && matches!(s.best_constraint_totals, BestConstraintTotals::Available(_))
+                {
+                    s.best_constraint_totals = BestConstraintTotals::Unavailable(
+                        ConstraintTotalUnavailable::FinalScoreNotObserved,
+                    );
+                }
                 s.work = r.work;
                 s.best_score = score;
                 s.complete = r.complete;
@@ -332,5 +399,57 @@ impl<S: Score> Drop for MetricRun<S> {
             },
             false,
         );
+    }
+}
+
+/// Per-run staging between the actual director best hook and global-best filter.
+/// Rejected phase-local bests do not overwrite published totals. The last capture
+/// remains available for construction final-state handoffs.
+#[derive(Clone)]
+pub(crate) struct ConstraintMetricCapture<S>(Arc<Mutex<Option<BestConstraintTotals<S>>>>);
+impl<S> Default for ConstraintMetricCapture<S> {
+    fn default() -> Self {
+        Self(Default::default())
+    }
+}
+impl<S: crate::AdditiveScore> ConstraintMetricCapture<S> {
+    pub(crate) fn capture<J, E>(&self, registry: Result<&crate::MatchRegistry<S, J>, E>) {
+        let value = match registry {
+            Ok(registry) if registry.is_enabled() => BestConstraintTotals::Available(
+                registry
+                    .constraints()
+                    .expect("enabled registry")
+                    .iter()
+                    .map(|(name, c)| {
+                        (
+                            name.clone(),
+                            ConstraintTotalMetric {
+                                score: c.score().clone(),
+                                match_count: c.matches().len(),
+                            },
+                        )
+                    })
+                    .collect::<BTreeMap<_, _>>()
+                    .into(),
+            ),
+            Ok(_) => {
+                BestConstraintTotals::Unavailable(ConstraintTotalUnavailable::MatchingDisabled)
+            }
+            Err(_) => {
+                BestConstraintTotals::Unavailable(ConstraintTotalUnavailable::RegistryUnavailable)
+            }
+        };
+        *self.0.lock().unwrap_or_else(|e| e.into_inner()) = Some(value);
+    }
+}
+impl<S: Clone> ConstraintMetricCapture<S> {
+    pub(crate) fn snapshot(&self) -> BestConstraintTotals<S> {
+        self.0
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .clone()
+            .unwrap_or(BestConstraintTotals::Unavailable(
+                ConstraintTotalUnavailable::NoBestYet,
+            ))
     }
 }

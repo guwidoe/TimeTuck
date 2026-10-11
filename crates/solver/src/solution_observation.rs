@@ -57,10 +57,12 @@ where
         self.director.assert_consistent()
     }
     fn notify_best(&mut self, complete: impl FnOnce(&Assignment<V>) -> bool) {
+        let complete = complete(self.director.assignment());
+        self.director.notify_best(|_| complete);
         (self.observer)(SolutionUpdate {
             assignment: self.director.assignment(),
             score: self.director.score(),
-            complete: complete(self.director.assignment()),
+            complete,
         });
     }
     fn select_best(
@@ -298,10 +300,12 @@ where
         self.director.assert_consistent()
     }
     fn notify_best(&mut self, complete: impl FnOnce(&ListAssignment<V>) -> bool) {
+        let complete = complete(self.director.assignment());
+        self.director.notify_best(|_| complete);
         (self.observer)(SolutionUpdate {
             assignment: self.director.assignment(),
             score: self.director.score(),
-            complete: complete(self.director.assignment()),
+            complete,
         });
     }
     fn select_best(
@@ -546,10 +550,12 @@ where
         self.director.assert_consistent()
     }
     fn notify_best(&mut self, complete: impl FnOnce(&MixedAssignment<B, L>) -> bool) {
+        let complete = complete(self.director.assignment());
+        self.director.notify_best(|_| complete);
         (self.observer)(SolutionUpdate {
             assignment: self.director.assignment(),
             score: self.director.score(),
-            complete: complete(self.director.assignment()),
+            complete,
         });
     }
     fn select_best(

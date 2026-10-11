@@ -14,8 +14,9 @@
 //!
 //! Each calculated score is one opaque constraint-work unit. Callback work and
 //! diagnostic recomputation are excluded, as in the standalone calculator APIs.
-//! Match collection is disabled inside these solve entry points; use the public
-//! calculator score directors to inspect matches for a retained assignment.
+//! Match collection is enabled only when SolverMetrics requests best constraint
+//! totals. Unsupported calculators report MatchingDisabled; other metrics leave
+//! matching disabled. Use public calculator directors to inspect justifications.
 use super::*;
 use crate::solution_observation::Observed;
 
@@ -155,7 +156,8 @@ fn solve_calculator_impl<
         |phase| providers.as_ref().is_some_and(|p| p.contains(phase)),
         LocalSearchError::from,
     )?;
-    let observation = PlanObservation::new(observer);
+    let mut observation = PlanObservation::new(observer);
+    let capture = observation.enable_constraint_metrics();
     let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
         let assignment = p.initial_assignment();
@@ -189,6 +191,7 @@ fn solve_calculator_impl<
                 let r = basic_repair(
                     p,
                     factory,
+                    &capture,
                     a.expect("repair handoff"),
                     config,
                     observed.then_some(&mut notify),
@@ -217,7 +220,10 @@ fn solve_calculator_impl<
                     initial,
                     config,
                     |a| p.is_complete(a),
-                    |a| CalculatorScoreDirector::new(p, a, factory, false),
+                    |a| {
+                        CalculatorScoreDirector::new(p, a, factory, capture.is_some())
+                            .map(|d| d.with_metric_capture(capture.clone()))
+                    },
                     |context| {
                         if initial_only {
                             Ok(())
@@ -257,8 +263,12 @@ fn solve_calculator_impl<
                         )
                     },
                     |a| {
-                        CalculatorScoreDirector::new(p, a.clone(), factory, false)
-                            .and_then(|d| d.score())
+                        CalculatorScoreDirector::new(p, a.clone(), factory, capture.is_some())
+                            .map(|d| d.with_metric_capture(capture.clone()))
+                            .and_then(|d| {
+                                d.capture_metrics();
+                                d.score()
+                            })
                             .map(|score| (score, 1_u128))
                     },
                     observed.then_some(&mut notify),
@@ -282,7 +292,10 @@ fn solve_calculator_impl<
                                 a.expect("construction provider handoff"),
                                 provider_construction_config(*config, max_scanned_moves),
                                 context,
-                                |a| CalculatorScoreDirector::new(p, a, factory, false),
+                                |a| {
+                                    CalculatorScoreDirector::new(p, a, factory, capture.is_some())
+                                        .map(|d| d.with_metric_capture(capture.clone()))
+                                },
                             )?,
                         ));
                     }
@@ -298,6 +311,7 @@ fn solve_calculator_impl<
                     return Ok(improved!(basic_provider_local(
                         p,
                         factory,
+                        &capture,
                         a.expect("provider phase handoff"),
                         config.clone(),
                         context
@@ -324,9 +338,18 @@ fn solve_calculator_impl<
                                 )
                             },
                             |a| {
-                                CalculatorScoreDirector::new(p, a.clone(), factory, false)
-                                    .and_then(|d| d.score())
-                                    .map(|score| (score, 1_u128))
+                                CalculatorScoreDirector::new(
+                                    p,
+                                    a.clone(),
+                                    factory,
+                                    capture.is_some(),
+                                )
+                                .map(|d| d.with_metric_capture(capture.clone()))
+                                .and_then(|d| {
+                                    d.capture_metrics();
+                                    d.score()
+                                })
+                                .map(|score| (score, 1_u128))
                             },
                             observed.then_some(&mut notify),
                         )?
@@ -336,6 +359,7 @@ fn solve_calculator_impl<
                             time.construction_monitor(),
                             p,
                             factory,
+                            &capture,
                             a.unwrap_or_else(|| p.initial_assignment()),
                             c,
                             Some(&mut notify),
@@ -345,6 +369,7 @@ fn solve_calculator_impl<
                             time.construction_monitor(),
                             p,
                             factory,
+                            &capture,
                             a.unwrap_or_else(|| p.initial_assignment()),
                             c,
                             None,
@@ -356,6 +381,7 @@ fn solve_calculator_impl<
                                 time.monitor(),
                                 p,
                                 factory,
+                                &capture,
                                 a.expect("handoff"),
                                 c,
                                 Some(&mut notify),
@@ -366,6 +392,7 @@ fn solve_calculator_impl<
                                 time.monitor(),
                                 p,
                                 factory,
+                                &capture,
                                 a.expect("handoff"),
                                 c,
                                 None,
@@ -391,21 +418,25 @@ fn basic_construction<
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &FiniteProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: Assignment<V>,
     config: ConstructionConfig<'_>,
     mut observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
 ) -> Result<ConstructionResult<V, S>, ScoringError> {
     p.validate(&initial)?;
     crate::construction::construction_impl_monitored(shared, p, initial, config, |a| {
-        CalculatorScoreDirector::new(p, a, factory, false).map(|d| {
-            Observed::new(d, move |u: SolutionUpdate<'_, Assignment<V>, S>| {
-                if let Some(f) = &mut observer {
-                    f(u)
-                }
+        CalculatorScoreDirector::new(p, a, factory, capture.is_some())
+            .map(|d| d.with_metric_capture(capture.clone()))
+            .map(|d| {
+                Observed::new(d, move |u: SolutionUpdate<'_, Assignment<V>, S>| {
+                    if let Some(f) = &mut observer {
+                        f(u)
+                    }
+                })
             })
-        })
     })
 }
+#[allow(clippy::too_many_arguments)] // Mirrors kernel controls plus optional metric capture.
 fn basic_local<
     V: Eq + Clone,
     S: AdditiveScore,
@@ -414,6 +445,7 @@ fn basic_local<
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &FiniteProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: Assignment<V>,
     config: LocalSearchConfig<'_, S>,
     mut observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
@@ -433,13 +465,15 @@ fn basic_local<
         Some(initial),
         config,
         |a| {
-            CalculatorScoreDirector::new(p, a, factory, false).map(|d| {
-                Observed::new(d, move |u: SolutionUpdate<'_, Assignment<V>, S>| {
-                    if let Some(f) = &mut observer {
-                        f(u)
-                    }
+            CalculatorScoreDirector::new(p, a, factory, capture.is_some())
+                .map(|d| d.with_metric_capture(capture.clone()))
+                .map(|d| {
+                    Observed::new(d, move |u: SolutionUpdate<'_, Assignment<V>, S>| {
+                        if let Some(f) = &mut observer {
+                            f(u)
+                        }
+                    })
                 })
-            })
         },
         clock,
         provider,
@@ -452,6 +486,7 @@ fn basic_provider_local<
 >(
     p: &FiniteProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: Assignment<V>,
     config: LocalSearchConfig<'_, S>,
     context: crate::provider_search::ProviderContext<
@@ -466,6 +501,7 @@ fn basic_provider_local<
         context.control,
         p,
         factory,
+        capture,
         initial,
         config,
         context.observer,
@@ -479,6 +515,7 @@ fn basic_repair<
 >(
     p: &FiniteProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: Assignment<V>,
     config: RuinRecreateConfig<'_, S>,
     observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
@@ -491,7 +528,7 @@ fn basic_repair<
         observer,
         shared,
         |p, a, construction, monitor| {
-            let r = basic_construction(monitor, p, factory, a, construction, None)
+            let r = basic_construction(monitor, p, factory, capture, a, construction, None)
                 .map_err(LocalSearchError::from)?;
             Ok(crate::ruin_engine::Repair {
                 assignment: r.assignment,
@@ -645,6 +682,7 @@ fn solve_list_calculator_impl<
                 error: ListScoringError::from(error).into(),
             })?;
     let mut observation = PlanObservation::new(observer);
+    let capture = observation.enable_constraint_metrics();
     observation.repaired_initial = prepared != raw_initial;
     let initial = || {
         let assignment = prepared;
@@ -674,6 +712,7 @@ fn solve_list_calculator_impl<
                 let r = list_repair(
                     p,
                     factory,
+                    &capture,
                     a.expect("repair handoff"),
                     config,
                     observed.then_some(&mut notify),
@@ -702,7 +741,10 @@ fn solve_list_calculator_impl<
                     initial,
                     config,
                     |a| p.is_complete(a),
-                    |a| ListCalculatorScoreDirector::new(p, a, factory, false),
+                    |a| {
+                        ListCalculatorScoreDirector::new(p, a, factory, capture.is_some())
+                            .map(|d| d.with_metric_capture(capture.clone()))
+                    },
                     |context| {
                         if initial_only {
                             Ok(())
@@ -742,8 +784,12 @@ fn solve_list_calculator_impl<
                         )
                     },
                     |a| {
-                        ListCalculatorScoreDirector::new(p, a.clone(), factory, false)
-                            .and_then(|d| d.score())
+                        ListCalculatorScoreDirector::new(p, a.clone(), factory, capture.is_some())
+                            .map(|d| d.with_metric_capture(capture.clone()))
+                            .and_then(|d| {
+                                d.capture_metrics();
+                                d.score()
+                            })
                             .map(|score| (score, 1_u128))
                     },
                     observed.then_some(&mut notify),
@@ -767,7 +813,15 @@ fn solve_list_calculator_impl<
                                 a.expect("construction provider handoff"),
                                 provider_construction_config(*config, max_scanned_moves),
                                 context,
-                                |a| ListCalculatorScoreDirector::new(p, a, factory, false),
+                                |a| {
+                                    ListCalculatorScoreDirector::new(
+                                        p,
+                                        a,
+                                        factory,
+                                        capture.is_some(),
+                                    )
+                                    .map(|d| d.with_metric_capture(capture.clone()))
+                                },
                             )?,
                         ));
                     }
@@ -783,6 +837,7 @@ fn solve_list_calculator_impl<
                     return Ok(improved!(list_provider_local(
                         p,
                         factory,
+                        &capture,
                         a.expect("provider phase handoff"),
                         config.clone(),
                         context
@@ -809,9 +864,18 @@ fn solve_list_calculator_impl<
                                 )
                             },
                             |a| {
-                                ListCalculatorScoreDirector::new(p, a.clone(), factory, false)
-                                    .and_then(|d| d.score())
-                                    .map(|score| (score, 1_u128))
+                                ListCalculatorScoreDirector::new(
+                                    p,
+                                    a.clone(),
+                                    factory,
+                                    capture.is_some(),
+                                )
+                                .map(|d| d.with_metric_capture(capture.clone()))
+                                .and_then(|d| {
+                                    d.capture_metrics();
+                                    d.score()
+                                })
+                                .map(|score| (score, 1_u128))
                             },
                             observed.then_some(&mut notify),
                         )?
@@ -821,6 +885,7 @@ fn solve_list_calculator_impl<
                             time.construction_monitor(),
                             p,
                             factory,
+                            &capture,
                             a.unwrap_or_else(|| p.initial_assignment()),
                             c,
                             Some(&mut notify),
@@ -830,6 +895,7 @@ fn solve_list_calculator_impl<
                             time.construction_monitor(),
                             p,
                             factory,
+                            &capture,
                             a.unwrap_or_else(|| p.initial_assignment()),
                             c,
                             None,
@@ -841,6 +907,7 @@ fn solve_list_calculator_impl<
                                 time.monitor(),
                                 p,
                                 factory,
+                                &capture,
                                 a.expect("handoff"),
                                 c,
                                 Some(&mut notify),
@@ -851,6 +918,7 @@ fn solve_list_calculator_impl<
                                 time.monitor(),
                                 p,
                                 factory,
+                                &capture,
                                 a.expect("handoff"),
                                 c,
                                 None,
@@ -876,21 +944,25 @@ fn list_construction<
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &ListProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: ListAssignment<V>,
     config: ConstructionConfig<'_>,
     mut observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
 ) -> Result<ListConstructionResult<V, S>, ListScoringError> {
     p.validate(&initial)?;
     crate::list_construction::construction_impl_monitored(shared, p, initial, config, |a| {
-        ListCalculatorScoreDirector::new(p, a, factory, false).map(|d| {
-            Observed::new(d, move |u: SolutionUpdate<'_, ListAssignment<V>, S>| {
-                if let Some(f) = &mut observer {
-                    f(u)
-                }
+        ListCalculatorScoreDirector::new(p, a, factory, capture.is_some())
+            .map(|d| d.with_metric_capture(capture.clone()))
+            .map(|d| {
+                Observed::new(d, move |u: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                    if let Some(f) = &mut observer {
+                        f(u)
+                    }
+                })
             })
-        })
     })
 }
+#[allow(clippy::too_many_arguments)] // Mirrors kernel controls plus optional metric capture.
 fn list_local<
     V: Eq + Clone,
     S: AdditiveScore,
@@ -899,6 +971,7 @@ fn list_local<
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &ListProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<'_, S>,
     mut observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
@@ -920,13 +993,15 @@ fn list_local<
         initial,
         config,
         |a| {
-            ListCalculatorScoreDirector::new(p, a, factory, false).map(|d| {
-                Observed::new(d, move |u: SolutionUpdate<'_, ListAssignment<V>, S>| {
-                    if let Some(f) = &mut observer {
-                        f(u)
-                    }
+            ListCalculatorScoreDirector::new(p, a, factory, capture.is_some())
+                .map(|d| d.with_metric_capture(capture.clone()))
+                .map(|d| {
+                    Observed::new(d, move |u: SolutionUpdate<'_, ListAssignment<V>, S>| {
+                        if let Some(f) = &mut observer {
+                            f(u)
+                        }
+                    })
                 })
-            })
         },
         clock,
         provider,
@@ -939,6 +1014,7 @@ fn list_provider_local<
 >(
     p: &ListProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: ListAssignment<V>,
     config: LocalSearchConfig<'_, S>,
     context: crate::provider_search::ProviderContext<
@@ -953,6 +1029,7 @@ fn list_provider_local<
         context.control,
         p,
         factory,
+        capture,
         initial,
         config,
         context.observer,
@@ -966,6 +1043,7 @@ fn list_repair<
 >(
     p: &ListProblem<V>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: ListAssignment<V>,
     config: RuinRecreateConfig<'_, S>,
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
@@ -978,7 +1056,7 @@ fn list_repair<
         observer,
         shared,
         |p, a, construction, monitor| {
-            let r = list_construction(monitor, p, factory, a, construction, None)
+            let r = list_construction(monitor, p, factory, capture, a, construction, None)
                 .map_err(ListLocalSearchError::from)?;
             Ok(crate::ruin_engine::Repair {
                 assignment: r.assignment,
@@ -1123,6 +1201,7 @@ fn solve_mixed_calculator_impl<
                 error: MixedScoringError::from(error).into(),
             })?;
     let mut observation = PlanObservation::new(observer);
+    let capture = observation.enable_constraint_metrics();
     observation.repaired_initial = prepared != raw_initial;
     let reject_unassigned_pins = c.limits.reject_unassigned_pins;
     let initial = || {
@@ -1172,6 +1251,7 @@ fn solve_mixed_calculator_impl<
                 let r = mixed_repair(
                     p,
                     factory,
+                    &capture,
                     a.expect("repair handoff"),
                     MixedRuinRecreateConfig {
                         search: config,
@@ -1203,7 +1283,10 @@ fn solve_mixed_calculator_impl<
                     initial,
                     config,
                     |a| p.is_complete(a),
-                    |a| MixedCalculatorScoreDirector::new(p, a, factory, false),
+                    |a| {
+                        MixedCalculatorScoreDirector::new(p, a, factory, capture.is_some())
+                            .map(|d| d.with_metric_capture(capture.clone()))
+                    },
                     |context| {
                         if initial_only {
                             Ok(())
@@ -1243,8 +1326,12 @@ fn solve_mixed_calculator_impl<
                         )
                     },
                     |a| {
-                        MixedCalculatorScoreDirector::new(p, a.clone(), factory, false)
-                            .and_then(|d| d.score())
+                        MixedCalculatorScoreDirector::new(p, a.clone(), factory, capture.is_some())
+                            .map(|d| d.with_metric_capture(capture.clone()))
+                            .and_then(|d| {
+                                d.capture_metrics();
+                                d.score()
+                            })
                             .map(|score| (score, 1_u128))
                     },
                     observed.then_some(&mut notify),
@@ -1268,7 +1355,15 @@ fn solve_mixed_calculator_impl<
                                 a.expect("construction provider handoff"),
                                 provider_construction_config(*config, max_scanned_moves),
                                 context,
-                                |a| MixedCalculatorScoreDirector::new(p, a, factory, false),
+                                |a| {
+                                    MixedCalculatorScoreDirector::new(
+                                        p,
+                                        a,
+                                        factory,
+                                        capture.is_some(),
+                                    )
+                                    .map(|d| d.with_metric_capture(capture.clone()))
+                                },
                             )?,
                         ));
                     }
@@ -1284,6 +1379,7 @@ fn solve_mixed_calculator_impl<
                     return Ok(improved!(mixed_provider_local(
                         p,
                         factory,
+                        &capture,
                         a.expect("provider phase handoff"),
                         MixedLocalSearchConfig {
                             search: config.clone(),
@@ -1313,9 +1409,18 @@ fn solve_mixed_calculator_impl<
                                 )
                             },
                             |a| {
-                                MixedCalculatorScoreDirector::new(p, a.clone(), factory, false)
-                                    .and_then(|d| d.score())
-                                    .map(|score| (score, 1_u128))
+                                MixedCalculatorScoreDirector::new(
+                                    p,
+                                    a.clone(),
+                                    factory,
+                                    capture.is_some(),
+                                )
+                                .map(|d| d.with_metric_capture(capture.clone()))
+                                .and_then(|d| {
+                                    d.capture_metrics();
+                                    d.score()
+                                })
+                                .map(|score| (score, 1_u128))
                             },
                             observed.then_some(&mut notify),
                         )?
@@ -1325,6 +1430,7 @@ fn solve_mixed_calculator_impl<
                             time.construction_monitor(),
                             p,
                             factory,
+                            &capture,
                             a.unwrap_or_else(|| p.initial_assignment()),
                             MixedConstructionConfig {
                                 construction: config,
@@ -1337,6 +1443,7 @@ fn solve_mixed_calculator_impl<
                             time.construction_monitor(),
                             p,
                             factory,
+                            &capture,
                             a.unwrap_or_else(|| p.initial_assignment()),
                             MixedConstructionConfig {
                                 construction: config,
@@ -1350,6 +1457,7 @@ fn solve_mixed_calculator_impl<
                             time.monitor(),
                             p,
                             factory,
+                            &capture,
                             a.expect("handoff"),
                             MixedLocalSearchConfig {
                                 search: config,
@@ -1363,6 +1471,7 @@ fn solve_mixed_calculator_impl<
                             time.monitor(),
                             p,
                             factory,
+                            &capture,
                             a.expect("handoff"),
                             MixedLocalSearchConfig {
                                 search: config,
@@ -1391,21 +1500,25 @@ fn mixed_construction<
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &MixedProblem<B, L>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: MixedAssignment<B, L>,
     config: MixedConstructionConfig<'_>,
     mut observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
 ) -> Result<MixedConstructionResult<B, L, S>, MixedScoringError> {
     p.validate(&initial)?;
     crate::mixed_construction::construction_impl_monitored(shared, p, initial, config, |a| {
-        MixedCalculatorScoreDirector::new(p, a, factory, false).map(|d| {
-            Observed::new(d, move |u: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
-                if let Some(f) = &mut observer {
-                    f(u)
-                }
+        MixedCalculatorScoreDirector::new(p, a, factory, capture.is_some())
+            .map(|d| d.with_metric_capture(capture.clone()))
+            .map(|d| {
+                Observed::new(d, move |u: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                    if let Some(f) = &mut observer {
+                        f(u)
+                    }
+                })
             })
-        })
     })
 }
+#[allow(clippy::too_many_arguments)] // Mirrors kernel controls plus optional metric capture.
 fn mixed_local<
     B: Eq + Clone,
     L: Eq + Clone,
@@ -1415,6 +1528,7 @@ fn mixed_local<
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
     p: &MixedProblem<B, L>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: MixedAssignment<B, L>,
     config: MixedLocalSearchConfig<'_, S>,
     mut observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
@@ -1434,13 +1548,15 @@ fn mixed_local<
         initial,
         config,
         |a| {
-            MixedCalculatorScoreDirector::new(p, a, factory, false).map(|d| {
-                Observed::new(d, move |u: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
-                    if let Some(f) = &mut observer {
-                        f(u)
-                    }
+            MixedCalculatorScoreDirector::new(p, a, factory, capture.is_some())
+                .map(|d| d.with_metric_capture(capture.clone()))
+                .map(|d| {
+                    Observed::new(d, move |u: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
+                        if let Some(f) = &mut observer {
+                            f(u)
+                        }
+                    })
                 })
-            })
         },
         clock,
         provider,
@@ -1454,6 +1570,7 @@ fn mixed_provider_local<
 >(
     p: &MixedProblem<B, L>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: MixedAssignment<B, L>,
     config: MixedLocalSearchConfig<'_, S>,
     context: MixedProviderContext<'_, B, L, S>,
@@ -1462,6 +1579,7 @@ fn mixed_provider_local<
         context.control,
         p,
         factory,
+        capture,
         initial,
         config,
         context.observer,
@@ -1476,6 +1594,7 @@ fn mixed_repair<
 >(
     p: &MixedProblem<B, L>,
     factory: &impl Fn() -> C,
+    capture: &Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     initial: MixedAssignment<B, L>,
     config: MixedRuinRecreateConfig<'_, S>,
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
@@ -1492,6 +1611,7 @@ fn mixed_repair<
                 monitor,
                 p,
                 factory,
+                capture,
                 a,
                 MixedConstructionConfig {
                     construction,
