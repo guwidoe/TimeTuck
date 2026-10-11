@@ -703,6 +703,9 @@ pub use dependent_selection::{
     DependentSelectionIter, DependentSelectionStats, DependentStop,
 };
 
+mod streaming_selection;
+pub use streaming_selection::StreamingSelection;
+
 mod reachable_values;
 pub use reachable_values::{
     ReachabilityError, ReachableValues, basic_reachability, list_reachability,
