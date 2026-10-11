@@ -692,7 +692,7 @@ struct Saved<V, S> {
     accepted: bool,
     structural: i64,
     movement: ListMove<V>,
-    assignment: ListAssignment<V>,
+    assignment: crate::candidate_snapshot::ListSnapshot<V>,
     graph: crate::stream_graph::GraphState<S>,
 }
 impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> ListSearchDirector<V, S>
@@ -762,7 +762,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> ListSearchDirector<V, 
                     accepted,
                     structural: candidate.structural,
                     movement: movement.clone(),
-                    assignment: candidate.assignment().clone(),
+                    assignment: candidate.assignment.snapshot(),
                     graph: candidate.graph.capture()?,
                 })
             })?;
@@ -783,7 +783,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> ListSearchDirector<V, 
         }
         if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
-            self.assignment = saved.assignment;
+            saved.assignment.install(&mut self.assignment);
             self.structural = saved.structural;
             result.selected = Some(saved.movement);
             result.selected_accepted = saved.accepted;

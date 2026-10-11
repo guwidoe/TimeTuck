@@ -636,7 +636,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
                     accepted,
                     structural: candidate.structural,
                     movement: movement.clone(),
-                    assignment: candidate.assignment().clone(),
+                    assignment: candidate.assignment.snapshot(),
                     graph: candidate.graph.capture()?,
                 })
             })?;
@@ -657,7 +657,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
         }
         if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
-            self.assignment = saved.assignment;
+            saved.assignment.install(&mut self.assignment);
             self.structural = saved.structural;
             result.selected = Some(saved.movement);
             result.selected_accepted = saved.accepted;
@@ -669,7 +669,7 @@ struct SavedStreamCandidate<V, S> {
     accepted: bool,
     structural: i64,
     movement: Move<V>,
-    assignment: Assignment<V>,
+    assignment: crate::candidate_snapshot::BasicSnapshot<V>,
     graph: crate::stream_graph::GraphState<S>,
 }
 pub(crate) fn validate_source<V: 'static, S: AdditiveScore>(
@@ -883,3 +883,6 @@ mod selection_tests {
         d.assert_consistent().unwrap();
     }
 }
+
+#[cfg(test)]
+mod winner_tests;

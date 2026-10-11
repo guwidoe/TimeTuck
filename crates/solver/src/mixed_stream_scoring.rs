@@ -726,7 +726,7 @@ struct Saved<B, L, S> {
     accepted: bool,
     structural: i64,
     movement: MixedMove<B, L>,
-    assignment: MixedAssignment<B, L>,
+    assignment: crate::candidate_snapshot::MixedSnapshot<B, L>,
     graph: crate::stream_graph::GraphState<S>,
 }
 impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'static>
@@ -796,7 +796,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
                     accepted,
                     structural: candidate.structural,
                     movement: movement.clone(),
-                    assignment: candidate.assignment().clone(),
+                    assignment: candidate.assignment.snapshot(),
                     graph: candidate.graph.capture()?,
                 })
             })?;
@@ -817,7 +817,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
         }
         if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
-            self.assignment = saved.assignment;
+            self.assignment.install_snapshot(saved.assignment);
             self.structural = saved.structural;
             result.selected = Some(saved.movement);
             result.selected_accepted = saved.accepted;
