@@ -3,6 +3,7 @@ use crate::{
     ListMove, ListPosition, ListRange, ListSelectionContext, SelectionLifecycleEvent,
     SelectionSource, SubListSelection, SubListSize, SubListSource,
 };
+use std::num::NonZeroUsize;
 
 /// Number of span coordinates in the model catalog, independent of how often a
 /// source repeats them or restricts its owner sequence. This is not traversal length.
@@ -28,9 +29,13 @@ fn draw_sublist_proposal_rank(draw: &mut impl FnMut(u128) -> u128, bound: u128) 
     value
 }
 
-/// SubListProposalDraw a span within each selected entity. Missing, pinned, empty and too-short
-/// entities consume reads but no randomness. The read budget bounds the entire
-/// opening, including rejections; an empty span catalog never opens the child.
+/// Draw a span within each selected entity. Missing, pinned, empty and too-short
+/// entities consume reads but no randomness. Ordinary constructors bound reads
+/// across the entire opening. Repeating constructors reset the read budget after
+/// each yielded span: productive sources can run without a fixed output limit,
+/// while a run of rejected entities still terminates in bounded work. Child
+/// exhaustion or an exhausted rejection budget fuses that opening; reopening
+/// starts a new budget. An empty span catalog never opens the child.
 /// Rebuilds its coordinate index on each opening, so committed changes are visible.
 /// Lifecycle events pass to the entity source once. Random state continues across
 /// openings; construct a new source to restart a seed. No list payloads are cloned.
@@ -38,9 +43,27 @@ pub struct EntitySubListSource<E, D = SubListProposalDraw> {
     entities: E,
     bounds: SubListSize,
     maximum_reads: usize,
+    repeating: bool,
     draw: D,
 }
 impl<E> EntitySubListSource<E> {
+    /// Potentially unbounded productive selection, with at most the supplied
+    /// number of entity reads per next span (including its successful read).
+    /// Never-ending metadata is inherited from the child; it is not a promise
+    /// that a finite, exhausted or persistently rejected child produces forever.
+    pub fn repeating(
+        entities: E,
+        bounds: SubListSize,
+        maximum_reads_per_item: NonZeroUsize,
+        seed: u64,
+    ) -> Self {
+        Self::repeating_with_draw(
+            entities,
+            bounds,
+            maximum_reads_per_item,
+            seeded_sublist_proposal_draw(seed),
+        )
+    }
     pub fn new(entities: E, bounds: SubListSize, maximum_reads: usize, seed: u64) -> Self {
         Self::with_draw(
             entities,
@@ -51,11 +74,28 @@ impl<E> EntitySubListSource<E> {
     }
 }
 impl<E, D> EntitySubListSource<E, D> {
+    /// Repeating selection with an injected bounded rank draw. See repeating
+    /// for read-limit and exhaustion semantics; invalid draw ranks panic.
+    pub fn repeating_with_draw(
+        entities: E,
+        bounds: SubListSize,
+        maximum_reads_per_item: NonZeroUsize,
+        draw: D,
+    ) -> Self {
+        Self {
+            entities,
+            bounds,
+            maximum_reads: maximum_reads_per_item.get(),
+            repeating: true,
+            draw,
+        }
+    }
     pub fn with_draw(entities: E, bounds: SubListSize, maximum_reads: usize, draw: D) -> Self {
         Self {
             entities,
             bounds,
             maximum_reads,
+            repeating: false,
             draw,
         }
     }
@@ -90,8 +130,8 @@ impl<
         self.entities.event(event, c);
     }
     fn is_never_ending(&self) -> bool {
-        false
-    } // Every opening has a read budget.
+        self.repeating && self.entities.is_never_ending()
+    }
     fn size(&mut self, c: &ListSelectionContext<'p, V>) -> Option<usize> {
         if self.maximum_reads == 0 || self.span_count(c) == 0 {
             Some(0)
@@ -111,11 +151,32 @@ impl<
         if index.is_empty() || self.maximum_reads == 0 {
             return Box::new(std::iter::empty());
         }
-        let mut entities = self.entities.open(c).take(self.maximum_reads);
+        let entities = self.entities.open(c);
         let draw = &mut self.draw;
+        if !self.repeating {
+            // Preserve the existing total-budget cursor and its hot path.
+            let mut entities = entities.take(self.maximum_reads);
+            return Box::new(
+                std::iter::from_fn(move || {
+                    entities.by_ref().find_map(|entity| {
+                        let n = index.entity_len(entity);
+                        if n == 0 {
+                            None
+                        } else {
+                            index.at_entity(entity, draw_sublist_proposal_rank(draw, n))
+                        }
+                    })
+                })
+                .fuse(),
+            );
+        }
+        let mut entities = entities;
+        let maximum_reads = self.maximum_reads;
         Box::new(
             std::iter::from_fn(move || {
-                entities.by_ref().find_map(|entity| {
+                // A new Take budget per requested item; exhaustion fuses the outer
+                // iterator, so repeated next() calls cannot restart rejected work.
+                entities.by_ref().take(maximum_reads).find_map(|entity| {
                     let n = index.entity_len(entity);
                     if n == 0 {
                         None
