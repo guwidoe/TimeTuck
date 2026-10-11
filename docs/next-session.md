@@ -23467,3 +23467,23 @@ to work/parallel-round10-evidence/solver/work, both committed files match succes
 focused manifest.31tests+Clippy, no source credit. Parent production review and
 integration still pending. Agent instructed to inherit238c002 then propose next
 solver/lifecycle work without repeating checks solely for the relocation.
+
+
+Round 10 queued/reviewed while round9 gate13762 still compiles (do not restart):
+- Live events ee1f3d04 reviewed/accepted; immutable focused evidence already copied.
+  termination inherited helper fix as c65c439, then implements linked cancellation
+  sources on runner-a. Production/concurrency/managed/live tests reviewed; focused
+  session12741 belongs to agent. No new source credit.
+- Notified shadow streams6b14996 reviewed/accepted, plus prose-only f37ee9b.
+  work/parallel-round10-evidence/shadows/work contains immutable runner-c evidence:
+  6new+3existing integration,1saved-candidate unit,2docs,Clippy; changed file hashes
+  verified. Retains Rc input Event instead of cloning W; default/notified clone
+  counts match and undo restores actual previous world. Agent now implements
+  explicit ListShadowSession::reconcile_values on runner-c, preserving survivor caches.
+- Gather/mass dependency filtering/shared borrowed workspace reviewed in dense
+  worktree;57focused tests passed, final commit/performance pending. Public sampled
+  unassignment retains Send+Sync; invalid draws skipped without retry. Agent may
+  start native paired timing once round9 prebuild finishes, retaining any concurrent
+  sequential-test interference caveat. Local isolated-j2 builds permitted meanwhile.
+Main Rust/provenance remains frozen until13762 succeeds and round9 recorder passes.
+All three requested Astra/high agents active; no browser or Java benchmark rerun.
