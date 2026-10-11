@@ -155,14 +155,18 @@ enum Operation<'a, W> {
     Input(Box<Reader<'a, W>>),
     Derived(Box<Supplier<'a, W>>),
 }
-type SourceResolver<'a, 's, K, W> =
+type KeyedSourceResolver<'a, 's, K, W> =
     dyn Fn(&W) -> Result<Vec<(PlanningVariableRef<'s>, K)>, ShadowSessionError> + 'a;
-type SourceCatalog<'s, K> = Rc<Vec<(PlanningVariableRef<'s>, K)>>;
+type IndexedSourceResolver<'a, W> = dyn Fn(&W) -> Result<Vec<usize>, ShadowSessionError> + 'a;
+enum SourceResolver<'a, 's, K, W> {
+    Native(Box<IndexedSourceResolver<'a, W>>),
+    Paths(Box<KeyedSourceResolver<'a, 's, K, W>>),
+}
 struct Node<'a, 's, K, W> {
     variable: PlanningVariableRef<'s>,
     entity: K,
     operation: Operation<'a, W>,
-    sources: Option<Box<SourceResolver<'a, 's, K, W>>>,
+    sources: Option<SourceResolver<'a, 's, K, W>>,
     fixed_sources: Vec<PlanningVariableRef<'s>>,
 }
 /// Explicit typed field registration; native entity keys identify model objects.
@@ -171,7 +175,6 @@ pub struct ShadowSessionBuilder<'a, 's, K, W> {
     schema: &'s PlanningSchema,
     identity: Rc<()>,
     nodes: Vec<Node<'a, 's, K, W>>,
-    source_catalog: Option<SourceCatalog<'s, K>>,
     edges: BTreeSet<(usize, usize)>,
 }
 impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
@@ -180,7 +183,6 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             schema,
             identity: Rc::new(()),
             nodes: vec![],
-            source_catalog: None,
             edges: BTreeSet::new(),
         }
     }
@@ -216,9 +218,6 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             sources: None,
             fixed_sources: vec![],
         });
-        // Bound resolvers retain their original registration boundary. Only
-        // subsequent bindings need a new catalog after a node is added.
-        self.source_catalog = None;
         Ok(node)
     }
     /// Read a basic variable or an externally maintained shadow. All readers
@@ -284,18 +283,14 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
     /// Resolver errors occur before readers/suppliers; cycles remain runtime
     /// states. Do not mutate captured facts or the supplied world in a resolver.
     /// Manual edges and compiled paths cannot also control the same target.
-    /// Bindings made after the same registrations share one immutable catalog;
-    /// adding nodes creates a new catalog for subsequent bindings, without
-    /// expanding earlier bindings' registration boundary.
+    /// Native handles resolve directly to node indices without cloning or
+    /// comparing entity keys. Each binding captures its current registration
+    /// boundary; adding nodes never expands an earlier binding's boundary.
     pub fn bind_dependencies<T>(
         &mut self,
         target: &ShadowNode<T>,
         resolve: impl Fn(&W) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> + 'a,
-    ) -> Result<(), ShadowSessionError>
-    where
-        K: Clone + 'a,
-        's: 'a,
-    {
+    ) -> Result<(), ShadowSessionError> {
         let index = lookup(&self.identity, self.nodes.len(), &target.node)?;
         if matches!(self.nodes[index].operation, Operation::Input(_))
             || self.nodes[index].sources.is_some()
@@ -306,23 +301,13 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             ));
         }
         let identity = self.identity.clone();
-        let fields = Rc::clone(self.source_catalog.get_or_insert_with(|| {
-            Rc::new(
-                self.nodes
-                    .iter()
-                    .map(|node| (node.variable, node.entity.clone()))
-                    .collect(),
-            )
-        }));
-        self.nodes[index].sources = Some(Box::new(move |world| {
+        let registered = self.nodes.len();
+        self.nodes[index].sources = Some(SourceResolver::Native(Box::new(move |world| {
             resolve(world)?
                 .iter()
-                .map(|node| {
-                    let source = lookup(&identity, fields.len(), node)?;
-                    Ok(fields[source].clone())
-                })
+                .map(|node| lookup(&identity, registered, node))
                 .collect()
-        }));
+        })));
         Ok(())
     }
 
@@ -369,7 +354,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             .collect();
         let expected = node.entity.clone();
         self.nodes[index].fixed_sources = fixed_sources;
-        self.nodes[index].sources = Some(Box::new(move |world| {
+        self.nodes[index].sources = Some(SourceResolver::Paths(Box::new(move |world| {
             let root = root(world);
             if identify(root).as_ref() != Some(&expected) {
                 return Err(ShadowSessionError::Metadata(
@@ -389,7 +374,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
                 }
             }
             Ok(resolved)
-        }));
+        })));
         Ok(())
     }
     pub fn set_dependencies<T>(
@@ -646,19 +631,23 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         for (index, node) in self.nodes.iter().enumerate() {
             let signature = if !mode.includes(index, &self.pending) {
                 self.resolved.get(index).cloned().flatten()
-            } else if let Some(resolve) = &node.sources {
-                let mut signature = vec![];
-                for (variable, entity) in resolve(world)? {
-                    let source = self
-                        .nodes
-                        .iter()
-                        .position(|n| n.variable == variable && n.entity == entity)
-                        .ok_or(ShadowSessionError::UnregisteredSource)?;
-                    signature.push(source);
-                }
-                Some(signature)
             } else {
-                None
+                match &node.sources {
+                    Some(SourceResolver::Native(resolve)) => Some(resolve(world)?),
+                    Some(SourceResolver::Paths(resolve)) => {
+                        let mut signature = vec![];
+                        for (variable, entity) in resolve(world)? {
+                            let source = self
+                                .nodes
+                                .iter()
+                                .position(|n| n.variable == variable && n.entity == entity)
+                                .ok_or(ShadowSessionError::UnregisteredSource)?;
+                            signature.push(source);
+                        }
+                        Some(signature)
+                    }
+                    None => None,
+                }
             };
             if let Some(sources) = &signature {
                 edges.extend(sources.iter().map(|&source| (index, source)));

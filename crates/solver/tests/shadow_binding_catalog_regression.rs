@@ -12,9 +12,11 @@ fn schema() -> PlanningSchema {
     ])])
     .unwrap()
 }
+#[derive(Debug)]
 struct Key {
     id: usize,
     clones: Rc<Cell<usize>>,
+    comparisons: Rc<Cell<usize>>,
 }
 impl Clone for Key {
     fn clone(&self) -> Self {
@@ -22,17 +24,19 @@ impl Clone for Key {
         Self {
             id: self.id,
             clones: self.clones.clone(),
+            comparisons: self.comparisons.clone(),
         }
     }
 }
 impl PartialEq for Key {
     fn eq(&self, other: &Self) -> bool {
+        self.comparisons.set(self.comparisons.get() + 1);
         self.id == other.id
     }
 }
 impl Eq for Key {}
 #[test]
-fn bindings_share_one_catalog_instead_of_cloning_all_keys_per_binding() {
+fn bindings_resolve_handles_without_cloning_entity_keys() {
     let schema = schema();
     let field = schema
         .entity::<Entity>()
@@ -40,6 +44,7 @@ fn bindings_share_one_catalog_instead_of_cloning_all_keys_per_binding() {
         .variable("result")
         .unwrap();
     let clones = Rc::new(Cell::new(0));
+    let comparisons = Rc::new(Cell::new(0));
     let mut b = ShadowSessionBuilder::<Key, ()>::new(&schema);
     let nodes = (0..256)
         .map(|id| {
@@ -48,6 +53,7 @@ fn bindings_share_one_catalog_instead_of_cloning_all_keys_per_binding() {
                 Key {
                     id,
                     clones: clones.clone(),
+                    comparisons: comparisons.clone(),
                 },
                 |_, i| {
                     Some(
@@ -64,24 +70,44 @@ fn bindings_share_one_catalog_instead_of_cloning_all_keys_per_binding() {
             .unwrap()
         })
         .collect::<Vec<_>>();
-    for target in &nodes[1..] {
-        let source = nodes[0].erase();
+    comparisons.set(0);
+    for target in &nodes[..255] {
+        let source = nodes[255].erase();
         b.bind_dependencies(target, move |_| Ok(vec![source.clone()]))
             .unwrap();
     }
     assert_eq!(
         clones.get(),
-        256,
-        "catalog copies keys once for all 255 bindings"
+        0,
+        "native handle bindings do not copy entity keys"
     );
+    assert_eq!(comparisons.get(), 0, "binding does not search keys");
     let mut session = b.build();
+    // Registration and owner grouping may compare keys; resolution must not.
+    comparisons.set(0);
     session.update(&()).unwrap();
+    let saved = session.checkpoint().unwrap();
+    session.mark_dirty(&nodes[0]).unwrap();
+    session.update_notified(&()).unwrap();
+    assert!(missing_shadow_sources(&session, &()).unwrap().is_empty());
+    update_consistent_shadows(&mut session, &()).unwrap();
+    session.restore(&saved, &()).unwrap();
+    assert_eq!(
+        comparisons.get(),
+        0,
+        "refresh/diagnostics/restore do not search keys"
+    );
     for node in nodes {
         assert_eq!(session.read(&node).unwrap().value, Some(&5));
     }
+    assert_eq!(
+        clones.get(),
+        0,
+        "refresh preserves native identity directly"
+    );
 }
 #[test]
-fn later_registration_gets_new_catalog_without_widening_earlier_binding() {
+fn later_registration_does_not_widen_an_earlier_binding() {
     let schema = schema();
     let field = schema
         .entity::<Entity>()

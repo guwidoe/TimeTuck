@@ -1,7 +1,7 @@
 //! Inspect runtime shadow loops and reject inconsistent refreshes atomically.
 use super::{
     RefreshMode, ResolvedSources, ShadowNodeRef, ShadowSession, ShadowSessionCheckpoint,
-    ShadowSessionError,
+    ShadowSessionError, SourceResolver,
 };
 use crate::PlanningType;
 use std::{error::Error, fmt};
@@ -260,9 +260,18 @@ fn resolve_with_diagnostics<K: Eq + Clone, W>(
             signatures.push(signature);
             continue;
         }
-        let Some(resolve) = &node.sources else {
-            signatures.push(None);
-            continue;
+        let resolve = match &node.sources {
+            Some(SourceResolver::Native(resolve)) => {
+                let signature = resolve(world)?;
+                edges.extend(signature.iter().map(|&source| (index, source)));
+                signatures.push(Some(signature));
+                continue;
+            }
+            Some(SourceResolver::Paths(resolve)) => resolve,
+            None => {
+                signatures.push(None);
+                continue;
+            }
         };
         let mut signature = Vec::new();
         for (field, entity) in resolve(world)? {
