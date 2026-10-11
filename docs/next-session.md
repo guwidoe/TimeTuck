@@ -23231,3 +23231,47 @@ Next goal turn can assign three new independent tasks to existing Astra/high age
 from current main; runner-a/runner-c free, local reserved expensive compilation. Once
 parent compilation finishes, local agent may use its own target at-j2 during
 sequential tests/report; do not share target or mutate main. Goal active/incomplete.
+
+Round6 agents implementing from fd8661c (existing Astra/high settings):
+dense_scoring owns reusable ListRuinPlan preparation/reconstruction into reversible
+moves for custom providers, including a possible complete pinned-prefix receiver
+source adaptation; runner-a assigned. dependency_graph owns opt-in ShadowCalculator
+change notification bridge to notified sessions during native search, including
+possible complete Community undo-shadow cases; runner-c assigned. termination owns
+retained scoped ScoreDirector plans across basic/list/mixed models, with private
+incremental canonical exact-assignment transitions and complete cache snapshots;
+owns scoring.rs/list_scoring.rs/mixed_scoring.rs plus minimal lib/solver wiring.
+Eq-by-identity payloads require a full first exact refresh and a proved canonical
+transition invariant; no public arbitrary replacement API. Local Cargo held while
+parent6362compiles; later allow its separate target at-j2 or assign freed remote.
+Main Rust/provenance remain frozen. Agents propose only complete source credit.
+Previous goal turn was progress: round5 integrated and round4 finally verified.
+
+Round5 gate6362 TERMINAL0 and recorder79415 TERMINAL0:5837Rust+260doctests,
+609Rust RUN200REUSE,46Python REUSE,3291/4855source methods(67.786%),0failed/unverified.
+Source94bcebed1ad9d5c8498bcb4f0c7a0e2860bf29639f4448f05b61bb2fc00d359e;
+verification67e1f12006517d0781a29aad5466fd4fbb79571770eb1d9383554561d9b806ec.
+Evidence work/parallel-round5-evidence.json; Java timings remain stale.
+
+Round6 integrated:b82002a ListRuinPlan(agent7ca25fd),af58045 notified shadow calculator
+(agente5cef72),d7a127a retained scoped plans(agent87c6e8c). Parent reviewed production
+changes and complete source assertions; two methods/two fixtures added to provenance.
+Focused evidence copied under work/parallel-round6-evidence/{moves,shadows,scoped}/work.
+All nonshared Rust files match successful manifests; lib.rs merges both minimal
+module/export additions. Moves21focused tests+Clippy, shadows20+Clippy, scoped45+Clippy.
+20new Rust methods including two complete upstream adaptations; expected5857Rust,
+3293source methods, but claim only actual combined success. No new wall-time claims.
+Retained plans fully refresh repair boundaries for Eq-by-ID payload correctness;
+first exact refresh fully scores, later canonical transitions reuse contributions.
+
+Round7 assigned to the same three Astra/high agents from d7a127a, each choosing
+a substantive next gap within its lane: moves/selectors on runner-a; shadows/
+dependencies on runner-c; solver/scoring on local. Local Cargo held until parent round6
+expensive compilation completes; independent implementation continues meanwhile.
+
+Round6 combined gate32949 LIVE, frozen Rust d7a127a and provenance+2methods/+2fixtures.
+Stable launcher runs work/prebuild_parallel_round6.py >work/parallel-round6-prebuild.log
+then bash scripts/check.sh >work/parallel-round6-final-check.log. Do not restart.
+After terminal success run prepared work/record_parallel_round6.py through stable
+launcher. It checks freshness/source, exact provenance delta and focused file hashes
+(including combined lib.rs additions). Main Rust/provenance frozen until recorder.

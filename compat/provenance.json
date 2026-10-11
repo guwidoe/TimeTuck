@@ -49479,6 +49479,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt all false termination and zero progress assertions at 500 ms and 1001 ms using the native solve-wide threshold control, its construction polling hook and explicit monotonic clock. Construction lifecycle and completed placements leave the shared timer unarmed. Java phase/solver queries map to construction/solver polling and the shared threshold progress; Java mocks and wall-clock epoch offsets are replaced by native lifecycle calls and elapsed durations. Other tests in this file are original regression tests, including cross-phase behavior; no credit is claimed for the separate mixed construction/local-search dual-gradient method. Cargo runs this unit test under src/lib.rs; its assertions are in crates/solver/src/solver_significant_tests.rs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListRuinRecreateMoveTest.java",
+      "upstream_test": "executeAndUndoNewDestinationEntityWithPinnedPrefix",
+      "local_path": "crates/solver/tests/list_ruin_plan_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListRuinRecreateMoveTest.executeAndUndoNewDestinationEntityWithPinnedPrefix",
+      "status": "implemented",
+      "local_test": "execute_and_undo_new_destination_entity_with_pinned_prefix",
+      "modifications": "Preserve both exact final list assertions after temporary scored execution and undo, the five named identities, two pinned prefixes, three explicitly ruined specials from A, and penalty forcing all specials onto previously untouched receiver B. Native ListRuinPlan plus queued greedy list construction replaces Java nested phase/descriptor plumbing; ListScoreDirector and TemporaryMoves with fresh restored-score checks replace PHASE_ASSERT and executeTemporary. Additional native checks verify complete reconstruction, zero candidate penalty and all special owners before rollback. No Java reflection, callback trace or object identity parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_notifier_undo_cases.rs",
+      "id": "MoveDirectorUndoShadowVariableTest.undoRestoresListShadowVariablesAndScore",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/MoveDirectorUndoShadowVariableTest.java",
+      "upstream_test": "undoRestoresListShadowVariablesAndScore",
+      "local_test": "undo_restores_list_shadow_variables_and_score",
+      "modifications": "Adapt all seven undoCases inputs and operations using native list move builders/gather moves and ephemeral calculator move guards. Assert complete list restoration, every value owner/index/previous/next shadow restored from the actual cached declarative projection, and incremental score equal to a fresh director score. Numeric entity indices replace A/B references; value codes preserved. Native batched change/inverse notifications replace Java event brackets. Grow-only histories are excluded exactly as in the source assertions; Java reflection, descriptor identity and internal notification shape are not claimed."
     }
   ],
   "fixtures": [
@@ -66771,6 +66801,32 @@
       "id": "FusedEqualIndexTest.equalGenderLessThanAge.reserved_partitions",
       "upstream_test": "equalGenderLessThanAge",
       "modifications": "Native projection uses gender partition and age suffix with strict LessThan; same projection is used for reservations, updates and same-group checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListRuinRecreateMoveTest.java",
+      "upstream_test": "executeAndUndoNewDestinationEntityWithPinnedPrefix",
+      "local_path": "crates/solver/tests/list_ruin_plan_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListRuinRecreateMoveTest.pinned_destination_fixture",
+      "modifications": "Adapt the self-contained five named values (aPin, special1, special2, special3, bPin), original A/B lists, prefix indices, selected specials and embedded penalty for specials assigned outside B. Native string identities and ListEntity metadata replace test-domain beans; no separate test-domain implementation is copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_notifier_undo_cases.rs",
+      "id": "TestdataListWithShadowHistoryConstraintProvider.notified_undo",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListWithShadowHistoryConstraintProvider.java",
+      "upstream_test": "defineConstraints",
+      "modifications": "Preserve the negative squared-list-length penalty for every entity, including empty lists. Score the declarative cached list snapshot through a native shadow calculator instead of Java constraint provider wiring. No source-method credit for this fixture."
     }
   ]
 }

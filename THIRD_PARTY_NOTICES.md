@@ -848,3 +848,11 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   both exact restored-list assertions. Full provenance and API substitutions
   are recorded in `compat/provenance.json`. The plan implementation and
   `list_ruin_plan_regression.rs` are original work.
+
+- `crates/solver/tests/shadow_notifier_undo_cases.rs` adapts all seven inputs of
+  Community `MoveDirectorUndoShadowVariableTest.undoRestoresListShadowVariablesAndScore`
+  and the squared-list-length fixture from
+  `TestdataListWithShadowHistoryConstraintProvider.defineConstraints` (Apache-2.0).
+  Native temporary calculator moves and cached declarative list projections retain
+  list, owner/index/previous/next and fresh-score restoration assertions. Complete
+  provenance and substitutions are recorded in `compat/provenance.json`.

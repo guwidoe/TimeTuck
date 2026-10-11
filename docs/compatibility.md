@@ -6485,3 +6485,35 @@ needed six slots. Eight original tests cover 936 capacity/budget prefixes, four 
 orders, three model types and 15 solver backend routes. Complete source-method
 adaptations are not claimed. Focused evidence for all three changes is preserved in
 work/parallel-round5-evidence; combined verification is recorded in the handoff.
+
+## Reusable ruin plans, notified calculators and retained scoped plans
+
+ListRuinPlan prepares explicit selected values for reconstruction and converts a
+valid rebuilt assignment into an ordinary reversible composite move. It validates
+pins, ranges, completeness and unchanged owner/relative order for unselected values.
+Plans bind to their source assignment; recorded temporary moves provide guarded
+replay. Nested reconstruction needs its own budget. The complete pinned-prefix
+receiver test preserves both exact restored-list assertions; eight original tests
+include 3600 reconstruction cases and provider integration. Default search is unchanged.
+
+ShadowCalculator::with_change_notifier lets callers mark session inputs dirty from
+actual forward, inverse and replay changes. Notification errors/panics restore the
+session checkpoint; failed calculators require a full reset. Reset refreshes all
+fields. Callers must notify all affected inputs, bindings and external facts. Three
+original regressions cover solver integration and rollback. The complete seven-case
+Community undo method checks cached shadows and fresh score after restoration. In
+a 128-field forward/inverse fixture, input reads fall from 256 to 2 and resolver
+calls from 256 to 0; metadata/checkpoints may still touch the whole graph. No wall-time
+or Java performance claim is made.
+
+Basic/list/mixed scoped score directors now run solver plans while retaining cached
+constraint contributions across phases. Best-state snapshots restore without score
+callbacks. First exact entry and repair reconstruction refresh fully to preserve
+Eq-by-identity payload semantics; subsequent canonical exact transitions update
+affected scopes, using dense list indexes where available. Logical phase-entry
+evaluations remain counted even when no callback runs. Seven original regressions
+cover budgets, phases, payloads, errors and dense pins. A 12-variable exact fixture
+uses 8190 callbacks versus 49152 for ordinary solving, both at 4096 logical evaluations
+(excluding director setup). Snapshot allocation/cloning costs remain; no wall-time
+speedup is claimed. Two complete upstream methods and two fixtures are newly mapped;
+combined verification is recorded in the handoff.
