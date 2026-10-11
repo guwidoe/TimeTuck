@@ -811,6 +811,26 @@ impl<V> Deref for AppliedListMove<'_, V> {
     }
 }
 impl<V> AppliedListMove<'_, V> {
+    // Saved rows are unique; cardinality changes telescope over the whole
+    // composite, including values assigned and removed again in one trial.
+    pub(crate) fn assigned_count_delta(&self) -> Option<i64> {
+        let saved = self.saved.as_ref().expect("live list transaction");
+        let rows = self.assignment.lists.len();
+        // A sequential length count beats scattered touched-row reads for tiny
+        // assignments and dense edits, without allocating an auxiliary index.
+        if rows <= 32 || saved.len() > rows / 8 {
+            return None;
+        }
+        Some(
+            saved
+                .iter()
+                .map(|(entity, original)| {
+                    self.assignment.lists[*entity].len() as i64 - original.len() as i64
+                })
+                .sum(),
+        )
+    }
+
     /// The pre-move list, borrowing the saved list for a touched entity and the
     /// unchanged assignment otherwise. No values are cloned.
     pub fn original_list(&self, entity: usize) -> Option<&[V]> {

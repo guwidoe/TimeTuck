@@ -443,9 +443,10 @@ pub(crate) fn with_structure<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     Ok(score.with_structural(-missing))
 }
 
-/// Owns the combined assignment and cached contributions. Only affected callbacks
-/// are incremental: validation, snapshots, structural counting and dependency
-/// discovery still scan/copy model state. No constant-time update claim is made.
+/// Owns the combined assignment and cached contributions. Sparse trials update
+/// structural incompleteness from their undo metadata; dense basic journals use
+/// a full count. Validation, snapshots and dependency discovery may still scan
+/// or copy model state. No constant-time update claim is made.
 pub struct MixedScoreDirector<'p, 'c, B, L, S> {
     problem: &'p MixedProblem<B, L>,
     network: &'p MixedConstraintNetwork<'c, B, L, S>,
@@ -915,7 +916,37 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                     .map(|(i, new)| (&self.contributions[*i], new)),
             )
             .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
-        let candidate_score = with_structure(score, self.problem, &transaction)?;
+        let world_size = self.problem.basic().variables().len().saturating_add(
+            if self.problem.lists().allows_unassigned() {
+                0
+            } else {
+                transaction.lists().lists().len()
+            },
+        );
+        let candidate_score = match crate::scoring::basic_structural_delta(
+            self.problem.basic(),
+            transaction.basic(),
+            transaction.basic_prior_values(),
+            world_size,
+        ) {
+            Some(basic_delta) => {
+                let list_delta = if self.problem.lists().allows_unassigned() {
+                    0
+                } else {
+                    transaction.assigned_list_count_delta()
+                };
+                // Check the nonnegative missing count, as fresh scoring does:
+                // -i64::MIN would otherwise admit one extra missing value.
+                let missing = i64::try_from(
+                    -i128::from(self.score.structural())
+                        - i128::from(basic_delta)
+                        - i128::from(list_delta),
+                )
+                .map_err(|_| MixedScoringError::StructuralCountOverflow)?;
+                score.with_structural(-missing)
+            }
+            None => with_structure(score, self.problem, &transaction)?,
+        };
         Ok(ScoredMixedMove {
             transaction,
             updates,

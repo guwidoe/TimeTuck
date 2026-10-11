@@ -862,7 +862,13 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
                     .map(|(i, new)| (&self.contributions[*i], new)),
             )
             .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
-        let candidate_score = with_structure(score, self.problem, &transaction);
+        let candidate_score = if self.problem.allows_unassigned() {
+            score.with_structural(0)
+        } else if let Some(delta) = transaction.assigned_count_delta() {
+            score.with_structural(self.score.structural() + delta)
+        } else {
+            with_structure(score, self.problem, &transaction)
+        };
         Ok(ScoredListMove {
             transaction,
             updates,

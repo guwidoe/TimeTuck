@@ -189,6 +189,21 @@ impl<B, L> Deref for AppliedMixedMove<'_, B, L> {
     }
 }
 impl<B, L> AppliedMixedMove<'_, B, L> {
+    pub(crate) fn basic_prior_values(&self) -> &[crate::PriorValue<B>] {
+        &self.basic_prior
+    }
+
+    pub(crate) fn assigned_list_count_delta(&self) -> i64 {
+        self.saved_lists
+            .as_ref()
+            .expect("live mixed transaction")
+            .iter()
+            .map(|(entity, original)| {
+                self.assignment.lists.lists()[*entity].len() as i64 - original.len() as i64
+            })
+            .sum()
+    }
+
     /// Borrow a basic slot before the entire move, including repeated writes.
     /// Unknown variables return None; a known unassigned slot returns Some(None).
     pub fn original_basic(&self, variable: usize) -> Option<&Option<B>> {

@@ -341,6 +341,45 @@ pub(crate) fn with_structure<V: Eq, S: AdditiveScore>(
     total.with_structural(-(missing as i64))
 }
 
+// A sparse trial changes completeness only at the first journal entry for each
+// required variable. Later entries describe intermediate states, not the base.
+// Dense journals are cheaper to handle with the independent full scan; callers
+// supply the size of their whole basic/list world when choosing that fallback.
+pub(crate) fn basic_structural_delta<V: Eq>(
+    problem: &FiniteProblem<V>,
+    assignment: &Assignment<V>,
+    prior: &[crate::PriorValue<V>],
+    world_size: usize,
+) -> Option<i64> {
+    if world_size <= 32 || (prior.len() > 8 && prior.len() > world_size / 64) {
+        return None;
+    }
+    let contribution = |write: &crate::PriorValue<V>| {
+        if problem.variables()[write.variable].allows_unassigned() {
+            0
+        } else {
+            i64::from(write.value.is_none())
+                - i64::from(assignment.values()[write.variable].is_none())
+        }
+    };
+    let delta = if prior.len() <= 8 {
+        prior
+            .iter()
+            .enumerate()
+            .filter(|(i, write)| !prior[..*i].iter().any(|old| old.variable == write.variable))
+            .map(|(_, write)| contribution(write))
+            .sum()
+    } else {
+        let mut seen = std::collections::HashSet::with_capacity(prior.len());
+        prior
+            .iter()
+            .filter(|write| seen.insert(write.variable))
+            .map(contribution)
+            .sum()
+    };
+    Some(delta)
+}
+
 /// Owns a working assignment and cached per-constraint contributions.
 /// It borrows the model/network, preventing their mutation during the session.
 pub struct ScoreDirector<'p, 'c, V, S> {
@@ -707,7 +746,15 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                     .map(|(i, new)| (&self.contributions[*i], new)),
             )
             .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
-        let candidate_score = with_structure(score, self.problem, &transaction);
+        let candidate_score = match basic_structural_delta(
+            self.problem,
+            &transaction,
+            transaction.prior_values(),
+            self.problem.variables().len(),
+        ) {
+            Some(delta) => score.with_structural(self.score.structural() + delta),
+            None => with_structure(score, self.problem, &transaction),
+        };
         Ok(ScoredMove {
             transaction,
             updates,
