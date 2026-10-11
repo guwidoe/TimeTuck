@@ -1,5 +1,48 @@
 # TimeTuck implementation handoff
 
+## Current checkpoint — round 23 integration (2026-10-11)
+
+Round 22 is verified: gate47656 and recorder55915 terminal0, 6,265 Rust tests,
+276 doctests, 3,345/4,855 upstream methods (68.898%), no failed/unverified methods.
+808 Rust jobs ran; 94 Rust and46 Python jobs reused unchanged evidence.
+`work/parallel-round22-evidence.json` records source and report identities.
+Fresh original-Java list comparison was current at that checkpoint:320valid,
+317equal scores;9matching-score timing workloads Java/Rust2.738–76.668x on
+runner-a. Three quality differences remain explicit; do not compare across hosts.
+
+Round23 is now integrated and frozen at bd388a4. Commits: a9fab92 streamed child
+cursor composition;68af365 group rebasing;8a67fd1 owned calculator edit batches;
+eb3ed76 compact primitive swap undo;21a9a27 builtin owner/rebase tests;d146073 live
+restart snapshot publication fix;bd388a4 provenance18methods+22fixtures.
+All six slices received parent production/test/source review as applicable.
+Copied artifacts and committed file hashes verified; zero-context stable patch IDs
+match all six isolated commits. Index:work/parallel-round23-reviewed.json.
+
+Combined local job8358 is LIVE: prebuild fmt/strictClippy then affected-target
+compile, followed by one `scripts/check.sh`. Logs:work/parallel-round23-prebuild.log
+and work/parallel-round23-final-check.log. Do not mutate crates/provenance until
+terminal0. Then run `python3 work/with-verification-environment.py python3
+work/record_parallel_round23.py` once; expected3363source methods. Recorder NOT RUN.
+Do not rerun focused checks or benchmarks just because a turn changes.
+
+Compact swap final measurement83192 terminal0:40workloads720paired samples,
+exact result/work/payload checksums, actual payload-heavy solves2.36–3.59x.
+Tiny cases+6.2%, cheap-copy/fallback regressions retained; memory costs/gains in
+work/parallel-round23-evidence/swap. Other moves keep snapshots; original rows
+materialize lazily; rollback preserves owned payloads and panic safety. Native
+performance only. Round22 original-Java report remains retained but becomes stale
+for relevant round23 source changes; do not relabel or automatically remeasure.
+
+Three Astra/high agents continue isolated implementation: dense_scoring on compact
+primitive Change undo (runner-a builds);dependency_graph on opt-in lazy weighted
+union selection;termination on transactional calculator what-if scoring. Their
+worktrees remain /home/ralph/.codex/worktrees/{dense-list-scoring,dependency-graph,
+diminished-returns}/TimeTuck. Main owns combined local gate; focused local-j2 jobs
+allowed. runner-c latest78126 terminal255 SSHtimeout despite user's planned wakeup;
+use developer@runner-c.internal when reachable. runner-a developer@runner-a.internal is assigned dense.
+Goal remains active/incomplete. Continue implementations; no new UI verification.
+
+
 ## Active user goal
 
 Rewrite Timefold behavior in independent native Rust, using pinned Community tests
