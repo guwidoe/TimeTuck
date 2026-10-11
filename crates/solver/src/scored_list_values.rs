@@ -21,37 +21,38 @@ impl<V: Eq + Clone> ListProblem<V> {
                 _ => return compound::capture(before, movement),
             }
         }
-        let mut values = Vec::new();
-        let mut record = |value: &V| {
-            if !values.contains(value) {
-                values.push(value.clone());
-            }
-        };
+        // Successful application proves unique global ownership and disjoint
+        // swap spans. Primitive capture therefore needs no equality-based
+        // deduplication; preserve the source traversal order, even for reversals.
         match movement {
-            ListMove::Assign { value, .. } => record(value),
-            ListMove::Change { source, .. } => record(&before.lists()[source.entity][source.index]),
+            ListMove::Assign { value, .. } => vec![value.clone()],
+            ListMove::Change { source, .. } => {
+                vec![before.lists()[source.entity][source.index].clone()]
+            }
             ListMove::Swap { left, right } => {
-                record(&before.lists()[left.entity][left.index]);
-                record(&before.lists()[right.entity][right.index]);
+                let first = before.lists()[left.entity][left.index].clone();
+                if left == right {
+                    vec![first]
+                } else {
+                    vec![first, before.lists()[right.entity][right.index].clone()]
+                }
             }
             ListMove::SubListChange {
                 entity, start, end, ..
             }
             | ListMove::Unassign { entity, start, end } => {
-                for value in &before.lists()[*entity][*start..*end] {
-                    record(value);
-                }
+                before.lists()[*entity][*start..*end].to_vec()
             }
             ListMove::SubListSwap { left, right, .. } => {
-                for range in [left, right] {
-                    for value in &before.lists()[range.entity][range.start..range.end] {
-                        record(value);
-                    }
-                }
+                let a = &before.lists()[left.entity][left.start..left.end];
+                let b = &before.lists()[right.entity][right.start..right.end];
+                let mut values = Vec::with_capacity(a.len() + b.len());
+                values.extend_from_slice(a);
+                values.extend_from_slice(b);
+                values
             }
             ListMove::Composite(_) => unreachable!("handled above"),
         }
-        values
     }
 }
 impl<B: Eq + Clone, V: Eq + Clone> MixedProblem<B, V> {
@@ -273,5 +274,94 @@ mod tests {
                 MixedPlanningValue::List(3)
             ]
         );
+    }
+    #[test]
+    fn large_primitive_spans_capture_source_payload_order_without_pairwise_equality() {
+        #[derive(Clone, Debug)]
+        struct Counted {
+            id: usize,
+            payload: usize,
+            comparisons: Rc<Cell<usize>>,
+        }
+        impl PartialEq for Counted {
+            fn eq(&self, other: &Self) -> bool {
+                self.comparisons.set(self.comparisons.get() + 1);
+                self.id == other.id
+            }
+        }
+        impl Eq for Counted {}
+        let comparisons = Rc::new(Cell::new(0));
+        let make = |id, payload| Counted {
+            id,
+            payload,
+            comparisons: comparisons.clone(),
+        };
+        let p = ListProblem::new(
+            (0..256).map(|i| make(i, i)).collect(),
+            vec![
+                ListEntity::new((0..256).map(|i| make(i, 1000 + i)).collect()),
+                ListEntity::new(vec![]),
+            ],
+        )
+        .unwrap();
+        let before = p.initial_assignment();
+        let cases = [
+            (
+                ListMove::SubListChange {
+                    entity: 0,
+                    start: 0,
+                    end: 256,
+                    destination: pos(1, 0),
+                    reverse: true,
+                },
+                (1000..1256).collect::<Vec<_>>(),
+            ),
+            (
+                ListMove::Unassign {
+                    entity: 0,
+                    start: 0,
+                    end: 256,
+                },
+                (1000..1256).collect(),
+            ),
+            (
+                ListMove::SubListSwap {
+                    left: ListRange {
+                        entity: 0,
+                        start: 160,
+                        end: 256,
+                    },
+                    right: ListRange {
+                        entity: 0,
+                        start: 0,
+                        end: 128,
+                    },
+                    reverse: true,
+                },
+                (1160..1256).chain(1000..1128).collect(),
+            ),
+            (
+                ListMove::Swap {
+                    left: pos(0, 0),
+                    right: pos(0, 0),
+                },
+                vec![1000],
+            ),
+        ];
+        for (movement, expected) in cases {
+            let mut trial = before.clone();
+            drop(p.apply(&mut trial, &movement).unwrap());
+            comparisons.set(0);
+            let actual = p.scored_planning_values(&before, &movement);
+            assert!(
+                comparisons.get() <= expected.len(),
+                "capture must not compare every pair"
+            );
+            assert_eq!(
+                actual.iter().map(|v| v.payload).collect::<Vec<_>>(),
+                expected
+            );
+            assert_eq!(before.lists()[0][0].payload, 1000);
+        }
     }
 }
