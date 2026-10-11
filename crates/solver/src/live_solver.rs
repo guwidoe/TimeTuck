@@ -988,7 +988,7 @@ mod cancellation_race_tests {
 
     #[test]
     fn live_cancellation_succeeds_when_notified_worker_finishes_before_pool_cancel() {
-        let state = Arc::new(State::<()>::new());
+        let state = Arc::new(State::<(), ()>::new());
         let observed = Arc::downgrade(&state);
         assert!(
             state
@@ -1004,14 +1004,14 @@ mod cancellation_race_tests {
         );
         assert!(state.cancel());
         assert!(!state.cancel());
-        let completed = State::<()>::new();
+        let completed = State::<(), ()>::new();
         completed.data.lock().unwrap().accepting = false;
         assert!(!completed.cancel()); // A naturally completed stale handle.
     }
 
     #[test]
     fn racing_live_cancel_callers_report_success_only_once() {
-        let state = Arc::new(State::<()>::new());
+        let state = Arc::new(State::<(), ()>::new());
         let barrier = Arc::new(std::sync::Barrier::new(2));
         assert!(
             state
