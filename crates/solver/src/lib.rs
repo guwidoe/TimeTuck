@@ -27,6 +27,7 @@ pub use model::{FiniteProblem, ModelError, Variable};
 pub use moves::{AppliedMove, Assignment, Move, MoveError, PriorValue};
 pub use search::{ScoredAssignment, SearchResult, Termination, exhaustive_search};
 
+mod affected_constraints;
 pub mod scoring;
 pub use scoring::{ConstraintNetwork, ScoreDirector, ScoredMove, ScoringError};
 

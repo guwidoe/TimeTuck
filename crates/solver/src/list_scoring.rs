@@ -805,10 +805,11 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             .problem
             .apply_validated(&mut self.assignment, movement)?;
         let touched = movement.touched_entities();
-        let mut affected: Vec<_> = touched
-            .iter()
-            .flat_map(|&e| self.network.entity_dependents[e].iter().copied())
-            .collect();
+        let mut affected =
+            crate::affected_constraints::AffectedConstraints::new(self.network.constraints.len());
+        for &entity in &touched {
+            affected.extend(&self.network.entity_dependents[entity]);
+        }
         // Entity-only constraints need no value identity lookup. Registration
         // retains each scoped index once, including currently disabled weights.
         let changed = (self.network.scoped_values.len() >= 64)
@@ -834,8 +835,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
                 }
             }
         }
-        affected.sort_unstable();
-        affected.dedup();
+        let mut affected = affected.into_sorted();
         affected.retain(|&i| {
             self.network.constraints[i]
                 .weight

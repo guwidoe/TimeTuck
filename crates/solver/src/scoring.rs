@@ -718,13 +718,12 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         let transaction = self
             .problem
             .apply_validated(&mut self.assignment, movement)?;
-        let mut affected: Vec<_> = transaction
-            .prior_values()
-            .iter()
-            .flat_map(|write| self.network.dependents[write.variable].iter().copied())
-            .collect();
-        affected.sort_unstable();
-        affected.dedup();
+        let mut affected =
+            crate::affected_constraints::AffectedConstraints::new(self.network.constraints.len());
+        for write in transaction.prior_values() {
+            affected.extend(&self.network.dependents[write.variable]);
+        }
+        let mut affected = affected.into_sorted();
         affected.retain(|&i| {
             self.network.constraints[i]
                 .weight

@@ -850,12 +850,11 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         let transaction = self
             .problem
             .apply_validated(&mut self.assignment, movement)?;
-        let mut affected: Vec<_> = movement
-            .basic
-            .touched_variables()
-            .iter()
-            .flat_map(|&i| self.network.basic_dependents[i].iter().copied())
-            .collect();
+        let mut affected =
+            crate::affected_constraints::AffectedConstraints::new(self.network.constraints.len());
+        for variable in movement.basic.touched_variables() {
+            affected.extend(&self.network.basic_dependents[variable]);
+        }
         let touched = movement.lists.touched_entities();
         for &entity in &touched {
             affected.extend(&self.network.entity_dependents[entity]);
@@ -888,8 +887,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                 }
             }
         }
-        affected.sort_unstable();
-        affected.dedup();
+        let mut affected = affected.into_sorted();
         affected.retain(|&i| {
             self.network.constraints[i]
                 .weight
