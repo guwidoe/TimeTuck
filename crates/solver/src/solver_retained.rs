@@ -172,11 +172,17 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                     let initial = a.expect("exact handoff");
                     let mut best_graph = d.graph().capture_full();
                     let director = RefCell::new(&mut *d);
+                    // Public/handoff values may be Eq-equal to domain values with
+                    // different payloads. Refresh once before relying on this one
+                    // traversal's stable representatives; repair remains separate.
+                    let mut first_candidate = true;
                     let evaluate = |a: &Assignment<V>| -> Result<(S, u128), StreamScoringError> {
                         let mut director = director.borrow_mut();
-                        let change = director.replace_assignment(a.clone())?;
+                        let change =
+                            director.replace_generated_assignment(a.clone(), first_candidate)?;
                         let scored = (change.score(), change.constraint_evaluations());
                         change.commit();
+                        first_candidate = false;
                         Ok(scored)
                     };
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {

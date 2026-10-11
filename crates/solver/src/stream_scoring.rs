@@ -449,11 +449,26 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         &mut self,
         next: Assignment<V>,
     ) -> Result<crate::StreamAssignmentChange<'_, 'a, Assignment<V>, S>, StreamScoringError> {
+        self.replace_generated_assignment(next, true)
+    }
+
+    /// Only for one basic exact traversal: after a full first refresh, every
+    /// variable uses a fixed representative for each planning identity. Domain
+    /// values are Eq-unique, pins stay fixed, and completion-fixed payloads never
+    /// enter the mutable domain. Clones must preserve scoring payloads. Arbitrary
+    /// handoffs and public replacement must always request a full refresh.
+    pub(crate) fn replace_generated_assignment(
+        &mut self,
+        next: Assignment<V>,
+        refresh_all: bool,
+    ) -> Result<crate::StreamAssignmentChange<'_, 'a, Assignment<V>, S>, StreamScoringError> {
         self.problem.validate(&next)?;
         let mut graph = self.graph.transaction();
         let mut updates = StreamBatch::new();
         for (i, value) in next.values().iter().enumerate() {
-            updates.push(&self.source, TupleChange::put(i, (i, value.clone())))?;
+            if refresh_all || self.assignment.values()[i] != *value {
+                updates.push(&self.source, TupleChange::put(i, (i, value.clone())))?;
+            }
         }
         graph.apply_updates(updates)?;
         let score = with_structure(graph.score()?, self.problem, &next);
