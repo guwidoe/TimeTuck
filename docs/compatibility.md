@@ -6698,3 +6698,17 @@ gains are modest, and tiny loading is slower. The retirement queue and free-slot
 metadata retain high-water capacity. This native optimization adds no method
 credit; paired measurements and focused rollback checks are preserved with the
 round14 evidence.
+
+Twenty complete `DynamicIntArrayTest` methods now adapt default/bounded construction,
+window extension in both directions, replacement, zero-filled holes, membership,
+clear and reuse, including all three negative-index parameter values. Native
+`IndexedIntArray` uses a movable `VecDeque<i32>` window, checked index conversion
+and typed errors; no prefix allocation is needed for a high first index. Empty
+window errors preserve the tested message. A separate deterministic sparse-map
+reference checks mixed writes, invalid writes, clearing and bounds. Provenance
+counts each annotated method once, including the parameterized method.
+
+A fourth complete `BruteForceTest` method preserves the optional basic-variable
+score, first-entity-unassigned tie choice and actual exact-phase step ceiling.
+Native variable order compensates for visiting optional None last; no identical
+Java/native traversal is claimed. Verification status is in the current handoff.

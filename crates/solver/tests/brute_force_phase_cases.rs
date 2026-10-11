@@ -1,5 +1,5 @@
 // Adapted from pinned Timefold Community BruteForceTest (Apache-2.0).
-// Three complete methods and fixture provenance are supplied separately.
+// Four complete methods and fixture provenance are supplied separately.
 // Native unbounded tree search uses actual partial-node expansion steps. The
 // source asserts upper ceilings, not equal Java/native traversal counts.
 use timetuck::*;
@@ -137,4 +137,65 @@ fn solve_list_variable_allowed_unassigned() {
     assert_eq!(unassigned.len(), 3);
     assert_eq!(steps, 15);
     assert_eq!(r.score, Some(SimpleScore::ZERO));
+}
+
+#[test]
+fn solve_basic_variable_allowed_unassigned() {
+    // TestdataAllowsUnassignedSolution.generateSolution(1,2); both values cleared.
+    let p = FiniteProblem::new(vec![Variable::new(vec![0]).allowing_unassigned(); 2]).unwrap();
+    let mut n = ConstraintNetwork::new(2);
+    n.add_constraint("optional source objective", vec![0, 1], |values| {
+        SimpleScore::new(
+            values
+                .iter()
+                .enumerate()
+                .map(|(i, left)| {
+                    if left.is_none() {
+                        -1
+                    } else {
+                        -1000
+                            * values
+                                .iter()
+                                .enumerate()
+                                .filter(|(j, right)| i != *j && left == *right)
+                                .count() as i64
+                    }
+                })
+                .sum(),
+        )
+    })
+    .unwrap();
+    let mut c = plan();
+    let SolverPhase::Exact(ref mut phase) = c.phases[0] else {
+        unreachable!()
+    };
+    let ExactSearchStrategy::BranchAndBound(ref mut bounded) = phase.strategy else {
+        unreachable!()
+    };
+    // Native None is visited after domain values; reverse entity traversal to
+    // preserve the source's equal-optimum choice: first unassigned, second set.
+    bounded.order = Some(
+        BranchOrder {
+            basic_variables: Some(vec![1, 0]),
+            ..Default::default()
+        }
+        .into(),
+    );
+    let mut steps = 0;
+    let r = solve_with_extensions(
+        &p,
+        &n,
+        c,
+        SolverExtensions {
+            lifecycle: Some(&mut |e| observe(e, 3, &mut steps)),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    assert_eq!(r.score, Some(SimpleScore::new(-1)));
+    assert!(r.assignment.values()[0].is_none());
+    assert!(r.assignment.values()[1].is_some());
+    assert_eq!(steps, 3);
+    assert_eq!(r.work.completed_steps, steps);
+    assert!(r.is_optimal());
 }

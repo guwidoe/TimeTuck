@@ -1353,3 +1353,6 @@ pub use provider_search::{
 };
 
 mod candidate_snapshot;
+
+mod indexed_int_array;
+pub use indexed_int_array::{IndexArrayError, IndexedIntArray};

@@ -50634,6 +50634,321 @@
       "upstream_test": "foragerDoesNotPickARejectedStructurallyFlawedMove",
       "local_test": "forager_does_not_pick_a_rejected_structurally_flawed_move",
       "modifications": "Preserve previous ordinary-100/unassigned8 and candidate ordinary0/unassigned7 plus structural flaw-1. Native combined structural state maps candidate to-8; no separate Java InnerScore representation claim. The source initialized structurally-flawed rejection sentinel maps to accepted=false in native real MoveForager. BestAccepted disables early picking (source NEVER); enable ordinary rejected fallback to exercise the structural exclusion itself. Preserve no selected move and selected-count0, adding accepted-count0/no-early-exit assertions. Count assertions precede consuming native pick. No scoring, fake Java scope, or synthetic storage facade."
+    },
+    {
+      "id": "DynamicIntArrayTest.defaultConstructor",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "defaultConstructor",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "default_constructor",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.constructorWithMaxSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "constructorWithMaxSize",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "constructor_with_max_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.setFirstElement",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "setFirstElement",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "set_first_element",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.setLowerIndex",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "setLowerIndex",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "set_lower_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.setHigherIndex",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "setHigherIndex",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "set_higher_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.setExistingIndex",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "setExistingIndex",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "set_existing_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.setNegativeIndex",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "setNegativeIndex",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "set_negative_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.setIndexGreaterThanMaxSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "setIndexGreaterThanMaxSize",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "set_index_greater_than_max_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.getFromEmptyArray",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "getFromEmptyArray",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "get_from_empty_array",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.getIndexLowerThanFirstIndex",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "getIndexLowerThanFirstIndex",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "get_index_lower_than_first_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.getIndexHigherThanLastIndex",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "getIndexHigherThanLastIndex",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "get_index_higher_than_last_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.getExistingIndex",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "getExistingIndex",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "get_existing_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.containsIndexEmptyArray",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "containsIndexEmptyArray",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "contains_index_empty_array",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.containsIndexWithinRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "containsIndexWithinRange",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "contains_index_within_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.containsIndexOutsideRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "containsIndexOutsideRange",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "contains_index_outside_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.testMultipleOperations",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "testMultipleOperations",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "test_multiple_operations",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.testWithSparseIndices",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "testWithSparseIndices",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "test_with_sparse_indices",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.clearEmptyArray",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "clearEmptyArray",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "clear_empty_array",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.clearResetsValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "clearResetsValues",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "clear_resets_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "id": "DynamicIntArrayTest.clearAndSetNewValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicIntArrayTest.java",
+      "upstream_test": "clearAndSetNewValues",
+      "local_path": "crates/solver/tests/indexed_int_array_cases.rs",
+      "local_test": "clear_and_set_new_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete nested method and every assertion adapted to native IndexedIntArray; Java exceptions become typed Result errors, with empty-array message preserved. All numeric inputs, window endpoints, zero holes, membership, updates and clear/reuse checks preserved. setNegativeIndex retains all three ValueSource inputs (-1,-5,-100) in one Rust test; one annotated-method credit. Independent VecDeque window implementation; no production translation or Java API/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BruteForceTest.solveBasicVariableAllowedUnassigned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BruteForceTest.java",
+      "upstream_test": "solveBasicVariableAllowedUnassigned",
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "local_test": "solve_basic_variable_allowed_unassigned",
+      "modifications": "Preserve generated one-value/two-optional-entity domain and cleared initial state; null penalty1 and every ordered equal non-null pair penalty1000; score-1, first entity unassigned and second assigned. Preserve correct exact phase and every StepStarted index<3 with nonvacuous native step count3. Reverse native variable traversal because None is visited last, preserving the source tie choice. Native unknown-bound exhaustive tree replaces Java factory/phase plumbing; no equal trace/count or JVM API claim."
     }
   ],
   "fixtures": [
@@ -69512,6 +69827,45 @@
       "id": "construction-structural-build-move-scope",
       "upstream_test": "buildMoveScope",
       "modifications": "Replace mocked move scope with saved candidate identity and real score. Combine seven missing assignments and one structural flaw into native structural-8/ordinary0; explicit rejected flag represents source initialized-score rejection sentinel. No separate Java score channels are claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-optional-fixture-TestdataAllowsUnassignedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution(1,2)",
+      "modifications": "One stable value identity and two entities; both initial values explicitly cleared as in source test."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-optional-fixture-TestdataAllowsUnassignedEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEntity.java",
+      "upstream_test": "planning value metadata",
+      "modifications": "Native allowing_unassigned preserves allowsUnassigned=true; stable integer identity replaces Java values."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
+      "id": "brute-force-optional-fixture-TestdataAllowsUnassignedEasyScoreCalculator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Preserve penalty1 per null value and1000 per ordered equal-value distinct entity pair."
     }
   ]
 }
