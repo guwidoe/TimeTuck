@@ -839,8 +839,9 @@ pub use basic_state_supply::{
 
 mod shadow_session;
 pub use shadow_session::{
-    ShadowEntityFilter, ShadowEntitySelection, ShadowInputs, ShadowNode, ShadowNodeRef, ShadowRead,
-    ShadowSession, ShadowSessionBuilder, ShadowSessionCheckpoint, ShadowSessionError,
+    ShadowCallbackError, ShadowCallbackStage, ShadowEntityFilter, ShadowEntitySelection,
+    ShadowInputs, ShadowNode, ShadowNodeRef, ShadowRead, ShadowSession, ShadowSessionBuilder,
+    ShadowSessionCheckpoint, ShadowSessionError,
 };
 
 mod list_change_recording;

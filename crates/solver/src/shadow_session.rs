@@ -8,9 +8,11 @@ use std::{
     any::Any, cell::OnceCell, collections::BTreeSet, error::Error, fmt, marker::PhantomData, rc::Rc,
 };
 
+mod callback_error;
 mod entities;
 mod keyed_index;
 mod selection;
+pub use callback_error::{ShadowCallbackError, ShadowCallbackStage};
 use entities::EntityGroups;
 use keyed_index::KeyedSourceIndex;
 pub use selection::{ShadowEntityFilter, ShadowEntitySelection};
@@ -40,10 +42,12 @@ pub enum ShadowSessionError {
     UnregisteredSource,
     FixedDependencyCycle(Vec<String>),
     Dependency(DependencyError<usize>),
+    Callback(ShadowCallbackError),
 }
 impl fmt::Display for ShadowSessionError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Callback(error) => error.fmt(f),
             Self::FixedDependencyCycle(variables) => write!(
                 f,
                 "fixed dependency loops for shadow variables: {}",
@@ -53,7 +57,14 @@ impl fmt::Display for ShadowSessionError {
         }
     }
 }
-impl Error for ShadowSessionError {}
+impl Error for ShadowSessionError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self {
+            Self::Callback(error) => Some(error),
+            _ => None,
+        }
+    }
+}
 impl From<DependencyError<usize>> for ShadowSessionError {
     fn from(e: DependencyError<usize>) -> Self {
         Self::Dependency(e)
@@ -162,8 +173,19 @@ impl ShadowInputs<'_> {
             .transpose()
     }
 }
-type Reader<'a, W> = dyn Fn(&W) -> Option<Stored> + 'a;
-type Supplier<'a, W> = dyn for<'c> FnMut(&W, ShadowInputs<'c>) -> Option<Stored> + 'a;
+type CallbackResult = Result<Option<Stored>, Box<dyn Error + Send + Sync>>;
+fn callback_result(
+    result: CallbackResult,
+    index: usize,
+    variable: PlanningVariableRef<'_>,
+    stage: ShadowCallbackStage,
+) -> Result<Option<Stored>, ShadowSessionError> {
+    result.map_err(|cause| {
+        ShadowSessionError::Callback(ShadowCallbackError::new(index, variable, stage, cause))
+    })
+}
+type Reader<'a, W> = dyn Fn(&W) -> CallbackResult + 'a;
+type Supplier<'a, W> = dyn for<'c> FnMut(&W, ShadowInputs<'c>) -> CallbackResult + 'a;
 enum Operation<'a, W> {
     Input(Box<Reader<'a, W>>),
     Derived(Box<Supplier<'a, W>>),
@@ -300,7 +322,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         self.register(
             variable,
             entity,
-            Operation::Input(Box::new(move |w| read(w).map(Stored::new))),
+            Operation::Input(Box::new(move |w| Ok(read(w).map(Stored::new)))),
         )
     }
     /// Planning-list metadata records its element type; the native input is Vec<T>.
@@ -318,7 +340,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         self.register(
             variable,
             entity,
-            Operation::Input(Box::new(move |w| Some(Stored::new(read(w))))),
+            Operation::Input(Box::new(move |w| Ok(Some(Stored::new(read(w)))))),
         )
     }
     pub fn derive<T: Eq + 'static>(
@@ -335,7 +357,86 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         self.register(
             variable,
             entity,
-            Operation::Derived(Box::new(move |w, i| supplier(w, i).map(Stored::new))),
+            Operation::Derived(Box::new(move |w, i| Ok(supplier(w, i).map(Stored::new)))),
+        )
+    }
+    /// Register a reader that can reject invalid working data without panicking.
+    /// `Ok(None)` is an ordinary absent value; `Err` aborts the refresh before
+    /// suppliers run. The original error is retained in
+    /// [`ShadowSessionError::Callback`], with the field and registration index.
+    /// The error must be Send + Sync; the reader and world need not be.
+    ///
+    /// Failed refreshes preserve cached values, applied dependencies, change
+    /// reports and pending notifications. Retry after correcting the working
+    /// data. Callback side effects outside the session cannot be rolled back.
+    pub fn try_input<T: Eq + 'static, E: Error + Send + Sync + 'static>(
+        &mut self,
+        variable: PlanningVariableRef<'s>,
+        entity: K,
+        read: impl Fn(&W) -> Result<Option<T>, E> + 'a,
+    ) -> Result<ShadowNode<T>, ShadowSessionError> {
+        if matches!(variable.kind(), PlanningVariableKind::List { .. })
+            || variable.value_type() != PlanningType::of::<T>()
+        {
+            return Err(ShadowSessionError::WrongType);
+        }
+        self.register(
+            variable,
+            entity,
+            Operation::Input(Box::new(move |w| {
+                read(w)
+                    .map(|value| value.map(Stored::new))
+                    .map_err(|error| Box::new(error) as _)
+            })),
+        )
+    }
+    /// Fallible counterpart of [`Self::list_input`]. An empty list is a valid
+    /// value; an error aborts publication with the same contract as try_input.
+    pub fn try_list_input<T: Eq + 'static, E: Error + Send + Sync + 'static>(
+        &mut self,
+        variable: PlanningVariableRef<'s>,
+        entity: K,
+        read: impl Fn(&W) -> Result<Vec<T>, E> + 'a,
+    ) -> Result<ShadowNode<Vec<T>>, ShadowSessionError> {
+        if !matches!(variable.kind(), PlanningVariableKind::List { .. })
+            || variable.value_type() != PlanningType::of::<T>()
+        {
+            return Err(ShadowSessionError::WrongType);
+        }
+        self.register(
+            variable,
+            entity,
+            Operation::Input(Box::new(move |w| {
+                read(w)
+                    .map(|value| Some(Stored::new(value)))
+                    .map_err(|error| Box::new(error) as _)
+            })),
+        )
+    }
+    /// Register a fallible supplier. The first error stops evaluation immediately,
+    /// including all later/downstream callbacks; no cache or topology prefix is
+    /// published. Cyclic or inconsistent dependencies still suppress the supplier.
+    /// Error and panic recovery preserve the same pending notifications. External
+    /// callback effects are not rolled back. Successful None remains consistent.
+    pub fn try_derive<T: Eq + 'static, E: Error + Send + Sync + 'static>(
+        &mut self,
+        variable: PlanningVariableRef<'s>,
+        entity: K,
+        mut supplier: impl for<'c> FnMut(&W, ShadowInputs<'c>) -> Result<Option<T>, E> + 'a,
+    ) -> Result<ShadowNode<T>, ShadowSessionError> {
+        if variable.kind() != PlanningVariableKind::Shadow
+            || variable.value_type() != PlanningType::of::<T>()
+        {
+            return Err(ShadowSessionError::WrongType);
+        }
+        self.register(
+            variable,
+            entity,
+            Operation::Derived(Box::new(move |w, inputs| {
+                supplier(w, inputs)
+                    .map(|value| value.map(Stored::new))
+                    .map_err(|error| Box::new(error) as _)
+            })),
         )
     }
     /// Resolve dependencies directly from native working state on every ordinary
@@ -963,20 +1064,34 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
             RefreshMode::All => PreparedInputs::All(
                 self.nodes
                     .iter()
-                    .map(|node| match &node.operation {
-                        Operation::Input(read) => read(world),
-                        Operation::Derived(_) => None,
+                    .enumerate()
+                    .map(|(index, node)| match &node.operation {
+                        Operation::Input(read) => callback_result(
+                            read(world),
+                            index,
+                            node.variable,
+                            ShadowCallbackStage::Input,
+                        ),
+                        Operation::Derived(_) => Ok(None),
                     })
-                    .collect(),
+                    .collect::<Result<_, _>>()?,
             ),
             RefreshMode::Notified => PreparedInputs::Notified(
                 self.pending
                     .iter()
                     .filter_map(|&index| match &self.nodes[index].operation {
-                        Operation::Input(read) => Some((index, read(world))),
+                        Operation::Input(read) => Some(
+                            callback_result(
+                                read(world),
+                                index,
+                                self.nodes[index].variable,
+                                ShadowCallbackStage::Input,
+                            )
+                            .map(|value| (index, value)),
+                        ),
                         Operation::Derived(_) => None,
                     })
-                    .collect(),
+                    .collect::<Result<_, _>>()?,
             ),
         };
         let mut dirty = self.pending.clone();
@@ -1006,25 +1121,33 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         let bindings = resolved.bindings;
         let mut next = self.cache.clone();
         let cached = &self.cache;
-        let changed = next.update(
+        let changed = next.try_update(
             &resolved.removals,
             &resolved.additions,
             &dirty.into_iter().collect::<Vec<_>>(),
-            |index, values| match &mut nodes[*index].operation {
-                // Cycle recovery and manual rewires can schedule an input that
-                // was not notified. It must retain its last sampled value.
-                Operation::Input(_) => prepared
-                    .get(index)
-                    .cloned()
-                    .unwrap_or_else(|| cached.values()[index].value.clone()),
-                Operation::Derived(supplier) => supplier(
-                    world,
-                    ShadowInputs {
-                        identity,
-                        values,
-                        fields: &self.fields,
-                    },
-                ),
+            |index, values| {
+                let variable = nodes[*index].variable;
+                match &mut nodes[*index].operation {
+                    // Cycle recovery and manual rewires can schedule an input that
+                    // was not notified. It must retain its last sampled value.
+                    Operation::Input(_) => Ok(prepared
+                        .get(index)
+                        .cloned()
+                        .unwrap_or_else(|| cached.values()[index].value.clone())),
+                    Operation::Derived(supplier) => callback_result(
+                        supplier(
+                            world,
+                            ShadowInputs {
+                                identity,
+                                values,
+                                fields: &self.fields,
+                            },
+                        ),
+                        *index,
+                        variable,
+                        ShadowCallbackStage::Derived,
+                    ),
+                }
             },
         )?;
         let changed: Vec<_> = changed
@@ -1072,7 +1195,12 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         }
         for (index, node) in self.nodes.iter().enumerate() {
             if let Operation::Input(read) = &node.operation
-                && read(world) != saved.cache.values()[&index].value
+                && callback_result(
+                    read(world),
+                    index,
+                    node.variable,
+                    ShadowCallbackStage::Input,
+                )? != saved.cache.values()[&index].value
             {
                 return Err(ShadowSessionError::SnapshotMismatch);
             }

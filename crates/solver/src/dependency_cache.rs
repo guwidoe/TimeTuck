@@ -75,17 +75,17 @@ impl<K: Ord + Clone> Plan<K> {
             order,
         }
     }
-    fn derive<V>(
+    fn derive<V, E>(
         &self,
         index: usize,
         values: &SnapshotMap<K, DerivedValue<V>>,
-        evaluate: &mut impl FnMut(&K, &[(&K, &DerivedValue<V>)]) -> Option<V>,
-    ) -> DerivedValue<V> {
+        evaluate: &mut impl FnMut(&K, &[(&K, &DerivedValue<V>)]) -> Result<Option<V>, E>,
+    ) -> Result<DerivedValue<V>, E> {
         if self.topology.cyclic_at(index) {
-            return DerivedValue {
+            return Ok(DerivedValue {
                 value: None,
                 inconsistent: true,
-            };
+            });
         }
         let inputs: Vec<_> = self
             .topology
@@ -97,15 +97,15 @@ impl<K: Ord + Clone> Plan<K> {
             })
             .collect();
         if inputs.iter().any(|(_, v)| v.inconsistent) {
-            DerivedValue {
+            Ok(DerivedValue {
                 value: None,
                 inconsistent: true,
-            }
+            })
         } else {
-            DerivedValue {
-                value: evaluate(&self.topology.keys()[index], &inputs),
+            Ok(DerivedValue {
+                value: evaluate(&self.topology.keys()[index], &inputs)?,
                 inconsistent: false,
-            }
+            })
         }
     }
     fn rank(&self, index: usize) -> usize {
@@ -171,7 +171,11 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
         ordered.sort_by_key(|&i| plan.rank(i));
         let mut values = SnapshotMap::new();
         for index in ordered {
-            let value = plan.derive(index, &values, &mut evaluate);
+            let value = plan
+                .derive(index, &values, &mut |key, inputs| {
+                    Ok::<_, std::convert::Infallible>(evaluate(key, inputs))
+                })
+                .unwrap_or_else(|never| match never {});
             values.insert(plan.topology.keys()[index].clone(), value);
         }
         Self { plan, values }
@@ -232,6 +236,19 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
         dirty: &[K],
         mut evaluate: impl FnMut(&K, &[(&K, &DerivedValue<V>)]) -> Option<V>,
     ) -> Result<Vec<K>, DependencyError<K>> {
+        self.try_update(removals, additions, dirty, |key, inputs| {
+            Ok(evaluate(key, inputs))
+        })
+    }
+    // Prepare and commit are shared with infallible callers. A callback error
+    // stops evaluation immediately without installing values or topology.
+    pub(crate) fn try_update<E: From<DependencyError<K>>>(
+        &mut self,
+        removals: &[(K, K)],
+        additions: &[(K, K)],
+        dirty: &[K],
+        mut evaluate: impl FnMut(&K, &[(&K, &DerivedValue<V>)]) -> Result<Option<V>, E>,
+    ) -> Result<Vec<K>, E> {
         let mut roots = BTreeSet::new();
         for key in dirty {
             roots.insert(self.plan.topology.lookup(key)?);
@@ -260,7 +277,7 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
         let mut changed = BTreeSet::new();
         while let Some(index) = ready.pop() {
             let key = &plan.topology.keys()[index];
-            let value = plan.derive(index, &values, &mut evaluate);
+            let value = plan.derive(index, &values, &mut evaluate)?;
             if values[key] != value {
                 values.insert(key.clone(), value);
                 changed.insert(index);
