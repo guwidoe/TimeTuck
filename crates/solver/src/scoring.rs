@@ -322,15 +322,23 @@ impl<V: Eq, S: AdditiveScore> ConstraintNetwork<'_, V, S> {
         problem: &FiniteProblem<V>,
         assignment: &Assignment<V>,
     ) -> Result<S, ScoringError> {
-        self.calculate_with_metrics(problem, assignment, None)
+        self.validate(problem, assignment)?;
+        self.calculate_generated(problem, assignment, None)
     }
-    pub(crate) fn calculate_with_metrics(
+    /// Score a basic exact-search candidate after phase-entry validation.
+    ///
+    /// The caller must have validated this network/model shape and the phase
+    /// handoff. Only native basic enumeration/tree generators may bypass the
+    /// ordinary validation: they retain validated pins/completion values and
+    /// fill other slots with domain clones or None. Partial required slots are
+    /// permitted and remain accounted for by `with_structure` below.
+    /// This relies on the usual Clone/Eq contract: clones preserve value identity.
+    pub(crate) fn calculate_generated(
         &self,
         problem: &FiniteProblem<V>,
         assignment: &Assignment<V>,
         capture: Option<&crate::solver_metrics::ConstraintMetricCapture<S>>,
     ) -> Result<S, ScoringError> {
-        self.validate(problem, assignment)?;
         let contributions = (0..self.constraint_count())
             .map(|i| self.contribution(i, assignment))
             .collect::<Result<Vec<_>, _>>()?;

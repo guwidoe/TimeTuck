@@ -2363,7 +2363,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                         )
                     },
                     |a| {
-                        n.calculate_with_metrics(p, a, capture.as_ref())
+                        n.calculate_generated(p, a, capture.as_ref())
                             .map(|score| (score, n.active_constraint_count() as u128))
                     },
                     observed.then_some(&mut notify),
@@ -2426,7 +2426,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                                 )
                             },
                             |a| {
-                                n.calculate_with_metrics(p, a, capture.as_ref())
+                                n.calculate_generated(p, a, capture.as_ref())
                                     .map(|score| (score, n.active_constraint_count() as u128))
                             },
                             observed.then_some(&mut notify),
