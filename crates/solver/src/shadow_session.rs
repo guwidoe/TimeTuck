@@ -9,8 +9,10 @@ use std::{
 };
 
 mod entities;
+mod keyed_index;
 mod selection;
 use entities::EntityGroups;
+use keyed_index::{KeyHash, KeyedSourceIndex};
 pub use selection::{ShadowEntityFilter, ShadowEntitySelection};
 
 #[derive(Clone, Copy)]
@@ -180,6 +182,7 @@ pub struct ShadowSessionBuilder<'a, 's, K, W> {
     schema: &'s PlanningSchema,
     identity: Rc<()>,
     nodes: Vec<Node<'a, 's, K, W>>,
+    source_hash: Option<KeyHash<K>>,
     edges: BTreeSet<(usize, usize)>,
 }
 impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
@@ -188,8 +191,34 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             schema,
             identity: Rc::new(()),
             nodes: vec![],
+            source_hash: None,
             edges: BTreeSet::new(),
         }
+    }
+    /// Index compiled source-path lookups by canonical field and entity key.
+    /// The default needs only `Eq` and searches registrations in order. This
+    /// opt-in uses `Hash` to narrow each lookup, then verifies `Eq`; hash collisions
+    /// preserve the same first-registration result and missing-source diagnostics.
+    /// Keys must obey the usual `Eq`/`Hash` contract (equal keys hash equally), and
+    /// registered identity must remain immutable for the session's lifetime.
+    ///
+    /// The index is built once from all registrations at `build`/`try_build`,
+    /// including fields registered after this call. It borrows keys from the
+    /// session rather than cloning them and uses O(registered fields) extra space
+    /// and expected construction work, in addition to the existing Eq-only
+    /// duplicate/group/fixed-source validation costs. Collision-heavy keys can
+    /// still require linear lookup. Native handle bindings already use direct
+    /// indices and gain nothing from enabling this option.
+    ///
+    /// Each new registration built by a dynamic shadow-program factory gets its
+    /// own index. Checkpoints reuse their session's immutable registration/index;
+    /// they do not rebuild it or run hash callbacks during internal restoration.
+    pub fn with_keyed_source_index(mut self) -> Self
+    where
+        K: std::hash::Hash,
+    {
+        self.source_hash = Some(keyed_index::hash::<K>);
+        self
     }
     fn register<T: 'static>(
         &mut self,
@@ -448,8 +477,12 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         let topology = DependencyTopology::new(0..self.nodes.len()).expect("unique node indices");
         let pending = (0..self.nodes.len()).collect();
         let entity_groups = EntityGroups::new(&self.nodes);
+        let source_index = self
+            .source_hash
+            .map(|hash| KeyedSourceIndex::new(hash, &self.nodes));
         let fields = self.nodes.iter().map(|node| node.variable).collect();
         ShadowSession {
+            source_index,
             fields,
             entity_groups,
             last_changed: Rc::from([]),
@@ -552,6 +585,7 @@ fn replace_dependencies<K, W>(
 /// # Ok::<(),Box<dyn std::error::Error>>(())
 /// ```
 pub struct ShadowSession<'a, 's, K, W> {
+    source_index: Option<KeyedSourceIndex<K>>,
     fields: Vec<PlanningVariableRef<'s>>,
     entity_groups: EntityGroups,
     last_changed: Rc<[ShadowNodeRef]>,
@@ -663,6 +697,15 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         }
         Ok(self.share_resolved_sources(edges, signatures))
     }
+    fn lookup_source(&self, field: PlanningVariableRef<'_>, entity: &K) -> Option<usize> {
+        if let Some(index) = &self.source_index {
+            index.find(&self.nodes, field, entity)
+        } else {
+            self.nodes
+                .iter()
+                .position(|node| node.variable == field && &node.entity == entity)
+        }
+    }
     fn resolve_signature(
         &self,
         index: usize,
@@ -674,9 +717,7 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
                 let mut signature = vec![];
                 for (variable, entity) in resolve(world)? {
                     let source = self
-                        .nodes
-                        .iter()
-                        .position(|n| n.variable == variable && n.entity == entity)
+                        .lookup_source(variable, &entity)
                         .ok_or(ShadowSessionError::UnregisteredSource)?;
                     signature.push(source);
                 }

@@ -294,11 +294,7 @@ fn resolve_with_diagnostics<K: Eq + Clone, W>(
         };
         let mut signature = Vec::new();
         for (field, entity) in resolve(world)? {
-            if let Some(source) = session
-                .nodes
-                .iter()
-                .position(|n| n.variable == field && n.entity == entity)
-            {
+            if let Some(source) = session.lookup_source(field, &entity) {
                 if !sparse {
                     edges.insert((index, source));
                 }
