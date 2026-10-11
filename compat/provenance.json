@@ -53034,6 +53034,111 @@
       "upstream_test": "emptyRightValueSelector",
       "local_test": "empty_swap_right_value_selector",
       "modifications": "Preserve exhausted iteration with left [v1,v2] and empty right values. Native Cartesian list-value swap selection replaces Java iterator/descriptor mocks; repeated exhaustion is additionally checked. All asserted observable results are retained. Only Community tests/test-fixture roles are adapted; no production implementation read or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.testGetIndexOfValue",
+      "status": "implemented",
+      "upstream_test": "testGetIndexOfValue",
+      "local_test": "get_index_of_value",
+      "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Explicit canonical owner IDs and a position callback replace mocked Java descriptors/state; preserve all six flat indices and exact missing-g diagnostic. Check positions against actual segment values."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.testToArrayUsingSupplied",
+      "status": "implemented",
+      "upstream_test": "testToArrayUsingSupplied",
+      "local_test": "to_array_using_supplied",
+      "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Borrowed Option references replace Java Object arrays; preserve exact/surplus supplied-storage identity, values, first spare null sentinel, and undersized allocation identity/content."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.testGet",
+      "status": "implemented",
+      "upstream_test": "testGet",
+      "local_test": "get",
+      "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Checked signed reads preserve every value and exact -1/6 bounds diagnostics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.testSet",
+      "status": "implemented",
+      "upstream_test": "testSet",
+      "local_test": "set",
+      "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Checked signed replacements return each old value and mutate the actual backing segment; preserve every source underlying-list assertion and both exact bounds diagnostics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.testListIterator",
+      "status": "implemented",
+      "upstream_test": "testListIterator",
+      "local_test": "list_iterator",
+      "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Native gap cursor preserves all forward/backward availability, source i+1 next index and i previous index results, source upcoming-slot writes before next, final backing lists and rejected add/remove. This source convention is intentionally exposed with explicit native method names, not standard Java ListIterator semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.testListIteratorStartingAtIndex",
+      "status": "implemented",
+      "upstream_test": "testListIteratorStartingAtIndex",
+      "local_test": "list_iterator_starting_at_index",
+      "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Open native gap cursor at six; preserve every reverse/forward traversal assertion and previous/set/next/previous mutation sequence, all final backing lists, and rejected add/remove. Source upcoming-slot writes and after-next positions have explicit native names, not a standard Java ListIterator contract."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.testUnsupportedOperations",
+      "status": "implemented",
+      "upstream_test": "testUnsupportedOperations",
+      "local_test": "unsupported_operations",
+      "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Exercise all nine borrowed structural commands against the real fixed-layout mutable view; each returns typed FixedLayout instead of Java UnsupportedOperationException and preserves backing storage."
     }
   ],
   "fixtures": [
@@ -73719,6 +73824,19 @@
       "id": "selection-replay-fixture-TestdataObjectSorter",
       "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
       "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/MultipleDelegateListTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/segmented_access_cases.rs",
+      "id": "MultipleDelegateListTest.inlineSegmentAccessFixture.segmented_access_cases",
+      "upstream_test": "inline rows and mocked owner/position mapping in testGetIndexOfValue; shared six-value rows in the seven adapted methods",
+      "modifications": "Inline String rows preserve a,b,c / d,e / f; explicit e1/e2/e3 and exact source value-to-owner/local-index callback replace test-only Mockito descriptor/state scaffolding. No upstream production fixture or implementation was copied."
     }
   ]
 }

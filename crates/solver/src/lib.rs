@@ -1422,3 +1422,8 @@ pub use list_value_change::replayed::{
     ReplayedListValueChangeSource,
 };
 pub use reachability_views::{ReachabilityView, ReachabilityViewKey, ReachabilityViews};
+
+pub use segmented_slice::segment_access::{
+    FixedSegmentRequest, SegmentAccessError, SegmentReferenceBuffer, SegmentedListCursor,
+    SegmentedOwnerLookup,
+};

@@ -3936,16 +3936,30 @@ strategy; restricted completion exhaustion is not reported as global optimality.
 Original regressions cover optional values, supplied phase state, insertion ordering,
 dependencies, callback stop, controls, phase continuation and all nine scoring routes.
 
-Eleven MultipleDelegateListTest methods now cover logical concatenation, ordered
-iteration/collection, membership and duplicate positions, mutable subranges, and
-repartitioning with all source offsets/sizes retained. Rust borrowed slices replace
-Java list aliases; explicit lengths replace inclusive partition ends. Signed Java
-exception messages, supplied-array identity, Java cursor conventions and unsupported
-operations remain pending. One power-set helper fixture is recorded separately.
-The borrowed view now supplies K-opt's combined values without an intermediate
-payload clone. Native regressions verify borrowing, empty segments, invalid ranges,
-non-Clone repartitioning and K-opt dependency-cycle rejection. No runtime performance
-claim is made; previous benchmark measurements have not been refreshed.
+All eighteen MultipleDelegateListTest methods have complete native adaptations.
+Borrowed views preserve concatenation, iteration/collection, membership and duplicate
+positions, mutable subranges and repartitioning with all source offsets/sizes.
+Checked signed reads/replacements preserve exact bounds diagnostics and write the
+actual backing segments. Canonical owner lookup resolves flat positions and checks
+callback metadata against segment contents. Supplied reference buffers preserve
+storage identity when large enough, the first spare None sentinel and later tail;
+undersized buffers remain unchanged while an exactly sized result is allocated.
+Payloads need no Clone implementation. Rust borrows replace Java aliases; explicit
+lengths replace inclusive partition ends. Two test fixture records retain attribution.
+
+The exclusive editing cursor traverses segment boundaries directly, including empty
+segments, and permits replacement of the upcoming slot before the first step. Its
+after-next-position query preserves the source tests' i+1 result. These explicitly
+named native operations follow the source tests' unusual convention; they do not
+claim standard Java ListIterator/API semantics. All nine structural commands and
+cursor insertion/removal return typed FixedLayout errors: borrowed segments cannot
+change shape. Native regressions compare cursor edits/direction changes against an
+independent flat sequence, check non-Clone references and untouched buffers, and
+exercise owner metadata errors. Real K-opt proposals prepared through owner lookup
+and cursor editing apply/undo correctly in dense and stream scoring. Existing K-opt
+selection borrows combined values without an intermediate payload clone. Sequential
+cursor traversal needs no binary lookup per step. No runtime performance claim is
+made; previous benchmark measurements have not been refreshed.
 
 Five partial FusedEqualIndexTest fixtures now exercise shared-partition row
 membership/counts, composite equality keys, ordered suffix direction, cleanup and

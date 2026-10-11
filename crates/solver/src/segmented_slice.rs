@@ -1,4 +1,5 @@
 //! Borrowed flat views over disjoint list segments and value-preserving repartitioning.
+pub(crate) mod segment_access;
 use std::{error::Error, fmt, ops::Range};
 
 #[derive(Debug)]
