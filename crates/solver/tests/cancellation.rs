@@ -369,3 +369,40 @@ fn cancellation_and_initial_step_limits_precede_unobserved_candidate_budgets() {
         }
     }
 }
+
+#[test]
+fn linked_parent_cancellation_obeys_scored_prefix_on_all_six_backends() {
+    for mode in 0..6 {
+        for stop_at in [0, 1] {
+            let application = CancellationToken::new();
+            let job = CancellationToken::new();
+            let linked = CancellationToken::linked([&application, &job]);
+            let calls = Cell::new(0);
+            let result = run(mode, config(&linked), |value| {
+                let call = calls.get();
+                calls.set(call + 1);
+                if call == stop_at {
+                    application.cancel();
+                }
+                SimpleScore::new(value as i64)
+            });
+            assert_eq!(result.reason, LocalSearchTermination::Cancelled);
+            assert_eq!(result.evaluations, stop_at + 1);
+            assert_eq!(calls.get(), stop_at + 1);
+            assert!(!job.is_cancelled());
+            assert!(linked.is_cancelled());
+            assert_eq!(
+                run(mode, config(&linked), |_| panic!(
+                    "cancelled linked solve scored"
+                ))
+                .evaluations,
+                0
+            );
+            let fresh = CancellationToken::linked([&job]);
+            assert_eq!(
+                run(mode, config(&fresh), |v| SimpleScore::new(v as i64)).score,
+                Some(SimpleScore::new(2))
+            );
+        }
+    }
+}
