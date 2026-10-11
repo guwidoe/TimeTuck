@@ -51219,6 +51219,186 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve feasibility-enabled SimpleScore configuration, rejection and entire asserted diagnostic substring. Native Score::HARD_LEVEL_COUNT validation replaces mocked Java SimpleScoreDefinition. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "GraphStructureTest.emptySimpleListStructure",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "emptySimpleListStructure",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "empty_simple_list_structure",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Simple-list declarative schema with no entity instances yields Empty. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.simpleListStructure",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "simpleListStructure",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "simple_list_structure",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Default simple-list value yields Directional(Previous); preserve both structure and direction assertions. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.extendedSimpleListStructure",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "extendedSimpleListStructure",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "extended_simple_list_structure",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Extended subclass with declarative previous.codeSum source yields Directional(Previous); preserve both assertions. Inherited fields/getter covariance are explicitly flattened into native typed declarations, without Java reflection/inheritance parity. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.extendedSimpleListStructureWithoutDeclarativeEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "extendedSimpleListStructureWithoutDeclarativeEntities",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "extended_simple_list_without_declarative_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Default base value, without subclass declarative supplier bindings, yields Empty even when subclass metadata is registered. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.concurrentValuesStructureWithoutGroups",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "concurrentValuesStructureWithoutGroups",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "concurrent_values_without_groups",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Default v1 with absent group and v2 with explicitly empty group yield Directional(Previous); preserve direction assertion. Both map to empty native membership. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.concurrentValuesStructureWithGroups",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "concurrentValuesStructureWithGroups",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "concurrent_values_with_groups",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Two values v1/v2; v2 group contains v1 and itself, yielding SingleType with Previous direction. Stable value IDs and explicit self-group references represent group membership. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.followerStructure",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "followerStructure",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "follower_structure",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Default follower with leader.value source yields SingleType with no directional parent. Leader has a genuine value, without a declarative supplier; it does not enlarge represented supplier target types. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.multiEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "multiEntity",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "multi_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Default multi-entity owner and value both declare suppliers, yielding General. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.multiDirectionalParents",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "multiDirectionalParents",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "multi_directional_parents",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Default non-declarative owner and value with self group activate both Previous and group Next declarations, yielding General even when next links are null. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.multiDirectionalParentsEmptyGroups",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "multiDirectionalParentsEmptyGroups",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "multi_directional_parents_empty_groups",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Default non-declarative owner and value with empty/absent group suppress group Next declaration, yielding Directional(Previous); preserve direction assertion. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.listElementStructure",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "listElementStructure",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "list_element_structure",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Owner e1 with values[].endTime supplier and value v1 with previous/endTime suppliers yield General across two declarative target types. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "GraphStructureTest.emptyStructure",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/GraphStructureTest.java",
+      "upstream_test": "emptyStructure",
+      "local_path": "crates/solver/tests/shadow_structure_cases.rs",
+      "local_test": "empty_structure",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Plain genuine-value solution schema with no declarative instances yields Empty. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
     }
   ],
   "fixtures": [
@@ -70136,6 +70316,149 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEasyScoreCalculator.java",
       "upstream_test": "calculateScore",
       "modifications": "Preserve penalty1 per null value and1000 per ordered equal-value distinct entity pair."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataDeclarativeSimpleListValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListValue.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: startTime: entity, previous.endTime; endTime: startTime. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataDeclarativeExtendedSubclassValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedSubclassValue.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: codeSum: previous.codeSum; explicit flattened subclass supplier and previous field. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataDeclarativeExtendedBaseValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/extended/TestdataDeclarativeExtendedBaseValue.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: base without a declarative supplier; explicit Base marker and empty binding. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataConcurrentValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/concurrent/TestdataConcurrentValue.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: ready: previousValue.serviceFinishTime, entity; start: serviceReadyTime, concurrentValueGroup[].serviceReadyTime; finish: serviceStartTime; group defaults/members. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataFollowerEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataFollowerEntity.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: value: leader.value; null default leader reference. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataLeaderEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/follower/TestdataLeaderEntity.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: genuine value with no declarative supplier. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataMultiEntityDependencyEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/multi_entity/TestdataMultiEntityDependencyEntity.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: readyTime: delay; planning list values. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataMultiEntityDependencyValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/multi_entity/TestdataMultiEntityDependencyValue.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: startTime: dependencies[].endTime, previousValue.endTime, entity.readyTime; endTime: startTime; absent default dependencies. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataMultiDirectionConcurrentValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/multi_directional_parent/TestdataMultiDirectionConcurrentValue.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: ready: previousValue.serviceFinishTime, entity; start: serviceReadyTime, concurrentValueGroup[].nextValue; finish: serviceStartTime; self-group vs empty. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataListElementEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementEntity.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: lastEndTime: values[].endTime; empty default planning list. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "shadow-structure-fixture-TestdataListElementValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/list_element/TestdataListElementValue.java",
+      "upstream_test": "supplier-source declarations and default classification inputs",
+      "local_path": "crates/solver/tests/shadow_structure_support/fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt relevant declaration subset: startTime: entity, previous, previous.endTime; endTime: startTime. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
     }
   ]
 }

@@ -880,3 +880,11 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   Java factory/class assertions. Complete identity, input, diagnostic and
   substitution mappings are in `compat/provenance.json`; the accompanying
   `scored_termination_profile_regression.rs` cases are original work.
+
+- `crates/solver/tests/shadow_structure_cases.rs` adapts all twelve Community
+  `GraphStructureTest` methods (Apache-2.0). Its shared fixture adapts the relevant
+  supplier-source declarations and default/group membership inputs from eleven
+  pinned test-domain classes. Typed bindings replace descriptor reflection;
+  exact mappings, fixture subsets and substitutions appear in
+  `compat/provenance.json`. The classifier and separate regression cases are
+  original work; classification does not claim a solver fast-path or cycle proof.

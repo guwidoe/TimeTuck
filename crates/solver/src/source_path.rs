@@ -3,12 +3,13 @@ use crate::{PlanningSchema, PlanningType, PlanningVariableKind, PlanningVariable
 use std::{any::Any, collections::BTreeSet, error::Error, fmt};
 
 /// The operational role of an explicitly registered member. Variable uses the
-/// schema's basic/list/shadow kind; Previous and Declarative refine shadow fields.
+/// schema's basic/list/shadow kind; Previous, Next and Declarative refine shadow fields.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SourceMemberRole {
     Fact,
     Variable,
     Previous,
+    Next,
     Declarative,
     Inconsistent,
 }
@@ -16,6 +17,7 @@ pub enum SourceMemberRole {
 pub enum SourceParent {
     None,
     Previous,
+    Next,
     Indirect,
     Group,
     ListElement,
@@ -171,7 +173,9 @@ impl<'s> SourcePathRegistry<'s> {
                 }
                 if matches!(
                     role,
-                    SourceMemberRole::Previous | SourceMemberRole::Declarative
+                    SourceMemberRole::Previous
+                        | SourceMemberRole::Next
+                        | SourceMemberRole::Declarative
                 ) && v.is_genuine()
                 {
                     return Err(fail("shadow role requires a shadow variable"));
@@ -315,10 +319,10 @@ impl<'s> SourcePathRegistry<'s> {
             return Err(fail(owner, path, "does not end on a variable"));
         }
         if group.is_none() && steps.len() > 1 {
-            parent = if steps[0].role == SourceMemberRole::Previous {
-                SourceParent::Previous
-            } else {
-                SourceParent::Indirect
+            parent = match steps[0].role {
+                SourceMemberRole::Previous => SourceParent::Previous,
+                SourceMemberRole::Next => SourceParent::Next,
+                _ => SourceParent::Indirect,
             };
         }
         Ok(CompiledSourcePath {
@@ -471,3 +475,6 @@ impl<'a, 'r, 's> SourceReference<'a, 'r, 's> {
         )
     }
 }
+
+mod structure;
+pub use structure::{ShadowDirection, ShadowSourceEntity, ShadowStructure};

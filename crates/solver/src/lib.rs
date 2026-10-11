@@ -831,8 +831,8 @@ pub use planning_schema::{
 
 mod source_path;
 pub use source_path::{
-    CompiledSourcePath, SourceMemberRole, SourceParent, SourcePathError, SourcePathRegistry,
-    SourceReference,
+    CompiledSourcePath, ShadowDirection, ShadowSourceEntity, ShadowStructure, SourceMemberRole,
+    SourceParent, SourcePathError, SourcePathRegistry, SourceReference,
 };
 
 mod variable_state;

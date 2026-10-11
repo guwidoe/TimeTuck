@@ -6758,3 +6758,29 @@ cover replacement/inheritance, invalid thresholds, zero windows, real six-route
 step-budget solves, clocked runtime equivalence, and nested/repeated expressions.
 The nested Java configuration factory method remains pending; no source credit is
 claimed for manually assembled native nesting.
+
+### Compiled shadow-source structure inspection
+
+ShadowStructure inspects complete per-entity bindings of compiled supplier paths
+and distinguishes empty, directional, single-target-type and general shapes.
+Source declarations contribute even when directional links are null. Group-only
+paths contribute when their group prefix has members; null links after a populated
+group still preserve its declared direction. Multiple declarative target types or
+both previous/next parent kinds require the general shape. Entities with no
+supplier bindings do not enlarge the target-type set. Results belong to the
+supplied snapshot and must be inspected again after group/type membership changes.
+This is declaration shape, not runtime cycle detection or an execution-plan switch.
+Existing dependency resolution and scoring algorithms remain unchanged.
+
+SourcePathRegistry additionally supports an explicit Next shadow-member role and
+Next parent classification. Compiled next-link paths use existing typed traversal
+and dependency-key resolution. Inspection calls no suppliers or terminal getters
+and clones no entity payloads; only group prefixes are traversed.
+
+All twelve GraphStructureTest methods preserve exact structure and applicable
+previous-direction assertions. Fixture adaptations retain relevant declaration
+paths and null/empty/group inputs; unused date values and supplier calculations
+are not translated. Java descriptors, reflection and subclass getter covariance
+are replaced by explicit typed metadata. Five original regressions cover forward
+links and resolved keys, live group reclassification, local vs mixed directions,
+wrong bindings after a general result and forbidden getter invocation.
