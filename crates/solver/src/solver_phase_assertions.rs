@@ -27,6 +27,7 @@ pub(super) fn verify<A: Clone, S: AdditiveScore, E>(
         lifecycle: Default::default(),
         condition: None,
         condition_expired: false,
+        condition_uses_moves: false,
         limit: None,
         clock: &mut clock,
         last: Duration::ZERO,

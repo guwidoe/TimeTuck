@@ -81,6 +81,17 @@ impl<C> TerminationExpression<'_, C> {
 pub enum SearchLimit {
     /// Completed local steps and accepted changed repair/fine moves.
     Steps(u64),
+    /// Evaluated candidates across all phases, excluding initialization and
+    /// diagnostic scoring. Uses the same accounting as MoveEvaluationCounts.
+    /// Reconstruction publishes its candidates after each rebuild, so a rebuild
+    /// may cross this cooperative threshold; use max_move_evaluations for a hard cap.
+    MoveEvaluations(u64),
+    /// Evaluated candidates of one native family, including rejected candidates.
+    /// Composite moves count once under their composite family, not per child.
+    MoveEvaluationsOf {
+        kind: crate::MoveEvaluationKind,
+        limit: u64,
+    },
     /// Completed construction placements across all construction phases. Includes
     /// scored no-change placements and retained interrupted prefixes; excludes
     /// discarded incomplete scans and placements with no evaluated candidate.
@@ -109,6 +120,8 @@ pub struct SearchProgress {
     pub elapsed: Duration,
     pub completed_steps: u64,
     pub construction_steps: u64,
+    /// Live candidate counts since solve entry, shared across phase handoffs.
+    pub move_evaluations: crate::MoveEvaluationCounts,
     pub unimproved_steps: Option<u64>,
     pub unimproved_time: Option<Duration>,
 }
@@ -119,6 +132,14 @@ impl SearchLimit {
             Self::Steps(n) => (
                 StepCountLimit::new(n).is_reached(progress.completed_steps),
                 StepCountLimit::new(n).progress(progress.completed_steps),
+            ),
+            Self::MoveEvaluations(n) => (
+                StepCountLimit::new(n).is_reached(progress.move_evaluations.total()),
+                StepCountLimit::new(n).progress(progress.move_evaluations.total()),
+            ),
+            Self::MoveEvaluationsOf { kind, limit } => (
+                StepCountLimit::new(limit).is_reached(progress.move_evaluations.get(kind)),
+                StepCountLimit::new(limit).progress(progress.move_evaluations.get(kind)),
             ),
             Self::ConstructionSteps(n) => (
                 StepCountLimit::new(n).is_reached(progress.construction_steps),
@@ -169,6 +190,17 @@ impl SearchLimit {
     }
 }
 impl SearchTermination<'_> {
+    pub(crate) fn needs_move_counts(&self) -> bool {
+        match self {
+            Self::Condition(
+                SearchLimit::MoveEvaluations(_) | SearchLimit::MoveEvaluationsOf { .. },
+            ) => true,
+            Self::Condition(_) => false,
+            Self::All(children) | Self::Any(children) => {
+                children.iter().any(Self::needs_move_counts)
+            }
+        }
+    }
     pub fn status(&self, progress: SearchProgress) -> Option<TerminationState> {
         self.evaluate(|limit| limit.evaluate(progress))
     }

@@ -71,6 +71,17 @@ impl MoveEvaluationCounts {
             .map(|k| (k, self.get(k)))
     }
 }
+/// Build a snapshot for offline termination queries. Duplicate families and
+/// totals saturate, matching live solver accounting.
+impl FromIterator<(MoveEvaluationKind, u64)> for MoveEvaluationCounts {
+    fn from_iter<T: IntoIterator<Item = (MoveEvaluationKind, u64)>>(iter: T) -> Self {
+        let mut counts = Self::default();
+        for (kind, n) in iter {
+            counts.0[kind as usize] = counts.0[kind as usize].saturating_add(n);
+        }
+        counts
+    }
+}
 #[derive(Clone, Default)]
 pub(crate) struct MoveCounter(Arc<[AtomicU64; 16]>);
 impl MoveCounter {

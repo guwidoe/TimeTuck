@@ -212,6 +212,7 @@ mod tests {
             lifecycle: Default::default(),
             condition: None,
             condition_expired: false,
+            condition_uses_moves: false,
             limit: None,
             clock,
             last: Duration::ZERO,

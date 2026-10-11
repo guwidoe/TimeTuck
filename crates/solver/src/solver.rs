@@ -400,6 +400,7 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     lifecycle: crate::solver_lifecycle::Lifecycle<'c>,
     condition: Option<&'c SearchTermination<'c>>,
     condition_expired: bool,
+    condition_uses_moves: bool,
     limit: Option<Duration>,
     clock: &'c mut dyn FnMut() -> Duration,
     last: Duration,
@@ -421,6 +422,14 @@ impl<S: Score> SolveControl<'_, S> {
                 elapsed: self.last,
                 completed_steps: self.steps.completed_steps(),
                 construction_steps: self.construction_steps,
+                move_evaluations: if self.condition_uses_moves {
+                    self.move_counter
+                        .as_ref()
+                        .expect("move condition counter")
+                        .snapshot()
+                } else {
+                    MoveEvaluationCounts::default()
+                },
                 unimproved_steps: self.started.then(|| self.steps.unimproved_steps()),
                 unimproved_time: self.last_improvement.map(|last| self.last - last),
             };
@@ -970,6 +979,9 @@ where
         ),
         condition: limits.termination,
         condition_expired: false,
+        condition_uses_moves: limits
+            .termination
+            .is_some_and(SearchTermination::needs_move_counts),
         limit: limits.max_time,
         clock,
         last: Duration::ZERO,
@@ -1049,7 +1061,10 @@ where
         }) => Some(metrics.start()),
         _ => None,
     };
-    time.move_counter = metrics.as_ref().map(|m| m.moves.clone());
+    time.move_counter = metrics
+        .as_ref()
+        .map(|m| m.moves.clone())
+        .or_else(|| time.condition_uses_moves.then(Default::default));
     time.step_metrics = metrics.as_ref().map(|m| m.writer.clone());
     observation.metric_writer = metrics.as_ref().map(|m| m.writer.clone());
     let outcome = (|| {
