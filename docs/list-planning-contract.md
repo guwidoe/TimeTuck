@@ -1033,6 +1033,38 @@ regressions exercise checked moves in dense/stream list and mixed local search.
 The old snapshot selector and existing provider policies remain available. No
 benchmark speedup is claimed for this addition.
 
+`ReplayedListValueChangeSource` owns the value, entity and anchor sources plus a
+choice factory. It automatically selects a registered movable value before
+refreshing destination eligibility, without a context-side replay cell. Each
+movable occurrence, including duplicates, starts a new replay epoch. Raw children
+remain live and are not rewound; provide repeating children when repeated choices
+are required. Empty or rejected destination branches advance to the next value.
+One accepted candidate is returned per value occurrence. `Original` controls
+destination preference, not exhaustive Cartesian enumeration.
+
+Opening does no child work. First pull prepares the shared native move checker
+and destination cursor, then opens values, entities, anchors and choice policy in
+that order. Both components retain their model/location indexes; no Cartesian
+candidate catalog is built. Source pins precede destination pulls. Successful
+output resets explicit value/destination/child-read budgets; exhaustion, rejected
+work limits and caught callback panics fuse the opening. Callback effects outside
+the source cannot be rolled back. Moves retain PRE-removal metadata and use
+validated POST-removal movement, including optional unassignment and requested
+valid no-ops. Reopen after committed edits. Random openings use seed plus the
+step-start count, reset at solve start; native draws and child distributions do
+not promise Java random traces. Original regressions run actual dense/stream list
+and mixed search using ordinary owned model/assignment contexts.
+
+`ReachabilityViews` caches distinct unsorted and comparator-keyed Arc handles over
+an immutable `ReachableValues` index. Repeated keys retain the original comparator
+and handle; assign a new key when the policy changes. Creating another view does
+not mutate old ordering. `clear_views` releases bank ownership while existing
+handles remain valid. Comparator callbacks require Send/Sync and a stable total
+order; captured external state is not frozen. Exact native Any value-type checks
+are independent of domain membership and require a static value type. Use distinct
+entity/value types when their runtime roles matter; this does not establish Java
+subclass assignability or descriptor reflection semantics.
+
 ## Pending edits and rebased recordings
 
 `PendingListChanges` holds the first open entity inline, activating a BTreeMap for

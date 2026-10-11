@@ -1415,3 +1415,10 @@ pub use list_destination_cursor::{
     DestinationAvailability, DestinationCursorError, DestinationDraw, DestinationReplay,
     DestinationSelectionView, ListDestinationCursor, ListDestinationSelectionSource,
 };
+
+mod reachability_views;
+pub use list_value_change::replayed::{
+    ListChangeDestinationOrder, ListChangeDrawFactory, ReplayedListChangeLimits,
+    ReplayedListValueChangeSource,
+};
+pub use reachability_views::{ReachabilityView, ReachabilityViewKey, ReachabilityViews};

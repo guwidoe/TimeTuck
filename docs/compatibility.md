@@ -40,6 +40,23 @@ search through the new source. Originals add no upstream-method credit. The
 native cursor/source contract is in `docs/list-planning-contract.md`; Java API,
 RNG trace equivalence and measured performance improvement are not established.
 
+Two remaining ReachableValuesTest methods now preserve every inverse membership,
+entity/value type result, distinct comparator-view identity and repeated-view
+identity assertion. Native exact-value Any checks and keyed Arc comparator views
+replace Java descriptors/reflection and comparator-object keys. Comparators share
+an immutable index without mutating old views. Java subclass assignability and
+default-sorter aliasing are not implied. Four original list-change/swap iterator
+methods additionally preserve complete exhaustion with either child empty.
+
+Automatic per-value destination replay is exercised separately through the new
+ReplayedListValueChangeSource: native seeded reproducibility, receiver ranges,
+pins, independent anchor filtering, unassignment/no-op metadata, bounded invalid
+cycles, lazy lifecycle delegation and real dense/stream list/mixed search. These
+original regressions earn no method credit. The four range-dependent random
+ListChangeMoveSelectorTest methods remain pending: their exact Java seed-0 output
+traces have not been established by the native sampling policy. Expected move
+prefixes were not substituted with scripted outputs to claim compatibility.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

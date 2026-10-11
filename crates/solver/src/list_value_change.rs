@@ -5,6 +5,7 @@ use crate::{
 };
 use std::num::NonZeroUsize;
 mod correlated;
+pub(crate) mod replayed;
 pub use correlated::{
     CorrelatedListChangeLimits, CorrelatedListValueChangeSource, ListDestinationFactory,
 };

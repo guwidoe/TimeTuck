@@ -52944,6 +52944,96 @@
       "upstream_test": "discardOldValuesAndResetState",
       "local_test": "discard_old_values_and_reset_state",
       "modifications": "Preserve nonnull, unavailable/NoSuchElement, nonnull, unavailable/NoSuchElement sequence. Non-fused entity signals [A,end,A,end], empty entity range and explicit native replay epoch changes replace the mock replay selector; native Exhausted is the exhaustion error. Unfiltered mocked children retain the source empty-range fixture behavior. Native borrowed list layout, canonical entity/domain indices, explicit replay epochs and semantic destination draws replace Java selectors, mutable fixture references and TestRandom decorator calls. Preserve source observable outputs/availability/errors; no Java RNG call-trace, API/ABI or production implementation translation claim. Actual dense/stream list/mixed move-source integration is covered separately by originals without source-method credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.testReachableValuesByEntity",
+      "upstream_test": "testReachableValuesByEntity",
+      "local_test": "reachable_values_by_entity",
+      "modifications": "Preserve all five inverse entity memberships, three entity-reachability booleans and both value/entity runtime-type results. Native canonical owner IDs/string values replace fixture references; actual Any exact-V payload discrimination returns true for the value and false for the distinct usize owner type. No Java subclass/reflection/API equivalence claim. All asserted observable results are retained. Only Community tests/test-fixture roles are adapted; no production implementation read or ported."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/ReachableValuesTest.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReachableValuesTest.multipleSorters",
+      "upstream_test": "multipleSorters",
+      "local_test": "multiple_sorters",
+      "modifications": "Preserve all unsorted/previous-view memberships, distinct unsorted/ascending/descending object identities, repeated comparator-view identity and descending membership/order. Arc handles keyed by explicit native comparator IDs replace Java comparator-object keys. Preserve the source final actual ascending-comparator call and its same-identity assertion (the source comment mentions null, but the call does not). Views share immutable indexes; no mutation of old view ordering or Java default-comparator alias claim. All asserted observable results are retained. Only Community tests/test-fixture roles are adapted; no production implementation read or ported."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/OriginalListChangeIteratorTest.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OriginalListChangeIteratorTest.emptyValueSelector",
+      "upstream_test": "emptyValueSelector",
+      "local_test": "empty_change_value_selector",
+      "modifications": "Preserve exhausted iteration for empty value child and one empty entity. Native replayed change source with original policy and finite raw children replaces descriptor/state mocks; no source or destination proposal is fabricated. All asserted observable results are retained. Only Community tests/test-fixture roles are adapted; no production implementation read or ported."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/OriginalListChangeIteratorTest.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OriginalListChangeIteratorTest.emptyEntitySelector",
+      "upstream_test": "emptyEntitySelector",
+      "local_test": "empty_change_entity_selector",
+      "modifications": "Preserve exhausted iteration for one unassigned value and no entities/anchors. Actual native destination cursor and shared move selection validate/index the partial assignment and produce no candidate. All asserted observable results are retained. Only Community tests/test-fixture roles are adapted; no production implementation read or ported."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/OriginalListSwapIteratorTest.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OriginalListSwapIteratorTest.emptyLeftValueSelector",
+      "upstream_test": "emptyLeftValueSelector",
+      "local_test": "empty_swap_left_value_selector",
+      "modifications": "Preserve exhausted iteration with empty left values and right [v1,v2]. Actual native Cartesian list-value swap selection uses a valid immutable assignment; Java state/descriptor mocks are replaced. No empty-scaffold compatibility claim: populated side and source identities are registered/validated. All asserted observable results are retained. Only Community tests/test-fixture roles are adapted; no production implementation read or ported."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/OriginalListSwapIteratorTest.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "OriginalListSwapIteratorTest.emptyRightValueSelector",
+      "upstream_test": "emptyRightValueSelector",
+      "local_test": "empty_swap_right_value_selector",
+      "modifications": "Preserve exhausted iteration with left [v1,v2] and empty right values. Native Cartesian list-value swap selection replaces Java iterator/descriptor mocks; repeated exhaustion is additionally checked. All asserted observable results are retained. Only Community tests/test-fixture roles are adapted; no production implementation read or ported."
     }
   ],
   "fixtures": [
@@ -73499,6 +73589,136 @@
       "id": "destination-cursor-fixture-TestdataValue",
       "upstream_test": "constructor/domain, ordered entity lists, receiving ranges and pin/unassigned fields used by ElementDestinationSelectorTest",
       "modifications": "Adapt only fixture roles visible in the listed test bodies: integer domain identities, native ListProblem/ListEntity ranges/prefix/full pins and immutable assignment replace Java solution/domain constructors and setters. Unused fixture helpers and implementation are not ported. Fixture attribution only; no additional source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataValue",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataListEntityProvidingEntity",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataListEntityProvidingSolution",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataListEntityProvidingValue",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataAllowsUnassignedEntityProvidingEntity",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataAllowsUnassignedEntityProvidingSolution",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataListEntity",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataListSolution",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataListValue",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/common/TestdataObjectSorter.java",
+      "local_path": "crates/solver/tests/list_change_replay_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selection-replay-fixture-TestdataObjectSorter",
+      "upstream_test": "fixture constructors/ranges, ordered values and ascending/descending sorter role visible in adapted test bodies",
+      "modifications": "Native integer owner IDs, string/integer domain identities, ListProblem/FiniteProblem domains, finite child orders and keyed comparator callbacks replace only the test-visible fixture roles. Empty selector cases use real valid native layouts rather than Java descriptor mocks. Unused fixture/helper implementation is not copied. Apache-2.0 attribution only; no extra source-method credit."
     }
   ]
 }
