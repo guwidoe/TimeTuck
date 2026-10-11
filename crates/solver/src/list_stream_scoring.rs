@@ -816,6 +816,12 @@ pub(crate) fn list_stream_local_search_from_monitored<
     })
 }
 
+impl From<crate::MoveProviderError> for ListStreamScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
+    }
+}
+
 #[cfg(test)]
 mod selection_tests {
     use super::*;
@@ -902,11 +908,5 @@ mod selection_tests {
             assert_eq!(d.assignment().lists(), &[vec![0, 1]]);
             d.assert_consistent().unwrap();
         }
-    }
-}
-
-impl From<crate::MoveProviderError> for ListStreamScoringError {
-    fn from(error: crate::MoveProviderError) -> Self {
-        Self::Provider(error)
     }
 }

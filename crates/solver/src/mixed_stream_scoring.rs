@@ -862,6 +862,12 @@ type MixedProviderContext<'p, B, L, S> = crate::provider_search::ProviderContext
     S,
 >;
 
+impl From<crate::MoveProviderError> for MixedStreamScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
+    }
+}
+
 #[cfg(test)]
 mod selection_tests {
     use super::*;
@@ -953,11 +959,5 @@ mod selection_tests {
             );
             d.assert_consistent().unwrap();
         }
-    }
-}
-
-impl From<crate::MoveProviderError> for MixedStreamScoringError {
-    fn from(error: crate::MoveProviderError) -> Self {
-        Self::Provider(error)
     }
 }

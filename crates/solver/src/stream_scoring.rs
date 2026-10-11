@@ -716,6 +716,12 @@ fn stream_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     })
 }
 
+impl From<crate::MoveProviderError> for StreamScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
+    }
+}
+
 #[cfg(test)]
 mod selection_tests {
     use super::*;
@@ -791,11 +797,5 @@ mod selection_tests {
             assert_eq!(d.score(), SimpleScore::new(1));
             d.assert_consistent().unwrap();
         }
-    }
-}
-
-impl From<crate::MoveProviderError> for StreamScoringError {
-    fn from(error: crate::MoveProviderError) -> Self {
-        Self::Provider(error)
     }
 }

@@ -1095,77 +1095,6 @@ where
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::time_limit::SearchControl;
-    struct Control {
-        polls: usize,
-    }
-    impl SearchControl for Control {
-        fn construction_stopped(&mut self) -> bool {
-            self.polls += 1;
-            self.polls >= 5
-        }
-        fn start_search(&mut self) {
-            panic!("construction started stagnation clock");
-        }
-        fn record_improvement(&mut self) {
-            panic!("construction reset stagnation");
-        }
-        fn complete_step(&mut self, _: bool) {
-            panic!("construction consumed search step");
-        }
-        fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
-            panic!("construction polled search-only stop");
-        }
-    }
-    #[test]
-    fn shared_condition_keeps_scored_prefix_and_observes_only_commits() {
-        let p = FiniteProblem::new(vec![crate::Variable::new(vec![1, 2]); 2]).unwrap();
-        let n = ConstraintNetwork::<_, crate::SimpleScore>::new(2);
-        let mut control = Control { polls: 0 };
-        let mut calls = 0;
-        let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _: u64| {
-            calls += 1;
-            vec![
-                Move::Change {
-                    variable: 0,
-                    value: Some(1),
-                },
-                Move::Change {
-                    variable: 0,
-                    value: Some(2),
-                },
-            ]
-        };
-        let mut updates = vec![];
-        let mut observer = |u: crate::SolutionUpdate<'_, Assignment<i32>, crate::SimpleScore>| {
-            updates.push((u.assignment.clone(), u.complete));
-        };
-        let r = basic(
-            &p,
-            &n,
-            p.initial_assignment(),
-            ProviderConstructionConfig::default(),
-            crate::provider_search::ProviderContext {
-                provider: crate::MoveProviderBinding::Infallible(&mut provider),
-                control: Some(&mut control),
-                observer: Some(&mut observer),
-            },
-        )
-        .unwrap();
-        assert_eq!(r.termination, ProviderConstructionTermination::Condition);
-        assert_eq!(r.assignment.values(), &[Some(1), None]);
-        assert_eq!((r.evaluations, r.scanned_moves, calls), (2, 1, 1));
-        assert_eq!(
-            updates,
-            vec![(p.initial_assignment(), false), (r.assignment, false)]
-        );
-        assert_eq!(control.polls, 5);
-    }
-}
-
 /// Run with a fallible provider; an observed error discards the current scan.
 #[allow(clippy::too_many_arguments)]
 pub fn construction_from_with_fallible_provider<V: Eq + Clone, S: AdditiveScore>(
@@ -1316,4 +1245,75 @@ pub fn mixed_stream_construction_from_with_fallible_provider<
             observer: None,
         },
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::time_limit::SearchControl;
+    struct Control {
+        polls: usize,
+    }
+    impl SearchControl for Control {
+        fn construction_stopped(&mut self) -> bool {
+            self.polls += 1;
+            self.polls >= 5
+        }
+        fn start_search(&mut self) {
+            panic!("construction started stagnation clock");
+        }
+        fn record_improvement(&mut self) {
+            panic!("construction reset stagnation");
+        }
+        fn complete_step(&mut self, _: bool) {
+            panic!("construction consumed search step");
+        }
+        fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
+            panic!("construction polled search-only stop");
+        }
+    }
+    #[test]
+    fn shared_condition_keeps_scored_prefix_and_observes_only_commits() {
+        let p = FiniteProblem::new(vec![crate::Variable::new(vec![1, 2]); 2]).unwrap();
+        let n = ConstraintNetwork::<_, crate::SimpleScore>::new(2);
+        let mut control = Control { polls: 0 };
+        let mut calls = 0;
+        let mut provider = |_: &FiniteProblem<i32>, _: &Assignment<i32>, _: u64| {
+            calls += 1;
+            vec![
+                Move::Change {
+                    variable: 0,
+                    value: Some(1),
+                },
+                Move::Change {
+                    variable: 0,
+                    value: Some(2),
+                },
+            ]
+        };
+        let mut updates = vec![];
+        let mut observer = |u: crate::SolutionUpdate<'_, Assignment<i32>, crate::SimpleScore>| {
+            updates.push((u.assignment.clone(), u.complete));
+        };
+        let r = basic(
+            &p,
+            &n,
+            p.initial_assignment(),
+            ProviderConstructionConfig::default(),
+            crate::provider_search::ProviderContext {
+                provider: crate::MoveProviderBinding::Infallible(&mut provider),
+                control: Some(&mut control),
+                observer: Some(&mut observer),
+            },
+        )
+        .unwrap();
+        assert_eq!(r.termination, ProviderConstructionTermination::Condition);
+        assert_eq!(r.assignment.values(), &[Some(1), None]);
+        assert_eq!((r.evaluations, r.scanned_moves, calls), (2, 1, 1));
+        assert_eq!(
+            updates,
+            vec![(p.initial_assignment(), false), (r.assignment, false)]
+        );
+        assert_eq!(control.polls, 5);
+    }
 }
