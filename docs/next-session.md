@@ -16,47 +16,79 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round35
+## Latest verified checkpoint — round36
 
-Main 707539c adds AcceptorProfile: explicit/inferred native policy selection,
-canonical ordering, deduplication, signed-size validation, checked annealing-loss
-normalization and caller-controlled diversified-acceptance availability. The
-prepared profile owns validated policy settings and binds ordinary/list or mixed
-search controls. Each search creates fresh history, tabu and RNG state. Existing
-backend kernels and candidate loops are unchanged.
+Main 0a87b48 adds TimedScoreRing and connects it to diminished-returns history.
+It supports inclusive window-predecessor eviction, cursor/slot checkpoints,
+validated restoration, wrapped growth, explicit full/empty lengths and zero/
+duplicate/u128::MAX timestamps. Backwards insertions are rejected. Runtime active
+samples use Rust's deque; imported inactive slots are retained separately and
+checkpoint layout is materialized on demand. Growth moves scores without Clone.
 
-All six AcceptorFactoryTest methods and the negative-size methods from
-LateAcceptanceAcceptorTest and StepCountingHillClimbingAcceptorTest have complete
-adaptations and provenance. Three original regressions compare manual/prepared
-all-nine-policy composites across all nine real solver backends, including
-repeated preparation use (27 solves), exact result/work/report equality and known
-optima. They also cover invalid temperatures/sizes, immutable inputs, canonical
-ordering and preservation of unrelated controls. All 11 focused cases passed;
-the final gate verified the subsequent mechanical macro cleanup and new doctest.
+All eighteen DiminishedReturnsScoreRingBufferTest methods retain all 101 source
+assertions, with complete provenance. Four original regressions check 120000
+mixed operations against an independent deque, restored snapshots, move-only
+payload release, extreme times, capacity failures and malformed states. Actual
+termination retains same-time replacement, backwards-clock clamping, grace/reset,
+exact rate arithmetic and pre-drop cache invalidation on panicking evicted scores.
+Forty-eight focused tests passed on the earlier slot-backed draft. The final gate
+verified the final deque-backed implementation and its native runtime integration.
+An initial wrong target name and test inference errors were fixed; failed logs
+remain available. Do not repeat these checks without changed relevant inputs.
 
-Native defaults (history/period100, variable tenure7, cooling1000, seed0 and
-rain1/100000) are independent choices. Entity tabu uses native variable/list-owner
-keys; no multi-variable Java entity-key, Java PRNG, cooling schedule, numeric
-fallback, reflection or environment-instrumentation parity is claimed.
+Final runner-c gate 11740 and collector 38548 both finished successfully:
 
-Final runner-c gate and evidence collector passed on frozen inputs:
+- 6,580 Rust tests and 282 doctests.
+- 3,454/4,855 source methods passing (71.143%); 835 pending,
+  566 excluded, zero failed/unverified. Backlog 853→835; exclusions unchanged.
+- 846 Rust jobs ran because shared termination inputs changed; 105 Rust and
+  46 Python jobs reused unchanged runner-c evidence. Strict format/Clippy passed.
+- Source `b514316d5a2ed116259a36adb77cf4fee8a8bc1227c14a9c2db5513e03dbdad7`.
+- Verification `5233ae8bac10a909506bb7317cbebaa643f223235e75b6d549f26dcb3b7b8d50`.
+- Remote snapshot `3b90f5c33a11c9457cc84132ed9805f554427b7120341bd9e40852dc228861a3`.
+- Evidence work/parallel-round36-evidence.json, freeze metadata, original
+  manifest/log and work/round36-runner-c-results.tar.gz retained. Final gate took
+  722.899 seconds, including broad target compilation. No worker/collector remains
+  running. Next runner-c batch seeds these real logs, using this output root and the
+  existing stable CARGO_HOME from work/round36-runner-c-check.py; never rewrite keys.
 
-- 6,558 Rust tests and 281 doctests.
-- 3,436/4,855 source methods passing (70.772%); 853 pending,
-  566 excluded, zero failed/unverified. Backlog 861→853; exclusions unchanged.
-- 3 Rust jobs ran; 946 Rust and 46 Python jobs reused unchanged runner-c evidence.
-- Source `0c77e39a66468f7f3a7eb03afd0bfb2a04d936065b9ba55eb7b225490c9192af`.
-- Verification `b3bd58337e3bf50d464bdfb06c7325ff6de93e5aa9b415c2c71358667ececf19`.
-- Remote snapshot `9a6d27acbb5164c119284db5b4ce2569b8c58c14e26d53ea7c8b769d9dbb922b`.
-- Evidence work/parallel-round35-evidence.json and freeze metadata; original
-  manifest/log and work/round35-runner-c-results.tar.gz retained. Final gate took
-  141.438 seconds. Strict format/Clippy passed. No build/collector remains running.
-  Do not repeat verification without relevant changed inputs or concerns.
+Performance was checked on runner-a, separately from source-method credit:
 
-Dashboard http://localhost:8765 is current; report data and freshness checked.
-Reuse its server. Backend report refreshes need data/freshness inspection, not
-browser/Impeccable. Original-Java list measurements remain visibly stale. No new
-performance claim in this batch.
+- Rejected custom slot draft: history microbench ring/deque ratios1.162–2.013.
+  Final design retains the native deque for active samples.
+- Paired standalone exact policies (28 samples/four workloads), intermediate
+  deque-ring snapshot58e13615: changing-score workloads cost1.011–1.034x baseline;
+  repeated cached polls cost1.245x, approximately10.61→13.28ns per poll.
+  All termination decisions/sample counts match. Not full solver/Java timing;
+  this intermediate benchmark uses checked push, while final native insertion
+  skips its duplicated chronological check. No final-state speedup claim.
+  Evidence work/round36-policy-performance-summary.json and original manifest/log.
+- A NOT INTEGRATED generic-clock/guarded-pruning candidate reduces cached polls to
+  1.015x baseline (11.14→11.25ns); changing-score workloads1.019–1.035x.
+  All benchmark decision/sample counts match. Snapshotfd912d8b; evidence
+  work/round36-clock-candidate-performance-summary.json and original manifest/log.
+  Candidate files work/round36-generic-ring-candidate.rs and
+  work/round36-native-clock-policy-candidate.rs are saved. The latter contains
+  only the policy prefix before LocalTimeBudget; preserve the remaining production
+  module if applying it. Source cases/solver regression verification has NOT run
+  for the candidate. Consider it with the next coherent batch; do not claim it is
+  current or spend time repeating old baseline checks. Temporary examples were
+  removed from crates and retained as work/*-perf-example.rs.
+
+Dashboard http://localhost:8765 is current; report data/freshness checked. Reuse its
+server. Backend refreshes need data inspection, not browser/Impeccable. Existing
+original-Java list measurements remain visibly stale; no refreshed Java speed claim.
+This goal turn was progress (eighteen verified cases plus runtime history storage).
+Full objective remains incomplete and active, confirmed by the goal tool this turn.
+No new subagents or assignments.
+
+Prior round35 (707539c/c0dbbd1) passed: 6,558 Rust/281 docs, 3,436 source methods,
+853 pending. All six AcceptorFactoryTest methods and two negative-size methods
+already work with prepared native policies, canonical/deduplicated selection and
+checked annealing losses; 27 real manual/prepared solver comparisons cover nine
+backends and fresh per-search state. Native numeric defaults/keys/PRNG schedules
+are independent choices, without Java reflection/environment-instrumentation
+parity claims. Do not repeat its final gate or focused tests unchanged.
 
 Prior round34 (6b9c4dc/a14b345) passed: 6,547 Rust/280 docs, 3,428 source methods,
 861 pending. All nine EnvironmentModeUtilTest query/validation cases are already
