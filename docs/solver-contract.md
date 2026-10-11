@@ -2252,3 +2252,52 @@ expressions even without optional counters or an injected clock, and retain the
 existing rules for provisional candidate counts and successful bulk publication.
 Standalone kernel APIs are unchanged. These native semantics do not promise Java
 phase traces or reflective factory behavior.
+
+
+## Composed score-difference stagnation
+
+`StatefulSearchTermination` combines static scored/count/time expressions with
+`SignificantImprovement` leaves through AND/OR. Bind it solve-wide through
+`SolverExtensions.stateful_termination`, or per phase through
+`PhaseTerminationBinding::stateful`. Each history occurrence owns an independent
+threshold state, including repeated leaves. Every leaf receives observations and
+time samples even when another branch already determines the Boolean outcome.
+
+`StatefulTerminationSession` separates search start, complete retained-score
+observations, and status queries. Construction cannot arm or reset a score anchor;
+once armed, solve time continues through later construction and setup. A later
+phase's worse score cannot reset the existing solve anchor. Phase bindings start
+fresh histories. Threshold comparison and strictly-after-window expiry reuse
+`SignificantImprovement`; sampling progress alone is not a score observation.
+Stateless `try_status` returns `HistoryRequired` for history-bearing expressions.
+Existing stateless termination APIs and independent hard limits retain their scope.
+
+## Updating retained explanations
+
+`ScoreExplanation::replace_constraint` inserts or replaces one report;
+`remove_constraint` retracts one by name. Both return the previous report and use
+checked arithmetic by default. Their `*_with_arithmetic` variants also support
+wrapping. Checked arithmetic validates final totals after cancellation. Qualified
+match IDs preserve equal tuple IDs from different constraints, and live zero-score
+matches retain indictment membership. Justifications need not implement Clone.
+
+Existing-fact replacements update affected indictments without rebuilding unrelated
+reports. Introducing or retiring fact keys also scans the fact-key index. Errors
+and calculation/clone/comparison panics preserve the explanation; panicking
+destructors are excluded. Public snapshot fields must remain internally consistent,
+as produced by constructors. These methods do not repair manually corrupted reports.
+
+## Recoverable shadow callback errors
+
+`ShadowSessionBuilder::try_input`, `try_list_input` and `try_derive` accept callbacks
+returning Result. The first error stops further evaluation before cached values,
+dependencies, change reports or scores are published. Pending notifications remain
+available for retry. Successful None still means a consistent absent value, and
+cycles retain their normal supplier-suppression behavior. Existing infallible APIs
+are unchanged; no extra full-cache snapshot is needed.
+
+`ShadowSessionError::Callback` retains the original downcastable error, callback
+stage, field/entity type and session-local registration index. Error values remain
+Send and Sync; only the new callback error types require these bounds. Session and
+manager errors retain the typed cause, while graph adapters retain their existing
+string diagnostics. External callback side effects cannot be rolled back.
