@@ -82,6 +82,7 @@ pub struct StreamScoreDirector<'p, 'a, V, S: AdditiveScore> {
     graph: StreamGraph<'a, S>,
     source: PlanningStreamSource<V>,
     initial_constraint_evaluations: u128,
+    structural: i64,
 }
 impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     StreamScoreDirector<'p, 'a, V, S>
@@ -96,6 +97,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         if !graph.source_rows(&source)?.is_empty() {
             return Err(StreamScoringError::PlanningSourceNotEmpty);
         }
+        let structural = with_structure(S::ZERO, problem, &assignment).structural();
         let mut transaction = graph.transaction();
         let mut updates = StreamBatch::new();
         for (index, value) in assignment.values().iter().enumerate() {
@@ -110,6 +112,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             graph,
             source,
             initial_constraint_evaluations,
+            structural,
         })
     }
     /// Change external fact rows without rebuilding the scoring graph. Planning
@@ -123,6 +126,10 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     }
     pub fn assert_consistent(&mut self) -> Result<(), StreamScoringError> {
         self.graph.assert_consistent()?;
+        crate::stream_assignment_change::check_structure(
+            self.structural,
+            with_structure(S::ZERO, self.problem, &self.assignment).structural(),
+        )?;
         Ok(())
     }
     /// Begin a live multi-move scope. Drop restores assignment and cached scores;
@@ -130,8 +137,10 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, StreamScoringError> {
         let assignment = self.assignment.clone();
         let graph = self.graph.capture_full();
+        let structural = self.structural;
         Ok(crate::MoveSession::new(self, move |director| {
             director.assignment = assignment;
+            director.structural = structural;
             director.graph.install(graph);
         }))
     }
@@ -324,7 +333,9 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             provider,
         )?;
         if let Some(best) = &result.best {
+            let structural = best.score.structural();
             self.assignment = best.assignment.clone();
+            self.structural = structural;
             self.graph
                 .install(best_graph.expect("scored phase records its initial best"));
         }
@@ -424,7 +435,9 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         assignment: Assignment<V>,
         graph: crate::stream_graph::GraphState<S>,
     ) {
+        let structural = with_structure(S::ZERO, self.problem, &assignment).structural();
         self.assignment = assignment;
+        self.structural = structural;
         self.graph.install(graph);
     }
 
@@ -446,6 +459,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         let score = with_structure(graph.score()?, self.problem, &next);
         Ok(crate::StreamAssignmentChange::new(
             &mut self.assignment,
+            &mut self.structural,
             next,
             graph,
             score,
@@ -459,7 +473,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         &self.graph
     }
     pub fn score(&self) -> S {
-        with_structure(self.graph.score(), self.problem, &self.assignment)
+        self.graph.score().with_structural(self.structural)
     }
     /// Change live graph weights atomically, retaining this assignment and all
     /// source/constraint handles. Rebuilds live branches from retained source facts;
@@ -486,6 +500,15 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         let assignment = self
             .problem
             .apply_validated(&mut self.assignment, movement)?;
+        let structural = match crate::scoring::basic_structural_delta(
+            self.problem,
+            &assignment,
+            assignment.prior_values(),
+            self.problem.variables().len(),
+        ) {
+            Some(delta) => self.structural + delta,
+            None => with_structure(S::ZERO, self.problem, &assignment).structural(),
+        };
         let mut graph = self.graph.transaction();
         let mut updates = StreamBatch::new();
         for variable in movement.touched_variables() {
@@ -495,11 +518,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             )?;
         }
         graph.apply_updates(updates)?;
-        let score = with_structure(graph.score()?, self.problem, &assignment);
+        let score = graph.score()?.with_structural(structural);
         Ok(StreamScoredMove {
             assignment,
             graph,
             score,
+            structural,
+            cached_structure: &mut self.structural,
         })
     }
 }
@@ -509,6 +534,8 @@ pub struct StreamScoredMove<'g, 'a, V, S: AdditiveScore> {
     assignment: AppliedMove<'g, V>,
     graph: GraphTransaction<'g, 'a, S>,
     score: S,
+    structural: i64,
+    cached_structure: &'g mut i64,
 }
 impl<V, S: AdditiveScore> StreamScoredMove<'_, '_, V, S> {
     pub fn assignment(&self) -> &Assignment<V> {
@@ -532,6 +559,7 @@ impl<V, S: AdditiveScore> StreamScoredMove<'_, '_, V, S> {
             .commit()
             .expect("successfully scored transaction");
         self.assignment.commit();
+        *self.cached_structure = self.structural;
     }
 }
 
@@ -566,6 +594,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
         quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<Selection<V>, Self::Error> {
+        let problem = self.problem;
         let mut result = Selection {
             selected_accepted: false,
             selected: None,
@@ -584,11 +613,16 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
             result.constraint_evaluations += candidate.constraint_evaluations();
             if assert_scores {
                 candidate.graph.assert_consistent()?;
+                crate::stream_assignment_change::check_structure(
+                    candidate.structural,
+                    with_structure(S::ZERO, problem, &candidate.assignment).structural(),
+                )?;
             }
             let accepted = accepts(&movement, candidate.score());
             forager.try_add_with(candidate.score(), accepted, || -> Result<_, Self::Error> {
                 Ok(SavedStreamCandidate {
                     accepted,
+                    structural: candidate.structural,
                     movement: movement.clone(),
                     assignment: candidate.assignment().clone(),
                     graph: candidate.graph.capture()?,
@@ -612,6 +646,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
         if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
             self.assignment = saved.assignment;
+            self.structural = saved.structural;
             result.selected = Some(saved.movement);
             result.selected_accepted = saved.accepted;
         }
@@ -620,6 +655,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
 }
 struct SavedStreamCandidate<V, S> {
     accepted: bool,
+    structural: i64,
     movement: Move<V>,
     assignment: Assignment<V>,
     graph: crate::stream_graph::GraphState<S>,
@@ -808,5 +844,30 @@ mod selection_tests {
             assert_eq!(d.score(), SimpleScore::new(1));
             d.assert_consistent().unwrap();
         }
+    }
+    #[test]
+    fn structural_cache_uses_sparse_delta_and_independent_oracle() {
+        let p = FiniteProblem::new(vec![crate::Variable::new(vec![0, 1]); 1024]).unwrap();
+        let mut b = crate::StreamGraphBuilder::<crate::SimpleScore>::new();
+        let s = b.source::<usize, (usize, Option<i32>)>();
+        let mut d = StreamScoreDirector::new(&p, b.build(), s, p.initial_assignment()).unwrap();
+        let original = d.structural;
+        d.structural += 7;
+        // Score reads use the retained component; the independent oracle must
+        // detect rather than silently repair corruption.
+        assert_eq!(d.score().structural(), original + 7);
+        assert!(d.assert_consistent().is_err());
+        assert_eq!(d.structural, original + 7);
+        let candidate = d
+            .apply(&Move::Change {
+                variable: 0,
+                value: Some(1),
+            })
+            .unwrap();
+        assert_eq!(candidate.score().structural(), original + 8);
+        drop(candidate);
+        assert_eq!(d.structural, original + 7);
+        d.structural = original;
+        d.assert_consistent().unwrap();
     }
 }

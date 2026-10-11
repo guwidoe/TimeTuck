@@ -111,6 +111,7 @@ pub struct MixedStreamScoreDirector<'p, 'a, B, L, S: AdditiveScore> {
     graph: StreamGraph<'a, S>,
     sources: MixedStreamSources<B, L>,
     initial_constraint_evaluations: u128,
+    structural: i64,
 }
 impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'static>
     MixedStreamScoreDirector<'p, 'a, B, L, S>
@@ -123,7 +124,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
     ) -> Result<Self, MixedStreamScoringError> {
         problem.validate(&assignment)?;
         sources.validate(&graph)?;
-        with_structure(S::ZERO, problem, &assignment)?;
+        let structural = with_structure(S::ZERO, problem, &assignment)?.structural();
         let mut tx = graph.transaction();
         let mut updates = StreamBatch::new();
         for (i, v) in assignment.basic().values().iter().enumerate() {
@@ -154,6 +155,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             graph,
             sources,
             initial_constraint_evaluations,
+            structural,
         })
     }
     /// Inspect a layout-valid candidate without changing this director or scoring it.
@@ -174,8 +176,10 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
     ) -> Result<crate::MoveSession<'_, Self>, MixedStreamScoringError> {
         let assignment = self.assignment.clone();
         let graph = self.graph.capture_full();
+        let structural = self.structural;
         Ok(crate::MoveSession::new(self, move |director| {
             director.assignment = assignment;
+            director.structural = structural;
             director.graph.install(graph);
         }))
     }
@@ -373,7 +377,9 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             provider,
         )?;
         if let Some(best) = &result.best {
+            let structural = best.score.structural();
             self.assignment = best.assignment.clone();
+            self.structural = structural;
             self.graph
                 .install(best_graph.expect("scored phase records its initial best"));
         }
@@ -493,7 +499,11 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         assignment: MixedAssignment<B, L>,
         graph: crate::stream_graph::GraphState<S>,
     ) {
+        let structural = with_structure(S::ZERO, self.problem, &assignment)
+            .expect("validated retained assignment")
+            .structural();
         self.assignment = assignment;
+        self.structural = structural;
         self.graph.install(graph);
     }
 
@@ -535,6 +545,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         let score = with_structure(graph.score()?, self.problem, &next)?;
         Ok(crate::StreamAssignmentChange::new(
             &mut self.assignment,
+            &mut self.structural,
             next,
             graph,
             score,
@@ -548,8 +559,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         &self.graph
     }
     pub fn score(&self) -> S {
-        with_structure(self.graph.score(), self.problem, &self.assignment)
-            .expect("structural count checked before binding or installing a move")
+        self.graph.score().with_structural(self.structural)
     }
     /// Change live graph weights atomically, retaining this assignment and all
     /// source/constraint handles. Rebuilds live branches from retained source facts;
@@ -584,6 +594,10 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
     }
     pub fn assert_consistent(&mut self) -> Result<(), MixedStreamScoringError> {
         self.graph.assert_consistent()?;
+        crate::stream_assignment_change::check_structure(
+            self.structural,
+            with_structure(S::ZERO, self.problem, &self.assignment)?.structural(),
+        )?;
         Ok(())
     }
     /// Validate both final components before graph callbacks. Deliver each touched
@@ -596,7 +610,34 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         let assignment = self
             .problem
             .apply_validated(&mut self.assignment, movement)?;
-        with_structure(S::ZERO, self.problem, &assignment)?;
+
+        let world_size = self.problem.basic().variables().len().saturating_add(
+            if self.problem.lists().allows_unassigned() {
+                0
+            } else {
+                assignment.lists().lists().len()
+            },
+        );
+        let structural = match crate::scoring::basic_structural_delta(
+            self.problem.basic(),
+            assignment.basic(),
+            assignment.basic_prior_values(),
+            world_size,
+        ) {
+            Some(basic_delta) => {
+                let list_delta = if self.problem.lists().allows_unassigned() {
+                    0
+                } else {
+                    assignment.assigned_list_count_delta()
+                };
+                let missing = i64::try_from(
+                    -i128::from(self.structural) - i128::from(basic_delta) - i128::from(list_delta),
+                )
+                .map_err(|_| crate::MixedScoringError::StructuralCountOverflow)?;
+                -missing
+            }
+            None => with_structure(S::ZERO, self.problem, &assignment)?.structural(),
+        };
         let mut graph = self.graph.transaction();
         let mut updates = StreamBatch::new();
         for i in movement.basic.touched_variables() {
@@ -633,11 +674,13 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             )?;
         }
         graph.apply_updates(updates)?;
-        let score = with_structure(graph.score()?, self.problem, &assignment)?;
+        let score = graph.score()?.with_structural(structural);
         Ok(MixedStreamScoredMove {
             assignment,
             graph,
             score,
+            structural,
+            cached_structure: &mut self.structural,
         })
     }
 }
@@ -646,6 +689,8 @@ pub struct MixedStreamScoredMove<'g, 'a, B, L, S: AdditiveScore> {
     assignment: AppliedMixedMove<'g, B, L>,
     graph: GraphTransaction<'g, 'a, S>,
     score: S,
+    structural: i64,
+    cached_structure: &'g mut i64,
 }
 impl<B, L, S: AdditiveScore> MixedStreamScoredMove<'_, '_, B, L, S> {
     pub fn assignment(&self) -> &MixedAssignment<B, L> {
@@ -668,10 +713,12 @@ impl<B, L, S: AdditiveScore> MixedStreamScoredMove<'_, '_, B, L, S> {
             .commit()
             .expect("successfully scored transaction");
         self.assignment.commit();
+        *self.cached_structure = self.structural;
     }
 }
 struct Saved<B, L, S> {
     accepted: bool,
+    structural: i64,
     movement: MixedMove<B, L>,
     assignment: MixedAssignment<B, L>,
     graph: crate::stream_graph::GraphState<S>,
@@ -701,6 +748,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
         quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<MixedSelection<B, L>, Self::Error> {
+        let problem = self.problem;
         let mut result = MixedSelection {
             selected: None,
             selected_accepted: false,
@@ -725,11 +773,16 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
             result.constraint_evaluations += candidate.constraint_evaluations();
             if assert_scores {
                 candidate.graph.assert_consistent()?;
+                crate::stream_assignment_change::check_structure(
+                    candidate.structural,
+                    with_structure(S::ZERO, problem, &candidate.assignment)?.structural(),
+                )?;
             }
             let accepted = accepts(&movement, candidate.score());
             forager.try_add_with(candidate.score(), accepted, || -> Result<_, Self::Error> {
                 Ok(Saved {
                     accepted,
+                    structural: candidate.structural,
                     movement: movement.clone(),
                     assignment: candidate.assignment().clone(),
                     graph: candidate.graph.capture()?,
@@ -753,6 +806,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
         if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
             self.assignment = saved.assignment;
+            self.structural = saved.structural;
             result.selected = Some(saved.movement);
             result.selected_accepted = saved.accepted;
         }
@@ -970,5 +1024,63 @@ mod selection_tests {
             );
             d.assert_consistent().unwrap();
         }
+    }
+    #[test]
+    fn structural_cache_uses_sparse_delta_and_independent_oracle() {
+        let p = MixedProblem::new(
+            crate::FiniteProblem::new(vec![crate::Variable::new(vec![0, 1]); 1024]).unwrap(),
+            crate::ListProblem::new_indexed(vec![0], vec![crate::ListEntity::new(vec![]); 1024])
+                .unwrap(),
+        );
+        let calls = std::cell::Cell::new(0);
+        let mut b = crate::StreamGraphBuilder::<crate::SimpleScore>::new();
+        let s = MixedStreamSources::<i32, i32>::new(&mut b);
+        b.score("basic", s.basic.port(), |_| {
+            calls.set(calls.get() + 1);
+            crate::SimpleScore::ZERO
+        })
+        .unwrap();
+        let mut d =
+            MixedStreamScoreDirector::new(&p, b.build(), s, p.initial_assignment()).unwrap();
+        let original = d.structural;
+        d.structural += 7;
+        // Score reads use the retained component; the independent oracle must
+        // detect rather than silently repair corruption.
+        assert_eq!(d.score().structural(), original + 7);
+        assert!(d.assert_consistent().is_err());
+        assert_eq!(d.structural, original + 7);
+        let candidate = d
+            .apply(&MixedMove {
+                basic: crate::Move::Change {
+                    variable: 0,
+                    value: Some(1),
+                },
+                lists: crate::ListMove::Composite(vec![]),
+            })
+            .unwrap();
+        assert_eq!(candidate.score().structural(), original + 8);
+        drop(candidate);
+        assert_eq!(d.structural, original + 7);
+        d.structural = original;
+        d.assert_consistent().unwrap();
+
+        // Synthetic boundary cannot be allocated physically. A null-preserving
+        // sparse move must reject the count before any callback is dispatched.
+        d.structural = i64::MIN;
+        let work = calls.get();
+        assert!(matches!(
+            d.apply(&crate::MixedMove {
+                basic: crate::Move::Change {
+                    variable: 1,
+                    value: None
+                },
+                lists: crate::ListMove::Composite(vec![])
+            }),
+            Err(MixedStreamScoringError::Scoring(
+                crate::MixedScoringError::StructuralCountOverflow
+            ))
+        ));
+        assert_eq!(calls.get(), work);
+        assert_eq!(d.assignment(), &p.initial_assignment());
     }
 }

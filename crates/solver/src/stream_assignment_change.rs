@@ -6,6 +6,8 @@ use crate::{AdditiveScore, GraphTransaction, StreamGraph};
 #[must_use = "dropping a replacement restores the previous assignment and graph"]
 pub struct StreamAssignmentChange<'g, 'a, A, S: AdditiveScore> {
     assignment: &'g mut A,
+    cached_structure: &'g mut i64,
+    structural: i64,
     before: Option<A>,
     graph: Option<GraphTransaction<'g, 'a, S>>,
     score: S,
@@ -13,13 +15,17 @@ pub struct StreamAssignmentChange<'g, 'a, A, S: AdditiveScore> {
 impl<'g, 'a, A, S: AdditiveScore> StreamAssignmentChange<'g, 'a, A, S> {
     pub(crate) fn new(
         assignment: &'g mut A,
+        cached_structure: &'g mut i64,
         next: A,
         graph: GraphTransaction<'g, 'a, S>,
         score: S,
     ) -> Self {
+        let structural = score.structural();
         let before = Some(std::mem::replace(assignment, next));
         Self {
             assignment,
+            cached_structure,
+            structural,
             before,
             graph: Some(graph),
             score,
@@ -57,6 +63,7 @@ impl<'g, 'a, A, S: AdditiveScore> StreamAssignmentChange<'g, 'a, A, S> {
             .expect("active replacement")
             .commit()
             .expect("successfully scored transaction");
+        *self.cached_structure = self.structural;
         self.before = None;
     }
 }
@@ -67,5 +74,20 @@ impl<A, S: AdditiveScore> Drop for StreamAssignmentChange<'_, '_, A, S> {
             drop(self.graph.take());
             drop(replaced);
         }
+    }
+}
+
+// Deliberately separate from delta calculation; only explicit diagnostics call it.
+pub(crate) fn check_structure(cached: i64, fresh: i64) -> Result<(), crate::GraphError> {
+    if cached == fresh {
+        Ok(())
+    } else {
+        Err(crate::GraphError::CorruptedScore(Box::new(
+            crate::StreamScoreCorruption {
+                working_score: format!("structural {cached}"),
+                recomputed_score: format!("structural {fresh}"),
+                nodes: Vec::new(),
+            },
+        )))
     }
 }

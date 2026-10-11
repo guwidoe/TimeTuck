@@ -125,6 +125,7 @@ pub struct ListStreamScoreDirector<'p, 'a, V, S: AdditiveScore> {
     graph: StreamGraph<'a, S>,
     sources: ListStreamSources<V>,
     initial_constraint_evaluations: u128,
+    structural: i64,
 }
 impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     ListStreamScoreDirector<'p, 'a, V, S>
@@ -137,6 +138,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     ) -> Result<Self, ListStreamScoringError> {
         problem.validate(&assignment)?;
         sources.validate(&graph)?;
+        let structural = with_structure(S::ZERO, problem, &assignment).structural();
         let mut tx = graph.transaction();
         let mut updates = StreamBatch::new();
         for (i, list) in assignment.lists().iter().enumerate() {
@@ -161,6 +163,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             graph,
             sources,
             initial_constraint_evaluations,
+            structural,
         })
     }
     /// Inspect a layout-valid candidate without changing this director or scoring it.
@@ -179,8 +182,10 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, ListStreamScoringError> {
         let assignment = self.assignment.clone();
         let graph = self.graph.capture_full();
+        let structural = self.structural;
         Ok(crate::MoveSession::new(self, move |director| {
             director.assignment = assignment;
+            director.structural = structural;
             director.graph.install(graph);
         }))
     }
@@ -378,7 +383,9 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             provider,
         )?;
         if let Some(best) = &result.best {
+            let structural = best.score.structural();
             self.assignment = best.assignment.clone();
+            self.structural = structural;
             self.graph
                 .install(best_graph.expect("scored phase records its initial best"));
         }
@@ -495,7 +502,9 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         assignment: ListAssignment<V>,
         graph: crate::stream_graph::GraphState<S>,
     ) {
+        let structural = with_structure(S::ZERO, self.problem, &assignment).structural();
         self.assignment = assignment;
+        self.structural = structural;
         self.graph.install(graph);
     }
 
@@ -531,6 +540,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         let score = with_structure(graph.score()?, self.problem, &next);
         Ok(crate::StreamAssignmentChange::new(
             &mut self.assignment,
+            &mut self.structural,
             next,
             graph,
             score,
@@ -544,7 +554,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         &self.graph
     }
     pub fn score(&self) -> S {
-        with_structure(self.graph.score(), self.problem, &self.assignment)
+        self.graph.score().with_structural(self.structural)
     }
     /// Change live graph weights atomically, retaining this assignment and all
     /// source/constraint handles. Rebuilds live branches from retained source facts;
@@ -578,6 +588,10 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     }
     pub fn assert_consistent(&mut self) -> Result<(), ListStreamScoringError> {
         self.graph.assert_consistent()?;
+        crate::stream_assignment_change::check_structure(
+            self.structural,
+            with_structure(S::ZERO, self.problem, &self.assignment).structural(),
+        )?;
         Ok(())
     }
     /// Validate the final composite before graph callbacks. Update each touched
@@ -591,6 +605,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             .problem
             .apply_validated(&mut self.assignment, movement)?;
         let touched = movement.touched_entities();
+        let structural = if self.problem.allows_unassigned() {
+            0
+        } else if let Some(delta) = assignment.assigned_count_delta() {
+            self.structural + delta
+        } else {
+            with_structure(S::ZERO, self.problem, &assignment).structural()
+        };
         let mut graph = self.graph.transaction();
         let mut updates = StreamBatch::new();
         for &entity in &touched {
@@ -619,11 +640,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             )?;
         }
         graph.apply_updates(updates)?;
-        let score = with_structure(graph.score()?, self.problem, &assignment);
+        let score = graph.score()?.with_structural(structural);
         Ok(ListStreamScoredMove {
             assignment,
             graph,
             score,
+            structural,
+            cached_structure: &mut self.structural,
         })
     }
 }
@@ -632,6 +655,8 @@ pub struct ListStreamScoredMove<'g, 'a, V, S: AdditiveScore> {
     assignment: AppliedListMove<'g, V>,
     graph: GraphTransaction<'g, 'a, S>,
     score: S,
+    structural: i64,
+    cached_structure: &'g mut i64,
 }
 impl<V, S: AdditiveScore> ListStreamScoredMove<'_, '_, V, S> {
     pub fn assignment(&self) -> &ListAssignment<V> {
@@ -654,10 +679,12 @@ impl<V, S: AdditiveScore> ListStreamScoredMove<'_, '_, V, S> {
             .commit()
             .expect("successfully scored transaction");
         self.assignment.commit();
+        *self.cached_structure = self.structural;
     }
 }
 struct Saved<V, S> {
     accepted: bool,
+    structural: i64,
     movement: ListMove<V>,
     assignment: ListAssignment<V>,
     graph: crate::stream_graph::GraphState<S>,
@@ -687,6 +714,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> ListSearchDirector<V, 
         quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<ListSelection<V>, Self::Error> {
+        let problem = self.problem;
         let mut result = ListSelection {
             selected: None,
             selected_accepted: false,
@@ -711,11 +739,16 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> ListSearchDirector<V, 
             result.constraint_evaluations += candidate.constraint_evaluations();
             if assert_scores {
                 candidate.graph.assert_consistent()?;
+                crate::stream_assignment_change::check_structure(
+                    candidate.structural,
+                    with_structure(S::ZERO, problem, &candidate.assignment).structural(),
+                )?;
             }
             let accepted = accepts(&movement, candidate.score());
             forager.try_add_with(candidate.score(), accepted, || -> Result<_, Self::Error> {
                 Ok(Saved {
                     accepted,
+                    structural: candidate.structural,
                     movement: movement.clone(),
                     assignment: candidate.assignment().clone(),
                     graph: candidate.graph.capture()?,
@@ -739,6 +772,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> ListSearchDirector<V, 
         if let Some(saved) = forager.pick() {
             self.graph.install(saved.graph);
             self.assignment = saved.assignment;
+            self.structural = saved.structural;
             result.selected = Some(saved.movement);
             result.selected_accepted = saved.accepted;
         }
@@ -919,5 +953,34 @@ mod selection_tests {
             assert_eq!(d.assignment().lists(), &[vec![0, 1]]);
             d.assert_consistent().unwrap();
         }
+    }
+    #[test]
+    fn structural_cache_uses_sparse_delta_and_independent_oracle() {
+        let p =
+            ListProblem::new_indexed(vec![0], vec![crate::ListEntity::new(vec![]); 1024]).unwrap();
+        let mut b = crate::StreamGraphBuilder::<crate::SimpleScore>::new();
+        let s = ListStreamSources::<i32>::new(&mut b);
+        let mut d = ListStreamScoreDirector::new(&p, b.build(), s, p.initial_assignment()).unwrap();
+        let original = d.structural;
+        d.structural += 7;
+        // Score reads use the retained component; the independent oracle must
+        // detect rather than silently repair corruption.
+        assert_eq!(d.score().structural(), original + 7);
+        assert!(d.assert_consistent().is_err());
+        assert_eq!(d.structural, original + 7);
+        let candidate = d
+            .apply(&ListMove::Assign {
+                value: 0,
+                destination: crate::ListPosition {
+                    entity: 0,
+                    index: 0,
+                },
+            })
+            .unwrap();
+        assert_eq!(candidate.score().structural(), original + 8);
+        drop(candidate);
+        assert_eq!(d.structural, original + 7);
+        d.structural = original;
+        d.assert_consistent().unwrap();
     }
 }
