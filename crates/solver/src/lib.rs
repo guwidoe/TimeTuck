@@ -462,6 +462,8 @@ pub use ruin_recreate::{
     ruin_recreate_stream_search_from, ruin_recreate_stream_search_from_with_observer,
 };
 
+mod list_ruin_plan;
+pub use list_ruin_plan::{ListRuinPlan, ListRuinPlanError};
 mod list_ruin_recreate;
 pub use list_ruin_recreate::{
     ruin_recreate_list_search_from, ruin_recreate_list_search_from_with_observer,

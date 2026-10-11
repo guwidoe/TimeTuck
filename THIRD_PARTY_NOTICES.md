@@ -840,3 +840,11 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   and move-sorting methods, plus the numeric comparator helper and two-row
   comparator configuration/helper fixtures (Apache-2.0). Native configured selection callbacks replace reflective
   Java classes; full mappings and assertion details are in `compat/provenance.json`.
+
+- `crates/solver/tests/list_ruin_plan_cases.rs` adapts the pinned Community
+  `SelectorBasedListRuinRecreateMoveTest.executeAndUndoNewDestinationEntityWithPinnedPrefix`
+  method and its in-method five-value fixture and penalty (Apache-2.0). Native
+  explicit repair plans, queued construction and temporary scored moves preserve
+  both exact restored-list assertions. Full provenance and API substitutions
+  are recorded in `compat/provenance.json`. The plan implementation and
+  `list_ruin_plan_regression.rs` are original work.

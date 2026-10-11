@@ -244,57 +244,7 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
             .collect()
     }
     fn repair(&self, a: &ListAssignment<V>, selected: &[usize]) -> Result<Self, RuinRecreateError> {
-        let locations = self.value_locations(a);
-        let mut selected_ids = vec![false; self.values().len()];
-        let mut removed = vec![Vec::new(); self.entities().len()];
-        for &id in selected {
-            selected_ids[id] = true;
-            if let Some(at) = locations[id] {
-                removed[at.entity].push(at.index);
-            }
-        }
-        for row in &mut removed {
-            row.sort_unstable();
-            row.dedup();
-        }
-        let entities = self
-            .entities()
-            .iter()
-            .enumerate()
-            .map(|(i, m)| {
-                let kept = a.lists()[i]
-                    .iter()
-                    .enumerate()
-                    .filter(|(index, _)| removed[i].binary_search(index).is_err())
-                    .map(|(_, value)| value.clone())
-                    .collect();
-                // Exclude only unselected missing values; changing the registry would
-                // invalidate value-scoped constraints and stream identity indices.
-                let range = self
-                    .values()
-                    .iter()
-                    .enumerate()
-                    .filter(|(id, _)| {
-                        (selected_ids[*id] || locations[*id].is_some())
-                            && self.accepts_registered(i, *id)
-                    })
-                    .map(|(_, value)| value.clone())
-                    .collect();
-                ListEntity::new(kept)
-                    .with_pinned(m.is_pinned())
-                    .with_pinned_prefix(m.pinned_prefix())
-                    .with_value_range(range)
-            })
-            .collect();
-        let mut repair = self.rebuild_with_entities(entities).map_err(model_error)?;
-        // Repair retains registry identities, including missing values. Preserve
-        // fixed edges so reconstruction filters cyclic predecessor orderings too.
-        repair.dependencies = self.dependencies.clone();
-        Ok(if self.allows_unassigned() {
-            repair.allowing_unassigned()
-        } else {
-            repair
-        })
+        crate::list_ruin_plan::repair_model(self, a, selected).map_err(model_error)
     }
     fn validate_neighborhood(
         &self,
