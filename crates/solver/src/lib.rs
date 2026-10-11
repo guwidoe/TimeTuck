@@ -950,6 +950,10 @@ pub use directed_two_opt_provider::{DirectedTwoOptProvider, list_directed_two_op
 mod list_destination_index;
 pub use list_destination_index::{ListDestinationError, ListDestinationIndex, ListDestinationSet};
 
+mod calculator_problem_edits;
+pub use calculator_problem_edits::{
+    ProblemEdit, ProblemEditError, ProblemEdits, ProblemLookup, ProblemObjectKind,
+};
 mod incremental_calculator;
 pub use incremental_calculator::{
     CalculatorSession, IncrementalCalculator, MatchRegistration, MatchRegistry, MatchRegistryError,

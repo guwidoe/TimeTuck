@@ -248,6 +248,19 @@ pub trait IncrementalCalculator<P> {
     ) -> Result<(), MatchRegistryError> {
         Ok(())
     }
+    /// Propagate deferred derived state after a problem-edit batch that did not
+    /// change entity membership. The default is a no-op: calculators with deferred
+    /// work must opt in. Update only derived state, not planning/fact inputs.
+    /// Membership edits instead call `reset` with the complete current solution.
+    /// This hook must not calculate a score implicitly. Failure requires reset.
+    fn flush_changes(
+        &mut self,
+        _solution: &mut P,
+        _registry: &mut MatchRegistry<Self::Score, Self::Justification>,
+    ) -> Result<(), MatchRegistryError> {
+        Ok(())
+    }
+
     fn calculate_score(&mut self) -> Self::Score;
 
     /// Fallible scoring with access to optional explanation registration. Override
@@ -348,7 +361,7 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
     pub fn calculator(&self) -> &C {
         &self.calculator
     }
-    fn require_ready(&self) -> Result<(), MatchRegistryError> {
+    pub(crate) fn require_ready(&self) -> Result<(), MatchRegistryError> {
         if self.ready {
             Ok(())
         } else {
@@ -372,8 +385,26 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
     pub fn reset(&mut self, solution: P) -> Result<(), MatchRegistryError> {
         self.ready = false;
         self.solution = solution;
+        self.reset_current()
+    }
+    /// Recover or refresh the current owned solution without cloning it or
+    /// replacing the calculator. Expires existing match registrations; does not
+    /// calculate a score. A failed reset leaves the session unavailable.
+    pub fn reset_current(&mut self) -> Result<(), MatchRegistryError> {
+        self.ready = false;
         self.registry.reset();
         self.calculator.reset(&self.solution, &mut self.registry)?;
+        self.ready = true;
+        Ok(())
+    }
+    pub(crate) fn invalidate(&mut self) {
+        self.ready = false;
+    }
+    pub(crate) fn flush_current(&mut self) -> Result<(), MatchRegistryError> {
+        self.require_ready()?;
+        self.ready = false;
+        self.calculator
+            .flush_changes(&mut self.solution, &mut self.registry)?;
         self.ready = true;
         Ok(())
     }
