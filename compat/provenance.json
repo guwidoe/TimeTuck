@@ -50094,6 +50094,51 @@
       "upstream_test": "randomWithEntityValueRangeAndFiltering",
       "local_test": "random_with_entity_value_range_and_filtering",
       "modifications": "Both source blocks preserved: first [2,2] vs [3,3,3,3] yields the exact one asserted code and continuation; second [1] vs [3,3,3,3] passes zero expected codes to the source helper (only non-null iterator assertion, no exhaustion or metadata assertion). Complete domains A=[1,2,3], B=[2,3] and lists A=[2,1], B=[3] retained. Restricted right occurrence streams are not replaced by full range enumeration. Source Random(0) has no asserted random draws in this restricted-child branch; no seeded trace is introduced. All invoked PlannerAssert assertions retained: exact ordered codes, native non-null iterator by type, continuation and never-ending capability metadata for nonempty prefixes; source does not assert cardinality. Scripted native child sources advertise random capability while supplying finite prefixes, matching the source test intent without guaranteeing infinite traversal. Independent pin filtering precedes pairing; final receiver/dependency validity is native. Explicit ListProblem/ListSelectionContext replaces Java descriptors, mock initialization and shadow setup. No Java PRNG, lifecycle, object identity or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "NeighborhoodsTest.changeMoveBasedLocalSearch",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/NeighborhoodsTest.java",
+      "upstream_test": "changeMoveBasedLocalSearch",
+      "local_test": "change_move_based_local_search",
+      "modifications": "Preserve 2-value/5-entity complete fixture, every entity initially on second value, distinct non-first-value-set penalty (including null in the general rule), change provider, late acceptance history400, accepted candidate limit1 and best score0. Execute native local-search phase and unwrap its result, preserving source no-exception assertion. Source Java Random(0) becomes native seed0 shuffled moves; explicit 1000-step/10000-candidate limits bound runtime, with additional zero-score quality check so those limits cannot disguise failure. Native assert_scores replaces PHASE_ASSERT diagnostics. No identical trajectory, Java mock solver lifecycle or score-director implementation claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "NeighborhoodsTest.allowsNullValues",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/NeighborhoodsTest.java",
+      "upstream_test": "allowsNullValues",
+      "local_test": "allows_null_values",
+      "modifications": "Preserve generated 2-value/3-entity world and exact source edit outcome [second,null,first] (the source writes firstEntity twice). Native stream assigned/null filters join into a captured move dataset, retaining oriented assigned-to-null swaps. NeighborhoodTester.produces_all_of preserves both requested move-presence assertions before and after actually executing first swap; StreamScoreDirector commits assignment and reactive dataset together. No absent/exact-count assertion fabricated, no Java reflection or stream-factory API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "NeighborhoodsTest.notifyWhenValueIndexChangesOnSimpleModel",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/NeighborhoodsTest.java",
+      "upstream_test": "notifyWhenValueIndexChangesOnSimpleModel",
+      "local_test": "notify_when_value_index_changes_on_simple_model",
+      "modifications": "Preserve two entities and three values with position/startTime/duration all zero, lists [v1]/[v2,v3], source start/end supplier rules and relocation e1[0] to e2[0]. Native list stream/cascade emits owned value rows with owner/index/previous metadata; a downstream observer records each value identity. All three source atLeastOnce update assertions preserved, with a stronger native window cleared after initialization so only actual move updates count. Dummy Object penalty represented by entity and value streams; additional score=-5, current indices, zero shadow times and consistency checks. Native downstream publication is the notification boundary, not Java NeighborhoodsBasedMoveRepository invocation or internal call-count parity."
     }
   ],
   "fixtures": [
@@ -68140,6 +68185,136 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
       "upstream_test": "solvingStarted and phaseStarted setup helpers",
       "modifications": "Native construction/context/open supplies initialization; these setup bodies add no assertions. No phaseLifecycle or Java invocation-count credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(2,5), valueList/entityList",
+      "modifications": "Explicit two-value domains and five slot identities preserve source world; source edits set all to second value. Reflection/mocks replaced by native model/phase binding."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "value field and constructors",
+      "modifications": "Required basic field becomes native Variable<i32>; all source entity identities remain distinct slots."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "code identity constructor",
+      "modifications": "Generated Value0/1 become distinct integer0/1; equality preserves source distinct-value objective."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedSolution.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedSolution.java",
+      "upstream_test": "generateSolution(2,3)",
+      "modifications": "Source generator initial [null,second,first] and method edits yield [second,null,first]; both domains remain [first,second]."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntity.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/unassignedvar/TestdataAllowsUnassignedEntity.java",
+      "upstream_test": "nullable value field and constructors",
+      "modifications": "Native optional slots and stream Some/None filters preserve assigned/missing membership; no annotation discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeSimpleListEntity.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListEntity.java",
+      "upstream_test": "constructor, values, position, startTime",
+      "modifications": "Native Entity facts retain position/startTime plus ListEntity rows and explicit identities; source zero values retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeSimpleListValue.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListValue.java",
+      "upstream_test": "constructor, owner/previous, startTimeSupplier, endTimeSupplier",
+      "modifications": "Native Value retains identity/position/duration; list cascade computes start from owner start/position or previous end/position, then end=start+duration. Unassigned values have no cascade shadow. Native row owner/index/previous replaces Java shadows."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataDeclarativeSimpleListSolution.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/simple_list/TestdataDeclarativeSimpleListSolution.java",
+      "upstream_test": "entityList/valueList and descriptor declarations",
+      "modifications": "Native ListProblem carries all three values and two entities; explicit list/cascade graph replaces reflection. Dummy score covers both entity and value rows."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NeighborhoodsTestingEasyScoreCalculator.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/NeighborhoodsTest.java",
+      "upstream_test": "TestingEasyScoreCalculator.calculateScore",
+      "modifications": "Exact distinct non-first-value-set objective preserved via BTreeSet; repeated entities on the second value count once, not once per entity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/neighborhood_integration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "NeighborhoodsSwapAssignedAndUnassigned.neighborhood_integration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/NeighborhoodsTest.java",
+      "upstream_test": "SwapAssignedAndUnassigned.build",
+      "modifications": "Native reactive graph uses assigned and null filters, constant-key join and oriented Move::Swap mapping; captured dataset is queried after a real committed swap."
     }
   ]
 }
