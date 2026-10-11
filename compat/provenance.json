@@ -51099,6 +51099,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve separate additive unit fields 5ms,4s,3min,2h,1day and runtime stagnation limit 93784005ms. Native profile binding to distinct real SolverLimits elapsed/stagnation controls replaces Java factory/type reflection and the unused mocked policy. Assert the opposite runtime control is absent. Original deterministic clocked solves separately verify the resolved controls stop execution; no JVM class identity claim. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationFactoryTest.buildTerminationFromList_single",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "buildTerminationFromList_single",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "build_termination_from_list_single",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the same single 1000ms elapsed-condition object using Cow::Borrowed plus pointer equality; no wrapper or cloned child. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "TerminationFactoryTest.buildTerminationFromList_withAndComposition",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "buildTerminationFromList_withAndComposition",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "build_termination_from_list_with_and_composition",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve AND composition type and exact ordered 1000ms-time,5-step children. Native All variant and borrowed slice identity replace Java composite class/list assertions. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "TerminationFactoryTest.buildTerminationFromList_withDefaultComposition",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "buildTerminationFromList_withDefaultComposition",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "build_termination_from_list_with_default_composition",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve default OR composition type and exact ordered 1000ms-time,5-step children. Native Any variant and borrowed slice identity replace Java composite class/list assertions. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "TerminationFactoryTest.buildTimeBasedTermination_withScoreDifferenceThreshold",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "buildTimeBasedTermination_withScoreDifferenceThreshold",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "build_time_based_termination_with_score_difference_threshold",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve configured 1000ms elapsed and stagnation limits with parsed 1hard/0soft threshold. Distinct real native elapsed and significant-improvement controls replace the two Java termination class assertions; additionally verify window/threshold and absence of plain stagnation/move controls. Unused mocked policy is replaced by typed HardSoftScore. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "TerminationFactoryTest.buildTimeBasedTermination_withoutScoreDifferenceThreshold",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "buildTimeBasedTermination_withoutScoreDifferenceThreshold",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "build_time_based_termination_without_score_difference_threshold",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve configured 1000ms elapsed and plain stagnation limits. Distinct real native SolverLimits fields replace Java class-set assertions; significant-improvement and move controls must be absent. Unused mocked policy is omitted. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "TerminationFactoryTest.buildWithMoveCount",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "buildWithMoveCount",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "build_with_move_count",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve move count1 as the sole configured runtime budget. Native SolverLimits move budget replaces Java MoveCountTermination class assertion; elapsed, plain stagnation and significant-improvement controls must be absent. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "TerminationFactoryTest.scoreDifferenceThreshold_mustBeUsedWithUnimprovedTimeSpent",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "scoreDifferenceThreshold_mustBeUsedWithUnimprovedTimeSpent",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "score_difference_threshold_must_be_used_with_unimproved_time_spent",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve threshold1hard/0soft without a stagnation window, typed rejection and the entire asserted diagnostic substring. Native profile validation replaces Java factory/unused mocked policy. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
+    },
+    {
+      "id": "TerminationFactoryTest.bestScoreFeasible_requiresAtLeastOneFeasibleLevel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "bestScoreFeasible_requiresAtLeastOneFeasibleLevel",
+      "local_path": "crates/solver/tests/termination_factory_profile_cases.rs",
+      "local_test": "best_score_feasible_requires_at_least_one_feasible_level",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve feasibility-enabled SimpleScore configuration, rejection and entire asserted diagnostic substring. Native Score::HARD_LEVEL_COUNT validation replaces mocked Java SimpleScoreDefinition. Native APIs replace mutable Java configuration; no JVM type/API parity or production implementation translation claimed."
     }
   ],
   "fixtures": [

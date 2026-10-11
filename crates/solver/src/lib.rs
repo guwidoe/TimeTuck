@@ -1266,6 +1266,12 @@ pub use termination_profile::{
     TerminationProfile, TerminationProfileError, TimeLimitSpec, TimeLimitUnits,
 };
 
+mod termination_composition;
+pub use termination_composition::TerminationComposition;
+
+mod scored_termination_profile;
+pub use scored_termination_profile::{ScoredTerminationProfile, ScoredTerminationProfileError};
+
 mod termination_resolver;
 pub use termination_resolver::{ResolvedTermination, TerminationResolver};
 

@@ -6732,3 +6732,29 @@ and distinguish elapsed from stagnation runtime controls. Original regressions
 cover overflow, clearing, explicit zero, unchanged fallback inputs and real
 clocked solves matching manually bound limits. Java mutable setters, factory
 classes and reflection are replaced by native APIs; no JVM API parity is claimed.
+
+### Prepared score-aware stopping profiles
+
+ScoredTerminationProfile combines an existing validated time/count profile with
+an optional significant-improvement threshold and explicit feasibility setting.
+Thresholds require a configured stagnation window; enabled feasibility requires
+at least one hard level. Validation and threshold preparation occur before solving.
+A configured stagnation group replaces both inherited ordinary/significant timers,
+selecting exactly one variant so ordinary expiry cannot mask a threshold request.
+Absent settings inherit; explicit false clears feasibility. Scoped shared, ordinary
+sequence and mixed sequence binding preserve unrelated limits and phase tuning.
+The existing runtime histories and evaluation loops are unchanged.
+
+TerminationExpression::compose accepts a borrowed list with default OR or explicit
+AND composition. Empty configuration produces no expression, a singleton borrows
+the original object, and larger lists preserve ordered child identities without
+allocation, cloning or flattening. Explicit empty All/Any expressions retain their
+previous Boolean identities.
+
+Eight complete TerminationFactoryTest adaptations preserve singleton identity,
+composition kind/ordered children, elapsed/plain/threshold/move control selection,
+and exact missing-window/unsupported-feasibility diagnostics. Original regressions
+cover replacement/inheritance, invalid thresholds, zero windows, real six-route
+step-budget solves, clocked runtime equivalence, and nested/repeated expressions.
+The nested Java configuration factory method remains pending; no source credit is
+claimed for manually assembled native nesting.

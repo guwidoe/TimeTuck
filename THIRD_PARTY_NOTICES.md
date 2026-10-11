@@ -873,3 +873,10 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   limit binding replace Java setters, inheritance and factory class assertions.
   Exact input/assertion mappings appear in `compat/provenance.json`; the separate
   boundary and clocked-solve regressions are original work.
+
+- `crates/solver/tests/termination_factory_profile_cases.rs` adapts eight more
+  Community `TerminationFactoryTest` methods (Apache-2.0). Native borrowed
+  composition, prepared score-aware profiles and actual runtime controls replace
+  Java factory/class assertions. Complete identity, input, diagnostic and
+  substitution mappings are in `compat/provenance.json`; the accompanying
+  `scored_termination_profile_regression.rs` cases are original work.
