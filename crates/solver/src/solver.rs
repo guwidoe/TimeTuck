@@ -253,6 +253,10 @@ pub enum SolverError<E> {
         phase: usize,
         error: crate::BranchOrderError,
     },
+    /// Diminished returns can only be bound to a local-search phase.
+    DiminishedReturnsRequiresLocalSearch {
+        phase: Option<usize>,
+    },
     InvalidPhaseTermination {
         phase: usize,
     },
@@ -332,6 +336,12 @@ impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::InvalidBranchOrder { phase, error } => write!(f, "phase {phase}: {error}"),
+            Self::DiminishedReturnsRequiresLocalSearch { phase } => {
+                write!(
+                    f,
+                    "diminished returns requires a local-search phase binding, got {phase:?}"
+                )
+            }
             Self::InvalidPhaseTermination { phase } => {
                 write!(f, "termination targets missing phase {phase}")
             }
@@ -401,7 +411,8 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
             Self::Repair { error, .. } => Some(error),
-            Self::InvalidPhaseTermination { .. }
+            Self::DiminishedReturnsRequiresLocalSearch { .. }
+            | Self::InvalidPhaseTermination { .. }
             | Self::DuplicatePhaseTermination { .. }
             | Self::EmptyPlan
             | Self::PhaseScoreMismatch { .. }
@@ -1082,12 +1093,27 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         }
         Ok(())
     }
-    fn validate_bindings<E>(&self, phases: usize) -> Result<(), SolverError<E>> {
+    fn validate_bindings<E>(&self, phases: &[SolverPhase<'_, S>]) -> Result<(), SolverError<E>> {
+        if self
+            .stateful_condition()
+            .is_some_and(crate::StatefulSearchTermination::needs_local_phase)
+        {
+            return Err(SolverError::DiminishedReturnsRequiresLocalSearch { phase: None });
+        }
         let bindings = self.phase_bindings();
         for (i, binding) in bindings.iter().enumerate() {
-            if binding.phase >= phases {
+            if binding.phase >= phases.len() {
                 return Err(SolverError::InvalidPhaseTermination {
                     phase: binding.phase,
+                });
+            }
+            if binding
+                .stateful
+                .is_some_and(crate::StatefulSearchTermination::needs_local_phase)
+                && !matches!(phases[binding.phase], SolverPhase::LocalSearch(_))
+            {
+                return Err(SolverError::DiminishedReturnsRequiresLocalSearch {
+                    phase: Some(binding.phase),
                 });
             }
             if bindings[..i]
@@ -1328,7 +1354,7 @@ fn run<A, S: AdditiveScore, E: std::fmt::Debug>(
 where
     A: Clone,
 {
-    observation.validate_bindings(local.len())?;
+    observation.validate_bindings(local)?;
     observation.validate_cooling(local, &limits)?;
     observation.clock_session = match &observation.callback {
         Some(PlanCallback::Checked {
@@ -1400,7 +1426,7 @@ where
 {
     // Reborrow through a local adapter so callback storage does not tie the
     // solve clock and termination references to the caller's callback lifetime.
-    observation.validate_bindings(local.len())?;
+    observation.validate_bindings(local)?;
     observation.validate_cooling(local, &limits)?;
     let phase_bindings = observation.phase_bindings();
     let stateful_condition = observation.stateful_condition();

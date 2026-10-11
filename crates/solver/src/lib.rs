@@ -453,7 +453,10 @@ pub use score_trend::{
 };
 
 mod diminished_returns;
-pub use diminished_returns::{DiminishedReturns, DiminishedReturnsConfig, DiminishedReturnsError};
+pub use diminished_returns::{
+    DiminishedReturns, DiminishedReturnsConfig, DiminishedReturnsError,
+    PhaseDiminishedReturnsConfig,
+};
 
 mod significant_improvement;
 pub use significant_improvement::{

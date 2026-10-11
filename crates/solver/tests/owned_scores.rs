@@ -72,6 +72,7 @@ fn run<S: AdditiveScore + 'static>(
                 }
                 Err(
                     SolverError::InvalidBranchOrder { .. }
+                    | SolverError::DiminishedReturnsRequiresLocalSearch { .. }
                     | SolverError::InvalidPhaseTermination { .. }
                     | SolverError::DuplicatePhaseTermination { .. },
                 ) => {

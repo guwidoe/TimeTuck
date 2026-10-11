@@ -14,6 +14,9 @@ pub enum StatefulSearchLimit<'a, S = crate::SimpleScore> {
     SignificantImprovement(SignificantImprovementConfig<S>),
     /// Weighted target/feasibility progress from this scope's initialized score.
     ScoreGoal(crate::ScoreGoalProgressConfig<S>),
+    /// Independent rate history, applicable only to local-search phase bindings.
+    /// Unknown progress until expiry; solve-wide use is rejected before callbacks.
+    DiminishedReturns(crate::PhaseDiminishedReturnsConfig<S>),
 }
 /// AND/OR composition with retained-score history. Bind solve-wide through
 /// [`crate::SolverExtensions::stateful_termination`] or to an individual phase
@@ -25,6 +28,10 @@ pub enum StatefulSearchLimit<'a, S = crate::SimpleScore> {
 /// Initial preparation and construction cannot arm it. Once armed, elapsed time
 /// continues through later preparation and construction, but construction scores
 /// do not update its anchor. Phase bindings create fresh independent histories.
+/// DiminishedReturns is restricted to local-search phase bindings. It arms at
+/// the first status poll after a complete search-best observation, excluding setup.
+/// Only strict best improvements update its score; worsening samples are ignored.
+/// Each window is polled regardless of the expression outcome and latches expiry.
 /// Static subtrees retain the usual solve/phase counter and complete-score scope.
 /// ScoreGoal baselines instead capture initialized retained scores, including
 /// construction; see [`crate::ScoreGoalProgressConfig`] for the distinct policy.
@@ -72,7 +79,9 @@ impl<S: Score> StatefulSearchTermination<'_, S> {
         }
         Ok(self.evaluate(|leaf| match leaf {
             StatefulSearchLimit::Static(condition) => condition.status(progress, best),
-            StatefulSearchLimit::SignificantImprovement(_) | StatefulSearchLimit::ScoreGoal(_) => {
+            StatefulSearchLimit::SignificantImprovement(_)
+            | StatefulSearchLimit::ScoreGoal(_)
+            | StatefulSearchLimit::DiminishedReturns(_) => {
                 unreachable!("checked history")
             }
         }))
@@ -84,6 +93,9 @@ impl<S: Score> StatefulSearchTermination<'_, S> {
                 children.iter().any(|c| c.any_leaf(predicate))
             }
         }
+    }
+    pub(crate) fn needs_local_phase(&self) -> bool {
+        self.any_leaf(|leaf| matches!(leaf, StatefulSearchLimit::DiminishedReturns(_)))
     }
     pub(crate) fn needs_history(&self) -> bool {
         self.any_leaf(|leaf| !matches!(leaf, StatefulSearchLimit::Static(_)))
@@ -126,6 +138,8 @@ pub struct StatefulTerminationSession<'a, S = crate::SimpleScore> {
     expression: &'a StatefulSearchTermination<'a, S>,
     histories: Vec<SignificantImprovement<S>>,
     goals: Vec<GoalCapture<'a, S>>,
+    rates: Vec<crate::DiminishedReturns<S>>,
+    rate_best: Option<S>,
     started: bool,
     last: Duration,
 }
@@ -135,6 +149,7 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
             expression: &'a StatefulSearchTermination<'a, S>,
             histories: &mut Vec<SignificantImprovement<S>>,
             goals: &mut Vec<GoalCapture<'a, S>>,
+            rates: &mut Vec<crate::DiminishedReturns<S>>,
         ) {
             match expression {
                 TerminationExpression::Condition(StatefulSearchLimit::SignificantImprovement(
@@ -143,21 +158,27 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
                 TerminationExpression::Condition(StatefulSearchLimit::ScoreGoal(c)) => {
                     goals.push((c, None))
                 }
+                TerminationExpression::Condition(StatefulSearchLimit::DiminishedReturns(c)) => {
+                    rates.push(c.capture());
+                }
                 TerminationExpression::Condition(_) => {}
                 TerminationExpression::All(children) | TerminationExpression::Any(children) => {
                     for child in *children {
-                        collect(child, histories, goals);
+                        collect(child, histories, goals, rates);
                     }
                 }
             }
         }
         let mut histories = Vec::new();
         let mut goals = Vec::new();
-        collect(expression, &mut histories, &mut goals);
+        let mut rates = Vec::new();
+        collect(expression, &mut histories, &mut goals, &mut rates);
         Self {
             expression,
             histories,
             goals,
+            rates,
+            rate_best: None,
             started: false,
             last: Duration::ZERO,
         }
@@ -189,6 +210,12 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
         if !self.started || score.structural() < 0 {
             return;
         }
+        if !self.rates.is_empty() && self.rate_best.as_ref().is_none_or(|best| score > best) {
+            self.rate_best = Some(score.clone());
+            for rate in &mut self.rates {
+                rate.step(self.last, score);
+            }
+        }
         for history in &mut self.histories {
             if history.is_started() {
                 history.is_terminated(self.last, score);
@@ -206,8 +233,22 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
         progress.elapsed = self.last;
         let mut histories = self.histories.iter_mut();
         let mut goals = self.goals.iter();
+        let mut rates = self.rates.iter_mut();
         self.expression.evaluate(|leaf| match leaf {
             StatefulSearchLimit::Static(condition) => condition.status(progress, best),
+            StatefulSearchLimit::DiminishedReturns(_) => {
+                let rate = rates.next().expect("one rate per occurrence");
+                let reached = self.rate_best.as_ref().is_some_and(|best| {
+                    if !rate.grace_started() {
+                        rate.start(self.last, best.clone());
+                    }
+                    rate.is_terminated(self.last, best)
+                });
+                Some(TerminationState {
+                    reached,
+                    progress: reached.then_some(1.0),
+                })
+            }
             StatefulSearchLimit::ScoreGoal(_) => {
                 let (_, state) = goals.next().expect("one goal per occurrence");
                 Some(

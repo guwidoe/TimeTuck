@@ -58,6 +58,64 @@ impl DiminishedReturnsConfig {
         (self.numerator, self.denominator)
     }
 }
+/// A validated, phase-local diminished-return leaf for composed termination.
+/// Use [`crate::StatefulSearchLimit::DiminishedReturns`] inside a local-search
+/// [`crate::PhaseTerminationBinding`]. Other phase kinds and solve-wide bindings
+/// are rejected before callbacks. Each occurrence owns an independent window.
+///
+/// The prototype validates score shape/arithmetic only; it is not a baseline.
+/// Grace starts at the first condition poll after search initialization and a
+/// complete retained score observation, excluding setup. Higher-level improvement
+/// resets grace; the existing exact rate comparison decides expiry. There is no
+/// useful progress estimate before expiry, even during grace.
+///
+/// ```
+/// use timetuck::*;
+/// use std::time::Duration;
+/// let rate = PhaseDiminishedReturnsConfig::new(
+///     DiminishedReturnsConfig::new(Duration::from_secs(30), 1, 10)?,
+///     &SimpleScore::ZERO)?;
+/// let stop = StatefulSearchTermination::Condition(
+///     StatefulSearchLimit::DiminishedReturns(rate));
+/// let binding = PhaseTerminationBinding::stateful(0, &stop);
+/// assert_eq!(binding.phase(), 0);
+/// # Ok::<(), DiminishedReturnsError>(())
+/// ```
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct PhaseDiminishedReturnsConfig<S> {
+    config: DiminishedReturnsConfig,
+    reset_levels: usize,
+    score: std::marker::PhantomData<fn() -> S>,
+}
+impl<S: Score> PhaseDiminishedReturnsConfig<S> {
+    pub fn new(
+        config: DiminishedReturnsConfig,
+        prototype: &S,
+    ) -> Result<Self, DiminishedReturnsError> {
+        if S::Level::zero().exact_decimal().is_none() {
+            return Err(DiminishedReturnsError::UnsupportedScoreArithmetic);
+        }
+        let levels = prototype.ordinary_levels().count();
+        if levels == 0 {
+            return Err(DiminishedReturnsError::NoScoreLevels);
+        }
+        Ok(Self {
+            config,
+            reset_levels: S::HARD_LEVEL_COUNT.max(levels - 1),
+            score: std::marker::PhantomData,
+        })
+    }
+    pub(crate) fn capture(&self) -> DiminishedReturns<S> {
+        DiminishedReturns {
+            config: self.config,
+            reset_levels: self.reset_levels,
+            pending: None,
+            active: None,
+            terminated: false,
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 struct Active<S> {
     start: Duration,
@@ -117,21 +175,10 @@ pub struct DiminishedReturns<S> {
 }
 impl<S: AdditiveScore> DiminishedReturns<S> {
     pub fn new(config: DiminishedReturnsConfig) -> Result<Self, DiminishedReturnsError> {
-        if S::Level::zero().exact_decimal().is_none() {
-            return Err(DiminishedReturnsError::UnsupportedScoreArithmetic);
-        }
-        let levels = S::ZERO.ordinary_levels().count();
-        if levels == 0 {
-            return Err(DiminishedReturnsError::NoScoreLevels);
-        }
-        Ok(Self {
-            config,
-            reset_levels: S::HARD_LEVEL_COUNT.max(levels - 1),
-            pending: None,
-            active: None,
-            terminated: false,
-        })
+        PhaseDiminishedReturnsConfig::new(config, &S::ZERO).map(|c| c.capture())
     }
+}
+impl<S: Score> DiminishedReturns<S> {
     pub fn phase_started(&mut self, best: S) {
         self.pending = Some(best);
         self.active = None;
