@@ -16,6 +16,47 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Round54 implementation awaiting the live final gate
+
+The previous goal turn made implementation progress. This current batch closes
+all eight remaining MoveDirectorTest behaviors locally (8 source cases and 5
+original regressions, focused strict Clippy passed). Parent verification is still
+running; do not claim final report counts or restart it because of a timeout.
+No agents or assignments. Rust/provenance remain frozen in
+work/parallel-round54-freeze.json. Expected after successful verification:
+3,616 passed,673 pending,566 excluded; MoveDirectorTest78/78; native tests6,874.
+
+Live launcher session43284, collector62676. Remote source root:
+5eea862010c9cec0ec1c42c496e651af718d371e07afb8f75c1212ab6cdb64ec.
+Worker runner-a; scripts/logs remote-round54-integration*,round54-launch.log,
+round54-collector.log; collector work/collect_round54_runner-a.py.
+Specific remote Cargo PID1623332 was confirmed live with active rustc children
+at elapsed10:56. Full strict Clippy passed42.33s; prebuild883 affected targets,
+111 reused. Shared session/context additions require broad regression coverage.
+Do not rerun focused tests. Keep polling the same worker/collector handles;
+wrapper terminal JSON must match this source digest and exit0 before collection.
+Gate seeds actual round53 archive/root and preserves genuine keys/checksums/dates.
+
+Production changes: explicit cross-list span operations, checked signed indices,
+explicit verified shared basic ranges; real native plans within MoveSession's
+rollback boundary; separate child contexts borrowing the parent director with
+actual work counts and no parent release; mixed context-resource traits; actual
+heterogeneous resource identity comparison. List phase-transition recording
+captures unknown receivers atomically and exposes immutable before buffers.
+Source nested mock's duplicate membership is normalized to its reported coherent
+windows; actual unassign/construction/undo and real before snapshots preserve
+all assertions. Full details/provenance and docs/compatibility.md updated.
+
+After the already-running final gate succeeds, collect/import its checksummed
+results, refresh report, inspect data/freshness, replace this WIP with actual
+verified evidence and commit the handoff. No browser/benchmark reruns required;
+performance freshness must remain honest. Use work/verify_round54_postcommit.py
+for clean/frozen postcommit proof, including all78 MoveDirector source methods.
+The objective is active/incomplete. Next plausible backlog: eight remaining
+RootVariableSourceTest methods at705–800 (getter/field selection, missing member,
+invalid supplier parameter). TEST specs and SourcePathRegistry were inspected;
+implement real registered accessor selection/traversal, not metadata-only tokens.
+
 ## Latest verified checkpoint — round53
 
 Main 3afc603 adds real queued-change executors and fresh assembled change scopes.
