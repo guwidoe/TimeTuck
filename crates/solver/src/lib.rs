@@ -602,11 +602,14 @@ pub use neighborhood_sample::{
     Sampler, SizeSampler, assemble_keyed_sample, assemble_sample,
 };
 
+mod sample_view;
+pub use sample_view::{NeighborhoodSampleView, SampleMember, SampleViewIter};
+
 mod neighborhood_dataset;
 pub use neighborhood_dataset::{
     CachedNeighborhoodJoin, DatasetPermutation, DatasetRandom, LazyDatasetPermutation,
-    NeighborhoodDataset, NeighborhoodDatasetStore, NeighborhoodJoin, repeated_keyed_samples,
-    repeated_samples,
+    NeighborhoodDataset, NeighborhoodDatasetStore, NeighborhoodJoin, UnboundedDatasetIteration,
+    repeated_keyed_samples, repeated_samples,
 };
 
 mod dataset_enumeration;
@@ -708,7 +711,7 @@ pub use dependent_selection::{
 };
 
 mod streaming_selection;
-pub use streaming_selection::StreamingSelection;
+pub use streaming_selection::{StreamingCardinalityError, StreamingSelection};
 
 mod reachable_values;
 pub use reachable_values::{
@@ -1058,8 +1061,8 @@ pub use move_tester::{MoveDraft, MoveDraftModel, MoveTestContext, MoveTestError,
 
 mod sequenced_set;
 pub use sequenced_set::{
-    ReversedSequencedSet, SEQUENCED_SET_ARRAY_LIMIT, ScalingSequencedSet, SequencedSetBorrowed,
-    SequencedSetIter, SequencedSetStorage,
+    InvalidSequencedSetSize, ReversedSequencedSet, SEQUENCED_SET_ARRAY_LIMIT, ScalingSequencedSet,
+    SequencedSetBorrowed, SequencedSetIter, SequencedSetStorage,
 };
 mod ordered_set_collector;
 pub use ordered_set_collector::OrderedSetCollector;

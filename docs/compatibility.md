@@ -6926,3 +6926,26 @@ work, including rejected runs. Backtracking never reopens the child or reruns a
 predicate. Original regressions cover lifetime/duplicates/events, overflow without
 partial publication, zero work, metadata failures, both real basic score backends,
 move-only ownership and bounded infinite rejection. They add no source credit.
+
+## Live selection and borrowed sample views
+
+StreamingSelection keeps each child cursor until exhaustion. A receiver opened
+from an earlier producer identity therefore completes its current traversal before
+adopting a new producer identity. Its optional child catalog bounds describe
+possible contributions across its use, including holes where applicable; they do
+not count emitted draws or establish dependent-combination cardinality. Factory
+and lifecycle callbacks remain lazy and are unaffected by metadata queries.
+
+NeighborhoodSampleView borrows a ScalingSequencedSet or a slice without copying
+members. Set updates are visible between iterations; active iterators prevent set
+mutation. Slice duplicates are skipped lazily. Equality and hashing agree with
+owned NeighborhoodSample regardless of order. Views are not immutable snapshots
+or stable hash keys while the backing set changes. Set members share their
+original Arc allocations; slice members are borrowed directly.
+
+DatasetRandom samples with replacement. Availability checks consume no random
+draws. Direct bulk consumption rejects nonempty datasets before drawing or calling
+user code: try_for_each_remaining returns a typed error, and Iterator::for_each
+raises that error as a typed panic. Bounded adapters such as take(limit) work
+normally, and empty datasets complete without callbacks. External signed expected
+set sizes require a positive usize value; native with_capacity(0) remains valid.

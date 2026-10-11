@@ -15,6 +15,17 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/live_selection_sample_cases.rs` adapts both random-mimic
+  methods from `CartesianProductMoveSelectorTest`, three wrapping methods from
+  `SampleTest`, the random iterator repetition/bulk-consumption method from
+  `DatasetTest`, and expected-size validation from `ScalingSequencedSetTest`.
+  Test-only catalogs, lifecycle/prefix assertion helpers and domain identities
+  from `SelectorTestUtils`, `PlannerAssert`, `TestdataMultiVarEntity`,
+  `TestdataValue`, `TestdataSolution` and `TestdataEntity` are attributed in
+  provenance. Native borrow lifetimes, typed errors and catalog bounds replace
+  Java collection/iterator types and selector metadata. Additional regressions
+  in `live_selection_sample_regression.rs` are original and earn no source credit.
+
 - `crates/solver/tests/indexed_int_array_cases.rs` adapts all twenty nested methods
   in `DynamicIntArrayTest`, including all negative-index parameter values.
   The additional sparse-map reference regression is original. Native typed errors

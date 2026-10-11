@@ -52119,6 +52119,111 @@
       "local_path": "crates/solver/tests/selection_filter_cases.rs",
       "local_test": "filter_entity_ordered_uncached",
       "modifications": "Preserve actual JUST_IN_TIME/ORIGINAL configuration despite the method name Solver suffix, all e1/e2/e3/e4 identities, e3 rejection, exact forward e1/e2/e4 and reverse e4/e2/e1 traversal, forward/backward exhaustion, false infinite metadata and unfiltered getSize4. Native upper_bound labels the unfiltered cardinality honestly. Across two phases and five steps retain every lifecycle and five child-open/five-size count; native bounded cursor opens the ordered child once per step in place of listIterator. Reversal reuses accepted move-only payloads and does not filter again. Maximum16 is an extra native work ceiling beyond the four finite fixture items. No Java cursor ABI or production code copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.randomMimicNotIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "randomMimicNotIgnoringEmpty",
+      "local_test": "random_mimic_not_ignoring_empty",
+      "modifications": "Preserve both empty-child configurations, all six exact composite change codes, post-prefix availability, never-ending metadata, declared size24 and all six lifecycle events once on each entity/primary/secondary catalog. Native live dependent cursors retain the receiver entity until its value cursor exhausts, using producer prefix identities instead of Java mimic classes. Scripted finite source catalogs replace mocks; values/entities generate actual child choices rather than expected output rows. Source size24 is represented as an explicit catalog upper bound (6 primary choices times4 secondary choices); actual emitted/dependent cardinality remains unknown. Native selection metadata distinguishes these quantities. No Java PRNG, class identity, descriptor or solver quality parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CartesianProductMoveSelectorTest.randomMimicIgnoringEmpty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/CartesianProductMoveSelectorTest.java",
+      "upstream_test": "randomMimicIgnoringEmpty",
+      "local_test": "random_mimic_ignoring_empty",
+      "modifications": "Preserve both empty-child configurations, all six exact composite change codes, post-prefix availability, never-ending metadata, declared size24 and all six lifecycle events once on each entity/primary/secondary catalog. Native live dependent cursors retain the receiver entity until its value cursor exhausts, using producer prefix identities instead of Java mimic classes. Scripted finite source catalogs replace mocks; values/entities generate actual child choices rather than expected output rows. Source size24 is represented as an explicit catalog upper bound (6 primary choices times4 secondary choices); actual emitted/dependent cardinality remains unknown. Native selection metadata distinguishes these quantities. No Java PRNG, class identity, descriptor or solver quality parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleTest.wrapAdoptsInsteadOfCopying",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "wrapAdoptsInsteadOfCopying",
+      "local_test": "wrap_adopts_instead_of_copying",
+      "modifications": "Preserve all source membership, size, bidirectional equality, order-insensitive hash consistency and representative assertions applicable to this method. Native borrowed views adopt a mutable ScalingSequencedSet or an array slice without copying members; a native insertion-ordered set replaces LinkedHashSet. Source expected size2 is validated through the signed external-size constructor. Set edits remain visible between iterators; active native iterators guard concurrent mutation. The view is lifetime-borrowed and slice duplicates are skipped lazily; no Java collection type identity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleTest.wrapAcceptsAnArrayBackedList",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "wrapAcceptsAnArrayBackedList",
+      "local_test": "wrap_accepts_an_array_backed_list",
+      "modifications": "Preserve all source membership, size, bidirectional equality, order-insensitive hash consistency and representative assertions applicable to this method. Native borrowed views adopt a mutable ScalingSequencedSet or an array slice without copying members; a native insertion-ordered set replaces LinkedHashSet. Source expected size2 is validated through the signed external-size constructor. Set edits remain visible between iterators; active native iterators guard concurrent mutation. The view is lifetime-borrowed and slice duplicates are skipped lazily; no Java collection type identity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SampleTest.wrapAdoptsAScalingOrderedSetInsteadOfCopyingIt",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/sample/SampleTest.java",
+      "upstream_test": "wrapAdoptsAScalingOrderedSetInsteadOfCopyingIt",
+      "local_test": "wrap_adopts_a_scaling_ordered_set_instead_of_copying_it",
+      "modifications": "Preserve all source membership, size, bidirectional equality, order-insensitive hash consistency and representative assertions applicable to this method. Native borrowed views adopt a mutable ScalingSequencedSet or an array slice without copying members; a native insertion-ordered set replaces LinkedHashSet. Source expected size2 is validated through the signed external-size constructor. Set edits remain visible between iterators; active native iterators guard concurrent mutation. The view is lifetime-borrowed and slice duplicates are skipped lazily; no Java collection type identity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DatasetTest.asCachedDatasetUni_randomIteratorNeverEndsAndCanRepeat",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/neighborhood/stream/dataset/DatasetTest.java",
+      "upstream_test": "asCachedDatasetUni_randomIteratorNeverEndsAndCanRepeat",
+      "local_test": "as_cached_dataset_uni_random_iterator_never_ends_and_can_repeat",
+      "modifications": "Preserve two generated initialized entities with two values, seed0, all100 has-next/draw checks, entity membership, repetition, post-draw availability and rejection of unbounded forEachRemaining. Native identity-indexed cached dataset storage replaces the Java stream factory/session; stable indices and current optional values replace named objects. SplitMix64 replaces Java RandomSource without trace parity. Typed UnboundedDatasetIteration replaces UnsupportedOperationException. The source Set.of(draws) check treats the list as one element; native distinct draws genuinely verify repetition, which strengthens that assertion. No environment-mode/session internals parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingSequencedSetTest.expectedSizeConstructorRejectsZeroAndNegative",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "expectedSizeConstructorRejectsZeroAndNegative",
+      "local_test": "expected_size_constructor_rejects_zero_and_negative",
+      "modifications": "Preserve zero and negative expected-size rejection and both message substrings via a signed native external-configuration constructor and typed InvalidSequencedSetSize. Idiomatic with_capacity(0) remains valid; positive external sizes initialize real ordered storage. No Java constructor/ABI parity claim."
     }
   ],
   "fixtures": [
@@ -71231,6 +71336,97 @@
       "upstream_test": "assertReverseCodesOfListIterator",
       "local_path": "crates/solver/tests/selection_filter_cases.rs",
       "modifications": "Adapt exact forward/backward code order, hasNext/hasPrevious and exhaustion assertions through a real native reversible filtered cursor. Java ListIterator is replaced by borrowed next_item/previous_item. The existing source/scopes fixture preserves two phases/five steps, unfiltered size4 and child-open/size counts. Attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertCodesOfNeverEndingMoveSelector.live_replay",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingMoveSelector / assertCodesOfNeverEndingIterableSelector / assertCodesOfNeverEndingIterator",
+      "modifications": "Adapt exact six-code prefix, post-prefix availability, unbounded-source flag and declared catalog bound24. Native peekable traversal replaces hasNext; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.verifyPhaseLifecycle.live_replay",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "verifyPhaseLifecycle(PhaseLifecycleListener, solvingCount, phaseCount, stepCount)",
+      "modifications": "Adapt all six lifecycle counts for the entity and two value catalogs. Explicit native source-component hooks replace mocks/scopes; no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorTestUtils.catalogs.live_replay",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "mockEntitySelector / mockValueSelector",
+      "modifications": "Adapt finite ordered catalogs a,b and primary1,2,3 / secondary8,9. Native catalog vectors, fresh child cursors and explicit event observers replace Java mocks/descriptors. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataMultiVarEntity.identity.live_replay",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/multivar/TestdataMultiVarEntity.java",
+      "upstream_test": "TestdataMultiVarEntity(String code)",
+      "modifications": "Preserve a/b identity and primary/secondary choice codes through native Change payloads. Unassigned initial fields and unrelated tertiary variable are not materialized because moves are selected but never applied. No reflection/descriptor or fixture-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.identity.live_replay",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TestdataValue(String code)",
+      "modifications": "Native integer value labels preserve the exact primary1,2,3 and secondary8,9 choice codes. No Java class or fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.generateSolution.random_dataset",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(2,2)",
+      "modifications": "Preserve two values and two initialized entity identities, assigning entity i to value i modulo2. Native indices replace generated labels. Cached-store tuple delivery replaces Java session setup; unused score and annotations omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_selection_sample_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.identity.random_dataset",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TestdataEntity(String code, TestdataValue value)",
+      "modifications": "Native identity/current-value tuples preserve the initialized generated entities. The test observes identity membership only; no Java class or fixture credit."
     }
   ]
 }

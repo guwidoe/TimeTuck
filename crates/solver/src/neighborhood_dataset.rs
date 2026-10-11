@@ -243,12 +243,47 @@ impl<T: Clone> Iterator for DatasetPermutation<T> {
 }
 impl<T: Clone> ExactSizeIterator for DatasetPermutation<T> {}
 impl<T: Clone> FusedIterator for DatasetPermutation<T> {}
+/// Bulk consumption of a nonempty random dataset would never terminate.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct UnboundedDatasetIteration;
+impl std::fmt::Display for UnboundedDatasetIteration {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("random dataset iteration requires an explicit draw limit")
+    }
+}
+impl std::error::Error for UnboundedDatasetIteration {}
+/// Sampling with replacement. Use a bounded adapter such as take(limit) for
+/// bulk consumption. Direct for_each rejects a nonempty dataset with a typed
+/// panic; try_for_each_remaining returns the same error without panicking.
 pub struct DatasetRandom<'a, T> {
     rows: Arc<[T]>,
     random: &'a mut SampleRandom,
 }
+impl<T> DatasetRandom<'_, T> {
+    /// Inspect availability without consuming a random draw.
+    pub fn has_next(&self) -> bool {
+        !self.rows.is_empty()
+    }
+    /// Empty datasets complete; unbounded datasets reject before invoking the
+    /// callback or consuming randomness. Bound the iterator to process draws.
+    pub fn try_for_each_remaining(
+        &mut self,
+        _: impl FnMut(T),
+    ) -> Result<(), UnboundedDatasetIteration> {
+        if self.has_next() {
+            Err(UnboundedDatasetIteration)
+        } else {
+            Ok(())
+        }
+    }
+}
 impl<T: Clone> Iterator for DatasetRandom<'_, T> {
     type Item = T;
+    fn for_each<F: FnMut(T)>(self, _: F) {
+        if self.has_next() {
+            std::panic::panic_any(UnboundedDatasetIteration);
+        }
+    }
     fn next(&mut self) -> Option<T> {
         let bound = NonZeroUsize::new(self.rows.len())?;
         Some(self.rows[self.random.index(bound)].clone())

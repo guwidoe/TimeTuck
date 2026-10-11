@@ -2,6 +2,18 @@
 use crate::{DependentPrefix, DependentRow, SelectionLifecycleEvent, SelectionSource};
 use std::{marker::PhantomData, num::NonZeroUsize, sync::Arc};
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum StreamingCardinalityError {
+    ChildCount { expected: usize, actual: usize },
+    Overflow,
+}
+impl std::fmt::Display for StreamingCardinalityError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "streaming selection cardinality: {self:?}")
+    }
+}
+impl std::error::Error for StreamingCardinalityError {}
+
 fn never_stop() -> bool {
     false
 }
@@ -42,6 +54,7 @@ pub struct StreamingSelection<C, T, I, F, H, Z = fn() -> bool> {
     factory: F,
     lifecycle: H,
     termination: Z,
+    catalog_bound: Option<u128>,
     marker: PhantomData<fn(&C) -> T>,
     cursor: PhantomData<I>,
 }
@@ -60,12 +73,49 @@ impl<C, T, I, F, H> StreamingSelection<C, T, I, F, H> {
             factory,
             lifecycle,
             termination: never_stop,
+            catalog_bound: (children == 0).then_some(0),
             marker: PhantomData,
             cursor: PhantomData,
         }
     }
 }
 impl<C, T, I, F, H, Z> StreamingSelection<C, T, I, F, H, Z> {
+    /// Compute an upper bound from declared per-child contribution catalogs.
+    /// A positive bound must cover all states throughout this source's use,
+    /// including an optional None contribution when relevant. Zero means an
+    /// always-empty child: it is a hole when ignored, otherwise no row can pass.
+    /// None means unknown. This does not count actual dependent combinations,
+    /// draws, unique emitted rows or prove that a source is productive.
+    /// Bounds are metadata only; factories and polling remain unchanged.
+    pub fn with_child_catalog_bounds(
+        mut self,
+        bounds: impl IntoIterator<Item = Option<u128>>,
+    ) -> Result<Self, StreamingCardinalityError> {
+        let bounds: Vec<_> = bounds.into_iter().collect();
+        if bounds.len() != self.children {
+            return Err(StreamingCardinalityError::ChildCount {
+                expected: self.children,
+                actual: bounds.len(),
+            });
+        }
+        self.catalog_bound = if self.children == 0
+            || (!self.ignore_empty && bounds.contains(&Some(0)))
+            || bounds.iter().all(|b| *b == Some(0))
+        {
+            Some(0)
+        } else if bounds.contains(&None) {
+            None
+        } else {
+            Some(bounds.into_iter().try_fold(1u128, |n, b| {
+                n.checked_mul(b.unwrap().max(1))
+                    .ok_or(StreamingCardinalityError::Overflow)
+            })?)
+        };
+        Ok(self)
+    }
+    pub fn catalog_upper_bound(&self) -> Option<u128> {
+        self.catalog_bound
+    }
     pub fn with_termination<N: FnMut() -> bool>(
         self,
         termination: N,
@@ -77,6 +127,7 @@ impl<C, T, I, F, H, Z> StreamingSelection<C, T, I, F, H, Z> {
             factory: self.factory,
             lifecycle: self.lifecycle,
             termination,
+            catalog_bound: self.catalog_bound,
             marker: PhantomData,
             cursor: PhantomData,
         }

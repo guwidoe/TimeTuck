@@ -12,6 +12,19 @@ pub const SEQUENCED_SET_ARRAY_LIMIT: usize = 16;
 const END: usize = usize::MAX;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct InvalidSequencedSetSize(pub i64);
+impl fmt::Display for InvalidSequencedSetSize {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "The expectedSize ({}) must be positive and fit usize",
+            self.0
+        )
+    }
+}
+impl std::error::Error for InvalidSequencedSetSize {}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SequencedSetStorage {
     Empty,
     Single,
@@ -317,6 +330,15 @@ impl<T> ScalingSequencedSet<T> {
     }
 }
 impl<T: Eq + Hash> ScalingSequencedSet<T> {
+    /// Validate signed external size hints. The native with_capacity(0) remains
+    /// valid; this boundary requires a strictly positive expected member count.
+    pub fn try_with_expected_size(expected_size: i64) -> Result<Self, InvalidSequencedSetSize> {
+        let size = usize::try_from(expected_size)
+            .ok()
+            .filter(|n| *n > 0)
+            .ok_or(InvalidSequencedSetSize(expected_size))?;
+        Ok(Self::with_capacity(size))
+    }
     /// A zero hint is valid. Large hints start in indexed storage; clear releases it.
     pub fn with_capacity(expected_size: usize) -> Self {
         if expected_size > SEQUENCED_SET_ARRAY_LIMIT {
