@@ -5,6 +5,9 @@ use crate::{
 };
 use std::iter::FusedIterator;
 
+mod destinations;
+use destinations::DestinationSlots;
+
 #[derive(Clone, Debug)]
 struct SpanBlock {
     entity: usize,
@@ -304,7 +307,8 @@ impl SubListSelection {
 ///
 /// At most `attempts` proposals are considered, so an impossible neighborhood
 /// terminates. Source indexing is eager, candidate drawing is lazy. Per attempt,
-/// destination lookup scans entities and range checks scan only the chosen span.
+/// destination lookup uses a cumulative slot index on longer many-entity scans;
+/// tiny or short scans retain direct lookup. Range checks scan only the chosen span.
 /// No complete move catalog or cloned assignment is built. Reopen per committed
 /// step and advance the seed when using this through a MoveProvider.
 pub fn sampled_sublist_change_moves<'a, V: Eq + Clone>(
@@ -319,39 +323,35 @@ pub fn sampled_sublist_change_moves<'a, V: Eq + Clone>(
     let unassignment = config.unassignment().unwrap_or(problem.allows_unassigned());
     let mut random = SplitMix64::new(seed);
     let attempts = if selection.is_empty() { 0 } else { attempts };
-    Ok((0..attempts).filter_map(move |_| {
+    let mut slots = None;
+    Ok((0..attempts).filter_map(move |attempt| {
+        // Defer allocation until a scan actually consumes enough proposals.
+        // Early abandonment and tiny models retain the original direct path.
+        if attempt == 8 && problem.entities().len() >= 32 {
+            slots = Some(DestinationSlots::new(problem, assignment));
+        }
         let span = selection.at(random.below_wide(selection.len())).unwrap();
         let length = span.end - span.start;
-        let width = |entity: usize| {
-            let metadata = &problem.entities()[entity];
-            if metadata.is_pinned() {
-                0
-            } else {
-                let available = assignment.lists()[entity].len() - metadata.pinned_prefix();
-                (available - if entity == span.entity { length } else { 0 }) as u128 + 1
-            }
+        let destination = if let Some(slots) = &slots {
+            slots.draw(span.entity, length, unassignment, &mut random)
+        } else {
+            destinations::direct(
+                problem,
+                assignment,
+                span.entity,
+                length,
+                unassignment,
+                &mut random,
+            )
         };
-        let slots: u128 = (0..problem.entities().len()).map(width).sum();
-        let mut rank = random.below_wide(slots + u128::from(unassignment));
-        if rank == slots {
+        let Some((entity, rank)) = destination else {
             return Some(ListMove::Unassign {
                 entity: span.entity,
                 start: span.start,
                 end: span.end,
             });
-        }
-        let entity = (0..problem.entities().len())
-            .find(|&entity| {
-                let count = width(entity);
-                if rank < count {
-                    true
-                } else {
-                    rank -= count;
-                    false
-                }
-            })
-            .expect("the movable source has an insertion slot");
-        let index = problem.entities()[entity].pinned_prefix() + rank as usize;
+        };
+        let index = problem.entities()[entity].pinned_prefix() + rank;
         let reverse = config.reversing() && random.below(2) != 0;
         if (!reverse && entity == span.entity && index == span.start)
             || !assignment.lists()[span.entity][span.start..span.end]
