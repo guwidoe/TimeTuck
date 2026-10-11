@@ -89,6 +89,9 @@ impl<V> ListSnapshot<V> {
         match self {
             Self::Full(saved) => *assignment = saved,
             Self::Sparse(rows) => {
+                assignment
+                    .index_owner
+                    .changed(rows.iter().map(|(entity, _)| *entity));
                 for (entity, row) in rows {
                     assignment.lists[entity] = row;
                 }

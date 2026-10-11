@@ -103,14 +103,25 @@ pub struct ListElement<'a, V> {
     pub next: Option<&'a V>,
 }
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Eq, PartialEq)]
 pub struct ListAssignment<V> {
     pub(crate) lists: Vec<Vec<V>>,
+    pub(crate) index_owner: crate::retained_list_index::IndexOwner,
+}
+impl<V: fmt::Debug> fmt::Debug for ListAssignment<V> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("ListAssignment")
+            .field("lists", &self.lists)
+            .finish()
+    }
 }
 impl<V> ListAssignment<V> {
     /// Construction is unchecked; `ListProblem::validate` enforces the model.
     pub fn new(lists: Vec<Vec<V>>) -> Self {
-        Self { lists }
+        Self {
+            lists,
+            index_owner: Default::default(),
+        }
     }
     pub fn lists(&self) -> &[Vec<V>] {
         &self.lists
@@ -923,17 +934,30 @@ impl<V> AppliedListMove<'_, V> {
         V: Clone,
     {
         self.original.get_or_init(|| ListAssignment {
+            index_owner: Default::default(),
             lists: (0..self.assignment.lists.len())
                 .map(|entity| self.original_list(entity).unwrap().to_vec())
                 .collect(),
         })
     }
     pub fn commit(mut self) {
+        self.assignment.index_owner.changed(
+            self.saved
+                .as_ref()
+                .expect("live list transaction")
+                .entities(),
+        );
         self.saved = None;
     }
 
     // A containing transaction takes over rollback after both components pass.
     pub(crate) fn into_undo_lists(mut self) -> undo::ListUndo<V> {
+        self.assignment.index_owner.changed(
+            self.saved
+                .as_ref()
+                .expect("live list transaction")
+                .entities(),
+        );
         self.saved.take().expect("live list transaction")
     }
     fn entity(&self, entity: usize) -> Result<&[V], ListError> {

@@ -141,9 +141,11 @@ pub(crate) fn construction_impl_with_clock_monitored<
     if !problem.allows_unassigned() || config.optional != crate::OptionalConstruction::Preserve {
         // Construction only installs assignments (or a no-op). Track membership
         // by registry identity instead of searching the evolving lists each step.
-        let mut assigned = problem
-            .indexed_value_locations(director.assignment())
-            .map(|rows| rows.into_iter().map(|p| p.is_some()).collect::<Vec<_>>());
+        let mut assigned = director.assigned_registry(problem).or_else(|| {
+            problem
+                .indexed_value_locations(director.assignment())
+                .map(|rows| rows.into_iter().map(|p| p.is_some()).collect::<Vec<_>>())
+        });
         for (value_id, value) in problem.values().iter().enumerate() {
             if config.cancelled() {
                 result.termination = ConstructionTermination::Cancelled;

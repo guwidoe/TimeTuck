@@ -538,6 +538,7 @@ pub struct ListScoreDirector<'p, 'c, V, S> {
     problem: &'p ListProblem<V>,
     network: &'p ListConstraintNetwork<'c, V, S>,
     assignment: ListAssignment<V>,
+    retained_index: crate::RetainedListIndex,
     weights: crate::scoped_weights::LocalWeights<S>,
     contributions: Vec<S>,
     score: S,
@@ -572,7 +573,10 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             .sum(&contributions)
             .map_err(|_| ListScoringError::ScoreOverflow { constraint: None })?;
         let score = with_structure(total, problem, &assignment);
+        let retained_index = crate::RetainedListIndex::new();
+        assignment.index_owner.connect(&retained_index);
         Ok(Self {
+            retained_index,
             problem,
             network,
             assignment,
@@ -990,7 +994,14 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         }))
     }
     pub fn assignment(&self) -> &ListAssignment<V> {
+        self.assignment.index_owner.connect(&self.retained_index);
         &self.assignment
+    }
+    /// Synchronize and borrow this director's persistent committed-layout index.
+    pub fn retained_list_index(&self) -> crate::RetainedListIndex {
+        self.retained_index
+            .synchronize(self.problem, &self.assignment);
+        self.retained_index.clone()
     }
     pub fn score(&self) -> S {
         self.score.clone()

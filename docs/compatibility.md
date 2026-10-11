@@ -57,6 +57,20 @@ ListChangeMoveSelectorTest methods remain pending: their exact Java seed-0 outpu
 traces have not been established by the native sampling policy. Expected move
 prefixes were not substituted with scripted outputs to claim compatibility.
 
+A complete DefaultSolverTest phase-reuse adaptation additionally observes the actual
+persistent list position table after construction and two local-search phases
+with ten-step ceilings on the full 10-value/4-entity fixture. All three observations borrow the
+same director-owned table for each scoring backend. Native construction uses its
+assigned-value bitmap, including Eq-only registries. Committed edits invalidate
+only touched rows; full assignment replacement/restoration invalidates all rows.
+Detached assignment snapshots never inherit the cache link. Synchronization is
+lazy, and failed equality/hash callbacks leave stale state retryable. Public index
+snapshots describe committed layouts; temporary scored moves preserve the prior
+committed table, and stale results return None until synchronization. This does
+not imply Java candidate-state visibility or custom listener parity. Original
+regressions check transactional replacement, rollback, sparse best snapshots,
+phase restores, cached lookup work and panic recovery without extra method credit.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

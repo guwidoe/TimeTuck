@@ -122,6 +122,7 @@ impl From<GraphError> for ListStreamScoringError {
 pub struct ListStreamScoreDirector<'p, 'a, V, S: AdditiveScore> {
     problem: &'p ListProblem<V>,
     assignment: ListAssignment<V>,
+    retained_index: crate::RetainedListIndex,
     graph: StreamGraph<'a, S>,
     sources: ListStreamSources<V>,
     initial_constraint_evaluations: u128,
@@ -157,7 +158,10 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         tx.bind_planning_rows(updates)?;
         let initial_constraint_evaluations = tx.score_evaluations();
         tx.commit()?;
+        let retained_index = crate::RetainedListIndex::new();
+        assignment.index_owner.connect(&retained_index);
         Ok(Self {
+            retained_index,
             problem,
             assignment,
             graph,
@@ -548,7 +552,14 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     }
 
     pub fn assignment(&self) -> &ListAssignment<V> {
+        self.assignment.index_owner.connect(&self.retained_index);
         &self.assignment
+    }
+    /// Synchronize and borrow this director's persistent committed-layout index.
+    pub fn retained_list_index(&self) -> crate::RetainedListIndex {
+        self.retained_index
+            .synchronize(self.problem, &self.assignment);
+        self.retained_index.clone()
     }
     pub fn graph(&self) -> &StreamGraph<'a, S> {
         &self.graph

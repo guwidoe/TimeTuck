@@ -165,6 +165,27 @@ pub fn prepare<'p>(
     modes: Vec<Option<EnvironmentMode>>,
     steps: u64,
 ) -> Factory<'p> {
+    prepare_with_phases(
+        domain,
+        stream,
+        observations,
+        modes,
+        vec![
+            SolverPhase::Construction(Default::default()),
+            SolverPhase::LocalSearch(LocalSearchConfig {
+                max_steps: steps,
+                ..Default::default()
+            }),
+        ],
+    )
+}
+pub fn prepare_with_phases<'p>(
+    domain: &'p Domain,
+    stream: bool,
+    observations: Rc<Observations>,
+    modes: Vec<Option<EnvironmentMode>>,
+    phases: Vec<SolverPhase<'static, SimpleScore>>,
+) -> Factory<'p> {
     let prep_observations = observations.clone();
     let prepare = move |mode| {
         prep_observations
@@ -221,13 +242,7 @@ pub fn prepare<'p>(
         .unwrap(),
     ));
     c.environment = EnvironmentProfile::new(None, modes);
-    c.phases = vec![
-        SolverPhase::Construction(Default::default()),
-        SolverPhase::LocalSearch(LocalSearchConfig {
-            max_steps: steps,
-            ..Default::default()
-        }),
-    ];
+    c.phases = phases;
     ScoringFactoryDeclaration::default()
         .with_scoring_recipe(recipe)
         .assemble_solver_factory(c, Rc::new(FactoryScoreShape::for_score::<SimpleScore>()))

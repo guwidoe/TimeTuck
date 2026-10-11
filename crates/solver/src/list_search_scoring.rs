@@ -11,6 +11,12 @@ pub(crate) trait ListSearchDirector<V, S> {
     type Error: From<crate::ListError> + From<crate::MoveProviderError>;
     fn notify_best(&mut self, _complete: impl FnOnce(&ListAssignment<V>) -> bool) {}
     fn assignment(&self) -> &ListAssignment<V>;
+    fn assigned_registry(&self, problem: &crate::ListProblem<V>) -> Option<Vec<bool>>
+    where
+        V: Eq + Clone,
+    {
+        self.assignment().retained_assigned_mask(problem)
+    }
     fn score(&self) -> S;
     fn initial_constraint_evaluations(&self) -> u128;
     fn assert_consistent(&mut self) -> Result<(), Self::Error>;
