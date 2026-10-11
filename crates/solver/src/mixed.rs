@@ -240,7 +240,7 @@ impl<B, L> AppliedMixedMove<'_, B, L> {
             .map(|prior| &prior.value)
             .or_else(|| self.assignment.basic.get(variable))
     }
-    /// Borrow a pre-move list. Compact list swaps clone their touched rows lazily
+    /// Borrow a pre-move list. Compact list edits clone their touched rows lazily
     /// on the first request; later requests reuse the same cache. Rollback remains
     /// armed if a value clone panics while materializing that cache.
     pub fn original_list(&self, entity: usize) -> Option<&[L]> {

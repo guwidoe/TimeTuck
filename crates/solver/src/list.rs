@@ -488,7 +488,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                 || assignment.lists.iter().map(Vec::len).sum::<usize>() == self.values.len())
     }
     /// Snapshot only the lists referenced by the move, once per entity even for
-    /// nested composites. Large primitive swaps instead retain an inverse edit.
+    /// nested composites. Large primitive swaps and changes retain an inverse edit.
     /// Composite operations use current indices and validate
     /// pins/ranges once at the final state. Errors and ordinary panic unwinding
     /// restore the changed lists without cloning values during rollback.
@@ -497,7 +497,7 @@ impl<V: Eq + Clone> ListProblem<V> {
     /// Opt-in dependency-cycle checks still examine the global dependency graph.
     /// Span edits move existing payloads; they do not promise per-leaf Clone or
     /// Drop calls. Snapshot fallback clones each referenced row once; compact
-    /// swaps clone rows only when their pre-move contents are requested.
+    /// edits clone rows only when their pre-move contents are requested.
     pub fn apply<'a>(
         &self,
         assignment: &'a mut ListAssignment<V>,
@@ -565,10 +565,12 @@ impl<V: Eq + Clone> ListProblem<V> {
                 } => {
                     transaction.element_index(*source)?;
                     transaction.insertion(*destination, source.entity == destination.entity)?;
-                    let value = transaction.assignment.lists[source.entity].remove(source.index);
-                    record(&value);
-                    transaction.assignment.lists[destination.entity]
-                        .insert(destination.index, value);
+                    transaction.saved.as_mut().unwrap().change_recording(
+                        transaction.assignment,
+                        *source,
+                        *destination,
+                        &mut record,
+                    );
                 }
                 ListMove::SubListChange {
                     entity,
@@ -892,7 +894,7 @@ impl<V> AppliedListMove<'_, V> {
     }
 
     /// The pre-move list, borrowing the saved list for a touched entity and the
-    /// unchanged assignment otherwise. A compact swap materializes its original
+    /// unchanged assignment otherwise. A compact edit materializes its original
     /// touched rows on the first request and reuses them on subsequent requests.
     /// Clone may panic during that first request; rollback stays armed.
     pub fn original_list(&self, entity: usize) -> Option<&[V]> {
