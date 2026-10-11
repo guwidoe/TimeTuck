@@ -16,42 +16,58 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Round55 implementation awaiting the live final gate
+## Latest verified checkpoint — round55
 
-Previous goal turn completed verified MoveDirector work. Current main 4fe2f02 adds
-executable field/getter selection, real borrowed upcast relationships and typed
-solution-aware shadow suppliers. SourcePathRegistry installs the chosen callable
-and projection to canonical schema types; legacy duplicate checks stay intact.
-Solution parameter and shadow return metadata validate before invoking callbacks.
+Feature 4fe2f02 adds executable field/getter selection, real borrowed upcast
+relationships and typed solution-aware shadow suppliers. SourcePathRegistry
+installs the chosen callable and projection to canonical schema types. Selection
+preserves getter preference for equal/unrelated types and more-specific field
+preference; missing accessors and incorrect solution/return types fail before
+publication or callback execution. Legacy duplicate registration remains rejected.
 Supplier targets carry the schema lifetime and can move into evaluation closures.
-No agents/assignments; search candidate bodies unchanged.
+No candidate/search bodies changed; no agents or assignments.
 
-Eight complete RootVariableSourceTest cases plus four original runtime controls
-pass locally, with strict Clippy. Originals rewire real shadow dependencies21→11,
-project borrowed subtype data without clones, reject hierarchy/schema failures
-atomically and evaluate current solution values9→27. Source fixtures/provenance
-and compatibility documentation updated. Do not repeat focused checks.
+Eight complete RootVariableSourceTest methods plus four original runtime controls
+pass. Originals rewire real shadow dependencies from 21 to 11, project borrowed subtype
+data without clones, reject hierarchy/schema failures atomically and evaluate
+current solution values from 9 to 27. Explicit metadata replaces reflection; embedded
+borrowing replaces inheritance. TEST fixtures, modifications and constant getter
+adaptation are recorded in provenance. No production upstream code was used.
 
-Final frozen runner-a check is already running. Do not restart from a timeout.
-Launcher session89082, collector92829; Cargo PID1807265 was confirmed live at
-elapsed03:08 with active rustc children. Remote source root:
-02981e7c70b5f39d874088437c40fcb8b655d1721690a8d41f9341dd850b8442.
-Full strict workspace Clippy passed41.24s; prebuild885 affected targets,111 reused.
-Scripts/logs remote-round55-integration*,round55-launch.log,round55-collector.log;
-collector work/collect_round55_runner-a.py. Freeze work/parallel-round55-freeze.json.
-Expected only after successful gate:3,624 passed,665 pending,566 excluded;
-RootVariableSourceTest34/34; native Rust tests6,886,doctests290. No claims yet.
+The one frozen final runner-a gate completed successfully: 6,886 Rust tests and
+290 doctests. Source methods: 3,624/4,855 passed (74.645%), 665 pending,
+566 excluded, zero failed/unverified. RootVariableSourceTest 34/34; already
+completed MoveDirectorTest 78/78 and DefaultSolverTest 84/85 remain verified.
+Actual 885 Rust RUN/111 REUSE/46 Python REUSE; 1267.913 seconds total. Strict
+workspace Clippy passed in 41.24s; affected-target compilation took 14m22s. Do not
+repeat focused/final checks merely for another commit, turn or context reset.
 
-After this specific worker's terminal JSON matches the source digest and exit0,
-collect/import checksummed logs, refresh report, inspect freshness, replace this
-WIP with actual evidence and commit handoff. Use work/verify_round55_postcommit.py
-for clean/frozen proof and completed family checks. Source/provenance frozen;
-changing commit/docs does not warrant Rust/benchmark reruns. Gate seeds actual
-round54 archive/root; future gate must seed final round55 artifact when available.
-Prior measurements remain honestly stale; no UI work or new performance claim.
-Goal active/incomplete. Do not use new subagents or delegate tasks.
+Rust source: 6378fc52b50e2b98789e6986ff8588e5fbbb5de1df4cc454136ce23ddd3d8cb1.
+Report/verification: 697c09f1e1250ba48a48c158d75e1d883d92535349224612a7be3da8aac28e9a.
+Remote root: 02981e7c70b5f39d874088437c40fcb8b655d1721690a8d41f9341dd850b8442.
+Archive work/round55-runner-a-results.tar.gz SHA256:
+ba37b147cb09dca0a6c927a0def4b84deb413749068977b44247683c03b48de9.
+Evidence/freeze: work/parallel-round55-evidence.json, parallel-round55-freeze.json.
+Launcher 89082 and collector 92829 both completed zero. Imported checksummed genuine
+logs with their original job/environment keys and dates. Seed the next runner-a
+gate from this actual round55 archive/root, not an earlier runner seed.
+Postcommit proof: work/verify_round55_postcommit.py, round55-postcommit-evidence.json.
 
-## Latest verified checkpoint — round54
+Backend-only dashboard refresh. Prior list measurements remain visibly stale;
+no benchmark reruns, relabelled measurements, browser work or throughput claims.
+
+Next close whole-solve factory and tracked/assertion-bank runtime integration
+gaps. SolverFactoryTest create/createAndOverrideSettings/getScoreDirectorFactory
+and unreachable local-search configuration were inspected as TEST specifications;
+keep unsupported XML/classloader behavior pending. Avoid new agents/assignments.
+Read-only cache diagnostics also found excessive module closure: even a basic
+move case selects 245 library modules and unrelated source-accessor code via
+shared assignment/snapshot helpers. work/trace_round55_inputs.py and
+round55_cache_probe.py are exploratory only; no hashing code changed and simple
+private-trait rule changes did not reduce this closure. Do not claim those probes
+implemented more selective reuse. Objective remains active and incomplete.
+
+## Prior verified checkpoint — round54
 
 Main 740f276 completes the remaining MoveDirector behavior. Explicit cross-list
 operations reject equal owners before mutation; signed replacement indices are
