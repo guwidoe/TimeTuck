@@ -16,7 +16,74 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round47
+## Latest verified checkpoint — round48
+
+Main c96df2f assembles prepared scoring banks with native runtime phase execution.
+Goal active/incomplete. No new agents/assignments; Community pin/submodule unchanged.
+
+All 22 DefaultSolverFactoryTest methods now have complete native adaptations.
+Actual model/schema registrations, worker request validation and phase declarations
+prepare a shared scoring bank. Global mode remains independent of all overrides.
+Each solve owns mutable scoring state; same-mode phases retain resources, mode
+changes reuse immutable preparations and copy current input once. Real retained
+construction/local-search results supply scores and logical work counts. Full/step
+modes also enable native runner diagnostics for construction, local search and
+ruin/recreate; exact/custom use context boundaries. This is not complete Timefold
+tracked-assertion behavior. Independent assertion factories are not run automatically.
+
+Native fresh random openings preserve explicit seed/draw comparisons. Factory seed
+controls configured shuffled orders, random ties and ruin/recreate with wrapping
+phase index; other provider/acceptance seeds remain explicit. Worker count is only
+an advisory budget, not launched threads. Missing model/entity TYPE registration
+is distinct from valid zero runtime entities. No XML/reflection/framework discovery,
+Java API/ABI/RNG traces, implicit default phases or whole-solve controls are claimed.
+Application callbacks bind actual native phases; empty plans score input only.
+All eight used TEST/helper fixtures are attributed, including exact zero, first-value
+presence, ordered collision and AlwaysPenalize objectives. No production/Enterprise read.
+
+Eight original regressions earn no source credit: dense/stream actual scored runs,
+repeat preparation reuse with independent runtime resources, concurrent sessions,
+edited-current-state mode handoffs, actual settings/counts/diagnostics, failed
+preparation retry, typed primary plus suppressed cleanup errors, registration
+ordering, zero entities/empty plans and seed reaching real search. Existing context,
+search and scoring code remains unchanged; random/bank parents only register child
+modules. Callback counts establish reuse; no measured wall-clock speedup is claimed.
+Prior performance comparisons remain visibly stale; no benchmark refresh this batch.
+
+Focused 22+8 tests passed. First focused compile used nonexistent LocalSearchConfig.seed;
+corrected to configured native move-order/tie seeds. Second compile exposed other
+phase variants; supported ruin/recreate and kept exact/custom boundary policy.
+First strict prebuild caught coordinator type complexity; factored a private alias.
+Failed snapshots 8c0d694d..., 5912d720... and fad973da... are not verification.
+Final strict fmt/Clippy and bash scripts/check.sh passed on runner-a; collector/freshness:
+
+- 6,810 Rust tests and 290 doctests.
+- 3,589/4,855 source methods passing (73.924%); 700 pending, 566 excluded,
+  zero failed/unverified. Pending 722→700; exclusions unchanged.
+- 3 Rust RUN, 975 Rust REUSE; 46 Python REUSE. Final worker 257.74s.
+  Genuine input/environment keys, checksums and original dates retained.
+- Rust source 2b6f5d3bdaf67343948b65eaebc6af4537c4389b40f6dfd71755a285fd975c70.
+- Report/verification f18555324040ebb0896ecfcb414abe2b9a4feb0a21f5003307fc2f3a11cbd573.
+- Final remote root 19d94d82bd44891a5539fea82f8e5bec613e11760d65f88381ac7942707233f5.
+- work/round48-runner-a-results.tar.gz SHA256 80c238cf45cf87f7782f636b6177ea1815849d00a9f75775f5dbba6fa3d46560.
+- Evidence/freeze: work/parallel-round48-evidence.json and parallel-round48-freeze.json.
+  Successful remote-round48-integration-final*; worker/collector finished.
+  Postcommit proof: work/verify_round48_postcommit.py and round48-postcommit-evidence.json.
+
+No runner-c probe/job this turn. Next gate should seed actual round48 archive/root;
+runner currently seeds round47. Reuse verified results until relevant inputs change.
+
+Next close DefaultSolverTest runtime gaps. Read TEST methods at lines682..751 and
+2805..2915 this turn; concrete assertions saved in work/round48-next-work.txt.
+Four phase-vector declarations and the basic TrackedFullAssert solve can use the
+assembled factory. Replacement and calculation-count cases need observable live/
+closed identity handles and carried counts at phase start, preserving all assertions.
+List override/state cases need real list plans/resources, entire20/5 or10/4 fixtures
+and persistent state identity, not basic-factory surrogates. Current assembly's phase
+plan is basic SolverPhase. Existing ContextScoreResource builtins are dense/stream
+basic only; do not claim list compatibility. No next Rust batch begun.
+
+## Prior verified checkpoint — round47
 
 Main 9a1fe04 adds prepared scoring-factory banks and independent director creation.
 Goal active/incomplete. No new agents/assignments; Community pin/submodule unchanged.
