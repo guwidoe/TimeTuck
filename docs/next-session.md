@@ -16,7 +16,73 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round45
+## Latest verified checkpoint — round46
+
+Main 0828508 completes native segmented access/editing; goal active/incomplete.
+No new agents or assignments. Upstream pin and submodule remain unchanged.
+
+Seven complete MultipleDelegateListTest adaptations close its remaining cases:
+getIndexOfValue, supplied-array storage behavior, checked get/set, both cursors
+and nine unsupported structural operations. Source family now 18/18. One inline
+fixture record attributes the source rows and mocked owner/local-position mapping.
+Eight original regressions earn no method credit. Owner lookup checks actual
+segment values; exact signed bounds and missing-value messages are preserved.
+Buffers borrow references without payload cloning, retain adequate supplied storage,
+write only the first spare None sentinel and allocate when undersized. Short inputs
+and later tail remain untouched. Fixed borrowed layouts reject structural edits.
+
+The exclusive cursor edits actual segments at the upcoming gap slot, including
+before the first next step. Its after-next position query retains source i+1;
+this is explicitly named native behavior, not standard Java ListIterator semantics.
+Sequential traversal walks segment boundaries without binary lookup per step.
+Flat-sequence regressions cover empty segments and direction changes. Real K-opt
+proposals prepared through owner lookup/cursor edits apply/undo with correct dense
+and stream scores. Existing production behavior is unchanged except child-module
+registration/export; existing segmented, replay and K-opt fixture files are intact.
+
+Focused seven source/eight original tests passed on runner-a. The first prebuild
+caught three Clippy issues in original tests (two unnecessary drop calls, one
+unnecessary Vec); corrected them. Failed remote snapshot c14a13ab04dd65135c213f85c3354d506246524c190bb0c3e3e9a23646a79823
+is not verification. Final strict fmt/Clippy and bash scripts/check.sh passed:
+
+- 6,740 Rust tests and 289 doctests.
+- 3,535/4,855 source methods passing (72.812%); 754 pending, 566 excluded,
+  zero failed/unverified. Pending 761→754; exclusions unchanged.
+- 3 Rust RUN (lib and the two new segmented_access targets), 971 Rust REUSE,
+  46 Python REUSE. Complete final worker 219.355s; no cache keys retagged.
+- Rust source e24682ebe6aeb665a62d5c62013ff60610ed4d2ddba171defe7368684b3497f9.
+- Report/verification 45b338b00ac0c4c7a7f426221207f6e535431cd26fc1adf64f78bf95549669d4.
+- Final remote root 8ab1172ffbc030bab030ce71b2c2878952ace1a067f3b995cfbbdba871ff7ded.
+- Actual work/round46-runner-a-results.tar.gz, SHA256
+  45d50bff11860bf3656b5c59ec5621ccf287ada26133de59fac31df66493442a.
+- Evidence/freeze: work/parallel-round46-evidence.json and parallel-round46-freeze.json;
+  work/round46-module-isolation.json. Successful remote-round46-integration-final*.
+  Both worker and collector finished. Backend dashboard report/freshness passed.
+
+Performance measurements remain visibly stale; no speedup claim or benchmark refresh.
+No runner-c probe or job this turn. Reuse the final gate unless relevant inputs change.
+Next remote gate should seed actual round46 archive/root; runner currently seeds
+round45. Preserve stable Cargo home/vendor and jobs6, genuine keys/checksums/dates.
+
+Next target: real scoring factory preparation/sharing across requested phase modes.
+ScoreDirectorFactoryFactoryTest has 32 pending methods; lines1..500 of its pinned
+Community test were read, including all method bodies. Remaining incremental inline
+fixture methods below500 still need reading/attribution. Native solver_factory.rs
+owns solve closures, not scoring factories; scoring_context.rs handles resource
+replacement but does not cache prepared factories per mode. Use actual calculator,
+dense/stream scoring and environment/trend APIs; avoid factory-kind tags or fake
+resources earning credit. Source match-policy builder behavior is distinct from the
+existing context manager contract (source PhaseAssert disabled, FullAssert enabled,
+factory disabled until caller applies policy). Do not alter existing context behavior
+merely to fit new factory tests. Concrete findings: work/round46-next-work.txt.
+
+K-opt pending rebase/multi-entity/range test bodies were also read. Existing explicit
+partition fixtures remain partial: implicit boundaries and aggregate notification
+ranges are missing; do not relabel them as complete. RootVariableSource's remaining
+eight cases are mostly reflection and are not the next runtime priority. No next
+Rust batch has started. Continue backlog closure with performance important.
+
+## Prior verified checkpoint — round45
 
 Main e071692 adds automatic list-change replay and stable ordered reachability
 views. The full goal remains active/incomplete. No new agents or assignments.
