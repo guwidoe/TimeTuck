@@ -6993,3 +6993,19 @@ Insertion/removal use a pointer index with reusable linked slots. Payload mutati
 retains identity, and reinsertion appends at the end. The unsupported retainAll
 method remains pending. Original churn/reference, mutable-payload, ownership,
 buffer and mixed-direction iteration checks earn no source-method credit.
+
+All six SolverSolutionInheritanceTest methods now have complete adaptations.
+Compiled native solution components retain inherited range, entity collection
+and score declarations with canonical member origins. Explicit member reads bind
+shared domain objects and field/provider links into actual basic models before
+search. Four collections/eight entities/two genuine fields produce score16; two
+collections/four entities/one field produce score8; one collection/two entities
+produce score2, in both scoring backends. Invalid registration, member replacement
+and depth declarations fail real compilation with translated native diagnostics.
+The depth2 policy is explicit; default native composition supports deep chains.
+Arc allocation identity deduplicates aliases without merging equal-valued objects;
+conflicting alias field snapshots are rejected. Basic binding preserves optional
+fields, initial range validation and shadow-field exclusion. Generic list/mixed
+solution binding, automatic getters/class discovery and reflective score setters
+remain separate capabilities. Seven original binding/graph/scoring regressions
+earn no source credit. Existing search/scoring hot paths remain unchanged.

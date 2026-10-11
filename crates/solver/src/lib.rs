@@ -1395,3 +1395,11 @@ pub use timed_score_ring::{TimedScoreRing, TimedScoreRingError, TimedScoreRingSt
 
 mod identity_ordered_set;
 pub use identity_ordered_set::{IdentityOrderedIter, IdentityOrderedSet, IdentitySnapshot};
+
+mod solution_composition;
+pub use solution_composition::{
+    BoundBasicSolution, BoundSolutionEntity, CompiledSolutionMember, ComposedPlanningSolution,
+    PlanningSolutionComponent, SolutionBindingError, SolutionCollection, SolutionComposition,
+    SolutionCompositionError, SolutionCompositionPolicy, SolutionEntityRecord, SolutionFieldRange,
+    SolutionMemberCategory, SolutionMemberDefinition, SolutionMemberKind, SolutionRange,
+};

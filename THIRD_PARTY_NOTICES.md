@@ -15,6 +15,13 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/solution_composition_cases.rs` adapts all six methods in
+  `SolverSolutionInheritanceTest`. Test-domain component/member declarations,
+  used generators and base/child scoring providers are adapted in
+  `solution_composition_support/mod.rs`, with individual path provenance. Native
+  solution compilation/binding replaces annotations/reflection; successful cases
+  run actual bounded solves in both scoring backends. Originals add no credit.
+
 - `crates/solver/tests/identity_ordered_set_cases.rs` adapts nine methods from
   `LinkedIdentityHashSetTest`. Native Arc allocation identity and reusable
   Option buffers preserve object membership, insertion order and all snapshot

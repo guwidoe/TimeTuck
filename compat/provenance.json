@@ -52584,6 +52584,96 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverSolutionInheritanceTest.testBothClassesAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverSolutionInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotated",
+      "local_path": "crates/solver/tests/solution_composition_cases.rs",
+      "local_test": "test_both_classes_annotated",
+      "modifications": "Preserve all source final-score or invalid-declaration diagnostic assertions with explicit native solution/entity component metadata. Actual bounded construction/local search run in both dense and stream backends: Both retains two 3-value ranges, eight child entities across four collections, two nullable singleton members and required unscored subValue (score16); Abstract retains one 3-value range and four child entities across two collections (score8); BaseOnly retains three values and two entities (score2). Native candidate ceilings100/14 replace Java move-count limits without trace/count parity. Score observations use SolverResult, not reflective setters. Negative cases fail real metadata compilation for an unregistered member-declaring parent, duplicated entityList, or depth3 under explicitly selected depth2 policy, with typed errors and translated native registration/member diagnostic fragments and suggestions. The source ChildOnly test generates Both, and Multiple generates ReplaceMember; preserve these actual unused problem shapes, rejecting configuration before binding. Default native composition allows deep chains; no Rust inheritance restriction or automatic annotation/discovery parity claimed. Empty weight overrides retain unit defaults. Fixture/generator/provider attribution is separate; originals add no credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverSolutionInheritanceTest.testBothClassesAnnotatedBaseAbstract",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverSolutionInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedBaseAbstract",
+      "local_path": "crates/solver/tests/solution_composition_cases.rs",
+      "local_test": "test_both_classes_annotated_base_abstract",
+      "modifications": "Preserve all source final-score or invalid-declaration diagnostic assertions with explicit native solution/entity component metadata. Actual bounded construction/local search run in both dense and stream backends: Both retains two 3-value ranges, eight child entities across four collections, two nullable singleton members and required unscored subValue (score16); Abstract retains one 3-value range and four child entities across two collections (score8); BaseOnly retains three values and two entities (score2). Native candidate ceilings100/14 replace Java move-count limits without trace/count parity. Score observations use SolverResult, not reflective setters. Negative cases fail real metadata compilation for an unregistered member-declaring parent, duplicated entityList, or depth3 under explicitly selected depth2 policy, with typed errors and translated native registration/member diagnostic fragments and suggestions. The source ChildOnly test generates Both, and Multiple generates ReplaceMember; preserve these actual unused problem shapes, rejecting configuration before binding. Default native composition allows deep chains; no Rust inheritance restriction or automatic annotation/discovery parity claimed. Empty weight overrides retain unit defaults. Fixture/generator/provider attribution is separate; originals add no credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverSolutionInheritanceTest.testOnlyChildClassAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverSolutionInheritanceTest.java",
+      "upstream_test": "testOnlyChildClassAnnotated",
+      "local_path": "crates/solver/tests/solution_composition_cases.rs",
+      "local_test": "test_only_child_class_annotated",
+      "modifications": "Preserve all source final-score or invalid-declaration diagnostic assertions with explicit native solution/entity component metadata. Actual bounded construction/local search run in both dense and stream backends: Both retains two 3-value ranges, eight child entities across four collections, two nullable singleton members and required unscored subValue (score16); Abstract retains one 3-value range and four child entities across two collections (score8); BaseOnly retains three values and two entities (score2). Native candidate ceilings100/14 replace Java move-count limits without trace/count parity. Score observations use SolverResult, not reflective setters. Negative cases fail real metadata compilation for an unregistered member-declaring parent, duplicated entityList, or depth3 under explicitly selected depth2 policy, with typed errors and translated native registration/member diagnostic fragments and suggestions. The source ChildOnly test generates Both, and Multiple generates ReplaceMember; preserve these actual unused problem shapes, rejecting configuration before binding. Default native composition allows deep chains; no Rust inheritance restriction or automatic annotation/discovery parity claimed. Empty weight overrides retain unit defaults. Fixture/generator/provider attribution is separate; originals add no credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverSolutionInheritanceTest.testOnlyBaseClassAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverSolutionInheritanceTest.java",
+      "upstream_test": "testOnlyBaseClassAnnotated",
+      "local_path": "crates/solver/tests/solution_composition_cases.rs",
+      "local_test": "test_only_base_class_annotated",
+      "modifications": "Preserve all source final-score or invalid-declaration diagnostic assertions with explicit native solution/entity component metadata. Actual bounded construction/local search run in both dense and stream backends: Both retains two 3-value ranges, eight child entities across four collections, two nullable singleton members and required unscored subValue (score16); Abstract retains one 3-value range and four child entities across two collections (score8); BaseOnly retains three values and two entities (score2). Native candidate ceilings100/14 replace Java move-count limits without trace/count parity. Score observations use SolverResult, not reflective setters. Negative cases fail real metadata compilation for an unregistered member-declaring parent, duplicated entityList, or depth3 under explicitly selected depth2 policy, with typed errors and translated native registration/member diagnostic fragments and suggestions. The source ChildOnly test generates Both, and Multiple generates ReplaceMember; preserve these actual unused problem shapes, rejecting configuration before binding. Default native composition allows deep chains; no Rust inheritance restriction or automatic annotation/discovery parity claimed. Empty weight overrides retain unit defaults. Fixture/generator/provider attribution is separate; originals add no credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverSolutionInheritanceTest.testReplaceAnnotatedMember",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverSolutionInheritanceTest.java",
+      "upstream_test": "testReplaceAnnotatedMember",
+      "local_path": "crates/solver/tests/solution_composition_cases.rs",
+      "local_test": "test_replace_annotated_member",
+      "modifications": "Preserve all source final-score or invalid-declaration diagnostic assertions with explicit native solution/entity component metadata. Actual bounded construction/local search run in both dense and stream backends: Both retains two 3-value ranges, eight child entities across four collections, two nullable singleton members and required unscored subValue (score16); Abstract retains one 3-value range and four child entities across two collections (score8); BaseOnly retains three values and two entities (score2). Native candidate ceilings100/14 replace Java move-count limits without trace/count parity. Score observations use SolverResult, not reflective setters. Negative cases fail real metadata compilation for an unregistered member-declaring parent, duplicated entityList, or depth3 under explicitly selected depth2 policy, with typed errors and translated native registration/member diagnostic fragments and suggestions. The source ChildOnly test generates Both, and Multiple generates ReplaceMember; preserve these actual unused problem shapes, rejecting configuration before binding. Default native composition allows deep chains; no Rust inheritance restriction or automatic annotation/discovery parity claimed. Empty weight overrides retain unit defaults. Fixture/generator/provider attribution is separate; originals add no credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverSolutionInheritanceTest.testMultipleInheritance",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverSolutionInheritanceTest.java",
+      "upstream_test": "testMultipleInheritance",
+      "local_path": "crates/solver/tests/solution_composition_cases.rs",
+      "local_test": "test_multiple_inheritance",
+      "modifications": "Preserve all source final-score or invalid-declaration diagnostic assertions with explicit native solution/entity component metadata. Actual bounded construction/local search run in both dense and stream backends: Both retains two 3-value ranges, eight child entities across four collections, two nullable singleton members and required unscored subValue (score16); Abstract retains one 3-value range and four child entities across two collections (score8); BaseOnly retains three values and two entities (score2). Native candidate ceilings100/14 replace Java move-count limits without trace/count parity. Score observations use SolverResult, not reflective setters. Negative cases fail real metadata compilation for an unregistered member-declaring parent, duplicated entityList, or depth3 under explicitly selected depth2 policy, with typed errors and translated native registration/member diagnostic fragments and suggestions. The source ChildOnly test generates Both, and Multiple generates ReplaceMember; preserve these actual unused problem shapes, rejecting configuration before binding. Default native composition allows deep chains; no Rust inheritance restriction or automatic annotation/discovery parity claimed. Empty weight overrides retain unit defaults. Fixture/generator/provider attribution is separate; originals add no credit."
     }
   ],
   "fixtures": [
@@ -72515,6 +72605,409 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Use only public API documentation as specification: exclude an entity until every genuine field, including inherited fields, is non-null. Implement independently through native row-scoped callbacks and grouping. No production implementation read, copied or translated; no method or fixture credit. Original regression checks partial assignments, completion and retraction across dense and stream scoring."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtoo-TestdataBothAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedChildEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtoo-TestdataBothAnnotatedConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedConstraintProvider.java",
+      "upstream_test": "base/child forEach filtering and unit reward constraint definitions",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtoo-TestdataBothAnnotatedExtendedConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedExtendedConstraintProvider.java",
+      "upstream_test": "base/child forEach filtering and unit reward constraint definitions",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtoo-TestdataBothAnnotatedExtendedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedExtendedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata; 3-value/2-entity generator used by the source method",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtoo-TestdataBothAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtooabstract-TestdataBothAnnotatedAbstractBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractBaseEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtooabstract-TestdataBothAnnotatedAbstractChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractChildEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtooabstract-TestdataBothAnnotatedAbstractConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractConstraintProvider.java",
+      "upstream_test": "base/child forEach filtering and unit reward constraint definitions",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtooabstract-TestdataBothAnnotatedAbstractExtendedConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractExtendedConstraintProvider.java",
+      "upstream_test": "base/child forEach filtering and unit reward constraint definitions",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtooabstract-TestdataBothAnnotatedAbstractExtendedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractExtendedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata; 3-value/2-entity generator used by the source method",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childtooabstract-TestdataBothAnnotatedAbstractSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childnot-TestdataOnlyBaseAnnotatedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedBaseEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childnot-TestdataOnlyBaseAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedChildEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childnot-TestdataOnlyBaseAnnotatedConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedConstraintProvider.java",
+      "upstream_test": "base/child forEach filtering and unit reward constraint definitions",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childnot-TestdataOnlyBaseAnnotatedExtendedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedExtendedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata; 3-value/2-entity generator used by the source method",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-childnot-TestdataOnlyBaseAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-replacemember-TestdataReplaceMemberEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/replacemember/TestdataReplaceMemberEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-replacemember-TestdataReplaceMemberExtendedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/replacemember/TestdataReplaceMemberExtendedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata; 3-value/2-entity generator used by the source method",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-replacemember-TestdataReplaceMemberSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/replacemember/TestdataReplaceMemberSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-multiple-TestdataMultipleInheritanceBaseSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/multiple/TestdataMultipleInheritanceBaseSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-multiple-TestdataMultipleInheritanceChildSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/multiple/TestdataMultipleInheritanceChildSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-multiple-TestdataMultipleInheritanceEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/multiple/TestdataMultipleInheritanceEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseannotated-multiple-TestdataMultipleInheritanceExtendedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/multiple/TestdataMultipleInheritanceExtendedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseanot-TestdataOnlyAnnotatedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseanot/TestdataOnlyAnnotatedBaseEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseanot-TestdataOnlyChildAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseanot/TestdataOnlyChildAnnotatedChildEntity.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseanot-TestdataOnlyChildAnnotatedExtendedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseanot/TestdataOnlyChildAnnotatedExtendedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-baseanot-TestdataOnlyChildAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseanot/TestdataOnlyChildAnnotatedSolution.java",
+      "upstream_test": "source declaring registration/parent and member metadata",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Adapt only test declarations, used generators and scoring definitions. Native generic type identities and registered/plain single-parent components replace Java annotations/inheritance/reflective descriptors; concrete collection types are explicit, including raw/Object lists and base-typed inherited collections. Arc objects retain entity allocation identity; stable strings retain source value/code labels, numeric IDs become string codes. Variables and inherited solution members stay separate. Both has inherited valueList/subValueList/entityList/score plus nullable entity/subEntity and subEntityList/objectEntityList/rawEntityList; eight distinct children have required value and subValue, with two rewards conditional on all genuine fields being assigned. Abstract has inherited valueList/entityList/score plus secondEntityList (four children, one genuine field, two rewards). BaseOnly has inherited valueList/entityList/score and a plain empty child (two children, one reward). Replaced redeclares inherited entityList; Multiple has a registered three-component chain. Nonplanning getters/accessors, descriptor helpers, empty weight-override object mechanics and unused overloads are omitted. ChildOnly and Multiple configured generators are not used by the source tests and are not translated; only their declarations are used. No fixture credit or Java class/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-TestdataEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "value field declaration inherited by the Both child entity",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Use only test-field/label roles needed by the adapted inheritance fixtures. Native generic entity declarations, Arc allocation identities and optional String values replace Java objects and accessors. No descriptor/reflection helpers or other unused test-fixture methods copied; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-TestdataValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "generated primary/subvalue identities and code labels",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Use only test-field/label roles needed by the adapted inheritance fixtures. Native generic entity declarations, Arc allocation identities and optional String values replace Java objects and accessors. No descriptor/reflection helpers or other unused test-fixture methods copied; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "solution-composition-fixture-TestdataObject",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "stable source entity code labels",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Use only test-field/label roles needed by the adapted inheritance fixtures. Native generic entity declarations, Arc allocation identities and optional String values replace Java objects and accessors. No descriptor/reflection helpers or other unused test-fixture methods copied; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConstraintFactory.forEach.solution_composition_eligibility",
+      "upstream_path": "core/src/main/java/ai/timefold/solver/core/api/score/stream/ConstraintFactory.java",
+      "upstream_test": "public forEach Javadoc only: every genuine field must be assigned",
+      "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
+      "modifications": "Reuse already reviewed public API documentation, not production implementation. Native row-scoped dense callbacks and stream grouping implement genuine-field eligibility, including unscored subValue. Base and child reward membership remains distinct when a base singleton is populated in originals. Partial/completion/retraction regressions earn no source-method credit."
     }
   ]
 }
