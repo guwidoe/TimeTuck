@@ -815,7 +815,9 @@ mod tail_range_tests {
                             entity = entity.with_value_range(
                                 (0..7)
                                     .rev()
-                                    .filter(|v| row.contains(v) || (*v as usize + owner) % 3 == 0)
+                                    .filter(|v| {
+                                        row.contains(v) || (*v as usize + owner).is_multiple_of(3)
+                                    })
                                     .collect(),
                             );
                         }
