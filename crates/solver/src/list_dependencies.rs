@@ -105,6 +105,10 @@ impl<V: Eq + Clone> ListProblem<V> {
             if bad.is_empty() {
                 return Ok(clean);
             }
+            if bad.len() >= 64 && self.has_value_index() {
+                self.remove_inconsistent_indexed(&mut clean, &bad)?;
+                continue;
+            }
             for &value in &bad {
                 let position = clean
                     .location(&self.values()[value])
@@ -118,6 +122,45 @@ impl<V: Eq + Clone> ListProblem<V> {
                 list.retain(|v| !bad.iter().any(|&i| self.values()[i] == *v));
             }
         }
+    }
+
+    // Plan all removals before mutating rows. Registry ranks preserve the exact
+    // original bad-value diagnostic order independently of row encounter order.
+    // Sparse domain registries allocate only for bad and assigned values.
+    fn remove_inconsistent_indexed(
+        &self,
+        assignment: &mut ListAssignment<V>,
+        bad: &[usize],
+    ) -> Result<(), ListError> {
+        let ranks: std::collections::HashMap<_, _> = bad
+            .iter()
+            .enumerate()
+            .map(|(rank, &id)| (id, rank))
+            .collect();
+        let mut keep = Vec::new();
+        let mut pinned = None;
+        for (entity, row) in assignment.lists().iter().enumerate() {
+            let meta = &self.entities()[entity];
+            for (index, value) in row.iter().enumerate() {
+                let id = self.value_index(value).expect("validated registry");
+                let rank = ranks.get(&id).copied();
+                keep.push(rank.is_none());
+                if let Some(rank) = rank
+                    && (meta.is_pinned() || index < meta.pinned_prefix())
+                    && pinned.as_ref().is_none_or(|&(first, _, _)| rank < first)
+                {
+                    pinned = Some((rank, id, crate::ListPosition { entity, index }));
+                }
+            }
+        }
+        if let Some((_, value, position)) = pinned {
+            return Err(ListError::PinnedDependencyCycle { value, position });
+        }
+        let mut keep = keep.into_iter();
+        for row in &mut assignment.lists {
+            row.retain(|_| keep.next().expect("planned assigned value"));
+        }
+        Ok(())
     }
 }
 
