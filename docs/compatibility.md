@@ -7273,3 +7273,42 @@ list repair agree on scored results; pre-preparation errors and runtime model
 validation remain typed. The default empty declaration allocates no selector vector.
 Candidate loops are unchanged. No wall-clock speedup is claimed, and prior
 performance comparisons remain visibly stale until a deliberate refresh.
+
+
+## Explicit Neighborhoods requests and phase-end corruption checks — round52
+
+NeighborhoodPhase is an explicit native compatibility builder. It compiles real
+local-search or ordered variable-neighborhood-descent settings, validates the
+Neighborhoods opt-in, appends the compiled phase at its actual sequence index and
+installs an optional borrowed native MoveProvider in PhaseMoveProviders. Missing
+opt-in rejects an explicit provider; enabled opt-in rejects descent even without
+an explicit provider. Ordinary low-level native provider bindings remain valid
+without preview flags. A conflicting existing binding fails before appending a
+phase. Descent preserves caller limits/termination/assertions and installs strict
+first-improvement controls. This is native basic/list sequence configuration;
+Java discovery/API and implicit mixed-phase conversion are not claimed.
+
+Two complete DefaultSolverTest adaptations retain the initialized3-value/2-entity
+fixture, first-value-presence objective, zero score limit and every source
+failure/diagnostic assertion. Four original integration cases demonstrate actual
+provider execution in basic/list dense/stream solves, different outcomes from
+built-in enumeration, disabled-opt-in descent and atomic binding failure.
+
+The assembled coordinator now checks PHASE_ASSERT resources after actual phase
+work, including the final phase, before publishing PhaseCompleted. The existing
+context-manager outgoing checks remain in place. Only genuine context-check
+failures receive typed PhaseAssertion guidance with corruption/FULL_ASSERT/NO_ASSERT;
+application callback, construction and release errors retain their existing types.
+The underlying resource error remains available through Error::source. Completed
+work counts survive a failed diagnostic. Failure observers receive the live
+resource, then listener/release failures are suppressed in the existing order and
+resources close once. NoAssert adds no independent rescoring. Candidate loops,
+core context-manager semantics and advanced tracked diagnostics are unchanged.
+
+One complete corrupted-easy PHASE_ASSERT source case uses the full uninitialized
+2-value/2-entity fixture and a deterministic non-repeatable score in0..999 instead
+of random draws. Three original end-to-end regressions cover genuine post-work
+corruption in both scoring backends, final-phase detection, live/closed observer
+state, counts, mode gating and preservation of arbitrary phase failures. Originals
+earn no source-method credit. No new benchmark or throughput claim is made; earlier
+performance measurements retain their actual freshness status.

@@ -54174,6 +54174,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve full uninitialized ten-value/four-entity fixture, construction then two local-search phases capped at ten steps, all three phase-ended observations and identical actual director-owned state instance. Native dense and stream directors lend their real registry-position table; construction consumes its assigned-value bitmap. Java descriptors/reflection become explicit native list metadata; no Java API parity claimed. Native search defaults, ordering and stopping traces are not Java trace parity; all explicit source limits and assertions are preserved."
+    },
+    {
+      "id": "DefaultSolverTest.solveWithNeighborhoodsNotEnabled",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithNeighborhoodsNotEnabled",
+      "local_path": "crates/solver/tests/neighborhood_phase_cases.rs",
+      "local_test": "solve_with_neighborhoods_not_enabled",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full initialized three-value/two-entity fixture, first-value-presence easy-score objective, zero best-score limit, explicit unreachable provider, omitted preview opt-in and typed unsupported-feature failure containing NEIGHBORHOODS. An explicit native compatibility builder validates before installing real provider bindings; ordinary low-level native providers require no preview flag. Original positive regressions execute prepared providers on actual basic/list dense/stream backends and earn no source credit. No Java class discovery/API parity claimed."
+    },
+    {
+      "id": "DefaultSolverTest.neighborhoodsRejectsVariableNeighborhoodDescent",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "neighborhoodsRejectsVariableNeighborhoodDescent",
+      "local_path": "crates/solver/tests/neighborhood_phase_cases.rs",
+      "local_test": "neighborhoods_rejects_variable_neighborhood_descent",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete initialized three-value/two-entity fixture, first-value-presence easy-score objective, zero best-score limit, enabled Neighborhoods preview flag and typed invalid combination failure containing does not support the Neighborhoods API. Native descent compilation installs actual ordered union/strict improvement/first-accepted controls; the opt-in validation rejects the algorithm even without an explicit provider. Original disabled-opt-in descent integration proves the compiled controls execute and source-supplied limits survive. No Java class discovery/API parity claimed."
+    },
+    {
+      "id": "DefaultSolverTest.solveCorruptedEasyPhaseAsserted",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveCorruptedEasyPhaseAsserted",
+      "local_path": "crates/solver/tests/phase_corruption_cases.rs",
+      "local_test": "solve_corrupted_easy_phase_asserted",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full uninitialized two-value/two-entity fixture, real easy-scoring recipe, construction plus ten-step local-search cap and actual PHASE_ASSERT managed execution. Deterministic consecutive scores modulo1000 replace Random.nextInt(1000) to avoid accidental equality. A genuine score-consistency failure retains its typed underlying error and contains all three source fragments: corruption, FULL_ASSERT and NO_ASSERT. Native phase-boundary checks run before completion hooks, including the final phase; originals additionally exercise post-work corruption, counts, mode gating and cleanup in both dense/stream resources. No Java random trace/API parity claimed."
     }
   ],
   "fixtures": [
@@ -75027,7 +75072,7 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve complete default 5-value/7-entity and explicit 2-value/2-entity initialized modulo assignment; integer finite-domain variables replace Java beans/names. Apache-2.0 fixture attribution only; no method credit."
+      "modifications": "Preserve complete default 5-value/7-entity and explicit 2-value/2-entity initialized modulo assignment; integer finite-domain variables replace Java beans/names. Apache-2.0 fixture attribution only; no method credit. Neighborhood request cases also preserve full initialized3-value/2-entity modulo assignment."
     },
     {
       "id": "observed-list-factory-fixture-1",
@@ -75171,6 +75216,45 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain separate two-column basic entity type and complete two-entity layout. Weighted objective, native preparation counters and initialized helper are original regressions."
+    },
+    {
+      "id": "TestingNeighborhoodProvider.disabled_request",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "TestingNeighborhoodProvider",
+      "local_path": "crates/solver/tests/fixtures/neighborhood_request_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve deliberately unreachable provider definition; native moves panics if reached. Rejection occurs before any provider execution. Java factory/class registration becomes an actual borrowed native provider; no provider algorithm copied."
+    },
+    {
+      "id": "CorruptedEasyScoreCalculator.phase_assert",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "CorruptedEasyScoreCalculator",
+      "local_path": "crates/solver/tests/phase_corruption_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve inconsistent easy scoring in range0..999 using a consecutive deterministic counter instead of random draws, with an all-entity scoped native score callback. Full uninitialized2/2 fixture and source diagnostic fragments retained. Fixture only, no extra method credit."
+    },
+    {
+      "id": "TestdataSolution.neighborhood_requests",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int valueListSize, int entityListSize, boolean initialized)",
+      "local_path": "crates/solver/tests/neighborhood_phase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve initialized3-value/2-entity modulo assignment through existing attributed assembled_factory_fixture Domain. Native integer values replace test bean labels. Rejected requests retain first-value-presence objective and zero score target before scoring/preparation; no extra method credit."
     }
   ]
 }

@@ -81,6 +81,10 @@ pub enum FactoryAssemblyError<E> {
         modes: usize,
     },
     UnsupportedConstraintProfiling,
+    PhaseAssertion {
+        phase: usize,
+        error: E,
+    },
     Workers(FactoryWorkerError),
     Scoring(ScoreFactoryBuildError<E>),
     Resource(E),
@@ -98,6 +102,7 @@ impl<E: fmt::Display> fmt::Display for FactoryAssemblyError<E> {
             Self::PhaseModes {phases,modes}=>write!(f,"solver has {phases} phases but {modes} declared phase modes"),
             Self::UnsupportedConstraintProfiling=>f.write_str("Constraint profiling from the reference configuration is unsupported; remove constraintStreamProfilingEnabled from the solver configuration"),
             Self::SchemaRuin { phase, error } => write!(f,"phase {phase}: {error}"),
+            Self::PhaseAssertion {phase,error}=>write!(f,"phase {phase} assertion detected possible score corruption: {error}; use FULL_ASSERT to locate the failing move, or NO_ASSERT to disable these diagnostics"),
             Self::Workers(e)=>e.fmt(f),Self::Scoring(e)=>e.fmt(f),Self::Resource(e)=>e.fmt(f),
         }
     }
@@ -107,7 +112,7 @@ impl<E: Error + 'static> Error for FactoryAssemblyError<E> {
         match self {
             Self::Workers(e) => Some(e),
             Self::Scoring(e) => Some(e),
-            Self::Resource(e) => Some(e),
+            Self::Resource(e) | Self::PhaseAssertion { error: e, .. } => Some(e),
             Self::SchemaRuin { error, .. } => Some(error),
             _ => None,
         }
@@ -256,6 +261,7 @@ where
 }
 struct AssemblyResource<'a, M, P, I, D: ContextScoreResource>(
     FactoryScoreDirector<'a, M, P, I, D, D::Error>,
+    Option<usize>,
 );
 impl<M, P, I, D> ContextScoreResource for AssemblyResource<'_, M, P, I, D>
 where
@@ -268,10 +274,14 @@ where
         self.0.resource.context_score()
     }
     fn check_context(&mut self) -> Result<(), Self::Error> {
-        self.0
-            .resource
-            .check_context()
-            .map_err(FactoryAssemblyError::Resource)
+        self.0.resource.check_context().map_err(|error| {
+            match self.1.filter(|_| {
+                self.0.factory_director_settings().requested_mode == EnvironmentMode::PhaseAssert
+            }) {
+                Some(phase) => FactoryAssemblyError::PhaseAssertion { phase, error },
+                None => FactoryAssemblyError::Resource(error),
+            }
+        })
     }
     fn context_totals(&self) -> Vec<(String, D::Score)> {
         self.0.resource.context_totals()
@@ -378,10 +388,10 @@ where
                 .with_factory_matching(settings.matching)
                 .instantiate_score_director()
                 .map_err(FactoryAssemblyError::Scoring)?;
-            Ok(AssemblyResource(director))
+            Ok(AssemblyResource(director, old.1))
         });
         let mut manager = ScoringContextManager::new(
-            AssemblyResource(director),
+            AssemblyResource(director, None),
             self.global,
             self.modes.clone(),
             self.metrics,
@@ -442,6 +452,31 @@ where
         let handle = self.manager.handle();
         Some(handle.director()?.0.factory_director_settings())
     }
+    // Preserve the original resource error and attach guidance only to real
+    // PHASE_ASSERT checks, never arbitrary phase callbacks or release failures.
+    fn start_checked_phase(
+        &mut self,
+        phase: usize,
+    ) -> Result<(), ScoringContextError<FactoryAssemblyError<D::Error>>> {
+        self.manager.change_director().edit(|resource| {
+            resource.1 = Some(phase);
+            Ok(())
+        })?;
+        self.manager.start_phase(phase)
+    }
+    fn check_completed_phase(
+        &mut self,
+        phase: usize,
+    ) -> Result<(), ScoringContextError<FactoryAssemblyError<D::Error>>> {
+        let handle = self.manager.handle();
+        if handle.settings().mode != EnvironmentMode::PhaseAssert {
+            return Ok(());
+        }
+        self.manager.change_director().edit(|resource| {
+            resource.1 = Some(phase);
+            resource.check_context()
+        })
+    }
     pub fn run_next_assembled_phase<W: ContextScoreWork>(
         &mut self,
         mut run: impl FnMut(&mut D, &SolverPhase<'a, D::Score>) -> Result<W, D::Error>,
@@ -449,13 +484,16 @@ where
         let Some(phase) = self.owner.phases.get(self.next_phase) else {
             return Ok(None);
         };
-        if let Err(e) = self.manager.start_phase(self.next_phase) {
+        if let Err(e) = self.start_checked_phase(self.next_phase) {
             return Err(self.context_failure(e));
         }
         match self.manager.run(|director| {
             run(&mut director.0.resource, phase).map_err(FactoryAssemblyError::Resource)
         }) {
             Ok(work) => {
+                if let Err(e) = self.check_completed_phase(self.next_phase) {
+                    return Err(self.context_failure(e));
+                }
                 self.next_phase += 1;
                 Ok(Some(work))
             }

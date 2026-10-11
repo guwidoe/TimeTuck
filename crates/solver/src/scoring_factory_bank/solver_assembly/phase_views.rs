@@ -156,7 +156,7 @@ where
         let Some(phase) = self.owner.phases.get(index) else {
             return Ok(None);
         };
-        if let Err(e) = self.manager.start_phase(index) {
+        if let Err(e) = self.start_checked_phase(index) {
             return Err(self.runtime_failure(FactoryExecutionError::Context(e), callbacks));
         }
         if let Err(e) = self.emit_runtime_event(FactoryRunEvent::PhaseEntered { index }, callbacks)
@@ -177,6 +177,9 @@ where
                 return Err(self.runtime_failure(FactoryExecutionError::Context(e), callbacks));
             }
         };
+        if let Err(e) = self.check_completed_phase(index) {
+            return Err(self.runtime_failure(FactoryExecutionError::Context(e), callbacks));
+        }
         self.next_phase += 1;
         if let Err(e) =
             self.emit_runtime_event(FactoryRunEvent::PhaseCompleted { index }, callbacks)

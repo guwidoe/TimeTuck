@@ -1452,3 +1452,8 @@ pub use schema_ruin_selection::{
 
 mod retained_list_index;
 pub use retained_list_index::{RetainedListIndex, RetainedListIndexSnapshot};
+
+mod neighborhood_phase;
+pub use neighborhood_phase::{
+    NeighborhoodApi, NeighborhoodApiError, NeighborhoodPhase, PreparedNeighborhoodPhase,
+};
