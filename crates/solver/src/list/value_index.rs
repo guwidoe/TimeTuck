@@ -246,3 +246,22 @@ impl<V: Eq + Clone> ListProblem<V> {
         }
     }
 }
+
+// Pass-local evidence: an absent entry in Changed means unknown, whereas a
+// present None proves unassignment after the complete composite transaction.
+pub(crate) enum ValueLocations {
+    Full(Vec<Option<ListPosition>>),
+    Changed(Vec<(usize, Option<ListPosition>)>),
+}
+impl ValueLocations {
+    #[inline]
+    pub(crate) fn get(&self, id: usize) -> Option<Option<ListPosition>> {
+        match self {
+            Self::Full(positions) => Some(positions[id]),
+            Self::Changed(positions) => positions
+                .binary_search_by_key(&id, |(id, _)| *id)
+                .ok()
+                .map(|index| positions[index].1),
+        }
+    }
+}

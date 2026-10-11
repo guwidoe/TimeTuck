@@ -7,6 +7,7 @@ mod assigned_membership;
 pub(crate) mod move_check;
 mod span_movement;
 mod value_index;
+pub(crate) use value_index::ValueLocations;
 
 use std::{error::Error, fmt, ops::Deref, sync::OnceLock};
 

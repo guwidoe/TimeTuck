@@ -20,6 +20,7 @@
 //! director.assert_consistent()?;
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
+use crate::list::ValueLocations;
 use crate::{
     AdditiveScore, AppliedMixedMove, ListElement, ListPosition, MixedAssignment, MixedError,
     MixedMove, MixedProblem,
@@ -313,7 +314,17 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         problem: &MixedProblem<B, L>,
         assignment: &MixedAssignment<B, L>,
         constraints: impl Iterator<Item = usize>,
-    ) -> Option<Vec<Option<ListPosition>>> {
+        changed: Option<Vec<(usize, Option<ListPosition>)>>,
+    ) -> Option<ValueLocations> {
+        // Complete changed evidence already covers the registry, including known
+        // unassignment. Turn it into direct slots without rescanning the world.
+        if changed
+            .as_ref()
+            .is_some_and(|p| p.len() == problem.lists().values().len())
+        {
+            return changed.map(|p| ValueLocations::Full(p.into_iter().map(|(_, p)| p).collect()));
+        }
+        let changed = changed.map(ValueLocations::Changed);
         if self.scoped_values.len() < 64 || !problem.lists().has_value_index() {
             return None;
         }
@@ -326,19 +337,58 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
                     .is_none_or(|w| *w != S::ZERO)
             })
             .flat_map(|i| &self.constraints[i].scope)
-            .filter(|scope| matches!(scope, MixedScope::ListValue(_)))
+            .filter(|scope| match scope {
+                MixedScope::ListValue(id) => changed.as_ref().is_none_or(|p| p.get(*id).is_none()),
+                _ => false,
+            })
             .take(threshold)
             .count();
         (queries == threshold)
             .then(|| problem.lists().indexed_value_locations(assignment.lists()))
             .flatten()
+            .map(ValueLocations::Full)
+            .or(changed)
     }
 
     fn facts<'f>(
         constraint: &Constraint<'_, B, L, S>,
         problem: &'f MixedProblem<B, L>,
         assignment: &'f MixedAssignment<B, L>,
-        locations: Option<&[Option<ListPosition>]>,
+        locations: Option<&ValueLocations>,
+    ) -> Vec<MixedFact<'f, B, L>> {
+        let from_position = |position: ListPosition| {
+            let row = &assignment.lists().lists()[position.entity];
+            ListElement {
+                position,
+                previous: position.index.checked_sub(1).and_then(|i| row.get(i)),
+                next: row.get(position.index + 1),
+            }
+        };
+        // Dispatch once per constraint. Full snapshots retain direct indexing
+        // inside the fact loop; sparse evidence alone needs binary lookup.
+        match locations {
+            Some(ValueLocations::Full(positions)) => {
+                Self::facts_using(constraint, problem, assignment, |i| {
+                    positions[i].map(from_position)
+                })
+            }
+            Some(changed @ ValueLocations::Changed(_)) => {
+                Self::facts_using(constraint, problem, assignment, |i| match changed.get(i) {
+                    Some(position) => position.map(from_position),
+                    None => assignment.lists().element(&problem.lists().values()[i]),
+                })
+            }
+            None => Self::facts_using(constraint, problem, assignment, |i| {
+                assignment.lists().element(&problem.lists().values()[i])
+            }),
+        }
+    }
+
+    fn facts_using<'f>(
+        constraint: &Constraint<'_, B, L, S>,
+        problem: &'f MixedProblem<B, L>,
+        assignment: &'f MixedAssignment<B, L>,
+        mut locate: impl FnMut(usize) -> Option<ListElement<'f, L>>,
     ) -> Vec<MixedFact<'f, B, L>> {
         constraint
             .scope
@@ -346,21 +396,10 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             .map(|scope| match *scope {
                 MixedScope::Basic(i) => MixedFact::Basic(assignment.basic().values()[i].as_ref()),
                 MixedScope::ListEntity(i) => MixedFact::ListEntity(&assignment.lists().lists()[i]),
-                MixedScope::ListValue(i) => {
-                    let value = &problem.lists().values()[i];
-                    let element = match locations {
-                        None => assignment.lists().element(value),
-                        Some(locations) => locations[i].map(|position| {
-                            let row = &assignment.lists().lists()[position.entity];
-                            ListElement {
-                                position,
-                                previous: position.index.checked_sub(1).and_then(|i| row.get(i)),
-                                next: row.get(position.index + 1),
-                            }
-                        }),
-                    };
-                    MixedFact::ListValue { value, element }
-                }
+                MixedScope::ListValue(i) => MixedFact::ListValue {
+                    value: &problem.lists().values()[i],
+                    element: locate(i),
+                },
             })
             .collect()
     }
@@ -370,7 +409,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         index: usize,
         problem: &MixedProblem<B, L>,
         assignment: &MixedAssignment<B, L>,
-        locations: Option<&[Option<ListPosition>]>,
+        locations: Option<&ValueLocations>,
     ) -> Result<S, MixedScoringError> {
         let constraint = &self.constraints[index];
         if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
@@ -407,9 +446,9 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         assignment: &MixedAssignment<B, L>,
     ) -> Result<S, MixedScoringError> {
         self.validate(problem, assignment)?;
-        let locations = self.value_locations(problem, assignment, 0..self.constraint_count());
+        let locations = self.value_locations(problem, assignment, 0..self.constraint_count(), None);
         let contributions = (0..self.constraint_count())
-            .map(|i| self.contribution(i, problem, assignment, locations.as_deref()))
+            .map(|i| self.contribution(i, problem, assignment, locations.as_ref()))
             .collect::<Result<Vec<_>, _>>()?;
         let total = self
             .arithmetic
@@ -480,9 +519,9 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
     ) -> Result<Self, MixedScoringError> {
         network.validate(problem, &assignment)?;
         let locations =
-            network.value_locations(problem, &assignment, 0..network.constraint_count());
+            network.value_locations(problem, &assignment, 0..network.constraint_count(), None);
         let contributions = (0..network.constraint_count())
-            .map(|i| network.contribution(i, problem, &assignment, locations.as_deref()))
+            .map(|i| network.contribution(i, problem, &assignment, locations.as_ref()))
             .collect::<Result<Vec<_>, _>>()?;
         let total = network
             .arithmetic
@@ -513,6 +552,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             self.problem,
             &self.assignment,
             0..self.network.constraint_count(),
+            None,
         );
         let mut matches = crate::ScoreExplanation::default();
         for (constraint, score) in self.network.constraints.iter().zip(&self.contributions) {
@@ -523,7 +563,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                     constraint,
                     self.problem,
                     &self.assignment,
-                    locations.as_deref(),
+                    locations.as_ref(),
                 );
                 Some(explain(&constraint.name, &constraint.scope, &facts, score))
             };
@@ -747,15 +787,15 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                 .as_ref()
                 .is_none_or(|w| *w != S::ZERO)
         });
-        let locations = self
-            .network
-            .value_locations(self.problem, &next, affected.iter().copied());
+        let locations =
+            self.network
+                .value_locations(self.problem, &next, affected.iter().copied(), None);
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             updates.push((
                 i,
                 self.network
-                    .contribution(i, self.problem, &next, locations.as_deref())?,
+                    .contribution(i, self.problem, &next, locations.as_ref())?,
             ));
         }
         let score = if refresh_all {
@@ -864,18 +904,18 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         }
         // Entity-only constraints need no value identity lookup. Registration
         // retains each scoped index once, including currently disabled weights.
+        let changed = (!touched.is_empty() && self.network.scoped_values.len() >= 64)
+            .then(|| {
+                self.problem.lists().indexed_changed_value_positions(
+                    transaction.lists(),
+                    &touched,
+                    |entity| transaction.original_list(entity).unwrap(),
+                )
+            })
+            .flatten();
         if !touched.is_empty() {
-            let changed = (self.network.scoped_values.len() >= 64)
-                .then(|| {
-                    self.problem.lists().indexed_changed_value_positions(
-                        transaction.lists(),
-                        &touched,
-                        |entity| transaction.original_list(entity).unwrap(),
-                    )
-                })
-                .flatten();
-            if let Some(changed) = changed {
-                for (i, _) in changed {
+            if let Some(changed) = &changed {
+                for &(i, _) in changed {
                     affected.extend(&self.network.value_dependents[i]);
                 }
             } else {
@@ -897,14 +937,17 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                 .as_ref()
                 .is_none_or(|w| *w != S::ZERO)
         });
-        let locations =
-            self.network
-                .value_locations(self.problem, &transaction, affected.iter().copied());
+        let locations = self.network.value_locations(
+            self.problem,
+            &transaction,
+            affected.iter().copied(),
+            changed,
+        );
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             let contribution =
                 self.network
-                    .contribution(i, self.problem, &transaction, locations.as_deref())?;
+                    .contribution(i, self.problem, &transaction, locations.as_ref())?;
             updates.push((i, contribution));
         }
         let score = self
