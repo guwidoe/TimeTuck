@@ -2301,3 +2301,40 @@ stage, field/entity type and session-local registration index. Error values rema
 Send and Sync; only the new callback error types require these bounds. Session and
 manager errors retain the typed cause, while graph adapters retain their existing
 string diagnostics. External callback side effects cannot be rolled back.
+
+
+## Recoverable move-provider errors
+
+`FallibleMoveProvider::try_moves` can fail during setup or while drawing a lazy
+candidate. Bind it with `bind_fallible` or `bind_shared_fallible`, or use a
+`*_with_fallible_provider` entry point. An observed error discards the current
+scan, including a saved winner, while retained directors keep their last completed
+step. Construction applies the same rule even with KeepBestPrefix enabled.
+`MoveProviderError` retains a downcastable cause; cloning preserves error identity.
+
+Candidate buffering and the existing budget-exhaustion lookahead can observe an
+error before another move is scored. Errors beyond the part actually polled remain
+unobserved. Returned errors close ordinary lifecycle scopes; arbitrary panics keep
+the existing unwind behavior. Lifecycle hooks remain infallible. Existing
+MoveProvider implementations and their draw order remain unchanged.
+
+`take_binding` removes either provider kind and returns a shared provider only when
+its last binding is removed. Legacy `remove` leaves fallible bindings untouched.
+`bind_provider` returns either replaced kind; legacy `bind` can replace a fallible
+binding but cannot return it through its legacy return type.
+
+## Cooling from termination progress
+
+`Acceptance::SimulatedAnnealingTermination` uses the configured Solve or Phase
+termination expressions. It samples progress once at step start and freezes that
+temperature throughout candidate selection. Solve expressions combine by OR;
+phase cooling follows that phase's binding. Hard safety budgets and cancellation
+do not supply a cooling fraction.
+
+Unknown progress holds the previous fraction, initially zero. A lower known
+fraction, for example after a significant-improvement reset, reheats the acceptor.
+Every phase starts fresh acceptance state; solve progress retains its existing
+cross-phase history. Missing expression scope fails before plan callbacks, and
+standalone kernels return TerminationContextRequired. Low-level acceptors may
+receive explicit fractions through `termination_step_started`. Existing step-
+and elapsed-time cooling policies retain their behavior.
