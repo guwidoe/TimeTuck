@@ -43,6 +43,8 @@ pub use activity::{NodeActivity, StreamActivity};
 mod dataset;
 mod precompute;
 pub use precompute::SharedPrecompute;
+mod dynamic_shadows;
+pub use dynamic_shadows::ShadowProgram;
 mod shadow_entities;
 mod shadows;
 mod shared_sets;
