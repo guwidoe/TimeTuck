@@ -50034,6 +50034,66 @@
       "upstream_test": "allowsUnassignedValues",
       "local_test": "swap_optional",
       "modifications": "All 16 exact ordered codes retained. Catalog 4*4=16 retained; universe [1,2,3,4] includes unassigned 4. Source has no last-bound assertion. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "ListSwapMoveSelectorTest.random",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "upstream_test": "random",
+      "local_test": "random",
+      "modifications": "All 9 ordered codes, including 3 No change candidates, preserved with both full ten-value child prefixes. All invoked PlannerAssert assertions retained: exact ordered codes, native non-null iterator by type, continuation and never-ending capability metadata for nonempty prefixes; source does not assert cardinality. Scripted native child sources advertise random capability while supplying finite prefixes, matching the source test intent without guaranteeing infinite traversal. Independent pin filtering precedes pairing; final receiver/dependency validity is native. Explicit ListProblem/ListSelectionContext replaces Java descriptors, mock initialization and shadow setup. No Java PRNG, lifecycle, object identity or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "ListSwapMoveSelectorTest.randomWithPinning",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "upstream_test": "randomWithPinning",
+      "local_test": "random_with_pinning",
+      "modifications": "All 5 ordered codes preserved with full original nine-value child prefixes, A prefix 1, fully pinned empty B and C. All invoked PlannerAssert assertions retained: exact ordered codes, native non-null iterator by type, continuation and never-ending capability metadata for nonempty prefixes; source does not assert cardinality. Scripted native child sources advertise random capability while supplying finite prefixes, matching the source test intent without guaranteeing infinite traversal. Independent pin filtering precedes pairing; final receiver/dependency validity is native. Explicit ListProblem/ListSelectionContext replaces Java descriptors, mock initialization and shadow setup. No Java PRNG, lifecycle, object identity or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "ListSwapMoveSelectorTest.randomAllowsUnassignedValues",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "upstream_test": "randomAllowsUnassignedValues",
+      "local_test": "random_allows_unassigned_values",
+      "modifications": "All 9 ordered codes and full thirteen-value child prefixes preserved; universe [1,2,3,4] includes missing 4 and both replacement orientations normalize to unassign then assign. All invoked PlannerAssert assertions retained: exact ordered codes, native non-null iterator by type, continuation and never-ending capability metadata for nonempty prefixes; source does not assert cardinality. Scripted native child sources advertise random capability while supplying finite prefixes, matching the source test intent without guaranteeing infinite traversal. Independent pin filtering precedes pairing; final receiver/dependency validity is native. Explicit ListProblem/ListSelectionContext replaces Java descriptors, mock initialization and shadow setup. No Java PRNG, lifecycle, object identity or reflection parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "ListSwapMoveSelectorTest.randomWithEntityValueRangeAndFiltering",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "upstream_test": "randomWithEntityValueRangeAndFiltering",
+      "local_test": "random_with_entity_value_range_and_filtering",
+      "modifications": "Both source blocks preserved: first [2,2] vs [3,3,3,3] yields the exact one asserted code and continuation; second [1] vs [3,3,3,3] passes zero expected codes to the source helper (only non-null iterator assertion, no exhaustion or metadata assertion). Complete domains A=[1,2,3], B=[2,3] and lists A=[2,1], B=[3] retained. Restricted right occurrence streams are not replaced by full range enumeration. Source Random(0) has no asserted random draws in this restricted-child branch; no seeded trace is introduced. All invoked PlannerAssert assertions retained: exact ordered codes, native non-null iterator by type, continuation and never-ending capability metadata for nonempty prefixes; source does not assert cardinality. Scripted native child sources advertise random capability while supplying finite prefixes, matching the source test intent without guaranteeing infinite traversal. Independent pin filtering precedes pairing; final receiver/dependency validity is native. Explicit ListProblem/ListSelectionContext replaces Java descriptors, mock initialization and shadow setup. No Java PRNG, lifecycle, object identity or reflection parity claimed."
     }
   ],
   "fixtures": [
@@ -67885,6 +67945,201 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
       "upstream_test": "solvingStarted and phaseStarted helpers used by random selector methods",
       "modifications": "Native construction and ListSelectionContext/open replace mock solver/phase initialization; these invoked helper bodies add no assertions. phaseLifecycle test methods remain pending; no Java phase call-count claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Ordered entity rows become ListEntity<i32>; explicit per-entity ranges, full pins and pinned prefixes retain the method fixture values. Optional assignment uses allowing_unassigned."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Native ListProblem holds original entity order and complete value universe; per-entity range universe uses distinct encounter order. Explicit schema binding replaces Java descriptor/reflection; unused score omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Distinct code identities become integer values; native assignment positions replace Java inverse-owner/index fields during actual candidate construction. Pinned fixture does not need a separately declared index field, matching the source absent-index setup without claiming annotation parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListEntity.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Ordered entity rows become ListEntity<i32>; explicit per-entity ranges, full pins and pinned prefixes retain the method fixture values. Optional assignment uses allowing_unassigned."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListSolution.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Native ListProblem holds original entity order and complete value universe; per-entity range universe uses distinct encounter order. Explicit schema binding replaces Java descriptor/reflection; unused score omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListValue.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Distinct code identities become integer values; native assignment positions replace Java inverse-owner/index fields during actual candidate construction. Pinned fixture does not need a separately declared index field, matching the source absent-index setup without claiming annotation parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListEntity.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListEntity.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Ordered entity rows become ListEntity<i32>; explicit per-entity ranges, full pins and pinned prefixes retain the method fixture values. Optional assignment uses allowing_unassigned."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListSolution.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListSolution.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Native ListProblem holds original entity order and complete value universe; per-entity range universe uses distinct encounter order. Explicit schema binding replaces Java descriptor/reflection; unused score omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListValue.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListValue.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Distinct code identities become integer values; native assignment positions replace Java inverse-owner/index fields during actual candidate construction. Pinned fixture does not need a separately declared index field, matching the source absent-index setup without claiming annotation parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingEntity.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Ordered entity rows become ListEntity<i32>; explicit per-entity ranges, full pins and pinned prefixes retain the method fixture values. Optional assignment uses allowing_unassigned."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingSolution.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Native ListProblem holds original entity order and complete value universe; per-entity range universe uses distinct encounter order. Explicit schema binding replaces Java descriptor/reflection; unused score omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingValue.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "constructors and list/range/pin/value identity declarations used by adapted methods",
+      "modifications": "Distinct code identities become integer values; native assignment positions replace Java inverse-owner/index fields during actual candidate construction. Pinned fixture does not need a separately declared index field, matching the source absent-index setup without claiming annotation parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingMoveSelector, assertCodesOfNeverEndingIterableSelector, assertCodesOfNeverEndingIterator",
+      "modifications": "Preserve exact code prefixes; nonempty prefix additionally asserts continuation and never-ending metadata. None of these four methods supplies size. Zero-prefix restricted-right case only constructs a non-null iterator; native iterator type is non-null. Native next().is_some() replaces hasNext prefetch."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUtils.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListUtils.java",
+      "upstream_test": "mockIterableValueSelector, getMimicRecordingIterableValueSelector, getFilteringValueRangeSelector",
+      "modifications": "Finite scripted child prefixes preserve original value occurrence order; native live adapter filters pins independently then validates both receiver ranges on the pair. Restricted-right filtering case uses generateIterableFromEntityProperty=false; no optimized seeded range iterator credit. Mock and descriptor plumbing replaced by native context."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_swap_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorTestUtils.live_list_swap_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "solvingStarted and phaseStarted setup helpers",
+      "modifications": "Native construction/context/open supplies initialization; these setup bodies add no assertions. No phaseLifecycle or Java invocation-count credit."
     }
   ]
 }
