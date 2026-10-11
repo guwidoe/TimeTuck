@@ -6,7 +6,9 @@ use crate::{
 use std::{any::Any, collections::BTreeSet, error::Error, fmt, marker::PhantomData, rc::Rc};
 
 mod entities;
+mod selection;
 use entities::EntityGroups;
+pub use selection::{ShadowEntityFilter, ShadowEntitySelection};
 
 #[derive(Clone, Copy)]
 pub(crate) enum RefreshMode {

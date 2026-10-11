@@ -2,7 +2,7 @@
 use super::*;
 
 pub(super) struct EntityGroups {
-    groups: Vec<Vec<usize>>,
+    pub(super) groups: Vec<Vec<usize>>,
     group_of: Vec<usize>,
 }
 impl EntityGroups {
