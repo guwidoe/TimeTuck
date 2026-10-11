@@ -18,6 +18,17 @@ struct Span {
     start: usize,
     length: usize,
 }
+
+enum ReceiverIndex {
+    All,
+    Dense(Vec<Vec<bool>>),
+    Sparse {
+        // Span ordinals, sorted in model order. Unrestricted entities are shared
+        // instead of repeated in every value's receiver list.
+        unrestricted: Vec<usize>,
+        restricted: Vec<Vec<usize>>,
+    },
+}
 /// A compact owned selection of insertion intervals. None is one optional
 /// unassignment member, preceding assigned destinations. Ordinal lookup and random
 /// selection count each insertion slot equally; entities with longer lists have
@@ -78,6 +89,10 @@ impl ListDestinationSet {
 /// for groups; duplicate values do not change the set and an empty group accepts all
 /// movable entities. Unknown values are errors. Optional unassignment is represented
 /// once even when no entity can receive a group. No value objects are cloned.
+/// Unrestricted receivers share one representation. Larger indexed models with
+/// sparse ranges store reverse memberships and intersect from the narrowest
+/// value's receiver list; small/dense and Eq-only restricted models retain a
+/// direct receiver matrix. All representations preserve the same result order.
 ///
 /// These are PRE-removal insertion positions. They describe receiver eligibility,
 /// not move doability: callers must respect source pins, adjust same-list indices,
@@ -99,7 +114,7 @@ pub struct ListDestinationIndex<'a, V> {
     problem: &'a ListProblem<V>,
     _assignment: &'a ListAssignment<V>,
     spans: Vec<Span>,
-    receivers: Vec<Vec<bool>>,
+    receivers: ReceiverIndex,
     unassigned: bool,
 }
 impl<'a, V: Clone + Eq> ListDestinationIndex<'a, V> {
@@ -131,17 +146,42 @@ impl<'a, V: Clone + Eq> ListDestinationIndex<'a, V> {
                 length,
             });
         }
-        let receivers = problem
-            .values()
+        let receivers = if spans
             .iter()
-            .enumerate()
-            .map(|(id, _)| {
-                spans
+            .all(|span| problem.entities()[span.entity].value_range().is_none())
+        {
+            ReceiverIndex::All
+        } else if spans.len() >= 96 && problem.has_sparse_entity_ranges() {
+            let mut unrestricted = Vec::new();
+            let mut restricted = vec![Vec::new(); problem.values().len()];
+            for (ordinal, span) in spans.iter().enumerate() {
+                if let Some(ids) = problem.indexed_entity_range(span.entity) {
+                    for &id in ids {
+                        restricted[id].push(ordinal);
+                    }
+                } else {
+                    unrestricted.push(ordinal);
+                }
+            }
+            ReceiverIndex::Sparse {
+                unrestricted,
+                restricted,
+            }
+        } else {
+            ReceiverIndex::Dense(
+                problem
+                    .values()
                     .iter()
-                    .map(|s| problem.accepts_registered(s.entity, id))
-                    .collect()
-            })
-            .collect();
+                    .enumerate()
+                    .map(|(id, _)| {
+                        spans
+                            .iter()
+                            .map(|s| problem.accepts_registered(s.entity, id))
+                            .collect()
+                    })
+                    .collect(),
+            )
+        };
         Ok(Self {
             problem,
             _assignment: assignment,
@@ -154,25 +194,79 @@ impl<'a, V: Clone + Eq> ListDestinationIndex<'a, V> {
         self.for_values(std::slice::from_ref(value))
     }
     pub fn for_values(&self, values: &[V]) -> Result<ListDestinationSet, ListDestinationError> {
-        let mut eligible = vec![true; self.spans.len()];
-        for value in values {
-            let i = self
-                .problem
+        let id = |value: &V| {
+            self.problem
                 .value_index(value)
-                .ok_or(ListDestinationError::Model(ListError::ValueOutsideDomain))?;
-            for (keep, allowed) in eligible.iter_mut().zip(&self.receivers[i]) {
-                *keep &= allowed;
+                .ok_or(ListDestinationError::Model(ListError::ValueOutsideDomain))
+        };
+        match &self.receivers {
+            ReceiverIndex::All => {
+                for value in values {
+                    id(value)?;
+                }
+                self.collect_selection(0..self.spans.len())
+            }
+            ReceiverIndex::Dense(receivers) => {
+                let mut eligible = vec![true; self.spans.len()];
+                for value in values {
+                    let i = id(value)?;
+                    for (keep, allowed) in eligible.iter_mut().zip(&receivers[i]) {
+                        *keep &= allowed;
+                    }
+                }
+                self.collect_selection(
+                    eligible
+                        .into_iter()
+                        .enumerate()
+                        .filter_map(|(i, keep)| keep.then_some(i)),
+                )
+            }
+            ReceiverIndex::Sparse {
+                unrestricted,
+                restricted,
+            } => {
+                // Resolve every value before taking an empty-intersection shortcut:
+                // unknown values must still fail, including after an empty range.
+                let ids = values.iter().map(id).collect::<Result<Vec<_>, _>>()?;
+                let Some(&narrowest) = ids.iter().min_by_key(|&&i| restricted[i].len()) else {
+                    return self.collect_selection(0..self.spans.len());
+                };
+                let mut specific = restricted[narrowest]
+                    .iter()
+                    .copied()
+                    .filter(|ordinal| {
+                        ids.iter().all(|&i| {
+                            i == narrowest || restricted[i].binary_search(ordinal).is_ok()
+                        })
+                    })
+                    .peekable();
+                let mut universal = unrestricted.iter().copied().peekable();
+                // Shared unrestricted and restricted ordinals are disjoint. Merge
+                // without sorting or materializing the intersection a second time.
+                self.collect_selection(std::iter::from_fn(move || {
+                    match (specific.peek(), universal.peek()) {
+                        (Some(left), Some(right)) if left < right => specific.next(),
+                        (Some(_), Some(_)) | (None, Some(_)) => universal.next(),
+                        (Some(_), None) => specific.next(),
+                        (None, None) => None,
+                    }
+                }))
             }
         }
+    }
+
+    fn collect_selection(
+        &self,
+        ordinals: impl Iterator<Item = usize>,
+    ) -> Result<ListDestinationSet, ListDestinationError> {
         let mut spans = vec![];
         let mut count = 0usize;
-        for (&span, keep) in self.spans.iter().zip(eligible) {
-            if keep {
-                count = count
-                    .checked_add(span.length)
-                    .ok_or(ListDestinationError::CountOverflow)?;
-                spans.push((span, count));
-            }
+        for ordinal in ordinals {
+            let span = self.spans[ordinal];
+            count = count
+                .checked_add(span.length)
+                .ok_or(ListDestinationError::CountOverflow)?;
+            spans.push((span, count));
         }
         let len = count
             .checked_add(usize::from(self.unassigned))
