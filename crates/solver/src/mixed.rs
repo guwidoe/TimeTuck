@@ -186,7 +186,7 @@ impl<B: Eq + Clone, L: Eq + Clone> MixedProblem<B, L> {
 pub struct AppliedMixedMove<'a, B, L> {
     assignment: &'a mut MixedAssignment<B, L>,
     basic_prior: Vec<crate::PriorValue<B>>,
-    saved_lists: Option<Vec<(usize, Vec<L>)>>,
+    saved_lists: Option<crate::list::undo::ListUndo<L>>,
     original: OnceLock<MixedAssignment<B, L>>,
 }
 impl<B, L> Deref for AppliedMixedMove<'_, B, L> {
@@ -208,7 +208,14 @@ impl<B, L> AppliedMixedMove<'_, B, L> {
             ),
             lists: crate::candidate_snapshot::ListSnapshot::capture(
                 &self.assignment.lists,
-                self.saved_lists.as_ref().expect("live mixed transaction"),
+                self.saved_lists
+                    .as_ref()
+                    .expect("live mixed transaction")
+                    .entity_count(),
+                self.saved_lists
+                    .as_ref()
+                    .expect("live mixed transaction")
+                    .entities(),
             ),
         }
     }
@@ -221,11 +228,7 @@ impl<B, L> AppliedMixedMove<'_, B, L> {
         self.saved_lists
             .as_ref()
             .expect("live mixed transaction")
-            .iter()
-            .map(|(entity, original)| {
-                self.assignment.lists.lists()[*entity].len() as i64 - original.len() as i64
-            })
-            .sum()
+            .assigned_delta(&self.assignment.lists)
     }
 
     /// Borrow a basic slot before the entire move, including repeated writes.
@@ -237,13 +240,14 @@ impl<B, L> AppliedMixedMove<'_, B, L> {
             .map(|prior| &prior.value)
             .or_else(|| self.assignment.basic.get(variable))
     }
-    /// Borrow a pre-move list, without cloning any planning values.
+    /// Borrow a pre-move list. Compact list swaps clone their touched rows lazily
+    /// on the first request; later requests reuse the same cache. Rollback remains
+    /// armed if a value clone panics while materializing that cache.
     pub fn original_list(&self, entity: usize) -> Option<&[L]> {
-        let saved = self.saved_lists.as_ref().expect("live mixed transaction");
-        match saved.binary_search_by_key(&entity, |(index, _)| *index) {
-            Ok(index) => Some(&saved[index].1),
-            Err(_) => self.assignment.lists.list(entity),
-        }
+        self.saved_lists
+            .as_ref()
+            .expect("live mixed transaction")
+            .original_list(&self.assignment.lists, entity)
     }
     /// Materialize the complete pre-move snapshot once, on demand. Prefer the
     /// borrowed component accessors when only particular slots or rows are needed.
@@ -283,9 +287,7 @@ impl<B, L> Drop for AppliedMixedMove<'_, B, L> {
                     &mut prior.value,
                 );
             }
-            for (entity, list) in &mut saved {
-                std::mem::swap(&mut self.assignment.lists.lists[*entity], list);
-            }
+            saved.rollback(&mut self.assignment.lists);
         }
     }
 }

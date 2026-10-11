@@ -46,17 +46,20 @@ pub(crate) enum ListSnapshot<V> {
     Sparse(Vec<(usize, Vec<V>)>),
 }
 impl<V: Clone> ListSnapshot<V> {
-    pub(crate) fn capture(assignment: &ListAssignment<V>, saved: &[(usize, Vec<V>)]) -> Self {
-        if !saved.is_empty()
-            && (assignment.lists.len() <= 32 || saved.len() > assignment.lists.len() / 8)
+    pub(crate) fn capture(
+        assignment: &ListAssignment<V>,
+        entity_count: usize,
+        entities: impl Iterator<Item = usize>,
+    ) -> Self {
+        if entity_count != 0
+            && (assignment.lists.len() <= 32 || entity_count > assignment.lists.len() / 8)
         {
             return Self::Full(assignment.clone());
         }
         // The transaction has already deduplicated and validated row indices.
         Self::Sparse(
-            saved
-                .iter()
-                .map(|(entity, _)| (*entity, assignment.lists[*entity].clone()))
+            entities
+                .map(|entity| (entity, assignment.lists[entity].clone()))
                 .collect(),
         )
     }

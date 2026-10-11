@@ -6,6 +6,7 @@
 mod assigned_membership;
 pub(crate) mod move_check;
 mod span_movement;
+pub(crate) mod undo;
 mod value_index;
 #[cfg(test)]
 mod value_metadata_tests;
@@ -487,14 +488,16 @@ impl<V: Eq + Clone> ListProblem<V> {
                 || assignment.lists.iter().map(Vec::len).sum::<usize>() == self.values.len())
     }
     /// Snapshot only the lists referenced by the move, once per entity even for
-    /// nested composites. Composite operations use current indices and validate
+    /// nested composites. Large primitive swaps instead retain an inverse edit.
+    /// Composite operations use current indices and validate
     /// pins/ranges once at the final state. Errors and ordinary panic unwinding
     /// restore the changed lists without cloning values during rollback.
     /// Validate external input in full. Primitive edits preserve registry membership
     /// and uniqueness, so final layout checks inspect only referenced entities.
     /// Opt-in dependency-cycle checks still examine the global dependency graph.
     /// Span edits move existing payloads; they do not promise per-leaf Clone or
-    /// Drop calls. Undo snapshots still clone each referenced row once.
+    /// Drop calls. Snapshot fallback clones each referenced row once; compact
+    /// swaps clone rows only when their pre-move contents are requested.
     pub fn apply<'a>(
         &self,
         assignment: &'a mut ListAssignment<V>,
@@ -530,11 +533,8 @@ impl<V: Eq + Clone> ListProblem<V> {
         // operation checks, retaining their ordering relative to earlier errors.
         let (entities, assignments) = movement.application_entities();
         let mut membership = assigned_membership::AssignedMembership::new(self, assignments);
-        let saved = entities
-            .into_iter()
-            .filter_map(|entity| assignment.lists.get(entity).map(|v| (entity, v.clone())))
-            .collect();
-        let transaction = AppliedListMove {
+        let saved = undo::ListUndo::new(assignment, movement, entities);
+        let mut transaction = AppliedListMove {
             assignment,
             saved: Some(saved),
             original: OnceLock::new(),
@@ -662,23 +662,8 @@ impl<V: Eq + Clone> ListProblem<V> {
                     transaction.element_index(*right)?;
                     record(&transaction.assignment.lists[left.entity][left.index]);
                     record(&transaction.assignment.lists[right.entity][right.index]);
-                    if left.entity == right.entity {
-                        transaction.assignment.lists[left.entity].swap(left.index, right.index);
-                    } else {
-                        let (a, b) = if left.entity < right.entity {
-                            let (low, high) =
-                                transaction.assignment.lists.split_at_mut(right.entity);
-                            (&mut low[left.entity][left.index], &mut high[0][right.index])
-                        } else {
-                            let (low, high) =
-                                transaction.assignment.lists.split_at_mut(left.entity);
-                            (
-                                &mut high[0][left.index],
-                                &mut low[right.entity][right.index],
-                            )
-                        };
-                        std::mem::swap(a, b);
-                    }
+                    undo::swap(transaction.assignment, *left, *right);
+                    transaction.saved.as_mut().unwrap().mark_swapped();
                 }
                 ListMove::Unassign { entity, start, end } => {
                     let list = transaction.assignment.lists.get_mut(*entity).ok_or(
@@ -707,14 +692,14 @@ impl<V: Eq + Clone> ListProblem<V> {
         // Assign checks both explicitly; all other variants only move/remove
         // existing values, and span swaps reject overlap before mutation.
         // Only referenced lists can change their pins or receiver membership.
-        for (entity, _) in transaction.saved.as_ref().unwrap() {
-            let list = &transaction.assignment.lists[*entity];
-            let meta = &self.entities[*entity];
+        for entity in transaction.saved.as_ref().unwrap().entities() {
+            let list = &transaction.assignment.lists[entity];
+            let meta = &self.entities[entity];
             if (meta.pinned && *list != meta.initial)
                 || (!meta.pinned
                     && list.get(..meta.pinned_prefix) != Some(&meta.initial[..meta.pinned_prefix]))
             {
-                return Err(ListError::PinChanged { entity: *entity });
+                return Err(ListError::PinChanged { entity });
             }
             // The source was validated before entering this transaction. Staying
             // values still belong to their row's range; only primitive arrivals
@@ -724,17 +709,14 @@ impl<V: Eq + Clone> ListProblem<V> {
             if meta.value_range.is_none() {
                 continue;
             }
-            let arrivals = movement.arrivals(*entity, list.len());
+            let arrivals = movement.arrivals(entity, list.len());
             for index in arrivals {
                 let value = &list[index];
-                if !self.accepts(*entity, value) {
+                if !self.accepts(entity, value) {
                     return Err(self.range_error(
-                        ListPosition {
-                            entity: *entity,
-                            index,
-                        },
+                        ListPosition { entity, index },
                         value,
-                        ListError::ValueOutsideEntityRange { entity: *entity },
+                        ListError::ValueOutsideEntityRange { entity },
                     ));
                 }
             }
@@ -869,7 +851,7 @@ impl<V> ListMove<V> {
 #[must_use = "dropping rolls back the lists; call commit to keep the move"]
 pub struct AppliedListMove<'a, V> {
     assignment: &'a mut ListAssignment<V>,
-    saved: Option<Vec<(usize, Vec<V>)>>,
+    saved: Option<undo::ListUndo<V>>,
     original: OnceLock<ListAssignment<V>>,
 }
 impl<V> Deref for AppliedListMove<'_, V> {
@@ -885,7 +867,14 @@ impl<V> AppliedListMove<'_, V> {
     {
         crate::candidate_snapshot::ListSnapshot::capture(
             self.assignment,
-            self.saved.as_ref().expect("live list transaction"),
+            self.saved
+                .as_ref()
+                .expect("live list transaction")
+                .entity_count(),
+            self.saved
+                .as_ref()
+                .expect("live list transaction")
+                .entities(),
         )
     }
 
@@ -896,27 +885,21 @@ impl<V> AppliedListMove<'_, V> {
         let rows = self.assignment.lists.len();
         // A sequential length count beats scattered touched-row reads for tiny
         // assignments and dense edits, without allocating an auxiliary index.
-        if rows <= 32 || saved.len() > rows / 8 {
+        if rows <= 32 || saved.entity_count() > rows / 8 {
             return None;
         }
-        Some(
-            saved
-                .iter()
-                .map(|(entity, original)| {
-                    self.assignment.lists[*entity].len() as i64 - original.len() as i64
-                })
-                .sum(),
-        )
+        Some(saved.assigned_delta(self.assignment))
     }
 
     /// The pre-move list, borrowing the saved list for a touched entity and the
-    /// unchanged assignment otherwise. No values are cloned.
+    /// unchanged assignment otherwise. A compact swap materializes its original
+    /// touched rows on the first request and reuses them on subsequent requests.
+    /// Clone may panic during that first request; rollback stays armed.
     pub fn original_list(&self, entity: usize) -> Option<&[V]> {
-        let saved = self.saved.as_ref().expect("live list transaction");
-        match saved.binary_search_by_key(&entity, |(index, _)| *index) {
-            Ok(index) => Some(&saved[index].1),
-            Err(_) => self.assignment.list(entity),
-        }
+        self.saved
+            .as_ref()
+            .expect("live list transaction")
+            .original_list(self.assignment, entity)
     }
     /// Materialize the full pre-move assignment only on demand, then reuse it.
     /// Prefer original_list when inspecting particular entities to avoid cloning
@@ -936,7 +919,7 @@ impl<V> AppliedListMove<'_, V> {
     }
 
     // A containing transaction takes over rollback after both components pass.
-    pub(crate) fn into_undo_lists(mut self) -> Vec<(usize, Vec<V>)> {
+    pub(crate) fn into_undo_lists(mut self) -> undo::ListUndo<V> {
         self.saved.take().expect("live list transaction")
     }
     fn entity(&self, entity: usize) -> Result<&[V], ListError> {
@@ -962,9 +945,7 @@ impl<V> AppliedListMove<'_, V> {
 impl<V> Drop for AppliedListMove<'_, V> {
     fn drop(&mut self) {
         if let Some(mut saved) = self.saved.take() {
-            for (entity, list) in &mut saved {
-                std::mem::swap(&mut self.assignment.lists[*entity], list);
-            }
+            saved.rollback(self.assignment);
         }
     }
 }
