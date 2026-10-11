@@ -6678,3 +6678,23 @@ provenance. Indexed models also use adaptive hashed pillar grouping for larger
 inputs, preserving encounter order and the direct default path. Focused native
 measurements and countercases are retained under work/parallel-round14-evidence;
 no whole-solver or Java speedup is attributed to these changes.
+
+
+Queued live problem changes can borrow the previous completed result and its
+revision without cloning or rescoring. Interim progress is separate; all edits
+in one drained batch see the same completed result and prior edits to the model.
+Sparse scoped-score trials update structural incompleteness from first basic
+undo writes and saved list lengths; tiny/dense inputs retain independent scans.
+Mixed structural-count overflow retains fresh-scoring semantics. These original
+extensions add no upstream-method credit. Focused evidence and native timing
+countercases are in the round14 evidence directory; the handoff tracks the
+combined gate.
+
+
+Dynamic shadow registration arenas now reclaim programs through last-lease
+notifications and reuse free slots. Live and saved checkpoint leases retain
+registration identity; unrelated programs are not scanned. Measured end-to-end
+gains are modest, and tiny loading is slower. The retirement queue and free-slot
+metadata retain high-water capacity. This native optimization adds no method
+credit; paired measurements and focused rollback checks are preserved with the
+round14 evidence.

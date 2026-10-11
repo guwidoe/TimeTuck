@@ -23775,3 +23775,66 @@ dependency_graph implements lease-retirement queue/free-slot indexing for dynami
 shadow program churn; no builds yet. Existing evidence
 copied before any work-file reset. Main next combined gate only after Java
 measurement and next coherent integration. Goal remains active/incomplete.
+
+
+Round14 followups integrated before combined freeze:
+- a72316f frome1c94c1: state-aware queued live changes, previous completed result
+and revision only; no result clone/rescore.40distinct focused tests,Clippy pass;
+fixture-only initial lint correction preserved.2files/8artifacts copied/checked
+in parallel-round14-evidence/live. No sourcecredit.
+- 3b14726 fromad1c4ea: sparse structural counts from undo metadata, tiny/dense
+fallback, mixed fresh-count overflow boundary preserved.39distinctfocusedtests,
+final3changed-target+Clippy/release pass.2,448matching samples/136workloads.
+Large BestAccepted64-candidate search3.396-3.440x,FirstAccepted1.125-1.155x.
+Tiny medians basic0.996x/list1.043x/mixed1.019x;worst0.908x overlapsranges.
+Eight repeated-write cases use+72/+104B peak scratch;128peaksunchanged.
+Both probes onrunner-a; baseline library locally compiled/current remotelycompiled,
+samegenericRust1.92. Superseded variants retained.6files/48artifacts copied/checked
+in parallel-round14-evidence/structural. No sourcecredit.
+
+Arena agent local paired54086 TERMINAL0, worker released.90rows/45matchingpairs.
+512-world load/churn improve6.6/5.8%,4096churn4.7%,4096load+0.1%;tinyload
++10.8%(+0.322us/update). Proven quadratic arena scans removed, but other end-to-end
+costs dominate. Final commit/evidence preparation; include before combined freeze.
+Termination usesrunner-a for diminished-return arithmetic reuse next. Dense selects
+next scope read-only. All local handles terminal; parent owns next combinedgate.
+runner-c43636 unresolved; no duplicate restart or third-machine availability claim.
+Round14 prebuild/recorder prepared, NOT RUN; mapping work/parallel-round14-commits.json.
+Recorder expected3,304source methods, provenance3992396. No Java rerun needed.
+
+
+Round14 FREEZE:Rustfae92c0,provenance3992396. Six reviewed integrations are in
+work/parallel-round14-commits.json,all patch IDs match original commits.
+Arena fae92c0 fromd68fe05:2commitfiles/13artifacts copied and hashed; final files
+match successful check and paired manifests. Exact evidence/source archives in
+parallel-round14-evidence/arena. High-water metadata retained,16extra lease bytes
+on64bit; no whole-construction asymptotic or Java claim. No newsourcecredit.
+34909 LIVE:stable launcher prebuild_parallel_round14.py ->
+work/parallel-round14-prebuild.log then bash scripts/check.sh ->
+work/parallel-round14-final-check.log. Do not modify main Rust/provenance or
+restart a quiet compile. After terminal0 run stable launcher
+work/record_parallel_round14.py (prepared,not run;expected3,304methods).
+No additional Java benchmark refresh needed; previous round13 snapshot preserved.
+
+runner-c reconciliation:agent43636 and read-only73880 TERMINAL255,SSH timeouts.
+Remote process/artifact state UNKNOWN,not evidence the remote build completed or
+stopped; no duplicate restart. User said they would bring laptop online; no
+third-machine availability claim. Arena copied evidence index has updated status.
+Next three Astra/high lanes:
+- dense:adaptive pass-local affected-constraint union across scoped directors,
+keep sparse/tiny direct path and ascending callback order; no persistent cache.
+Code/probe prep,builds held.
+- termination:cache diminished-rate arithmetic across identical comparisons,
+preserve time sampling/window eviction/reset; focusedchecks/Clippy pass, paired
+actual-search runner-a measurement running. Nextbatch,not round14.
+- dependency:next stream/shadow gap selection read-only, no builds.
+Local belongs to34909;runner-a termination-owned. Goal active/incomplete.
+
+
+Round14 gate correction:34909 TERMINAL101 in all-target Clippy, before test
+execution. Three existing live cancellation race fixture State<()> literals need
+the newly introduced result parameter. Parent17a9239 changes only those to
+State<(),()>; no production change. Initial log preserved in
+work/parallel-round14-initial-prebuild.log. Frozen Rust now17a9239, same provenance.
+66276 LIVE replacement runs identical prebuild/check command and logs; do not
+poll/restart34909. Recorder includes followup; still NOT RUN.
