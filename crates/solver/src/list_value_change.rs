@@ -4,6 +4,8 @@ use crate::{
     MixedProblem, Move, MoveProvider, SampleRandom, list_destinations,
 };
 use std::num::NonZeroUsize;
+mod source;
+pub use source::{ListChangeSourceLimits, ListSelectionView, ListValueChangeSource};
 
 /// Pair every value with every destination, or zip independently pin-filtered
 /// streams. Both modes are finite and retain duplicate input occurrences.
@@ -81,30 +83,33 @@ impl<'a, V: Clone + Eq> ValueChangeSelection<'a, V> {
             .filter(|&i| self.locations[i].is_none_or(|p| self.movable(p)))
             .collect())
     }
+    fn destination_selectable(&self, position: Option<ListPosition>) -> Result<bool, ListError> {
+        if let Some(position) = position {
+            let row = self
+                .assignment
+                .list(position.entity)
+                .ok_or(ListError::EntityIndex {
+                    entity: position.entity,
+                    count: self.problem.entities().len(),
+                })?;
+            if position.index > row.len() {
+                return Err(ListError::InsertionIndex(position));
+            }
+            Ok(self.movable(position))
+        } else if self.problem.allows_unassigned() {
+            Ok(true)
+        } else {
+            Err(ListError::UnassignmentNotAllowed)
+        }
+    }
     fn destinations(
         &self,
         positions: &[Option<ListPosition>],
     ) -> Result<Vec<Option<ListPosition>>, ListError> {
         let mut out = vec![];
-        for &p in positions {
-            if let Some(p) = p {
-                let row = self
-                    .assignment
-                    .list(p.entity)
-                    .ok_or(ListError::EntityIndex {
-                        entity: p.entity,
-                        count: self.problem.entities().len(),
-                    })?;
-                if p.index > row.len() {
-                    return Err(ListError::InsertionIndex(p));
-                }
-                if self.movable(p) {
-                    out.push(Some(p));
-                }
-            } else if self.problem.allows_unassigned() {
-                out.push(None);
-            } else {
-                return Err(ListError::UnassignmentNotAllowed);
+        for &position in positions {
+            if self.destination_selectable(position)? {
+                out.push(position);
             }
         }
         Ok(out)

@@ -1004,7 +1004,8 @@ pub use list_value_swap::{
 
 mod list_value_change;
 pub use list_value_change::{
-    ListChangePairing, ListValueChange, ListValueChangeProvider, list_anchored_value_changes,
+    ListChangePairing, ListChangeSourceLimits, ListSelectionView, ListValueChange,
+    ListValueChangeProvider, ListValueChangeSource, list_anchored_value_changes,
     list_value_changes, sample_list_value_changes,
 };
 
