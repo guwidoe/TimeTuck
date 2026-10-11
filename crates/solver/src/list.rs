@@ -251,7 +251,7 @@ pub struct ListProblem<V> {
     value_index: Option<std::sync::Arc<value_index::ValueIndex<V>>>,
     entities: Vec<ListEntity<V>>,
     allows_unassigned: bool,
-    pub(crate) dependencies: Option<crate::DependencyGraph<usize>>,
+    pub(crate) dependencies: Option<crate::list_dependencies::ListDependencies>,
 }
 impl<V: Eq + Clone> ListProblem<V> {
     pub fn new(values: Vec<V>, entities: Vec<ListEntity<V>>) -> Result<Self, ListError> {

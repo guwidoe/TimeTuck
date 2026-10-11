@@ -125,6 +125,34 @@ impl<K: Ord + Clone> DependencyGraph<K> {
         &self.keys
     }
 
+    /// One valid fixed-graph order, indexed by `keys()` ordinal. The graph is
+    /// already acyclic. Structural clients may use this immutable certificate to
+    /// prove that additional edges cannot introduce a cycle; failed proofs must
+    /// still use the complete analysis.
+    pub(crate) fn fixed_order_ranks(&self) -> Vec<usize> {
+        let mut pending: Vec<_> = self.fixed.iter().map(Vec::len).collect();
+        let mut ready: Vec<_> = pending
+            .iter()
+            .enumerate()
+            .rev()
+            .filter_map(|(i, &count)| (count == 0).then_some(i))
+            .collect();
+        let mut ranks = vec![0; self.keys.len()];
+        let mut next = 0;
+        while let Some(i) = ready.pop() {
+            ranks[i] = next;
+            next += 1;
+            for &j in &self.fixed_dependents[i] {
+                pending[j] -= 1;
+                if pending[j] == 0 {
+                    ready.push(j);
+                }
+            }
+        }
+        debug_assert_eq!(next, self.keys.len());
+        ranks
+    }
+
     /// Cycle members and their downstream dependents in key order, without
     /// evaluating or allocating derived values. Used by structural validation.
     /// Duplicate edges contribute matching counts and releases, including edges

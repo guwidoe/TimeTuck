@@ -1,6 +1,43 @@
 //! Structural dependencies between list values, independent of score penalties.
 use crate::{DependencyGraph, ListAssignment, ListError, ListProblem};
 
+// Keys are exactly the registry indices 0..len. Ranks belong to the immutable
+// fixed graph, not an assignment: cloning is safe, and with_dependencies always
+// builds a new certificate. Small graphs retain the original direct analysis.
+#[derive(Clone, Debug)]
+pub(crate) struct ListDependencies {
+    graph: DependencyGraph<usize>,
+    ranks: Option<Vec<usize>>,
+}
+impl std::ops::Deref for ListDependencies {
+    type Target = DependencyGraph<usize>;
+    fn deref(&self) -> &Self::Target {
+        &self.graph
+    }
+}
+impl ListDependencies {
+    fn new(graph: DependencyGraph<usize>) -> Self {
+        let ranks = (graph.keys().len() >= 64).then(|| graph.fixed_order_ranks());
+        Self { graph, ranks }
+    }
+
+    pub(crate) fn inconsistent_nodes(
+        &self,
+        dynamic: &[(usize, usize)],
+    ) -> Result<Vec<usize>, crate::DependencyError<usize>> {
+        if let Some(ranks) = &self.ranks
+            && dynamic.iter().all(|&(node, parent)| {
+                matches!((ranks.get(node), ranks.get(parent)), (Some(n), Some(p)) if p < n)
+            })
+        {
+            return Ok(vec![]);
+        }
+        // A backward edge need not create a cycle. Unknown identities also fall
+        // through, retaining the complete analyzer's diagnostic precedence.
+        self.graph.inconsistent_nodes(dynamic)
+    }
+}
+
 impl<V: Eq + Clone> ListProblem<V> {
     /// Declare each value's fixed dependencies by registry index. Every value also
     /// depends on its previous element while assigned. Fixed cycles and unknown
@@ -29,10 +66,10 @@ impl<V: Eq + Clone> ListProblem<V> {
                 actual: dependencies.len(),
             });
         }
-        self.dependencies = Some(
+        self.dependencies = Some(ListDependencies::new(
             DependencyGraph::new(dependencies.into_iter().enumerate())
                 .map_err(ListError::Dependency)?,
-        );
+        ));
         Ok(self)
     }
 
@@ -169,6 +206,57 @@ mod indexing_tests {
     use super::*;
     use crate::ListEntity;
     use std::{cell::Cell, rc::Rc};
+
+    #[test]
+    fn order_certificate_matches_complete_analysis_and_unknown_error_order() {
+        for n in [8, 64] {
+            for fixed_mask in 0..8 {
+                let nodes = (0..n).map(|i| {
+                    let deps = if (1..=3).contains(&i) && fixed_mask & (1 << (i - 1)) != 0 {
+                        vec![i - 1]
+                    } else {
+                        vec![]
+                    };
+                    (i, deps)
+                });
+                let graph = DependencyGraph::new(nodes).unwrap();
+                let certified = ListDependencies::new(graph.clone());
+                assert_eq!(certified.ranks.is_some(), n >= 64);
+                let edges = [
+                    (1, 0),
+                    (0, 1),
+                    (2, 1),
+                    (1, 2),
+                    (3, 2),
+                    (2, 3),
+                    (3, 0),
+                    (0, 3),
+                ];
+                for mask in 0..256 {
+                    let dynamic: Vec<_> = edges
+                        .iter()
+                        .enumerate()
+                        .filter_map(|(i, &edge)| (mask & (1 << i) != 0).then_some(edge))
+                        .collect();
+                    assert_eq!(
+                        certified.inconsistent_nodes(&dynamic),
+                        graph.inconsistent_nodes(&dynamic)
+                    );
+                }
+                for dynamic in [
+                    vec![(0, n)],
+                    vec![(n, 0)],
+                    vec![(0, n), (n, 0)],
+                    vec![(1, 0), (0, 1), (n, n)],
+                ] {
+                    assert_eq!(
+                        certified.inconsistent_nodes(&dynamic),
+                        graph.inconsistent_nodes(&dynamic)
+                    );
+                }
+            }
+        }
+    }
 
     #[derive(Clone)]
     struct Counted(usize, Rc<Cell<usize>>);
