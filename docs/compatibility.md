@@ -6651,3 +6651,12 @@ check passed 5,994 Rust tests and 266 doctests. These original extensions add no
 upstream-method credit. The subsequent search/span/domain/keyed-lookup performance
 batch is integrated with focused evidence; its combined gate is tracked in
 `docs/next-session.md`. Native measurements remain distinct from stale Java comparisons.
+
+
+Two additional complete `TerminationTest` deadline methods adapt the global-limit
+versus phase-limit behavior with a shared native clock. Actual phase-step barriers
+replace wall sleeps while preserving asynchronous not-done checks, the 1001ms and
+1000ms advances, and eventual non-null completion. Fixtures and score semantics
+are attributed separately. Their combined verification status is in the handoff.
+Indexed shadow construction, reduced tail-range scans and live reconstruction
+move quotas are original native changes and add no source-method credit.

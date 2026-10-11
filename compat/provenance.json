@@ -49584,6 +49584,36 @@
       "upstream_test": "filtersForListValueEntitiesWithoutInverse",
       "local_test": "filters_for_list_value_entities_without_inverse",
       "modifications": "Adapt every asserted assignment/consistency acceptance and rejection to compiled native ShadowEntityFilter queries on actual cached ShadowSession values. requires_consistency()==false represents the source null consistency predicate (absence of a declarative check), not a Java callable/null API imitation. Native explicit schema and typed field handles replace entity descriptors and reflective access. Preserve the missing ownership failure and its error-category assertion with ShadowSessionError::Metadata; the native diagnostic \"list value has no ownership binding\" replaces Java IllegalStateException/\"Impossible state\" wording. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/injected_clock_community.rs",
+      "id": "TerminationTest.globalTimeSpentTerminationAtPhaseLevel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "globalTimeSpentTerminationAtPhaseLevel",
+      "local_test": "global_time_spent_termination_at_phase_level",
+      "modifications": "Adapt complete two-value/two-entity initially unassigned fixture, construction then local phase(s), global/local 1s/2s budgets, asynchronous not-done assertions, 1001ms advance and (for two phases) second 1000ms advance, eventual successful non-null result. Native shared SolverClock replaces MockClock; explicit actual-local-step channel barriers replace start counter and wall sleeps while retaining every completion/non-completion assertion. Native HillClimbing with change/swap ensures ongoing local search instead of relying on Java default algorithm. Worker joined after result; bounded channel waits prevent a hung test. Add exact native phase/global termination assertions and nonzero epoch rebasing. No Java step-trace parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/injected_clock_community.rs",
+      "id": "TerminationTest.globalTimeSpentTerminationAtPhaseLevelTwoPhases",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "globalTimeSpentTerminationAtPhaseLevelTwoPhases",
+      "local_test": "global_time_spent_termination_at_phase_level_two_phases",
+      "modifications": "Adapt complete two-value/two-entity initially unassigned fixture, construction then local phase(s), global/local 1s/2s budgets, asynchronous not-done assertions, 1001ms advance and (for two phases) second 1000ms advance, eventual successful non-null result. Native shared SolverClock replaces MockClock; explicit actual-local-step channel barriers replace start counter and wall sleeps while retaining every completion/non-completion assertion. Native HillClimbing with change/swap ensures ongoing local search instead of relying on Java default algorithm. Worker joined after result; bounded channel waits prevent a hung test. Add exact native phase/global termination assertions and nonzero epoch rebasing. No Java step-trace parity claimed."
     }
   ],
   "fixtures": [
@@ -66993,6 +67023,32 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/noshadows/TestdataPinnedNoShadowsListValue.java",
       "upstream_test": "index",
       "modifications": "Preserve the index shadow and absence of any inverse owner field in native list_schema(false,false). Explicit list-value type metadata identifies ownership requirements; no Java descriptor implementation is reproduced. No source-method credit for this fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/injected_clock_community.rs",
+      "id": "injected-clock-two-entity-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "two-value/two-entity uninitialized fixture in globalTimeSpentTerminationAtPhaseLevel and globalTimeSpentTerminationAtPhaseLevelTwoPhases",
+      "modifications": "Two reusable numeric planning values and two required variables with absent initial assignments replace TestdataSolution/reflection. Preserve construction followed by one or two local phases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/injected_clock_community.rs",
+      "id": "injected-clock-ordered-duplicate-score",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "For the two-entity fixture, skip missing values and penalize both ordered unequal-entity pairs when their assigned values match: -2 for equal present values, zero otherwise. Native scoped scoring replaces Java easy-score fixture; no production source used."
     }
   ]
 }

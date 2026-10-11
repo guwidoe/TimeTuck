@@ -2196,3 +2196,22 @@ callback fails. Failed/panicked runs retain that observation, and a new run star
 empty. Caught custom lifecycle panics invalidate the command phase.
 Score types remain generic, without a new static-lifetime or serialization bound.
 Disabled monitoring does not clone scores or scan completeness for publication.
+
+
+Shared invocation clock and live reconstruction quotas
+------------------------------------------------------
+`SolverExtensions.clock` accepts a borrowed, clonable `SolverClock` whose callback
+returns arbitrary duration ticks. Each solve rebases that source and clamps
+backwards readings; its phase and reconstruction timers have separate origins.
+All 18 fresh/retained model/backend routes share the clock for deadlines and
+stagnation windows. Existing setup/diagnostic charging boundaries remain. Metrics
+keep their own observation clock; standalone kernels retain real clocks. A frozen
+source cannot terminate an otherwise unbounded search. Callback panics propagate.
+No custom-clock allocation, callback or lock occurs when the option is absent.
+
+Composed move-count conditions now observe successful reconstruction candidates
+between scores, including nested AND/OR and scored conditions. Pending counts
+are classified as Reconstruction without incrementing outer construction steps.
+Metrics still publish counts only after a successful rebuild; failures publish
+no partial rebuild counts. The temporary counter exists only when a move-count
+expression needs it. Hard budgets and cancellation remain independent.
