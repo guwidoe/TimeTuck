@@ -95,6 +95,23 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         Option<&mut dyn crate::time_limit::SearchControl<S>>,
     ) -> Result<Repair<P::Assignment, S>, RuinRecreateError>,
 ) -> Result<RuinRecreateOutcome<(P::Assignment, S)>, RuinRecreateError> {
+    let progress_scopes = [
+        crate::TerminationProgressScope::Solve,
+        crate::TerminationProgressScope::Phase,
+    ]
+    .map(|scope| (scope, config.acceptance.uses_termination_scope(scope)));
+    for (scope, enabled) in progress_scopes {
+        if enabled
+            && !shared
+                .as_ref()
+                .is_some_and(|c| c.has_termination_context(scope))
+        {
+            return Err(crate::LocalSearchError::from(
+                crate::AcceptanceError::TerminationContextRequired,
+            )
+            .into());
+        }
+    }
     let move_counter = crate::move_metrics::from_control(&shared);
     let timed_acceptance = config.acceptance.uses_elapsed_time();
     let elapsed = crate::solver_clock::monitored_clock(
@@ -332,6 +349,16 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         };
         if let Some(shared) = &mut shared {
             shared.step_started();
+        }
+        for (scope, enabled) in progress_scopes {
+            if enabled {
+                acceptor
+                    .termination_step_started(
+                        scope,
+                        shared.as_mut().and_then(|c| c.termination_progress(scope)),
+                    )
+                    .map_err(crate::LocalSearchError::from)?;
+            }
         }
         if timed_acceptance {
             let phase_elapsed = shared

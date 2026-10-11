@@ -309,3 +309,20 @@ impl<S: crate::Score> ScoredSearchTermination<'_, S> {
         })
     }
 }
+
+// Independent configured expressions stop by OR; missing progress stays missing.
+// Evaluate inputs before combining so history polling is never short-circuited.
+pub(crate) fn combine_states(states: [Option<TerminationState>; 3]) -> Option<TerminationState> {
+    let mut result: Option<TerminationState> = None;
+    for state in states.into_iter().flatten() {
+        let current = result.get_or_insert(TerminationState {
+            reached: false,
+            progress: None,
+        });
+        current.reached |= state.reached;
+        if let Some(value) = state.progress {
+            current.progress = Some(current.progress.map_or(value, |p| p.max(value)));
+        }
+    }
+    result
+}

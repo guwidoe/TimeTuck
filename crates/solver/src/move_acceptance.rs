@@ -86,6 +86,18 @@ impl<S: Score, M: Eq + Clone> MoveAcceptor<S, M> {
         self.state
             .accepts(current, candidate, variables, movement, &[])
     }
+    /// Freeze configured expression progress for matching composite children.
+    pub fn termination_step_started(
+        &mut self,
+        scope: crate::TerminationProgressScope,
+        progress: Option<f64>,
+    ) -> Result<(), AcceptanceError> {
+        if progress.is_some_and(|p| !p.is_finite() || !(0.0..=1.0).contains(&p)) {
+            return Err(AcceptanceError::InvalidGradient);
+        }
+        self.state.termination_step_started(scope, progress);
+        Ok(())
+    }
     /// Freeze elapsed-time acceptance for the next candidate scan.
     pub fn step_started(&mut self, elapsed: std::time::Duration) {
         self.state.step_started(elapsed);
@@ -129,6 +141,18 @@ impl<S: Score, M: Eq + Clone, K: Eq + Clone> ValueAcceptor<S, M, K> {
     ) -> bool {
         self.state
             .accepts(current, candidate, variables, movement, values)
+    }
+    /// Freeze configured expression progress for matching composite children.
+    pub fn termination_step_started(
+        &mut self,
+        scope: crate::TerminationProgressScope,
+        progress: Option<f64>,
+    ) -> Result<(), AcceptanceError> {
+        if progress.is_some_and(|p| !p.is_finite() || !(0.0..=1.0).contains(&p)) {
+            return Err(AcceptanceError::InvalidGradient);
+        }
+        self.state.termination_step_started(scope, progress);
+        Ok(())
     }
     /// Freeze elapsed-time acceptance for the next candidate scan.
     pub fn step_started(&mut self, elapsed: std::time::Duration) {
@@ -234,6 +258,21 @@ impl<S: Score, M: Eq + Clone, K: Eq + Clone> ContextAcceptor<S, M, K> {
                     values,
                 )
             }),
+        }
+    }
+    fn termination_step_started(
+        &mut self,
+        scope: crate::TerminationProgressScope,
+        progress: Option<f64>,
+    ) {
+        match &mut self.state {
+            State::Ordinary(state) => state.apply_termination_progress(scope, progress),
+            State::All(children) => {
+                for child in children {
+                    child.termination_step_started(scope, progress);
+                }
+            }
+            _ => {}
         }
     }
     fn step_started(&mut self, elapsed: std::time::Duration) {

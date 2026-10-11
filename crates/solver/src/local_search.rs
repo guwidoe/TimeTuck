@@ -314,6 +314,32 @@ impl<S> Default for LocalSearchConfig<'_, S> {
     }
 }
 impl<S> LocalSearchConfig<'_, S> {
+    pub(crate) fn uses_termination_scope(&self, scope: crate::TerminationProgressScope) -> bool {
+        self.acceptance.uses_termination_scope(scope)
+            || self
+                .additional_acceptance
+                .iter()
+                .any(|a| a.uses_termination_scope(scope))
+    }
+    pub(crate) fn validate_termination_context(
+        &self,
+        shared: &Option<&mut dyn crate::time_limit::SearchControl<S>>,
+    ) -> Result<(), AcceptanceError> {
+        for scope in [
+            crate::TerminationProgressScope::Solve,
+            crate::TerminationProgressScope::Phase,
+        ] {
+            if self.uses_termination_scope(scope)
+                && !shared
+                    .as_ref()
+                    .is_some_and(|c| c.has_termination_context(scope))
+            {
+                return Err(AcceptanceError::TerminationContextRequired);
+            }
+        }
+        Ok(())
+    }
+
     pub(crate) fn uses_elapsed_acceptance(&self) -> bool {
         self.acceptance.uses_elapsed_time()
             || self
@@ -632,6 +658,7 @@ pub(crate) fn search_impl_with_provider<V: Eq + Clone, S: AdditiveScore, D: Sear
 where
     LocalSearchError: From<D::Error>,
 {
+    config.validate_termination_context(&shared)?;
     let move_counter = crate::move_metrics::from_control(&shared);
     let score_counter = crate::score_evaluations::from_control(&shared);
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
@@ -699,6 +726,11 @@ where
         director.assert_consistent()?;
     }
     let timed_acceptance = config.uses_elapsed_acceptance();
+    let progress_scopes = [
+        crate::TerminationProgressScope::Solve,
+        crate::TerminationProgressScope::Phase,
+    ]
+    .map(|scope| (scope, config.uses_termination_scope(scope)));
     time_budget.start_search();
     time_budget.observe_best_score(&result.best.as_ref().expect("initial best").score);
     director.notify_best(|_| true);
@@ -723,6 +755,12 @@ where
         // Snapshot decouples lazy enumeration from the director's transaction.
         // Original order stays lazy; optional candidate shuffling has bounded lookahead.
         time_budget.start_step();
+        for (scope, enabled) in progress_scopes {
+            if enabled {
+                acceptor
+                    .termination_step_started(scope, time_budget.termination_progress(scope))?;
+            }
+        }
         if timed_acceptance {
             acceptor.step_started(time_budget.acceptance_elapsed());
         }

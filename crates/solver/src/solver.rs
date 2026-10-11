@@ -458,11 +458,11 @@ impl<S: Score> SolveControl<'_, S> {
     fn condition_reached_with_score(&mut self, construction_score: Option<&S>) -> bool {
         self.condition_reached_with_pending(construction_score, 0)
     }
-    fn condition_reached_with_pending(
+    fn condition_status_with_pending(
         &mut self,
         construction_score: Option<&S>,
         pending: u64,
-    ) -> bool {
+    ) -> Option<crate::TerminationState> {
         if self.condition.is_some()
             || self.scored_condition.is_some()
             || self.stateful_condition.is_some()
@@ -491,26 +491,25 @@ impl<S: Score> SolveControl<'_, S> {
                 .into_iter()
                 .chain(construction_score)
                 .max();
-            let stateful_reached = self
-                .stateful_condition
-                .as_mut()
-                .is_some_and(|session| session.status(progress, best).is_some_and(|s| s.reached));
-            self.condition_expired |= self
-                .condition
-                .is_some_and(|c| c.status(progress).is_some_and(|s| s.reached))
-                || self.scored_condition.is_some_and(|c| {
-                    c.status(
-                        progress,
-                        self.condition_best
-                            .as_ref()
-                            .into_iter()
-                            .chain(construction_score)
-                            .max(),
-                    )
-                    .is_some_and(|s| s.reached)
-                });
-            self.condition_expired |= stateful_reached;
+            let state = crate::composite_termination::combine_states([
+                self.condition.and_then(|c| c.status(progress)),
+                self.scored_condition.and_then(|c| c.status(progress, best)),
+                self.stateful_condition
+                    .as_mut()
+                    .and_then(|c| c.status(progress, best)),
+            ]);
+            self.condition_expired |= state.is_some_and(|s| s.reached);
+            state
+        } else {
+            None
         }
+    }
+    fn condition_reached_with_pending(
+        &mut self,
+        construction_score: Option<&S>,
+        pending: u64,
+    ) -> bool {
+        self.condition_status_with_pending(construction_score, pending);
         self.condition_expired
     }
 
@@ -614,6 +613,38 @@ impl<S: Score> SolveControl<'_, S> {
     }
 }
 impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
+    fn has_termination_context(&self, scope: crate::TerminationProgressScope) -> bool {
+        match scope {
+            crate::TerminationProgressScope::Solve => {
+                self.condition.is_some()
+                    || self.scored_condition.is_some()
+                    || self.stateful_condition.is_some()
+            }
+            crate::TerminationProgressScope::Phase => self.phase_condition.is_some(),
+        }
+    }
+    fn termination_progress(&mut self, scope: crate::TerminationProgressScope) -> Option<f64> {
+        match scope {
+            crate::TerminationProgressScope::Solve => self
+                .condition_status_with_pending(None, 0)
+                .and_then(|s| s.progress),
+            crate::TerminationProgressScope::Phase => {
+                self.sample();
+                let phase = self.phase_condition.as_mut()?;
+                phase
+                    .status(
+                        self.last,
+                        self.score_counter.as_ref().map_or(0, |c| c.total()),
+                        self.move_counter
+                            .as_ref()
+                            .map_or_else(Default::default, |c| c.snapshot()),
+                        None,
+                    )
+                    .and_then(|s| s.progress)
+            }
+        }
+    }
+
     fn acceptance_elapsed(&self) -> Option<Duration> {
         self.acceptance_clock
             .as_ref()
@@ -998,6 +1029,44 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
             _ => &[],
         }
     }
+    fn validate_cooling<E>(
+        &self,
+        phases: &[SolverPhase<'_, S>],
+        limits: &SolverLimits<'_, S>,
+    ) -> Result<(), SolverError<E>> {
+        for (phase, config) in phases.iter().enumerate() {
+            for scope in [
+                crate::TerminationProgressScope::Solve,
+                crate::TerminationProgressScope::Phase,
+            ] {
+                let used = match config {
+                    SolverPhase::LocalSearch(c) => c.uses_termination_scope(scope),
+                    SolverPhase::RuinRecreate(c) => c.acceptance.uses_termination_scope(scope),
+                    _ => false,
+                };
+                if !used {
+                    continue;
+                }
+                let available = match scope {
+                    crate::TerminationProgressScope::Solve => {
+                        limits.termination.is_some()
+                            || limits.scored_termination.is_some()
+                            || self.stateful_condition().is_some()
+                    }
+                    crate::TerminationProgressScope::Phase => {
+                        self.phase_bindings().iter().any(|b| b.phase == phase)
+                    }
+                };
+                if !available {
+                    return Err(SolverError::InvalidAcceptance {
+                        phase,
+                        error: AcceptanceError::TerminationContextRequired,
+                    });
+                }
+            }
+        }
+        Ok(())
+    }
     fn validate_bindings<E>(&self, phases: usize) -> Result<(), SolverError<E>> {
         let bindings = self.phase_bindings();
         for (i, binding) in bindings.iter().enumerate() {
@@ -1245,6 +1314,7 @@ where
     A: Clone,
 {
     observation.validate_bindings(local.len())?;
+    observation.validate_cooling(local, &limits)?;
     observation.clock_session = match &observation.callback {
         Some(PlanCallback::Checked {
             clock: Some(source),
@@ -1316,6 +1386,7 @@ where
     // Reborrow through a local adapter so callback storage does not tie the
     // solve clock and termination references to the caller's callback lifetime.
     observation.validate_bindings(local.len())?;
+    observation.validate_cooling(local, &limits)?;
     let phase_bindings = observation.phase_bindings();
     let stateful_condition = observation.stateful_condition();
     let mut callback = observation.take_lifecycle();

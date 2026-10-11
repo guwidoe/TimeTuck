@@ -185,6 +185,7 @@ pub(crate) fn search_impl_with_provider<
 where
     ListLocalSearchError: From<D::Error>,
 {
+    config.validate_termination_context(&shared)?;
     let move_counter = crate::move_metrics::from_control(&shared);
     let score_counter = crate::score_evaluations::from_control(&shared);
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
@@ -236,6 +237,11 @@ where
         director.assert_consistent()?;
     }
     let timed_acceptance = config.uses_elapsed_acceptance();
+    let progress_scopes = [
+        crate::TerminationProgressScope::Solve,
+        crate::TerminationProgressScope::Phase,
+    ]
+    .map(|scope| (scope, config.uses_termination_scope(scope)));
     time_budget.start_search();
     time_budget.observe_best_score(&result.best.as_ref().expect("initial best").score);
     director.notify_best(|_| true);
@@ -258,6 +264,12 @@ where
             return Ok(result);
         }
         time_budget.start_step();
+        for (scope, enabled) in progress_scopes {
+            if enabled {
+                acceptor
+                    .termination_step_started(scope, time_budget.termination_progress(scope))?;
+            }
+        }
         if timed_acceptance {
             acceptor.step_started(time_budget.acceptance_elapsed());
         }

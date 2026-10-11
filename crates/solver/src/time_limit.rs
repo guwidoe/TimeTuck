@@ -28,6 +28,13 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 
 /// Optional solve-wide observer; phase timers and step counters stay independent.
 pub(crate) trait SearchControl<S = crate::SimpleScore> {
+    fn has_termination_context(&self, _scope: crate::TerminationProgressScope) -> bool {
+        false
+    }
+    fn termination_progress(&mut self, _scope: crate::TerminationProgressScope) -> Option<f64> {
+        None
+    }
+
     fn acceptance_elapsed(&self) -> Option<Duration> {
         None
     }
@@ -107,6 +114,14 @@ impl<'m, C: FnMut() -> Duration, S> TimeBudget<'m, C, S> {
     pub(crate) fn with_shared(mut self, shared: Option<&'m mut dyn SearchControl<S>>) -> Self {
         self.shared = shared;
         self
+    }
+    pub(crate) fn termination_progress(
+        &mut self,
+        scope: crate::TerminationProgressScope,
+    ) -> Option<f64> {
+        self.shared
+            .as_mut()
+            .and_then(|s| s.termination_progress(scope))
     }
     pub(crate) fn acceptance_elapsed(&mut self) -> Duration {
         self.shared

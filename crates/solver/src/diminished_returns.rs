@@ -300,6 +300,12 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     pub(crate) fn record_improvement(&mut self) {
         self.base.record_improvement();
     }
+    pub(crate) fn termination_progress(
+        &mut self,
+        scope: crate::TerminationProgressScope,
+    ) -> Option<f64> {
+        self.base.termination_progress(scope)
+    }
     pub(crate) fn acceptance_elapsed(&mut self) -> Duration {
         self.base.acceptance_elapsed()
     }

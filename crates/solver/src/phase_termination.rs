@@ -146,13 +146,13 @@ impl<'a, S: Score> PhaseControl<'a, S> {
             self.best = Some(score.clone());
         }
     }
-    pub(crate) fn reached(
+    pub(crate) fn status(
         &mut self,
         now: Duration,
         scores: u64,
         moves: MoveEvaluationCounts,
         construction_score: Option<&S>,
-    ) -> bool {
+    ) -> Option<crate::TerminationState> {
         let progress = SearchProgress {
             elapsed: now.saturating_sub(self.origin),
             completed_steps: self.steps.completed_steps(),
@@ -168,27 +168,24 @@ impl<'a, S: Score> PhaseControl<'a, S> {
             .into_iter()
             .chain(construction_score)
             .max();
-        // Evaluate sessions before combining: no history update is short-circuited.
-        let stateful_reached = self
-            .stateful
-            .as_mut()
-            .is_some_and(|session| session.status(progress, best).is_some_and(|s| s.reached));
-        self.expired |= self
-            .binding
-            .search
-            .is_some_and(|c| c.status(progress).is_some_and(|s| s.reached))
-            || self.binding.scored.is_some_and(|c| {
-                c.status(
-                    progress,
-                    self.best
-                        .as_ref()
-                        .into_iter()
-                        .chain(construction_score)
-                        .max(),
-                )
-                .is_some_and(|s| s.reached)
-            });
-        self.expired |= stateful_reached;
+        let state = crate::composite_termination::combine_states([
+            self.binding.search.and_then(|c| c.status(progress)),
+            self.binding.scored.and_then(|c| c.status(progress, best)),
+            self.stateful
+                .as_mut()
+                .and_then(|c| c.status(progress, best)),
+        ]);
+        self.expired |= state.is_some_and(|s| s.reached);
+        state
+    }
+    pub(crate) fn reached(
+        &mut self,
+        now: Duration,
+        scores: u64,
+        moves: MoveEvaluationCounts,
+        construction_score: Option<&S>,
+    ) -> bool {
+        self.status(now, scores, moves, construction_score);
         self.expired
     }
 }

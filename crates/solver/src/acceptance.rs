@@ -6,6 +6,18 @@ use crate::{
 };
 use std::{error::Error, fmt};
 
+/// Configured termination expressions used for cooling. Hard budgets and
+/// cancellation are separate safeguards and do not contribute a fraction.
+/// Solve counters/time span handoffs; phase counters/time start before phase
+/// callbacks and preparation. Score goals and stateful histories keep their
+/// existing complete-score and arming rules. Expression AND/OR identities and
+/// unsupported-child handling follow [`crate::TerminationExpression`] exactly.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum TerminationProgressScope {
+    Solve,
+    Phase,
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Acceptance<S = SimpleScore> {
     /// Linearly cool to zero after this many completed steps. The random stream
@@ -24,6 +36,18 @@ pub enum Acceptance<S = SimpleScore> {
     SimulatedAnnealingTime {
         starting_temperature: S,
         cooling_time: std::time::Duration,
+        seed: u64,
+    },
+    /// Cool from configured expression progress, sampled once at step start.
+    /// Solve uses the OR of configured solve expressions; Phase uses its binding.
+    /// Unknown progress holds the previous value (initially zero). A lower known
+    /// value, such as a stagnation reset, reheats. Each phase starts fresh.
+    /// Integrated plans require the selected expression scope before callbacks;
+    /// standalone kernels return TerminationContextRequired. Low-level acceptors
+    /// can receive explicit samples with `termination_step_started`.
+    SimulatedAnnealingTermination {
+        starting_temperature: S,
+        scope: TerminationProgressScope,
         seed: u64,
     },
     GreatDeluge {
@@ -108,6 +132,7 @@ pub enum AcceptanceError {
     ZeroCoolingSteps,
     ZeroCoolingTime,
     InvalidGradient,
+    TerminationContextRequired,
     InvalidRandomDraw,
 }
 impl fmt::Display for AcceptanceError {
@@ -126,6 +151,9 @@ impl fmt::Display for AcceptanceError {
             }
             Self::ZeroCoolingTime => "annealing cooling time must be positive",
             Self::ZeroCoolingSteps => "annealing cooling steps must be positive",
+            Self::TerminationContextRequired => {
+                "annealing requires its configured termination expression scope"
+            }
             Self::InvalidGradient => "annealing gradient must be finite and in [0, 1]",
             Self::InvalidRandomDraw => "random draw must be finite and in [0, 1)",
             Self::TabuTenureOverflow => "tabu tenure exceeds usize",
@@ -161,6 +189,13 @@ impl<S: Score> Acceptance<S> {
         }
     }
     pub fn validate(&self) -> Result<(), AcceptanceError> {
+        if let Self::SimulatedAnnealingTermination {
+            starting_temperature,
+            ..
+        } = self
+        {
+            SimulatedAnnealing::validate(starting_temperature, 1)?;
+        }
         if let Self::SimulatedAnnealingTime {
             starting_temperature,
             cooling_time,
@@ -281,6 +316,15 @@ impl<S: Score> Acceptance<S> {
                 cooling_time,
                 seed,
             )?),
+            Self::SimulatedAnnealingTermination {
+                starting_temperature,
+                scope,
+                seed,
+            } => Acceptor::SimulatedAnnealingTermination {
+                state: SimulatedAnnealing::new(starting_temperature, 1, seed)?,
+                scope,
+                gradient: 0.0,
+            },
             Self::StrictImprovement => Acceptor::StrictImprovement,
             Self::HillClimbing => Acceptor::HillClimbing,
             Self::FadingVariableTabu {
@@ -322,6 +366,11 @@ pub enum Acceptor<S> {
     StepCountingHillClimbing(StepCountingHillClimbing<S>),
     SimulatedAnnealing(SimulatedAnnealing<S>),
     SimulatedAnnealingTime(TimeSimulatedAnnealing<S>),
+    SimulatedAnnealingTermination {
+        state: SimulatedAnnealing<S>,
+        scope: TerminationProgressScope,
+        gradient: f64,
+    },
     StrictImprovement,
     HillClimbing,
     DiversifiedLateAcceptance(DiversifiedLateAcceptance<S>),
@@ -392,6 +441,9 @@ impl<S: Score> Acceptor<S> {
             Self::StepCountingHillClimbing(state) => state.accepts(current, candidate),
             Self::SimulatedAnnealing(state) => state.accepts(current, candidate),
             Self::SimulatedAnnealingTime(state) => state.accepts(current, candidate),
+            Self::SimulatedAnnealingTermination {
+                state, gradient, ..
+            } => state.accepts_with_gradient(current, candidate, *gradient),
             Self::StrictImprovement => candidate > current,
             Self::HillClimbing => candidate >= current,
             Self::DiversifiedLateAcceptance(state) => state.accepts(current, candidate),
@@ -414,6 +466,55 @@ impl<S: Score> Acceptor<S> {
                 }
             }
             Self::SimulatedAnnealingTime(state) => state.step_started(elapsed),
+            _ => {}
+        }
+    }
+    /// Freeze one scope's progress for every matching child. None holds its prior
+    /// gradient. Invalid fractions fail before updating any child. Known lower
+    /// fractions are applied, allowing expression-driven reheating.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let scope = TerminationProgressScope::Phase;
+    /// let mut acceptor = Acceptance::SimulatedAnnealingTermination {
+    ///     starting_temperature: SimpleScore::new(100), scope, seed: 42,
+    /// }.start(SimpleScore::ZERO)?;
+    /// acceptor.termination_step_started(scope, Some(1.0))?;
+    /// assert!(!acceptor.accepts(SimpleScore::ZERO, SimpleScore::new(-1), &[]));
+    /// // An unknown estimate retains this step's temperature.
+    /// acceptor.termination_step_started(scope, None)?;
+    /// assert!(!acceptor.accepts(SimpleScore::ZERO, SimpleScore::new(-1), &[]));
+    /// # Ok::<(), AcceptanceError>(())
+    /// ```
+    pub fn termination_step_started(
+        &mut self,
+        scope: TerminationProgressScope,
+        progress: Option<f64>,
+    ) -> Result<(), AcceptanceError> {
+        if progress.is_some_and(|p| !p.is_finite() || !(0.0..=1.0).contains(&p)) {
+            return Err(AcceptanceError::InvalidGradient);
+        }
+        self.apply_termination_progress(scope, progress);
+        Ok(())
+    }
+    pub(crate) fn apply_termination_progress(
+        &mut self,
+        requested: TerminationProgressScope,
+        progress: Option<f64>,
+    ) {
+        match self {
+            Self::All(children) => {
+                for child in children {
+                    child.apply_termination_progress(requested, progress);
+                }
+            }
+            Self::SimulatedAnnealingTermination {
+                scope, gradient, ..
+            } if *scope == requested => {
+                if let Some(value) = progress {
+                    *gradient = value;
+                }
+            }
             _ => {}
         }
     }
@@ -503,5 +604,11 @@ impl<S: Score> LateAcceptance<S> {
 impl<S> Acceptance<S> {
     pub(crate) fn uses_elapsed_time(&self) -> bool {
         matches!(self, Self::SimulatedAnnealingTime { .. })
+    }
+}
+
+impl<S> Acceptance<S> {
+    pub(crate) fn uses_termination_scope(&self, requested: TerminationProgressScope) -> bool {
+        matches!(self, Self::SimulatedAnnealingTermination { scope, .. } if *scope == requested)
     }
 }

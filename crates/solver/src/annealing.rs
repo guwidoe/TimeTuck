@@ -94,7 +94,12 @@ impl<S: Score> SimulatedAnnealing<S> {
         self.accepts_with_gradient(current, candidate, self.gradient())
     }
 
-    fn accepts_with_gradient(&mut self, current: S, candidate: S, gradient: f64) -> bool {
+    pub(crate) fn accepts_with_gradient(
+        &mut self,
+        current: S,
+        candidate: S,
+        gradient: f64,
+    ) -> bool {
         let probability = self
             .probability_at(current, candidate, gradient)
             .expect("internal gradient stays in [0, 1]");
