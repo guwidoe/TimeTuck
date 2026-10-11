@@ -7189,3 +7189,38 @@ settings, real calculation counts, failed preparation retry, typed failure clean
 registration ordering, zero entities/empty plans and actual seeded search.
 Preparation/instance counts establish reuse, not a measured wall-clock speedup.
 Prior performance comparisons remain visibly stale until deliberately refreshed.
+
+
+### Observed assembled runs and ordered-list resources
+
+Eleven additional DefaultSolverTest methods have complete native adaptations.
+FactoryRuntimeView reads the actual context-owned scoring resource; retained views
+keep its identity but become unreadable after replacement or shutdown. Same-mode
+phases retain their resource; an override closes the old resource before the new
+PhaseEntered hook. Actual successful phase work supplies positive construction
+and nondecreasing local-search calculation counts across mode changes.
+
+FactoryRunCallbacks bind fallible Started, PhaseEntered, PhaseCompleted and Finished
+hooks outside candidate loops. Failure hooks read the live current assignment before
+cleanup, including startup-listener and invalid-list-move failures. Hook errors remain
+typed; failure-hook and release errors are suppressed in order without replacing the
+primary error. Final-release failures necessarily expose a closed view. Panics release
+resources through Drop without calling more user hooks. Pre-run allocation errors
+have no resource view and therefore do not notify run hooks.
+
+Both actual ordered-list scoring directors now implement ContextScoreResource.
+Their native retained construction/local-search runners execute the shared phase
+plan. The complete source uninitialized 20-value/5-entity list fixture is solved
+through dense and stream resources with the fifty-step override; invalid-provider
+cases retain the full 2/2 fixture and actual bad-value append. Four additional test
+fixture records attribute these inputs, zero calculators/configuration and the
+invalid-provider helper. No upstream production or Enterprise source is used.
+
+Six original regressions earn no source credit: actual scored list solves on both
+backends, reusable immutable preparation and independent runs, event ordering and
+real counts, returning basic phase modes, typed failure ordering, hook failures and
+panic cleanup, and the built-in list resources' scores/totals/consistency checks.
+Callbacks introduce no candidate-loop work. No wall-clock speedup is claimed; prior
+performance comparisons remain visibly stale. Persistent list-state/index identity,
+per-step lifecycle hooks, whole-solve controls and complete tracked/assertion-factory
+execution remain pending; resource identity is not credited as list-state identity.

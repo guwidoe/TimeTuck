@@ -53949,6 +53949,171 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverTest.assertDefaultEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "assertDefaultEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "assert_default_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.assertUpdatedDefaultEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "assertUpdatedDefaultEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "assert_updated_default_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.assertPhaseEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "assertPhaseEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "assert_phase_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.assertDefaultPhaseEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "assertDefaultPhaseEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "assert_default_phase_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.solveWithPhaseEnvironmentModeOverride",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveWithPhaseEnvironmentModeOverride",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "solve_with_phase_environment_mode_override",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.replacedScoreDirectorIsClosedWhenAPhaseOverridesTheEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "replacedScoreDirectorIsClosedWhenAPhaseOverridesTheEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "replaced_score_director_is_closed_when_a_phase_overrides_the_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.ensureScoreCalculationCountConsistent",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "ensureScoreCalculationCountConsistent",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "ensure_score_calculation_count_consistent",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.solveListVariableWithPhaseEnvironmentModeOverride",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solveListVariableWithPhaseEnvironmentModeOverride",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "solve_list_variable_with_phase_environment_mode_override",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.solvingErrorClosesScoreDirectorWhenSolvingStartedFails",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solvingErrorClosesScoreDirectorWhenSolvingStartedFails",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "solving_error_closes_score_director_when_solving_started_fails",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.solvingErrorNotifiesListenersBeforeClosingTheScoreDirector",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solvingErrorNotifiesListenersBeforeClosingTheScoreDirector",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "solving_error_notifies_listeners_before_closing_the_score_director",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.solvingErrorClosesScoreDirectorWhenPhaseFails",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "solvingErrorClosesScoreDirectorWhenPhaseFails",
+      "local_path": "crates/solver/tests/assembled_lifecycle_cases.rs",
+      "local_test": "solving_error_closes_score_director_when_phase_fails",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
     }
   ],
   "fixtures": [
@@ -74803,6 +74968,58 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve complete default 5-value/7-entity and explicit 2-value/2-entity initialized modulo assignment; integer finite-domain variables replace Java beans/names. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "observed-list-factory-fixture-1",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "generateUninitializedSolution and generateSolution",
+      "local_path": "crates/solver/tests/fixtures/observed_list_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain full uninitialized 20-value/5-entity and 2-value/2-entity layouts; native generated string names preserve source domain identity/diagnostics. Apache-2.0 fixture attribution only; no extra method credit."
+    },
+    {
+      "id": "observed-list-factory-fixture-2",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig and TERMINATION_STEP_COUNT_LIMIT",
+      "local_path": "crates/solver/tests/fixtures/observed_list_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve zero score objective and construction then ten-step local search; override test changes local ceiling to fifty. Explicit native registrations replace annotations/reflection. Apache-2.0 fixture attribution only; no extra method credit."
+    },
+    {
+      "id": "observed-list-factory-fixture-3",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/observed_list_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain exact zero objective through real dense list scoring network or stream graph; native structural flaws count required unassigned list values. Apache-2.0 fixture attribution only; no extra method credit."
+    },
+    {
+      "id": "observed-list-factory-fixture-4",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "InvalidMoveListFactory and InvalidSelectorBasedMove TEST fixtures",
+      "local_path": "crates/solver/tests/fixtures/observed_list_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Actual native provider yields one bad value append to first entity at its current list length. Native checked transactional validation rejects it atomically and emits translated range diagnostics; before/after bean notifications are not copied. Original weighted objective is separate and adds no credit. Apache-2.0 fixture attribution only; no extra method credit."
     }
   ]
 }

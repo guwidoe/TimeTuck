@@ -1,4 +1,5 @@
 //! Validated model/scoring assembly and actual runtime phase-mode coordination.
+pub(crate) mod phase_views;
 use super::{
     FactoryScoreDirector, FactoryScoreShape, PreparedScoreFactory, ScoreFactoryBuildError,
     ScoringFactoryDeclaration,

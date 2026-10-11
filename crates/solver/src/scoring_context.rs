@@ -1,4 +1,5 @@
 //! Retained scoring resources and explicit runtime phase transitions.
+mod list_resources;
 use crate::{AdditiveScore, EnvironmentMode};
 use std::{
     cell::{Ref, RefCell},
