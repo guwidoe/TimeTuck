@@ -1,4 +1,9 @@
 //! Shared transaction implementation for the three native calculator backends.
+pub(crate) struct CalculatorSnapshot<A, C: crate::IncrementalCalculator<A>> {
+    pub(crate) session: crate::CalculatorSession<A, C>,
+    pub(crate) score: C::Score,
+}
+
 macro_rules! calculator_backend {
     ($director:ident, $guard:ident, [$($v:ident),+], $assignment:ty, $problem:ty,
      $movement:ty, $change:ty, $error:ident, $describe:path, $structure:path, $apply:ident) => {
@@ -117,6 +122,27 @@ where
             }
         }
         Ok(())
+    }
+    pub(crate) fn capture_retained(&self) -> crate::calculator_backend::CalculatorSnapshot<$assignment, C>
+    where C: Clone,
+    {
+        crate::calculator_backend::CalculatorSnapshot {
+            session: self.session.snapshot(),
+            score: self.score.clone(),
+        }
+    }
+    pub(crate) fn install_retained_state(&mut self, snapshot: crate::calculator_backend::CalculatorSnapshot<$assignment, C>) {
+        self.session.restore_snapshot(snapshot.session);
+        self.score = snapshot.score;
+        self.failure = None;
+    }
+    pub(crate) fn prepare_retained_phase(&mut self, initial: $assignment) -> Result<u128, $error> {
+        self.healthy()?;
+        if self.assignment() == &initial {
+            return Ok(0);
+        }
+        self.reset(initial)?;
+        Ok(1)
     }
     pub fn apply(
         &mut self,

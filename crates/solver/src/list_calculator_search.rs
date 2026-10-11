@@ -241,3 +241,5 @@ where
         false,
     )
 }
+
+crate::retained_calculator_phase::retained_calculator!(ListCalculatorScoreDirector, [V], ListAssignment<V>, ListProblem<V>, ListMove<V>, Vec<usize>, ListScoringError, ListLocalSearchError, SolverSequence, list, list_construction, ConstructionConfig<'_>, ListConstructionResult<V, C::Score>, list_local_search, LocalSearchConfig<'_, C::Score>, ListLocalSearchResult<V, C::Score>, list_director, |a| a, []);

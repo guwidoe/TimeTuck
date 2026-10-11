@@ -248,3 +248,5 @@ where
         false,
     )
 }
+
+crate::retained_calculator_phase::retained_calculator!(MixedCalculatorScoreDirector, [B,L], MixedAssignment<B,L>, MixedProblem<B,L>, MixedMove<B,L>, MixedCalculatorChange, MixedScoringError, MixedLocalSearchError, MixedSolverSequence, mixed, mixed_construction, MixedConstructionConfig<'_>, MixedConstructionResult<B,L,C::Score>, mixed_local_search, MixedLocalSearchConfig<'_,C::Score>, MixedLocalSearchResult<B,L,C::Score>, mixed_director, |a| a, [search]);

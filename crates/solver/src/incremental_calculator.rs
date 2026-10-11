@@ -99,6 +99,7 @@ pub struct MatchRegistry<S, J> {
     enabled: bool,
     owner: Arc<()>,
     next_id: usize,
+    high_water: usize,
     total: S,
     constraints: BTreeMap<String, RegisteredConstraint<S, J>>,
 }
@@ -108,6 +109,7 @@ impl<S: AdditiveScore, J> MatchRegistry<S, J> {
             enabled,
             owner: Arc::new(()),
             next_id: 0,
+            high_water: 0,
             total: S::ZERO,
             constraints: BTreeMap::new(),
         }
@@ -178,6 +180,7 @@ impl<S: AdditiveScore, J> MatchRegistry<S, J> {
             record,
         };
         self.next_id = next_id;
+        self.high_water = self.high_water.max(next_id);
         self.total = total;
         Ok(handle)
     }
@@ -294,6 +297,47 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
         session.ready = true;
         Ok(session)
     }
+    /// Internal best-state snapshot. Calculator clones must own independent
+    /// mutable scoring state; immutable match records may retain their identity.
+    pub(crate) fn snapshot(&self) -> Self
+    where
+        P: Clone,
+        C: Clone,
+    {
+        Self {
+            solution: self.solution.clone(),
+            calculator: self.calculator.clone(),
+            registry: MatchRegistry {
+                enabled: self.registry.enabled,
+                owner: self.registry.owner.clone(),
+                next_id: self.registry.next_id,
+                high_water: self.registry.high_water,
+                total: self.registry.total.clone(),
+                constraints: self
+                    .registry
+                    .constraints
+                    .iter()
+                    .map(|(name, entry)| {
+                        (
+                            name.clone(),
+                            RegisteredConstraint {
+                                score: entry.score.clone(),
+                                matches: entry.matches.clone(),
+                            },
+                        )
+                    })
+                    .collect(),
+            },
+            ready: self.ready,
+        }
+    }
+    pub(crate) fn restore_snapshot(&mut self, mut snapshot: Self) {
+        // Never recycle a registration issued on a discarded branch. Saved
+        // calculator handles keep their original owner and record identities.
+        snapshot.registry.high_water = snapshot.registry.high_water.max(self.registry.high_water);
+        snapshot.registry.next_id = snapshot.registry.high_water;
+        *self = snapshot;
+    }
     pub(crate) fn restore_failed(&mut self, solution: P) {
         self.ready = false;
         self.solution = solution;
@@ -356,5 +400,67 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
             .calculate_score_with_matches(&mut self.registry)?;
         self.ready = true;
         Ok(score)
+    }
+}
+
+#[cfg(test)]
+mod retained_snapshot_tests {
+    use super::*;
+    #[derive(Clone)]
+    struct Empty;
+    impl IncrementalCalculator<()> for Empty {
+        type Score = crate::SimpleScore;
+        type Justification = ();
+        type Change = ();
+        fn supports_matches(&self) -> bool {
+            true
+        }
+        fn reset(
+            &mut self,
+            _: &(),
+            _: &mut MatchRegistry<Self::Score, ()>,
+        ) -> Result<(), MatchRegistryError> {
+            Ok(())
+        }
+        fn calculate_score(&mut self) -> Self::Score {
+            crate::SimpleScore::ZERO
+        }
+    }
+    #[test]
+    fn restored_registry_keeps_handles_and_never_reuses_discarded_ids_even_after_reset() {
+        let mut session = CalculatorSession::new((), Empty, true).unwrap();
+        let kept = session
+            .registry_mut()
+            .unwrap()
+            .register("same", crate::SimpleScore::new(3), ())
+            .unwrap();
+        let snapshot = session.snapshot();
+        let discarded = session
+            .registry_mut()
+            .unwrap()
+            .register("same", crate::SimpleScore::new(7), ())
+            .unwrap();
+        session.reset(()).unwrap(); // Reset changes owner and restarts ordinary IDs.
+        session.restore_snapshot(snapshot);
+        let next = session
+            .registry_mut()
+            .unwrap()
+            .register("same", crate::SimpleScore::new(2), ())
+            .unwrap();
+        assert!(next.id() > discarded.id());
+        assert_eq!(
+            discarded.cancel(session.registry_mut().unwrap()),
+            Err(MatchRegistryError::AlreadyCanceled)
+        );
+        kept.cancel(session.registry_mut().unwrap()).unwrap();
+        assert_eq!(
+            *session.registry().unwrap().total().unwrap(),
+            crate::SimpleScore::new(2)
+        );
+        next.cancel(session.registry_mut().unwrap()).unwrap();
+        assert_eq!(
+            *session.registry().unwrap().total().unwrap(),
+            crate::SimpleScore::ZERO
+        );
     }
 }

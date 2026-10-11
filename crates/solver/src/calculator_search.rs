@@ -267,3 +267,5 @@ where
         false,
     )
 }
+
+crate::retained_calculator_phase::retained_calculator!(CalculatorScoreDirector, [V], Assignment<V>, FiniteProblem<V>, Move<V>, Vec<usize>, ScoringError, LocalSearchError, SolverSequence, basic, construction, ConstructionConfig<'_>, ConstructionResult<V, C::Score>, local_search, LocalSearchConfig<'_, C::Score>, LocalSearchResult<V, C::Score>, basic_director, Some, []);

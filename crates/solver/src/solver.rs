@@ -4055,3 +4055,6 @@ pub use calculator::{
 #[cfg(test)]
 #[path = "solver_phase_check_tests.rs"]
 mod phase_check_tests;
+
+#[path = "calculator_retained.rs"]
+pub(crate) mod calculator_retained;
