@@ -214,7 +214,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         )
     }
     /// Apply a validated batch atomically; omitted names retain their current weights.
-    /// Directors borrow the network, so weights cannot change during a scoring session.
+    /// Existing directors borrow this configuration; their local overrides are independent.
     /// Zero disables a weighted constraint; a later nonzero override reactivates it.
     pub fn apply_weight_overrides(
         &mut self,
@@ -330,7 +330,12 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             .lists()
             .validate_using(assignment.lists(), potential)
             .map_err(MixedError::Lists)?;
-        if self.needs_value_locations(problem, 0..self.constraint_count(), None) {
+        if self.needs_value_locations(
+            problem,
+            0..self.constraint_count(),
+            None,
+            &Default::default(),
+        ) {
             Ok(positions
                 .or_else(|| problem.lists().indexed_value_locations(assignment.lists()))
                 .map(ValueLocations::Full))
@@ -346,6 +351,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         assignment: &MixedAssignment<B, L>,
         constraints: impl Iterator<Item = usize>,
         changed: Option<Vec<(usize, Option<ListPosition>)>>,
+        weights: &crate::scoped_weights::LocalWeights<S>,
     ) -> Option<ValueLocations> {
         // Complete changed evidence already covers the registry, including known
         // unassignment. Turn it into direct slots without rescanning the world.
@@ -356,7 +362,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             return changed.map(|p| ValueLocations::Full(p.into_iter().map(|(_, p)| p).collect()));
         }
         let changed = changed.map(ValueLocations::Changed);
-        if self.needs_value_locations(problem, constraints, changed.as_ref()) {
+        if self.needs_value_locations(problem, constraints, changed.as_ref(), weights) {
             problem
                 .lists()
                 .indexed_value_locations(assignment.lists())
@@ -370,6 +376,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         problem: &MixedProblem<B, L>,
         constraints: impl Iterator<Item = usize>,
         changed: Option<&ValueLocations>,
+        weights: &crate::scoped_weights::LocalWeights<S>,
     ) -> bool {
         if self.scoped_values.len() < 64 || !problem.lists().has_value_index() {
             return false;
@@ -377,9 +384,8 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         let threshold = 64.max(problem.lists().values().len() / 8);
         let queries = constraints
             .filter(|&i| {
-                self.constraints[i]
-                    .weight
-                    .as_ref()
+                weights
+                    .get(i, self.constraints[i].weight.as_ref())
                     .is_none_or(|w| *w != S::ZERO)
             })
             .flat_map(|i| &self.constraints[i].scope)
@@ -453,29 +459,41 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         assignment: &MixedAssignment<B, L>,
         locations: Option<&ValueLocations>,
     ) -> Result<S, MixedScoringError> {
+        self.contribution_weighted(
+            index,
+            problem,
+            assignment,
+            locations,
+            self.constraints[index].weight.as_ref(),
+        )
+    }
+    fn contribution_weighted(
+        &self,
+        index: usize,
+        problem: &MixedProblem<B, L>,
+        assignment: &MixedAssignment<B, L>,
+        locations: Option<&ValueLocations>,
+        weight: Option<&S>,
+    ) -> Result<S, MixedScoringError> {
         let constraint = &self.constraints[index];
-        if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+        if weight.is_some_and(|w| *w == S::ZERO) {
             return Ok(S::ZERO);
         }
         let facts = Self::facts(constraint, problem, assignment, locations);
-        let score = (constraint.evaluate)(
-            &facts,
-            constraint.weight.as_ref().unwrap_or(&S::ZERO),
-            self.arithmetic,
-        )
-        .map_err(|error| match error {
-            crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
-                MixedScoringError::DecimalWeightArithmetic {
-                    constraint: index,
-                    error,
+        let score = (constraint.evaluate)(&facts, weight.unwrap_or(&S::ZERO), self.arithmetic)
+            .map_err(|error| match error {
+                crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                    MixedScoringError::DecimalWeightArithmetic {
+                        constraint: index,
+                        error,
+                    }
                 }
-            }
-            crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
-                MixedScoringError::ScoreOverflow {
-                    constraint: Some(index),
+                crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                    MixedScoringError::ScoreOverflow {
+                        constraint: Some(index),
+                    }
                 }
-            }
-        })?;
+            })?;
         if score.structural() != 0 {
             return Err(MixedScoringError::StructuralContribution { constraint: index });
         }
@@ -534,6 +552,7 @@ pub struct MixedScoreDirector<'p, 'c, B, L, S> {
     problem: &'p MixedProblem<B, L>,
     network: &'p MixedConstraintNetwork<'c, B, L, S>,
     assignment: MixedAssignment<B, L>,
+    weights: crate::scoped_weights::LocalWeights<S>,
     contributions: Vec<S>,
     score: S,
     retained_changes: Option<Box<std::cell::RefCell<crate::retained_scoped_phase::ScopedChanges>>>,
@@ -571,6 +590,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             problem,
             network,
             assignment,
+            weights: crate::scoped_weights::LocalWeights::default(),
             contributions,
             score,
             retained_changes: None,
@@ -592,10 +612,21 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             &self.assignment,
             0..self.network.constraint_count(),
             None,
+            &self.weights,
         );
         let mut matches = crate::ScoreExplanation::default();
-        for (constraint, score) in self.network.constraints.iter().zip(&self.contributions) {
-            let explanation = if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+        for (i, (constraint, score)) in self
+            .network
+            .constraints
+            .iter()
+            .zip(&self.contributions)
+            .enumerate()
+        {
+            let explanation = if self
+                .weights
+                .get(i, constraint.weight.as_ref())
+                .is_some_and(|w| *w == S::ZERO)
+            {
                 None
             } else {
                 let facts = MixedConstraintNetwork::facts(
@@ -656,6 +687,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         };
         let mut forager = crate::MoveForager::new(forager.into());
         let network = self.network;
+        let weights = self.weights.clone();
         let problem = self.problem;
         for movement in moves {
             if result.evaluations == max_evaluations {
@@ -682,6 +714,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                     candidate.assignment(),
                     &candidate.score(),
                     &cached,
+                    &weights,
                 )?;
                 if !report.is_consistent() {
                     return Err(MixedScoringError::ScoreCorruption(Box::new(
@@ -821,20 +854,29 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         affected.sort_unstable();
         affected.dedup();
         affected.retain(|&i| {
-            self.network.constraints[i]
-                .weight
-                .as_ref()
+            self.weights
+                .get(i, self.network.constraints[i].weight.as_ref())
                 .is_none_or(|w| *w != S::ZERO)
         });
-        let locations =
-            self.network
-                .value_locations(self.problem, &next, affected.iter().copied(), None);
+        let locations = self.network.value_locations(
+            self.problem,
+            &next,
+            affected.iter().copied(),
+            None,
+            &self.weights,
+        );
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
             updates.push((
                 i,
-                self.network
-                    .contribution(i, self.problem, &next, locations.as_ref())?,
+                self.network.contribution_weighted(
+                    i,
+                    self.problem,
+                    &next,
+                    locations.as_ref(),
+                    self.weights
+                        .get(i, self.network.constraints[i].weight.as_ref()),
+                )?,
             ));
         }
         let score = if refresh_all {
@@ -869,14 +911,110 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         self.score = score;
         Ok(work)
     }
+    /// Effective configurable weights in registration order, including disabled ones.
+    pub fn constraint_weights(&self) -> impl Iterator<Item = (&str, &S)> {
+        self.network
+            .constraints
+            .iter()
+            .enumerate()
+            .filter_map(|(i, c)| {
+                self.weights
+                    .get(i, c.weight.as_ref())
+                    .map(|w| (c.name.as_str(), w))
+            })
+    }
+    /// Atomically override weights on this director's current assignment.
+    /// Omitted names retain their effective weights; the borrowed network and
+    /// other directors are unchanged. Unchanged weights and zero disables run no
+    /// scoring callbacks. Changed nonzero weights recalculate in registration order.
+    /// Returns the number of scoring callbacks, separate from search work budgets.
+    /// Validation, cloning, callbacks and checked arithmetic finish before publication;
+    /// errors or ordinary panic unwinding preserve weights, contributions and score.
+    /// Callback side effects and panicking destructors cannot be rolled back.
+    /// Edit-session rollback restores weights together with assignment and score.
+    pub fn apply_weight_overrides(
+        &mut self,
+        overrides: &crate::ConstraintWeightOverrides<S>,
+    ) -> Result<u128, MixedScoringError> {
+        let mut changes = crate::scoped_weights::resolve_overrides(
+            self.network
+                .constraints
+                .iter()
+                .map(|c| (c.name.as_str(), c.weight.as_ref())),
+            overrides,
+        )
+        .map_err(MixedScoringError::InvalidWeight)?;
+        changes.retain(|(i, weight)| {
+            self.weights
+                .get(*i, self.network.constraints[*i].weight.as_ref())
+                != Some(weight)
+        });
+        if changes.is_empty() {
+            return Ok(0);
+        }
+        changes.sort_unstable_by_key(|(i, _)| *i);
+        let weights = self.weights.updated(
+            self.network.constraints.iter().map(|c| c.weight.as_ref()),
+            &changes,
+        );
+        let locations = self.network.value_locations(
+            self.problem,
+            &self.assignment,
+            changes.iter().map(|(i, _)| *i),
+            None,
+            &weights,
+        );
+        let mut work = 0;
+        let mut updates = Vec::with_capacity(changes.len());
+        for (i, weight) in &changes {
+            let i = *i;
+            let score = if *weight == S::ZERO {
+                S::ZERO
+            } else {
+                work += 1;
+                self.network.contribution_weighted(
+                    i,
+                    self.problem,
+                    &self.assignment,
+                    locations.as_ref(),
+                    Some(weight),
+                )?
+            };
+            updates.push((i, score));
+        }
+        let score = self
+            .network
+            .arithmetic
+            .adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, score)| (&self.contributions[*i], score)),
+            )
+            .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
+        let score = score.with_structural(self.score.structural());
+        if let Some(changes) = self.retained_changes.as_deref_mut() {
+            changes
+                .get_mut()
+                .record_batch(updates.iter().map(|(i, _)| *i));
+        }
+        self.weights = weights;
+        for (i, score) in updates {
+            self.contributions[i] = score;
+        }
+        self.score = score;
+        Ok(work)
+    }
     /// Begin a live multi-move scope. Drop restores assignment and cached scores;
     /// commit retains edits. No scoring callbacks run to create or restore it.
     pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, MixedScoringError> {
         let assignment = self.assignment.clone();
+        let weights = self.weights.clone();
         let contributions = self.contributions.clone();
         let score = self.score.clone();
         Ok(crate::MoveSession::new(self, move |director| {
             director.assignment = assignment;
+            director.weights = weights;
             director.contributions = contributions;
             director.score = score;
         }))
@@ -919,6 +1057,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             &self.assignment,
             &self.score,
             &self.contributions,
+            &self.weights,
         )
     }
 
@@ -972,9 +1111,8 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         }
         let mut affected = affected.into_sorted();
         affected.retain(|&i| {
-            self.network.constraints[i]
-                .weight
-                .as_ref()
+            self.weights
+                .get(i, self.network.constraints[i].weight.as_ref())
                 .is_none_or(|w| *w != S::ZERO)
         });
         let locations = self.network.value_locations(
@@ -982,12 +1120,18 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             &transaction,
             affected.iter().copied(),
             changed,
+            &self.weights,
         );
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
-            let contribution =
-                self.network
-                    .contribution(i, self.problem, &transaction, locations.as_ref())?;
+            let contribution = self.network.contribution_weighted(
+                i,
+                self.problem,
+                &transaction,
+                locations.as_ref(),
+                self.weights
+                    .get(i, self.network.constraints[i].weight.as_ref()),
+            )?;
             updates.push((i, contribution));
         }
         let score = self
@@ -1086,6 +1230,7 @@ fn consistency_report<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     assignment: &MixedAssignment<B, L>,
     working: &S,
     cached: &[S],
+    weights: &crate::scoped_weights::LocalWeights<S>,
 ) -> Result<crate::ScoreConsistencyReport<S>, MixedScoringError> {
     crate::score_consistency::compare(
         working,
@@ -1095,7 +1240,15 @@ fn consistency_report<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
             .zip(cached)
             .map(|(c, score)| (c.name.as_str(), score)),
         // Independently rediscover positions instead of reusing scoring snapshots.
-        |i| network.contribution(i, problem, assignment, None),
+        |i| {
+            network.contribution_weighted(
+                i,
+                problem,
+                assignment,
+                None,
+                weights.get(i, network.constraints[i].weight.as_ref()),
+            )
+        },
         |fresh| {
             let sum = network
                 .arithmetic

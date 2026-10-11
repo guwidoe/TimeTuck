@@ -189,7 +189,7 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
         )
     }
     /// Apply a validated batch atomically; omitted names retain their current weights.
-    /// Directors borrow the network, so weights cannot change during a scoring session.
+    /// Existing directors borrow this configuration; their local overrides are independent.
     /// Zero disables a weighted constraint; a later nonzero override reactivates it.
     ///
     /// ```
@@ -264,8 +264,16 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
         Ok(index)
     }
     fn contribution(&self, index: usize, assignment: &Assignment<V>) -> Result<S, ScoringError> {
+        self.contribution_weighted(index, assignment, self.constraints[index].weight.as_ref())
+    }
+    fn contribution_weighted(
+        &self,
+        index: usize,
+        assignment: &Assignment<V>,
+        weight: Option<&S>,
+    ) -> Result<S, ScoringError> {
         let constraint = &self.constraints[index];
-        if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+        if weight.is_some_and(|w| *w == S::ZERO) {
             return Ok(S::ZERO);
         }
         let arguments: Vec<_> = constraint
@@ -273,24 +281,20 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
             .iter()
             .map(|&i| assignment.values()[i].as_ref())
             .collect();
-        let score = (constraint.evaluate)(
-            &arguments,
-            constraint.weight.as_ref().unwrap_or(&S::ZERO),
-            self.arithmetic,
-        )
-        .map_err(|error| match error {
-            crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
-                ScoringError::DecimalWeightArithmetic {
-                    constraint: index,
-                    error,
+        let score = (constraint.evaluate)(&arguments, weight.unwrap_or(&S::ZERO), self.arithmetic)
+            .map_err(|error| match error {
+                crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                    ScoringError::DecimalWeightArithmetic {
+                        constraint: index,
+                        error,
+                    }
                 }
-            }
-            crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
-                ScoringError::ScoreOverflow {
-                    constraint: Some(index),
+                crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                    ScoringError::ScoreOverflow {
+                        constraint: Some(index),
+                    }
                 }
-            }
-        })?;
+            })?;
         if score.structural() != 0 {
             return Err(ScoringError::StructuralContribution { constraint: index });
         }
@@ -389,6 +393,7 @@ pub struct ScoreDirector<'p, 'c, V, S> {
     problem: &'p FiniteProblem<V>,
     network: &'p ConstraintNetwork<'c, V, S>,
     assignment: Assignment<V>,
+    weights: crate::scoped_weights::LocalWeights<S>,
     contributions: Vec<S>,
     score: S,
     retained_changes: Option<Box<std::cell::RefCell<crate::retained_scoped_phase::ScopedChanges>>>,
@@ -428,6 +433,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             problem,
             network,
             assignment,
+            weights: crate::scoped_weights::LocalWeights::default(),
             contributions,
             score,
             retained_changes: None,
@@ -465,14 +471,21 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         affected.sort_unstable();
         affected.dedup();
         affected.retain(|&i| {
-            self.network.constraints[i]
-                .weight
-                .as_ref()
+            self.weights
+                .get(i, self.network.constraints[i].weight.as_ref())
                 .is_none_or(|w| *w != S::ZERO)
         });
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
-            updates.push((i, self.network.contribution(i, &next)?));
+            updates.push((
+                i,
+                self.network.contribution_weighted(
+                    i,
+                    &next,
+                    self.weights
+                        .get(i, self.network.constraints[i].weight.as_ref()),
+                )?,
+            ));
         }
         let score = if refresh_all {
             self.network
@@ -506,14 +519,98 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         self.score = score;
         Ok(work)
     }
+    /// Effective configurable weights in registration order, including disabled ones.
+    pub fn constraint_weights(&self) -> impl Iterator<Item = (&str, &S)> {
+        self.network
+            .constraints
+            .iter()
+            .enumerate()
+            .filter_map(|(i, c)| {
+                self.weights
+                    .get(i, c.weight.as_ref())
+                    .map(|w| (c.name.as_str(), w))
+            })
+    }
+    /// Atomically override weights on this director's current assignment.
+    /// Omitted names retain their effective weights; the borrowed network and
+    /// other directors are unchanged. Unchanged weights and zero disables run no
+    /// scoring callbacks. Changed nonzero weights recalculate in registration order.
+    /// Returns the number of scoring callbacks, separate from search work budgets.
+    /// Validation, cloning, callbacks and checked arithmetic finish before publication;
+    /// errors or ordinary panic unwinding preserve weights, contributions and score.
+    /// Callback side effects and panicking destructors cannot be rolled back.
+    /// Edit-session rollback restores weights together with assignment and score.
+    pub fn apply_weight_overrides(
+        &mut self,
+        overrides: &crate::ConstraintWeightOverrides<S>,
+    ) -> Result<u128, ScoringError> {
+        let mut changes = crate::scoped_weights::resolve_overrides(
+            self.network
+                .constraints
+                .iter()
+                .map(|c| (c.name.as_str(), c.weight.as_ref())),
+            overrides,
+        )
+        .map_err(ScoringError::InvalidWeight)?;
+        changes.retain(|(i, weight)| {
+            self.weights
+                .get(*i, self.network.constraints[*i].weight.as_ref())
+                != Some(weight)
+        });
+        if changes.is_empty() {
+            return Ok(0);
+        }
+        changes.sort_unstable_by_key(|(i, _)| *i);
+        let weights = self.weights.updated(
+            self.network.constraints.iter().map(|c| c.weight.as_ref()),
+            &changes,
+        );
+        let mut work = 0;
+        let mut updates = Vec::with_capacity(changes.len());
+        for (i, weight) in &changes {
+            let i = *i;
+            let score = if *weight == S::ZERO {
+                S::ZERO
+            } else {
+                work += 1;
+                self.network
+                    .contribution_weighted(i, &self.assignment, Some(weight))?
+            };
+            updates.push((i, score));
+        }
+        let score = self
+            .network
+            .arithmetic
+            .adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, score)| (&self.contributions[*i], score)),
+            )
+            .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
+        let score = score.with_structural(self.score.structural());
+        if let Some(changes) = self.retained_changes.as_deref_mut() {
+            changes
+                .get_mut()
+                .record_batch(updates.iter().map(|(i, _)| *i));
+        }
+        self.weights = weights;
+        for (i, score) in updates {
+            self.contributions[i] = score;
+        }
+        self.score = score;
+        Ok(work)
+    }
     /// Begin a live multi-move scope. Drop restores assignment and cached scores;
     /// commit retains edits. No scoring callbacks run to create or restore it.
     pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, ScoringError> {
         let assignment = self.assignment.clone();
+        let weights = self.weights.clone();
         let contributions = self.contributions.clone();
         let score = self.score.clone();
         Ok(crate::MoveSession::new(self, move |director| {
             director.assignment = assignment;
+            director.weights = weights;
             director.contributions = contributions;
             director.score = score;
         }))
@@ -536,8 +633,18 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         mut explain: impl FnMut(&str, &[usize], &[Option<&V>], &S) -> (J, Vec<F>),
     ) -> crate::ScopedScoreExplanation<S, J, F> {
         let mut matches = crate::ScoreExplanation::default();
-        for (constraint, score) in self.network.constraints.iter().zip(&self.contributions) {
-            let explanation = if constraint.weight.as_ref().is_some_and(|w| *w == S::ZERO) {
+        for (i, (constraint, score)) in self
+            .network
+            .constraints
+            .iter()
+            .zip(&self.contributions)
+            .enumerate()
+        {
+            let explanation = if self
+                .weights
+                .get(i, constraint.weight.as_ref())
+                .is_some_and(|w| *w == S::ZERO)
+            {
                 None
             } else {
                 let facts: Vec<_> = constraint
@@ -615,6 +722,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         };
         let mut forager = crate::MoveForager::new(forager.into());
         let network = self.network;
+        let weights = self.weights.clone();
         let problem = self.problem;
         for movement in moves {
             if result.evaluations == max_evaluations {
@@ -635,6 +743,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                     candidate.assignment(),
                     &candidate.score(),
                     &cached,
+                    &weights,
                 )?;
                 if !report.is_consistent() {
                     return Err(ScoringError::ScoreCorruption(Box::new(report.diagnostic())));
@@ -713,6 +822,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             &self.assignment,
             &self.score,
             &self.contributions,
+            &self.weights,
         )
     }
 
@@ -729,14 +839,18 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         }
         let mut affected = affected.into_sorted();
         affected.retain(|&i| {
-            self.network.constraints[i]
-                .weight
-                .as_ref()
+            self.weights
+                .get(i, self.network.constraints[i].weight.as_ref())
                 .is_none_or(|w| *w != S::ZERO)
         });
         let mut updates = Vec::with_capacity(affected.len());
         for i in affected {
-            let new_score = self.network.contribution(i, &transaction)?;
+            let new_score = self.network.contribution_weighted(
+                i,
+                &transaction,
+                self.weights
+                    .get(i, self.network.constraints[i].weight.as_ref()),
+            )?;
             updates.push((i, new_score));
         }
         let score = self
@@ -812,6 +926,7 @@ fn consistency_report<V: Eq, S: AdditiveScore>(
     assignment: &Assignment<V>,
     working: &S,
     cached: &[S],
+    weights: &crate::scoped_weights::LocalWeights<S>,
 ) -> Result<crate::ScoreConsistencyReport<S>, ScoringError> {
     crate::score_consistency::compare(
         working,
@@ -820,7 +935,13 @@ fn consistency_report<V: Eq, S: AdditiveScore>(
             .iter()
             .zip(cached)
             .map(|(c, score)| (c.name.as_str(), score)),
-        |i| network.contribution(i, assignment),
+        |i| {
+            network.contribution_weighted(
+                i,
+                assignment,
+                weights.get(i, network.constraints[i].weight.as_ref()),
+            )
+        },
         |fresh| {
             let sum = network
                 .arithmetic

@@ -47,3 +47,44 @@ pub(crate) fn resolve_overrides<'a, S: AdditiveScore + 'a>(
         })
         .collect()
 }
+
+/// Immutable director-local configuration: no allocation until an effective change.
+/// Shared snapshots let selection diagnostics and edit sessions retain configuration
+/// without invoking user Clone while a candidate transaction is borrowed.
+pub(crate) struct LocalWeights<S>(Option<std::sync::Arc<[Option<S>]>>);
+impl<S> Default for LocalWeights<S> {
+    fn default() -> Self {
+        Self(None)
+    }
+}
+impl<S> Clone for LocalWeights<S> {
+    fn clone(&self) -> Self {
+        Self(self.0.clone())
+    }
+}
+impl<S> LocalWeights<S> {
+    pub(crate) fn get<'a>(&'a self, index: usize, original: Option<&'a S>) -> Option<&'a S> {
+        self.0
+            .as_ref()
+            .map_or(original, |weights| weights[index].as_ref())
+    }
+}
+impl<S: Clone> LocalWeights<S> {
+    pub(crate) fn updated<'a>(
+        &self,
+        original: impl Iterator<Item = Option<&'a S>>,
+        changes: &[(usize, S)],
+    ) -> Self
+    where
+        S: 'a,
+    {
+        let mut weights: Vec<_> = original
+            .enumerate()
+            .map(|(i, w)| self.get(i, w).cloned())
+            .collect();
+        for (i, weight) in changes {
+            weights[*i] = Some(weight.clone());
+        }
+        Self(Some(weights.into()))
+    }
+}
