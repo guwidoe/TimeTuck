@@ -8,11 +8,12 @@ use timetuck::*;
 #[path = "support/owned_score.rs"]
 mod owned_score;
 use owned_score::{OwnedScore, fail_clone_at};
-const ORDERS: [NodeExploration; 4] = [
+const ORDERS: [NodeExploration; 5] = [
     NodeExploration::DepthFirst,
     NodeExploration::BreadthFirst,
     NodeExploration::ScoreFirst,
     NodeExploration::OptimisticBoundFirst,
+    NodeExploration::InputOrderDepthFirst,
 ];
 fn config(order: NodeExploration) -> BranchAndBoundConfig<'static> {
     BranchAndBoundConfig {
@@ -573,7 +574,11 @@ fn score_order_is_exact_for_owned_decimal_levels_and_unknown_bounds() {
         ..a.clone()
     };
     for order in ORDERS {
-        assert!(order.compare(&a, &b).is_lt());
+        if order == NodeExploration::InputOrderDepthFirst {
+            assert!(order.compare(&a, &b).is_eq());
+        } else {
+            assert!(order.compare(&a, &b).is_lt());
+        }
     }
     let unknown = SearchNodeKey {
         optimistic_bound: None,

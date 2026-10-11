@@ -1,11 +1,12 @@
 //! Original bounded completion contracts; no upstream method credit.
 use std::{cell::Cell, collections::BTreeSet, marker::PhantomData, time::Duration};
 use timetuck::*;
-const ORDERS: [NodeExploration; 4] = [
+const ORDERS: [NodeExploration; 5] = [
     NodeExploration::DepthFirst,
     NodeExploration::BreadthFirst,
     NodeExploration::ScoreFirst,
     NodeExploration::OptimisticBoundFirst,
+    NodeExploration::InputOrderDepthFirst,
 ];
 fn phase(order: NodeExploration, bound: PartialScoreBound) -> ExactPhaseConfig<'static> {
     ExactPhaseConfig {
@@ -134,24 +135,42 @@ fn mixed_graph() -> (
     .unwrap();
     (g.build(), s)
 }
-fn check<A: Objective + std::fmt::Debug + PartialEq>(
+fn check<A: Objective + std::fmt::Debug + PartialEq, const COMPLETE: bool>(
     r: SolverResult<A, SimpleScore>,
     expected: &A,
 ) {
     assert_eq!(&r.assignment, expected);
     assert_eq!(r.score, Some(expected.objective()));
     assert!(r.complete);
-    assert!(!r.is_optimal());
-    assert_eq!(r.termination, SolverTermination::PlanCompleted);
+    assert_eq!(r.is_optimal(), !COMPLETE);
+    assert_eq!(
+        r.termination,
+        if COMPLETE {
+            SolverTermination::PlanCompleted
+        } else {
+            SolverTermination::Optimal
+        }
+    );
     assert_eq!(
         r.phases[0].termination,
-        PhaseTermination::Exact(ExactPhaseTermination::CompletionExhausted)
+        PhaseTermination::Exact(if COMPLETE {
+            ExactPhaseTermination::CompletionExhausted
+        } else {
+            ExactPhaseTermination::Exhausted
+        })
     );
     assert_eq!(r.work.evaluations, r.work.move_evaluations);
     assert_eq!(r.work.completed_steps, 0);
 }
 #[test]
 fn all_eighteen_routes_preserve_anchors_and_restore_best_under_every_order() {
+    all_eighteen_routes::<true>();
+}
+#[test]
+fn all_eighteen_unrestricted_routes_restore_best_under_every_order() {
+    all_eighteen_routes::<false>();
+}
+fn all_eighteen_routes<const COMPLETE: bool>() {
     let b = FiniteProblem::new(vec![
         Variable::new(vec![0, 1, 2]).with_initial(2),
         Variable::new(vec![0, 1]),
@@ -163,7 +182,7 @@ fn all_eighteen_routes_preserve_anchors_and_restore_best_under_every_order() {
     )
     .unwrap();
     let m = MixedProblem::new(b.clone(), l.clone());
-    let eb = Assignment::new(vec![Some(2), Some(0)]);
+    let eb = Assignment::new(vec![Some(if COMPLETE { 2 } else { 0 }), Some(0)]);
     let el = ListAssignment::new(vec![vec![3, 2, 1], vec![]]);
     let em = MixedAssignment::new(eb.clone(), el.clone());
     let mut bn = ConstraintNetwork::new(2);
@@ -212,31 +231,37 @@ fn all_eighteen_routes_preserve_anchors_and_restore_best_under_every_order() {
     .unwrap();
     for order in ORDERS {
         for bound in [PartialScoreBound::Unknown, PartialScoreBound::NonIncreasing] {
-            let c = phase(order, bound);
-            check(solve(&b, &bn, plan(c.clone())).unwrap(), &eb);
-            check(solve_list(&l, &ln, plan(c.clone())).unwrap(), &el);
-            check(solve_mixed(&m, &mn, mixed_plan(c.clone())).unwrap(), &em);
-            check(
+            let mut c = phase(order, bound);
+            if !COMPLETE {
+                let ExactSearchStrategy::CompleteBranchAndBound(bounded) = c.strategy else {
+                    unreachable!()
+                };
+                c.strategy = ExactSearchStrategy::BranchAndBound(bounded);
+            }
+            check::<_, COMPLETE>(solve(&b, &bn, plan(c.clone())).unwrap(), &eb);
+            check::<_, COMPLETE>(solve_list(&l, &ln, plan(c.clone())).unwrap(), &el);
+            check::<_, COMPLETE>(solve_mixed(&m, &mn, mixed_plan(c.clone())).unwrap(), &em);
+            check::<_, COMPLETE>(
                 solve_stream(&b, || Ok(basic_graph()), plan(c.clone())).unwrap(),
                 &eb,
             );
-            check(
+            check::<_, COMPLETE>(
                 solve_list_stream(&l, || Ok(list_graph()), plan(c.clone())).unwrap(),
                 &el,
             );
-            check(
+            check::<_, COMPLETE>(
                 solve_mixed_stream(&m, || Ok(mixed_graph()), mixed_plan(c.clone())).unwrap(),
                 &em,
             );
-            check(
+            check::<_, COMPLETE>(
                 solve_calculator(&b, &cached::<Vec<usize>>, plan(c.clone())).unwrap(),
                 &eb,
             );
-            check(
+            check::<_, COMPLETE>(
                 solve_list_calculator(&l, &cached::<Vec<usize>>, plan(c.clone())).unwrap(),
                 &el,
             );
-            check(
+            check::<_, COMPLETE>(
                 solve_mixed_calculator(&m, &cached::<MixedCalculatorChange>, mixed_plan(c.clone()))
                     .unwrap(),
                 &em,
@@ -247,7 +272,7 @@ fn all_eighteen_routes_preserve_anchors_and_restore_best_under_every_order() {
                     let r = d.run_solver($plan).unwrap();
                     assert_eq!(d.assignment(), &r.assignment);
                     d.assert_consistent().unwrap();
-                    check(r, $expected);
+                    check::<_, COMPLETE>(r, $expected);
                 }};
             }
             retained!(

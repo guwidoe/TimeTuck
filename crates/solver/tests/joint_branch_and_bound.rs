@@ -6,11 +6,12 @@ use std::{
 };
 use timetuck::*;
 
-const ORDERS: [NodeExploration; 4] = [
+const ORDERS: [NodeExploration; 5] = [
     NodeExploration::DepthFirst,
     NodeExploration::BreadthFirst,
     NodeExploration::ScoreFirst,
     NodeExploration::OptimisticBoundFirst,
+    NodeExploration::InputOrderDepthFirst,
 ];
 fn config(order: NodeExploration) -> BranchAndBoundConfig<'static> {
     BranchAndBoundConfig {

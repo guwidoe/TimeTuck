@@ -5,8 +5,9 @@ use crate::{
 use std::{cmp::Ordering, collections::BinaryHeap, error::Error, fmt, time::Duration};
 
 /// Priority of open partial assignments. Greater comparison means explored first.
-/// Ordinary score levels order partial scores; structural incompleteness is ignored
-/// for scheduling only. Actual pruning and retained-best comparisons use full scores.
+/// When used by a policy, ordinary score levels order partial scores; structural
+/// incompleteness is ignored for scheduling only. Actual pruning and retained-best
+/// comparisons use full scores.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Ord, PartialOrd)]
 pub enum NodeExploration {
     /// Prefer greater depth, then score, then optimistic bound.
@@ -18,6 +19,17 @@ pub enum NodeExploration {
     ScoreFirst,
     /// Prefer optimistic bound, then score, then greater depth.
     OptimisticBoundFirst,
+    /// Prefer greater depth, then earlier input choice, ignoring scores and bounds
+    /// for scheduling. This fully expands an eligible subtree before its sibling.
+    /// Basic choices follow domain order (optional unassigned last); list choices
+    /// follow entity then insertion index (optional omission last). Mixed trees
+    /// place list values before basic variables. Pins and ranges filter choices.
+    ///
+    /// Children are still evaluated when generated: generated immediate siblings
+    /// are scored before the first child is expanded. This is depth-first
+    /// frontier expansion, not a pure depth-first score-callback sequence. Bounds
+    /// still prune branches, and budgets may stop during sibling generation.
+    InputOrderDepthFirst,
 }
 
 /// Observable scheduling metadata. Breadth identifies a node within its parent's
@@ -26,7 +38,8 @@ pub enum NodeExploration {
 pub struct SearchNodeKey<S, B = S> {
     pub depth: usize,
     pub score: S,
-    /// None is unknown, ranks ahead of finite bounds, and never permits pruning.
+    /// None is unknown and never permits pruning. Policies using bounds for
+    /// scheduling rank unknown ahead of finite bounds.
     pub optimistic_bound: Option<B>,
     pub parent_breadth: u64,
     pub breadth: u64,
@@ -41,7 +54,9 @@ fn ordinary_cmp<S: Score>(a: &S, b: &S) -> Ordering {
 impl NodeExploration {
     /// Remaining ties prefer larger parent breadth then smaller breadth, except
     /// breadth-first reverses that precedence. Unknown bounds rank above finite
-    /// bounds. Exact key ties are equal; the engine then prefers earlier insertion.
+    /// bounds. Input-order depth-first instead compares only greater depth then
+    /// smaller breadth, ignoring parent breadth, score and bound. Exact key ties
+    /// are equal; the engine then prefers earlier insertion.
     pub fn compare<S: Score>(self, a: &SearchNodeKey<S>, b: &SearchNodeKey<S>) -> Ordering {
         self.compare_with(a, b, ordinary_cmp)
     }
@@ -51,6 +66,15 @@ impl NodeExploration {
         b: &SearchNodeKey<S, B>,
         compare_bound: impl Fn(&B, &B) -> Ordering,
     ) -> Ordering {
+        if self == Self::InputOrderDepthFirst {
+            // Only one parent is expanded at a time. Its children are the deepest
+            // open nodes, so sibling breadth suffices to exhaust subtrees in input
+            // order; no path allocation or score/bound comparison is needed.
+            return a
+                .depth
+                .cmp(&b.depth)
+                .then_with(|| b.breadth.cmp(&a.breadth));
+        }
         let score = || ordinary_cmp(&a.score, &b.score);
         let bound = || match (&a.optimistic_bound, &b.optimistic_bound) {
             (Some(a), Some(b)) => compare_bound(a, b),
@@ -64,6 +88,7 @@ impl NodeExploration {
             Self::BreadthFirst => depth().reverse().then_with(score).then_with(bound),
             Self::ScoreFirst => score().then_with(bound).then_with(depth),
             Self::OptimisticBoundFirst => bound().then_with(score).then_with(depth),
+            Self::InputOrderDepthFirst => unreachable!("handled before score comparisons"),
         };
         if self == Self::BreadthFirst {
             priority
