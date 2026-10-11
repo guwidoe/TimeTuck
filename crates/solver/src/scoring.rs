@@ -20,6 +20,7 @@ struct Constraint<'a, V, S> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ScoringError {
+    Provider(crate::MoveProviderError),
     Calculator(crate::MatchRegistryError),
     Model(ModelError),
     VariableCount {
@@ -48,6 +49,7 @@ pub enum ScoringError {
 impl fmt::Display for ScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Model(e) => e.fmt(f),
             Self::Calculator(e) => e.fmt(f),
             Self::VariableCount { expected, actual } => write!(
@@ -83,6 +85,7 @@ impl fmt::Display for ScoringError {
 impl Error for ScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
             Self::Calculator(error) => Some(error),
@@ -989,5 +992,11 @@ mod retained_commit_tests {
         tracked.apply(&change(0, 1)).unwrap().commit();
         drop(tracked);
         assert_eq!(d.score(), SimpleScore::new(1));
+    }
+}
+
+impl From<crate::MoveProviderError> for ScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
     }
 }

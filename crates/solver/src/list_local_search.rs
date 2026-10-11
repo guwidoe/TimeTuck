@@ -10,6 +10,7 @@ use std::{error::Error, fmt};
 
 #[derive(Debug)]
 pub enum ListLocalSearchError {
+    Provider(crate::MoveProviderError),
     DiminishedReturns(crate::DiminishedReturnsError),
     Scoring(ListScoringError),
     StreamScoring(crate::ListStreamScoringError),
@@ -19,6 +20,7 @@ pub enum ListLocalSearchError {
 impl fmt::Display for ListLocalSearchError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Scoring(e) => e.fmt(f),
             Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
@@ -32,6 +34,7 @@ impl fmt::Display for ListLocalSearchError {
 impl Error for ListLocalSearchError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::Scoring(e) => Some(e),
             Self::StreamScoring(e) => Some(e),
             Self::Acceptance(e) => Some(e),
@@ -171,7 +174,12 @@ pub(crate) fn search_impl_with_provider<
     make_director: impl FnOnce(ListAssignment<V>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
     provider: Option<
-        &mut dyn crate::MoveProvider<ListProblem<V>, crate::ListAssignment<V>, crate::ListMove<V>>,
+        crate::MoveProviderBinding<
+            '_,
+            ListProblem<V>,
+            crate::ListAssignment<V>,
+            crate::ListMove<V>,
+        >,
     >,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError>
 where
@@ -265,12 +273,14 @@ where
         {
             random.shuffle(&mut order);
         }
+        let failure = crate::fallible_move_provider::ProviderFailure::default();
         let moves = match provider.provider() {
             Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
                 problem,
                 &snapshot,
                 progress.completed_steps(),
-            )),
+                &failure,
+            )?),
             None => crate::move_provider::ProvidedMoves::BuiltIn(
                 config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
                     ordered(problem, &snapshot, neighborhood, order.iter().copied())
@@ -293,7 +303,8 @@ where
                 budget.remaining,
             )
             .take_while(|_| {
-                !config.cancelled()
+                !failure.failed()
+                    && !config.cancelled()
                     && !time_budget.expired(&result.best.as_ref().expect("initial best").score)
             }),
             budget.remaining,
@@ -317,9 +328,10 @@ where
                 };
                 acceptor.accepts(current.clone(), score, &keys, movement, &values)
             },
-            |_| false,
+            &failure,
             config.assert_scores,
         )?;
+        failure.check()?;
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
         let mut notify_improvement = false;
@@ -392,5 +404,11 @@ impl<V, S> ListLocalSearchResult<V, S> {
 impl From<crate::DiminishedReturnsError> for ListLocalSearchError {
     fn from(e: crate::DiminishedReturnsError) -> Self {
         Self::DiminishedReturns(e)
+    }
+}
+
+impl From<crate::MoveProviderError> for ListLocalSearchError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
     }
 }

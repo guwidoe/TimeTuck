@@ -251,7 +251,7 @@ struct Selected {
     constraint_evaluations: u128,
 }
 trait Engine<A, M, S> {
-    type Error;
+    type Error: From<crate::MoveProviderError>;
     fn assignment(&self) -> &A;
     fn score(&self) -> S;
     fn initial_evaluations(&self) -> u128;
@@ -347,8 +347,12 @@ fn score_budget(
     }
 }
 type Outcome<F, S> = ProviderConstructionResult<<F as Shape>::Assignment, S>;
-type Provider<'a, F> =
-    &'a mut dyn MoveProvider<<F as Shape>::Problem, <F as Shape>::Assignment, <F as Shape>::Move>;
+type Provider<'a, F> = crate::MoveProviderBinding<
+    'a,
+    <F as Shape>::Problem,
+    <F as Shape>::Assignment,
+    <F as Shape>::Move,
+>;
 fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     shape: F,
     initial: F::Assignment,
@@ -418,11 +422,13 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         }
         provider.start_step();
         let base = director.assignment().clone();
+        let failure = crate::fallible_move_provider::ProviderFailure::default();
         let mut proposals = provider.provider().expect("construction provider").moves(
             shape.problem(),
             &base,
             result.completed_steps,
-        );
+            &failure,
+        )?;
         let stopped = Cell::new(None);
         let mut no_change = (config.optional == OptionalConstruction::EvaluateUnassigned
             && shape.remaining(&base, config.optional)
@@ -455,7 +461,11 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 }
                 let Some(movement) = movement else {
                     ended = true;
-                    return no_change.take();
+                    return if failure.failed() {
+                        None
+                    } else {
+                        no_change.take()
+                    };
                 };
                 if shape.extends(&base, &movement, config.optional) {
                     emitted += 1;
@@ -465,8 +475,9 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
             }
         });
         let can_commit = || {
-            config.interruption == crate::ConstructionInterruption::KeepBestPrefix
-                || stopped.get().is_none()
+            !failure.failed()
+                && (config.interruption == crate::ConstructionInterruption::KeepBestPrefix
+                    || stopped.get().is_none())
         };
         let selection = director.select(
             candidates,
@@ -476,6 +487,7 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
             &move_counter,
             &score_counter,
         )?;
+        failure.check()?;
         let installed = selection.installed
             && (config.optional != OptionalConstruction::EvaluateUnassigned
                 || director.assignment() != &base);
@@ -575,7 +587,7 @@ pub fn construction_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
         initial,
         config,
         crate::provider_search::ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -641,7 +653,7 @@ pub fn stream_construction_from_with_provider<
         initial,
         config,
         crate::provider_search::ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -711,7 +723,7 @@ pub fn list_construction_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
         initial,
         config,
         crate::provider_search::ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -777,7 +789,7 @@ pub fn list_stream_construction_from_with_provider<
         initial,
         config,
         crate::provider_search::ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -847,7 +859,7 @@ pub fn mixed_construction_from_with_provider<B: Eq + Clone, L: Eq + Clone, S: Ad
         initial,
         config,
         crate::provider_search::ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -915,7 +927,7 @@ pub fn mixed_stream_construction_from_with_provider<
         initial,
         config,
         crate::provider_search::ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -1137,7 +1149,7 @@ mod tests {
             p.initial_assignment(),
             ProviderConstructionConfig::default(),
             crate::provider_search::ProviderContext {
-                provider: &mut provider,
+                provider: crate::MoveProviderBinding::Infallible(&mut provider),
                 control: Some(&mut control),
                 observer: Some(&mut observer),
             },
@@ -1152,4 +1164,156 @@ mod tests {
         );
         assert_eq!(control.polls, 5);
     }
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn construction_from_with_fallible_provider<V: Eq + Clone, S: AdditiveScore>(
+    problem: &FiniteProblem<V>,
+    network: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+) -> Result<ProviderConstructionResult<Assignment<V>, S>, ScoringError> {
+    basic(
+        problem,
+        network,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn stream_construction_from_with_fallible_provider<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+) -> Result<ProviderConstructionResult<Assignment<V>, S>, StreamScoringError> {
+    basic_stream(
+        problem,
+        graph,
+        sources,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn list_construction_from_with_fallible_provider<V: Eq + Clone, S: AdditiveScore>(
+    problem: &ListProblem<V>,
+    network: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn crate::FallibleMoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListScoringError> {
+    list(
+        problem,
+        network,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn list_stream_construction_from_with_fallible_provider<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn crate::FallibleMoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+) -> Result<ProviderConstructionResult<ListAssignment<V>, S>, ListStreamScoringError> {
+    list_stream(
+        problem,
+        graph,
+        sources,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn mixed_construction_from_with_fallible_provider<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+>(
+    problem: &MixedProblem<B, L>,
+    network: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn crate::FallibleMoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedScoringError> {
+    mixed(
+        problem,
+        network,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn mixed_stream_construction_from_with_fallible_provider<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    problem: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    config: ProviderConstructionConfig,
+    provider: &mut dyn crate::FallibleMoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+) -> Result<ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedStreamScoringError> {
+    mixed_stream(
+        problem,
+        graph,
+        sources,
+        initial,
+        config,
+        crate::provider_search::ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
 }

@@ -3,7 +3,7 @@ use crate::list_scoring::ListSelection;
 use crate::{AdditiveScore, ListAssignment, ListMove, ListScoreDirector, ListScoringError};
 
 pub(crate) trait ListSearchDirector<V, S> {
-    type Error: From<crate::ListError>;
+    type Error: From<crate::ListError> + From<crate::MoveProviderError>;
     fn notify_best(&mut self, _complete: impl FnOnce(&ListAssignment<V>) -> bool) {}
     fn assignment(&self) -> &ListAssignment<V>;
     fn score(&self) -> S;

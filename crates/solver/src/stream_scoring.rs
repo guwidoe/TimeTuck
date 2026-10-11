@@ -38,6 +38,7 @@ pub type PlanningStreamSource<V> = StreamSource<usize, (usize, Option<V>)>;
 
 #[derive(Debug)]
 pub enum StreamScoringError {
+    Provider(crate::MoveProviderError),
     Model(ModelError),
     Graph(GraphError),
     PlanningSourceNotEmpty,
@@ -45,6 +46,7 @@ pub enum StreamScoringError {
 impl fmt::Display for StreamScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Model(e) => e.fmt(f),
             Self::Graph(e) => e.fmt(f),
             Self::PlanningSourceNotEmpty => {
@@ -56,6 +58,7 @@ impl fmt::Display for StreamScoringError {
 impl Error for StreamScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::Model(e) => Some(e),
             Self::Graph(e) => Some(e),
             Self::PlanningSourceNotEmpty => None,
@@ -197,7 +200,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         config: LocalSearchConfig<S>,
         provider: &mut dyn crate::MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
     ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-        self.run_local_search_monitored(None, None, None, config, Some(provider))
+        self.run_local_search_monitored(
+            None,
+            None,
+            None,
+            config,
+            Some(crate::MoveProviderBinding::Infallible(provider)),
+        )
     }
 
     /// Construct from provider proposals without rebuilding this graph or its facts.
@@ -210,7 +219,38 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             self.assignment.clone(),
             config,
             crate::provider_search::ProviderContext {
-                provider,
+                provider: crate::MoveProviderBinding::Infallible(provider),
+                control: None,
+                observer: None,
+            },
+        )
+    }
+
+    /// Fallible provider execution. Errors retain the last completed step.
+    pub fn run_local_search_with_fallible_provider(
+        &mut self,
+        config: LocalSearchConfig<S>,
+        provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+    ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+        self.run_local_search_monitored(
+            None,
+            None,
+            None,
+            config,
+            Some(crate::MoveProviderBinding::Fallible(provider)),
+        )
+    }
+    /// Fallible provider execution. Errors retain the last completed step.
+    pub fn run_construction_with_fallible_provider(
+        &mut self,
+        config: crate::ProviderConstructionConfig<'_>,
+        provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+    ) -> Result<crate::ProviderConstructionResult<Assignment<V>, S>, StreamScoringError> {
+        self.run_provider_construction_monitored(
+            self.assignment.clone(),
+            config,
+            crate::provider_search::ProviderContext {
+                provider: crate::MoveProviderBinding::Fallible(provider),
                 control: None,
                 observer: None,
             },
@@ -251,9 +291,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         initial: Option<Assignment<V>>,
         mut observer: crate::retained_stream_phase::Observer<'_, Assignment<V>, S>,
         config: LocalSearchConfig<S>,
-        provider: Option<
-            &mut (dyn crate::MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>> + '_),
-        >,
+        provider: Option<crate::MoveProviderBinding<'_, FiniteProblem<V>, Assignment<V>, Move<V>>>,
     ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
         let problem = self.problem;
         let initial = initial.unwrap_or_else(|| self.assignment.clone());
@@ -283,9 +321,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                 })
             },
             clock,
-            provider.map(|p| {
-                p as &mut dyn crate::MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>
-            }),
+            provider,
         )?;
         if let Some(best) = &result.best {
             self.assignment = best.assignment.clone();
@@ -755,5 +791,11 @@ mod selection_tests {
             assert_eq!(d.score(), SimpleScore::new(1));
             d.assert_consistent().unwrap();
         }
+    }
+}
+
+impl From<crate::MoveProviderError> for StreamScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
     }
 }

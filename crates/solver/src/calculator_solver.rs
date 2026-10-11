@@ -20,7 +20,7 @@ use super::*;
 use crate::solution_observation::Observed;
 
 type MixedProvider<'a, B, L> =
-    &'a mut dyn MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>;
+    crate::MoveProviderBinding<'a, MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>;
 type MixedProviderContext<'a, B, L, S> = crate::provider_search::ProviderContext<
     'a,
     MixedProblem<B, L>,
@@ -416,7 +416,7 @@ fn basic_local<
     initial: Assignment<V>,
     config: LocalSearchConfig<'_, S>,
     mut observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
-    provider: Option<&mut dyn MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>>,
+    provider: Option<crate::MoveProviderBinding<'_, FiniteProblem<V>, Assignment<V>, Move<V>>>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     let controls = config.clone();
     let clock = crate::solver_clock::monitored_clock(
@@ -900,7 +900,9 @@ fn list_local<
     initial: ListAssignment<V>,
     config: LocalSearchConfig<'_, S>,
     mut observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
-    provider: Option<&mut dyn MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>>,
+    provider: Option<
+        crate::MoveProviderBinding<'_, ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+    >,
 ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
     let controls = config.clone();
     let clock = crate::solver_clock::monitored_clock(

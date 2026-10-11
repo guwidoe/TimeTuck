@@ -233,7 +233,7 @@ where
         config,
         |a| CalculatorScoreDirector::new(problem, a, factory, false),
         clock,
-        Some(provider),
+        Some(crate::MoveProviderBinding::Infallible(provider)),
     )
 }
 /// Run bounded custom commands and publish initial/best updates using the shared
@@ -270,3 +270,33 @@ where
 }
 
 crate::retained_calculator_phase::retained_calculator!(CalculatorScoreDirector, [V], Assignment<V>, FiniteProblem<V>, Move<V>, Vec<usize>, ScoringError, LocalSearchError, SolverSequence, basic, construction, ConstructionConfig<'_>, ConstructionResult<V, C::Score>, local_search, LocalSearchConfig<'_, C::Score>, LocalSearchResult<V, C::Score>, basic_director, Some, []);
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn calculator_local_search_with_fallible_provider<V, C>(
+    problem: &FiniteProblem<V>,
+    initial: Assignment<V>,
+    factory: impl Fn() -> C,
+    config: LocalSearchConfig<'_, C::Score>,
+    provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+) -> Result<LocalSearchResult<V, C::Score>, LocalSearchError>
+where
+    V: Eq + Clone,
+    C: IncrementalCalculator<Assignment<V>, Change = Vec<usize>>,
+{
+    let clock = crate::time_limit::monotonic_clock(
+        config.max_time.is_some()
+            || config.max_unimproved_time.is_some()
+            || config.diminished_returns.is_some()
+            || config.significant_improvement.is_some(),
+    );
+    crate::local_search::search_impl_with_provider(
+        None,
+        problem,
+        Some(initial),
+        config,
+        |a| CalculatorScoreDirector::new(problem, a, factory, false),
+        clock,
+        Some(crate::MoveProviderBinding::Fallible(provider)),
+    )
+}

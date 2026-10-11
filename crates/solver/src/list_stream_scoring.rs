@@ -81,6 +81,7 @@ impl<V: Clone + 'static> ListStreamSources<V> {
 }
 #[derive(Debug)]
 pub enum ListStreamScoringError {
+    Provider(crate::MoveProviderError),
     Model(ListError),
     Graph(GraphError),
     PlanningSourceNotEmpty,
@@ -88,6 +89,7 @@ pub enum ListStreamScoringError {
 impl fmt::Display for ListStreamScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Model(e) => e.fmt(f),
             Self::Graph(e) => e.fmt(f),
             Self::PlanningSourceNotEmpty => {
@@ -99,6 +101,7 @@ impl fmt::Display for ListStreamScoringError {
 impl Error for ListStreamScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::Model(e) => Some(e),
             Self::Graph(e) => Some(e),
             Self::PlanningSourceNotEmpty => None,
@@ -246,7 +249,13 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         config: LocalSearchConfig<S>,
         provider: &mut dyn crate::MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
     ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
-        self.run_local_search_monitored(None, None, None, config, Some(provider))
+        self.run_local_search_monitored(
+            None,
+            None,
+            None,
+            config,
+            Some(crate::MoveProviderBinding::Infallible(provider)),
+        )
     }
 
     /// Construct from provider proposals without rebuilding this graph or its facts.
@@ -260,7 +269,39 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             self.assignment.clone(),
             config,
             crate::provider_search::ProviderContext {
-                provider,
+                provider: crate::MoveProviderBinding::Infallible(provider),
+                control: None,
+                observer: None,
+            },
+        )
+    }
+
+    /// Fallible provider execution. Errors retain the last completed step.
+    pub fn run_local_search_with_fallible_provider(
+        &mut self,
+        config: LocalSearchConfig<S>,
+        provider: &mut dyn crate::FallibleMoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+    ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+        self.run_local_search_monitored(
+            None,
+            None,
+            None,
+            config,
+            Some(crate::MoveProviderBinding::Fallible(provider)),
+        )
+    }
+    /// Fallible provider execution. Errors retain the last completed step.
+    pub fn run_construction_with_fallible_provider(
+        &mut self,
+        config: crate::ProviderConstructionConfig<'_>,
+        provider: &mut dyn crate::FallibleMoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+    ) -> Result<crate::ProviderConstructionResult<ListAssignment<V>, S>, ListStreamScoringError>
+    {
+        self.run_provider_construction_monitored(
+            self.assignment.clone(),
+            config,
+            crate::provider_search::ProviderContext {
+                provider: crate::MoveProviderBinding::Fallible(provider),
                 control: None,
                 observer: None,
             },
@@ -303,7 +344,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         mut observer: crate::retained_stream_phase::Observer<'_, ListAssignment<V>, S>,
         config: LocalSearchConfig<S>,
         provider: Option<
-            &mut (dyn crate::MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>> + '_),
+            crate::MoveProviderBinding<'_, ListProblem<V>, ListAssignment<V>, ListMove<V>>,
         >,
     ) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
         let problem = self.problem;
@@ -334,9 +375,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                 })
             },
             clock,
-            provider.map(|p| {
-                p as &mut dyn crate::MoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>
-            }),
+            provider,
         )?;
         if let Some(best) = &result.best {
             self.assignment = best.assignment.clone();
@@ -863,5 +902,11 @@ mod selection_tests {
             assert_eq!(d.assignment().lists(), &[vec![0, 1]]);
             d.assert_consistent().unwrap();
         }
+    }
+}
+
+impl From<crate::MoveProviderError> for ListStreamScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
     }
 }

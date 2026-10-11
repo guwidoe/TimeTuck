@@ -142,12 +142,12 @@ impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&mut Q)> MoveProvider<P, A, M>
 /// Own the callback boundary independently of the borrowed candidate iterator.
 /// Dropping an iterator alone is too early: the director has not installed its
 /// winner yet. Engines explicitly end scans after selection and accounting.
-pub(crate) struct ProviderPhase<'r, 'p, P, A, M> {
-    provider: Option<&'r mut (dyn MoveProvider<P, A, M> + 'p)>,
+pub(crate) struct ProviderPhase<'r, P, A, M> {
+    provider: Option<crate::MoveProviderBinding<'r, P, A, M>>,
     step: bool,
 }
-impl<'r, 'p, P, A, M> ProviderPhase<'r, 'p, P, A, M> {
-    pub(crate) fn new(provider: Option<&'r mut (dyn MoveProvider<P, A, M> + 'p)>) -> Self {
+impl<'r, P, A, M> ProviderPhase<'r, P, A, M> {
+    pub(crate) fn new(provider: Option<crate::MoveProviderBinding<'r, P, A, M>>) -> Self {
         let mut phase = Self {
             provider,
             step: false,
@@ -158,8 +158,8 @@ impl<'r, 'p, P, A, M> ProviderPhase<'r, 'p, P, A, M> {
     pub(crate) fn is_none(&self) -> bool {
         self.provider.is_none()
     }
-    pub(crate) fn provider(&mut self) -> Option<&mut (dyn MoveProvider<P, A, M> + 'p)> {
-        self.provider.as_deref_mut()
+    pub(crate) fn provider(&mut self) -> Option<&mut crate::MoveProviderBinding<'r, P, A, M>> {
+        self.provider.as_mut()
     }
     fn event(&mut self, event: MoveProviderEvent) {
         if let Some(p) = &mut self.provider {
@@ -177,7 +177,7 @@ impl<'r, 'p, P, A, M> ProviderPhase<'r, 'p, P, A, M> {
         }
     }
 }
-impl<P, A, M> Drop for ProviderPhase<'_, '_, P, A, M> {
+impl<P, A, M> Drop for ProviderPhase<'_, P, A, M> {
     fn drop(&mut self) {
         if !std::thread::panicking() {
             self.end_step();

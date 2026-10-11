@@ -1307,3 +1307,23 @@ pub use sublist_rank::{SubListRankError, SubListRankIndex};
 mod retained_calculator_phase;
 
 mod retained_scoped_phase;
+
+mod fallible_move_provider;
+pub use calculator_search::calculator_local_search_with_fallible_provider;
+pub use fallible_move_provider::{FallibleMoveProvider, MoveProviderBinding, MoveProviderError};
+pub use list_calculator_search::list_calculator_local_search_with_fallible_provider;
+pub use mixed_calculator_search::mixed_calculator_local_search_with_fallible_provider;
+pub use provider_construction::{
+    construction_from_with_fallible_provider, list_construction_from_with_fallible_provider,
+    list_stream_construction_from_with_fallible_provider,
+    mixed_construction_from_with_fallible_provider,
+    mixed_stream_construction_from_with_fallible_provider,
+    stream_construction_from_with_fallible_provider,
+};
+pub use provider_search::{
+    list_local_search_from_with_fallible_provider,
+    list_stream_local_search_from_with_fallible_provider, local_search_from_with_fallible_provider,
+    mixed_local_search_from_with_fallible_provider,
+    mixed_stream_local_search_from_with_fallible_provider,
+    stream_local_search_from_with_fallible_provider,
+};

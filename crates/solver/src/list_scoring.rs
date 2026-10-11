@@ -57,6 +57,7 @@ struct Constraint<'a, V, S> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ListScoringError {
+    Provider(crate::MoveProviderError),
     Calculator(crate::MatchRegistryError),
     Model(ListError),
     ModelShape {
@@ -84,6 +85,7 @@ pub enum ListScoringError {
 impl fmt::Display for ListScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Model(error) if error.range_report().is_some() => error.fmt(f),
             Self::ScoreCorruption(report) => report.fmt(f),
             Self::Calculator(error) => error.fmt(f),
@@ -94,6 +96,7 @@ impl fmt::Display for ListScoringError {
 impl Error for ListScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
             Self::Calculator(error) => Some(error),
@@ -1009,3 +1012,9 @@ mod selection_tests {
 }
 
 crate::retained_scoped_phase::retained_scoped!(ListScoreDirector, [V], crate::ListAssignment<V>, crate::ListProblem<V>, crate::ListMove<V>, crate::ListScoringError, crate::ListLocalSearchError, SolverSequence, list, list_construction, crate::ConstructionConfig<'_>, crate::ListConstructionResult<V,S>, list_local_search, crate::LocalSearchConfig<'_,S>, crate::ListLocalSearchResult<V,S>, list_director, |a| a, []);
+
+impl From<crate::MoveProviderError> for ListScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
+    }
+}

@@ -207,7 +207,7 @@ where
         config,
         |a| MixedCalculatorScoreDirector::new(problem, a, factory, false),
         clock,
-        Some(provider),
+        Some(crate::MoveProviderBinding::Infallible(provider)),
     )
 }
 /// Run bounded custom commands and publish initial/best updates using the shared
@@ -251,3 +251,34 @@ where
 }
 
 crate::retained_calculator_phase::retained_calculator!(MixedCalculatorScoreDirector, [B,L], MixedAssignment<B,L>, MixedProblem<B,L>, MixedMove<B,L>, MixedCalculatorChange, MixedScoringError, MixedLocalSearchError, MixedSolverSequence, mixed, mixed_construction, MixedConstructionConfig<'_>, MixedConstructionResult<B,L,C::Score>, mixed_local_search, MixedLocalSearchConfig<'_,C::Score>, MixedLocalSearchResult<B,L,C::Score>, mixed_director, |a| a, [search]);
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn mixed_calculator_local_search_with_fallible_provider<B, L, C>(
+    problem: &MixedProblem<B, L>,
+    initial: MixedAssignment<B, L>,
+    factory: impl Fn() -> C,
+    config: MixedLocalSearchConfig<'_, C::Score>,
+    provider: &mut dyn crate::FallibleMoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+) -> Result<MixedLocalSearchResult<B, L, C::Score>, MixedLocalSearchError>
+where
+    B: Eq + Clone,
+    L: Eq + Clone,
+    C: IncrementalCalculator<MixedAssignment<B, L>, Change = MixedCalculatorChange>,
+{
+    let clock = crate::time_limit::monotonic_clock(
+        config.search.max_time.is_some()
+            || config.search.max_unimproved_time.is_some()
+            || config.search.diminished_returns.is_some()
+            || config.search.significant_improvement.is_some(),
+    );
+    crate::mixed_local_search::search_impl_with_provider(
+        None,
+        problem,
+        initial,
+        config,
+        |a| MixedCalculatorScoreDirector::new(problem, a, factory, false),
+        clock,
+        Some(crate::MoveProviderBinding::Fallible(provider)),
+    )
+}

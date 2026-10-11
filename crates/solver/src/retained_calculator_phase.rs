@@ -69,7 +69,7 @@ where C: IncrementalCalculator<$assignment, Change = $change> + Clone,
         initial: Option<$assignment>,
         mut observer: crate::retained_stream_phase::Observer<'_, $assignment, C::Score>,
         config: $search_config,
-        provider: Option<&mut (dyn crate::MoveProvider<$problem, $assignment, $movement> + '_)>,
+        provider: Option<crate::MoveProviderBinding<'_, $problem, $assignment, $movement>>,
     ) -> Result<$search_result, $local_error> {
         let problem = self.problem;
         let initial = initial.unwrap_or_else(|| self.assignment().clone());
@@ -88,7 +88,7 @@ where C: IncrementalCalculator<$assignment, Change = $change> + Clone,
             Ok(crate::retained_stream_phase::RetainedPhase {
                 director: &mut *self, initialization_work, on_best: Some(&mut save),
             })
-        }, clock, provider.map(|p| p as &mut dyn crate::MoveProvider<$problem, $assignment, $movement>))?;
+        }, clock, provider)?;
         if let Some(best) = best { self.install_retained_state(best); }
         Ok(result)
     }

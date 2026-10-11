@@ -62,6 +62,7 @@ impl<B: Clone + 'static, L: Clone + 'static> MixedStreamSources<B, L> {
 }
 #[derive(Debug)]
 pub enum MixedStreamScoringError {
+    Provider(crate::MoveProviderError),
     Scoring(MixedScoringError),
     Graph(GraphError),
     PlanningSourceNotEmpty,
@@ -69,6 +70,7 @@ pub enum MixedStreamScoringError {
 impl fmt::Display for MixedStreamScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Scoring(e) => e.fmt(f),
             Self::Graph(e) => e.fmt(f),
             Self::PlanningSourceNotEmpty => {
@@ -80,6 +82,7 @@ impl fmt::Display for MixedStreamScoringError {
 impl Error for MixedStreamScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::Scoring(e) => Some(e),
             Self::Graph(e) => Some(e),
             Self::PlanningSourceNotEmpty => None,
@@ -241,7 +244,13 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         config: MixedLocalSearchConfig<S>,
         provider: &mut dyn crate::MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
     ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
-        self.run_local_search_monitored(None, None, None, config, Some(provider))
+        self.run_local_search_monitored(
+            None,
+            None,
+            None,
+            config,
+            Some(crate::MoveProviderBinding::Infallible(provider)),
+        )
     }
 
     /// Construct from provider proposals without rebuilding this graph or its facts.
@@ -255,7 +264,47 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             self.assignment.clone(),
             config,
             crate::provider_search::ProviderContext {
-                provider,
+                provider: crate::MoveProviderBinding::Infallible(provider),
+                control: None,
+                observer: None,
+            },
+        )
+    }
+
+    /// Fallible provider execution. Errors retain the last completed step.
+    pub fn run_local_search_with_fallible_provider(
+        &mut self,
+        config: MixedLocalSearchConfig<S>,
+        provider: &mut dyn crate::FallibleMoveProvider<
+            MixedProblem<B, L>,
+            MixedAssignment<B, L>,
+            MixedMove<B, L>,
+        >,
+    ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+        self.run_local_search_monitored(
+            None,
+            None,
+            None,
+            config,
+            Some(crate::MoveProviderBinding::Fallible(provider)),
+        )
+    }
+    /// Fallible provider execution. Errors retain the last completed step.
+    pub fn run_construction_with_fallible_provider(
+        &mut self,
+        config: crate::ProviderConstructionConfig<'_>,
+        provider: &mut dyn crate::FallibleMoveProvider<
+            MixedProblem<B, L>,
+            MixedAssignment<B, L>,
+            MixedMove<B, L>,
+        >,
+    ) -> Result<crate::ProviderConstructionResult<MixedAssignment<B, L>, S>, MixedStreamScoringError>
+    {
+        self.run_provider_construction_monitored(
+            self.assignment.clone(),
+            config,
+            crate::provider_search::ProviderContext {
+                provider: crate::MoveProviderBinding::Fallible(provider),
                 control: None,
                 observer: None,
             },
@@ -291,7 +340,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         initial: Option<MixedAssignment<B, L>>,
         mut observer: crate::retained_stream_phase::Observer<'_, MixedAssignment<B, L>, S>,
         config: MixedLocalSearchConfig<S>,
-        provider: Option<&mut MixedProvider<'_, B, L>>,
+        provider: Option<MixedProvider<'_, B, L>>,
     ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
         let problem = self.problem;
         let initial = initial.unwrap_or_else(|| self.assignment.clone());
@@ -321,13 +370,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 })
             },
             clock,
-            provider.map(|p| {
-                p as &mut dyn crate::MoveProvider<
-                    MixedProblem<B, L>,
-                    MixedAssignment<B, L>,
-                    MixedMove<B, L>,
-                >
-            }),
+            provider,
         )?;
         if let Some(best) = &result.best {
             self.assignment = best.assignment.clone();
@@ -810,7 +853,7 @@ pub(crate) fn mixed_stream_local_search_from_monitored<
 }
 
 type MixedProvider<'p, B, L> =
-    dyn crate::MoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>> + 'p;
+    crate::MoveProviderBinding<'p, MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>;
 type MixedProviderContext<'p, B, L, S> = crate::provider_search::ProviderContext<
     'p,
     MixedProblem<B, L>,
@@ -910,5 +953,11 @@ mod selection_tests {
             );
             d.assert_consistent().unwrap();
         }
+    }
+}
+
+impl From<crate::MoveProviderError> for MixedStreamScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
     }
 }

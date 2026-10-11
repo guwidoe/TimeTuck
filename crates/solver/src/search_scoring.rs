@@ -3,7 +3,7 @@ use crate::scoring::Selection;
 use crate::{AdditiveScore, Assignment, Move, ScoreDirector, ScoringError};
 
 pub(crate) trait SearchDirector<V, S> {
-    type Error;
+    type Error: From<crate::MoveProviderError>;
     fn notify_best(&mut self, _complete: impl FnOnce(&Assignment<V>) -> bool) {}
     fn assignment(&self) -> &Assignment<V>;
     fn score(&self) -> S;

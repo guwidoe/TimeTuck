@@ -228,7 +228,7 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
         initial: Option<$assignment>,
         mut observer: crate::retained_stream_phase::Observer<'_, $assignment, S>,
         config: $search_config,
-        provider: Option<&mut (dyn crate::MoveProvider<$problem, $assignment, $movement> + '_)>,
+        provider: Option<crate::MoveProviderBinding<'_, $problem, $assignment, $movement>>,
     ) -> Result<$search_result, $local_error> {
         let problem = self.problem;
         let initial = initial.unwrap_or_else(|| self.assignment().clone());
@@ -248,7 +248,7 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
             Ok(crate::retained_stream_phase::RetainedPhase {
                 director: &mut *tracked, initialization_work, on_best: Some(&mut save),
             })
-        }, clock, provider.map(|p| p as &mut dyn crate::MoveProvider<$problem, $assignment, $movement>))?;
+        }, clock, provider)?;
         drop(tracked);
         if let Some(best) = best { self.install_retained_state(best); }
         Ok(result)

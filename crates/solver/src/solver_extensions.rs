@@ -13,7 +13,7 @@ pub struct PhaseMoveProviders<'a, P, A, M> {
     /// moves. Defaults to 100,000. Does not affect local-search providers.
     pub max_construction_scans: u64,
     bindings: BTreeMap<usize, usize>,
-    providers: Vec<Option<&'a mut dyn MoveProvider<P, A, M>>>,
+    providers: Vec<Option<crate::MoveProviderBinding<'a, P, A, M>>>,
 }
 impl<P, A, M> Default for PhaseMoveProviders<'_, P, A, M> {
     fn default() -> Self {
@@ -27,16 +27,20 @@ impl<P, A, M> Default for PhaseMoveProviders<'_, P, A, M> {
 impl<'a, P, A, M> PhaseMoveProviders<'a, P, A, M> {
     /// Bind or replace one phase. Returns its old provider only when that was the
     /// last phase bound to it; a shared provider stays borrowed by its other phases.
+    /// Replacing a fallible binding returns None; use bind_provider to recover it.
     /// Invalid phase indices are rejected before solve callbacks.
     pub fn bind(
         &mut self,
         phase: usize,
         provider: &'a mut dyn MoveProvider<P, A, M>,
     ) -> Option<&'a mut dyn MoveProvider<P, A, M>> {
-        let previous = self.remove(phase);
-        let slot = self.store(provider);
+        let previous = self.take_binding(phase);
+        let slot = self.store(crate::MoveProviderBinding::Infallible(provider));
         self.bindings.insert(phase, slot);
-        previous
+        match previous {
+            Some(crate::MoveProviderBinding::Infallible(p)) => Some(p),
+            _ => None,
+        }
     }
     /// Borrow one provider once and reuse it in every selected phase. Duplicate
     /// indices are deduplicated. Empty lists and existing bindings are rejected
@@ -53,13 +57,13 @@ impl<'a, P, A, M> PhaseMoveProviders<'a, P, A, M> {
         if let Some(&phase) = phases.iter().find(|&&phase| self.contains(phase)) {
             return Err(MoveProviderBindingError::AlreadyBound { phase });
         }
-        let slot = self.store(provider);
+        let slot = self.store(crate::MoveProviderBinding::Infallible(provider));
         for phase in phases {
             self.bindings.insert(phase, slot);
         }
         Ok(())
     }
-    fn store(&mut self, provider: &'a mut dyn MoveProvider<P, A, M>) -> usize {
+    fn store(&mut self, provider: crate::MoveProviderBinding<'a, P, A, M>) -> usize {
         if let Some(slot) = self.providers.iter().position(Option::is_none) {
             self.providers[slot] = Some(provider);
             slot
@@ -71,7 +75,26 @@ impl<'a, P, A, M> PhaseMoveProviders<'a, P, A, M> {
     }
     /// Remove a phase binding. Returns the provider only after its last binding
     /// is removed, because a shared provider cannot be mutably borrowed twice.
+    /// Fallible bindings are left untouched; use take_binding to remove them.
     pub fn remove(&mut self, phase: usize) -> Option<&'a mut dyn MoveProvider<P, A, M>> {
+        let slot = *self.bindings.get(&phase)?;
+        if matches!(
+            self.providers[slot],
+            Some(crate::MoveProviderBinding::Fallible(_))
+        ) {
+            return None;
+        }
+        match self.take_binding(phase) {
+            Some(crate::MoveProviderBinding::Infallible(p)) => Some(p),
+            _ => None,
+        }
+    }
+    /// Remove either kind of binding. Shared providers are returned only after
+    /// their last binding is removed.
+    pub fn take_binding(
+        &mut self,
+        phase: usize,
+    ) -> Option<crate::MoveProviderBinding<'a, P, A, M>> {
         let slot = self.bindings.remove(&phase)?;
         if self.bindings.values().any(|&other| other == slot) {
             None
@@ -79,12 +102,53 @@ impl<'a, P, A, M> PhaseMoveProviders<'a, P, A, M> {
             self.providers[slot].take()
         }
     }
+    /// Bind either provider kind and return the previous binding when unshared.
+    pub fn bind_provider(
+        &mut self,
+        phase: usize,
+        provider: crate::MoveProviderBinding<'a, P, A, M>,
+    ) -> Option<crate::MoveProviderBinding<'a, P, A, M>> {
+        let previous = self.take_binding(phase);
+        let slot = self.store(provider);
+        self.bindings.insert(phase, slot);
+        previous
+    }
+    /// Bind a fallible provider. Replaced providers of either kind are recoverable.
+    pub fn bind_fallible(
+        &mut self,
+        phase: usize,
+        provider: &'a mut dyn crate::FallibleMoveProvider<P, A, M>,
+    ) -> Option<crate::MoveProviderBinding<'a, P, A, M>> {
+        self.bind_provider(phase, crate::MoveProviderBinding::Fallible(provider))
+    }
+    /// Share one fallible provider across phases. Registration is atomic and
+    /// lifecycle solve events are delivered once, just as for bind_shared.
+    pub fn bind_shared_fallible(
+        &mut self,
+        phases: impl IntoIterator<Item = usize>,
+        provider: &'a mut dyn crate::FallibleMoveProvider<P, A, M>,
+    ) -> Result<(), MoveProviderBindingError> {
+        let phases: std::collections::BTreeSet<_> = phases.into_iter().collect();
+        if phases.is_empty() {
+            return Err(MoveProviderBindingError::EmptyPhases);
+        }
+        if let Some(&phase) = phases.iter().find(|&&phase| self.contains(phase)) {
+            return Err(MoveProviderBindingError::AlreadyBound { phase });
+        }
+        let slot = self.store(crate::MoveProviderBinding::Fallible(provider));
+        for phase in phases {
+            self.bindings.insert(phase, slot);
+        }
+        Ok(())
+    }
     pub fn contains(&self, phase: usize) -> bool {
         self.bindings.contains_key(&phase)
     }
-    pub(crate) fn get(&mut self, phase: usize) -> Option<&mut (dyn MoveProvider<P, A, M> + 'a)> {
+    pub(crate) fn get(&mut self, phase: usize) -> Option<crate::MoveProviderBinding<'_, P, A, M>> {
         let slot = *self.bindings.get(&phase)?;
-        self.providers[slot].as_deref_mut()
+        self.providers[slot]
+            .as_mut()
+            .map(crate::MoveProviderBinding::reborrow)
     }
     fn event(&mut self, event: crate::MoveProviderEvent) {
         for provider in self.providers.iter_mut().flatten() {

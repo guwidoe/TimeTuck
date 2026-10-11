@@ -61,6 +61,7 @@ struct Constraint<'a, B, L, S> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum MixedScoringError {
+    Provider(crate::MoveProviderError),
     Calculator(crate::MatchRegistryError),
     Model(MixedError),
     /// Counts in basic-variable, list-entity, list-value order.
@@ -88,6 +89,7 @@ pub enum MixedScoringError {
 impl fmt::Display for MixedScoringError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Model(error) if error.range_report().is_some() => error.fmt(f),
             Self::ScoreCorruption(report) => report.fmt(f),
             Self::Calculator(error) => error.fmt(f),
@@ -98,6 +100,7 @@ impl fmt::Display for MixedScoringError {
 impl Error for MixedScoringError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::ScoreCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
             Self::Calculator(error) => Some(error),
@@ -1099,3 +1102,9 @@ mod selection_tests {
 }
 
 crate::retained_scoped_phase::retained_scoped!(MixedScoreDirector, [B,L], crate::MixedAssignment<B,L>, crate::MixedProblem<B,L>, crate::MixedMove<B,L>, crate::MixedScoringError, crate::MixedLocalSearchError, MixedSolverSequence, mixed, mixed_construction, crate::MixedConstructionConfig<'_>, crate::MixedConstructionResult<B,L,S>, mixed_local_search, crate::MixedLocalSearchConfig<'_,S>, crate::MixedLocalSearchResult<B,L,S>, mixed_director, |a| a, [search]);
+
+impl From<crate::MoveProviderError> for MixedScoringError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
+    }
+}

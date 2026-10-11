@@ -29,6 +29,7 @@ impl<S> Default for MixedLocalSearchConfig<'_, S> {
 }
 #[derive(Debug)]
 pub enum MixedLocalSearchError {
+    Provider(crate::MoveProviderError),
     DiminishedReturns(crate::DiminishedReturnsError),
     Scoring(MixedScoringError),
     StreamScoring(crate::MixedStreamScoringError),
@@ -43,6 +44,7 @@ pub enum MixedLocalSearchError {
 impl fmt::Display for MixedLocalSearchError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Provider(e) => e.fmt(f),
             Self::Scoring(e) => e.fmt(f),
             Self::StreamScoring(e) => e.fmt(f),
             Self::Acceptance(e) => e.fmt(f),
@@ -60,6 +62,7 @@ impl fmt::Display for MixedLocalSearchError {
 impl Error for MixedLocalSearchError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            Self::Provider(e) => Some(e),
             Self::Scoring(e) => Some(e),
             Self::StreamScoring(e) => Some(e),
             Self::Acceptance(e) => Some(e),
@@ -202,8 +205,12 @@ where
     )
 }
 
-type Provider<'a, B, L> = dyn crate::MoveProvider<MixedProblem<B, L>, crate::MixedAssignment<B, L>, crate::MixedMove<B, L>>
-    + 'a;
+type Provider<'a, B, L> = crate::MoveProviderBinding<
+    'a,
+    MixedProblem<B, L>,
+    crate::MixedAssignment<B, L>,
+    crate::MixedMove<B, L>,
+>;
 
 pub(crate) fn search_impl_with_provider<
     B: Eq + Clone,
@@ -217,7 +224,7 @@ pub(crate) fn search_impl_with_provider<
     settings: MixedLocalSearchConfig<S>,
     make_director: impl FnOnce(MixedAssignment<B, L>) -> Result<D, D::Error>,
     clock: impl FnMut() -> std::time::Duration,
-    provider: Option<&mut Provider<'_, B, L>>,
+    provider: Option<Provider<'_, B, L>>,
 ) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError>
 where
     MixedLocalSearchError: From<D::Error>,
@@ -331,12 +338,14 @@ where
             random.shuffle(&mut basic_order);
             random.shuffle(&mut list_order);
         }
+        let failure = crate::fallible_move_provider::ProviderFailure::default();
         let moves = match provider.provider() {
             Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
                 problem,
                 &snapshot,
                 progress.completed_steps(),
-            )),
+                &failure,
+            )?),
             None => crate::move_provider::ProvidedMoves::BuiltIn(config.select_neighborhoods(
                 progress.completed_steps(),
                 |neighborhood| {
@@ -367,7 +376,8 @@ where
                 budget.remaining,
             )
             .take_while(|_| {
-                !config.cancelled()
+                !failure.failed()
+                    && !config.cancelled()
                     && !time_budget.expired(&result.best.as_ref().expect("initial best").score)
             }),
             budget.remaining,
@@ -391,9 +401,10 @@ where
                 };
                 acceptor.accepts(current.clone(), score, &keys, movement, &values)
             },
-            |_| false,
+            &failure,
             config.assert_scores,
         )?;
+        failure.check()?;
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
         let mut notify_improvement = false;
@@ -466,5 +477,11 @@ impl<B, L, S> MixedLocalSearchResult<B, L, S> {
 impl From<crate::DiminishedReturnsError> for MixedLocalSearchError {
     fn from(e: crate::DiminishedReturnsError) -> Self {
         Self::DiminishedReturns(e)
+    }
+}
+
+impl From<crate::MoveProviderError> for MixedLocalSearchError {
+    fn from(error: crate::MoveProviderError) -> Self {
+        Self::Provider(error)
     }
 }

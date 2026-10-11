@@ -11,7 +11,7 @@ use crate::{
 };
 
 pub(crate) struct ProviderContext<'a, P, A, M, S> {
-    pub provider: &'a mut dyn MoveProvider<P, A, M>,
+    pub provider: crate::MoveProviderBinding<'a, P, A, M>,
     pub control: Option<&'a mut dyn crate::time_limit::SearchControl<S>>,
     pub observer: Option<&'a mut ProviderObserver<'a, A, S>>,
 }
@@ -59,7 +59,7 @@ pub fn local_search_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
         initial,
         config,
         ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -126,7 +126,7 @@ pub fn stream_local_search_from_with_provider<
         initial,
         config,
         ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -183,7 +183,7 @@ pub fn list_local_search_from_with_provider<V: Eq + Clone, S: AdditiveScore>(
         initial,
         config,
         ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -244,7 +244,7 @@ pub fn list_stream_local_search_from_with_provider<
         initial,
         config,
         ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -301,7 +301,7 @@ pub fn mixed_local_search_from_with_provider<B: Eq + Clone, L: Eq + Clone, S: Ad
         initial,
         config,
         ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -363,7 +363,7 @@ pub fn mixed_stream_local_search_from_with_provider<
         initial,
         config,
         ProviderContext {
-            provider,
+            provider: crate::MoveProviderBinding::Infallible(provider),
             control: None,
             observer: None,
         },
@@ -414,3 +414,155 @@ pub(crate) fn mixed_stream<
 type ProviderObserver<'a, A, S> = dyn FnMut(crate::SolutionUpdate<'_, A, S>) + 'a;
 type MixedProviderContext<'a, B, L, S> =
     ProviderContext<'a, MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>, S>;
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn local_search_from_with_fallible_provider<V: Eq + Clone, S: AdditiveScore>(
+    p: &FiniteProblem<V>,
+    n: &ConstraintNetwork<'_, V, S>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+    provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    basic(
+        p,
+        n,
+        initial,
+        config,
+        ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn stream_local_search_from_with_fallible_provider<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    p: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+    provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    basic_stream(
+        p,
+        graph,
+        source,
+        initial,
+        config,
+        ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn list_local_search_from_with_fallible_provider<V: Eq + Clone, S: AdditiveScore>(
+    p: &ListProblem<V>,
+    n: &ListConstraintNetwork<'_, V, S>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    provider: &mut dyn crate::FallibleMoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+    list(
+        p,
+        n,
+        initial,
+        config,
+        ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn list_stream_local_search_from_with_fallible_provider<
+    V: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    p: &ListProblem<V>,
+    graph: StreamGraph<'_, S>,
+    sources: ListStreamSources<V>,
+    initial: ListAssignment<V>,
+    config: LocalSearchConfig<S>,
+    provider: &mut dyn crate::FallibleMoveProvider<ListProblem<V>, ListAssignment<V>, ListMove<V>>,
+) -> Result<ListLocalSearchResult<V, S>, ListLocalSearchError> {
+    list_stream(
+        p,
+        graph,
+        sources,
+        initial,
+        config,
+        ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn mixed_local_search_from_with_fallible_provider<
+    B: Eq + Clone,
+    L: Eq + Clone,
+    S: AdditiveScore,
+>(
+    p: &MixedProblem<B, L>,
+    n: &MixedConstraintNetwork<'_, B, L, S>,
+    initial: MixedAssignment<B, L>,
+    config: MixedLocalSearchConfig<S>,
+    provider: &mut dyn crate::FallibleMoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+    mixed(
+        p,
+        n,
+        initial,
+        config,
+        ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
+
+/// Run with a fallible provider; an observed error discards the current scan.
+#[allow(clippy::too_many_arguments)]
+pub fn mixed_stream_local_search_from_with_fallible_provider<
+    B: Eq + Clone + 'static,
+    L: Eq + Clone + 'static,
+    S: AdditiveScore + 'static,
+>(
+    p: &MixedProblem<B, L>,
+    graph: StreamGraph<'_, S>,
+    sources: MixedStreamSources<B, L>,
+    initial: MixedAssignment<B, L>,
+    config: MixedLocalSearchConfig<S>,
+    provider: &mut dyn crate::FallibleMoveProvider<MixedProblem<B, L>, MixedAssignment<B, L>, MixedMove<B, L>>,
+) -> Result<MixedLocalSearchResult<B, L, S>, MixedLocalSearchError> {
+    mixed_stream(
+        p,
+        graph,
+        sources,
+        initial,
+        config,
+        ProviderContext {
+            provider: crate::MoveProviderBinding::Fallible(provider),
+            control: None,
+            observer: None,
+        },
+    )
+}
