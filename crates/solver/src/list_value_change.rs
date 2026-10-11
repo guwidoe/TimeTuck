@@ -4,6 +4,10 @@ use crate::{
     MixedProblem, Move, MoveProvider, SampleRandom, list_destinations,
 };
 use std::num::NonZeroUsize;
+mod correlated;
+pub use correlated::{
+    CorrelatedListChangeLimits, CorrelatedListValueChangeSource, ListDestinationFactory,
+};
 mod source;
 pub use source::{ListChangeSourceLimits, ListSelectionView, ListValueChangeSource};
 
