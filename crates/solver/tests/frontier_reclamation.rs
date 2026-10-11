@@ -365,6 +365,7 @@ fn sequence(order: NodeExploration, cap: usize, budget: u64) -> SolverSequence<'
         },
         phases: vec![SolverPhase::Exact(ExactPhaseConfig {
             strategy: ExactSearchStrategy::BranchAndBound(BoundedPhaseConfig {
+                order: None,
                 exploration: order,
                 max_frontier: cap,
                 bound: PartialScoreBound::NonIncreasing,
