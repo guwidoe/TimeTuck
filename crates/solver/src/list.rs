@@ -714,7 +714,17 @@ impl<V: Eq + Clone> ListProblem<V> {
             {
                 return Err(ListError::PinChanged { entity: *entity });
             }
-            for (index, value) in list.iter().enumerate() {
+            // The source was validated before entering this transaction. Staying
+            // values still belong to their row's range; only primitive arrivals
+            // can violate it. Composites keep a full final-row check because later
+            // leaves can move or remove earlier arrivals. Pins remain first, in
+            // sorted entity order, and diagnostics use final positions/payloads.
+            if meta.value_range.is_none() {
+                continue;
+            }
+            let arrivals = movement.arrivals(*entity, list.len());
+            for index in arrivals {
+                let value = &list[index];
                 if !self.accepts(*entity, value) {
                     return Err(self.range_error(
                         ListPosition {
@@ -777,6 +787,47 @@ pub enum ListMove<V> {
     Composite(Vec<Self>),
 }
 impl<V> ListMove<V> {
+    // Called only after successful primitive application, so all spans refer to
+    // final row coordinates. A same-row permutation has no arrivals.
+    fn arrivals(&self, entity: usize, final_length: usize) -> std::ops::Range<usize> {
+        match self {
+            Self::Assign { destination, .. } if destination.entity == entity => {
+                destination.index..destination.index + 1
+            }
+            Self::Change {
+                source,
+                destination,
+            } if source.entity != destination.entity && destination.entity == entity => {
+                destination.index..destination.index + 1
+            }
+            Self::Swap { left, right } if left.entity != right.entity => {
+                let index = if left.entity == entity {
+                    left.index
+                } else {
+                    right.index
+                };
+                index..index + 1
+            }
+            Self::SubListChange {
+                entity: source,
+                start,
+                end,
+                destination,
+                ..
+            } if *source != destination.entity && destination.entity == entity => {
+                destination.index..destination.index + (end - start)
+            }
+            Self::SubListSwap { left, right, .. } if left.entity != right.entity => {
+                if left.entity == entity {
+                    left.start..left.start + (right.end - right.start)
+                } else {
+                    right.start..right.start + (left.end - left.start)
+                }
+            }
+            Self::Composite(_) => 0..final_length,
+            _ => 0..0,
+        }
+    }
     pub fn touched_entities(&self) -> Vec<usize> {
         self.application_entities().0
     }
