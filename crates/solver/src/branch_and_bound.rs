@@ -106,7 +106,9 @@ pub struct BranchAndBoundConfig<'a> {
     pub exploration: NodeExploration,
     /// Includes the root, partial nodes and complete leaves; one callback per node.
     pub max_evaluations: u64,
-    /// Maximum queued partial nodes. A node that cannot fit stops the search;
+    /// Maximum queued partial nodes. At capacity, branches made obsolete by an
+    /// improved incumbent are reclaimed before deciding that a node cannot fit.
+    /// A node that still cannot fit stops the search;
     /// it is never silently discarded followed by an optimality claim.
     pub max_frontier: usize,
     pub cancellation: Option<&'a crate::CancellationToken>,
@@ -419,15 +421,19 @@ where
         return Ok(result);
     };
     let mut frontier = BinaryHeap::new();
+    // Only a newly improved incumbent can make an already queued bound obsolete.
+    // Delay the linear heap sweep until capacity pressure; after a sweep, ordinary
+    // insertion checks keep the frontier clean until the next improvement.
+    let mut frontier_needs_pruning = false;
     // Each call scores a new node and either saves its leaf or queues its subtree.
-    let visit = |assignment: T::Assignment,
-                 depth: usize,
-                 breadth: u64,
-                 parent_breadth: u64,
-                 inherited: Option<&InitializingScoreBound<S>>,
-                 result: &mut BoundedSearchResult<R>,
-                 frontier: &mut BinaryHeap<Node<T::Assignment, S>>,
-                 context: &mut C|
+    let mut visit = |assignment: T::Assignment,
+                     depth: usize,
+                     breadth: u64,
+                     parent_breadth: u64,
+                     inherited: Option<&InitializingScoreBound<S>>,
+                     result: &mut BoundedSearchResult<R>,
+                     frontier: &mut BinaryHeap<Node<T::Assignment, S>>,
+                     context: &mut C|
      -> Result<bool, TreeSearchError<C::Error, S>> {
         let TreeEvaluation {
             score,
@@ -462,6 +468,7 @@ where
                     .is_none_or(|best| score > *best)
                 {
                     result.best = Some(R::new(assignment, score));
+                    frontier_needs_pruning = true;
                     context.improved(result.best.as_ref().unwrap());
                 }
             }
@@ -471,6 +478,13 @@ where
         ) {
             result.pruned_branches += 1;
         } else {
+            if frontier.len() >= max_frontier && frontier_needs_pruning {
+                let before = frontier.len();
+                let best = result.best.as_ref().map(R::score).or(prior.as_ref());
+                frontier.retain(|node| !dominated(node.path_bound.as_ref(), best));
+                result.pruned_branches += (before - frontier.len()) as u128;
+                frontier_needs_pruning = false;
+            }
             if frontier.len() >= max_frontier {
                 result.termination = BranchTermination::FrontierLimit;
                 return Ok(false);
