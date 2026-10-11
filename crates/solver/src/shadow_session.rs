@@ -594,6 +594,9 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
             .insert(lookup(&self.identity, self.nodes.len(), &node.node)?);
         Ok(())
     }
+    pub(crate) fn invalidate_all(&mut self) {
+        self.pending.extend(0..self.nodes.len());
+    }
     fn ready(&self) -> Result<(), ShadowSessionError> {
         if self.pending.is_empty() && self.edges == self.manual_applied {
             Ok(())
