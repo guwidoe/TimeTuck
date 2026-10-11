@@ -60,7 +60,7 @@ fn checked(
     for p in &r.phases {
         if matches!(p.termination, PhaseTermination::Exact(_)) {
             assert_eq!(p.work.evaluations, p.work.move_evaluations);
-            assert_eq!(p.work.completed_steps, 0);
+            assert!(p.work.completed_steps <= p.work.evaluations);
             assert_eq!(p.work.accepted_moves, 0);
         }
     }

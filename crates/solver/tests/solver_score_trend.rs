@@ -154,7 +154,7 @@ fn mixed_level_bounds_preserve_soft_improvements_and_prune_all_six_paths() {
                 let r = run(mode, config(order, PartialScoreBound::Trend(trend)), score).unwrap();
                 assert_eq!((r.0, r.1), (SolverTermination::Optimal, Some(optimum)));
                 assert_eq!(r.2.evaluations, r.2.move_evaluations);
-                assert_eq!(r.2.completed_steps, 0);
+                assert!(r.2.completed_steps > 0);
                 if text == "ANY" {
                     assert_eq!(r.2.evaluations, baseline.2.evaluations);
                 } else {

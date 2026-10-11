@@ -156,7 +156,8 @@ pub struct SolverWork {
     /// Candidates, including exact assignments; initialization and diagnostics are excluded.
     pub move_evaluations: u64,
     pub constraint_evaluations: u128,
-    /// Local-search steps and accepted changed repair/fine moves; excludes construction steps.
+    /// Local-search steps, accepted changed repair/fine moves and completed
+    /// bounded-exact expansions; excludes construction and leaf enumeration.
     pub completed_steps: u64,
     /// Completed construction placements, including scored no-change and retained
     /// prefixes; excludes discarded scans. Separate from search stagnation.
@@ -595,7 +596,8 @@ impl<S: Score> SolveControl<'_, S> {
         .then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
-        if self.acceptance_clock.is_some()
+        if self.step_metrics.is_some()
+            || self.acceptance_clock.is_some()
             || self.phase_condition.is_some()
             || self.clock_session.is_some()
             || self.move_counter.is_some()

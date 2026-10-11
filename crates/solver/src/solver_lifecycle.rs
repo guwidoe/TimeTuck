@@ -3,7 +3,10 @@ use crate::SolverPhaseKind;
 
 /// Notifications from one solver invocation. Phase/step indices are zero based;
 /// attempted steps are numbered independently within each entered phase. Exact
-/// enumeration has no steps. Each custom `execute` attempt is a step; previews
+/// leaf enumeration has no steps. Bounded exact search starts one step per
+/// expanded partial node; it completes after generating or safely pruning all
+/// children. Interruption or scoring failure leaves that attempt incomplete.
+/// Each custom `execute` attempt is a step; previews
 /// and diagnostics are not. Conditional `execute_if` starts a step only after an
 /// accepting decision. Repair attempts may end without completing an accepted solver step.
 ///

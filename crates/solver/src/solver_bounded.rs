@@ -23,6 +23,8 @@ struct Context<'a, 'm, 'o, A, S, F, C> {
     evaluate: F,
     observer: Observer<'o, A, S>,
     constraint_evaluations: u128,
+    completed_steps: u64,
+    expansion_improved: bool,
     move_counter: Option<crate::move_metrics::MoveCounter>,
     score_counter: Option<crate::score_evaluations::ScoreCounter>,
     bound: PartialScoreBound,
@@ -89,7 +91,22 @@ where
             None
         }
     }
+    fn expansion_started(&mut self) {
+        self.expansion_improved = false;
+        self.timer.start_step();
+    }
+    fn expansion_ended(&mut self, parent_score: &S, completed: bool) {
+        if completed {
+            self.completed_steps += 1;
+            self.timer.complete_step(self.expansion_improved);
+        }
+        // A step describes expansion of this partial parent, not the last
+        // generated sibling or a new score callback. Leaves are never expanded.
+        self.timer
+            .end_step(completed, || parent_score.clone(), || false);
+    }
     fn improved(&mut self, best: &Saved<A, S>) {
+        self.expansion_improved = true;
         self.timer.record_improvement();
         self.timer.observe_best_score(&best.score);
         if let Some(observer) = &mut self.observer {
@@ -178,6 +195,8 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
         evaluate,
         observer,
         constraint_evaluations: 0,
+        completed_steps: 0,
+        expansion_improved: false,
         move_counter,
         score_counter,
         bound: branch.bound,
@@ -207,6 +226,7 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
             evaluations: result.evaluations,
             move_evaluations: result.evaluations,
             constraint_evaluations: context.constraint_evaluations,
+            completed_steps: context.completed_steps,
             ..Default::default()
         },
         termination: PhaseTermination::Exact(

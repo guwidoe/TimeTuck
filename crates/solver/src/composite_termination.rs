@@ -79,7 +79,8 @@ impl<C> TerminationExpression<'_, C> {
 /// progress estimate. Hard budgets and cancellation remain independent safeguards.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SearchLimit {
-    /// Completed local steps and accepted changed repair/fine moves.
+    /// Completed local/custom steps, accepted changed repair/fine moves and
+    /// bounded exact partial-node expansions. Leaf enumeration has no steps.
     Steps(u64),
     /// Evaluated candidates across all phases, excluding initialization and
     /// diagnostic scoring. Uses the same accounting as MoveEvaluationCounts.

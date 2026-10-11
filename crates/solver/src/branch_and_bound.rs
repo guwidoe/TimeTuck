@@ -356,6 +356,8 @@ pub(crate) trait BranchContext<A, S, R> {
     fn evaluate(&mut self, assignment: &A, depth: usize) -> Result<TreeEvaluation<S>, Self::Error>;
     fn stop(&mut self, evaluations: u64, best: Option<&S>) -> Option<BranchTermination>;
     fn improved(&mut self, best: &R);
+    fn expansion_started(&mut self) {}
+    fn expansion_ended(&mut self, _parent_score: &S, _completed: bool) {}
 }
 struct StandaloneContext<'a, 'm, F, O, C, S> {
     evaluate: F,
@@ -569,61 +571,69 @@ where
             result.termination = reason;
             return Ok(result);
         }
-        let mut choices = tree.choices(&parent.assignment, parent.key.depth);
-        let choice_count = choices.len();
+        context.expansion_started();
         result.expanded_nodes += 1;
-        let mut final_choice = None;
-        for breadth in 0..choice_count {
-            if dominated(
-                parent.path_bound.as_ref(),
-                result.best.as_ref().map(R::score).or(prior.as_ref()),
-            ) {
-                result.pruned_branches += (choice_count - breadth) as u128;
-                break;
+        let expansion = (|| {
+            let mut choices = tree.choices(&parent.assignment, parent.key.depth);
+            let choice_count = choices.len();
+            let mut final_choice = None;
+            for breadth in 0..choice_count {
+                if dominated(
+                    parent.path_bound.as_ref(),
+                    result.best.as_ref().map(R::score).or(prior.as_ref()),
+                ) {
+                    result.pruned_branches += (choice_count - breadth) as u128;
+                    break;
+                }
+                if let Some(reason) = context.stop(
+                    result.evaluations,
+                    result.best.as_ref().map(R::score).or(prior.as_ref()),
+                ) {
+                    result.termination = reason;
+                    return Ok(false);
+                }
+                let choice = choices.next().expect("exact choice count");
+                if breadth + 1 == choice_count {
+                    // All sibling choices and stop checks have run in their original
+                    // order. Release the iterator's borrow before consuming the parent.
+                    final_choice = Some((breadth, choice));
+                    break;
+                }
+                let child = tree.child(&parent.assignment, parent.key.depth, choice);
+                if !visit(
+                    child,
+                    parent.key.depth + 1,
+                    breadth as u64,
+                    parent.key.breadth,
+                    parent.path_bound.as_ref(),
+                    &mut result,
+                    &mut frontier,
+                    context,
+                )? {
+                    return Ok(false);
+                }
             }
-            if let Some(reason) = context.stop(
-                result.evaluations,
-                result.best.as_ref().map(R::score).or(prior.as_ref()),
-            ) {
-                result.termination = reason;
-                return Ok(result);
+            drop(choices);
+            if let Some((breadth, choice)) = final_choice {
+                let child = tree.child_owned(parent.assignment, parent.key.depth, choice);
+                if !visit(
+                    child,
+                    parent.key.depth + 1,
+                    breadth as u64,
+                    parent.key.breadth,
+                    parent.path_bound.as_ref(),
+                    &mut result,
+                    &mut frontier,
+                    context,
+                )? {
+                    return Ok(false);
+                }
             }
-            let choice = choices.next().expect("exact choice count");
-            if breadth + 1 == choice_count {
-                // All sibling choices and stop checks have run in their original
-                // order. Release the iterator's borrow before consuming the parent.
-                final_choice = Some((breadth, choice));
-                break;
-            }
-            let child = tree.child(&parent.assignment, parent.key.depth, choice);
-            if !visit(
-                child,
-                parent.key.depth + 1,
-                breadth as u64,
-                parent.key.breadth,
-                parent.path_bound.as_ref(),
-                &mut result,
-                &mut frontier,
-                context,
-            )? {
-                return Ok(result);
-            }
-        }
-        drop(choices);
-        if let Some((breadth, choice)) = final_choice {
-            let child = tree.child_owned(parent.assignment, parent.key.depth, choice);
-            if !visit(
-                child,
-                parent.key.depth + 1,
-                breadth as u64,
-                parent.key.breadth,
-                parent.path_bound.as_ref(),
-                &mut result,
-                &mut frontier,
-                context,
-            )? {
-                return Ok(result);
-            }
+            Ok(true)
+        })();
+        context.expansion_ended(&parent.key.score, matches!(expansion, Ok(true)));
+        if !expansion? {
+            return Ok(result);
         }
     }
     Ok(result)

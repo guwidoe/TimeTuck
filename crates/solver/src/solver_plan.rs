@@ -108,7 +108,12 @@ impl ExactSearchStrategy {
 /// rescore and no local-search step. Polling is cooperative between assignments.
 /// Only exhausting the full space proves optimality. Runtime can be factorial.
 /// With either bounded strategy, root and partial nodes also count as one score and move
-/// evaluation each. An earlier phase's eligible best score is retained for pruning;
+/// evaluation each. Expanding a partial node is one search step, completed only
+/// after all children are generated or safely pruned. Shared/phase step limits
+/// and stagnation therefore apply to bounded strategies; leaf enumeration stays
+/// step-free. Step-score metrics record the expanded parent score as incomplete,
+/// without rescoring. A complete root needs no expansion step. An earlier phase's
+/// eligible best score is retained for pruning;
 /// initial model values alone are not a scored incumbent. Bound admissibility is
 /// required for an optimality claim. FrontierLimit ends only this phase.
 #[derive(Clone, Debug, Eq, PartialEq)]

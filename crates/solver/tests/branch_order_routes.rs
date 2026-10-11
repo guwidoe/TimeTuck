@@ -199,7 +199,7 @@ fn check<A: Objective + std::fmt::Debug + PartialEq, const COMPLETE: bool>(
         })
     );
     assert_eq!(r.work.evaluations, r.work.move_evaluations);
-    assert_eq!(r.work.completed_steps, 0);
+    assert!(r.work.completed_steps > 0);
 }
 #[test]
 fn all_eighteen_routes_preserve_anchors_and_restore_best_under_every_order() {
