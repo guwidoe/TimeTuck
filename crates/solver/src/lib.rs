@@ -1379,9 +1379,15 @@ mod indexed_int_array;
 pub use indexed_int_array::{IndexArrayError, IndexedIntArray};
 
 mod environment_profile;
+mod scoring_context;
 pub use environment_profile::{
     EnvironmentBindingError, EnvironmentMode, EnvironmentProfile, EnvironmentProfileError,
     PreparedEnvironmentProfile,
+};
+pub use scoring_context::{
+    ContextChangeDirector, ContextFactory, ContextFailure, ContextMatchPolicy, ContextMetrics,
+    ContextRebuilder, ContextScoreResource, ContextScoreWork, ContextSettings, ScoringContextError,
+    ScoringContextHandle, ScoringContextManager,
 };
 
 mod acceptor_profile;

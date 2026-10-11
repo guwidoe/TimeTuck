@@ -6814,9 +6814,10 @@ All nine EnvironmentModeUtilTest methods now have complete query/validation
 adaptations. Original regressions cover sparse phase indices, preservation of
 declarations, prepared out-of-range queries, first-error context, unsupported
 bindings, scorer errors and selective checks in real solves through all nine
-native backends. Full mode scheduling, score-director replacement, advanced
-diagnostics and random reseeding remain pending. No factory, solver, corruption
-or determinism method gains source credit from these original runtime regressions.
+native backends. Explicit runtime scoring-resource scheduling/replacement is now
+available separately below. Advanced per-step/undo/tracked diagnostics and random
+reseeding remain pending. No factory, solver, corruption or determinism method
+gains source credit from these original profile runtime regressions.
 
 ### Prepared local-search acceptor configuration
 
@@ -7009,3 +7010,51 @@ fields, initial range validation and shadow-field exclusion. Generic list/mixed
 solution binding, automatic getters/class discovery and reflective score setters
 remain separate capabilities. Seven original binding/graph/scoring regressions
 earn no source credit. Existing search/scoring hot paths remain unchanged.
+
+
+### Runtime scoring contexts across phase modes
+
+ScoringContextManager owns actual dense or stream scoring resources. A same-mode
+phase retains its resource and editing handle. A mode change prepares a fresh
+cache/graph, moves the native assignment Vec into it without cloning that buffer,
+retains the same borrowed immutable model, and releases the prior director. Old
+handles lose access to both director and assignment; stale editing handles reject
+work. Returning to a previous mode prepares another fresh resource. Dense local
+weights and stream effective named weights survive replacement. Stream graph
+factories receive the outgoing director and must preserve current external facts
+and topology while producing an empty planning source. Tuple binding necessarily
+clones row values; this is distinct from cloning the whole working assignment.
+
+Logical successful score-call and phase-result counts accumulate across changes.
+Native construction/local-search result fields supply work counts; initialization
+and diagnostic recomputation are excluded. Failed arbitrary callbacks cannot
+report partial work through this API. PhaseAssert checks outgoing phase state, and
+step/full modes check at managed calculation/work boundaries. Existing independent
+phase extensions remain responsible for checks *inside* a phase; advanced mode
+semantics and whole-solve termination integration are not implied. Direct schedules
+may contain weaker modes because the source manager tests bypass configuration
+validation; EnvironmentProfile's existing validation is unchanged.
+
+Constraint-total metrics keep named-total reporting enabled even in NoAssert; a
+BestScore-only request leaves it disabled there. Disabled access returns None,
+while enabled access returns actual named totals. Internal contribution caches
+remain available for incremental scoring. Best-score observations persist through
+phase changes and explicit shutdown. Named totals are obtained on demand outside
+the candidate loop. This interface does not implement per-match explanations or
+replace the existing SolverMetrics lifecycle callbacks.
+
+Error cleanup clears the live resource even before start. A release failure is
+attached to the caller's primary failure as the actual typed error, preserving
+both identities; cleanup does not replace the primary. Actual resource Drop still
+runs. Explicit finish reports release errors; repeated finish is idempotent.
+
+All ten SolverContextManagerTest methods have complete adaptations. Nine run both
+real scoring backends with the source initialized three-entity/three-value modulo
+assignment and intentionally empty DummyConstraintProvider. The release-failure
+case retains the source mock's behavior with a deliberately failing native
+resource. Seven original regressions additionally exercise scored construction
+and search, counts and reporting, live/stale editing handles, failed dense/stream
+preparation, real corruption detection, shutdown and effective weight transfer.
+Originals earn no method credit. Java solution-object identity is represented by
+the shared model allocation plus transferred mutable assignment allocation;
+there is no Java API/ABI, reflective lifecycle or trace-equivalence claim.

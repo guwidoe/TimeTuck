@@ -2383,3 +2383,15 @@ an Eq-only list solve regression of 6.8%, entity-only list solve regression of
 2.3%, and smaller tiny/few-scope regressions. These results do not establish Java
 or general solver speedups. Exact source/binary identities and superseded probes
 are retained in `work/parallel-round19-evidence/positions/work/changed-positions-performance.json`.
+
+
+Managed scoring contexts can run retained basic construction and local-search
+phases on dense and stream directors. Same-mode phases retain caches; a mode
+change prepares an actual new resource and transfers the assignment buffer before
+releasing the old resource. Named weights persist. There is no new per-candidate
+context allocation or bookkeeping hook: work counts are aggregated from native
+phase results, diagnostics happen at explicit boundaries, and constraint-total
+reporting allocates only when requested. This is an implementation property, not a
+measured speedup. Existing Java comparison measurements remain stale until a
+deliberate refresh. See compatibility.md's runtime scoring-context section for
+error cleanup, metric policy and assertion/termination limits.

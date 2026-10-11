@@ -52674,6 +52674,156 @@
       "local_path": "crates/solver/tests/solution_composition_cases.rs",
       "local_test": "test_multiple_inheritance",
       "modifications": "Preserve all source final-score or invalid-declaration diagnostic assertions with explicit native solution/entity component metadata. Actual bounded construction/local search run in both dense and stream backends: Both retains two 3-value ranges, eight child entities across four collections, two nullable singleton members and required unscored subValue (score16); Abstract retains one 3-value range and four child entities across two collections (score8); BaseOnly retains three values and two entities (score2). Native candidate ceilings100/14 replace Java move-count limits without trace/count parity. Score observations use SolverResult, not reflective setters. Negative cases fail real metadata compilation for an unregistered member-declaring parent, duplicated entityList, or depth3 under explicitly selected depth2 policy, with typed errors and translated native registration/member diagnostic fragments and suggestions. The source ChildOnly test generates Both, and Multiple generates ReplaceMember; preserve these actual unused problem shapes, rejecting configuration before binding. Default native composition allows deep chains; no Rust inheritance restriction or automatic annotation/discovery parity claimed. Empty weight overrides retain unit defaults. Fixture/generator/provider attribution is separate; originals add no credit."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.phaseWithTheSameEnvironmentModeKeepsTheScoreDirector",
+      "upstream_test": "phaseWithTheSameEnvironmentModeKeepsTheScoreDirector",
+      "local_test": "same_mode_keeps_the_score_and_change_directors",
+      "modifications": "Retain the exact native score and editing resource handles and a still-live director. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.phaseWithAnotherEnvironmentModeSwapsInAScoreDirectorForThatMode",
+      "upstream_test": "phaseWithAnotherEnvironmentModeSwapsInAScoreDirectorForThatMode",
+      "local_test": "another_mode_replaces_both_directors_and_transfers_working_state",
+      "modifications": "Require distinct score/edit handles, FullAssert, the same immutable working-model allocation and the same moved assignment Vec allocation/values. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.aSwapKeepsTheConstraintMatchingTheMetricsRequire",
+      "upstream_test": "aSwapKeepsTheConstraintMatchingTheMetricsRequire",
+      "local_test": "swap_keeps_matching_needed_by_metrics",
+      "modifications": "Keep PhaseAssert/NoAssert schedule and select phase index 1 directly; constraint-total metric enables real named-total reporting even in NoAssert. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.aSwapWithoutConstraintMatchMetricsLeavesMatchingOff",
+      "upstream_test": "aSwapWithoutConstraintMatchMetricsLeavesMatchingOff",
+      "local_test": "swap_without_match_metrics_leaves_matching_off",
+      "modifications": "Keep BestScore-only metric and phase index 1 of PhaseAssert/NoAssert; reporting is Disabled and actual named-total access returns None. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.replacedScoreDirectorIsClosed",
+      "upstream_test": "replacedScoreDirectorIsClosed",
+      "local_test": "replaced_director_is_released",
+      "modifications": "Old handle loses the actual director/working assignment after replacement, demonstrating resource release. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.scoreCalculationCountCarriesOverToTheNewScoreDirector",
+      "upstream_test": "scoreCalculationCountCarriesOverToTheNewScoreDirector",
+      "local_test": "calculation_count_carries_over_to_the_new_director",
+      "modifications": "Calculate twice before starting, require positive count, and preserve that exact count after FullAssert replacement. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.everyEnvironmentModeChangeGetsItsOwnScoreDirector",
+      "upstream_test": "everyEnvironmentModeChangeGetsItsOwnScoreDirector",
+      "local_test": "every_mode_change_gets_a_new_director",
+      "modifications": "Keep PhaseAssert/FullAssert/PhaseAssert sequence; first retains, second differs, third is distinct from both predecessors and returns to PhaseAssert. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.solvingErrorClosesTheScoreDirectorInUse",
+      "upstream_test": "solvingErrorClosesTheScoreDirectorInUse",
+      "local_test": "solving_error_releases_the_director_in_use",
+      "modifications": "Keep Boom primary failure and FullAssert active phase; error cleanup removes the live director and assignment. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.solvingErrorReportsAFailedReleaseAsSuppressed",
+      "upstream_test": "solvingErrorReportsAFailedReleaseAsSuppressed",
+      "local_test": "failed_release_is_suppressed_on_the_original_failure",
+      "modifications": "A deliberately failing resource replaces the source mock. Preserve The real failure allocation and append exactly the actual Releasing blew up error identity; never replace the primary. Actual resource Drop runs once, and repeated cleanup is idempotent. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverContextManagerTest.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverContextManagerTest.solvingErrorBeforeSolvingStartedDoesNotThrow",
+      "upstream_test": "solvingErrorBeforeSolvingStartedDoesNotThrow",
+      "local_test": "solving_error_before_start_does_not_replace_the_failure",
+      "modifications": "Before start, cleanup returns normally, preserves Boom, adds no release error, and closes the director. Native explicit runtime schedule and RefCell-owned scoring resource handles replace Java mocked Phase, solver scope, recaller, problem-change director and builder objects. All nonmock lifecycle cases run both real dense and stream directors. Preserve generateSolution(3,3) initialized three-entity/three-value modulo assignments and DummyConstraintProvider empty constraint semantics. Working-model reference plus moved assignment buffer replaces Java mutable solution-object identity; no re-cloning the assignment on transition (stream tuple binding still clones row values). Logical successful calculation/work counts are separate from factory and diagnostic recomputation. Matching gates named constraint-total access, not internal incremental caches. No production implementation read or port, Java API/ABI/lifecycle trace parity, per-step assertion equivalence or whole-solve termination claim. Existing EnvironmentProfile configuration validation is unchanged; these manager tests directly schedule weaker modes as the source does."
     }
   ],
   "fixtures": [
@@ -73008,6 +73158,32 @@
       "upstream_test": "public forEach Javadoc only: every genuine field must be assigned",
       "local_path": "crates/solver/tests/solution_composition_support/mod.rs",
       "modifications": "Reuse already reviewed public API documentation, not production implementation. Native row-scoped dense callbacks and stream grouping implement genuine-field eligibility, including unscored subValue. Base and child reward membership remains distinct when a base singleton is populated in originals. Partial/completion/retraction regressions earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "scoring-context-fixture-TestdataSolution",
+      "upstream_test": "generateSolution(3,3), initialized overload and modulo value assignment",
+      "modifications": "Shared native finite domains and three initialized flat variables replace Java value/entity objects, labels, getters and descriptor metadata. Preserve the 3-by-3 domain/assignment shape; unused overloads/accessors/weight override mechanics omitted. Apache-2.0 fixture attribution only, no additional method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testconstraint/DummyConstraintProvider.java",
+      "local_path": "crates/solver/tests/scoring_context_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "scoring-context-fixture-DummyConstraintProvider",
+      "upstream_test": "defineConstraints returns an empty array",
+      "modifications": "Actual zero-constraint dense network and stream graph replace the empty provider array. Source zero constraints are intentional, not an unsupported scoring stub; originals separately exercise scored construction/search and weights. Apache-2.0 fixture attribution only, no additional method credit."
     }
   ]
 }
