@@ -14,8 +14,11 @@ use std::{
 /// Exhausted children are permanently retired, even if their iterator is not fused.
 /// Zero weights disable polling. Infinite children require a consumer limit.
 ///
-/// Construction never polls children. Each next() polls at most once per live
-/// child, although an individual child next() remains cooperative. Invalid draws
+/// Construction never polls children. The first next() primes enabled children
+/// in order; subsequent calls refill only the previously selected child. A live
+/// selection uses O(log children) lookup after priming; retirement rebuilds the
+/// distribution in O(children). Individual child next() remains cooperative.
+/// Invalid draws
 /// return one error and terminate; prefetched items are dropped with the cursor.
 pub struct WeightedInterleave<I: Iterator, D> {
     children: Vec<Peekable<I>>,
@@ -23,6 +26,9 @@ pub struct WeightedInterleave<I: Iterator, D> {
     distribution: WeightedSelection<usize>,
     draw: D,
     ended: bool,
+    primed: bool,
+    pending: Option<usize>,
+    distribution_dirty: bool,
 }
 impl<I: Iterator, D: FnMut() -> f64> WeightedInterleave<I, D> {
     pub fn new(children: Vec<(I, f64)>, draw: D) -> Result<Self, WeightedSelectionError> {
@@ -34,18 +40,26 @@ impl<I: Iterator, D: FnMut() -> f64> WeightedInterleave<I, D> {
             distribution,
             draw,
             ended: false,
+            primed: false,
+            pending: None,
+            distribution_dirty: false,
         })
     }
     fn advance(&mut self) -> Result<Option<I::Item>, WeightedSelectionError> {
-        let mut changed = false;
-        for (child, weight) in self.children.iter_mut().zip(&mut self.weights) {
-            if *weight > 0.0 && child.peek().is_none() {
-                *weight = 0.0;
-                changed = true;
+        if !self.primed {
+            for index in 0..self.children.len() {
+                self.refill(index);
             }
+            self.primed = true;
+        } else if let Some(index) = self.pending {
+            // Keep this pending across a caught child panic. Successful peeks
+            // from other children remain buffered and need no repeated polling.
+            self.refill(index);
+            self.pending = None;
         }
-        if changed {
+        if self.distribution_dirty {
             self.distribution = self.distribution.reweighted(|i, _| self.weights[i])?;
+            self.distribution_dirty = false;
         }
         if self.distribution.active_len() == 0 {
             return Ok(None);
@@ -54,7 +68,15 @@ impl<I: Iterator, D: FnMut() -> f64> WeightedInterleave<I, D> {
             .distribution
             .choose((self.draw)())?
             .expect("active family");
+        self.pending = Some(index);
         Ok(self.children[index].next())
+    }
+    fn refill(&mut self, index: usize) {
+        if self.weights[index] > 0.0 && self.children[index].peek().is_none() {
+            self.weights[index] = 0.0;
+            // Persist retirement even if a later child panics during priming.
+            self.distribution_dirty = true;
+        }
     }
 }
 impl<I: Iterator, D: FnMut() -> f64> Iterator for WeightedInterleave<I, D> {
