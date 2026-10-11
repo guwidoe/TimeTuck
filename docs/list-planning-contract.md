@@ -1266,3 +1266,28 @@ spans improve 4.71–25.15x, including a second step with populated tabu memory.
 Tiny, single-value and non-tabu countercases include regressions up to 2.7%.
 Measured peak memory does not increase. These are native comparisons, not Java
 speedups: `work/parallel-round21-evidence/tabu/work/span-tabu-performance.json`.
+
+Public `planning_values` now validates the source and move through borrowed rows,
+then captures owned metadata. It no longer clones and edits the whole assignment.
+Capture before applying a move and retain the result for later inspection; native
+moves do not store mutable metadata. Valid no-ops still report touched values.
+Composite capture follows evolving child indices and keeps first-touch order.
+An original counted-clone case drops from 1,021 clones to one; a three-value
+composite clones three values, and empty/invalid moves clone none. Full validation
+can still scan the model. Six complete Community metadata methods preserve their
+post-execution assertions and equality distinctions through explicit capture.
+
+Dependency-enabled models with at least 64 values retain one valid fixed-graph
+topological rank per value. When every dynamic predecessor edge respects those
+ranks, validation can certify consistency without rebuilding the graph workspace.
+A backward or unknown edge uses the complete analyzer, preserving cycle and
+diagnostic behavior. Replacing dependencies rebuilds the certificate; cloning
+copies it. Other dependency graph operations retain their original behavior.
+
+The native runner-a comparison records 35 workloads and 630 samples, including
+actual setup-inclusive solves, configuration, cloning and inconsistent-value
+queries. Ordered solves improve 3.22–3.30x and sparse-registry solves 23.69–25.45x.
+Tiny list solves regress 5.99%; late-fallback solves regress up to 1.91%. Rank
+storage adds eight bytes per registry value to model clones. Measured ordered and
+sparse solve peaks fall by 128 KiB and 449 KiB respectively. No Java speedup is
+implied: `work/parallel-round22-evidence/certificate/work/dependency-order-performance.json`.

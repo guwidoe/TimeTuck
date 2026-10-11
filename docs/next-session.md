@@ -24294,3 +24294,76 @@ runner-c93273 TERMINAL255(SSHtimeout), stilloffline; user saidwouldwake, don’t
 No duplicate olddroppedremote43636; stateunknown. Local+runner-a productive.
 Goalactive/incomplete. Next:99754terminal->record via stableenvironment, docscommit;
 continue agentreviews withoutrepeating already successful checks.
+
+
+## Parallel round21 verified; round22 gate and Java refresh running
+
+Round21 gate99754 and recorder71842 TERMINAL0.6251Rust+276doctests,
+798RUN/101REUSE Rust,46PythonREUSE.3336/4855methods68.713%,1255pending,
+264excluded0failed/unverified. Sourcefe1da715268b22da78c3a6e9badd71b4be761884760220ef57f746d33f1b7020,
+verification273937f6615bd74b0a0101967c9306da4cd90b820f0b0efb45aeae9e8b9b6c83.
+work/parallel-round21-evidence.json authoritative. Java timing stillstale then.
+
+Round22 frozen25e1038, gate47656 LIVE; fmt+Clippy passed. Prepared
+work/record_parallel_round22.py NOT RUN. Expected3345methods(+9). Freeze/commits/
+reviewed JSON and three copied evidence bundles are underwork/parallel-round22*.
+- a94b124<-b111845 cancellation TerminationTest3complete methods+5fixtures.
+  Parent readfullsource/argprovider/scorers+nativefixture+provenance.20matrix
+  cases+4-stepcase;84145terminal0,strictClippy/fmt;6artifacts/1commitfile.
+- b6b1514<-f0bb2b6 publicmetadata borrowedvalidation+capture,6complete methods
+  +3fixtures,19focused+Clippy70539terminal0.11artifacts/4commitfiles. Parent
+  reviewed full source metadata/equality and nativecases/reference/panicunits.
+  Merge declaration conflict kept both ValueLocations and value_metadata_tests;
+  preserves earlierlinear privatecapture; onlyits clone-count assertion changes.
+ 1021->1clones;3outputcomposite3clones;empty/invalid0;no totalcomplexity/timingclaim.
+- e689acc<-63cf191 fixed dependency ordercertificate:19focused+Clippy,
+  runner-a19834terminal0,35workloads630samples. Actual orderedsolves3.22–3.30x,
+  sparse23.69–25.45x; tinylist+5.99%,latefallback+1.44/1.91%,rank8bytes/registryID.
+  Public inconsistent_values queries/config/clone separate fromsolve.21artifacts/
+  4commitfiles, allfinalchangedfiles match measuredsnapshot. Parentproof reviewed
+  strictforwarddynamic edges only; unknown/backward fullfallback/rebuildonconfig.
+25e1038provenance records9methods8fixtures. Zero-context stablepatchIDs identical
+for allthree integrations (context differs due concurrent declarations). Do not
+change mainRust/provenance until47656terminal+recorder.
+
+Deliberate original-Java list refresh6309 LIVE onrunner-a whilelocalgate runs.
+Java25.0.4.1/Javac25.0.4.1 copied once to remote .cache/timetuck-build/jdk-25-local;
+11231copyterminal0, remoteversions verified. No systeminstall/securitychanges.
+Uses unmodified scripts/benchmark_lists.py with default20steps/3warmups/5samples/
+3forks, exact pinnedCommunityMavenartifacts,320independentvalidationcases.
+Nativecompile distinct target-round22-list-benchmark; root target symlink makes
+originalscript binarypath work. Shared java-oracle cache, workerotherwiseidle.
+Launcherwork/run_round22_list_benchmark.py andremotecommandJSON captured.
+Remote source/home/developer/.cache/timetuck-build/sources/adb57adbf54b3abaaf17bf4c957858c0960bf23d3272fa2190adc3949fa2e420;
+manifest work/remote-round22-list-benchmark-manifest.json;log sameprefix.log.
+After6309terminal0 copy remote work/list-performance.json, work/list-benchmark-
+identity.json, work/verification/list-performance.json into a localround22bundle.
+Verify reportdigest equals current measurement_digest('list-performance'), source
+manifest hashes andartifact/binaryidentities; copy exact freshreport towork/list-
+performance.json, regeneratecompat_report aftergate (avoidracingreportwriter).
+Do NOT import remote absolute-pathcache record as a local verification hit.
+Retain runner-a environment inreport. Benchmarkcompiler running atthishandoff.
+runner-c85990terminal255timeoutagain; don'tnaguser/restartunknownoldremote43636.
+
+Next threeAstra/high lanes active beyond frozenround22:
+Dense codex/list-dependency-order now nextapproved compact primitiveSwapundo
+in list.rs/list/undo.rs,mixed.rs,candidate_snapshot.rs. Lazy originalrow snapshots,
+rollbackbyswap, exactpayload/panic safety; othermovesfallback. Must audit allsaved/
+original consumers. No remotejobs until6309 releasesrunner-a;local-j2focusedallowed.
+Dependency codex/shadow-round31 StreamingSelection ownedcursor factories,
+childprefixonopen/reopen, bounded/all-emptyfailedproposals, stopchecks,
+callbackpanicfusesopening, standardconfiguredprovider actualcomposites.
+Separate fromsnapshotSelectionProduct anddepthfirstDependentSelection. No source
+credit and no copiedmimicfixtures. Final20484terminal0:5originaltests+strictClippy;
+source1318files. Finalcommit/evidence arriving; PARENTREVIEW PENDING. Initial4075
+lifetimefailure logoverwritten accidentally, recordednon-evidence;54600testpass
+andClippycomplexityfailure retained separately; finalsourcechecks authoritative.
+Termination approved CalculatorSession::edit_problem typed ProblemEdit<K,F>,
+lookupMissing/Unique/Duplicate beforecallbacks, typed add/removeentity/fact,
+variable/property edits, pairedexistingcalculatornotifications. flush resets same
+calculator once for membership, otherwise newdefaultflush_changes; no implicit
+score/factory/Clone. Errors/panicslatch NeedsReset, reset_current recovers.
+Parent readfullDefaultProblemChangeDirectorTest4methods; realcachedsession plus
+Lavishfixtureadaptation needed before credit. Implementing, nofocusedhandle yet.
+Goalactive/incomplete; continue implementation while47656/6309run; no duplicate
+checks. Record finalresults thennextcoherentbatch, keepingoriginaltimingshonest.
