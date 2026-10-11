@@ -23906,3 +23906,52 @@ no builds until worker free.
 -dependency:substantive shadow/domain capability selection;no builds.
 runner-c90332 TERMINAL255 still timeout; prior remote-process state unknown, no restart.
 Goal active/incomplete.
+
+
+Round15 COMPLETE:gate18828 TERMINAL0;recorder66941 TERMINAL0. Rust6088,
+doctests267;734Rust RUN/129REUSE,46PythonREUSE.3304/4855(68.054%),
+1287pending264excluded,0failed/unverified. Frozen Rust7b28e06,provenance3992396.
+Source5dcfa157ad8c6f504552cb2f5b056a1f5e9b674e11743a5ab1fb20f646871f51;
+verification8d3b49f972226a3a7475baa589be821404c0e117c2c78c372ac230f95cf03cd9.
+Evidence work/parallel-round15-evidence.json; dashboard freshness verified; Java
+list benchmark remains visibly stale. No source changes/test fixes needed in gate.
+Initial recorder47335 failed only on renamed historical union baseline rlib;
+66941 validates its preserved original-before alias against original hash. No
+results relabeled or tests rerun. All4integrated patch IDs match.
+
+Round16 reviewed and copied, NOT INTEGRATED; work/parallel-round16-reviewed.json:
+-c38bbd8 explanation replace/remove:14artifacts/3files match final
+remote-explanation-updates-check-manifest.json (earlier final-tests manifest is
+intentionally older fixture).18distinctfocused+1doc+Clippy. Preparation/guard
+rollback reviewed; addresses only after insertion, ranks before erasure; noJClone.
+Affected-only existing-key edits; membership changes scan key index. Exposed
+snapshot consistency required; panicking destructors excluded. No sourcecredit.
+-9e60a04 fallible shadows:4artifacts/5files match fallible-shadows-manifest.json;
+19focused+Clippy. try_input/list_input/derive share Result prepare/commit; typed
+Arc error retains Send/Sync/cause/stage/field/index. Errors preserve pending work
+and cache/score publication; graph adapters keep string diagnostics. Reviewed.
+-662f057 identity source tests:6artifacts/1file match source-variable-identity
+manifest;6focused+Clippy. Parent reviewed all5complete upstream assertions and
+local mappings;9upstream test/fixture hashes verified. MERGE5method/6fixture
+provenance arrays from copied batch-specific files when integrating; credit not
+yet on main. Metadata fields replace reflection; list range is presence-only,
+explicitly matching assertion scope.
+-stateful termination:agent20638 TERMINAL0,39distincttests+1doc+Clippy, all18routes
+solve/phase; lower later phase and construction non-reset regressions pass. Agent
+finalizing commit/evidence; parent reviewed API/session and orchestration draft,
+needs final diff/evidence review before integration. Separate stateful tree keeps
+stateless API unchanged; every history leaf polled, exact threshold primitive
+reused, solve histories persist/phase histories reset.
+
+Worker state:all parent handles terminal. runner-c39206 TERMINAL255 still timeout;
+prior remote process state unknown, no duplicate restart. Local used dependency
+focused-j2 alongside parent correctness runner after parent build finished, no
+paired timings. runner-a now dense-owned for next fallible-provider capability.
+Three Astra/high lanes continue: dense distinct TryMoveProvider trait/registry/
+engine boundary (legacy remove must not silently discard fallible binding),
+dependency next full native domain-source adaptations (local focused-j2allowed),
+termination next actual solver/search gap selection after finalizing stateful
+feature. Coordinate shared route/solver_extensions changes directly.
+Goal active/incomplete. Main clean except this handoff before commit. Next action:
+finish stateful review/evidence, integrate round16 coherent batch+provenance, then
+one combined gate; reuse prior Java/browser evidence without relabeling stale.
