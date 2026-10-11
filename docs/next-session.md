@@ -16,7 +16,69 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round49b
+## Latest verified checkpoint — round50
+
+Main b83fa4e binds declared ruin/recreate fields to executable native candidate pools.
+Goal active/incomplete. No new agents/assignments. Community pin/submodule unchanged.
+Both remote workers confirmed reachable; focused checks local, final gate runner-a.
+
+Three DefaultSolverTest rejection methods now have complete native adaptations:
+multi-field ambiguity, unknown field and multi-entity ambiguity. All diagnostic
+fragments and full uninitialized 2/2/2 source layouts remain asserted. Single-type
+fixtures retain shadow-only value registrations; separate genuine types remain
+ambiguous in the multi-entity fixture. Seven attributed TEST-fixture records cover
+generators and metadata. No production/Enterprise source was read. Ambiguous or unknown selectors
+fail during assembly, before scoring preparation; source comparator
+payloads and shadow calculations are not evaluated for these rejection cases.
+
+SchemaRuinConfig resolves one genuine entity/field, binds immutable native slots,
+and validates actual model types, bounds and optionality before pool creation.
+List bindings cover the complete list field; partial list entity scopes fail typed.
+Mixed list pools offset registry IDs by actual basic-slot count. Assembly validates
+ruin phase indices/kinds, duplicate phase/binding declarations and duplicate slots.
+New solve_assembled_with_schema_repairs passes actual selector/phase/resource to
+application code, which installs the pool in native RuinRecreateConfig. Ordinary
+callbacks still bind metadata themselves. Fine families and additional repair pools
+remain separately configured, not automatically intersected with the selected field.
+Default empty declarations allocate no selector vector; candidate loops are unchanged.
+
+Five original regressions earn no credit: actual assembled mixed basic/list repairs
+preserve the other component and reuse preparation across independent solves;
+dense/stream basic and list repairs agree on scores; typed schema/binding/runtime
+validation rejects invalid inputs. Local focused 3+5 passed; partial construction
+score callbacks were corrected to handle unassigned values. Initial strict remote
+snapshot 6fd5e7f... stopped on a fixture auto-deref warning and is not verification.
+After correcting it, final strict fmt/Clippy and bash scripts/check.sh passed once
+on final Rust state using actual round49b logs and genuine per-job cache keys:
+
+- 6,835 Rust tests and 290 doctests.
+- 3,603/4,855 source methods passed (74.212%); 686 pending, 566 excluded,
+  zero failed/unverified. Pending 689→686, exclusions unchanged.
+- DefaultSolverTest 79/85 passed; 6 pending.
+- 7 Rust RUN/975 REUSE; 46 Python REUSE; worker 170.611s.
+- Rust source a550d782bf28b58a20d57f42be2f610c6ea077f48c3f8a8214eb5ec01ea878a9.
+- Report/verification a70efdddfbaab26c8ca53d4a465564d939f459dab4d45b00cdfc934262b5cc59.
+- Final remote root 5dc0125f16158e0b9614a4abbcda53955fb1c00612aecaa997c5396020f8e1a7.
+- work/round50-runner-a-results.tar.gz SHA256 60b1729dd672519213bb7c3845cf4fc1ce7c8ce87ddd3c0a1ee3cbf4b8f4e4fa.
+- Evidence/freeze work/parallel-round50-evidence.json, parallel-round50-freeze.json.
+  Successful remote-round50-integration-final2*, worker/collector finished.
+  Postcommit proof work/verify_round50_postcommit.py, round50-postcommit-evidence.json.
+
+Next gate must seed actual round50 archive/root; current runner seeds round49b.
+Prior comparison benchmarks remain visibly stale; no new wall-clock claim.
+Next implement a real persistent director-owned list state/index, used by actual
+edits/rollback/search and reusable across CH+LS10+LS10 on the full 10/4 fixture.
+Source identity assertions alone must not substitute a fake identity token. Keep
+performance important: avoid new per-candidate full scans, measure a representative
+native/Java comparison when the actual index optimization is ready. Remaining
+DefaultSolverTest cases also include two Neighborhoods opt-in/VND configuration
+rejections, phase-corruption guidance, post-run problem-change restart with fresh
+resources, and custom classloader adaptation. TEST specifications are recorded in
+work/round49-next-work.txt. Keep unsupported assertions pending, no silent exclusions.
+No next Rust batch begun. Whole-solve controls, full tracked/assertion-bank execution
+and per-step assembly hooks remain separate runtime gaps.
+
+## Prior verified checkpoint — round49b
 
 Main 6428640 adds actual resource views, fallible lifecycle hooks and list context
 resources to assembled factories. Goal active/incomplete. No new agents/assignments;
