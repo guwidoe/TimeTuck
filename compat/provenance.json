@@ -50559,6 +50559,21 @@
       "upstream_test": "verify_ResetSolutionOnceIfEntitiesAddedOrRemovedThenVariablesChanged",
       "local_test": "verify_reset_solution_once_if_entities_added_or_removed_then_variables_changed",
       "modifications": "Preserve add/remove then flush, variable/property/addfact/removefact then flush, named membership setup and final exactly one membership reset plus one incremental derived-state flush. Session initialization excluded. Actual cached score and derived state strengthen source callback-count assertions. Native typed stable keys/field names replace Java reflection/identity; no source production consulted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_change_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "ListChangeMoveSelectorTest.randomWithPinning",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "randomWithPinning",
+      "local_test": "random_with_pinning",
+      "modifications": "Preserve every ordered output code and complete fixture: values1/2/3/4, A[1,2] with pinned prefix1, fully pinned B[4] (the source B[] comment is stale), C[3], source cycle[2,1,4,3,3], destination cycle[C0,A2,A1,C0]. Native live children use actual repeating cycles as the invoked TestdataListUtils helpers do. Native SolveStarted/PhaseStarted events replace mock score-director/shadow initialization; full PlannerAssert assertions preserve ordered outputs, continuation and never-ending capability; no size is asserted by that helper. Typed Rust iterator is non-null by construction. Candidate metadata retains selected PRE-removal positions while actual moves normalize native POST-removal indices. Do not claim Java RNG, reflection, hasNext invocation-count or notification parity. Original actual solver/range/rollback tests remain uncredited."
     }
   ],
   "fixtures": [
@@ -69177,6 +69192,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
       "upstream_test": "constructor",
       "modifications": "Group identity/code represented by stable string labels including named valueGroupOne and two generated groups."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_change_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListEntity.live_list_change_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListEntity.java",
+      "upstream_test": "TestdataPinnedWithIndexListEntity fixture",
+      "modifications": "Map code and list membership to canonical owner IDs and ListEntity; preserve full pin and pinned-prefix flags."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_change_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListValue.live_list_change_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListValue.java",
+      "upstream_test": "TestdataPinnedWithIndexListValue fixture",
+      "modifications": "Map canonical value codes1/2/3/4 to registered i32 values; owner/index supplied by actual native assignment lookup."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_change_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataPinnedWithIndexListSolution.live_list_change_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/index/TestdataPinnedWithIndexListSolution.java",
+      "upstream_test": "TestdataPinnedWithIndexListSolution fixture",
+      "modifications": "Map complete value/entity collections to ListProblem and initial ListAssignment; Java annotations, generated fixtures and reflection are not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_change_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUtils.live_list_change_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListUtils.java",
+      "upstream_test": "mockNeverEndingIterableValueSelector pinned overload; mockPinnedNeverEndingDestinationSelector and delegated mockNeverEndingDestinationSelector",
+      "modifications": "Replace mocked children with native Cycle sources retaining exact full sequences, multiplicity and repeating behavior; no seeded random trace added."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_change_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.live_list_change_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingMoveSelector; assertCodesOfNeverEndingIterableSelector; assertCodesOfNeverEndingIterator",
+      "modifications": "Preserve all four exact codes, iterator continuation and never-ending metadata. Source uses DO_NOT_ASSERT_SIZE, so no cardinality assertion invented. Rust iterator return is non-null by type."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/live_list_change_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorTestUtils.live_list_change_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "solvingStarted and phaseStarted",
+      "modifications": "Invoke native SolveStarted and PhaseStarted through both child sources and use validated native assignment context. Setup helpers contain no extra assertions; no Java lifecycle invocation-count credit."
     }
   ]
 }
