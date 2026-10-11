@@ -24175,3 +24175,61 @@ callbacks; reject solvewide/non-local bindings. Preserve existing publicconstruc
 bounds via validated typed config/prototype; no fabricated factory/ringbuffer
 methodcredit. Agentinvestigating/implementing, no build reported yet. Threeagents
 remainactive. EFSstilloffline,last79776TERMINAL255;no repeated approval needed.
+
+
+Round19 VERIFIED:51650 TERMINAL0, recorder40858 TERMINAL0.6211Rust tests274docs;
+788Rust RUN/101REUSE,46PythonREUSE.3335/4855=68.692%,1256pending264excluded,
+0failed/unverified. Source211e43044f95a6be84ed51e5ae19652f85a5b29062a382acf02e27986d73335f;
+verificatione83ef3448948e64bcaabd5ba03b95cea3534a51aeecbacd067199144643bf40f.
+work/parallel-round19-evidence.json verifies all5prior bundles/patch IDs/report
+freshness. Java list measurements correctly stale; no browser/UI changes.
+
+Round20 integrated4native changes, no source-method credit. Main frozenRustccb892f:
+- bc329b0 <-72bdf5d composed phase-local diminished-return leaves.38focusedtests,
+  2docs+Clippy;12artifacts/8commitfiles copied+verified. Typed config uses prototype
+  only for shape; independent windows, complete best, firstpoll arming, reset,
+  local-only early validation,18routes. Earlier fixture failures preserved.
+- 6c7a44c <-d6428b9 adaptive indexed validation/initial scoring positions.
+  24focused+Clippy,37artifacts/5files verified;1306baselinehashes checked vsd98a97d.
+  48workloads864samples inclsupplement:actual dense solves1.59-1.67x; tiny/sparse
+  regressions retained; disabledthreshold initpeak+1.29MiB/fullsolvepeakunchanged.
+- 4664b8c <-a9307fe sampled list-swap eligibility cache.9focused+Clippy,
+  23artifacts/3files verified; immutable distinct-target libraries/binaries.
+  9workloads11alternatingpairs, exact counts/checksums; provider opening+consume
+  only. Repeatedleft big gains;oneoff5.5%/tiny2%/opening1.8%slower. Bounded8rows,
+  <=2*rightpool boxedIDs plus separate scratch/bookkeeping;dependencychecksremain.
+- ccb892f <-b720280 primitive list arrival-range checks.16focused+Clippy,
+  21artifacts/2files verified,1307baselinehashes checked vsd6428b9.28workloads504
+  samples:actual large restricted solves4.85-8.46x, peakunchanged; compositeflat/
+  mixed0.63%slower. Public source/fullcomposite/globaldependency validationremain.
+  Supplementaltrialtimings distinct; raw retained constraint field is nominal128
+  upperbound(same-rowactual64), no claim based on that field.
+All patches parent-reviewed, stablepatchIDs identical; work/parallel-round20-
+{reviewed,commits,freeze}.json and evidence/{rates,validation,cache,arrivals}.
+49923 LIVE combined gate:fmt+Clippy PASS;793affectedtargets compiling,101reused.
+Do not change mainRust/provenance until terminalgate+recorder. Prepared
+work/record_parallel_round20.py syntaxchecked, NOT RUN; run through stable
+work/with-verification-environment.py after49923 terminal0. Expected3335methods,
+no credit for native additions. Logs parallel-round20-{prebuild,final-check}.log.
+
+ThreeAstra/high lanes continuing. Dense (worktree dense-list-scoring) next approved
+indexed prepare_assignment repair pass in list_dependencies.rs, preserves earliest
+bad-ID diagnostic rank/payloads/repeatedrounds/erroratomicity; tiny/fewbad/Eqfallback,
+no SCCchanges. runner-a theirs. Arrival18157 TERMINAL0, no other build reported yet.
+Dependency (dependency-graph) branchcodex/shadow-round29 next weighted interleave
+pending-child refill optimization. Focused97450 TERMINAL0:3new+6existingtests,
+strictClippy; snapshot1314files. Release2735 LIVE-j2 distinctcurrenttarget; baseline
+exacta9307fe rlib reused after1313fileproof, new sameprobe. Initial probe-only type
+inference failure retained. Timings HELD until49923 idle. Production/testreview
+pending; draftonlyselection_union.rs +interleave_refill_regression.rs.
+Termination (diminished-returns) next approved custom-phase run_commands iterator:
+one phasebudget/history/calculatorinstance, best actualpayload restore between
+commands, skip redundant resets,current-is-best marker; restorations counted as
+scorework notmoves/steps. Error/caughtpanic invalidates context. All18routes,
+narrow CommandDirector adapters; denseconfirmednooverlap. Implementing,no focused
+handle yet; -j2 localgrant available. No fullgate in agents.
+runner-c74399 TERMINAL255(timeout) this turn; user already waking it, no repeatedask.
+Prior droppedremoteprocessstate unknown, don't duplicate remote job. Local+runner-a
+productive. Goalactive/incomplete; this goalturn made integration/performance
+progress. Next steps:poll49923, review interleave/custom drafts independently,
+release local timing aftergate,recordreport once,integrate nextcoherentbatch.

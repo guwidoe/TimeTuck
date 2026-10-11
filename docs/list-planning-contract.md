@@ -1176,8 +1176,15 @@ valid moves. Each opening starts at `seed.wrapping_add(completed_steps)` and
 rebuilds positions from the current assignment. Partial consumption cannot alter
 later replay. Empty samples do not prove local optimality.
 
-Opening stores index/order vectors, not a Cartesian move catalog. Each attempt
-scans the right occurrences. Value-swap and value-change iterators validate their
+Opening stores index/order vectors, not a Cartesian move catalog. For sampled
+swaps with at least 64 right occurrences and four attempts, repeated left choices
+reuse eligible right occurrences in their original order, including duplicates.
+The opening-local cache admits a row only after a repeated key, retains at most
+eight rows and twice the right-pool length in boxed IDs, and discards everything
+when reopened. The separate reusable scratch vector, occurrence orders, model
+index and allocator/bookkeeping storage are outside that payload bound. Cache
+misses scan the right occurrences. Random draws and selected-pair dependency
+validation remain unchanged. Value-swap and value-change iterators validate their
 source once and check candidates through borrowed list rows. Validation copies no
 planning values; dependency validation still occurs. A counted-clone regression
 with 32 singleton lists and 20 swap proposals observes zero value clones, down
@@ -1203,3 +1210,40 @@ additional copies of value payloads. Dynamic-range factories still construct
 ordinary models, and standalone assignment location queries remain linear.
 
 This is a native performance option, with no additional upstream method credit.
+
+Indexed validation now chooses sparse duplicate tracking or dense bitsets from
+assignment density. Initial scoped scoring can reuse positions captured in that
+same validation pass; it still validates external assignments fully and checks
+model errors before weight comparisons or scoring callbacks. Sparse registries
+and Eq-only models retain their fallback paths. No persistent position cache is
+introduced. In the native runner-a comparison, dense setup-inclusive list/mixed
+solves improve about 1.59/1.63x and 4,096-value validation scratch falls from
+110,624 to 512 bytes. Tiny and sparse regressions remain recorded. At the one-eighth
+assignment-density boundary with disabled scoring, conservative position capture
+adds about 1.29 MiB to initialization peak memory; full-solve peak is unchanged.
+See `work/parallel-round20-evidence/validation/work/list-validation-performance.json`.
+
+For an already validated source, primitive list moves check receiver ranges only
+for final arriving values. Same-row permutations and removals introduce no new
+receiver memberships. Pins retain their sorted-row error precedence, dependencies
+still validate globally, and diagnostics use final payloads/positions. Composites
+retain full final-row range checks; public apply still validates external source
+assignments completely. Original differential and rollback cases exercise both
+indexed and Eq-only models.
+
+The native same-runner-a comparison records 28 workloads and 504 samples. Actual
+retained one-step solves with 64 proposals, including initialization and best
+restoration, improve 4.85–8.46x on the tested large restricted-row moves. Model,
+network and provider definitions are excluded. Primary peak memory is unchanged;
+the mixed composite fallback is 0.63% slower. Supplemental dropped-trial timings
+exclude initialization and restoration and are kept separate. These measurements
+do not establish Java or general solver speedups. Exact scopes and countercases:
+`work/parallel-round20-evidence/arrivals/work/list-arrival-performance.json`.
+
+The sampled-swap cache has a separate native opening-and-consumption comparison
+over nine workloads and eleven alternating pairs. Repeated-key cases improve
+substantially; one-off choices are 5.5% slower, tiny inputs 2.0% slower and opening
+alone 1.8% slower. Counts and ordered output checksums match. Fast cached samples
+can be below a millisecond, so precise large speedup factors are not claimed.
+This measures provider work, not end-to-end solving or Java performance:
+`work/parallel-round20-evidence/cache/work/sampled-swap-cache-evidence.json`.

@@ -1262,6 +1262,23 @@ factory preparation is excluded from this grace period while remaining part of
 any shared elapsed-time budget. Existing shared stop reasons retain precedence.
 See the incremental-search contract for the exact rational-rate and reset rules.
 
+`StatefulSearchLimit::DiminishedReturns` also supports independent rate windows
+inside AND/OR expressions bound to local-search phases. A validated
+`PhaseDiminishedReturnsConfig` uses its score prototype only to check shape and
+arithmetic. Grace starts at the first condition poll after a complete search-score
+observation, using the retained best then available and excluding setup. Every window is
+polled even when another expression branch decides the result. Strict retained
+best improvements update history; worsening and structurally incomplete scores
+do not. Expiry latches until a new phase/session reset. Progress is unknown before
+expiry, so cooling needs another leaf with a useful progress estimate.
+
+Solve-wide and non-local-phase bindings fail before runtime callbacks, including
+under zero work budgets. Each phase gets fresh history, and an expression ends
+that phase with the ordinary condition reason. The standalone additive-score
+constructor remains available; typed phase configurations also support suitable
+Score-only types. Native checks cover all eighteen fresh/retained solver routes;
+this composition capability adds no upstream method credit.
+
 ## Pooled construction phases
 
 Construction phases preserve ConstructionConfig::placement, including through
