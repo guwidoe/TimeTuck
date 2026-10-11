@@ -7421,3 +7421,34 @@ borrowed constant1. Four originals prove real dependency rewiring (result21 to11
 borrowed subtype projection to schema, hierarchy/schema rejection atomicity and
 solution-aware shadow results (9 to27). Originals earn no method credit. No search
 candidate loops or benchmark claims change.
+
+
+## Assembled factory run limits
+
+Four complete SolverFactoryTest methods now exercise the actual prepared scoring
+bank, borrowing run builder, copied per-solve override and unreachable-phase
+validation. The TEST helper's constant-zero calculator and three-unassigned-entity,
+two-value fixture are preserved through native registrations and owned inputs.
+Native structural incompleteness remains explicit. Java reflection, XML resources,
+classloaders and API signatures are not implemented by these adaptations.
+
+FactoryRunLimits share logical phase evaluations and elapsed time across entered
+phases. The run begins its deadline before resource construction; mode rebuilds
+and lifecycle hooks consume the remaining time. Native phase configurations receive
+the smaller of their own limits and the remaining solve budget. Zero budgets skip
+optimization phases while retaining a concrete loaded score and normal cleanup.
+Resource loading and diagnostics retain their existing logical-counter policy;
+work is the actual work reported by the phase binding. Ignoring an evaluation
+ceiling causes a typed failure before successful phase publication. Cooperative
+time limits cannot preempt an arbitrary running application callback.
+
+Per-run builders read override settings once and leave defaults, cached preparation
+and other active runs intact. Observed and ordinary runs use the same budget and
+validation. Nonfinal local-search configurations with all count ceilings at
+u64::MAX and no time, score, stagnation or step termination are rejected without
+a solve-wide ceiling. This is an explicit native assembly policy, not a claim
+about Java default limits or identical traces. Seven original regressions check
+real dense/stream optimization, mode rebuild counts, independent simultaneous
+budgets, zero/deadline exits, release after failures and override validation.
+Original tests earn no upstream-method credit. Unlimited runs continue borrowing
+the configured phase rather than cloning it. No new throughput claim is made.

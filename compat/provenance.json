@@ -54474,6 +54474,66 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve empty TestClass, RootClass inner link, inner.value path, value member and typed invalid request containing all five asserted fragments. Diagnostic derives actual native root/owner type labels; missing callable candidates fail without manufacturing a member. Java reflection/API is not claimed."
+    },
+    {
+      "id": "SolverFactoryTest.create",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "create",
+      "local_path": "crates/solver/tests/factory_run_cases.rs",
+      "local_test": "create",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit schema/scoring registration and a borrowing run builder replace reflective solution/entity class registration. Preserve successful non-null solver construction; additionally execute a real construction phase with the TEST dummy zero objective."
+    },
+    {
+      "id": "SolverFactoryTest.createAndOverrideSettings",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createAndOverrideSettings",
+      "local_path": "crates/solver/tests/factory_run_cases.rs",
+      "local_test": "create_and_override_settings",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native FactoryRunOverride replaces the mocked Java override accessor. Preserve its at-least-one invocation, the sixty-second spent limit and successful construction. The builder reads and stores the actual copied run limits without mutating factory defaults; no XML, bean or Java API parity."
+    },
+    {
+      "id": "SolverFactoryTest.getScoreDirectorFactory",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "getScoreDirectorFactory",
+      "local_path": "crates/solver/tests/factory_run_cases.rs",
+      "local_test": "get_score_director_factory",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Use the actual prepared scoring bank and instantiated native director, with all three unassigned entities and both value-domain entries. Native indices/values replace unasserted Java codes. Preserve a concrete non-null calculated score using the TEST dummy zero objective; native structural incompleteness remains explicit as -3 rather than discarding unassigned state. Ownership/drop replaces the Java try-with-resources scope."
+    },
+    {
+      "id": "SolverFactoryTest.localSearchAfterUnterminatedLocalSearch",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "localSearchAfterUnterminatedLocalSearch",
+      "local_path": "crates/solver/tests/factory_run_cases.rs",
+      "local_test": "local_search_after_unterminated_local_search",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve construction followed by two local-search phases, the constant-zero TEST objective and the unreachable-phase diagnostic. All native count ceilings at u64::MAX and absent time/score/stagnation/step controls represent an unconfigured termination in this assembly policy; bounded native defaults remain finite. Assembly rejects the second local phase before scoring preparation when there is no solve-wide ceiling; no Java infinite RNG trace is claimed."
     }
   ],
   "fixtures": [

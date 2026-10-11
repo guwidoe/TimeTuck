@@ -1,5 +1,6 @@
 //! Validated model/scoring assembly and actual runtime phase-mode coordination.
 pub(crate) mod phase_views;
+pub(crate) mod run_limits;
 mod schema_repairs;
 use super::{
     FactoryScoreDirector, FactoryScoreShape, PreparedScoreFactory, ScoreFactoryBuildError,
@@ -10,6 +11,7 @@ use crate::{
     ContextSettings, EnvironmentMode, EnvironmentProfile, FactoryRandomStream, PlanningSchema,
     ScoringContextError, ScoringContextManager, SolverPhase,
 };
+use run_limits::{AssembledSolverBuilder, FactoryRunLimits, FactoryRunTermination, RunBudget};
 use std::{error::Error, fmt, rc::Rc};
 
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
@@ -80,6 +82,14 @@ pub enum FactoryAssemblyError<E> {
         phases: usize,
         modes: usize,
     },
+    UnreachablePhase {
+        phase: usize,
+        predecessor: usize,
+    },
+    EvaluationBudgetExceeded {
+        limit: u64,
+        actual: u128,
+    },
     UnsupportedConstraintProfiling,
     PhaseAssertion {
         phase: usize,
@@ -100,6 +110,8 @@ impl<E: fmt::Display> fmt::Display for FactoryAssemblyError<E> {
             Self::MissingEntityRegistration=>f.write_str("solver configuration must have at least 1 registered entity type; if using a model-binding integration, register entity types before preparing the factory"),
             Self::ModelSchemaType=>f.write_str("solver model type differs from registered solution schema type"),
             Self::PhaseModes {phases,modes}=>write!(f,"solver has {phases} phases but {modes} declared phase modes"),
+            Self::UnreachablePhase {phase,predecessor}=>write!(f,"unreachable phase {phase}: preceding local search phase {predecessor} has no configured termination; configure a phase or solve-wide limit"),
+            Self::EvaluationBudgetExceeded {limit,actual}=>write!(f,"factory phase binding exceeded solve-wide evaluation budget ({limit}): reported {actual} logical evaluations"),
             Self::UnsupportedConstraintProfiling=>f.write_str("Constraint profiling from the reference configuration is unsupported; remove constraintStreamProfilingEnabled from the solver configuration"),
             Self::SchemaRuin { phase, error } => write!(f,"phase {phase}: {error}"),
             Self::PhaseAssertion {phase,error}=>write!(f,"phase {phase} assertion detected possible score corruption: {error}; use FULL_ASSERT to locate the failing move, or NO_ASSERT to disable these diagnostics"),
@@ -126,6 +138,10 @@ pub struct SolverAssemblyConfiguration<'a, M, S> {
     pub schema: Option<Rc<PlanningSchema>>,
     pub environment: EnvironmentProfile,
     pub phases: Vec<SolverPhase<'a, S>>,
+    /// Shared phase-work/time ceilings. A nonfinal local search with all count
+    /// ceilings at u64::MAX and no other configured termination is rejected
+    /// unless a solve-wide ceiling is configured. Native defaults are bounded.
+    pub run_limits: FactoryRunLimits,
     pub metrics: ContextMetrics,
     pub seed: u64,
     pub workers: FactoryWorkerRequest,
@@ -139,6 +155,7 @@ impl<M, S> SolverAssemblyConfiguration<'_, M, S> {
             schema: None,
             environment: EnvironmentProfile::default(),
             phases: vec![],
+            run_limits: FactoryRunLimits::default(),
             metrics: ContextMetrics::default(),
             seed: 0,
             workers: FactoryWorkerRequest::None,
@@ -153,6 +170,7 @@ pub struct AssembledSolverFactory<'a, M, P, I, D: ContextScoreResource> {
     global: EnvironmentMode,
     modes: Vec<EnvironmentMode>,
     phases: Vec<SolverPhase<'a, D::Score>>,
+    limits: FactoryRunLimits,
     metrics: ContextMetrics,
     seed: u64,
     workers: Option<usize>,
@@ -182,6 +200,7 @@ where
         if config.reference_constraint_profiling {
             return Err(FactoryAssemblyError::UnsupportedConstraintProfiling);
         }
+        run_limits::validate_reachable_phases(&config.phases, config.run_limits)?;
         let cpus = std::thread::available_parallelism()
             .map(|n| n.get() as isize)
             .unwrap_or(0);
@@ -252,6 +271,7 @@ where
             global,
             modes,
             phases: config.phases,
+            limits: config.run_limits,
             metrics: config.metrics,
             seed: config.seed,
             workers,
@@ -322,6 +342,7 @@ pub struct FactoryAssemblySolution<I, S, W> {
     pub score: S,
     pub phases: Vec<W>,
     pub logical_calculations: u128,
+    pub termination: FactoryRunTermination,
 }
 /// An independently owned scoring run. Same-mode phases retain the resource;
 /// mode transitions use cached preparation and copy current working input once.
@@ -334,6 +355,7 @@ where
     owner: &'f AssembledSolverFactory<'a, M, P, I, D>,
     manager: AssemblyManager<'a, M, P, I, D>,
     next_phase: usize,
+    budget: RunBudget,
 }
 impl<'a, M: 'a, P: 'a, I: 'a, D: ContextScoreResource + 'a> AssembledSolverFactory<'a, M, P, I, D>
 where
@@ -360,10 +382,26 @@ where
     pub fn open_assembled_random(&self) -> FactoryRandomStream {
         FactoryRandomStream::seeded_factory_stream(self.seed)
     }
+    pub fn assembled_solver_builder(&self) -> AssembledSolverBuilder<'_, 'a, M, P, I, D> {
+        AssembledSolverBuilder {
+            factory: self,
+            limits: self.limits,
+        }
+    }
     pub fn start_assembled_run(
         &self,
         input: I,
     ) -> Result<AssembledFactoryRun<'_, 'a, M, P, I, D>, FactoryExecutionFailure<D::Error>> {
+        self.start_assembled_run_with_limits(input, self.limits)
+    }
+    pub fn start_assembled_run_with_limits(
+        &self,
+        input: I,
+        limits: FactoryRunLimits,
+    ) -> Result<AssembledFactoryRun<'_, 'a, M, P, I, D>, FactoryExecutionFailure<D::Error>> {
+        run_limits::validate_reachable_phases(&self.phases, limits)
+            .map_err(|e| ContextFailure::new(FactoryExecutionError::Build(e)))?;
+        let budget = RunBudget::new(limits);
         // Match the existing context-manager reporting contract explicitly.
         let matching =
             if self.metrics.best_constraint_totals || self.global >= EnvironmentMode::PhaseAssert {
@@ -412,6 +450,7 @@ where
             owner: self,
             manager,
             next_phase: 0,
+            budget,
         })
     }
     /// Open a separate scoring resource for one problem change, loaded from the
@@ -478,12 +517,16 @@ where
         while let Some(work) = session.run_next_assembled_phase(&mut run)? {
             results.push(work);
         }
+        let termination = session
+            .assembled_run_termination()
+            .unwrap_or(FactoryRunTermination::PhasesCompleted);
         let (working, score, count) = session.finish_assembled_state()?;
         Ok(FactoryAssemblySolution {
             working,
             score,
             phases: results,
             logical_calculations: count,
+            termination,
         })
     }
 }
@@ -508,6 +551,40 @@ where
         let handle = self.manager.handle();
         Some(handle.director()?.0.factory_director_settings())
     }
+    pub fn assembled_run_limits(&self) -> FactoryRunLimits {
+        self.budget.limits
+    }
+    pub fn assembled_run_termination(&self) -> Option<FactoryRunTermination> {
+        self.budget.termination
+    }
+    fn next_phase_index(&mut self) -> Option<usize> {
+        if self.owner.phases.get(self.next_phase).is_none() {
+            self.budget
+                .termination
+                .get_or_insert(FactoryRunTermination::PhasesCompleted);
+            return None;
+        }
+        if self.manager.handle().director().is_some()
+            && self.budget.exhausted(self.manager.calculation_count())
+        {
+            return None;
+        }
+        Some(self.next_phase)
+    }
+    fn remaining_phase<'p>(
+        &self,
+        phase: &'p SolverPhase<'a, D::Score>,
+    ) -> std::borrow::Cow<'p, SolverPhase<'a, D::Score>> {
+        if self.budget.limits == FactoryRunLimits::default() {
+            return std::borrow::Cow::Borrowed(phase);
+        }
+        std::borrow::Cow::Owned(run_limits::clamp_phase(
+            phase.clone(),
+            self.budget
+                .remaining_evaluations(self.manager.calculation_count()),
+            self.budget.remaining_time(),
+        ))
+    }
     // Preserve the original resource error and attach guidance only to real
     // PHASE_ASSERT checks, never arbitrary phase callbacks or release failures.
     fn start_checked_phase(
@@ -524,6 +601,14 @@ where
         &mut self,
         phase: usize,
     ) -> Result<(), ScoringContextError<FactoryAssemblyError<D::Error>>> {
+        if let Some(limit) = self.budget.limits.max_evaluations {
+            let actual = self.manager.calculation_count();
+            if actual > u128::from(limit) {
+                return Err(ScoringContextError::Scoring(
+                    FactoryAssemblyError::EvaluationBudgetExceeded { limit, actual },
+                ));
+            }
+        }
         let handle = self.manager.handle();
         if handle.settings().mode != EnvironmentMode::PhaseAssert {
             return Ok(());
@@ -537,14 +622,15 @@ where
         &mut self,
         mut run: impl FnMut(&mut D, &SolverPhase<'a, D::Score>) -> Result<W, D::Error>,
     ) -> Result<Option<W>, FactoryExecutionFailure<D::Error>> {
-        let Some(phase) = self.owner.phases.get(self.next_phase) else {
+        let Some(index) = self.next_phase_index() else {
             return Ok(None);
         };
         if let Err(e) = self.start_checked_phase(self.next_phase) {
             return Err(self.context_failure(e));
         }
+        let phase = self.remaining_phase(&self.owner.phases[index]);
         match self.manager.run(|director| {
-            run(&mut director.0.resource, phase).map_err(FactoryAssemblyError::Resource)
+            run(&mut director.0.resource, &phase).map_err(FactoryAssemblyError::Resource)
         }) {
             Ok(work) => {
                 if let Err(e) = self.check_completed_phase(self.next_phase) {

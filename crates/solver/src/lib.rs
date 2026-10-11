@@ -1434,6 +1434,9 @@ pub use random::factory_stream::FactoryRandomStream;
 pub use scoring_factory_bank::solver_assembly::phase_views::{
     FactoryRunCallbacks, FactoryRunEvent, FactoryRuntimeView,
 };
+pub use scoring_factory_bank::solver_assembly::run_limits::{
+    AssembledSolverBuilder, FactoryRunLimits, FactoryRunOverride, FactoryRunTermination,
+};
 pub use scoring_factory_bank::solver_assembly::{
     AssembledFactoryRun, AssembledSolverFactory, FactoryAssemblyError, FactoryAssemblySolution,
     FactoryExecutionError, FactoryExecutionFailure, FactoryProblemChange, FactoryWorkerError,

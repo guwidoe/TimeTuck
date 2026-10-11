@@ -1,4 +1,5 @@
 //! Borrowed reads of actual resource lifetimes and fallible solve/phase hooks.
+use super::run_limits::FactoryRunTermination;
 use super::{
     AssembledFactoryRun, AssembledSolverFactory, AssemblyResource, FactoryAssemblyError,
     FactoryAssemblySolution, FactoryExecutionError, FactoryExecutionFailure,
@@ -68,7 +69,7 @@ impl<H, E> Default for FactoryRunCallbacks<'_, H, E> {
         }
     }
 }
-type RunCallbacks<'h, 'a, M, P, I, D> =
+pub(super) type RunCallbacks<'h, 'a, M, P, I, D> =
     FactoryRunCallbacks<'h, FactoryRuntimeView<'a, M, P, I, D>, <D as ContextScoreResource>::Error>;
 
 impl<'a, M: 'a, P: 'a, I: 'a, D: ContextScoreResource + 'a> AssembledSolverFactory<'a, M, P, I, D>
@@ -80,7 +81,15 @@ where
         input: I,
         callbacks: &mut RunCallbacks<'_, 'a, M, P, I, D>,
     ) -> Result<AssembledFactoryRun<'_, 'a, M, P, I, D>, FactoryExecutionFailure<D::Error>> {
-        let mut session = self.start_assembled_run(input)?;
+        self.start_observed_assembled_run_with_limits(input, self.limits, callbacks)
+    }
+    pub fn start_observed_assembled_run_with_limits(
+        &self,
+        input: I,
+        limits: super::run_limits::FactoryRunLimits,
+        callbacks: &mut RunCallbacks<'_, 'a, M, P, I, D>,
+    ) -> Result<AssembledFactoryRun<'_, 'a, M, P, I, D>, FactoryExecutionFailure<D::Error>> {
+        let mut session = self.start_assembled_run_with_limits(input, limits)?;
         if let Err(error) = session.emit_runtime_event(FactoryRunEvent::Started, callbacks) {
             return Err(session.runtime_failure(
                 FactoryExecutionError::Context(ScoringContextError::Scoring(
@@ -102,6 +111,9 @@ where
         while let Some(work) = session.run_next_observed_phase(callbacks, &mut run)? {
             phases.push(work);
         }
+        let termination = session
+            .assembled_run_termination()
+            .unwrap_or(FactoryRunTermination::PhasesCompleted);
         let (working, score, logical_calculations) =
             session.finish_observed_assembled_state(callbacks)?;
         Ok(FactoryAssemblySolution {
@@ -109,6 +121,7 @@ where
             score,
             phases,
             logical_calculations,
+            termination,
         })
     }
 }
@@ -152,8 +165,7 @@ where
         callbacks: &mut RunCallbacks<'_, 'a, M, P, I, D>,
         mut run: impl FnMut(&mut D, &SolverPhase<'a, D::Score>) -> Result<W, D::Error>,
     ) -> Result<Option<W>, FactoryExecutionFailure<D::Error>> {
-        let index = self.next_phase;
-        let Some(phase) = self.owner.phases.get(index) else {
+        let Some(index) = self.next_phase_index() else {
             return Ok(None);
         };
         if let Err(e) = self.start_checked_phase(index) {
@@ -168,9 +180,10 @@ where
                 callbacks,
             ));
         }
+        let phase = self.remaining_phase(&self.owner.phases[index]);
         let work = match self
             .manager
-            .run(|d| run(&mut d.0.resource, phase).map_err(FactoryAssemblyError::Resource))
+            .run(|d| run(&mut d.0.resource, &phase).map_err(FactoryAssemblyError::Resource))
         {
             Ok(work) => work,
             Err(e) => {
