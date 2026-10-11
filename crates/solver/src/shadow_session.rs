@@ -112,6 +112,9 @@ pub struct ShadowRead<'a, T> {
 }
 pub struct ShadowInputs<'a> {
     identity: &'a Rc<()>,
+    // The sole constructor receives DependencyCache::Plan::derive's sorted
+    // unique dependency indices. Session topology keys are exactly 0..nodes.len(),
+    // so their key values are also sorted registration IDs, including on restore.
     values: &'a [(&'a usize, &'a DerivedValue<Stored>)],
     fields: &'a [PlanningVariableRef<'a>],
 }
@@ -147,13 +150,16 @@ impl ShadowInputs<'_> {
         if !Rc::ptr_eq(self.identity, &node.node.identity) {
             return Err(ShadowSessionError::ForeignNode);
         }
-        let value = self
+        let position = self
             .values
-            .iter()
-            .find(|(index, _)| **index == node.node.index)
-            .ok_or(ShadowSessionError::NotDependency)?
-            .1;
-        value.value.as_ref().map(Stored::get).transpose()
+            .binary_search_by_key(&node.node.index, |(index, _)| **index)
+            .map_err(|_| ShadowSessionError::NotDependency)?;
+        self.values[position]
+            .1
+            .value
+            .as_ref()
+            .map(Stored::get)
+            .transpose()
     }
 }
 type Reader<'a, W> = dyn Fn(&W) -> Option<Stored> + 'a;
