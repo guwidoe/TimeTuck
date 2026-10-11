@@ -16,57 +16,65 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round34
+## Latest verified checkpoint — round35
 
-Main 6b9c4dc adds EnvironmentProfile: preserved global/phase declarations, default
-PhaseAssert resolution, indexed genuine overrides and typed validation. Phases
-never replace the global policy. Reading rejected declarations stays valid;
-prepare validates the whole input before collecting an owned effective-mode list.
-NonReproducible permits explicit restatements but no genuine overrides; other
-phases must meet the global configuration eligibility level.
+Main 707539c adds AcceptorProfile: explicit/inferred native policy selection,
+canonical ordering, deduplication, signed-size validation, checked annealing-loss
+normalization and caller-controlled diversified-acceptance availability. The
+prepared profile owns validated policy settings and binds ordinary/list or mixed
+search controls. Each search creates fresh history, tabu and RNG state. Existing
+backend kernels and candidate loops are unchanged.
 
-Prepared profiles bind NoAssert/PhaseAssert selection to the existing native
-phase score-check callback, using caller-supplied independent full scoring.
-NoAssert skips that scorer; PhaseAssert checks the selected handoff. Synthetic
-initial-only scoring uses the global mode. Separately configured safeguards stay
-active. Unsupported global/phase modes are rejected before binding; invalid runtime
-phase indices and scorer errors remain explicit. Backend kernels are unchanged.
+All six AcceptorFactoryTest methods and the negative-size methods from
+LateAcceptanceAcceptorTest and StepCountingHillClimbingAcceptorTest have complete
+adaptations and provenance. Three original regressions compare manual/prepared
+all-nine-policy composites across all nine real solver backends, including
+repeated preparation use (27 solves), exact result/work/report equality and known
+optima. They also cover invalid temperatures/sizes, immutable inputs, canonical
+ordering and preservation of unrelated controls. All 11 focused cases passed;
+the final gate verified the subsequent mechanical macro cleanup and new doctest.
+
+Native defaults (history/period100, variable tenure7, cooling1000, seed0 and
+rain1/100000) are independent choices. Entity tabu uses native variable/list-owner
+keys; no multi-variable Java entity-key, Java PRNG, cooling schedule, numeric
+fallback, reflection or environment-instrumentation parity is claimed.
+
+Final runner-c gate and evidence collector passed on frozen inputs:
+
+- 6,558 Rust tests and 281 doctests.
+- 3,436/4,855 source methods passing (70.772%); 853 pending,
+  566 excluded, zero failed/unverified. Backlog 861→853; exclusions unchanged.
+- 3 Rust jobs ran; 946 Rust and 46 Python jobs reused unchanged runner-c evidence.
+- Source `0c77e39a66468f7f3a7eb03afd0bfb2a04d936065b9ba55eb7b225490c9192af`.
+- Verification `b3bd58337e3bf50d464bdfb06c7325ff6de93e5aa9b415c2c71358667ececf19`.
+- Remote snapshot `9a6d27acbb5164c119284db5b4ce2569b8c58c14e26d53ea7c8b769d9dbb922b`.
+- Evidence work/parallel-round35-evidence.json and freeze metadata; original
+  manifest/log and work/round35-runner-c-results.tar.gz retained. Final gate took
+  141.438 seconds. Strict format/Clippy passed. No build/collector remains running.
+  Do not repeat verification without relevant changed inputs or concerns.
+
+Dashboard http://localhost:8765 is current; report data and freshness checked.
+Reuse its server. Backend report refreshes need data/freshness inspection, not
+browser/Impeccable. Original-Java list measurements remain visibly stale. No new
+performance claim in this batch.
+
+Prior round34 (6b9c4dc/a14b345) passed: 6,547 Rust/280 docs, 3,428 source methods,
+861 pending. All nine EnvironmentModeUtilTest query/validation cases are already
+integrated. Prepared NoAssert/PhaseAssert policies select native phase score
+checks with independent caller scoring (18 real solves). Global policy remains
+separate from phase policy; synthetic initial scoring uses global mode.
 Step/undo/tracked/full/nonintrusive diagnostics, reseeding and score-director
-replacement remain pending; do not claim they work from configuration validation.
-
-All nine EnvironmentModeUtilTest methods have complete query/validation adaptations
-and full provenance, plus the relevant two-phase test-helper layout. Four original
-regressions cover immutable preparation, sparse indices, first errors, unsupported
-bindings and selective checks through all nine native solver backends (18 real
-solves). No factory/solver/corruption/determinism source methods earn runtime credit.
-All 13 focused cases passed; the final gate also verified a transparent return-type
-alias added for Clippy. Initial callback-lifetime, mixed-config field and Clippy
-failures were fixed; their original logs/manifests remain available.
-
-Final runner-c gate 95957 and collector 13714 passed on frozen inputs:
-
-- 6,547 Rust tests and 280 doctests.
-- 3,428/4,855 source methods passing (70.608%); 861 pending,
-  566 excluded, zero failed/unverified. Backlog 870→861; exclusions unchanged.
-- 4 Rust jobs ran; 943 Rust and 46 Python jobs reused unchanged runner-c evidence.
-- Source `f77df5512a336dd50598c5f6c00b2e57fe14783be1e8f3fbbfe397e649e6ef00`.
-- Verification `c39b7e3d706edb52edbeb4a7fa52b5278bc5b420efa239d15a0c9924b2ea55ff`.
-- Evidence work/parallel-round34-evidence.json and freeze metadata; original
-  manifest/log and downloaded results archive retained. Final gate took
-  140.045 seconds. Do not repeat it without relevant changed inputs or concerns.
-
-Dashboard http://localhost:8765 is current. Reuse its server. Backend report
-refreshes need data/freshness inspection, not browser/Impeccable. Original-Java
-list measurements remain visibly stale. No new performance claim in this batch.
+replacement remain pending. Do not claim runtime parity from mode validation.
+Do not repeat its gate or focused checks without changed relevant inputs.
 
 Prior round33 passed: 6,534 Rust/279 docs, 3,419 source methods, 870 pending.
 Compiled shadow-structure inspection/Next links and all twelve GraphStructureTest
 methods are already integrated and verified; do not repeat that 839-target gate.
 All completed agent work is integrated and committed. No new subagents or follow-up
 assignments. Continue closing complete pending Community cases while preserving
-native performance. This goal turn was progress (nine verified configuration
-methods and selective runtime phase checks). Full objective remains incomplete
-and active, confirmed by the goal tool this turn.
+native performance. This goal turn was progress (eight verified configuration
+methods and real solver binding). Full objective remains incomplete and active,
+confirmed by the goal tool this turn.
 
 ## Verified implementation batch — round28
 
