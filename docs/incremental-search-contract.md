@@ -472,6 +472,23 @@ these calls, including returned-best retention and evaluation/step accounting.
 The default first-accepted selection is appropriate for classic annealing;
 best-accepted selection and rejected fallback remain explicit alternatives.
 
+`Acceptance::SimulatedAnnealingTime { starting_temperature, cooling_time, seed }`
+uses a positive elapsed duration instead of a completed-step count. Integrated
+plans start its clock before phase callbacks and preparation; every phase gets a
+fresh origin. `SolverExtensions::clock` supplies controlled time when configured.
+Standalone searches measure from kernel entry. Each step samples once, then holds
+the temperature fixed through candidate scanning, including composite policies.
+The clock advances independently of accepted moves; cooling does not terminate
+search. This is an explicit duration schedule, not a composed termination gradient.
+
+The standalone `TimeSimulatedAnnealing` accepts elapsed time through
+`step_started`; backwards readings never increase temperature. Cloning preserves
+its gradient and random position. Basic, list and mixed search support this policy
+across all eighteen fresh/retained scoring routes, as do ruin-and-recreate attempts.
+Original controlled-clock tests cover phase setup, independent cooling resets,
+best-result restoration, composite random consumption and candidate-scan freezing.
+These native capability tests earn no additional upstream-method credit.
+
 Two source methods preserve all 12 upstream acceptance decisions and negative
 HardMediumSoft temperature rejection. Ten original regression methods check
 probability boundaries, zero temperatures, native multi-level energy, large
