@@ -439,6 +439,13 @@ impl<S: Score> SolveControl<'_, S> {
         self.condition_reached_with_score(None)
     }
     fn condition_reached_with_score(&mut self, construction_score: Option<&S>) -> bool {
+        self.condition_reached_with_pending(construction_score, 0)
+    }
+    fn condition_reached_with_pending(
+        &mut self,
+        construction_score: Option<&S>,
+        pending: u64,
+    ) -> bool {
         if self.condition.is_some() || self.scored_condition.is_some() {
             self.sample();
             let progress = SearchProgress {
@@ -451,6 +458,7 @@ impl<S: Score> SolveControl<'_, S> {
                         .as_ref()
                         .expect("move condition counter")
                         .snapshot()
+                        .with_reconstruction(pending)
                 } else {
                     MoveEvaluationCounts::default()
                 },
@@ -554,6 +562,22 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         self.move_counter.clone()
     }
+    fn monitors_reconstruction_moves(&self) -> bool {
+        self.condition_uses_moves
+    }
+    fn stop_with_reconstruction_moves(&mut self, pending: u64) -> Option<LocalSearchTermination> {
+        if self.stagnated() {
+            Some(LocalSearchTermination::UnimprovedTimeLimit)
+        } else if self.significant_stagnated() {
+            Some(LocalSearchTermination::SignificantImprovementTimeLimit)
+        } else if self.step_stagnated() {
+            Some(LocalSearchTermination::UnimprovedStepLimit)
+        } else if self.condition_reached_with_pending(None, pending) {
+            Some(LocalSearchTermination::StepCondition)
+        } else {
+            None
+        }
+    }
     fn monitors_step_scores(&self) -> bool {
         self.step_metrics.is_some()
     }
@@ -640,17 +664,7 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         }
     }
     fn stop(&mut self) -> Option<LocalSearchTermination> {
-        if self.stagnated() {
-            Some(LocalSearchTermination::UnimprovedTimeLimit)
-        } else if self.significant_stagnated() {
-            Some(LocalSearchTermination::SignificantImprovementTimeLimit)
-        } else if self.step_stagnated() {
-            Some(LocalSearchTermination::UnimprovedStepLimit)
-        } else if self.condition_reached() {
-            Some(LocalSearchTermination::StepCondition)
-        } else {
-            None
-        }
+        self.stop_with_reconstruction_moves(0)
     }
 }
 impl<S: Score> PhaseRequest<'_, S> {

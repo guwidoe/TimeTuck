@@ -348,7 +348,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             random.shuffle(movable);
             let repair = problem.repair(&current.0, &movable[..count])?;
             result.attempts += 1;
-            let candidate = crate::score_evaluations::rebuilding(&mut shared, |monitor| {
+            let candidate = crate::score_evaluations::reconstructing(&mut shared, |monitor| {
                 rebuild(
                     &repair,
                     repair.initial(),

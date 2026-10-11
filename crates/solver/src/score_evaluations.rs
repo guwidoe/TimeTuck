@@ -35,10 +35,37 @@ pub(crate) fn rebuilding<S, R>(
     shared: &mut Option<&mut dyn SearchControl<S>>,
     run: impl FnOnce(Option<&mut dyn SearchControl<S>>) -> R,
 ) -> R {
-    if from_control(shared).is_none() && shared.as_ref().and_then(|s| s.clock_session()).is_none() {
+    rebuilding_inner(shared, false, run)
+}
+
+/// Make successfully scored candidates visible to expressions while retaining
+/// transactional family publication: the outer repair publishes only on success.
+pub(crate) fn reconstructing<S, R>(
+    shared: &mut Option<&mut dyn SearchControl<S>>,
+    run: impl FnOnce(Option<&mut dyn SearchControl<S>>) -> R,
+) -> R {
+    rebuilding_inner(shared, true, run)
+}
+fn rebuilding_inner<S, R>(
+    shared: &mut Option<&mut dyn SearchControl<S>>,
+    reconstruction: bool,
+    run: impl FnOnce(Option<&mut dyn SearchControl<S>>) -> R,
+) -> R {
+    let moves = (reconstruction
+        && shared
+            .as_ref()
+            .is_some_and(|s| s.monitors_reconstruction_moves()))
+    .then(crate::move_metrics::MoveCounter::default);
+    if moves.is_none()
+        && from_control(shared).is_none()
+        && shared.as_ref().and_then(|s| s.clock_session()).is_none()
+    {
         return run(None);
     }
-    struct Rebuild<'a, S>(&'a mut dyn SearchControl<S>);
+    struct Rebuild<'a, S>(
+        &'a mut dyn SearchControl<S>,
+        Option<crate::move_metrics::MoveCounter>,
+    );
     impl<S> SearchControl<S> for Rebuild<'_, S> {
         fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
             self.0.clock_session()
@@ -46,16 +73,27 @@ pub(crate) fn rebuilding<S, R>(
         fn score_counter(&self) -> Option<ScoreCounter> {
             self.0.score_counter()
         }
+        fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
+            self.1.clone()
+        }
         fn construction_stopped(&mut self) -> bool {
-            self.0.stop().is_some()
+            self.stop().is_some()
         }
         fn start_search(&mut self) {}
         fn record_improvement(&mut self) {}
         fn complete_step(&mut self, _: bool) {}
         fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
-            self.0.stop()
+            match &self.1 {
+                Some(moves) => self
+                    .0
+                    .stop_with_reconstruction_moves(moves.snapshot().total()),
+                None => self.0.stop(),
+            }
         }
     }
-    let mut monitor = Rebuild(&mut **shared.as_mut().expect("counter has a monitor"));
+    let mut monitor = Rebuild(
+        &mut **shared.as_mut().expect("counter has a monitor"),
+        moves,
+    );
     run(Some(&mut monitor))
 }

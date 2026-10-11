@@ -38,6 +38,16 @@ pub(crate) trait SearchControl<S = crate::SimpleScore> {
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         None
     }
+    /// Pending reconstruction counts are visible only to move expressions.
+    fn monitors_reconstruction_moves(&self) -> bool {
+        false
+    }
+    fn stop_with_reconstruction_moves(
+        &mut self,
+        _pending: u64,
+    ) -> Option<crate::LocalSearchTermination> {
+        self.stop()
+    }
     fn monitors_step_scores(&self) -> bool {
         false
     }

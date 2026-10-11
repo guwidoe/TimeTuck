@@ -54,11 +54,17 @@ impl MoveEvaluationKind {
 /// Initialization and assertion/diagnostic rescoring are excluded. Each counter
 /// is atomic; a snapshot during concurrent evaluation may straddle an increment.
 /// Counters saturate at u64::MAX. Reconstruction publishes after each rebuild;
-/// failed rebuilds have no partial counts. Other scored search candidates publish
+/// failed rebuilds have no partial counts. Composed termination additionally sees
+/// pending successful reconstruction candidates before publication. Other scored search candidates publish
 /// after successful scoring, while custom operations publish when attempted.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct MoveEvaluationCounts([u64; 16]);
 impl MoveEvaluationCounts {
+    pub(crate) fn with_reconstruction(mut self, pending: u64) -> Self {
+        let count = &mut self.0[MoveEvaluationKind::Reconstruction as usize];
+        *count = count.saturating_add(pending);
+        self
+    }
     pub fn get(&self, kind: MoveEvaluationKind) -> u64 {
         self.0[kind as usize]
     }

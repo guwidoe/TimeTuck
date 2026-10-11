@@ -83,8 +83,9 @@ pub enum SearchLimit {
     Steps(u64),
     /// Evaluated candidates across all phases, excluding initialization and
     /// diagnostic scoring. Uses the same accounting as MoveEvaluationCounts.
-    /// Reconstruction publishes its candidates after each rebuild, so a rebuild
-    /// may cross this cooperative threshold; use max_move_evaluations for a hard cap.
+    /// Reconstruction candidates are visible to this expression during each
+    /// rebuild. Polling remains cooperative between successful candidate scores;
+    /// published metrics retain only successful rebuilds.
     MoveEvaluations(u64),
     /// Scored states across all phases, including every phase/rebuild initialization
     /// and bounded-search node. Diagnostics, explanations and graph preparation are
