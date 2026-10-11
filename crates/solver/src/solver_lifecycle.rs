@@ -4,7 +4,8 @@ use crate::SolverPhaseKind;
 /// Notifications from one solver invocation. Phase/step indices are zero based;
 /// attempted steps are numbered independently within each entered phase. Exact
 /// enumeration has no steps. Each custom `execute` attempt is a step; previews
-/// and diagnostics are not. Repair attempts may end without completing an accepted solver step.
+/// and diagnostics are not. Conditional `execute_if` starts a step only after an
+/// accepting decision. Repair attempts may end without completing an accepted solver step.
 ///
 /// Callbacks run inline; shared solve deadlines include their time. Returning a normal error
 /// closes open steps/phases and the solve. Panics propagate without calling more

@@ -83,6 +83,14 @@ pub struct CustomPhaseResult<A, S> {
     pub termination: CustomPhaseTermination,
 }
 
+/// One scored conditional trial. Rejection leaves the working assignment and
+/// score unchanged; `score` still reports the rejected candidate's score.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct CustomTrialOutcome<S> {
+    pub score: S,
+    pub committed: bool,
+}
+
 pub(crate) trait CommandDirector<A, M, S> {
     fn notify_best(&mut self, _complete: bool) {}
     type Error;
@@ -155,7 +163,7 @@ director!(['p,'c,B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static] 
 /// ```
 ///
 /// Borrowed command session. Read-only assignments protect the contribution cache;
-/// execute/evaluate are the only ways to change or inspect candidate state.
+/// execute/execute_if/evaluate change or inspect candidate state.
 /// Execute and ordinary evaluate calculate a fresh score. Inspected evaluation can
 /// instead report dependency flaws without scoring. Partial assignments are allowed.
 /// Do not mutate captured model facts or constraint data during a command.
@@ -294,17 +302,21 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         self.failed = false;
         self.work.committed_moves += 1;
         let score = self.director.score();
+        self.finish_committed(&score);
+        Ok(Some(score))
+    }
+    fn finish_committed(&mut self, score: &S) {
         let complete = (self.complete)(self.director.assignment());
-        if (complete && !self.best_complete) || score > self.best_score {
+        if (complete && !self.best_complete) || score > &self.best_score {
             self.best_assignment = self.director.assignment().clone();
             self.best_score = score.clone();
             self.best_complete = complete;
             if let Some(shared) = &mut self.shared {
                 shared.record_improvement();
                 if complete {
-                    shared.observe_complete_best_score(&score);
+                    shared.observe_complete_best_score(score);
                 } else {
-                    shared.observe_best_score(&score);
+                    shared.observe_best_score(score);
                 }
             }
             self.failed = true;
@@ -321,7 +333,76 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             crate::time_limit::finish_step(*shared, true, || score.clone(), || complete);
         }
         self.failed = false;
-        Ok(Some(score))
+    }
+    /// Score one transactional candidate and let `decide` choose whether to keep
+    /// it. The callback borrows the applied assignment and freshly calculated
+    /// score. There is no rollback/replay or second scoring pass on acceptance.
+    /// None means a cooperative limit prevented the trial and callback.
+    ///
+    /// Every attempted trial consumes one score/move evaluation and its actual
+    /// constraint work. A rejected trial adds no committed step, best notification
+    /// or retained-best update. Acceptance uses the same best retention and step
+    /// accounting as execute, including accepted worsening/partial states. The
+    /// accepted StepStarted event occurs after the decision, before commit; rejected
+    /// trials emit no step events. Cancellation raised during scoring/decision is
+    /// observed at the next cooperative boundary, as for execute.
+    ///
+    /// A decision panic rolls back; catching it leaves the command usable and
+    /// retains known work, as for evaluate. Scoring/commit/lifecycle failures
+    /// invalidate the phase even if caught. Failures before commit roll back;
+    /// failures in best/step notifications occur after the move has committed.
+    /// Captured model facts must not be mutated through shared interior state.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = FiniteProblem::new(vec![Variable::new(vec![0_i64, 1]).with_initial(0)])?;
+    /// let mut n = ConstraintNetwork::new(1);
+    /// n.add_constraint("value", vec![0], |v| SimpleScore::new(v[0].copied().unwrap()))?;
+    /// let r = custom_phase(&p, &n, p.initial_assignment(), CustomPhaseConfig::default(), |c| {
+    ///     let current = c.score();
+    ///     let trial = c.execute_if(&Move::Change { variable: 0, value: Some(1) },
+    ///         |_, candidate| candidate > &current)?.unwrap();
+    ///     assert!(trial.committed);
+    ///     assert_eq!(trial.score, SimpleScore::new(1));
+    ///     Ok(())
+    /// })?;
+    /// assert_eq!(r.work.evaluations, 2); // Initialization plus one candidate.
+    /// assert_eq!(r.work.committed_moves, 1);
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn execute_if(
+        &mut self,
+        movement: &M,
+        decide: impl FnOnce(&A, &S) -> bool,
+    ) -> Result<Option<CustomTrialOutcome<S>>, CustomPhaseError<E>> {
+        if !self.begin() {
+            return Ok(None);
+        }
+        self.failed = true;
+        let failed = &mut self.failed;
+        let work = &mut self.work;
+        let shared = &mut self.shared;
+        let mut decide = Some(decide);
+        let mut outcome = None;
+        let result = self.director.trial(movement, &mut |a, score, count| {
+            work.constraint_evaluations += count;
+            *failed = false;
+            let committed = decide.take().expect("one candidate")(a, &score);
+            *failed = true;
+            if committed && let Some(shared) = shared {
+                shared.step_started();
+            }
+            outcome = Some(CustomTrialOutcome { score, committed });
+            committed
+        });
+        self.operation(result)?;
+        self.failed = false;
+        let outcome = outcome.expect("successful trial visits candidate");
+        if outcome.committed {
+            self.work.committed_moves += 1;
+            self.finish_committed(&outcome.score);
+        }
+        Ok(Some(outcome))
     }
     /// Run a visitor while a scored move is applied, then undo it. The visitor
     /// may inspect partial assignments. Its return value cannot borrow the trial.
