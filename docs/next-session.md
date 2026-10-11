@@ -23986,3 +23986,46 @@ normalized,all numeric kinds and temporal domains retained. Expected4method/8
 fixture additions nextbatch,not yet integrated.
 runner-c94234 TERMINAL255 still timeout; prior remote-process state unknown,no restart.
 Goal active/incomplete.
+
+
+Round16 VERIFIED; round17 integrated and gate live. This goal turn made progress:
+round16 gate96014 and recorder94365 TERMINAL0:6119Rust+269doctests,742RUN/127REUSE,
+46PythonREUSE;3309/4855(68.157%),1282pending264excluded0failed/unverified.
+Source aa9b4388aa7d7640b0730474640252cd32ed04892359e68caf9d950ca3f02fcd;
+verification efa672ed25bb143ec69e36efe34ac69ffe9d126602b1c9cd30d3988ff8c91402.
+work/parallel-round16-evidence.json; Java list timings remain visibly stale.
+
+Round17 Rust frozen e080439,provenance9f2b9fa. Four integrations:
+261f947<-4fccd47 four numeric/temporal solve adaptations;
+fcf248e<-3fe0706 fallible lazy providers (36focused+1unit+Clippy);
+34c29e1<-211ab26 expression-progress annealing (33focused+1doc+Clippy);
+4b064ff<-7974d0f five entity-range move adaptations (6focused+Clippy).
+Nine source methods/16fixture records merged; expected3318 after gate, not yet
+verified. Public contracts a5786ff. All four final evidence sets copied/hash-checked
+under work/parallel-round17-evidence; maps/review in parallel-round17-{commits,
+reviewed}.json. Full source methods reviewed. Providers had two textual conflicts:
+retain tracked guard/drop and retained_commit_tests; added/removed line multisets
+identical despite context patchID difference. Integration audit JSON preserved.
+Annealing final fixtures only remove no-effect updates/Copy clones after runtime
+pass; production unchanged, manifests document reuse.
+
+60400 TERMINAL101: all-target Clippy items_after_test_module in3stream error
+conversions/provider constructors. e080439 moves existing items before tests;
+all line multisets unchanged. Failure log preserved as parallel-round17-prebuild-
+ordering-failure.log.34337 LIVE retry:fmt/Clippy PASS,770affectedtargets compiling,
+104unchanged reused. After terminal0 run work/record_parallel_round17.py with stable
+launcher; prepared NOT RUN, includes provider adjusted-patch proof and3318assertion.
+No main Rust changes during gate. No Java/browser rerun needed.
+
+Three Astra/high lanes continue from4b064ff. Dense sparse BestAccepted winner
+capture (basic/list/mixed scoped): adaptive touched-slot/row snapshots, retain
+no-replay install/payload/panic semantics; runner-a owner, isolated baseline release
+90350 live, no performance result yet. Dependency endpoint-aware multi-list k-opt
+open-path cut/join reconstruction: derive lengths/owners from Start/Value/End
+components, preserve prefixes/ranges, no inferred source credit from production
+helper-dependent fixtures. Termination integrates weighted score/feasibility goal
+progress into stateful expressions/cooling, reuses existing arithmetic, explicit
+baseline capture separate from retained best. Both local builds held until parent
+prebuild releases. All previous agent focused handles terminal. runner-c74801 TERMINAL
+255 SSH timeout; prior remote build state unknown, no duplicate restart. Goal
+active/incomplete; no blocker.
