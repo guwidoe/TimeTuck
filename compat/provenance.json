@@ -49749,6 +49749,141 @@
       "upstream_test": "testDoesNotIncludeMissingEventsForOtherVariables",
       "local_test": "list_tracker_does_not_include_missing_events_for_other_variables",
       "modifications": "Preserve both before/after notifications for entity a and the complete empty-audit assertion for [(tracked field,a),(other descriptor,b)]. Native canonical schema/field handles replace Java descriptors and stable a/b entity keys replace fixture objects. Separate schemas and entity types retain other-descriptor identity despite equal variable names. List [0,1) event boundaries become event-presence notifications; the source method asserts only absence of missing events, not range processing. Unobserved entity group/list-shadow state is omitted; no Java lifecycle/API parity claim."
+    },
+    {
+      "id": "AnonymousValueRangeFactoryTest.solveValueRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/valuerange/AnonymousValueRangeFactoryTest.java",
+      "upstream_test": "solveValueRange",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "local_test": "solve_value_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source solve assertions: two entities; all five number/integer/long/big-integer/decimal fields non-null and zero score; non-null solution. Preserve invoked PlannerTestUtils.solve nonempty best-event assertion; actual native construction followed by local search bounded to 10 steps, fixed seed 0, additional 10,000-candidate limit, zero objective matching DummySimpleScoreEasyScoreCalculator. Run both native scoring backends. Explicit typed field/range bindings and an enum retaining all numeric/temporal types replace JVM annotations, wildcard/Number assignability and reflection; automatic Java provider inference is not established. Number accepts every supported numeric provider (including mixed Integer/BigInteger Number list); native finite domains normalize duplicate occurrences only through SetValueRange, with every type/value retained. No sampling-multiplicity or identical stochastic trace claim. Additional complete-assignment/domain-membership checks earn no extra source credit."
+    },
+    {
+      "id": "AnonymousValueRangeFactoryTest.solveArray",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/valuerange/AnonymousValueRangeFactoryTest.java",
+      "upstream_test": "solveArray",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "local_test": "solve_array",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source solve assertions: two entities; all five number/integer/long/big-integer/decimal fields non-null and zero score; non-null solution. Preserve invoked PlannerTestUtils.solve nonempty best-event assertion; actual native construction followed by local search bounded to 10 steps, fixed seed 0, additional 10,000-candidate limit, zero objective matching DummySimpleScoreEasyScoreCalculator. Run both native scoring backends. Explicit typed field/range bindings and an enum retaining all numeric/temporal types replace JVM annotations, wildcard/Number assignability and reflection; automatic Java provider inference is not established. Number accepts every supported numeric provider (including mixed Integer/BigInteger Number list); native finite domains normalize duplicate occurrences only through SetValueRange, with every type/value retained. No sampling-multiplicity or identical stochastic trace claim. Additional complete-assignment/domain-membership checks earn no extra source credit."
+    },
+    {
+      "id": "AnonymousValueRangeFactoryTest.solveList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/valuerange/AnonymousValueRangeFactoryTest.java",
+      "upstream_test": "solveList",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "local_test": "solve_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source solve assertions: two entities; all five number/integer/long/big-integer/decimal fields non-null and zero score; non-null solution. Preserve invoked PlannerTestUtils.solve nonempty best-event assertion; actual native construction followed by local search bounded to 10 steps, fixed seed 0, additional 10,000-candidate limit, zero objective matching DummySimpleScoreEasyScoreCalculator. Run both native scoring backends. Explicit typed field/range bindings and an enum retaining all numeric/temporal types replace JVM annotations, wildcard/Number assignability and reflection; automatic Java provider inference is not established. Number accepts every supported numeric provider (including mixed Integer/BigInteger Number list); native finite domains normalize duplicate occurrences only through SetValueRange, with every type/value retained. No sampling-multiplicity or identical stochastic trace claim. Additional complete-assignment/domain-membership checks earn no extra source credit."
+    },
+    {
+      "id": "ValueRangeFactoryTest.solve",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/valuerange/ValueRangeFactoryTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "local_test": "solve_named_value_ranges",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve non-null solved result with both entities and all eight numeric/temporal fixture fields. Preserve invoked PlannerTestUtils.solve nonempty best-event assertion; actual native construction followed by local search bounded to 10 steps, fixed seed 0, additional 10,000-candidate limit, zero objective matching DummySimpleScoreEasyScoreCalculator. Run both native scoring backends. Explicit typed field/range bindings and an enum retaining all numeric/temporal types replace JVM annotations, wildcard/Number assignability and reflection; automatic Java provider inference is not established. Number accepts every supported numeric provider (including mixed Integer/BigInteger Number list); native finite domains normalize duplicate occurrences only through SetValueRange, with every type/value retained. No sampling-multiplicity or identical stochastic trace claim. Additional complete-assignment/domain-membership checks earn no extra source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SelectorBasedSwapMoveTest.doMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "doMove",
+      "local_test": "swap_raw_execution_preserves_all_source_states",
+      "modifications": "All 24 value assertions across 9 starting cases and 3 repeated exchanges retained. Preserve full a=[1,2,3], b=[1,2,3,4], c=[2,3,4] domains and nullable initial fields. Raw Assignment::apply mirrors source unchecked execution, including a receiving out-of-range 4; native validated model execution is not bypassed by the solver. Source zero-score factory carries no score assertion and is replaced by assignment transaction execution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SelectorBasedPillarSwapMoveTest.doMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarSwapMoveTest.java",
+      "upstream_test": "doMove",
+      "local_test": "pillar_swap_raw_execution_preserves_all_source_states",
+      "modifications": "Preserve all value assertions across 7 starting cases and 5 repeated exchanges, all pillar memberships, and full a=[1,2,3,4], b=[2,3,4,5], c=[4,5], z=[1,2,3,4,5] domains. Raw Assignment::apply intentionally permits source out-of-range states and results. Native pillar moves capture values at construction, so regenerate a move against current values for each repeated live exchange; no persistent Java move-object API parity claimed. Source zero-score factory carries no score assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SelectorBasedPillarSwapMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarSwapMoveTest.java",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_test": "pillar_swap_entity_range_doability_matrix",
+      "modifications": "All 17 boolean assertions, original mutation order and complete nullable entity-local domains retained. Existing Pillar::swap_move plus FiniteProblem::is_move_doable replaces Java descriptor/range-manager/mock setup. A native validation error and an unchanged candidate both map to source false; successful changed candidate maps to true. No selector enumeration/order semantics claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "SelectorBasedListChangeMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_test": "list_change_entity_range_doability",
+      "modifications": "Both boolean assertions retained, with full entity ranges [1,2] and [1,3], lists [1,2] and [3], and original source/destination indices. Explicit ListEntity ranges plus ListProblem::is_move_doable replace descriptor/range-manager/mock plumbing. Validation error maps to source false."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "PillarSwapMoveTest.outOfRangeCrossValueIsCallerResponsibility",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "outOfRangeCrossValueIsCallerResponsibility",
+      "local_test": "invalid_pillar_cross_value_is_rejected_by_checked_execution",
+      "modifications": "Preserve full e1a=[1,2], e1b=[1], e2=[1,2] domains, starting [1,1,2], pillars [e1a,e1b]/[e2], and source exception-category plus diagnostic assertions. FiniteProblem::apply supplies the native checked execution boundary: ModelError::ValueOutsideDomain{variable:1} and message outside its domain replace IllegalStateException and outside of the related value range. No claim that raw move execution independently checks ranges or that native error timing equals Java MoveTester timing."
     }
   ],
   "fixtures": [
@@ -67262,6 +67397,214 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain different HistoryListEntity type and list valueList field in separate schema; unobserved shadow history and lists omitted."
+    },
+    {
+      "id": "TestdataAnonymousValueRangeEntity.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/anonymous/TestdataAnonymousValueRangeEntity.java",
+      "upstream_test": "planning variable declarations and constructors",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Map e1/e2 to two entity-major groups of five initially unassigned slots (Number,Integer,Long,BigInteger,BigDecimal). Native enum retains numeric distinctions; unobserved code/getters/setters omitted."
+    },
+    {
+      "id": "TestdataAnonymousValueRangeSolution.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/anonymous/TestdataAnonymousValueRangeSolution.java",
+      "upstream_test": "createIntValueRange, createLongValueRange, createBigIntegerValueRange, createBigDecimalValueRange",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Use native indexed ranges with exact half-open bounds 0..3,1000..1003,1000000..1000003 and scale-2 decimal 0.00..0.03. Explicit Number union retains all 12 type/value members. Replace metadata discovery with typed native slot bindings."
+    },
+    {
+      "id": "TestdataAnonymousArraySolution.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/anonymous/TestdataAnonymousArraySolution.java",
+      "upstream_test": "createIntegerArray, createLongArray, createNumberArray, createBigIntegerArray, createBigDecimalArray",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve fixed-array provider forms and values: Integer/Long 0,1; Number array Long 0,1; BigInteger/Decimal 0,10. Native enumerated ranges and Number union normalize duplicate occurrences without dropping any distinct numeric kind/value."
+    },
+    {
+      "id": "TestdataAnonymousListSolution.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/anonymous/TestdataAnonymousListSolution.java",
+      "upstream_test": "createIntegerList, createLongList, createNumberList, createBigIntegerList, createBigDecimalList",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve Vec/list providers with Integer/Long 0,1; heterogeneous Number list Integer 0, BigInteger 10; BigInteger/Decimal 0,10. Native Number union admits all supported numeric providers. Java wildcard inference not reproduced."
+    },
+    {
+      "id": "TestdataValueRangeEntity.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/TestdataValueRangeEntity.java",
+      "upstream_test": "planning variable declarations and constructors",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Map two source entities to eight explicit numeric/temporal slots each: Integer,Long,BigInteger,BigDecimal,LocalDate,LocalTime,LocalDateTime,Year. Native Value enum retains each distinction; names bind by documented field order."
+    },
+    {
+      "id": "TestdataValueRangeSolution.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/TestdataValueRangeSolution.java",
+      "upstream_test": "all eight create*ValueRange providers",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve numeric bounds above plus dates 2000-01-01..2000-01-04 by days; times 10:00..10:03 by minutes; date-times 2000-01-01T10:00..T10:03 by minutes; years 2000..2003 by years. Native CivilDate/CivilTime/CivilDateTime/CalendarYear ranges replace Java temporal APIs; upper bounds remain exclusive."
+    },
+    {
+      "id": "PlannerTestUtils.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig, solve",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt actual construction/local-search phase setup, source 10-step local limit and asserted nonempty best-event list. Add deterministic native seed 0/finite 10,000-candidate budget; no Java configuration/reflection/event trace parity."
+    },
+    {
+      "id": "DummySimpleScoreEasyScoreCalculator.value_range_solver_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/value_range_solver_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve constant zero objective in native scoped/stream scoring; native structural initialization score remains separate until all required variables assigned."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingEntity.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "constructors, value/valueRange getters and setters, descriptor declarations",
+      "modifications": "Preserve entity-local domains and nullable assignment fields as Variable<i32> plus Assignment slots; exact domains remain explicit in each adapted method. Java reflection replaced by native model binding."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedEntityProvidingSolution.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingSolution.java",
+      "upstream_test": "entityList, buildSolutionDescriptor",
+      "modifications": "Preserve entity encounter order as native variable slot order; descriptor/reflection and unused score payload omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntityProvidingEntity.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/TestdataEntityProvidingEntity.java",
+      "upstream_test": "constructors, value/valueRange getters and setters",
+      "modifications": "Required basic variable and exact per-entity ranges become native Variable<i32>; caller-misuse fixture retains [1,2], [1], [1,2]."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntityProvidingSolution.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/TestdataEntityProvidingSolution.java",
+      "upstream_test": "entityList, buildMetaModel",
+      "modifications": "Three native slots preserve e1a/e1b/e2 identity and order. Java metamodel reflection replaced by finite model; no fixture generator used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "constructor(String code)",
+      "modifications": "Distinct code-labelled objects become integer IDs, preserving all value identity/equality assertions; no Java object identity or cloning claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingEntity.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "constructor(code,valueRange,valueList), valueRange/valueList fields",
+      "modifications": "Complete per-owner ranges and initial list positions map to ListEntity with explicit ranges. Java owner/index shadow fields are not asserted by the source doability method; native list positions supply the required coordinates."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingValue.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "constructor(String code)",
+      "modifications": "Distinct values 1/2/3 map to stable integer IDs; unobserved owner/index shadow object storage omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/entity_range_move_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntityProvidingSolution.entity_range_move_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "buildSolutionDescriptor, getValueList",
+      "modifications": "Native ListProblem binds the complete value universe [1,2,3], owner ranges and ordered lists; no reflection or solution-generation behavior claimed."
     }
   ]
 }
