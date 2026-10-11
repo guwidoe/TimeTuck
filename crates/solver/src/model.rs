@@ -182,6 +182,7 @@ impl From<MoveError> for ModelError {
 pub struct FiniteProblem<V> {
     variables: Vec<Variable<V>>,
     pillar_schema: Option<crate::PillarSchema>,
+    grouping_hash: Option<domain_index::TupleHash<V>>,
 }
 impl<V: Eq> FiniteProblem<V> {
     pub fn new(variables: Vec<Variable<V>>) -> Result<Self, ModelError> {
@@ -191,6 +192,7 @@ impl<V: Eq> FiniteProblem<V> {
         Ok(Self {
             variables,
             pillar_schema: None,
+            grouping_hash: None,
         })
     }
     /// Attach validated selected entity rows for pillar/subpillar neighborhoods.
@@ -325,6 +327,7 @@ impl<V: Eq + Clone> FiniteProblem<V> {
                 })
                 .collect(),
             pillar_schema: self.pillar_schema.clone(),
+            grouping_hash: self.grouping_hash,
         }
     }
 

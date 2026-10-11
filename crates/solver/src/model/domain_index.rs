@@ -2,9 +2,17 @@
 use super::{FiniteProblem, ModelError, Variable};
 use std::{
     collections::{HashMap, hash_map::RandomState},
-    hash::{BuildHasher, Hash},
+    hash::{BuildHasher, Hash, Hasher},
     sync::Arc,
 };
+
+pub(crate) type TupleHash<V> = fn(&RandomState, &[Option<V>], &[usize]) -> u64;
+
+impl<V> FiniteProblem<V> {
+    pub(crate) fn grouping_hash(&self) -> Option<TupleHash<V>> {
+        self.grouping_hash
+    }
+}
 
 #[derive(Clone, Debug)]
 pub(super) struct DomainIndex<V> {
@@ -94,6 +102,8 @@ impl<V: Eq + Hash> FiniteProblem<V> {
     /// Domains shorter than 64 values or with long hash-collision chains retain
     /// direct lookup to avoid index overhead.
     /// Model clones and repair models share indexes without cloning values into them.
+    /// Large pillar groupings may also hash current value tuples; small groupings
+    /// and poor hashes retain direct equality checks. Group/member order is unchanged.
     ///
     /// Equal values must hash equally, and Eq/Hash identities must remain stable
     /// for the lifetime of the model and its clones. Hash collisions use equality.
@@ -123,6 +133,14 @@ impl<V: Eq + Hash> FiniteProblem<V> {
         Ok(Self {
             variables,
             pillar_schema: None,
+            grouping_hash: Some(|state, values, slots| {
+                let mut hasher = state.build_hasher();
+                slots.len().hash(&mut hasher);
+                for &slot in slots {
+                    values[slot].hash(&mut hasher);
+                }
+                hasher.finish()
+            }),
         })
     }
 }

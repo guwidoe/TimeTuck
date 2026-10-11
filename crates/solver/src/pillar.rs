@@ -1,6 +1,7 @@
 //! Atomic group moves over one or several aligned basic-variable columns.
 use crate::{Assignment, FiniteProblem, ModelError, Move, MoveError};
 use std::{collections::BTreeSet, error::Error, fmt, sync::Arc};
+pub(crate) mod grouping;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum PillarError {
@@ -256,18 +257,26 @@ pub(crate) fn groups<V: Eq>(
     a: &Assignment<V>,
     order: impl Iterator<Item = usize>,
 ) -> Arc<Vec<Vec<usize>>> {
-    let mut groups: Vec<Vec<usize>> = vec![];
-    for i in order.filter(|&i| !p.variables()[i].is_pinned()) {
-        if let Some(g) = groups
-            .iter_mut()
-            .find(|g| a.values()[g[0]] == a.values()[i])
-        {
-            g.push(i);
-        } else {
-            groups.push(vec![i]);
+    if p.grouping_hash().is_none() || p.variables().len() <= grouping::INDEX_ROWS {
+        let mut groups: Vec<Vec<usize>> = vec![];
+        for i in order.filter(|&i| !p.variables()[i].is_pinned()) {
+            if let Some(g) = groups
+                .iter_mut()
+                .find(|g| a.values()[g[0]] == a.values()[i])
+            {
+                g.push(i);
+            } else {
+                groups.push(vec![i]);
+            }
         }
+        return Arc::new(groups);
     }
-    Arc::new(groups)
+    grouping::group_indices(
+        order.filter(|&i| !p.variables()[i].is_pinned()),
+        p.grouping_hash()
+            .map(|hash| move |state: &_, slot| hash(state, a.values(), &[slot])),
+        |left, right| a.values()[left] == a.values()[right],
+    )
 }
 
 pub(crate) fn ordered<'a, V: Eq + Clone>(

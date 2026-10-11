@@ -103,24 +103,41 @@ fn groups<V: Eq>(
         }
     }
     let mut seen = vec![false; rows.len()];
-    let mut groups: Vec<Vec<usize>> = vec![];
-    for slot in order {
-        let Some(row) = row_of[slot] else { continue };
-        if std::mem::replace(&mut seen[row], true) {
-            continue;
+    if p.grouping_hash().is_none() || rows.len() <= crate::pillar::grouping::INDEX_ROWS {
+        let mut groups: Vec<Vec<usize>> = vec![];
+        for slot in order {
+            let Some(row) = row_of[slot] else { continue };
+            if std::mem::replace(&mut seen[row], true) {
+                continue;
+            }
+            if let Some(group) = groups.iter_mut().find(|g| {
+                rows[g[0]]
+                    .iter()
+                    .zip(&rows[row])
+                    .all(|(&x, &y)| a.values()[x] == a.values()[y])
+            }) {
+                group.push(row);
+            } else {
+                groups.push(vec![row]);
+            }
         }
-        if let Some(group) = groups.iter_mut().find(|g| {
-            rows[g[0]]
-                .iter()
-                .zip(&rows[row])
-                .all(|(&x, &y)| a.values()[x] == a.values()[y])
-        }) {
-            group.push(row);
-        } else {
-            groups.push(vec![row]);
-        }
+        return Arc::new(groups);
     }
-    Arc::new(groups)
+    let selected = order.filter_map(|slot| {
+        let row = row_of[slot]?;
+        (!std::mem::replace(&mut seen[row], true)).then_some(row)
+    });
+    crate::pillar::grouping::group_indices(
+        selected,
+        p.grouping_hash()
+            .map(|hash| move |state: &_, row: usize| hash(state, a.values(), rows[row].as_slice())),
+        |left, right| {
+            rows[left]
+                .iter()
+                .zip(&rows[right])
+                .all(|(&x, &y)| a.values()[x] == a.values()[y])
+        },
+    )
 }
 /// Enumerate both orientations of every legal whole-pillar swap, with no change
 /// candidates. An attached schema groups aligned rows by their entire selected
