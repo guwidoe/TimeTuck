@@ -6449,7 +6449,39 @@ budget comparisons, custom/provider/error/diagnostic coverage, plus one registry
 snapshot unit. Representative three-phase factory/reset/score/clone counts including
 setup change3/3/6/0 to1/1/4/4; snapshots have a cost, so no universal speedup claim.
 
-This batch adds21original Rust tests and one doctest, with no upstream method credit.
+This batch adds22original Rust tests and one doctest, with no upstream method credit.
 Focused source manifests and raw union measurements are preserved in
 work/parallel-round4-evidence. Combined verification is recorded separately below
 in the implementation handoff; Java performance measurements retain their own ages.
+
+Sparse indexed list models now build a lazy receiver index for swap neighborhoods.
+It preserves supplied entity order, duplicate occurrences, unique-pair ranks, pins,
+optional replacements and rollback across list/mixed scoring backends. The first
+source stays lazy; later scans index only sufficiently large movable populations
+with bounded registry size. Dense, unrestricted, small and Eq-only models retain
+ordinary scanning. Six original tests add no upstream credit. Same-runner-a timing
+includes validation, iterator/index construction and destruction: 128-owner sparse
+scans improve 11.26–14.79x, 512 improve 41.90–53.28x, 2048 improve 176.26–226.91x.
+The 512-owner unrestricted fallback is effectively unchanged; 128-owner unrestricted
+scans are 6–7% slower and tiny scans vary by up to 3.4 microseconds. Peak scan storage
+at 2048 owners rises 110624→295632 bytes. These are component comparisons against the
+prior Rust implementation, not Java or whole-solver measurements.
+
+Native shadow bindings now resolve validated handles directly to ordered node IDs,
+removing key cloning and repeated full-node searches. Native keys need not implement
+Clone. Original registration boundaries, session identity, ordered/duplicate
+signatures, checked restore and compiled-path diagnostics remain intact. Four new
+original tests and two strengthened tests include zero key clones/comparisons for
+256 nodes/255 bindings after registration. Same-runner-c refresh-loop medians improve 9.73x
+for a 2048-node chain, 24.06x for fanout, 3.24x for dense bindings and 2.55x for cycles;
+notified refresh improves only 3–4%. Setup is excluded; keyed compiled paths and graph
+metadata costs remain. No upstream credit or universal solver speedup is claimed.
+
+Bounded exact search now reclaims queued branches dominated by an improved incumbent
+when frontier capacity is reached. Unknown bounds survive; ordering, retained best
+states and evaluation counts remain unchanged. An original fixture reaches 40 with
+five queue slots where the old implementation stopped at 20; the unreclaimed trace
+needed six slots. Eight original tests cover 936 capacity/budget prefixes, four search
+orders, three model types and 15 solver backend routes. Complete source-method
+adaptations are not claimed. Focused evidence for all three changes is preserved in
+work/parallel-round5-evidence; combined verification is recorded in the handoff.

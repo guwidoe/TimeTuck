@@ -23201,3 +23201,33 @@ Rust/provenance remain frozen. Local agent now has a separate worktree target
 with Rust1.92,-j2, authorized after expensive parent compilation completed.
 Run round4 recorder only after gate terminal success; inspect final agent deltas
 and evidence before merging round5. Goal active/incomplete.
+
+Round4 gate72696 TERMINAL101: one old unit fixture mixed a fake solver clock with
+real5ms construction timing and expired before exact search under load. All
+integration targets passed. Original failure/log/report preserved under
+work/parallel-round4-first-attempt. Test-only8a2ae3a uses the existing controlled
+construction kernel plus Observed adapter; production unchanged. Selective repair
+gate34754 TERMINAL0, recorder39270 TERMINAL0:5819Rust+260doctests,1Rust RUN805REUSE,
+46PythonREUSE,3291/4855source methods(67.786%),0failed/unverified. Actual round4
+addition was22tests (6moves,7shadows,9calculators), correcting earlier21/5818estimate.
+Source c2aa3886b090ce625385d65e4ba9dc376c885017494bb273ca85779225e8dccc;
+verification d8bb418e1c0bd992ae81db013aafc7c163762711acd3ac08cf1e3a491e17e269.
+Evidence work/parallel-round4-evidence.json. Java performance stays visibly stale.
+
+Round5 finished and integrated:0d3f388(agent67a5905)sparse swaps,
+208ff0d(agentaf5d290)native shadow handles,b008322(agented50bc6)frontier reclamation.
+All agents clean/idle; both remotes free. Focused evidence copied under
+work/parallel-round5-evidence/{moves,shadows,frontier}/work; all changed files match
+final source manifests. Parent reviewed production changes including final sparse
+population guard/static dispatch; no issue found. Moves27focused tests across
+recorded revisions +28workloads840samples; shadows30tests+Clippy and8workloads112
+samples; frontier117tests+Clippy.18new original Rust tests, no provenance delta.
+Full combined gate6362 LIVE on frozenb008322 via stable launcher:
+work/prebuild_parallel_round5.py > work/parallel-round5-prebuild.log then
+bash scripts/check.sh > work/parallel-round5-final-check.log. Do not restart it.
+Expect5837Rust+260docs; claim only actual terminal counts. Run prepared round5
+recorder only after gate success. Main Rust/provenance remain frozen during gate.
+Next goal turn can assign three new independent tasks to existing Astra/high agents
+from current main; runner-a/runner-c free, local reserved expensive compilation. Once
+parent compilation finishes, local agent may use its own target at-j2 during
+sequential tests/report; do not share target or mutate main. Goal active/incomplete.
