@@ -1,7 +1,7 @@
 //! Per-world shadow registrations rebuilt only for explicit membership changes.
 use super::*;
 use crate::{ShadowSession, ShadowSessionBuilder, ShadowSessionCheckpoint, ShadowSessionError};
-use std::rc::Weak;
+use std::{cell::RefCell, rc::Weak};
 type Projection<'a, 's, K, W, U> =
     dyn Fn(&W, &ShadowSession<'a, 's, K, W>) -> Result<U, ShadowSessionError> + 'a;
 /// A complete registration and its projection, constructed for one membership
@@ -30,12 +30,87 @@ impl<'a, 's, K: Eq, W, U> ShadowProgram<'a, 's, K, W, U> {
 struct State<M> {
     membership: M,
     slot: usize,
-    lease: Rc<()>,
+    lease: Rc<ProgramLease>,
     session: ShadowSessionCheckpoint,
 }
-struct ProgramSlot<'a, 's, K, W, U> {
-    lease: Weak<()>,
-    program: ShadowProgram<'a, 's, K, W, U>,
+// Only the last live or checkpoint reference retires a registration. The arena
+// owns the queue, not the leases, so saved state cannot keep a dead arena alive.
+struct ProgramLease {
+    slot: usize,
+    retired: Weak<RefCell<Vec<usize>>>,
+}
+impl Drop for ProgramLease {
+    fn drop(&mut self) {
+        if let Some(retired) = self.retired.upgrade() {
+            retired.borrow_mut().push(self.slot);
+        }
+    }
+}
+struct ProgramSlot<P> {
+    lease: Weak<ProgramLease>,
+    program: P,
+}
+struct ProgramArena<P> {
+    slots: Vec<Option<ProgramSlot<P>>>,
+    free: Vec<usize>,
+    retired: Rc<RefCell<Vec<usize>>>,
+}
+impl<P> ProgramArena<P> {
+    fn new() -> Self {
+        Self {
+            slots: Vec::new(),
+            free: Vec::new(),
+            retired: Rc::new(RefCell::new(Vec::new())),
+        }
+    }
+    fn reclaim(&mut self) {
+        loop {
+            // Release the queue borrow before dropping any user-owned program
+            // data. If that drop panics, remaining retirement events stay queued.
+            let Some(index) = self.retired.borrow_mut().pop() else {
+                break;
+            };
+            let slot = self.slots[index].take().expect("retired program slot");
+            debug_assert_eq!(slot.lease.strong_count(), 0);
+            self.free.push(index);
+            drop(slot);
+        }
+        while self.slots.last().is_some_and(Option::is_none) {
+            self.slots.pop();
+        }
+    }
+    fn insert(&mut self, program: P) -> (usize, Rc<ProgramLease>) {
+        self.reclaim();
+        // Tail trimming may leave free indices beyond the new length. Each
+        // retired index is pushed and inspected at most once before reuse.
+        let index = loop {
+            match self.free.pop() {
+                Some(index) if index < self.slots.len() => break index,
+                Some(_) => continue,
+                None => break self.slots.len(),
+            }
+        };
+        let lease = Rc::new(ProgramLease {
+            slot: index,
+            retired: Rc::downgrade(&self.retired),
+        });
+        let slot = Some(ProgramSlot {
+            lease: Rc::downgrade(&lease),
+            program,
+        });
+        if index == self.slots.len() {
+            self.slots.push(slot);
+        } else {
+            debug_assert!(self.slots[index].is_none());
+            self.slots[index] = slot;
+        }
+        (index, lease)
+    }
+    fn get_mut(&mut self, index: usize, lease: &Rc<ProgramLease>) -> &mut P {
+        let slot = self.slots[index].as_mut().expect("live program lease");
+        debug_assert!(Weak::ptr_eq(&slot.lease, &Rc::downgrade(lease)));
+        &mut slot.program
+    }
 }
 type Factory<'a, 's, M, K, W, U> =
     dyn Fn(&M) -> Result<ShadowProgram<'a, 's, K, W, U>, ShadowSessionError> + 'a;
@@ -43,26 +118,14 @@ struct DynamicShadows<'a, 's, I, M, K, W, U> {
     membership: Box<dyn Fn(&W) -> M + 'a>,
     factory: Box<Factory<'a, 's, M, K, W, U>>,
     states: SnapshotMap<I, State<M>>,
-    programs: Vec<Option<ProgramSlot<'a, 's, K, W, U>>>,
-}
-impl<K, W, U, I, M> DynamicShadows<'_, '_, I, M, K, W, U> {
-    fn reclaim(&mut self) {
-        for slot in &mut self.programs {
-            if slot.as_ref().is_some_and(|s| s.lease.strong_count() == 0) {
-                *slot = None;
-            }
-        }
-        while self.programs.last().is_some_and(Option::is_none) {
-            self.programs.pop();
-        }
-    }
+    programs: ProgramArena<ShadowProgram<'a, 's, K, W, U>>,
 }
 impl<I: Ord + Clone + 'static, M: Eq + 'static, K: Eq, W: 'static, U: 'static, S: AdditiveScore>
     Node<S> for DynamicShadows<'_, '_, I, M, K, W, U>
 {
     fn clear(&mut self) {
         self.states.clear();
-        self.reclaim();
+        self.programs.reclaim();
     }
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new(self.states.clone())
@@ -83,20 +146,16 @@ impl<I: Ord + Clone + 'static, M: Eq + 'static, K: Eq, W: 'static, U: 'static, S
         let membership = (self.membership)(world);
         let old = self.states.get(&change.id);
         if let Some(old) = old.filter(|old| old.membership == membership) {
-            let slot = self.programs[old.slot]
-                .as_mut()
-                .expect("live program lease");
-            debug_assert!(Weak::ptr_eq(&slot.lease, &Rc::downgrade(&old.lease)));
-            slot.program.session.install(&old.session);
-            let value = slot
-                .program
+            let program = self.programs.get_mut(old.slot, &old.lease);
+            program.session.install(&old.session);
+            let value = program
                 .evaluate(world)
                 .map_err(|e| GraphError::Dependency(e.to_string()))?;
             let next = State {
                 membership,
                 slot: old.slot,
                 lease: old.lease.clone(),
-                session: slot.program.session.capture(),
+                session: program.session.capture(),
             };
             let output = erase([TupleChange::put(change.id.clone(), value)]);
             self.states.insert(change.id.clone(), next);
@@ -109,22 +168,7 @@ impl<I: Ord + Clone + 'static, M: Eq + 'static, K: Eq, W: 'static, U: 'static, S
                 .map_err(|e| GraphError::Dependency(e.to_string()))?;
             let checkpoint = program.session.capture();
             let output = erase([TupleChange::put(change.id.clone(), value)]);
-            self.reclaim();
-            let index = self
-                .programs
-                .iter()
-                .position(Option::is_none)
-                .unwrap_or(self.programs.len());
-            let lease = Rc::new(());
-            let slot = Some(ProgramSlot {
-                lease: Rc::downgrade(&lease),
-                program,
-            });
-            if index == self.programs.len() {
-                self.programs.push(slot);
-            } else {
-                self.programs[index] = slot;
-            }
+            let (index, lease) = self.programs.insert(program);
             self.states.insert(
                 change.id.clone(),
                 State {
@@ -162,8 +206,12 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     /// and immutable cache snapshots. Restoration invokes no factories, readers,
     /// suppliers or projections, including after several registration switches.
     /// Dead registrations are reclaimed on a later rebuild/clear; live snapshots
-    /// keep their programs alive. Errors/panics poison the transaction and prevent
-    /// partial scores. External callback effects and panicking destructors are
+    /// keep their programs alive. Last-lease drops queue retirement in amortized
+    /// constant time. Reclamation visits retired slots only, and slot reuse is
+    /// amortized constant time; unrelated live programs are not scanned. Arena
+    /// metadata retains capacity for its high-water registration count.
+    /// Errors/panics poison the transaction and prevent partial scores.
+    /// External callback effects and panicking destructors are
     /// outside graph rollback, as for ordinary map_shadows.
     ///
     /// ```
@@ -216,7 +264,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             membership: Box::new(membership),
             factory: Box::new(factory),
             states: SnapshotMap::<I, State<M>>::new(),
-            programs: vec![],
+            programs: ProgramArena::new(),
         });
         self.connect(input.node, out.node, false);
         Ok(out)
@@ -329,5 +377,94 @@ mod tests {
         graph.assert_consistent().unwrap();
         drop(graph);
         assert_eq!(live.get(), 0);
+    }
+    #[test]
+    fn arena_retires_only_after_the_last_live_or_snapshot_lease() {
+        let live = Cell::new(0);
+        let mut arena = ProgramArena::new();
+        let mut states = SnapshotMap::new();
+        for id in 0..1024 {
+            live.set(live.get() + 1);
+            let (slot, lease) = arena.insert(Live(&live));
+            states.insert(id, (slot, lease));
+        }
+        assert!(arena.retired.borrow().is_empty());
+        assert!(arena.free.is_empty());
+        let saved = states.clone();
+        for id in 0..1024 {
+            if id % 2 == 0 {
+                states.remove(&id);
+            }
+        }
+        arena.reclaim();
+        assert_eq!(live.get(), 1024);
+        assert!(arena.retired.borrow().is_empty());
+        drop(saved);
+        assert_eq!(arena.retired.borrow().len(), 512);
+        arena.reclaim();
+        assert_eq!(live.get(), 512);
+        assert_eq!(arena.free.len(), 512);
+        for (_, (slot, lease)) in &states {
+            assert!(arena.get_mut(*slot, lease).alive());
+        }
+        for _ in 0..512 {
+            live.set(live.get() + 1);
+            let (slot, lease) = arena.insert(Live(&live));
+            assert!(arena.get_mut(slot, &lease).alive());
+            // The next insert reclaims this one slot; all other leases survive.
+            drop(lease);
+        }
+        arena.reclaim();
+        assert_eq!(live.get(), 512);
+        assert!(arena.slots.len() <= 1024);
+        states.clear();
+        arena.reclaim();
+        assert_eq!(live.get(), 0);
+        assert!(arena.slots.is_empty());
+        live.set(1);
+        let (slot, lease) = arena.insert(Live(&live));
+        assert_eq!(slot, 0);
+        assert!(arena.free.is_empty());
+        drop(arena);
+        assert_eq!(live.get(), 0);
+        // A lease can outlive its arena without retaining programs or a queue.
+        assert!(lease.retired.upgrade().is_none());
+        drop(lease);
+    }
+    #[test]
+    fn arena_keeps_unprocessed_retirements_after_a_program_drop_panics() {
+        use std::panic::{AssertUnwindSafe, catch_unwind};
+        struct Guard<'a> {
+            panic: &'a Cell<bool>,
+            drops: &'a Cell<usize>,
+        }
+        impl Drop for Guard<'_> {
+            fn drop(&mut self) {
+                self.drops.set(self.drops.get() + 1);
+                assert!(!self.panic.replace(false), "program drop panic");
+            }
+        }
+        let panic = Cell::new(false);
+        let drops = Cell::new(0);
+        let mut arena = ProgramArena::new();
+        let mut leases = Vec::new();
+        for _ in 0..3 {
+            leases.push(
+                arena
+                    .insert(Guard {
+                        panic: &panic,
+                        drops: &drops,
+                    })
+                    .1,
+            );
+        }
+        drop(leases);
+        panic.set(true);
+        assert!(catch_unwind(AssertUnwindSafe(|| arena.reclaim())).is_err());
+        assert_eq!(drops.get(), 1);
+        assert_eq!(arena.retired.borrow().len(), 2);
+        arena.reclaim();
+        assert_eq!(drops.get(), 3);
+        assert!(arena.slots.is_empty());
     }
 }
