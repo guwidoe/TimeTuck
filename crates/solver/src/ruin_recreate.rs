@@ -488,29 +488,7 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
             .collect()
     }
     fn repair(&self, a: &Assignment<V>, selected: &[usize]) -> Result<Self, RuinRecreateError> {
-        let mut ruined = vec![false; self.variables().len()];
-        for &i in selected {
-            ruined[i] = true;
-        }
-        let variables = self
-            .variables()
-            .iter()
-            .enumerate()
-            .map(|(i, v)| {
-                let mut copy = Variable::new(v.domain().to_vec());
-                if v.allows_unassigned() {
-                    copy = copy.allowing_unassigned();
-                }
-                if !ruined[i] {
-                    if let Some(value) = a.get(i).expect("validated") {
-                        copy = copy.with_initial(value.clone());
-                    }
-                    copy = copy.with_pinned(true);
-                }
-                copy
-            })
-            .collect();
-        Self::new(variables).map_err(|e| LocalSearchError::from(e).into())
+        Ok(self.with_ruined_variables(a, selected))
     }
     fn validate_neighborhood(
         &self,

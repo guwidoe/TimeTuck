@@ -303,6 +303,36 @@ impl<V: Eq + Clone> FiniteProblem<V> {
         Ok(model)
     }
 
+    // Callers validate the assignment and selected movable indices first. Retain
+    // all model metadata, including diagnostic renderers and pillar schema.
+    // Unsampled optional nulls must be frozen just like assigned values.
+    pub(crate) fn with_ruined_variables(
+        &self,
+        assignment: &Assignment<V>,
+        selected: &[usize],
+    ) -> Self {
+        let mut ruined = vec![false; self.variables.len()];
+        for &index in selected {
+            ruined[index] = true;
+        }
+        Self {
+            variables: self
+                .variables
+                .iter()
+                .zip(assignment.values())
+                .enumerate()
+                .map(|(index, (variable, value))| Variable {
+                    domain: variable.domain.clone(),
+                    initial: if ruined[index] { None } else { value.clone() },
+                    pinned: !ruined[index],
+                    allows_unassigned: variable.allows_unassigned,
+                    range_diagnostic: variable.range_diagnostic.clone(),
+                })
+                .collect(),
+            pillar_schema: self.pillar_schema.clone(),
+        }
+    }
+
     pub fn initial_assignment(&self) -> Assignment<V> {
         Assignment::new(self.variables.iter().map(|v| v.initial.clone()).collect())
     }
