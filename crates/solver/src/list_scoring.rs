@@ -681,9 +681,9 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         }
         if let Some(best) = forager.pick() {
             if let Some(changes) = self.retained_changes.as_deref_mut() {
-                changes
-                    .get_mut()
-                    .record_batch(best.updates.iter().map(|(index, _)| *index));
+                let changes = changes.get_mut();
+                changes.record_batch(best.updates.iter().map(|(index, _)| *index));
+                best.assignment.record_retained(&mut changes.assignment);
             }
             best.assignment.install(&mut self.assignment);
             for (index, score) in best.updates {
@@ -801,11 +801,12 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         let work = updates.len() as u128;
         if let Some(changes) = changes {
             changes.record_batch(updates.iter().map(|(index, _)| *index));
+            changes.assignment.mark_all();
         }
         if let Some(changes) = self.retained_changes.as_deref_mut() {
-            changes
-                .get_mut()
-                .record_batch(updates.iter().map(|(index, _)| *index));
+            let changes = changes.get_mut();
+            changes.record_batch(updates.iter().map(|(index, _)| *index));
+            changes.assignment.mark_all();
         }
         // Validation, user callbacks and checked arithmetic finish before installation.
         self.assignment = next;
@@ -984,6 +985,7 @@ impl<V, S: Clone> ScoredListMove<'_, V, S> {
     pub fn commit(self) {
         if let Some(changes) = self.retained_changes {
             changes.record_batch(self.updates.iter().map(|(index, _)| *index));
+            self.transaction.record_retained(&mut changes.assignment);
         }
         for (index, score) in self.updates {
             self.contributions[index] = score;

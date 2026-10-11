@@ -863,6 +863,18 @@ impl<V> Deref for AppliedListMove<'_, V> {
     }
 }
 impl<V> AppliedListMove<'_, V> {
+    pub(crate) fn record_retained(
+        &self,
+        changes: &mut crate::retained_scoped_phase::AssignmentChanges,
+    ) {
+        changes.lists.record(
+            self.saved
+                .as_ref()
+                .expect("live list transaction")
+                .entities(),
+        );
+    }
+
     pub(crate) fn snapshot(&self) -> crate::candidate_snapshot::ListSnapshot<V>
     where
         V: Clone,

@@ -95,6 +95,15 @@ impl<V> Deref for AppliedMove<'_, V> {
 }
 
 impl<V> AppliedMove<'_, V> {
+    pub(crate) fn record_retained(
+        &self,
+        changes: &mut crate::retained_scoped_phase::AssignmentChanges,
+    ) {
+        changes
+            .basic
+            .record(self.journal.iter().map(|p| p.variable));
+    }
+
     pub(crate) fn snapshot(&self) -> crate::candidate_snapshot::BasicSnapshot<V>
     where
         V: Clone,

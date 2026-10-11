@@ -1,4 +1,6 @@
 //! Retained scoped director phase adapters.
+mod assignment;
+pub(crate) use assignment::{AssignmentChanges, RetainedAssignment};
 pub(crate) struct ScopedSnapshot<A, S> {
     pub(crate) assignment: A,
     pub(crate) contributions: Vec<S>,
@@ -10,6 +12,7 @@ pub(crate) struct ScopedChanges {
     marked: Vec<bool>,
     indices: Vec<usize>,
     all: bool,
+    pub(crate) assignment: AssignmentChanges,
 }
 impl ScopedChanges {
     pub(crate) fn new(size: usize) -> Self {
@@ -17,6 +20,7 @@ impl ScopedChanges {
             marked: vec![false; size],
             indices: Vec::with_capacity(size),
             all: false,
+            assignment: AssignmentChanges::default(),
         }
     }
     pub(crate) fn record_batch(&mut self, indices: impl ExactSizeIterator<Item = usize>) {
@@ -49,9 +53,10 @@ impl ScopedChanges {
             self.marked[index] = false;
         }
         self.all = false;
+        self.assignment.clear();
     }
 }
-impl<A: Clone, S: Clone> ScopedSnapshot<A, S> {
+impl<A: RetainedAssignment, S: Clone> ScopedSnapshot<A, S> {
     pub(crate) fn refresh(
         &mut self,
         assignment: &A,
@@ -61,13 +66,13 @@ impl<A: Clone, S: Clone> ScopedSnapshot<A, S> {
     ) {
         // Stage every user Clone before changing either the snapshot or journal.
         // A panic must preserve the prior coherent best for the caller's unwind.
-        let assignment = assignment.clone();
+        let assignment = assignment.stage(&changes.assignment);
         let score = score.clone();
         // Dense transitions retain Vec's efficient full-clone path instead of
         // allocating indexed pairs only to replace every contribution anyway.
         if changes.all || changes.indices.len() == contributions.len() {
             let contributions = contributions.to_vec();
-            self.assignment = assignment;
+            self.assignment.install(assignment);
             self.score = score;
             self.contributions = contributions;
             changes.clear();
@@ -78,7 +83,7 @@ impl<A: Clone, S: Clone> ScopedSnapshot<A, S> {
             .iter()
             .map(|&i| (i, contributions[i].clone()))
             .collect();
-        self.assignment = assignment;
+        self.assignment.install(assignment);
         self.score = score;
         for (i, value) in updates {
             self.contributions[i] = value;
@@ -128,9 +133,12 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
     /// Ordinary handoffs preserve the scoring payloads of the working solution.
     /// Sparse exact, local-search and custom-phase best snapshots clone the union
     /// of contributions changed since the previous best; assignment and total-score
-    /// snapshots remain independent. Only committed moves enter phase journals.
-    /// Tracking uses memory bounded by the number of registered constraints and
-    /// is removed on phase return or panic unwinding.
+    /// snapshots remain independent. Assignment refresh clones only the union of
+    /// committed slots/rows since the previous best, with full-copy fallbacks for
+    /// tiny/dense changes and replacement boundaries. All clones finish before
+    /// the prior best is updated. Only committed moves enter phase journals.
+    /// Tracking uses memory bounded by the number of registered constraints, basic
+    /// slots and list entities, and is removed on phase return or panic unwinding.
     /// Every exact phase fully refreshes its first candidate before caching deltas
     /// among that traversal's fixed value representatives. Equality may therefore
     /// describe planning identity without treating external payloads as score-equal.
@@ -161,7 +169,9 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
         }
     }
     pub(crate) fn retained_changes(&self) -> crate::retained_scoped_phase::ScopedChanges {
-        crate::retained_scoped_phase::ScopedChanges::new(self.contributions.len())
+        let mut changes = crate::retained_scoped_phase::ScopedChanges::new(self.contributions.len());
+        changes.assignment = crate::retained_scoped_phase::RetainedAssignment::changes(&self.assignment);
+        changes
     }
     pub(crate) fn refresh_retained(
         &self,
@@ -285,6 +295,18 @@ mod tests {
             self.1.set(remaining.saturating_sub(1));
             assert_ne!(remaining, 1, "snapshot clone failure");
             Self(self.0, self.1.clone())
+        }
+    }
+    impl RetainedAssignment for Bomb {
+        type Patch = Self;
+        fn changes(&self) -> AssignmentChanges {
+            AssignmentChanges::default()
+        }
+        fn stage(&self, _: &AssignmentChanges) -> Self {
+            self.clone()
+        }
+        fn install(&mut self, patch: Self) {
+            *self = patch;
         }
     }
     #[test]

@@ -29,6 +29,16 @@ impl<V: Clone> BasicSnapshot<V> {
     }
 }
 impl<V> BasicSnapshot<V> {
+    pub(crate) fn record_retained(
+        &self,
+        changes: &mut crate::retained_scoped_phase::AssignmentChanges,
+    ) {
+        match self {
+            Self::Full(_) => changes.basic.mark_all(),
+            Self::Sparse(slots) => changes.basic.record(slots.iter().map(|(index, _)| *index)),
+        }
+    }
+
     pub(crate) fn install(self, assignment: &mut Assignment<V>) {
         match self {
             Self::Full(saved) => *assignment = saved,
@@ -65,6 +75,16 @@ impl<V: Clone> ListSnapshot<V> {
     }
 }
 impl<V> ListSnapshot<V> {
+    pub(crate) fn record_retained(
+        &self,
+        changes: &mut crate::retained_scoped_phase::AssignmentChanges,
+    ) {
+        match self {
+            Self::Full(_) => changes.lists.mark_all(),
+            Self::Sparse(slots) => changes.lists.record(slots.iter().map(|(index, _)| *index)),
+        }
+    }
+
     pub(crate) fn install(self, assignment: &mut ListAssignment<V>) {
         match self {
             Self::Full(saved) => *assignment = saved,
@@ -80,4 +100,14 @@ impl<V> ListSnapshot<V> {
 pub(crate) struct MixedSnapshot<B, L> {
     pub(crate) basic: BasicSnapshot<B>,
     pub(crate) lists: ListSnapshot<L>,
+}
+
+impl<B, L> MixedSnapshot<B, L> {
+    pub(crate) fn record_retained(
+        &self,
+        changes: &mut crate::retained_scoped_phase::AssignmentChanges,
+    ) {
+        self.basic.record_retained(changes);
+        self.lists.record_retained(changes);
+    }
 }

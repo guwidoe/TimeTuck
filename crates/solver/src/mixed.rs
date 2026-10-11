@@ -196,6 +196,21 @@ impl<B, L> Deref for AppliedMixedMove<'_, B, L> {
     }
 }
 impl<B, L> AppliedMixedMove<'_, B, L> {
+    pub(crate) fn record_retained(
+        &self,
+        changes: &mut crate::retained_scoped_phase::AssignmentChanges,
+    ) {
+        changes
+            .basic
+            .record(self.basic_prior.iter().map(|p| p.variable));
+        changes.lists.record(
+            self.saved_lists
+                .as_ref()
+                .expect("live mixed transaction")
+                .entities(),
+        );
+    }
+
     pub(crate) fn snapshot(&self) -> crate::candidate_snapshot::MixedSnapshot<B, L>
     where
         B: Clone,
