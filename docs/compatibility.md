@@ -7312,3 +7312,46 @@ corruption in both scoring backends, final-phase detection, live/closed observer
 state, counts, mode gating and preservation of arbitrary phase failures. Originals
 earn no source-method credit. No new benchmark or throughput claim is made; earlier
 performance measurements retain their actual freshness status.
+
+
+## Problem changes through fresh assembled contexts — round53
+
+LiveSolverManager::submit_with_change_executor wraps real queued edits on the
+solver worker after the preceding solve returns. ProblemChangeOperation binds the
+actual mutable problem and completed result; apply consumes the queued edit once.
+Returning success after skipping an edit or ignoring its error fails the change.
+Executors run outside queue locks and can construct local scoring resources that
+need not be Send. Edits retain queue order and share the preceding completed
+result; current problem data includes earlier edits in that drained batch.
+Receipt acknowledgement still requires successful consumption of a restarted
+revision. Existing submit methods use their direct execution path.
+
+AssembledSolverFactory::apply_assembled_problem_change opens a separate resource
+from caller-supplied completed input, edits it without running phases, performs
+the configured diagnostic and a managed score call, copies the actual changed
+input and closes the context. FactoryProblemChange returns that input, score,
+callback value and logical calculation count. The observed variant exposes the
+actual context before mutable editing; saved views read None after shutdown.
+Callback, observer, checking and release failures preserve existing typed primary
+and suppressed errors. Panics release the resource through the existing manager.
+External callback effects are not rolled back; use transactional native edits.
+Applications reconcile changed model facts and warm input for the next revision.
+
+One complete DefaultSolverTest adaptation keeps the initialized4/4 fixture,
+construction, ten-step local search with FULL_ASSERT override, actual daemon idle,
+post-run queued fact addition, fully assigned completed input in a fresh change
+context, five-value consumed best and two distinct first-phase contexts. Direct
+runtime-view comparisons inspect actual scoring-resource slots. Views stay on
+the real worker in a test-only thread-local store; model data is independently
+owned and no fixtures are leaked. The managed resource owns a CalculatorSession;
+native phase engines perform construction/local search with independent temporary
+evaluation state. This does not claim Java director internals, object references,
+default traces or factory caching parity across changed native models.
+
+Nine original regressions cover dense/stream changes under three modes, immutable
+completed snapshots, scoped lifetime and counts, observer/edit/check failures,
+panic cleanup, skipped/failed/double edits, batch order and failed publication.
+The nonzero daemon control confirms that the fifth fact enters actual domains:
+restarted score30 becomes40 and all four selected values become4. Originals earn
+no method credit. No benchmark was rerun and no new throughput claim is made;
+candidate loops and core scoring-context implementation are unchanged.

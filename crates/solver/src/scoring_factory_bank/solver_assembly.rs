@@ -311,6 +311,12 @@ pub enum FactoryExecutionError<E> {
 }
 pub type FactoryExecutionFailure<E> =
     ContextFailure<FactoryExecutionError<E>, FactoryAssemblyError<E>>;
+pub struct FactoryProblemChange<I, S, T> {
+    pub working: I,
+    pub score: S,
+    pub value: T,
+    pub logical_calculations: u128,
+}
 pub struct FactoryAssemblySolution<I, S, W> {
     pub working: I,
     pub score: S,
@@ -406,6 +412,56 @@ where
             owner: self,
             manager,
             next_phase: 0,
+        })
+    }
+    /// Open a separate scoring resource for one problem change, loaded from the
+    /// caller's completed working state. No phases run. Apply transactional
+    /// native edits within the callback; external effects are not rolled back.
+    /// Return the owned changed input to seed the next solve.
+    pub fn apply_assembled_problem_change<T>(
+        &self,
+        input: I,
+        change: impl FnOnce(&mut D) -> Result<T, D::Error>,
+    ) -> Result<FactoryProblemChange<I, D::Score, T>, FactoryExecutionFailure<D::Error>> {
+        self.apply_observed_assembled_problem_change(input, |_| Ok(()), change)
+    }
+    /// Observe the actual fresh context before borrowing its resource for an
+    /// edit. Observation can read its working state and retain the view, which
+    /// closes on success, error or panic. No callbacks run under a mutable borrow.
+    pub fn apply_observed_assembled_problem_change<T>(
+        &self,
+        input: I,
+        observe: impl FnOnce(phase_views::FactoryRuntimeView<'a, M, P, I, D>) -> Result<(), D::Error>,
+        change: impl FnOnce(&mut D) -> Result<T, D::Error>,
+    ) -> Result<FactoryProblemChange<I, D::Score, T>, FactoryExecutionFailure<D::Error>> {
+        let mut scope = self.start_assembled_run(input)?;
+        if let Err(error) = observe(scope.assembled_runtime_view()) {
+            return Err(scope.context_failure(ScoringContextError::Scoring(
+                FactoryAssemblyError::Resource(error),
+            )));
+        }
+        let value = match scope.manager.change_director().edit(|resource| {
+            change(&mut resource.0.resource).map_err(FactoryAssemblyError::Resource)
+        }) {
+            Ok(value) => value,
+            Err(error) => return Err(scope.context_failure(error)),
+        };
+        // Changes are not phases. PHASE_ASSERT still checks the committed edit,
+        // while the manager checks step/full modes and counts a real score call.
+        if self.global == EnvironmentMode::PhaseAssert
+            && let Err(error) = scope.manager.change_director().edit(|r| r.check_context())
+        {
+            return Err(scope.context_failure(error));
+        }
+        if let Err(error) = scope.manager.calculate_score() {
+            return Err(scope.context_failure(error));
+        }
+        let (working, score, logical_calculations) = scope.finish_assembled_state()?;
+        Ok(FactoryProblemChange {
+            working,
+            score,
+            value,
+            logical_calculations,
         })
     }
     /// Execute the declared native phases through an application binding. The

@@ -54219,6 +54219,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve full uninitialized two-value/two-entity fixture, real easy-scoring recipe, construction plus ten-step local-search cap and actual PHASE_ASSERT managed execution. Deterministic consecutive scores modulo1000 replace Random.nextInt(1000) to avoid accidental equality. A genuine score-consistency failure retains its typed underlying error and contains all three source fragments: corruption, FULL_ASSERT and NO_ASSERT. Native phase-boundary checks run before completion hooks, including the final phase; originals additionally exercise post-work corruption, counts, mode gating and cleanup in both dense/stream resources. No Java random trace/API parity claimed."
+    },
+    {
+      "id": "DefaultSolverTest.problemChangeAfterTheSolveRunsOnAScoreDirectorOfItsOwn",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "problemChangeAfterTheSolveRunsOnAScoreDirectorOfItsOwn",
+      "local_path": "crates/solver/tests/live_assembled_change_cases.rs",
+      "local_test": "problem_change_after_the_solve_runs_on_a_score_director_of_its_own",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full initialized four-value/four-entity solution, zero easy objective, construction then local search capped at ten steps, stricter FULL_ASSERT last-phase context, actual daemon idle after the completed run, queued fact addition, restart at construction, assigned completed working solution during the change, five-value consumed best and two genuinely distinct first-phase contexts. Native LiveSolverManager worker/consumer pools and bounded channels replace Java executor/latches. The change executor opens an actual new factory resource loaded from the completed best; old views read None and remain closed, and direct same_runtime_view comparisons inspect real context slots rather than identity tokens. Native resource owns a CalculatorSession and complete working facts/assignments, with native phase engines for construction/local search; temporary phase evaluation state is independent of this owned managed context. Worker-local Rc views are retained on that same worker via a test-only thread-local store; no model leaks or transferable Java-style director references. Observation occurs before mutable editing, outside resource borrows. Native model/recipe assembly is explicit per revision; Java API, default traces, bean discovery and factory internal caching parity are not claimed. Original nonzero control proves the added fact enters real domains and changes score30 to40 and all selected values3 to4; originals earn no extra method credit."
     }
   ],
   "fixtures": [
@@ -75255,6 +75270,45 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve initialized3-value/2-entity modulo assignment through existing attributed assembled_factory_fixture Domain. Native integer values replace test bean labels. Rejected requests retain first-value-presence objective and zero score target before scoring/preparation; no extra method credit."
+    },
+    {
+      "id": "TestdataSolution.live_assembled_four_four",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int valueListSize, int entityListSize, boolean initialized)",
+      "local_path": "crates/solver/tests/fixtures/live_assembled_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete initialized4-value/4-entity modulo assignment, with independently owned fact and assignment vectors; integer IDs replace bean labels. Existing native FiniteProblem construction validates the actual domains; queued fifth value feeds the restarted domains. No Java discovery/reflection behavior."
+    },
+    {
+      "id": "PlannerTestUtils.live_assembled_phases",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig",
+      "local_path": "crates/solver/tests/fixtures/live_assembled_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve zero easy scoring, construction plus ten-step local-search ceiling; source last-phase FULL_ASSERT override is installed through actual EnvironmentProfile. Native explicit solution/entity schema replaces test beans. The owned managed calculator context dispatches real native construction/local search and retains complete snapshots and native work counts."
+    },
+    {
+      "id": "DummySimpleScoreEasyScoreCalculator.live_owned_context",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/live_assembled_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve exact ordinary zero objective through an owned native CalculatorSession and empty scoped native phase network. Required-variable structure remains native. Extra weighted calculator/network is an original nonzero integration control, not reference behavior."
     }
   ]
 }

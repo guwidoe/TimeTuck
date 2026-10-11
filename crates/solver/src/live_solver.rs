@@ -184,6 +184,50 @@ impl ProblemChangeReceipt {
     }
 }
 type Change<P, R> = Box<dyn FnOnce(&mut P, Option<&LiveSolution<R>>) -> Result<(), String> + Send>;
+/// One queued edit. An executor may wrap it in a scoring resource on the solver
+/// thread. The live loop verifies that the edit ran successfully exactly once;
+/// merely returning success from an executor cannot acknowledge a skipped edit.
+pub struct ProblemChangeOperation<'a, P, R> {
+    problem: &'a mut P,
+    previous: Option<&'a LiveSolution<R>>,
+    edit: Option<Change<P, R>>,
+    outcome: Option<Result<(), String>>,
+}
+impl<P, R> ProblemChangeOperation<'_, P, R> {
+    pub fn problem(&self) -> &P {
+        self.problem
+    }
+    pub fn problem_mut(&mut self) -> &mut P {
+        self.problem
+    }
+    pub fn previous(&self) -> Option<&LiveSolution<R>> {
+        self.previous
+    }
+    pub fn apply(&mut self) -> Result<(), String> {
+        let edit = self
+            .edit
+            .take()
+            .ok_or_else(|| "problem change was already applied".to_owned())?;
+        let outcome = edit(self.problem, self.previous);
+        self.outcome = Some(outcome.clone());
+        outcome
+    }
+}
+type ChangeExecutor<P, R> =
+    Box<dyn FnMut(&mut ProblemChangeOperation<'_, P, R>) -> Result<(), String> + Send>;
+struct LiveExecution<P, R> {
+    inspect: Option<InspectProblem<P>>,
+    changes: Option<ChangeExecutor<P, R>>,
+}
+impl<P, R> Default for LiveExecution<P, R> {
+    fn default() -> Self {
+        Self {
+            inspect: None,
+            changes: None,
+        }
+    }
+}
+
 struct QueuedChange<P, R> {
     revision: u64,
     apply: Change<P, R>,
@@ -588,7 +632,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             id,
             problem,
             config,
-            None,
+            LiveExecution::default(),
             move |p, old, token, _| solve(p, old, token).map(|r| (r, None)),
             LiveSolverCallbacks::plain(consumer),
         )
@@ -616,7 +660,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             id,
             problem,
             config,
-            None,
+            LiveExecution::default(),
             move |p, old, token, progress| solve(p, old, token, progress).map(|r| (r, None)),
             LiveSolverCallbacks::plain(consumer),
         )
@@ -639,7 +683,10 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             id,
             problem,
             config,
-            Some(Box::new(inspect)),
+            LiveExecution {
+                inspect: Some(Box::new(inspect)),
+                changes: None,
+            },
             move |p, old, token, _| solve(p, old, token).map(|r| (r.solution, Some(r.work))),
             LiveSolverCallbacks::plain(consumer),
         )
@@ -667,7 +714,10 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             id,
             problem,
             config,
-            Some(Box::new(inspect)),
+            LiveExecution {
+                inspect: Some(Box::new(inspect)),
+                changes: None,
+            },
             move |p, old, token, progress| {
                 solve(p, old, token, progress).map(|r| (r.solution, Some(r.work)))
             },
@@ -697,7 +747,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             id,
             problem,
             config,
-            None,
+            LiveExecution::default(),
             move |p, old, token, progress| solve(p, old, token, progress).map(|r| (r, None)),
             callbacks,
         )
@@ -724,10 +774,50 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             id,
             problem,
             config,
-            Some(Box::new(inspect)),
+            LiveExecution {
+                inspect: Some(Box::new(inspect)),
+                changes: None,
+            },
             move |p, old, token, progress| {
                 solve(p, old, token, progress).map(|r| (r.solution, Some(r.work)))
             },
+            callbacks,
+        )
+    }
+    /// Execute queued edits inside application-defined resource scopes. The
+    /// executor runs after the previous solve returns, outside queue locks, and
+    /// may open a fresh assembled scoring context loaded from that completed
+    /// solution. Resources created within it need not be Send. It must apply the
+    /// supplied operation once and propagate failures. Successful consumption
+    /// of the restarted revision remains the receipt acknowledgement boundary.
+    /// Existing progress/initialization, cancellation and daemon behavior remain.
+    pub fn submit_with_change_executor(
+        &self,
+        id: u64,
+        problem: P,
+        config: LiveSolverConfig,
+        mut solve: impl FnMut(
+            &P,
+            Option<&R>,
+            &CancellationToken,
+            &LiveSolverProgress<'_, R>,
+        ) -> Result<R, E>
+        + Send
+        + 'static,
+        executor: impl FnMut(&mut ProblemChangeOperation<'_, P, R>) -> Result<(), String>
+        + Send
+        + 'static,
+        callbacks: LiveSolverCallbacks<R>,
+    ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        self.submit_inner(
+            id,
+            problem,
+            config,
+            LiveExecution {
+                inspect: None,
+                changes: Some(Box::new(executor)),
+            },
+            move |p, old, token, progress| solve(p, old, token, progress).map(|r| (r, None)),
             callbacks,
         )
     }
@@ -736,7 +826,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
         id: u64,
         problem: P,
         config: LiveSolverConfig,
-        inspect: Option<InspectProblem<P>>,
+        execution: LiveExecution<P, R>,
         mut solve: impl FnMut(
             &P,
             Option<&R>,
@@ -747,6 +837,10 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
         + 'static,
         callbacks: LiveSolverCallbacks<R>,
     ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        let LiveExecution {
+            inspect,
+            mut changes,
+        } = execution;
         let initial_size = inspect.as_ref().map(|inspect| inspect(&problem));
         let state = Arc::new(State::new());
         {
@@ -833,7 +927,25 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                         dispose(batch);
                         break;
                     }
-                    if let Err(message) = (change.apply)(&mut problem, best.as_ref()) {
+                    let applied = match changes.as_mut() {
+                        Some(execute) => {
+                            let mut operation = ProblemChangeOperation {
+                                problem: &mut problem,
+                                previous: best.as_ref(),
+                                edit: Some(change.apply),
+                                outcome: None,
+                            };
+                            let executed = execute(&mut operation);
+                            dispose(operation.edit.take());
+                            executed.and_then(|()| {
+                                operation.outcome.take().unwrap_or_else(|| {
+                                    Err("problem change executor did not apply the edit".to_owned())
+                                })
+                            })
+                        }
+                        None => (change.apply)(&mut problem, best.as_ref()),
+                    };
+                    if let Err(message) = applied {
                         guard
                             .state
                             .fail(ProblemChangeFailure::ChangeFailed(message.clone()));

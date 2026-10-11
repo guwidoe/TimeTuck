@@ -1435,8 +1435,8 @@ pub use scoring_factory_bank::solver_assembly::phase_views::{
 };
 pub use scoring_factory_bank::solver_assembly::{
     AssembledFactoryRun, AssembledSolverFactory, FactoryAssemblyError, FactoryAssemblySolution,
-    FactoryExecutionError, FactoryExecutionFailure, FactoryWorkerError, FactoryWorkerRequest,
-    SolverAssemblyConfiguration, resolve_factory_workers,
+    FactoryExecutionError, FactoryExecutionFailure, FactoryProblemChange, FactoryWorkerError,
+    FactoryWorkerRequest, SolverAssemblyConfiguration, resolve_factory_workers,
 };
 pub use scoring_factory_bank::{
     FactoryDirectorBuilder, FactoryDirectorSettings, FactoryScoreDirector, FactoryScoreShape,
