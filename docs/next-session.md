@@ -23319,3 +23319,45 @@ compiles; later notify termination to use separate target-j2 or a released remot
 Main Rust/provenance stay frozen until gate+recorder success. Previous goal turn
 made progress: verified round6, integrated four substantive changes, started round7
 combined verification and next parallel implementation. Goal active/incomplete.
+
+Next scopes approved: dense_scoring replaces eager values-by-entities destination
+matrices with adaptive shared/sparse receivers for gather selection, including
+setup/query/first-proposal/memory measurements on runner-a. dependency_graph adds
+explicit dynamic keyed stream dependencies, atomically admitting/reclaiming keys
+at batch boundaries while preserving fixed-universe API semantics; test arrivals,
+removals, cycles, checkpoint/error/panic rollback on runner-c. Steady updates incremental,
+membership rebuild traverses the active topology. termination scope pending. Gate13214 remains LIVE; fmt/
+Clippy passed42.84s, now compiling618affected targets with200unchanged reused.
+Solver next scope approved: optional phase-scoped committed-contribution journal
+for retained local/custom best snapshots across basic/list/mixed. Mark only winner
+installation, ScoredMove::commit and whole-assignment replacement; dropped trials
+do not mark. Guard cleanup on success/error/panic, rebase on snapshot restore;
+ordinary solves leave tracking disabled. Local Cargo still held; agent implementing.
+
+Round7 gate13214 and recorder24280 both TERMINAL0:5874Rust+260doctests,
+618Rust RUN200REUSE,46PythonREUSE;3293/4855source methods(67.827%),1298pending,
+264excluded,0failed/unverified. Sourcee747a1cd98bf7c4a16dcfe3049727d90328be0872ecb13a7d5b3f2a8c4e429cd;
+verification90fbca8cb23552056fc90d1699ad75fcd41ae784ec492d11f22a337c878f3008.
+Recorded work/parallel-round7-evidence.json. Java measurements remain stale.
+
+Round8 first integrations:69c3ec2(agent5ad2930) compact gather receiver index;
+e4640c1(agent3fe1c9a) dynamic keyed dependency node and stream adapter. All committed
+files match final focused manifests copied under work/parallel-round8-evidence.
+No source credit. Combined round8 gate pending remaining coherent batch.
+Moves:14focused tests+Clippy;1440same-runner-a samples/80workloads, exactchecksums.
+4096sparse setup106.38ms->0.897ms(118.55x),firstcandidate42.18x,128drawgather1.632x;
+setup peak31,875,072->557,056bytes. Mixed pins1.615x;Eq-only32 1.003x;dense128 0.987x;
+tiny4sparse0.927x(~15.6us/128draws slower), variable paired rounds retained.
+Dependencies:9integration+1unit+1doctest+Clippy on runner-c;10 unchanged fixed-node
+regressions reused.1875reference transitions+inverse;1024stable rows insertion
+1supplier/removal0surviving suppliers. Persistent reverse sets avoid quadratic
+fanout copying:2048consumers insertion40,965/removal14,336keyclones. Membership
+changes still rebuild complete topology with ordered-map costs; no timing claim.
+
+Same three Astra/high agents continue. dense_scoring now borrows touched rows and
+caches gather source locations on local isolated target-j2, separate commit based
+on5ad2930. termination uses exclusive runner-a for sparse retained local/custom
+best snapshots, including ordinary-solve baseline measurements. dependency_graph
+continues next useful dependency/shadow gap on exclusive runner-c from3fe1c9a.
+All round8 initial implementation files reviewed; final focused evidence for
+remaining changes pending. Do not rerun unrelated checks or Java benchmarks.
