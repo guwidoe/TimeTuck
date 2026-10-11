@@ -866,3 +866,10 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   Native temporary calculator moves and cached declarative list projections retain
   list, owner/index/previous/next and fresh-score restoration assertions. Complete
   provenance and substitutions are recorded in `compat/provenance.json`.
+
+- `crates/solver/tests/termination_time_config_cases.rs` adapts all six methods
+  from Community `TerminationConfigTest` and four time-limit methods from
+  `TerminationFactoryTest` (Apache-2.0). Native immutable profiles and real runtime
+  limit binding replace Java setters, inheritance and factory class assertions.
+  Exact input/assertion mappings appear in `compat/provenance.json`; the separate
+  boundary and clocked-solve regressions are original work.

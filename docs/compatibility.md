@@ -6712,3 +6712,23 @@ A fourth complete `BruteForceTest` method preserves the optional basic-variable
 score, first-entity-unassigned tie choice and actual exact-phase step ceiling.
 Native variable order compensates for visiting optional None last; no identical
 Java/native traversal is claimed. Verification status is in the current handoff.
+
+### Lossless time-limit configuration
+
+TerminationProfile accepts direct Duration inputs or additive milliseconds,
+seconds, minutes, hours and days. It retains the configured representation for
+inspection and normalizes it once before binding, so solver evaluation loops keep
+using their existing Duration controls without conversion work. Replacing a group
+clears its old aliases. Fallbacks inherit an absent group as a whole; any explicit
+child group, including zero, suppresses every parent alias for that group.
+Elapsed and stagnation groups inherit independently. Empty units clear a group,
+overflow returns a typed error before binding, and existing service-style count
+conflicts remain validated. Nanosecond precision survives direct Duration inputs.
+
+Six complete TerminationConfigTest methods preserve alias presence/absence,
+inheritance, overrides and configured move-count reporting. Four complete
+TerminationFactoryTest methods preserve the direct/additive 93784005ms budgets
+and distinguish elapsed from stagnation runtime controls. Original regressions
+cover overflow, clearing, explicit zero, unchanged fallback inputs and real
+clocked solves matching manually bound limits. Java mutable setters, factory
+classes and reflection are replaced by native APIs; no JVM API parity is claimed.

@@ -50949,6 +50949,156 @@
       "local_path": "crates/solver/tests/brute_force_phase_cases.rs",
       "local_test": "solve_basic_variable_allowed_unassigned",
       "modifications": "Preserve generated one-value/two-optional-entity domain and cleared initial state; null penalty1 and every ordered equal non-null pair penalty1000; score-1, first entity unassigned and second assigned. Preserve correct exact phase and every StepStarted index<3 with nonvacuous native step count3. Reverse native variable traversal because None is visited last, preserving the source tie choice. Native unknown-bound exhaustive tree replaces Java factory/phase plumbing; no equal trace/count or JVM API claim."
+    },
+    {
+      "id": "TerminationConfigTest.overwriteSpentLimit",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/termination/TerminationConfigTest.java",
+      "upstream_test": "overwriteSpentLimit",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "overwrite_spent_limit",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve configured one-minute alias presence before overwriting with a two-hour Duration and alias absence afterward; also assert normalized duration. Native immutable TerminationProfile builders/fallback replace mutable Java setters/inherit. TimeLimitSpec preserves unit representation; no Java API parity claimed. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationConfigTest.overwriteUnimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/termination/TerminationConfigTest.java",
+      "upstream_test": "overwriteUnimprovedSpentLimit",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "overwrite_unimproved_spent_limit",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve configured one-minute stagnation alias presence before overwriting with a two-hour Duration and alias absence afterward; also assert normalized duration. Native immutable TerminationProfile builders/fallback replace mutable Java setters/inherit. TimeLimitSpec preserves unit representation; no Java API parity claimed. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationConfigTest.childWithoutTimeSpentLimitShouldInheritLimitFromParent",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/termination/TerminationConfigTest.java",
+      "upstream_test": "childWithoutTimeSpentLimitShouldInheritLimitFromParent",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "child_without_time_spent_limit_inherits_parent",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve empty-child fallback to parent seconds=1 and the exact seconds alias value. Native immutable TerminationProfile builders/fallback replace mutable Java setters/inherit. TimeLimitSpec preserves unit representation; no Java API parity claimed. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationConfigTest.childWithSecondsSpentLimitShouldNotInheritSecondsSpentFromParent",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/termination/TerminationConfigTest.java",
+      "upstream_test": "childWithSecondsSpentLimitShouldNotInheritSecondsSpentFromParent",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "child_seconds_override_parent_seconds",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve child seconds=2 over parent seconds=1 and exact child alias value. Native immutable TerminationProfile builders/fallback replace mutable Java setters/inherit. TimeLimitSpec preserves unit representation; no Java API parity claimed. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationConfigTest.childWithTimeSpentLimitShouldNotInheritTimeSpentLimitFromParent",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/termination/TerminationConfigTest.java",
+      "upstream_test": "childWithTimeSpentLimitShouldNotInheritTimeSpentLimitFromParent",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "child_time_group_overrides_parent_time_group",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve child seconds=2 over parent minutes=1, asserting seconds=2 and minutes absent. Native immutable TerminationProfile builders/fallback replace mutable Java setters/inherit. TimeLimitSpec preserves unit representation; no Java API parity claimed. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationConfigTest.checkMoveCountMetrics",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/termination/TerminationConfigTest.java",
+      "upstream_test": "checkMoveCountMetrics",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "check_move_count_metrics",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve empty-child inheritance of parent move count=2 and parent configured=true. Native immutable TerminationProfile builders/fallback replace mutable Java setters/inherit. TimeLimitSpec preserves unit representation; no Java API parity claimed. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationFactoryTest.spentLimit",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "spentLimit",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "spent_limit",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve Duration addition 5ms+4s+3min+2h+1day and runtime elapsed limit 93784005ms. Native profile binding to distinct real SolverLimits elapsed/stagnation controls replaces Java factory/type reflection and the unused mocked policy. Assert the opposite runtime control is absent. Original deterministic clocked solves separately verify the resolved controls stop execution; no JVM class identity claim. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationFactoryTest.spentLimitWithoutJavaTime",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "spentLimitWithoutJavaTime",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "spent_limit_without_java_time",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve separate additive unit fields 5ms,4s,3min,2h,1day and runtime elapsed limit 93784005ms. Native profile binding to distinct real SolverLimits elapsed/stagnation controls replaces Java factory/type reflection and the unused mocked policy. Assert the opposite runtime control is absent. Original deterministic clocked solves separately verify the resolved controls stop execution; no JVM class identity claim. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationFactoryTest.unimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "unimprovedSpentLimit",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "unimproved_spent_limit",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve Duration addition 5ms+4s+3min+2h+1day and runtime stagnation limit 93784005ms. Native profile binding to distinct real SolverLimits elapsed/stagnation controls replaces Java factory/type reflection and the unused mocked policy. Assert the opposite runtime control is absent. Original deterministic clocked solves separately verify the resolved controls stop execution; no JVM class identity claim. No upstream production implementation used."
+    },
+    {
+      "id": "TerminationFactoryTest.unimprovedSpentLimitWithoutJavaTime",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "unimprovedSpentLimitWithoutJavaTime",
+      "local_path": "crates/solver/tests/termination_time_config_cases.rs",
+      "local_test": "unimproved_spent_limit_without_java_time",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve separate additive unit fields 5ms,4s,3min,2h,1day and runtime stagnation limit 93784005ms. Native profile binding to distinct real SolverLimits elapsed/stagnation controls replaces Java factory/type reflection and the unused mocked policy. Assert the opposite runtime control is absent. Original deterministic clocked solves separately verify the resolved controls stop execution; no JVM class identity claim. No upstream production implementation used."
     }
   ],
   "fixtures": [

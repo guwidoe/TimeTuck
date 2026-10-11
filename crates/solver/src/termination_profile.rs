@@ -4,8 +4,11 @@ use crate::{
     SolverLimits, SolverPhase, SolverSequence, default_diminished_returns_config,
 };
 use std::{borrow::Cow, error::Error, fmt, time::Duration};
+mod time_spec;
+pub use time_spec::{TimeLimitSpec, TimeLimitUnits};
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum TerminationProfileError {
+    TimeOverflow,
     NegativeCount { field: &'static str, value: i64 },
     InvalidRatio,
     ZeroWindow,
@@ -15,6 +18,7 @@ pub enum TerminationProfileError {
 impl fmt::Display for TerminationProfileError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::TimeOverflow => f.write_str("time limit exceeds Duration capacity"),
             Self::NegativeCount { field, value } => {
                 write!(f, "{field} cannot be negative: {value}")
             }
@@ -43,6 +47,8 @@ impl Error for TerminationProfileError {}
 pub struct TerminationProfile {
     spent: Option<Duration>,
     unimproved: Option<Duration>,
+    spent_spec: Option<TimeLimitSpec>,
+    unimproved_spec: Option<TimeLimitSpec>,
     steps: Option<u64>,
     unimproved_steps: Option<u64>,
     moves: Option<u64>,
@@ -83,6 +89,8 @@ impl TerminationProfile {
         let result = Self {
             spent,
             unimproved,
+            spent_spec: spent.map(TimeLimitSpec::Duration),
+            unimproved_spec: unimproved.map(TimeLimitSpec::Duration),
             steps,
             unimproved_steps: None,
             moves,
@@ -120,6 +128,45 @@ impl TerminationProfile {
     }
     pub fn unimproved_spent_limit(&self) -> Option<Duration> {
         self.unimproved
+    }
+    /// Whether any explicit stopping or tuning setting is present. Zero counts
+    /// and durations remain configured; an empty unit group does not.
+    pub fn is_configured(&self) -> bool {
+        self.spent.is_some()
+            || self.unimproved.is_some()
+            || self.steps.is_some()
+            || self.unimproved_steps.is_some()
+            || self.moves.is_some()
+            || self.window.is_some()
+            || self.ratio.is_some()
+    }
+    pub fn spent_time_spec(&self) -> Option<TimeLimitSpec> {
+        self.spent_spec
+    }
+    pub fn unimproved_time_spec(&self) -> Option<TimeLimitSpec> {
+        self.unimproved_spec
+    }
+    /// Replace the whole elapsed-time group, including all previous unit aliases.
+    /// None or empty units clears it. Resolve and validate before publishing.
+    pub fn with_spent_time(
+        mut self,
+        spec: Option<TimeLimitSpec>,
+    ) -> Result<Self, TerminationProfileError> {
+        self.spent = spec.map(TimeLimitSpec::resolve).transpose()?.flatten();
+        self.spent_spec = self.spent.and(spec);
+        self.validate()?;
+        Ok(self)
+    }
+    /// Replace the whole stagnation-time group. Existing service-style count
+    /// conflicts are checked just as with the ordinary Duration constructor.
+    pub fn with_unimproved_time(
+        mut self,
+        spec: Option<TimeLimitSpec>,
+    ) -> Result<Self, TerminationProfileError> {
+        self.unimproved = spec.map(TimeLimitSpec::resolve).transpose()?.flatten();
+        self.unimproved_spec = self.unimproved.and(spec);
+        self.validate()?;
+        Ok(self)
     }
     pub fn step_count_limit(&self) -> Option<u64> {
         self.steps
@@ -166,6 +213,16 @@ impl TerminationProfile {
         let result = Self {
             spent: self.spent.or(b.spent),
             unimproved: self.unimproved.or(b.unimproved),
+            spent_spec: if self.spent.is_some() {
+                self.spent_spec
+            } else {
+                b.spent_spec
+            },
+            unimproved_spec: if self.unimproved.is_some() {
+                self.unimproved_spec
+            } else {
+                b.unimproved_spec
+            },
             steps: self.steps.or(b.steps),
             unimproved_steps: self.unimproved_steps.or(b.unimproved_steps),
             moves: self.moves.or(b.moves),

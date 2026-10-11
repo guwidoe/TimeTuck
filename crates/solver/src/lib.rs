@@ -1262,7 +1262,9 @@ pub use great_circle::{
 };
 
 mod termination_profile;
-pub use termination_profile::{TerminationProfile, TerminationProfileError};
+pub use termination_profile::{
+    TerminationProfile, TerminationProfileError, TimeLimitSpec, TimeLimitUnits,
+};
 
 mod termination_resolver;
 pub use termination_resolver::{ResolvedTermination, TerminationResolver};
