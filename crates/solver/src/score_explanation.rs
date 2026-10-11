@@ -2,6 +2,8 @@
 use crate::{AdditiveScore, GraphError, StreamConstraint, StreamGraph};
 use std::collections::{BTreeMap, BTreeSet};
 
+mod updates;
+
 /// Default justification retains fact order and repetitions independently of the
 /// deduplicated facts receiving blame. Scores are exact, including decimal scores.
 #[derive(Clone, Debug, PartialEq, Eq)]
