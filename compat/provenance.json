@@ -50289,6 +50289,276 @@
       "local_test": "sublist_swap_tabu_introspection_two_entities",
       "status": "implemented",
       "modifications": "Preserve full fixture universe1..7, lists [1,2,3,4]/[5]/[], swap source [0,3) and destination [0,1), exact ordered entities and values [1,2,3,5]. Preserve all seven inequality assertions and equality assertion, including malformed comparison-only moves. Source constructor start/end indices remain exclusive endpoints; they are not interpreted as length. Native immutable ListMove captures owned values from the exact pre-move assignment; every metadata assertion follows actual committed move execution, replacing Java mutable move-internal capture. Entity identities map to ordered native entity indices, value identities to distinct integers, with explicit list field/range binding. No Java reflection, listener/mock invocation or API parity claim. Extra final-list assertions are native regressions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedPillarChangeMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarChangeMoveTest.java",
+      "upstream_test": "rebase",
+      "local_test": "pillar_change_rebase",
+      "status": "implemented",
+      "modifications": "Preserve all four assertSameProperties invocations: groups[e1,e3] to null and v3, [e2] to v1, [e1] to v2. Native Pillar::change_move produces atomic member-write Composite; rebase_basic_move maps explicit owner slots and Rc values into separately allocated destination world. Helper verifies exact member multiplicity by Rc pointer identity and destination value pointer identity/null for every member. Full fixture includes all three values and four entities, including unused e4, with initial[v1,null,v1,v3]. Destination owner permutation strengthens lookup verification; additional execution/undo commutation is original and not extra source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedPillarSwapMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarSwapMoveTest.java",
+      "upstream_test": "rebase",
+      "local_test": "pillar_swap_rebase",
+      "status": "implemented",
+      "modifications": "Preserve both assertSameProperties invocations: left[e1,e3]/right[e2] and left[e4]/right[e1,e3], checking exact destination member sets by Rc identity. Native atomic pillar composite contains all left writes followed by all right writes; split at the original left-member count, then assert total length and both complete member sets. Full three-value/four-entity source and separate destination worlds retained. Additional destination execution and rollback pointer checks are original. No Java descriptor or class identity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedTwoOptListMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedTwoOptListMoveTest.java",
+      "upstream_test": "rebase",
+      "local_test": "two_opt_rebase",
+      "status": "implemented",
+      "modifications": "Preserve full metadata-only source fixture: one empty list owner and two separately registered values in each source/destination lookup world. Same-owner 2-opt endpoints0/1 map to native reversal span[0,1); rebase_list_move retains endpoints and maps owner to canonical destination ID17. All assertSameProperties assertions preserved: Rc pointer identity of resolved destination owner, first endpoint0 and second endpoint1. Do not populate or execute the source invalid-for-empty-list span; source method only rebases metadata. No Java supply-manager/mock callback parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListChangeMoveTest.getPlanningEntitiesForSameEntityMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "getPlanningEntitiesForSameEntityMove",
+      "local_test": "list_change_planning_entities_same_owner",
+      "status": "implemented",
+      "modifications": "Preserve Entity[A], move0->0, exact single owner assertion. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListChangeMoveTest.getPlanningEntitiesForDifferentEntitiesMove",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "getPlanningEntitiesForDifferentEntitiesMove",
+      "local_test": "list_change_planning_entities_different_owners",
+      "status": "implemented",
+      "modifications": "Preserve Entity1[A]/Entity2[B], move source0 to destination0, exact any-order owner set. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListChangeMoveTest.getSourceAndDestinationProperties",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "getSourceAndDestinationProperties",
+      "local_test": "list_change_source_and_destination_properties",
+      "status": "implemented",
+      "modifications": "Preserve Entity1[A]/Entity2[B], source index0/destination index1. All four source owner/index property assertions retained. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListChangeMoveTest.rebaseCreatesNewMoveWithRebasedEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "rebaseCreatesNewMoveWithRebasedEntities",
+      "local_test": "list_change_rebase_different_owners",
+      "status": "implemented",
+      "modifications": "Preserve separately allocated destination owners sharing original A/B values, source0/destination1, and all four rebased owner/index assertions. Native rebase_list_move returns new owned metadata; no execution asserted in source. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListChangeMoveTest.rebaseWithSameEntityForSourceAndDestination",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "rebaseWithSameEntityForSourceAndDestination",
+      "local_test": "list_change_rebase_same_owner",
+      "status": "implemented",
+      "modifications": "Preserve distinct original/destination Entity sharing A, same-owner0->0 move, and both source/destination owner assertions. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubListChangeMoveTest.rebaseCreatesNewMoveWithRebasedEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "rebaseCreatesNewMoveWithRebasedEntities",
+      "local_test": "sublist_change_rebase_owners",
+      "status": "implemented",
+      "modifications": "Preserve EntityA[A]/EntityB[B] and destination owners with newly allocated A/B values, source[0,1) to destination0 without reversal. Both rebased owner assertions retained. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubListSwapMoveTest.rebaseCreatesNewMoveWithRebasedEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "rebaseCreatesNewMoveWithRebasedEntities",
+      "local_test": "sublist_swap_rebase_owners",
+      "status": "implemented",
+      "modifications": "Preserve EntityA[A]/EntityB[B] and separately allocated destination owners/values, swapping both[0,1) without reversal. Both rebased range-owner assertions retained. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubListUnassignMoveTest.getPlanningEntitiesReturnsOwningEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListUnassignMoveTest.java",
+      "upstream_test": "getPlanningEntitiesReturnsOwningEntity",
+      "local_test": "sublist_unassign_planning_entities",
+      "status": "implemented",
+      "modifications": "Preserve optional-list Entity[A,B], unassign[0,1), exact singleton owner assertion. Native model explicitly allows unassigned values. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SubListUnassignMoveTest.rebaseCreatesNewMoveWithRebasedEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListUnassignMoveTest.java",
+      "upstream_test": "rebaseCreatesNewMoveWithRebasedEntity",
+      "local_test": "sublist_unassign_rebase_owner",
+      "status": "implemented",
+      "modifications": "Preserve optional-list Entity[A] and independently allocated destination owner/A, unassign[0,1), exact destination owner assertion. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.getPlanningEntitiesReturnsMembersOfBothPillars",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "getPlanningEntitiesReturnsMembersOfBothPillars",
+      "local_test": "pillar_swap_planning_entities",
+      "status": "implemented",
+      "modifications": "Preserve three basic entities with null values, left pillar[e1,e2],right[e3], exact any-order union of all three identities. Native Pillar::swap_move yields ordinary atomic Composite; touched_variables represents the selected basic field on each owner. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.rebaseReturnsMoveWhosePillarsHoldWorkingSolutionCopies",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "rebaseReturnsMoveWhosePillarsHoldWorkingSolutionCopies",
+      "local_test": "pillar_swap_rebase_planning_entities",
+      "status": "implemented",
+      "modifications": "Preserve two null-valued basic entities, separate destination objects, singleton pillars and exact destination owner union after rebase_basic_move. Native None assignments remain None without value lookup. Native owners are destination-scoped canonical slots resolved through fixture Rc registries; all object-equality assertions use Rc::ptr_eq, not equal labels. Source and destination registries may share numeric slots while holding distinct objects. Explicit native field binding replaces Java meta-model reflection. No Java API/class identity or different-type equality claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "DefaultProblemChangeDirectorTest.complexProblemChange_correctlyNotifiesScoreDirector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/change/DefaultProblemChangeDirectorTest.java",
+      "upstream_test": "complexProblemChange_correctlyNotifiesScoreDirector",
+      "local_test": "complex_problem_change_correctly_notifies_score_director",
+      "modifications": "Preserve all six typed edit targets and twelve exactly-once before/after callback assertions, ordered source mutations and generated/named membership fixture. Actual owned calculator cache replaces mock score director; successful batch auto-flush is additional native behavior not asserted by source. Native typed stable keys/field names replace Java reflection/identity; no source production consulted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "DefaultProblemChangeDirectorTest.verify_noResetSolutionIfNoEntitiesAddedOrRemoved",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/change/DefaultProblemChangeDirectorTest.java",
+      "upstream_test": "verify_noResetSolutionIfNoEntitiesAddedOrRemoved",
+      "local_test": "verify_no_reset_solution_if_no_entities_added_or_removed",
+      "modifications": "Preserve variable/property/fact-add/fact-remove order and explicit flush, zero membership resets and one shadow/derived-state flush. Exclude initial session reset. Named mocked-lookup objects outside membership are owned in separate object pools; no detached object mutation. Native typed stable keys/field names replace Java reflection/identity; no source production consulted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "DefaultProblemChangeDirectorTest.verify_ResetSolutionIfEntitiesAddedOrRemoved",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/change/DefaultProblemChangeDirectorTest.java",
+      "upstream_test": "verify_ResetSolutionIfEntitiesAddedOrRemoved",
+      "local_test": "verify_reset_solution_if_entities_added_or_removed",
+      "modifications": "Preserve separate add and remove batches each followed by explicit flush, fresh generated fixture before removal, cumulative reset counts one then two, and zero incremental flushes. Same session/calculator; exclude its initialization and explicit fresh-fixture reset from edit-triggered reset counts. Named removal object resolves from owned pool even when not a member, matching source lookup mock and no-op collection removal. Native typed stable keys/field names replace Java reflection/identity; no source production consulted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "DefaultProblemChangeDirectorTest.verify_ResetSolutionOnceIfEntitiesAddedOrRemovedThenVariablesChanged",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/change/DefaultProblemChangeDirectorTest.java",
+      "upstream_test": "verify_ResetSolutionOnceIfEntitiesAddedOrRemovedThenVariablesChanged",
+      "local_test": "verify_reset_solution_once_if_entities_added_or_removed_then_variables_changed",
+      "modifications": "Preserve add/remove then flush, variable/property/addfact/removefact then flush, named membership setup and final exactly one membership reset plus one incremental derived-state flush. Session initialization excluded. Actual cached score and derived state strengthen source callback-count assertions. Native typed stable keys/field names replace Java reflection/identity; no source production consulted."
     }
   ],
   "fixtures": [
@@ -68621,6 +68891,292 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
       "upstream_test": "valueList/entityList and list variable descriptor binding",
       "modifications": "Full value universes and entity registry order become explicit ListProblem registration. Native field binding replaces Java annotations/reflection; mocked score-director execution becomes actual atomic ListProblem::apply and commit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.group_move_rebase_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "constructors and value field",
+      "modifications": "Four entity identities with[v1,null,v1,v3] become native owner registry and basic assignment slots; destination registry is permuted with independent Rc objects. Explicit native field binding replaces reflection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.group_move_rebase_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "code identity constructors",
+      "modifications": "Retain all v1/v2/v3 values with separate source/destination Rc allocations; equality of labels never replaces pointer assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.group_move_rebase_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "entity/value registries and value descriptor binding",
+      "modifications": "Native explicit basic-slot/value registration represents source descriptor binding; no Java metadata/type inference claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.group_move_rebase_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "empty list owner constructor",
+      "modifications": "Keep source and destination owner lists empty in the metadata-only 2-opt rebase case; distinct owner Rc allocations and explicit native owner IDs replace reflected objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.group_move_rebase_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "code identity constructors",
+      "modifications": "Retain both unused lookup values1/2 in source and destination; no fabricated list population."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.group_move_rebase_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "list field descriptor binding",
+      "modifications": "Native ListMove owner/span metadata explicitly represents source list field descriptor; no annotation or supply-manager parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/group_move_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerTestUtils.group_move_rebase_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "mockRebasingScoreDirector",
+      "modifications": "Source helper performs reference-identity mapping and bypasses null. Native rebase callbacks map canonical owner IDs and locate source Rc values by ptr_eq, returning destination Rc allocations; native None bypasses value callback. Mock director plumbing is replaced by public Rust rebase APIs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "constructors and valueList",
+      "modifications": "Required-list entity Rc fixtures retain every A/B value and row; native ListProblem validates full fixture rows. Owner labels do not replace reference identity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "code constructors",
+      "modifications": "A/B labels become Rc<String>; preserve original value sharing for ListChange rebases and independent destination value allocations for SubListChange/Swap."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "list variable meta-model binding",
+      "modifications": "Typed native ListProblem/ListMove binding replaces reflective genuineEntity/listVariable lookup; no schema inference claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListEntity.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "constructors and optional valueList",
+      "modifications": "Preserve Entity[A,B] and Entity[A] rows with explicit ListProblem::allowing_unassigned flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListValue.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "code constructors",
+      "modifications": "Retain A/B identities and separate destination A in rebase. Source methods do not assert owner/index/previous/next shadows; none invented."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListSolution.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "optional list meta-model binding",
+      "modifications": "Explicit native optional-list model replaces Java metadata binding; no annotation/reflection claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataEntity.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "null-value constructors",
+      "modifications": "Retain e1/e2/e3 identities and native None basic assignments; separate destination Rc owners for rebase."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataValue.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "basic value field type",
+      "modifications": "Native optional Rc<String> basic slot type preserves absence of values in these fixture methods; no invented non-null domain values."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataSolution.builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "basic variable meta-model binding",
+      "modifications": "Pillar basic field corresponds to one native assignment slot per owner; descriptor lookup replaced by explicit Pillar construction."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/builtin_move_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveTest.singleVariableList_builtin_move_identity_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "singleVariableList",
+      "modifications": "Source helper wraps one basic variable descriptor in a singleton list; native Pillar::new creates one selected column per owner. No helper assertions are omitted; no type-erasure/reflection mechanism claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "calculator-problem-edits-TestdataLavishSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "modifications": "Preserve default (2 value groups,5 values,3 entity groups,7 entities), generated codes, cyclic group membership and initial assignment. Owned object pools separate identity lookup from membership; omit unused reflection/empty extras/score container. Deterministic in-range longProperty values replace irrelevant random initialization."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "calculator-problem-edits-TestdataLavishEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "constructors and entityGroup/value properties",
+      "modifications": "Preserve named stable codes, optional group/value and longProperty default1; generated long values deterministic in-range. Omit unused string/integer/big-number fields and annotations. Rust Item represents entity payload."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "calculator-problem-edits-TestdataLavishValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValue.java",
+      "upstream_test": "constructor and valueGroup property",
+      "modifications": "Preserve named/generated stable codes and group references using Rust Item and string keys; omit annotations/getter boilerplate."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "calculator-problem-edits-TestdataLavishEntityGroup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntityGroup.java",
+      "upstream_test": "constructor",
+      "modifications": "Group identity/code represented by stable string labels including named entityGroupOne and three generated groups."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/calculator_problem_edits_cases.rs",
+      "id": "calculator-problem-edits-TestdataLavishValueGroup",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
+      "upstream_test": "constructor",
+      "modifications": "Group identity/code represented by stable string labels including named valueGroupOne and two generated groups."
     }
   ]
 }
