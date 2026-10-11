@@ -49674,6 +49674,81 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapted the complete operation sequence and both assertions to a native source/filter/map/score graph. Stable fact ID A and immutable bool payload represent membership in the upstream mutable passing set. Node activity is inspected on the filtered port; downstream can_produce verifies the forwarded structural capability instead of Mockito invocation. Native transactions settle updates immediately; final activity assertions retain the upstream distinction between retained source facts and filter output. No Java lifecycle API or class parity claimed."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RootVariableSourceTest.isVariableIsTrueForVariableOnEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "isVariableIsTrueForVariableOnEntity",
+      "local_test": "is_variable_is_true_for_variable_on_entity",
+      "modifications": "Preserve the complete boolean assertion using existing SourcePathRegistry::is_variable and explicit native PlanningSchema metadata: Entity.value is a planning variable; Entity.code is an unregistered fact property; Fact is not a planning entity. No accessor selection, inheritance/reflection or Java API parity claimed."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RootVariableSourceTest.isVariableIsFalseForFactOnEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "isVariableIsFalseForFactOnEntity",
+      "local_test": "is_variable_is_false_for_fact_on_entity",
+      "modifications": "Preserve the complete boolean assertion using existing SourcePathRegistry::is_variable and explicit native PlanningSchema metadata: Entity.value is a planning variable; Entity.code is an unregistered fact property; Fact is not a planning entity. No accessor selection, inheritance/reflection or Java API parity claimed."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RootVariableSourceTest.isVariableIsFalseForFactClass",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/RootVariableSourceTest.java",
+      "upstream_test": "isVariableIsFalseForFactClass",
+      "local_test": "is_variable_is_false_for_fact_class",
+      "modifications": "Preserve the complete boolean assertion using existing SourcePathRegistry::is_variable and explicit native PlanningSchema metadata: Entity.value is a planning variable; Entity.code is an unregistered fact property; Fact is not a planning entity. No accessor selection, inheritance/reflection or Java API parity claimed."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BasicVariableTrackerTest.testDoesNotIncludeMissingEventsForOtherVariables",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/BasicVariableTrackerTest.java",
+      "upstream_test": "testDoesNotIncludeMissingEventsForOtherVariables",
+      "local_test": "basic_tracker_does_not_include_missing_events_for_other_variables",
+      "modifications": "Preserve both before/after notifications for entity a and the complete empty-audit assertion for [(tracked field,a),(other descriptor,b)]. Native canonical schema/field handles replace Java descriptors and stable a/b entity keys replace fixture objects. Separate schemas and entity types retain other-descriptor identity despite equal variable names. Unobserved entity group/list-shadow state is omitted; no Java lifecycle/API parity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListVariableTrackerTest.testDoesNotIncludeMissingEventsForOtherVariables",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/violation/ListVariableTrackerTest.java",
+      "upstream_test": "testDoesNotIncludeMissingEventsForOtherVariables",
+      "local_test": "list_tracker_does_not_include_missing_events_for_other_variables",
+      "modifications": "Preserve both before/after notifications for entity a and the complete empty-audit assertion for [(tracked field,a),(other descriptor,b)]. Native canonical schema/field handles replace Java descriptors and stable a/b entity keys replace fixture objects. Separate schemas and entity types retain other-descriptor identity despite equal variable names. List [0,1) event boundaries become event-presence notifications; the source method asserts only absence of missing events, not range processing. Unobserved entity group/list-shadow state is omitted; no Java lifecycle/API parity claim."
     }
   ],
   "fixtures": [
@@ -67109,6 +67184,84 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
       "upstream_test": "calculateScore",
       "modifications": "For the two-entity fixture, skip missing values and penalize both ordered unequal-entity pairs when their assigned values match: -2 for equal present values, zero otherwise. Native scoped scoring replaces Java easy-score fixture; no production source used."
+    },
+    {
+      "id": "TestdataSolution.source_variable_identity_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "buildSolutionDescriptor, buildMetaModel",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Reduce fixture to Solution schema type and explicit Entity registration; score/range/solution payloads are not used by these source assertions."
+    },
+    {
+      "id": "TestdataEntity.source_variable_identity_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "buildVariableDescriptorForValue, getValue",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Reduce to native Entity type and basic value field metadata; source entities a/b are stable string keys. Unobserved object values/getters are omitted."
+    },
+    {
+      "id": "TestdataObject.source_variable_identity_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "code, getCode",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Reduce fact-only class to Fact type marker and property name code; inherited Entity.code remains outside planning-variable metadata. No reflection/inheritance implementation copied."
+    },
+    {
+      "id": "TestdataLavishEntity.source_variable_identity_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "buildVariableDescriptorForValue",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain separate LavishEntity native type and same-named basic value field in its own schema. Unobserved entityGroup and other properties are omitted."
+    },
+    {
+      "id": "TestdataListEntity.source_variable_identity_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "buildVariableDescriptorForValueList",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain ListEntity type and list valueList field in native schema; tracking entity a uses stable key as in existing native event tracker."
+    },
+    {
+      "id": "TestdataListEntityWithShadowHistory.source_variable_identity_metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListEntityWithShadowHistory.java",
+      "upstream_test": "buildVariableDescriptorForValueList",
+      "local_path": "crates/solver/tests/source_variable_identity_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain different HistoryListEntity type and list valueList field in separate schema; unobserved shadow history and lists omitted."
     }
   ]
 }
