@@ -16,7 +16,89 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round44
+## Latest verified checkpoint — round45
+
+Main e071692 adds automatic list-change replay and stable ordered reachability
+views. The full goal remains active/incomplete. No new agents or assignments.
+
+ReplayedListValueChangeSource composes value/entity/anchor sources and a draw
+factory without caller-side replay cells. Each movable occurrence refreshes value
+eligibility, including duplicates; children remain live and are not rewound.
+Pinned source values are skipped before destination pulls. Empty/rejected receiver
+branches advance to the next value. Shared native checking preserves PRE metadata,
+POST movement, pins/ranges/dependencies and requested valid no-ops/unassignment.
+One accepted candidate per value occurrence; Original is destination preference,
+not exhaustive Cartesian enumeration. Native random openings replay seed plus
+step-start count, reset at solve start. Value/destination/child limits bound work;
+caught callback panic or rejected-work exhaustion fuses that opening. Reopen after
+layout changes. First pull opens children lazily in values/entities/anchors/policy
+order. The shared move selection and destination cursor each retain indexes, not
+candidate products; no measured speedup or Java RNG trace equivalence claim.
+
+ReachabilityViews caches comparator-keyed Arc identity over a shared immutable
+index. Different policy keys create independent views; repeated keys keep the
+original comparator/handle. Clear releases bank ownership, not existing handles.
+Comparators require Send/Sync and stable order. Any payload checks compare exact
+native value type, independent of membership; static distinct entity/value types
+are needed for role discrimination. No Java inheritance/reflection claim.
+
+Six complete adaptations: ReachableValuesTest.testReachableValuesByEntity and
+multipleSorters plus both empty-child cases in each OriginalListChangeIteratorTest
+and OriginalListSwapIteratorTest. Preserve every membership, type result, view
+identity and exhaustion assertion. Multiple-sorter source's last call actually
+supplies ascending sorter despite its null comment; adaptation follows the call.
+Ten used fixture records are attributed. Thirteen original regressions add no
+source credit: native seeded replay, pins/ranges, independent anchor-owner filters,
+missing/assigned no-op metadata, bounded cycles, lazy lifecycle order, panic fusion,
+old view retention and real dense/stream list/mixed search. Four exact Java seed-0
+range-dependent ListChangeMoveSelectorTest traces remain pending; expected prefixes
+were not scripted to obtain compatibility credit.
+
+Focused 6 source + 12 initial original cases passed; the last anchor-owner filter
+regression passed in the final gate. Initial compile failed on a test using private
+accepts; replaced with an independent public receiver-range membership assertion.
+Diff review caught the new cases occupying existing selection_replay_cases.rs;
+restored that original byte-for-byte and moved new cases to list_change_replay_cases.rs.
+The public blanket draw factory's generic event hook selected hundreds of unrelated
+targets. Renamed only that new hook to change_draw_event; old parent production
+content is unchanged except module registration. Stopped the earlier prebuild
+before runtime, along with its collector; do not accept its snapshot as verification.
+Evidence: work/round45-stopped-prebuild.json, round45-module-isolation.json and
+remote-round45-integration-final*. Final actual keys select only three targets;
+no keys/checksums/timestamps were retagged.
+
+Final runner-a bash scripts/check.sh, collector and dashboard freshness passed:
+
+- 6,725 Rust tests and 288 doctests; strict fmt/Clippy passed.
+- 3,528/4,855 source methods passing (72.667%); 761 pending, 566 excluded,
+  zero failed/unverified. Pending 767→761; exclusions unchanged.
+- 3 Rust RUN (lib, list_change_replay_cases, replayed_list_change_regression),
+  969 Rust REUSE and 46 Python REUSE; complete worker 258.077s.
+- Rust source 10b72be460d25977648f8a66955eeb61c4d0057a2ef7d42838c89221ee34b398.
+- Report/verification 8e3443d233f46c03c5eca61ade8408b930dc57d2fd2232321c060b8ea5fd3663.
+- Final remote root 96554c56d0d24f4fd4f30d54765a4fb813ae09c5f0e8701e49ca2d8bffec213a.
+- work/round45-runner-a-results.tar.gz, SHA256
+  9c5cf0f9e85a1b6cc42b8bd30a7933d8fad931f8996ae6db5731fe766489acbe.
+- Evidence/freeze: work/parallel-round45-evidence.json and parallel-round45-freeze.json;
+  successful remote-round45-integration-selective*. All workers/collectors finished.
+
+Dashboard port8765 responds; backend report/freshness only, no UI work. Performance
+measurements remain honestly stale. No pin change; upstream untouched. runner-c had been
+unavailable; no runner-c job/repeated probe/approval request this turn. Use the actual
+round45 archive/root as next cache seed. The round45 runner still seeds round44:
+replace filename/root, retain stable Cargo home/vendor and jobs 6. Reuse this final
+check until relevant inputs change; commits/turns alone do not require another run.
+
+Next close MultipleDelegateListTest's seven pending native sequence cases:
+testGetIndexOfValue, testToArrayUsingSupplied, testGet, testSet, testListIterator,
+testListIteratorStartingAtIndex and testUnsupportedOperations. Only pending method
+names were inspected this turn; bodies were not read and no implementation began.
+Inspect those tests and crates/solver/src/segmented_slice.rs for missing operations
+on actual segmented list views used by list/K-opt selection. Preserve all source
+assertions and distinguish Java array/iterator API from idiomatic native behavior.
+Do not repeat completed replay/type/comparator audits or add subagents.
+
+## Prior verified checkpoint — round44
 
 Main d929997 adds stateful native list destination selection. The full goal remains
 active and incomplete. No new agents or assignments; upstream and pin unchanged.
@@ -83,18 +165,8 @@ round43/root0e3a36...: replace both filename/root next time; retain stable Cargo
 home/vendor and 6 jobs. Do not retag stale evidence. Reuse this final check until
 relevant inputs change; a new turn or commit alone is not a reason to rerun it.
 
-Next close the four pending ListChangeMoveSelectorTest methods:
-randomWithEntityValueRange, randomWithEntityValueRangeAndFiltering,
-randomWithPinningAndEntityValueRange and
-randomAllowsUnassignedValuesWithEntityValueRange. Their test bodies at lines
-397–457, 511–549 and 593–629 were read once this turn; no implementation started.
-They assert concrete seeded selector output prefixes, including ephemeral/no-op
-positions; the filtering case excludes B-owned anchors, not all B entity starts.
-Compose the new replay-aware destination source with existing list-value metadata
-selection; preserve every asserted prefix/never-ending behavior and distinguish
-native semantic choices from Java RNG trace claims. Do not count partial seeded
-sampling or drop ephemeral outputs for source credit. Source tests only, no new
-agents. Avoid repeating completed destination/scoring-context audits.
+The four exact Java RNG trace cases remain pending; round45 above records the
+automatic native replay implementation and verified related cases.
 
 ## Prior verified checkpoint — round43
 
