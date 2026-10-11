@@ -1,23 +1,74 @@
 //! Incremental derived values over explicit mutable dependencies.
 use crate::{DependencyError, DependencyTopology, DerivedValue, NodeOrderQueue, SnapshotMap};
-use std::{collections::BTreeSet, sync::Arc};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::Arc,
+};
 
 struct Plan<K> {
     topology: DependencyTopology<K>,
-    consumers: Vec<Vec<usize>>,
+    consumers: SnapshotMap<usize, BTreeSet<usize>>,
     order: Arc<[usize]>,
 }
 impl<K: Ord + Clone> Plan<K> {
     fn new(topology: DependencyTopology<K>) -> Self {
-        let mut consumers = vec![vec![]; topology.keys().len()];
+        let mut indexed: BTreeMap<usize, BTreeSet<usize>> = BTreeMap::new();
         for index in 0..topology.keys().len() {
             for &dependency in topology.dependency_indices(index) {
-                consumers[dependency].push(index);
+                indexed.entry(dependency).or_default().insert(index);
             }
+        }
+        let mut consumers = SnapshotMap::new();
+        for (dependency, targets) in indexed {
+            consumers.insert(dependency, targets);
         }
         let order = (0..topology.keys().len())
             .map(|i| topology.rank_at(i))
             .collect();
+        Self {
+            topology,
+            consumers,
+            order,
+        }
+    }
+    fn updated(
+        &self,
+        topology: DependencyTopology<K>,
+        changed_nodes: &[usize],
+        reordered: bool,
+    ) -> Self {
+        let mut touched = BTreeMap::new();
+        for &index in changed_nodes {
+            let old = self.topology.dependency_indices(index);
+            let new = topology.dependency_indices(index);
+            for &dependency in old.difference(new) {
+                touched
+                    .entry(dependency)
+                    .or_insert_with(|| self.consumers.get(&dependency).cloned().unwrap_or_default())
+                    .remove(&index);
+            }
+            for &dependency in new.difference(old) {
+                touched
+                    .entry(dependency)
+                    .or_insert_with(|| self.consumers.get(&dependency).cloned().unwrap_or_default())
+                    .insert(index);
+            }
+        }
+        let mut consumers = self.consumers.clone();
+        for (dependency, targets) in touched {
+            if targets.is_empty() {
+                consumers.remove(&dependency);
+            } else {
+                consumers.insert(dependency, targets);
+            }
+        }
+        let order = if reordered {
+            (0..topology.keys().len())
+                .map(|i| topology.rank_at(i))
+                .collect()
+        } else {
+            self.order.clone()
+        };
         Self {
             topology,
             consumers,
@@ -76,8 +127,9 @@ impl<K: Ord + Clone> Plan<K> {
 /// Metadata errors invoke no suppliers and leave the cache unchanged. Ordinary
 /// callback unwinding also preserves the cache; external callback side effects
 /// cannot be undone. Clone shares immutable topology and persistent value roots,
-/// supporting trial snapshots even for non-Clone values. Changed edges rebuild
-/// topology/reverse indexes; value-only updates do not scan all nodes.
+/// supporting trial snapshots even for non-Clone values. Sparse edge edits update
+/// only affected reverse links; edits that preserve component ranks also reuse
+/// the evaluation order. Value-only updates do not scan all nodes.
 /// Scheduling and reverse links use stable internal indices. Suppliers receive
 /// the declared topology keys; changed-key results remain sorted by key.
 ///
@@ -147,20 +199,17 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
         let mut plan = self.plan.clone();
         if !removals.is_empty() || !additions.is_empty() {
             let mut topology = self.plan.topology.clone();
-            let toggled = topology.update(removals, additions)?;
-            if topology != self.plan.topology {
-                for key in toggled {
+            let update = topology.update_indexed(removals, additions)?;
+            if !update.changed_nodes.is_empty() {
+                for key in update.cycle_toggled {
                     roots.insert(topology.lookup(&key)?);
                 }
-                for (key, _) in removals.iter().chain(additions) {
-                    let index = topology.lookup(key)?;
-                    if self.plan.topology.dependency_indices(index)
-                        != topology.dependency_indices(index)
-                    {
-                        roots.insert(index);
-                    }
-                }
-                plan = Arc::new(Plan::new(topology));
+                roots.extend(update.changed_nodes.iter().copied());
+                plan = Arc::new(self.plan.updated(
+                    topology,
+                    &update.changed_nodes,
+                    update.reordered,
+                ));
             }
         }
         let mut ready = NodeOrderQueue::new(plan.order.clone());
@@ -175,8 +224,10 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
             if values[key] != value {
                 values.insert(key.clone(), value);
                 changed.insert(index);
-                for &consumer in &plan.consumers[index] {
-                    ready.offer(consumer).expect("validated consumer node");
+                if let Some(consumers) = plan.consumers.get(&index) {
+                    for &consumer in consumers {
+                        ready.offer(consumer).expect("validated consumer node");
+                    }
                 }
             }
         }

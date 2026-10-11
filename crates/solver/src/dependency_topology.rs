@@ -1,6 +1,17 @@
 //! Persistent dependency edges with atomic topology updates.
-use crate::{DependencyError, dependency_graph::strong_components};
-use std::collections::{BTreeMap, BTreeSet};
+use crate::{DependencyError, SnapshotMap, dependency_graph::strong_components};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::Arc,
+};
+
+static EMPTY_DEPENDENCIES: BTreeSet<usize> = BTreeSet::new();
+
+pub(crate) struct TopologyUpdate<K> {
+    pub(crate) cycle_toggled: Vec<K>,
+    pub(crate) changed_nodes: Vec<usize>,
+    pub(crate) reordered: bool,
+}
 
 /// A mutable topology on a fixed set of keys. Edges point from a node to a
 /// dependency, as in [`crate::DependencyGraph`]. Components identify mutual
@@ -13,8 +24,11 @@ use std::collections::{BTreeMap, BTreeSet};
 /// This excludes downstream nodes that merely depend on cycles. Snapshots can be
 /// cloned for trial/undo. Nodes cannot be inserted or removed after construction.
 ///
-/// Edges persist between updates; components and ranks are rebuilt on each actual
-/// change. This is not an incremental value cache and invokes no suppliers.
+/// Snapshots share immutable keys, edges and component metadata. Edits copy only
+/// touched adjacency sets and persistent tree paths. Removing edges between
+/// components or adding edges that respect the existing ranks preserves that
+/// order without rescanning the graph. Other edits rebuild components and ranks.
+/// This is not an incremental value cache and invokes no suppliers.
 ///
 /// ```
 /// use timetuck::*;
@@ -29,13 +43,13 @@ use std::collections::{BTreeMap, BTreeSet};
 /// ```
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct DependencyTopology<K> {
-    keys: Vec<K>,
-    index: BTreeMap<K, usize>,
-    edges: Vec<BTreeSet<usize>>,
-    components: Vec<Vec<K>>,
-    component_of: Vec<usize>,
-    ranks: Vec<usize>,
-    cyclic: Vec<bool>,
+    keys: Arc<[K]>,
+    index: Arc<BTreeMap<K, usize>>,
+    edges: SnapshotMap<usize, BTreeSet<usize>>,
+    components: Arc<[Vec<K>]>,
+    component_of: Arc<[usize]>,
+    ranks: Arc<[usize]>,
+    cyclic: Arc<[bool]>,
 }
 impl<K: Ord + Clone> DependencyTopology<K> {
     pub fn new(keys: impl IntoIterator<Item = K>) -> Result<Self, DependencyError<K>> {
@@ -48,18 +62,19 @@ impl<K: Ord + Clone> DependencyTopology<K> {
         let keys: Vec<_> = sorted.into_iter().collect();
         let n = keys.len();
         Ok(Self {
-            index: keys
-                .iter()
-                .cloned()
-                .enumerate()
-                .map(|(i, k)| (k, i))
-                .collect(),
+            index: Arc::new(
+                keys.iter()
+                    .cloned()
+                    .enumerate()
+                    .map(|(i, k)| (k, i))
+                    .collect(),
+            ),
             components: keys.iter().cloned().map(|k| vec![k]).collect(),
-            keys,
-            edges: vec![BTreeSet::new(); n],
+            keys: keys.into(),
+            edges: SnapshotMap::new(),
             component_of: (0..n).collect(),
             ranks: (0..n).collect(),
-            cyclic: vec![false; n],
+            cyclic: vec![false; n].into(),
         })
     }
     pub fn keys(&self) -> &[K] {
@@ -73,7 +88,7 @@ impl<K: Ord + Clone> DependencyTopology<K> {
     }
     // Stable dense IDs follow sorted keys; the fixed universe never reindexes.
     pub(crate) fn dependency_indices(&self, index: usize) -> &BTreeSet<usize> {
-        &self.edges[index]
+        self.edges.get(&index).unwrap_or(&EMPTY_DEPENDENCIES)
     }
     pub(crate) fn rank_at(&self, index: usize) -> usize {
         self.ranks[self.component_of[index]]
@@ -91,7 +106,8 @@ impl<K: Ord + Clone> DependencyTopology<K> {
         Ok(self.cyclic[self.lookup(key)?])
     }
     pub fn dependencies(&self, key: &K) -> Result<Vec<&K>, DependencyError<K>> {
-        Ok(self.edges[self.lookup(key)?]
+        Ok(self
+            .dependency_indices(self.lookup(key)?)
             .iter()
             .map(|&i| &self.keys[i])
             .collect())
@@ -101,6 +117,13 @@ impl<K: Ord + Clone> DependencyTopology<K> {
         removals: &[(K, K)],
         additions: &[(K, K)],
     ) -> Result<Vec<K>, DependencyError<K>> {
+        Ok(self.update_indexed(removals, additions)?.cycle_toggled)
+    }
+    pub(crate) fn update_indexed(
+        &mut self,
+        removals: &[(K, K)],
+        additions: &[(K, K)],
+    ) -> Result<TopologyUpdate<K>, DependencyError<K>> {
         let validate = |edges: &[(K, K)]| -> Result<Vec<(usize, usize)>, DependencyError<K>> {
             edges
                 .iter()
@@ -118,19 +141,59 @@ impl<K: Ord + Clone> DependencyTopology<K> {
         };
         let removals = validate(removals)?;
         let additions = validate(additions)?;
-        let mut edges = self.edges.clone();
+        // Build final adjacency only for mentioned nodes. A removal followed by
+        // readdition is a no-op; it must not trigger scheduling or SCC analysis.
+        let mut touched = BTreeMap::new();
         for (i, j) in removals {
-            edges[i].remove(&j);
+            touched
+                .entry(i)
+                .or_insert_with(|| self.dependency_indices(i).clone())
+                .remove(&j);
         }
         for (i, j) in additions {
-            edges[i].insert(j);
+            touched
+                .entry(i)
+                .or_insert_with(|| self.dependency_indices(i).clone())
+                .insert(j);
         }
-        if edges == self.edges {
-            return Ok(vec![]);
+        touched.retain(|&i, targets| targets != self.dependency_indices(i));
+        let mut result = TopologyUpdate {
+            cycle_toggled: vec![],
+            changed_nodes: touched.keys().copied().collect(),
+            reordered: false,
+        };
+        if touched.is_empty() {
+            return Ok(result);
         }
-        let adjacency: Vec<Vec<usize>> = edges
-            .iter()
-            .map(|targets| targets.iter().copied().collect())
+        let preserves_components = touched.iter().all(|(&i, targets)| {
+            let old = self.dependency_indices(i);
+            old.difference(targets)
+                .all(|&j| self.component_of[i] != self.component_of[j])
+                && targets
+                    .difference(old)
+                    .all(|&j| self.rank_at(j) < self.rank_at(i))
+        });
+        let mut edges = self.edges.clone();
+        for (i, targets) in touched {
+            if targets.is_empty() {
+                edges.remove(&i);
+            } else {
+                edges.insert(i, targets);
+            }
+        }
+        if preserves_components {
+            self.edges = edges;
+            return Ok(result);
+        }
+        let adjacency: Vec<Vec<usize>> = (0..self.keys.len())
+            .map(|i| {
+                edges
+                    .get(&i)
+                    .unwrap_or(&EMPTY_DEPENDENCIES)
+                    .iter()
+                    .copied()
+                    .collect()
+            })
             .collect();
         let mut components = strong_components(&adjacency);
         for component in &mut components {
@@ -140,14 +203,14 @@ impl<K: Ord + Clone> DependencyTopology<K> {
         let mut component_of = vec![0; self.keys.len()];
         let mut cyclic = vec![false; self.keys.len()];
         for (c, members) in components.iter().enumerate() {
-            let cycle = members.len() > 1 || edges[members[0]].contains(&members[0]);
+            let cycle = members.len() > 1 || adjacency[members[0]].contains(&members[0]);
             for &i in members {
                 component_of[i] = c;
                 cyclic[i] = cycle;
             }
         }
         let mut dependencies = vec![BTreeSet::new(); components.len()];
-        for (i, targets) in edges.iter().enumerate() {
+        for (i, targets) in adjacency.iter().enumerate() {
             for &j in targets {
                 if component_of[i] != component_of[j] {
                     dependencies[component_of[i]].insert(component_of[j]);
@@ -185,14 +248,18 @@ impl<K: Ord + Clone> DependencyTopology<K> {
             .enumerate()
             .filter_map(|(i, k)| (self.cyclic[i] != cyclic[i]).then_some(k.clone()))
             .collect();
-        self.components = components
+        let components = components
             .into_iter()
             .map(|members| members.into_iter().map(|i| self.keys[i].clone()).collect())
             .collect();
+        // Finish user key clones before installing any part of the new state.
+        self.components = components;
         self.edges = edges;
-        self.component_of = component_of;
-        self.cyclic = cyclic;
-        self.ranks = ranks;
-        Ok(changed)
+        self.component_of = component_of.into();
+        self.cyclic = cyclic.into();
+        self.ranks = ranks.into();
+        result.cycle_toggled = changed;
+        result.reordered = true;
+        Ok(result)
     }
 }
