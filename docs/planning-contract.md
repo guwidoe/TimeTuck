@@ -417,3 +417,22 @@ The host had concurrent workloads, and raw samples are retained. Timing includes
 tree preparation and trace hashing; process CPU also includes setup and warmup.
 This is a native comparison, not a Java or general solver speed claim. Evidence:
 `work/exact-choices-performance.json`, harness `work/exact_choices_probe.rs`.
+
+
+## Edge-based multi-list reconnection
+
+`ListProblem::reconnect_list_paths` accepts cut/join edges using
+`ListPathEndpoint::{Start, Value, End}`. Each selected movable suffix starts as
+an open path. Each resulting component must connect one Start to one End;
+Start determines its destination entity, and traversal determines order and
+length. End may come from another original list. Empty suffixes, reversals,
+tail exchanges and segment transfers use the same representation.
+
+The builder rejects malformed edges, degrees, boundary pairs and orphan cycles.
+It preserves assigned payloads, prefixes, unselected rows and missing values,
+then validates final entity ranges and dependencies. Its ordinary ListMove
+composite uses existing scoring, commit and rollback behavior; regenerate the
+move after changing the input assignment. Construction borrows assigned payloads
+without cloning them. Large proposals reuse ranked relocation construction;
+shared full-model validation may still take quadratic time. These explicit open
+paths do not establish Java's implicit cyclic multi-entity k-opt convention.

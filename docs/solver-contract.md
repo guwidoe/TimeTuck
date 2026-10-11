@@ -2338,3 +2338,21 @@ cross-phase history. Missing expression scope fails before plan callbacks, and
 standalone kernels return TerminationContextRequired. Low-level acceptors may
 receive explicit fractions through `termination_step_started`. Existing step-
 and elapsed-time cooling policies retain their behavior.
+
+
+## Initialized score-goal progress
+
+`StatefulSearchLimit::ScoreGoal` accepts a validated
+`ScoreGoalProgressConfig::target` or `::feasibility`. Each occurrence captures its
+own initial complete score. Solve scope includes construction initialization or a
+complete committed placement; phase scope uses complete retained input, otherwise
+its first complete observation. Negative structural scores cannot set a baseline.
+Capturing a construction baseline does not update retained best-score history or
+arm stagnation. Optional worsening construction keeps its existing semantics.
+
+Weighted progress reuses the existing score-progress arithmetic and feeds
+termination-driven cooling. Exact target and feasibility predicates decide when
+to stop: rounded progress or zero-weight levels can produce 1.0 before the goal
+is reached. Configuration validates weights and score shape before callbacks.
+Polling borrows scores without cloning them. Standalone sessions require explicit
+`observe_initialized_score`; status queries do not initialize a baseline.
