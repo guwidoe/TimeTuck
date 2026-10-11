@@ -16,7 +16,92 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round42
+## Latest verified checkpoint — round43
+
+Main ac47e0b adds real dense/stream ScoringContextManager lifecycle and phase work.
+The full goal remains active and incomplete. No new agents or assignments.
+
+- Same-mode phases retain the director and editing resource. Mode changes prepare
+  a fresh actual cache/graph, move the assignment Vec without cloning that buffer,
+  preserve the borrowed model and effective weights, and release the old director.
+  Old handles expose no director/assignment; stale editing handles reject changes.
+  Returning to an earlier mode builds anew. Stream binding still clones tuple
+  values; graph factories must preserve current external facts/topology.
+- Successful logical score calls and actual construction/local-search result
+  counts carry over. Initialization/diagnostics are excluded; failed arbitrary
+  callbacks cannot expose partial work counts. Best-score observations persist;
+  constraint-total metrics keep on-demand named reporting enabled in NoAssert.
+- Explicit finish/error cleanup drops the resource, even before start. Actual
+  release errors attach to the caller's primary failure without changing either
+  identity. Repeated cleanup is idempotent; Drop closes remaining resources.
+- Direct schedules accept weaker modes because the source manager tests bypass
+  factory validation. EnvironmentProfile validation is unchanged. PhaseAssert
+  checks outgoing state; step/full modes check managed calculation/work boundaries.
+  Within-phase checks need independent SolverExtensions checks. Advanced diagnostic
+  mode semantics, automatic whole-solve termination integration, random reseeding,
+  Java mutable-object/ABI equivalence and per-match reporting remain separate.
+
+All ten SolverContextManagerTest methods have complete adaptations: nine use both
+real backends with initialized generateSolution(3,3) modulo assignments and the
+source's intentionally empty DummyConstraintProvider. The failing-release case
+retains the source mock's behavior. Seven original tests additionally exercise
+scored construction/search, accumulated counts/totals, live and retired editors,
+failed dense/stream preparation, actual corruption detection, shutdown and named
+weight transfer. Originals add no source credit. Only tests/fixtures were used;
+no upstream production read or translated.
+
+Focused 10 source + 6 initial original tests passed on runner-a; the final weight
+regression passed in the final gate. Compile checks first caught missing dense
+single-phase entry points and a generic config/error mismatch; corrected before
+runtime verification. Strict lint caught one needless borrow, fixed before the
+full gate. No failing broad runtime test was ignored.
+
+Selective reuse: adding extensions inside shared scoring files initially selected
+858 targets. Splitting modules alone retained false dependencies: new problem/
+cached_score/release members collided with old fields/sampling calls. The final
+extensions use working_model and distinct context trait hook names. Existing
+scoring.rs/stream_scoring.rs production content equals the prior commit exactly,
+with only module registration added. Actual new keys select 4 targets; no key,
+timestamp or log checksum was retagged. Two unnecessary large prebuilds were
+stopped before runtime suites; their immutable sources/logs are preserved under
+remote-round43-integration-final-fixed* and remote-round43-integration-extensions*.
+The earlier lint failure is remote-round43-integration-final*. Do not claim these
+interrupted/failed snapshots as completed verification.
+
+Final runner-a bash scripts/check.sh, collector and dashboard freshness passed:
+
+- 6,689 Rust tests and 286 doctests; strict fmt/Clippy passed.
+- 3,514/4,855 source methods passing (72.379%); 775 pending, 566 excluded,
+  zero failed/unverified. Pending 785→775; exclusions unchanged.
+- 4 Rust RUN (lib, retained_stream_phases, scoring_context_cases/regression),
+  964 Rust REUSE and 46 Python REUSE; complete worker 260.799s.
+- Rust source b2c96676beca57d85e61966decd3a2e2f93ddd0c89361a8a23210beb553cdb28.
+- Report/verification 66279d374338108b6391bb06ed39a0c9da2891d577825f41f97ff02714ff9d4b.
+- Final remote root 0e3a36d8346efb52072586a1b8d8cd45ac3e9b00f95c682c418308389af5c1cd.
+- work/round43-runner-a-results.tar.gz, SHA256
+  168fdc00b4b493a2ea49536404f89db83faecb32aad8585e05ffd00fafc1317b.
+- Evidence/freeze: work/parallel-round43-*, round43-extension-isolation.json,
+  round43-stopped-*-prebuild.json and remote-round43-integration-selective*.
+
+runner-c still timed out on SSH after the user reported authentication done; no runner-c
+job was started. runner-a's final archive/root is the next real cache seed. The
+round43 runner currently seeds round42/root985bf0...: explicitly replace that
+filename/root next time; keep its stable Cargo home/vendor and build jobs 6.
+No benchmark was refreshed; comparisons remain honestly stale. Existing
+candidate/scoring behavior is unchanged and no speedup is claimed. Dashboard
+responds on port8765; only report/freshness data was inspected, no browser/UI work.
+No pin change. No live workers/collectors remain.
+
+Next close another runtime compatibility family. ElementDestinationSelectorTest
+has eight remaining source cases (entity ranges, pinned/unassigned random
+selection, reachable-entity refresh, phase lifecycle and discard/reset). This
+family was selected from the current pending inventory, not yet re-audited or
+implemented this turn. Inspect those test bodies and the existing native
+ListDestinationSelector before developing its missing stateful behavior. Avoid
+repeating completed scoring-context/inheritance/identity or earlier factory/
+reflection/RootVariableSource audits. No new agents.
+
+## Prior verified checkpoint — round42
 
 Main 0d137e6 adds SolutionComposition and actual basic-model solution binding.
 The full goal remains active and incomplete. No new agents or assignments.
