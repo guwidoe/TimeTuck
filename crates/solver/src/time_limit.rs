@@ -45,6 +45,17 @@ pub(crate) trait SearchControl<S = crate::SimpleScore> {
     fn construction_stopped(&mut self) -> bool {
         false
     }
+    /// Whether construction must publish complete scores for a scored condition.
+    fn monitors_complete_scores(&self) -> bool {
+        false
+    }
+    /// A retained complete best; ordinary best tracking may include partial custom states.
+    fn observe_complete_best_score(&mut self, score: &S) {
+        self.observe_goal_score(score);
+        self.observe_best_score(score);
+    }
+    fn observe_goal_score(&mut self, _score: &S) {}
+    fn observe_construction_score(&mut self, _score: &S) {}
     /// Observe a retained best, after search starts; no candidate rescoring.
     fn observe_best_score(&mut self, _score: &S) {}
     fn start_search(&mut self);
@@ -106,7 +117,7 @@ impl<'m, C: FnMut() -> Duration, S> TimeBudget<'m, C, S> {
     }
     pub(crate) fn observe_best_score(&mut self, score: &S) {
         if let Some(shared) = &mut self.shared {
-            shared.observe_best_score(score);
+            shared.observe_complete_best_score(score);
         }
     }
     pub(crate) fn start_search(&mut self) {
@@ -223,5 +234,20 @@ mod step_metric_tests {
         finish_step(&mut c, true, || 7, || false);
         assert_eq!(c.published, Some((7, false)));
         assert!(c.ended);
+    }
+}
+
+/// Construction score getters may clone, so call them only for active scored
+/// conditions and complete states. This does not arm search stagnation.
+pub(crate) fn observe_construction_score<S>(
+    shared: &mut Option<&mut dyn SearchControl<S>>,
+    score: impl FnOnce() -> S,
+    complete: impl FnOnce() -> bool,
+) {
+    if let Some(shared) = shared
+        && shared.monitors_complete_scores()
+        && complete()
+    {
+        shared.observe_construction_score(&score());
     }
 }

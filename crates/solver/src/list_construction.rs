@@ -129,6 +129,11 @@ pub(crate) fn construction_impl_with_clock_monitored<
         director.assert_consistent()?;
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
+    crate::time_limit::observe_construction_score(
+        &mut shared,
+        || director.score(),
+        || problem.is_complete(director.assignment()),
+    );
     result.termination = ConstructionTermination::Completed;
     if !problem.allows_unassigned() || config.optional != crate::OptionalConstruction::Preserve {
         // Construction only installs assignments (or a no-op). Track membership
@@ -241,6 +246,14 @@ pub(crate) fn construction_impl_with_clock_monitored<
             if completed && let Some(shared) = &mut shared {
                 shared.complete_construction_step();
             }
+            if completed {
+                crate::time_limit::observe_construction_score(
+                    &mut shared,
+                    || director.score(),
+                    || problem.is_complete(director.assignment()),
+                );
+            }
+
             if config.assert_scores || config.assert_step_scores {
                 director.assert_consistent()?;
             }

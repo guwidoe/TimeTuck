@@ -391,6 +391,11 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         director.assert_consistent()?;
     }
     director.notify_best(|a| shape.complete(a));
+    crate::time_limit::observe_construction_score(
+        &mut shared,
+        || director.score(),
+        || shape.complete(director.assignment()),
+    );
     result.termination = loop {
         if let Some(reason) = interruption(config, start, &mut shared) {
             break reason;
@@ -492,6 +497,14 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
         if completed && let Some(shared) = &mut shared {
             shared.complete_construction_step();
         }
+        if completed {
+            crate::time_limit::observe_construction_score(
+                &mut shared,
+                || director.score(),
+                || shape.complete(director.assignment()),
+            );
+        }
+
         if config.assert_scores || config.assert_step_scores {
             director.assert_consistent()?;
         }

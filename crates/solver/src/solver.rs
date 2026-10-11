@@ -60,6 +60,9 @@ pub struct SolverLimits<'a, S = SimpleScore> {
     /// Composed solve-wide limits, polled within search/custom phases and at
     /// phase boundaries and within construction candidate scans.
     pub termination: Option<&'a SearchTermination<'a>>,
+    /// Optional score-aware AND/OR expression over retained complete best scores
+    /// and solve-wide counters/time. No scoring callbacks are added.
+    pub scored_termination: Option<&'a crate::ScoredSearchTermination<'a, S>>,
     pub max_evaluations: u64,
     pub max_move_evaluations: Option<u64>,
     /// Cooperative deadline shared by construction, improvement and stream graph
@@ -94,6 +97,7 @@ impl<S> Default for SolverLimits<'_, S> {
             reject_unassigned_pins: false,
             assert_phase_scores: false,
             termination: None,
+            scored_termination: None,
             max_evaluations: 100_000,
             max_move_evaluations: None,
             max_time: None,
@@ -410,6 +414,9 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     metric_step: u64,
     lifecycle: crate::solver_lifecycle::Lifecycle<'c>,
     condition: Option<&'c SearchTermination<'c>>,
+    scored_condition: Option<&'c crate::ScoredSearchTermination<'c, S>>,
+    condition_needs_best: bool,
+    condition_best: Option<S>,
     condition_expired: bool,
     condition_uses_moves: bool,
     limit: Option<Duration>,
@@ -428,7 +435,10 @@ struct SolveControl<'c, S = crate::SimpleScore> {
 }
 impl<S: Score> SolveControl<'_, S> {
     fn condition_reached(&mut self) -> bool {
-        if let Some(condition) = self.condition {
+        self.condition_reached_with_score(None)
+    }
+    fn condition_reached_with_score(&mut self, construction_score: Option<&S>) -> bool {
+        if self.condition.is_some() || self.scored_condition.is_some() {
             self.sample();
             let progress = SearchProgress {
                 elapsed: self.last,
@@ -446,7 +456,20 @@ impl<S: Score> SolveControl<'_, S> {
                 unimproved_steps: self.started.then(|| self.steps.unimproved_steps()),
                 unimproved_time: self.last_improvement.map(|last| self.last - last),
             };
-            self.condition_expired |= condition.status(progress).is_some_and(|s| s.reached);
+            self.condition_expired |= self
+                .condition
+                .is_some_and(|c| c.status(progress).is_some_and(|s| s.reached))
+                || self.scored_condition.is_some_and(|c| {
+                    c.status(
+                        progress,
+                        self.condition_best
+                            .as_ref()
+                            .into_iter()
+                            .chain(construction_score)
+                            .max(),
+                    )
+                    .is_some_and(|s| s.reached)
+                });
         }
         self.condition_expired
     }
@@ -483,13 +506,15 @@ impl<S: Score> SolveControl<'_, S> {
         self.steps_expired
     }
     fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
-        (self.condition.is_some() || self.lifecycle.enabled() || self.move_counter.is_some())
-            .then_some(self)
+        ((self.condition.is_some() || self.scored_condition.is_some())
+            || self.lifecycle.enabled()
+            || self.move_counter.is_some())
+        .then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
         if self.move_counter.is_some()
             || self.lifecycle.enabled()
-            || self.condition.is_some()
+            || (self.condition.is_some() || self.scored_condition.is_some())
             || self.significant.is_some()
             || self.unimproved_limit.is_some()
             || self.unimproved_steps_limit.is_some()
@@ -551,6 +576,22 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     fn construction_stopped(&mut self) -> bool {
         self.condition_reached()
     }
+    fn monitors_complete_scores(&self) -> bool {
+        self.condition_needs_best
+    }
+    fn observe_construction_score(&mut self, score: &S) {
+        if score.structural() >= 0 {
+            self.condition_reached_with_score(Some(score));
+        }
+    }
+    fn observe_goal_score(&mut self, score: &S) {
+        if self.condition_needs_best
+            && score.structural() >= 0
+            && self.condition_best.as_ref().is_none_or(|best| score > best)
+        {
+            self.condition_best = Some(score.clone());
+        }
+    }
     fn observe_best_score(&mut self, score: &S) {
         if self.started && self.significant.is_some() {
             self.sample();
@@ -564,7 +605,8 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     }
     fn start_search(&mut self) {
         self.started = true;
-        if (self.condition.is_some() || self.unimproved_limit.is_some())
+        if ((self.condition.is_some() || self.scored_condition.is_some())
+            || self.unimproved_limit.is_some())
             && self.last_improvement.is_none()
         {
             self.sample();
@@ -582,7 +624,8 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         }
     }
     fn complete_step(&mut self, improved: bool) {
-        if (self.condition.is_some() || self.unimproved_steps_limit.is_some())
+        if ((self.condition.is_some() || self.scored_condition.is_some())
+            || self.unimproved_steps_limit.is_some())
             && !self.step_stagnated()
         {
             self.steps.complete_step(improved);
@@ -958,6 +1001,7 @@ where
 {
     let mut clock = crate::time_limit::monotonic_clock(
         limits.termination.is_some()
+            || limits.scored_termination.is_some()
             || limits.max_time.is_some()
             || limits.max_unimproved_time.is_some()
             || limits.significant_improvement.is_some(),
@@ -1014,10 +1058,13 @@ where
     let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
     let mut time = SolveControl {
         move_counter: None,
-        score_counter: limits
+        score_counter: (limits
             .termination
             .is_some_and(SearchTermination::needs_score_counts)
-            .then(Default::default),
+            || limits
+                .scored_termination
+                .is_some_and(crate::ScoredSearchTermination::needs_score_counts))
+        .then(Default::default),
         step_metrics: None,
         metric_phase: None,
         metric_step: 0,
@@ -1025,10 +1072,18 @@ where
             lifecycle_enabled.then_some(&mut lifecycle_callback),
         ),
         condition: limits.termination,
+        scored_condition: limits.scored_termination,
+        condition_needs_best: limits
+            .scored_termination
+            .is_some_and(crate::ScoredSearchTermination::needs_best_score),
+        condition_best: None,
         condition_expired: false,
         condition_uses_moves: limits
             .termination
-            .is_some_and(SearchTermination::needs_move_counts),
+            .is_some_and(SearchTermination::needs_move_counts)
+            || limits
+                .scored_termination
+                .is_some_and(crate::ScoredSearchTermination::needs_move_counts),
         limit: limits.max_time,
         clock,
         last: Duration::ZERO,
@@ -1379,6 +1434,11 @@ where
                 r.assignment = assignment;
                 r.score = Some(score.clone());
                 r.complete = out.complete;
+            }
+            if r.complete
+                && let Some(score) = &r.score
+            {
+                crate::time_limit::SearchControl::observe_goal_score(&mut time, score);
             }
             r.work.add(out.work);
             r.phases.push(PhaseReport {

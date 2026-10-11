@@ -505,7 +505,8 @@ pub use list_k_opt_repartition::sample_list_k_opt_repartitions;
 
 mod composite_termination;
 pub use composite_termination::{
-    SearchLimit, SearchProgress, SearchTermination, TerminationExpression, TerminationState,
+    ScoredSearchLimit, ScoredSearchTermination, SearchLimit, SearchProgress, SearchTermination,
+    TerminationExpression, TerminationState,
 };
 
 mod score_explanation;

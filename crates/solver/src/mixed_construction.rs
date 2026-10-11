@@ -182,6 +182,11 @@ pub(crate) fn construction_impl_with_clock_monitored<
         director.assert_consistent()?;
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
+    crate::time_limit::observe_construction_score(
+        &mut shared,
+        || director.score(),
+        || problem.is_complete(director.assignment()),
+    );
     result.termination = ConstructionTermination::Completed;
     let phases = match settings.order {
         MixedConstructionOrder::BasicThenLists => [Phase::Basic, Phase::Lists],
@@ -446,6 +451,14 @@ pub(crate) fn construction_impl_with_clock_monitored<
             if completed && let Some(shared) = &mut shared {
                 shared.complete_construction_step();
             }
+            if completed {
+                crate::time_limit::observe_construction_score(
+                    &mut shared,
+                    || director.score(),
+                    || problem.is_complete(director.assignment()),
+                );
+            }
+
             result.constraint_evaluations += selection.constraint_evaluations;
             let installed = selection.selected.as_ref().is_some_and(|movement| {
                 if matches!(movement.basic, Move::Change { .. }) {

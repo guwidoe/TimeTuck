@@ -364,6 +364,11 @@ pub(crate) fn construction_impl_with_clock_monitored<
         director.assert_consistent()?;
     }
     director.notify_best(|assignment| problem.is_complete(assignment));
+    crate::time_limit::observe_construction_score(
+        &mut shared,
+        || director.score(),
+        || problem.is_complete(director.assignment()),
+    );
     result.termination = ConstructionTermination::Completed;
     let mut indices_in_order = 0..problem.variables().len();
     let mut value_queue = (config.placement == ConstructionPlacement::ValueQueue)
@@ -478,6 +483,14 @@ pub(crate) fn construction_impl_with_clock_monitored<
         if completed && let Some(shared) = &mut shared {
             shared.complete_construction_step();
         }
+        if completed {
+            crate::time_limit::observe_construction_score(
+                &mut shared,
+                || director.score(),
+                || problem.is_complete(director.assignment()),
+            );
+        }
+
         let installed = matches!(selection.selected, Some(Move::Change { .. }));
         result.assigned_variables += usize::from(installed);
         if config.assert_scores || config.assert_step_scores {

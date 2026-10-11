@@ -173,7 +173,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         .map_err(LocalSearchError::from)?;
     if let Some(shared) = &mut shared {
         shared.start_search();
-        shared.observe_best_score(&current.1);
+        shared.observe_complete_best_score(&current.1);
     }
     if let Some(observer) = &mut observer {
         observer(SolutionUpdate {
@@ -411,7 +411,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
                 result.best = Some(candidate.clone());
                 if let Some(shared) = &mut shared {
                     shared.record_improvement();
-                    shared.observe_best_score(&candidate.1);
+                    shared.observe_complete_best_score(&candidate.1);
                 }
             }
             if current.0 != candidate.0 {

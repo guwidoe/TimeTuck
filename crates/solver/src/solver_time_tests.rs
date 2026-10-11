@@ -302,6 +302,9 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
+        scored_condition: None,
+        condition_needs_best: false,
+        condition_best: None,
         condition_expired: false,
         condition_uses_moves: false,
         limit: None,
@@ -333,6 +336,9 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
         metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
+        scored_condition: None,
+        condition_needs_best: false,
+        condition_best: None,
         condition_expired: false,
         condition_uses_moves: false,
         limit: Some(ms(10)),
@@ -455,6 +461,9 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
         metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
+        scored_condition: None,
+        condition_needs_best: false,
+        condition_best: None,
         condition_expired: false,
         condition_uses_moves: false,
         limit: None,
@@ -514,6 +523,9 @@ fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> Solve
         metric_step: 0,
         lifecycle: Default::default(),
         condition: None,
+        scored_condition: None,
+        condition_needs_best: false,
+        condition_best: None,
         condition_expired: false,
         condition_uses_moves: false,
         limit: None,
@@ -1141,3 +1153,56 @@ fn composed_limits_interrupt_construction_before_finishing_the_domain() {
 
 #[path = "solver_significant_tests.rs"]
 mod significant_tests;
+
+#[test]
+fn scored_goal_time_composition_uses_solve_clock_and_retained_score() {
+    use crate::time_limit::SearchControl;
+    use crate::{ScoredSearchLimit as L, ScoredSearchTermination as T};
+    let now = Cell::new(Duration::ZERO);
+    let mut clock = || now.get();
+    let leaves = [
+        T::Condition(L::BestScore(SimpleScore::new(5))),
+        T::Condition(L::Search(SearchLimit::Time(ms(10)))),
+    ];
+    let expression = T::All(&leaves);
+    let mut c = step_control(u64::MAX, &mut clock);
+    c.scored_condition = Some(&expression);
+    c.condition_needs_best = true;
+    assert!(!c.condition_reached());
+    c.observe_complete_best_score(&SimpleScore::new(5));
+    now.set(ms(9));
+    assert!(!c.condition_reached());
+    c.observe_complete_best_score(&SimpleScore::new(-2));
+    now.set(ms(10));
+    assert!(c.condition_reached());
+    now.set(ms(1));
+    assert!(c.condition_reached());
+    assert_eq!(c.condition_best, Some(SimpleScore::new(5)));
+}
+
+#[test]
+fn construction_score_goals_do_not_store_discarded_scores_or_arm_stagnation() {
+    use crate::time_limit::SearchControl;
+    use crate::{ScoredSearchLimit as L, ScoredSearchTermination as T};
+    let mut clock = || Duration::ZERO;
+    let leaves = [
+        T::Condition(L::BestScore(SimpleScore::ZERO)),
+        T::Condition(L::Search(SearchLimit::ConstructionSteps(1))),
+    ];
+    let expression = T::All(&leaves);
+    let mut c = step_control(u64::MAX, &mut clock);
+    c.scored_condition = Some(&expression);
+    c.condition_needs_best = true;
+    c.observe_construction_score(&SimpleScore::ZERO);
+    assert_eq!(c.condition_best, None);
+    c.complete_construction_step();
+    assert!(!c.condition_reached()); // Prior construction state was discarded.
+    c.observe_construction_score(&SimpleScore::new(-1));
+    assert!(!c.condition_reached());
+    assert!(!c.started);
+    c.observe_goal_score(&SimpleScore::new(-1)); // Retained final phase state.
+    assert_eq!(c.condition_best, Some(SimpleScore::new(-1)));
+    c.observe_construction_score(&SimpleScore::new(1));
+    assert!(c.condition_reached());
+    assert_eq!(c.condition_best, Some(SimpleScore::new(-1)));
+}

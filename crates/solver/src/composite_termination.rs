@@ -224,3 +224,87 @@ impl SearchTermination<'_> {
         self.evaluate(|limit| limit.evaluate(progress))
     }
 }
+
+/// A typed score goal or an existing solve-wide count/time condition. Score goals
+/// inspect only the best complete, structurally sound state retained by the solve.
+/// They remain false before such a state exists; an accepted worsening move does
+/// not undo an attained goal. Native feasibility follows `Score::is_feasible`,
+/// including score types without hard levels.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ScoredSearchLimit<S = crate::SimpleScore> {
+    Search(SearchLimit),
+    BestScore(S),
+    Feasible,
+}
+/// Compose score goals with count/time limits. Existing hard limits and the
+/// separate `SolverLimits::termination` expression remain independent safeguards.
+/// Counter leaves use the same solve-wide totals as `SearchTermination`; phase
+/// handoffs never reset them. Score goals have progress 1 once reached and no
+/// estimate beforehand. No initial-score interpolation is implied.
+///
+/// Construction retains its final state, so its current complete score contributes
+/// only at initialization and committed-placement boundaries. It is not accumulated
+/// into best history while optional placements can worsen it. Candidate-scan polls
+/// use the best retained from earlier phases; independent count/time alternatives
+/// still apply. The actual retained handoff score enters best history after the phase.
+/// Local, custom, repair and exact phases publish their retained bests within the phase.
+///
+/// ```
+/// use timetuck::*;
+/// let leaves = [
+///     ScoredSearchTermination::Condition(ScoredSearchLimit::BestScore(SimpleScore::new(10))),
+///     ScoredSearchTermination::Condition(ScoredSearchLimit::Search(SearchLimit::Steps(100))),
+/// ];
+/// let stop = ScoredSearchTermination::All(&leaves);
+/// let limits = SolverLimits { scored_termination: Some(&stop), ..Default::default() };
+/// assert!(limits.scored_termination.is_some());
+/// ```
+pub type ScoredSearchTermination<'a, S = crate::SimpleScore> =
+    TerminationExpression<'a, ScoredSearchLimit<S>>;
+impl<S: crate::Score> ScoredSearchTermination<'_, S> {
+    /// Query with the retained complete score, or None if none exists. A negative
+    /// structural score is rejected even if the caller supplies it as complete.
+    pub fn status(&self, progress: SearchProgress, best: Option<&S>) -> Option<TerminationState> {
+        let best = best.filter(|s| s.structural() >= 0);
+        self.evaluate(|limit| {
+            let reached = match limit {
+                ScoredSearchLimit::Search(limit) => return limit.evaluate(progress),
+                ScoredSearchLimit::BestScore(target) => best.is_some_and(|score| score >= target),
+                ScoredSearchLimit::Feasible => best.is_some_and(crate::Score::is_feasible),
+            };
+            Some(TerminationState {
+                reached,
+                progress: reached.then_some(1.0),
+            })
+        })
+    }
+    fn any_leaf(&self, predicate: impl Fn(&ScoredSearchLimit<S>) -> bool + Copy) -> bool {
+        match self {
+            Self::Condition(limit) => predicate(limit),
+            Self::All(children) | Self::Any(children) => {
+                children.iter().any(|c| c.any_leaf(predicate))
+            }
+        }
+    }
+    pub(crate) fn needs_best_score(&self) -> bool {
+        self.any_leaf(|l| !matches!(l, ScoredSearchLimit::Search(_)))
+    }
+    pub(crate) fn needs_score_counts(&self) -> bool {
+        self.any_leaf(|l| {
+            matches!(
+                l,
+                ScoredSearchLimit::Search(SearchLimit::ScoreEvaluations(_))
+            )
+        })
+    }
+    pub(crate) fn needs_move_counts(&self) -> bool {
+        self.any_leaf(|l| {
+            matches!(
+                l,
+                ScoredSearchLimit::Search(
+                    SearchLimit::MoveEvaluations(_) | SearchLimit::MoveEvaluationsOf { .. }
+                )
+            )
+        })
+    }
+}
