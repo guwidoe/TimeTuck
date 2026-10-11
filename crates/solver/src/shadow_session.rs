@@ -697,6 +697,9 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         }
         Ok(self.share_resolved_sources(edges, signatures))
     }
+    // Keep the Eq-only scan out of the much larger diagnostic/source-resolution
+    // bodies so indexed dispatch does not spill the scan key on every iteration.
+    #[inline(never)]
     fn lookup_source(&self, field: PlanningVariableRef<'_>, entity: &K) -> Option<usize> {
         if let Some(index) = &self.source_index {
             index.find(&self.nodes, field, entity)
