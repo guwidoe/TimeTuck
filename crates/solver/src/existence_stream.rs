@@ -66,6 +66,23 @@ impl<I: Ord + Clone, J: Ord + Clone, T: Clone, K: Ord + Clone> Side<I, J, T, K> 
     }
 }
 
+// Both membership maps iterate in identity order. Walk the other map only once,
+// so a stable dense witness set does not cause per-pair tree rewrites/lookups.
+fn difference<'a, I: Ord>(
+    rows: Option<&'a SnapshotMap<I, ()>>,
+    other: Option<&'a SnapshotMap<I, ()>>,
+) -> impl Iterator<Item = &'a I> {
+    let mut other = other.into_iter().flat_map(|map| map.keys()).peekable();
+    rows.into_iter()
+        .flat_map(|map| map.keys())
+        .filter(move |id| {
+            while other.peek().is_some_and(|candidate| candidate < id) {
+                other.next();
+            }
+            other.peek().is_none_or(|candidate| candidate != id)
+        })
+}
+
 #[derive(Clone)]
 struct State<I, J, L, R, K> {
     left: Side<I, J, L, K>,
@@ -89,7 +106,9 @@ type Predicate<'a, L, R> = dyn Fn(&L, &R) -> bool + 'a;
 /// Cached bidirectional match IDs make removals callback-free. Storage is linear
 /// in facts plus matching pairs; dense buckets can therefore require quadratic
 /// space. Right updates emit only visibility transitions. Accepted left updates
-/// also emit the new payload, even when membership remains unchanged.
+/// also emit the new payload, even when membership remains unchanged. Replacing
+/// a row updates reciprocal links only for witnesses that enter or leave its
+/// match set; predicate evaluation still visits its entire equality bucket.
 ///
 /// Each call prepares persistent state and output before installing either, so
 /// ordinary callback/key/clone panics leave this node unchanged. Graph guards
@@ -182,12 +201,11 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             _ => None,
         };
         let mut next = self.state.clone();
-        if let Some(old) = self.state.left.links.get(&change.id) {
-            for id in old.keys() {
-                next.right.set_link(id, &change.id, false);
-            }
+        let old = self.state.left.links.get(&change.id);
+        for id in difference(old, Some(&matches)) {
+            next.right.set_link(id, &change.id, false);
         }
-        for id in matches.keys() {
+        for id in difference(Some(&matches), old) {
             next.right.set_link(id, &change.id, true);
         }
         if matches.is_empty() {
@@ -213,13 +231,12 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         }
         let mut affected = BTreeSet::new();
         let mut next = self.state.clone();
-        if let Some(old) = self.state.right.links.get(&change.id) {
-            for id in old.keys() {
-                affected.insert(id.clone());
-                next.left.set_link(id, &change.id, false);
-            }
+        let old = self.state.right.links.get(&change.id);
+        for id in difference(old, Some(&matches)) {
+            affected.insert(id.clone());
+            next.left.set_link(id, &change.id, false);
         }
-        for id in matches.keys() {
+        for id in difference(Some(&matches), old) {
             affected.insert(id.clone());
             next.left.set_link(id, &change.id, true);
         }
@@ -234,8 +251,14 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             let before = self.mode.accepts(self.state.left.matched(&id));
             let after = self.mode.accepts(next.left.matched(&id));
             if before != after {
-                let value = after.then(|| next.left.rows[&id].1.clone());
-                output.push(TupleChange { id, value });
+                // A retained reciprocal link may hold an older Ord-equal ID
+                // object. Emit the current row identity, as link replacement did.
+                let (id, (_, row)) = next.left.rows.get_key_value(&id).expect("linked left row");
+                let value = after.then(|| row.clone());
+                output.push(TupleChange {
+                    id: id.clone(),
+                    value,
+                });
             }
         }
         self.state = next;

@@ -1,7 +1,7 @@
 //! Direct random draws from bounded, reusable groups of occurrences.
 use crate::{
     SelectionGroup, SelectionLifecycleEvent, SelectionProduct, SelectionProductError,
-    SelectionSource, SubPillarSelection,
+    SelectionSource, SnapshotMap, SubPillarSelection,
 };
 use std::{
     cmp::Ordering, collections::BTreeSet, error::Error, fmt, iter::FusedIterator, sync::Arc,
@@ -44,8 +44,10 @@ impl From<SelectionProductError> for SubgroupSelectionError {
 /// restart. Native seeds do not reproduce Java PRNG traces. try_open_with accepts
 /// bounded index draws for other RNGs and reports an invalid draw once then fuses.
 /// Trait methods panic on collection/draw errors, never report them as exhaustion.
-/// A draw uses O(k) additional memory and O(k²) time for k arbitrary members;
-/// contiguous/full groups need no combinatorial search.
+/// A draw uses O(k) additional memory and O(k log k) time for k arbitrary
+/// members. Small selections retain the original bounded linear rank walk; large
+/// selections use an ordered exclusion index. Both consume identical rank draws
+/// and retain occurrence order. Contiguous/full groups need no combinatorial search.
 pub struct SubgroupSelectionSource<C, T, S, O = fn(&C, &T, &T) -> Ordering> {
     input: SelectionProduct<C, SelectionGroup<T>, S>,
     selection: SubPillarSelection,
@@ -210,6 +212,17 @@ impl<T, D: FnMut(usize) -> usize> SubgroupSamples<T, D> {
         let indices: Vec<_> = if self.selection.is_consecutive() {
             let start = self.below(n - size + 1)?;
             (start..start + size).collect()
+        } else if size >= 2048 {
+            let mut selected = SnapshotMap::new();
+            for taken in 0..size {
+                let rank = self.below(n - taken)?;
+                let index = selected
+                    .missing_key_at(rank)
+                    .expect("valid remaining rank fits the finite group");
+                debug_assert!(index < n);
+                selected.insert(index, ());
+            }
+            selected.keys().copied().collect()
         } else {
             // Draw a rank among still-unselected positions, preserving occurrence
             // order. Sparse selected positions avoid copying the complete group.

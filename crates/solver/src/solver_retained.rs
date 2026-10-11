@@ -48,6 +48,7 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         extensions.clock,
         extensions.phase_terminations,
         extensions.stateful_termination,
+        extensions.optimistic_bounds,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -69,6 +70,7 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
@@ -190,6 +192,7 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                             config,
                             prior,
                             time,
+                            optimistic_bound,
                             || {
                                 crate::branch_tree::BasicTree::for_phase(
                                     p,
@@ -335,6 +338,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         extensions.clock,
         extensions.phase_terminations,
         extensions.stateful_termination,
+        extensions.optimistic_bounds,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -352,6 +356,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
@@ -474,6 +479,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                             config,
                             prior,
                             time,
+                            optimistic_bound,
                             || {
                                 crate::branch_tree::ListTree::for_phase(
                                     p,
@@ -621,6 +627,7 @@ pub(crate) fn mixed<
         extensions.clock,
         extensions.phase_terminations,
         extensions.stateful_termination,
+        extensions.optimistic_bounds,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -643,6 +650,7 @@ pub(crate) fn mixed<
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
@@ -771,6 +779,7 @@ pub(crate) fn mixed<
                             config,
                             prior,
                             time,
+                            optimistic_bound,
                             || {
                                 crate::branch_tree::MixedTree::for_phase(
                                     p,

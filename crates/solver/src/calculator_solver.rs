@@ -113,6 +113,7 @@ pub fn solve_calculator_with_extensions<
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -180,6 +181,7 @@ fn solve_calculator_impl<
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -252,6 +254,7 @@ fn solve_calculator_impl<
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::BasicTree::for_phase(
                             p,
@@ -632,6 +635,7 @@ pub fn solve_list_calculator_with_extensions<
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -701,6 +705,7 @@ fn solve_list_calculator_impl<
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -773,6 +778,7 @@ fn solve_list_calculator_impl<
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::ListTree::for_phase(
                             p,
@@ -1157,6 +1163,7 @@ pub fn solve_mixed_calculator_with_extensions<
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -1240,6 +1247,7 @@ fn solve_mixed_calculator_impl<
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -1315,6 +1323,7 @@ fn solve_mixed_calculator_impl<
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::MixedTree::for_phase(
                             p,

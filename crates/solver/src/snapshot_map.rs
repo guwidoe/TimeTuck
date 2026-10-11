@@ -338,6 +338,27 @@ impl<K, V> SnapshotMap<K, V> {
         Some((&n.key, &n.value))
     }
 }
+impl<V> SnapshotMap<usize, V> {
+    /// Select the zero-based rank among nonnegative keys absent from this map.
+    /// Subtree sizes translate past excluded positions in O(log entries), without
+    /// materializing the key universe. None means the resulting key exceeds usize.
+    pub(crate) fn missing_key_at(&self, rank: usize) -> Option<usize> {
+        let mut current = self.root.as_deref();
+        let mut skipped = 0;
+        while let Some(node) = current {
+            let preceding = skipped + size(&node.left);
+            // All preceding keys are distinct nonnegative integers below this key.
+            let gap_rank = *node.key - preceding;
+            if rank < gap_rank {
+                current = node.left.as_deref();
+            } else {
+                skipped = preceding + 1;
+                current = node.right.as_deref();
+            }
+        }
+        rank.checked_add(skipped)
+    }
+}
 impl<K: Ord, V> SnapshotMap<K, V> {
     /// Internal borrowed bounds. Reversed or empty bounds yield no rows.
     /// Seeks the lower bound in O(log n), then visits only the requested range.
@@ -787,5 +808,39 @@ mod tests {
                 (0..len).map(|i| (i, i * 3)).collect::<Vec<_>>()
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod missing_rank_tests {
+    use super::SnapshotMap;
+    #[test]
+    fn absent_rank_matches_explicit_filtered_universe_and_overflow() {
+        for mask in 0..1024usize {
+            let mut excluded = SnapshotMap::new();
+            // Deliberately insert in reverse order to exercise rebalanced trees.
+            for key in (0..10).rev().filter(|k| mask & (1 << k) != 0) {
+                excluded.insert(key, ());
+            }
+            let reference = (0..24).filter(|k| *k >= 10 || mask & (1 << k) == 0);
+            for (rank, key) in reference.enumerate() {
+                assert_eq!(excluded.missing_key_at(rank), Some(key), "mask={mask}");
+            }
+        }
+        let mut excluded = SnapshotMap::new();
+        assert_eq!(excluded.missing_key_at(usize::MAX), Some(usize::MAX));
+        excluded.insert(usize::MAX, ());
+        assert_eq!(
+            excluded.missing_key_at(usize::MAX - 1),
+            Some(usize::MAX - 1)
+        );
+        assert_eq!(excluded.missing_key_at(usize::MAX), None);
+        excluded.insert(0, ());
+        assert_eq!(excluded.missing_key_at(0), Some(1));
+        assert_eq!(
+            excluded.missing_key_at(usize::MAX - 2),
+            Some(usize::MAX - 1)
+        );
+        assert_eq!(excluded.missing_key_at(usize::MAX - 1), None);
     }
 }

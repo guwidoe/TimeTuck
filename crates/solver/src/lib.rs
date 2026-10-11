@@ -570,9 +570,9 @@ pub use provider_search::{
 
 mod solver_extensions;
 pub use solver_extensions::{
-    MixedSolverExtensions, MoveProviderBindingError, PhaseMoveProviders, PhaseScoreCheck,
-    SolverCommandCallback, SolverEventCallback, SolverExtensions, SolverFailure,
-    SolverFailureCallback,
+    ExactBoundContext, MixedSolverExtensions, MoveProviderBindingError, OptimisticBoundCallback,
+    PhaseMoveProviders, PhaseOptimisticBounds, PhaseScoreCheck, SolverCommandCallback,
+    SolverEventCallback, SolverExtensions, SolverFailure, SolverFailureCallback,
 };
 
 pub use solver::{
@@ -998,8 +998,9 @@ pub use calculator_explanation::{
 
 mod list_value_swap;
 pub use list_value_swap::{
-    ListSwapPairing, ListSwapSourceLimits, ListValueSwapProvider, ListValueSwapSource,
-    SampledListValueSwapProvider, list_value_swap_moves, sample_list_value_swaps,
+    ListSwapPairing, ListSwapPartnerFactory, ListSwapSourceLimits, ListValueSwapProvider,
+    ListValueSwapSource, SampledListValueSwapProvider, list_value_swap_moves,
+    sample_list_value_swaps,
 };
 
 mod list_value_change;
@@ -1229,7 +1230,7 @@ pub use selection_registry::{RegisteredSelection, SelectionRegistrationError, Se
 mod sublist_selection_source;
 pub use sublist_selection_source::{
     EntitySubListSource, SubListCardinality, SubListChangeProposal, SubListChangeSource,
-    SubListSwapProposal, SubListSwapSource,
+    SubListChangeSourceLimits, SubListDestinationFactory, SubListSwapProposal, SubListSwapSource,
 };
 
 mod schema_move_selection;

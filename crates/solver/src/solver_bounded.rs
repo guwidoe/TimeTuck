@@ -17,7 +17,9 @@ impl<A, S> Retained<A, S> for Saved<A, S> {
         &self.score
     }
 }
-struct Context<'a, 'm, 'o, A, S, F, C> {
+struct Context<'a, 'm, 'o, 'b, 't, A, S, F, C, T> {
+    tree: &'t T,
+    optimistic_bound: Option<&'b mut crate::OptimisticBoundCallback<'b, A, S>>,
     config: ExactPhaseConfig<'a, S>,
     timer: TimeBudget<'m, C, S>,
     evaluate: F,
@@ -29,30 +31,43 @@ struct Context<'a, 'm, 'o, A, S, F, C> {
     score_counter: Option<crate::score_evaluations::ScoreCounter>,
     bound: PartialScoreBound,
 }
-impl<A, S: AdditiveScore, E, F, C> BranchContext<A, S, Saved<A, S>>
-    for Context<'_, '_, '_, A, S, F, C>
+impl<A, S: AdditiveScore, E, F, C, T: BranchTree<Assignment = A>> BranchContext<A, S, Saved<A, S>>
+    for Context<'_, '_, '_, '_, '_, A, S, F, C, T>
 where
     F: FnMut(&A) -> Result<(S, u128), E>,
     C: FnMut() -> Duration,
 {
     type Error = E;
-    fn evaluate(&mut self, a: &A, _: usize) -> Result<TreeEvaluation<S>, E> {
+    fn evaluate(&mut self, a: &A, depth: usize) -> Result<TreeEvaluation<S>, E> {
         let (score, callbacks) = (self.evaluate)(a)?;
         crate::score_evaluations::record(&self.score_counter);
         self.constraint_evaluations += callbacks;
         if let Some(counter) = &self.move_counter {
             counter.add(crate::MoveEvaluationKind::ExactNode, 1);
         }
-        let optimistic_bound = match &self.bound {
-            PartialScoreBound::Unknown => None,
-            PartialScoreBound::NonIncreasing => Some(InitializingScoreBound::finite(
-                score.clone().with_structural(0),
-            )),
-            PartialScoreBound::Trend(trend) => Some(
-                trend
-                    .optimistic_bound(score.clone())
-                    .expect("validated constant score-level count"),
-            ),
+        let optimistic_bound = if let Some(callback) = &mut self.optimistic_bound {
+            let (remaining_basic_variables, remaining_list_values) =
+                self.tree.remaining_components(depth);
+            callback(crate::ExactBoundContext {
+                assignment: a,
+                score: &score,
+                depth,
+                remaining_basic_variables,
+                remaining_list_values,
+            })
+            .map(InitializingScoreBound::finite)
+        } else {
+            match &self.bound {
+                PartialScoreBound::Unknown => None,
+                PartialScoreBound::NonIncreasing => Some(InitializingScoreBound::finite(
+                    score.clone().with_structural(0),
+                )),
+                PartialScoreBound::Trend(trend) => Some(
+                    trend
+                        .optimistic_bound(score.clone())
+                        .expect("validated constant score-level count"),
+                ),
+            }
         };
         Ok(TreeEvaluation {
             score,
@@ -154,10 +169,11 @@ pub(super) fn error<E, F: From<E>, S: fmt::Debug>(
         },
     }
 }
-pub(super) fn run<T: BranchTree, S: AdditiveScore, E>(
+pub(super) fn run<'b, T: BranchTree, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
     control: &mut SolveControl<'_, S>,
+    optimistic_bound: Option<&'b mut crate::OptimisticBoundCallback<'b, T::Assignment, S>>,
     prepare: impl FnOnce() -> (T, Option<T::Assignment>),
     evaluate: impl FnMut(&T::Assignment) -> Result<(S, u128), E>,
     observer: Observer<'_, T::Assignment, S>,
@@ -166,12 +182,23 @@ pub(super) fn run<T: BranchTree, S: AdditiveScore, E>(
         config.max_time.is_some(),
         control.clock_session.as_ref(),
     );
-    run_with_clock(config, prior, control, prepare, evaluate, observer, clock)
+    run_with_clock(
+        config,
+        prior,
+        control,
+        optimistic_bound,
+        prepare,
+        evaluate,
+        observer,
+        clock,
+    )
 }
-pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
+#[allow(clippy::too_many_arguments)]
+pub(super) fn run_with_clock<'b, T: BranchTree, S: AdditiveScore, E>(
     config: ExactPhaseConfig<'_, S>,
     prior: Option<S>,
     control: &mut SolveControl<'_, S>,
+    optimistic_bound: Option<&'b mut crate::OptimisticBoundCallback<'b, T::Assignment, S>>,
     prepare: impl FnOnce() -> (T, Option<T::Assignment>),
     evaluate: impl FnMut(&T::Assignment) -> Result<(S, u128), E>,
     observer: Observer<'_, T::Assignment, S>,
@@ -183,13 +210,22 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
     else {
         unreachable!("bounded dispatch")
     };
-    if let PartialScoreBound::Trend(trend) = &branch.bound {
+    if optimistic_bound.is_none()
+        && let PartialScoreBound::Trend(trend) = &branch.bound
+    {
         trend.validate(&S::ZERO).map_err(TreeSearchError::Trend)?;
     }
     let move_counter = control.move_counter.clone();
     let score_counter = control.score_counter.clone();
-    let timer = TimeBudget::new(config.max_time, None, clock).with_shared(control.monitor());
+    let mut timer = TimeBudget::new(config.max_time, None, clock).with_shared(control.monitor());
+    timer.start_search();
+    if let Some(score) = &prior {
+        timer.observe_best_score(score);
+    }
+    let (tree, root) = prepare();
     let mut context = Context {
+        tree: &tree,
+        optimistic_bound,
         config,
         timer,
         evaluate,
@@ -201,11 +237,6 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
         score_counter,
         bound: branch.bound,
     };
-    context.timer.start_search();
-    if let Some(score) = &prior {
-        context.timer.observe_best_score(score);
-    }
-    let (tree, root) = prepare();
     let result = run_tree(
         &tree,
         root,
@@ -300,6 +331,7 @@ mod tests {
                 c,
                 None,
                 &mut shared,
+                None,
                 || crate::branch_tree::BasicTree::new(&p),
                 |a| {
                     elapsed.set(elapsed.get() + 1);
@@ -339,6 +371,7 @@ mod tests {
             config(),
             None,
             &mut shared,
+            None,
             || crate::branch_tree::BasicTree::new(&p),
             |a| {
                 elapsed.set(elapsed.get() + 1);
@@ -371,6 +404,7 @@ mod tests {
             c,
             Some(SimpleScore::ZERO),
             &mut shared,
+            None,
             || crate::branch_tree::BasicTree::new(&p),
             |a| Ok::<_, Infallible>((SimpleScore::new(a.values()[0].unwrap_or(0)), 1)),
             None,
@@ -388,6 +422,7 @@ mod tests {
             config(),
             None,
             &mut shared,
+            None,
             || crate::branch_tree::BasicTree::new(&p),
             |_| -> Result<(SimpleScore, u128), Infallible> { panic!("expired shared steps") },
             None,
@@ -412,6 +447,7 @@ mod tests {
             c.clone(),
             None,
             &mut shared,
+            None,
             || {
                 elapsed.set(3);
                 crate::branch_tree::BasicTree::new(&p)
@@ -427,6 +463,7 @@ mod tests {
             c,
             None,
             &mut shared,
+            None,
             || crate::branch_tree::BasicTree::new(&p),
             |a| Ok::<_, Infallible>((SimpleScore::new(a.values()[0].unwrap_or(0)), 1)),
             Some(&mut |_| {

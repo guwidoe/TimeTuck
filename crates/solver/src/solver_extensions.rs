@@ -2,6 +2,103 @@
 use crate::{CustomPhaseContext, CustomPhaseError, MoveProvider, SolverError, SolverEvent};
 use std::{collections::BTreeMap, error::Error, fmt};
 
+/// A generated bounded-exact node, after its single score calculation.
+/// Remaining IDs follow the prepared branch order, excluding pins and values
+/// fixed by completion search. An optional value already omitted is not remaining.
+/// List IDs identify registered values, not entities or current positions.
+#[derive(Clone, Copy, Debug)]
+pub struct ExactBoundContext<'a, A, S> {
+    pub assignment: &'a A,
+    pub score: &'a S,
+    pub depth: usize,
+    pub remaining_basic_variables: &'a [usize],
+    pub remaining_list_values: &'a [usize],
+}
+/// Return an admissible upper bound for every eligible completion, or None when
+/// unknown. Capture model/domain data in the closure as needed. The score is
+/// borrowed from the actual scoring pass; the callback must not mutate scoring
+/// state. Callback time belongs to solve/phase budgets and panics propagate.
+pub type OptimisticBoundCallback<'a, A, S> =
+    dyn FnMut(ExactBoundContext<'_, A, S>) -> Option<S> + 'a;
+
+/// Assignment-dependent bounds keyed by zero-based phase index. Only bounded
+/// exact phases accept bindings; validation precedes lifecycle/scoring callbacks.
+/// A binding replaces that phase's static bound policy, including its trend.
+/// None means unknown, never a zero bound; known ancestor bounds still apply.
+/// Bound scores must use full score order
+/// (normally structural zero). An underestimated bound can hide the optimum;
+/// existing bound diagnostics check only visited eligible leaves.
+///
+/// Closures run once per successfully scored root, partial node and leaf, without
+/// additional scoring. Zero evaluation budgets and impossible spaces call none.
+/// Ordinary unbound phases keep their existing bound and callback behavior.
+///
+/// ```
+/// use timetuck::*;
+/// let p = FiniteProblem::new(vec![Variable::new(vec![1_i64, 4]); 3])?;
+/// let mut n = ConstraintNetwork::new(3);
+/// n.add_constraint("profit", vec![0, 1, 2], |v| {
+///     SimpleScore::new(v.iter().flatten().map(|v| **v).sum())
+/// })?;
+/// let mut bound = |node: ExactBoundContext<'_, Assignment<i64>, SimpleScore>| {
+///     let remaining: i64 = node.remaining_basic_variables.iter()
+///         .map(|&i| *p.variables()[i].domain().iter().max().unwrap()).sum();
+///     Some(SimpleScore::new(node.score.score() + remaining))
+/// };
+/// let mut extensions = SolverExtensions::default();
+/// extensions.optimistic_bounds.bind(0, &mut bound);
+/// let result = solve_with_extensions(&p, &n, SolverSequence {
+///     phases: vec![SolverPhase::Exact(ExactPhaseConfig {
+///         strategy: ExactSearchStrategy::BranchAndBound(Default::default()),
+///         ..Default::default()
+///     })], ..Default::default()
+/// }, extensions)?;
+/// assert_eq!(result.score, Some(SimpleScore::new(12)));
+/// assert!(result.is_optimal());
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
+pub struct PhaseOptimisticBounds<'a, A, S> {
+    bindings: BTreeMap<usize, &'a mut OptimisticBoundCallback<'a, A, S>>,
+}
+impl<A, S> Default for PhaseOptimisticBounds<'_, A, S> {
+    fn default() -> Self {
+        Self {
+            bindings: BTreeMap::new(),
+        }
+    }
+}
+impl<'a, A, S> PhaseOptimisticBounds<'a, A, S> {
+    /// Bind or replace a callback. Returns the previous callback, if any.
+    pub fn bind(
+        &mut self,
+        phase: usize,
+        callback: &'a mut OptimisticBoundCallback<'a, A, S>,
+    ) -> Option<&'a mut OptimisticBoundCallback<'a, A, S>> {
+        self.bindings.insert(phase, callback)
+    }
+    pub fn remove(&mut self, phase: usize) -> Option<&'a mut OptimisticBoundCallback<'a, A, S>> {
+        self.bindings.remove(&phase)
+    }
+    pub fn contains(&self, phase: usize) -> bool {
+        self.bindings.contains_key(&phase)
+    }
+    pub fn is_empty(&self) -> bool {
+        self.bindings.is_empty()
+    }
+    pub(crate) fn validate<E>(
+        &self,
+        phases: &[crate::SolverPhase<'_, S>],
+    ) -> Result<(), SolverError<E>> {
+        for &phase in self.bindings.keys() {
+            if !matches!(phases.get(phase), Some(crate::SolverPhase::Exact(c)) if c.strategy.is_bounded())
+            {
+                return Err(SolverError::InvalidOptimisticBoundPhase { phase });
+            }
+        }
+        Ok(())
+    }
+}
+
 /// Mutable providers keyed by zero-based index in the full solver phase plan.
 /// Construction and local-search phases can be bound. Other phases retain their
 /// built-in selection. A construction provider replaces placement/component order
@@ -329,6 +426,8 @@ pub type SolverFailureCallback<'a, A, S> = dyn FnMut(SolverFailure<'_, A, S>) + 
 /// # Ok::<(), Box<dyn std::error::Error>>(())
 /// ```
 pub struct SolverExtensions<'a, P, A, M, S, E> {
+    /// Optional assignment-dependent bounds for bounded exact phases.
+    pub optimistic_bounds: PhaseOptimisticBounds<'a, A, S>,
     pub move_providers: PhaseMoveProviders<'a, P, A, M>,
     pub command: Option<&'a mut SolverCommandCallback<'a, A, M, S, E>>,
     /// Optional common clock for solve and phase budgets; see [`crate::SolverClock`].
@@ -350,6 +449,7 @@ pub struct SolverExtensions<'a, P, A, M, S, E> {
 impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
     fn default() -> Self {
         Self {
+            optimistic_bounds: PhaseOptimisticBounds::default(),
             move_providers: PhaseMoveProviders::default(),
             command: None,
             events: None,

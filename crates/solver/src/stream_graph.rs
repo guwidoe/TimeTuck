@@ -256,6 +256,10 @@ trait Node<S: AdditiveScore> {
     fn source_count(&self) -> Option<usize> {
         None
     }
+    // Only validated source handles and source_events replay reach this entry.
+    fn apply_source(&mut self, _event: &Event) {
+        unreachable!("validated source node")
+    }
     fn initialize_sorted_source(&mut self, _events: &[(usize, Event)]) -> bool {
         false
     }
@@ -305,6 +309,17 @@ fn erase<I: 'static, T: 'static>(changes: impl IntoIterator<Item = TupleChange<I
 }
 
 struct SourceNode<I, T>(SnapshotMap<I, T>);
+impl<I: Ord + Clone + 'static, T: Clone + 'static> SourceNode<I, T> {
+    fn update(&mut self, event: &Event) {
+        let change = typed::<I, T>(event);
+        if let Some(value) = &change.value {
+            self.0.insert(change.id.clone(), value.clone());
+        } else {
+            self.0.remove(&change.id);
+        }
+    }
+}
+
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for SourceNode<I, T> {
     fn apply_batch(
         &mut self,
@@ -320,6 +335,10 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
             out.extend(<Self as Node<S>>::apply(self, false, &event, arithmetic)?);
         }
         Ok(out)
+    }
+
+    fn apply_source(&mut self, event: &Event) {
+        self.update(event);
     }
 
     fn initialize_sorted_source(&mut self, events: &[(usize, Event)]) -> bool {
@@ -375,12 +394,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
         event: &Event,
         _arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        let change = typed::<I, T>(event);
-        if let Some(value) = &change.value {
-            self.0.insert(change.id.clone(), value.clone());
-        } else {
-            self.0.remove(&change.id);
-        }
+        self.update(event);
         Ok(vec![event.clone()])
     }
 }
@@ -2126,6 +2140,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             pruned_edges,
             activity_components,
             batch_workspace: batching::BatchWorkspace::default(),
+            propagation_workspace: PropagationWorkspace::default(),
             transaction_workspaces: Vec::new(),
             batched_updates,
             activity_rules: self.activity_rules,
@@ -2144,6 +2159,27 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     }
 }
 
+// Ordinary propagation preserves each event boundary. Reuse only the routing
+// and score-delta buffers; no events or user score values survive a drain.
+struct PropagationWorkspace<S> {
+    pending: VecDeque<(Edge, Event)>,
+    changes: Vec<(S, S)>,
+}
+impl<S> Default for PropagationWorkspace<S> {
+    fn default() -> Self {
+        Self {
+            pending: VecDeque::new(),
+            changes: Vec::new(),
+        }
+    }
+}
+impl<S> PropagationWorkspace<S> {
+    fn clear(&mut self) {
+        self.pending.clear();
+        self.changes.clear();
+    }
+}
+
 #[derive(Default)]
 struct TransactionWorkspace {
     visited: Vec<bool>,
@@ -2154,6 +2190,7 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
     pruned_edges: Vec<weights::PrunedEdge>,
     transaction_workspaces: Vec<TransactionWorkspace>,
     batch_workspace: batching::BatchWorkspace,
+    propagation_workspace: PropagationWorkspace<S>,
     batched_updates: bool,
     activity_rules: Vec<ActivityRule>,
     active: Option<Vec<bool>>,
@@ -2434,14 +2471,49 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         Ok(())
     }
     fn propagate(&mut self, source: usize, event: Event) -> Result<(), GraphError> {
-        let pending = VecDeque::from([(
-            Edge {
-                node: source,
-                right: false,
-            },
-            event,
-        )]);
-        self.drain(pending)
+        // Taking the buffers leaves an empty slot for nested diagnostics. On an
+        // unwind this local owner immediately drops pending events and deltas;
+        // transaction checkpoints retain sole ownership of graph rollback.
+        let mut workspace = std::mem::take(&mut self.graph.propagation_workspace);
+        // All callers provide a validated source: a source handle/batch entry,
+        // or a row emitted by source_events during replay. Handle the root in
+        // the original node-loop order, without allocating its singleton output
+        // Vec or sending the same event through the queue's root round trip.
+        {
+            self.checkpoint(source);
+            self.score_evaluations += u128::from(self.graph.nodes[source].evaluates_score(&event));
+            let old = self.graph.nodes[source].score();
+            self.graph.nodes[source].apply_source(&event);
+            let new = self.graph.nodes[source].score();
+            if old != new {
+                workspace.changes.push((old, new));
+            }
+            for &edge in &self.graph.edges[source] {
+                workspace.pending.push_back((edge, event.clone()));
+            }
+        }
+        // Match the old root iteration: release its event before downstream
+        // callbacks (or total adjustment when no outgoing edge exists).
+        drop(event);
+        let result = self
+            .drain_nodes_into(&mut workspace.pending, &mut workspace.changes)
+            .and_then(|()| {
+                let totals = if self.replaying {
+                    crate::ScoringArithmetic::Wrapping
+                } else {
+                    self.arithmetic
+                };
+                self.graph.score = totals
+                    .adjust(
+                        &self.graph.score,
+                        workspace.changes.iter().map(|(old, new)| (old, new)),
+                    )
+                    .map_err(|_| GraphError::ScoreOverflow { constraint: None })?;
+                Ok(())
+            });
+        workspace.clear();
+        self.graph.propagation_workspace = workspace;
+        result
     }
     fn drain(&mut self, pending: VecDeque<(Edge, Event)>) -> Result<(), GraphError> {
         let changes = self.drain_nodes(pending)?;
@@ -2464,6 +2536,16 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         &mut self,
         mut pending: VecDeque<(Edge, Event)>,
     ) -> Result<Vec<(S, S)>, GraphError> {
+        let mut changes = Vec::new();
+        self.drain_nodes_into(&mut pending, &mut changes)?;
+        Ok(changes)
+    }
+    #[inline(always)]
+    fn drain_nodes_into(
+        &mut self,
+        pending: &mut VecDeque<(Edge, Event)>,
+        changes: &mut Vec<(S, S)>,
+    ) -> Result<(), GraphError> {
         let arithmetic = NodeArithmetic {
             impact: self.arithmetic,
             totals: if self.replaying {
@@ -2472,7 +2554,6 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 self.arithmetic
             },
         };
-        let mut changes = Vec::new();
         while let Some((edge, event)) = pending.pop_front() {
             let id = edge.node;
             if self.graph.active.as_ref().is_some_and(|active| !active[id])
@@ -2494,7 +2575,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 }
             }
         }
-        Ok(changes)
+        Ok(())
     }
     pub fn commit(mut self) -> Result<(), GraphError> {
         self.valid()?;
@@ -2544,3 +2625,9 @@ pub use fixed_links::FixedLinkedStreamPort;
 
 mod fixed_slots;
 mod fixed_terminal;
+
+#[cfg(test)]
+mod propagation_workspace_tests;
+
+#[cfg(test)]
+mod source_forwarding_tests;

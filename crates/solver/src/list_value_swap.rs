@@ -6,7 +6,7 @@ use crate::{
 use std::num::NonZeroUsize;
 mod eligibility_cache;
 mod source;
-pub use source::{ListSwapSourceLimits, ListValueSwapSource};
+pub use source::{ListSwapPartnerFactory, ListSwapSourceLimits, ListValueSwapSource};
 
 /// Pair each selected left value with every right value, or consume the two
 /// filtered streams in lockstep. Paired stops when either stream ends. Pinning

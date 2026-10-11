@@ -45,6 +45,7 @@ where
         extensions.clock,
         extensions.phase_terminations,
         extensions.stateful_termination,
+        extensions.optimistic_bounds,
     ));
     let capture = observation.enable_constraint_metrics();
     let mut metric_scope = d.track_metrics(capture);
@@ -69,6 +70,7 @@ where
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -192,6 +194,7 @@ where
                             config,
                             prior,
                             time,
+                            optimistic_bound,
                             || {
                                 crate::branch_tree::BasicTree::for_phase(
                                     p,
@@ -333,6 +336,7 @@ where
         extensions.clock,
         extensions.phase_terminations,
         extensions.stateful_termination,
+        extensions.optimistic_bounds,
     ));
     let capture = observation.enable_constraint_metrics();
     let mut metric_scope = d.track_metrics(capture);
@@ -353,6 +357,7 @@ where
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -476,6 +481,7 @@ where
                             config,
                             prior,
                             time,
+                            optimistic_bound,
                             || {
                                 crate::branch_tree::ListTree::for_phase(
                                     p,
@@ -616,6 +622,7 @@ where
         extensions.clock,
         extensions.phase_terminations,
         extensions.stateful_termination,
+        extensions.optimistic_bounds,
     ));
     let capture = observation.enable_constraint_metrics();
     let mut metric_scope = d.track_metrics(capture);
@@ -641,6 +648,7 @@ where
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -771,6 +779,7 @@ where
                             config,
                             prior,
                             time,
+                            optimistic_bound,
                             || {
                                 crate::branch_tree::MixedTree::for_phase(
                                     p,

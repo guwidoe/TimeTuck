@@ -1,11 +1,17 @@
 use super::ValueSwapSelection;
 use crate::{ListMove, ListSelectionView, SelectionLifecycleEvent, SelectionSource};
 use std::num::NonZeroUsize;
+mod correlated;
+pub use correlated::ListSwapPartnerFactory;
 
 /// Cooperative work limits for one yielded swap. Each attempted pair reads at
 /// most `reads_per_side` values from each child, including the successful read.
 /// At most `pairs_per_item` complete pairs are checked before giving up. A
 /// successful output resets both limits; opening again starts fresh traversal.
+/// In correlated mode pairs_per_item instead bounds left branches; reads_per_side
+/// bounds the search for each movable left and its partner cursor independently.
+/// Thus both modes inspect at most twice reads_per_side times pairs_per_item
+/// source occurrences per yielded move (including exhausted reads).
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ListSwapSourceLimits {
     pub reads_per_side: NonZeroUsize,
@@ -41,10 +47,12 @@ pub struct ListSwapSourceLimits {
 /// set a finite provider draw limit; candidates remain streamed. Owned capture
 /// copies assignment row containers and values once per capture. Alternatively,
 /// bound outputs with take() or LimitedSelectionSource before collecting moves.
+/// Use correlated() to open a partner factory for each selected left instead of
+/// independently consuming two children. The default constructor remains independent.
 /// Receiver normalization preserves selected left/right
 /// order for assigned swaps; assigned/missing replacement always unassigns the
 /// assigned member before assigning the missing value at that same position.
-pub struct ListValueSwapSource<L, R> {
+pub struct ListValueSwapSource<L, R, const CORRELATED: bool = false> {
     left: L,
     right: R,
     limits: ListSwapSourceLimits,
@@ -59,6 +67,8 @@ impl<L, R> ListValueSwapSource<L, R> {
             include_noops,
         }
     }
+}
+impl<L, R, const CORRELATED: bool> ListValueSwapSource<L, R, CORRELATED> {
     pub fn left(&self) -> &L {
         &self.left
     }

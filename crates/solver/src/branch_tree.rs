@@ -8,6 +8,7 @@ pub(crate) trait BranchTree {
     type Assignment;
     type Choice;
     fn depth(&self) -> usize;
+    fn remaining_components(&self, depth: usize) -> (&[usize], &[usize]);
     fn choices<'b>(
         &'b self,
         assignment: &'b Self::Assignment,
@@ -115,6 +116,9 @@ impl<V: Eq + Clone> BranchTree for BasicTree<'_, V> {
     fn depth(&self) -> usize {
         self.remaining.len()
     }
+    fn remaining_components(&self, depth: usize) -> (&[usize], &[usize]) {
+        (&self.remaining[depth..], &[])
+    }
     fn choices<'b>(
         &'b self,
         _: &'b Assignment<V>,
@@ -218,6 +222,9 @@ impl<V: Eq + Clone> BranchTree for ListTree<'_, V> {
     type Choice = Option<ListPosition>;
     fn depth(&self) -> usize {
         self.remaining.len()
+    }
+    fn remaining_components(&self, depth: usize) -> (&[usize], &[usize]) {
+        (&[], &self.remaining[depth..])
     }
     fn choices<'b>(
         &'b self,
@@ -354,6 +361,9 @@ impl<B: Eq + Clone, L: Eq + Clone> BranchTree for MixedTree<'_, B, L> {
     type Choice = MixedChoice;
     fn depth(&self) -> usize {
         self.lists.depth() + self.basic.depth()
+    }
+    fn remaining_components(&self, depth: usize) -> (&[usize], &[usize]) {
+        self.remaining(depth)
     }
     fn choices<'b>(
         &'b self,

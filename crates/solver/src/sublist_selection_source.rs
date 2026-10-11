@@ -5,6 +5,8 @@ use crate::{
     SubListSource,
 };
 use std::{num::NonZeroUsize, sync::Arc};
+mod correlated;
+pub use correlated::{SubListChangeSourceLimits, SubListDestinationFactory};
 
 /// Number of span coordinates in the model catalog, independent of how often a
 /// source repeats them or restricts its owner sequence. This is not traversal length.
@@ -323,8 +325,9 @@ impl SubListSwapProposal {
 /// lifecycle events left then right; callbacks and their effects are not rolled back.
 /// proposal_count is the Cartesian catalog size, not traversal length, and includes
 /// invalid/no-op pairs. size is only exact for empty catalogs; other lengths are
-/// unknown because child selection can be truncated or filtered.
-pub struct SubListChangeSource<L, R, D = SubListProposalDraw> {
+/// unknown because child selection can be truncated or filtered. The opt-in
+/// correlated constructor instead retains spans and yields validated ListMoves.
+pub struct SubListChangeSource<L, R, D = SubListProposalDraw, const CORRELATED: bool = false> {
     left: L,
     right: R,
     reversing: bool,

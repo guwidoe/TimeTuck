@@ -191,15 +191,30 @@ fn run_scored_events_initial<'a>(
                     })
                 }
                 Err(SolverError::Repair { phase, .. }) => Err(Failure::Repair(phase)),
-                Err(SolverError::PinnedUnassignedVariable { .. }) => panic!("fixture uses permissive pin policy"),
+                Err(SolverError::PinnedUnassignedVariable { .. }) => {
+                    panic!("fixture uses permissive pin policy")
+                }
                 Err(SolverError::EmptyPlan) => Err(Failure::Empty),
-                Err(SolverError::InitialScoring { .. }) => panic!("fixture models have movable entities"),
-                Err(SolverError::InvalidMoveProviderPhase { .. }) => panic!("fixture has no provider bindings"),
-                Err(SolverError::DiminishedReturnsRequiresLocalSearch { .. } | SolverError::InvalidPhaseTermination { .. } | SolverError::DuplicatePhaseTermination { .. } | SolverError::InvalidBranchOrder { .. }) => {
+                Err(SolverError::InitialScoring { .. }) => {
+                    panic!("fixture models have movable entities")
+                }
+                Err(SolverError::InvalidMoveProviderPhase { .. }) => {
+                    panic!("fixture has no provider bindings")
+                }
+                Err(
+                    SolverError::DiminishedReturnsRequiresLocalSearch { .. }
+                    | SolverError::InvalidOptimisticBoundPhase { .. }
+                    | SolverError::InvalidPhaseTermination { .. }
+                    | SolverError::DuplicatePhaseTermination { .. }
+                    | SolverError::InvalidBranchOrder { .. },
+                ) => {
                     panic!("fixture has no phase termination bindings")
                 }
                 Err(SolverError::InvalidScoreTrend { .. }) => panic!("fixture has no trend"),
-                Err(SolverError::PhaseScoreMismatch { .. } | SolverError::PhaseScoreCheckFailed { .. }) => {
+                Err(
+                    SolverError::PhaseScoreMismatch { .. }
+                    | SolverError::PhaseScoreCheckFailed { .. },
+                ) => {
                     panic!("fixture has no phase score checker")
                 }
                 Err(SolverError::InvalidOptimisticBound { phase, .. }) => {
@@ -396,7 +411,10 @@ fn execute(mode: usize, c: SolverConfig<'_>) -> Outcome {
     );
     assert_eq!(
         r.work.move_evaluations,
-        r.phases.iter().map(|p| p.work.move_evaluations).sum::<u64>()
+        r.phases
+            .iter()
+            .map(|p| p.work.move_evaluations)
+            .sum::<u64>()
     );
     assert_eq!(
         r.work.completed_steps,

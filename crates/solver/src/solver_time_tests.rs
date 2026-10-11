@@ -94,6 +94,7 @@ fn exercise_variable<'a>(
                                 c,
                                 prior,
                                 time,
+                                None,
                                 || crate::branch_tree::BasicTree::new(&p),
                                 |a| exact::score_basic(&p, &mut g, &s, a, None),
                                 None,

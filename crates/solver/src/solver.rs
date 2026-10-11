@@ -250,6 +250,10 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    /// A bound callback targeted a missing or non-bounded-exact phase.
+    InvalidOptimisticBoundPhase {
+        phase: usize,
+    },
     InvalidBranchOrder {
         phase: usize,
         error: crate::BranchOrderError,
@@ -336,6 +340,10 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidOptimisticBoundPhase { phase } => write!(
+                f,
+                "optimistic bound targets non-bounded-exact phase {phase}"
+            ),
             Self::InvalidBranchOrder { phase, error } => write!(f, "phase {phase}: {error}"),
             Self::DiminishedReturnsRequiresLocalSearch { phase } => {
                 write!(
@@ -412,7 +420,8 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
             Self::Repair { error, .. } => Some(error),
-            Self::DiminishedReturnsRequiresLocalSearch { .. }
+            Self::InvalidOptimisticBoundPhase { .. }
+            | Self::DiminishedReturnsRequiresLocalSearch { .. }
             | Self::InvalidPhaseTermination { .. }
             | Self::DuplicatePhaseTermination { .. }
             | Self::EmptyPlan
@@ -1000,6 +1009,7 @@ enum PlanCallback<'a, A, S> {
         clock: Option<&'a crate::SolverClock>,
         phase_terminations: &'a [crate::PhaseTerminationBinding<'a, S>],
         stateful_termination: Option<&'a crate::StatefulSearchTermination<'a, S>>,
+        optimistic_bounds: crate::PhaseOptimisticBounds<'a, A, S>,
     },
 }
 impl<'a, A, S> PlanCallback<'a, A, S> {
@@ -1013,6 +1023,7 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
         clock: Option<&'a crate::SolverClock>,
         phase_terminations: &'a [crate::PhaseTerminationBinding<'a, S>],
         stateful_termination: Option<&'a crate::StatefulSearchTermination<'a, S>>,
+        optimistic_bounds: crate::PhaseOptimisticBounds<'a, A, S>,
     ) -> Option<Self> {
         if check.is_some()
             || lifecycle.is_some()
@@ -1021,6 +1032,7 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
             || clock.is_some()
             || !phase_terminations.is_empty()
             || stateful_termination.is_some()
+            || !optimistic_bounds.is_empty()
         {
             Some(Self::Checked {
                 events,
@@ -1031,6 +1043,7 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
                 clock,
                 phase_terminations,
                 stateful_termination,
+                optimistic_bounds,
             })
         } else {
             events.map(Self::Events)
@@ -1049,6 +1062,17 @@ struct PlanObservation<'a, A, S> {
     clock_session: Option<crate::solver_clock::ClockSession>,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
+    fn take_optimistic_bound(
+        &mut self,
+        phase: usize,
+    ) -> Option<&'a mut crate::OptimisticBoundCallback<'a, A, S>> {
+        match &mut self.callback {
+            Some(PlanCallback::Checked {
+                optimistic_bounds, ..
+            }) => optimistic_bounds.remove(phase),
+            _ => None,
+        }
+    }
     fn stateful_condition(&self) -> Option<&'a crate::StatefulSearchTermination<'a, S>> {
         match &self.callback {
             Some(PlanCallback::Checked {
@@ -1105,6 +1129,12 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         Ok(())
     }
     fn validate_bindings<E>(&self, phases: &[SolverPhase<'_, S>]) -> Result<(), SolverError<E>> {
+        if let Some(PlanCallback::Checked {
+            optimistic_bounds, ..
+        }) = &self.callback
+        {
+            optimistic_bounds.validate(phases)?;
+        }
         if self
             .stateful_condition()
             .is_some_and(crate::StatefulSearchTermination::needs_local_phase)
@@ -2285,6 +2315,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
@@ -2352,6 +2383,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::BasicTree::for_phase(
                             p,
@@ -2648,6 +2680,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
@@ -2715,6 +2748,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::ListTree::for_phase(
                             p,
@@ -2950,6 +2984,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
@@ -3020,6 +3055,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::MixedTree::for_phase(
                             p,
@@ -3264,6 +3300,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
@@ -3342,6 +3379,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::BasicTree::for_phase(
                             p,
@@ -3584,6 +3622,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
@@ -3660,6 +3699,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::ListTree::for_phase(
                             p,
@@ -3933,6 +3973,7 @@ fn solve_mixed_stream_impl<
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let optimistic_bound = observation.take_optimistic_bound(index);
             let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
@@ -4013,6 +4054,7 @@ fn solve_mixed_stream_impl<
                     config.clone(),
                     prior.clone(),
                     time,
+                    optimistic_bound,
                     || {
                         crate::branch_tree::MixedTree::for_phase(
                             p,
@@ -4484,6 +4526,7 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4517,6 +4560,7 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4543,6 +4587,7 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4576,6 +4621,7 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4614,6 +4660,7 @@ pub fn solve_list_stream_with_extensions<
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4646,6 +4693,7 @@ pub fn solve_mixed_stream_with_extensions<
             extensions.clock,
             extensions.phase_terminations,
             extensions.stateful_termination,
+            extensions.optimistic_bounds,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
