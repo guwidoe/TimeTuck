@@ -16,7 +16,70 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round48
+## Latest verified checkpoint — round49b
+
+Main 6428640 adds actual resource views, fallible lifecycle hooks and list context
+resources to assembled factories. Goal active/incomplete. No new agents/assignments;
+Community pin/submodule unchanged. Both runner-a and runner-c SSH confirmed reachable
+following the user's latest online notification. Final gate ran on runner-a.
+
+Eleven complete DefaultSolverTest adaptations reduce this family's pending cases
+from 20 to 9 (76/85 passing). Native mode vectors inherit correctly. Actual overridden
+resources close before PhaseEntered; views keep identity without retaining directors.
+Actual CH/LS work carries calculation counts. Dense and stream list runners solve
+the complete uninitialized 20/5 source fixture with 50 local-search steps. Startup
+listener and invalid-list-provider errors notify while the current assignment is
+live, then close the resource. Failure-hook/release errors are typed and suppressed
+without replacing primary errors; panic unwinding runs cleanup without more hooks.
+Four new fixture records attribute full list layouts, zero/config helpers and the
+actual single bad-value append provider. Only upstream TEST sources inspected.
+
+Six original regressions add no method credit: scored list solves/cache/independent
+runs, returning basic modes, counts/event/resource identity, listener/cleanup error
+ordering, each hook failure boundary, panic cleanup and built-in list resource
+score/totals/consistency checks. Existing dense/stream basic/list scoring and search
+methods are unchanged; context and assembly parent files only register new children.
+Hooks run outside candidate loops. No new benchmark or wall-clock speedup claim;
+prior performance comparisons remain visibly stale.
+
+Local focused 11+6 tests and strict fmt/Clippy passed. The initial runner-a gate
+ran 9 affected targets and reused 971. Two error assertions were then tightened
+to include the variable name. The final strict fmt/Clippy and bash scripts/check.sh
+passed using actual round49 logs with unchanged per-job keys, checksums and dates.
+Only the changed integration target ran again; old evidence was not retagged.
+The stopped local prebuild is not final verification.
+
+- 6,827 Rust tests, 290 doctests.
+- 3,600/4,855 source methods passed (74.150%); 689 pending, 566 excluded,
+  zero failed/unverified. Pending 700→689, exclusions unchanged.
+- 1 Rust RUN/979 REUSE; 46 Python REUSE. Final worker 58.295s.
+  Initial affected targets included lib and lifecycle/context/factory/assembly
+  pairs. Final test-only refinement reruns only assembled_lifecycle_cases;
+  original keys/checksums/dates retained.
+- Rust source 916aed1ca20e3e5f3fb574b0d97dd0f1198325a9dfd5f67dbd225d0099072b6a.
+- Report/verification 9f0330e4854f068e442a8d812c3560bfe4bce54542b4be0654e6ec8294bfe6ec.
+- Final remote root b1ae0147a181ded7fa691414b16801bf5073028e40ed1ce218bea07c65fd5e82.
+- work/round49b-runner-a-results.tar.gz SHA256 3ca761fe98f6e75c87da845171ff13f3f49eaefb11df4d5c153ff89b495efbeb.
+- Evidence/freeze work/parallel-round49b-evidence.json, parallel-round49b-freeze.json.
+  Worker/collector finished; work/verify_round49b_postcommit.py and
+  round49b-postcommit-evidence.json prove committed state and report freshness.
+
+Next gate must seed actual round49b archive/root (current runner seeds round49).
+Detailed remaining nine DefaultSolverTest TEST specifications are saved in
+work/round49-next-work.txt. Persistent list state needs a real director-owned
+reusable index integrated with edits/rollback/phase search; retain full 10/4 fixture
+and CH+LS10+LS10, compare actual state identity after 3 phases. Current views are
+resource identity only, not that list-state implementation. Ruin schema validation
+has three pending full 2/2/2 mixed cases; SchemaMoveConfig currently lacks ruin kind.
+Neighborhood opt-in/VND rejection has two pending cases. Also phase-corruption
+guidance, post-run live problem-change restart and Java classloader adaptation.
+Keep pending until all assertions are supported, do not silently exclude.
+
+Per-step lifecycle hooks, whole-solve controls and complete tracked/assertion-bank
+execution remain separate. Observed hooks don't run on pre-allocation errors;
+final-release errors necessarily see a closed view. No new Rust batch begun.
+
+## Prior verified checkpoint — round48
 
 Main c96df2f assembles prepared scoring banks with native runtime phase execution.
 Goal active/incomplete. No new agents/assignments; Community pin/submodule unchanged.
