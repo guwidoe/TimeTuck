@@ -389,6 +389,62 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             score,
         })
     }
+    /// Internal transitions between one traversal's fixed value representatives.
+    /// The first exact candidate must refresh all scopes: external Eq-equal values
+    /// can have different scoring payloads. Not an arbitrary replacement API.
+    pub(crate) fn replace_retained_assignment(
+        &mut self,
+        next: Assignment<V>,
+        refresh_all: bool,
+    ) -> Result<u128, ScoringError> {
+        self.network.validate(self.problem, &next)?;
+        let mut affected: Vec<usize> = if refresh_all {
+            (0..self.network.constraint_count()).collect()
+        } else {
+            self.assignment
+                .values()
+                .iter()
+                .zip(next.values())
+                .enumerate()
+                .filter(|(_, (before, after))| before != after)
+                .flat_map(|(i, _)| self.network.dependents[i].iter().copied())
+                .collect()
+        };
+        affected.sort_unstable();
+        affected.dedup();
+        affected.retain(|&i| {
+            self.network.constraints[i]
+                .weight
+                .as_ref()
+                .is_none_or(|w| *w != S::ZERO)
+        });
+        let mut updates = Vec::with_capacity(affected.len());
+        for i in affected {
+            updates.push((i, self.network.contribution(i, &next)?));
+        }
+        let score = if refresh_all {
+            self.network
+                .arithmetic
+                .sum(&updates.iter().map(|(_, s)| s.clone()).collect::<Vec<_>>())
+        } else {
+            self.network.arithmetic.adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, new)| (&self.contributions[*i], new)),
+            )
+        }
+        .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
+        let score = with_structure(score, self.problem, &next);
+        let work = updates.len() as u128;
+        // Validation, user callbacks and checked arithmetic finish before installation.
+        self.assignment = next;
+        for (i, value) in updates {
+            self.contributions[i] = value;
+        }
+        self.score = score;
+        Ok(work)
+    }
     /// Begin a live multi-move scope. Drop restores assignment and cached scores;
     /// commit retains edits. No scoring callbacks run to create or restore it.
     pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, ScoringError> {
@@ -749,3 +805,5 @@ mod selection_tests {
         }
     }
 }
+
+crate::retained_scoped_phase::retained_scoped!(ScoreDirector, [V], crate::Assignment<V>, crate::FiniteProblem<V>, crate::Move<V>, crate::ScoringError, crate::LocalSearchError, SolverSequence, basic, construction, crate::ConstructionConfig<'_>, crate::ConstructionResult<V,S>, local_search, crate::LocalSearchConfig<'_,S>, crate::LocalSearchResult<V,S>, basic_director, Some, []);

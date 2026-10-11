@@ -1287,3 +1287,5 @@ mod sublist_rank;
 pub use sublist_rank::{SubListRankError, SubListRankIndex};
 
 mod retained_calculator_phase;
+
+mod retained_scoped_phase;

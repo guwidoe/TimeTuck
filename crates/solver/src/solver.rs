@@ -4058,3 +4058,6 @@ mod phase_check_tests;
 
 #[path = "calculator_retained.rs"]
 pub(crate) mod calculator_retained;
+
+#[path = "scoped_retained.rs"]
+pub(crate) mod scoped_retained;

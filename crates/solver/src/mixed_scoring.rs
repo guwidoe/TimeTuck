@@ -655,6 +655,113 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             movement,
         )?)
     }
+    /// Internal transitions between one traversal's fixed value representatives.
+    /// The first exact candidate must refresh all scopes: external Eq-equal values
+    /// can have different scoring payloads. Not an arbitrary replacement API.
+    pub(crate) fn replace_retained_assignment(
+        &mut self,
+        next: MixedAssignment<B, L>,
+        refresh_all: bool,
+    ) -> Result<u128, MixedScoringError> {
+        self.network.validate(self.problem, &next)?;
+        let mut affected: Vec<usize> = if refresh_all {
+            (0..self.network.constraint_count()).collect()
+        } else {
+            let mut affected = Vec::new();
+            for (i, (before, after)) in self
+                .assignment
+                .basic()
+                .values()
+                .iter()
+                .zip(next.basic().values())
+                .enumerate()
+            {
+                if before != after {
+                    affected.extend(&self.network.basic_dependents[i]);
+                }
+            }
+            let touched: Vec<usize> = self
+                .assignment
+                .lists()
+                .lists()
+                .iter()
+                .zip(next.lists().lists())
+                .enumerate()
+                .filter_map(|(i, (before, after))| (before != after).then_some(i))
+                .collect();
+            for &entity in &touched {
+                affected.extend(&self.network.entity_dependents[entity]);
+            }
+            let changed = (self.network.scoped_values.len() >= 64)
+                .then(|| {
+                    self.problem.lists().indexed_changed_value_positions(
+                        next.lists(),
+                        &touched,
+                        |entity| &self.assignment.lists().lists()[entity],
+                    )
+                })
+                .flatten();
+            if let Some(changed) = changed {
+                for (i, _) in changed {
+                    affected.extend(&self.network.value_dependents[i]);
+                }
+            } else {
+                // All values in changed lists may have changed owner/index/neighbors.
+                // Conservative invalidation includes unchanged positions with new neighbors.
+                for &i in &self.network.scoped_values {
+                    let value = &self.problem.lists().values()[i];
+                    if touched.iter().any(|&e| {
+                        self.assignment.lists().lists()[e].contains(value)
+                            || next.lists().lists()[e].contains(value)
+                    }) {
+                        affected.extend(&self.network.value_dependents[i]);
+                    }
+                }
+            }
+            affected
+        };
+        affected.sort_unstable();
+        affected.dedup();
+        affected.retain(|&i| {
+            self.network.constraints[i]
+                .weight
+                .as_ref()
+                .is_none_or(|w| *w != S::ZERO)
+        });
+        let locations = self
+            .network
+            .value_locations(self.problem, &next, affected.iter().copied());
+        let mut updates = Vec::with_capacity(affected.len());
+        for i in affected {
+            updates.push((
+                i,
+                self.network
+                    .contribution(i, self.problem, &next, locations.as_deref())?,
+            ));
+        }
+        let score = if refresh_all {
+            self.network
+                .arithmetic
+                .sum(&updates.iter().map(|(_, s)| s.clone()).collect::<Vec<_>>())
+        } else {
+            self.network.arithmetic.adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, new)| (&self.contributions[*i], new)),
+            )
+        }
+        .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
+        let score = with_structure(score, self.problem, &next)?;
+        let work = updates.len() as u128;
+        // Validation, user callbacks and checked arithmetic finish before installation.
+        self.assignment = next;
+        for (i, value) in updates {
+            self.contributions[i] = value;
+        }
+        self.score = score;
+        Ok(work)
+    }
     /// Begin a live multi-move scope. Drop restores assignment and cached scores;
     /// commit retains edits. No scoring callbacks run to create or restore it.
     pub fn edit_session(&mut self) -> Result<crate::MoveSession<'_, Self>, MixedScoringError> {
@@ -930,3 +1037,5 @@ mod selection_tests {
         }
     }
 }
+
+crate::retained_scoped_phase::retained_scoped!(MixedScoreDirector, [B,L], crate::MixedAssignment<B,L>, crate::MixedProblem<B,L>, crate::MixedMove<B,L>, crate::MixedScoringError, crate::MixedLocalSearchError, MixedSolverSequence, mixed, mixed_construction, crate::MixedConstructionConfig<'_>, crate::MixedConstructionResult<B,L,S>, mixed_local_search, crate::MixedLocalSearchConfig<'_,S>, crate::MixedLocalSearchResult<B,L,S>, mixed_director, |a| a, [search]);
