@@ -170,7 +170,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     /// This adapter retains the existing immutable input event per live ID;
     /// retaining it and taking checkpoints do not clone worlds. Notification
     /// discovery, graph propagation and projection may still visit the full
-    /// problem. Only notified input and
+    /// problem. Unnotified input and
     /// binding callbacks are avoided; no overall constant-time guarantee is made.
     /// Session registration is fixed, as for `map_shadows`.
     ///
