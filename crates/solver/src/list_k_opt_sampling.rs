@@ -57,7 +57,7 @@ pub(crate) fn feasible(n: usize, k: usize) -> bool {
 /// preserved exactly as by `list_k_opt_moves`. No complete move window is built.
 /// Source validation still runs at zero attempts; no eligible entity returns empty
 /// immediately. Each proposal uses linear scratch space and at most O(n*k) edge
-/// checking plus O(n²) relocation construction, independent of neighborhood size.
+/// checking plus O(n log n) relocation construction, independent of neighborhood size.
 ///
 /// ```
 /// use timetuck::*;

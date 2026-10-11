@@ -66,7 +66,38 @@ pub(crate) fn movement<V: Eq + Clone>(
     entity: usize,
     target: &[usize],
 ) -> ListMove<V> {
-    let mut current: Vec<_> = (0..a.lists()[entity].len()).collect();
+    let Some(start) = target.iter().enumerate().position(|(i, &value)| i != value) else {
+        return ListMove::Composite(vec![]);
+    };
+    // A fixed prefix never participates in relocations. Avoid both its search
+    // cost and scratch storage, especially for long pinned prefixes.
+    let remaining = a.lists()[entity].len() - start;
+    if remaining < 128 {
+        return direct_movement(entity, start, a.lists()[entity].len(), &target[start..]);
+    }
+    let mut ranks = RemainingRanks::new(remaining);
+    let mut moves = Vec::new();
+    for (offset, &wanted) in target[start..].iter().enumerate() {
+        let index = start + offset;
+        // Earlier choices form the fixed target prefix. Everything still in the
+        // suffix retains original identity order, regardless of earlier moves.
+        let source = index + ranks.before(wanted - start);
+        if source != index {
+            moves.push(ListMove::Change {
+                source: ListPosition {
+                    entity,
+                    index: source,
+                },
+                destination: ListPosition { entity, index },
+            });
+        }
+        ranks.remove(wanted - start);
+    }
+    ListMove::Composite(moves)
+}
+
+fn direct_movement<V>(entity: usize, start: usize, end: usize, target: &[usize]) -> ListMove<V> {
+    let mut current: Vec<_> = (start..end).collect();
     let mut moves = Vec::new();
     for (index, &wanted) in target.iter().enumerate() {
         let source = current
@@ -77,9 +108,12 @@ pub(crate) fn movement<V: Eq + Clone>(
             moves.push(ListMove::Change {
                 source: ListPosition {
                     entity,
-                    index: source,
+                    index: start + source,
                 },
-                destination: ListPosition { entity, index },
+                destination: ListPosition {
+                    entity,
+                    index: start + index,
+                },
             });
             current.remove(source);
             current.insert(index, wanted);
@@ -87,6 +121,31 @@ pub(crate) fn movement<V: Eq + Clone>(
     }
     ListMove::Composite(moves)
 }
+
+// Prefix counts for identities not yet placed. All counts initially equal one,
+// so build the Fenwick tree directly in linear time without individual updates.
+struct RemainingRanks(Vec<usize>);
+impl RemainingRanks {
+    fn new(length: usize) -> Self {
+        Self((0..=length).map(|i| i & i.wrapping_neg()).collect())
+    }
+    fn before(&self, mut index: usize) -> usize {
+        let mut count = 0;
+        while index != 0 {
+            count += self.0[index];
+            index &= index - 1;
+        }
+        count
+    }
+    fn remove(&mut self, identity: usize) {
+        let mut index = identity + 1;
+        while index < self.0.len() {
+            self.0[index] -= 1;
+            index += index & index.wrapping_neg();
+        }
+    }
+}
+
 impl<V: Eq + Clone> ListProblem<V> {
     /// Reconnect a cyclic movable suffix by removing and adding equal numbers of
     /// undirected edges. Endpoints are absolute indices in `before`, including the
@@ -315,4 +374,74 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
                     movement(a, e, &target)
                 })
         })
+}
+
+#[cfg(test)]
+mod rank_tests {
+    use super::*;
+
+    fn reference(entity: usize, target: &[usize]) -> ListMove<()> {
+        let mut current: Vec<_> = (0..target.len()).collect();
+        let mut steps = vec![];
+        for (index, &wanted) in target.iter().enumerate() {
+            let source = current.iter().position(|&value| value == wanted).unwrap();
+            if source != index {
+                steps.push(ListMove::Change {
+                    source: ListPosition {
+                        entity,
+                        index: source,
+                    },
+                    destination: ListPosition { entity, index },
+                });
+                current.remove(source);
+                current.insert(index, wanted);
+            }
+        }
+        ListMove::Composite(steps)
+    }
+
+    #[test]
+    fn remaining_ranks_match_direct_counts_after_every_removal() {
+        for size in [0, 1, 2, 3, 7, 8, 31, 32, 127, 128, 129, 255, 256, 257] {
+            for seed in 0..8 {
+                let mut order: Vec<_> = (0..size).collect();
+                crate::random::SplitMix64::new(seed).shuffle(&mut order);
+                let mut ranks = RemainingRanks::new(size);
+                let mut present = vec![true; size];
+                for identity in order {
+                    for end in 0..=size {
+                        assert_eq!(
+                            ranks.before(end),
+                            present[..end].iter().filter(|&&p| p).count()
+                        );
+                    }
+                    ranks.remove(identity);
+                    present[identity] = false;
+                }
+                assert_eq!(ranks.before(size), 0);
+            }
+        }
+    }
+
+    #[test]
+    fn adaptive_relocations_match_every_reference_child_around_thresholds() {
+        for size in [0, 1, 4, 31, 127, 128, 129, 130, 257, 1024, 4096] {
+            let assignment = ListAssignment::new(vec![vec![], vec![(); size]]);
+            for prefix in [0, size / 2, size.saturating_sub(8)] {
+                for seed in 0..8 {
+                    let mut target: Vec<_> = (0..size).collect();
+                    if seed == 0 {
+                        target[prefix..].reverse();
+                    } else if seed != 1 {
+                        crate::random::SplitMix64::new(seed).shuffle(&mut target[prefix..]);
+                    }
+                    assert_eq!(
+                        movement(&assignment, 1, &target),
+                        reference(1, &target),
+                        "size{size} prefix{prefix} seed{seed}"
+                    );
+                }
+            }
+        }
+    }
 }
