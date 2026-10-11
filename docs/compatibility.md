@@ -6408,3 +6408,48 @@ These three changes add7source-method adaptations, not additional claims for the
 original regression tests. Full combined evidence/current coverage belongs to the
 latest completed gate in docs/next-session.md; focused logs and exact source manifests
 are preserved under work/parallel-round3-evidence.
+
+## Indexed move unions, notified shadows and retained calculators
+
+Large random MoveUnion instances use stable child slots and an indexed u128 weight
+prefix. Draws and exhausted-child removal are logarithmic; seeded outputs, polling,
+drops, disabled children and exhaustion retain their previous behavior. Unions with
+fewer than32enabled children and sequential unions keep the linear path. Four
+original unit tests compare ranks/removals, wide weights and seeded callback traces;
+provider coverage reaches all six solver/scoring paths. Same-host runner-a native
+measurements cover14workloads/420samples with equal checksums, including creation
+and destruction.128children improve1.74–2.28x,1024improve7.32–9.33x,8192improve
+41.83–46.05x. Tiny steady workloads regress1.5–2.9%; short finite samples add0.02–7
+microseconds per four unions, up to10% at8children. These are isolated component
+measurements, not Java or whole-solver speedups.
+
+ShadowSession and ShadowSolutionManager offer explicit update_notified refreshes.
+Initial refresh initializes everything. Later refreshes sample notified inputs and
+resolve notified dynamic targets, then propagate changed values through the graph.
+Callers must notify all changed inputs, bindings and suppliers reading changed
+external facts; ordinary update remains the full-polling option. Unnotified input
+values survive manual rewires and cycle recovery. Failed refresh/publication keeps
+notifications for retry. Independent diagnostics still inspect the full world;
+notification-aware missing-source diagnostics inspect notified targets. Seven
+original regressions include216graph states compared with ordinary refresh. Across
+1024inputs+1024bindings, one changed input needs1reader/0resolvers (and2downstream
+suppliers where applicable), versus1024readers/1024resolvers for ordinary refresh.
+Metadata preparation still visits the graph; no O(touched) total-work claim.
+
+Basic/list/mixed calculator directors now offer run_solver and
+run_solver_with_extensions when their calculator independently clones mutable
+scoring state. Cached phase entry consumes the normal logical evaluation budget
+but no calculator callback; changing the entry assignment resets and scores.
+Snapshots restore assignment, calculator, score and match registrations together
+without extra scoring. Registration high-water tracking prevents discarded IDs
+from being reused after rollback. Existing factory APIs remain available and
+factories still provide independent diagnostics. Shared external instrumentation
+must not affect scoring. Eight original integration tests include75model/plan/
+budget comparisons, custom/provider/error/diagnostic coverage, plus one registry
+snapshot unit. Representative three-phase factory/reset/score/clone counts including
+setup change3/3/6/0 to1/1/4/4; snapshots have a cost, so no universal speedup claim.
+
+This batch adds21original Rust tests and one doctest, with no upstream method credit.
+Focused source manifests and raw union measurements are preserved in
+work/parallel-round4-evidence. Combined verification is recorded separately below
+in the implementation handoff; Java performance measurements retain their own ages.

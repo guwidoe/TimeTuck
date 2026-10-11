@@ -23173,3 +23173,17 @@ Move unions38focused tests,14workloads420samples same-host runner-a; shadows38te
 Calculator factory/reset/score/clone work3/3/6/0 vs1/1/4/4 for representative3phase
 stateful solve including setup, no universal wall-time speedup claim. All worktrees
 clean and agents idle. Main integration/combined round4 verification is next.
+
+Round4 integrated:44b03ac weighted unions,629dec3 notified shadows,be99011 retained
+calculators. All changed Rust files match final focused remote snapshot hashes.
+Provenance unchanged from7623678; all new tests original (5moves+7shadows+9calculators).
+Combined gate72696 LIVE on frozenbe99011: stable environment launcher runs
+work/prebuild_parallel_round4.py > work/parallel-round4-prebuild.log then
+bash scripts/check.sh > work/parallel-round4-final-check.log. Do not restart it.
+Expected5818Rust+260doctests,3291source methods; claim only after terminal success.
+Run prepared/syntax-checked work/record_parallel_round4.py under stable environment
+launcher after success; it checks freshness/current source, exact provenance,
+remote file hashes and union probe hash, then records actual counts. All remote
+workers free; agents idle with clean round4 commits. Local reserved72696. Next goal
+turn may assign next independent work to existing Astra/high agents/remotes while
+this gate runs. Goal active/incomplete; previous turn is concrete progress.
