@@ -6369,3 +6369,42 @@ checks pass on their actual isolated source snapshots; parent combined verificat
 is recorded separately in docs/next-session.md. Raw evidence and manifests are in
 work/parallel-round2-evidence/{scoring,dependency,termination}/work. Existing Java
 comparison measurements remain tied to their original sources and visibly stale.
+
+## Reserved partitions, entity shadow groups and shared improvement windows
+
+PartitionedJoinNode supports explicit empty-group reservations with stable opaque
+handles. Single-row and batch updates preserve reservation identity. Guarded cleanup
+rejects live, stale and foreign groups; checkpoint restoration preserves identity.
+Unreserved joins retain automatic cleanup and allocate no reservation tokens. Five
+complete FusedEqualIndex methods now retain their identity, count, membership,
+cleanup, composite equality and ordered suffix assertions. Custom downstream factory
+invocation remains pending. Four original integration regressions and a checkpoint
+unit test cover native error and lifecycle boundaries. No timing claim.
+
+ShadowSession builds a persistent owner-to-field index using canonical entity type
+plus native key. entity_nodes/affected_entities query it; mark_entities_dirty
+validates all handles before scheduling work. changed_entities reports successful
+derived-value/inconsistency changes, clears on a successful no-change refresh and
+restores atomically with checkpoints/manager rollback. Input-only changes do not
+appear in the report. The complete six-field AffectedEntitiesUpdater grouping test
+is adapted. Six original regressions cover type separation, foreign handles,
+propagation/cycles, manager rollback and work bounds. Eq-only index construction
+is O(fields times owners), worst-case quadratic. Queries and notifications avoid
+key-universe comparisons;2048fields/1024owners yield zero runtime key comparisons.
+No wall-time speedup is claimed.
+
+SolverLimits::significant_improvement preserves a score-threshold stagnation anchor
+across local/custom/repair/exact phases. Initial construction/preparation is excluded;
+subsequent phases retain the anchor. Small gains accumulate to the configured score
+difference. Equality at the deadline continues; late improvements stay retained but
+cannot revive expiry. Phase-local policies remain independent. Repair polling stays
+cooperative at rebuild boundaries. No duplicate scoring or disabled-policy clock
+reads are introduced. Nine controlled-clock unit cases and48comparisons across12
+backends cover timing, phase transitions, retained best and inactive-policy behavior.
+The complete construction-only threshold method is adapted; Java mixed-phase
+solver/phase gradient bookkeeping remains pending.
+
+These three changes add7source-method adaptations, not additional claims for the
+original regression tests. Full combined evidence/current coverage belongs to the
+latest completed gate in docs/next-session.md; focused logs and exact source manifests
+are preserved under work/parallel-round3-evidence.

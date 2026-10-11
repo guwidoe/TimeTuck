@@ -23087,3 +23087,43 @@ solve-wide significant-improvement timeout with a shared score anchor, construct
 exclusion and expiry latching, avoiding duplicate score calculations; LOCAL worker
 still blocked only by root's live72578 compilation. Do not compile there until gate
 terminal; notify agent explicitly when released. No main Rust edits during the gate.
+
+## Second parallel batch verified; third integrated (2026-10-11)
+
+Previous goal turn: progress (six implementation commits plus first combined
+verification). This turn: second combined gate72578 TERMINAL0 and recorder82629
+TERMINAL0.5770Rust tests+257doctests pass;672Rust jobs RUN127REUSE,46Python REUSE.
+Source04d10d8348cf66c8391ff3fd685252d40c8939e99130a42396cc6b7a8941b956;
+verification78000d61f1b2c083da5e0ad858734747c117364bc275ea62010b36629d445a3e.
+Coverage remains3284/4855 (67.642%),0failed/unverified. Clippy35.49s, prebuild8m16.
+Evidence work/parallel-round2-evidence.json. No benchmark refresh or UI change.
+
+Round3 reviewed and integrated:37fc691 reserved join partitions (agent3848e2a),
+394abf9 entity shadow groups (agent60cf6f3),7fa075e shared significant improvement
+(agent9fb0268). Provenance adds7complete source methods and6helper fixtures. Root
+compared all7adaptations with pinned source tests; no source implementation read.
+New regression totals: scoring10 (5source+4integration+1unit), shadows7 (1source+
+6original), termination10 (9unit including1source+1integration with48backend pairs).
+Two new doctests. Expected total5797Rust+259doctests and3291source methods, pending
+full verification; do not count as current successes yet.
+
+Focused remote evidence copied to work/parallel-round3-evidence/{scoring,dependency,
+termination}/work, including provenance-additions.json per agent. Scoring41tests+
+1doctest passed on runner-a, production code identical between initial/final checks;
+final addition was private checkpoint test. Shadow32tests+1doctest+Clippy passed on
+runner-c; final API documentation-only delta is explicitly described in agent evidence.
+Termination final24focused tests+Clippy passed on runner-a (9unit,13score-work,2source
+threshold);26unchanged timing cases passed earlier. New fixture initially expected
+expiry at equality and was corrected; production unchanged between those runs.
+All agent worktrees clean and agents idle; all remote workers free.
+
+Combined gate77033 LIVE on frozen Rust7fa075e plus the recorded provenance:
+python3 work/with-verification-environment.py bash -c 'python3
+work/prebuild_parallel_round3.py > work/parallel-round3-prebuild.log 2>&1 && bash
+scripts/check.sh > work/parallel-round3-final-check.log 2>&1'. Do not restart it.
+Local Cargo reserved for this gate until terminal. Remote workers free for next
+independent implementation; use existing three Astra/high agents/worktrees.
+Round3 recorder work/record_parallel_round3.py is prepared/syntax-checked. Run via
+stable environment launcher only after gate success; it checks live freshness, exact
+provenance delta, all7source statuses, artifact hashes and actual final counts.
+No Java/whole-solver performance claim for round3. Full goal remains active.

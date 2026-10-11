@@ -49374,6 +49374,111 @@
       "upstream_test": "solveStepScoreMetrics",
       "local_test": "solve_step_score_metrics",
       "modifications": "Retain three uninitialized entities, none/reward values, hard-zero/reward-count scoring, none-only construction, target0hard/3soft, all five ordered custom changes, three skipped initialization observations, all five hard/soft observation assertions0,1,2,1,2, final step counter7 and final hard0/soft3. Native typed snapshots replace Micrometer gauges and per-run identities replace UUID tags. Observe native StepStarted to read the preceding completed score: this corresponds to the source StepEnded listener that runs one metric update behind; native StepEnded instead sees the new score. One custom execute corresponds to each single-move source command; Java reflection, meter names and callback registration order are not claimed. Successful Rust solve and completeness replace non-null solution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.singleEqualBucketSharingAndOps",
+      "status": "implemented",
+      "upstream_test": "singleEqualBucketSharingAndOps",
+      "local_test": "single_equal_bucket_sharing_and_ops",
+      "modifications": "Retain repeated-key sharing, lookup identity, unequal-key distinction, two right rows and one left row, every count/membership assertion, and both nonempty/removability assertions after right/left retractions. Native explicit reservations and opaque token equality replace Java bucket object identity; tokens are stored on the actual shared partition used by row updates. Native row IDs replace tuple-entry handles; row payload strings remain unchanged. Equality dimensions use a native partition key and the ordered comparison uses a separate suffix; reserve_left_partition/same_left_partition invoke the node projection. Read-only row counts express isRemovable. Java factory/descriptors and custom downstream factory invocation are not claimed; lazyAllocation_leftOnlyKey_rightNotAllocated remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.emptyBucketCleanup",
+      "status": "implemented",
+      "upstream_test": "emptyBucketCleanup",
+      "local_test": "empty_bucket_cleanup",
+      "modifications": "Retain explicit empty-group creation, refusal to remove a group containing a left row, same identity after the attempted cleanup, empty/removable observation after retract, explicit cleanup, missing lookup and empty index. Native explicit reservations and opaque token equality replace Java bucket object identity; tokens are stored on the actual shared partition used by row updates. Native row IDs replace tuple-entry handles; row payload strings remain unchanged. Equality dimensions use a native partition key and the ordered comparison uses a separate suffix; reserve_left_partition/same_left_partition invoke the node projection. Read-only row counts express isRemovable. Java factory/descriptors and custom downstream factory invocation are not claimed; lazyAllocation_leftOnlyKey_rightNotAllocated remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.equalPlusEqualKeyedByCompositeKey",
+      "status": "implemented",
+      "upstream_test": "equalPlusEqualKeyedByCompositeKey",
+      "local_test": "equal_plus_equal_keyed_by_composite_key",
+      "modifications": "Retain equal-by-value composite-key identity, differences in each equality component, right-row insertion, right count and right-row membership. Native explicit reservations and opaque token equality replace Java bucket object identity; tokens are stored on the actual shared partition used by row updates. Native row IDs replace tuple-entry handles; row payload strings remain unchanged. Equality dimensions use a native partition key and the ordered comparison uses a separate suffix; reserve_left_partition/same_left_partition invoke the node projection. Read-only row counts express isRemovable. Java factory/descriptors and custom downstream factory invocation are not claimed; lazyAllocation_leftOnlyKey_rightNotAllocated remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.equalPlusLessThanSuffixIsPerSideAndFlipped",
+      "status": "implemented",
+      "upstream_test": "equalPlusLessThanSuffixIsPerSideAndFlipped",
+      "local_test": "equal_plus_less_than_suffix_is_per_side_and_flipped",
+      "modifications": "Retain same-prefix/different-suffix identity, different-prefix distinction, right ages30/50, and all three directional strict-comparison queries40/20/60. Native explicit reservations and opaque token equality replace Java bucket object identity; tokens are stored on the actual shared partition used by row updates. Native row IDs replace tuple-entry handles; row payload strings remain unchanged. Equality dimensions use a native partition key and the ordered comparison uses a separate suffix; reserve_left_partition/same_left_partition invoke the node projection. Read-only row counts express isRemovable. Java factory/descriptors and custom downstream factory invocation are not claimed; lazyAllocation_leftOnlyKey_rightNotAllocated remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.hasSuffixAndIsSameBucket",
+      "status": "implemented",
+      "upstream_test": "hasSuffixAndIsSameBucket",
+      "local_test": "has_suffix_and_is_same_bucket",
+      "modifications": "Retain ordered-suffix true, same equality prefix across changed suffix true, changed equality prefix false, and pure equality suffix false. Native explicit reservations and opaque token equality replace Java bucket object identity; tokens are stored on the actual shared partition used by row updates. Native row IDs replace tuple-entry handles; row payload strings remain unchanged. Equality dimensions use a native partition key and the ordered comparison uses a separate suffix; reserve_left_partition/same_left_partition invoke the node projection. Read-only row counts express isRemovable. Java factory/descriptors and custom downstream factory invocation are not claimed; lazyAllocation_leftOnlyKey_rightNotAllocated remains pending."
+    },
+    {
+      "id": "AffectedEntitiesUpdaterTest.createNodeToEntityNodes",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/declarative/AffectedEntitiesUpdaterTest.java",
+      "upstream_test": "createNodeToEntityNodes",
+      "local_path": "crates/solver/tests/affected_shadow_entities_cases.rs",
+      "local_test": "create_node_to_entity_nodes",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapted the complete six-node, three-entity fixture and shuffled traversal a1,b1,a2,c1,b3,b2 into native typed ShadowSession registration. Native stable entity keys and field handles replace GraphNode mocks and the mocked entity lookup. All three expected node-membership groups are asserted, using native deterministic registration order (stronger than upstream any-order comparisons). This exercises the owner index used by entity-scoped invalidation and changed-entity projection reports; no Java graph API or reflection parity is claimed."
+    },
+    {
+      "id": "UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.withConstructionHeuristic",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.java",
+      "upstream_test": "withConstructionHeuristic",
+      "local_path": "crates/solver/src/solver_significant_tests.rs",
+      "local_test": "solver::time_tests::significant_tests::significant_with_construction_heuristic",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt all false termination and zero progress assertions at 500 ms and 1001 ms using the native solve-wide threshold control, its construction polling hook and explicit monotonic clock. Construction lifecycle and completed placements leave the shared timer unarmed. Java phase/solver queries map to construction/solver polling and the shared threshold progress; Java mocks and wall-clock epoch offsets are replaced by native lifecycle calls and elapsed durations. Other tests in this file are original regression tests, including cross-phase behavior; no credit is claimed for the separate mixed construction/local-search dual-gradient method."
     }
   ],
   "fixtures": [
@@ -66588,6 +66693,84 @@
       "id": "SolverMetricsIT.SetTestdataEntityValueCustomPhaseCommand.changeWorkingSolution.step_metrics",
       "upstream_test": "SetTestdataEntityValueCustomPhaseCommand.changeWorkingSolution",
       "modifications": "Adapt the test helper into five native CustomPhaseContext.execute calls with registry variable indices replacing working-object lookup and metamodel access. Preserve the source target sequence and each committed score."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.tuple.reserved_partitions",
+      "upstream_test": "tuple",
+      "modifications": "Replace UniTuple wrappers with stable native input IDs and row payload labels; preserve all named labels."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.collectRight.reserved_partitions",
+      "upstream_test": "collectRight",
+      "modifications": "Collect borrowed matching-right rows through matching_right and retain payload labels."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.collectLeft.reserved_partitions",
+      "upstream_test": "collectLeft",
+      "modifications": "Collect borrowed matching-left rows through matching_left and retain payload labels."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.equalGender.reserved_partitions",
+      "upstream_test": "equalGender",
+      "modifications": "Native pure-equality projection uses gender as partition key and constant zero suffix."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.equalGenderEqualAge.reserved_partitions",
+      "upstream_test": "equalGenderEqualAge",
+      "modifications": "Native equality tuple key contains both gender and age; unit suffix with equality comparison."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "id": "FusedEqualIndexTest.equalGenderLessThanAge.reserved_partitions",
+      "upstream_test": "equalGenderLessThanAge",
+      "modifications": "Native projection uses gender partition and age suffix with strict LessThan; same projection is used for reservations, updates and same-group checks."
     }
   ]
 }
