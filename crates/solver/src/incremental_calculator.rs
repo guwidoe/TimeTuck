@@ -283,8 +283,10 @@ pub trait IncrementalCalculator<P> {
 
 /// Owns working data so ordinary mutations cannot bypass calculator callbacks.
 /// A callback error or an unwind during mutation leaves the session unavailable
-/// until reset. Changes are not rolled back on failure. A calculator that panics
-/// in score calculation is likewise unavailable if the caller catches the panic.
+/// until reset. Ordinary changes are not rolled back on failure. A calculator
+/// that panics in ordinary score calculation is likewise unavailable if the caller
+/// catches the panic. Opt-in [`Self::evaluate_change`] instead restores an independent
+/// snapshot after each temporary trial, including callback failures and panics.
 pub struct CalculatorSession<P, C: IncrementalCalculator<P>> {
     solution: P,
     calculator: C,
@@ -423,6 +425,77 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
         self.ready = true;
         Ok(())
     }
+    /// Score a temporary change, visit its solution/score/matches, then restore
+    /// the complete pre-trial session. Calls before/after_change once and scores
+    /// once; rollback uses the saved snapshot, without inverse notifications,
+    /// reset, factory calls or another score calculation. Visitor results may
+    /// own copied data but cannot borrow the temporary state.
+    ///
+    /// `P::clone` and `C::clone` MUST independently snapshot all mutable scoring
+    /// state. Shared immutable facts and external instrumentation are fine; shared
+    /// mutable state that affects scoring is not. The Clone trait alone cannot
+    /// enforce this. Snapshot cloning costs are paid on every trial. Ordinary
+    /// `change` remains available without these bounds or costs.
+    ///
+    /// Callback errors, scoring errors and panics restore the saved state before
+    /// propagating. Snapshot creation itself happens before mutation. This does
+    /// not roll back effects outside the owned snapshots, and destructors must
+    /// not panic. A session already needing reset cannot start a trial.
+    ///
+    /// Existing match handles remain valid after rollback. Handles created by
+    /// the trial may retain metadata, but cannot cancel restored matches, and
+    /// their IDs are not recycled by later changes. The visitor may inspect
+    /// structurally incomplete scores; it chooses whether/how to use them.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// #[derive(Clone)]
+    /// struct Total(i64);
+    /// impl IncrementalCalculator<Vec<i64>> for Total {
+    ///     type Score = SimpleScore;
+    ///     type Justification = ();
+    ///     type Change = usize;
+    ///     fn reset(&mut self, p: &Vec<i64>, _: &mut MatchRegistry<SimpleScore, ()>)
+    ///         -> Result<(), MatchRegistryError> { self.0 = p.iter().sum(); Ok(()) }
+    ///     fn after_change(&mut self, p: &Vec<i64>, _: &usize,
+    ///         _: &mut MatchRegistry<SimpleScore, ()>) -> Result<(), MatchRegistryError> {
+    ///         self.0 = p.iter().sum(); Ok(())
+    ///     }
+    ///     fn calculate_score(&mut self) -> SimpleScore { SimpleScore::new(self.0) }
+    /// }
+    /// let mut session = CalculatorSession::new(vec![2, 3], Total(0), false)?;
+    /// let candidate = session.evaluate_change(&0, |p| p[0] = 9,
+    ///     |p, score, _| (p[0], *score))?;
+    /// assert_eq!(candidate, (9, SimpleScore::new(12)));
+    /// assert_eq!(session.solution(), &[2, 3]);
+    /// assert_eq!(session.score()?, SimpleScore::new(5));
+    /// # Ok::<(), MatchRegistryError>(())
+    /// ```
+    pub fn evaluate_change<R>(
+        &mut self,
+        change: &C::Change,
+        update: impl FnOnce(&mut P),
+        visit: impl FnOnce(&P, &C::Score, &MatchRegistry<C::Score, C::Justification>) -> R,
+    ) -> Result<R, MatchRegistryError>
+    where
+        P: Clone,
+        C: Clone,
+    {
+        self.require_ready()?;
+        let saved = self.snapshot();
+        let trial = CalculatorTrialGuard {
+            session: self,
+            saved: Some(saved),
+        };
+        trial.session.change(change, update)?;
+        let score = trial.session.score()?;
+        Ok(visit(
+            &trial.session.solution,
+            &score,
+            &trial.session.registry,
+        ))
+    }
+
     pub fn score(&mut self) -> Result<C::Score, MatchRegistryError> {
         self.require_ready()?;
         self.ready = false;
@@ -431,6 +504,21 @@ impl<P, C: IncrementalCalculator<P>> CalculatorSession<P, C> {
             .calculate_score_with_matches(&mut self.registry)?;
         self.ready = true;
         Ok(score)
+    }
+}
+
+// The guard lives across mutation, scoring and the visitor, including unwinding.
+// Reuse the retained-search restoration path so escaped trial registration IDs
+// cannot alias future matches, even if a calculator reset its registry mid-trial.
+struct CalculatorTrialGuard<'a, P, C: IncrementalCalculator<P>> {
+    session: &'a mut CalculatorSession<P, C>,
+    saved: Option<CalculatorSession<P, C>>,
+}
+impl<P, C: IncrementalCalculator<P>> Drop for CalculatorTrialGuard<'_, P, C> {
+    fn drop(&mut self) {
+        if let Some(saved) = self.saved.take() {
+            self.session.restore_snapshot(saved);
+        }
     }
 }
 
