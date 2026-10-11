@@ -1332,3 +1332,5 @@ pub use provider_search::{
     mixed_stream_local_search_from_with_fallible_provider,
     stream_local_search_from_with_fallible_provider,
 };
+
+mod candidate_snapshot;

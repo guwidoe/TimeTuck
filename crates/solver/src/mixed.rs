@@ -23,6 +23,13 @@ impl<B, L> MixedAssignment<B, L> {
     pub fn lists(&self) -> &ListAssignment<L> {
         &self.lists
     }
+    pub(crate) fn install_snapshot(
+        &mut self,
+        snapshot: crate::candidate_snapshot::MixedSnapshot<B, L>,
+    ) {
+        snapshot.basic.install(&mut self.basic);
+        snapshot.lists.install(&mut self.lists);
+    }
     pub(crate) fn into_parts(self) -> (Assignment<B>, ListAssignment<L>) {
         (self.basic, self.lists)
     }
@@ -189,6 +196,23 @@ impl<B, L> Deref for AppliedMixedMove<'_, B, L> {
     }
 }
 impl<B, L> AppliedMixedMove<'_, B, L> {
+    pub(crate) fn snapshot(&self) -> crate::candidate_snapshot::MixedSnapshot<B, L>
+    where
+        B: Clone,
+        L: Clone,
+    {
+        crate::candidate_snapshot::MixedSnapshot {
+            basic: crate::candidate_snapshot::BasicSnapshot::capture(
+                &self.assignment.basic,
+                &self.basic_prior,
+            ),
+            lists: crate::candidate_snapshot::ListSnapshot::capture(
+                &self.assignment.lists,
+                self.saved_lists.as_ref().expect("live mixed transaction"),
+            ),
+        }
+    }
+
     pub(crate) fn basic_prior_values(&self) -> &[crate::PriorValue<B>] {
         &self.basic_prior
     }

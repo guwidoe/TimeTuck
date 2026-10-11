@@ -95,6 +95,13 @@ impl<V> Deref for AppliedMove<'_, V> {
 }
 
 impl<V> AppliedMove<'_, V> {
+    pub(crate) fn snapshot(&self) -> crate::candidate_snapshot::BasicSnapshot<V>
+    where
+        V: Clone,
+    {
+        crate::candidate_snapshot::BasicSnapshot::capture(self.assignment, &self.journal)
+    }
+
     /// Original values in write order, including writes with no net change.
     pub fn prior_values(&self) -> &[PriorValue<V>] {
         &self.journal

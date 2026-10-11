@@ -438,7 +438,7 @@ pub(crate) struct ListSelection<V> {
 }
 struct Selected<V, S> {
     movement: ListMove<V>,
-    assignment: ListAssignment<V>,
+    assignment: crate::candidate_snapshot::ListSnapshot<V>,
     score: S,
     updates: Vec<(usize, S)>,
     accepted: bool,
@@ -586,7 +586,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
                 || -> Result<_, ListScoringError> {
                     Ok(Selected {
                         movement: movement.clone(),
-                        assignment: candidate.assignment().clone(),
+                        assignment: candidate.transaction.snapshot(),
                         score: candidate.score(),
                         updates: candidate.updates.clone(),
                         accepted,
@@ -614,7 +614,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
                     .get_mut()
                     .record_batch(best.updates.iter().map(|(index, _)| *index));
             }
-            self.assignment = best.assignment;
+            best.assignment.install(&mut self.assignment);
             for (index, score) in best.updates {
                 self.contributions[index] = score;
             }

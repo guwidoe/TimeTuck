@@ -63,7 +63,11 @@ and pass its complete assignment to `local_search_from` (described below).
 Search scans changes, optionally followed by swaps, and by default commits the
 first accepted candidate before restarting its scan. `MoveSelection::BestAccepted`
 selects the first highest-scoring accepted candidate over the evaluated prefix
-instead, using saved assignment and sparse cache updates without rescoring it. Default strict improvement accepts only
+instead, using saved candidate state and sparse cache updates without rescoring it.
+Scoped scoring saves only written basic slots and touched list rows for large,
+sparse candidates; tiny or dense candidates keep a full assignment snapshot.
+This reduces Clone/Drop calls for untouched payloads while preserving the actual
+selected values, ordering, cached scores and evaluation counts. Default strict improvement accepts only
 better scores. `Acceptance::HillClimbing` also accepts ties, matching the adapted
 upstream acceptance assertions; plateaus may cycle, so limits remain essential.
 Late acceptance additionally permits a worse current score when it meets the

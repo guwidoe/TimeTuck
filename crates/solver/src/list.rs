@@ -811,6 +811,16 @@ impl<V> Deref for AppliedListMove<'_, V> {
     }
 }
 impl<V> AppliedListMove<'_, V> {
+    pub(crate) fn snapshot(&self) -> crate::candidate_snapshot::ListSnapshot<V>
+    where
+        V: Clone,
+    {
+        crate::candidate_snapshot::ListSnapshot::capture(
+            self.assignment,
+            self.saved.as_ref().expect("live list transaction"),
+        )
+    }
+
     // Saved rows are unique; cardinality changes telescope over the whole
     // composite, including values assigned and removed again in one trial.
     pub(crate) fn assigned_count_delta(&self) -> Option<i64> {

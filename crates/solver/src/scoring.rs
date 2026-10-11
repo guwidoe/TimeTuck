@@ -397,7 +397,7 @@ pub struct ScoreDirector<'p, 'c, V, S> {
 struct SelectedCandidate<V, S> {
     accepted: bool,
     movement: Move<V>,
-    assignment: Assignment<V>,
+    assignment: crate::candidate_snapshot::BasicSnapshot<V>,
     score: S,
     updates: Vec<(usize, S)>,
 }
@@ -647,7 +647,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                     Ok(SelectedCandidate {
                         accepted,
                         movement: movement.clone(),
-                        assignment: candidate.assignment().clone(),
+                        assignment: candidate.transaction.snapshot(),
                         score: candidate.score(),
                         updates: candidate.updates.clone(),
                     })
@@ -674,7 +674,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                     .get_mut()
                     .record_batch(selected.updates.iter().map(|(index, _)| *index));
             }
-            self.assignment = selected.assignment;
+            selected.assignment.install(&mut self.assignment);
             for (i, contribution) in selected.updates {
                 self.contributions[i] = contribution;
             }

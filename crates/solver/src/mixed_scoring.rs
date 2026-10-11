@@ -467,7 +467,7 @@ pub(crate) struct MixedSelection<B, L> {
 }
 struct Selected<B, L, S> {
     movement: MixedMove<B, L>,
-    assignment: MixedAssignment<B, L>,
+    assignment: crate::candidate_snapshot::MixedSnapshot<B, L>,
     score: S,
     updates: Vec<(usize, S)>,
     accepted: bool,
@@ -617,7 +617,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                 || -> Result<_, MixedScoringError> {
                     Ok(Selected {
                         movement: movement.clone(),
-                        assignment: candidate.assignment().clone(),
+                        assignment: candidate.transaction.snapshot(),
                         score: candidate.score(),
                         updates: candidate.updates.clone(),
                         accepted,
@@ -645,7 +645,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
                     .get_mut()
                     .record_batch(best.updates.iter().map(|(index, _)| *index));
             }
-            self.assignment = best.assignment;
+            self.assignment.install_snapshot(best.assignment);
             for (i, score) in best.updates {
                 self.contributions[i] = score;
             }
