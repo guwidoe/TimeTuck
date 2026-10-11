@@ -16,7 +16,79 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round50
+## Latest verified checkpoint — round51
+
+Main 3da37e9 adds persistent committed-list state/index. Pin unchanged.
+
+Persistent director-owned registry-position tables now back both native list
+scoring directors. Lazy synchronization patches touched rows after committed edits;
+full assignment replacement/retained restores invalidate all rows. Immutable
+Arc handles share actual buffers, not a token. Assignment clones detach their
+weak observer; equality/debug behavior and Send/Sync remain intact. Temporary
+scored guards expose the prior committed table, and stale snapshots return None.
+Equality/hash callbacks finish before publication; failed refreshes can retry.
+Native construction consumes cached membership, including Eq-only registries.
+Shared retained-phase macros and basic/mixed scoring implementations are unchanged.
+
+One complete DefaultSolverTest adaptation preserves the full uninitialized 10/4
+fixture, construction + two local-search phases capped at ten steps, all three
+phase-ended observations and actual state identity. Native defaults/order/stopping
+traces remain native. Existing TEST-fixture attribution extended; no production
+or Enterprise sources read. Five original regressions cover commits and rollback,
+unioned dirty rows, transactional full replacement, independent directors,
+sparse forager snapshots, retained restores, cached Eq-only lookups and failed
+publication/scoring panics. Originals earn no method credit.
+
+Local 1+5 new cases and existing 11+6 lifecycle regressions passed; strict focused
+Clippy passed. Initial focused attempt stopped on an extra unwrap after a unit
+commit and was corrected before verification. Final strict runner-a gate uses
+actual round50 logs with genuine job/environment keys and preserved checksums;
+no results retagged. Goal remains active/incomplete; no agents or assignments.
+
+Final gate passed: 6,841 Rust tests and 290 doctests;
+3,604/4,855 source methods (74.233%) passed, 685 pending, 566 excluded,
+zero failed/unverified. DefaultSolverTest 80/85 passed, five pending. Actual
+873 Rust RUN/111 REUSE; two Python RUN/44 REUSE. Shared list-assignment
+changes require broad regression coverage; worker took 1201.835s including
+strict checks and affected-target compilation. Source frozen throughout.
+Rust source ed6fa1747c008fb95dbfc9fa095e25800d84f8ee6cb6e1c87b937b3ff28a50d9.
+Report/verification a28e47e22ad37f288dd8978450f78215c70b3f35f68b3189f2cb5ec949e7e86b.
+Remote root 73e03aac81e49ebde9ca8bbf4028067f972d6d282ed0bc0e10eeb9af8fa68a40.
+work/round51-runner-a-results.tar.gz SHA256 5440233f150b19cde874b7561ac9733aa4670b34b08654f642e45c56b895894b.
+Evidence/freeze work/parallel-round51-evidence.json, parallel-round51-freeze.json;
+remote-round51-integration*, launch/collector finished. Postcommit proof
+work/verify_round51_postcommit.py, round51-postcommit-evidence.json.
+
+Current list comparison refreshed deliberately: 320/320 independent validations,
+317 equal-score cases and 12 workloads, with 3 warmups, 5 samples and 3 fresh
+process forks. Native/Java ratios and different achieved scores remain reported;
+no identical-work/trace or general solver performance claim. All other comparison
+reports remain visibly stale. No browser work needed for this backend-only refresh.
+
+A separate paired native comparison uses prior 52c17ec/current release binaries
+built sequentially on runner-c, then measured on the same local machine with five
+fresh-process forks, five warmups and thirty samples per fork. Eight workloads
+match scores and scoring work; timings span 3.1% faster to 4.4% slower. No native
+throughput improvement claimed. work/round51-native-before-after.json and both
+artifact manifests/checksums retained. Baseline Cargo build succeeded, then its
+copy helper failed on a missing output directory; its existing compiled artifact
+was collected before any later runner-c build. Current worker exited zero; temporary
+SSH timeout interrupted collection only, recovered after the user kept runner-c awake.
+No builds/tests repeated to recover collection. work/round51-native-source-proof.json
+checks the baseline against its actual historical Git tree and the current artifact
+against current frozen sources. Build-only baseline omits verification scripts,
+so its original fingerprint differs from the full round50 execution fingerprint;
+no old measurement/result hash was changed. No new agents/assignments.
+
+Next close the two Neighborhoods opt-in/VND configuration rejection gaps through
+actual typed configuration, then phase-corruption guidance and actual post-run
+problem-change restart with fresh resources. Keep custom-classloader adaptation
+pending until its complete assertions are meaningfully supported. TEST specs in
+work/round49-next-work.txt; five DefaultSolverTest methods remain pending. Whole-
+solve controls, full tracked/assertion-bank execution and per-step assembly hooks
+remain separate runtime gaps. Next gate must seed actual round51 archive/root.
+
+## Prior verified checkpoint — round50
 
 Main b83fa4e binds declared ruin/recreate fields to executable native candidate pools.
 Goal active/incomplete. No new agents/assignments. Community pin/submodule unchanged.
