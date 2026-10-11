@@ -6,7 +6,7 @@ use crate::{
     ListProblem, SegmentedSlice,
 };
 
-fn members<'a, V: Eq + Clone>(
+pub(crate) fn members<'a, V: Eq + Clone>(
     p: &ListProblem<V>,
     a: &'a ListAssignment<V>,
     entities: &[usize],
@@ -33,7 +33,7 @@ fn members<'a, V: Eq + Clone>(
 
 // Construct current-index relocations; final-state range/pin validation is atomic.
 // Source values are the assigned payloads, never registry replacements.
-fn repartition<V: Eq + Clone>(
+pub(crate) fn repartition<V: Eq + Clone>(
     p: &ListProblem<V>,
     a: &ListAssignment<V>,
     entities: &[usize],
