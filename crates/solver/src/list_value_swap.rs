@@ -4,6 +4,7 @@ use crate::{
     MixedProblem, Move, MoveProvider, SampleRandom,
 };
 use std::num::NonZeroUsize;
+mod eligibility_cache;
 mod source;
 pub use source::{ListSwapSourceLimits, ListValueSwapSource};
 
@@ -296,8 +297,13 @@ impl<B: Clone + Eq, V: Clone + Eq>
 /// Sampling is uniform over left occurrences then eligible right occurrences,
 /// not over valid moves. An empty sample is not a proof of a local optimum.
 /// Opening validates all identities and consumes no randomness or move catalog.
-/// It stores O(left + right + registered values) indices; each attempt scans the
-/// right occurrences. Candidate validation borrows rows without cloning values.
+/// It stores O(left + right + registered values) indices. Larger repeated openings
+/// cache up to eight left eligibility rows, with at most twice the right-pool
+/// length in boxed occurrence IDs (no spare vector capacity). A separate reusable
+/// scratch vector has right-pool capacity; allocator overhead and cache bookkeeping
+/// are additional. One-off left choices do not allocate cached rows. Cache misses
+/// scan the right occurrences; hits preserve duplicate weights and random draws.
+/// Every selected pair still undergoes dependency validation on borrowed rows.
 ///
 /// Each opening starts a native PRNG at seed + completed_steps (wrapping).
 /// Reopening the same snapshot/step replays independently of partial consumption.
@@ -324,6 +330,7 @@ impl<V: Clone + Eq> SampledListValueSwapProvider<V> {
         let mut remaining = self.attempts_per_step;
         let mut random = SampleRandom::new(self.seed.wrapping_add(completed_steps));
         let mut choices = Vec::with_capacity(right.len());
+        let mut cache = eligibility_cache::EligibilityCache::for_opening(right.len(), remaining);
         Ok(std::iter::from_fn(move || {
             let n = NonZeroUsize::new(left.len())?;
             if right.is_empty() {
@@ -332,13 +339,22 @@ impl<V: Clone + Eq> SampledListValueSwapProvider<V> {
             while remaining > 0 {
                 remaining -= 1;
                 let l = left[if n.get() == 1 { 0 } else { random.index(n) }];
-                choices.clear();
-                choices.extend(
-                    right
-                        .iter()
-                        .copied()
-                        .filter(|&r| selection.eligible(l, r, include_noops)),
-                );
+                let fill = |choices: &mut Vec<usize>| {
+                    choices.extend(
+                        right
+                            .iter()
+                            .copied()
+                            .filter(|&r| selection.eligible(l, r, include_noops)),
+                    );
+                };
+                let choices = match cache.as_mut() {
+                    Some(cache) => cache.get_or_fill(l, &mut choices, fill),
+                    None => {
+                        choices.clear();
+                        fill(&mut choices);
+                        &choices
+                    }
+                };
                 let Some(n) = NonZeroUsize::new(choices.len()) else {
                     continue;
                 };
