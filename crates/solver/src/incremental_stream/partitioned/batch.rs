@@ -162,7 +162,7 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: Ord 
             JoinPartitionAccess {
                 create: SharedJoinBucket::new,
                 split: |b| (&mut b.left, &b.right),
-                empty: SharedJoinBucket::is_empty,
+                empty: SharedJoinBucket::automatically_removable,
             },
         );
         install(
@@ -172,7 +172,7 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: Ord 
             JoinPartitionAccess {
                 create: SharedJoinBucket::new,
                 split: |b| (&mut b.right, &b.left),
-                empty: SharedJoinBucket::is_empty,
+                empty: SharedJoinBucket::automatically_removable,
             },
         );
         next.affected(&left, &right, self.comparison, &mut pairs);

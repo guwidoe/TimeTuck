@@ -1,7 +1,7 @@
 //! Equality partitions containing independent ordered join indexes.
 use super::{JoinChanges, JoinComparison, JoinSide, TupleChange};
 use crate::SnapshotMap;
-use std::any::Any;
+use std::{any::Any, rc::Rc};
 mod batch;
 
 type Projection<'a, T, E, K> = dyn Fn(&T) -> (E, K) + 'a;
@@ -9,13 +9,18 @@ type Projection<'a, T, E, K> = dyn Fn(&T) -> (E, K) + 'a;
 struct SharedJoinBucket<I, J, L, R, K> {
     left: Option<JoinSide<I, L, K>>,
     right: Option<JoinSide<J, R, K>>,
+    reservation: Option<JoinPartitionReservation>,
 }
 impl<I, J, L, R, K> SharedJoinBucket<I, J, L, R, K> {
     fn new() -> Self {
         Self {
             left: None,
             right: None,
+            reservation: None,
         }
+    }
+    fn automatically_removable(&self) -> bool {
+        self.reservation.is_none() && self.is_empty()
     }
     fn is_empty(&self) -> bool {
         self.left.as_ref().is_none_or(|s| s.rows.is_empty())
@@ -106,6 +111,20 @@ fn update_partition<
     output
 }
 
+/// Opaque identity of an explicitly reserved shared equality partition.
+/// Clones identify the same reservation. Tokens from different nodes or from a
+/// removed/recreated partition are unequal, even when their equality keys match.
+/// Dropping a token does not release the reservation; use
+/// [`PartitionedJoinNode::remove_reserved_partition`] when both sides are empty.
+#[derive(Clone, Debug)]
+pub struct JoinPartitionReservation(Rc<()>);
+impl PartialEq for JoinPartitionReservation {
+    fn eq(&self, other: &Self) -> bool {
+        Rc::ptr_eq(&self.0, &other.0)
+    }
+}
+impl Eq for JoinPartitionReservation {}
+
 /// Input counts and lazy-side state for one shared equality partition. Empty
 /// sides may remain initialized until the last row on both sides is removed.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -124,7 +143,9 @@ pub struct JoinPartitionState {
 /// Updates visit only the old/new equality partitions and matching ordered-key
 /// ranges. Same-key replacements retain membership; retractions use captured keys
 /// without callbacks. Each equality key owns one shared partition with lazily initialized sides.
-/// A partition is removed only when both sides are empty. Persistent candidate
+/// Unreserved partitions are removed when both sides are empty. Explicitly reserved
+/// partitions retain their identity and initialized sides until guarded cleanup.
+/// Reservations create no side index and require no row payload. Persistent candidate
 /// roots and events are prepared before installation; ordinary projection,
 /// comparison or clone panics leave this standalone node unchanged. External
 /// callback side effects are not rolled back. Inputs and callbacks must be stable.
@@ -160,7 +181,89 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: 
             right_key: Box::new(right_key),
         }
     }
-    /// Number of equality partitions, counting keys present on either side once.
+    /// Reserve an equality group for later row updates, without initializing
+    /// either side. Repeated reservations return the same identity. Reserving an
+    /// existing group preserves its rows and indexes. Empty reserved groups remain
+    /// available across individual/batched retractions and rekeys until explicit
+    /// cleanup. Unreserved groups retain automatic cleanup.
+    ///
+    /// ```
+    /// use timetuck::{PartitionedJoinNode, JoinComparison, TupleChange};
+    /// let mut node = PartitionedJoinNode::<usize, usize, (char, i32), (char, i32), _, _>::new(
+    ///     JoinComparison::LessThan, |row| *row, |row| *row);
+    /// let group = node.reserve_partition('A');
+    /// assert!(!node.partition_state(&'A').unwrap().right_initialized);
+    /// node.apply_left(TupleChange::put(0, ('A', 1)));
+    /// assert!(!node.remove_reserved_partition(&'A', &group));
+    /// node.apply_left(TupleChange::retract(0));
+    /// assert!(node.remove_reserved_partition(&'A', &group));
+    /// ```
+    pub fn reserve_partition(&mut self, equal: E) -> JoinPartitionReservation {
+        if let Some(token) = self.partition_reservation(&equal) {
+            return token;
+        }
+        let mut groups = self.state.groups.clone();
+        let mut bucket = groups
+            .get(&equal)
+            .cloned()
+            .unwrap_or_else(SharedJoinBucket::new);
+        let token = JoinPartitionReservation(Rc::new(()));
+        bucket.reservation = Some(token.clone());
+        groups.insert(equal, bucket);
+        self.state.groups = groups;
+        token
+    }
+    /// Reserve the equality group obtained by the ordinary left-row projection.
+    /// This supports preloading groups before inserting any row, including when
+    /// several different ordered suffix keys share the same equality group.
+    pub fn reserve_left_partition(&mut self, row: &L) -> JoinPartitionReservation {
+        let (equal, _) = (self.left_key)(row);
+        self.reserve_partition(equal)
+    }
+    /// Inspect an existing reservation without creating a group or side index.
+    /// Ordinary automatically managed groups have no reservation.
+    pub fn partition_reservation(&self, equal: &E) -> Option<JoinPartitionReservation> {
+        self.state
+            .groups
+            .get(equal)
+            .and_then(|b| b.reservation.clone())
+    }
+    /// Remove an empty reserved group only if this token still identifies it.
+    /// Live rows, stale/foreign tokens, absent groups and unreserved groups return
+    /// false without changes. Projection callbacks are never invoked.
+    pub fn remove_reserved_partition(
+        &mut self,
+        equal: &E,
+        token: &JoinPartitionReservation,
+    ) -> bool {
+        if !self
+            .state
+            .groups
+            .get(equal)
+            .is_some_and(|b| b.is_empty() && b.reservation.as_ref() == Some(token))
+        {
+            return false;
+        }
+        let mut groups = self.state.groups.clone();
+        groups.remove(equal);
+        self.state.groups = groups;
+        true
+    }
+    /// Whether the suffix keys use an ordered comparison instead of equality.
+    /// For pure equality groups put all equality dimensions in the partition key
+    /// and use `()` as the suffix key with `JoinComparison::Equal`.
+    pub fn has_ordered_suffix(&self) -> bool {
+        self.comparison != JoinComparison::Equal
+    }
+    /// Compare the projected equality groups of two prospective left rows.
+    /// Ordered suffix changes retain their group; a changed equality projection
+    /// moves to a different group. This invokes the ordinary left projection but
+    /// neither inserts rows nor creates partitions.
+    pub fn same_left_partition(&self, previous: &L, next: &L) -> bool {
+        (self.left_key)(previous).0 == (self.left_key)(next).0
+    }
+
+    /// Number of shared equality groups, including explicitly reserved empty groups.
     pub fn partition_count(&self) -> usize {
         self.state.groups.len()
     }
@@ -219,7 +322,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: 
             JoinPartitionAccess {
                 create: SharedJoinBucket::new,
                 split: |b| (&mut b.left, &b.right),
-                empty: SharedJoinBucket::is_empty,
+                empty: SharedJoinBucket::automatically_removable,
             },
         );
         self.state = candidate;
@@ -236,7 +339,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: 
             JoinPartitionAccess {
                 create: SharedJoinBucket::new,
                 split: |b| (&mut b.right, &b.left),
-                empty: SharedJoinBucket::is_empty,
+                empty: SharedJoinBucket::automatically_removable,
             },
         )
         .into_iter()
@@ -298,6 +401,27 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn checkpoint_restores_reserved_partition_identity_and_cleanup() {
+        let mut node = PartitionedJoinNode::<usize, usize, (i32, i32), (i32, i32), _, _>::new(
+            JoinComparison::LessThan,
+            |row| *row,
+            |row| *row,
+        );
+        let original = node.reserve_partition(1);
+        let saved = node.checkpoint();
+        assert!(node.remove_reserved_partition(&1, &original));
+        let discarded = node.reserve_partition(1);
+        assert_ne!(original, discarded);
+        node.apply_left(TupleChange::put(0, (1, 5)));
+        node.restore(saved);
+        assert_eq!(node.partition_reservation(&1), Some(original.clone()));
+        assert_eq!(node.partition_state(&1).unwrap().left_rows, 0);
+        assert!(!node.remove_reserved_partition(&1, &discarded));
+        assert!(node.remove_reserved_partition(&1, &original));
+        assert_eq!(node.partition_count(), 0);
+    }
+
     #[test]
     fn empty_partitions_and_memberships_are_removed_after_churn() {
         let mut j = PartitionedJoinNode::new(
