@@ -23851,3 +23851,21 @@ followups;still NOT RUN. Do not restart any terminal/quiet prior handle.
 
 93115 final-source fmt and all-target Clippy now PASS (13.98s); affected-target
 prebuild/check continues. Main remains frozen. Three implementation agents active.
+
+
+Round14 COMPLETE:93115 gate and13266 recorder TERMINAL0. Frozen Rust34bb22a,
+provenance3992396.6070 Rust tests +267 doctests pass;729Rust RUN/129REUSE,
+46PythonREUSE.3304/4855source methods(68.054%),1287pending264excluded,
+0failed/unverified. Source85f038f1f195c63f37e5e4341d34cdb4010fa5bec94f007c6b5db0dc0eb0d83b;
+verification37cb3a1765cd7b0714ead0b5e2a87877bc3db11fa54bf1e1715573d59324bde2.
+Evidence work/parallel-round14-evidence.json; dashboard freshness verified.
+Java list measurements visibly stale after source changes; preserved round13
+measurement remains320valid/317equal-score. No redundant Java/browser rerun.
+
+Round15 begins: diminished6c989c1 reviewed,20artifacts/two files verified/copied;
+union202b166 reviewed,32artifacts/six files verified/copied. Local paired timing
+window released to dependency typed-shadow lookup; runner-a termination timed
+annealing focused tests. Dense next substantive stream capability implementation.
+runner-c read-only61131 TERMINAL255 connect timeout; remote prior-process state still
+unknown. User is bringing it online; do not duplicate previous remote work.
+Goal active/incomplete. docs/solver-contract.md documents round14 public APIs.
