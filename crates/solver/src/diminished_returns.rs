@@ -65,6 +65,9 @@ struct Active<S> {
     baseline: S,
     reference: Option<(Decimal, Duration)>,
     history: VecDeque<(Duration, S)>,
+    // A post-grace rate comparison depends only on the retained score, window
+    // predecessor and fixed reference/configuration. Time still drives eviction.
+    rate_dirty: bool,
 }
 impl<S: Clone> Active<S> {
     fn new(now: Duration, score: S) -> Self {
@@ -75,6 +78,7 @@ impl<S: Clone> Active<S> {
             baseline: score,
             reference: None,
             history,
+            rate_dirty: true,
         }
     }
 }
@@ -178,6 +182,7 @@ impl<S: AdditiveScore> DiminishedReturns<S> {
         }
         if active.history.back().is_none_or(|(_, old)| best != old) {
             let value = best.clone();
+            active.rate_dirty = true;
             if active.history.back().is_some_and(|(time, _)| *time == now) {
                 active.history.pop_back();
             }
@@ -195,6 +200,7 @@ impl<S: AdditiveScore> DiminishedReturns<S> {
         if let Some(a) = &mut self.active {
             let cutoff = a.last_time.saturating_sub(self.config.window);
             while a.history.len() > 1 && a.history[1].0 <= cutoff {
+                a.rate_dirty = true;
                 a.history.pop_front();
             }
         }
@@ -222,7 +228,10 @@ impl<S: AdditiveScore> DiminishedReturns<S> {
             return false;
         }
         self.trim();
-        let active = self.active.as_ref().expect("active window");
+        let active = self.active.as_mut().expect("active window");
+        if !active.rate_dirty {
+            return false;
+        }
         let (reference, period) = active.reference.as_ref().expect("finished grace");
         let gain = soft_gain(best, &active.history.front().expect("initial sample").1);
         let scale = |value: &Decimal, factor: BigInt| {
@@ -237,6 +246,7 @@ impl<S: AdditiveScore> DiminishedReturns<S> {
             BigInt::from(self.config.window.as_nanos()) * self.config.numerator,
         );
         self.terminated = current.numeric_cmp(&required).is_lt();
+        active.rate_dirty = false;
         self.terminated
     }
 }
