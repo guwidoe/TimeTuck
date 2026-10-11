@@ -195,6 +195,9 @@ fn run_scored_events_initial<'a>(
                 Err(SolverError::EmptyPlan) => Err(Failure::Empty),
                 Err(SolverError::InitialScoring { .. }) => panic!("fixture models have movable entities"),
                 Err(SolverError::InvalidMoveProviderPhase { .. }) => panic!("fixture has no provider bindings"),
+                Err(SolverError::InvalidPhaseTermination { .. } | SolverError::DuplicatePhaseTermination { .. }) => {
+                    panic!("fixture has no phase termination bindings")
+                }
                 Err(SolverError::InvalidScoreTrend { .. }) => panic!("fixture has no trend"),
                 Err(SolverError::PhaseScoreMismatch { .. } | SolverError::PhaseScoreCheckFailed { .. }) => {
                     panic!("fixture has no phase score checker")
