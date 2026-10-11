@@ -16,6 +16,41 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Round55 implementation awaiting the live final gate
+
+Previous goal turn completed verified MoveDirector work. Current main 4fe2f02 adds
+executable field/getter selection, real borrowed upcast relationships and typed
+solution-aware shadow suppliers. SourcePathRegistry installs the chosen callable
+and projection to canonical schema types; legacy duplicate checks stay intact.
+Solution parameter and shadow return metadata validate before invoking callbacks.
+Supplier targets carry the schema lifetime and can move into evaluation closures.
+No agents/assignments; search candidate bodies unchanged.
+
+Eight complete RootVariableSourceTest cases plus four original runtime controls
+pass locally, with strict Clippy. Originals rewire real shadow dependencies21→11,
+project borrowed subtype data without clones, reject hierarchy/schema failures
+atomically and evaluate current solution values9→27. Source fixtures/provenance
+and compatibility documentation updated. Do not repeat focused checks.
+
+Final frozen runner-a check is already running. Do not restart from a timeout.
+Launcher session89082, collector92829; Cargo PID1807265 was confirmed live at
+elapsed03:08 with active rustc children. Remote source root:
+02981e7c70b5f39d874088437c40fcb8b655d1721690a8d41f9341dd850b8442.
+Full strict workspace Clippy passed41.24s; prebuild885 affected targets,111 reused.
+Scripts/logs remote-round55-integration*,round55-launch.log,round55-collector.log;
+collector work/collect_round55_runner-a.py. Freeze work/parallel-round55-freeze.json.
+Expected only after successful gate:3,624 passed,665 pending,566 excluded;
+RootVariableSourceTest34/34; native Rust tests6,886,doctests290. No claims yet.
+
+After this specific worker's terminal JSON matches the source digest and exit0,
+collect/import checksummed logs, refresh report, inspect freshness, replace this
+WIP with actual evidence and commit handoff. Use work/verify_round55_postcommit.py
+for clean/frozen proof and completed family checks. Source/provenance frozen;
+changing commit/docs does not warrant Rust/benchmark reruns. Gate seeds actual
+round54 archive/root; future gate must seed final round55 artifact when available.
+Prior measurements remain honestly stale; no UI work or new performance claim.
+Goal active/incomplete. Do not use new subagents or delegate tasks.
+
 ## Latest verified checkpoint — round54
 
 Main 740f276 completes the remaining MoveDirector behavior. Explicit cross-list
