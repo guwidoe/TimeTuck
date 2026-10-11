@@ -264,3 +264,57 @@ fn construction_gather_and_repair_keep_identical_results_and_work_counts() {
         }
     }
 }
+
+#[test]
+fn rejected_receivers_are_checked_once_per_value_not_once_per_slot() {
+    let equals = Rc::new(Cell::new(0));
+    let clones = Rc::new(Cell::new(0));
+    let n = 256;
+    let values: Vec<_> = (0..n)
+        .map(|id| Counted {
+            id,
+            equals: equals.clone(),
+            clones: clones.clone(),
+        })
+        .collect();
+    let entities =
+        vec![ListEntity::new(values[..n / 2].to_vec()).with_value_range(values[..n / 2].to_vec())];
+    for p in [
+        ListProblem::new(values.clone(), entities.clone()).unwrap(),
+        ListProblem::new_indexed(values.clone(), entities.clone()).unwrap(),
+    ] {
+        let p = p.allowing_unassigned();
+        let a = p.initial_assignment();
+        let moves = list_assign_moves(&p, &a).unwrap();
+        equals.set(0);
+        clones.set(0);
+        assert_eq!(moves.count(), 0);
+        assert_eq!(clones.get(), 0);
+        assert!(
+            equals.get() < 2 * n * n,
+            "rejected slots must not repeat range scans: {}",
+            equals.get()
+        );
+        let net = ListConstraintNetwork::<_, SimpleScore>::new(1, n);
+        for placement in [
+            ConstructionPlacement::Sequential,
+            ConstructionPlacement::Pooled,
+        ] {
+            let result = greedy_list_construction(
+                &p,
+                &net,
+                ConstructionConfig {
+                    placement,
+                    optional: OptionalConstruction::NonWorsening,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+            assert_eq!(result.assignment, a);
+            assert_eq!(result.evaluations, 1);
+            assert_eq!(result.completed_steps, 0);
+            assert_eq!(result.assigned_values, 0);
+            assert!(result.complete);
+        }
+    }
+}

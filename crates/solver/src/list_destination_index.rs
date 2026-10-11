@@ -134,7 +134,13 @@ impl<'a, V: Clone + Eq> ListDestinationIndex<'a, V> {
         let receivers = problem
             .values()
             .iter()
-            .map(|v| spans.iter().map(|s| problem.accepts(s.entity, v)).collect())
+            .enumerate()
+            .map(|(id, _)| {
+                spans
+                    .iter()
+                    .map(|s| problem.accepts_registered(s.entity, id))
+                    .collect()
+            })
             .collect();
         Ok(Self {
             problem,

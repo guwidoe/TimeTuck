@@ -46,6 +46,22 @@ pub(crate) fn insertions<'a, V: Eq + Clone>(
                 .map(move |index| ListPosition { entity: e, index })
         })
 }
+// Check each receiver once, before expanding its insertion slots. Every validated
+// unpinned list has an insertion slot, even after a fully pinned prefix.
+pub(crate) fn value_insertions<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    order: impl Iterator<Item = usize> + 'a,
+    value_id: usize,
+) -> impl Iterator<Item = ListPosition> + 'a {
+    order
+        .filter(move |&e| !p.entities()[e].is_pinned() && p.accepts_registered(e, value_id))
+        .flat_map(move |entity| {
+            (p.entities()[entity].pinned_prefix()..=a.lists()[entity].len())
+                .map(move |index| ListPosition { entity, index })
+        })
+}
+
 pub(crate) fn assigns<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     p: &'a ListProblem<V>,
     a: &'a ListAssignment<V>,
@@ -53,12 +69,10 @@ pub(crate) fn assigns<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
     unassigned_ids(p, a).flat_map(move |id| {
         let value = &p.values()[id];
-        insertions(p, a, order.clone())
-            .filter(move |position| p.accepts(position.entity, value))
-            .map(move |destination| ListMove::Assign {
-                value: value.clone(),
-                destination,
-            })
+        value_insertions(p, a, order.clone(), id).map(move |destination| ListMove::Assign {
+            value: value.clone(),
+            destination,
+        })
     })
 }
 pub(crate) fn changes<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
@@ -522,4 +536,65 @@ pub fn list_two_opt_moves<'a, V: Eq + Clone>(
 ) -> Result<impl Iterator<Item = ListMove<V>> + 'a, ListError> {
     p.validate(a)?;
     Ok(two_opt_moves(p, a, cross_entity, 0..p.entities().len()))
+}
+
+#[cfg(test)]
+mod receiver_tests {
+    use super::*;
+    use crate::ListEntity;
+
+    #[test]
+    fn eligible_insertions_preserve_duplicate_order_and_fully_pinned_prefix_append() {
+        let values: Vec<_> = (0..5).collect();
+        let entities = vec![
+            ListEntity::new(vec![0, 1])
+                .with_pinned_prefix(1)
+                .with_value_range(vec![0, 1]),
+            ListEntity::new(vec![2, 3])
+                .with_pinned_prefix(2)
+                .with_value_range(vec![2, 3, 4]),
+            ListEntity::new(vec![]).with_pinned(true),
+            ListEntity::new(vec![]).with_value_range(vec![4]),
+        ];
+        for p in [
+            ListProblem::new(values.clone(), entities.clone()).unwrap(),
+            ListProblem::new_indexed(values, entities).unwrap(),
+        ] {
+            let a = p.initial_assignment();
+            let order = [3, 1, 0, 2, 1];
+            for id in 0..5 {
+                let expected: Vec<_> = insertions(&p, &a, order.into_iter())
+                    .filter(|at| p.accepts(at.entity, &p.values()[id]))
+                    .collect();
+                assert_eq!(
+                    value_insertions(&p, &a, order.into_iter(), id).collect::<Vec<_>>(),
+                    expected
+                );
+            }
+            let mut actual = value_insertions(&p, &a, order.into_iter(), 4);
+            assert_eq!(
+                actual.next(),
+                Some(ListPosition {
+                    entity: 3,
+                    index: 0
+                })
+            );
+            assert_eq!(
+                actual.next(),
+                Some(ListPosition {
+                    entity: 1,
+                    index: 2
+                })
+            );
+            assert_eq!(
+                actual.next(),
+                Some(ListPosition {
+                    entity: 1,
+                    index: 2
+                })
+            );
+            assert_eq!(actual.next(), None);
+            assert_eq!(actual.next(), None);
+        }
+    }
 }

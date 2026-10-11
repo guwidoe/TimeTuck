@@ -1,5 +1,5 @@
 //! Bounded greedy insertion of required unassigned list values.
-use crate::list_neighborhood::insertions;
+use crate::list_neighborhood::value_insertions;
 use crate::list_search_scoring::ListSearchDirector;
 use crate::{
     AdditiveScore, ConstructionConfig, ConstructionTermination, ListAssignment,
@@ -152,16 +152,17 @@ pub(crate) fn construction_impl_with_clock_monitored<
                         !assigned.as_ref().map_or_else(
                             || director.assignment().location(v).is_some(),
                             |rows| rows[*id],
-                        ) && insertions(problem, director.assignment(), 0..problem.entities().len())
-                            .any(|position| problem.accepts(position.entity, v))
+                        ) && problem.entities().iter().enumerate().any(|(entity, meta)| {
+                            !meta.is_pinned() && problem.accepts_registered(entity, *id)
+                        })
                     })
-                    .map(|(_, value)| value)
+                    .map(|(id, _)| id)
                     .collect()
             } else if !assigned.as_ref().map_or_else(
                 || director.assignment().location(value).is_some(),
                 |rows| rows[value_id],
             ) {
-                vec![value]
+                vec![value_id]
             } else {
                 continue;
             };
@@ -176,13 +177,14 @@ pub(crate) fn construction_impl_with_clock_monitored<
             let previous = director.score();
             let moves = values
                 .into_iter()
-                .flat_map(|value| {
-                    insertions(problem, &snapshot, 0..problem.entities().len())
-                        .filter(move |position| problem.accepts(position.entity, value))
-                        .map(move |destination| ListMove::Assign {
+                .flat_map(|id| {
+                    let value = &problem.values()[id];
+                    value_insertions(problem, &snapshot, 0..problem.entities().len(), id).map(
+                        move |destination| ListMove::Assign {
                             value: value.clone(),
                             destination,
-                        })
+                        },
+                    )
                 })
                 .chain(
                     (problem.allows_unassigned()

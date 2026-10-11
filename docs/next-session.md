@@ -22943,3 +22943,56 @@ verification012ad79bde27d4b15f6bb9e4a455b08715b890e0e92427b46e744720ebba0878.
 No Rust edits or repeated tests after successful gate. Java performance remains
 stale; no UI change or browser rerun. Dashboard was already live; no restart.
 Goal active/incomplete. Small indexed receiver/anchor regressions remain documented.
+
+## Filter list receivers before expanding insertion slots (baseline 300af4f)
+
+Previous goal turn was progress: committed and verified list snapshot reuse.
+Current batch adds value_insertions and uses it in construction/assignment moves;
+pooled eligibility checks entities directly. accepts_registered bypasses rehashing
+known registry values in destination indexes/selectors, repair and the insertion
+helper. Short indexed ranges scan IDs; anchor snapshots require at least64anchors
+and64registered values to avoid the prior small-model regression. Preserve order,
+duplicate entity occurrences, prefix/full pins, lazy clones and step/work counts.
+Original private insertion oracle and public Eq-work bound; no provenance delta.
+Focused/release25932 TERMINAL0: private oracle and five public regressions pass;
+release56.50s. Baseline24542 TERMINAL0 links the already verified300af4f release
+library, no redundant baseline rebuild. New work/receiver-probe.rs adds sparse
+assignment enumeration to prior component/complete repair comparisons.
+Measurement32638 running work/measure_receiver.py, three alternating process pairs,
+two warmups/five samples per workload. No Java or browser refresh. Rust frozen;
+final gate not yet started. Goal active/incomplete.
+
+Measurement32638 TERMINAL0, all checksums match. Native zero-constraint three-attempt
+repair:871.571→15.597ms at4096 (55.9x),13.683→1.734ms at512 (7.9x). Sparse assignment
+20enumerations:4877.828→8.694ms at4096 (561x). Small receiver setup2.3x faster,
+recovering prior regression; large receiver2x. Large bulk anchors~10%slower and
+small/medium sparse anchors~8%slower. See work/receiver-performance.json; no Java
+or general application claim. Final93230 runs prebuild_receiver.py then
+scripts/check.sh; work/receiver-{prebuild,final-check}.log. No Rust edits since
+freeze. After success record_receiver.py verifies300af4f/zero provenance delta,
+live freshness, benchmark/source hashes; then stage/review/commit.
+
+Final93230 remains live; Rust targets passed and report regenerated with unchanged
+3284/4855 coverage. Doctests running; do not restart the gate. Read-only cache audit
+identified PATH environment drift causing unrelated misses. Captured the running
+verifier PATH in work/verification-environment.json; launch later commands with
+python3 work/with-verification-environment.py COMMAND ARGS (no nested login shell).
+This executes under the recorded environment, without changing old result hashes.
+Confirmed actual cache hits for simple_score and list_scan_regression using this
+launcher. Rust and verification scripts remain frozen.
+
+Next performance candidate, inspected only: list_scoring.rs contribution/explain
+call assignment.element(value), scanning lists for every value scope. apply also
+scans touched rows separately for every scoped registry value. Existing indexed
+value_locations/changed_value_positions helpers could avoid repeated scans for
+dense scoped networks. Preserve sparse-query costs, disabled callbacks, fact order,
+transaction rollback and independent consistency checks. Current receiver probe
+has no scoring constraints, so it provides no evidence for this next change.
+
+Final93230 TERMINAL0; recorder52634 TERMINAL0. 5726Rust tests+256doctests pass;
+793Rust RUN/46PythonRUN (PATH drift invalidated unrelated results). Clippy39.62s,
+prebuild7m32s. Source9a5f4841941f320b648b559ee825fa8ee96f56c9df38c138cc5a72547782974b;
+verification78f367904ca213f56fdb89ee78c2803048ad94693628dfe824c129e267b5885c.
+work/receiver-evidence.json confirms live report freshness, zero provenance delta,
+benchmark source/file hashes. Coverage3284/4855=67.642%; no failed/unverified cases.
+Java measurements stay stale. No UI changes, browser rerun, or server restart.

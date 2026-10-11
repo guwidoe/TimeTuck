@@ -106,7 +106,7 @@ impl<'a, V: Clone + Eq> ListDestinationSelector<'a, V> {
             }
         }
         // Two or three anchor queries do not justify indexing the whole layout.
-        let locations = (anchors.len() >= 32)
+        let locations = (anchors.len() >= 64 && problem.values().len() >= 64)
             .then(|| problem.indexed_value_locations(assignment))
             .flatten();
         let mut positions = vec![];
@@ -155,7 +155,7 @@ impl<'a, V: Clone + Eq> ListDestinationSelector<'a, V> {
     fn select(&self, ids: &[usize]) -> ListDestinationOrder {
         let reachable = |at: &ListPosition| {
             ids.iter()
-                .all(|&id| self.problem.accepts(at.entity, &self.problem.values()[id]))
+                .all(|&id| self.problem.accepts_registered(at.entity, id))
         };
         ListDestinationOrder {
             positions: self

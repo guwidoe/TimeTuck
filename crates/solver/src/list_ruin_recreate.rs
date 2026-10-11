@@ -200,7 +200,7 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
         self.values()
             .iter()
             .enumerate()
-            .filter_map(|(i, v)| {
+            .filter_map(|(i, _)| {
                 let eligible = match locations[i] {
                     Some(pos) => {
                         !self.entities()[pos.entity].is_pinned()
@@ -210,7 +210,7 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
                         .entities()
                         .iter()
                         .enumerate()
-                        .any(|(e, m)| !m.is_pinned() && self.accepts(e, v)),
+                        .any(|(e, m)| !m.is_pinned() && self.accepts_registered(e, i)),
                 };
                 eligible.then_some(i)
             })
@@ -247,8 +247,9 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {
                     .values()
                     .iter()
                     .enumerate()
-                    .filter(|(id, v)| {
-                        (selected_ids[*id] || locations[*id].is_some()) && self.accepts(i, v)
+                    .filter(|(id, _)| {
+                        (selected_ids[*id] || locations[*id].is_some())
+                            && self.accepts_registered(i, *id)
                     })
                     .map(|(_, value)| value.clone())
                     .collect();

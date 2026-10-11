@@ -26,9 +26,13 @@ impl<V: Eq> ValueIndex<V> {
         None
     }
     pub(super) fn accepts(&self, entity: usize, id: usize) -> bool {
-        self.ranges[entity]
-            .as_ref()
-            .is_none_or(|ids| ids.binary_search(&id).is_ok())
+        self.ranges[entity].as_ref().is_none_or(|ids| {
+            if ids.len() <= 32 {
+                ids.contains(&id)
+            } else {
+                ids.binary_search(&id).is_ok()
+            }
+        })
     }
 }
 impl<V: Eq + Clone + Hash> ListProblem<V> {
@@ -100,6 +104,15 @@ impl<V: Eq + Clone> ListProblem<V> {
 }
 
 impl<V: Eq + Clone> ListProblem<V> {
+    // Internal callers already hold a valid registry ID; avoid rehashing its
+    // value for every receiver. Eq-only models retain ordinary range membership.
+    pub(crate) fn accepts_registered(&self, entity: usize, id: usize) -> bool {
+        match &self.value_index {
+            Some(index) => index.accepts(entity, id),
+            None => self.accepts(entity, &self.values[id]),
+        }
+    }
+
     // Sparse callers can retain direct lookup; bulk callers use this only when
     // the registry supports a linear assignment traversal.
     pub(crate) fn indexed_value_locations(

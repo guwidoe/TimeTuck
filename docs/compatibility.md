@@ -6256,3 +6256,31 @@ component speedups apply to whole solves. Small 32-value anchor opens regress 16
 and receiver setup is 2.15x slower; sparse two-anchor timings remain within 3%.
 Evidence and exact source/probe/binary hashes: work/list-scans-performance.json.
 No Java timing refresh or general solver-speed claim is made.
+
+## Receiver filtering before insertion expansion
+
+Construction and assignment neighborhoods now check each receiver once before
+expanding its insertion slots. Pooled construction tests receiver eligibility at
+entity granularity. Internal range queries with known registry IDs avoid hashing
+values again; destination indexes/selectors and repair use this path too. Small
+indexed ranges use a short ID scan, and small anchor queries retain direct lookup.
+Entity order, duplicate entity occurrences, pinned-prefix append slots, candidate
+order, payload cloning and construction accounting remain unchanged. Original
+regressions cover rejected receivers without repeated per-slot equality work and
+ordered insertion behavior; existing seeded solve comparisons remain in the check.
+No additional upstream compatibility methods are claimed.
+
+Matched native release measurements against 300af4f use three alternating process
+pairs with two warmups and five samples per workload. At 4,096 values, the synthetic
+three-attempt repair solve falls from 871.571 to 15.597 ms (55.9x), preserving its
+full result hash, including assignment, score, work counters and termination. At
+512 values it falls from 13.683 to 1.734 ms (7.9x). These fixtures have no scoring
+constraints and isolate the repair/selection machinery; they do not establish Java
+or general application performance. Twenty sparse-range assignment enumerations
+fall from 4,877.828 to 8.694 ms at 4,096 values (561x); only one missing value is
+accepted per entity, while other missing values have no legal receiver.
+Small 32-value receiver setup improves from 0.1454 to 0.0633 ms (2.3x), recovering
+the prior regression. Large receiver setup improves about 2x. Bulk anchors at
+4,096 values are about 10% slower in these measurements; small/medium two-anchor
+queries are about 8% slower. All checksums agree. Full samples and hashes are in
+work/receiver-performance.json; prior measurements remain tied to their own source.
