@@ -117,19 +117,20 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                     let initial = a.expect("custom handoff");
                     let mut best_state = None;
                     let mut save_best = |director: &ScoreDirector<'_, '_, V, S>, _complete| {
-                        best_state = Some(director.capture_retained());
+                        director.save_retained_best(&mut best_state);
                     };
+                    let mut tracked = d.start_retained_tracking();
                     let r = crate::custom_phase::run_monitored(
                         initial,
                         config,
                         |a| p.is_complete(a),
                         |initial| {
-                            let initialization_work = d.prepare_retained_phase(initial)?;
+                            let initialization_work = tracked.prepare_retained_phase(initial)?;
                             if initial_only && c.limits.assert_phase_scores {
-                                d.assert_consistent()?;
+                                tracked.assert_consistent()?;
                             }
                             Ok(crate::retained_stream_phase::RetainedPhase {
-                                director: &mut *d,
+                                director: &mut *tracked,
                                 initialization_work,
                                 on_best: Some(&mut save_best),
                             })
@@ -147,6 +148,7 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                         feasible,
                     )
                     .map_err(|e| custom_error(index, e))?;
+                    drop(tracked);
                     if let Some(state) = best_state {
                         d.install_retained_state(state);
                     }
@@ -385,19 +387,20 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                     let initial = a.expect("custom handoff");
                     let mut best_state = None;
                     let mut save_best = |director: &ListScoreDirector<'_, '_, V, S>, _complete| {
-                        best_state = Some(director.capture_retained());
+                        director.save_retained_best(&mut best_state);
                     };
+                    let mut tracked = d.start_retained_tracking();
                     let r = crate::custom_phase::run_monitored(
                         initial,
                         config,
                         |a| p.is_complete(a),
                         |initial| {
-                            let initialization_work = d.prepare_retained_phase(initial)?;
+                            let initialization_work = tracked.prepare_retained_phase(initial)?;
                             if initial_only && c.limits.assert_phase_scores {
-                                d.assert_consistent()?;
+                                tracked.assert_consistent()?;
                             }
                             Ok(crate::retained_stream_phase::RetainedPhase {
-                                director: &mut *d,
+                                director: &mut *tracked,
                                 initialization_work,
                                 on_best: Some(&mut save_best),
                             })
@@ -415,6 +418,7 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                         feasible,
                     )
                     .map_err(|e| custom_error(index, e))?;
+                    drop(tracked);
                     if let Some(state) = best_state {
                         d.install_retained_state(state);
                     }
@@ -663,19 +667,20 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                     let mut best_state = None;
                     let mut save_best = |director: &MixedScoreDirector<'_, '_, B, L, S>,
                                          _complete| {
-                        best_state = Some(director.capture_retained());
+                        director.save_retained_best(&mut best_state);
                     };
+                    let mut tracked = d.start_retained_tracking();
                     let r = crate::custom_phase::run_monitored(
                         initial,
                         config,
                         |a| p.is_complete(a),
                         |initial| {
-                            let initialization_work = d.prepare_retained_phase(initial)?;
+                            let initialization_work = tracked.prepare_retained_phase(initial)?;
                             if initial_only && c.limits.assert_phase_scores {
-                                d.assert_consistent()?;
+                                tracked.assert_consistent()?;
                             }
                             Ok(crate::retained_stream_phase::RetainedPhase {
-                                director: &mut *d,
+                                director: &mut *tracked,
                                 initialization_work,
                                 on_best: Some(&mut save_best),
                             })
@@ -693,6 +698,7 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         feasible,
                     )
                     .map_err(|e| custom_error(index, e))?;
+                    drop(tracked);
                     if let Some(state) = best_state {
                         d.install_retained_state(state);
                     }

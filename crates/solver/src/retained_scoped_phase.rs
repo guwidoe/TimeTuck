@@ -36,7 +36,15 @@ impl ScopedChanges {
             self.indices.push(index);
         }
     }
-    fn clear(&mut self) {
+    #[cfg(test)]
+    pub(crate) fn pending_count(&self) -> usize {
+        if self.all {
+            self.marked.len()
+        } else {
+            self.indices.len()
+        }
+    }
+    pub(crate) fn clear(&mut self) {
         for index in self.indices.drain(..) {
             self.marked[index] = false;
         }
@@ -78,6 +86,32 @@ impl<A: Clone, S: Clone> ScopedSnapshot<A, S> {
         changes.clear();
     }
 }
+/// Remove a temporary commit journal even when an engine/callback unwinds.
+pub(crate) struct TrackingGuard<'a, D> {
+    director: &'a mut D,
+    cleanup: fn(&mut D),
+}
+impl<'a, D> TrackingGuard<'a, D> {
+    pub(crate) fn new(director: &'a mut D, cleanup: fn(&mut D)) -> Self {
+        Self { director, cleanup }
+    }
+}
+impl<D> std::ops::Deref for TrackingGuard<'_, D> {
+    type Target = D;
+    fn deref(&self) -> &D {
+        self.director
+    }
+}
+impl<D> std::ops::DerefMut for TrackingGuard<'_, D> {
+    fn deref_mut(&mut self) -> &mut D {
+        self.director
+    }
+}
+impl<D> Drop for TrackingGuard<'_, D> {
+    fn drop(&mut self) {
+        (self.cleanup)(self.director);
+    }
+}
 macro_rules! retained_scoped {
     ($director:ident, [$($v:ident),+], $assignment:ty, $problem:ty, $movement:ty,
      $error:ty, $local_error:ty, $sequence:ident, $solver:ident,
@@ -92,9 +126,11 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
     ///
     /// Constraints must depend only on their declared scopes and immutable facts.
     /// Ordinary handoffs preserve the scoring payloads of the working solution.
-    /// Sparse exact best snapshots clone the union of contributions changed since the
-    /// previous best; assignment and total-score snapshots remain independent.
-    /// Tracking uses memory bounded by the number of registered constraints.
+    /// Sparse exact, local-search and custom-phase best snapshots clone the union
+    /// of contributions changed since the previous best; assignment and total-score
+    /// snapshots remain independent. Only committed moves enter phase journals.
+    /// Tracking uses memory bounded by the number of registered constraints and
+    /// is removed on phase return or panic unwinding.
     /// Every exact phase fully refreshes its first candidate before caching deltas
     /// among that traversal's fixed value representatives. Equality may therefore
     /// describe planning identity without treating external payloads as score-equal.
@@ -134,10 +170,26 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
     ) {
         snapshot.refresh(&self.assignment, &self.contributions, &self.score, changes);
     }
+    pub(crate) fn start_retained_tracking(&mut self) -> crate::retained_scoped_phase::TrackingGuard<'_, Self> {
+        assert!(self.retained_changes.is_none(), "nested retained score tracking");
+        self.retained_changes = Some(Box::new(std::cell::RefCell::new(self.retained_changes())));
+        crate::retained_scoped_phase::TrackingGuard::new(self, |d| d.retained_changes = None)
+    }
+    pub(crate) fn save_retained_best(&self, snapshot: &mut Option<crate::retained_scoped_phase::ScopedSnapshot<$assignment, S>>) {
+        let mut changes = self.retained_changes.as_ref().expect("active retained tracker").borrow_mut();
+        if let Some(snapshot) = snapshot {
+            self.refresh_retained(snapshot, &mut changes);
+        } else {
+            let saved = self.capture_retained();
+            changes.clear();
+            *snapshot = Some(saved);
+        }
+    }
     pub(crate) fn install_retained_state(&mut self, snapshot: crate::retained_scoped_phase::ScopedSnapshot<$assignment, S>) {
         self.assignment = snapshot.assignment;
         self.contributions = snapshot.contributions;
         self.score = snapshot.score;
+        if let Some(changes) = self.retained_changes.as_deref_mut() { changes.get_mut().clear(); }
     }
     pub(crate) fn prepare_retained_phase(&mut self, initial: $assignment) -> Result<u128, $error> {
         // Only engine-produced handoffs from this same session reach this method.
@@ -182,7 +234,7 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
         let initial = initial.unwrap_or_else(|| self.assignment().clone());
         let mut best = None;
         let mut save = |director: &Self, complete| {
-            best = Some(director.capture_retained());
+            director.save_retained_best(&mut best);
             if let Some(observer) = &mut observer {
                 observer(crate::SolutionUpdate {
                     assignment: director.assignment(), score: director.score.clone(), complete,
@@ -190,12 +242,14 @@ impl<'p, 'n, $($v: Eq + Clone,)+ S: crate::AdditiveScore> $director<'p, 'n, $($v
             }
         };
         let clock = crate::provider_search::clock(&config$(.$clock_field)?);
+        let mut tracked = self.start_retained_tracking();
         let result = crate::$search::search_impl_with_provider(shared, problem, ($initial)(initial), config, |initial| {
-            let initialization_work = self.prepare_retained_phase(initial)?;
+            let initialization_work = tracked.prepare_retained_phase(initial)?;
             Ok(crate::retained_stream_phase::RetainedPhase {
-                director: &mut *self, initialization_work, on_best: Some(&mut save),
+                director: &mut *tracked, initialization_work, on_best: Some(&mut save),
             })
         }, clock, provider.map(|p| p as &mut dyn crate::MoveProvider<$problem, $assignment, $movement>))?;
+        drop(tracked);
         if let Some(best) = best { self.install_retained_state(best); }
         Ok(result)
     }

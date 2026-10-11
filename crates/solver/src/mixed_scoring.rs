@@ -452,6 +452,7 @@ pub struct MixedScoreDirector<'p, 'c, B, L, S> {
     assignment: MixedAssignment<B, L>,
     contributions: Vec<S>,
     score: S,
+    retained_changes: Option<Box<std::cell::RefCell<crate::retained_scoped_phase::ScopedChanges>>>,
 }
 pub(crate) struct MixedSelection<B, L> {
     pub selected: Option<MixedMove<B, L>>,
@@ -490,6 +491,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             assignment,
             contributions,
             score,
+            retained_changes: None,
         })
     }
     /// Explain each retained scoped contribution without rescoring. The callback
@@ -634,6 +636,11 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             return Ok(result);
         }
         if let Some(best) = forager.pick() {
+            if let Some(changes) = self.retained_changes.as_deref_mut() {
+                changes
+                    .get_mut()
+                    .record_batch(best.updates.iter().map(|(index, _)| *index));
+            }
             self.assignment = best.assignment;
             for (i, score) in best.updates {
                 self.contributions[i] = score;
@@ -764,6 +771,11 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         let work = updates.len() as u128;
         if let Some(changes) = changes {
             changes.record_batch(updates.iter().map(|(index, _)| *index));
+        }
+        if let Some(changes) = self.retained_changes.as_deref_mut() {
+            changes
+                .get_mut()
+                .record_batch(updates.iter().map(|(index, _)| *index));
         }
         // Validation, user callbacks and checked arithmetic finish before installation.
         self.assignment = next;
@@ -910,6 +922,10 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             candidate_score,
             cached_score: &mut self.score,
             contributions: &mut self.contributions,
+            retained_changes: self
+                .retained_changes
+                .as_deref_mut()
+                .map(std::cell::RefCell::get_mut),
         })
     }
 }
@@ -924,6 +940,7 @@ pub struct ScoredMixedMove<'a, B, L, S> {
     candidate_score: S,
     cached_score: &'a mut S,
     contributions: &'a mut [S],
+    retained_changes: Option<&'a mut crate::retained_scoped_phase::ScopedChanges>,
 }
 impl<B, L, S: Clone> ScoredMixedMove<'_, B, L, S> {
     pub fn assignment(&self) -> &MixedAssignment<B, L> {
@@ -936,6 +953,9 @@ impl<B, L, S: Clone> ScoredMixedMove<'_, B, L, S> {
         self.updates.len()
     }
     pub fn commit(self) {
+        if let Some(changes) = self.retained_changes {
+            changes.record_batch(self.updates.iter().map(|(index, _)| *index));
+        }
         for (i, score) in self.updates {
             self.contributions[i] = score;
         }

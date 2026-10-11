@@ -349,6 +349,7 @@ pub struct ScoreDirector<'p, 'c, V, S> {
     assignment: Assignment<V>,
     contributions: Vec<S>,
     score: S,
+    retained_changes: Option<Box<std::cell::RefCell<crate::retained_scoped_phase::ScopedChanges>>>,
 }
 
 struct SelectedCandidate<V, S> {
@@ -387,6 +388,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             assignment,
             contributions,
             score,
+            retained_changes: None,
         })
     }
     /// Internal transitions between one traversal's fixed value representatives.
@@ -447,6 +449,11 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         let work = updates.len() as u128;
         if let Some(changes) = changes {
             changes.record_batch(updates.iter().map(|(index, _)| *index));
+        }
+        if let Some(changes) = self.retained_changes.as_deref_mut() {
+            changes
+                .get_mut()
+                .record_batch(updates.iter().map(|(index, _)| *index));
         }
         // Validation, user callbacks and checked arithmetic finish before installation.
         self.assignment = next;
@@ -620,6 +627,11 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             return Ok(result);
         }
         if let Some(selected) = forager.pick() {
+            if let Some(changes) = self.retained_changes.as_deref_mut() {
+                changes
+                    .get_mut()
+                    .record_batch(selected.updates.iter().map(|(index, _)| *index));
+            }
             self.assignment = selected.assignment;
             for (i, contribution) in selected.updates {
                 self.contributions[i] = contribution;
@@ -702,6 +714,10 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             candidate_score,
             cached_score: &mut self.score,
             contributions: &mut self.contributions,
+            retained_changes: self
+                .retained_changes
+                .as_deref_mut()
+                .map(std::cell::RefCell::get_mut),
         })
     }
 }
@@ -715,6 +731,7 @@ pub struct ScoredMove<'a, V, S> {
     candidate_score: S,
     cached_score: &'a mut S,
     contributions: &'a mut [S],
+    retained_changes: Option<&'a mut crate::retained_scoped_phase::ScopedChanges>,
 }
 impl<V, S: Clone> ScoredMove<'_, V, S> {
     pub fn assignment(&self) -> &Assignment<V> {
@@ -727,6 +744,9 @@ impl<V, S: Clone> ScoredMove<'_, V, S> {
         self.updates.len()
     }
     pub fn commit(self) {
+        if let Some(changes) = self.retained_changes {
+            changes.record_batch(self.updates.iter().map(|(index, _)| *index));
+        }
         for (i, score) in self.updates {
             self.contributions[i] = score;
         }
@@ -818,3 +838,110 @@ mod selection_tests {
 }
 
 crate::retained_scoped_phase::retained_scoped!(ScoreDirector, [V], crate::Assignment<V>, crate::FiniteProblem<V>, crate::Move<V>, crate::ScoringError, crate::LocalSearchError, SolverSequence, basic, construction, crate::ConstructionConfig<'_>, crate::ConstructionResult<V,S>, local_search, crate::LocalSearchConfig<'_,S>, crate::LocalSearchResult<V,S>, basic_director, Some, []);
+
+#[cfg(test)]
+mod retained_commit_tests {
+    use super::*;
+    use crate::{FiniteProblem, ForagerConfig, SimpleScore, Variable};
+    use std::{
+        cell::Cell,
+        panic::{AssertUnwindSafe, catch_unwind},
+    };
+    fn change(variable: usize, value: i64) -> Move<i64> {
+        Move::Change {
+            variable,
+            value: Some(value),
+        }
+    }
+    fn pending(d: &ScoreDirector<'_, '_, i64, SimpleScore>) -> usize {
+        d.retained_changes
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .pending_count()
+    }
+    #[test]
+    fn journal_marks_only_committed_winner_and_rebases_after_best_restore() {
+        let p = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0); 2]).unwrap();
+        let mut n = ConstraintNetwork::new(2);
+        for i in 0..2 {
+            n.add_constraint(i.to_string(), vec![i], |v| {
+                SimpleScore::new(v[0].copied().unwrap_or(0))
+            })
+            .unwrap();
+        }
+        for i in 0..8 {
+            n.add_constraint(format!("constant{i}"), vec![], |_| SimpleScore::ZERO)
+                .unwrap();
+        }
+        let mut d = ScoreDirector::new(&p, &n, p.initial_assignment()).unwrap();
+        let mut tracked = d.start_retained_tracking();
+        let mut best = Some(tracked.capture_retained());
+        fn require_send<T: Send>(_: T) {}
+        require_send(tracked.apply(&change(0, 1)).unwrap()); // Dropped trial stays Send and untracked.
+        assert_eq!(pending(&tracked), 0);
+        tracked.apply(&change(0, 1)).unwrap().commit();
+        tracked.apply(&change(1, 1)).unwrap().commit();
+        assert_eq!(pending(&tracked), 2);
+        tracked.save_retained_best(&mut best);
+        assert_eq!(pending(&tracked), 0);
+        let chosen = tracked
+            .select_best(
+                [change(1, 2), change(0, 0)],
+                10,
+                ForagerConfig::default(),
+                |_, _| true,
+                |_| false,
+                false,
+            )
+            .unwrap();
+        assert_eq!(chosen.selected, Some(change(1, 2)));
+        assert_eq!(pending(&tracked), 1); // Losing candidate touched the other variable.
+        tracked.install_retained_state(best.unwrap());
+        assert_eq!(pending(&tracked), 0);
+        assert_eq!(tracked.assignment().values(), &[Some(1), Some(1)]);
+        tracked.assert_consistent().unwrap();
+        drop(tracked);
+        assert!(d.retained_changes.is_none());
+    }
+    #[test]
+    fn tracking_guard_cleans_up_after_errors_callback_panics_and_nested_attempts() {
+        let p = FiniteProblem::new(vec![Variable::new(vec![0, 1]).with_initial(0)]).unwrap();
+        let panic = Cell::new(false);
+        let mut n = ConstraintNetwork::new(1);
+        n.add_constraint("value", vec![0], |v| {
+            assert!(!panic.get(), "injected callback panic");
+            SimpleScore::new(v[0].copied().unwrap_or(0))
+        })
+        .unwrap();
+        let mut d = ScoreDirector::new(&p, &n, p.initial_assignment()).unwrap();
+        {
+            let mut tracked = d.start_retained_tracking();
+            assert!(tracked.apply(&change(9, 1)).is_err());
+        }
+        assert!(d.retained_changes.is_none());
+        panic.set(true);
+        assert!(
+            catch_unwind(AssertUnwindSafe(|| {
+                let mut tracked = d.start_retained_tracking();
+                let _ = tracked.apply(&change(0, 1));
+            }))
+            .is_err()
+        );
+        assert!(d.retained_changes.is_none());
+        panic.set(false);
+        assert!(
+            catch_unwind(AssertUnwindSafe(|| {
+                let mut tracked = d.start_retained_tracking();
+                let _nested = tracked.start_retained_tracking();
+            }))
+            .is_err()
+        );
+        assert!(d.retained_changes.is_none());
+        d.assert_consistent().unwrap();
+        let mut tracked = d.start_retained_tracking();
+        tracked.apply(&change(0, 1)).unwrap().commit();
+        drop(tracked);
+        assert_eq!(d.score(), SimpleScore::new(1));
+    }
+}
