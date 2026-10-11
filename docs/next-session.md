@@ -16,7 +16,87 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round43
+## Latest verified checkpoint — round44
+
+Main d929997 adds stateful native list destination selection. The full goal remains
+active and incomplete. No new agents or assignments; upstream and pin unchanged.
+
+- ListDestinationCursor borrows an actual immutable layout, filters full/prefix
+  pins, missing anchors, selected-value receiving ranges and own anchors. It
+  caches child lookahead and prepared output. Changed replay epoch/value clears
+  cached choices and exhaustion without rewinding raw children; unchanged replay
+  does not repoll exhausted children. Reopen after layout edits.
+- Bounded child reads include skips and rejected cycles. Limit exhaustion is
+  observable, not proof of infeasibility. Caught callback panics poison the
+  opening. Typed invalid-child/choice errors leave the assignment unchanged.
+- ListDestinationSelectionSource delegates both child lifecycles and observes
+  replay selection on each pull. Original mode prefers entity starts, anchors,
+  then one optional unassignment per replay. Random mode samples available
+  categories equally and eligible entity suffix slots uniformly; raw child
+  occurrence order/distribution is still the child's policy. No global uniform
+  sampling or Java RNG/call-trace parity claim.
+- Source composition with ListValueChangeSource and configured providers runs
+  real dense/stream list and mixed local search, preserving mixed basic values
+  and checking final scores/stream consistency. Existing snapshot selectors,
+  default providers and solver hot paths are unchanged.
+
+Eight complete ElementDestinationSelectorTest adaptations close the family:
+14/14 source methods now passing. Preserve all source outputs, availability,
+lifecycle counts, canonical entity identity and exhausted-state reset. Mock
+pre-filtered discard/reset cases explicitly use unfiltered child mode because
+source mocks include otherwise range-invalid destinations; actual move doability
+is separately validated. Nine original regressions earn no source credit. Fifteen
+used fixture attributions and all eight method records are in provenance; no
+upstream production implementation was read or ported.
+
+Focused eight source cases passed. An original peek/discard counter regression
+failed because a prepared output was no longer in entity lookahead; accounting
+now includes that pending position, and its focused rerun and final suite passed.
+The first final snapshot stopped at Clippy's manual saturating arithmetic lint;
+replaced it with saturating_add before the successful full gate. Failed compile,
+regression and lint snapshots under remote-round44-focused* and
+remote-round44-integration-selective* are not accepted verification.
+
+Final runner-a bash scripts/check.sh, collector and dashboard freshness passed:
+
+- 6,706 Rust tests and 287 doctests; strict fmt/Clippy passed.
+- 3,522/4,855 source methods passing (72.544%); 767 pending, 566 excluded,
+  zero failed/unverified. Pending 775→767; exclusions unchanged.
+- 3 Rust RUN (lib, destination_cursor_cases/regression), 967 Rust REUSE and
+  46 Python REUSE; complete worker 260.585s. Actual prior
+  round43 logs retained original per-job keys, checksums and timestamps.
+- Rust source 64ac29d9c7f62502f38825024ec32da9896b15f672b072ea14f72e7763b6da42.
+- Report/verification 94894a8f534022db6b3d1c5f25f74cf305e5671c60b43f8a2dd4267509158cea.
+- Final remote root f2d6223b53fb321330dfcc5a0249ebeb8913b58b377bbbd49da6acbcf61da6c0.
+- work/round44-runner-a-results.tar.gz, SHA256
+  d1de01fc1876f9e63c82eea9c2988d946ba8fb3e88f9b12e86ca1a0ca2e1e8d2.
+- Evidence/freeze: work/parallel-round44-evidence.json,
+  parallel-round44-freeze.json and remote-round44-integration-final*.
+
+All workers and collector finished. Dashboard port8765 responds; only report and
+freshness data were inspected (no UI changes/browser rerun). Performance
+measurements remain honestly stale; no runtime speedup was measured or claimed.
+runner-c had timed out after the user's authentication reply; no runner-c job was started.
+Do not repeatedly ask/probe that unavailable host. runner-a's actual round44 archive
+and final root are the next cache seed. The round44 runner currently seeds
+round43/root0e3a36...: replace both filename/root next time; retain stable Cargo
+home/vendor and 6 jobs. Do not retag stale evidence. Reuse this final check until
+relevant inputs change; a new turn or commit alone is not a reason to rerun it.
+
+Next close the four pending ListChangeMoveSelectorTest methods:
+randomWithEntityValueRange, randomWithEntityValueRangeAndFiltering,
+randomWithPinningAndEntityValueRange and
+randomAllowsUnassignedValuesWithEntityValueRange. Their test bodies at lines
+397–457, 511–549 and 593–629 were read once this turn; no implementation started.
+They assert concrete seeded selector output prefixes, including ephemeral/no-op
+positions; the filtering case excludes B-owned anchors, not all B entity starts.
+Compose the new replay-aware destination source with existing list-value metadata
+selection; preserve every asserted prefix/never-ending behavior and distinguish
+native semantic choices from Java RNG trace claims. Do not count partial seeded
+sampling or drop ephemeral outputs for source credit. Source tests only, no new
+agents. Avoid repeating completed destination/scoring-context audits.
+
+## Prior verified checkpoint — round43
 
 Main ac47e0b adds real dense/stream ScoringContextManager lifecycle and phase work.
 The full goal remains active and incomplete. No new agents or assignments.
@@ -92,14 +172,7 @@ candidate/scoring behavior is unchanged and no speedup is claimed. Dashboard
 responds on port8765; only report/freshness data was inspected, no browser/UI work.
 No pin change. No live workers/collectors remain.
 
-Next close another runtime compatibility family. ElementDestinationSelectorTest
-has eight remaining source cases (entity ranges, pinned/unassigned random
-selection, reachable-entity refresh, phase lifecycle and discard/reset). This
-family was selected from the current pending inventory, not yet re-audited or
-implemented this turn. Inspect those test bodies and the existing native
-ListDestinationSelector before developing its missing stateful behavior. Avoid
-repeating completed scoring-context/inheritance/identity or earlier factory/
-reflection/RootVariableSource audits. No new agents.
+The round43 destination-family follow-up is complete in round44 above.
 
 ## Prior verified checkpoint — round42
 
