@@ -16,83 +16,105 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round39
+## Latest verified checkpoint — round40
 
-Main e32a854 integrates borrowed sample views, passive dataset availability/bulk
-consumption guards, signed external set-size validation, and live selection
-catalog-bound metadata. This batch is verified progress; the full goal remains
-active and incomplete. No agents or further assignments were created.
+Main da07a93 integrates PlanningComposition: explicit registered/plain components
+and owned/projected ancestry compiled into canonical PlanningSchema definitions.
+The full goal remains active and incomplete. No new agents or assignments.
 
-- NeighborhoodSampleView borrows a slice or live ScalingSequencedSet. Members
-  retain original allocations; no T: Clone requirement. Set edits remain visible
-  between traversals; active iterators retain the existing mutation guard. Slice
-  duplicates are skipped lazily. Bidirectional equality/hash match owned samples,
-  and a retained set member remains valid after removal/clear. Live hashes change
-  with the backing set and must not be used as stable keys while it changes.
-- StreamingSelection already had persistent receiver-cursor behavior. Its new
-  catalog_upper_bound uses checked declared contribution bounds without opening
-  children/events. Zero/unknown/overflow and ignored holes are distinguished.
-  Bound24 preserves the source declaration without inventing actual dependent
-  combination/draw cardinality; size remains unknown. Native factories generate
-  the complete six-code replay prefix, preserving receiver a through b->1+a->9.
-- DatasetRandom::has_next and try_for_each_remaining consume no randomness.
-  Nonempty unbounded bulk consumption rejects before callbacks/draws; direct
-  owned Iterator::for_each raises a typed error panic. Bounded take(limit) works;
-  empty datasets finish normally. This does not guard every iterator adapter or
-  unbounded collection operation. Existing next/draw behavior remains unchanged.
-- try_with_expected_size validates positive signed external hints, with typed
-  zero/negative errors and source message substrings. Native with_capacity(0)
-  remains valid and initializes real mutable storage.
+- Iterative traversal resolves reachable ancestors only, preserves root/parent/
+  field order and retains field declaring types. Diamond ancestors contribute once
+  per concrete root. It rejects cycles, unknown/duplicate links, unregistered field
+  declarations and name redefinitions before range/model/scoring callbacks.
+- The default policy supports deep/mixed acyclic graphs. Explicit single_level
+  validation allows one unmixed direct parent and depth at most 2; this policy is
+  selected by the Community adapters. It is not a Rust language/runtime restriction
+  or automatic Java annotation/trait/struct discovery.
+- Existing canonical range, statistics, slot and basic-move bindings use compiled
+  schemas. field_origin queries allocate/traverse no ancestry. All resolution and
+  metadata cloning happen before solving; production candidate-scoring code was unchanged.
 
-Seven complete source cases passed: both remaining Cartesian randomMimic methods,
-all three pending Sample.wrap methods, Dataset's random replacement/repetition
-method, and ScalingSequencedSet's expected-size validation. All 24 Cartesian and
-all 12 Sample source methods now have complete adaptations. Five additional original
-regressions cover move-only ownership, storage transitions, allocation identity,
-nullable/duplicate equality/hash, mutation guards, no-draw bulk errors/bounded
-adapters, catalog bounds and positive/native-zero construction. They earn no
-source-method credit. Test catalogs, helpers and domain identities are attributed.
+All 15 SolverEntityInheritanceTest methods now have complete native adaptations.
+Six actual bounded construction/local-search cases run in both dense and stream
+scoring, preserving three-value ranges/two entities, all genuine fields and final
+scores 2/4.
+The nine invalid cases use actual metadata compilation errors for registration,
+redefinition, depth and mixed ancestry, with typed types/names/depth and translated
+native diagnostic fragments. Source move limits 20/10/100 become native candidate
+ceilings, without count/trace parity. Test-domain declarations, generators and the
+six successful providers have individual path provenance. The interface-negative
+source case actually generates a class fixture; preserve that anomaly.
 
-The final focused run passed 12 tests on runner-c. Two initial compile-only failures in
-one original metadata regression were fixed with explicit generic/callback types;
-logs retained. A fixture review corrected the generated entities to initialized
-values before that final run. No runtime test or Clippy failure remains.
-Do not repeat focused checks or completed source/helper reviews unchanged.
+Source both-class fixture declares required subValue but rewards only value. Add-
+variable fixtures reward both fields. Public forEach Javadoc specifies that an
+entity is excluded until *every* genuine field is assigned, including inherited
+and unscored fields. Final native dense callbacks cover whole entity rows; stream
+groups reconstruct all fields before rewarding. The final original regression
+checks partial assignment, completion and retraction across both score directors.
+Only public API documentation was read from ConstraintFactory.java; no production
+implementation read/copied/translated. Its documentation reference earns no credit.
+
+Eight original regressions also cover default-policy real deep/mixed solving,
+diamond sharing/longest depth, 32-layer iterative chains, roots/scoping, independent
+policy switches, list/shadow kinds, canonical origins and real basic moves, plus
+actual graph/declaration failures. No original-regression method credit.
+
+Final focused run passed 23 tests. Earlier compile failures from assumed helper API
+names and seed field were corrected; diagnostic punctuation mismatches fixed;
+subset-fixture dead-code warnings resolved with a targeted enum annotation and
+actual fixture-field use. Runtime source outcomes and original regressions pass.
+The public example was corrected to Variable::domain before the batch gate.
+Do not repeat focused checks or completed fixture/public-documentation reviews.
+
+Original full runner-c source snapshot 8a516d88cb3cc528b28597ef818871351431525fbac77c8102858eac42c7ead8
+finished its Rust aggregate with source-before=after and exit 0, but local worker/
+collector handles and processes disappeared across continuation. Recovered actual
+per-job cache records/logs to work/round40-prepatch-runner-c-results.tar.gz. No missing
+wrapper exit/duration was reconstructed or claimed. After the eligibility-fixture
+fix, final gate independently accepted unchanged keys and reran changed jobs;
+checksums/timestamps/input keys preserved, output paths relocated only after checks.
 
 Final runner-c gate and collector completed successfully:
 
-- 6,620 Rust tests and 282 doctests; strict fmt/Clippy passed.
-- 3,474/4,855 source methods passing (71.555%);
-  815 pending, 566 excluded, zero failed/unverified. Backlog 822→815.
-- 862 affected Rust jobs ran; 98 Rust and
-  46 Python jobs reused unchanged runner-c evidence.
-- Final gate 683.551 seconds including broad compilation.
-- Source `605ab8fbb568180b047e89f93b21b94eeb3f2d1a4e5536a370f8bc8eba9f42b3`.
-- Verification `7280a76fa77ef012cefd9c14f3e1d6753bd9409703024e6dec934624d4a9d770`.
-- Remote snapshot `cc302875e31074954094aba5fd99ead53b7c81645865f4a8f7877bacab56d26e`.
-- Actual logs/manifests/freeze/evidence are retained in work/parallel-round39-*,
-  work/remote-round39-integration* and work/round39-runner-c-results.tar.gz. No worker
-  or collector remains running. Seed the next runner-c check from this archive/root and
-  the unchanged CARGO_HOME in work/round39-runner-c-check.py. Preserve original input
-  keys, checksums and timestamps; relocate output filenames only after validation.
+- 6,643 Rust tests, 283 doctests; strict fmt/Clippy passed.
+- 3,489/4,855 source methods passing (71.864%); 800 pending,
+  566 excluded, zero failed/unverified. Backlog 815→800; exclusions unchanged.
+- Final selective run: 2 Rust RUN, 960 Rust REUSE,
+  46 Python REUSE; 103.13 seconds including changed-target compilation.
+- Rust source `111097a96f3558809d384e5b5c5ae7de02c06bdaa83e22710dd352ea5daede8d`.
+- Report/verification `0b0698523744c37ad11a6de86dc5c35d3a2e43e1eff9ca9d8eda11ebdd7fbaa9`.
+- Final remote snapshot `4c28eac3e585a2f004b5b32e4eeafac9ea9f874b2fd1e36e0f1a9d3ea050e6af`.
+- Logs/manifests/freeze/evidence: work/parallel-round40-*,
+  work/remote-round40-integration-final*, work/round40-runner-c-results.tar.gz.
+  No worker/collector remains live. The collector initially reached report generation
+  then timed out because the local dashboard server was gone; restored its unchanged
+  script, revalidated artifacts and completed collection without repeating tests,
+  inventory or report generation. Dashboard PID 18158 and log/PID files
+  work/dashboard-server-round40.* (revalidate the process before reuse). Seed the
+  next runner-c check from the final archive/root above and unchanged CARGO_HOME. The
+  round40 script used the prepatch archive/root8a516... for its selective final
+  pass: update that old-root constant and seed filename explicitly for the next
+  batch; blindly incrementing round labels would retain the wrong seed.
 
-Dashboard http://localhost:8765 is current; report data/freshness checked. Reuse
-its server. Backend-only refreshes need data inspection, not browser/Impeccable.
-Original-Java list measurements remain visibly stale. No new Java/performance
-measurement or speedup claim. Prior clock-policy code/measurements are unchanged.
+Dashboard http://localhost:8765 is current; report data/freshness checked. Reuse its
+server. Backend-only refresh: no browser/Impeccable. Java list measurements remain
+visibly stale. No new benchmark/Java speedup claim. Prior policy timing unchanged.
+Rust input digest differs from report source_digest, which is the report/
+verification digest; use the corresponding scopes when checking freshness.
 
-Next substantive candidate: inherited planning-field composition. The 15 pending
-SolverEntityInheritanceTest methods were reviewed once; PlanningSchema currently
-explicitly leaves inheritance separate. Six methods assert actual final solve
-scores 2/4; nine assert invalid variable-defining ancestors, redefinition and
-multi-level/mixed declarations. They require real native metadata/solver behavior,
-complete individual test-domain/provider fixtures and accurate scope, not static
-errors for Java annotation shapes. No new inheritance code/provenance/credit yet.
-The interface-negative source method actually generates the class fixture; preserve
-that anomaly when adapting. Notes in work/round39-next-gap-notes.json.
-LinkedIdentityHashSetTest source was also reviewed once; retainAll is an unsupported
-Java method and must not become a constant error API solely for compatibility credit.
-Do not repeat completed RootVariableSource getter/reflection precedence audits.
+Next work should close substantive solver/domain gaps; do not add constant Java
+unsupported-method errors solely for credit. LinkedIdentityHashSetTest was reviewed
+once earlier; its nine identity/order methods are meaningful, retainAll is unsupported
+API shape. No implementation/credit yet. Do not repeat completed factory/reflection,
+RootVariableSource/undo/ring/provider audits. Full project remains incomplete.
+
+Prior round39 (e32a854/83bef39) integrated live catalog bounds, borrowed sample views,
+random dataset availability/bulk guards and signed set-size validation. It passed
+6,620Rust/282docs,3,474source methods,815pending;862RustRUN/98RustREUSE/46PythonREUSE,
+683.551seconds. runner-c snapshotcc302875e31074954094aba5fd99ead53b7c81645865f4a8f7877bacab56d26e,
+work/round39-runner-c-results.tar.gz and full evidence retained. All 24 Cartesian and
+all 12 Sample source methods adapted. No measurements refreshed. Completed checks
+must not be repeated solely for a new turn/commit.
 
 Prior round38 (0ed9037/23ed7bb) integrated provider composition, bounded cached moves,
 reversible filtering and real Original/Random cached iterator variants. It passed
