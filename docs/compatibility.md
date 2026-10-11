@@ -6324,3 +6324,48 @@ component measurements on the isolated graph branch, not a Java/whole-solver cla
 Evidence is preserved in work/parallel-evidence/{scoring,dependency}/work, including
 raw samples, probes, manifests, binary metadata and focused logs. Neither original
 regression suite adds source-method credit.
+
+
+## Mixed scoring, final dependency batches and live score quotas
+
+Dense mixed scoped scoring now reuses temporary indexed list positions across
+full scoring, affected callbacks and explanations. Basic-only moves avoid list
+invalidation while cross-component scopes still see the final state. Sparse,
+Eq-only and basic/entity paths retain direct lookup; diagnostics rebuild independently.
+Three original regressions cover joint/basic/list edits, rollback and lookup work.
+On runner-a, three alternating process pairs across144workloads yield4320samples,
+all workload/result/callback checksums matching. At4096fully assigned values,
+eight full calculations fall63.017 to4.249ms (14.83x), basic-only trials61.151 to
+2.214ms (27.62x), joint trials70.143 to3.688ms (19.02x), and list-only trials12.940
+to2.313ms (5.59x). Largest non-dense regression is11.7%:64basic-only entity-scope
+trials at512values rise0.0237 to0.0264ms. These are isolated native component
+measurements on the scoring branch, not Java or whole-solver comparisons.
+
+DependencyNode::apply_batch validates all mentioned identities, keeps the final
+change per key, and evaluates final rows and edges together. It emits sorted final
+replacements atomically. The explicit derive_dependencies_batched graph adapter
+participates in basic/list/mixed director batching; ordinary derive_dependencies
+and immediate transaction apply retain their sequential behavior. Ten original
+regressions include1296independent parent assignments, transient/final cycles,
+callback and clone failures, and composite moves across three directors. runner-c
+measurements compare ordinary and opt-in batched nodes on identical explicit
+batches within this version. Three alternating process pairs give15samples per
+workload:1024-row chains over5rounds fall1871.287 to7.238ms (258.5x), supplier calls
+2624000 to5120;4096-row single-leaf updates over100rounds rise0.2626 to0.2668ms
+(1.6%). Final values and checksums match; these are component measurements.
+
+SearchLimit::ScoreEvaluations now composes live score quotas in nested AND/OR
+expressions. Initialization, successful candidate scoring and exact nodes count;
+custom operations follow existing attempted-operation accounting. Diagnostics and
+graph preparation do not count. An optional shared counter spans phases, with a
+narrow repair monitor enabling candidate polling inside rebuilds without counting
+repair placements as outer construction steps. Twelve original tests include780
+budget comparisons across12backends,5phase kinds and13caps, plus phase handoffs,
+nested expressions, diagnostics, custom/provider/frozen models and rebuild stops.
+No extra counter is activated unless the termination expression needs it.
+
+All25new regressions are original and add no upstream method credit. Focused
+checks pass on their actual isolated source snapshots; parent combined verification
+is recorded separately in docs/next-session.md. Raw evidence and manifests are in
+work/parallel-round2-evidence/{scoring,dependency,termination}/work. Existing Java
+comparison measurements remain tied to their original sources and visibly stale.

@@ -23057,3 +23057,33 @@ Parent helper work/remote_worker.py supports immutable content-hash snapshots an
 explicit remote commands; local checks use work/with-verification-environment.py
 for actual stable PATH/cache reuse. Never relabel remote or old verification evidence.
 Goal active/incomplete; user authorized ongoing3-agent/3-machine implementation.
+
+
+Round2 integrated after first gate success:4d9cdb5 mixed scoring,c087379 dependency
+batches,4b1a8d1 score quotas. Combined gate72578 LIVE on frozen4b1a8d1:
+python3 work/with-verification-environment.py bash -c 'python3
+work/prebuild_parallel_round2.py > work/parallel-round2-prebuild.log 2>&1 && bash
+scripts/check.sh > work/parallel-round2-final-check.log 2>&1'. Do not restart it.
+Expected5770Rust tests+257doctests; claim only after terminal success and recorder.
+After gate run work/record_parallel_round2.py with stable environment launcher.
+Ignored evidence copied into work/parallel-round2-evidence, preserving manifests.
+
+Round3 agents reactivated with their existing Astra/high configuration on separate
+branches from4b1a8d1. Scoring owns pending stream/index/collector behavior on runner-a;
+dependency owns pending dependency/shadow behavior on runner-c; termination owns pending
+solver orchestration/limits locally. LOCAL CARGO IS RESERVED FOR ROOT72578: termination
+agent must wait until explicitly released before compiling. Other agents may use
+only assigned remote workers. They will propose exact scope before implementation;
+new source-test provenance goes to each work/provenance-additions.json for parent
+integration, not shared report/scripts. Main Rust stays frozen until gate completes.
+
+Round3 scopes approved: dense_scoring implements shared PartitionedJoinNode explicit
+partition reservations with opaque stable handles (up to5complete FusedEqualIndex
+method adaptations, custom-factory behavior pending), runner-a. dependency_graph
+implements persistent ShadowSession owner-to-field indexing/entity dirty notification
+and affected entity groups, canonical entity type+key (complete pending
+AffectedEntitiesUpdaterTest#createNodeToEntityNodes), runner-c. termination implements
+solve-wide significant-improvement timeout with a shared score anchor, construction
+exclusion and expiry latching, avoiding duplicate score calculations; LOCAL worker
+still blocked only by root's live72578 compilation. Do not compile there until gate
+terminal; notify agent explicitly when released. No main Rust edits during the gate.
