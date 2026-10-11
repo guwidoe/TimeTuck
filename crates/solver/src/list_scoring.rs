@@ -279,6 +279,11 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         problem: &ListProblem<V>,
         assignment: &ListAssignment<V>,
     ) -> Result<(), ListScoringError> {
+        self.validate_shape(problem)?;
+        problem.validate(assignment)?;
+        Ok(())
+    }
+    fn validate_shape(&self, problem: &ListProblem<V>) -> Result<(), ListScoringError> {
         if self.entity_count() != problem.entities().len()
             || self.value_count() != problem.values().len()
         {
@@ -289,8 +294,27 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
                 actual_values: problem.values().len(),
             });
         }
-        problem.validate(assignment)?;
         Ok(())
+    }
+    fn validate_for_scoring(
+        &self,
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+    ) -> Result<Option<ValueLocations>, ListScoringError> {
+        self.validate_shape(problem)?;
+        // Only static scope shape is inspected before model validation. Weight
+        // comparisons and callbacks retain their position after model errors.
+        // Capture conservatively without traversing scopes twice. Dense position
+        // slots also perform duplicate tracking; sparse registries stay sparse.
+        let potential = self.scoped_values.len() >= 64 && problem.has_value_index();
+        let positions = problem.validate_using(assignment, potential)?;
+        if self.needs_value_locations(problem, 0..self.constraint_count(), None) {
+            Ok(positions
+                .or_else(|| problem.indexed_value_locations(assignment))
+                .map(ValueLocations::Full))
+        } else {
+            Ok(None)
+        }
     }
     // Snapshot only dense queries. Sparse scopes retain their allocation-free
     // direct lookup, and Eq-only models need no new trait bounds. The snapshot
@@ -311,8 +335,22 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
             return changed.map(|p| ValueLocations::Full(p.into_iter().map(|(_, p)| p).collect()));
         }
         let changed = changed.map(ValueLocations::Changed);
+        if self.needs_value_locations(problem, constraints, changed.as_ref()) {
+            problem
+                .indexed_value_locations(assignment)
+                .map(ValueLocations::Full)
+        } else {
+            changed
+        }
+    }
+    fn needs_value_locations(
+        &self,
+        problem: &ListProblem<V>,
+        constraints: impl Iterator<Item = usize>,
+        changed: Option<&ValueLocations>,
+    ) -> bool {
         if self.scoped_values.len() < 64 || !problem.has_value_index() {
-            return None;
+            return false;
         }
         let threshold = 64.max(problem.values().len() / 8);
         let queries = constraints
@@ -324,16 +362,12 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
             })
             .flat_map(|i| &self.constraints[i].scope)
             .filter(|scope| match scope {
-                ListScope::Value(id) => changed.as_ref().is_none_or(|p| p.get(*id).is_none()),
+                ListScope::Value(id) => changed.is_none_or(|p| p.get(*id).is_none()),
                 _ => false,
             })
             .take(threshold)
             .count();
-        (queries == threshold)
-            .then(|| problem.indexed_value_locations(assignment))
-            .flatten()
-            .map(ValueLocations::Full)
-            .or(changed)
+        queries == threshold
     }
 
     fn facts<'f>(
@@ -430,8 +464,7 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         problem: &ListProblem<V>,
         assignment: &ListAssignment<V>,
     ) -> Result<S, ListScoringError> {
-        self.validate(problem, assignment)?;
-        let locations = self.value_locations(problem, assignment, 0..self.constraint_count(), None);
+        let locations = self.validate_for_scoring(problem, assignment)?;
         let contributions = (0..self.constraint_count())
             .map(|i| self.contribution(i, problem, assignment, locations.as_ref()))
             .collect::<Result<Vec<_>, _>>()?;
@@ -488,9 +521,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
         network: &'p ListConstraintNetwork<'c, V, S>,
         assignment: ListAssignment<V>,
     ) -> Result<Self, ListScoringError> {
-        network.validate(problem, &assignment)?;
-        let locations =
-            network.value_locations(problem, &assignment, 0..network.constraint_count(), None);
+        let locations = network.validate_for_scoring(problem, &assignment)?;
         let contributions = (0..network.constraint_count())
             .map(|i| network.contribution(i, problem, &assignment, locations.as_ref()))
             .collect::<Result<Vec<_>, _>>()?;

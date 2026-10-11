@@ -362,15 +362,29 @@ impl<V: Eq + Clone> ListProblem<V> {
         ListAssignment::new(self.entities.iter().map(|e| e.initial.clone()).collect())
     }
     pub fn validate(&self, assignment: &ListAssignment<V>) -> Result<(), ListError> {
-        self.validate_layout(assignment)?;
+        self.validate_using(assignment, false).map(drop)
+    }
+    pub(crate) fn validate_using(
+        &self,
+        assignment: &ListAssignment<V>,
+        positions: bool,
+    ) -> Result<Option<Vec<Option<ListPosition>>>, ListError> {
+        let positions = self.validate_layout_using(assignment, positions)?;
         let values = self.inconsistent_values_unchecked(assignment)?;
         if values.is_empty() {
-            Ok(())
+            Ok(positions)
         } else {
             Err(ListError::DependencyCycle { values })
         }
     }
     pub(crate) fn validate_layout(&self, assignment: &ListAssignment<V>) -> Result<(), ListError> {
+        self.validate_layout_using(assignment, false).map(drop)
+    }
+    fn validate_layout_using(
+        &self,
+        assignment: &ListAssignment<V>,
+        positions: bool,
+    ) -> Result<Option<Vec<Option<ListPosition>>>, ListError> {
         if assignment.lists.len() != self.entities.len() {
             return Err(ListError::ListCount {
                 expected: self.entities.len(),
@@ -381,7 +395,7 @@ impl<V: Eq + Clone> ListProblem<V> {
         let mut seen_ids = self
             .value_index
             .as_ref()
-            .map(|_| std::collections::HashSet::new());
+            .map(|_| value_index::AssignedIds::new(self.values.len(), assignment, positions));
         for (entity, (list, meta)) in assignment.lists.iter().zip(&self.entities).enumerate() {
             if (meta.pinned && *list != meta.initial)
                 || (!meta.pinned
@@ -408,7 +422,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                     ));
                 }
                 if let Some(seen_ids) = &mut seen_ids {
-                    if !seen_ids.insert(id) {
+                    if !seen_ids.insert(id, position) {
                         return Err(ListError::DuplicateAssignedValue);
                     }
                 } else {
@@ -419,7 +433,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                 }
             }
         }
-        Ok(())
+        Ok(seen_ids.and_then(value_index::AssignedIds::into_positions))
     }
     fn range_error(&self, position: ListPosition, value: &V, cause: ListError) -> ListError {
         let meta = &self.entities[position.entity];

@@ -291,6 +291,11 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         problem: &MixedProblem<B, L>,
         assignment: &MixedAssignment<B, L>,
     ) -> Result<(), MixedScoringError> {
+        self.validate_shape(problem)?;
+        problem.validate(assignment)?;
+        Ok(())
+    }
+    fn validate_shape(&self, problem: &MixedProblem<B, L>) -> Result<(), MixedScoringError> {
         let expected = [
             self.variable_count(),
             self.entity_count(),
@@ -304,8 +309,34 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         if expected != actual {
             return Err(MixedScoringError::ModelShape { expected, actual });
         }
-        problem.validate(assignment)?;
         Ok(())
+    }
+    fn validate_for_scoring(
+        &self,
+        problem: &MixedProblem<B, L>,
+        assignment: &MixedAssignment<B, L>,
+    ) -> Result<Option<ValueLocations>, MixedScoringError> {
+        self.validate_shape(problem)?;
+        // Only static scope shape is inspected before model validation. Weight
+        // comparisons and callbacks retain their position after model errors.
+        // Capture conservatively without traversing scopes twice. Dense position
+        // slots also perform duplicate tracking; sparse registries stay sparse.
+        let potential = self.scoped_values.len() >= 64 && problem.lists().has_value_index();
+        problem
+            .basic()
+            .validate(assignment.basic())
+            .map_err(MixedError::Basic)?;
+        let positions = problem
+            .lists()
+            .validate_using(assignment.lists(), potential)
+            .map_err(MixedError::Lists)?;
+        if self.needs_value_locations(problem, 0..self.constraint_count(), None) {
+            Ok(positions
+                .or_else(|| problem.lists().indexed_value_locations(assignment.lists()))
+                .map(ValueLocations::Full))
+        } else {
+            Ok(None)
+        }
     }
     // Dense list scopes share a snapshot for this immutable evaluation only.
     // Basic/entity-only, sparse, and Eq-only networks bypass even query counting.
@@ -325,8 +356,23 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             return changed.map(|p| ValueLocations::Full(p.into_iter().map(|(_, p)| p).collect()));
         }
         let changed = changed.map(ValueLocations::Changed);
+        if self.needs_value_locations(problem, constraints, changed.as_ref()) {
+            problem
+                .lists()
+                .indexed_value_locations(assignment.lists())
+                .map(ValueLocations::Full)
+        } else {
+            changed
+        }
+    }
+    fn needs_value_locations(
+        &self,
+        problem: &MixedProblem<B, L>,
+        constraints: impl Iterator<Item = usize>,
+        changed: Option<&ValueLocations>,
+    ) -> bool {
         if self.scoped_values.len() < 64 || !problem.lists().has_value_index() {
-            return None;
+            return false;
         }
         let threshold = 64.max(problem.lists().values().len() / 8);
         let queries = constraints
@@ -338,16 +384,12 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             })
             .flat_map(|i| &self.constraints[i].scope)
             .filter(|scope| match scope {
-                MixedScope::ListValue(id) => changed.as_ref().is_none_or(|p| p.get(*id).is_none()),
+                MixedScope::ListValue(id) => changed.is_none_or(|p| p.get(*id).is_none()),
                 _ => false,
             })
             .take(threshold)
             .count();
-        (queries == threshold)
-            .then(|| problem.lists().indexed_value_locations(assignment.lists()))
-            .flatten()
-            .map(ValueLocations::Full)
-            .or(changed)
+        queries == threshold
     }
 
     fn facts<'f>(
@@ -445,8 +487,7 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         problem: &MixedProblem<B, L>,
         assignment: &MixedAssignment<B, L>,
     ) -> Result<S, MixedScoringError> {
-        self.validate(problem, assignment)?;
-        let locations = self.value_locations(problem, assignment, 0..self.constraint_count(), None);
+        let locations = self.validate_for_scoring(problem, assignment)?;
         let contributions = (0..self.constraint_count())
             .map(|i| self.contribution(i, problem, assignment, locations.as_ref()))
             .collect::<Result<Vec<_>, _>>()?;
@@ -517,9 +558,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
         network: &'p MixedConstraintNetwork<'c, B, L, S>,
         assignment: MixedAssignment<B, L>,
     ) -> Result<Self, MixedScoringError> {
-        network.validate(problem, &assignment)?;
-        let locations =
-            network.value_locations(problem, &assignment, 0..network.constraint_count(), None);
+        let locations = network.validate_for_scoring(problem, &assignment)?;
         let contributions = (0..network.constraint_count())
             .map(|i| network.contribution(i, problem, &assignment, locations.as_ref()))
             .collect::<Result<Vec<_>, _>>()?;

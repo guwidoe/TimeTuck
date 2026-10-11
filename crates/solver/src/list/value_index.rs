@@ -265,3 +265,49 @@ impl ValueLocations {
         }
     }
 }
+
+// Validation chooses storage from immutable shape and observed row lengths.
+// Sparse registries must not allocate in proportion to the whole domain.
+pub(super) enum AssignedIds {
+    Sparse(HashSet<usize>),
+    Dense(Vec<u64>),
+    Positions(Vec<Option<ListPosition>>),
+}
+impl AssignedIds {
+    pub(super) fn new<V>(count: usize, assignment: &ListAssignment<V>, positions: bool) -> Self {
+        if count >= 64 {
+            let threshold = count.div_ceil(8);
+            let mut assigned = 0usize;
+            for row in assignment.lists() {
+                assigned = assigned.saturating_add(row.len());
+                if assigned >= threshold {
+                    return if positions {
+                        Self::Positions(vec![None; count])
+                    } else {
+                        Self::Dense(vec![0; count.div_ceil(64)])
+                    };
+                }
+            }
+        }
+        Self::Sparse(HashSet::new())
+    }
+    pub(super) fn insert(&mut self, id: usize, position: ListPosition) -> bool {
+        match self {
+            Self::Sparse(seen) => seen.insert(id),
+            Self::Dense(words) => {
+                let mask = 1u64 << (id % 64);
+                let word = &mut words[id / 64];
+                let unseen = *word & mask == 0;
+                *word |= mask;
+                unseen
+            }
+            Self::Positions(positions) => positions[id].replace(position).is_none(),
+        }
+    }
+    pub(super) fn into_positions(self) -> Option<Vec<Option<ListPosition>>> {
+        match self {
+            Self::Positions(p) => Some(p),
+            _ => None,
+        }
+    }
+}
