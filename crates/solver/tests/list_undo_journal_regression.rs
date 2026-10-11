@@ -132,7 +132,7 @@ fn every_move_kind_restores_or_commits_without_cloning_untouched_lists() {
                 reverse: true,
             },
             vec![vec![0, 4, 3], vec![2, 1, 5, 6, 7], initial[2].clone()],
-            11,
+            8, // Undo snapshots only; span exchange moves the owned values.
         ),
         (
             ListMove::SubListSwap {
@@ -141,7 +141,7 @@ fn every_move_kind_restores_or_commits_without_cloning_untouched_lists() {
                 reverse: true,
             },
             vec![vec![3, 2, 1, 0], initial[1].clone(), initial[2].clone()],
-            7,
+            4, // Same-row rotation needs only the original row snapshot.
         ),
         (
             swap(),
