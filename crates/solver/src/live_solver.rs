@@ -183,27 +183,27 @@ impl ProblemChangeReceipt {
             .clone()
     }
 }
-type Change<P> = Box<dyn FnOnce(&mut P) -> Result<(), String> + Send>;
-struct QueuedChange<P> {
+type Change<P, R> = Box<dyn FnOnce(&mut P, Option<&LiveSolution<R>>) -> Result<(), String> + Send>;
+struct QueuedChange<P, R> {
     revision: u64,
-    apply: Change<P>,
+    apply: Change<P, R>,
 }
-struct Data<P> {
+struct Data<P, R> {
     accepting: bool,
     cancelled: bool,
     finishing: bool,
     next: u64,
     applied: u64,
-    queue: VecDeque<QueuedChange<P>>,
+    queue: VecDeque<QueuedChange<P, R>>,
     receipts: VecDeque<(u64, Arc<Receipt>)>,
     running: Option<CancellationToken>,
 }
-struct State<P> {
+struct State<P, R> {
     cancel_job: OnceLock<Box<dyn Fn() -> bool + Send + Sync>>,
-    data: Mutex<Data<P>>,
+    data: Mutex<Data<P, R>>,
     ready: Condvar,
 }
-impl<P> State<P> {
+impl<P, R> State<P, R> {
     fn new() -> Self {
         Self {
             cancel_job: OnceLock::new(),
@@ -240,7 +240,7 @@ impl<P> State<P> {
     fn enqueue(
         &self,
         id: u64,
-        apply: Change<P>,
+        apply: Change<P, R>,
     ) -> Result<ProblemChangeReceipt, ProblemChangeSubmitError> {
         let mut d = self.data.lock().unwrap();
         if !d.accepting {
@@ -315,14 +315,14 @@ impl<P> State<P> {
         dispose(queue);
     }
 }
-type Registry<P> = Arc<Mutex<HashMap<u64, Weak<State<P>>>>>;
-struct RunGuard<P> {
-    state: Arc<State<P>>,
-    registry: Registry<P>,
+type Registry<P, R> = Arc<Mutex<HashMap<u64, Weak<State<P, R>>>>>;
+struct RunGuard<P, R> {
+    state: Arc<State<P, R>>,
+    registry: Registry<P, R>,
     id: u64,
     started: bool,
 }
-impl<P> Drop for RunGuard<P> {
+impl<P, R> Drop for RunGuard<P, R> {
     fn drop(&mut self) {
         self.state.close(self.started);
         let mut registry = self.registry.lock().unwrap();
@@ -428,7 +428,7 @@ type InspectProblem<P> = Box<dyn Fn(&P) -> ProblemSizeStatistics + Send>;
 /// A live job handle. Cancellation remains latched across automatic restarts.
 pub struct LiveSolverJob<P, R, E> {
     inner: SolverJob<LiveSolution<R>, LiveSolveError<E>>,
-    state: Arc<State<P>>,
+    state: Arc<State<P, R>>,
 }
 impl<P, R, E> Clone for LiveSolverJob<P, R, E> {
     fn clone(&self) -> Self {
@@ -469,6 +469,27 @@ impl<P, R, E> LiveSolverJob<P, R, E> {
     pub fn add_problem_change(
         &self,
         change: impl FnOnce(&mut P) -> Result<(), String> + Send + 'static,
+    ) -> Result<ProblemChangeReceipt, ProblemChangeSubmitError> {
+        self.add_problem_change_with_previous(move |problem, _| change(problem))
+    }
+    /// Queue an edit that can inspect the previous completed run's owned result.
+    ///
+    /// The borrow is selected when the edit is applied on the solver thread,
+    /// after the interrupted run returns. It is `None` before the first completed
+    /// run. Interim progress publications are not considered, and the result need
+    /// not yet have reached the consumer. Its revision identifies the problem
+    /// that was solved; it does not include this edit or earlier edits in the same
+    /// drained batch. Such edits see each other's changes to `problem` in order,
+    /// while all borrow the same previous result. No scoring or result clone is
+    /// performed. Published snapshots remain immutable.
+    ///
+    /// This supports assignment-dependent edits such as pinning a retained value.
+    /// Reconcile any retained assignments with the changed model in the solve
+    /// closure as usual. Errors, panics, cancellation and receipt completion have
+    /// the same semantics as [`Self::add_problem_change`].
+    pub fn add_problem_change_with_previous(
+        &self,
+        change: impl FnOnce(&mut P, Option<&LiveSolution<R>>) -> Result<(), String> + Send + 'static,
     ) -> Result<ProblemChangeReceipt, ProblemChangeSubmitError> {
         self.state.enqueue(self.problem_id(), Box::new(change))
     }
@@ -522,7 +543,7 @@ impl<P, R, E> LiveSolverJob<P, R, E> {
 /// ```
 pub struct LiveSolverManager<P, R, E> {
     inner: SolverManager<LiveSolution<R>, LiveSolveError<E>>,
-    registry: Registry<P>,
+    registry: Registry<P, R>,
 }
 impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync + 'static>
     LiveSolverManager<P, R, E>
@@ -808,7 +829,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                         dispose(batch);
                         break;
                     }
-                    if let Err(message) = (change.apply)(&mut problem) {
+                    if let Err(message) = (change.apply)(&mut problem, best.as_ref()) {
                         guard
                             .state
                             .fail(ProblemChangeFailure::ChangeFailed(message.clone()));
@@ -895,6 +916,17 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
         &self,
         id: u64,
         change: impl FnOnce(&mut P) -> Result<(), String> + Send + 'static,
+    ) -> Result<ProblemChangeReceipt, ProblemChangeSubmitError> {
+        self.add_problem_change_with_previous(id, move |problem, _| change(problem))
+    }
+    /// Submit an edit with access to the previous completed run's result by job
+    /// identity. See [`LiveSolverJob::add_problem_change_with_previous`] for the
+    /// distinction between the completed result, interim progress, and pending
+    /// revisions. The result is borrowed only while applying the edit.
+    pub fn add_problem_change_with_previous(
+        &self,
+        id: u64,
+        change: impl FnOnce(&mut P, Option<&LiveSolution<R>>) -> Result<(), String> + Send + 'static,
     ) -> Result<ProblemChangeReceipt, ProblemChangeSubmitError> {
         let state = self
             .registry
