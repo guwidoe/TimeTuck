@@ -50139,6 +50139,21 @@
       "upstream_test": "notifyWhenValueIndexChangesOnSimpleModel",
       "local_test": "notify_when_value_index_changes_on_simple_model",
       "modifications": "Preserve two entities and three values with position/startTime/duration all zero, lists [v1]/[v2,v3], source start/end supplier rules and relocation e1[0] to e2[0]. Native list stream/cascade emits owned value rows with owner/index/previous metadata; a downstream observer records each value identity. All three source atLeastOnce update assertions preserved, with a stronger native window cleared after initialization so only actual move updates count. Dummy Object penalty represented by entity and value streams; additional score=-5, current indices, zero shadow times and consistency checks. Native downstream publication is the notification boundary, not Java NeighborhoodsBasedMoveRepository invocation or internal call-count parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/problem_change_barrage_cases.rs",
+      "id": "ProblemChangeBarrageIT.problemChangeBarrageIntermediateBestSolutionConsumer",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/ProblemChangeBarrageIT.java",
+      "upstream_test": "problemChangeBarrageIntermediateBestSolutionConsumer",
+      "local_test": "problem_change_barrage_intermediate_best_solution_consumer",
+      "modifications": "Adapt the complete repeated method and receipt helper: ten repetitions, 200 edits after real first-initialized consumer, exact Java Random(0) nextInt(1000000)/nextBoolean input schedule replayed from a recorded JDK generator, nanosecond spin delays, wait for all applied changes, ten-second per-receipt wait-until-terminal, original minimum-incomplete-ID suffix assertion, and unconditional shutdown plus no-incomplete-receipts assertion even after failure. Native scoped construction/local search with explicit unlimited cooperative budgets and hill climbing/change+swap replaces Java default algorithm, without claiming trace parity. Stable numeric IDs and AssignmentSnapshot reconciliation replace UUIDs and ProblemChangeDirector notifications; fixture has no shadows. mpsc/Condvar waits replace latches/Awaitility; capture-unwind/shutdown/finally preserves cleanup on failed assertions. No production implementation used."
     }
   ],
   "fixtures": [
@@ -68315,6 +68330,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/NeighborhoodsTest.java",
       "upstream_test": "SwapAssignedAndUnassigned.build",
       "modifications": "Native reactive graph uses assigned and null filters, constant-key join and oriented Move::Swap mapping; captured dataset is queried after a real committed swap."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/problem_change_barrage_cases.rs",
+      "id": "problem-change-barrage-edit-fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/ProblemChangeBarrageIT.java",
+      "upstream_test": "RecordedFuture; EntityAddingProblemChange.doChange; EntityRemovingProblemChange.doChange; getOutstandingFutures",
+      "modifications": "RecordedReceipt retains encounter ID plus completion receipt. Add one uniquely identified unassigned entity, or remove the first entity only if at least two remain; notify applied even when removal is skipped. Stable numeric IDs replace UUIDs. Reconcile retained assignments by ID on the next native solve. There are no shadow variables in this fixture; no shadow update is skipped. Strict per-receipt wait allows successful or failed terminal results, matching CompletableFuture.isDone."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/problem_change_barrage_cases.rs",
+      "id": "problem-change-barrage-solution-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution()",
+      "modifications": "Preserve default five planning values and seven entities initialized cyclically i modulo 5. Explicit numeric values/entities and native FiniteProblem replace Java annotations/test domain classes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/problem_change_barrage_cases.rs",
+      "id": "problem-change-barrage-ordered-pair-score",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Scoped native score callback preserves every ordered pair of distinct entities sharing a present planning value, penalizing one per pair and skipping missing left values."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/problem_change_barrage_schedule.rs",
+      "id": "problem-change-barrage-seeded-schedule",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/ProblemChangeBarrageIT.java",
+      "upstream_test": "problemChangeBarrageIntermediateBestSolutionConsumer random delay/edit loop",
+      "modifications": "Record all 200 Random(0) nextInt(1000000), then nextBoolean pairs using standalone original JDK helper work/BarrageSchedule.java. Replay exact pairs for each of ten repetitions; no Rust RNG equivalence assumption or upstream production implementation."
     }
   ]
 }
