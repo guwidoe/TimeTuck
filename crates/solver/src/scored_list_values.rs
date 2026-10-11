@@ -6,7 +6,7 @@ use crate::{
 };
 
 impl<V: Eq + Clone> ListProblem<V> {
-    // Internal contract: movement was successfully applied/scored from `before`.
+    // Internal contract: movement was successfully applied/scored or strictly validated from `before`.
     // Public planning_values must retain full model, range, pin and cycle checks.
     pub(crate) fn scored_planning_values(
         &self,
@@ -209,7 +209,7 @@ mod tests {
         };
         clones.set(0);
         let expected = p.planning_values(&a, &m).unwrap();
-        assert_eq!(clones.get(), 1021);
+        assert_eq!(clones.get(), 1);
         clones.set(0);
         assert_eq!(p.scored_planning_values(&a, &m), expected);
         assert_eq!(clones.get(), 1);

@@ -7,6 +7,8 @@ mod assigned_membership;
 pub(crate) mod move_check;
 mod span_movement;
 mod value_index;
+#[cfg(test)]
+mod value_metadata_tests;
 pub(crate) use value_index::ValueLocations;
 
 use std::{error::Error, fmt, ops::Deref, sync::OnceLock};
@@ -972,20 +974,17 @@ impl<V: Eq + Clone> ListProblem<V> {
     /// first-touch order. Composite children use their current indices. Shifted
     /// neighbors are not captured merely because their indices change. Full model
     /// validation is identical to apply; the input remains unchanged on all paths.
+    /// Validate before cloning captured outputs. Primitive metadata clones only
+    /// distinct captured values; composites replay borrowed references in touched
+    /// rows. Full source validation and dependency checks may still visit the model.
+    /// This is pre-move metadata: capture it before executing the move and retain
+    /// the owned result when inspecting an already changed assignment.
     pub fn planning_values(
         &self,
         before: &ListAssignment<V>,
         movement: &ListMove<V>,
     ) -> Result<Vec<V>, ListError> {
-        let mut copy = before.clone();
-        let mut values = Vec::new();
-        {
-            let _transaction = self.apply_recording(&mut copy, movement, |v| {
-                if !values.contains(v) {
-                    values.push(v.clone());
-                }
-            })?;
-        }
-        Ok(values)
+        self.move_checker(before)?.is_doable(movement)?;
+        Ok(self.scored_planning_values(before, movement))
     }
 }
