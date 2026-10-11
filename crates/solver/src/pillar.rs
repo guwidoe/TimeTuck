@@ -174,7 +174,7 @@ impl Pillar {
 }
 pub(crate) fn accepts<V: Eq>(p: &FiniteProblem<V>, members: &[usize], value: Option<&V>) -> bool {
     members.iter().all(|&i| match value {
-        Some(v) => p.variables()[i].domain().contains(v),
+        Some(v) => p.variables()[i].contains_value(v),
         None => p.variables()[i].allows_unassigned(),
     })
 }

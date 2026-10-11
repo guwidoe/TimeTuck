@@ -139,7 +139,7 @@ fn validate_final_move_value<V: Eq>(
 ) -> Result<(), ModelError> {
     let variable = &problem.variables[index];
     if let Some(value) = value
-        && !variable.domain.contains(value)
+        && !variable.contains_value(value)
     {
         return Err(variable.range_error(index, value));
     }

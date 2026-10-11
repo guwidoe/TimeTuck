@@ -154,7 +154,7 @@ impl EntitySwapProvider {
                 return true;
             }
             match &a.values()[from] {
-                Some(v) => p.variables()[to].domain().contains(v),
+                Some(v) => p.variables()[to].contains_value(v),
                 None => p.variables()[to].allows_unassigned(),
             }
         };

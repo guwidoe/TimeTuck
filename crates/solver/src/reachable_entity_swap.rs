@@ -130,7 +130,7 @@ impl ReachableEntitySwapProvider {
                     p.variables()[l]
                         .domain()
                         .iter()
-                        .any(|v| p.variables()[r].domain().contains(v))
+                        .any(|v| p.variables()[r].contains_value(v))
                 })
     }
     fn movement<V>(&self, left: usize, right: usize) -> EntitySwapCandidate<V> {

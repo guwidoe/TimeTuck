@@ -83,7 +83,7 @@ fn selections(
 }
 pub(crate) fn accepts<V: Eq>(p: &FiniteProblem<V>, variable: usize, value: Option<&V>) -> bool {
     match value {
-        Some(v) => p.variables()[variable].domain().contains(v),
+        Some(v) => p.variables()[variable].contains_value(v),
         None => p.variables()[variable].allows_unassigned(),
     }
 }

@@ -148,7 +148,7 @@ pub fn value_exchange_moves_in_order<'a, V: Eq + Clone>(
                             let variable = &problem.variables()[slot];
                             variable.is_pinned()
                                 || match destination {
-                                    Some(v) => !variable.domain().contains(v),
+                                    Some(v) => !variable.contains_value(v),
                                     None => !variable.allows_unassigned(),
                                 }
                         })

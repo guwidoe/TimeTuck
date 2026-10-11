@@ -1,5 +1,6 @@
 //! Finite basic-variable planning domains, separate from score calculation.
 
+mod domain_index;
 pub(crate) mod move_check;
 
 use crate::moves::{AppliedMove, Assignment, Move, MoveError};
@@ -10,6 +11,7 @@ use std::{error::Error, fmt};
 #[derive(Clone, Debug)]
 pub struct Variable<V> {
     domain: Vec<V>,
+    domain_index: Option<std::sync::Arc<domain_index::DomainIndex<V>>>,
     initial: Option<V>,
     pinned: bool,
     allows_unassigned: bool,
@@ -36,6 +38,7 @@ impl<V> Variable<V> {
     pub fn new(domain: Vec<V>) -> Self {
         Self {
             domain,
+            domain_index: None,
             initial: None,
             pinned: false,
             allows_unassigned: false,
@@ -183,16 +186,7 @@ pub struct FiniteProblem<V> {
 impl<V: Eq> FiniteProblem<V> {
     pub fn new(variables: Vec<Variable<V>>) -> Result<Self, ModelError> {
         for (index, variable) in variables.iter().enumerate() {
-            for (i, value) in variable.domain.iter().enumerate() {
-                if variable.domain[..i].contains(value) {
-                    return Err(ModelError::DuplicateValue { variable: index });
-                }
-            }
-            if let Some(value) = &variable.initial
-                && !variable.domain.contains(value)
-            {
-                return Err(variable.range_error(index, value));
-            }
+            variable.validate_metadata(index)?;
         }
         Ok(Self {
             variables,
@@ -238,7 +232,7 @@ impl<V: Eq> FiniteProblem<V> {
         let variable = &self.variables[i];
         let value = &assignment.values[i];
         if let Some(value) = value
-            && !variable.domain.contains(value)
+            && !variable.contains_value(value)
         {
             return Err(variable.range_error(i, value));
         }
@@ -323,6 +317,7 @@ impl<V: Eq + Clone> FiniteProblem<V> {
                 .enumerate()
                 .map(|(index, (variable, value))| Variable {
                     domain: variable.domain.clone(),
+                    domain_index: variable.domain_index.clone(),
                     initial: if ruined[index] { None } else { value.clone() },
                     pinned: !ruined[index],
                     allows_unassigned: variable.allows_unassigned,

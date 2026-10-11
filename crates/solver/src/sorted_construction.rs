@@ -45,7 +45,7 @@ impl<V: Eq + Clone> PlacementMoveFactory<FiniteProblem<V>, Assignment<V>, BasicK
             })
             .map(|e| {
                 let values = if let Some(v) = &value {
-                    if p.variables()[e].domain().contains(v) {
+                    if p.variables()[e].contains_value(v) {
                         Arc::from([v.clone()])
                     } else {
                         Arc::from([])

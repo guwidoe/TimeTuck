@@ -41,7 +41,7 @@ pub(crate) fn change_moves_with_values<'a, V: Eq + Clone>(
 }
 fn accepts<V: Eq>(variable: &Variable<V>, value: &Option<V>) -> bool {
     match value {
-        Some(v) => variable.domain().contains(v),
+        Some(v) => variable.contains_value(v),
         None => variable.allows_unassigned(),
     }
 }
