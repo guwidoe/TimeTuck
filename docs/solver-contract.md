@@ -2375,3 +2375,44 @@ to stop: rounded progress or zero-weight levels can produce 1.0 before the goal
 is reached. Configuration validates weights and score shape before callbacks.
 Polling borrows scores without cloning them. Standalone sessions require explicit
 `observe_initialized_score`; status queries do not initialize a baseline.
+
+
+## Live list-swap selection
+
+`ListValueSwapSource` lazily pairs two child value sources using the current
+assignment. Pins and required missing values are filtered independently before
+pairing; receiver ranges and dependency validity are checked afterward. Duplicate
+occurrences keep their weights and order. Optional assigned/missing pairs produce
+an atomic replacement. `include_noops` retains equal or two-missing pairs as empty
+composites without bypassing validation.
+
+`ListSwapSourceLimits` bounds reads per side for each attempted pair and pairs
+per yielded item. Exhaustion or either limit fuses an opening; success resets the
+next item's budgets. Never-ending metadata requires both child capabilities and
+does not promise infinite productive output. First iteration builds the position
+index and opens children, left first. Reopen after assignment changes; unknown
+streamed values panic at the infallible source boundary. Bound outputs with
+`LimitedSelectionSource` or `take` before provider collection. Four complete
+Community methods cover scripted random prefixes, pinning, optional replacement
+and restricted entity ranges; optimized Java random traces remain pending.
+
+
+## Conditional custom-command commits
+
+`CustomPhaseContext::execute_if` applies and scores one candidate, then gives its
+assignment and score by shared reference to a commit decision. It returns a
+`CustomTrialOutcome` with that score and whether the candidate was committed, or
+None when a cooperative limit prevents evaluation. Acceptance does not replay the
+move or rescore it. Rejection rolls back while retaining evaluation/work charges;
+only accepted trials enter existing best retention and custom committed-move
+accounting. SolverWork keeps its existing custom-phase summary convention.
+
+Accepted StepStarted notification occurs after the decision and before commit;
+rejected trials emit no step events. A caught decision panic rolls back and leaves
+the command usable. Scoring, commit or lifecycle failures invalidate the phase.
+Failures after commit do not undo the committed move. Cancellation raised during
+the callback is observed at the next cooperative boundary. All eighteen solver
+routes retain their existing best restoration behavior, including after accepted
+worsening moves. A stateful four-decision regression reduces score calls from
+seven to five and before/after change calls from ten to six each, with the same
+retained best and two commits. This is callback-count evidence, not a timing claim.

@@ -2365,3 +2365,21 @@ individual pairs varied in sign, so no consistent tiny-history win is claimed.
 These measure acceptor work, exclude initialization and final fingerprinting,
 and do not establish solver-wide or Java speedups. Raw results and executable/
 source identities: `work/dla-performance.json`.
+
+
+Scoped list/mixed candidate scoring now reuses transaction-local final value
+positions already computed for invalidation. Known unassignment is distinct from
+an unknown position, which still uses direct lookup. Complete maps use direct
+slots, and enough unresolved queries retain bulk lookup. Fresh scoring and
+consistency diagnostics remain independent of candidate evidence. This changes
+no public API, callback order, duplicate scopes, weights or rollback behavior.
+
+The native same-runner-a comparison against `3f0b186` records 28 workloads and
+504 samples. Sparse one-step retained solves, including director initialization,
+improve about 1.07–1.08x. Separate batches of 64 dropped scored trials on an
+already initialized director improve 8.01–8.73x; these exclude initialization,
+foraging and committed steps. Primary peak heap is unchanged. Countercases include
+an Eq-only list solve regression of 6.8%, entity-only list solve regression of
+2.3%, and smaller tiny/few-scope regressions. These results do not establish Java
+or general solver speedups. Exact source/binary identities and superseded probes
+are retained in `work/parallel-round19-evidence/positions/work/changed-positions-performance.json`.

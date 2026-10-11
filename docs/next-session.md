@@ -24083,3 +24083,70 @@ next-batch feature is integrated; keep round18 frozen.
 runner-c79551 and8811 TERMINAL255 SSHtimeouts this turn. User will bringEFSonline;
 prior dropped remote build process status remains unknown, do not duplicate
 restart. Local+runner-a productive; goal active/incomplete, no overall blocker.
+
+
+Round18 VERIFIED; round19 five additions integrated and gate running. This goal
+turn made progress. Round18 gate38974/recorder55399 TERMINAL0:
+6179Rust+272doctests,781RUN/100REUSE,46PythonREUSE;3328/4855(68.548%),
+1263pending264excluded0failed/unverified. Source0929fa05c498ac8ef48a350e8827f1ce7d6030ec8d97837566007f57ca4ab21c;
+verificationb7db2a7cb913c276a19b09b87412bc6f858a1d13463d6998a82f52143af41876.
+work/parallel-round18-evidence.json; Java list measurements remain visibly stale.
+
+Round19 Rust frozen463d66c/provenancebb40647 (plus9299f4f):
+ba61179<-0263c96 bounded phase branch variable/value/entity ordering;
+5cc5f56<-5e32a0a lazy live list-swap source;
+2cb6493<-d98a97d reuse candidate-local changed value positions;
+3eadd93<-9d85581 conditional custom-command commit without replay;
+463d66c<-96feb5d complete NeighborhoodsTest integration.
+Seven source methods/25fixture records merged;expected3335 after gate,not yet
+verified. All5final bundles copied/hashed under work/parallel-round19-evidence;
+committedfile hashes match final manifests,stablepatchIDs match. Maps/review/freeze
+JSON retained. Source tests read in full and helper/fixture adaptations reviewed.
+Order23tests1doc;swaps23tests;positions8tests;conditional23tests3docs;
+neighborhood3tests. StrictClippy passed for each focused batch. Test-only initial
+failures retained; no fabricated sourcecredit from native features.
+
+Order: Arc full permutations validated before callbacks; all18routes/360solves,
+independent dependency4-leaf set, sameoptimum with511->257nodes on one instance.
+Conditional: all18routes, rejected high/accepted improvement+worsening, panic/
+error/quota/cancellation/restoration; scorecalls7->5,before/after10->6 each in
+stateful example,samebest/twocommits. Existing custom SolverWork summary still
+reports0completed_steps; custom committed_moves/lifecycle are separate.
+
+Positions performance final v3:28workloads504samples samerunner-a. Primary sparse
+one-step solves includingdirectorinitialization1.07-1.08x; separate64droppedtrial
+microbenchmark on retained director8.01-8.73x (excludes setup/foraging/commits).
+Dense primary1.11-1.13x,unresolved1.03-1.06x. Primary peakheap unchanged.
+Countercases:Eq-only list solve6.8%slower(+24369ns),entityonly2.3%,fewscope~1.6%,
+tinylist+276ns. Allchecksums/work match. V1/V2 superseded archives retained.
+Baseline library reused from sparse run only after independently verifying1306
+Cargo/crates file hashes vs3f0b186; current separately compiled23.72s, binary/
+library hashes distinct.46artifacts/5committedhashes checked. No Java/general
+solve speedclaim; full independent diagnostics never use candidate-local map.
+
+98853 LIVE: stable launcher prebuild_parallel_round19.py then scripts/check.sh;
+logs work/parallel-round19-{prebuild,final-check}.log. After terminal0 run
+work/record_parallel_round19.py through stable launcher (prepared,NOT RUN).
+Do not change main Rust/provenance until gate+recorder finish. Docs-only edits
+allowed; no Java benchmark/browser rerun needed. Expected3335 set in freeze JSON.
+
+Three Astra/high lanes continue. Dense investigating/implementing adaptive dense
+assigned-ID duplicate tracking plus fused validation/initial location capture,
+with sparse/Eq-only fallback and unchanged validation/error precedence. runner-a
+owned. Current setup diagnostic terminal0:4096indexed singleton rows clone~98us,
+validate~309us,prepare~395us,is_complete~305us,directorinclclone~665us,freshcalc
+~539us;100iterations,model/networkexcluded,work/list-setup-diagnostic.*. No trust
+shortcut/cache; next batch not integrated.
+Dependency next bounded per-opening sampled-list-swap eligibility cache:8LRUkeys,
+retainedIDs<=2*rightpool,cacheonlyright>=64/attempts>=4,admit repeatedleft in8key
+probation; preserve duplicateweights/draws/dependency revalidation. Distinguish
+Vec capacity from retainedIDbudget. Freezebaselinebeforeedits; localfocused-j2
+allowed, localtimings held until parent idle or runner-c available. Neighborhood41316
+TERMINAL0, bundle copied/integrated; no other live job at handoff.
+Termination9d85581 bundle copied/integrated;3241TERMINAL0, workerreleased. Agent
+explicitly continued to select next substantive solver/custom/termination gap;
+proposal pending, no build held. No need to rerun completed focused checks.
+
+runner-c79776 TERMINAL255 this turn after79551/8811; SSHstilltimeouts. Userwillbring
+laptoponline, prior dropped remote build processstate unknown; no duplicate
+restart. Local+runner-a productive. Goalactive/incomplete;nooverallblocker.

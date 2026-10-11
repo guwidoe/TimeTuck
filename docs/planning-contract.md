@@ -436,3 +436,24 @@ move after changing the input assignment. Construction borrows assigned payloads
 without cloning them. Large proposals reuse ranked relocation construction;
 shared full-model validation may still take quadratic time. These explicit open
 paths do not establish Java's implicit cyclic multi-entity k-opt convention.
+
+
+## Bounded phase branch ordering
+
+`BoundedPhaseConfig::order` accepts an optional `Arc<BranchOrder>` containing
+full model-index permutations for basic variables, each basic domain, list values
+and list entities. Validation includes pinned and completion-fixed entries and
+runs before callbacks, including at zero budget. Missing, duplicate, out-of-range
+or unavailable dimensions return `SolverError::InvalidBranchOrder` with phase
+and dimension details. Remaining layers are resolved once; domain/entity orders
+are borrowed during expansion. Default ordering adds no permutation allocation.
+
+Branch ordering is separate from frontier `NodeExploration`. It can change ties,
+finite prefixes and pruning work; it preserves the eligible search space and
+bound-admissibility requirements. Optional omission stays last, insertion indices
+stay ascending within each selected entity, and mixed search keeps lists before
+basic variables. Fixed payloads remain unchanged. The setting applies to bounded
+plan phases across all fresh/retained backends; standalone bounded functions and
+complete-assignment enumeration keep their existing APIs. An original deterministic
+case reduces node evaluations from 511 to 257 with the same optimum; this is not
+a wall-clock or Java performance claim.
