@@ -16,48 +16,46 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round32
+## Latest verified checkpoint — round33
 
-Main 44b2946 adds ScoredTerminationProfile: typed threshold/feasibility validation and
-shared/ordinary/mixed sequence binding over existing native runtime controls.
-Configured stagnation replaces both inherited variants and selects plain or
-significant-improvement timing. None inherits feasibility; false clears it.
-TerminationExpression::compose preserves singleton identity and ordered borrowed
-AND/OR children without allocation, cloning or flattening. Empty config is None.
-Runtime solver/evaluator files are unchanged; helpers live in independent modules.
+Main 0f347ba adds compiled shadow-source structure inspection and explicit Next
+source-member/parent support. Complete per-entity supplier bindings distinguish
+empty, directional, single-type and general declarations. Empty groups suppress
+only their grouped paths; populated groups retain declared directions even when
+later links are null. Nondeclarative entity types do not enlarge the target set.
+Inspection reads no terminal getters, invokes no suppliers and clones no entities.
+Shape is snapshot-dependent declaration structure, not cycle detection or a solver
+execution-plan switch. Existing evaluation and scoring algorithms are unchanged.
 
-Eight complete TerminationFactoryTest methods have full provenance. Five original
-regressions cover typed errors, explicit replacement, real six-route step solves,
-clocked runtime equivalence and empty/nested/repeated composition. The one remaining
-nested configuration factory method is still pending; no manual nesting credit.
-All 27 focused old/new cases passed before a module-only relocation.
+All twelve GraphStructureTest methods now have complete adaptations and provenance
+for eleven fixture classes. Five original regressions cover forward dependency
+keys, live group reclassification, local/mixed directions, invalid binding checks
+and forbidden getter invocation. All 43 focused old/new checks passed on runner-a;
+Clippy subsequently caught a test initializer style issue, which was fixed before
+the final runner-c check. Failed attempt logs/manifests remain available.
 
-Final runner-c gate 52903 and collector 78806 passed on the final frozen inputs:
+Final runner-c gate 1515 and collector 56317 passed on frozen inputs:
 
-- 6,517 Rust tests and 279 doctests.
-- 3,407/4,855 source methods passing (70.175%); 882 pending, 566 excluded,
-  zero failed/unverified. Backlog 890→882; exclusions unchanged.
-- 7 Rust jobs ran; 935 Rust and 46 Python jobs reused unchanged runner-c evidence.
-- Source `44f93dcded5a1645215aab46084a234ed1e937e79e01c18ee86d835a467c1d32`.
-- Verification `bf34d35d621ae50a39e6419cc848247d315890292745efb9cf62069a39cd3a1a`.
-- Evidence work/parallel-round32-evidence.json and freeze metadata; original
-  manifest/log and downloaded results archive retained. Final gate took 130 seconds.
-- An obsolete snapshot with the new compose helper in the shared evaluator module
-  selected 837 affected targets. Its compile was deliberately stopped (exit -15)
-  before completing; obsolete manifest/log retained. Relocating the helper left
-  the evaluator unchanged and reduced the final affected set to seven.
+- 6,534 Rust tests and 279 doctests.
+- 3,419/4,855 source methods passing (70.422%); 870 pending, 566 excluded,
+  zero failed/unverified. Backlog 882→870; exclusions unchanged.
+- 839 Rust jobs ran; 105 Rust and 46 Python jobs reused unchanged runner-c evidence.
+- Source `526f0d19b7e1119c3a065868edcab9e8598640145401b9f126e8e0496a562528`.
+- Verification `92a5945e51ddc5e72e529f92dccdeecd117d3388f304fdc2e89e65a81b80e35d`.
+- Evidence work/parallel-round33-evidence.json and freeze metadata; original
+  manifest/log and downloaded results archive retained. Gate took 709.71 seconds.
+  This compiler change selected broad shared solver/shadow-session dependencies;
+  do not repeat the completed check without relevant changed inputs or concerns.
 
 Dashboard http://localhost:8765 is current. Reuse its server. Backend report
 refreshes need data/freshness inspection, not browser/Impeccable. Original-Java
-list measurements remain visibly stale. No new performance claim in this batch;
-configuration work occurs before solving. Do not repeat this completed gate
-without relevant changed inputs or unresolved concerns.
+list measurements remain visibly stale. No new performance claim in this batch.
 
-Prior round31 also passed: 6,504 Rust/278 docs, 3,399 source methods, 890 pending.
+Prior round32 passed: 6,517 Rust/279 docs, 3,407 source methods, 882 pending.
 All completed agent work is integrated and committed. No new subagents or follow-up
 assignments. Continue closing complete pending Community cases while preserving
-native performance. Previous goal turn was progress (ten verified configuration
-methods). The full objective remains incomplete and active.
+native performance. This goal turn made progress (twelve verified domain methods);
+the full objective remains incomplete and active.
 
 ## Verified implementation batch — round28
 
