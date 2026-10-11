@@ -15,6 +15,14 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/planning_composition_cases.rs` adapts all fifteen methods
+  in `SolverEntityInheritanceTest`. Its test-domain entity declarations, generators
+  and six successful scoring providers are adapted in
+  `crates/solver/tests/planning_composition_support/mod.rs`; each individual source
+  path is recorded in provenance. Native component registration, explicit ancestry
+  policy and field bindings replace Java annotations/reflection, with actual
+  bounded solves in both score backends. Original regressions add no source credit.
+
 - `crates/solver/tests/live_selection_sample_cases.rs` adapts both random-mimic
   methods from `CartesianProductMoveSelectorTest`, three wrapping methods from
   `SampleTest`, the random iterator repetition/bulk-consumption method from

@@ -52224,6 +52224,231 @@
       "upstream_test": "expectedSizeConstructorRejectsZeroAndNegative",
       "local_test": "expected_size_constructor_rejects_zero_and_negative",
       "modifications": "Preserve zero and negative expected-size rejection and both message substrings via a signed native external-configuration constructor and typed InvalidSequencedSetSize. Idiomatic with_capacity(0) remains valid; positive external sizes initialize real ordered storage. No Java constructor/ABI parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testBothClassesAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotated",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_both_classes_annotated",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve generated three-value ranges/two initially unassigned entities, every declared genuine field and the exact final score2 or4. Run actual bounded construction/local-search in both dense network and stream graph scoring, using inherited schema fields to construct domains; the source move limits20/10/100 become native candidate-evaluation ceilings, not Java count/trace equality. Source both-class case declares subValue but rewards only value; add-variable cases reward value and value2 separately. Additional native completeness, origin and limit assertions strengthen the source score assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testBothClassesAnnotatedAndBaseIsInterface",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedAndBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_both_classes_annotated_and_base_is_interface",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve generated three-value ranges/two initially unassigned entities, every declared genuine field and the exact final score2 or4. Run actual bounded construction/local-search in both dense network and stream graph scoring, using inherited schema fields to construct domains; the source move limits20/10/100 become native candidate-evaluation ceilings, not Java count/trace equality. Source both-class case declares subValue but rewards only value; add-variable cases reward value and value2 separately. Additional native completeness, origin and limit assertions strengthen the source score assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testOnlyBaseClassAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testOnlyBaseClassAnnotated",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_only_base_class_annotated",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve generated three-value ranges/two initially unassigned entities, every declared genuine field and the exact final score2 or4. Run actual bounded construction/local-search in both dense network and stream graph scoring, using inherited schema fields to construct domains; the source move limits20/10/100 become native candidate-evaluation ceilings, not Java count/trace equality. Source both-class case declares subValue but rewards only value; add-variable cases reward value and value2 separately. Additional native completeness, origin and limit assertions strengthen the source score assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testOnlyBaseClassAnnotatedBaseIsInterface",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testOnlyBaseClassAnnotatedBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_only_base_class_annotated_base_is_interface",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve generated three-value ranges/two initially unassigned entities, every declared genuine field and the exact final score2 or4. Run actual bounded construction/local-search in both dense network and stream graph scoring, using inherited schema fields to construct domains; the source move limits20/10/100 become native candidate-evaluation ceilings, not Java count/trace equality. Source both-class case declares subValue but rewards only value; add-variable cases reward value and value2 separately. Additional native completeness, origin and limit assertions strengthen the source score assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testOnlyChildClassAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testOnlyChildClassAnnotated",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_only_child_class_annotated",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testOnlyChildClassAnnotatedBaseIsInterface",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testOnlyChildClassAnnotatedBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_only_child_class_annotated_base_is_interface",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited. Preserve the source anomaly: interface configuration supplies a generated class fixture, with the same initialized values; no false correction to the source test."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testBothClassesAnnotatedAddNewVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedAddNewVariable",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_both_classes_annotated_add_new_variable",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve generated three-value ranges/two initially unassigned entities, every declared genuine field and the exact final score2 or4. Run actual bounded construction/local-search in both dense network and stream graph scoring, using inherited schema fields to construct domains; the source move limits20/10/100 become native candidate-evaluation ceilings, not Java count/trace equality. Source both-class case declares subValue but rewards only value; add-variable cases reward value and value2 separately. Additional native completeness, origin and limit assertions strengthen the source score assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testBothClassesAnnotatedAddNewVariableBaseIsInterface",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedAddNewVariableBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_both_classes_annotated_add_new_variable_base_is_interface",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve generated three-value ranges/two initially unassigned entities, every declared genuine field and the exact final score2 or4. Run actual bounded construction/local-search in both dense network and stream graph scoring, using inherited schema fields to construct domains; the source move limits20/10/100 become native candidate-evaluation ceilings, not Java count/trace equality. Source both-class case declares subValue but rewards only value; add-variable cases reward value and value2 separately. Additional native completeness, origin and limit assertions strengthen the source score assertion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testBothClassesAnnotatedReplaceVariable",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedReplaceVariable",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_both_classes_annotated_replace_variable",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testBothClassesAnnotatedReplaceVariableBaseIsInterface",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedReplaceVariableBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_both_classes_annotated_replace_variable_base_is_interface",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testMultipleBothClassesAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testMultipleBothClassesAnnotated",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_multiple_both_classes_annotated",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testMultipleBothClassesAnnotatedBaseIsInterface",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testMultipleBothClassesAnnotatedBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_multiple_both_classes_annotated_base_is_interface",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testMultipleOnlyBaseClassAnnotated",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testMultipleOnlyBaseClassAnnotated",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_multiple_only_base_class_annotated",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testMultipleOnlyBaseClassAnnotatedBaseIsInterface",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testMultipleOnlyBaseClassAnnotatedBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_multiple_only_base_class_annotated_base_is_interface",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverEntityInheritanceTest.testMultipleBothClassesAnnotatedMixedPattern",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverEntityInheritanceTest.java",
+      "upstream_test": "testMultipleBothClassesAnnotatedMixedPattern",
+      "local_path": "crates/solver/tests/planning_composition_cases.rs",
+      "local_test": "test_multiple_both_classes_annotated_mixed_pattern",
+      "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
     }
   ],
   "fixtures": [
@@ -71427,6 +71652,734 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
       "upstream_test": "TestdataEntity(String code, TestdataValue value)",
       "modifications": "Native identity/current-value tuples preserve the initialized generated entities. The test observes identity membership only; no Java class or fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childnot-TestdataMultipleChildNotAnnotatedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childnot/TestdataMultipleChildNotAnnotatedBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childnot-TestdataMultipleChildNotAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childnot/TestdataMultipleChildNotAnnotatedChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childnot-TestdataMultipleChildNotAnnotatedSecondChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childnot/TestdataMultipleChildNotAnnotatedSecondChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childnot-TestdataMultipleChildNotAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childnot/TestdataMultipleChildNotAnnotatedSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childtoo-TestdataMultipleBothAnnotatedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childtoo/TestdataMultipleBothAnnotatedBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childtoo-TestdataMultipleBothAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childtoo/TestdataMultipleBothAnnotatedChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childtoo-TestdataMultipleBothAnnotatedSecondChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childtoo/TestdataMultipleBothAnnotatedSecondChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-childtoo-TestdataMultipleBothAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/childtoo/TestdataMultipleBothAnnotatedSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-mixed-TestdataMultipleMixedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/mixed/TestdataMultipleMixedBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-mixed-TestdataMultipleMixedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/mixed/TestdataMultipleMixedChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-classes-mixed-TestdataMultipleMixedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/classes/mixed/TestdataMultipleMixedSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childnot-TestdataMultipleChildNotAnnotatedInterfaceBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childnot/TestdataMultipleChildNotAnnotatedInterfaceBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childnot-TestdataMultipleChildNotAnnotatedInterfaceChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childnot/TestdataMultipleChildNotAnnotatedInterfaceChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childnot-TestdataMultipleChildNotAnnotatedInterfaceSecondEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childnot/TestdataMultipleChildNotAnnotatedInterfaceSecondEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childnot-TestdataMultipleChildNotAnnotatedInterfaceSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childnot/TestdataMultipleChildNotAnnotatedInterfaceSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childtoo-TestdataMultipleBothAnnotatedInterfaceBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childtoo/TestdataMultipleBothAnnotatedInterfaceBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childtoo-TestdataMultipleBothAnnotatedInterfaceChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childtoo/TestdataMultipleBothAnnotatedInterfaceChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childtoo-TestdataMultipleBothAnnotatedInterfaceSecondEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childtoo/TestdataMultipleBothAnnotatedInterfaceSecondEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-multiple-baseannotated-interfaces-childtoo-TestdataMultipleBothAnnotatedInterfaceSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/multiple/baseannotated/interfaces/childtoo/TestdataMultipleBothAnnotatedInterfaceSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-addvar-TestAddVarConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestAddVarConstraintProvider.java",
+      "upstream_test": "defineConstraints: reward each initialized inherited value, plus value2 only in add-variable fixtures",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt the complete six successful source objectives into actual native dense constraints and stream filters/rewards. Each selected initialized field contributes1 per entity. String labels replace TestdataValue references; reflected classes/getters become resolved field/slot metadata. Invalid-case providers are not translated/executed; no fixture or helper credit. Entity eligibility requires every genuine field to be assigned before any selected-field reward applies, following the public forEach API documentation. Native dense callbacks depend on the entire entity row; stream grouping reconstructs full field rows before reward."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-addvar-TestdataAddVarBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestdataAddVarBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-addvar-TestdataAddVarChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestdataAddVarChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-addvar-TestdataAddVarSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestdataAddVarSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-childnot-TestChildNotAnnotatedConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestChildNotAnnotatedConstraintProvider.java",
+      "upstream_test": "defineConstraints: reward each initialized inherited value, plus value2 only in add-variable fixtures",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt the complete six successful source objectives into actual native dense constraints and stream filters/rewards. Each selected initialized field contributes1 per entity. String labels replace TestdataValue references; reflected classes/getters become resolved field/slot metadata. Invalid-case providers are not translated/executed; no fixture or helper credit. Entity eligibility requires every genuine field to be assigned before any selected-field reward applies, following the public forEach API documentation. Native dense callbacks depend on the entire entity row; stream grouping reconstructs full field rows before reward."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-childnot-TestdataChildNotAnnotatedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestdataChildNotAnnotatedBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-childnot-TestdataChildNotAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestdataChildNotAnnotatedChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-childnot-TestdataChildNotAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestdataChildNotAnnotatedSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-childtoo-TestBothAnnotatedConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childtoo/TestBothAnnotatedConstraintProvider.java",
+      "upstream_test": "defineConstraints: reward each initialized inherited value, plus value2 only in add-variable fixtures",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt the complete six successful source objectives into actual native dense constraints and stream filters/rewards. Each selected initialized field contributes1 per entity. String labels replace TestdataValue references; reflected classes/getters become resolved field/slot metadata. Invalid-case providers are not translated/executed; no fixture or helper credit. Entity eligibility requires every genuine field to be assigned before any selected-field reward applies, following the public forEach API documentation. Native dense callbacks depend on the entire entity row; stream grouping reconstructs full field rows before reward."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-childtoo-TestdataBothAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childtoo/TestdataBothAnnotatedChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-childtoo-TestdataBothAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childtoo/TestdataBothAnnotatedSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-replacevar-TestdataReplaceVarBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/replacevar/TestdataReplaceVarBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-replacevar-TestdataReplaceVarChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/replacevar/TestdataReplaceVarChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-classes-replacevar-TestdataReplaceVarSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/replacevar/TestdataReplaceVarSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-addvar-TestAddVarInterfaceConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestAddVarInterfaceConstraintProvider.java",
+      "upstream_test": "defineConstraints: reward each initialized inherited value, plus value2 only in add-variable fixtures",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt the complete six successful source objectives into actual native dense constraints and stream filters/rewards. Each selected initialized field contributes1 per entity. String labels replace TestdataValue references; reflected classes/getters become resolved field/slot metadata. Invalid-case providers are not translated/executed; no fixture or helper credit. Entity eligibility requires every genuine field to be assigned before any selected-field reward applies, following the public forEach API documentation. Native dense callbacks depend on the entire entity row; stream grouping reconstructs full field rows before reward."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-addvar-TestdataAddVarInterfaceBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestdataAddVarInterfaceBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-addvar-TestdataAddVarInterfaceChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestdataAddVarInterfaceChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-addvar-TestdataAddVarInterfaceSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestdataAddVarInterfaceSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childnot-TestChildNotAnnotatedInterfaceConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestChildNotAnnotatedInterfaceConstraintProvider.java",
+      "upstream_test": "defineConstraints: reward each initialized inherited value, plus value2 only in add-variable fixtures",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt the complete six successful source objectives into actual native dense constraints and stream filters/rewards. Each selected initialized field contributes1 per entity. String labels replace TestdataValue references; reflected classes/getters become resolved field/slot metadata. Invalid-case providers are not translated/executed; no fixture or helper credit. Entity eligibility requires every genuine field to be assigned before any selected-field reward applies, following the public forEach API documentation. Native dense callbacks depend on the entire entity row; stream grouping reconstructs full field rows before reward."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childnot-TestdataChildNotAnnotatedInterfaceBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestdataChildNotAnnotatedInterfaceBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childnot-TestdataChildNotAnnotatedInterfaceChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestdataChildNotAnnotatedInterfaceChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childnot-TestdataChildNotAnnotatedInterfaceSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestdataChildNotAnnotatedInterfaceSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childtoo-TestBothAnnotatedInterfaceConstraintProvider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestBothAnnotatedInterfaceConstraintProvider.java",
+      "upstream_test": "defineConstraints: reward each initialized inherited value, plus value2 only in add-variable fixtures",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt the complete six successful source objectives into actual native dense constraints and stream filters/rewards. Each selected initialized field contributes1 per entity. String labels replace TestdataValue references; reflected classes/getters become resolved field/slot metadata. Invalid-case providers are not translated/executed; no fixture or helper credit. Entity eligibility requires every genuine field to be assigned before any selected-field reward applies, following the public forEach API documentation. Native dense callbacks depend on the entire entity row; stream grouping reconstructs full field rows before reward."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childtoo-TestdataBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestdataBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childtoo-TestdataBothAnnotatedInterfaceChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestdataBothAnnotatedInterfaceChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-childtoo-TestdataBothAnnotatedInterfaceSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestdataBothAnnotatedInterfaceSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-replacevar-TestdataReplaceVarInterfaceBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/replacevar/TestdataReplaceVarInterfaceBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-replacevar-TestdataReplaceVarInterfaceChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/replacevar/TestdataReplaceVarInterfaceChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-baseannotated-interfaces-replacevar-TestdataReplaceVarInterfaceSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/replacevar/TestdataReplaceVarInterfaceSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-basenot-classes-TestdataBaseNotAnnotatedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/basenot/classes/TestdataBaseNotAnnotatedBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-basenot-classes-TestdataBaseNotAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/basenot/classes/TestdataBaseNotAnnotatedChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-basenot-classes-TestdataBaseNotAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/basenot/classes/TestdataBaseNotAnnotatedSolution.java",
+      "upstream_test": "generateSolution(3,2[,false]): value ranges, entity identities and initial states",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Preserve all relevant generated ranges (three distinct labels each), two entity rows and initialization flag, including both-class subValue, added value2 and mixed value/value2/value3 domains. Native identity indices and optional String labels replace Java entity/value objects. Planning IDs, unasserted score property and Java accessors/annotations are omitted. Source only-child-interface negative method actually uses the class generator; the native fixture records this explicitly. Metadata rejects invalid declarations before provider/range binding; no fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-basenot-interfaces-TestdataBaseNotAnnotatedInterfaceBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/basenot/interfaces/TestdataBaseNotAnnotatedInterfaceBaseEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-single-basenot-interfaces-TestdataBaseNotAnnotatedInterfaceChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/basenot/interfaces/TestdataBaseNotAnnotatedInterfaceChildEntity.java",
+      "upstream_test": "declared planning fields, registration and direct parent links",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt exact declaring-component registration, owned/projected ancestry and genuine variable names into test-only generic native marker declarations. Primary TestdataEntity fieldvalue, both-class fieldsubValue, added/redefined value/value2 and mixed owned value2/projected value/leaf value3 remain distinct. Interfaces declaring getters contribute fields; unannotated implementing storage does not redeclare them. Type IDs retain separate variant identity; strings retain value labels. Nonplanning ID/accessors/methods and Java language/annotation mechanics are omitted. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-TestdataEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "registered value field inherited by TestdataBothAnnotatedChildEntity",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt only the field declaration/value-label roles used by the both-class source fixture. Native registered marker/optional String fields replace named Java objects and reflection. No fixture credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "planning-composition-fixture-TestdataValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "three generated primary/subvalue identities and code labels",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "modifications": "Adapt only the field declaration/value-label roles used by the both-class source fixture. Native registered marker/optional String fields replace named Java objects and reflection. No fixture credit."
+    },
+    {
+      "id": "ConstraintFactory.forEach.planning_composition_eligibility",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/main/java/ai/timefold/solver/core/api/score/stream/ConstraintFactory.java",
+      "upstream_test": "public forEach Javadoc only: genuine-field non-null eligibility",
+      "local_path": "crates/solver/tests/planning_composition_support/mod.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Use only public API documentation as specification: exclude an entity until every genuine field, including inherited fields, is non-null. Implement independently through native row-scoped callbacks and grouping. No production implementation read, copied or translated; no method or fixture credit. Original regression checks partial assignments, completion and retraction across dense and stream scoring."
     }
   ]
 }

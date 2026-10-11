@@ -6950,3 +6950,37 @@ error as a typed panic. Other adapters and unbounded collection operations still
 require a caller-supplied limit. Bounded adapters such as take(limit) work
 normally, and empty datasets complete without callbacks. External signed expected
 set sizes require a positive usize value; native with_capacity(0) remains valid.
+
+## Planning component ancestry
+
+PlanningComposition compiles explicit registered/plain components and owned or
+projected parent links into an ordinary PlanningSchema. It resolves fields in
+parent encounter order, records original declaring types, contributes shared
+ancestors once per concrete root, and rejects cycles, missing/duplicate parents,
+unregistered field declarations and name redefinitions. Traversal is iterative;
+only requested roots and their ancestors are compiled. Type IDs carry identity,
+and field-origin queries allocate nothing or traverse no ancestry. Existing range,
+statistics, slot and move bindings use the resulting canonical schema. No runtime
+reflection, model accessors or automatic Rust trait/struct discovery is supplied.
+
+The default policy accepts arbitrary acyclic composition, including mixed parent
+links and deeper ancestry. Explicit single_level validation caps depth at two
+components and allows one unmixed parent. The fifteen adapted inheritance source
+methods select that policy to express Community's observable validation contract.
+Six cases perform real bounded native construction/local-search in both dense
+network and stream graph scoring, preserving complete declared domains and exact
+final scores. Source move limits become native candidate ceilings; identical Java
+counts or traces are not claimed. Diagnostic fragments use native registration/
+planning-field terminology. The source both-class case's subValue remains required
+but unscored; the add-variable cases score both fields. The public forEach
+contract excludes a row until all genuine fields are assigned, including inherited
+fields and unscored local fields. Both native scoring fixtures apply that rule. The interface-negative
+method's actual class-fixture generation remains recorded. Native registration
+replaces Java annotation semantics; no Java inheritance-discovery compatibility.
+
+Original regressions additionally solve deep/mixed graphs under default policy,
+check diamond sharing/longest depth, iterative long chains, canonical field origins
+and basic move bindings, root order/scoping, list/shadow metadata, independent
+policy controls and actual graph/declaration errors. These add no method credit.
+All composition validation and metadata cloning happen before solving; no parent
+traversal or reflection was added to candidate-scoring paths. No speedup claimed.

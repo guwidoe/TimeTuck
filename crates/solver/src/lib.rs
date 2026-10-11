@@ -830,6 +830,12 @@ pub use managed_value_ranges::{
 mod managed_range_statistics;
 pub use managed_range_statistics::{ManagedRangeStatistics, RangeInitializationStatistics};
 
+mod planning_composition;
+pub use planning_composition::{
+    ComposedPlanningSchema, PlanningComponent, PlanningComposition, PlanningCompositionError,
+    PlanningCompositionPolicy, PlanningParent, PlanningParentKind,
+};
+
 mod planning_schema;
 pub use planning_schema::{
     PlanningEntityDefinition, PlanningEntityRef, PlanningSchema, PlanningSchemaError, PlanningType,

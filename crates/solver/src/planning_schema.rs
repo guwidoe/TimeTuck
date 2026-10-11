@@ -84,6 +84,15 @@ pub struct PlanningEntityDefinition {
     variables: Vec<PlanningVariableDefinition>,
 }
 impl PlanningEntityDefinition {
+    pub(crate) fn from_parts(
+        entity_type: PlanningType,
+        variables: Vec<PlanningVariableDefinition>,
+    ) -> Self {
+        Self {
+            entity_type,
+            variables,
+        }
+    }
     pub fn of<E: 'static>(variables: Vec<PlanningVariableDefinition>) -> Self {
         Self {
             entity_type: PlanningType::of::<E>(),
@@ -145,7 +154,8 @@ impl fmt::Display for PlanningSchemaError {
 impl Error for PlanningSchemaError {}
 /// Validated immutable metadata; declarations retain their supplied order.
 /// Explicit Rust types/fields replace annotation discovery. Field getters/setters,
-/// object traversal, inheritance and shadow evaluation remain separate concerns.
+/// object traversal and shadow evaluation remain separate concerns. Explicit
+/// component ancestry can be compiled through PlanningComposition.
 /// Borrowed handles cannot outlive their schema, and refer to canonical metadata.
 ///
 /// ```
