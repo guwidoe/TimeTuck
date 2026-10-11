@@ -7,15 +7,15 @@ use std::{
 
 struct Plan<K> {
     topology: DependencyTopology<K>,
-    consumers: SnapshotMap<usize, BTreeSet<usize>>,
+    consumers: SnapshotMap<usize, SnapshotMap<usize, ()>>,
     order: Arc<[usize]>,
 }
 impl<K: Ord + Clone> Plan<K> {
     fn new(topology: DependencyTopology<K>) -> Self {
-        let mut indexed: BTreeMap<usize, BTreeSet<usize>> = BTreeMap::new();
+        let mut indexed: BTreeMap<usize, SnapshotMap<usize, ()>> = BTreeMap::new();
         for index in 0..topology.keys().len() {
             for &dependency in topology.dependency_indices(index) {
-                indexed.entry(dependency).or_default().insert(index);
+                indexed.entry(dependency).or_default().insert(index, ());
             }
         }
         let mut consumers = SnapshotMap::new();
@@ -51,7 +51,7 @@ impl<K: Ord + Clone> Plan<K> {
                 touched
                     .entry(dependency)
                     .or_insert_with(|| self.consumers.get(&dependency).cloned().unwrap_or_default())
-                    .insert(index);
+                    .insert(index, ());
             }
         }
         let mut consumers = self.consumers.clone();
@@ -128,7 +128,14 @@ impl<K: Ord + Clone> Plan<K> {
 /// callback unwinding also preserves the cache; external callback side effects
 /// cannot be undone. Clone shares immutable topology and persistent value roots,
 /// supporting trial snapshots even for non-Clone values. Sparse edge edits update
-/// only affected reverse links; edits that preserve component ranks also reuse
+/// only affected reverse links. Each consumer set is itself persistent, so a
+/// sparse rewire shares unchanged consumer entries even when a source has many
+/// consumers or a trial restores the same checkpoint repeatedly. This trades
+/// per-edge tree nodes and shared ownership allocations at construction for
+/// copying only search/rebalance paths during edits; it uses more memory than
+/// compact adjacency sets. Scheduling still visits every affected consumer, and
+/// topology updates may still copy the changed forward adjacency or rebuild
+/// components. Edits that preserve component ranks also reuse
 /// the evaluation order. Value-only updates do not scan all nodes.
 /// Scheduling and reverse links use stable internal indices. Suppliers receive
 /// the declared topology keys; changed-key results remain sorted by key.
@@ -282,7 +289,7 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
                 values.insert(key.clone(), value);
                 changed.insert(index);
                 if let Some(consumers) = plan.consumers.get(&index) {
-                    for &consumer in consumers {
+                    for &consumer in consumers.keys() {
                         ready.offer(consumer).expect("validated consumer node");
                     }
                 }
@@ -298,3 +305,6 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
         Ok(changed)
     }
 }
+
+#[cfg(test)]
+mod consumer_tests;
