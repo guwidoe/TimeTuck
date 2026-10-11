@@ -6817,3 +6817,35 @@ bindings, scorer errors and selective checks in real solves through all nine
 native backends. Full mode scheduling, score-director replacement, advanced
 diagnostics and random reseeding remain pending. No factory, solver, corruption
 or determinism method gains source credit from these original runtime regressions.
+
+### Prepared local-search acceptor configuration
+
+AcceptorProfile prepares validated native Acceptance policies in canonical order,
+combining explicit kinds with supplied settings and removing duplicate requests.
+An absent type list with only a late-history size infers ordinary late acceptance;
+explicit diversified late acceptance uses that size without adding an ordinary
+late child. The caller can disable diversified preparation. Empty configurations
+and value/move tabu without sizes fail explicitly. Signed sizes are validated
+before state construction; hard/fading tabu settings retain their native keys.
+
+Annealing inputs distinguish native positive magnitudes from configured
+nonpositive losses. Losses retain structural validation and checked negation;
+built-in integer minima fail instead of becoming wrapped negative temperatures.
+Policies reuse existing seeded annealing, tabu, late-acceptance, step-counting and
+great-deluge implementations. Native defaults are explicit independent choices:
+history/period100, variable tenure7, 1000 cooling steps, seed0 and rain1/100000.
+No Java PRNG, cooling schedule, numeric-default or environment-mode parity is
+claimed. Source factory tests assert construction kinds, rather than those traces.
+
+PreparedAcceptors owns policy storage and borrows additional policies when binding
+basic/list or mixed LocalSearchConfig. Binding replaces the acceptor selection
+while preserving all other controls. Every real search constructs fresh per-phase
+history, tabu and RNG state; the profile stores no live state. Existing kernels
+and candidate loops are unchanged.
+
+All six AcceptorFactoryTest methods and both negative-size methods now have full
+adaptations and provenance. Original regressions compare manually assembled and
+prepared all-nine-policy composites in all nine real solver backends, including
+repeated profile use (27 solves), exact result/work/report equality and known
+optima. They also cover minimum-integer/positive/structural losses, zero/negative
+sizes, immutable inputs, deduplicated ordering and preserved unrelated controls.

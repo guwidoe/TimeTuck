@@ -1370,3 +1370,9 @@ pub use environment_profile::{
     EnvironmentBindingError, EnvironmentMode, EnvironmentProfile, EnvironmentProfileError,
     PreparedEnvironmentProfile,
 };
+
+mod acceptor_profile;
+pub use acceptor_profile::{
+    AcceptorKind, AcceptorProfile, AcceptorProfileError, AnnealingTemperature, PreparedAcceptors,
+    TabuSettings,
+};

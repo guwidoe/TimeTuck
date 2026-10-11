@@ -896,3 +896,12 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   Complete mappings are in `compat/provenance.json`; runtime mode scheduling and
   score-director lifecycle cases earn no credit. Implementation and separate
   preparation regressions are original work.
+
+- `crates/solver/tests/acceptor_profile_cases.rs` adapts all six Community
+  `AcceptorFactoryTest` methods and the negative-size methods from
+  `LateAcceptanceAcceptorTest` and `StepCountingHillClimbingAcceptorTest`
+  (Apache-2.0). Native policy preparation replaces factory/class assertions;
+  complete input, order, failure and substitution mappings appear in
+  `compat/provenance.json`. The implementation and real-solver/boundary regressions
+  are original work. Java defaults, random schedules and environment-mode
+  instrumentation are not claimed.
