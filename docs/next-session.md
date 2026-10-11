@@ -23396,3 +23396,58 @@ best only when needed. dense_scoring picks next useful moves/selector gap; local
 Cargo held during65333prebuild, then release separate target-j2. Agent evidence
 from round8 copied before next edits. Goal active/incomplete; this turn verified
 round7 and integrated4substantial round8 changes.
+
+Round 8 gate65333 and recorder38858 both TERMINAL0: 5,899 Rust tests +261 doctests,
+696 Rust targets RUN/127 REUSE,46 Python jobs REUSE. Source methods3293/4855
+(67.827%),1298 pending,264 excluded,0failed/unverified. Source
+74a86fb64301039802d012a81e09ef7f0a8cc25b775fa97c0b6993aa7c936ae7; verification
+e9dc741977f5d7636ec13f20873d5fe88b78fbdd651bc0bc02ef42b397884670.
+Recorded work/parallel-round8-evidence.json; Java timings remain stale.
+
+Round 9 integrated five commits, frozen Rust7ec1932:
+- 3ac45b0(agent3c516f75): compiled entity assignment/consistency filtering and
+  stable(world,key) shadow entity streams. runner-c12 focused tests+Clippy. Parent
+  compared all five EntityForEachFilterTest methods; added5complete methods and
+  7fixture records. Native error category/diagnostic and absent-predicate mapping
+  explicit; actual cycles replace manual tracker flags.
+- 9505a0d(agent71525b75): O(n log n) single-route k-opt relocation construction,
+  exact leaf order, small direct fallback.17 focused tests+Clippy; local1296 paired
+  samples/72workloads.8192 first15.79x/full31.57x/exhaustive-prefix37.05x; small
+  regressions and concurrent parent-test variability preserved.
+- 662c13e(agent800fc009): typed score-aware AND/OR shared termination across all
+  18 native routes.67focused tests+Clippy;13new native tests. Construction uses
+  current complete score at initialization/every completed placement (including
+  no-change), retaining only actual handoff bests; incomplete/unaccepted repair
+  states cannot arm goals. Disabled/counter-only scoring/clone work unchanged.
+- efbe5a9(agentf946b964): membership-keyed ShadowProgram factories, per-world
+  caches, stable output IDs, leased registration arena.6focused runner-c tests+Clippy.
+  Saved candidates pin old programs across switches/slot reuse; unused programs
+  reclaim on later rebuild. Full polling/full membership rebuilding; no speed claim.
+- 7ec1932(agent933397d): indexed cross-route k-opt repartition;15 focused tests
+  +Clippy.1296paired samples/72workloads, exact leaves/checksums.8192 full scans
+  4.58–29.20x; smaller peak scratch. Tiny8balanced18.36->22.30us slower; opening
+  variation retained. No extra source credit for native feature/performance tests.
+
+All reviewed agent changes/probes/evidence copied to work/parallel-round9-evidence/
+{shadows,moves,solver,dynamic,repartition}/work. Every committed agent file matches
+its final successful manifest. All five integrated git patch IDs exactly match
+agent originals, including overlapping lib.rs/rank visibility changes.
+Round 9 gate14302 LIVE: stable launcher runs work/prebuild_parallel_round9.py
+>work/parallel-round9-prebuild.log then bash scripts/check.sh
+>work/parallel-round9-final-check.log. Do not restart. Main Rust/provenance frozen.
+Run prepared work/record_parallel_round9.py via stable launcher after terminal0;
+it validates current source/freshness, exact+5methods/+7fixtures, original focused
+file hashes/probes, integrated patch IDs/ancestry, no uncommitted Rust, actual counts.
+Commit pairs in work/parallel-round9-commits.json. Expected3298source only after
+combined success. No browser or Java benchmark refresh needed.
+
+Same three Astra/high agents continue: dense_scoring/local fixes dependency-invalid
+gather/mass candidates that currently panic and shares borrowed builder snapshots
+per neighborhood opening. Local isolated-j2 builds allowed (20CPUs/22GBavailable,
+parent-j12), but timing runs held until14302expensive prebuild finishes.
+dependency_graph/runner-c adds opt-in notified shadow stream refresh with checkpointed
+previous/current world snapshots. termination/runner-a adds opt-in live solver
+revision/origin/first-initialized callbacks; latest31focused checks passed, commit
+and parent review pending. All work isolated; no edits to frozen main.
+This goal turn made progress: verified round8, reviewed/integrated five substantive
+changes, started one combined round9 gate. Full rewrite remains active/incomplete.

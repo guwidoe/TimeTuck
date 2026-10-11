@@ -49509,6 +49509,81 @@
       "upstream_test": "undoRestoresListShadowVariablesAndScore",
       "local_test": "undo_restores_list_shadow_variables_and_score",
       "modifications": "Adapt all seven undoCases inputs and operations using native list move builders/gather moves and ephemeral calculator move guards. Assert complete list restoration, every value owner/index/previous/next shadow restored from the actual cached declarative projection, and incremental score equal to a fresh director score. Numeric entity indices replace A/B references; value codes preserved. Native batched change/inverse notifications replace Java event brackets. Grow-only histories are excluded exactly as in the source assertions; Java reflection, descriptor identity and internal notification shape are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForBasicEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForBasicEntities",
+      "local_test": "filters_for_basic_entities",
+      "modifications": "Adapt every asserted assignment/consistency acceptance and rejection to compiled native ShadowEntityFilter queries on actual cached ShadowSession values. requires_consistency()==false represents the source null consistency predicate (absence of a declarative check), not a Java callable/null API imitation. Native explicit schema and typed field handles replace entity descriptors and reflective access. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForListValueEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForListValueEntities",
+      "local_test": "filters_for_list_value_entities",
+      "modifications": "Adapt every asserted assignment/consistency acceptance and rejection to compiled native ShadowEntityFilter queries on actual cached ShadowSession values. requires_consistency()==false represents the source null consistency predicate (absence of a declarative check), not a Java callable/null API imitation. Native explicit schema and typed field handles replace entity descriptors and reflective access. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForDeclarativeBasicEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForDeclarativeBasicEntities",
+      "local_test": "filters_for_declarative_basic_entities",
+      "modifications": "Adapt every asserted assignment/consistency acceptance and rejection to compiled native ShadowEntityFilter queries on actual cached ShadowSession values. requires_consistency()==false represents the source null consistency predicate (absence of a declarative check), not a Java callable/null API imitation. Native explicit schema and typed field handles replace entity descriptors and reflective access. Real dynamic self-cycles produce the inconsistent cached state instead of directly mutating Java consistency-tracker flags; the preceding consistent states and all assigned/including-unassigned assertions are preserved. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForDeclarativeListValueEntities",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForDeclarativeListValueEntities",
+      "local_test": "filters_for_declarative_list_value_entities",
+      "modifications": "Adapt every asserted assignment/consistency acceptance and rejection to compiled native ShadowEntityFilter queries on actual cached ShadowSession values. requires_consistency()==false represents the source null consistency predicate (absence of a declarative check), not a Java callable/null API imitation. Native explicit schema and typed field handles replace entity descriptors and reflective access. Real dynamic self-cycles produce the inconsistent cached state instead of directly mutating Java consistency-tracker flags; the preceding consistent states and all assigned/including-unassigned assertions are preserved. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForListValueEntitiesWithoutInverse",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForListValueEntitiesWithoutInverse",
+      "local_test": "filters_for_list_value_entities_without_inverse",
+      "modifications": "Adapt every asserted assignment/consistency acceptance and rejection to compiled native ShadowEntityFilter queries on actual cached ShadowSession values. requires_consistency()==false represents the source null consistency predicate (absence of a declarative check), not a Java callable/null API imitation. Native explicit schema and typed field handles replace entity descriptors and reflective access. Preserve the missing ownership failure and its error-category assertion with ShadowSessionError::Metadata; the native diagnostic \"list value has no ownership binding\" replaces Java IllegalStateException/\"Impossible state\" wording. "
     }
   ],
   "fixtures": [
@@ -66827,6 +66902,97 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/shadowhistory/TestdataListWithShadowHistoryConstraintProvider.java",
       "upstream_test": "defineConstraints",
       "modifications": "Preserve the negative squared-list-length penalty for every entity, including empty lists. Score the declarative cached list snapshot through a native shadow calculator instead of Java constraint provider wiring. No source-method credit for this fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForBasicEntities_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForBasicEntities",
+      "modifications": "Adapt the filtersForBasicEntities test entity/value identities, optional basic assignment, empty/singleton lists, optional ownership, and consistency states into local World/basic_schema/list_schema fixtures. Marker types and explicit PlanningSchema registrations replace Java class descriptors. Whole Java domain classes and reflection are not reproduced. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForListValueEntities_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForListValueEntities",
+      "modifications": "Adapt the filtersForListValueEntities test entity/value identities, optional basic assignment, empty/singleton lists, optional ownership, and consistency states into local World/basic_schema/list_schema fixtures. Marker types and explicit PlanningSchema registrations replace Java class descriptors. Whole Java domain classes and reflection are not reproduced. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForDeclarativeBasicEntities_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForDeclarativeBasicEntities",
+      "modifications": "Adapt the filtersForDeclarativeBasicEntities test entity/value identities, optional basic assignment, empty/singleton lists, optional ownership, and consistency states into local World/basic_schema/list_schema fixtures. Marker types and explicit PlanningSchema registrations replace Java class descriptors. Whole Java domain classes and reflection are not reproduced. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForDeclarativeListValueEntities_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForDeclarativeListValueEntities",
+      "modifications": "Adapt the filtersForDeclarativeListValueEntities test entity/value identities, optional basic assignment, empty/singleton lists, optional ownership, and consistency states into local World/basic_schema/list_schema fixtures. Marker types and explicit PlanningSchema registrations replace Java class descriptors. Whole Java domain classes and reflection are not reproduced. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "EntityForEachFilterTest.filtersForListValueEntitiesWithoutInverse_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityForEachFilterTest.java",
+      "upstream_test": "filtersForListValueEntitiesWithoutInverse",
+      "modifications": "Adapt the filtersForListValueEntitiesWithoutInverse test entity/value identities, optional basic assignment, empty/singleton lists, optional ownership, and consistency states into local World/basic_schema/list_schema fixtures. Marker types and explicit PlanningSchema registrations replace Java class descriptors. Whole Java domain classes and reflection are not reproduced. No extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "TestdataBasicVarEntity.selection_duration_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/basic/TestdataBasicVarEntity.java",
+      "upstream_test": "updateDurationInDays",
+      "modifications": "Use integer seconds divided by 86400 and zero for absent values to preserve the duration-in-days supplier used by the declarative basic selection fixture; field registration and cached dependency inputs replace Java annotations/object getters. No source-method credit for this fixture."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_entity_selection_cases.rs",
+      "id": "TestdataPinnedNoShadowsListValue.selection_missing_inverse_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/pinned/noshadows/TestdataPinnedNoShadowsListValue.java",
+      "upstream_test": "index",
+      "modifications": "Preserve the index shadow and absence of any inverse owner field in native list_schema(false,false). Explicit list-value type metadata identifies ownership requirements; no Java descriptor implementation is reproduced. No source-method credit for this fixture."
     }
   ]
 }

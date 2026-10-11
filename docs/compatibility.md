@@ -6569,6 +6569,63 @@ owned scores improve 1.4%, dense SimpleScore regresses 2.3%; tiny owned solves r
 1.895 to 2.155 microseconds (13.7%). Short SimpleScore cases regress about 10%. Network
 construction is excluded; director initialization and snapshot cloning are included.
 Ordinary full scoring remains faster in dense/tiny cases, so retained scoring is
-not a universal improvement. Local/custom snapshots still use full copies. All
+not a universal improvement. Local/custom snapshots now use the sparse approach described below. All
 round 7 tests are original and earn no source-method credit; raw evidence, manifests
 and intermediate variants are in work/parallel-round7-evidence.
+
+Round 8 adds dynamic dependency membership: arriving and removed source keys,
+ordered duplicate supplier inputs, explicit absent-source state, cycle recovery,
+and atomic stream checkpoints. Surviving values are retained across topology
+rebuilds; membership changes still traverse the active graph. Sparse retained
+local/custom best snapshots now track only committed contribution changes, with
+cleanup after errors and panics. Gather selection uses compact receiver indexes
+and borrowed touched rows. These changes have original tests and no additional
+source-method credit; the combined check passed 5,899 Rust tests and 261 doctests.
+Native baseline/current measurements and countercases are retained under
+work/parallel-round8-evidence; existing Java comparisons remain visibly stale.
+
+Five EntityForEachFilterTest methods now have complete native adaptations.
+Compiled ShadowEntityFilter plans distinguish assigned-and-consistent selection
+from consistent selection including unassigned entities. Explicit ownership
+bindings replace reflective inverse-field discovery; a missing binding retains
+a native error-category and diagnostic assertion. A false requires_consistency
+result represents the absence of the source consistency predicate. Actual cycles
+replace manually mutated inconsistency flags. Entity stream outputs use stable
+(world ID, entity key) identities and independent cached shadow sessions.
+Provenance records all five methods and their fixtures.
+
+ScoredSearchTermination combines best-score/feasibility goals with shared count
+and time conditions. It observes retained complete solutions across phase
+handoffs without rescoring. Construction checks its current complete score at
+initialization and completed placements, including no-change placements; only
+the actual retained handoff enters persistent best history. Existing hard limits
+and untyped expressions remain independent. Original focused cases cover all
+18 native model/backend routes, optional worsening construction, providers,
+custom phases, decimal/multilevel targets, and unchanged scoring/clone work when
+score tracking is unused. This adds no source-method credit.
+
+Single-route k-opt relocation construction now uses remaining-rank indexes for
+large permutations and retains the direct small path. Baseline/new comparisons
+preserve every composite leaf and paired output checksum. At 8,192 unpinned
+values, measured first/full sampled proposal generation improves 15.79x/31.57x;
+first-eight exhaustive generation improves 37.05x. Small cases are mixed,
+including about 3 microseconds slower for a 32-value sampled scan. These are
+native proposal measurements, not whole-solver or Java comparisons. Focused
+evidence for the new batch is under work/parallel-round9-evidence; see the handoff
+for its combined verification status.
+
+Membership-keyed ShadowProgram factories allow runtime entity registration
+changes within a fixed stream graph. Unchanged signatures reuse per-world
+sessions; changed signatures rebuild registration and initialize its fields.
+Checkpoint leases preserve callback-free restoration across registration
+switches and reclaim unused programs on later rebuilds. Full polling, signature
+comparison, and full membership rebuilding remain explicit costs. Original
+lifecycle/failure/cycle and saved-candidate tests add no source-method credit.
+
+Cross-route k-opt repartition now shares the remaining-rank index, preserving
+original-row ownership and fixed destination prefixes. Fifteen focused tests
+passed; 1,296 paired samples across 72 workloads preserve exact checksums.
+At 8,192 values, full scans improve 4.58–29.20x with lower peak scratch memory;
+the smallest balanced case regresses 18.36 to 22.30 microseconds. Opening-only
+timings vary under concurrent parent tests. Raw paired rounds and limits remain
+in work/parallel-round9-evidence/repartition; these are native proposal timings.
