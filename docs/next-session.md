@@ -23187,3 +23187,17 @@ remote file hashes and union probe hash, then records actual counts. All remote
 workers free; agents idle with clean round4 commits. Local reserved72696. Next goal
 turn may assign next independent work to existing Astra/high agents/remotes while
 this gate runs. Goal active/incomplete; previous turn is concrete progress.
+
+Round5: three Astra/high agents implementing fromcdaafe6 in their existing
+worktrees. dense_scoring owns sparse range-aware list swaps (runner-a),
+dependency_graph owns direct native shadow-handle resolution (runner-c), termination
+owns pressure-triggered dominated frontier reclamation (local). No new upstream
+credit planned. Parent reviewed the three production diffs; no issue found.
+Focused checks and same-host component measurements underway. Preserve prior
+evidence; each agent's work/provenance-additions.json contains only this batch.
+runner-c briefly went offline; user restored it and builds resumed. No blocker.
+Round4 prebuild finished in7m55s;72696 remains LIVE running tests/report. Main
+Rust/provenance remain frozen. Local agent now has a separate worktree target
+with Rust1.92,-j2, authorized after expensive parent compilation completed.
+Run round4 recorder only after gate terminal success; inspect final agent deltas
+and evidence before merging round5. Goal active/incomplete.
