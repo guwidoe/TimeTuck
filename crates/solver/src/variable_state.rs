@@ -120,6 +120,9 @@ enum Rows<E, V> {
 }
 #[derive(Clone, Debug)]
 struct FieldData<E, V> {
+    // List publications have distinct identities even when row Eq considers
+    // replacement payloads equal. Basic fields need no observer token.
+    publication: Option<Rc<()>>,
     rows: Rows<E, V>,
     inverse: BTreeMap<V, BTreeSet<E>>,
     locations: BTreeMap<V, (E, usize)>,
@@ -150,6 +153,7 @@ impl<E: Ord + Clone, V: Ord + Clone> FieldData<E, V> {
             }
         }
         Ok(Self {
+            publication: matches!(&rows, Rows::List(_)).then(|| Rc::new(())),
             rows,
             inverse,
             locations,
@@ -223,6 +227,14 @@ impl<E, V> Clone for ListVariableState<'_, E, V> {
     }
 }
 impl<'s, E: Ord + Clone, V: Ord + Clone> ListVariableState<'s, E, V> {
+    pub(crate) fn publication(&self) -> Rc<()> {
+        self.inner
+            .borrow()
+            .publication
+            .as_ref()
+            .expect("list publication")
+            .clone()
+    }
     pub fn variable(&self) -> PlanningVariableRef<'s> {
         self.variable
     }

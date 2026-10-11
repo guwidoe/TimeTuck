@@ -65,6 +65,11 @@ type Supplier<'a, E, V, H> = dyn for<'c> FnMut(ListShadowContext<'c, E, V, H>) -
 /// universe and are processed individually, without conflating missing indices.
 /// Owner additions/removals need no new session. Value membership remains fixed
 /// during ordinary updates; [`Self::reconcile_values`] changes it explicitly.
+/// With the exact same registry publication, currentness checks reuse the known
+/// result and notified-only refreshes reuse prepared locations/dependencies.
+/// Every successful registry publication (even Eq-equal replacement or reset)
+/// forces full structural preparation on the next refresh. Dirty propagation and
+/// checkpoint creation still perform their ordinary work.
 ///
 /// Suppliers may read their context and immutable captured facts. Explicitly
 /// notify values affected by changed external facts. Do not mutate the bound
@@ -105,6 +110,7 @@ pub struct ListShadowSession<'a, 's, E, V, H> {
     cache: DependencyCache<V, H>,
     positions: BTreeMap<V, VariableListLocation<E, V>>,
     rows: BTreeMap<E, Vec<V>>,
+    publication: Option<Rc<()>>,
     pending: BTreeSet<V>,
     supplier: Box<Supplier<'a, E, V, H>>,
 }
@@ -114,6 +120,7 @@ pub struct ListShadowCheckpoint<E, V, H> {
     positions: BTreeMap<V, VariableListLocation<E, V>>,
     rows: BTreeMap<E, Vec<V>>,
     working_rows: BTreeMap<E, Vec<V>>,
+    publication: Option<Rc<()>>,
     pending: BTreeSet<V>,
 }
 impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static>
@@ -176,6 +183,7 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
             cache,
             positions: BTreeMap::new(),
             rows: BTreeMap::new(),
+            publication: None,
             pending,
             supplier: Box::new(supplier),
         };
@@ -219,7 +227,14 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         self.state.variable()
     }
     pub fn is_current(&self) -> bool {
-        self.pending.is_empty() && self.rows == self.state.snapshot()
+        self.pending.is_empty()
+            && (self.matches_publication(&self.state.publication())
+                || self.rows == self.state.snapshot())
+    }
+    fn matches_publication(&self, publication: &Rc<()>) -> bool {
+        self.publication
+            .as_ref()
+            .is_some_and(|observed| Rc::ptr_eq(observed, publication))
     }
     pub fn assert_current(&self) -> Result<(), ListShadowError<V>> {
         if self.is_current() {
@@ -292,6 +307,32 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         Ok(positions)
     }
     pub fn update_changed(&mut self) -> Result<Vec<V>, ListShadowError<V>> {
+        let publication = self.state.publication();
+        if self.matches_publication(&publication) {
+            if self.pending.is_empty() {
+                return Ok(vec![]);
+            }
+            // Exact publication identity proves all locations and edges are
+            // still valid. Eq alone would not prove replacement payload identity.
+            let supplier = &mut self.supplier;
+            let positions = &self.positions;
+            let direction = self.direction;
+            let dirty = self.pending.iter().cloned().collect::<Vec<_>>();
+            let changed = self.cache.update(&[], &[], &dirty, |value, inputs| {
+                supplier(ListShadowContext {
+                    value,
+                    location: positions.get(value),
+                    previous_shadow: (direction == ListCascadeDirection::Previous)
+                        .then(|| inputs.first().and_then(|(_, v)| v.value.as_ref()))
+                        .flatten(),
+                    next_shadow: (direction == ListCascadeDirection::Next)
+                        .then(|| inputs.first().and_then(|(_, v)| v.value.as_ref()))
+                        .flatten(),
+                })
+            })?;
+            self.pending.clear();
+            return Ok(changed);
+        }
         let rows = self.state.snapshot();
         let positions = self.prepare_positions(&rows)?;
         let mut dirty = self.pending.clone();
@@ -343,6 +384,7 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         )?;
         self.positions = positions;
         self.rows = rows;
+        self.publication = Some(publication);
         self.pending.clear();
         Ok(changed)
     }
@@ -394,6 +436,7 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
                 changed: self.update_changed()?,
             });
         }
+        let publication = self.state.publication();
         let rows = self.state.snapshot();
         let positions = Self::positions_for(&rows, &topology)?;
         let mut edges = vec![];
@@ -430,6 +473,7 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
             })?;
         self.positions = positions;
         self.rows = rows;
+        self.publication = Some(publication);
         self.pending.clear();
         Ok(ListShadowMembershipUpdate {
             added,
@@ -447,6 +491,7 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
             positions: self.positions.clone(),
             rows: self.rows.clone(),
             working_rows: self.state.snapshot(),
+            publication: self.publication.clone(),
             pending: self.pending.clone(),
         }
     }
@@ -463,6 +508,9 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         self.cache = saved.cache.clone();
         self.positions = saved.positions.clone();
         self.rows = saved.rows.clone();
+        // Registry restore is a new publication. Retaining the saved observed
+        // token forces fresh preparation after republished (even Eq-equal) rows.
+        self.publication = saved.publication.clone();
         self.pending = saved.pending.clone();
         Ok(())
     }
