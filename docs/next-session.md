@@ -23451,3 +23451,19 @@ revision/origin/first-initialized callbacks; latest31focused checks passed, comm
 and parent review pending. All work isolated; no edits to frozen main.
 This goal turn made progress: verified round8, reviewed/integrated five substantive
 changes, started one combined round9 gate. Full rewrite remains active/incomplete.
+
+Round 9 gate correction:14302 TERMINAL101 at all-target Clippy before the full
+Rust suite: items_after_test_module in time_limit.rs. Agent scoped Clippy did
+not cover this lib-test lint. Parent238c002 moves the identical construction
+helper before step_metric_tests; no behavior/test changes. Gate13762 LIVE now,
+frozen Rust238c002, same provenancefa08aad: stable launcher runs
+work/prebuild_parallel_round9.py >work/parallel-round9-prebuild-v2.log then
+bash scripts/check.sh >work/parallel-round9-final-check.log. Preserve failed
+prebuild.log; do not restart13762. Recorder additionally proves238c002 is exactly
+that helper relocation and an ancestor of HEAD. Run it only after terminal0.
+
+Next batch live events committed ee1f3d04 in termination worktree; evidence copied
+to work/parallel-round10-evidence/solver/work, both committed files match successful
+focused manifest.31tests+Clippy, no source credit. Parent production review and
+integration still pending. Agent instructed to inherit238c002 then propose next
+solver/lifecycle work without repeating checks solely for the relocation.
