@@ -1,5 +1,5 @@
 use super::ValueSwapSelection;
-use crate::{ListMove, ListSelectionContext, SelectionLifecycleEvent, SelectionSource};
+use crate::{ListMove, ListSelectionView, SelectionLifecycleEvent, SelectionSource};
 use std::num::NonZeroUsize;
 
 /// Cooperative work limits for one yielded swap. Each attempted pair reads at
@@ -32,11 +32,16 @@ pub struct ListSwapSourceLimits {
 /// both children to advertise it and means potentially unbounded generation,
 /// not guaranteed infinite output. Exact size is unknown unless a child declares
 /// zero. Events are forwarded once to each child, left first. External callback
-/// effects and panics cannot be rolled back. An unknown streamed value panics
+/// effects cannot be rolled back. A caught child or validation panic fuses the
+/// opening; a fresh opening retries from the children's own state. An unknown streamed value panics
 /// when encountered, consistently with SelectionSource's infallible open API.
 ///
-/// Bound outputs with take() or LimitedSelectionSource before collecting moves
-/// for a solver provider. Receiver normalization preserves selected left/right
+/// ListSelectionView supports borrowed contexts and owned model/assignment
+/// snapshots captured by ConfiguredMoveProvider. Map each move with clone() and
+/// set a finite provider draw limit; candidates remain streamed. Owned capture
+/// copies assignment row containers and values once per capture. Alternatively,
+/// bound outputs with take() or LimitedSelectionSource before collecting moves.
+/// Receiver normalization preserves selected left/right
 /// order for assigned swaps; assigned/missing replacement always unassigns the
 /// assigned member before assigning the missing value at that same position.
 pub struct ListValueSwapSource<L, R> {
@@ -85,29 +90,22 @@ fn next_selectable<V: Clone + Eq>(
     }
     None
 }
-impl<
-    'p,
-    V: Clone + Eq,
-    L: SelectionSource<ListSelectionContext<'p, V>, V>,
-    R: SelectionSource<ListSelectionContext<'p, V>, V>,
-> SelectionSource<ListSelectionContext<'p, V>, ListMove<V>> for ListValueSwapSource<L, R>
+impl<V: Clone + Eq, C: ListSelectionView<V>, L: SelectionSource<C, V>, R: SelectionSource<C, V>>
+    SelectionSource<C, ListMove<V>> for ListValueSwapSource<L, R>
 {
-    fn event(&mut self, event: SelectionLifecycleEvent, context: &ListSelectionContext<'p, V>) {
+    fn event(&mut self, event: SelectionLifecycleEvent, context: &C) {
         self.left.event(event, context);
         self.right.event(event, context);
     }
     fn is_never_ending(&self) -> bool {
         self.left.is_never_ending() && self.right.is_never_ending()
     }
-    fn size(&mut self, context: &ListSelectionContext<'p, V>) -> Option<usize> {
+    fn size(&mut self, context: &C) -> Option<usize> {
         let left = self.left.size(context);
         let right = self.right.size(context);
         (left == Some(0) || right == Some(0)).then_some(0)
     }
-    fn open<'a>(
-        &'a mut self,
-        context: &'a ListSelectionContext<'p, V>,
-    ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a>
+    fn open<'a>(&'a mut self, context: &'a C) -> Box<dyn Iterator<Item = ListMove<V>> + 'a>
     where
         ListMove<V>: 'a,
     {
@@ -122,13 +120,20 @@ impl<
                         .expect("list swap source requires a valid assignment");
                 let mut left = left.open(context);
                 let mut right = right.open(context);
+                let mut ended = false;
                 std::iter::from_fn(move || {
+                    if ended {
+                        return None;
+                    }
+                    // A caught panic must not resume after consuming half a pair.
+                    ended = true;
                     for _ in 0..limits.pairs_per_item.get() {
                         let l =
                             next_selectable(&selection, &mut *left, limits.reads_per_side.get())?;
                         let r =
                             next_selectable(&selection, &mut *right, limits.reads_per_side.get())?;
                         if let Some(movement) = selection.movement(l, r, include_noops) {
+                            ended = false;
                             return Some(movement);
                         }
                     }
