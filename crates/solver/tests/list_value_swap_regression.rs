@@ -177,7 +177,7 @@ fn provider_improves_list_and_mixed_search_and_reopens_after_moves() {
         &p,
         &n,
         p.initial_assignment(),
-        config,
+        config.clone(),
         &mut provider(),
     )
     .unwrap();

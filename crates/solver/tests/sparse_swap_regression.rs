@@ -49,14 +49,16 @@ fn sparse_swaps_match_direct_order_for_asymmetric_ranges_pins_and_optional_repla
             Neighborhood::ChangeAndSwap,
             Neighborhood::ChangeAndUniqueSwap,
         ] {
-            let actual = list_moves(&indexed, &a, family)
+            let actual = list_moves(&indexed, &a, family.clone())
                 .unwrap()
                 .collect::<Vec<_>>();
-            let expected = list_moves(&direct, &a, family).unwrap().collect::<Vec<_>>();
+            let expected = list_moves(&direct, &a, family.clone())
+                .unwrap()
+                .collect::<Vec<_>>();
             assert_eq!(actual, expected, "optional={optional} family={family:?}");
             for limit in [0, 1, 7, 80] {
                 assert_eq!(
-                    list_moves(&indexed, &a, family)
+                    list_moves(&indexed, &a, family.clone())
                         .unwrap()
                         .take(limit)
                         .collect::<Vec<_>>(),
@@ -140,7 +142,8 @@ fn sparse_swaps_solve_identically_in_list_and_mixed_scoring_backends() {
                     .unwrap();
             }
             let result =
-                list_local_search_from(p, &network, p.initial_assignment(), config).unwrap();
+                list_local_search_from(p, &network, p.initial_assignment(), config.clone())
+                    .unwrap();
             results.push((
                 result.best.as_ref().unwrap().assignment.lists().to_vec(),
                 result.best.unwrap().score,
@@ -156,7 +159,7 @@ fn sparse_swaps_solve_identically_in_list_and_mixed_scoring_backends() {
                 builder.build(),
                 sources,
                 p.initial_assignment(),
-                config,
+                config.clone(),
             )
             .unwrap();
             results.push((
@@ -179,14 +182,14 @@ fn sparse_swaps_solve_identically_in_list_and_mixed_scoring_backends() {
                     .unwrap();
             }
             let configuration = MixedLocalSearchConfig {
-                search: config,
+                search: config.clone(),
                 joint_moves: true,
             };
             let result = mixed_local_search_from(
                 &mixed,
                 &network,
                 mixed.initial_assignment(),
-                configuration,
+                configuration.clone(),
             )
             .unwrap();
             results.push((

@@ -292,7 +292,8 @@ fn optional_group_unassignment_changes_search_without_inserting_missing_values()
             assert_scores: true,
             ..Default::default()
         };
-        let a = list_local_search_from(&p, &network, p.initial_assignment(), config).unwrap();
+        let a =
+            list_local_search_from(&p, &network, p.initial_assignment(), config.clone()).unwrap();
         let mut builder = StreamGraphBuilder::new();
         let sources = ListStreamSources::new(&mut builder);
         builder
@@ -305,7 +306,7 @@ fn optional_group_unassignment_changes_search_without_inserting_missing_values()
             builder.build(),
             sources,
             p.initial_assignment(),
-            config,
+            config.clone(),
         )
         .unwrap();
         assert_eq!(a.best, b.best);
@@ -331,10 +332,11 @@ fn optional_group_unassignment_changes_search_without_inserting_missing_values()
         .unwrap();
         for joint_moves in [false, true] {
             let c = MixedLocalSearchConfig {
-                search: config,
+                search: config.clone(),
                 joint_moves,
             };
-            let a = mixed_local_search_from(&mixed, &n, mixed.initial_assignment(), c).unwrap();
+            let a =
+                mixed_local_search_from(&mixed, &n, mixed.initial_assignment(), c.clone()).unwrap();
             let mut builder = StreamGraphBuilder::new();
             let sources = MixedStreamSources::new(&mut builder);
             builder
@@ -376,7 +378,7 @@ fn invalid_unassignment_fails_before_any_phase_scoring_or_factory() {
     let sequence = SolverSequence {
         phases: vec![
             SolverPhase::Construction(ConstructionConfig::default()),
-            SolverPhase::LocalSearch(config),
+            SolverPhase::LocalSearch(config.clone()),
         ],
         ..Default::default()
     };
@@ -405,7 +407,7 @@ fn invalid_unassignment_fails_before_any_phase_scoring_or_factory() {
         assert!(matches!(r, Err(SolverError::Phase { phase: 1, .. })));
     }
     assert!(matches!(
-        list_local_search_from(&p, &n, p.initial_assignment(), config),
+        list_local_search_from(&p, &n, p.initial_assignment(), config.clone()),
         Err(ListLocalSearchError::Scoring(_))
     ));
     let mixed = MixedProblem::new(FiniteProblem::<usize>::new(vec![]).unwrap(), p);
@@ -419,7 +421,7 @@ fn invalid_unassignment_fails_before_any_phase_scoring_or_factory() {
         phases: vec![
             MixedSolverPhase::Construction(MixedConstructionConfig::default()),
             MixedSolverPhase::LocalSearch(MixedLocalSearchConfig {
-                search: config,
+                search: config.clone(),
                 joint_moves: true,
             }),
         ],

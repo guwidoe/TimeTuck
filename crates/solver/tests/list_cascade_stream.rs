@@ -334,7 +334,8 @@ fn local_search_uses_cascades_for_candidate_selection_and_saved_best() {
                 assert_scores: true,
                 ..Default::default()
             };
-            let expected = list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+            let expected =
+                list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
             let (g, s, _) = graph(&p, direction);
             let actual =
                 list_stream_local_search_from(&p, g, s, p.initial_assignment(), config).unwrap();

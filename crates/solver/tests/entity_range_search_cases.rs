@@ -44,7 +44,7 @@ fn run(phase_count: usize) {
             32,
         )),
     ];
-    let children = neighborhoods.map(|n| (n.into(), 1));
+    let children = neighborhoods.clone().map(|n| (n.into(), 1));
     // The final two variants are repair-only and the union of all eight children.
     for (variant, neighborhood) in neighborhoods
         .into_iter()
@@ -58,7 +58,7 @@ fn run(phase_count: usize) {
             ..Default::default()
         })];
         for _ in 0..phase_count {
-            phases.push(match neighborhood {
+            phases.push(match neighborhood.clone() {
                 None => SolverPhase::RuinRecreate(RuinRecreateConfig {
                     additional_neighborhoods: if variant == 8 { &children } else { &[] },
                     max_move_evaluations: Some(1000),
@@ -159,7 +159,7 @@ fn run_basic(phase_count: usize) {
             swap_selection: Some(selection),
         }),
     ];
-    let children = neighborhoods.map(|n| (n.into(), 1));
+    let children = neighborhoods.clone().map(|n| (n.into(), 1));
     for (variant, neighborhood) in neighborhoods
         .into_iter()
         .map(Some)
@@ -172,7 +172,7 @@ fn run_basic(phase_count: usize) {
             ..Default::default()
         })];
         for _ in 0..phase_count {
-            phases.push(match neighborhood {
+            phases.push(match neighborhood.clone() {
                 Some(neighborhood) => SolverPhase::LocalSearch(LocalSearchConfig {
                     neighborhood,
                     move_order: if variant == 2 {

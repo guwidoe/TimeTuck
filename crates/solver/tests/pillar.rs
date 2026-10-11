@@ -71,7 +71,7 @@ fn pillars_escape_a_group_trap_in_both_basic_backends_under_seeded_orders_and_bu
                     assert_scores: true,
                     ..Default::default()
                 };
-                let scoped = local_search(&p, &n, c).unwrap();
+                let scoped = local_search(&p, &n, c.clone()).unwrap();
                 let (g, s) = graph();
                 let stream = stream_local_search_from(&p, g, s, p.initial_assignment(), c).unwrap();
                 let expected = if cap == 1 { 0 } else { 10 };
@@ -134,7 +134,7 @@ fn joint_pillar_and_list_moves_escape_a_mixed_trap_in_both_backends() {
         for joint_moves in [false, true] {
             let c = MixedLocalSearchConfig {
                 search: LocalSearchConfig {
-                    neighborhood,
+                    neighborhood: neighborhood.clone(),
                     max_steps: 3,
                     max_evaluations: 100,
                     assert_scores: true,
@@ -142,7 +142,8 @@ fn joint_pillar_and_list_moves_escape_a_mixed_trap_in_both_backends() {
                 },
                 joint_moves,
             };
-            let scoped = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+            let scoped =
+                mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
             let mut b = StreamGraphBuilder::new();
             let s = MixedStreamSources::<i32, i32>::new(&mut b);
             let pairs = b

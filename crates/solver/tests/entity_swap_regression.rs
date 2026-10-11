@@ -249,7 +249,7 @@ fn basic_and_mixed_plans_exchange_entities_without_touching_other_variables() {
             &p,
             &n,
             SolverSequence {
-                phases: vec![SolverPhase::LocalSearch(search)],
+                phases: vec![SolverPhase::LocalSearch(search.clone())],
                 ..Default::default()
             },
             ext,

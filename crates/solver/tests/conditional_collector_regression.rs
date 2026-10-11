@@ -386,7 +386,7 @@ fn construction_search_and_saved_candidates_match_full_conditional_objective() {
             assert_scores: true,
             ..Default::default()
         };
-        let expected = local_search_from(&p, &n, initial.clone(), config).unwrap();
+        let expected = local_search_from(&p, &n, initial.clone(), config.clone()).unwrap();
         let (g, s) = factory();
         let actual = stream_local_search_from(&p, g, s, initial.clone(), config).unwrap();
         assert_eq!(actual.best, expected.best);

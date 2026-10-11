@@ -70,7 +70,7 @@ fn selected_columns_swap_atomically_and_change_solve_with_both_scoring_backends(
         SimpleScore::new(v.iter().map(|v| i64::from(v.copied().unwrap())).sum())
     })
     .unwrap();
-    let plain = local_search_from_with_provider(&p, &n, a.clone(), config, &mut q).unwrap();
+    let plain = local_search_from_with_provider(&p, &n, a.clone(), config.clone(), &mut q).unwrap();
     let mut b = StreamGraphBuilder::new();
     let source = b.source::<usize, (usize, Option<i32>)>();
     b.score("x", source.port(), |(id, v)| {
@@ -345,9 +345,14 @@ fn mixed_provider_optimizes_basic_and_list_state_on_both_backends() {
         })
         .unwrap();
     }
-    let plain =
-        mixed_local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut q)
-            .unwrap();
+    let plain = mixed_local_search_from_with_provider(
+        &p,
+        &n,
+        p.initial_assignment(),
+        config.clone(),
+        &mut q,
+    )
+    .unwrap();
     let mut b = StreamGraphBuilder::new();
     let sources = MixedStreamSources::new(&mut b);
     b.score("x", sources.basic.port(), |(_, v)| {

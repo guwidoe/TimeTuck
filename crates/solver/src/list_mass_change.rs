@@ -131,12 +131,12 @@ impl<V> ListMassChange<V> {
     }
 }
 impl Neighborhood {
-    pub(crate) fn validate_list<V: Eq + Clone>(self, p: &ListProblem<V>) -> Result<(), ListError> {
+    pub(crate) fn validate_list<V: Eq + Clone>(&self, p: &ListProblem<V>) -> Result<(), ListError> {
         if let Self::SubListChange(c) = self {
             c.validate(p)?;
         }
         if let Self::SubListUnassign(size) = self {
-            crate::list_sublist::validate_unassign(p, size)?;
+            crate::list_sublist::validate_unassign(p, *size)?;
         }
         if let Self::MassListChange(c) = self {
             c.validate(p)?;

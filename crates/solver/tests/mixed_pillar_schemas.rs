@@ -77,7 +77,7 @@ fn distinct_family_schemas_match_independent_successors_across_states_pins_and_r
                     expected.push(next);
                 }
                 expected.sort();
-                assert_eq!(successors(&p, change), expected);
+                assert_eq!(successors(&p, change.clone()), expected);
                 let mut swaps = Vec::new();
                 for l in 0..3 {
                     for r in 0..3 {
@@ -134,7 +134,7 @@ fn invalid_overrides_fail_before_scoring_and_disabled_overrides_are_ignored() {
         ..Default::default()
     };
     assert!(matches!(
-        mixed_moves_configured(&p, &a, c),
+        mixed_moves_configured(&p, &a, c.clone()),
         Err(MixedNeighborhoodError::Pillar(_))
     ));
     assert!(matches!(
@@ -143,18 +143,25 @@ fn invalid_overrides_fail_before_scoring_and_disabled_overrides_are_ignored() {
             &a,
             MixedNeighborhood {
                 basic: Some(Neighborhood::Change),
-                ..c
+                ..c.clone()
             }
         ),
         Err(MixedNeighborhoodError::SchemaRequiresPillarNeighborhood)
     ));
     assert_eq!(
-        mixed_moves_configured(&p, &a, MixedNeighborhood { basic: None, ..c })
-            .unwrap()
-            .count(),
+        mixed_moves_configured(
+            &p,
+            &a,
+            MixedNeighborhood {
+                basic: None,
+                ..c.clone()
+            }
+        )
+        .unwrap()
+        .count(),
         0
     );
-    let children = [(c, 0)];
+    let children = [(c.clone(), 0)];
     assert_eq!(
         mixed_moves_configured_union(&p, &a, &children, UnionOrder::Sequential, 0)
             .unwrap()

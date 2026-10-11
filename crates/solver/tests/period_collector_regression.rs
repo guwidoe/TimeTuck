@@ -299,7 +299,7 @@ fn construction_and_bounded_search_preserve_all_calendar_score_levels() {
             assert_scores: true,
             ..Default::default()
         };
-        let expected = local_search_from(&problem, &n, initial.clone(), config).unwrap();
+        let expected = local_search_from(&problem, &n, initial.clone(), config.clone()).unwrap();
         let (g, s) = factory();
         let actual = stream_local_search_from(&problem, g, s, initial.clone(), config).unwrap();
         assert_eq!(actual.best, expected.best);

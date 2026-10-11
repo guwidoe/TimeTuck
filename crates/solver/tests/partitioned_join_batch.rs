@@ -322,7 +322,7 @@ fn batched_partitioned_self_join_drives_solver_moves_and_saved_candidates() {
         assert_scores: true,
         ..Default::default()
     };
-    let full = local_search_from(&p, &network, p.initial_assignment(), config).unwrap();
+    let full = local_search_from(&p, &network, p.initial_assignment(), config.clone()).unwrap();
     let mut b = StreamGraphBuilder::<SimpleScore>::new().with_activity_pruning();
     let source = b.source::<usize, (usize, Option<i32>)>();
     let pairs = b

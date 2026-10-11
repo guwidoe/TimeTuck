@@ -298,13 +298,14 @@ fn opt_in_span_swaps_escape_list_and_joint_mixed_plateaus_in_both_backends() {
             assert_scores: true,
             ..Default::default()
         };
-        let scoped = list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let scoped =
+            list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = ListStreamSources::new(&mut b);
         b.score("target", s.entities.port(), |(_, row)| reward(row))
             .unwrap();
         let stream =
-            list_stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config)
+            list_stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config.clone())
                 .unwrap();
         assert_eq!(scoped.best.as_ref().unwrap().score, expected);
         assert_eq!(scoped.best, stream.best);
@@ -334,7 +335,8 @@ fn opt_in_span_swaps_escape_list_and_joint_mixed_plateaus_in_both_backends() {
             search: config,
             joint_moves: true,
         };
-        let scoped = mixed_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let scoped =
+            mixed_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = MixedStreamSources::new(&mut b);
         let joined = b

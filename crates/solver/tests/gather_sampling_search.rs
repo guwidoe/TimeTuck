@@ -40,7 +40,7 @@ fn list_search_gathers_nonadjacent_values_on_both_backends() {
                 b.build(),
                 sources,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         } else {
@@ -48,7 +48,7 @@ fn list_search_gathers_nonadjacent_values_on_both_backends() {
                 &p,
                 &network,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         }
@@ -96,7 +96,7 @@ fn mixed_search_gathers_and_preserves_basic_assignments_on_both_backends() {
                 b.build(),
                 sources,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         } else {
@@ -104,7 +104,7 @@ fn mixed_search_gathers_and_preserves_basic_assignments_on_both_backends() {
                 &p,
                 &network,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         }

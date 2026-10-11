@@ -219,7 +219,7 @@ fn arbitrary_groups_escape_plateaus_with_scoped_and_stream_basic_and_joint_mixed
             ] {
                 for budget in [0, 1, 2, 5, 100] {
                     let c = LocalSearchConfig {
-                        neighborhood,
+                        neighborhood: neighborhood.clone(),
                         move_order,
                         acceptance,
                         max_steps: 3,
@@ -227,7 +227,7 @@ fn arbitrary_groups_escape_plateaus_with_scoped_and_stream_basic_and_joint_mixed
                         assert_scores: true,
                         ..Default::default()
                     };
-                    let a = local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+                    let a = local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
                     let mut b = StreamGraphBuilder::new();
                     let s = b.source::<usize, (usize, Option<i32>)>();
                     let left = b.filter(s.port(), |(i, _)| *i == 0).unwrap();
@@ -235,8 +235,14 @@ fn arbitrary_groups_escape_plateaus_with_scoped_and_stream_basic_and_joint_mixed
                     let pair = b.join_equal(&left, &right, |_| 0, |_| 0).unwrap();
                     b.score("target", &pair, |((_, a), (_, b))| reward(*a, *b))
                         .unwrap();
-                    let r = stream_local_search_from(&p, b.build(), s, p.initial_assignment(), c)
-                        .unwrap();
+                    let r = stream_local_search_from(
+                        &p,
+                        b.build(),
+                        s,
+                        p.initial_assignment(),
+                        c.clone(),
+                    )
+                    .unwrap();
                     assert_eq!(a.best, r.best);
                     assert_eq!(a.evaluations, r.evaluations);
                     assert_eq!(a.completed_steps, r.completed_steps);
@@ -284,8 +290,13 @@ fn arbitrary_groups_escape_plateaus_with_scoped_and_stream_basic_and_joint_mixed
                         search: c,
                         joint_moves: true,
                     };
-                    let a = mixed_local_search_from(&mixed, &net, mixed.initial_assignment(), cfg)
-                        .unwrap();
+                    let a = mixed_local_search_from(
+                        &mixed,
+                        &net,
+                        mixed.initial_assignment(),
+                        cfg.clone(),
+                    )
+                    .unwrap();
                     let mut b = StreamGraphBuilder::new();
                     let s = MixedStreamSources::new(&mut b);
                     let left = b.filter(s.basic.port(), |(i, _)| *i == 0).unwrap();
@@ -347,7 +358,7 @@ fn invalid_null_crossing_is_rejected_before_basic_or_mixed_phase_work() {
         let sequence = SolverSequence {
             phases: vec![
                 SolverPhase::Construction(ConstructionConfig::default()),
-                SolverPhase::LocalSearch(config),
+                SolverPhase::LocalSearch(config.clone()),
             ],
             limits: SolverLimits {
                 max_evaluations: budget,
@@ -376,7 +387,7 @@ fn invalid_null_crossing_is_rejected_before_basic_or_mixed_phase_work() {
                 p.initial_assignment(),
                 LocalSearchConfig {
                     max_evaluations: budget,
-                    ..config
+                    ..config.clone()
                 }
             ),
             Err(LocalSearchError::Scoring(ScoringError::Model(
@@ -399,7 +410,7 @@ fn invalid_null_crossing_is_rejected_before_basic_or_mixed_phase_work() {
                 p.initial_assignment(),
                 LocalSearchConfig {
                     max_evaluations: budget,
-                    ..config
+                    ..config.clone()
                 }
             )
             .is_err()
@@ -412,13 +423,13 @@ fn invalid_null_crossing_is_rejected_before_basic_or_mixed_phase_work() {
         })
         .unwrap();
         let cfg = MixedLocalSearchConfig {
-            search: config,
+            search: config.clone(),
             joint_moves: true,
         };
         let sequence = MixedSolverSequence {
             phases: vec![
                 MixedSolverPhase::Construction(MixedConstructionConfig::default()),
-                MixedSolverPhase::LocalSearch(cfg),
+                MixedSolverPhase::LocalSearch(cfg.clone()),
             ],
             limits: SolverLimits {
                 max_evaluations: budget,
@@ -440,12 +451,14 @@ fn invalid_null_crossing_is_rejected_before_basic_or_mixed_phase_work() {
             ),
             Err(SolverError::Phase { phase: 1, .. })
         ));
-        assert!(mixed_local_search_from(&mixed, &net, mixed.initial_assignment(), cfg).is_err());
+        assert!(
+            mixed_local_search_from(&mixed, &net, mixed.initial_assignment(), cfg.clone()).is_err()
+        );
         assert!(
             mixed_moves(
                 &mixed,
                 &mixed.initial_assignment(),
-                config.neighborhood,
+                config.neighborhood.clone(),
                 true
             )
             .is_err()
@@ -486,7 +499,7 @@ fn optional_null_crossing_changes_search_and_list_only_paths_keep_ordinary_moves
             max_steps: 2,
             ..Default::default()
         };
-        let a = local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let a = local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = b.source::<usize, (usize, Option<i32>)>();
         let left = b.filter(s.port(), |(i, _)| *i == 0).unwrap();
@@ -496,7 +509,8 @@ fn optional_null_crossing_changes_search_and_list_only_paths_keep_ordinary_moves
             SimpleScore::new(i64::from(a.is_none() && b.is_none()))
         })
         .unwrap();
-        let r = stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config).unwrap();
+        let r = stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config.clone())
+            .unwrap();
         assert_eq!(a.best, r.best);
         assert_eq!(a.evaluations, r.evaluations);
         assert_eq!(
@@ -506,7 +520,7 @@ fn optional_null_crossing_changes_search_and_list_only_paths_keep_ordinary_moves
         let lists = ListProblem::new(vec![0, 1], vec![ListEntity::new(vec![0, 1])]).unwrap();
         let initial = lists.initial_assignment();
         assert_eq!(
-            list_moves(&lists, &initial, config.neighborhood)
+            list_moves(&lists, &initial, config.neighborhood.clone())
                 .unwrap()
                 .collect::<Vec<_>>(),
             list_moves(&lists, &initial, Neighborhood::ChangeAndSwap)
@@ -521,7 +535,7 @@ fn optional_null_crossing_changes_search_and_list_only_paths_keep_ordinary_moves
             SimpleScore::new(i64::from(row == [1, 0]))
         })
         .unwrap();
-        let a = list_local_search_from(&lists, &net, initial.clone(), config).unwrap();
+        let a = list_local_search_from(&lists, &net, initial.clone(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = ListStreamSources::new(&mut b);
         b.score("order", s.entities.port(), |(_, row)| {

@@ -113,7 +113,7 @@ fn basic_construction_and_repeated_search_match_fresh_phases_without_reinitializ
         let initial = d.assignment().clone();
         let before = calls.get();
         let (g, s) = basic_graph(&fresh_calls);
-        let expected = stream_local_search_from(&p, g, s, initial, c).unwrap();
+        let expected = stream_local_search_from(&p, g, s, initial, c.clone()).unwrap();
         let actual = d.run_local_search(c).unwrap();
         same_search!(d, actual, expected);
         assert_eq!(calls.get() - before, actual.constraint_evaluations);
@@ -154,7 +154,7 @@ fn list_phases_preserve_sources_and_best_shadow_rows() {
         let initial = d.assignment().clone();
         let before = calls.get();
         let (g, s) = list_graph(&fresh_calls);
-        let expected = list_stream_local_search_from(&p, g, s, initial, c).unwrap();
+        let expected = list_stream_local_search_from(&p, g, s, initial, c.clone()).unwrap();
         let actual = d.run_local_search(c).unwrap();
         same_search!(d, actual, expected);
         assert_eq!(calls.get() - before, actual.constraint_evaluations);
@@ -204,7 +204,7 @@ fn mixed_phases_reuse_joined_graph_and_restore_best_between_searches() {
         let initial = d.assignment().clone();
         let before = calls.get();
         let (g, s) = mixed_graph(&fresh_calls);
-        let expected = mixed_stream_local_search_from(&p, g, s, initial, c).unwrap();
+        let expected = mixed_stream_local_search_from(&p, g, s, initial, c.clone()).unwrap();
         let actual = d.run_local_search(c).unwrap();
         same_search!(d, actual, expected);
         assert_eq!(calls.get() - before, actual.constraint_evaluations);

@@ -2486,10 +2486,10 @@ fn validate_phase_models<
         if let SolverPhase::RuinRecreate(c) = p {
             c.validate_candidates(problem.candidate_count())
                 .map_err(|error| SolverError::Repair { phase, error })?;
-            for &(n, w) in c.additional_neighborhoods {
+            for &(ref n, w) in c.additional_neighborhoods {
                 if w > 0 {
                     problem
-                        .validate_neighborhood(n)
+                        .validate_neighborhood(n.clone())
                         .map_err(|error| SolverError::Repair { phase, error })?;
                 }
             }

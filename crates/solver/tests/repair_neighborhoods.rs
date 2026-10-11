@@ -183,7 +183,7 @@ fn rich_list_families_produce_legal_successors_and_share_repair_budgets() {
             32,
         )),
     ] {
-        let successors = list_moves(&p, &initial, family)
+        let successors = list_moves(&p, &initial, family.clone())
             .unwrap()
             .map(|m| {
                 let mut a = initial.clone();
@@ -254,7 +254,7 @@ fn disabled_invalid_and_empty_families_obey_validation_and_fallback_rules() {
     .unwrap();
     let invalid =
         Neighborhood::SubListChange(SubListChangeConfig::default().with_unassignment(true));
-    let enabled = [(invalid.into(), 1)];
+    let enabled = [(invalid.clone().into(), 1)];
     let c = config(&enabled);
     assert!(ruin_recreate_list_search_from(&p, &n, p.initial_assignment(), c.clone()).is_err());
     assert!(

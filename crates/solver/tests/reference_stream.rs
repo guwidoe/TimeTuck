@@ -282,7 +282,8 @@ fn construction_and_saved_local_search_candidates_match_full_reference_scoring()
             ..Default::default()
         };
         let initial = Assignment::new(vec![Some(3), Some(4), Some(3), Some(5), Some(6)]);
-        let mut expected = local_search_from(&p, &network, initial.clone(), config).unwrap();
+        let mut expected =
+            local_search_from(&p, &network, initial.clone(), config.clone()).unwrap();
         let (g, s) = graph();
         let mut actual = stream_local_search_from(&p, g, s, initial, config).unwrap();
         actual.constraint_evaluations = 0;

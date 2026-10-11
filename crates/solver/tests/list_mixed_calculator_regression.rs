@@ -397,22 +397,27 @@ fn construction_and_search_agree_with_scoped_backends() {
                 assert_scores: true,
                 ..Default::default()
             };
-            let actual =
-                list_calculator_local_search_from(&lp, complete_list(), Lists::default, config)
-                    .unwrap();
-            let mut expected = list_local_search_from(&lp, &ln, complete_list(), config).unwrap();
+            let actual = list_calculator_local_search_from(
+                &lp,
+                complete_list(),
+                Lists::default,
+                config.clone(),
+            )
+            .unwrap();
+            let mut expected =
+                list_local_search_from(&lp, &ln, complete_list(), config.clone()).unwrap();
             expected.constraint_evaluations = actual.constraint_evaluations;
             assert_eq!(actual, expected);
             for joint_moves in [false, true] {
                 let settings = MixedLocalSearchConfig {
-                    search: config,
+                    search: config.clone(),
                     joint_moves,
                 };
                 let actual = mixed_calculator_local_search_from(
                     &mp,
                     complete_mixed(),
                     Mixed::default,
-                    settings,
+                    settings.clone(),
                 )
                 .unwrap();
                 let mut expected =
@@ -439,13 +444,18 @@ fn lazy_providers_and_custom_phases_use_both_backends() {
         &lp,
         complete_list(),
         Lists::default,
-        cfg,
+        cfg.clone(),
         &mut provider.clone(),
     )
     .unwrap();
-    let mut expected =
-        list_local_search_from_with_provider(&lp, &ln, complete_list(), cfg, &mut provider.clone())
-            .unwrap();
+    let mut expected = list_local_search_from_with_provider(
+        &lp,
+        &ln,
+        complete_list(),
+        cfg.clone(),
+        &mut provider.clone(),
+    )
+    .unwrap();
     expected.constraint_evaluations = actual.constraint_evaluations;
     assert_eq!(actual, expected);
     let provider =
@@ -458,7 +468,7 @@ fn lazy_providers_and_custom_phases_use_both_backends() {
         &mp,
         complete_mixed(),
         Mixed::default,
-        settings,
+        settings.clone(),
         &mut provider.clone(),
     )
     .unwrap();

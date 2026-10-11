@@ -339,7 +339,7 @@ fn list_and_mixed_group_search_matches_both_scoring_backends_at_every_budget() {
             target(row, unassign)
         })
         .unwrap();
-        for neighborhood in [Neighborhood::ChangeAndSwap, family] {
+        for neighborhood in [Neighborhood::ChangeAndSwap, family.clone()] {
             for move_order in [
                 MoveOrder::Original,
                 MoveOrder::ShuffledVariables { seed: 19 },
@@ -361,7 +361,7 @@ fn list_and_mixed_group_search_matches_both_scoring_backends_at_every_budget() {
                 ] {
                     for budget in [0, 1, 2, 50] {
                         let c = LocalSearchConfig {
-                            neighborhood,
+                            neighborhood: neighborhood.clone(),
                             move_order,
                             acceptance,
                             max_steps: 3,
@@ -369,7 +369,8 @@ fn list_and_mixed_group_search_matches_both_scoring_backends_at_every_budget() {
                             assert_scores: true,
                             ..Default::default()
                         };
-                        let a = list_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+                        let a = list_local_search_from(&p, &n, p.initial_assignment(), c.clone())
+                            .unwrap();
                         let mut b = StreamGraphBuilder::new();
                         let s = ListStreamSources::new(&mut b);
                         b.score("target", s.entities.port(), move |(_, row)| {
@@ -381,7 +382,7 @@ fn list_and_mixed_group_search_matches_both_scoring_backends_at_every_budget() {
                             b.build(),
                             s,
                             p.initial_assignment(),
-                            c,
+                            c.clone(),
                         )
                         .unwrap();
                         assert_eq!(a.best, r.best);
@@ -419,14 +420,14 @@ fn list_and_mixed_group_search_matches_both_scoring_backends_at_every_budget() {
                         .unwrap();
                         for joint_moves in [false, true] {
                             let cfg = MixedLocalSearchConfig {
-                                search: c,
+                                search: c.clone(),
                                 joint_moves,
                             };
                             let a = mixed_local_search_from(
                                 &mixed,
                                 &net,
                                 mixed.initial_assignment(),
-                                cfg,
+                                cfg.clone(),
                             )
                             .unwrap();
                             let mut b = StreamGraphBuilder::new();
@@ -493,14 +494,14 @@ fn required_lists_fail_before_every_local_or_phase_scoring_path() {
         ] {
             for budget in [0, 100] {
                 let config = LocalSearchConfig {
-                    neighborhood,
+                    neighborhood: neighborhood.clone(),
                     max_evaluations: budget,
                     ..Default::default()
                 };
                 let seq = SolverSequence {
                     phases: vec![
                         SolverPhase::Construction(ConstructionConfig::default()),
-                        SolverPhase::LocalSearch(config),
+                        SolverPhase::LocalSearch(config.clone()),
                     ],
                     limits: SolverLimits {
                         max_evaluations: budget,
@@ -522,8 +523,10 @@ fn required_lists_fail_before_every_local_or_phase_scoring_path() {
                     ),
                     Err(SolverError::Phase { phase: 1, .. })
                 ));
-                assert!(list_local_search_from(&p, &n, p.initial_assignment(), config).is_err());
-                assert!(list_moves(&p, &p.initial_assignment(), neighborhood).is_err());
+                assert!(
+                    list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).is_err()
+                );
+                assert!(list_moves(&p, &p.initial_assignment(), neighborhood.clone()).is_err());
                 let mut b = StreamGraphBuilder::new();
                 let s = ListStreamSources::new(&mut b);
                 b.score("score", s.entities.port(), |_| {
@@ -532,8 +535,14 @@ fn required_lists_fail_before_every_local_or_phase_scoring_path() {
                 })
                 .unwrap();
                 assert!(
-                    list_stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config)
-                        .is_err()
+                    list_stream_local_search_from(
+                        &p,
+                        b.build(),
+                        s,
+                        p.initial_assignment(),
+                        config.clone()
+                    )
+                    .is_err()
                 );
                 let mixed =
                     MixedProblem::new(FiniteProblem::<i32>::new(vec![]).unwrap(), p.clone());
@@ -550,7 +559,7 @@ fn required_lists_fail_before_every_local_or_phase_scoring_path() {
                 let seq = MixedSolverSequence {
                     phases: vec![
                         MixedSolverPhase::Construction(MixedConstructionConfig::default()),
-                        MixedSolverPhase::LocalSearch(cfg),
+                        MixedSolverPhase::LocalSearch(cfg.clone()),
                     ],
                     limits: SolverLimits {
                         max_evaluations: budget,
@@ -573,10 +582,17 @@ fn required_lists_fail_before_every_local_or_phase_scoring_path() {
                     Err(SolverError::Phase { phase: 1, .. })
                 ));
                 assert!(
-                    mixed_local_search_from(&mixed, &net, mixed.initial_assignment(), cfg).is_err()
+                    mixed_local_search_from(&mixed, &net, mixed.initial_assignment(), cfg.clone())
+                        .is_err()
                 );
                 assert!(
-                    mixed_moves(&mixed, &mixed.initial_assignment(), neighborhood, true).is_err()
+                    mixed_moves(
+                        &mixed,
+                        &mixed.initial_assignment(),
+                        neighborhood.clone(),
+                        true
+                    )
+                    .is_err()
                 );
                 let mut b = StreamGraphBuilder::new();
                 let s = MixedStreamSources::new(&mut b);

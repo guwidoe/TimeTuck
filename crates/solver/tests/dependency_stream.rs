@@ -304,7 +304,7 @@ fn construction_and_saved_search_candidates_match_independent_network() {
             ..Default::default()
         };
         let initial = Assignment::new(vec![Some(1), Some(0), Some(1), Some(2)]);
-        let mut expected = local_search_from(&p, &network, initial.clone(), cfg).unwrap();
+        let mut expected = local_search_from(&p, &network, initial.clone(), cfg.clone()).unwrap();
         let (g, s, _) = graph();
         let mut actual = stream_local_search_from(&p, g, s, initial, cfg).unwrap();
         expected.constraint_evaluations = 0;

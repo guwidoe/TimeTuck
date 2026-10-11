@@ -75,7 +75,7 @@ fn every_optional_target_permutation_preserves_family_semantics_and_pillar_align
                         }
                     }
                     let c = BasicNeighborhood {
-                        neighborhood: n,
+                        neighborhood: n.clone(),
                         value_orders: &orders,
                         ..Default::default()
                     };
@@ -161,10 +161,10 @@ fn malformed_orders_fail_before_solver_callbacks_and_disabled_families_ignore_th
             ..Default::default()
         };
         assert!(matches!(
-            basic_moves_configured(&p, &a, c),
+            basic_moves_configured(&p, &a, c.clone()),
             Err(BasicNeighborhoodError::ValueOrder(_))
         ));
-        let children = [(c, 0)];
+        let children = [(c.clone(), 0)];
         assert_eq!(
             basic_moves_configured_union(&p, &a, &children, UnionOrder::Sequential, 0)
                 .unwrap()
@@ -262,7 +262,7 @@ fn family_order_changes_budgeted_search_results_in_both_backends_and_preserves_u
         ListProblem::new(vec![10], vec![ListEntity::new(vec![10])]).unwrap(),
     );
     let a = mixed.initial_assignment();
-    let children = families.map(|(c, w)| {
+    let children = families.clone().map(|(c, w)| {
         (
             MixedNeighborhood {
                 basic: Some(c.neighborhood),
@@ -290,7 +290,9 @@ fn family_order_changes_budgeted_search_results_in_both_backends_and_preserves_u
     .unwrap();
     for (index, (c, _)) in families.into_iter().enumerate() {
         let mut provider = |p: &FiniteProblem<i32>, a: &Assignment<i32>, _: u64| {
-            basic_moves_configured(p, a, c).unwrap().collect::<Vec<_>>()
+            basic_moves_configured(p, a, c.clone())
+                .unwrap()
+                .collect::<Vec<_>>()
         };
         let plan = SolverSequence {
             phases: vec![

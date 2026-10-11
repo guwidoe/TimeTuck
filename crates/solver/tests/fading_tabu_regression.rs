@@ -160,7 +160,7 @@ fn hard_interval_changes_actual_search_and_invalid_config_precedes_scoring() {
         max_evaluations: 50,
         ..Default::default()
     };
-    let result = local_search(&p, &n, config).unwrap();
+    let result = local_search(&p, &n, config.clone()).unwrap();
     assert_eq!(result.completed_steps, 1);
     assert_eq!(result.termination, LocalSearchTermination::NoAcceptedMove);
     assert_eq!(result.best.unwrap().score, SimpleScore::new(1));
@@ -202,7 +202,8 @@ fn list_and_mixed_search_forbid_selected_entities_and_keep_key_namespaces_separa
         ..Default::default()
     };
     let network = ListConstraintNetwork::<i32, SimpleScore>::new(2, 1);
-    let a = list_local_search_from(&lists, &network, lists.initial_assignment(), config).unwrap();
+    let a = list_local_search_from(&lists, &network, lists.initial_assignment(), config.clone())
+        .unwrap();
     let mut builder = StreamGraphBuilder::<SimpleScore>::new();
     let sources = ListStreamSources::new(&mut builder);
     let b = list_stream_local_search_from(
@@ -210,7 +211,7 @@ fn list_and_mixed_search_forbid_selected_entities_and_keep_key_namespaces_separa
         builder.build(),
         sources,
         lists.initial_assignment(),
-        config,
+        config.clone(),
     )
     .unwrap();
     assert_eq!(a.completed_steps, 1);
@@ -227,8 +228,13 @@ fn list_and_mixed_search_forbid_selected_entities_and_keep_key_namespaces_separa
         joint_moves: false,
     };
     let network = MixedConstraintNetwork::<i32, i32, SimpleScore>::new(1, 2, 1);
-    let a = mixed_local_search_from(&problem, &network, problem.initial_assignment(), settings)
-        .unwrap();
+    let a = mixed_local_search_from(
+        &problem,
+        &network,
+        problem.initial_assignment(),
+        settings.clone(),
+    )
+    .unwrap();
     let mut builder = StreamGraphBuilder::<SimpleScore>::new();
     let sources = MixedStreamSources::new(&mut builder);
     let b = mixed_stream_local_search_from(

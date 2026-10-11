@@ -1,6 +1,6 @@
 //! Explicit partitions over a reconnected combined cycle of movable suffixes.
 use crate::list_k_opt::cycle_order;
-use crate::list_k_opt_sampling::{draw_tour, feasible};
+use crate::list_k_opt_sampling::{SizeDistribution, draw_tour};
 use crate::{
     ListAssignment, ListError, ListKOptError, ListKOptSampling, ListMove, ListPosition,
     ListProblem, SegmentedSlice,
@@ -216,8 +216,9 @@ impl<V: Eq + Clone> ListProblem<V> {
 }
 
 /// Bounded combined-cycle proposals over all unpinned entities, including empty
-/// destinations. Choose k uniformly among feasible configured sizes, random cuts
-/// and reconnections, a uniform cycle rotation, and a uniformly sampled weak composition of the value count
+/// destinations. Choose k uniformly (or with configured weights) among feasible
+/// configured sizes, random cuts and reconnections, a uniform cycle rotation, and
+/// a uniformly sampled weak composition of the value count
 /// into suffix lengths. Reject retained cut edges, invalid receiving ranges or
 /// dependency cycles.
 /// Proposal counts are bounded; yields may repeat and final valid moves are not
@@ -249,9 +250,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
             .map(|&e| &a.lists()[e][p.entities()[e].pinned_prefix()..]),
     );
     let n = values.len();
-    let sizes: Vec<_> = (config.sizes().minimum()..=config.sizes().maximum().min(n))
-        .filter(|&k| feasible(n, k))
-        .collect();
+    let sizes = SizeDistribution::new(&config, n);
     let mut random = crate::random::SplitMix64::new(config.seed());
     (0..if sizes.is_empty() {
         0
@@ -259,7 +258,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
         config.attempts()
     })
         .filter_map(move |_| {
-            let k = sizes[random.below(sizes.len() as u64) as usize];
+            let k = sizes.draw(&mut random);
             let mut tour = draw_tour(n, k, &mut random)?;
             tour.rotate_left(random.below(n as u64) as usize);
             let lengths = partition_lengths(n, entities.len(), &mut random);

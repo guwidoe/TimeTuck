@@ -16,7 +16,10 @@ fn plan<'a>(
     stop: Option<&'a ScoredSearchTermination<'a>>,
 ) -> SolverSequence<'a> {
     SolverSequence {
-        phases: vec![SolverPhase::LocalSearch(c), SolverPhase::LocalSearch(c)],
+        phases: vec![
+            SolverPhase::LocalSearch(c.clone()),
+            SolverPhase::LocalSearch(c),
+        ],
         limits: SolverLimits {
             scored_termination: stop,
             ..Default::default()
@@ -282,29 +285,39 @@ fn routes(scope: TerminationProgressScope) {
         };
     }
     check(
-        solve_with_extensions(&b, &bn, plan(c, stop), extensions!()).unwrap(),
+        solve_with_extensions(&b, &bn, plan(c.clone(), stop), extensions!()).unwrap(),
         &eb,
         scope,
     );
     check(
-        solve_list_with_extensions(&l, &ln, plan(c, stop), extensions!()).unwrap(),
+        solve_list_with_extensions(&l, &ln, plan(c.clone(), stop), extensions!()).unwrap(),
         &el,
         scope,
     );
     check(
-        solve_mixed_with_extensions(&m, &mn, mixed_plan(c, stop), extensions!()).unwrap(),
+        solve_mixed_with_extensions(&m, &mn, mixed_plan(c.clone(), stop), extensions!()).unwrap(),
         &em,
         scope,
     );
     check(
-        solve_stream_with_extensions(&b, || Ok(basic_graph()), plan(c, stop), extensions!())
-            .unwrap(),
+        solve_stream_with_extensions(
+            &b,
+            || Ok(basic_graph()),
+            plan(c.clone(), stop),
+            extensions!(),
+        )
+        .unwrap(),
         &eb,
         scope,
     );
     check(
-        solve_list_stream_with_extensions(&l, || Ok(list_graph()), plan(c, stop), extensions!())
-            .unwrap(),
+        solve_list_stream_with_extensions(
+            &l,
+            || Ok(list_graph()),
+            plan(c.clone(), stop),
+            extensions!(),
+        )
+        .unwrap(),
         &el,
         scope,
     );
@@ -312,7 +325,7 @@ fn routes(scope: TerminationProgressScope) {
         solve_mixed_stream_with_extensions(
             &m,
             || Ok(mixed_graph()),
-            mixed_plan(c, stop),
+            mixed_plan(c.clone(), stop),
             extensions!(),
         )
         .unwrap(),
@@ -320,8 +333,13 @@ fn routes(scope: TerminationProgressScope) {
         scope,
     );
     check(
-        solve_calculator_with_extensions(&b, &cached::<Vec<usize>>, plan(c, stop), extensions!())
-            .unwrap(),
+        solve_calculator_with_extensions(
+            &b,
+            &cached::<Vec<usize>>,
+            plan(c.clone(), stop),
+            extensions!(),
+        )
+        .unwrap(),
         &eb,
         scope,
     );
@@ -329,7 +347,7 @@ fn routes(scope: TerminationProgressScope) {
         solve_list_calculator_with_extensions(
             &l,
             &cached::<Vec<usize>>,
-            plan(c, stop),
+            plan(c.clone(), stop),
             extensions!(),
         )
         .unwrap(),
@@ -340,7 +358,7 @@ fn routes(scope: TerminationProgressScope) {
         solve_mixed_calculator_with_extensions(
             &m,
             &cached::<MixedCalculatorChange>,
-            mixed_plan(c, stop),
+            mixed_plan(c.clone(), stop),
             extensions!(),
         )
         .unwrap(),
@@ -358,47 +376,47 @@ fn routes(scope: TerminationProgressScope) {
     }
     retained!(
         ScoreDirector::new(&b, &bn, b.initial_assignment()).unwrap(),
-        plan(c, stop),
+        plan(c.clone(), stop),
         &eb
     );
     retained!(
         ListScoreDirector::new(&l, &ln, l.initial_assignment()).unwrap(),
-        plan(c, stop),
+        plan(c.clone(), stop),
         &el
     );
     retained!(
         MixedScoreDirector::new(&m, &mn, m.initial_assignment()).unwrap(),
-        mixed_plan(c, stop),
+        mixed_plan(c.clone(), stop),
         &em
     );
     let (g, s) = basic_graph();
     retained!(
         StreamScoreDirector::new(&b, g, s, b.initial_assignment()).unwrap(),
-        plan(c, stop),
+        plan(c.clone(), stop),
         &eb
     );
     let (g, s) = list_graph();
     retained!(
         ListStreamScoreDirector::new(&l, g, s, l.initial_assignment()).unwrap(),
-        plan(c, stop),
+        plan(c.clone(), stop),
         &el
     );
     let (g, s) = mixed_graph();
     retained!(
         MixedStreamScoreDirector::new(&m, g, s, m.initial_assignment()).unwrap(),
-        mixed_plan(c, stop),
+        mixed_plan(c.clone(), stop),
         &em
     );
     retained!(
         CalculatorScoreDirector::new(&b, b.initial_assignment(), cached::<Vec<usize>>, false)
             .unwrap(),
-        plan(c, stop),
+        plan(c.clone(), stop),
         &eb
     );
     retained!(
         ListCalculatorScoreDirector::new(&l, l.initial_assignment(), cached::<Vec<usize>>, false)
             .unwrap(),
-        plan(c, stop),
+        plan(c.clone(), stop),
         &el
     );
     retained!(

@@ -264,16 +264,17 @@ fn complete_move_identity_controls_all_six_search_paths_and_extra_policies() {
                     ..Default::default()
                 };
                 let n = ConstraintNetwork::<i32, SimpleScore>::new(1);
-                let a = local_search(&basic, &n, c).unwrap();
+                let a = local_search(&basic, &n, c.clone()).unwrap();
                 let mut b = StreamGraphBuilder::<SimpleScore>::new();
                 let source = b.source::<usize, (usize, Option<i32>)>();
-                let b = stream_local_search(&basic, b.build(), source, c).unwrap();
+                let b = stream_local_search(&basic, b.build(), source, c.clone()).unwrap();
                 assert_eq!(a.completed_steps, basic_steps);
                 assert_eq!(b.completed_steps, basic_steps);
                 assert_eq!(a.best, b.best);
                 assert_eq!(a.termination, b.termination);
                 let n = ListConstraintNetwork::<i32, SimpleScore>::new(2, 2);
-                let a = list_local_search_from(&lists, &n, lists.initial_assignment(), c).unwrap();
+                let a = list_local_search_from(&lists, &n, lists.initial_assignment(), c.clone())
+                    .unwrap();
                 let mut b = StreamGraphBuilder::<SimpleScore>::new();
                 let s = ListStreamSources::new(&mut b);
                 let b = list_stream_local_search_from(
@@ -281,7 +282,7 @@ fn complete_move_identity_controls_all_six_search_paths_and_extra_policies() {
                     b.build(),
                     s,
                     lists.initial_assignment(),
-                    c,
+                    c.clone(),
                 )
                 .unwrap();
                 assert_eq!(a.completed_steps, list_steps);
@@ -293,7 +294,8 @@ fn complete_move_identity_controls_all_six_search_paths_and_extra_policies() {
                     search: c,
                     joint_moves: true,
                 };
-                let a = mixed_local_search_from(&mixed, &n, mixed.initial_assignment(), c).unwrap();
+                let a = mixed_local_search_from(&mixed, &n, mixed.initial_assignment(), c.clone())
+                    .unwrap();
                 let mut b = StreamGraphBuilder::<SimpleScore>::new();
                 let s = MixedStreamSources::new(&mut b);
                 let b = mixed_stream_local_search_from(

@@ -52,7 +52,7 @@ fn solve_with_multiple_sorter_manners() {
     ];
     let a = p.initial_assignment();
     for (index, (c, _)) in families.iter().enumerate() {
-        let first = basic_moves_configured(&p, &a, *c)
+        let first = basic_moves_configured(&p, &a, c.clone())
             .unwrap()
             .take(5)
             .map(|m| {
@@ -185,7 +185,7 @@ fn solve_mixed_model_with_sort_manner() {
                 ..Default::default()
             };
             let initial = p.initial_assignment();
-            let candidates = mixed_moves_configured(&p, &initial, family)
+            let candidates = mixed_moves_configured(&p, &initial, family.clone())
                 .unwrap()
                 .map(|m| m.basic)
                 .collect::<Vec<_>>();
@@ -204,7 +204,7 @@ fn solve_mixed_model_with_sort_manner() {
             let mut provider =
                 |p: &MixedProblem<i32, usize>, a: &MixedAssignment<i32, usize>, _: u64| {
                     calls.set(calls.get() + 1);
-                    mixed_moves_configured(p, a, family)
+                    mixed_moves_configured(p, a, family.clone())
                         .unwrap()
                         .collect::<Vec<_>>()
                 };

@@ -508,7 +508,7 @@ mod list_k_opt;
 pub use list_k_opt::{ListKOptConfig, ListKOptError, list_k_opt_moves};
 
 mod list_k_opt_sampling;
-pub use list_k_opt_sampling::{ListKOptSampling, sample_list_k_opt_moves};
+pub use list_k_opt_sampling::{ListKOptSampling, ListKOptWeightError, sample_list_k_opt_moves};
 
 mod list_path_reconnection;
 pub use list_path_reconnection::ListPathEndpoint;

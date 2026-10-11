@@ -13,7 +13,10 @@ fn ms(value: u64) -> Duration {
 }
 fn plan(c: LocalSearchConfig<'_>) -> SolverSequence<'_> {
     SolverSequence {
-        phases: vec![SolverPhase::LocalSearch(c), SolverPhase::LocalSearch(c)],
+        phases: vec![
+            SolverPhase::LocalSearch(c.clone()),
+            SolverPhase::LocalSearch(c),
+        ],
         ..Default::default()
     }
 }
@@ -239,45 +242,57 @@ fn all_eighteen_routes_charge_phase_setup_reset_cooling_and_restore_best() {
         };
     }
     check(
-        solve_with_extensions(&b, &bn, plan(c), extensions!()).unwrap(),
+        solve_with_extensions(&b, &bn, plan(c.clone()), extensions!()).unwrap(),
         &eb,
     );
     check(
-        solve_list_with_extensions(&l, &ln, plan(c), extensions!()).unwrap(),
+        solve_list_with_extensions(&l, &ln, plan(c.clone()), extensions!()).unwrap(),
         &el,
     );
     check(
-        solve_mixed_with_extensions(&m, &mn, mixed_plan(c), extensions!()).unwrap(),
+        solve_mixed_with_extensions(&m, &mn, mixed_plan(c.clone()), extensions!()).unwrap(),
         &em,
     );
     check(
-        solve_stream_with_extensions(&b, || Ok(basic_graph()), plan(c), extensions!()).unwrap(),
+        solve_stream_with_extensions(&b, || Ok(basic_graph()), plan(c.clone()), extensions!())
+            .unwrap(),
         &eb,
     );
     check(
-        solve_list_stream_with_extensions(&l, || Ok(list_graph()), plan(c), extensions!()).unwrap(),
+        solve_list_stream_with_extensions(&l, || Ok(list_graph()), plan(c.clone()), extensions!())
+            .unwrap(),
         &el,
     );
     check(
-        solve_mixed_stream_with_extensions(&m, || Ok(mixed_graph()), mixed_plan(c), extensions!())
-            .unwrap(),
+        solve_mixed_stream_with_extensions(
+            &m,
+            || Ok(mixed_graph()),
+            mixed_plan(c.clone()),
+            extensions!(),
+        )
+        .unwrap(),
         &em,
     );
     check(
-        solve_calculator_with_extensions(&b, &cached::<Vec<usize>>, plan(c), extensions!())
+        solve_calculator_with_extensions(&b, &cached::<Vec<usize>>, plan(c.clone()), extensions!())
             .unwrap(),
         &eb,
     );
     check(
-        solve_list_calculator_with_extensions(&l, &cached::<Vec<usize>>, plan(c), extensions!())
-            .unwrap(),
+        solve_list_calculator_with_extensions(
+            &l,
+            &cached::<Vec<usize>>,
+            plan(c.clone()),
+            extensions!(),
+        )
+        .unwrap(),
         &el,
     );
     check(
         solve_mixed_calculator_with_extensions(
             &m,
             &cached::<MixedCalculatorChange>,
-            mixed_plan(c),
+            mixed_plan(c.clone()),
             extensions!(),
         )
         .unwrap(),
@@ -294,47 +309,47 @@ fn all_eighteen_routes_charge_phase_setup_reset_cooling_and_restore_best() {
     }
     retained!(
         ScoreDirector::new(&b, &bn, b.initial_assignment()).unwrap(),
-        plan(c),
+        plan(c.clone()),
         &eb
     );
     retained!(
         ListScoreDirector::new(&l, &ln, l.initial_assignment()).unwrap(),
-        plan(c),
+        plan(c.clone()),
         &el
     );
     retained!(
         MixedScoreDirector::new(&m, &mn, m.initial_assignment()).unwrap(),
-        mixed_plan(c),
+        mixed_plan(c.clone()),
         &em
     );
     let (g, s) = basic_graph();
     retained!(
         StreamScoreDirector::new(&b, g, s, b.initial_assignment()).unwrap(),
-        plan(c),
+        plan(c.clone()),
         &eb
     );
     let (g, s) = list_graph();
     retained!(
         ListStreamScoreDirector::new(&l, g, s, l.initial_assignment()).unwrap(),
-        plan(c),
+        plan(c.clone()),
         &el
     );
     let (g, s) = mixed_graph();
     retained!(
         MixedStreamScoreDirector::new(&m, g, s, m.initial_assignment()).unwrap(),
-        mixed_plan(c),
+        mixed_plan(c.clone()),
         &em
     );
     retained!(
         CalculatorScoreDirector::new(&b, b.initial_assignment(), cached::<Vec<usize>>, false)
             .unwrap(),
-        plan(c),
+        plan(c.clone()),
         &eb
     );
     retained!(
         ListCalculatorScoreDirector::new(&l, l.initial_assignment(), cached::<Vec<usize>>, false)
             .unwrap(),
-        plan(c),
+        plan(c.clone()),
         &el
     );
     retained!(

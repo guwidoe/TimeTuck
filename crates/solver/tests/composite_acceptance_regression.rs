@@ -162,7 +162,7 @@ fn extra_tabu_tracks_basic_keys_and_bad_extra_config_precedes_scoring() {
         max_steps: 8,
         ..Default::default()
     };
-    let a = local_search(&p, &n, c).unwrap();
+    let a = local_search(&p, &n, c.clone()).unwrap();
     assert_eq!(a.completed_steps, 1);
     assert_eq!(a.termination, LocalSearchTermination::NoAcceptedMove);
     let b = local_search(
@@ -170,7 +170,7 @@ fn extra_tabu_tracks_basic_keys_and_bad_extra_config_precedes_scoring() {
         &n,
         LocalSearchConfig {
             additional_acceptance: &[],
-            ..c
+            ..c.clone()
         },
     )
     .unwrap();
@@ -183,10 +183,10 @@ fn extra_tabu_tracks_basic_keys_and_bad_extra_config_precedes_scoring() {
     let c = LocalSearchConfig {
         additional_acceptance: &invalid,
         max_evaluations: 0,
-        ..c
+        ..c.clone()
     };
     assert!(matches!(
-        local_search(&p, &n, c),
+        local_search(&p, &n, c.clone()),
         Err(LocalSearchError::Acceptance(AcceptanceError::EmptyTabu))
     ));
     assert_eq!(calls.get(), 0);
@@ -224,7 +224,8 @@ fn additional_tabu_tracks_list_entities_and_mixed_key_namespaces() {
         ..Default::default()
     };
     let network = ListConstraintNetwork::<i32, SimpleScore>::new(2, 1);
-    let a = list_local_search_from(&lists, &network, lists.initial_assignment(), config).unwrap();
+    let a = list_local_search_from(&lists, &network, lists.initial_assignment(), config.clone())
+        .unwrap();
     let mut builder = StreamGraphBuilder::<SimpleScore>::new();
     let sources = ListStreamSources::new(&mut builder);
     let b = list_stream_local_search_from(
@@ -232,7 +233,7 @@ fn additional_tabu_tracks_list_entities_and_mixed_key_namespaces() {
         builder.build(),
         sources,
         lists.initial_assignment(),
-        config,
+        config.clone(),
     )
     .unwrap();
     assert_eq!(a.completed_steps, 1);
@@ -249,8 +250,13 @@ fn additional_tabu_tracks_list_entities_and_mixed_key_namespaces() {
         joint_moves: false,
     };
     let network = MixedConstraintNetwork::<i32, i32, SimpleScore>::new(1, 2, 1);
-    let a = mixed_local_search_from(&problem, &network, problem.initial_assignment(), settings)
-        .unwrap();
+    let a = mixed_local_search_from(
+        &problem,
+        &network,
+        problem.initial_assignment(),
+        settings.clone(),
+    )
+    .unwrap();
     let mut builder = StreamGraphBuilder::<SimpleScore>::new();
     let sources = MixedStreamSources::new(&mut builder);
     let b = mixed_stream_local_search_from(

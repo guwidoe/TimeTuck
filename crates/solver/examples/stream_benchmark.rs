@@ -49,14 +49,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         if !case.problem.is_complete(&case.problem.initial_assignment()) {
             return Err("complete initial assignment required".into());
         }
-        let budget = evaluation_budget(&case, neighborhood, steps)?;
+        let budget = evaluation_budget(&case, neighborhood.clone(), steps)?;
         let config = LocalSearchConfig {
             acceptance,
             max_accepted_moves: u64::MAX,
             max_steps: steps,
             rejected_moves: RejectedMovePolicy::BestScore,
             max_evaluations: budget,
-            neighborhood,
+            neighborhood: neighborhood.clone(),
             selection: MoveSelection::BestAccepted,
             ..LocalSearchConfig::default()
         };
@@ -67,7 +67,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 black_box(&case.problem),
                 network.graph,
                 network.source,
-                config,
+                config.clone(),
             )?;
             if matches!(
                 result.termination,

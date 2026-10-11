@@ -43,13 +43,13 @@ fn run_all_with_counts(
     b.score("value", s.port(), move |(_, v)| score(v.unwrap()))
         .unwrap();
     let mut results = vec![
-        out!(local_search(&p, &n, c)),
+        out!(local_search(&p, &n, c.clone())),
         out!(stream_local_search_from(
             &p,
             b.build(),
             s,
             p.initial_assignment(),
-            c
+            c.clone()
         )),
     ];
 
@@ -80,14 +80,14 @@ fn run_all_with_counts(
         &p,
         &n,
         p.initial_assignment(),
-        c
+        c.clone()
     )));
     results.push(out!(list_stream_local_search_from(
         &p,
         b.build(),
         s,
         p.initial_assignment(),
-        c
+        c.clone()
     )));
 
     let p = MixedProblem::new(
@@ -112,7 +112,7 @@ fn run_all_with_counts(
         &p,
         &n,
         p.initial_assignment(),
-        c
+        c.clone()
     )));
     results.push(out!(mixed_stream_local_search_from(
         &p,
@@ -226,7 +226,7 @@ fn optional_limits_obey_initial_precedence_in_every_backend() {
         Stop::FeasibleScore,
         Stop::UnimprovedStepLimit,
     ] {
-        for r in run_all(c, |_| improved(1)) {
+        for r in run_all(c.clone(), |_| improved(1)) {
             assert_eq!(r.reason, reason);
             assert_eq!(r.steps, 0);
             assert_eq!(r.best.is_none(), reason == Stop::EvaluationLimit);
@@ -271,14 +271,14 @@ fn evaluation_exhaustion_after_selection_precedes_new_score_limit() {
     // FirstAccepted exits on selection before testing exhaustion; the next step
     // boundary sees the new score. BestAccepted exhausts the budget before the
     // second candidate, installing the best candidate seen in its prefix.
-    let first = local_search(&p, &n, c).unwrap();
+    let first = local_search(&p, &n, c.clone()).unwrap();
     assert_eq!(first.termination, Stop::BestScoreLimit);
     let best = local_search(
         &p,
         &n,
         LocalSearchConfig {
             selection: MoveSelection::BestAccepted,
-            ..c
+            ..c.clone()
         },
     )
     .unwrap();
@@ -371,7 +371,7 @@ fn feasibility_uses_every_hard_level_and_ignores_negative_soft_scores() {
         assert_scores: true,
         ..Default::default()
     };
-    let r = local_search(&p, &n, c).unwrap();
+    let r = local_search(&p, &n, c.clone()).unwrap();
     assert_eq!(r.completed_steps, 2);
     assert_eq!(r.termination, Stop::FeasibleScore);
     assert_eq!(r.best.unwrap().score, BendableScore::new([0, 0], [-100]));
@@ -381,7 +381,7 @@ fn feasibility_uses_every_hard_level_and_ignores_negative_soft_scores() {
         &n,
         LocalSearchConfig {
             best_score_limit: Some(BendableScore::new([0, -1], [-100])),
-            ..c
+            ..c.clone()
         },
     )
     .unwrap();
@@ -410,14 +410,14 @@ fn candidate_budgets_match_scoring_prefixes_and_distinguish_limit_reasons() {
                         let (mut expected, expected_counts) = run_all_with_counts(
                             LocalSearchConfig {
                                 max_evaluations: max_evaluations.min(max_moves + 1),
-                                ..c
+                                ..c.clone()
                             },
                             improved,
                         );
                         let (actual, counts) = run_all_with_counts(
                             LocalSearchConfig {
                                 max_move_evaluations: Some(max_moves),
-                                ..c
+                                ..c.clone()
                             },
                             improved,
                         );
@@ -611,7 +611,7 @@ fn composite_conditions_preserve_existing_resource_and_boundary_precedence() {
         for r in run_all(
             LocalSearchConfig {
                 step_termination: Some(&condition),
-                ..c
+                ..c.clone()
             },
             plateau,
         ) {

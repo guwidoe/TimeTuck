@@ -280,9 +280,14 @@ fn simultaneous_exchange_escapes_single_change_optimum_in_both_backends() {
     let mut single = |p: &FiniteProblem<i32>, a: &Assignment<i32>, _: u64| {
         change_moves(p, a).unwrap().collect::<Vec<_>>()
     };
-    let stuck =
-        local_search_from_with_provider(&p, &network, p.initial_assignment(), config, &mut single)
-            .unwrap();
+    let stuck = local_search_from_with_provider(
+        &p,
+        &network,
+        p.initial_assignment(),
+        config.clone(),
+        &mut single,
+    )
+    .unwrap();
     assert_eq!(stuck.best.unwrap().score, SimpleScore::new(0));
     for stream in [false, true] {
         let mut provider = ExchangeProvider(ValueExchangeConfig::new(
@@ -303,7 +308,7 @@ fn simultaneous_exchange_escapes_single_change_optimum_in_both_backends() {
                 b.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -312,7 +317,7 @@ fn simultaneous_exchange_escapes_single_change_optimum_in_both_backends() {
                 &p,
                 &network,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()

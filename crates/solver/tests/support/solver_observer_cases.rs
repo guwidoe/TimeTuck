@@ -180,7 +180,7 @@ fn observed_plans_keep_shared_stagnation_steps_and_validate_all_phases_before_ev
             acceptance: Acceptance::HillClimbing,
             ..search()
         };
-        c.phases = vec![SolverPhase::LocalSearch(search); 4];
+        c.phases = vec![SolverPhase::LocalSearch(search.clone()); 4];
         let baseline = run_scored(
             (mode, false, ORDER),
             c.clone(),

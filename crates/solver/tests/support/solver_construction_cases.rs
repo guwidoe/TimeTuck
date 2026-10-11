@@ -124,9 +124,9 @@ fn repeated_construction_keeps_improved_state_and_shared_stagnation_steps() {
             ..Default::default()
         };
         c.phases = vec![
-            SolverPhase::LocalSearch(search),
+            SolverPhase::LocalSearch(search.clone()),
             SolverPhase::Construction(construction(100)),
-            SolverPhase::LocalSearch(search),
+            SolverPhase::LocalSearch(search.clone()),
             SolverPhase::LocalSearch(search),
         ];
         c.limits.max_unimproved_steps = Some(2);

@@ -509,7 +509,8 @@ fn construction_and_search_match_full_scoring_across_policies_and_budgets() {
                             ..Default::default()
                         };
                         let expected =
-                            list_local_search_from(&p, &n, initial.clone(), config).unwrap();
+                            list_local_search_from(&p, &n, initial.clone(), config.clone())
+                                .unwrap();
                         let (g, s) = route_graph();
                         let actual =
                             list_stream_local_search_from(&p, g, s, initial.clone(), config)
@@ -706,7 +707,7 @@ fn empty_optional_impossible_and_pinned_range_models_have_matching_results() {
                 ..Default::default()
             };
             let expected =
-                list_local_search_from(&p, &n, actual.assignment.clone(), config).unwrap();
+                list_local_search_from(&p, &n, actual.assignment.clone(), config.clone()).unwrap();
             let (g, s) = route_graph();
             let actual =
                 list_stream_local_search_from(&p, g, s, actual.assignment, config).unwrap();

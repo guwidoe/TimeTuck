@@ -191,7 +191,7 @@ fn policies_solve_through_basic_and_mixed_scoped_and_stream_backends() {
             ..Default::default()
         };
         assert_eq!(
-            local_search_from(&p, &n, p.initial_assignment(), config)
+            local_search_from(&p, &n, p.initial_assignment(), config.clone())
                 .unwrap()
                 .best
                 .unwrap()
@@ -205,11 +205,17 @@ fn policies_solve_through_basic_and_mixed_scoped_and_stream_backends() {
         })
         .unwrap();
         assert_eq!(
-            stream_local_search_from(&p, b.build(), source, p.initial_assignment(), config)
-                .unwrap()
-                .best
-                .unwrap()
-                .score,
+            stream_local_search_from(
+                &p,
+                b.build(),
+                source,
+                p.initial_assignment(),
+                config.clone()
+            )
+            .unwrap()
+            .best
+            .unwrap()
+            .score,
             SimpleScore::new(2)
         );
         let p = MixedProblem::new(
@@ -235,11 +241,11 @@ fn policies_solve_through_basic_and_mixed_scoped_and_stream_backends() {
         .unwrap();
         for joint_moves in [false, true] {
             let c = MixedLocalSearchConfig {
-                search: config,
+                search: config.clone(),
                 joint_moves,
             };
             assert_eq!(
-                mixed_local_search_from(&p, &n, p.initial_assignment(), c)
+                mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone())
                     .unwrap()
                     .best
                     .unwrap()
@@ -287,7 +293,7 @@ fn invalid_optional_policies_fail_before_scoring_and_factories() {
             ..Default::default()
         };
         let plan = SolverSequence {
-            phases: vec![SolverPhase::LocalSearch(c)],
+            phases: vec![SolverPhase::LocalSearch(c.clone())],
             ..Default::default()
         };
         assert!(matches!(

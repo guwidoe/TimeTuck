@@ -316,7 +316,7 @@ fn diagnostics_do_not_change_seeded_range_restricted_kopt_candidates() {
     let reported = make(true);
     let sampling = ListKOptSampling::new(ListKOptConfig::new(2, 5).unwrap(), 17, 200);
     let a = plain.initial_assignment();
-    let expected: Vec<_> = sample_list_k_opt_repartitions(&plain, &a, sampling)
+    let expected: Vec<_> = sample_list_k_opt_repartitions(&plain, &a, sampling.clone())
         .unwrap()
         .collect();
     let actual: Vec<_> = sample_list_k_opt_repartitions(&reported, &a, sampling)
@@ -343,7 +343,7 @@ fn local_search_propagates_provider_errors_through_all_six_backends() {
                     &p,
                     &ConstraintNetwork::<_, SimpleScore>::new(1),
                     p.initial_assignment(),
-                    config,
+                    config.clone(),
                     &mut provider,
                 ))
             } else {
@@ -354,7 +354,7 @@ fn local_search_propagates_provider_errors_through_all_six_backends() {
                     b.build(),
                     source,
                     p.initial_assignment(),
-                    config,
+                    config.clone(),
                     &mut provider,
                 ))
             }
@@ -367,7 +367,7 @@ fn local_search_propagates_provider_errors_through_all_six_backends() {
                     &p,
                     &ListConstraintNetwork::<_, SimpleScore>::new(2, 2),
                     list_initial(),
-                    config,
+                    config.clone(),
                     &mut provider,
                 ))
             } else {
@@ -378,7 +378,7 @@ fn local_search_propagates_provider_errors_through_all_six_backends() {
                     b.build(),
                     source,
                     list_initial(),
-                    config,
+                    config.clone(),
                     &mut provider,
                 ))
             }
@@ -403,7 +403,7 @@ fn local_search_propagates_provider_errors_through_all_six_backends() {
                     }]
                 };
             let config = MixedLocalSearchConfig {
-                search: config,
+                search: config.clone(),
                 ..Default::default()
             };
             if mode % 2 == 0 {

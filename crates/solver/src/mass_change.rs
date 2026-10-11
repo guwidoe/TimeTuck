@@ -141,7 +141,7 @@ impl<V: std::hash::Hash> std::hash::Hash for MassChange<V> {
 }
 
 impl Neighborhood {
-    pub(crate) fn validate_basic<V: Eq>(self, p: &FiniteProblem<V>) -> Result<(), ModelError> {
+    pub(crate) fn validate_basic<V: Eq>(&self, p: &FiniteProblem<V>) -> Result<(), ModelError> {
         if matches!(self, Self::Assign | Self::Unassign | Self::PillarUnassign) {
             crate::mass_assignment::validate_unassignment(p)?;
         }

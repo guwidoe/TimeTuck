@@ -44,7 +44,7 @@ fn best_accepted_tabu_crosses_a_valley_and_preserves_best_after_worsening() {
         },
         ..config()
     };
-    let tabu = local_search(&problem, &network, cfg).unwrap();
+    let tabu = local_search(&problem, &network, cfg.clone()).unwrap();
     assert_eq!(
         tabu.best.as_ref().unwrap().assignment.values(),
         &[Some(1); 3]
@@ -58,7 +58,7 @@ fn best_accepted_tabu_crosses_a_valley_and_preserves_best_after_worsening() {
         &network,
         LocalSearchConfig {
             max_accepted_moves: 4,
-            ..cfg
+            ..cfg.clone()
         },
     )
     .unwrap();
@@ -296,7 +296,7 @@ fn seeded_tabu_runs_respect_pins_optional_values_budgets_and_independent_score()
             move_order: MoveOrder::ShuffledVariables { seed },
             ..config()
         };
-        let result = local_search(&problem, &network, cfg).unwrap();
+        let result = local_search(&problem, &network, cfg.clone()).unwrap();
         assert_eq!(result, local_search(&problem, &network, cfg).unwrap());
         assert!(result.evaluations <= 80);
         assert!(result.accepted_moves <= 9);
@@ -394,7 +394,7 @@ fn rejected_fallback_is_explicit_and_completed_step_limits_bound_it() {
         rejected_moves: RejectedMovePolicy::BestScore,
         ..config()
     };
-    let result = local_search(&problem, &network, cfg).unwrap();
+    let result = local_search(&problem, &network, cfg.clone()).unwrap();
     assert_eq!(result.completed_steps, 3);
     assert_eq!(result.accepted_moves, 2);
     assert_eq!(result.evaluations, 4);
@@ -405,7 +405,7 @@ fn rejected_fallback_is_explicit_and_completed_step_limits_bound_it() {
         &network,
         LocalSearchConfig {
             max_steps: 0,
-            ..cfg
+            ..cfg.clone()
         },
     )
     .unwrap();

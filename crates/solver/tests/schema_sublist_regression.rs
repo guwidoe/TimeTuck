@@ -207,11 +207,16 @@ fn schema_sublist_moves_solve_list_and_mixed_models_on_both_backends() {
             score(v)
         })
         .unwrap();
-        let plain =
-            list_local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut q)
-                .unwrap()
-                .best
-                .unwrap();
+        let plain = list_local_search_from_with_provider(
+            &p,
+            &n,
+            p.initial_assignment(),
+            config.clone(),
+            &mut q,
+        )
+        .unwrap()
+        .best
+        .unwrap();
         let mut b = StreamGraphBuilder::new();
         let source = ListStreamSources::new(&mut b);
         b.score("order", source.entities.port(), |(_, v)| score(v))
@@ -221,7 +226,7 @@ fn schema_sublist_moves_solve_list_and_mixed_models_on_both_backends() {
             b.build(),
             source,
             p.initial_assignment(),
-            config,
+            config.clone(),
             &mut q,
         )
         .unwrap()
@@ -246,11 +251,16 @@ fn schema_sublist_moves_solve_list_and_mixed_models_on_both_backends() {
             score(v)
         })
         .unwrap();
-        let plain =
-            mixed_local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut q)
-                .unwrap()
-                .best
-                .unwrap();
+        let plain = mixed_local_search_from_with_provider(
+            &p,
+            &n,
+            p.initial_assignment(),
+            config.clone(),
+            &mut q,
+        )
+        .unwrap()
+        .best
+        .unwrap();
         let mut b = StreamGraphBuilder::new();
         let source = MixedStreamSources::new(&mut b);
         b.score("order", source.lists.entities.port(), |(_, v)| score(v))

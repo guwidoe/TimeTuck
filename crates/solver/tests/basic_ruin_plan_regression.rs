@@ -299,9 +299,14 @@ fn reconstructed_moves_drive_scoped_and_stream_custom_provider_search() {
         assert_scores: true,
         ..Default::default()
     };
-    let scoped =
-        local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut provider)
-            .unwrap();
+    let scoped = local_search_from_with_provider(
+        &p,
+        &n,
+        p.initial_assignment(),
+        config.clone(),
+        &mut provider,
+    )
+    .unwrap();
     let mut builder = StreamGraphBuilder::new();
     let source = builder.source::<usize, (usize, Option<i32>)>();
     builder

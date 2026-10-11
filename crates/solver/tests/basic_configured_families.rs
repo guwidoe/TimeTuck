@@ -98,11 +98,11 @@ fn independently_grouped_basic_families_solve_with_both_backends_and_preserve_ex
             variables: Some(&[0, 2]),
             pillar_schema: schema,
         };
-        let children = [(c, 1), (c, 1)];
+        let children = [(c.clone(), 1), (c.clone(), 1)];
         let a = p.initial_assignment();
-        let expected = basic_moves_configured(&p, &a, c)
+        let expected = basic_moves_configured(&p, &a, c.clone())
             .unwrap()
-            .chain(basic_moves_configured(&p, &a, c).unwrap())
+            .chain(basic_moves_configured(&p, &a, c.clone()).unwrap())
             .collect::<Vec<_>>();
         assert_eq!(
             basic_moves_configured_union(&p, &a, &children, UnionOrder::Sequential, 0)
@@ -197,8 +197,8 @@ fn invalid_basic_family_is_rejected_before_callbacks_and_disabled_children_skip_
             ..Default::default()
         },
     ] {
-        assert!(basic_moves_configured(&p, &a, c).is_err());
-        let children = [(c, 0)];
+        assert!(basic_moves_configured(&p, &a, c.clone()).is_err());
+        let children = [(c.clone(), 0)];
         assert_eq!(
             basic_moves_configured_union(&p, &a, &children, UnionOrder::Sequential, 0)
                 .unwrap()

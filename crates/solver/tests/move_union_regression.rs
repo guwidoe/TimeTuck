@@ -147,13 +147,15 @@ fn union_swaps(copies: usize) {
                 assert_scores: true,
                 ..Default::default()
             };
-            let b = local_search_from(&p, &bn, p.initial_assignment(), config).unwrap();
-            let a = list_local_search_from(&l, &ln, l.initial_assignment(), config).unwrap();
+            let b = local_search_from(&p, &bn, p.initial_assignment(), config.clone()).unwrap();
+            let a =
+                list_local_search_from(&l, &ln, l.initial_assignment(), config.clone()).unwrap();
             let mixed = MixedLocalSearchConfig {
-                search: config,
+                search: config.clone(),
                 joint_moves: true,
             };
-            let c = mixed_local_search_from(&m, &mn, m.initial_assignment(), mixed).unwrap();
+            let c =
+                mixed_local_search_from(&m, &mn, m.initial_assignment(), mixed.clone()).unwrap();
             let mut builder = StreamGraphBuilder::new();
             let source = builder.source::<usize, (usize, Option<usize>)>();
             builder
@@ -166,7 +168,7 @@ fn union_swaps(copies: usize) {
                 builder.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
             )
             .unwrap();
             let mut builder = StreamGraphBuilder::new();
@@ -235,7 +237,7 @@ fn enabled_union_children_are_validated_even_when_primary_is_valid() {
             ..Default::default()
         };
         assert_eq!(
-            local_search_from(&p, &n, p.initial_assignment(), config).is_err(),
+            local_search_from(&p, &n, p.initial_assignment(), config.clone()).is_err(),
             weight != 0
         );
         let phases = SolverSequence {
@@ -280,7 +282,7 @@ fn combining_single_and_group_changes_escapes_a_local_trap() {
             assert_scores: true,
             ..base
         };
-        let union = local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let union = local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         assert_eq!(union.best.unwrap().score, s(10));
         assert_eq!(union.completed_steps, 2);
         let single = local_search_from(

@@ -12,7 +12,7 @@ use crate::{
 use std::{error::Error, fmt};
 
 /// Shared search controls, plus optional simultaneous basic/list candidates.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct MixedLocalSearchConfig<'a, S = crate::SimpleScore> {
     pub search: LocalSearchConfig<'a, S>,
     /// Include the Cartesian product after single-component candidates. This may

@@ -952,7 +952,7 @@ fn retained_basic_extensions_preserve_providers_commands_events_and_score_checks
         ..Default::default()
     };
     let mut actual = d
-        .run_local_search_with_provider(local, &mut provider)
+        .run_local_search_with_provider(local.clone(), &mut provider)
         .unwrap();
     let (g, source) = basic_graph();
     let mut expected = stream_local_search_from_with_provider(
@@ -1096,7 +1096,7 @@ fn retained_list_extensions_preserve_providers_commands_events_and_score_checks(
         ..Default::default()
     };
     let mut actual = d
-        .run_local_search_with_provider(local, &mut provider)
+        .run_local_search_with_provider(local.clone(), &mut provider)
         .unwrap();
     let (g, source) = list_graph();
     let mut expected = list_stream_local_search_from_with_provider(
@@ -1274,7 +1274,7 @@ fn retained_mixed_extensions_preserve_providers_commands_events_and_score_checks
         joint_moves: true,
     };
     let mut actual = d
-        .run_local_search_with_provider(local, &mut provider)
+        .run_local_search_with_provider(local.clone(), &mut provider)
         .unwrap();
     let (g, source) = mixed_graph();
     let mut expected = mixed_stream_local_search_from_with_provider(

@@ -161,11 +161,17 @@ fn provider_improves_list_and_mixed_search_with_both_backends() {
                 b.build(),
                 sources,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut c,
             )
         } else {
-            list_local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut c)
+            list_local_search_from_with_provider(
+                &p,
+                &n,
+                p.initial_assignment(),
+                config.clone(),
+                &mut c,
+            )
         }
         .unwrap();
         assert_eq!(r.best.unwrap().assignment.lists(), &[vec![7, 3]]);
@@ -200,11 +206,17 @@ fn provider_improves_list_and_mixed_search_with_both_backends() {
                 b.build(),
                 sources,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut c,
             )
         } else {
-            mixed_local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut c)
+            mixed_local_search_from_with_provider(
+                &p,
+                &n,
+                p.initial_assignment(),
+                config.clone(),
+                &mut c,
+            )
         }
         .unwrap();
         let best = r.best.unwrap();

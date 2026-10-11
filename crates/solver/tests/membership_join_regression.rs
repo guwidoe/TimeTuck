@@ -489,7 +489,7 @@ fn containing_solver_candidates_and_saved_prefixes_match_full_objective() {
             ..Default::default()
         };
         let initial = Assignment::new(vec![Some(-2); 4]);
-        let expected = local_search_from(&p, &n, initial.clone(), config).unwrap();
+        let expected = local_search_from(&p, &n, initial.clone(), config.clone()).unwrap();
         let (g, s) = factory();
         let actual = stream_local_search_from(&p, g, s, initial, config).unwrap();
         assert_eq!(actual.best, expected.best);

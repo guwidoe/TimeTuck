@@ -257,7 +257,7 @@ fn unique_swaps_reduce_evaluations_across_all_nine_backends() {
         (Neighborhood::UniqueSwap, 1, false),
         (Neighborhood::UniqueSwap, 1, true),
     ] {
-        let children = [(Neighborhood::Change, 0), (neighborhood, 1)];
+        let children = [(Neighborhood::Change, 0), (neighborhood.clone(), 1)];
         let families = NeighborhoodUnion {
             children: &children,
             order: UnionOrder::Sequential,
@@ -272,12 +272,12 @@ fn unique_swaps_reduce_evaluations_across_all_nine_backends() {
             assert_scores: true,
             ..Default::default()
         };
-        let b = local_search_from(&p, &bn, p.initial_assignment(), config).unwrap();
+        let b = local_search_from(&p, &bn, p.initial_assignment(), config.clone()).unwrap();
         let bc = calculator_local_search_from(
             &p,
             p.initial_assignment(),
             || Calculator::<Assignment<usize>>(0, PhantomData),
-            config,
+            config.clone(),
         )
         .unwrap();
         let mut g = StreamGraphBuilder::new();
@@ -286,8 +286,14 @@ fn unique_swaps_reduce_evaluations_across_all_nine_backends() {
             s(i64::from(*v == Some(1 - i)))
         })
         .unwrap();
-        let bs = stream_local_search_from(&p, g.build(), source, p.initial_assignment(), config)
-            .unwrap();
+        let bs = stream_local_search_from(
+            &p,
+            g.build(),
+            source,
+            p.initial_assignment(),
+            config.clone(),
+        )
+        .unwrap();
         for r in [b, bc, bs] {
             assert_result(
                 r.best.unwrap().score,
@@ -298,12 +304,12 @@ fn unique_swaps_reduce_evaluations_across_all_nine_backends() {
                 candidates,
             );
         }
-        let lr = list_local_search_from(&l, &ln, l.initial_assignment(), config).unwrap();
+        let lr = list_local_search_from(&l, &ln, l.initial_assignment(), config.clone()).unwrap();
         let lc = list_calculator_local_search_from(
             &l,
             l.initial_assignment(),
             || Calculator::<ListAssignment<usize>>(0, PhantomData),
-            config,
+            config.clone(),
         )
         .unwrap();
         let mut g = StreamGraphBuilder::new();
@@ -312,9 +318,14 @@ fn unique_swaps_reduce_evaluations_across_all_nine_backends() {
             s(i64::from(v.position.unwrap().entity == 1 - v.value))
         })
         .unwrap();
-        let ls =
-            list_stream_local_search_from(&l, g.build(), source, l.initial_assignment(), config)
-                .unwrap();
+        let ls = list_stream_local_search_from(
+            &l,
+            g.build(),
+            source,
+            l.initial_assignment(),
+            config.clone(),
+        )
+        .unwrap();
         for r in [lr, lc, ls] {
             assert_result(
                 r.best.unwrap().score,
@@ -329,12 +340,12 @@ fn unique_swaps_reduce_evaluations_across_all_nine_backends() {
             search: config,
             joint_moves: true,
         };
-        let mr = mixed_local_search_from(&m, &mn, m.initial_assignment(), config).unwrap();
+        let mr = mixed_local_search_from(&m, &mn, m.initial_assignment(), config.clone()).unwrap();
         let mc = mixed_calculator_local_search_from(
             &m,
             m.initial_assignment(),
             || Calculator::<MixedAssignment<usize, usize>>(0, PhantomData),
-            config,
+            config.clone(),
         )
         .unwrap();
         let mut g = StreamGraphBuilder::new();

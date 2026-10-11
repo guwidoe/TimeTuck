@@ -110,7 +110,7 @@ fn kopt_repartition_sampling_filters_dependency_cycles() {
     let config = ListKOptSampling::new(ListKOptConfig::new(2, 4).unwrap(), 17, 2000);
     let mut expected = vec![];
     let mut rejected = 0;
-    for m in sample_list_k_opt_repartitions(&base, &a, config).unwrap() {
+    for m in sample_list_k_opt_repartitions(&base, &a, config.clone()).unwrap() {
         let mut current = a.clone();
         match p.apply(&mut current, &m) {
             Ok(trial) => {

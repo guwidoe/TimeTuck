@@ -106,7 +106,7 @@ impl From<AcceptanceError> for LocalSearchError {
     }
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Neighborhood {
     /// Assign missing optional basic slots; lists retain changes/swaps.
     Assign,
@@ -183,14 +183,14 @@ pub enum Neighborhood {
     },
 }
 impl Neighborhood {
-    pub(crate) fn at_step(self, step: u64) -> Self {
+    pub(crate) fn at_step(&self, step: u64) -> Self {
         match self {
             Self::RepartitionKOpt(config) => Self::RepartitionKOpt(config.for_step(step)),
             Self::SampledKOpt(config) => Self::SampledKOpt(config.for_step(step)),
-            _ => self,
+            _ => self.clone(),
         }
     }
-    pub(crate) fn includes_swaps(self) -> bool {
+    pub(crate) fn includes_swaps(&self) -> bool {
         match self {
             Self::Change | Self::Pillar { swaps: false } => false,
             Self::SubPillar(config) => config.swap_selection.is_some(),
@@ -225,9 +225,9 @@ pub enum RejectedMovePolicy {
 /// Evaluation budget includes the initial score and every candidate score.
 /// The accepted-move limit is separate. Optional diagnostic recomputations are
 /// excluded from both budgets and from the constraint-evaluation statistic.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
-    /// Optional external cancellation. Borrowing keeps this configuration Copy.
+    /// Optional external cancellation. The token remains borrowed on cloning.
     /// Model/configuration validation precedes cancellation checks.
     pub cancellation: Option<&'a crate::CancellationToken>,
     pub max_evaluations: u64,
@@ -262,7 +262,7 @@ pub struct LocalSearchConfig<'a, S = crate::SimpleScore> {
     pub acceptance: Acceptance<S>,
     /// Additional required policies, evaluated in this order after `acceptance`.
     /// Empty preserves the single-policy path. Borrowing permits arbitrary
-    /// composition length without changing Copy behavior for Copy score types.
+    /// composition length without copying policy storage when cloning a configuration.
     pub additional_acceptance: &'a [Acceptance<S>],
     pub move_order: MoveOrder,
     pub selection: MoveSelection,

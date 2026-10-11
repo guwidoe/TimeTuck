@@ -214,7 +214,7 @@ fn partial_groups_escape_whole_group_trap_in_both_backends_with_limits_and_seede
             for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
                 for cap in [1, 100] {
                     let c = LocalSearchConfig {
-                        neighborhood,
+                        neighborhood: neighborhood.clone(),
                         move_order: order,
                         selection,
                         max_evaluations: cap,
@@ -222,7 +222,7 @@ fn partial_groups_escape_whole_group_trap_in_both_backends_with_limits_and_seede
                         assert_scores: true,
                         ..Default::default()
                     };
-                    let scoped = local_search(&p, &n, c).unwrap();
+                    let scoped = local_search(&p, &n, c.clone()).unwrap();
                     let (g, s) = graph();
                     let stream =
                         stream_local_search_from(&p, g, s, p.initial_assignment(), c).unwrap();

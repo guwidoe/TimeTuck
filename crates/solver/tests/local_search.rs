@@ -118,21 +118,23 @@ fn budgets_include_initial_evaluation_and_preserve_best_so_far() {
         assert_scores: false,
         ..config()
     };
-    let zero = local_search(&model, &network, cfg).unwrap();
+    let zero = local_search(&model, &network, cfg.clone()).unwrap();
     assert!(zero.best.is_none());
     assert_eq!(calls.get(), 0);
     cfg.max_evaluations = 1;
-    let first = local_search(&model, &network, cfg).unwrap();
+    let first = local_search(&model, &network, cfg.clone()).unwrap();
     assert_eq!(first.evaluations, 1);
     assert_eq!(first.termination, Stop::EvaluationLimit);
     cfg.max_evaluations = 2;
-    let next = local_search(&model, &network, cfg).unwrap();
+    let next = local_search(&model, &network, cfg.clone()).unwrap();
     assert_eq!(next.evaluations, 2);
     assert_eq!(next.best.unwrap().score, SimpleScore::new(1));
     assert_eq!(next.termination, Stop::EvaluationLimit);
     cfg.max_accepted_moves = 1;
     assert_eq!(
-        local_search(&model, &network, cfg).unwrap().termination,
+        local_search(&model, &network, cfg.clone())
+            .unwrap()
+            .termination,
         Stop::AcceptedMoveLimit
     );
     cfg.max_accepted_moves = 0;

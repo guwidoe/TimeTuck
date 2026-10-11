@@ -65,6 +65,7 @@ fn configured_components_and_joint_products_match_independent_component_moves() 
                                     _ => {}
                                 }
                                 let lists = l
+                                    .clone()
                                     .map(|n| {
                                         list_moves(p.lists(), a.lists(), n)
                                             .unwrap()
@@ -98,8 +99,8 @@ fn configured_components_and_joint_products_match_independent_component_moves() 
                                     basic_value_orders: &[],
 
                                     pillar_schema: None,
-                                    basic: b,
-                                    lists: l,
+                                    basic: b.clone(),
+                                    lists: l.clone(),
                                     basic_variables: Some(selected),
                                     joint_moves: joint,
                                 };
@@ -156,7 +157,7 @@ fn scopes_preserve_pins_and_other_basic_slots_for_rich_families() {
                 basic_value_orders: &[],
 
                 pillar_schema: None,
-                basic: Some(basic),
+                basic: Some(basic.clone()),
                 lists: Some(lists),
                 basic_variables: Some(&[0]),
                 joint_moves: true,
@@ -186,7 +187,7 @@ fn disabled_children_skip_configuration_validation_and_union_retains_occurrences
         ..Default::default()
     };
     assert!(matches!(
-        mixed_moves_configured(&p, &a, bad),
+        mixed_moves_configured(&p, &a, bad.clone()),
         Err(MixedNeighborhoodError::UnknownBasicVariable {
             variable: 9,
             count: 2
@@ -198,7 +199,7 @@ fn disabled_children_skip_configuration_validation_and_union_retains_occurrences
             &a,
             MixedNeighborhood {
                 basic_variables: Some(&[0, 0]),
-                ..bad
+                ..bad.clone()
             }
         ),
         Err(MixedNeighborhoodError::DuplicateBasicVariable { variable: 0 })
@@ -206,7 +207,7 @@ fn disabled_children_skip_configuration_validation_and_union_retains_occurrences
     let disabled = MixedNeighborhood {
         basic: None,
         lists: None,
-        ..bad
+        ..bad.clone()
     };
     assert_eq!(mixed_moves_configured(&p, &a, disabled).unwrap().count(), 0);
     let basic = MixedNeighborhood {
@@ -218,11 +219,11 @@ fn disabled_children_skip_configuration_validation_and_union_retains_occurrences
         basic: None,
         ..Default::default()
     };
-    let children = [(bad, 0), (basic, 1), (list, 2), (basic, 1)];
+    let children = [(bad, 0), (basic.clone(), 1), (list, 2), (basic, 1)];
     let expected = children
         .iter()
         .filter(|(_, w)| *w > 0)
-        .flat_map(|(c, _)| mixed_moves_configured(&p, &a, *c).unwrap())
+        .flat_map(|(c, _)| mixed_moves_configured(&p, &a, c.clone()).unwrap())
         .collect::<Vec<_>>();
     assert_eq!(
         mixed_moves_configured_union(&p, &a, &children, UnionOrder::Sequential, 0)
@@ -323,7 +324,7 @@ fn independently_configured_joint_moves_escape_coupled_trap_in_both_backends() {
             &p,
             &n,
             p.initial_assignment(),
-            config,
+            config.clone(),
             &mut provider,
         )
         .unwrap();
@@ -341,7 +342,7 @@ fn independently_configured_joint_moves_escape_coupled_trap_in_both_backends() {
             g,
             sources,
             p.initial_assignment(),
-            config,
+            config.clone(),
             &mut provider,
         )
         .unwrap();

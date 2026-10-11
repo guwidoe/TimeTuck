@@ -146,7 +146,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 },
             )?;
         }
-        let result = mixed_local_search_from(&p, &n, initial.clone(), config)?;
+        let result = mixed_local_search_from(&p, &n, initial.clone(), config.clone())?;
         emit(
             f[0],
             "scoped",

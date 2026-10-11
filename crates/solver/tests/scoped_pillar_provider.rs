@@ -290,7 +290,7 @@ fn independent_scopes_solve_basic_and_mixed_with_both_scoring_backends() {
                 b.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -302,8 +302,14 @@ fn independent_scopes_solve_basic_and_mixed_with_both_scoring_backends() {
                 })
                 .unwrap();
             }
-            local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut provider)
-                .unwrap()
+            local_search_from_with_provider(
+                &p,
+                &n,
+                p.initial_assignment(),
+                config.clone(),
+                &mut provider,
+            )
+            .unwrap()
         };
         assert_eq!(result.completed_steps, 2);
         assert_eq!(result.best.unwrap().assignment.values(), &[Some(1); 4]);

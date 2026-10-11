@@ -33,8 +33,8 @@ fn basic_scoped_and_stream_search_escape_neutral_cycles_with_repeatable_budgets(
                 assert_scores: true,
                 ..Default::default()
             };
-            let a = local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
-            let again = local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+            let a = local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
+            let again = local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
             assert_eq!(a, again);
             let mut b = StreamGraphBuilder::new();
             let source = b.source::<usize, (usize, Option<i32>)>();
@@ -83,13 +83,14 @@ fn shuffled_list_and_joint_mixed_search_escape_neutral_cycles_in_both_backends()
             assert_scores: true,
             ..Default::default()
         };
-        let scoped = list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let scoped =
+            list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = ListStreamSources::new(&mut b);
         b.score("target", s.entities.port(), |(_, row)| reward(row))
             .unwrap();
         let stream =
-            list_stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config)
+            list_stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config.clone())
                 .unwrap();
         assert_eq!(scoped.best.as_ref().unwrap().score, expected);
         assert_eq!(scoped.best, stream.best);
@@ -121,7 +122,8 @@ fn shuffled_list_and_joint_mixed_search_escape_neutral_cycles_in_both_backends()
             search: config,
             joint_moves: true,
         };
-        let scoped = mixed_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let scoped =
+            mixed_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = MixedStreamSources::new(&mut b);
         let joined = b
@@ -174,14 +176,15 @@ fn one_slot_window_preserves_original_search_and_large_windows_respect_tiny_budg
             max_steps: 10,
             ..Default::default()
         };
-        let original = list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let original =
+            list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         let one = list_local_search_from(
             &p,
             &n,
             p.initial_assignment(),
             LocalSearchConfig {
                 move_order: shuffled(99, 1),
-                ..config
+                ..config.clone()
             },
         )
         .unwrap();
@@ -192,7 +195,7 @@ fn one_slot_window_preserves_original_search_and_large_windows_respect_tiny_budg
             p.initial_assignment(),
             LocalSearchConfig {
                 move_order: shuffled(99, usize::MAX),
-                ..config
+                ..config.clone()
             },
         )
         .unwrap();
@@ -205,7 +208,7 @@ fn one_slot_window_preserves_original_search_and_large_windows_respect_tiny_budg
                 p.initial_assignment(),
                 LocalSearchConfig {
                     move_order: shuffled(99, usize::MAX),
-                    ..config
+                    ..config.clone()
                 }
             )
             .unwrap()

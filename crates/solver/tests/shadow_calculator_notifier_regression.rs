@@ -261,11 +261,16 @@ fn all_three_search_backends_match_polling_and_replay_without_extra_scores() {
         max_evaluations: 100,
         ..Default::default()
     };
-    let result =
-        calculator_local_search_from(&problem, problem.initial_assignment(), factory, config)
-            .unwrap();
+    let result = calculator_local_search_from(
+        &problem,
+        problem.initial_assignment(),
+        factory,
+        config.clone(),
+    )
+    .unwrap();
     let expected =
-        calculator_local_search_from(&problem, problem.initial_assignment(), full, config).unwrap();
+        calculator_local_search_from(&problem, problem.initial_assignment(), full, config.clone())
+            .unwrap();
     assert_eq!(
         result.best.as_ref().unwrap().assignment,
         expected.best.as_ref().unwrap().assignment
@@ -318,12 +323,20 @@ fn all_three_search_backends_match_polling_and_replay_without_extra_scores() {
             false,
         )
     };
-    let result =
-        list_calculator_local_search_from(&problem, problem.initial_assignment(), factory, config)
-            .unwrap();
-    let expected =
-        list_calculator_local_search_from(&problem, problem.initial_assignment(), full, config)
-            .unwrap();
+    let result = list_calculator_local_search_from(
+        &problem,
+        problem.initial_assignment(),
+        factory,
+        config.clone(),
+    )
+    .unwrap();
+    let expected = list_calculator_local_search_from(
+        &problem,
+        problem.initial_assignment(),
+        full,
+        config.clone(),
+    )
+    .unwrap();
     assert_eq!(
         result.best.as_ref().unwrap().assignment,
         expected.best.as_ref().unwrap().assignment
@@ -373,9 +386,13 @@ fn all_three_search_backends_match_polling_and_replay_without_extra_scores() {
         search: config,
         ..Default::default()
     };
-    let result =
-        mixed_calculator_local_search_from(&problem, problem.initial_assignment(), factory, config)
-            .unwrap();
+    let result = mixed_calculator_local_search_from(
+        &problem,
+        problem.initial_assignment(),
+        factory,
+        config.clone(),
+    )
+    .unwrap();
     let expected =
         mixed_calculator_local_search_from(&problem, problem.initial_assignment(), full, config)
             .unwrap();

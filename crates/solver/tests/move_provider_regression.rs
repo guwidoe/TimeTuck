@@ -87,13 +87,19 @@ fn providers_observe_committed_snapshots_and_replace_builtins_in_all_six_paths()
                 b.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
         } else {
-            local_search_from_with_provider(&p, &bn, p.initial_assignment(), config, &mut provider)
-                .unwrap()
+            local_search_from_with_provider(
+                &p,
+                &bn,
+                p.initial_assignment(),
+                config.clone(),
+                &mut provider,
+            )
+            .unwrap()
         };
         assert_eq!(snapshots, vec![(0, 0), (1, 1), (2, 2)]);
         assert_eq!(r.best.unwrap().score, s(2));
@@ -124,7 +130,7 @@ fn providers_observe_committed_snapshots_and_replace_builtins_in_all_six_paths()
                 b.build(),
                 source,
                 l.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -133,7 +139,7 @@ fn providers_observe_committed_snapshots_and_replace_builtins_in_all_six_paths()
                 &l,
                 &ln,
                 l.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -278,7 +284,7 @@ fn infinite_providers_obey_budgets_prefetch_and_prestart_cancellation_on_all_pat
                 &p,
                 &ConstraintNetwork::<_, SimpleScore>::new(1),
                 p.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             ),
             provider
@@ -292,7 +298,7 @@ fn infinite_providers_obey_budgets_prefetch_and_prestart_cancellation_on_all_pat
                 b.build(),
                 source,
                 p.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             ),
             provider
@@ -303,7 +309,7 @@ fn infinite_providers_obey_budgets_prefetch_and_prestart_cancellation_on_all_pat
                 &l,
                 &ListConstraintNetwork::<_, SimpleScore>::new(3, 1),
                 l.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             ),
             provider
@@ -317,7 +323,7 @@ fn infinite_providers_obey_budgets_prefetch_and_prestart_cancellation_on_all_pat
                 b.build(),
                 source,
                 l.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             ),
             provider
@@ -335,7 +341,7 @@ fn infinite_providers_obey_budgets_prefetch_and_prestart_cancellation_on_all_pat
                 &m,
                 &MixedConstraintNetwork::<_, _, SimpleScore>::new(1, 3, 1),
                 m.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             ),
             provider

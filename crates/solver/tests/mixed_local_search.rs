@@ -59,12 +59,12 @@ fn joint_neighborhood_escapes_a_coupled_trap_and_matches_exact_optimum() {
     let n = network();
     let mut c = config();
     c.joint_moves = false;
-    let separate = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let separate = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     assert_eq!(separate.best.unwrap().score, SimpleScore::ZERO);
     assert_eq!(separate.termination, LocalSearchTermination::NoAcceptedMove);
     assert_eq!(separate.evaluations, 3);
     c.joint_moves = true;
-    let joint = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let joint = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     let exact = exhaustive_mixed_search(
         &p,
         |s| {
@@ -147,7 +147,7 @@ fn budgeted_best_prefix_installs_saved_winner_without_callback_replay() {
     let mut c = config();
     c.search.assert_scores = false;
     c.search.max_evaluations = 3;
-    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     assert_eq!(r.evaluations, 3);
     assert_eq!(calls.get(), 3);
     assert_eq!(r.constraint_evaluations, 3);
@@ -161,7 +161,7 @@ fn budgeted_best_prefix_installs_saved_winner_without_callback_replay() {
     calls.set(0);
     c.search.max_evaluations = 4;
     c.search.max_steps = 1;
-    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     assert_eq!(r.best.unwrap().score, SimpleScore::new(3));
     assert_eq!(calls.get(), 4);
     assert_eq!(r.termination, LocalSearchTermination::StepLimit);
@@ -188,7 +188,7 @@ fn tabu_keeps_basic_and_list_keys_distinct_and_preserves_earliest_global_best() 
         tenure: 5,
         aspiration: false,
     };
-    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     assert_eq!(r.best.unwrap().score, SimpleScore::new(2));
     assert_eq!(r.accepted_moves, 2);
     assert_eq!(r.completed_steps, 2);
@@ -203,7 +203,7 @@ fn tabu_keeps_basic_and_list_keys_distinct_and_preserves_earliest_global_best() 
     })
     .unwrap();
     c.search.rejected_moves = RejectedMovePolicy::BestScore;
-    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     assert_eq!(r.best.unwrap().assignment, p.initial_assignment());
     assert_eq!(r.accepted_moves, 1);
     assert_eq!(r.completed_steps, 2);
@@ -236,8 +236,9 @@ fn policies_and_shuffled_orders_are_seeded_and_retain_exact_quality() {
             let mut c = config();
             c.search.acceptance = acceptance;
             c.search.move_order = MoveOrder::ShuffledVariables { seed };
-            let first = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
-            let second = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+            let first = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
+            let second =
+                mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
             assert_eq!(first, second);
             let best = first.best.unwrap();
             assert!(p.is_complete(&best.assignment));
@@ -257,17 +258,17 @@ fn zero_budgets_validate_without_callbacks_and_empty_neighborhood_exhausts() {
         .unwrap();
     let mut c = config();
     c.search.max_evaluations = 0;
-    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     assert_eq!(r.evaluations, 0);
     assert!(r.best.is_none());
     let initial = MixedAssignment::new(Assignment::new(vec![None]), p.lists().initial_assignment());
     assert!(matches!(
-        mixed_local_search_from(&p, &n, initial, c),
+        mixed_local_search_from(&p, &n, initial, c.clone()),
         Err(MixedLocalSearchError::IncompleteInitialAssignment)
     ));
     let wrong = MixedConstraintNetwork::<i32, i32, SimpleScore>::new(2, 2, 1);
     assert!(matches!(
-        mixed_local_search_from(&p, &wrong, p.initial_assignment(), c),
+        mixed_local_search_from(&p, &wrong, p.initial_assignment(), c.clone()),
         Err(MixedLocalSearchError::Scoring(
             MixedScoringError::ModelShape { .. }
         ))
@@ -292,7 +293,7 @@ fn zero_budgets_validate_without_callbacks_and_empty_neighborhood_exhausts() {
     let n = MixedConstraintNetwork::<i32, i32, SimpleScore>::new(1, 1, 1);
     c = config();
     c.search.max_evaluations = 1;
-    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+    let r = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
     assert_eq!(r.termination, LocalSearchTermination::NoAcceptedMove);
     assert_eq!(r.evaluations, 1);
     c.search.max_steps = 0;

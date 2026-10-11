@@ -42,7 +42,7 @@ fn seeded_late_acceptance_crosses_a_valley_that_stops_hill_climbing() {
         },
         ..config()
     };
-    let late = local_search(&model, &network, cfg).unwrap();
+    let late = local_search(&model, &network, cfg.clone()).unwrap();
     assert_eq!(late.best.as_ref().unwrap().score, SimpleScore::new(3));
     assert_eq!(
         late.best.as_ref().unwrap().assignment.values(),
@@ -162,7 +162,7 @@ fn seeded_runs_respect_limits_and_best_quality_across_many_orders() {
             },
             ..config()
         };
-        let result = local_search(&model, &network, cfg).unwrap();
+        let result = local_search(&model, &network, cfg.clone()).unwrap();
         assert!(result.evaluations <= 17);
         assert!(result.accepted_moves <= 11);
         let best = result.best.as_ref().unwrap();

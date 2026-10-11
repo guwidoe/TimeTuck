@@ -382,7 +382,8 @@ fn local_search_matches_scoped_policies_and_exact_quality_with_joint_moves() {
                         },
                     };
                     let expected =
-                        mixed_local_search_from(&p, &n, p.initial_assignment(), settings).unwrap();
+                        mixed_local_search_from(&p, &n, p.initial_assignment(), settings.clone())
+                            .unwrap();
                     calls.set(0);
                     let (g, s) = small_graph(&calls);
                     let actual =
@@ -568,7 +569,7 @@ fn source_ownership_emptiness_and_initial_validity_are_checked_at_zero_budget() 
         },
         ..Default::default()
     };
-    assert!(mixed_stream_local_search_from(&p, g, s, initial, settings).is_err());
+    assert!(mixed_stream_local_search_from(&p, g, s, initial, settings.clone()).is_err());
     assert_eq!(calls.get(), 0);
     let (g, s) = small_graph(&calls);
     let partial = small(true);

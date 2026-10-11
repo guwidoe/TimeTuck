@@ -86,7 +86,7 @@ fn list_and_mixed_backends_use_medium_resets() {
         search: config(),
         joint_moves: true,
     };
-    let a = mixed_local_search_from(&p, &n, p.initial_assignment(), settings).unwrap();
+    let a = mixed_local_search_from(&p, &n, p.initial_assignment(), settings.clone()).unwrap();
     assert_eq!(a.completed_steps, 1);
     assert_eq!(a.termination, LocalSearchTermination::NoAcceptedMove);
     assert_eq!(a.best.unwrap().score, value(1));

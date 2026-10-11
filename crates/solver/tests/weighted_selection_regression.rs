@@ -216,13 +216,19 @@ fn weighted_candidates_solve_through_both_basic_scoring_backends() {
                 b.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
         } else {
-            local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut provider)
-                .unwrap()
+            local_search_from_with_provider(
+                &p,
+                &n,
+                p.initial_assignment(),
+                config.clone(),
+                &mut provider,
+            )
+            .unwrap()
         };
         let best = result.best.unwrap();
         assert_eq!(best.assignment.values(), &[Some(3)]);

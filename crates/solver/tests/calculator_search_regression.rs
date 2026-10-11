@@ -272,9 +272,13 @@ fn construction_and_local_search_match_existing_engine_behavior() {
                     assert_scores: true,
                     ..Default::default()
                 };
-                let actual =
-                    calculator_local_search_from(&p, complete(), Calculator::default, config)
-                        .unwrap();
+                let actual = calculator_local_search_from(
+                    &p,
+                    complete(),
+                    Calculator::default,
+                    config.clone(),
+                )
+                .unwrap();
                 let mut expected = local_search_from(&p, &n, complete(), config).unwrap();
                 expected.constraint_evaluations = actual.constraint_evaluations;
                 assert_eq!(actual, expected, "{acceptance:?} {selection:?} {budget}");
@@ -309,7 +313,7 @@ fn providers_and_custom_commands_use_incremental_callbacks() {
         &p,
         complete(),
         factory,
-        config,
+        config.clone(),
         &mut provider.clone(),
     )
     .unwrap();
@@ -427,7 +431,7 @@ fn zero_budgets_and_invalid_models_never_start_calculators() {
         ..Default::default()
     };
     assert_eq!(
-        calculator_local_search_from(&p, complete(), factory, config)
+        calculator_local_search_from(&p, complete(), factory, config.clone())
             .unwrap()
             .evaluations,
         0

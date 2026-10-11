@@ -47,7 +47,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         n.add_constraint("full", (0..case.problem.variables().len()).collect(), |v| {
             case.score_by(|i| v[i].copied())
         })?;
-        let full = local_search(&case.problem, &n, c)?;
+        let full = local_search(&case.problem, &n, c.clone())?;
         let mut b = StreamGraphBuilder::new();
         let s = b.source::<usize, (usize, Option<usize>)>();
         b.score("preferences", s.port(), |(i, v)| {

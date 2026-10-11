@@ -351,7 +351,7 @@ fn budgets_cancellation_and_partial_construction_keep_last_committed_notificatio
                 construction,
                 true,
                 c,
-                l,
+                l.clone(),
                 ORDER,
                 SimpleScore::new,
                 |e| {

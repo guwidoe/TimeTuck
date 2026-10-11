@@ -169,12 +169,12 @@ impl<S> LocalSearchConfig<'_, S> {
     pub(crate) fn neighborhoods(&self) -> impl Iterator<Item = (Neighborhood, u32)> + '_ {
         self.neighborhood_union
             .is_none()
-            .then_some((self.neighborhood, 1))
+            .then(|| (self.neighborhood.clone(), 1))
             .into_iter()
             .chain(
                 self.neighborhood_union
                     .into_iter()
-                    .flat_map(|u| u.children.iter().copied()),
+                    .flat_map(|u| u.children.iter().cloned()),
             )
             .filter(|(_, w)| *w != 0)
     }

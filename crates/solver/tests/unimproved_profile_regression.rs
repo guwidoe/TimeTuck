@@ -99,7 +99,9 @@ fn zero_missing_clear_fallback_and_policy_conflicts() {
         ..Default::default()
     };
     assert_eq!(
-        profile(None).bind_local_search(local).max_unimproved_steps,
+        profile(None)
+            .bind_local_search(local.clone())
+            .max_unimproved_steps,
         Some(11)
     );
     assert_eq!(

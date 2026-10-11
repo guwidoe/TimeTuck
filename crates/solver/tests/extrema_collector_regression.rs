@@ -246,7 +246,7 @@ fn construction_and_saved_candidates_match_independent_native_tie_policy() {
             assert_scores: true,
             ..Default::default()
         };
-        let expected = local_search_from(&problem, &n, initial.clone(), cfg).unwrap();
+        let expected = local_search_from(&problem, &n, initial.clone(), cfg.clone()).unwrap();
         let (g, s) = factory();
         let actual = stream_local_search_from(&problem, g, s, initial.clone(), cfg).unwrap();
         assert_eq!(actual.best, expected.best);

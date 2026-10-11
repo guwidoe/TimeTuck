@@ -85,7 +85,9 @@ fn multi_entity_sampling_preserves_prefixes_ranges_missing_values_and_full_pins(
     .allowing_unassigned();
     let a = p.initial_assignment();
     let cfg = config(2, usize::MAX, 23, 4000);
-    let moves: Vec<_> = sample_list_k_opt_moves(&p, &a, cfg).unwrap().collect();
+    let moves: Vec<_> = sample_list_k_opt_moves(&p, &a, cfg.clone())
+        .unwrap()
+        .collect();
     assert!(!moves.is_empty() && moves.len() <= 4000);
     assert_eq!(
         moves,
@@ -138,8 +140,8 @@ fn seeds_attempt_prefixes_step_derivation_and_repeats_are_explicit() {
                 .collect::<Vec<_>>()
         };
         let cfg = config(2, 6, seed, 300);
-        let full = run(cfg);
-        assert_eq!(full, run(cfg));
+        let full = run(cfg.clone());
+        assert_eq!(full, run(cfg.clone()));
         assert!(full.starts_with(&run(config(2, 6, seed, 7))));
         assert_eq!(cfg.for_step(0), cfg);
         assert_ne!(cfg.for_step(1).seed(), cfg.seed());
@@ -253,7 +255,7 @@ fn per_step_sampling_matches_manual_first_improvement_across_both_list_backends(
             assert_scores: true,
             ..Default::default()
         };
-        let a = list_local_search_from(&p, &net, p.initial_assignment(), cfg).unwrap();
+        let a = list_local_search_from(&p, &net, p.initial_assignment(), cfg.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = ListStreamSources::new(&mut b);
         b.score("rank", s.entities.port(), |(_, row)| rank(row))

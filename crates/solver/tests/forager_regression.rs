@@ -198,7 +198,7 @@ fn basic(config: LocalSearchConfig) -> LocalSearchResult<usize, SimpleScore> {
         SimpleScore::new(reward(*v[0].unwrap()))
     })
     .unwrap();
-    let a = local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+    let a = local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
     let mut b = StreamGraphBuilder::new();
     let s = b.source::<usize, (usize, Option<usize>)>();
     b.score("reward", s.port(), |(_, v)| {
@@ -244,7 +244,7 @@ fn list(config: LocalSearchConfig) -> ListLocalSearchResult<usize, SimpleScore> 
         SimpleScore::new(reward(v.position.entity))
     })
     .unwrap();
-    let a = list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+    let a = list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
     let mut b = StreamGraphBuilder::new();
     let s = ListStreamSources::new(&mut b);
     b.score("reward", s.values.port(), |v| {
@@ -291,7 +291,7 @@ fn mixed(config: LocalSearchConfig) -> MixedLocalSearchResult<usize, usize, Simp
         search: config,
         joint_moves: true,
     };
-    let a = mixed_local_search_from(&p, &n, p.initial_assignment(), cfg).unwrap();
+    let a = mixed_local_search_from(&p, &n, p.initial_assignment(), cfg.clone()).unwrap();
     let mut b = StreamGraphBuilder::new();
     let s = MixedStreamSources::new(&mut b);
     b.score("basic", s.basic.port(), |(_, v)| {
@@ -347,8 +347,8 @@ fn all_six_backends_match_across_limits_modes_orders_and_rejected_fallback() {
                             assert_scores: true,
                             ..Default::default()
                         };
-                        assert!(basic(config).evaluations <= budget);
-                        assert!(list(config).evaluations <= budget);
+                        assert!(basic(config.clone()).evaluations <= budget);
+                        assert!(list(config.clone()).evaluations <= budget);
                         assert!(mixed(config).evaluations <= budget);
                     }
                 }
@@ -371,12 +371,12 @@ fn early_limits_change_actual_selected_candidates_and_do_not_replay_scores() {
             let config = LocalSearchConfig {
                 selection,
                 accepted_candidate_limit: limit,
-                ..base
+                ..base.clone()
             };
             let early = selection != MoveSelection::BestAccepted || limit == NonZeroU64::new(1);
             let expected = if early { 1 } else { 2 };
-            let a = basic(config);
-            let b = list(config);
+            let a = basic(config.clone());
+            let b = list(config.clone());
             let c = mixed(config);
             assert_eq!(a.best.unwrap().score, SimpleScore::new(expected));
             assert_eq!(b.best.unwrap().score, SimpleScore::new(expected));
@@ -406,10 +406,10 @@ fn early_limits_change_actual_selected_candidates_and_do_not_replay_scores() {
     for seed in 0..32 {
         let config = LocalSearchConfig {
             tie_breaking: TieBreaking::Random { seed },
-            ..base
+            ..base.clone()
         };
-        let a = basic(config);
-        let b = list(config);
+        let a = basic(config.clone());
+        let b = list(config.clone());
         let c = mixed(config);
         selected.insert(a.best.unwrap().assignment.values()[0].unwrap());
         assert_eq!(b.best.unwrap().score, SimpleScore::new(2));
@@ -433,19 +433,28 @@ fn per_step_early_stop_and_phase_evaluation_limits_have_distinct_boundaries() {
         ..Default::default()
     };
     // The second accepted candidate ends selection without probing a third.
-    assert_eq!(basic(base).termination, LocalSearchTermination::StepLimit);
-    assert_eq!(list(base).termination, LocalSearchTermination::StepLimit);
-    assert_eq!(mixed(base).termination, LocalSearchTermination::StepLimit);
+    assert_eq!(
+        basic(base.clone()).termination,
+        LocalSearchTermination::StepLimit
+    );
+    assert_eq!(
+        list(base.clone()).termination,
+        LocalSearchTermination::StepLimit
+    );
+    assert_eq!(
+        mixed(base.clone()).termination,
+        LocalSearchTermination::StepLimit
+    );
     let short = LocalSearchConfig {
         max_evaluations: 2,
-        ..base
+        ..base.clone()
     };
     assert_eq!(
-        basic(short).termination,
+        basic(short.clone()).termination,
         LocalSearchTermination::EvaluationLimit
     );
     assert_eq!(
-        list(short).termination,
+        list(short.clone()).termination,
         LocalSearchTermination::EvaluationLimit
     );
     assert_eq!(
@@ -455,14 +464,14 @@ fn per_step_early_stop_and_phase_evaluation_limits_have_distinct_boundaries() {
     let per_move = LocalSearchConfig {
         max_evaluations: 100,
         max_move_evaluations: Some(1),
-        ..base
+        ..base.clone()
     };
     assert_eq!(
-        basic(per_move).termination,
+        basic(per_move.clone()).termination,
         LocalSearchTermination::MoveEvaluationLimit
     );
     assert_eq!(
-        list(per_move).termination,
+        list(per_move.clone()).termination,
         LocalSearchTermination::MoveEvaluationLimit
     );
     assert_eq!(

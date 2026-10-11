@@ -28,7 +28,8 @@ fn list_search_finds_a_wrapped_improvement_on_both_backends() {
         },
         ..Default::default()
     };
-    let ordinary = list_local_search_from(&p, &network, p.initial_assignment(), config).unwrap();
+    let ordinary =
+        list_local_search_from(&p, &network, p.initial_assignment(), config.clone()).unwrap();
     assert_eq!(ordinary.best.unwrap().score, SimpleScore::ZERO);
     for stream in [false, true] {
         let mut provider = DirectedTwoOptProvider::new(false);
@@ -42,7 +43,7 @@ fn list_search_finds_a_wrapped_improvement_on_both_backends() {
                 b.build(),
                 sources,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         } else {
@@ -50,7 +51,7 @@ fn list_search_finds_a_wrapped_improvement_on_both_backends() {
                 &p,
                 &network,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         }
@@ -97,7 +98,7 @@ fn mixed_search_uses_wrapped_moves_and_preserves_basic_assignments_on_both_backe
                 b.build(),
                 sources,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         } else {
@@ -105,7 +106,7 @@ fn mixed_search_uses_wrapped_moves_and_preserves_basic_assignments_on_both_backe
                 &p,
                 &network,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
         }

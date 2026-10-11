@@ -370,9 +370,14 @@ fn rebuilt_candidate_runs_through_both_custom_provider_search_backends() {
         assert_scores: true,
         ..Default::default()
     };
-    let scoped =
-        list_local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut provider)
-            .unwrap();
+    let scoped = list_local_search_from_with_provider(
+        &p,
+        &n,
+        p.initial_assignment(),
+        config.clone(),
+        &mut provider,
+    )
+    .unwrap();
     let mut builder = StreamGraphBuilder::new();
     let sources = ListStreamSources::new(&mut builder);
     builder

@@ -329,7 +329,7 @@ fn default_provider_solves_basic_list_and_mixed_models_with_both_backends() {
                 b.build(),
                 source,
                 basic.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -338,7 +338,7 @@ fn default_provider_solves_basic_list_and_mixed_models_with_both_backends() {
                 &basic,
                 &bn,
                 basic.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -354,7 +354,7 @@ fn default_provider_solves_basic_list_and_mixed_models_with_both_backends() {
                 b.build(),
                 sources,
                 lists.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -363,7 +363,7 @@ fn default_provider_solves_basic_list_and_mixed_models_with_both_backends() {
                 &lists,
                 &ln,
                 lists.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -391,7 +391,7 @@ fn default_provider_solves_basic_list_and_mixed_models_with_both_backends() {
     for stream in [false, true] {
         let mut provider = DefaultNeighborhood::default();
         let config = MixedLocalSearchConfig {
-            search: config,
+            search: config.clone(),
             ..Default::default()
         };
         let result = if stream {

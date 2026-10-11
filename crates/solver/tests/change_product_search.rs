@@ -24,7 +24,7 @@ fn independent_targets_escape_traps_in_both_basic_scoring_backends() {
     for neighborhood in [
         Neighborhood::ChangeAndSwap,
         Neighborhood::MassChange(MassChangeConfig::all()),
-        product,
+        product.clone(),
     ] {
         for order in [
             MoveOrder::Original,
@@ -35,7 +35,7 @@ fn independent_targets_escape_traps_in_both_basic_scoring_backends() {
             },
         ] {
             for budget in [1, 2, 100] {
-                let children = [(neighborhood, 1), (Neighborhood::Change, 0)];
+                let children = [(neighborhood.clone(), 1), (Neighborhood::Change, 0)];
                 let union = NeighborhoodUnion {
                     children: &children,
                     order: UnionOrder::Random { seed: 42 },
@@ -47,7 +47,7 @@ fn independent_targets_escape_traps_in_both_basic_scoring_backends() {
                     assert_scores: true,
                     ..Default::default()
                 };
-                let a = local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+                let a = local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
                 let mut builder = StreamGraphBuilder::new();
                 let source = builder.source::<usize, (usize, Option<i32>)>();
                 let left = builder.filter(source.port(), |(i, _)| *i == 0).unwrap();
@@ -126,7 +126,7 @@ fn products_combine_with_list_moves_and_respect_budgets_in_both_mixed_backends()
                 },
                 joint_moves,
             };
-            let a = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+            let a = mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
             let mut builder = StreamGraphBuilder::new();
             let source = MixedStreamSources::new(&mut builder);
             let left = builder

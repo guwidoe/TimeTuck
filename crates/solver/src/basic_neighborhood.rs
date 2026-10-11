@@ -4,7 +4,7 @@ use crate::{Assignment, FiniteProblem, ModelError, Move, Neighborhood, PillarErr
 /// One basic move family. A variable selection defines encounter order and limits
 /// every candidate to those slots. Schema rows remain atomic for grouping/pinning;
 /// a column selection never splits a row swap. None retains the model's schema.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct BasicNeighborhood<'a> {
     pub neighborhood: Neighborhood,
     pub variables: Option<&'a [usize]>,
@@ -66,7 +66,7 @@ impl std::error::Error for BasicNeighborhoodError {
 }
 impl BasicNeighborhood<'_> {
     pub(crate) fn validate<V: Eq>(
-        self,
+        &self,
         p: &FiniteProblem<V>,
     ) -> Result<(), BasicNeighborhoodError> {
         self.neighborhood
@@ -116,10 +116,10 @@ impl BasicNeighborhood<'_> {
         }
         Ok(())
     }
-    pub(crate) fn at_step(self, step: u64) -> Self {
+    pub(crate) fn at_step(&self, step: u64) -> Self {
         Self {
             neighborhood: self.neighborhood.at_step(step),
-            ..self
+            ..self.clone()
         }
     }
 }
@@ -201,8 +201,8 @@ pub fn basic_moves_configured_union<'a, V: Eq + Clone>(
     step: u64,
 ) -> Result<impl Iterator<Item = Move<V>> + 'a, BasicNeighborhoodError> {
     p.validate(a).map_err(BasicNeighborhoodError::Model)?;
-    for &(c, w) in children {
-        if w > 0 {
+    for (c, w) in children {
+        if *w > 0 {
             c.validate(p)?;
         }
     }
@@ -216,7 +216,7 @@ pub fn basic_moves_configured_union<'a, V: Eq + Clone>(
         children
             .iter()
             .filter(|(_, w)| *w > 0)
-            .map(move |&(c, w)| (configured(p, a, c.at_step(step)), w)),
+            .map(move |&(ref c, w)| (configured(p, a, c.at_step(step)), w)),
         order,
     ))
 }

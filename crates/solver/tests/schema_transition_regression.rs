@@ -198,11 +198,16 @@ fn assign_and_unassign_search_agree_across_all_six_model_backend_paths() {
             SimpleScore::new(sign * v.iter().filter(|v| v.is_some()).count() as i64)
         })
         .unwrap();
-        let full =
-            local_search_from_with_provider(&p, &net, p.initial_assignment(), config, &mut q)
-                .unwrap()
-                .best
-                .unwrap();
+        let full = local_search_from_with_provider(
+            &p,
+            &net,
+            p.initial_assignment(),
+            config.clone(),
+            &mut q,
+        )
+        .unwrap()
+        .best
+        .unwrap();
         let mut b = StreamGraphBuilder::<SimpleScore>::new();
         let source = b.source::<usize, (usize, Option<i32>)>();
         b.score("assigned", source.port(), move |r| {
@@ -214,7 +219,7 @@ fn assign_and_unassign_search_agree_across_all_six_model_backend_paths() {
             b.build(),
             source,
             p.initial_assignment(),
-            config,
+            config.clone(),
             &mut q,
         )
         .unwrap()
@@ -245,7 +250,7 @@ fn assign_and_unassign_search_agree_across_all_six_model_backend_paths() {
             &lists,
             &net,
             lists.initial_assignment(),
-            config,
+            config.clone(),
             &mut q,
         )
         .unwrap()
@@ -262,7 +267,7 @@ fn assign_and_unassign_search_agree_across_all_six_model_backend_paths() {
             b.build(),
             source,
             lists.initial_assignment(),
-            config,
+            config.clone(),
             &mut q,
         )
         .unwrap()
@@ -304,7 +309,7 @@ fn assign_and_unassign_search_agree_across_all_six_model_backend_paths() {
             &p,
             &net,
             p.initial_assignment(),
-            mixed_config,
+            mixed_config.clone(),
             &mut q,
         )
         .unwrap()

@@ -279,7 +279,7 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
                 .validate(self)
                 .map_err(RuinRecreateError::MixedNeighborhood);
         }
-        self.basic().validate_neighborhood(neighborhood)?;
+        self.basic().validate_neighborhood(neighborhood.clone())?;
         self.lists().validate_neighborhood(neighborhood)
     }
     fn fine_moves<'a>(
@@ -325,7 +325,7 @@ impl<B: Eq + Clone, L: Eq + Clone> crate::ruin_engine::RepairModel for MixedProb
         }
         let basic = self
             .basic()
-            .fine_moves(a.basic(), neighborhood)?
+            .fine_moves(a.basic(), neighborhood.clone())?
             .map(|movement| {
                 movement.map(|basic| MixedMove {
                     basic,

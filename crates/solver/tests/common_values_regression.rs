@@ -268,11 +268,17 @@ fn common_change_provider_escapes_single_move_trap_in_both_backends() {
         change_moves(p, a).unwrap().collect::<Vec<_>>()
     };
     assert_eq!(
-        local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut single)
-            .unwrap()
-            .best
-            .unwrap()
-            .score,
+        local_search_from_with_provider(
+            &p,
+            &n,
+            p.initial_assignment(),
+            config.clone(),
+            &mut single
+        )
+        .unwrap()
+        .best
+        .unwrap()
+        .score,
         SimpleScore::ZERO
     );
     for stream in [false, true] {
@@ -297,13 +303,19 @@ fn common_change_provider_escapes_single_move_trap_in_both_backends() {
                 b.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
         } else {
-            local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut provider)
-                .unwrap()
+            local_search_from_with_provider(
+                &p,
+                &n,
+                p.initial_assignment(),
+                config.clone(),
+                &mut provider,
+            )
+            .unwrap()
         };
         let best = result.best.unwrap();
         assert_eq!(best.assignment.values(), &[Some(1), Some(1)]);

@@ -203,13 +203,14 @@ fn run_backend(mode: usize, cfg: LocalSearchConfig<S>, scores: &[S]) -> Vec<usiz
             network
                 .add_constraint("table", vec![0], |v| score(*v[0].unwrap()))
                 .unwrap();
-            local_search_from(&p, &network, p.initial_assignment(), cfg).unwrap()
+            local_search_from(&p, &network, p.initial_assignment(), cfg.clone()).unwrap()
         } else {
             let mut b = StreamGraphBuilder::new();
             let src = b.source::<usize, (usize, Option<usize>)>();
             b.score("table", src.port(), |(_, v)| score(v.unwrap()))
                 .unwrap();
-            stream_local_search_from(&p, b.build(), src, p.initial_assignment(), cfg).unwrap()
+            stream_local_search_from(&p, b.build(), src, p.initial_assignment(), cfg.clone())
+                .unwrap()
         };
         assert_eq!(r.completed_steps, cfg.max_steps);
         assert_eq!(r.accepted_moves, cfg.max_steps);
@@ -239,7 +240,8 @@ fn run_backend(mode: usize, cfg: LocalSearchConfig<S>, scores: &[S]) -> Vec<usiz
                         score(e.position.entity)
                     })
                     .unwrap();
-                list_local_search_from(&list, &network, list.initial_assignment(), cfg).unwrap()
+                list_local_search_from(&list, &network, list.initial_assignment(), cfg.clone())
+                    .unwrap()
             } else {
                 let mut b = StreamGraphBuilder::new();
                 let src = ListStreamSources::<usize>::new(&mut b);
@@ -247,8 +249,14 @@ fn run_backend(mode: usize, cfg: LocalSearchConfig<S>, scores: &[S]) -> Vec<usiz
                     score(v.position.unwrap().entity)
                 })
                 .unwrap();
-                list_stream_local_search_from(&list, b.build(), src, list.initial_assignment(), cfg)
-                    .unwrap()
+                list_stream_local_search_from(
+                    &list,
+                    b.build(),
+                    src,
+                    list.initial_assignment(),
+                    cfg.clone(),
+                )
+                .unwrap()
             };
             assert_eq!(r.completed_steps, cfg.max_steps);
             assert_eq!(r.accepted_moves, cfg.max_steps);
@@ -269,7 +277,7 @@ fn run_backend(mode: usize, cfg: LocalSearchConfig<S>, scores: &[S]) -> Vec<usiz
                 list,
             );
             let settings = MixedLocalSearchConfig {
-                search: cfg,
+                search: cfg.clone(),
                 joint_moves: false,
             };
             let r = if mode == 4 {
@@ -357,7 +365,7 @@ fn all_six_backends_use_current_and_best_references_for_saved_steps() {
         }
         for mode in 0..6 {
             assert_eq!(
-                run_backend(mode, cfg, &scores),
+                run_backend(mode, cfg.clone(), &scores),
                 expected,
                 "mode {mode}, {ranking:?}"
             );

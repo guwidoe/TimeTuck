@@ -151,7 +151,9 @@ fn indexed_and_eq_only_move_sequences_agree_on_all_small_layouts() {
                 Neighborhood::Change,
             ] {
                 assert_eq!(
-                    list_moves(&linear, &a, family).unwrap().collect::<Vec<_>>(),
+                    list_moves(&linear, &a, family.clone())
+                        .unwrap()
+                        .collect::<Vec<_>>(),
                     list_moves(&indexed, &a, family)
                         .unwrap()
                         .collect::<Vec<_>>()

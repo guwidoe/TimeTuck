@@ -107,7 +107,7 @@ fn context_validation_precedes_clocks_factories_and_callbacks() {
             ..Default::default()
         };
         assert!(matches!(
-            local_search(&p, &n, config),
+            local_search(&p, &n, config.clone()),
             Err(LocalSearchError::Acceptance(
                 AcceptanceError::TerminationContextRequired
             ))

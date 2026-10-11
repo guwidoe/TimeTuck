@@ -274,7 +274,7 @@ fn k_opt_escapes_two_opt_plateau_in_both_list_scoring_backends() {
         ] {
             for budget in [0, 1, 2, 17, 1000] {
                 let config = LocalSearchConfig {
-                    neighborhood,
+                    neighborhood: neighborhood.clone(),
                     move_order: order,
                     max_evaluations: budget,
                     max_steps: 2,
@@ -284,7 +284,7 @@ fn k_opt_escapes_two_opt_plateau_in_both_list_scoring_backends() {
                     ..Default::default()
                 };
                 let result =
-                    list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+                    list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
                 let mut b = StreamGraphBuilder::new();
                 let s = ListStreamSources::new(&mut b);
                 b.score("target", s.entities.port(), |(_, row)| reward(row))
@@ -393,7 +393,7 @@ fn k_opt_integrates_joint_moves_orders_acceptors_and_both_mixed_backends() {
                         let cfg = MixedLocalSearchConfig {
                             joint_moves,
                             search: LocalSearchConfig {
-                                neighborhood,
+                                neighborhood: neighborhood.clone(),
                                 move_order: order,
                                 max_evaluations: budget,
                                 max_steps: 3,
@@ -404,7 +404,8 @@ fn k_opt_integrates_joint_moves_orders_acceptors_and_both_mixed_backends() {
                             },
                         };
                         let a =
-                            mixed_local_search_from(&p, &net, p.initial_assignment(), cfg).unwrap();
+                            mixed_local_search_from(&p, &net, p.initial_assignment(), cfg.clone())
+                                .unwrap();
                         let mut b = StreamGraphBuilder::new();
                         let s = MixedStreamSources::new(&mut b);
                         let joined = b

@@ -135,11 +135,11 @@ fn run(multi_entity: bool) {
     // native bounded search; source PRNG/selector traces are not reproduced.
     for variant in 0..12 {
         let families = match variant {
-            0..=3 => vec![(RepairNeighborhood::Mixed(fine[variant]), 1)],
-            5..=9 => vec![(RepairNeighborhood::Mixed(fine[variant - 1]), 1)],
+            0..=3 => vec![(RepairNeighborhood::Mixed(fine[variant].clone()), 1)],
+            5..=9 => vec![(RepairNeighborhood::Mixed(fine[variant - 1].clone()), 1)],
             11 => fine
                 .iter()
-                .map(|f| (RepairNeighborhood::Mixed(*f), 1))
+                .map(|f| (RepairNeighborhood::Mixed(f.clone()), 1))
                 .collect(),
             _ => vec![],
         };

@@ -45,14 +45,14 @@ fn run_all<C: FnMut() -> Duration>(
         out!(local_search::search_impl_with_clock(
             &p,
             Some(p.initial_assignment()),
-            c,
+            c.clone(),
             |a| ScoreDirector::new(&p, &n, a),
             clocks()
         )),
         out!(local_search::search_impl_with_clock(
             &p,
             Some(p.initial_assignment()),
-            c,
+            c.clone(),
             |a| StreamScoreDirector::new(&p, b.build(), s, a),
             clocks()
         )),
@@ -84,14 +84,14 @@ fn run_all<C: FnMut() -> Duration>(
     results.push(out!(list_local_search::search_impl_with_clock(
         &p,
         p.initial_assignment(),
-        c,
+        c.clone(),
         |a| ListScoreDirector::new(&p, &n, a),
         clocks()
     )));
     results.push(out!(list_local_search::search_impl_with_clock(
         &p,
         p.initial_assignment(),
-        c,
+        c.clone(),
         |a| ListStreamScoreDirector::new(&p, b.build(), s, a),
         clocks()
     )));
@@ -117,7 +117,7 @@ fn run_all<C: FnMut() -> Duration>(
     results.push(out!(mixed_local_search::search_impl_with_clock(
         &p,
         p.initial_assignment(),
-        c,
+        c.clone(),
         |a| MixedScoreDirector::new(&p, &n, a),
         clocks()
     )));
@@ -574,7 +574,7 @@ fn elapsed_limit_precedes_diminished_returns_and_zero_budget_never_starts_it() {
         ),
         ..Default::default()
     };
-    for r in run_all(c, score, ticking) {
+    for r in run_all(c.clone(), score, ticking) {
         assert_eq!(r.reason, Stop::TimeLimit);
         assert_eq!(r.evaluations, 1);
         assert_eq!(r.steps, 0);
@@ -597,7 +597,7 @@ fn significant_expiry_preserves_selected_prefix_and_excludes_initialization() {
         selection: MoveSelection::BestAccepted,
         ..Default::default()
     };
-    let expected = run_all(c, score, ticking);
+    let expected = run_all(c.clone(), score, ticking);
     for r in &expected {
         assert_eq!(
             *r,
@@ -672,7 +672,7 @@ fn total_time_precedes_significant_expiry_and_zero_budget_reads_no_clock() {
         significant_improvement: Some(&policy),
         ..Default::default()
     };
-    for r in run_all(c, score, ticking) {
+    for r in run_all(c.clone(), score, ticking) {
         assert_eq!(r.reason, Stop::TimeLimit);
         assert_eq!(r.evaluations, 1);
     }

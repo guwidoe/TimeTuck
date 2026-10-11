@@ -24,7 +24,7 @@ fn invalid_models_and_foreign_graphs_fail_before_provider_work() {
                 &p,
                 &ConstraintNetwork::<_, SimpleScore>::new(2),
                 p.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             )
             .is_err()
@@ -58,7 +58,7 @@ fn invalid_models_and_foreign_graphs_fail_before_provider_work() {
                 &p,
                 &ListConstraintNetwork::<_, SimpleScore>::new(2, 1),
                 p.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             )
             .is_err()
@@ -95,7 +95,7 @@ fn invalid_models_and_foreign_graphs_fail_before_provider_work() {
                 &p,
                 &MixedConstraintNetwork::<_, _, SimpleScore>::new(2, 1, 1),
                 p.initial_assignment(),
-                c,
+                c.clone(),
                 &mut provider
             )
             .is_err()
@@ -137,7 +137,7 @@ fn invalid_custom_candidates_propagate_errors_after_a_valid_candidate() {
             &p,
             &ConstraintNetwork::<_, SimpleScore>::new(1),
             p.initial_assignment(),
-            c,
+            c.clone(),
             &mut provider,
         )
         .unwrap_err();
@@ -180,7 +180,7 @@ fn invalid_custom_candidates_propagate_errors_after_a_valid_candidate() {
             &p,
             &ListConstraintNetwork::<_, SimpleScore>::new(1, 1),
             p.initial_assignment(),
-            c,
+            c.clone(),
             &mut provider,
         )
         .unwrap_err();
@@ -226,7 +226,7 @@ fn invalid_custom_candidates_propagate_errors_after_a_valid_candidate() {
             &p,
             &MixedConstraintNetwork::<_, _, SimpleScore>::new(1, 1, 1),
             p.initial_assignment(),
-            c,
+            c.clone(),
             &mut provider,
         )
         .unwrap_err();

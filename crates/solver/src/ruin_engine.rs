@@ -126,9 +126,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     if !config.has_moves() {
         return Err(RuinRecreateError::InvalidMoveWeights);
     }
-    for &(neighborhood, weight) in config.additional_neighborhoods {
+    for &(ref neighborhood, weight) in config.additional_neighborhoods {
         if weight > 0 {
-            problem.validate_neighborhood(neighborhood)?;
+            problem.validate_neighborhood(neighborhood.clone())?;
         }
     }
     let policy = config.acceptance.for_population(problem.population());
@@ -320,7 +320,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             let neighborhood = match family {
                 0 => RepairNeighborhood::Standard(Neighborhood::Change),
                 1 => RepairNeighborhood::Standard(Neighborhood::Swap),
-                _ => config.additional_neighborhoods[family - 3].0,
+                _ => config.additional_neighborhoods[family - 3].0.clone(),
             }
             .at_step(result.attempts + result.fine_move_attempts);
             let mut moves = problem.fine_moves(&current.0, neighborhood)?;
@@ -546,7 +546,9 @@ mod fine_dependency_tests {
             joint_moves: true,
             ..Default::default()
         };
-        let raw: Vec<_> = mixed_moves_configured(&p, &a, config).unwrap().collect();
+        let raw: Vec<_> = mixed_moves_configured(&p, &a, config.clone())
+            .unwrap()
+            .collect();
         let expected: Vec<_> = raw
             .iter()
             .map(|m| p.apply(&mut a.clone(), m).is_ok().then(|| m.clone()))

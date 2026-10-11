@@ -6,7 +6,7 @@ use crate::{ListMove, MixedAssignment, MixedError, MixedMove, MixedProblem, Move
 /// A basic-variable selection supplies encounter order and limits candidates to
 /// those touching only selected slots. With a pillar schema, whole-row rules
 /// still apply; selecting a column does not split a multi-column pillar move.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct MixedNeighborhood<'a> {
     pub basic: Option<Neighborhood>,
     pub lists: Option<Neighborhood>,
@@ -100,10 +100,10 @@ impl From<crate::BasicNeighborhoodError> for MixedNeighborhoodError {
 }
 impl MixedNeighborhood<'_> {
     pub(crate) fn validate<B: Eq + Clone, L: Eq + Clone>(
-        self,
+        &self,
         p: &MixedProblem<B, L>,
     ) -> Result<(), MixedNeighborhoodError> {
-        if let Some(n) = self.basic {
+        if let Some(n) = self.basic.clone() {
             crate::BasicNeighborhood {
                 neighborhood: n,
                 variables: self.basic_variables,
@@ -113,16 +113,16 @@ impl MixedNeighborhood<'_> {
             .validate(p.basic())
             .map_err(MixedNeighborhoodError::from)?;
         }
-        if let Some(n) = self.lists {
+        if let Some(n) = &self.lists {
             n.validate_list(p.lists()).map_err(MixedError::Lists)?;
         }
         Ok(())
     }
-    pub(crate) fn at_step(self, step: u64) -> Self {
+    pub(crate) fn at_step(&self, step: u64) -> Self {
         Self {
-            basic: self.basic.map(|n| n.at_step(step)),
-            lists: self.lists.map(|n| n.at_step(step)),
-            ..self
+            basic: self.basic.as_ref().map(|n| n.at_step(step)),
+            lists: self.lists.as_ref().map(|n| n.at_step(step)),
+            ..self.clone()
         }
     }
 }
@@ -157,7 +157,7 @@ fn configured<'a, B: Eq + Clone, L: Eq + Clone>(
     c: MixedNeighborhood<'a>,
 ) -> impl Iterator<Item = MixedMove<B, L>> + 'a {
     let basic = move || -> Box<dyn Iterator<Item = Move<B>> + 'a> {
-        let Some(n) = c.basic else {
+        let Some(n) = c.basic.clone() else {
             return Box::new(std::iter::empty());
         };
         crate::basic_neighborhood::configured(
@@ -172,7 +172,7 @@ fn configured<'a, B: Eq + Clone, L: Eq + Clone>(
         )
     };
     let lists = move || -> Box<dyn Iterator<Item = ListMove<L>> + 'a> {
-        match c.lists {
+        match c.lists.clone() {
             None => Box::new(std::iter::empty()),
             Some(n) => crate::list_neighborhood::ordered(
                 p.lists(),
@@ -218,8 +218,8 @@ pub fn mixed_moves_configured_union<'a, B: Eq + Clone, L: Eq + Clone>(
     step: u64,
 ) -> Result<impl Iterator<Item = MixedMove<B, L>> + 'a, MixedNeighborhoodError> {
     p.validate(a)?;
-    for &(c, w) in children {
-        if w > 0 {
+    for (c, w) in children {
+        if *w > 0 {
             c.validate(p)?;
         }
     }
@@ -233,7 +233,7 @@ pub fn mixed_moves_configured_union<'a, B: Eq + Clone, L: Eq + Clone>(
         children
             .iter()
             .filter(|(_, w)| *w > 0)
-            .map(move |&(c, w)| (configured(p, a, c.at_step(step)), w)),
+            .map(move |&(ref c, w)| (configured(p, a, c.at_step(step)), w)),
         order,
     ))
 }
@@ -290,15 +290,20 @@ pub(crate) fn ordered<
     basic_order: I,
     list_order: J,
 ) -> impl Iterator<Item = MixedMove<B, L>> + 'a {
-    let basic =
-        basics(problem, assignment, neighborhood, basic_order.clone()).map(|basic| MixedMove {
-            basic,
-            lists: ListMove::Composite(vec![]),
-        });
+    let basic = basics(
+        problem,
+        assignment,
+        neighborhood.clone(),
+        basic_order.clone(),
+    )
+    .map(|basic| MixedMove {
+        basic,
+        lists: ListMove::Composite(vec![]),
+    });
     let lists = crate::list_neighborhood::ordered(
         problem.lists(),
         assignment.lists(),
-        neighborhood,
+        neighborhood.clone(),
         list_order.clone(),
     )
     .map(|lists| MixedMove {
@@ -307,11 +312,11 @@ pub(crate) fn ordered<
     });
     let joint = joint_moves
         .then(move || {
-            basics(problem, assignment, neighborhood, basic_order).flat_map(move |basic| {
+            basics(problem, assignment, neighborhood.clone(), basic_order).flat_map(move |basic| {
                 crate::list_neighborhood::ordered(
                     problem.lists(),
                     assignment.lists(),
-                    neighborhood,
+                    neighborhood.clone(),
                     list_order.clone(),
                 )
                 .map(move |lists| MixedMove {

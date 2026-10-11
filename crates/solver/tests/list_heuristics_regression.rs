@@ -250,7 +250,7 @@ fn optional_replacement_escapes_a_single_move_valley() {
             &n,
             p.initial_assignment(),
             LocalSearchConfig {
-                neighborhood,
+                neighborhood: neighborhood.clone(),
                 assert_scores: true,
                 ..Default::default()
             },
@@ -364,7 +364,7 @@ fn zero_budget_still_validates_model_and_acceptance_without_scoring() {
         ..Default::default()
     };
     assert!(matches!(
-        list_local_search_from(&p, &n, p.initial_assignment(), config),
+        list_local_search_from(&p, &n, p.initial_assignment(), config.clone()),
         Err(ListLocalSearchError::IncompleteInitialAssignment)
     ));
     let p = p.allowing_unassigned();
@@ -372,7 +372,7 @@ fn zero_budget_still_validates_model_and_acceptance_without_scoring() {
     n.add_constraint("must not call", vec![], |_| panic!("zero budget"))
         .unwrap();
     assert_eq!(
-        list_local_search_from(&p, &n, p.initial_assignment(), config)
+        list_local_search_from(&p, &n, p.initial_assignment(), config.clone())
             .unwrap()
             .evaluations,
         0
@@ -387,7 +387,7 @@ fn zero_budget_still_validates_model_and_acceptance_without_scoring() {
                     tenure: 0,
                     aspiration: false
                 },
-                ..config
+                ..config.clone()
             }
         ),
         Err(ListLocalSearchError::Acceptance(AcceptanceError::EmptyTabu))
@@ -483,7 +483,8 @@ fn all_acceptors_reproduce_seeded_results_and_match_small_routing_optimum() {
                 ..Default::default()
             };
             let one =
-                list_local_search_from(&p, &n, construction.assignment.clone(), config).unwrap();
+                list_local_search_from(&p, &n, construction.assignment.clone(), config.clone())
+                    .unwrap();
             let two =
                 list_local_search_from(&p, &n, construction.assignment.clone(), config).unwrap();
             assert_eq!(one, two);
@@ -549,7 +550,7 @@ fn swap_improves_capacity_constrained_lists_when_relocation_cannot() {
             &n,
             p.initial_assignment(),
             LocalSearchConfig {
-                neighborhood,
+                neighborhood: neighborhood.clone(),
                 assert_scores: true,
                 ..Default::default()
             },

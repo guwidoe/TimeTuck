@@ -134,14 +134,19 @@ fn run(policies: [Acceptance<S>; 3], extra: bool) -> Vec<(u64, u64, u64, LocalSe
         match kind {
             0 => {
                 let n = ConstraintNetwork::<i32, S>::new(5);
-                save!(local_search(&p, &n, c));
+                save!(local_search(&p, &n, c.clone()));
                 let mut b = StreamGraphBuilder::<S>::new();
                 let s = b.source::<usize, (usize, Option<i32>)>();
                 save!(stream_local_search(&p, b.build(), s, c));
             }
             1 => {
                 let n = ListConstraintNetwork::<i32, S>::new(5, 3);
-                save!(list_local_search_from(&l, &n, l.initial_assignment(), c));
+                save!(list_local_search_from(
+                    &l,
+                    &n,
+                    l.initial_assignment(),
+                    c.clone()
+                ));
                 let mut b = StreamGraphBuilder::<S>::new();
                 let s = ListStreamSources::new(&mut b);
                 save!(list_stream_local_search_from(
@@ -158,7 +163,12 @@ fn run(policies: [Acceptance<S>; 3], extra: bool) -> Vec<(u64, u64, u64, LocalSe
                     search: c,
                     joint_moves: true,
                 };
-                save!(mixed_local_search_from(&m, &n, m.initial_assignment(), c));
+                save!(mixed_local_search_from(
+                    &m,
+                    &n,
+                    m.initial_assignment(),
+                    c.clone()
+                ));
                 let mut b = StreamGraphBuilder::<S>::new();
                 let s = MixedStreamSources::new(&mut b);
                 save!(mixed_stream_local_search_from(
@@ -221,10 +231,15 @@ fn empty_models_and_new_population_each_search_do_not_leak_size() {
         },
         ..Default::default()
     };
-    assert_eq!(local_search(&p, &n, c).unwrap().completed_steps, 0);
+    assert_eq!(local_search(&p, &n, c.clone()).unwrap().completed_steps, 0);
     let mut n = ConstraintNetwork::<i32, S>::new(5);
     n.add_constraint("zero", vec![], |_| S::ZERO).unwrap();
-    assert_eq!(local_search(&basic(), &n, c).unwrap().completed_steps, 3);
+    assert_eq!(
+        local_search(&basic(), &n, c.clone())
+            .unwrap()
+            .completed_steps,
+        3
+    );
     let p = FiniteProblem::new(vec![Variable::new(vec![0, 1]).with_initial(0)]).unwrap();
     let n = ConstraintNetwork::<i32, S>::new(1);
     assert_eq!(local_search(&p, &n, c).unwrap().completed_steps, 1);

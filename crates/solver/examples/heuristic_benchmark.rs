@@ -106,7 +106,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         };
         for run in 0..warmup.checked_add(samples).ok_or("sample overflow")? {
             let started = Instant::now();
-            let result = local_search(black_box(&case.problem), &network, config)?;
+            let result = local_search(black_box(&case.problem), &network, config.clone())?;
             let best = result.best.ok_or("missing result")?;
             if case.score(&best.assignment) != best.score
                 || !case.problem.is_complete(&best.assignment)

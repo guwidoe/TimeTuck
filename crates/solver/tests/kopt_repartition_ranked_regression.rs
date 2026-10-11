@@ -64,7 +64,7 @@ fn samples_preserve_exact_leaves_at_thresholds_with_empty_and_pinned_routes() {
                     .allowing_unassigned();
                 let a = p.initial_assignment();
                 let config = ListKOptSampling::new(ListKOptConfig::new(2, 4).unwrap(), 817, 64);
-                let candidates: Vec<_> = sample_list_k_opt_repartitions(&p, &a, config)
+                let candidates: Vec<_> = sample_list_k_opt_repartitions(&p, &a, config.clone())
                     .unwrap()
                     .collect();
                 if !restricted {

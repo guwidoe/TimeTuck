@@ -27,8 +27,8 @@ fn phase_steps_reset_while_shared_budget_spans_all_six_paths() {
                 phases: vec![
                     SolverPhase::Construction(construction),
                     SolverPhase::Construction(construction),
-                    SolverPhase::LocalSearch(local),
-                    SolverPhase::LocalSearch(local),
+                    SolverPhase::LocalSearch(local.clone()),
+                    SolverPhase::LocalSearch(local.clone()),
                 ],
             },
             &Cell::new(0),
@@ -103,7 +103,7 @@ fn absent_fields_preserve_controls_and_explicit_settings_replace_them() {
         ..Default::default()
     };
     assert_eq!(
-        TerminationProfile::default().bind_local_search(local),
+        TerminationProfile::default().bind_local_search(local.clone()),
         local
     );
     let p = TerminationProfile::new(

@@ -444,7 +444,8 @@ fn cross_entity_search_improves_both_list_backends_and_obeys_score_limits() {
                     assert_scores: true,
                     ..Default::default()
                 };
-                let a = list_local_search_from(&p, &net, p.initial_assignment(), config).unwrap();
+                let a = list_local_search_from(&p, &net, p.initial_assignment(), config.clone())
+                    .unwrap();
                 let mut b = StreamGraphBuilder::new();
                 let s = ListStreamSources::new(&mut b);
                 b.score("reward", s.entities.port(), |(e, row)| reward(*e, row))
@@ -582,7 +583,8 @@ fn coupled_mixed_search_needs_joint_repartition_and_matches_both_backends() {
                         ..Default::default()
                     },
                 };
-                let a = mixed_local_search_from(&p, &net, p.initial_assignment(), config).unwrap();
+                let a = mixed_local_search_from(&p, &net, p.initial_assignment(), config.clone())
+                    .unwrap();
                 let mut b = StreamGraphBuilder::new();
                 let s = MixedStreamSources::new(&mut b);
                 let joined = b

@@ -228,7 +228,7 @@ fn fresh_calculators_detect_incremental_drift_in_basic_list_and_mixed_search() {
         b,
         &drift::<Vec<usize>>,
         SolverSequence {
-            phases: vec![SolverPhase::LocalSearch(local)],
+            phases: vec![SolverPhase::LocalSearch(local.clone())],
             ..Default::default()
         }
     );
@@ -237,7 +237,7 @@ fn fresh_calculators_detect_incremental_drift_in_basic_list_and_mixed_search() {
         l,
         &drift::<Vec<usize>>,
         SolverSequence {
-            phases: vec![SolverPhase::LocalSearch(local)],
+            phases: vec![SolverPhase::LocalSearch(local.clone())],
             ..Default::default()
         }
     );

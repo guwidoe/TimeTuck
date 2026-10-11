@@ -55,7 +55,7 @@ macro_rules! exercise {
                 SolverEvent::FirstInitialized{initialization,complete,..}=>initialized.push((initialization.phase,complete)),
             };
             let custom_config=LocalSearchConfig{max_steps:1,neighborhood:Neighborhood::MassUnassign(MassAssignmentSize::all()),assert_scores:true,..Default::default()};
-            let plan=$Plan{phases:vec![$construction,phase(custom_config),$custom,phase(custom_config),phase(LocalSearchConfig{max_steps:2,assert_scores:true,..Default::default()})],..Default::default()};
+            let plan=$Plan{phases:vec![$construction,phase(custom_config.clone()),$custom,phase(custom_config),phase(LocalSearchConfig{max_steps:2,assert_scores:true,..Default::default()})],..Default::default()};
             let mut extensions=SolverExtensions::default();
             extensions.move_providers.bind(1,&mut first);extensions.move_providers.bind(3,&mut second);
             extensions.command=Some(&mut command);if observe{extensions.events=Some(&mut events);}

@@ -206,7 +206,7 @@ fn seeded_search_crosses_a_valley_and_retains_an_independently_proven_best() {
             assert_scores: true,
             ..LocalSearchConfig::default()
         };
-        let a = local_search(&model, &network, config).unwrap();
+        let a = local_search(&model, &network, config.clone()).unwrap();
         let b = local_search(&model, &network, config).unwrap();
         assert_eq!(a.best.as_ref().unwrap().score, optimum, "seed {seed}");
         assert_eq!(
@@ -304,7 +304,7 @@ fn search_cooling_and_rejected_fallback_have_distinct_acceptance_counts() {
         assert_scores: true,
         ..LocalSearchConfig::default()
     };
-    let stopped = local_search(&model, &network, config).unwrap();
+    let stopped = local_search(&model, &network, config.clone()).unwrap();
     assert_eq!(stopped.termination, LocalSearchTermination::NoAcceptedMove);
     assert_eq!(stopped.completed_steps, 2);
     assert_eq!(stopped.accepted_moves, 2);

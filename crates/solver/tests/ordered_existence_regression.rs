@@ -375,7 +375,7 @@ fn ordered_existence_drives_search_and_saved_candidate_replay() {
             assert_scores: true,
             ..Default::default()
         };
-        let full = local_search_from(&p, &network, p.initial_assignment(), config).unwrap();
+        let full = local_search_from(&p, &network, p.initial_assignment(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::<SimpleScore>::new().with_activity_pruning();
         let source = b.source::<usize, (usize, Option<i32>)>();
         let visible = b

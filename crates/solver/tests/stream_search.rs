@@ -152,9 +152,13 @@ fn construction_policies_budgets_and_phase_handoff_match_full_scoring() {
                         assert_scores: true,
                         ..Default::default()
                     };
-                    let expected =
-                        local_search_from(&p, &network, solution.assignment.clone(), config)
-                            .unwrap();
+                    let expected = local_search_from(
+                        &p,
+                        &network,
+                        solution.assignment.clone(),
+                        config.clone(),
+                    )
+                    .unwrap();
                     let (g, s) = graph(Rc::new(Cell::new(0)));
                     let actual =
                         stream_local_search_from(&p, g, s, solution.assignment, config).unwrap();
@@ -256,7 +260,7 @@ fn local_search_policies_seeds_selection_and_fallback_match_full_scoring() {
                             assert_scores: true,
                             ..Default::default()
                         };
-                        let expected = local_search(&p, &n, config).unwrap();
+                        let expected = local_search(&p, &n, config.clone()).unwrap();
                         let (g, s) = graph(Rc::new(Cell::new(0)));
                         let actual = stream_local_search(&p, g, s, config).unwrap();
                         compare(actual, expected);

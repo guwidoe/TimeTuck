@@ -236,7 +236,7 @@ fn search_selects_and_saves_candidates_using_inverse_collections() {
             assert_scores: true,
             ..Default::default()
         };
-        let expected = local_search_from(&p, &n, initial.clone(), config)
+        let expected = local_search_from(&p, &n, initial.clone(), config.clone())
             .unwrap()
             .best
             .unwrap();

@@ -399,7 +399,7 @@ fn lazy_list_and_mixed_providers_filter_on_all_four_scoring_paths() {
                 b.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
@@ -416,7 +416,7 @@ fn lazy_list_and_mixed_providers_filter_on_all_four_scoring_paths() {
                 &p,
                 &n,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()

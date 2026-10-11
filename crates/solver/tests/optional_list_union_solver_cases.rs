@@ -19,11 +19,11 @@ fn configurations() -> [Vec<(Neighborhood, u32)>; 6] {
         1,
     );
     [
-        vec![change, swap],
-        vec![change, swap, sub_change],
-        vec![change, swap, sub_swap],
-        vec![kopt],
-        vec![change, swap, kopt],
+        vec![change.clone(), swap.clone()],
+        vec![change.clone(), swap.clone(), sub_change.clone()],
+        vec![change.clone(), swap.clone(), sub_swap.clone()],
+        vec![kopt.clone()],
+        vec![change.clone(), swap.clone(), kopt.clone()],
         vec![change, swap, sub_change, sub_swap, kopt],
     ]
 }

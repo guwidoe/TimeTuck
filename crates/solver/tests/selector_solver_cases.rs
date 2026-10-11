@@ -11,7 +11,7 @@ fn basic_variants<V: Eq + Clone>(
     let n = ConstraintNetwork::<_, SimpleScore>::new(p.variables().len());
     let fine = families
         .iter()
-        .map(|c| (RepairNeighborhood::Basic(*c), 1))
+        .map(|c| (RepairNeighborhood::Basic(c.clone()), 1))
         .collect::<Vec<_>>();
     let variants = fine.len() + usize::from(repair) + 1;
     for variant in 0..variants {

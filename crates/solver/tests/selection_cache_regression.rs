@@ -360,13 +360,19 @@ fn step_scoped_weighted_move_provider_balances_events_in_both_backends() {
                 b.build(),
                 source,
                 p.initial_assignment(),
-                config,
+                config.clone(),
                 &mut provider,
             )
             .unwrap()
         } else {
-            local_search_from_with_provider(&p, &n, p.initial_assignment(), config, &mut provider)
-                .unwrap()
+            local_search_from_with_provider(
+                &p,
+                &n,
+                p.initial_assignment(),
+                config.clone(),
+                &mut provider,
+            )
+            .unwrap()
         };
         let best = result.best.unwrap();
         assert_eq!(best.score, SimpleScore::new(3));

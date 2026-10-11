@@ -254,47 +254,62 @@ fn routes<const REPAIR: bool>() {
         };
     }
     check::<_, REPAIR>(
-        solve_with_extensions(&b, &bn, plan(c, REPAIR), extensions!()).unwrap(),
+        solve_with_extensions(&b, &bn, plan(c.clone(), REPAIR), extensions!()).unwrap(),
         &eb,
     );
     check::<_, REPAIR>(
-        solve_list_with_extensions(&l, &ln, plan(c, REPAIR), extensions!()).unwrap(),
+        solve_list_with_extensions(&l, &ln, plan(c.clone(), REPAIR), extensions!()).unwrap(),
         &el,
     );
     check::<_, REPAIR>(
-        solve_mixed_with_extensions(&m, &mn, mixed_plan(c, REPAIR), extensions!()).unwrap(),
+        solve_mixed_with_extensions(&m, &mn, mixed_plan(c.clone(), REPAIR), extensions!()).unwrap(),
         &em,
     );
     check::<_, REPAIR>(
-        solve_stream_with_extensions(&b, || Ok(basic_graph()), plan(c, REPAIR), extensions!())
-            .unwrap(),
+        solve_stream_with_extensions(
+            &b,
+            || Ok(basic_graph()),
+            plan(c.clone(), REPAIR),
+            extensions!(),
+        )
+        .unwrap(),
         &eb,
     );
     check::<_, REPAIR>(
-        solve_list_stream_with_extensions(&l, || Ok(list_graph()), plan(c, REPAIR), extensions!())
-            .unwrap(),
+        solve_list_stream_with_extensions(
+            &l,
+            || Ok(list_graph()),
+            plan(c.clone(), REPAIR),
+            extensions!(),
+        )
+        .unwrap(),
         &el,
     );
     check::<_, REPAIR>(
         solve_mixed_stream_with_extensions(
             &m,
             || Ok(mixed_graph()),
-            mixed_plan(c, REPAIR),
+            mixed_plan(c.clone(), REPAIR),
             extensions!(),
         )
         .unwrap(),
         &em,
     );
     check::<_, REPAIR>(
-        solve_calculator_with_extensions(&b, &cached::<Vec<usize>>, plan(c, REPAIR), extensions!())
-            .unwrap(),
+        solve_calculator_with_extensions(
+            &b,
+            &cached::<Vec<usize>>,
+            plan(c.clone(), REPAIR),
+            extensions!(),
+        )
+        .unwrap(),
         &eb,
     );
     check::<_, REPAIR>(
         solve_list_calculator_with_extensions(
             &l,
             &cached::<Vec<usize>>,
-            plan(c, REPAIR),
+            plan(c.clone(), REPAIR),
             extensions!(),
         )
         .unwrap(),
@@ -304,7 +319,7 @@ fn routes<const REPAIR: bool>() {
         solve_mixed_calculator_with_extensions(
             &m,
             &cached::<MixedCalculatorChange>,
-            mixed_plan(c, REPAIR),
+            mixed_plan(c.clone(), REPAIR),
             extensions!(),
         )
         .unwrap(),
@@ -321,47 +336,47 @@ fn routes<const REPAIR: bool>() {
     }
     retained!(
         ScoreDirector::new(&b, &bn, b.initial_assignment()).unwrap(),
-        plan(c, REPAIR),
+        plan(c.clone(), REPAIR),
         &eb
     );
     retained!(
         ListScoreDirector::new(&l, &ln, l.initial_assignment()).unwrap(),
-        plan(c, REPAIR),
+        plan(c.clone(), REPAIR),
         &el
     );
     retained!(
         MixedScoreDirector::new(&m, &mn, m.initial_assignment()).unwrap(),
-        mixed_plan(c, REPAIR),
+        mixed_plan(c.clone(), REPAIR),
         &em
     );
     let (g, s) = basic_graph();
     retained!(
         StreamScoreDirector::new(&b, g, s, b.initial_assignment()).unwrap(),
-        plan(c, REPAIR),
+        plan(c.clone(), REPAIR),
         &eb
     );
     let (g, s) = list_graph();
     retained!(
         ListStreamScoreDirector::new(&l, g, s, l.initial_assignment()).unwrap(),
-        plan(c, REPAIR),
+        plan(c.clone(), REPAIR),
         &el
     );
     let (g, s) = mixed_graph();
     retained!(
         MixedStreamScoreDirector::new(&m, g, s, m.initial_assignment()).unwrap(),
-        mixed_plan(c, REPAIR),
+        mixed_plan(c.clone(), REPAIR),
         &em
     );
     retained!(
         CalculatorScoreDirector::new(&b, b.initial_assignment(), cached::<Vec<usize>>, false)
             .unwrap(),
-        plan(c, REPAIR),
+        plan(c.clone(), REPAIR),
         &eb
     );
     retained!(
         ListCalculatorScoreDirector::new(&l, l.initial_assignment(), cached::<Vec<usize>>, false)
             .unwrap(),
-        plan(c, REPAIR),
+        plan(c.clone(), REPAIR),
         &el
     );
     retained!(

@@ -235,15 +235,20 @@ fn configured_families_work_in_list_and_mixed_scoped_and_stream_search() {
             nscore(values)
         })
         .unwrap();
-        let r = list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let r = list_local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         assert_eq!(r.best.unwrap().score, SimpleScore::new(10));
         let mut b = StreamGraphBuilder::new();
         let sources = ListStreamSources::<i32>::new(&mut b);
         b.score("order", sources.entities.port(), |e| nscore(&e.1))
             .unwrap();
-        let r =
-            list_stream_local_search_from(&p, b.build(), sources, p.initial_assignment(), config)
-                .unwrap();
+        let r = list_stream_local_search_from(
+            &p,
+            b.build(),
+            sources,
+            p.initial_assignment(),
+            config.clone(),
+        )
+        .unwrap();
         assert_eq!(r.best.unwrap().score, SimpleScore::new(10));
         let mixed = MixedProblem::new(
             FiniteProblem::new(vec![Variable::new(vec![0, 1]).with_initial(0)]).unwrap(),
@@ -261,7 +266,7 @@ fn configured_families_work_in_list_and_mixed_scoped_and_stream_search() {
             search: config,
             ..Default::default()
         };
-        let r = mixed_local_search_from(&mixed, &n, mixed.initial_assignment(), c).unwrap();
+        let r = mixed_local_search_from(&mixed, &n, mixed.initial_assignment(), c.clone()).unwrap();
         assert_eq!(r.best.unwrap().score, SimpleScore::new(10));
         let mut b = StreamGraphBuilder::new();
         let sources = MixedStreamSources::<i32, i32>::new(&mut b);
@@ -299,7 +304,7 @@ fn invalid_policies_fail_before_factories_or_scoring_even_with_zero_budget() {
             ..Default::default()
         };
         let plan = SolverSequence {
-            phases: vec![SolverPhase::LocalSearch(c)],
+            phases: vec![SolverPhase::LocalSearch(c.clone())],
             ..Default::default()
         };
         assert!(matches!(

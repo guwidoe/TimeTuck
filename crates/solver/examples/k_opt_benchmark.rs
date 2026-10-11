@@ -99,7 +99,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                     max_steps: steps,
                     max_accepted_moves: u64::MAX,
                     acceptance: Acceptance::HillClimbing,
-                    neighborhood,
+                    neighborhood: neighborhood.clone(),
                     move_order,
                     selection: MoveSelection::FirstAccepted,
                     rejected_moves: RejectedMovePolicy::BestScore,

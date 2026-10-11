@@ -6,7 +6,7 @@ use std::{error::Error, fmt, time::Duration};
 /// existing per-model interpretation; Mixed permits independent components and
 /// slot filters and is rejected for basic-only or list-only models. Basic scopes
 /// only basic variables and works with basic or mixed models; lists reject it.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum RepairNeighborhood<'a> {
     Standard(Neighborhood),
     Basic(BasicNeighborhood<'a>),
@@ -506,7 +506,7 @@ impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {
         neighborhood: RepairNeighborhood<'a>,
     ) -> Result<crate::ruin_engine::FineMoves<'a, Move<V>>, RuinRecreateError> {
         self.validate(a).map_err(LocalSearchError::from)?;
-        self.validate_neighborhood(neighborhood)?;
+        self.validate_neighborhood(neighborhood.clone())?;
         let moves = if let RepairNeighborhood::Basic(c) = neighborhood {
             crate::basic_neighborhood::configured(self, a, c)
         } else {

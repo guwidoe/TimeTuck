@@ -60,13 +60,13 @@ fn constrained_neighborhoods_keep_valid_candidate_order_and_mass_metadata() {
                 Neighborhood::MassListAssign(size),
                 Neighborhood::MassListUnassign(size),
             ] {
-                let all: Vec<_> = list_moves(&base, &a, family).unwrap().collect();
+                let all: Vec<_> = list_moves(&base, &a, family.clone()).unwrap().collect();
                 let expected: Vec<_> = all
                     .iter()
                     .filter(|m| valid(&p, &base, &a, m))
                     .cloned()
                     .collect();
-                let actual: Vec<_> = list_moves(&p, &a, family).unwrap().collect();
+                let actual: Vec<_> = list_moves(&p, &a, family.clone()).unwrap().collect();
                 assert_eq!(actual, expected, "{family:?}");
                 assert!(!actual.is_empty());
                 if !matches!(family, Neighborhood::MassListUnassign(_)) {

@@ -354,13 +354,19 @@ fn composed_providers_solve_in_all_six_paths_with_both_union_orders() {
                     b.build(),
                     s,
                     p.initial_assignment(),
-                    config,
+                    config.clone(),
                     &mut union,
                 )
                 .unwrap()
             } else {
-                local_search_from_with_provider(&p, &bn, p.initial_assignment(), config, &mut union)
-                    .unwrap()
+                local_search_from_with_provider(
+                    &p,
+                    &bn,
+                    p.initial_assignment(),
+                    config.clone(),
+                    &mut union,
+                )
+                .unwrap()
             };
             assert_eq!(r.best.unwrap().score, SimpleScore::new(2));
             assert_eq!(r.completed_steps, 2);
@@ -379,7 +385,7 @@ fn composed_providers_solve_in_all_six_paths_with_both_union_orders() {
                     b.build(),
                     s,
                     l.initial_assignment(),
-                    config,
+                    config.clone(),
                     &mut union,
                 )
                 .unwrap()
@@ -388,7 +394,7 @@ fn composed_providers_solve_in_all_six_paths_with_both_union_orders() {
                     &l,
                     &ln,
                     l.initial_assignment(),
-                    config,
+                    config.clone(),
                     &mut union,
                 )
                 .unwrap()
@@ -401,7 +407,7 @@ fn composed_providers_solve_in_all_six_paths_with_both_union_orders() {
                 |_: &MixedProblem<i32, i32>, a: &MixedAssignment<i32, i32>, _: u64| mm(a, 2);
             let mut union = combine(&mut left, &mut right, order);
             let mc = MixedLocalSearchConfig {
-                search: config,
+                search: config.clone(),
                 joint_moves: false,
             };
             let r = if stream {

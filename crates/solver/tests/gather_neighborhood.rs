@@ -268,7 +268,7 @@ fn gather_search_escapes_plateaus_in_list_and_joint_mixed_backends() {
             ] {
                 for budget in [0, 1, 2, 17, 1000] {
                     let config = LocalSearchConfig {
-                        neighborhood,
+                        neighborhood: neighborhood.clone(),
                         move_order: order,
                         max_evaluations: budget,
                         max_steps: 4,
@@ -277,7 +277,8 @@ fn gather_search_escapes_plateaus_in_list_and_joint_mixed_backends() {
                         assert_scores: true,
                         ..Default::default()
                     };
-                    let a = list_local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+                    let a = list_local_search_from(&p, &n, p.initial_assignment(), config.clone())
+                        .unwrap();
                     let mut b = StreamGraphBuilder::new();
                     let s = ListStreamSources::new(&mut b);
                     b.score("target", s.entities.port(), |(_, row)| reward(row))
@@ -287,7 +288,7 @@ fn gather_search_escapes_plateaus_in_list_and_joint_mixed_backends() {
                         b.build(),
                         s,
                         p.initial_assignment(),
-                        config,
+                        config.clone(),
                     )
                     .unwrap();
                     assert_eq!(a.best, c.best);
@@ -338,8 +339,13 @@ fn gather_search_escapes_plateaus_in_list_and_joint_mixed_backends() {
                         search: config,
                         joint_moves: true,
                     };
-                    let a = mixed_local_search_from(&mixed, &net, mixed.initial_assignment(), cfg)
-                        .unwrap();
+                    let a = mixed_local_search_from(
+                        &mixed,
+                        &net,
+                        mixed.initial_assignment(),
+                        cfg.clone(),
+                    )
+                    .unwrap();
                     let mut b = StreamGraphBuilder::new();
                     let s = MixedStreamSources::new(&mut b);
                     let joined = b
@@ -442,14 +448,15 @@ fn basic_backends_retain_changes_and_swaps_when_gather_is_selected() {
             assert_scores: true,
             ..Default::default()
         };
-        let a = local_search_from(&p, &n, p.initial_assignment(), config).unwrap();
+        let a = local_search_from(&p, &n, p.initial_assignment(), config.clone()).unwrap();
         let mut b = StreamGraphBuilder::new();
         let s = b.source::<usize, (usize, Option<i32>)>();
         b.score("values", s.port(), |(_, v)| {
             SimpleScore::new(i64::from(v.unwrap()))
         })
         .unwrap();
-        let c = stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config).unwrap();
+        let c = stream_local_search_from(&p, b.build(), s, p.initial_assignment(), config.clone())
+            .unwrap();
         let control = local_search_from(
             &p,
             &n,

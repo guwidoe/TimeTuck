@@ -249,14 +249,14 @@ fn schema_neighborhoods_solve_multicolumn_trap_in_both_backends_and_rollback_sco
                 },
             ] {
                 let c = LocalSearchConfig {
-                    neighborhood,
+                    neighborhood: neighborhood.clone(),
                     move_order: order,
                     max_steps: 3,
                     max_evaluations: 200,
                     assert_scores: true,
                     ..Default::default()
                 };
-                let result = local_search(&p, &n, c).unwrap();
+                let result = local_search(&p, &n, c.clone()).unwrap();
                 let (g, s) = graph();
                 let streamed =
                     stream_local_search_from(&p, g, s, p.initial_assignment(), c).unwrap();
@@ -338,7 +338,8 @@ fn schema_joint_moves_escape_mixed_trap_in_both_backends() {
                 },
                 joint_moves: joint,
             };
-            let result = mixed_local_search_from(&p, &n, p.initial_assignment(), c).unwrap();
+            let result =
+                mixed_local_search_from(&p, &n, p.initial_assignment(), c.clone()).unwrap();
             let mut b = StreamGraphBuilder::new();
             let s = MixedStreamSources::<i32, i32>::new(&mut b);
             let all = b.collect_list(s.basic.port(), |v| v.1).unwrap();

@@ -115,7 +115,7 @@ fn cached_construction_and_saved_search_match_independent_group_scoring() {
             };
             let initial = ListAssignment::new(vec![vec![0, 1, 2], vec![3]]);
             let mut expected =
-                list_local_search_from(&p, &reference, initial.clone(), config).unwrap();
+                list_local_search_from(&p, &reference, initial.clone(), config.clone()).unwrap();
             let (g, s, _) = schedule.graph(2);
             let mut actual = list_stream_local_search_from(&p, g, s, initial, config).unwrap();
             actual.constraint_evaluations = 0;

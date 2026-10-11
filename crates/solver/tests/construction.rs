@@ -303,11 +303,21 @@ fn explicit_local_search_rejects_incomplete_or_invalid_assignments_before_scorin
         ..LocalSearchConfig::default()
     };
     assert!(matches!(
-        local_search_from(&problem, &network, problem.initial_assignment(), config),
+        local_search_from(
+            &problem,
+            &network,
+            problem.initial_assignment(),
+            config.clone()
+        ),
         Err(LocalSearchError::IncompleteInitialAssignment)
     ));
     assert!(matches!(
-        local_search_from(&problem, &network, Assignment::new(vec![Some(2)]), config),
+        local_search_from(
+            &problem,
+            &network,
+            Assignment::new(vec![Some(2)]),
+            config.clone()
+        ),
         Err(LocalSearchError::Scoring(ScoringError::Model(_)))
     ));
     let valid =

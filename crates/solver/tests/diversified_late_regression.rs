@@ -211,7 +211,7 @@ fn basic_search_and_streams_match_independent_trial_history_and_selection() {
                     score(&v.iter().map(|v| v.copied()).collect::<Vec<_>>())
                 })
                 .unwrap();
-                let a = local_search(&p, &n, c).unwrap();
+                let a = local_search(&p, &n, c.clone()).unwrap();
                 let mut b = StreamGraphBuilder::new();
                 let source = b.source::<usize, (usize, Option<i32>)>();
                 let zero = b.filter(source.port(), |(i, _)| *i == 0).unwrap();

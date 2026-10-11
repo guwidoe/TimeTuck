@@ -138,7 +138,7 @@ fn model_errors_keep_precedence_and_optional_or_initialized_pins_are_valid() {
         Assignment::new(vec![Some(99), None, None, None]),
     ] {
         assert!(matches!(
-            local_search_from(&p, &n, a, config),
+            local_search_from(&p, &n, a, config.clone()),
             Err(LocalSearchError::Scoring(ScoringError::Model(_)))
         ));
     }
@@ -150,7 +150,7 @@ fn model_errors_keep_precedence_and_optional_or_initialized_pins_are_valid() {
     ])
     .unwrap();
     let n = ConstraintNetwork::<_, SimpleScore>::new(2);
-    assert!(local_search_from(&p, &n, p.initial_assignment(), config).is_ok());
+    assert!(local_search_from(&p, &n, p.initial_assignment(), config.clone()).is_ok());
     let p = FiniteProblem::new(vec![
         Variable::new(vec![1]),
         Variable::new(vec![1])
