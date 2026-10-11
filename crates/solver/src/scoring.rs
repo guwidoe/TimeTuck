@@ -397,6 +397,14 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         next: Assignment<V>,
         refresh_all: bool,
     ) -> Result<u128, ScoringError> {
+        self.replace_retained_assignment_tracked(next, refresh_all, None)
+    }
+    pub(crate) fn replace_retained_assignment_tracked(
+        &mut self,
+        next: Assignment<V>,
+        refresh_all: bool,
+        changes: Option<&mut crate::retained_scoped_phase::ScopedChanges>,
+    ) -> Result<u128, ScoringError> {
         self.network.validate(self.problem, &next)?;
         let mut affected: Vec<usize> = if refresh_all {
             (0..self.network.constraint_count()).collect()
@@ -437,6 +445,9 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
         let score = with_structure(score, self.problem, &next);
         let work = updates.len() as u128;
+        if let Some(changes) = changes {
+            changes.record_batch(updates.iter().map(|(index, _)| *index));
+        }
         // Validation, user callbacks and checked arithmetic finish before installation.
         self.assignment = next;
         for (i, value) in updates {

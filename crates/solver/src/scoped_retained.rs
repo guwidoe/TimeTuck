@@ -156,16 +156,22 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
+                    let changes = RefCell::new(director.borrow().retained_changes());
                     let mut first_candidate = true;
                     let evaluate = |a: &Assignment<V>| -> Result<(S, u128), ScoringError> {
                         let mut director = director.borrow_mut();
-                        let work =
-                            director.replace_retained_assignment(a.clone(), first_candidate)?;
+                        let work = director.replace_retained_assignment_tracked(
+                            a.clone(),
+                            first_candidate,
+                            Some(&mut changes.borrow_mut()),
+                        )?;
                         first_candidate = false;
                         Ok((director.score(), work))
                     };
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {
-                        best_state = director.borrow().capture_retained();
+                        director
+                            .borrow()
+                            .refresh_retained(&mut best_state, &mut changes.borrow_mut());
                         notify(update);
                     };
                     let out = if matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_)) {
@@ -418,16 +424,22 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
+                    let changes = RefCell::new(director.borrow().retained_changes());
                     let mut first_candidate = true;
                     let evaluate = |a: &ListAssignment<V>| -> Result<(S, u128), ListScoringError> {
                         let mut director = director.borrow_mut();
-                        let work =
-                            director.replace_retained_assignment(a.clone(), first_candidate)?;
+                        let work = director.replace_retained_assignment_tracked(
+                            a.clone(),
+                            first_candidate,
+                            Some(&mut changes.borrow_mut()),
+                        )?;
                         first_candidate = false;
                         Ok((director.score(), work))
                     };
                     let mut best = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
-                        best_state = director.borrow().capture_retained();
+                        director
+                            .borrow()
+                            .refresh_retained(&mut best_state, &mut changes.borrow_mut());
                         notify(update);
                     };
                     let out = if matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_)) {
@@ -690,17 +702,23 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
+                    let changes = RefCell::new(director.borrow().retained_changes());
                     let mut first_candidate = true;
                     let evaluate =
                         |a: &MixedAssignment<B, L>| -> Result<(S, u128), MixedScoringError> {
                             let mut director = director.borrow_mut();
-                            let work =
-                                director.replace_retained_assignment(a.clone(), first_candidate)?;
+                            let work = director.replace_retained_assignment_tracked(
+                                a.clone(),
+                                first_candidate,
+                                Some(&mut changes.borrow_mut()),
+                            )?;
                             first_candidate = false;
                             Ok((director.score(), work))
                         };
                     let mut best = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
-                        best_state = director.borrow().capture_retained();
+                        director
+                            .borrow()
+                            .refresh_retained(&mut best_state, &mut changes.borrow_mut());
                         notify(update);
                     };
                     let out = if matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_)) {
