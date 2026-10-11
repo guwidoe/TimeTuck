@@ -888,3 +888,11 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   exact mappings, fixture subsets and substitutions appear in
   `compat/provenance.json`. The classifier and separate regression cases are
   original work; classification does not claim a solver fast-path or cycle proof.
+
+- `crates/solver/tests/environment_profile_cases.rs` adapts all nine Community
+  `EnvironmentModeUtilTest` methods and the relevant two-phase declaration layout
+  from `PlannerTestUtils.buildSolverConfig` (Apache-2.0). Native immutable metadata
+  preserves queries, defaults, overrides and exact asserted rejection diagnostics.
+  Complete mappings are in `compat/provenance.json`; runtime mode scheduling and
+  score-director lifecycle cases earn no credit. Implementation and separate
+  preparation regressions are original work.

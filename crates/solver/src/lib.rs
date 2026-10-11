@@ -1364,3 +1364,9 @@ mod candidate_snapshot;
 
 mod indexed_int_array;
 pub use indexed_int_array::{IndexArrayError, IndexedIntArray};
+
+mod environment_profile;
+pub use environment_profile::{
+    EnvironmentBindingError, EnvironmentMode, EnvironmentProfile, EnvironmentProfileError,
+    PreparedEnvironmentProfile,
+};

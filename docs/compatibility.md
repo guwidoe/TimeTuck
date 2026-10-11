@@ -6784,3 +6784,36 @@ are not translated. Java descriptors, reflection and subclass getter covariance
 are replaced by explicit typed metadata. Five original regressions cover forward
 links and resolved keys, live group reclassification, local vs mixed directions,
 wrong bindings after a general result and forbidden getter invocation.
+
+### Global and per-phase verification configuration
+
+EnvironmentProfile preserves an optional declared global mode and one optional
+mode per phase. Its default resolved global is PhaseAssert. Effective phase queries
+inherit the global mode, while override queries retain original phase indices and
+omit absent declarations or explicit restatements. Phases never promote or replace
+the global policy. Reading rejected declarations remains valid; validation and
+owned snapshot preparation are separate operations.
+
+Validation rejects a weaker phase policy and any genuine override of a
+NonReproducible global mode. Restating NonReproducible is allowed. Typed errors
+retain the failed phase and requested/global context. Queries allocate nothing;
+preparation validates the entire input before collecting the effective phase list.
+Configuration eligibility order follows the documented Community mode order;
+it does not promise that stricter modes detect a superset of corruption types.
+Reference: [Timefold solver diagnostics](https://docs.timefold.ai/timefold-solver/latest/running-timefold-solver/solver-diagnostics).
+
+Prepared profiles can bind NoAssert/PhaseAssert selection to the native phase
+score-check callback. A caller supplies independent fresh scoring including
+structural incompleteness; NoAssert skips it, PhaseAssert checks phase handoff,
+and synthetic initial-only scoring uses the global mode. Separately configured
+native safeguards remain active. Binding rejects every unsupported global/phase
+mode before returning the callback, and rejects out-of-range runtime phase indices.
+It never silently replaces step/undo/tracked diagnostics with phase diagnostics.
+
+All nine EnvironmentModeUtilTest methods now have complete query/validation
+adaptations. Original regressions cover sparse phase indices, preservation of
+declarations, prepared out-of-range queries, first-error context, unsupported
+bindings, scorer errors and selective checks in real solves through all nine
+native backends. Full mode scheduling, score-director replacement, advanced
+diagnostics and random reseeding remain pending. No factory, solver, corruption
+or determinism method gains source credit from these original runtime regressions.

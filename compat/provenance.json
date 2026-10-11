@@ -51399,6 +51399,141 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Plain genuine-value solution schema with no declarative instances yields Empty. Native typed source compilation and complete explicit per-entity supplier bindings replace descriptor reflection. EMPTY/SINGLE_DIRECTIONAL_PARENT/ARBITRARY_SINGLE_ENTITY_AT_MOST_ONE_DIRECTIONAL_PARENT_TYPE/ARBITRARY map to Empty/Directional/SingleType/General. Only classification behavior is credited, not graph acyclicity, solver fast-path selection or Java class identity. No production code used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.resolveWithoutPhasesIsTheDeclaredMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "resolveWithoutPhasesIsTheDeclaredMode",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "resolve_without_phases_is_the_declared_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve explicit FullAssert, absent phases, empty effective modes and successful validation. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.everyPhaseOverridingLeavesTheGlobalModeAlone",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "everyPhaseOverridingLeavesTheGlobalModeAlone",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "every_phase_overriding_leaves_the_global_mode_alone",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve unset global, both FullAssert phase declarations, resolved PhaseAssert global and exact two-phase effective modes; validate successfully. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.phaseWhichDoesNotOverrideUsesTheGlobalMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "phaseWhichDoesNotOverrideUsesTheGlobalMode",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "phase_which_does_not_override_uses_the_global_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve unset global and first phase, second FullAssert; exact global PhaseAssert and ordered effective PhaseAssert/FullAssert. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.differingPhaseModesLeaveTheGlobalModeAlone",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "differingPhaseModesLeaveTheGlobalModeAlone",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "differing_phase_modes_leave_the_global_mode_alone",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve global StepAssert and NonIntrusiveFullAssert/TrackedFullAssert phase declarations; assert exact global and ordered effective modes. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.phaseLessStrictThanTheGlobalModeIsRejected",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "phaseLessStrictThanTheGlobalModeIsRejected",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "phase_less_strict_than_global_is_rejected",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve global StepAssert, first absent mode, second NoAssert; require rejection with the entire tested diagnostic substring. Read both global and effective phase modes from the rejected declaration without validation exceptions. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.resolvePhasesWithTheGlobalEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "resolvePhasesWithTheGlobalEnvironmentMode",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "resolve_phases_with_the_global_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve two initially absent phase modes and empty overrides; then second FullAssert yields exactly one explicit override and exact PhaseAssert/FullAssert effective modes. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.resolvePhasesWithEmptyPhaseList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "resolvePhasesWithEmptyPhaseList",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "resolve_phases_with_empty_phase_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve absent global and empty phase list; both override-only and effective phase queries return empty. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.nonReproducibleGlobalModeAdmitsNoPhaseOverride",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "nonReproducibleGlobalModeAdmitsNoPhaseOverride",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "non_reproducible_global_admits_no_phase_override",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve global NonReproducible and second FullAssert; require rejection with the entire asserted reproducibility diagnostic substring. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
+    },
+    {
+      "id": "EnvironmentModeUtilTest.nonReproducibleGlobalModeIsValidWhileNoPhaseOverridesIt",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/EnvironmentModeUtilTest.java",
+      "upstream_test": "nonReproducibleGlobalModeIsValidWhileNoPhaseOverridesIt",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "local_test": "non_reproducible_global_valid_without_overrides",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve global NonReproducible, same explicit first phase and absent second; validate successfully and keep the exact global mode. Native immutable EnvironmentProfile and typed modes replace Java mutable SolverConfig/PhaseConfig metadata. Only complete configuration query/validation behavior is credited; runtime assertions, random reseeding, score-director replacement, full EnvironmentModeTest and factory/solver cases remain uncredited. No production implementation used."
     }
   ],
   "fixtures": [
@@ -70459,6 +70594,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt relevant declaration subset: startTime: entity, previous, previous.endTime; endTime: startTime. Explicit typed fields/roles replace annotations. Mutually exclusive fixture configurations reuse native Value/Owner types; Leader/Base remain distinct. Null and empty groups share empty native membership; stable IDs and explicit This group members preserve relevant group identity. Unread integer/date fields use i32 placeholders; suppliers and unrelated fields are not translated or executed. This fixture records provenance only and earns no method credit."
+    },
+    {
+      "id": "PlannerTestUtils.buildSolverConfig.environment_profile",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig: default construction/local-search phase declarations",
+      "local_path": "crates/solver/tests/environment_profile_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only the two-phase declaration layout with both environment-mode overrides initially absent. Solver/domain/scoring/termination fields are unrelated to the configuration utility assertions and are not adapted. Native config helper constructs two optional phase modes. No fixture or runtime solver-method credit."
     }
   ]
 }
