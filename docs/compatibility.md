@@ -6642,3 +6642,12 @@ checks and native proposal measurements are recorded in
 work/parallel-round10-evidence; its combined integration gate passed 5,962 Rust
 tests and 266 doctests, as recorded in docs/next-session.md. Native timing gains
 do not establish Java or whole-solver performance parity.
+
+
+A further verified native batch adds retained-context failure callbacks, bounded
+completion search, publication-aware list-shadow refresh, indexed membership in
+large composite list trials, and adaptive sparse notified bindings. Its combined
+check passed 5,994 Rust tests and 266 doctests. These original extensions add no
+upstream-method credit. The subsequent search/span/domain/keyed-lookup performance
+batch is integrated with focused evidence; its combined gate is tracked in
+`docs/next-session.md`. Native measurements remain distinct from stale Java comparisons.

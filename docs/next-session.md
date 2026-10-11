@@ -23542,65 +23542,76 @@ This goal turn made progress: completed round9 evidence, reviewed and integrated
 five substantive changes, started one combined round10 gate. Rewrite remains active.
 
 
-Round 10 verified; round 11 integrated and checking
---------------------------------------------------
-56425 TERMINAL0; recorder95629 TERMINAL0. Combined check: 5,962 Rust tests,
-266 doctests, 705 Rust jobs RUN/129 REUSE, 46 Python jobs REUSE. Coverage remains
-3,298/4,855 source methods (67.93%), 1,293 pending, 264 excluded, 0 failed/unverified.
-Source b475c83c644d8fd558b29c9e5c8ae4281c1d18b0040a0dc051206b56a1258a1a;
-verification 0ec70285dd85090836e19bcf8cad9bf8a7678bf6b2ae9c22b94ff82474e4aa28.
-work/parallel-round10-evidence.json records successful dashboard freshness and
-agent/integration identity checks. Java/list benchmark results remain stale.
+Round 11 verified; round 12 integrated and checking (current handoff)
+-------------------------------------------------------------------
+Previous goal turn made progress: completed round11 verification and reviewed,
+measured and integrated six more commits. Full rewrite remains active/incomplete.
+28759 TERMINAL0; recorder96385 TERMINAL0. 5,994 Rust tests and 266 doctests;
+710 Rust jobs RUN/129 REUSE;46 Python REUSE. Coverage 3,298/4,855=67.93%,
+1,293 pending, 264 excluded, 0 failed/unverified. Provenance unchanged from fa08aad.
+Source 2b3838eaa5e5a9ce428f48e5742bacb99725dde6963cf56f734944ab31d74fc2;
+Verification a93e3b1c4082be4eb29f5238e4674c542f1ecb0d8e77aa5409179241328303c8.
+work/parallel-round11-evidence.json proves agent/integration identities, successful
+verification and dashboard freshness. Java/list measurements remain visibly stale.
+Round11 implemented failure callbacks, bounded completion, publication-aware list
+shadows, indexed composite membership, and adaptive sparse binding snapshots.
 
-Round 11 reviewed and integrated; frozen Rust267a929:
--f99eb75 (cbe87c0): retained-context failure observer across 18 execution routes.
- 36 focused tests plus Clippy; preflight errors/panics do not notify. Fresh failed
- kernel resources may already have dropped; callbacks borrow retained context.
--0ea9445 (837d42e): list-shadow publication identity, O(1) unchanged currentness
- and dirty-only refresh; changed publications keep full validation/preparation.
- 33 focused tests plus Clippy. 60 native paired measurements preserve outputs:
- 8,192-value pending refresh 1.210ms -> 1.223us; cached read 1.336us -> 14.7ns.
- Structural fallback has mixed results, including 400 -> 431ns for one value.
--43f2f53 (1a5c999): bounded completion search across 18 routes, four node orders,
- two bound modes. Preserve initialized representatives/relative order and report
- CompletionExhausted, not unrestricted Optimal. 43 focused tests plus Clippy.
- Required empty domains yield no root/evaluation. No wall-clock performance claim.
--11a7ec1 (dd19eb6): adaptive transaction-local assigned-ID membership for large
- composites. 32 focused tests plus Clippy. 5,040 native samples/280 workloads
- preserve checksums/counts. 4,096 assigned/1,024 insertion leaves: public trials
- 2.52-4.74x faster, retained list/mixed 4.24-9.89x. Small/Eq-only countercases and
- host variability remain recorded; retained peak memory rises 28.8KB -> 94.4KB.
--267a929 (e0612af): adaptive sparse notified-binding snapshots, preserving flat
- polling/tiny/dense fallback and caching lazy persistent promotion per snapshot.
- 23 focused tests plus Clippy; 90 same-host paired cases preserve all checksums,
- final values and callback counts. 2,048 input/output pairs: repeated unchanged
- binding refresh 175.05 -> 9.87us (17.7x), rewired 197.26 -> 15.87us (12.4x).
- First promotion is included but amortized over 100 refreshes; retained promoted
- flat snapshots additionally hold tree metadata. Tiny unchanged bindings +76ns,
- value-only +18-25ns, dense large +5.8%; no cold/whole-solver/Java speed claim.
-All committed files match immutable focused manifests; integrated patch IDs match
-originals. Commit-message escape formatting alone was corrected for dd19eb6.
-work/parallel-round11-commits.json and work/parallel-round11-evidence contain the
-mapping and evidence. No provenance change or added source-method credit.
-28759 LIVE: stable launcher runs work/prebuild_parallel_round11.py into
-work/parallel-round11-prebuild.log, then bash scripts/check.sh into
-work/parallel-round11-final-check.log. Do not restart; main Rust/provenance frozen.
-After terminal0 run stable launcher work/record_parallel_round11.py. Recorder is
-prepared, syntax checked, not run; mapping contains all five integrated slices.
+Round12 frozen Rust ce7e005. Accepted/integrated:
+- d8f40f3 from c6fdfed: consume expanded parent for final bounded-search child.
+ 36 focused+Clippy;1,536 exact reference traces;61 actual-search workloads.
+ Owned basic/mixed times 0.593-0.845 of baseline, smaller list gains; small retained
+ list calculator+11.9% countercase. Clone/Drop counts/lifetimes intentionally change;
+ no extra frontier assignments; spare vector capacity/peak bytes not measured.
+- d071105 from 185e7648: InputOrderDepthFirst frontier policy; generation still
+ scores immediate siblings before expansion.36 focused+strictClippy,18execution
+ routes for both unrestricted/completion phases; full native traces and optima.
+- 12d0741 from af397e11: span ownership/rotations remove repeated payload clones.
+ 27 focused+Clippy;432workloads / 7,776 samples exact-match. Locally compiled generic
+ binaries hash-verified and run unchanged on idle runner-a. At4,096values/64leaves,
+ cross-row exchanges2.12-13.56x faster; same-row1.88-10.60x, relocation1.29-2.08x.
+ Example retained cross-row trial7.924ms->0.585ms,270336->8192clones,
+ peak1,966,720->1,312,896bytes. Tiny changed-path minimum0.990x; unchanged
+ cross-row relocation countercases0.915x retained. Native trials, not Java/solve.
+- aef65ee from cfdce759: opt-in indexed finite domains, Eq-only/small/crowded-hash
+ fallback, immutable shared repair metadata and ordered error precedence.
+ 35 focused+1doc+Clippy;156workloads / 4,212 samples exact-match on runner-a with
+ unchanged locally compiled binaries.32x4096domains: construction16.25-16.49x,
+ retained basic31.74-34.28x, mixed23.21-25.87x, full swap scan51.33-52.36x.
+ Default median1.004x, but32x32validation404->543ns; tiny paths+44-62ns.
+ 128-value indexed setup0.665-0.701x; constructor peak2,099,456->7,608,832bytes.
+- 3ebea0f from 5170e539: optional keyed source index;22 focused+Clippy and 60 triples.
+- ce7e005 from 32d615ea: three-line outlined lookup followup fixes diagnostic
+ register spills.7 focused and 15 paired quadruples: default diagnostics12.2-22.2%
+ faster than5170e539, indexed128/1024cases6.1%/2.2% slower. Final large indexed
+ diagnostic154.18us vs default474.19us. Pre-index527.35us is historical, not a
+ new paired comparison. Earlier full-refresh/setup timings belong only to5170e539;
+ do not relabel them current after the outline change.
+No new source-method credit. All committed files/probes match copied manifests;
+all integrated patch IDs match originals. Mapping work/parallel-round12-commits.json;
+evidence work/parallel-round12-evidence/{solver,ordering,spans,domains,keyed,keyed-outline}.
 
-Three requested Astra/high agents continue with exclusive build machines:
--dense_scoring/local: in-place span relocation/exchange removes repeated payload
- clones inside composite list trials. Production preliminarily reviewed;27focused
- tests+Clippy passed, baseline/current probes built. Paired timing held during
- parent28759 expensive prebuild; notify agent when compilation ends. Read-only
- next-scope investigation continues; do not mutate measured source/probes.
--dependency_graph/runner-c: next inspect keyed source resolution's repeated linear
- registration search and propose optional indexed lookup preserving Eq-only API,
- diagnostics, order, checkpoints and dynamic registration; awaiting scope.
--termination/runner-a: reuse consumed bounded-search parent for its last child,
- preserving node ordering/stop checks and reducing full-assignment clones.
- Production preliminarily reviewed;1,536 baseline reference traces captured,
- focused checks and61-workload actual-search measurements pending.
-Eliminated Clone/Drop calls necessarily change those instrumentation counts and
-associated lifetimes; preserve logical payloads and transactional cleanup.
-Full rewrite remains active and incomplete.
+17760 LIVE: stable launcher prebuild_parallel_round12.py ->
+work/parallel-round12-prebuild.log then bash scripts/check.sh ->
+work/parallel-round12-final-check.log. Main Rust/provenance frozen; do not restart.
+After terminal0 run stable launcher work/record_parallel_round12.py; prepared and
+syntax checked, not run. Round11 prebuild took 10m37s; quiet compilation is normal.
+After this performance batch is verified, deliberately refresh a relevant original
+Java list/k-opt comparison; do not refresh every benchmark or relabel old evidence.
+
+Three Astra/high agents continue, one implementation lane per worktree:
+- dense_scoring/local: reduce repeated suffix-range scans in tail-swap/two-opt
+ providers, preserving order/duplicates/laziness. Scope approved. Isolated-j2
+ builds permitted; hold paired local timings during17760 heavy prebuild, or arrange
+ an explicitly idle remote loan. Restore normal ownership after each loan.
+- dependency_graph/runner-c: optional indexed duplicate registration/entity groups,
+ retaining builder index into final session and preserving typed/order/panic/fixed
+ source/dynamic-program contracts. Scope approved; default Eq path unchanged.
+- termination/runner-a: shared injectable solve clock to fix real/mock phase-budget
+ mismatch. Public SolverClock is clonable Send+Sync, borrowed through optional
+ SolverExtensions.clock; per-solve high-water clamp and per-phase origins.
+ Owns time/control/adapters/provider/repair clock plumbing. Adapt complete
+ TerminationTest global-time phase/two-phase methods if all assertions preserved.
+ A previously proposed persistent global diminished window was rejected: pinned
+ specs require phase resets; no unsupported extra termination semantics added.
+runner-a is back with termination; its initial compile handle 64653 is agent-owned.
+Default clocks/metrics clock semantics and unused-clock costs must stay unchanged.
