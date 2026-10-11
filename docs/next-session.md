@@ -16,7 +16,56 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round51
+## Latest verified checkpoint — round52
+
+Main4abb090 adds an explicit Neighborhoods phase builder and real PHASE_ASSERT
+checks after completed managed phases, including the final phase and before
+PhaseCompleted hooks. The builder installs actual borrowed provider bindings at
+sequence indices; opt-in rejects explicit providers when disabled and descent
+when enabled. Native low-level providers remain independently usable. Ordered
+descent compiles actual strict first-improvement settings and preserves limits.
+Conflicting bindings fail atomically. This builder targets native basic/list
+sequences; implicit mixed-phase conversion and Java discovery/API are not claimed.
+
+Only actual PHASE_ASSERT context-check failures gain typed PhaseAssertion guidance;
+underlying errors, completed-work counts and existing failure/listener/release
+ordering survive. Final-phase corruption is checked before completion hooks.
+Core context manager and candidate loops are unchanged. Three complete attributed
+DefaultSolverTest methods retain all fixture/diagnostic assertions; seven originals
+prove real basic/list dense/stream provider results, descent, atomic failure,
+actual dense/stream post-work corruption, mode gating, counts and cleanup. Source
+pin unchanged. No new agents/assignments, browser work or benchmark reruns.
+
+Focused3+7 cases, affected21 existing regressions and strict Clippy passed.
+A preliminary prebuild was stopped to strengthen the provider control; both
+built-in controls now actually produce different solutions. Its stopped worker
+(root66ed69e5...) is not verification. Final frozen runner-a gate passed once:
+6,851 Rust tests,290 doctests;3,607/4,855 methods passed(74.295%),682pending,
+566excluded,zero failed/unverified. DefaultSolverTest83/85;two pending. Actual
+12RustRUN/976REUSE/46PythonREUSE;155.753seconds including strict checks/build.
+
+Rust source5fd792735abf986e43d5ec1e087354da4a98e1b7bbbcf2f8ccc62d74d43daa4f;
+report/verification561153dea0fadc4492d3118d8da780855f92abc27e607b865483cff88a08d40b.
+Remote root21ce9228a28650c63b80fd6dd72101f3be4bffaa9dd6838aa820c0156e553156;
+work/round52-runner-a-results.tar.gz SHA256
+c0449a9f4d9b0cb1622211f86f3cb01f343813f977b0d21db424b6e9c34b886a.
+Evidence/freeze work/parallel-round52-evidence.json,parallel-round52-freeze.json;
+remote-round52-integration-final* and collector completed. Next runner-a gate
+must seed this actual archive/root, preserving genuine keys/checksums/dates.
+Round51 Java list comparison remains current under its unchanged relevant inputs;
+other reports retain their actual freshness. No new throughput/speedup claim.
+runner-c confirmed reachable(NB-FH1MY/Rust1.92) after user kept WSL awake.
+
+Next implement genuine post-solve live problem changes through a fresh scoring
+context and restart at construction, preserving the completed best/closed old
+resource. Source full4/4 fixture and all assertions at DefaultSolverTest588–681;
+existing LiveSolverManager warm-restart/change APIs are available, but change
+callbacks do not themselves open a scoring resource. Do not claim this from
+independent solves or identity tokens. Keep custom-classloader case pending until
+its complete behavior is meaningfully supported. Other factory whole-solve and
+advanced tracked/assertion-bank integration gaps remain. Objective active/incomplete.
+
+## Prior verified checkpoint — round51
 
 Main 3da37e9 adds persistent committed-list state/index. Pin unchanged.
 
