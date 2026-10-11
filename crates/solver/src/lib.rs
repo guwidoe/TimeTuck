@@ -1376,3 +1376,6 @@ pub use acceptor_profile::{
     AcceptorKind, AcceptorProfile, AcceptorProfileError, AnnealingTemperature, PreparedAcceptors,
     TabuSettings,
 };
+
+mod timed_score_ring;
+pub use timed_score_ring::{TimedScoreRing, TimedScoreRingError, TimedScoreRingState};

@@ -905,3 +905,10 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   `compat/provenance.json`. The implementation and real-solver/boundary regressions
   are original work. Java defaults, random schedules and environment-mode
   instrumentation are not claimed.
+
+- `crates/solver/tests/timed_score_ring_cases.rs` adapts all eighteen Community
+  `DiminishedReturnsScoreRingBufferTest` methods (Apache-2.0). Physical storage,
+  cursor, growth, eviction and error assertions are retained. Native explicit
+  length/Option values replace timestamp sentinels/null. Complete mappings are in
+  `compat/provenance.json`. The ring implementation and separate reference-model,
+  ownership and boundary regressions are original work.

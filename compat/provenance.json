@@ -51654,6 +51654,276 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve signed period -1 with Step mode and constructor/preparation rejection. Immutable native profile preparation and actual Acceptance configurations replace Java factory/classes. Native history/period defaults, fixed cooling schedule and seeded PRNG are documented independent choices; no Java random, numeric default, environment-mode, multi-variable entity-key or reflection parity is claimed. Separate original real-solver tests prove manual/prepared policy equivalence and fresh state across nine native backends. No production implementation used."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testResizeBasic",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testResizeBasic",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_resize_basic",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testResizeWrapped",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testResizeWrapped",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_resize_wrapped",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPutEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPutEmpty",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_put_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPutWrapped",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPutWrapped",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_put_wrapped",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPeek",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPeek",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_peek",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPeekEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPeekEmpty",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_peek_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testClear",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testClear",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_clear",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorFull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorFull",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_full",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorEmpty",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorEmpty",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_empty",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorEqualNormal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorEqualNormal",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_equal_normal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorLessThanNormal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorLessThanNormal",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_less_than_normal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorOverflowNormal",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorOverflowNormal",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_overflow_normal",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorEqualWrapped",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorEqualWrapped",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_equal_wrapped",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorLessThanWrapped",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorLessThanWrapped",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_less_than_wrapped",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorOverflowWrapped",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorOverflowWrapped",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_overflow_wrapped",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorEqualWrappedZero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorEqualWrappedZero",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_equal_wrapped_zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorLessThanWrappedZero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorLessThanWrappedZero",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_less_than_wrapped_zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DiminishedReturnsScoreRingBufferTest.testPollLatestScoreBeforeTimeAndClearPriorOverflowWrappedZero",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/DiminishedReturnsScoreRingBufferTest.java",
+      "upstream_test": "testPollLatestScoreBeforeTimeAndClearPriorOverflowWrappedZero",
+      "local_path": "crates/solver/tests/timed_score_ring_cases.rs",
+      "local_test": "test_poll_latest_score_before_time_and_clear_prior_overflow_wrapped_zero",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
     }
   ],
   "fixtures": [

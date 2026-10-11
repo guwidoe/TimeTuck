@@ -6849,3 +6849,32 @@ prepared all-nine-policy composites in all nine real solver backends, including
 repeated profile use (27 solves), exact result/work/report equality and known
 optima. They also cover minimum-integer/positive/structural losses, zero/negative
 sizes, immutable inputs, deduplicated ordering and preserved unrelated controls.
+
+### Timestamped score ring and diminished-returns storage
+
+TimedScoreRing provides growable chronological score storage, inclusive cutoff
+queries retaining one window predecessor, physical checkpoint snapshots and validated owned
+restoration. Rust’s deque holds active samples; imported inactive slots are
+retained separately until discarded. Snapshot layout follows the ring cursors,
+independently of the deque’s internal allocation. Length distinguishes empty/full cursor coincidence;
+zero and u128::MAX are valid timestamps. Duplicate times are permitted and cutoff
+queries select the newest duplicate. Backwards insertion and malformed active
+checkpoint slots/order fail explicitly. Inactive imported payloads remain visible
+until overwritten, cleared or discarded by growth. Growth doubles capacity,
+linearizes only active entries and moves payloads without requiring Clone.
+
+The ring now backs DiminishedReturns in existing local-search and composed
+termination routes. Equal-time best changes replace the latest score; backwards
+clock observations retain the existing clamp. Eviction advances storage and
+invalidates the exact rate cache before dropping scores, preserving recovery from
+caught destructor panics. Grace/reset rules and the exact rate inequality are
+unchanged. Default policy storage starts at four slots and grows with live history;
+physical snapshots allocate only when explicitly requested.
+
+All eighteen DiminishedReturnsScoreRingBufferTest methods have complete physical
+state/operation/error adaptations and provenance. Original regressions compare
+120000 mixed operations against an independent deque, continue from restored
+snapshots, verify move-only payload retention/release and test zero/duplicate/
+maximum times, backwards input, capacity errors and invalid checkpoints. Existing
+native policy/cache and eighteen-route solver composition regressions cover runtime
+integration; they earn no new source-method credit.

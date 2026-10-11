@@ -1,6 +1,6 @@
 //! Sliding-window termination over retained best scores.
 use crate::{AdditiveScore, BigInt, Decimal, Score, ScoreLevel};
-use std::{collections::VecDeque, error::Error, fmt, time::Duration};
+use std::{error::Error, fmt, time::Duration};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DiminishedReturnsError {
@@ -122,14 +122,17 @@ struct Active<S> {
     last_time: Duration,
     baseline: S,
     reference: Option<(Decimal, Duration)>,
-    history: VecDeque<(Duration, S)>,
+    history: crate::TimedScoreRing<S>,
     // A post-grace rate comparison depends only on the retained score, window
     // predecessor and fixed reference/configuration. Time still drives eviction.
     rate_dirty: bool,
 }
 impl<S: Clone> Active<S> {
     fn new(now: Duration, score: S) -> Self {
-        let history = VecDeque::from([(now, score.clone())]);
+        let mut history = crate::TimedScoreRing::new(4).expect("small history capacity");
+        history
+            .push(now.as_nanos(), score.clone())
+            .expect("initial sample");
         Self {
             start: now,
             last_time: now,
@@ -230,10 +233,21 @@ impl<S: Score> DiminishedReturns<S> {
         if active.history.back().is_none_or(|(_, old)| best != old) {
             let value = best.clone();
             active.rate_dirty = true;
-            if active.history.back().is_some_and(|(time, _)| *time == now) {
-                active.history.pop_back();
+            if active
+                .history
+                .back()
+                .is_some_and(|(time, _)| time == now.as_nanos())
+            {
+                active
+                    .history
+                    .replace_latest_score(value)
+                    .expect("latest sample");
+            } else {
+                active
+                    .history
+                    .push_chronological(now.as_nanos(), value)
+                    .expect("monotonic score history");
             }
-            active.history.push_back((now, value));
         }
         active.last_time = now;
     }
@@ -246,10 +260,15 @@ impl<S: Score> DiminishedReturns<S> {
     fn trim(&mut self) {
         if let Some(a) = &mut self.active {
             let cutoff = a.last_time.saturating_sub(self.config.window);
-            while a.history.len() > 1 && a.history[1].0 <= cutoff {
-                a.rate_dirty = true;
-                a.history.pop_front();
-            }
+            // Mark the comparison dirty before dropping evicted score payloads;
+            // a caught destructor panic must not resurrect the old predecessor.
+            a.rate_dirty |= a
+                .history
+                .get(1)
+                .is_some_and(|(time, _)| time <= cutoff.as_nanos());
+            a.history
+                .retain_floor(cutoff.as_nanos())
+                .expect("initial sample");
         }
     }
     pub fn is_terminated(&mut self, now: Duration, best: &S) -> bool {
@@ -280,7 +299,7 @@ impl<S: Score> DiminishedReturns<S> {
             return false;
         }
         let (reference, period) = active.reference.as_ref().expect("finished grace");
-        let gain = soft_gain(best, &active.history.front().expect("initial sample").1);
+        let gain = soft_gain(best, active.history.front().expect("initial sample").1);
         let scale = |value: &Decimal, factor: BigInt| {
             Decimal::new(value.coefficient() * factor, value.scale())
         };
