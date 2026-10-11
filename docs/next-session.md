@@ -23721,3 +23721,57 @@ new tail-range unit helper used `%3==0`. Parent followup6eeb9cb replaces it with
 work/parallel-round13-initial-prebuild.log. Frozen Rust now6eeb9cb, same provenance
 c337b3c. Replacement96831 LIVE is the same prebuild/check command and logs; do not
 poll/restart10835. Recorder updated with followup identity, still NOT RUN.
+
+
+## Round13 verified and measured; round14 integration pending checks
+
+96831 and recorder85638 TERMINAL0. Frozen Rust6eeb9cb/provenancec337b3c:
+6,036 Rust tests,267doctests;721affected Rust RUN,129REUSE;46PythonREUSE.
+Source ac0cdbf93a8504fe59197772275548e4567a5aa9fa1ce856ab1c90dafa4ba917;
+verification e0584bd8ed12cfb30dc1f5b6250ec1893e71338c9cf01eebe100921c778851d8.
+Source-method coverage3,300/4,855=67.971%,1,291pending264excluded0failed/unverified.
+work/parallel-round13-evidence.json verifies final state and dashboard freshness.
+
+Release prebuild52676,Java benchmark17655,report66953,freshness recorder68415
+all TERMINAL0.320valid original cases/317equal;small optima Rust266/Java263.
+12timing workloads;equal-score ratios Java/Rust2.32-123.04x,with different search
+work where documented. Construction32 favors Java quality, both two-opt workloads
+favor Rust quality; no identical-work/trace/general-speedup claim.
+Report was current at frozen round13 state. Evidence:
+work/parallel-round13-list-{before,after,refreshed}.json and benchmark.log.
+Historical before/after Rust times are unpaired. Later changes must respect
+normal freshness; do not rerun this measurement merely because a new batch exists.
+
+Next reviewed commits integrated (combined gate pending), recorded in
+work/parallel-round14-reviewed.json:
+- 3a91b8e fromf8813c71 indexed pillar grouping: direct default loops; index after256rows and
+64groups,collision-chain cap8.19focused+Clippy;8,640samples/320workloads match.
+Defaultmedian0.999x;largeindexeduniqueopening18.2-37.4x,retained5.46-10.71x.
+Collision/single/repeated-group countercases retained;4096unique peak163848->466984B.
+6commitfiles/39artifacts copied and checked in parallel-round14-evidence/pillars.
+- 671d066 fromcc048c1 phase-local composed stopping conditions across18routes. Separate
+origins,counts,best,stagnation,latch; phase expiry continues plan,global precedence
+retained. Counter-free rebuild polling hook covers real-clock time expressions.
+87focused including54route scenarios/108phase invocations,Clippy pass.
+19commitfiles/11artifacts copied/checked in parallel-round14-evidence/phase.
+- d4c7b38 from6e58cc6 component-local activity replay.31distinctfocusedtests;17changed-path
+and5inline-only reruns,Clippy pass. Four complete filtered-activity method
+adaptations parent-reviewed; copied provenance-additions.json is immutable.
+Original runner-c pre-inline16component gains29-31.8x;short default+14-16% preserved.
+Longer runner-a default followup final-0.90%seq/+0.39%batch; not proof runner-c-specific
+regression resolved.5commitfiles/28artifacts copied/checked in
+parallel-round14-evidence/activity. No other new source-method credit.
+
+User is bringing runner-c back online; last bounded SSH observations timed out.
+Agent-owned runner-c43636 unresolved, last log Compiling timetuck; no duplicate restart.
+runner-a released termination->dependency_graph->dense_scoring, now dense-owned.
+Local timing hold released; termination owns local focused build. All agents Astra/high:
+dense implements journal-based structural incompleteness deltas (39focused+Clippy
+passed onrunner-a; first2,304samples/128workloads match; threshold refinement
+for medium-model HashSet regressions and final measurements pending), production reviewed.
+termination implements state-aware queued live changes borrowing previous
+completed LiveSolution, explicitly not interim best; no R clone/rescore.
+dependency_graph implements lease-retirement queue/free-slot indexing for dynamic
+shadow program churn; no builds yet. Existing evidence
+copied before any work-file reset. Main next combined gate only after Java
+measurement and next coherent integration. Goal remains active/incomplete.

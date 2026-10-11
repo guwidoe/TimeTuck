@@ -6660,3 +6660,21 @@ replace wall sleeps while preserving asynchronous not-done checks, the 1001ms an
 are attributed separately. Their combined verification status is in the handoff.
 Indexed shadow construction, reduced tail-range scans and live reconstruction
 move quotas are original native changes and add no source-method credit.
+
+
+PhaseTerminationBinding now scopes composed time, count, stagnation and scored
+conditions to individual plan phases across all 18 native solver routes. Phase
+expiry permits the next phase; independent global limits retain precedence.
+Invalid bindings fail before callbacks. Reconstruction polls enabled conditions
+even without optional counters or injected clocks. Original focused tests add no
+source-method credit; combined verification is tracked in the handoff.
+
+Opt-in stream activity pruning now rebuilds only connected physical-edge
+components whose activity changes, retaining unrelated caches and pending events.
+The activity-plan scan remains global. Four complete filtered-source activity
+methods preserve the distinction between retained facts and actual filter output,
+with native activity propagation replacing Java mock interactions as recorded in
+provenance. Indexed models also use adaptive hashed pillar grouping for larger
+inputs, preserving encounter order and the direct default path. Focused native
+measurements and countercases are retained under work/parallel-round14-evidence;
+no whole-solver or Java speedup is attributed to these changes.

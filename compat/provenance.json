@@ -49614,6 +49614,66 @@
       "upstream_test": "globalTimeSpentTerminationAtPhaseLevelTwoPhases",
       "local_test": "global_time_spent_termination_at_phase_level_two_phases",
       "modifications": "Adapt complete two-value/two-entity initially unassigned fixture, construction then local phase(s), global/local 1s/2s budgets, asynchronous not-done assertions, 1001ms advance and (for two phases) second 1000ms advance, eventual successful non-null result. Native shared SolverClock replaces MockClock; explicit actual-local-step channel barriers replace start counter and wall sleeps while retaining every completion/non-completion assertion. Native HillClimbing with change/swap ensures ongoing local search instead of relying on Java default algorithm. Worker joined after result; bounded channel waits prevent a hung test. Add exact native phase/global termination assertions and nonzero epoch rebasing. No Java step-trace parity claimed."
+    },
+    {
+      "id": "ForEachFilteredUniNodeActivityTest.staysActiveWhenFactStopsPassingFilterBeforeActivationCheck",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachFilteredUniNodeActivityTest.java",
+      "upstream_test": "staysActiveWhenFactStopsPassingFilterBeforeActivationCheck",
+      "local_path": "crates/solver/tests/filtered_activity_cases.rs",
+      "local_test": "stays_active_when_fact_stops_passing_filter_before_activation_check",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapted the complete operation sequence and both assertions to a native source/filter/map/score graph. Stable fact ID A and immutable bool payload represent membership in the upstream mutable passing set. Node activity is inspected on the filtered port; downstream can_produce verifies the forwarded structural capability instead of Mockito invocation. Native transactions settle updates immediately; final activity assertions retain the upstream distinction between retained source facts and filter output. No Java lifecycle API or class parity claimed."
+    },
+    {
+      "id": "ForEachFilteredUniNodeActivityTest.deactivatesWhenAllFactsRetractedAfterFilterTransition",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachFilteredUniNodeActivityTest.java",
+      "upstream_test": "deactivatesWhenAllFactsRetractedAfterFilterTransition",
+      "local_path": "crates/solver/tests/filtered_activity_cases.rs",
+      "local_test": "deactivates_when_all_facts_retracted_after_filter_transition",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapted the complete operation sequence and both assertions to a native source/filter/map/score graph. Stable fact ID A and immutable bool payload represent membership in the upstream mutable passing set. Node activity is inspected on the filtered port; downstream can_produce verifies the forwarded structural capability instead of Mockito invocation. Native transactions settle updates immediately; final activity assertions retain the upstream distinction between retained source facts and filter output. No Java lifecycle API or class parity claimed."
+    },
+    {
+      "id": "ForEachFilteredUniNodeActivityTest.staysActiveWhenFactNeverPassedFilter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachFilteredUniNodeActivityTest.java",
+      "upstream_test": "staysActiveWhenFactNeverPassedFilter",
+      "local_path": "crates/solver/tests/filtered_activity_cases.rs",
+      "local_test": "stays_active_when_fact_never_passed_filter",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapted the complete operation sequence and both assertions to a native source/filter/map/score graph. Stable fact ID A and immutable bool payload represent membership in the upstream mutable passing set. Node activity is inspected on the filtered port; downstream can_produce verifies the forwarded structural capability instead of Mockito invocation. Native transactions settle updates immediately; final activity assertions retain the upstream distinction between retained source facts and filter output. No Java lifecycle API or class parity claimed."
+    },
+    {
+      "id": "ForEachFilteredUniNodeActivityTest.inactiveWhenNoFactsInserted",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/uni/ForEachFilteredUniNodeActivityTest.java",
+      "upstream_test": "inactiveWhenNoFactsInserted",
+      "local_path": "crates/solver/tests/filtered_activity_cases.rs",
+      "local_test": "inactive_when_no_facts_inserted",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapted the complete operation sequence and both assertions to a native source/filter/map/score graph. Stable fact ID A and immutable bool payload represent membership in the upstream mutable passing set. Node activity is inspected on the filtered port; downstream can_produce verifies the forwarded structural capability instead of Mockito invocation. Native transactions settle updates immediately; final activity assertions retain the upstream distinction between retained source facts and filter output. No Java lifecycle API or class parity claimed."
     }
   ],
   "fixtures": [
