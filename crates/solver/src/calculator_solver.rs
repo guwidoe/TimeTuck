@@ -148,7 +148,7 @@ fn solve_calculator_impl<
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(&c.phases, p)?;
+    validate_phase_models(&c.phases, p)?;
     validate_basic_phase_neighborhoods(
         p,
         &c.phases,
@@ -253,6 +253,7 @@ fn solve_calculator_impl<
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| {
@@ -630,7 +631,7 @@ fn solve_list_calculator_impl<
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(&c.phases, p)?;
+    validate_phase_models(&c.phases, p)?;
     validate_list_phase_neighborhoods(
         p,
         &c.phases,
@@ -737,6 +738,7 @@ fn solve_list_calculator_impl<
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| {
@@ -1138,7 +1140,7 @@ fn solve_mixed_calculator_impl<
         }
     };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
-    validate_repair_candidates(&phases, p)?;
+    validate_phase_models(&phases, p)?;
     validate_basic_phase_neighborhoods(
         p.basic(),
         &phases,
@@ -1237,6 +1239,7 @@ fn solve_mixed_calculator_impl<
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| {

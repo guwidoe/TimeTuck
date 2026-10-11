@@ -32,12 +32,14 @@ pub(crate) trait BranchTree {
 pub(crate) struct BasicTree<'a, V> {
     problem: &'a FiniteProblem<V>,
     remaining: Vec<usize>,
+    value_order: Option<&'a [Vec<usize>]>,
 }
 impl<'a, V: Eq + Clone> BasicTree<'a, V> {
     pub(crate) fn new(problem: &'a FiniteProblem<V>) -> (Self, Option<Assignment<V>>) {
         let mut tree = Self {
             problem,
             remaining: Vec::new(),
+            value_order: None,
         };
         if problem.search_space_size() == Some(0) {
             return (tree, None);
@@ -56,7 +58,7 @@ impl<'a, V: Eq + Clone> BasicTree<'a, V> {
     }
     /// The caller has validated the phase handoff. Assigned representatives are
     /// preserved verbatim, including payloads whose equality is identity-only.
-    pub(crate) fn for_phase(
+    fn for_phase_unordered(
         problem: &'a FiniteProblem<V>,
         initial: Option<&Assignment<V>>,
     ) -> (Self, Option<Assignment<V>>) {
@@ -68,6 +70,7 @@ impl<'a, V: Eq + Clone> BasicTree<'a, V> {
                 Self {
                     problem,
                     remaining: Vec::new(),
+                    value_order: None,
                 },
                 None,
             );
@@ -78,7 +81,29 @@ impl<'a, V: Eq + Clone> BasicTree<'a, V> {
             .enumerate()
             .filter_map(|(i, v)| (!v.is_pinned() && initial.values()[i].is_none()).then_some(i))
             .collect();
-        (Self { problem, remaining }, Some(initial.clone()))
+        (
+            Self {
+                problem,
+                remaining,
+                value_order: None,
+            },
+            Some(initial.clone()),
+        )
+    }
+    pub(crate) fn for_phase(
+        problem: &'a FiniteProblem<V>,
+        initial: Option<&Assignment<V>>,
+        order: Option<&'a crate::BranchOrder>,
+    ) -> (Self, Option<Assignment<V>>) {
+        let (mut tree, root) = Self::for_phase_unordered(problem, initial);
+        if let Some(order) = order {
+            crate::branch_order::reorder_remaining(
+                &mut tree.remaining,
+                order.basic_variables.as_deref(),
+            );
+            tree.value_order = order.basic_values.as_deref();
+        }
+        (tree, root)
     }
     pub(crate) fn remaining(&self) -> &[usize] {
         &self.remaining
@@ -103,6 +128,11 @@ impl<V: Eq + Clone> BranchTree for BasicTree<'_, V> {
     }
     fn child_owned(&self, mut child: Assignment<V>, depth: usize, choice: usize) -> Assignment<V> {
         let variable = self.remaining[depth];
+        let choice = self
+            .value_order
+            .and_then(|rows| rows[variable].get(choice))
+            .copied()
+            .unwrap_or(choice);
         child.values[variable] = self.problem.variables()[variable]
             .domain()
             .get(choice)
@@ -114,6 +144,7 @@ impl<V: Eq + Clone> BranchTree for BasicTree<'_, V> {
 pub(crate) struct ListTree<'a, V> {
     problem: &'a ListProblem<V>,
     remaining: Vec<usize>,
+    entity_order: Option<&'a [usize]>,
 }
 impl<'a, V: Eq + Clone> ListTree<'a, V> {
     pub(crate) fn new(problem: &'a ListProblem<V>) -> (Self, Option<ListAssignment<V>>) {
@@ -132,7 +163,7 @@ impl<'a, V: Eq + Clone> ListTree<'a, V> {
         );
         Self::from_root(problem, root)
     }
-    pub(crate) fn for_phase(
+    fn for_phase_unordered(
         problem: &'a ListProblem<V>,
         initial: Option<&ListAssignment<V>>,
     ) -> (Self, Option<ListAssignment<V>>) {
@@ -148,6 +179,7 @@ impl<'a, V: Eq + Clone> ListTree<'a, V> {
         let mut tree = Self {
             problem,
             remaining: Vec::new(),
+            entity_order: None,
         };
         if !problem.can_complete(&root)
             || (problem.dependencies.is_some() && problem.validate(&root).is_err())
@@ -161,6 +193,21 @@ impl<'a, V: Eq + Clone> ListTree<'a, V> {
             .filter_map(|(i, v)| root.location(v).is_none().then_some(i))
             .collect();
         (tree, Some(root))
+    }
+    pub(crate) fn for_phase(
+        problem: &'a ListProblem<V>,
+        initial: Option<&ListAssignment<V>>,
+        order: Option<&'a crate::BranchOrder>,
+    ) -> (Self, Option<ListAssignment<V>>) {
+        let (mut tree, root) = Self::for_phase_unordered(problem, initial);
+        if let Some(order) = order {
+            crate::branch_order::reorder_remaining(
+                &mut tree.remaining,
+                order.list_values.as_deref(),
+            );
+            tree.entity_order = order.list_entities.as_deref();
+        }
+        (tree, root)
     }
     pub(crate) fn remaining(&self) -> &[usize] {
         &self.remaining
@@ -178,7 +225,7 @@ impl<V: Eq + Clone> BranchTree for ListTree<'_, V> {
         depth: usize,
     ) -> impl ExactSizeIterator<Item = Self::Choice> + 'b {
         let value = &self.problem.values()[self.remaining[depth]];
-        let choices = InsertionChoices::new(self.problem, a, value);
+        let choices = InsertionChoices::new(self.problem, a, value, self.entity_order);
         if let Some(graph) = &self.problem.dependencies {
             // Parents are validated and choices already enforce ranges and pins.
             // Resolve stable identities once; testing insertion topology requires
@@ -283,12 +330,12 @@ impl<'a, B: Eq + Clone, L: Eq + Clone> MixedTree<'a, B, L> {
     pub(crate) fn for_phase(
         problem: &'a MixedProblem<B, L>,
         initial: Option<&MixedAssignment<B, L>>,
+        order: Option<&'a crate::BranchOrder>,
     ) -> (Self, Option<MixedAssignment<B, L>>) {
-        let Some(initial) = initial else {
-            return Self::new(problem);
-        };
-        let (basic, b) = BasicTree::for_phase(problem.basic(), Some(initial.basic()));
-        let (lists, l) = ListTree::for_phase(problem.lists(), Some(initial.lists()));
+        let (basic, b) =
+            BasicTree::for_phase(problem.basic(), initial.map(MixedAssignment::basic), order);
+        let (lists, l) =
+            ListTree::for_phase(problem.lists(), initial.map(MixedAssignment::lists), order);
         (
             Self { basic, lists },
             b.zip(l).map(|(b, l)| MixedAssignment::new(b, l)),
@@ -382,6 +429,7 @@ impl<T, A: ExactSizeIterator<Item = T>, B: ExactSizeIterator<Item = T>> ExactSiz
 // The number of insertion slots is known without storing each coordinate. Visit
 // eligible rows and positions in exactly the old entity/index order, then omission.
 struct InsertionChoices<'a, V> {
+    entity_order: Option<&'a [usize]>,
     problem: &'a ListProblem<V>,
     assignment: &'a ListAssignment<V>,
     value: &'a V,
@@ -391,7 +439,12 @@ struct InsertionChoices<'a, V> {
     remaining: usize,
 }
 impl<'a, V: Eq + Clone> InsertionChoices<'a, V> {
-    fn new(problem: &'a ListProblem<V>, assignment: &'a ListAssignment<V>, value: &'a V) -> Self {
+    fn new(
+        problem: &'a ListProblem<V>,
+        assignment: &'a ListAssignment<V>,
+        value: &'a V,
+        entity_order: Option<&'a [usize]>,
+    ) -> Self {
         let optional = problem.allows_unassigned();
         let remaining = problem
             .entities()
@@ -402,6 +455,7 @@ impl<'a, V: Eq + Clone> InsertionChoices<'a, V> {
             .sum::<usize>()
             + usize::from(optional);
         Self {
+            entity_order,
             problem,
             assignment,
             value,
@@ -418,20 +472,21 @@ impl<V: Eq + Clone> Iterator for InsertionChoices<'_, V> {
         if self.remaining == 0 {
             return None;
         }
-        while let Some(meta) = self.problem.entities().get(self.entity) {
+        while self.entity < self.problem.entities().len() {
+            let entity = self
+                .entity_order
+                .map_or(self.entity, |order| order[self.entity]);
+            let meta = &self.problem.entities()[entity];
             if self.index.is_none() {
-                if meta.is_pinned() || !self.problem.accepts(self.entity, self.value) {
+                if meta.is_pinned() || !self.problem.accepts(entity, self.value) {
                     self.entity += 1;
                     continue;
                 }
                 self.index = Some(meta.pinned_prefix());
             }
             let index = self.index.unwrap();
-            let position = ListPosition {
-                entity: self.entity,
-                index,
-            };
-            if index == self.assignment.lists()[self.entity].len() {
+            let position = ListPosition { entity, index };
+            if index == self.assignment.lists()[entity].len() {
                 self.entity += 1;
                 self.index = None;
             } else {
@@ -494,7 +549,7 @@ mod choice_tests {
         .unwrap();
         let (tree, _) = ListTree::new(&p);
         let a = p.initial_assignment();
-        let proposals: Vec<_> = InsertionChoices::new(&p, &a, &p.values()[8]).collect();
+        let proposals: Vec<_> = InsertionChoices::new(&p, &a, &p.values()[8], None).collect();
         let expected: Vec<_> = proposals
             .iter()
             .copied()
@@ -545,7 +600,7 @@ mod choice_tests {
             if optional {
                 expected.push(None);
             }
-            let mut cursor = InsertionChoices::new(&p, &a, &3);
+            let mut cursor = InsertionChoices::new(&p, &a, &3, None);
             for (i, item) in expected.iter().enumerate() {
                 assert_eq!(cursor.len(), expected.len() - i);
                 assert_eq!(

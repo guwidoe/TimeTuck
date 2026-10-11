@@ -249,6 +249,10 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    InvalidBranchOrder {
+        phase: usize,
+        error: crate::BranchOrderError,
+    },
     InvalidPhaseTermination {
         phase: usize,
     },
@@ -327,6 +331,7 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidBranchOrder { phase, error } => write!(f, "phase {phase}: {error}"),
             Self::InvalidPhaseTermination { phase } => {
                 write!(f, "termination targets missing phase {phase}")
             }
@@ -392,6 +397,7 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::InitialScoring { error } => Some(error),
             Self::InvalidAcceptance { error, .. } => Some(error),
             Self::InvalidScoreTrend { error, .. } => Some(error),
+            Self::InvalidBranchOrder { error, .. } => Some(error),
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
             Self::Repair { error, .. } => Some(error),
@@ -2184,7 +2190,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(&c.phases, p)?;
+    validate_phase_models(&c.phases, p)?;
     validate_basic_phase_neighborhoods(
         p,
         &c.phases,
@@ -2287,6 +2293,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| {
@@ -2406,11 +2413,22 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         },
     )
 }
-fn validate_repair_candidates<P: crate::ruin_engine::RepairModel, S, E>(
+fn validate_phase_models<
+    P: crate::ruin_engine::RepairModel + crate::branch_order::OrderedBranchModel,
+    S,
+    E,
+>(
     phases: &[SolverPhase<'_, S>],
     problem: &P,
 ) -> Result<(), SolverError<E>> {
     for (phase, p) in phases.iter().enumerate() {
+        if let SolverPhase::Exact(c) = p
+            && let Some(order) = c.strategy.branch_order()
+        {
+            problem
+                .validate_branch_order(order)
+                .map_err(|error| SolverError::InvalidBranchOrder { phase, error })?;
+        }
         if let SolverPhase::RuinRecreate(c) = p {
             c.validate_candidates(problem.candidate_count())
                 .map_err(|error| SolverError::Repair { phase, error })?;
@@ -2532,7 +2550,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(&c.phases, p)?;
+    validate_phase_models(&c.phases, p)?;
     validate_list_phase_neighborhoods(
         p,
         &c.phases,
@@ -2637,6 +2655,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| {
@@ -2843,7 +2862,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
         }
     };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
-    validate_repair_candidates(&phases, p)?;
+    validate_phase_models(&phases, p)?;
     validate_basic_phase_neighborhoods(
         p.basic(),
         &phases,
@@ -2940,6 +2959,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| {
@@ -3146,7 +3166,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(&c.phases, p)?;
+    validate_phase_models(&c.phases, p)?;
     validate_basic_phase_neighborhoods(
         p,
         &c.phases,
@@ -3260,6 +3280,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| exact::score_basic(p, &mut g, &s, a),
@@ -3462,7 +3483,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(&c.phases, p)?;
+    validate_phase_models(&c.phases, p)?;
     validate_list_phase_neighborhoods(
         p,
         &c.phases,
@@ -3576,6 +3597,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| exact::score_list(p, &mut g, &s, a),
@@ -3820,7 +3842,7 @@ fn solve_mixed_stream_impl<
         }
     };
     let phases: Vec<_> = c.phases.iter().map(MixedSolverPhase::common).collect();
-    validate_repair_candidates(&phases, p)?;
+    validate_phase_models(&phases, p)?;
     validate_basic_phase_neighborhoods(
         p.basic(),
         &phases,
@@ -3927,6 +3949,7 @@ fn solve_mixed_stream_impl<
                                 .strategy
                                 .is_completion()
                                 .then(|| a.as_ref().expect("phase entry")),
+                            config.strategy.branch_order(),
                         )
                     },
                     |a| exact::score_mixed(p, &mut g, &s, a),

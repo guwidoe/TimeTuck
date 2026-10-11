@@ -23,7 +23,7 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(phases, p)?;
+    validate_phase_models(phases, p)?;
     validate_basic_phase_neighborhoods(
         p,
         phases,
@@ -158,7 +158,8 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                     }
                     Ok(custom_output(r))
                 }
-                PhaseRequest::Exact(config, prior) => {
+                PhaseRequest::Exact(mut config, prior) => {
+                    let branch_order = config.strategy.take_branch_order();
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
@@ -190,6 +191,7 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                                 crate::branch_tree::BasicTree::for_phase(
                                     p,
                                     completion.then_some(&initial),
+                                    branch_order.as_deref(),
                                 )
                             },
                             evaluate,
@@ -302,7 +304,7 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(phases, p)?;
+    validate_phase_models(phases, p)?;
     validate_list_phase_neighborhoods(
         p,
         phases,
@@ -437,7 +439,8 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                     }
                     Ok(custom_output(r))
                 }
-                PhaseRequest::Exact(config, prior) => {
+                PhaseRequest::Exact(mut config, prior) => {
+                    let branch_order = config.strategy.take_branch_order();
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
@@ -469,6 +472,7 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                                 crate::branch_tree::ListTree::for_phase(
                                     p,
                                     completion.then_some(&initial),
+                                    branch_order.as_deref(),
                                 )
                             },
                             evaluate,
@@ -573,7 +577,7 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     {
         return Err(SolverError::UnboundCustomPhase { phase });
     }
-    validate_repair_candidates(&phases, p)?;
+    validate_phase_models(&phases, p)?;
     validate_basic_phase_neighborhoods(
         p.basic(),
         &phases,
@@ -726,7 +730,8 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                     }
                     Ok(custom_output(r))
                 }
-                PhaseRequest::Exact(config, prior) => {
+                PhaseRequest::Exact(mut config, prior) => {
+                    let branch_order = config.strategy.take_branch_order();
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
@@ -759,6 +764,7 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                                 crate::branch_tree::MixedTree::for_phase(
                                     p,
                                     completion.then_some(&initial),
+                                    branch_order.as_deref(),
                                 )
                             },
                             evaluate,

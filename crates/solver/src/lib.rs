@@ -429,6 +429,8 @@ pub use tabu_size::TabuSize;
 mod score_history;
 pub use score_history::ScoreHistory;
 
+mod branch_order;
+pub use branch_order::{BranchOrder, BranchOrderDimension, BranchOrderError};
 mod branch_and_bound;
 mod branch_tree;
 mod list_branch_and_bound;

@@ -71,7 +71,8 @@ fn run<S: AdditiveScore + 'static>(
                     panic!("fixture has no provider bindings")
                 }
                 Err(
-                    SolverError::InvalidPhaseTermination { .. }
+                    SolverError::InvalidBranchOrder { .. }
+                    | SolverError::InvalidPhaseTermination { .. }
                     | SolverError::DuplicatePhaseTermination { .. },
                 ) => {
                     panic!("fixture has no phase termination bindings")

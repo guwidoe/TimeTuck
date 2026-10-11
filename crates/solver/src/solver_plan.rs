@@ -45,6 +45,8 @@ pub enum PartialScoreBound {
 /// ```
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct BoundedPhaseConfig {
+    /// Validated model-index priorities, independent of frontier exploration.
+    pub order: Option<std::sync::Arc<BranchOrder>>,
     pub exploration: NodeExploration,
     pub max_frontier: usize,
     pub bound: PartialScoreBound,
@@ -52,6 +54,7 @@ pub struct BoundedPhaseConfig {
 impl Default for BoundedPhaseConfig {
     fn default() -> Self {
         Self {
+            order: None,
             exploration: NodeExploration::DepthFirst,
             max_frontier: 10_000,
             bound: PartialScoreBound::Unknown,
@@ -77,6 +80,18 @@ pub enum ExactSearchStrategy {
     CompleteBranchAndBound(BoundedPhaseConfig),
 }
 impl ExactSearchStrategy {
+    pub(crate) fn take_branch_order(&mut self) -> Option<std::sync::Arc<BranchOrder>> {
+        match self {
+            Self::BranchAndBound(c) | Self::CompleteBranchAndBound(c) => c.order.take(),
+            _ => None,
+        }
+    }
+    pub(crate) fn branch_order(&self) -> Option<&BranchOrder> {
+        match self {
+            Self::BranchAndBound(c) | Self::CompleteBranchAndBound(c) => c.order.as_deref(),
+            _ => None,
+        }
+    }
     pub(crate) fn is_bounded(&self) -> bool {
         matches!(
             self,
