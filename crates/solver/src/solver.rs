@@ -728,11 +728,20 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     }
     fn observe_construction_score(&mut self, score: &S) {
         if score.structural() >= 0 {
+            if let Some(session) = &mut self.stateful_condition {
+                session.observe_initialized_score(score);
+            }
+            if let Some(phase) = &mut self.phase_condition {
+                phase.observe_initialized_score(score);
+            }
             self.condition_reached_with_score(Some(score));
             self.phase_reached(Some(score), 0);
         }
     }
     fn observe_goal_score(&mut self, score: &S) {
+        if let Some(session) = &mut self.stateful_condition {
+            session.observe_initialized_score(score);
+        }
         if let Some(phase) = &mut self.phase_condition {
             phase.observe_best(score);
         }

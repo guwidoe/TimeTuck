@@ -89,30 +89,39 @@ impl<S: Score> ScoreTargetProgress<S> {
         if start.structural() < 0 {
             return Err(ScoreProgressError::FlawedStart);
         }
-        if target.structural() < 0 {
-            return Err(ScoreProgressError::FlawedTarget);
-        }
-        weights(start.ordinary_levels().count(), &splits)?;
+        Self::validate_target(&target, &splits)?;
         Ok(Self {
             start,
             target,
             splits,
         })
     }
+    pub(crate) fn validate_target(target: &S, splits: &[f64]) -> Result<(), ScoreProgressError> {
+        if target.structural() < 0 {
+            return Err(ScoreProgressError::FlawedTarget);
+        }
+        weights(target.ordinary_levels().count(), splits)
+    }
     pub fn is_reached(&self, best: S) -> bool {
-        best.structural() >= 0 && best >= self.target
+        self.is_reached_ref(&best)
+    }
+    pub(crate) fn is_reached_ref(&self, best: &S) -> bool {
+        best.structural() >= 0 && best >= &self.target
     }
     /// The exact target check wins, then lexicographic regression below the start
     /// gives zero. Other scores use capped per-level fractions. For a flat or
     /// reversed level interval, its share is earned iff that level meets target.
     pub fn progress(&self, best: S) -> f64 {
+        self.progress_ref(&best)
+    }
+    pub(crate) fn progress_ref(&self, best: &S) -> f64 {
         if best.structural() < 0 {
             return 0.0;
         }
-        if best >= self.target {
+        if best >= &self.target {
             return 1.0;
         }
-        if best < self.start {
+        if best < &self.start {
             return 0.0;
         }
         weighted(
@@ -145,9 +154,15 @@ impl<S: Score> FeasibilityProgress<S> {
         Ok(Self { start, splits })
     }
     pub fn is_reached(&self, best: S) -> bool {
+        self.is_reached_ref(&best)
+    }
+    pub(crate) fn is_reached_ref(&self, best: &S) -> bool {
         best.is_feasible()
     }
     pub fn progress(&self, best: S) -> f64 {
+        self.progress_ref(&best)
+    }
+    pub(crate) fn progress_ref(&self, best: &S) -> f64 {
         if best.structural() < 0 {
             return 0.0;
         }

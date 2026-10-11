@@ -511,6 +511,8 @@ pub use list_path_reconnection::ListPathEndpoint;
 mod list_k_opt_repartition;
 pub use list_k_opt_repartition::sample_list_k_opt_repartitions;
 
+mod goal_progress;
+pub use goal_progress::ScoreGoalProgressConfig;
 mod stateful_termination;
 pub use stateful_termination::{
     StatefulSearchLimit, StatefulSearchTermination, StatefulTerminationError,

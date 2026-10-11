@@ -106,10 +106,14 @@ impl<'a, S: Score> PhaseControl<'a, S> {
         moves: MoveEvaluationCounts,
         best: Option<&S>,
     ) -> Self {
+        let mut stateful = binding.stateful.map(crate::StatefulTerminationSession::new);
+        if let (Some(session), Some(score)) = (&mut stateful, best) {
+            session.observe_initialized_score(score);
+        }
         Self {
             binding,
             origin,
-            stateful: binding.stateful.map(crate::StatefulTerminationSession::new),
+            stateful,
             scores,
             moves,
             steps: StepProgress::default(),
@@ -138,7 +142,13 @@ impl<'a, S: Score> PhaseControl<'a, S> {
             session.observe_best(now.saturating_sub(self.origin), score);
         }
     }
+    pub(crate) fn observe_initialized_score(&mut self, score: &S) {
+        if let Some(session) = &mut self.stateful {
+            session.observe_initialized_score(score);
+        }
+    }
     pub(crate) fn observe_best(&mut self, score: &S) {
+        self.observe_initialized_score(score);
         if self.binding.needs_best()
             && score.structural() >= 0
             && self.best.as_ref().is_none_or(|best| score > best)
