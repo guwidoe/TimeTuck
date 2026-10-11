@@ -16,71 +16,84 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round36
+## Latest verified checkpoint — round37
 
-Main 0a87b48 adds TimedScoreRing and connects it to diminished-returns history.
-It supports inclusive window-predecessor eviction, cursor/slot checkpoints,
-validated restoration, wrapped growth, explicit full/empty lengths and zero/
-duplicate/u128::MAX timestamps. Backwards insertions are rejected. Runtime active
-samples use Rust's deque; imported inactive slots are retained separately and
-checkpoint layout is materialized on demand. Growth moves scores without Clone.
+Main df0da15 integrates generic clocks and custom structural routing. Public
+TimedScoreRing defaults to u128; diminished returns keeps Duration directly and
+skips predecessor pruning when nothing can be removed. Saved measured clock
+candidate code is unchanged apart from formatting/documentation. Two original
+clock/checkpoint regressions plus existing eighteen source ring methods, policy,
+cache, panic-recovery and solver composition cases passed. No additional clock
+source-method credit.
 
-All eighteen DiminishedReturnsScoreRingBufferTest methods retain all 101 source
-assertions, with complete provenance. Four original regressions check 120000
-mixed operations against an independent deque, restored snapshots, move-only
-payload release, extreme times, capacity failures and malformed states. Actual
-termination retains same-time replacement, backwards-clock clamping, grace/reset,
-exact rate arithmetic and pre-drop cache invalidation on panicking evicted scores.
-Forty-eight focused tests passed on the earlier slot-backed draft. The final gate
-verified the final deque-backed implementation and its native runtime integration.
-An initial wrong target name and test inference errors were fixed; failed logs
-remain available. Do not repeat these checks without changed relevant inputs.
+CustomPhaseContext::evaluate_structured selects exactly one handler using the
+applied trial's structural score. evaluate_structured_with_score independently
+recomputes the same candidate without replay; disagreement/errors invalidate the
+phase. Both operations always roll back temporary state/best. Full scoring consumes
+an additional actual score evaluation; both phase-local slots must fit before
+starting. Shared composed conditions remain cooperative. Native domain/pin/
+dependency validation errors remain errors, distinct from a negative structural
+score. Four complete DefaultPhaseCommandContextTest adaptations preserve exact
+strings, selected/unused-handler counts, one applied move and one/two calculations.
+Provenance records native required-value structure replacing mocked fullyAssigned
+InnerScore wrappers; no Java initialized-state metadata parity is claimed.
 
-Final runner-c gate 11740 and collector 38548 both finished successfully:
+Original regressions cover 36 fresh/retained solves across all nine backends
+(72 routed operations), scorer mismatches/errors/panics, caught handler panics,
+rollback, unused rescores and local/shared evaluation limits. Focused clock,
+source and route checks passed. Development closure-mutability and incomplete-
+construction expectation errors were fixed. Initial broad Clippy compilation found
+an exhaustive old test helper needing ScoreMismatch; fixed before the final run.
+Failure logs remain under work/remote-round37-* and
+work/parallel-round37-initial-clippy-failure.log. No failure remains unresolved.
 
-- 6,580 Rust tests and 282 doctests.
-- 3,454/4,855 source methods passing (71.143%); 835 pending,
-  566 excluded, zero failed/unverified. Backlog 853→835; exclusions unchanged.
-- 846 Rust jobs ran because shared termination inputs changed; 105 Rust and
-  46 Python jobs reused unchanged runner-c evidence. Strict format/Clippy passed.
-- Source `b514316d5a2ed116259a36adb77cf4fee8a8bc1227c14a9c2db5513e03dbdad7`.
-- Verification `5233ae8bac10a909506bb7317cbebaa643f223235e75b6d549f26dcb3b7b8d50`.
-- Remote snapshot `3b90f5c33a11c9457cc84132ed9805f554427b7120341bd9e40852dc228861a3`.
-- Evidence work/parallel-round36-evidence.json, freeze metadata, original
-  manifest/log and work/round36-runner-c-results.tar.gz retained. Final gate took
-  722.899 seconds, including broad target compilation. No worker/collector remains
-  running. Next runner-c batch seeds these real logs, using this output root and the
-  existing stable CARGO_HOME from work/round36-runner-c-check.py; never rewrite keys.
+Final runner-c gate78669 and collector37976 both finished successfully:
 
-Performance was checked on runner-a, separately from source-method credit:
+- 6,592 Rust tests and 282 doctests; strict format/Clippy passed.
+- 3,458/4,855 source methods passing (71.226%); 831 pending, 566 excluded,
+  zero failed/unverified. Backlog835→831; exclusions unchanged.
+- 850 affected Rust jobs ran; 105 Rust and 46 Python jobs reused unchanged runner-c
+  evidence. Final gate686.630seconds, including broad target compilation.
+- Source `293020f7753d3db4bc0bd803fefd522554758ab03eacc896c877df66aadfc0a6`.
+- Verification `e888cc7056d7f2c97dd806d7f0857ac1a5cabd0514d738d01b2fb07de4a834d6`.
+- Remote snapshot `e75ff8becfaec9463601341e8443920da27b21d629928782aac40152a864efb6`.
+- work/parallel-round37-evidence.json, freeze, original manifest/log and
+  work/round37-runner-c-results.tar.gz retained. No worker/collector remains running.
+  Next runner-c batch seeds these real logs/output root and the stable CARGO_HOME in
+  work/round37-runner-c-check.py. Never change old input keys/hashes/timestamps.
 
-- Rejected custom slot draft: history microbench ring/deque ratios1.162–2.013.
-  Final design retains the native deque for active samples.
-- Paired standalone exact policies (28 samples/four workloads), intermediate
-  deque-ring snapshot58e13615: changing-score workloads cost1.011–1.034x baseline;
-  repeated cached polls cost1.245x, approximately10.61→13.28ns per poll.
-  All termination decisions/sample counts match. Not full solver/Java timing;
-  this intermediate benchmark uses checked push, while final native insertion
-  skips its duplicated chronological check. No final-state speedup claim.
-  Evidence work/round36-policy-performance-summary.json and original manifest/log.
-- A NOT INTEGRATED generic-clock/guarded-pruning candidate reduces cached polls to
-  1.015x baseline (11.14→11.25ns); changing-score workloads1.019–1.035x.
-  All benchmark decision/sample counts match. Snapshotfd912d8b; evidence
-  work/round36-clock-candidate-performance-summary.json and original manifest/log.
-  Candidate files work/round36-generic-ring-candidate.rs and
-  work/round36-native-clock-policy-candidate.rs are saved. The latter contains
-  only the policy prefix before LocalTimeBudget; preserve the remaining production
-  module if applying it. Source cases/solver regression verification has NOT run
-  for the candidate. Consider it with the next coherent batch; do not claim it is
-  current or spend time repeating old baseline checks. Temporary examples were
-  removed from crates and retained as work/*-perf-example.rs.
+Performance evidence remains the saved standalone candidate, now integrated:
+28paired samples/four native policy workloads, with warmup excluded from medians.
+Cached polls1.015x old pre-round36 baseline (11.14→11.25ns), versus the intermediate
+ring design's1.245x baseline. Changing-score workloads1.019–1.035x old baseline;
+termination decisions/sample counts identical. Not whole-solver or Java timing.
+Evidence work/round36-clock-candidate-performance-summary.json, original snapshot
+fd912d8b and work/round37-clock-evidence-reuse.json. Code comparison allows reuse;
+no old measurement was rehashed or relabeled as a new run. Do not repeat this probe.
 
 Dashboard http://localhost:8765 is current; report data/freshness checked. Reuse its
-server. Backend refreshes need data inspection, not browser/Impeccable. Existing
-original-Java list measurements remain visibly stale; no refreshed Java speed claim.
-This goal turn was progress (eighteen verified cases plus runtime history storage).
-Full objective remains incomplete and active, confirmed by the goal tool this turn.
-No new subagents or assignments.
+server. Backend refreshes need data inspection, not browser/Impeccable. Original-
+Java list measurements remain visibly stale; no new Java speed claim. Goal remains
+active and incomplete. No new subagents or follow-up assignments.
+
+During final compilation, audited the seven still-pending MixedMoveSelectorTest
+methods (test source only). Existing MoveProviderGroup covers the first three
+plain/flat/nested counts with real provider compilation. Remaining cases concern
+filter/cache/count-limit transparency, opaque Cartesian and probability selectors,
+and rejection of weighted unions (including nested) with a Neighborhoods API
+message. Native groups currently inspect only explicit leaf/group nodes and
+flatten to unit-weight ProviderUnion; do not claim arbitrary-wrapper behavior from
+opaque leaf counts or Java type names. No implementation/provenance was added for
+these seven. This is a possible next bounded family if actual provider composition
+can preserve the complete assertions. Avoid repeating already-completed audits.
+
+Prior round36 (0a87b48/0aa4de3) integrated timestamped score-ring storage and all
+18 DiminishedReturnsScoreRingBufferTest methods with all101source assertions,
+plus120000-operation reference, ownership and boundary regressions. 6,580 Rust/
+282docs passed; source3,454, pending835. Gate846RustRUN/105RustREUSE/46PythonREUSE,
+722.899seconds. runner-c snapshot3b90f5c33a11c9457cc84132ed9805f554427b7120341bd9e40852dc228861a3,
+archive work/round36-runner-c-results.tar.gz and full evidence retained. Do not rerun
+unchanged checks or rejected custom-slot performance experiments.
 
 Prior round35 (707539c/c0dbbd1) passed: 6,558 Rust/281 docs, 3,436 source methods,
 853 pending. All six AcceptorFactoryTest methods and two negative-size methods
