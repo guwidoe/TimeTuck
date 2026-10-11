@@ -881,6 +881,7 @@ pub use shadow_session::{
 mod list_change_recording;
 pub use list_change_recording::{
     ListChangeNotification, ListChangeRecorder, ListRecordingError, ListRecordingUndo,
+    RecordedListBefore,
 };
 
 mod solution_tracker;
@@ -1457,3 +1458,6 @@ mod neighborhood_phase;
 pub use neighborhood_phase::{
     NeighborhoodApi, NeighborhoodApiError, NeighborhoodPhase, PreparedNeighborhoodPhase,
 };
+
+mod nested_solver_context;
+pub use nested_solver_context::{NestedScoreResource, NestedSolverError, NestedSolverView};

@@ -6,7 +6,19 @@ use std::{error::Error, fmt};
 pub enum ListEditError {
     Model(ListError),
     SamePosition(ListPosition),
-    InvalidShift { source: ListPosition, offset: isize },
+    SameEntity {
+        entity: usize,
+        swap: bool,
+    },
+    SignedIndex {
+        entity: usize,
+        index: isize,
+        len: usize,
+    },
+    InvalidShift {
+        source: ListPosition,
+        offset: isize,
+    },
 }
 impl From<ListError> for ListEditError {
     fn from(value: ListError) -> Self {
@@ -20,6 +32,17 @@ impl fmt::Display for ListEditError {
             Self::SamePosition(p) => {
                 write!(f, "source and replacement are the same position: {p:?}")
             }
+            Self::SameEntity { entity, swap } => {
+                write!(f, "cross-list entities must be different (entity {entity})")?;
+                if *swap {
+                    f.write_str("; use same-list swap (swapValuesInList)")?;
+                }
+                Ok(())
+            }
+            Self::SignedIndex { entity, index, len } => write!(
+                f,
+                "list index {index} is out of bounds for entity {entity} with length {len}"
+            ),
             Self::InvalidShift { source, offset } => {
                 write!(f, "invalid shift of {source:?} by {offset}")
             }
@@ -225,6 +248,62 @@ impl<'p, V: Eq + Clone> ListMoveBuilder<'p, V> {
             },
         ]))?;
         Ok(displaced)
+    }
+    /// Checked signed external coordinates, in the pre-edit draft. Index failures
+    /// preserve all earlier edits; no native move is built until both are valid.
+    pub fn replace_signed(
+        &mut self,
+        entity: usize,
+        source: isize,
+        replacement: isize,
+    ) -> Result<V, ListEditError> {
+        let len = self.list(entity)?.len();
+        let check = |index| {
+            usize::try_from(index)
+                .ok()
+                .filter(|&i| i < len)
+                .ok_or(ListEditError::SignedIndex { entity, index, len })
+        };
+        self.replace(
+            ListPosition {
+                entity,
+                index: check(source)?,
+            },
+            ListPosition {
+                entity,
+                index: check(replacement)?,
+            },
+        )
+    }
+    /// Explicit cross-list operation. General relocate_span also supports
+    /// within-list edits; this boundary requires two distinct owners.
+    pub fn relocate_between_lists(
+        &mut self,
+        range: ListRange,
+        destination: ListPosition,
+        reverse: bool,
+    ) -> Result<(), ListEditError> {
+        if range.entity == destination.entity {
+            return Err(ListEditError::SameEntity {
+                entity: range.entity,
+                swap: false,
+            });
+        }
+        self.relocate_span(range, destination, reverse)
+    }
+    pub fn swap_between_lists(
+        &mut self,
+        left: ListRange,
+        right: ListRange,
+        reverse: bool,
+    ) -> Result<(), ListEditError> {
+        if left.entity == right.entity {
+            return Err(ListEditError::SameEntity {
+                entity: left.entity,
+                swap: true,
+            });
+        }
+        self.swap_spans(left, right, reverse)
     }
     pub fn relocate_span(
         &mut self,

@@ -93,6 +93,11 @@ impl<D> ScoringContextHandle<D> {
     pub fn same_resource(&self, other: &Self) -> bool {
         Rc::ptr_eq(&self.0, &other.0)
     }
+    /// Compare actual resource slots across adapters borrowing the same director
+    /// type. Both handles keep their real slots alive, preventing address reuse.
+    pub fn same_resource_as<D2>(&self, other: &ScoringContextHandle<D2>) -> bool {
+        Rc::as_ptr(&self.0).cast::<()>() == Rc::as_ptr(&other.0).cast::<()>()
+    }
     pub fn director(&self) -> Option<Ref<'_, D>> {
         Ref::filter_map(self.0.borrow(), |state| state.director.as_ref()).ok()
     }

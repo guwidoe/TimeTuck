@@ -5,6 +5,8 @@ use std::{collections::BTreeSet, error::Error, fmt};
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FieldBindingError {
     WrongKind,
+    EntityScopedRange,
+    DifferentEntityRanges,
     WrongValueType {
         expected: PlanningType,
         actual: PlanningType,
@@ -31,7 +33,11 @@ pub enum FieldBindingError {
 }
 impl fmt::Display for FieldBindingError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "planning field binding: {self:?}")
+        match self {
+            Self::EntityScopedRange => f.write_str("this field has a value range on an entity, not on the solution; supply an entity row"),
+            Self::DifferentEntityRanges => f.write_str("a shared solution range requires identical domains on every bound entity"),
+            _ => write!(f, "planning field binding: {self:?}"),
+        }
     }
 }
 impl Error for FieldBindingError {}
@@ -94,6 +100,7 @@ impl SchemaVariableSlots<'_> {
             problem,
             name: self.variable.name().into(),
             slots: self.slots.clone(),
+            solution_scoped: false,
         })
     }
     /// Bind one genuine list field, preserving entity order and per-entity ranges.
@@ -167,6 +174,7 @@ pub struct BasicFieldBinding<'p, V> {
     problem: &'p FiniteProblem<V>,
     name: String,
     slots: Vec<usize>,
+    solution_scoped: bool,
 }
 impl<V: Eq + Clone> BasicFieldBinding<'_, V> {
     pub fn name(&self) -> &str {
@@ -189,6 +197,29 @@ impl<V: Eq + Clone> BasicFieldBinding<'_, V> {
             values: v.domain(),
             optional: v.allows_unassigned(),
         })
+    }
+    /// Explicitly declare one shared solution range after verifying all bound
+    /// domains have the same ordered values and unassignment policy. Equality
+    /// does not imply sharing by itself; bindings initially remain entity scoped.
+    pub fn declare_solution_range(mut self) -> Result<Self, FieldBindingError> {
+        let first = self.range(0)?;
+        for &index in &self.slots {
+            let variable = &self.problem.variables()[index];
+            if variable.domain() != first.values || variable.allows_unassigned() != first.optional {
+                return Err(FieldBindingError::DifferentEntityRanges);
+            }
+        }
+        self.solution_scoped = true;
+        Ok(self)
+    }
+    pub fn solution_range(&self) -> Result<BasicFieldRange<'_, V>, FieldBindingError> {
+        if !self.solution_scoped {
+            return Err(FieldBindingError::EntityScopedRange);
+        }
+        self.range(0)
+    }
+    pub fn is_value_in_solution_range(&self, value: Option<&V>) -> Result<bool, FieldBindingError> {
+        Ok(self.solution_range()?.contains(&value))
     }
     pub fn is_value_in_range(
         &self,

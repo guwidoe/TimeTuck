@@ -7355,3 +7355,40 @@ The nonzero daemon control confirms that the fifth fact enters actual domains:
 restarted score30 becomes40 and all four selected values become4. Originals earn
 no method credit. No benchmark was rerun and no new throughput claim is made;
 candidate loops and core scoring-context implementation are unchanged.
+
+
+## Remaining MoveDirector behavior — round54
+
+Explicit cross-list span operations require different owners and delegate to the
+existing validated move builder. General span operations retain their within-list
+behavior. Signed replacement indices are checked before move construction, with
+typed bounds errors and no loss of an earlier draft prefix. Basic field bindings
+remain entity scoped until callers explicitly declare a shared solution range;
+that declaration verifies every selected domain and unassignment policy once.
+Row-free membership then uses the actual shared domain, including optional None.
+
+MoveSession can execute native plans inside its existing rollback boundary.
+The managed variant creates an actual child context borrowing the retained
+scoring director, counts returned native work, allows inspection before close,
+and releases its borrow without releasing the parent resource. Native plan
+controls remain independent per invocation. Mixed dense/stream directors now
+implement the same context-resource trait as basic/list directors. Heterogeneous
+handle comparison checks actual resource slots, not dummy identity tokens.
+
+ListChangeRecorder records full changed rows across actual phase entry/exit
+snapshots, including receiving entities unknown when an outer edit began.
+Previously recorded state must agree with the entry snapshot; failed validation
+or cloning preserves the journal. Recorded-before inspection lends immutable
+shared buffers. Native model and scoring APIs still validate edits/phases.
+
+Eight complete MoveDirectorTest adaptations retain all declared failure/message,
+notification, undo, working-code and nested-scope assertions. The nested mock's
+inconsistent duplicate membership is represented by its coherent reported windows
+[v1]/[v2] to []/[v2,v1], using actual native unassign/construction and undo. Source
+attribution describes this normalization explicitly. Native field schemas,
+calculator notifications, registered working Arcs and real managed contexts
+replace Java reflection/mocks/internal scope classes; API/trace parity is not
+claimed. Five originals cover positive dense/stream edits, shared/optional ranges,
+journal atomicity and buffer lifetime, real work in all six scoped/stream backends,
+and rollback after errors/panics. Originals earn no method credit. Candidate
+loops are unchanged; no benchmark or throughput claim is added.

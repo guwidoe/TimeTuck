@@ -60,6 +60,15 @@ pub enum ListChangeNotification<'s, E> {
     },
     UpdateShadows,
 }
+/// Immutable inspection of an actual recorded pre-change row. The shared buffer
+/// survives later recording/undo and is never a substitute identity token.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RecordedListBefore<E, V> {
+    pub entity: E,
+    pub from: usize,
+    pub original_to: usize,
+    pub old_values: Rc<Vec<V>>,
+}
 struct Edit<E, V> {
     entity: E,
     from: usize,
@@ -263,6 +272,24 @@ impl<'s, E: Ord + Clone, V: Eq + Clone + 'static> ListChangeRecorder<'s, E, V> {
         *current = next;
         Ok(event)
     }
+    /// Inspect actual before snapshots in recording order, including open edits.
+    /// Row buffers are shared immutably; payloads are not cloned again.
+    pub fn recorded_before(&self) -> Result<Vec<RecordedListBefore<E, V>>, ListRecordingError> {
+        let state = self
+            .state
+            .try_borrow()
+            .map_err(|_| ListRecordingError::Busy)?;
+        Ok(state
+            .edits
+            .iter()
+            .map(|edit| RecordedListBefore {
+                entity: edit.entity.clone(),
+                from: edit.from,
+                original_to: edit.before_to,
+                old_values: edit.before.clone(),
+            })
+            .collect())
+    }
     pub fn undo_changes(
         &self,
         lists: &mut BTreeMap<E, Vec<V>>,
@@ -434,5 +461,54 @@ impl<'s, E: Ord + Clone, V: Eq + Clone + 'static> ListChangeRecorder<'s, E, V> {
         rebased.state = Rc::new(RefCell::new(target));
         rebased.delegate = self.delegate;
         Ok(rebased)
+    }
+}
+
+impl<V: Eq + Clone + 'static> ListChangeRecorder<'_, usize, V> {
+    /// Record full changed rows across one completed native nested phase. Actual
+    /// entry/exit snapshots discover receivers unknown when the outer edit began.
+    /// Earlier records must agree with the phase's entry state. All comparisons
+    /// and clones finish before publishing, so errors/panics preserve the journal.
+    /// This observes data; native model/scoring APIs still validate the phase.
+    pub fn record_phase_transition(
+        &self,
+        before: &[Vec<V>],
+        after: &[Vec<V>],
+    ) -> Result<(), ListRecordingError> {
+        let mut state = self
+            .state
+            .try_borrow_mut()
+            .map_err(|_| ListRecordingError::Busy)?;
+        if !state.pending.is_empty() {
+            return Err(ListRecordingError::UnclosedBracket);
+        }
+        if before.len() != after.len() {
+            return Err(ListRecordingError::StateMismatch);
+        }
+        let mut seen = std::collections::BTreeSet::new();
+        for edit in state.edits.iter().rev() {
+            if seen.insert(edit.entity) {
+                let Some((_, expected)) = &edit.after else {
+                    return Err(ListRecordingError::UnclosedBracket);
+                };
+                if before.get(edit.entity) != Some(expected.as_ref()) {
+                    return Err(ListRecordingError::StateMismatch);
+                }
+            }
+        }
+        let mut next = state.clone();
+        for (entity, (old, new)) in before.iter().zip(after).enumerate() {
+            if old != new {
+                next.edits.push(Rc::new(Edit {
+                    entity,
+                    from: 0,
+                    before_to: old.len(),
+                    before: Rc::new(old.clone()),
+                    after: Some((new.len(), Rc::new(new.clone()))),
+                }));
+            }
+        }
+        *state = next;
+        Ok(())
     }
 }

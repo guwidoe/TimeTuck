@@ -126,3 +126,38 @@ stream_replacement!(
     ListStreamScoringError
 );
 stream_replacement!((B,L), MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedStreamScoringError);
+
+// Nested native plans execute on the retained director and remain within the
+// session's real rollback boundary. Each call creates the engine's independent
+// solve controls; it does not reuse a parent's termination counters or scope.
+macro_rules! session_solver {
+    (($($v:ident),+), $director:ty, $assignment:ty, $sequence:ident, $error:ty, [$($bounds:tt)*]) => {
+        impl<'d, 'p, 'c, $($v,)+ S> MoveSession<'d, $director>
+        where $($bounds)* {
+            pub fn run_solver<'plan>(&mut self, plan: impl Into<crate::$sequence<'plan, S>>)
+                -> Result<crate::SolverResult<$assignment, S>, crate::SolverError<$error>>
+            where S: 'plan {
+                self.director.run_solver(plan)
+            }
+            /// Run with a real independent child context. Inspect completed
+            /// native work before the child closes. The outer resource remains
+            /// live and all mutations remain subject to this session's rollback.
+            pub fn run_solver_in_context<'plan>(&mut self, plan: impl Into<crate::$sequence<'plan, S>>,
+                inspect: impl FnOnce(&crate::NestedSolverView<'_, $director>))
+                -> Result<crate::SolverResult<$assignment, S>, crate::NestedSolverError<$error, <$director as crate::ContextScoreResource>::Error>>
+            where S: 'plan, $director: crate::ContextScoreResource {
+                let work = crate::nested_solver_context::run(self.director,
+                    |director| crate::nested_solver_context::NestedWork(director.run_solver(plan)), inspect)
+                    .map_err(crate::NestedSolverError::Context)?;
+                work.0.map_err(crate::NestedSolverError::Solver)
+            }
+
+        }
+    }
+}
+session_solver!((V), ScoreDirector<'p,'c,V,S>, Assignment<V>, SolverSequence, crate::LocalSearchError, [V:Eq+Clone,S:AdditiveScore]);
+session_solver!((V), StreamScoreDirector<'p,'c,V,S>, Assignment<V>, SolverSequence, crate::LocalSearchError, [V:Eq+Clone+'static,S:AdditiveScore+'static]);
+session_solver!((V), ListScoreDirector<'p,'c,V,S>, ListAssignment<V>, SolverSequence, crate::ListLocalSearchError, [V:Eq+Clone,S:AdditiveScore]);
+session_solver!((V), ListStreamScoreDirector<'p,'c,V,S>, ListAssignment<V>, SolverSequence, crate::ListLocalSearchError, [V:Eq+Clone+'static,S:AdditiveScore+'static]);
+session_solver!((B,L), MixedScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedSolverSequence, crate::MixedLocalSearchError, [B:Eq+Clone,L:Eq+Clone,S:AdditiveScore]);
+session_solver!((B,L), MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedSolverSequence, crate::MixedLocalSearchError, [B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static]);
