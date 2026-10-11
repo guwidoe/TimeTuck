@@ -86,6 +86,10 @@ impl<S: Score, M: Eq + Clone> MoveAcceptor<S, M> {
         self.state
             .accepts(current, candidate, variables, movement, &[])
     }
+    /// Freeze elapsed-time acceptance for the next candidate scan.
+    pub fn step_started(&mut self, elapsed: std::time::Duration) {
+        self.state.step_started(elapsed);
+    }
     pub fn step_ended(&mut self, score: S, variables: &[usize], movement: &M) {
         self.state.step_ended(score, variables, movement, &[])
     }
@@ -125,6 +129,10 @@ impl<S: Score, M: Eq + Clone, K: Eq + Clone> ValueAcceptor<S, M, K> {
     ) -> bool {
         self.state
             .accepts(current, candidate, variables, movement, values)
+    }
+    /// Freeze elapsed-time acceptance for the next candidate scan.
+    pub fn step_started(&mut self, elapsed: std::time::Duration) {
+        self.state.step_started(elapsed);
     }
     /// Advance and retain identities of a selected step, including fallback.
     pub fn step_ended(&mut self, score: S, variables: &[usize], movement: &M, values: &[K]) {
@@ -226,6 +234,17 @@ impl<S: Score, M: Eq + Clone, K: Eq + Clone> ContextAcceptor<S, M, K> {
                     values,
                 )
             }),
+        }
+    }
+    fn step_started(&mut self, elapsed: std::time::Duration) {
+        match &mut self.state {
+            State::Ordinary(state) => state.step_started(elapsed),
+            State::All(children) => {
+                for child in children {
+                    child.step_started(elapsed);
+                }
+            }
+            _ => {}
         }
     }
     fn step_ended(&mut self, score: S, variables: &[usize], movement: &M, values: &[K]) {

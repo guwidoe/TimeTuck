@@ -75,3 +75,29 @@ pub(crate) fn monitored_clock<S>(
 ) -> impl Fn() -> Duration + use<S> {
     elapsed_clock(enabled, shared.as_ref().and_then(|s| s.clock_session()))
 }
+
+/// Created only for a timed acceptance policy; origin precedes phase callbacks.
+pub(crate) enum PhaseClock {
+    Real(std::time::Instant),
+    Injected {
+        session: ClockSession,
+        origin: Duration,
+    },
+}
+impl PhaseClock {
+    pub(crate) fn new(session: Option<&ClockSession>) -> Self {
+        match session {
+            Some(session) => Self::Injected {
+                origin: session.elapsed(),
+                session: session.clone(),
+            },
+            None => Self::Real(std::time::Instant::now()),
+        }
+    }
+    pub(crate) fn elapsed(&self) -> Duration {
+        match self {
+            Self::Real(origin) => origin.elapsed(),
+            Self::Injected { session, origin } => session.elapsed().saturating_sub(*origin),
+        }
+    }
+}

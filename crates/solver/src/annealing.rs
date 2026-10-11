@@ -1,4 +1,4 @@
-//! Seeded simulated annealing with a deterministic completed-step cooling clock.
+//! Seeded simulated annealing with step-count or elapsed-time cooling.
 use crate::{AcceptanceError, Score, ScoreLevel, random::SplitMix64};
 
 #[derive(Clone, Debug)]
@@ -91,8 +91,12 @@ impl<S: Score> SimulatedAnnealing<S> {
     /// Draw only when probability lies strictly between zero and one. Trials
     /// consume randomness but do not cool; selected steps must call step_ended.
     pub fn accepts(&mut self, current: S, candidate: S) -> bool {
+        self.accepts_with_gradient(current, candidate, self.gradient())
+    }
+
+    fn accepts_with_gradient(&mut self, current: S, candidate: S, gradient: f64) -> bool {
         let probability = self
-            .probability_at(current, candidate, self.gradient())
+            .probability_at(current, candidate, gradient)
             .expect("internal gradient stays in [0, 1]");
         probability >= 1.0 || (probability > 0.0 && self.random.unit() < probability)
     }
@@ -101,5 +105,57 @@ impl<S: Score> SimulatedAnnealing<S> {
         if self.completed_steps < self.cooling_steps {
             self.completed_steps += 1;
         }
+    }
+}
+
+/// Annealing cooled by elapsed phase time, frozen between `step_started` calls.
+/// Backwards readings never heat the state again. Cloning snapshots the PRNG.
+#[derive(Clone, Debug)]
+pub struct TimeSimulatedAnnealing<S> {
+    inner: SimulatedAnnealing<S>,
+    cooling_time: std::time::Duration,
+    gradient: f64,
+}
+impl<S: Score> TimeSimulatedAnnealing<S> {
+    pub(crate) fn validate(
+        temperature: &S,
+        cooling_time: std::time::Duration,
+    ) -> Result<(), AcceptanceError> {
+        SimulatedAnnealing::validate(temperature, 1)?;
+        if cooling_time.is_zero() {
+            return Err(AcceptanceError::ZeroCoolingTime);
+        }
+        Ok(())
+    }
+    pub fn new(
+        temperature: S,
+        cooling_time: std::time::Duration,
+        seed: u64,
+    ) -> Result<Self, AcceptanceError> {
+        Self::validate(&temperature, cooling_time)?;
+        Ok(Self {
+            inner: SimulatedAnnealing::new(temperature, 1, seed)?,
+            cooling_time,
+            gradient: 0.0,
+        })
+    }
+    /// Freeze this step's gradient; candidate trials do not read a clock.
+    pub fn step_started(&mut self, elapsed: std::time::Duration) {
+        self.gradient = self
+            .gradient
+            .max(crate::ElapsedTimeLimit::new(self.cooling_time).progress(elapsed));
+    }
+    pub fn gradient(&self) -> f64 {
+        self.gradient
+    }
+    pub fn probability(&self, current: S, candidate: S) -> f64 {
+        self.inner
+            .probability_at(current, candidate, self.gradient)
+            .expect("clamped gradient")
+    }
+    /// Consume a draw only for probabilities strictly between zero and one.
+    pub fn accepts(&mut self, current: S, candidate: S) -> bool {
+        self.inner
+            .accepts_with_gradient(current, candidate, self.gradient)
     }
 }

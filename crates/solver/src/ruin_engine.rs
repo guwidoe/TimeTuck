@@ -96,7 +96,11 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     ) -> Result<Repair<P::Assignment, S>, RuinRecreateError>,
 ) -> Result<RuinRecreateOutcome<(P::Assignment, S)>, RuinRecreateError> {
     let move_counter = crate::move_metrics::from_control(&shared);
-    let elapsed = crate::solver_clock::monitored_clock(config.max_time.is_some(), &shared);
+    let timed_acceptance = config.acceptance.uses_elapsed_time();
+    let elapsed = crate::solver_clock::monitored_clock(
+        config.max_time.is_some() || timed_acceptance,
+        &shared,
+    );
     problem.validate_complete(&initial)?;
     config.validate_candidates(problem.candidate_count())?;
     if config.minimum_ruined == 0 || config.minimum_ruined > config.maximum_ruined {
@@ -328,6 +332,13 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         };
         if let Some(shared) = &mut shared {
             shared.step_started();
+        }
+        if timed_acceptance {
+            let phase_elapsed = shared
+                .as_ref()
+                .and_then(|s| s.acceptance_elapsed())
+                .unwrap_or_else(&elapsed);
+            acceptor.step_started(phase_elapsed);
         }
         let mut completed = false;
         let candidate = if family == 2 || family >= pool_start {

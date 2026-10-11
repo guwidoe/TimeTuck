@@ -2,6 +2,7 @@
 use crate::{
     DiversifiedLateAcceptance, FadingTabuMemory, GreatDeluge, GreatDelugeRise, Score, SimpleScore,
     SimulatedAnnealing, StepCountingHillClimbing, StepCountingMode, TabuMemory,
+    TimeSimulatedAnnealing,
 };
 use std::{error::Error, fmt};
 
@@ -12,6 +13,17 @@ pub enum Acceptance<S = SimpleScore> {
     SimulatedAnnealing {
         starting_temperature: S,
         cooling_steps: u64,
+        seed: u64,
+    },
+    /// Cool to zero over a positive elapsed duration. Integrated plans measure
+    /// from phase entry, before PhaseStarted and preparation; standalone searches
+    /// measure from kernel entry. Setup is included. Each step samples once and
+    /// freezes its temperature throughout candidate scanning. Every phase resets
+    /// independently, using SolverExtensions' clock when configured. This is an
+    /// explicit duration schedule, not a composed termination gradient.
+    SimulatedAnnealingTime {
+        starting_temperature: S,
+        cooling_time: std::time::Duration,
         seed: u64,
     },
     GreatDeluge {
@@ -94,6 +106,7 @@ pub enum AcceptanceError {
     AcceptorAllocation,
     InvalidTemperature,
     ZeroCoolingSteps,
+    ZeroCoolingTime,
     InvalidGradient,
     InvalidRandomDraw,
 }
@@ -111,6 +124,7 @@ impl fmt::Display for AcceptanceError {
             Self::InvalidTemperature => {
                 "temperature must have structural zero and nonnegative ordinary levels"
             }
+            Self::ZeroCoolingTime => "annealing cooling time must be positive",
             Self::ZeroCoolingSteps => "annealing cooling steps must be positive",
             Self::InvalidGradient => "annealing gradient must be finite and in [0, 1]",
             Self::InvalidRandomDraw => "random draw must be finite and in [0, 1)",
@@ -147,6 +161,14 @@ impl<S: Score> Acceptance<S> {
         }
     }
     pub fn validate(&self) -> Result<(), AcceptanceError> {
+        if let Self::SimulatedAnnealingTime {
+            starting_temperature,
+            cooling_time,
+            ..
+        } = self
+        {
+            TimeSimulatedAnnealing::validate(starting_temperature, *cooling_time)?;
+        }
         if let Self::FadingVariableTabu {
             hard_tenure,
             fading_tenure,
@@ -250,6 +272,15 @@ impl<S: Score> Acceptance<S> {
                 cooling_steps,
                 seed,
             )?),
+            Self::SimulatedAnnealingTime {
+                starting_temperature,
+                cooling_time,
+                seed,
+            } => Acceptor::SimulatedAnnealingTime(TimeSimulatedAnnealing::new(
+                starting_temperature,
+                cooling_time,
+                seed,
+            )?),
             Self::StrictImprovement => Acceptor::StrictImprovement,
             Self::HillClimbing => Acceptor::HillClimbing,
             Self::FadingVariableTabu {
@@ -290,6 +321,7 @@ pub enum Acceptor<S> {
     GreatDeluge(GreatDeluge<S>),
     StepCountingHillClimbing(StepCountingHillClimbing<S>),
     SimulatedAnnealing(SimulatedAnnealing<S>),
+    SimulatedAnnealingTime(TimeSimulatedAnnealing<S>),
     StrictImprovement,
     HillClimbing,
     DiversifiedLateAcceptance(DiversifiedLateAcceptance<S>),
@@ -359,6 +391,7 @@ impl<S: Score> Acceptor<S> {
             Self::GreatDeluge(state) => state.accepts(current, candidate),
             Self::StepCountingHillClimbing(state) => state.accepts(current, candidate),
             Self::SimulatedAnnealing(state) => state.accepts(current, candidate),
+            Self::SimulatedAnnealingTime(state) => state.accepts(current, candidate),
             Self::StrictImprovement => candidate > current,
             Self::HillClimbing => candidate >= current,
             Self::DiversifiedLateAcceptance(state) => state.accepts(current, candidate),
@@ -369,6 +402,19 @@ impl<S: Score> Acceptor<S> {
             Self::VariableTabu { memory, best } => {
                 memory.accepts(variables, candidate, best.clone())
             }
+        }
+    }
+    /// Freeze elapsed-time acceptors before scanning this step's candidates.
+    /// Other policies are unchanged; every composite child receives the sample.
+    pub fn step_started(&mut self, elapsed: std::time::Duration) {
+        match self {
+            Self::All(children) => {
+                for child in children {
+                    child.step_started(elapsed);
+                }
+            }
+            Self::SimulatedAnnealingTime(state) => state.step_started(elapsed),
+            _ => {}
         }
     }
     /// Record a completed step, never an unselected trial move.
@@ -451,5 +497,11 @@ impl<S: Score> LateAcceptance<S> {
         if let Some(best) = new_best {
             self.best = best;
         }
+    }
+}
+
+impl<S> Acceptance<S> {
+    pub(crate) fn uses_elapsed_time(&self) -> bool {
+        matches!(self, Self::SimulatedAnnealingTime { .. })
     }
 }

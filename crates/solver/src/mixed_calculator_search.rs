@@ -197,7 +197,8 @@ where
         config.search.max_time.is_some()
             || config.search.max_unimproved_time.is_some()
             || config.search.diminished_returns.is_some()
-            || config.search.significant_improvement.is_some(),
+            || config.search.significant_improvement.is_some()
+            || config.search.uses_elapsed_acceptance(),
     );
     crate::mixed_local_search::search_impl_with_provider(
         None,

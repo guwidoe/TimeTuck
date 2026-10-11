@@ -310,6 +310,16 @@ impl<S> Default for LocalSearchConfig<'_, S> {
         }
     }
 }
+impl<S> LocalSearchConfig<'_, S> {
+    pub(crate) fn uses_elapsed_acceptance(&self) -> bool {
+        self.acceptance.uses_elapsed_time()
+            || self
+                .additional_acceptance
+                .iter()
+                .any(Acceptance::uses_elapsed_time)
+    }
+}
+
 impl<S: crate::Score> LocalSearchConfig<'_, S> {
     pub(crate) fn forager(
         &self,
@@ -566,7 +576,8 @@ where
         config.max_time.is_some()
             || config.max_unimproved_time.is_some()
             || config.diminished_returns.is_some()
-            || config.significant_improvement.is_some(),
+            || config.significant_improvement.is_some()
+            || config.uses_elapsed_acceptance(),
         &shared,
     );
     search_impl_with_clock_monitored(shared, problem, initial, config, create, clock)
@@ -684,6 +695,7 @@ where
     if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
+    let timed_acceptance = config.uses_elapsed_acceptance();
     time_budget.start_search();
     time_budget.observe_best_score(&result.best.as_ref().expect("initial best").score);
     director.notify_best(|_| true);
@@ -708,6 +720,9 @@ where
         // Snapshot decouples lazy enumeration from the director's transaction.
         // Original order stays lazy; optional candidate shuffling has bounded lookahead.
         time_budget.start_step();
+        if timed_acceptance {
+            acceptor.step_started(time_budget.acceptance_elapsed());
+        }
         provider.start_step();
         let snapshot = director.assignment().clone();
         let mut order: Vec<_> = if provider.is_none() {

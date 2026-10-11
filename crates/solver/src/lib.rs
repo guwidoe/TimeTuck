@@ -72,7 +72,7 @@ mod fading_tabu;
 pub use fading_tabu::FadingTabuMemory;
 
 pub mod annealing;
-pub use annealing::SimulatedAnnealing;
+pub use annealing::{SimulatedAnnealing, TimeSimulatedAnnealing};
 
 pub mod bendable;
 pub use bendable::BendableScore;

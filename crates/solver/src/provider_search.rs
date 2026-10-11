@@ -23,7 +23,8 @@ pub(crate) fn clock<S>(
         config.max_time.is_some()
             || config.max_unimproved_time.is_some()
             || config.diminished_returns.is_some()
-            || config.significant_improvement.is_some(),
+            || config.significant_improvement.is_some()
+            || config.uses_elapsed_acceptance(),
         shared,
     )
 }

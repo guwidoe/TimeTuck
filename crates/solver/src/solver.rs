@@ -436,6 +436,7 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     limit: Option<Duration>,
     clock: &'c mut dyn FnMut() -> Duration,
     clock_session: Option<crate::solver_clock::ClockSession>,
+    acceptance_clock: Option<crate::solver_clock::PhaseClock>,
     phase_condition: Option<crate::phase_termination::PhaseControl<'c, S>>,
     last: Duration,
     shared_bound: bool,
@@ -561,7 +562,8 @@ impl<S: Score> SolveControl<'_, S> {
         .then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
-        if self.phase_condition.is_some()
+        if self.acceptance_clock.is_some()
+            || self.phase_condition.is_some()
             || self.clock_session.is_some()
             || self.move_counter.is_some()
             || self.lifecycle.enabled()
@@ -593,6 +595,11 @@ impl<S: Score> SolveControl<'_, S> {
     }
 }
 impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
+    fn acceptance_elapsed(&self) -> Option<Duration> {
+        self.acceptance_clock
+            .as_ref()
+            .map(crate::solver_clock::PhaseClock::elapsed)
+    }
     fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
         self.clock_session.as_ref()
     }
@@ -1249,6 +1256,7 @@ where
     let mut time = SolveControl {
         move_counter: None,
         phase_condition: None,
+        acceptance_clock: None,
         score_counter: (limits
             .termination
             .is_some_and(SearchTermination::needs_score_counts)
@@ -1613,9 +1621,17 @@ where
                     result.complete.then_some(result.score.as_ref()).flatten(),
                 ));
             }
+            let timed_acceptance = match &request {
+                PhaseRequest::LocalSearch(c) => c.uses_elapsed_acceptance(),
+                PhaseRequest::RuinRecreate(c) => c.acceptance.uses_elapsed_time(),
+                _ => false,
+            };
+            time.acceptance_clock = timed_acceptance
+                .then(|| crate::solver_clock::PhaseClock::new(time.clock_session.as_ref()));
             time.lifecycle.start_phase(index, kind);
             let output = phase(index, initial, request, &mut time, observation);
             time.phase_condition = None;
+            time.acceptance_clock = None;
             if let (Some(metrics), Ok(out)) = (&observation.metric_writer, &output) {
                 let mut work = result.work;
                 work.add(out.work);
