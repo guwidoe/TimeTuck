@@ -157,7 +157,10 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
     observer: Observer<'_, T::Assignment, S>,
     clock: impl FnMut() -> Duration,
 ) -> Result<PhaseOutput<T::Assignment, S>, TreeSearchError<E, S>> {
-    let ExactSearchStrategy::BranchAndBound(branch) = config.strategy.clone() else {
+    let completion = config.strategy.is_completion();
+    let (ExactSearchStrategy::BranchAndBound(branch)
+    | ExactSearchStrategy::CompleteBranchAndBound(branch)) = config.strategy.clone()
+    else {
         unreachable!("bounded dispatch")
     };
     if let PartialScoreBound::Trend(trend) = &branch.bound {
@@ -203,7 +206,13 @@ pub(super) fn run_with_clock<T: BranchTree, S: AdditiveScore, E>(
             constraint_evaluations: context.constraint_evaluations,
             ..Default::default()
         },
-        termination: PhaseTermination::Exact(result.termination.into()),
+        termination: PhaseTermination::Exact(
+            if completion && result.termination == BranchTermination::Exhausted {
+                ExactPhaseTermination::CompletionExhausted
+            } else {
+                result.termination.into()
+            },
+        ),
     })
 }
 

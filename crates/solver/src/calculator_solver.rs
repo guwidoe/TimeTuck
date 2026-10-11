@@ -231,7 +231,7 @@ fn solve_calculator_impl<
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 p.validate(a.as_ref().expect("initial state"))
                     .map_err(ScoringError::from)
@@ -243,7 +243,15 @@ fn solve_calculator_impl<
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::BasicTree::new(p),
+                    || {
+                        crate::branch_tree::BasicTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| {
                         CalculatorScoreDirector::new(p, a.clone(), factory, false)
                             .and_then(|d| d.score())
@@ -703,7 +711,7 @@ fn solve_list_calculator_impl<
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 p.validate(a.as_ref().expect("initial state"))
                     .map_err(ListScoringError::from)
@@ -715,7 +723,15 @@ fn solve_list_calculator_impl<
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::ListTree::new(p),
+                    || {
+                        crate::branch_tree::ListTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| {
                         ListCalculatorScoreDirector::new(p, a.clone(), factory, false)
                             .and_then(|d| d.score())
@@ -1189,7 +1205,7 @@ fn solve_mixed_calculator_impl<
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 p.validate(a.as_ref().expect("initial state"))
                     .map_err(MixedScoringError::from)
@@ -1201,7 +1217,15 @@ fn solve_mixed_calculator_impl<
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::MixedTree::new(p),
+                    || {
+                        crate::branch_tree::MixedTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| {
                         MixedCalculatorScoreDirector::new(p, a.clone(), factory, false)
                             .and_then(|d| d.score())

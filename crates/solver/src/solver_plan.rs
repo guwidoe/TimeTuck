@@ -69,13 +69,30 @@ pub enum ExactSearchStrategy {
     /// so later phases still run and SolverResult::is_optimal remains false.
     Complete,
     BranchAndBound(BoundedPhaseConfig),
+    /// Search only completions of the phase-entry assignment, using bounds and
+    /// node ordering to avoid visiting dominated subtrees. Preserves the same
+    /// values, list owners and relative order as `Complete`. Root and partial
+    /// nodes count as evaluations, including a root that is already complete.
+    /// Exhaustion proves only the best completion, never unrestricted optimality.
+    CompleteBranchAndBound(BoundedPhaseConfig),
+}
+impl ExactSearchStrategy {
+    pub(crate) fn is_bounded(&self) -> bool {
+        matches!(
+            self,
+            Self::BranchAndBound(_) | Self::CompleteBranchAndBound(_)
+        )
+    }
+    pub(crate) fn is_completion(&self) -> bool {
+        matches!(self, Self::Complete | Self::CompleteBranchAndBound(_))
+    }
 }
 
 /// Enumerate complete assignments using the solve's objective and shared controls.
 /// Each candidate counts as one score and one move evaluation; there is no initial
 /// rescore and no local-search step. Polling is cooperative between assignments.
 /// Only exhausting the full space proves optimality. Runtime can be factorial.
-/// With BranchAndBound, root and partial nodes also count as one score and move
+/// With either bounded strategy, root and partial nodes also count as one score and move
 /// evaluation each. An earlier phase's eligible best score is retained for pruning;
 /// initial model values alone are not a scored incumbent. Bound admissibility is
 /// required for an optimality claim. FrontierLimit ends only this phase.

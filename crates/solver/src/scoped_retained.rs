@@ -177,18 +177,23 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                             .refresh_retained(&mut best_state, &mut changes.borrow_mut());
                         notify(update);
                     };
-                    let out = if matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_)) {
+                    let completion = config.strategy.is_completion();
+                    let out = if config.strategy.is_bounded() {
                         bounded::run(
                             config,
                             prior,
                             time,
-                            || crate::branch_tree::BasicTree::new(p),
+                            || {
+                                crate::branch_tree::BasicTree::for_phase(
+                                    p,
+                                    completion.then_some(&initial),
+                                )
+                            },
                             evaluate,
                             Some(&mut best),
                         )
                         .map_err(|e| bounded::error(index, e))?
                     } else {
-                        let completion = matches!(config.strategy, ExactSearchStrategy::Complete);
                         exact::run_observed(
                             config,
                             prior,
@@ -448,18 +453,23 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                             .refresh_retained(&mut best_state, &mut changes.borrow_mut());
                         notify(update);
                     };
-                    let out = if matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_)) {
+                    let completion = config.strategy.is_completion();
+                    let out = if config.strategy.is_bounded() {
                         bounded::run(
                             config,
                             prior,
                             time,
-                            || crate::branch_tree::ListTree::new(p),
+                            || {
+                                crate::branch_tree::ListTree::for_phase(
+                                    p,
+                                    completion.then_some(&initial),
+                                )
+                            },
                             evaluate,
                             Some(&mut best),
                         )
                         .map_err(|e| bounded::error(index, e))?
                     } else {
-                        let completion = matches!(config.strategy, ExactSearchStrategy::Complete);
                         exact::run_observed(
                             config,
                             prior,
@@ -730,18 +740,23 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                             .refresh_retained(&mut best_state, &mut changes.borrow_mut());
                         notify(update);
                     };
-                    let out = if matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_)) {
+                    let completion = config.strategy.is_completion();
+                    let out = if config.strategy.is_bounded() {
                         bounded::run(
                             config,
                             prior,
                             time,
-                            || crate::branch_tree::MixedTree::new(p),
+                            || {
+                                crate::branch_tree::MixedTree::for_phase(
+                                    p,
+                                    completion.then_some(&initial),
+                                )
+                            },
                             evaluate,
                             Some(&mut best),
                         )
                         .map_err(|e| bounded::error(index, e))?
                     } else {
-                        let completion = matches!(config.strategy, ExactSearchStrategy::Complete);
                         exact::run_observed(
                             config,
                             prior,

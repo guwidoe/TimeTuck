@@ -1920,7 +1920,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 n.validate(p, a.as_ref().expect("initial state"))
                     .map_err(|error| SolverError::Phase {
@@ -1931,7 +1931,15 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::BasicTree::new(p),
+                    || {
+                        crate::branch_tree::BasicTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| {
                         n.calculate(p, a)
                             .map(|score| (score, n.active_constraint_count() as u128))
@@ -2262,7 +2270,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 n.validate(p, a.as_ref().expect("initial state"))
                     .map_err(|error| SolverError::Phase {
@@ -2273,7 +2281,15 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::ListTree::new(p),
+                    || {
+                        crate::branch_tree::ListTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| {
                         n.calculate(p, a)
                             .map(|score| (score, n.active_constraint_count() as u128))
@@ -2557,7 +2573,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 n.validate(p, a.as_ref().expect("initial state"))
                     .map_err(|error| SolverError::Phase {
@@ -2568,7 +2584,15 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::MixedTree::new(p),
+                    || {
+                        crate::branch_tree::MixedTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| {
                         n.calculate(p, a)
                             .map(|score| (score, n.active_constraint_count() as u128))
@@ -2868,7 +2892,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 crate::stream_scoring::validate_source(&g, &s).map_err(|error| {
                     SolverError::Phase {
@@ -2880,7 +2904,15 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::BasicTree::new(p),
+                    || {
+                        crate::branch_tree::BasicTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| exact::score_basic(p, &mut g, &s, a),
                     observed.then_some(&mut notify),
                 )
@@ -3178,7 +3210,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 s.validate(&g).map_err(|error| SolverError::Phase {
                     phase: index,
@@ -3188,7 +3220,15 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::ListTree::new(p),
+                    || {
+                        crate::branch_tree::ListTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| exact::score_list(p, &mut g, &s, a),
                     observed.then_some(&mut notify),
                 )
@@ -3521,7 +3561,7 @@ fn solve_mixed_stream_impl<
                 return Ok(custom_output(r));
             }
             if let PhaseRequest::Exact(config, prior) = &request
-                && matches!(config.strategy, ExactSearchStrategy::BranchAndBound(_))
+                && config.strategy.is_bounded()
             {
                 s.validate(&g).map_err(|error| SolverError::Phase {
                     phase: index,
@@ -3531,7 +3571,15 @@ fn solve_mixed_stream_impl<
                     config.clone(),
                     prior.clone(),
                     time,
-                    || crate::branch_tree::MixedTree::new(p),
+                    || {
+                        crate::branch_tree::MixedTree::for_phase(
+                            p,
+                            config
+                                .strategy
+                                .is_completion()
+                                .then(|| a.as_ref().expect("phase entry")),
+                        )
+                    },
                     |a| exact::score_mixed(p, &mut g, &s, a),
                     observed.then_some(&mut notify),
                 )

@@ -46,6 +46,32 @@ impl<'a, V: Eq + Clone> BasicTree<'a, V> {
         }
         (tree, Some(root))
     }
+    /// The caller has validated the phase handoff. Assigned representatives are
+    /// preserved verbatim, including payloads whose equality is identity-only.
+    pub(crate) fn for_phase(
+        problem: &'a FiniteProblem<V>,
+        initial: Option<&Assignment<V>>,
+    ) -> (Self, Option<Assignment<V>>) {
+        let Some(initial) = initial else {
+            return Self::new(problem);
+        };
+        if problem.search_space_size() == Some(0) {
+            return (
+                Self {
+                    problem,
+                    remaining: Vec::new(),
+                },
+                None,
+            );
+        }
+        let remaining = problem
+            .variables()
+            .iter()
+            .enumerate()
+            .filter_map(|(i, v)| (!v.is_pinned() && initial.values()[i].is_none()).then_some(i))
+            .collect();
+        (Self { problem, remaining }, Some(initial.clone()))
+    }
     pub(crate) fn remaining(&self) -> &[usize] {
         &self.remaining
     }
@@ -94,6 +120,21 @@ impl<'a, V: Eq + Clone> ListTree<'a, V> {
                 })
                 .collect(),
         );
+        Self::from_root(problem, root)
+    }
+    pub(crate) fn for_phase(
+        problem: &'a ListProblem<V>,
+        initial: Option<&ListAssignment<V>>,
+    ) -> (Self, Option<ListAssignment<V>>) {
+        match initial {
+            Some(initial) => Self::from_root(problem, initial.clone()),
+            None => Self::new(problem),
+        }
+    }
+    fn from_root(
+        problem: &'a ListProblem<V>,
+        root: ListAssignment<V>,
+    ) -> (Self, Option<ListAssignment<V>>) {
         let mut tree = Self {
             problem,
             remaining: Vec::new(),
@@ -217,6 +258,20 @@ impl<'a, B: Eq + Clone, L: Eq + Clone> MixedTree<'a, B, L> {
     pub(crate) fn new(p: &'a MixedProblem<B, L>) -> (Self, Option<MixedAssignment<B, L>>) {
         let (basic, b) = BasicTree::new(p.basic());
         let (lists, l) = ListTree::new(p.lists());
+        (
+            Self { basic, lists },
+            b.zip(l).map(|(b, l)| MixedAssignment::new(b, l)),
+        )
+    }
+    pub(crate) fn for_phase(
+        problem: &'a MixedProblem<B, L>,
+        initial: Option<&MixedAssignment<B, L>>,
+    ) -> (Self, Option<MixedAssignment<B, L>>) {
+        let Some(initial) = initial else {
+            return Self::new(problem);
+        };
+        let (basic, b) = BasicTree::for_phase(problem.basic(), Some(initial.basic()));
+        let (lists, l) = ListTree::for_phase(problem.lists(), Some(initial.lists()));
         (
             Self { basic, lists },
             b.zip(l).map(|(b, l)| MixedAssignment::new(b, l)),
