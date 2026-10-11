@@ -6897,3 +6897,32 @@ and exact structural/ordinary scores are retained. Native required-value state
 replaces mocked fullyAssigned InnerScore wrappers, without Java metadata parity.
 Complete mappings appear in provenance and the solver contract. Original all-nine
 backend fresh/retained and failure/budget/unwind tests earn no method credit.
+
+### Provider composition and ordered filtering
+
+All ten MixedMoveSelectorTest methods now have native adaptations. The previous
+three grouping cases cover plain/flat/nested generators; seven additional cases
+preserve filtering/caching/count-limit transparency, opaque Cartesian/probability
+generators and weighted/nested-weighted counting rejection. Native MoveProvider
+structural queries replace Java class introspection, without opening candidates
+or emitting lifecycle events. Explicit weighted runtime unions remain available.
+Their rejection concerns neighborhood counting only, including equal explicit
+weights; ordinary unweighted unions preserve their immediate-child sampling.
+
+The final CachingEntitySelectorTest method now distinguishes real native ordered
+and random iterator variants in place of Java iterator class assertions. The
+original variant traverses a standard slice; the random variant samples cached
+weights with replacement. This does not claim Java class identity or random traces.
+The final FilteringEntitySelectorTest method preserves actual JUST_IN_TIME/ORIGINAL
+settings despite its Solver suffix, exact forward/reverse codes, exhaustion,
+unfiltered size4 and lifecycle/open/size counts across two phases/five steps.
+Borrowed next_item/previous_item replace Java list iteration.
+
+New native provider wrappers impose per-opening selection limits or cache finite
+owned moves at step/phase/solve scope. Cached moves must remain valid for that
+scope; changing-assignment keys should use the existing mapped CachedMoveProvider.
+The reversible filter cursor retains move-only accepted values and bounds inspected
+work, including rejected runs. Backtracking never reopens the child or reruns a
+predicate. Original regressions cover lifetime/duplicates/events, overflow without
+partial publication, zero work, metadata failures, both real basic score backends,
+move-only ownership and bounded infinite rejection. They add no source credit.

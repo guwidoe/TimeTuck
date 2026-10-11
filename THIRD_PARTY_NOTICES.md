@@ -919,3 +919,12 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   Java mocks while preserving return, handler, move and scoring-call assertions.
   Complete substitutions appear in `compat/provenance.json`. The implementation,
   all-backend routing and failure/budget regressions are original work.
+
+- `crates/solver/tests/provider_structure_cases.rs` adapts the seven remaining
+  Community `MixedMoveSelectorTest` methods (Apache-2.0). Native provider
+  composition, transparent decorators and typed errors replace Java selector
+  introspection. `selection_cache_cases.rs` additionally adapts the iterator-mode
+  case from `CachingEntitySelectorTest`; `selection_filter_cases.rs` adapts ordered filtering and the relevant
+  forward/reverse `PlannerAssert` helpers. Complete mappings and helper attribution
+  are in `compat/provenance.json`. Implementations and separate wrapper/cursor
+  regressions are original work.

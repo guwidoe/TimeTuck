@@ -119,6 +119,47 @@ impl<S, F, Z> FilteredSelectionSource<S, F, Z> {
             size
         }
     }
+    /// Traverse accepted occurrences forward and backward in original order.
+    /// Each newly inspected candidate is filtered once; accepted payloads are
+    /// retained without Clone and reused when moving backward. The child opens
+    /// once, lazily, and maximum_inspections bounds rejected work and history.
+    /// Reaching the inspection limit does not establish source exhaustion.
+    pub fn cursor<'a, C, T: 'a>(
+        &'a mut self,
+        context: &'a C,
+        maximum_inspections: usize,
+    ) -> BidirectionalSelectionCursor<'a, T>
+    where
+        S: SelectionSource<C, T>,
+        F: FnMut(&C, &T) -> bool,
+        Z: FnMut() -> bool,
+    {
+        BidirectionalSelectionCursor::new(self.open_bounded(context, maximum_inspections))
+    }
+    fn open_bounded<'a, C, T: 'a>(
+        &'a mut self,
+        context: &'a C,
+        maximum_inspections: usize,
+    ) -> Box<dyn Iterator<Item = T> + 'a>
+    where
+        S: SelectionSource<C, T>,
+        F: FnMut(&C, &T) -> bool,
+        Z: FnMut() -> bool,
+    {
+        self.stats = CandidateFilterStats::default();
+        let predicate = &mut self.predicate;
+        let source = &mut self.source;
+        Box::new(Screened {
+            source: std::iter::once_with(move || source.open(context)).flatten(),
+            predicate: move |item: &T| predicate(context, item),
+            scan_limit: maximum_inspections,
+            selection_limit: usize::MAX,
+            stats: &mut self.stats,
+            termination: &mut self.termination,
+            poll_interval: self.poll_interval.get(),
+            until_poll: self.poll_interval.get(),
+        })
+    }
 }
 impl<C, T, S: SelectionSource<C, T>, F: FnMut(&C, &T) -> bool, Z: FnMut() -> bool>
     SelectionSource<C, T> for FilteredSelectionSource<S, F, Z>
@@ -137,19 +178,61 @@ impl<C, T, S: SelectionSource<C, T>, F: FnMut(&C, &T) -> bool, Z: FnMut() -> boo
     where
         T: 'a,
     {
-        self.stats = CandidateFilterStats::default();
-        let predicate = &mut self.predicate;
-        let source = &mut self.source;
-        Box::new(Screened {
-            source: std::iter::once_with(move || source.open(context)).flatten(),
-            predicate: move |item: &T| predicate(context, item),
-            scan_limit: usize::MAX,
-            selection_limit: usize::MAX,
-            stats: &mut self.stats,
-            termination: &mut self.termination,
-            poll_interval: self.poll_interval.get(),
-            until_poll: self.poll_interval.get(),
-        })
+        self.open_bounded(context, usize::MAX)
+    }
+}
+
+/// A bounded, reversible traversal retaining owned accepted occurrences. Forward
+/// probing may read the source once, without advancing position. Backward reads
+/// and revisiting retained occurrences never reopen the source or rerun filters.
+/// References borrow the cursor, protecting payloads while held by a caller.
+pub struct BidirectionalSelectionCursor<'a, T> {
+    source: Box<dyn Iterator<Item = T> + 'a>,
+    history: Vec<T>,
+    position: usize,
+    stopped: bool,
+}
+impl<'a, T> BidirectionalSelectionCursor<'a, T> {
+    fn new(source: Box<dyn Iterator<Item = T> + 'a>) -> Self {
+        Self {
+            source,
+            history: vec![],
+            position: 0,
+            stopped: false,
+        }
+    }
+    pub fn position(&self) -> usize {
+        self.position
+    }
+    pub fn has_previous(&self) -> bool {
+        self.position > 0
+    }
+    pub fn has_next(&mut self) -> bool {
+        if self.position < self.history.len() {
+            return true;
+        }
+        if !self.stopped {
+            if let Some(item) = self.source.next() {
+                self.history.push(item);
+                return true;
+            }
+            self.stopped = true;
+        }
+        false
+    }
+    pub fn next_item(&mut self) -> Option<&T> {
+        if !self.has_next() {
+            return None;
+        }
+        self.position += 1;
+        self.history.get(self.position - 1)
+    }
+    pub fn previous_item(&mut self) -> Option<&T> {
+        if !self.has_previous() {
+            return None;
+        }
+        self.position -= 1;
+        self.history.get(self.position)
     }
 }
 
@@ -306,6 +389,9 @@ impl<I: Iterator, F: FnMut(&I::Item) -> bool, Z: FnMut() -> bool> FusedIterator
 impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&P, &A, u64, &M) -> bool, Z: FnMut() -> bool>
     MoveProvider<P, A, M> for FilteredMoveProvider<Q, F, Z>
 {
+    fn neighborhood_count(&self) -> Result<usize, crate::NeighborhoodCountError> {
+        self.provider.neighborhood_count()
+    }
     fn event(&mut self, event: crate::MoveProviderEvent) {
         self.provider.event(event);
     }

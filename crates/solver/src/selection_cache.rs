@@ -238,11 +238,15 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64> SelectionCache<C, 
         &'a self,
         draw: impl FnMut() -> f64 + 'a,
     ) -> Result<CachedSelectionIter<'a, T>, SelectionCacheError> {
-        Ok(CachedSelectionIter {
-            snapshot: self.current()?,
-            order: self.order,
-            cursor: 0,
-            draw: Box::new(draw),
+        let snapshot = self.current()?;
+        Ok(match self.order {
+            CachedSelectionOrder::Original => {
+                CachedSelectionIter::Original(snapshot.items().iter())
+            }
+            CachedSelectionOrder::Random => CachedSelectionIter::Random {
+                snapshot,
+                draw: Box::new(draw),
+            },
         })
     }
     pub fn list_iter(&self) -> Result<std::slice::Iter<'_, T>, SelectionCacheError> {
@@ -266,18 +270,21 @@ impl<C, T, S: SelectionSource<C, T>, W: FnMut(&C, &T) -> f64> SelectionCache<C, 
     }
 }
 
-pub struct CachedSelectionIter<'a, T> {
-    snapshot: &'a WeightedSelection<T>,
-    order: CachedSelectionOrder,
-    cursor: usize,
-    draw: Box<dyn FnMut() -> f64 + 'a>,
+/// The active iterator strategy: ordered slice traversal or weighted sampling
+/// with replacement. Empty random iterators remain Random but yield no items.
+pub enum CachedSelectionIter<'a, T> {
+    Original(std::slice::Iter<'a, T>),
+    Random {
+        snapshot: &'a WeightedSelection<T>,
+        draw: Box<dyn FnMut() -> f64 + 'a>,
+    },
 }
 impl<T> CachedSelectionIter<'_, T> {
     /// Inspect availability without advancing the source or drawing randomness.
     pub fn has_next(&self) -> bool {
-        match self.order {
-            CachedSelectionOrder::Original => self.cursor < self.snapshot.len(),
-            CachedSelectionOrder::Random => self.snapshot.active_len() > 0,
+        match self {
+            Self::Original(iter) => !iter.as_slice().is_empty(),
+            Self::Random { snapshot, .. } => snapshot.active_len() > 0,
         }
     }
 }
@@ -287,26 +294,18 @@ impl<'a, T> Iterator for CachedSelectionIter<'a, T> {
         if !self.has_next() {
             return None;
         }
-        match self.order {
-            CachedSelectionOrder::Original => {
-                let item = &self.snapshot.items()[self.cursor];
-                self.cursor += 1;
-                Some(item)
-            }
-            CachedSelectionOrder::Random => self
-                .snapshot
-                .choose((self.draw)())
+        match self {
+            Self::Original(iter) => iter.next(),
+            Self::Random { snapshot, draw } => snapshot
+                .choose(draw())
                 .expect("cached selector requires draws in [0,1)"),
         }
     }
     fn size_hint(&self) -> (usize, Option<usize>) {
-        if self.order == CachedSelectionOrder::Original {
-            let left = self.snapshot.len() - self.cursor;
-            (left, Some(left))
-        } else if self.has_next() {
-            (usize::MAX, None)
-        } else {
-            (0, Some(0))
+        match self {
+            Self::Original(iter) => iter.size_hint(),
+            Self::Random { snapshot, .. } if snapshot.active_len() > 0 => (usize::MAX, None),
+            Self::Random { .. } => (0, Some(0)),
         }
     }
 }

@@ -51984,6 +51984,141 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all return-string, selected-handler exactly-once, other-handler never, one applied-move and one/two score-calculation assertions. Retain three value choices and two entities as two required native variables. Replace mocked Move/InnerScoreDirector and fullyAssigned InnerScore wrappers with a real transactional change and a zero scoped constraint; temporary unassignment produces the asserted structural -1 and ordinary zero, without claiming Java initialized/fullyAssigned metadata parity. Reset the observable calculation counter after native phase initialization. Scored variants perform an independent full network recomputation on the same applied candidate and require score agreement before dispatch; ordinary variants use the single incremental calculation. Add assignment/director-score/best rollback and work assertions. Native budgets and fail-closed rescorer errors are separate original contracts. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedMoveSelectorTest.filteringSeesThroughToChild",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "filteringSeesThroughToChild",
+      "local_path": "crates/solver/tests/provider_structure_cases.rs",
+      "local_test": "filtering_sees_through_to_child",
+      "modifications": "Three-child random unit union with always-true filtering; retain exact count3 and ensure no child factory is opened. Native MoveProvider structural queries and actual transparent decorators replace Java selector class introspection. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedMoveSelectorTest.cachingSeesThroughToChild",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "cachingSeesThroughToChild",
+      "local_path": "crates/solver/tests/provider_structure_cases.rs",
+      "local_test": "caching_sees_through_to_child",
+      "modifications": "Two-child random unit union with a phase-scoped original-order owned-move cache; retain exact count2 before any cache build. The finite maximum100 is a native collection safety limit, not an asserted Java default. Native MoveProvider structural queries and actual transparent decorators replace Java selector class introspection. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedMoveSelectorTest.selectedCountLimitSeesThroughToChild",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "selectedCountLimitSeesThroughToChild",
+      "local_path": "crates/solver/tests/provider_structure_cases.rs",
+      "local_test": "selected_count_limit_sees_through_to_child",
+      "modifications": "Two-child random unit union under a five-selection limit; retain exact count2 without opening child factories. Native MoveProvider structural queries and actual transparent decorators replace Java selector class introspection. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedMoveSelectorTest.cartesianProductCountsAsOne",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "cartesianProductCountsAsOne",
+      "local_path": "crates/solver/tests/provider_structure_cases.rs",
+      "local_test": "cartesian_product_counts_as_one",
+      "modifications": "Three-child random Cartesian generator with ignore-empty enabled counts as one opaque provider. Native independently collected product and a bounded random sample factory replace the Java Cartesian selector; no candidates are opened by counting. Native MoveProvider structural queries and actual transparent decorators replace Java selector class introspection. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedMoveSelectorTest.probabilityMoveSelectorCountsAsOneAndIsNotRejected",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "probabilityMoveSelectorCountsAsOneAndIsNotRejected",
+      "local_path": "crates/solver/tests/provider_structure_cases.rs",
+      "local_test": "probability_selector_counts_as_one_and_is_not_rejected",
+      "modifications": "Retain a single a1 move with weight1.0 and exact count1, without rejection. Native per-move WeightedSelection is inside one opaque provider; it is distinct from generator-family union weighting. No Java phase cache or PRNG trace parity is claimed. Native MoveProvider structural queries and actual transparent decorators replace Java selector class introspection. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedMoveSelectorTest.weightedUnionThrows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "weightedUnionThrows",
+      "local_path": "crates/solver/tests/provider_structure_cases.rs",
+      "local_test": "weighted_union_throws",
+      "modifications": "Two-child random union with explicit weights1 and2 is rejected by counting. Native NeighborhoodCountError::WeightedUnion replaces UnsupportedOperationException and preserves the asserted Neighborhoods API message substring; weighted runtime selection remains supported. Native MoveProvider structural queries and actual transparent decorators replace Java selector class introspection. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MixedMoveSelectorTest.weightedNestedUnionThrows",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/neighborhood/MixedMoveSelectorTest.java",
+      "upstream_test": "weightedNestedUnionThrows",
+      "local_path": "crates/solver/tests/provider_structure_cases.rs",
+      "local_test": "weighted_nested_union_throws",
+      "modifications": "Inner two-child random union with explicit weights1 and2 inside outer unweighted union plus third child retains the same error and asserted Neighborhoods API message substring. Propagate the error without opening providers. Native MoveProvider structural queries and actual transparent decorators replace Java selector class introspection. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CachingEntitySelectorTest.iterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/CachingEntitySelectorTest.java",
+      "upstream_test": "iterator",
+      "local_path": "crates/solver/tests/selection_cache_cases.rs",
+      "local_test": "entity_iterator_strategy",
+      "modifications": "Preserve phase caching, random/original modes and declared one-entity size. Supply one explicit native entity code because the mocked iterator contents are unspecified. Assert the real CachedSelectionIter::Random versus Original variants in place of Java CachedListRandomIterator instance/non-instance assertions. Native variants execute weighted replacement sampling and standard ordered slice traversal; no Java class/API/ABI identity is claimed. Native lifecycle builds replace direct Java constructCache(null)."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "FilteringEntitySelectorTest.filterOrderedCacheTypeSolver",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/entity/decorator/FilteringEntitySelectorTest.java",
+      "upstream_test": "filterOrderedCacheTypeSolver",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "local_test": "filter_entity_ordered_uncached",
+      "modifications": "Preserve actual JUST_IN_TIME/ORIGINAL configuration despite the method name Solver suffix, all e1/e2/e3/e4 identities, e3 rejection, exact forward e1/e2/e4 and reverse e4/e2/e1 traversal, forward/backward exhaustion, false infinite metadata and unfiltered getSize4. Native upper_bound labels the unfiltered cardinality honestly. Across two phases and five steps retain every lifecycle and five child-open/five-size count; native bounded cursor opens the ordered child once per step in place of listIterator. Reversal reuses accepted move-only payloads and does not filter again. Maximum16 is an extra native work ceiling beyond the four finite fixture items. No Java cursor ABI or production code copied."
     }
   ],
   "fixtures": [
@@ -71057,6 +71192,45 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt only the two-phase declaration layout with both environment-mode overrides initially absent. Solver/domain/scoring/termination fields are unrelated to the configuration utility assertions and are not adapted. Native config helper constructs two optional phase modes. No fixture or runtime solver-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllCodesOfOrderedEntitySelector.ordered_filter_cursor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllCodesOfOrderedEntitySelector",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "modifications": "Adapt exact forward/backward code order, hasNext/hasPrevious and exhaustion assertions through a real native reversible filtered cursor. Java ListIterator is replaced by borrowed next_item/previous_item. The existing source/scopes fixture preserves two phases/five steps, unfiltered size4 and child-open/size counts. Attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertAllReverseCodesOfIterator.ordered_filter_cursor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertAllReverseCodesOfIterator",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "modifications": "Adapt exact forward/backward code order, hasNext/hasPrevious and exhaustion assertions through a real native reversible filtered cursor. Java ListIterator is replaced by borrowed next_item/previous_item. The existing source/scopes fixture preserves two phases/five steps, unfiltered size4 and child-open/size counts. Attribution earns no extra method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.assertReverseCodesOfListIterator.ordered_filter_cursor",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertReverseCodesOfListIterator",
+      "local_path": "crates/solver/tests/selection_filter_cases.rs",
+      "modifications": "Adapt exact forward/backward code order, hasNext/hasPrevious and exhaustion assertions through a real native reversible filtered cursor. Java ListIterator is replaced by borrowed next_item/previous_item. The existing source/scopes fixture preserves two phases/five steps, unfiltered size4 and child-open/size counts. Attribution earns no extra method credit."
     }
   ]
 }

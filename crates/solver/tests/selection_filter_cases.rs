@@ -149,6 +149,40 @@ fn filter_iterable_value() {
 fn filter_entity_dependent_value() {
     raw_filter(&["v1", "v2", "v3", "v4"]);
 }
+
+#[test]
+fn filter_entity_ordered_uncached() {
+    // Despite its Solver suffix, the source method specifies JUST_IN_TIME.
+    let mut source = filtered(&["e1", "e2", "e3", "e4"]);
+    source.event(SolveStarted, &"e1");
+    for steps in [2, 3] {
+        source.event(PhaseStarted, &"e1");
+        for _ in 0..steps {
+            source.event(StepStarted, &"e1");
+            assert_eq!(source.upper_bound(&"e1"), Some(4));
+            assert!(!source.is_never_ending());
+            {
+                let mut cursor = source.cursor(&"e1", 16);
+                for expected in ["e1", "e2", "e4"] {
+                    assert!(cursor.has_next());
+                    assert_eq!(cursor.next_item(), Some(&expected));
+                }
+                assert!(!cursor.has_next());
+                assert_eq!(cursor.next_item(), None);
+                for expected in ["e4", "e2", "e1"] {
+                    assert!(cursor.has_previous());
+                    assert_eq!(cursor.previous_item(), Some(&expected));
+                }
+                assert!(!cursor.has_previous());
+                assert_eq!(cursor.previous_item(), None);
+            }
+            source.event(StepEnded, &"e1");
+        }
+        source.event(PhaseEnded, &"e1");
+    }
+    source.event(SolveEnded, &"e1");
+    counts(source.source(), 5);
+}
 fn limited(values: &[&'static str], maximum: usize) {
     let mut source = LimitedSelectionSource::new(Source::new(values), maximum);
     source.event(SolveStarted, &"e1");

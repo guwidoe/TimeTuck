@@ -50,10 +50,10 @@ impl<'p, P, A, M> MoveProviderGroup<'p, P, A, M> {
         let mut leaves = Vec::new();
         while let Some(node) = pending.pop() {
             match node {
-                Self::Leaf(provider) => leaves.push((provider, 1)),
+                Self::Leaf(provider) => leaves.push(provider),
                 Self::Group(children) => pending.extend(children.into_iter().rev()),
             }
         }
-        ProviderUnion::new(leaves, order)
+        ProviderUnion::unweighted(leaves, order)
     }
 }

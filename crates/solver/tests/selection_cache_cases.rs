@@ -279,3 +279,24 @@ fn probability_entity_without_cached_selection_type() {
         Err(SelectionCacheError::UncachedScope)
     ));
 }
+
+#[test]
+fn entity_iterator_strategy() {
+    for order in [CachedSelectionOrder::Random, CachedSelectionOrder::Original] {
+        let mut selected = cache(&["e1"], SelectionCacheScope::Phase, order);
+        event(&mut selected, SolveStarted);
+        event(&mut selected, PhaseStarted);
+        let iterator = selected.iter(0).unwrap();
+        assert_eq!(
+            matches!(iterator, CachedSelectionIter::Random { .. }),
+            order == CachedSelectionOrder::Random
+        );
+        assert_eq!(
+            matches!(iterator, CachedSelectionIter::Original(_)),
+            order == CachedSelectionOrder::Original
+        );
+        drop(iterator);
+        event(&mut selected, PhaseEnded);
+        event(&mut selected, SolveEnded);
+    }
+}

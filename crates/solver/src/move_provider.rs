@@ -1,5 +1,24 @@
 //! Problem-specific candidate generation using the existing local-search engine.
 
+/// Counting explicit generator families requires unweighted composition. Weighting
+/// moves within one opaque provider does not weight the generator families.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum NeighborhoodCountError {
+    WeightedUnion,
+    Overflow,
+}
+impl std::fmt::Display for NeighborhoodCountError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            Self::WeightedUnion => {
+                "Neighborhoods API cannot count explicitly weighted provider unions"
+            }
+            Self::Overflow => "neighborhood generator count exceeds usize capacity",
+        })
+    }
+}
+impl std::error::Error for NeighborhoodCountError {}
+
 /// Supply candidates for one immutable assignment snapshot at a completed-step
 /// boundary. The solver recreates this iterator each step and applies its normal
 /// scoring, acceptance, tabu, foraging, rollback and stopping rules.
@@ -17,6 +36,13 @@
 /// Closures returning Vec<M> implement this trait for convenience. Implement the
 /// trait directly to return lazy iterators borrowing the current snapshot.
 pub trait MoveProvider<P, A, M> {
+    /// Count generator families without opening candidates or sending lifecycle
+    /// events. Opaque providers count as one. Explicit unweighted unions sum their
+    /// children; transparent decorators forward this query, including errors.
+    /// This is structural metadata, not a candidate count or exhaustion promise.
+    fn neighborhood_count(&self) -> Result<usize, NeighborhoodCountError> {
+        Ok(1)
+    }
     /// Receive real engine phase/scan boundaries. Direct calls to moves() do not
     /// synthesize events. Defaults to no state change, preserving resumable queues.
     /// Callbacks must return promptly and should not panic.
@@ -122,6 +148,9 @@ impl<Q, F: FnMut(&mut Q)> PhaseResetMoveProvider<Q, F> {
 impl<P, A, M, Q: MoveProvider<P, A, M>, F: FnMut(&mut Q)> MoveProvider<P, A, M>
     for PhaseResetMoveProvider<Q, F>
 {
+    fn neighborhood_count(&self) -> Result<usize, NeighborhoodCountError> {
+        self.provider.neighborhood_count()
+    }
     fn event(&mut self, event: MoveProviderEvent) {
         if event == MoveProviderEvent::PhaseStarted {
             (self.reset)(&mut self.provider);

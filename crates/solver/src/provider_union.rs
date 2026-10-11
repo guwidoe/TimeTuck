@@ -29,6 +29,7 @@ impl Error for EmptyMoveProviders {}
 pub struct ProviderUnion<'p, P, A, M> {
     children: Vec<WeightedMoveProvider<'p, P, A, M>>,
     order: UnionOrder,
+    unweighted: bool,
 }
 impl<'p, P, A, M> ProviderUnion<'p, P, A, M> {
     /// Empty lists are rejected. A nonempty list with all weights zero is valid
@@ -41,7 +42,23 @@ impl<'p, P, A, M> ProviderUnion<'p, P, A, M> {
         if children.is_empty() {
             return Err(EmptyMoveProviders);
         }
-        Ok(Self { children, order })
+        Ok(Self {
+            children,
+            order,
+            unweighted: false,
+        })
+    }
+    /// Compose children with unit selection weights and retain their explicit
+    /// unweighted structure for neighborhood counting. Candidate selection still
+    /// chooses immediate children equally; counting alone does not flatten them.
+    /// Use MoveProviderGroup to flatten leaf probabilities across nested groups.
+    pub fn unweighted(
+        children: impl IntoIterator<Item = &'p mut dyn MoveProvider<P, A, M>>,
+        order: UnionOrder,
+    ) -> Result<Self, EmptyMoveProviders> {
+        let mut result = Self::new(children.into_iter().map(|p| (p, 1)), order)?;
+        result.unweighted = true;
+        Ok(result)
     }
     /// Read-only provider identity and weights, in construction order.
     pub fn providers(&self) -> impl Iterator<Item = (&dyn MoveProvider<P, A, M>, u32)> {
@@ -51,6 +68,15 @@ impl<'p, P, A, M> ProviderUnion<'p, P, A, M> {
     }
 }
 impl<P, A, M> MoveProvider<P, A, M> for ProviderUnion<'_, P, A, M> {
+    fn neighborhood_count(&self) -> Result<usize, crate::NeighborhoodCountError> {
+        if !self.unweighted {
+            return Err(crate::NeighborhoodCountError::WeightedUnion);
+        }
+        self.children.iter().try_fold(0usize, |n, (child, _)| {
+            n.checked_add(child.neighborhood_count()?)
+                .ok_or(crate::NeighborhoodCountError::Overflow)
+        })
+    }
     fn event(&mut self, event: crate::MoveProviderEvent) {
         for (provider, weight) in &mut self.children {
             if *weight != 0 {

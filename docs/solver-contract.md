@@ -2488,3 +2488,54 @@ output counts and checksums. Three active families improve about 2.14x and 1,024
 active families about 23.67x; short and retirement-heavy cases are included.
 These are iterator measurements, not full-solver or Java comparisons. Evidence:
 `work/parallel-round21-evidence/interleave/work/interleave-refill-evidence.json`.
+
+## Transparent provider composition
+
+MoveProvider::neighborhood_count queries explicit generator structure without
+opening candidate cursors, invoking predicates/reset callbacks or emitting events.
+Opaque providers count as one, including Cartesian generators and per-move
+probability selection. ProviderUnion::unweighted recursively sums child counts;
+explicitly weighted ProviderUnion::new returns NeighborhoodCountError::WeightedUnion,
+including through nested transparent decorators. Weighting remains available for
+actual candidate selection. Counts use checked usize addition and are structural
+metadata rather than candidate cardinality, productive output or an exhaustion proof.
+Unweighted unions still choose immediate children equally. MoveProviderGroup keeps
+its existing iterative flattening and leaf-proportional random distribution.
+
+FilteredMoveProvider, PhaseResetMoveProvider, LimitedMoveProvider and
+CachedProviderMoves forward counting and errors to their child. LimitedMoveProvider
+caps yielded proposals per opening and skips the child factory at zero. Lifecycle
+and construction-placement notifications remain delegated. A downstream filter
+can reject these proposals; put the limit before filtering to bound inspected work.
+
+CachedProviderMoves retains a complete finite stream of owned moves in original
+order, preserving duplicates. Step, Phase and Solve scope invalidation follows real
+provider events, with higher boundaries clearing shorter-lived snapshots. Direct
+calls synthesize no events and require explicit reset. Editing the child clears the
+snapshot first. A maximum collection limit bounds reads; an overflow reads at most
+one extra candidate, publishes no partial snapshot, and returns ProviderSnapshotError
+from try_moves. The infallible MoveProvider boundary panics with that error.
+Zero skips collection. Output cloning is lazy. Callbacks and reads cannot be rolled
+back or preempted. Use this wrapper only for moves valid throughout the selected
+scope; cached list positions/dependencies/pins can stale. CachedMoveProvider instead
+retains selection keys and maps them against each current assignment.
+
+## Reversible ordered filtering
+
+FilteredSelectionSource::cursor opens its child once, lazily, under an explicit
+inspection ceiling. BidirectionalSelectionCursor retains accepted occurrences
+without Clone. has_next can prefetch one accepted item without advancing position;
+next_item/previous_item borrow retained payloads. Moving backward and revisiting
+history do not call the source or predicate again. Position ranges from zero to
+the retained length. Exhaustion/inspection termination is sticky for new reads;
+retained history can still be revisited. The inspection limit bounds rejected work
+and retained storage; reaching it does not prove source exhaustion. Zero skips the
+child factory. Existing cooperative cancellation polling also applies. Source and
+predicate callbacks must return promptly. Dropping the cursor releases history.
+
+CachedSelectionIter now distinguishes Original slice traversal from Random weighted
+replacement sampling as actual enum variants. Empty random snapshots keep the
+Random strategy while yielding nothing. Existing ordering, duplicate, progress,
+no-draw-on-empty and fused exhaustion behavior remains. Original iteration no longer
+stores an unused random callback; it drops that callback when the iterator is built.
+This does not establish a timing improvement or Java iterator class identity.

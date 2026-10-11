@@ -558,7 +558,11 @@ mod change_product;
 pub use change_product::change_product_moves;
 
 mod move_provider;
-pub use move_provider::{MoveProvider, MoveProviderEvent, PhaseResetMoveProvider};
+pub use move_provider::{
+    MoveProvider, MoveProviderEvent, NeighborhoodCountError, PhaseResetMoveProvider,
+};
+mod provider_wrappers;
+pub use provider_wrappers::{CachedProviderMoves, LimitedMoveProvider, ProviderSnapshotError};
 mod queued_move_provider;
 pub use queued_move_provider::{PlacementMoveFactory, PlacementQueueOrder, QueuedMoveProvider};
 mod provider_search;
@@ -682,8 +686,8 @@ pub use ordered_selection::{OrderedSelection, OrderedSelectionCache, OrderedSele
 
 mod selection_filters;
 pub use selection_filters::{
-    CandidateFilterStats, CandidateFilterStop, FilteredMoveProvider, FilteredSelectionSource,
-    LimitedSelectionSource,
+    BidirectionalSelectionCursor, CandidateFilterStats, CandidateFilterStop, FilteredMoveProvider,
+    FilteredSelectionSource, LimitedSelectionSource,
 };
 
 mod selection_replay;
