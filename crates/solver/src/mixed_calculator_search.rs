@@ -130,6 +130,10 @@ where
     fn assert_consistent(&mut self) -> Result<(), MixedScoringError> {
         self.assert_consistent()
     }
+    fn restore(&mut self, assignment: MixedAssignment<B, L>) -> Result<u128, MixedScoringError> {
+        self.reset(assignment)?;
+        Ok(1)
+    }
     fn trial(
         &mut self,
         movement: &MixedMove<B, L>,

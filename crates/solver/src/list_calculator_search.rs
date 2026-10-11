@@ -133,6 +133,10 @@ where
     fn assert_consistent(&mut self) -> Result<(), ListScoringError> {
         self.assert_consistent()
     }
+    fn restore(&mut self, assignment: ListAssignment<V>) -> Result<u128, ListScoringError> {
+        self.reset(assignment)?;
+        Ok(1)
+    }
     fn trial(
         &mut self,
         movement: &ListMove<V>,

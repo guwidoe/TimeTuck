@@ -65,12 +65,15 @@ impl<E: Error + 'static> Error for CustomPhaseError<E> {
 }
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct CustomPhaseWork {
-    /// Initial scoring plus attempted candidate evaluations, including unscored
-    /// dependency-flaw inspections. Constraint work counts only actual callbacks.
+    /// Initial/restoration scoring plus attempted candidate evaluations, including
+    /// unscored dependency-flaw inspections. Constraint work counts actual callbacks.
     pub evaluations: u64,
     pub move_evaluations: u64,
     pub constraint_evaluations: u128,
     pub committed_moves: u64,
+    /// Attempted retained-best restoration scores between sequenced commands.
+    /// Included in evaluations and constraint_evaluations, not move_evaluations.
+    pub restorations: u64,
 }
 /// Retained best committed state. A temporary trial never becomes the best.
 /// Complete is independent of feasibility; no custom command proves optimality.
@@ -103,6 +106,8 @@ pub(crate) trait CommandDirector<A, M, S> {
         Ok(None)
     }
     fn assert_consistent(&mut self) -> Result<(), Self::Error>;
+    /// Restore the actual retained payloads; equality may compare identity only.
+    fn restore(&mut self, assignment: A) -> Result<u128, Self::Error>;
     /// The visitor returns whether to commit. An unwind drops the move guard.
     fn trial(
         &mut self,
@@ -110,13 +115,27 @@ pub(crate) trait CommandDirector<A, M, S> {
         visit: &mut dyn FnMut(&A, S, u128) -> bool,
     ) -> Result<(), Self::Error>;
 }
+macro_rules! restore_command_state {
+    (scoped, $director:expr, $assignment:expr) => {
+        $director.replace_retained_assignment($assignment, true)
+    };
+    (stream, $director:expr, $assignment:expr) => {{
+        let change = $director.replace_assignment($assignment)?;
+        let work = change.constraint_evaluations();
+        change.commit();
+        Ok(work)
+    }};
+}
 macro_rules! director {
-    ([$($generics:tt)*] $director:ty, $assignment:ty, $movement:ty, $error:ty, $search:ident $(, $inspect:ident)?) => {
+    ([$($generics:tt)*] $director:ty, $assignment:ty, $movement:ty, $error:ty, $search:ident, $restore:ident $(, $inspect:ident)?) => {
         impl<$($generics)*> CommandDirector<$assignment,$movement,S> for $director {
             type Error=$error;
             $(fn preview(&self,movement:&$movement)->Result<Option<MoveInspection<$assignment>>,Self::Error> {
                 self.$inspect(movement).map(Some)
             })?
+            fn restore(&mut self, assignment: $assignment) -> Result<u128, Self::Error> {
+                restore_command_state!($restore, self, assignment)
+            }
             fn assignment(&self)->&$assignment {self.assignment()}
             fn score(&self)->S {self.score()}
             fn initial_evaluations(&self)->u128 {$search::initial_constraint_evaluations(self)}
@@ -135,12 +154,12 @@ use crate::{
     list_search_scoring::ListSearchDirector, mixed_search_scoring::MixedSearchDirector,
     search_scoring::SearchDirector,
 };
-director!(['p,'c,V:Eq+Clone,S:AdditiveScore] ScoreDirector<'p,'c,V,S>, Assignment<V>, Move<V>, ScoringError, SearchDirector);
-director!(['p,'c,V:Eq+Clone+'static,S:AdditiveScore+'static] StreamScoreDirector<'p,'c,V,S>, Assignment<V>, Move<V>, StreamScoringError, SearchDirector);
-director!(['p,'c,V:Eq+Clone,S:AdditiveScore] ListScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListScoringError, ListSearchDirector, inspect_move);
-director!(['p,'c,V:Eq+Clone+'static,S:AdditiveScore+'static] ListStreamScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListStreamScoringError, ListSearchDirector, inspect_move);
-director!(['p,'c,B:Eq+Clone,L:Eq+Clone,S:AdditiveScore] MixedScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedScoringError, MixedSearchDirector, inspect_move);
-director!(['p,'c,B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static] MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedStreamScoringError, MixedSearchDirector, inspect_move);
+director!(['p,'c,V:Eq+Clone,S:AdditiveScore] ScoreDirector<'p,'c,V,S>, Assignment<V>, Move<V>, ScoringError, SearchDirector, scoped);
+director!(['p,'c,V:Eq+Clone+'static,S:AdditiveScore+'static] StreamScoreDirector<'p,'c,V,S>, Assignment<V>, Move<V>, StreamScoringError, SearchDirector, stream);
+director!(['p,'c,V:Eq+Clone,S:AdditiveScore] ListScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListScoringError, ListSearchDirector, scoped, inspect_move);
+director!(['p,'c,V:Eq+Clone+'static,S:AdditiveScore+'static] ListStreamScoreDirector<'p,'c,V,S>, ListAssignment<V>, ListMove<V>, ListStreamScoringError, ListSearchDirector, stream, inspect_move);
+director!(['p,'c,B:Eq+Clone,L:Eq+Clone,S:AdditiveScore] MixedScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedScoringError, MixedSearchDirector, scoped, inspect_move);
+director!(['p,'c,B:Eq+Clone+'static,L:Eq+Clone+'static,S:AdditiveScore+'static] MixedStreamScoreDirector<'p,'c,B,L,S>, MixedAssignment<B,L>, MixedMove<B,L>, MixedStreamScoringError, MixedSearchDirector, stream, inspect_move);
 
 /// Execute a native command against a bounded transactional scoring session.
 ///
@@ -183,6 +202,7 @@ pub struct CustomPhaseContext<'a, A, M, S, E> {
     best_assignment: A,
     best_score: S,
     best_complete: bool,
+    current_is_best: bool,
     work: CustomPhaseWork,
     stop: Option<CustomPhaseTermination>,
     failed: bool,
@@ -301,6 +321,7 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         self.operation(result)?;
         self.failed = false;
         self.work.committed_moves += 1;
+        self.current_is_best = false;
         let score = self.director.score();
         self.finish_committed(&score);
         Ok(Some(score))
@@ -311,6 +332,7 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             self.best_assignment = self.director.assignment().clone();
             self.best_score = score.clone();
             self.best_complete = complete;
+            self.current_is_best = true;
             if let Some(shared) = &mut self.shared {
                 shared.record_improvement();
                 if complete {
@@ -400,9 +422,103 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         let outcome = outcome.expect("successful trial visits candidate");
         if outcome.committed {
             self.work.committed_moves += 1;
+            self.current_is_best = false;
             self.finish_committed(&outcome.score);
         }
         Ok(Some(outcome))
+    }
+    /// Run commands in sequence under this phase's existing budget and history.
+    /// Every invoked command starts from retained best. Accepted worsening/tied
+    /// states from a preceding command are restored before the next command;
+    /// actual payloads are restored even when value equality compares only IDs.
+    /// Initialization, previews, rejected trials and a latest improving commit
+    /// need no restoration. The last command may leave a worsening working state,
+    /// as for an ordinary custom command; the phase still returns retained best.
+    ///
+    /// Restoration uses the existing scoring session, including the same calculator
+    /// instance, and consumes one score slot plus actual constraint work. It is not
+    /// a move, completed step, improvement or new phase. Limits are checked before
+    /// taking the next iterator item, before restoration and before each command.
+    /// If restoration exhausts a limit, that next command is not invoked. Returns
+    /// the number of commands that returned successfully, including a command that
+    /// observed termination and returned. Empty sequences do no work.
+    ///
+    /// Commands can be heterogeneous boxed or borrowed callbacks. Nested sequences
+    /// share this same context. A command error or panic invalidates the context
+    /// even if the enclosing command catches it. Panics propagate with their original
+    /// payload; already committed moves are not rolled back as a group. Restoration
+    /// failure follows each backend's ordinary reset/transaction failure contract.
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// let p = FiniteProblem::new(vec![Variable::new(vec![0_i64, 1, 2]).with_initial(0)])?;
+    /// let mut n = ConstraintNetwork::new(1);
+    /// n.add_constraint("value", vec![0], |v| SimpleScore::new(v[0].copied().unwrap()))?;
+    /// let r = custom_phase(&p, &n, p.initial_assignment(), CustomPhaseConfig::default(), |c| {
+    ///     let mut first = |c: &mut CustomPhaseContext<'_, Assignment<i64>, Move<i64>, SimpleScore, ScoringError>| {
+    ///         c.execute(&Move::Change { variable: 0, value: Some(1) })?;
+    ///         c.execute(&Move::Change { variable: 0, value: Some(0) })?;
+    ///         Ok(())
+    ///     };
+    ///     let mut second = |c: &mut CustomPhaseContext<'_, Assignment<i64>, Move<i64>, SimpleScore, ScoringError>| {
+    ///         assert_eq!(c.assignment().values(), &[Some(1)]);
+    ///         c.execute(&Move::Change { variable: 0, value: Some(2) })?;
+    ///         Ok(())
+    ///     };
+    ///     let commands: [&mut dyn FnMut(&mut CustomPhaseContext<'_, Assignment<i64>, Move<i64>, SimpleScore, ScoringError>) -> Result<(), CustomPhaseError<ScoringError>>; 2] = [&mut first, &mut second];
+    ///     assert_eq!(c.run_commands(commands)?, 2);
+    ///     Ok(())
+    /// })?;
+    /// assert_eq!(r.score, Some(SimpleScore::new(2)));
+    /// assert_eq!(r.work.evaluations, 5); // Initial + 3 moves + 1 restoration.
+    /// assert_eq!(r.work.restorations, 1);
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn run_commands<C>(
+        &mut self,
+        commands: impl IntoIterator<Item = C>,
+    ) -> Result<usize, CustomPhaseError<E>>
+    where
+        C: FnMut(&mut Self) -> Result<(), CustomPhaseError<E>>,
+    {
+        let mut commands = commands.into_iter();
+        let mut completed = 0;
+        while !self.is_terminated() {
+            let Some(mut command) = commands.next() else {
+                break;
+            };
+            if !self.current_is_best {
+                if self.is_terminated() {
+                    break;
+                }
+                self.failed = true;
+                crate::score_evaluations::record(&self.score_counter);
+                self.work.evaluations += 1;
+                self.work.restorations += 1;
+                let result = self.director.restore(self.best_assignment.clone());
+                let work = result.map_err(CustomPhaseError::Scoring)?;
+                self.work.constraint_evaluations += work;
+                self.current_is_best = true;
+                self.failed = false;
+            }
+            if self.is_terminated() {
+                break;
+            }
+            let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| command(self)));
+            match result {
+                Ok(Ok(())) if !self.failed => completed += 1,
+                Ok(Ok(())) => return Err(CustomPhaseError::IgnoredOperationError),
+                Ok(Err(error)) => {
+                    self.failed = true;
+                    return Err(error);
+                }
+                Err(payload) => {
+                    self.failed = true;
+                    std::panic::resume_unwind(payload);
+                }
+            }
+        }
+        Ok(completed)
     }
     /// Run a visitor while a scored move is applied, then undo it. The visitor
     /// may inspect partial assignments. Its return value cannot borrow the trial.
@@ -632,6 +748,7 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
         best_assignment,
         best_score,
         best_complete,
+        current_is_best: true,
         work,
         stop: None,
         failed: false,

@@ -159,6 +159,10 @@ where
     fn assert_consistent(&mut self) -> Result<(), ScoringError> {
         self.assert_consistent()
     }
+    fn restore(&mut self, assignment: Assignment<V>) -> Result<u128, ScoringError> {
+        self.reset(assignment)?;
+        Ok(1)
+    }
     fn trial(
         &mut self,
         movement: &Move<V>,

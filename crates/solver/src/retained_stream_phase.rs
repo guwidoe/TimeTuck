@@ -88,6 +88,9 @@ impl<A, M, S, D: crate::custom_phase::CommandDirector<A, M, S>>
     fn assert_consistent(&mut self) -> Result<(), Self::Error> {
         self.director.assert_consistent()
     }
+    fn restore(&mut self, assignment: A) -> Result<u128, Self::Error> {
+        self.director.restore(assignment)
+    }
     fn trial(
         &mut self,
         movement: &M,
