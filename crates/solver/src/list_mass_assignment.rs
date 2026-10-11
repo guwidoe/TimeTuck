@@ -9,27 +9,29 @@ pub(crate) fn validate_optional<V: Eq + Clone>(p: &ListProblem<V>) -> Result<(),
     }
     Ok(())
 }
-fn movable<V: Eq + Clone>(p: &ListProblem<V>, a: &ListAssignment<V>, v: &V) -> bool {
-    a.location(v).is_some_and(|at| {
+fn movable<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    workspace: &crate::list_gather::GatherWorkspace<'_, V>,
+    v: &V,
+) -> bool {
+    workspace.location(v).is_some_and(|at| {
         !p.entities()[at.entity].is_pinned() && at.index >= p.entities()[at.entity].pinned_prefix()
     })
 }
 fn candidate<V: Eq + Clone>(
-    p: &ListProblem<V>,
-    a: &ListAssignment<V>,
+    workspace: &crate::list_gather::GatherWorkspace<'_, V>,
     members: Vec<V>,
     destination: Option<ListPosition>,
-) -> ListMassChange<V> {
-    let movement = p
-        .gather_move(a, &members, destination)
-        .expect("validated list assignment group");
-    ListMassChange::from_parts(members, destination, movement)
+) -> Option<ListMassChange<V>> {
+    let movement = workspace.candidate(&members, destination)?;
+    Some(ListMassChange::from_parts(members, destination, movement))
 }
 /// Insert ordered groups of at least two missing identities consecutively at an
 /// original insertion boundary. Requires optional values. Pins, prefixes and every
 /// member's receiving range constrain destinations. All-sized groups use the full
 /// missing population before receiver filtering. Order is receiver/index, size,
-/// then registry permutation. Enumeration is lazy; no permutation list is stored.
+/// then registry permutation. Dependency-invalid candidates are skipped. Enumeration
+/// is lazy; no permutation list is stored.
 ///
 /// ```
 /// use timetuck::*;
@@ -68,14 +70,15 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
     unassign: bool,
     order: I,
 ) -> Box<dyn Iterator<Item = ListMassChange<V>> + 'a> {
+    let workspace = std::rc::Rc::new(crate::list_gather::GatherWorkspace::new(p, a));
     let eligible: Vec<_> = p
         .values()
         .iter()
         .filter(|v| {
             if unassign {
-                movable(p, a, v)
+                movable(p, &workspace, v)
             } else {
-                a.location(v).is_none()
+                workspace.location(v).is_none()
             }
         })
         .collect();
@@ -89,10 +92,9 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
             SubPillarSelection::combinations(minimum, maximum)
                 .expect("positive group size")
                 .indices(eligible.len())
-                .map(move |indices| {
+                .filter_map(move |indices| {
                     candidate(
-                        p,
-                        a,
+                        &workspace,
                         indices.iter().map(|&i| eligible[i].clone()).collect(),
                         None,
                     )
@@ -101,16 +103,16 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
     }
     Box::new(
         crate::list_neighborhood::insertions(p, a, order).flat_map(move |destination| {
+            let workspace = workspace.clone();
             let accepted: Vec<_> = eligible
                 .iter()
                 .copied()
                 .filter(|v| p.accepts(destination.entity, v))
                 .collect();
             crate::list_gather_neighborhood::Selections::bounded(accepted.len(), minimum, maximum)
-                .map(move |indices| {
+                .filter_map(move |indices| {
                     candidate(
-                        p,
-                        a,
+                        &workspace,
                         indices.iter().map(|&i| accepted[i].clone()).collect(),
                         Some(destination),
                     )
@@ -120,9 +122,11 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
 }
 /// Bounded seeded draws with replacement between groups and no duplicate identity
 /// within a group. Sample size is uniform over clipped positive bounds, then a
-/// uniform subset is selected, ordered by registry index. Every requested draw is
-/// produced when the eligible population meets the bounds, including repeated
-/// singletons. Empty populations yield none. The input remains one fixed snapshot;
+/// uniform subset is selected, ordered by registry index. When the eligible
+/// population meets the bounds, every requested draw is attempted, including
+/// repeated singletons. Dependency-invalid draws are skipped without replacement
+/// or retry, so fewer moves may be returned. Empty populations yield none.
+/// The input remains one fixed snapshot;
 /// regenerate after mutation. No Java PRNG or distribution parity is claimed.
 pub fn sample_list_mass_unassign_moves<'a, V: Eq + Clone>(
     p: &'a ListProblem<V>,
@@ -133,21 +137,27 @@ pub fn sample_list_mass_unassign_moves<'a, V: Eq + Clone>(
 ) -> Result<impl Iterator<Item = ListMassChange<V>> + 'a, ListError> {
     p.validate(a)?;
     validate_optional(p)?;
-    let eligible: Vec<_> = p.values().iter().filter(|v| movable(p, a, v)).collect();
+    let workspace = crate::list_gather::GatherWorkspace::new(p, a);
+    let eligible: Vec<_> = p
+        .values()
+        .iter()
+        .filter(|v| movable(p, &workspace, v))
+        .collect();
     let bounds = size.bounds_with_minimum(eligible.len(), 1);
     let mut random = crate::random::SplitMix64::new(seed);
-    Ok((0..if bounds.is_some() { draws } else { 0 }).map(move |_| {
-        let (minimum, maximum) = bounds.expect("eligible population");
-        let count = minimum + random.below((maximum - minimum + 1) as u64) as usize;
-        let mut indices: Vec<_> = (0..eligible.len()).collect();
-        random.shuffle(&mut indices);
-        indices.truncate(count);
-        indices.sort_unstable();
-        candidate(
-            p,
-            a,
-            indices.iter().map(|&i| eligible[i].clone()).collect(),
-            None,
-        )
-    }))
+    Ok(
+        (0..if bounds.is_some() { draws } else { 0 }).filter_map(move |_| {
+            let (minimum, maximum) = bounds.expect("eligible population");
+            let count = minimum + random.below((maximum - minimum + 1) as u64) as usize;
+            let mut indices: Vec<_> = (0..eligible.len()).collect();
+            random.shuffle(&mut indices);
+            indices.truncate(count);
+            indices.sort_unstable();
+            candidate(
+                &workspace,
+                indices.iter().map(|&i| eligible[i].clone()).collect(),
+                None,
+            )
+        }),
+    )
 }

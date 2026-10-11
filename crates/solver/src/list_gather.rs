@@ -200,3 +200,50 @@ impl<'a, V: Eq + Clone> GatherBuilder<'a, V> {
         Ok(ListMove::Composite(steps))
     }
 }
+
+// Shared by lazy exhaustive neighborhood phases. Construction itself does no
+// source work; first use validates the exact borrowed snapshot before indexing.
+// Thus even crate-internal callers cannot accidentally reuse unchecked locations.
+pub(crate) struct GatherWorkspace<'a, V> {
+    problem: &'a ListProblem<V>,
+    before: &'a ListAssignment<V>,
+    builder: std::sync::OnceLock<GatherBuilder<'a, V>>,
+}
+impl<'a, V: Eq + Clone> GatherWorkspace<'a, V> {
+    pub(crate) fn new(problem: &'a ListProblem<V>, before: &'a ListAssignment<V>) -> Self {
+        Self {
+            problem,
+            before,
+            builder: std::sync::OnceLock::new(),
+        }
+    }
+    fn builder(&self) -> &GatherBuilder<'a, V> {
+        self.builder.get_or_init(|| {
+            GatherBuilder::new(self.problem, self.before).expect("validated neighborhood source")
+        })
+    }
+    pub(crate) fn location(&self, value: &V) -> Option<ListPosition> {
+        // Preserve cheap opening/early abandonment for small and Eq-only models.
+        // The first actual proposal still builds one shared validated snapshot.
+        if !self.problem.has_value_index()
+            || (self.problem.values().len() < 128 && self.builder.get().is_none())
+        {
+            return self.before.location(value);
+        }
+        self.builder().locations[self
+            .problem
+            .value_index(value)
+            .expect("registered neighborhood value")]
+    }
+    pub(crate) fn candidate(
+        &self,
+        members: &[V],
+        destination: Option<ListPosition>,
+    ) -> Option<ListMove<V>> {
+        match self.builder().gather_move(members, destination) {
+            Ok(movement) => Some(movement),
+            Err(ListGatherError::List(ListError::DependencyCycle { .. })) => None,
+            Err(error) => panic!("invalid generated gather: {error}"),
+        }
+    }
+}

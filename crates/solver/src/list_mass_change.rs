@@ -151,7 +151,8 @@ impl Neighborhood {
 /// size and registry-index permutation order. Unassignments follow, once per
 /// unordered group. Pins, prefixes and receiver ranges constrain every member.
 /// Unchanged results and equivalent adjacent boundaries are skipped; distinct
-/// samples can still produce the same successor. No random trace parity is implied.
+/// samples can still produce the same successor. Dependency-invalid candidates
+/// are skipped. No random trace parity is implied.
 /// All-sized samples use the global assigned movable population, not the size of
 /// a receiver's range. Partial inputs remain partial; no missing value is assigned.
 ///
@@ -175,8 +176,12 @@ pub fn list_mass_change_moves<'a, V: Eq + Clone>(
     config.validate(p)?;
     Ok(ordered(p, a, config, 0..p.entities().len()))
 }
-fn eligible<V: Eq + Clone>(p: &ListProblem<V>, a: &ListAssignment<V>, v: &V) -> bool {
-    a.location(v).is_some_and(|at| {
+fn eligible<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    workspace: &crate::list_gather::GatherWorkspace<'_, V>,
+    v: &V,
+) -> bool {
+    workspace.location(v).is_some_and(|at| {
         !p.entities()[at.entity].is_pinned() && at.index >= p.entities()[at.entity].pinned_prefix()
     })
 }
@@ -186,11 +191,18 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
     config: ListMassChangeConfig,
     order: I,
 ) -> Box<dyn Iterator<Item = ListMassChange<V>> + 'a> {
-    let population = p.values().iter().filter(|v| eligible(p, a, v)).count();
+    let workspace = std::rc::Rc::new(crate::list_gather::GatherWorkspace::new(p, a));
+    let population = p
+        .values()
+        .iter()
+        .filter(|v| eligible(p, &workspace, v))
+        .count();
     let Some((minimum, maximum)) = config.sample.bounds(population) else {
         return Box::new(std::iter::empty());
     };
+    let inserting = workspace.clone();
     let inserted = crate::list_neighborhood::insertions(p, a, order).flat_map(move |destination| {
+        let workspace = inserting.clone();
         let preceding = destination
             .index
             .checked_sub(1)
@@ -199,7 +211,9 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
             .values()
             .iter()
             .filter(|v| {
-                preceding != Some(*v) && eligible(p, a, v) && p.accepts(destination.entity, v)
+                preceding != Some(*v)
+                    && eligible(p, &workspace, v)
+                    && p.accepts(destination.entity, v)
             })
             .collect();
         crate::list_gather_neighborhood::Selections::bounded(eligible.len(), minimum, maximum)
@@ -209,9 +223,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
                     return None;
                 }
                 let members: Vec<_> = refs.into_iter().cloned().collect();
-                let movement = p
-                    .gather_move(a, &members, Some(destination))
-                    .expect("validated mass change");
+                let movement = workspace.candidate(&members, Some(destination))?;
                 Some(ListMassChange {
                     members,
                     destination: Some(destination),
@@ -225,20 +237,23 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
         .then_some(())
         .into_iter()
         .flat_map(move |_| {
-            let eligible: Vec<_> = p.values().iter().filter(|v| eligible(p, a, v)).collect();
+            let workspace = workspace.clone();
+            let eligible: Vec<_> = p
+                .values()
+                .iter()
+                .filter(|v| eligible(p, &workspace, v))
+                .collect();
             SubPillarSelection::combinations(minimum, maximum)
                 .expect("positive group bounds")
                 .indices(eligible.len())
-                .map(move |indices| {
+                .filter_map(move |indices| {
                     let members: Vec<_> = indices.iter().map(|&i| eligible[i].clone()).collect();
-                    let movement = p
-                        .gather_move(a, &members, None)
-                        .expect("validated group unassignment");
-                    ListMassChange {
+                    let movement = workspace.candidate(&members, None)?;
+                    Some(ListMassChange {
                         members,
                         destination: None,
                         movement,
-                    }
+                    })
                 })
         });
     Box::new(inserted.chain(removed))

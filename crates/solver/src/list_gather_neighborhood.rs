@@ -45,8 +45,12 @@ impl Iterator for Selections {
 }
 impl std::iter::FusedIterator for Selections {}
 
-fn movable<V: Eq + Clone>(p: &ListProblem<V>, a: &ListAssignment<V>, value: &V) -> bool {
-    a.location(value).is_none_or(|position| {
+fn movable<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    workspace: &crate::list_gather::GatherWorkspace<'_, V>,
+    value: &V,
+) -> bool {
+    workspace.location(value).is_none_or(|position| {
         let entity = &p.entities()[position.entity];
         !entity.is_pinned() && position.index >= entity.pinned_prefix()
     })
@@ -74,7 +78,8 @@ pub(crate) fn unchanged<V: Eq>(
 /// Optional unassignments come last, once per assigned identity subset in increasing
 /// size/registry order. Required inputs stay complete. Missing values may be inserted
 /// into partial inputs. Pins and ranges restrict candidates before move construction.
-/// Permutations are generated lazily; no factorial collection is allocated. Each
+/// Permutations are generated lazily; no factorial collection is allocated.
+/// Dependency-invalid candidates are skipped. Each
 /// yielded composite is validated and bound to the supplied immutable assignment.
 ///
 /// ```
@@ -101,8 +106,11 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
     if max_size == 0 {
         return Box::new(std::iter::empty());
     }
+    let workspace = std::rc::Rc::new(crate::list_gather::GatherWorkspace::new(p, a));
+    let inserting = workspace.clone();
     let insertions =
         crate::list_neighborhood::insertions(p, a, order).flat_map(move |destination| {
+            let workspace = inserting.clone();
             // A sample containing the preceding value has the same result at
             // an earlier boundary. Exclude that value before enumerating; filtering
             // afterward would scan entire factorial buckets that cannot yield.
@@ -114,7 +122,9 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
                 .values()
                 .iter()
                 .filter(|v| {
-                    preceding != Some(*v) && movable(p, a, v) && p.accepts(destination.entity, v)
+                    preceding != Some(*v)
+                        && movable(p, &workspace, v)
+                        && p.accepts(destination.entity, v)
                 })
                 .collect();
             Selections::new(eligible.len(), max_size).filter_map(move |indices| {
@@ -123,10 +133,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
                     return None;
                 }
                 let members: Vec<_> = members.into_iter().cloned().collect();
-                Some(
-                    p.gather_move(a, &members, Some(destination))
-                        .expect("prevalidated gather"),
-                )
+                workspace.candidate(&members, Some(destination))
             })
         });
     // Delay optional subset setup until insertion candidates are exhausted.
@@ -135,18 +142,18 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + 'a>(
         .then_some(())
         .into_iter()
         .flat_map(move |_| {
+            let workspace = workspace.clone();
             let eligible: Vec<_> = p
                 .values()
                 .iter()
-                .filter(|v| a.location(v).is_some() && movable(p, a, v))
+                .filter(|v| workspace.location(v).is_some() && movable(p, &workspace, v))
                 .collect();
             SubPillarSelection::combinations(1, max_size)
                 .expect("positive bound")
                 .indices(eligible.len())
-                .map(move |indices| {
+                .filter_map(move |indices| {
                     let members: Vec<_> = indices.iter().map(|&i| eligible[i].clone()).collect();
-                    p.gather_move(a, &members, None)
-                        .expect("prevalidated optional unassignment")
+                    workspace.candidate(&members, None)
                 })
         });
     Box::new(insertions.chain(removed))
