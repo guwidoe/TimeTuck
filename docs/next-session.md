@@ -23540,3 +23540,67 @@ All three Astra/high agents continue isolated:
  Scope approved; isolated-j2 compilation allowed, timings held during56425prebuild.
 This goal turn made progress: completed round9 evidence, reviewed and integrated
 five substantive changes, started one combined round10 gate. Rewrite remains active.
+
+
+Round 10 verified; round 11 integrated and checking
+--------------------------------------------------
+56425 TERMINAL0; recorder95629 TERMINAL0. Combined check: 5,962 Rust tests,
+266 doctests, 705 Rust jobs RUN/129 REUSE, 46 Python jobs REUSE. Coverage remains
+3,298/4,855 source methods (67.93%), 1,293 pending, 264 excluded, 0 failed/unverified.
+Source b475c83c644d8fd558b29c9e5c8ae4281c1d18b0040a0dc051206b56a1258a1a;
+verification 0ec70285dd85090836e19bcf8cad9bf8a7678bf6b2ae9c22b94ff82474e4aa28.
+work/parallel-round10-evidence.json records successful dashboard freshness and
+agent/integration identity checks. Java/list benchmark results remain stale.
+
+Round 11 reviewed and integrated; frozen Rust267a929:
+-f99eb75 (cbe87c0): retained-context failure observer across 18 execution routes.
+ 36 focused tests plus Clippy; preflight errors/panics do not notify. Fresh failed
+ kernel resources may already have dropped; callbacks borrow retained context.
+-0ea9445 (837d42e): list-shadow publication identity, O(1) unchanged currentness
+ and dirty-only refresh; changed publications keep full validation/preparation.
+ 33 focused tests plus Clippy. 60 native paired measurements preserve outputs:
+ 8,192-value pending refresh 1.210ms -> 1.223us; cached read 1.336us -> 14.7ns.
+ Structural fallback has mixed results, including 400 -> 431ns for one value.
+-43f2f53 (1a5c999): bounded completion search across 18 routes, four node orders,
+ two bound modes. Preserve initialized representatives/relative order and report
+ CompletionExhausted, not unrestricted Optimal. 43 focused tests plus Clippy.
+ Required empty domains yield no root/evaluation. No wall-clock performance claim.
+-11a7ec1 (dd19eb6): adaptive transaction-local assigned-ID membership for large
+ composites. 32 focused tests plus Clippy. 5,040 native samples/280 workloads
+ preserve checksums/counts. 4,096 assigned/1,024 insertion leaves: public trials
+ 2.52-4.74x faster, retained list/mixed 4.24-9.89x. Small/Eq-only countercases and
+ host variability remain recorded; retained peak memory rises 28.8KB -> 94.4KB.
+-267a929 (e0612af): adaptive sparse notified-binding snapshots, preserving flat
+ polling/tiny/dense fallback and caching lazy persistent promotion per snapshot.
+ 23 focused tests plus Clippy; 90 same-host paired cases preserve all checksums,
+ final values and callback counts. 2,048 input/output pairs: repeated unchanged
+ binding refresh 175.05 -> 9.87us (17.7x), rewired 197.26 -> 15.87us (12.4x).
+ First promotion is included but amortized over 100 refreshes; retained promoted
+ flat snapshots additionally hold tree metadata. Tiny unchanged bindings +76ns,
+ value-only +18-25ns, dense large +5.8%; no cold/whole-solver/Java speed claim.
+All committed files match immutable focused manifests; integrated patch IDs match
+originals. Commit-message escape formatting alone was corrected for dd19eb6.
+work/parallel-round11-commits.json and work/parallel-round11-evidence contain the
+mapping and evidence. No provenance change or added source-method credit.
+28759 LIVE: stable launcher runs work/prebuild_parallel_round11.py into
+work/parallel-round11-prebuild.log, then bash scripts/check.sh into
+work/parallel-round11-final-check.log. Do not restart; main Rust/provenance frozen.
+After terminal0 run stable launcher work/record_parallel_round11.py. Recorder is
+prepared, syntax checked, not run; mapping contains all five integrated slices.
+
+Three requested Astra/high agents continue with exclusive build machines:
+-dense_scoring/local: in-place span relocation/exchange removes repeated payload
+ clones inside composite list trials. Production preliminarily reviewed;27focused
+ tests+Clippy passed, baseline/current probes built. Paired timing held during
+ parent28759 expensive prebuild; notify agent when compilation ends. Read-only
+ next-scope investigation continues; do not mutate measured source/probes.
+-dependency_graph/runner-c: next inspect keyed source resolution's repeated linear
+ registration search and propose optional indexed lookup preserving Eq-only API,
+ diagnostics, order, checkpoints and dynamic registration; awaiting scope.
+-termination/runner-a: reuse consumed bounded-search parent for its last child,
+ preserving node ordering/stop checks and reducing full-assignment clones.
+ Production preliminarily reviewed;1,536 baseline reference traces captured,
+ focused checks and61-workload actual-search measurements pending.
+Eliminated Clone/Drop calls necessarily change those instrumentation counts and
+associated lifetimes; preserve logical payloads and transactional cleanup.
+Full rewrite remains active and incomplete.

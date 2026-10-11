@@ -6639,6 +6639,6 @@ preserves survivor caches. Gather/mass neighborhoods skip dependency-invalid
 proposals and share borrowed validation/index state across candidates. These
 extensions earn no additional upstream-method credit. Their isolated focused
 checks and native proposal measurements are recorded in
-work/parallel-round10-evidence; the combined integration gate is pending as
-recorded in docs/next-session.md. Native timing gains do not establish Java or
-whole-solver performance parity.
+work/parallel-round10-evidence; its combined integration gate passed 5,962 Rust
+tests and 266 doctests, as recorded in docs/next-session.md. Native timing gains
+do not establish Java or whole-solver performance parity.
