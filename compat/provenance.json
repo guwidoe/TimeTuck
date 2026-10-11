@@ -50154,6 +50154,141 @@
       "upstream_test": "problemChangeBarrageIntermediateBestSolutionConsumer",
       "local_test": "problem_change_barrage_intermediate_best_solution_consumer",
       "modifications": "Adapt the complete repeated method and receipt helper: ten repetitions, 200 edits after real first-initialized consumer, exact Java Random(0) nextInt(1000000)/nextBoolean input schedule replayed from a recorded JDK generator, nanosecond spin delays, wait for all applied changes, ten-second per-receipt wait-until-terminal, original minimum-incomplete-ID suffix assertion, and unconditional shutdown plus no-incomplete-receipts assertion even after failure. Native scoped construction/local search with explicit unlimited cooperative budgets and hill climbing/change+swap replaces Java default algorithm, without claiming trace parity. Stable numeric IDs and AssignmentSnapshot reconciliation replace UUIDs and ProblemChangeDirector notifications; fixture has no shadows. mpsc/Condvar waits replace latches/Awaitility; capture-unwind/shutdown/finally preserves cleanup on failed assertions. No production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "TerminationTest.terminateEarlyConstructionHeuristic",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "terminateEarlyConstructionHeuristic",
+      "local_test": "terminate_early_construction_heuristic",
+      "modifications": "Preserve full ten-argument matrix, two-value/two-entity fixture then unassign both, source scoring switch permitting two unassigned, requesting termination with exactly one unassigned, and failing if complete construction is scored. Preserve returned nonnull solution/score and strengthen with actual callback-fired, cancellation and partial-result assertions. Native CancellationToken replaces solver.terminateEarly; the always-present native handle eliminates source assumeTrue/null-handle skip. No thread interruption or Java trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "TerminationTest.terminateEarlyLocalSearch",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "terminateEarlyLocalSearch",
+      "local_test": "terminate_early_local_search",
+      "modifications": "Preserve full ten-argument matrix, initialized two-value/two-entity fixture, value-code-contains-zero penalty and best-solution listener calling terminateEarly. Native CancellationToken replaces solver.terminateEarly. Preserve returned solution assertion and strengthen with callback-fired, cancellation and retained initial score -1. Separate Thread.interrupt source methods remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "TerminationTest.mixedSolverPhaseTerminations",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "mixedSolverPhaseTerminations",
+      "local_test": "mixed_solver_phase_terminations",
+      "modifications": "Preserve initialized two-value/two-entity fixture, ordered-pair duplicate score, one-hour shared time limit and four-step local phase limit. Native phase binding with Steps(4) and explicit HillClimbing/change+swap keeps search running to the intended boundary. Preserve nonnull returned solution and strengthen with four completed steps in both solve/phase work, phase condition reason and PlanCompleted. No Java step-trace parity beyond the explicit four-step boundary."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListChangeMoveTest.tabuIntrospection_twoEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "tabuIntrospection_twoEntities",
+      "local_test": "list_change_tabu_introspection_two_entities",
+      "status": "implemented",
+      "modifications": "Preserve full fixture universe0..4, lists [1,2]/[3], source index1 to destination index1, exact ordered entities [0,1] and value [2]. Native immutable ListMove captures owned values from the exact pre-move assignment; every metadata assertion follows actual committed move execution, replacing Java mutable move-internal capture. Entity identities map to ordered native entity indices, value identities to distinct integers, with explicit list field/range binding. No Java reflection, listener/mock invocation or API parity claim. Extra final-list assertions are native regressions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListChangeMoveTest.tabuIntrospection_oneEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "tabuIntrospection_oneEntity",
+      "local_test": "list_change_tabu_introspection_one_entity",
+      "status": "implemented",
+      "modifications": "Preserve full fixture universe0..4, list [1,2], index0 to1, exact singleton entity and value [1]. Native immutable ListMove captures owned values from the exact pre-move assignment; every metadata assertion follows actual committed move execution, replacing Java mutable move-internal capture. Entity identities map to ordered native entity indices, value identities to distinct integers, with explicit list field/range binding. No Java reflection, listener/mock invocation or API parity claim. Extra final-list assertions are native regressions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListChangeMoveTest.tabuIntrospection_twoEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "tabuIntrospection_twoEntities",
+      "local_test": "sublist_change_tabu_introspection_two_entities",
+      "status": "implemented",
+      "modifications": "Preserve full fixture universe1..6, three entities with lists [1,2,3,4]/[5]/[], moving source start1 length3 to destination0, exact ordered entities and values [2,3,4]. Preserve all six inequality assertions and equality assertion, including malformed comparison-only moves. Source constructor length maps to native exclusive end=start+length. Native immutable ListMove captures owned values from the exact pre-move assignment; every metadata assertion follows actual committed move execution, replacing Java mutable move-internal capture. Entity identities map to ordered native entity indices, value identities to distinct integers, with explicit list field/range binding. No Java reflection, listener/mock invocation or API parity claim. Extra final-list assertions are native regressions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListChangeMoveTest.tabuIntrospection_oneEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "tabuIntrospection_oneEntity",
+      "local_test": "sublist_change_tabu_introspection_one_entity",
+      "status": "implemented",
+      "modifications": "Preserve full fixture universe1..6, list [1,2,3,4], moving start0 length2 to post-removal index2, exact singleton entity and ordered values [1,2]. Native immutable ListMove captures owned values from the exact pre-move assignment; every metadata assertion follows actual committed move execution, replacing Java mutable move-internal capture. Entity identities map to ordered native entity indices, value identities to distinct integers, with explicit list field/range binding. No Java reflection, listener/mock invocation or API parity claim. Extra final-list assertions are native regressions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListSwapMoveTest.tabuIntrospection_twoEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "tabuIntrospection_twoEntities",
+      "local_test": "list_swap_tabu_introspection_two_entities",
+      "status": "implemented",
+      "modifications": "Preserve full fixture universe1..3, lists [1,2]/[3], swap index0 in each entity, exact ordered entity assertion and any-order value assertion [1,3]. Native immutable ListMove captures owned values from the exact pre-move assignment; every metadata assertion follows actual committed move execution, replacing Java mutable move-internal capture. Entity identities map to ordered native entity indices, value identities to distinct integers, with explicit list field/range binding. No Java reflection, listener/mock invocation or API parity claim. Extra final-list assertions are native regressions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListSwapMoveTest.tabuIntrospection_twoEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "tabuIntrospection_twoEntities",
+      "local_test": "sublist_swap_tabu_introspection_two_entities",
+      "status": "implemented",
+      "modifications": "Preserve full fixture universe1..7, lists [1,2,3,4]/[5]/[], swap source [0,3) and destination [0,1), exact ordered entities and values [1,2,3,5]. Preserve all seven inequality assertions and equality assertion, including malformed comparison-only moves. Source constructor start/end indices remain exclusive endpoints; they are not interpreted as length. Native immutable ListMove captures owned values from the exact pre-move assignment; every metadata assertion follows actual committed move execution, replacing Java mutable move-internal capture. Entity identities map to ordered native entity indices, value identities to distinct integers, with explicit list field/range binding. No Java reflection, listener/mock invocation or API parity claim. Extra final-list assertions are native regressions."
     }
   ],
   "fixtures": [
@@ -68382,6 +68517,110 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/ProblemChangeBarrageIT.java",
       "upstream_test": "problemChangeBarrageIntermediateBestSolutionConsumer random delay/edit loop",
       "modifications": "Record all 200 Random(0) nextInt(1000000), then nextBoolean pairs using standalone original JDK helper work/BarrageSchedule.java. Replay exact pairs for each of ten repetitions; no Rust RNG equivalence assumption or upstream production implementation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "cancellation-termination-argument-matrix",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "TerminationArgumentSource.provideArguments",
+      "modifications": "Preserve all ten rows/order: 10000 steps, 10000 score calculations, best 1000, 10 days elapsed, default diminished returns, 10 days unimproved, 10000 unimproved steps, 10000 moves, OR(step/move), AND(step/move). Native combined construction/search count represents the long step safeguard; no limit is meant to expire before cancellation. Diminished defaults apply only to local-search phases: assert zero applicable construction phases versus one local phase; no invented solve-wide diminished history."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "cancellation-termination-scoring-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "DummySimpleScoreThrowingEasyScoreCalculator.calculateScore",
+      "modifications": "Preserve all branches of the source unassigned-count switch and zero ordinary score. Native scorer closes over an existing CancellationToken and explicit call counters, so no assumption can skip a row."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "cancellation-termination-zero-value-constraint",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "TestdataConstraintProviderNonzeroValues.defineConstraints",
+      "modifications": "Numeric planning value 0 represents Generated Value 0 whose code contains zero; penalize one for each assigned entity using that value, skip other values and missing assignments."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "cancellation-termination-two-entity-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution(int valueListSize, int entityListSize)",
+      "modifications": "Preserve generateSolution(2,2): values 0 and 1, entities initialized cyclically to 0 and 1. Construction cases clear both assignments exactly as source; local cases retain them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "id": "cancellation-termination-ordered-duplicate-score",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "For the two-entity fixture penalize both ordered unequal-entity pairs when their assigned values are equal, skip missing left values. Native scoped scoring replaces easy-score fixture; no production source."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.list_value_metadata_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "constructors and valueList",
+      "modifications": "Distinct entity identities and ordered list contents become ListEntity<i32> rows in ListProblem. Native explicit binding replaces reflective descriptor lookup; no inference or notification lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.list_value_metadata_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "code identity and constructors",
+      "modifications": "Distinct vN fixture identities become integers N; preserve entire class-specific fixture universes including unused values. Owner/index shadow fields are not observed by these source methods and no shadow assertion is invented."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/list_value_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.list_value_metadata_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "valueList/entityList and list variable descriptor binding",
+      "modifications": "Full value universes and entity registry order become explicit ListProblem registration. Native field binding replaces Java annotations/reflection; mocked score-director execution becomes actual atomic ListProblem::apply and commit."
     }
   ]
 }
