@@ -1,6 +1,7 @@
 //! Inspect runtime shadow loops and reject inconsistent refreshes atomically.
 use super::{
-    ResolvedSources, ShadowNodeRef, ShadowSession, ShadowSessionCheckpoint, ShadowSessionError,
+    RefreshMode, ResolvedSources, ShadowNodeRef, ShadowSession, ShadowSessionCheckpoint,
+    ShadowSessionError,
 };
 use crate::PlanningType;
 use std::{error::Error, fmt};
@@ -186,16 +187,25 @@ pub fn update_shadows_with_policy<K: Eq + Clone, W>(
     world: &W,
     policy: ShadowConsistencyPolicy,
 ) -> Result<Vec<ShadowNodeRef>, ConsistentShadowUpdateError<K>> {
+    update_shadows_mode(session, world, policy, RefreshMode::All)
+}
+
+pub(crate) fn update_shadows_mode<K: Eq + Clone, W>(
+    session: &mut ShadowSession<'_, '_, K, W>,
+    world: &W,
+    policy: ShadowConsistencyPolicy,
+    mode: RefreshMode,
+) -> Result<Vec<ShadowNodeRef>, ConsistentShadowUpdateError<K>> {
     let saved = session.capture();
     let mut guard = RestoreOnDrop {
         session,
         saved: Some(saved),
     };
-    let (resolved, missing) = resolve_with_diagnostics(guard.session, world)?;
+    let (resolved, missing) = resolve_with_diagnostics(guard.session, world, mode)?;
     if !missing.is_empty() {
         return Err(ConsistentShadowUpdateError::MissingSources(missing));
     }
-    let changed = guard.session.update_resolved(world, resolved)?;
+    let changed = guard.session.update_resolved(world, resolved, mode)?;
     if policy == ShadowConsistencyPolicy::RequireConsistent {
         let report = shadow_consistency(guard.session)?;
         if !report.is_consistent() {
@@ -230,17 +240,26 @@ pub fn missing_shadow_sources<K: Eq + Clone, W>(
     session: &ShadowSession<'_, '_, K, W>,
     world: &W,
 ) -> Result<Vec<ShadowSourceReference<K>>, ShadowSessionError> {
-    Ok(resolve_with_diagnostics(session, world)?.1)
+    Ok(resolve_with_diagnostics(session, world, RefreshMode::All)?.1)
 }
 
 fn resolve_with_diagnostics<K: Eq + Clone, W>(
     session: &ShadowSession<'_, '_, K, W>,
     world: &W,
+    mode: RefreshMode,
 ) -> Result<(ResolvedSources, Vec<ShadowSourceReference<K>>), ShadowSessionError> {
     let mut missing = Vec::new();
     let mut edges = session.edges.clone();
     let mut signatures = Vec::with_capacity(session.nodes.len());
     for (index, node) in session.nodes.iter().enumerate() {
+        if !mode.includes(index, &session.pending) {
+            let signature = session.resolved.get(index).cloned().flatten();
+            if let Some(sources) = &signature {
+                edges.extend(sources.iter().map(|&source| (index, source)));
+            }
+            signatures.push(signature);
+            continue;
+        }
         let Some(resolve) = &node.sources else {
             signatures.push(None);
             continue;

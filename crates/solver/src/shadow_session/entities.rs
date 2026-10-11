@@ -81,6 +81,8 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     /// owners are processed once. Updates still resolve all dynamic bindings and
     /// sample all input readers, as with [`Self::update`]; this notification does
     /// not promise that unmentioned external world data remained unchanged.
+    /// To provide that stronger notification contract and skip unnotified readers
+    /// and bindings, call [`Self::update_notified`] explicitly.
     ///
     /// ```
     /// use timetuck::*;

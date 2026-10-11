@@ -8,6 +8,17 @@ use std::{any::Any, collections::BTreeSet, error::Error, fmt, marker::PhantomDat
 mod entities;
 use entities::EntityGroups;
 
+#[derive(Clone, Copy)]
+pub(crate) enum RefreshMode {
+    All,
+    Notified,
+}
+impl RefreshMode {
+    fn includes(self, index: usize, pending: &BTreeSet<usize>) -> bool {
+        matches!(self, Self::All) || pending.contains(&index)
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ShadowSessionError {
     Metadata(&'static str),
@@ -211,8 +222,8 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         Ok(node)
     }
     /// Read a basic variable or an externally maintained shadow. All readers
-    /// run once per update; equality
-    /// determines which downstream suppliers need recalculation.
+    /// run once per ordinary [`ShadowSession::update`]; a notified refresh samples
+    /// only marked inputs. Equality determines downstream recalculation.
     pub fn input<T: Eq + 'static>(
         &mut self,
         variable: PlanningVariableRef<'s>,
@@ -265,7 +276,8 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             Operation::Derived(Box::new(move |w, i| supplier(w, i).map(Stored::new))),
         )
     }
-    /// Resolve dependencies directly from native working state on every update.
+    /// Resolve dependencies directly from native working state on every ordinary
+    /// update, or when this target is marked dirty for a notified refresh.
     /// Register all possible source nodes before binding. Returned handles must
     /// belong to this builder and have been registered at binding time. This is
     /// useful for list predecessors and application links without object getters.
@@ -314,7 +326,8 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         Ok(())
     }
 
-    /// Resolve these compiled paths on every update. The root and every source
+    /// Resolve these compiled paths on every ordinary update, or when this target
+    /// is marked dirty for a notified refresh. The root and every source
     /// object must map to a registered stable entity key. All referenced fields,
     /// including built-in invalidation fields, must be registered as nodes.
     /// Explicit dependencies and automatic paths cannot control the same target.
@@ -620,10 +633,20 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         world: &W,
         manual: &BTreeSet<(usize, usize)>,
     ) -> Result<ResolvedSources, ShadowSessionError> {
+        self.resolve_sources_mode(world, manual, RefreshMode::All)
+    }
+    fn resolve_sources_mode(
+        &self,
+        world: &W,
+        manual: &BTreeSet<(usize, usize)>,
+        mode: RefreshMode,
+    ) -> Result<ResolvedSources, ShadowSessionError> {
         let mut edges = manual.clone();
         let mut signatures = vec![];
         for (index, node) in self.nodes.iter().enumerate() {
-            let signature = if let Some(resolve) = &node.sources {
+            let signature = if !mode.includes(index, &self.pending) {
+                self.resolved.get(index).cloned().flatten()
+            } else if let Some(resolve) = &node.sources {
                 let mut signature = vec![];
                 for (variable, entity) in resolve(world)? {
                     let source = self
@@ -631,13 +654,15 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
                         .iter()
                         .position(|n| n.variable == variable && n.entity == entity)
                         .ok_or(ShadowSessionError::UnregisteredSource)?;
-                    edges.insert((index, source));
                     signature.push(source);
                 }
                 Some(signature)
             } else {
                 None
             };
+            if let Some(sources) = &signature {
+                edges.extend(sources.iter().map(|&source| (index, source)));
+            }
             signatures.push(signature);
         }
         Ok(ResolvedSources { edges, signatures })
@@ -647,18 +672,67 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     /// a no-change refresh publishes an empty report. Failed refreshes retain it.
     pub fn update(&mut self, world: &W) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
         let resolved = self.resolve_sources(world, &self.edges)?;
-        self.update_resolved(world, resolved)
+        self.update_resolved(world, resolved, RefreshMode::All)
+    }
+    /// Refresh only inputs and dynamic bindings explicitly marked dirty through
+    /// [`Self::mark_dirty`] or [`Self::mark_entities_dirty`]. The first refresh
+    /// initializes every node. Later calls retain unnotified input values and
+    /// binding signatures, while changed values still propagate to all dependents.
+    /// Manual dependency edits are always applied, even with no notifications.
+    ///
+    /// The caller must notify every input whose reader result may differ, every
+    /// target whose dynamic binding may differ, and every supplier that directly
+    /// reads changed external facts. A changed source does not automatically
+    /// notify its consumers' bindings. Violating this contract can leave stale
+    /// values or edges; use [`Self::update`] when complete notifications are not
+    /// available. Independently requested diagnostics and checked restores still
+    /// read the full world. Metadata preparation still visits the graph: this
+    /// reduces reader/resolver callbacks, not total refresh work to O(notified).
+    ///
+    /// Resolver callbacks precede readers, both in registration order. Failures
+    /// and callback panics preserve cached state and pending notifications for
+    /// retry; external callback effects are not rolled back. Change reports use
+    /// the same publication and no-change rules as [`Self::update`].
+    ///
+    /// ```
+    /// use timetuck::*;
+    /// struct Model; struct Task;
+    /// let schema = PlanningSchema::new::<Model>(vec![PlanningEntityDefinition::of::<Task>(vec![
+    ///     PlanningVariableDefinition::basic::<i64>("value", true),
+    ///     PlanningVariableDefinition::shadow::<i64>("twice"),
+    /// ])])?;
+    /// let fields = schema.entity::<Task>()?;
+    /// let mut builder = ShadowSessionBuilder::<usize, i64>::new(&schema);
+    /// let input = builder.input(fields.variable("value")?, 0, |world| Some(*world))?;
+    /// let source = input.clone();
+    /// let output = builder.derive(fields.variable("twice")?, 0, move |_, values| {
+    ///     values.get(&source).unwrap().map(|value| value * 2)
+    /// })?;
+    /// builder.set_dependencies(&output, &[input.erase()])?;
+    /// let mut session = builder.build();
+    /// session.update_notified(&3)?;
+    /// session.mark_dirty(&input)?;
+    /// session.update_notified(&5)?;
+    /// assert_eq!(session.read(&output)?.value, Some(&10));
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn update_notified(&mut self, world: &W) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
+        let resolved = self.resolve_sources_mode(world, &self.edges, RefreshMode::Notified)?;
+        self.update_resolved(world, resolved, RefreshMode::Notified)
     }
     fn update_resolved(
         &mut self,
         world: &W,
         resolved: ResolvedSources,
+        mode: RefreshMode,
     ) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
         let prepared = self
             .nodes
             .iter()
-            .map(|n| match &n.operation {
-                Operation::Input(read) => read(world),
+            .enumerate()
+            .map(|(index, n)| match &n.operation {
+                Operation::Input(read) if mode.includes(index, &self.pending) => read(world),
+                Operation::Input(_) => self.cache.values()[&index].value.clone(),
                 Operation::Derived(_) => None,
             })
             .collect::<Vec<_>>();
@@ -793,4 +867,5 @@ pub use diagnostics::{
     ShadowVariableKey, shadow_consistency, update_consistent_shadows, update_shadows_with_policy,
 };
 
+pub(crate) use diagnostics::update_shadows_mode;
 pub use diagnostics::{ShadowSourceReference, missing_shadow_sources};

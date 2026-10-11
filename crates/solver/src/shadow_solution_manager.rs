@@ -1,7 +1,8 @@
 //! Atomic publication of declarative shadows and scores with session rollback.
+use crate::shadow_session::{RefreshMode, update_shadows_mode};
 use crate::{
     ConsistentShadowUpdateError, ManagedSolution, ShadowConsistencyPolicy, ShadowSession,
-    ShadowSessionCheckpoint, SolutionUpdatePolicy, update_shadows_with_policy,
+    ShadowSessionCheckpoint, SolutionUpdatePolicy,
 };
 use std::{error::Error, fmt};
 
@@ -115,6 +116,37 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
         solution: &'r mut ManagedSolution<A, H, S>,
         policy: SolutionUpdatePolicy,
     ) -> Result<Option<&'r S>, ShadowSolutionError<K, E>> {
+        self.update_mode(solution, policy, RefreshMode::All)
+    }
+    /// Publish shadows and score using complete caller notifications, with the
+    /// contract of [`ShadowSession::update_notified`]. Notify changed fields via
+    /// [`Self::session_mut`] before calling. Failed publication preserves those
+    /// notifications for retry. Preflight, projection, validation and scoring
+    /// callbacks still run normally; consistency checks inspect the cached graph.
+    /// Missing-source diagnostics cover notified bindings only. An independent
+    /// [`crate::missing_shadow_sources`] call still resolves the full world.
+    pub fn update_notified<'r>(
+        &mut self,
+        solution: &'r mut ManagedSolution<A, H, S>,
+    ) -> Result<Option<&'r S>, ShadowSolutionError<K, E>> {
+        self.update_notified_with_policy(solution, SolutionUpdatePolicy::Everything)
+    }
+    /// Apply an update policy with the notification contract of
+    /// [`Self::update_notified`]. ScoreOnly does not refresh the session or consume
+    /// notifications; ShadowsOnly retains the previous, potentially stale score.
+    pub fn update_notified_with_policy<'r>(
+        &mut self,
+        solution: &'r mut ManagedSolution<A, H, S>,
+        policy: SolutionUpdatePolicy,
+    ) -> Result<Option<&'r S>, ShadowSolutionError<K, E>> {
+        self.update_mode(solution, policy, RefreshMode::Notified)
+    }
+    fn update_mode<'r>(
+        &mut self,
+        solution: &'r mut ManagedSolution<A, H, S>,
+        policy: SolutionUpdatePolicy,
+        mode: RefreshMode,
+    ) -> Result<Option<&'r S>, ShadowSolutionError<K, E>> {
         for check in &mut self.preflight {
             check(&solution.assignment).map_err(ShadowSolutionError::Adapter)?;
         }
@@ -132,7 +164,7 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
             session: &mut self.session,
             saved: Some(saved),
         };
-        update_shadows_with_policy(guard.session, &solution.assignment, self.consistency)
+        update_shadows_mode(guard.session, &solution.assignment, self.consistency, mode)
             .map_err(ShadowSolutionError::Shadows)?;
         let shadows = (self.project)(&solution.assignment, guard.session)
             .map_err(ShadowSolutionError::Adapter)?;
