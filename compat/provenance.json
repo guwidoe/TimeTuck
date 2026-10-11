@@ -52449,6 +52449,141 @@
       "local_path": "crates/solver/tests/planning_composition_cases.rs",
       "local_test": "test_multiple_both_classes_annotated_mixed_pattern",
       "modifications": "Explicit native registered/plain components and owned/projected parent links replace Java annotations, classes/interfaces and reflection. An explicit single-level composition policy expresses the source validation conditions; native default composition supports deeper/mixed acyclic graphs. Real compilation resolves actual declaring types, fields and ancestry before canonical schema/range binding. No Java API/ABI, runtime reflection, inheritance-discovery or random-trace parity claim. Preserve full generator ranges/two entity rows and initialized/uninitialized states, actual declaring/parent structure, source failure category and diagnostic meaning. Native compiler rejects unregistered variable-declaring ancestors, field redefinition, depth3 under maximum2, or mixed parent links. Typed errors compare exact offending types/names and actual depth; message fragments use native registration/planning-field terminology instead of Java annotation/genuine-variable terminology. Failure occurs during genuine metadata compilation before range/scoring/solver execution; unused source constraint providers are not executed or credited."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.size",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "size",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.contains",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "contains",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "contains",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.iterator",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "iterator",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "iterator",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.toArray",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "toArray",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "to_array",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.addAndRemove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "addAndRemove",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "add_and_remove",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.containsAll",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "containsAll",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "contains_all",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.addAll",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "addAll",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "add_all",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.removeAll",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "removeAll",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "remove_all",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
+    },
+    {
+      "id": "LinkedIdentityHashSetTest.clear",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/LinkedIdentityHashSetTest.java",
+      "upstream_test": "clear",
+      "local_path": "crates/solver/tests/identity_ordered_set_cases.rs",
+      "local_test": "clear",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all identity, insertion-order, membership, duplicate, size and bulk-change assertions through native IdentityOrderedSet. Arc allocation identity replaces Java object references; pointer identity assertions do not use payload equality. toArray preserves unbuffered, exact-size, undersized untouched-buffer plus owned fallback, and oversized trailing-null cases through snapshot/snapshot_into and Option<Arc<T>>. Integer size fixture uses Arc-wrapped values. No Java API/ABI or concurrent mutation parity claimed. retainAll unsupported-operation method is not adapted; original regressions grant no method credit."
     }
   ],
   "fixtures": [

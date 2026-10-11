@@ -6984,3 +6984,12 @@ and basic move bindings, root order/scoping, list/shadow metadata, independent
 policy controls and actual graph/declaration errors. These add no method credit.
 All composition validation and metadata cloning happen before solving; no parent
 traversal or reflection was added to candidate-scoring paths. No speedup claimed.
+
+Nine LinkedIdentityHashSetTest methods preserve allocation identity, insertion
+order, duplicate and bulk membership changes, and every snapshot buffer shape.
+Native IdentityOrderedSet owns Arc members without requiring payload equality,
+hashing or cloning; borrowed iteration does not increment reference counts.
+Insertion/removal use a pointer index with reusable linked slots. Payload mutation
+retains identity, and reinsertion appends at the end. The unsupported retainAll
+method remains pending. Original churn/reference, mutable-payload, ownership,
+buffer and mixed-direction iteration checks earn no source-method credit.

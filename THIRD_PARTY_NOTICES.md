@@ -15,6 +15,12 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/identity_ordered_set_cases.rs` adapts nine methods from
+  `LinkedIdentityHashSetTest`. Native Arc allocation identity and reusable
+  Option buffers preserve object membership, insertion order and all snapshot
+  shapes. The unsupported retainAll method remains pending. Additional mutable
+  payload, churn, buffer, ownership and iterator regressions are original.
+
 - `crates/solver/tests/planning_composition_cases.rs` adapts all fifteen methods
   in `SolverEntityInheritanceTest`. Its test-domain entity declarations, generators
   and six successful scoring providers are adapted in
