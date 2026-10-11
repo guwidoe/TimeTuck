@@ -4,6 +4,8 @@ use crate::{
     ModelError, MoveError, SelectionLifecycleEvent, SelectionSource,
 };
 use std::sync::Arc;
+mod value_lookup;
+use value_lookup::ValueOwnership;
 
 /// Evaluate a context predicate before asking the child for size or opening it.
 /// Disabled contexts have exact size zero and never open/poll the child. Lifecycle
@@ -205,6 +207,14 @@ pub enum ListValueSelection {
 /// Supports validated borrowed contexts and owned (Arc<ListProblem<V>>,
 /// ListAssignment<V>) snapshots. Owned size/open calls validate the snapshot;
 /// borrowed contexts retain validation at construction.
+/// All mode reads only registry order. For large indexed models, filtered size
+/// uses one location index, while opening starts with direct ownership searches
+/// and promotes after their row/value visits reach twice the registry length
+/// plus the row count (a conservative traversal-cost bound). Promotion costs
+/// O(registry size) storage;
+/// short cursors avoid that allocation. Hash collisions retain model lookup costs.
+/// Small and Eq-only models keep direct searches. No index survives an opening,
+/// and owned-context validation/capture costs are unchanged.
 pub struct ListValueSource(pub ListValueSelection);
 /// Optional-list assignment filtering. Required lists bypass these filters so
 /// construction can still select values that have not yet been placed.
@@ -231,30 +241,43 @@ impl ListValueSource {
     }
 }
 
-fn selected_list_value<V: Eq + Clone, C: ListSelectionView<V>>(
-    context: &C,
+fn selected_list_position<V: Eq + Clone>(
+    problem: &ListProblem<V>,
     mode: ListValueSelection,
-    value: &V,
+    position: Option<crate::ListPosition>,
 ) -> bool {
-    let position = context.assignment().location(value);
     match mode {
         ListValueSelection::All => true,
         ListValueSelection::Assigned => position.is_some(),
         ListValueSelection::Unassigned => position.is_none(),
         ListValueSelection::Movable => position.is_some_and(|p| {
-            !context.problem().entities()[p.entity].is_pinned()
-                && p.index >= context.problem().entities()[p.entity].pinned_prefix()
+            !problem.entities()[p.entity].is_pinned()
+                && p.index >= problem.entities()[p.entity].pinned_prefix()
         }),
     }
 }
 impl ListValueSource {
     fn size_view<V: Eq + Clone, C: ListSelectionView<V>>(&mut self, context: &C) -> Option<usize> {
+        let problem = context.problem();
+        if self.0 == ListValueSelection::All {
+            return Some(problem.values().len());
+        }
+        if ValueOwnership::useful(problem) {
+            return Some(
+                problem
+                    .value_locations(context.assignment())
+                    .into_iter()
+                    .filter(|&position| selected_list_position(problem, self.0, position))
+                    .count(),
+            );
+        }
         Some(
-            context
-                .problem()
+            problem
                 .values()
                 .iter()
-                .filter(|v| selected_list_value(context, self.0, v))
+                .filter(|value| {
+                    selected_list_position(problem, self.0, context.assignment().location(value))
+                })
                 .count(),
         )
     }
@@ -263,12 +286,34 @@ impl ListValueSource {
         context: &'a C,
     ) -> Box<dyn Iterator<Item = V> + 'a> {
         let mode = self.0;
+        let problem = context.problem();
+        if mode == ListValueSelection::All {
+            return Box::new(problem.values().iter().cloned());
+        }
+        if ValueOwnership::useful(problem) {
+            let mut lookup = ValueOwnership::new(problem, context.assignment());
+            return Box::new(
+                problem
+                    .values()
+                    .iter()
+                    .enumerate()
+                    .filter(move |(id, _)| {
+                        selected_list_position(
+                            problem,
+                            mode,
+                            lookup.location(problem, context.assignment(), *id),
+                        )
+                    })
+                    .map(|(_, value)| value.clone()),
+            );
+        }
         Box::new(
-            context
-                .problem()
+            problem
                 .values()
                 .iter()
-                .filter(move |v| selected_list_value(context, mode, v))
+                .filter(move |value| {
+                    selected_list_position(problem, mode, context.assignment().location(value))
+                })
                 .cloned(),
         )
     }
