@@ -2433,3 +2433,34 @@ routes retain their existing best restoration behavior, including after accepted
 worsening moves. A stateful four-decision regression reduces score calls from
 seven to five and before/after change calls from ten to six each, with the same
 retained best and two commits. This is callback-count evidence, not a timing claim.
+
+## Sequenced custom commands
+
+`CustomPhaseContext::run_commands` executes an iterator of commands within one
+phase budget, score history and calculator instance. Each invoked command starts
+from the retained best assignment. Between commands, a worse or tied working
+assignment is restored, including actual payloads when equality compares only
+identity. A command already at the retained best needs no reset. The last command
+uses the ordinary phase-exit best restoration.
+
+`CustomPhaseWork::restorations` counts these handoffs. Each necessary restoration
+charges one score evaluation and actual constraint work, without a move, step or
+improvement. Limits are checked before pulling the next command and before its
+execution; a restoration can exhaust the remaining budget. Errors and caught
+command panics invalidate the context. Earlier commits are not collectively
+rolled back. All eighteen solver routes have focused sequence coverage.
+
+## Weighted interleave refill
+
+`WeightedInterleave` primes enabled children on its first draw, then refills only
+the previously selected child. It rebuilds the weighted distribution when a child
+retires; ordinary draws use the existing binary search. Initial priming and each
+retirement rebuild still scan the families. Caught child panics preserve pending
+refill and previous retirements. Construction remains lazy.
+
+The native construction-and-consumption comparison includes allocations and
+priming. Seven workloads, each with eleven alternating pairs, retain identical
+output counts and checksums. Three active families improve about 2.14x and 1,024
+active families about 23.67x; short and retirement-heavy cases are included.
+These are iterator measurements, not full-solver or Java comparisons. Evidence:
+`work/parallel-round21-evidence/interleave/work/interleave-refill-evidence.json`.

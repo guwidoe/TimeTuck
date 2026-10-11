@@ -24233,3 +24233,64 @@ Prior droppedremoteprocessstate unknown, don't duplicate remote job. Local+runne
 productive. Goalactive/incomplete; this goalturn made integration/performance
 progress. Next steps:poll49923, review interleave/custom drafts independently,
 release local timing aftergate,recordreport once,integrate nextcoherentbatch.
+
+
+## Parallel round20 verified; round21 integrated (2026-10-11)
+
+Round20 gate49923 and recorder79769 TERMINAL0:6232Rust+275doctests,
+793RUN/101REUSE Rust targets and46PythonREUSE.3335/4855methods68.692%,
+1256pending264excluded0failed/unverified. Source2e0405f2911e8256fe5dcea56061ee8104bed78a151372383b10345290a7e4cf,
+verificationcb8f3a1e28c0b2f548127c10074f2c2c721c567bed4383bde5d1be3841a9caad.
+work/parallel-round20-evidence.json authoritative. Java list timing remains stale.
+
+Round21 integrated, frozen atde6ae19; gate99754 LIVE. Fmt+Clippy passed;
+798affectedtargets compiling,101unchanged reused. One combined gate, no main
+Rust/provenance edits until terminal+recorder. Logs work/parallel-round21-
+{prebuild,final-check}.log. Prepared record_parallel_round21.py; NOT RUN yet.
+Expected3336source methods from complete barrage(+1); no other source credit.
+Stable patch IDs checked; final artifacts/copied hashes checked against committed
+and successful measured inputs, work/parallel-round21-{commits,reviewed,freeze}.json.
+- 36e6a69 <-7a565d2 custom run_commands retained-best handoffs:33focused/4docs,
+  all18routes, same calculator/history/budget, forced actual payload refresh,
+  restoration score work charged; caught errors/panics invalidate.10artifacts.
+- a8f71a8 <-2342ace indexed large inconsistent repair:15focused+Clippy;
+  28workloads504samples onrunner-a. Actual dense solves5.75–5.84x, repair-only
+  11.18–12.26x; sparse/fewbad up to6.51%slower, peakunchanged.19artifacts.
+- 3e4848e <-88c53cb weightedinterleave pending-child refill:9focused+Clippy.
+  Paired56844 terminal0,7workloads11pairs construction+consumption includes
+  allocations/priming;3families2.14x,1024families23.67x. Exact counts/checksums.
+ 23artifacts, source archives/binary identity. No Java/fullsolverclaim.
+- 5163580 <-f4a724b linear primitive ValueTabu capture:19focused+Clippy;
+  runner-a44258 terminal0,20actual retained solve workloads360samples;
+  large spans4.71–25.15x, Eq2561.62–1.66x, tiny/single/nontabu countercases
+  up to2.7%slower, no peakincrease.18artifacts; private scored_list_values.rs.
+- 9a94ea5 <-a699e10 complete ProblemChangeBarrageIT source method +4fixtures;
+  de6ae19provenance. Ten repetitions200edits, exact JDK Random(0) delay/edit
+  schedule, realfirstinitialized/search, strict10sreceipt waits, unconditional
+  shutdown/final assertion. Parent read full method/helpers/domain score and
+  fixture.31665terminal0+Clippy/fmt; initial fixture defaultacceptance failure
+  retained. No production gap demonstrated.10artifacts.
+
+ThreeAstra/high implementation agents continuing into round22:
+Dense worktree dense-list-scoring ownsrunner-a, approved conservative immutable
+fixed-dependency topological rank certificate in list_dependencies.rs/minimal
+list.rs wrapper/dependency_graph.rs helper. Fast success onlyifall dynamic edges
+respect validstaticranks; backward/unknown/staticcycles use existing graph path.
+Must preserve diagnostics; include setup/memory/fallback costs. No build yet.
+Dependency worktree dependency-graph optimizes public planning_values via strict
+borrowed checker+existing privatecapture. Ownlist.rs metadata entry/tests;
+coordinate distant hunks withDense. Parent read sixcomplete source methods and
+all draft metadata/equality assertions:ListChangeboth,SubListChangeboth,ListSwap
+andSubListSwaptwoentities. Sixmethodscope approved pending checks/provenance;
+same-list swaps pending. Updates old clone-count1021->1 in privatefile test only;
+preserve integrated linearcapture production. No local timing during99754.
+Termination worktree diminished-returns approved three TerminationTest methods:
+terminateEarlyConstructionHeuristic/terminateEarlyLocalSearch (all10argumentrows)
+andmixedSolverPhaseTerminations. Parent read entire class/scorers/argprovider.
+Real cancellationcallback, partialconstruction/no fullyassignedscore, fourstep
+phase limit; explicit native diminishedphase mapping, noJVMinterruptcredit.
+All agents isolated-j2 focused checks allowed, no broadgates.
+runner-c93273 TERMINAL255(SSHtimeout), stilloffline; user saidwouldwake, don’tnag.
+No duplicate olddroppedremote43636; stateunknown. Local+runner-a productive.
+Goalactive/incomplete. Next:99754terminal->record via stableenvironment, docscommit;
+continue agentreviews withoutrepeating already successful checks.

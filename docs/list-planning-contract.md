@@ -1247,3 +1247,22 @@ alone 1.8% slower. Counts and ordered output checksums match. Fast cached sample
 can be below a millisecond, so precise large speedup factors are not claimed.
 This measures provider work, not end-to-end solving or Java performance:
 `work/parallel-round20-evidence/cache/work/sampled-swap-cache-evidence.json`.
+
+Indexed initialization repair with at least 64 inconsistent values now plans
+removals in one assignment scan. It preserves diagnostic priority by the original
+bad-value order, checks all pinned removals before mutation, and retains surviving
+payloads and row order. Repeated repair rounds and the graph algorithm remain
+unchanged; small and Eq-only cases use the existing path. Native dense 4,096-value
+setup-inclusive solves improve 5.75–5.84x, with unchanged measured peak memory.
+Few-bad and sparse countercases regress by up to 6.51%. Scope and raw samples:
+`work/parallel-round21-evidence/repair/work/list-repair-performance.json`.
+
+After successful primitive move validation, value-tabu metadata copies moved
+spans directly in source order. Assignment uniqueness makes quadratic duplicate
+searches unnecessary. Same-position swaps retain one value; reversing a move does
+not reverse its metadata. Multi-leaf composites keep their existing replay path.
+In twenty native setup-inclusive retained-solver workloads (360 samples), large
+spans improve 4.71–25.15x, including a second step with populated tabu memory.
+Tiny, single-value and non-tabu countercases include regressions up to 2.7%.
+Measured peak memory does not increase. These are native comparisons, not Java
+speedups: `work/parallel-round21-evidence/tabu/work/span-tabu-performance.json`.
