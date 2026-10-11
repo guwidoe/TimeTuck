@@ -57,6 +57,9 @@ fn rebuilding_inner<S, R>(
             .is_some_and(|s| s.monitors_reconstruction_moves()))
     .then(crate::move_metrics::MoveCounter::default);
     if moves.is_none()
+        && !shared
+            .as_ref()
+            .is_some_and(|s| s.monitors_rebuild_conditions())
         && from_control(shared).is_none()
         && shared.as_ref().and_then(|s| s.clock_session()).is_none()
     {
@@ -96,4 +99,50 @@ fn rebuilding_inner<S, R>(
         moves,
     );
     run(Some(&mut monitor))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::Cell;
+    struct ConditionOnly<'a>(&'a Cell<bool>);
+    impl SearchControl for ConditionOnly<'_> {
+        fn monitors_rebuild_conditions(&self) -> bool {
+            true
+        }
+        fn start_search(&mut self) {
+            panic!("rebuild must not restart outer stagnation")
+        }
+        fn record_improvement(&mut self) {
+            panic!("partial repair must not improve outer best")
+        }
+        fn complete_step(&mut self, _: bool) {
+            panic!("rebuild must not complete outer steps")
+        }
+        fn stop(&mut self) -> Option<crate::LocalSearchTermination> {
+            self.0
+                .get()
+                .then_some(crate::LocalSearchTermination::StepCondition)
+        }
+    }
+    #[test]
+    fn rebuild_polls_conditions_without_clock_session_or_counters() {
+        let expired = Cell::new(false);
+        let mut control = ConditionOnly(&expired);
+        let mut shared: Option<&mut dyn SearchControl> = Some(&mut control);
+        reconstructing(&mut shared, |monitor| {
+            let monitor = monitor.expect("counter-free condition still requires polling");
+            assert!(monitor.score_counter().is_none());
+            assert!(monitor.move_counter().is_none());
+            assert!(monitor.clock_session().is_none());
+            assert!(!monitor.construction_stopped());
+            monitor.start_search();
+            monitor.record_improvement();
+            monitor.complete_step(true);
+            expired.set(true);
+            assert!(monitor.construction_stopped());
+        });
+        expired.set(false);
+        assert!(shared.as_mut().unwrap().stop().is_none());
+    }
 }

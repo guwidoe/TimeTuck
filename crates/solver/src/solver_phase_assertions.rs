@@ -35,6 +35,7 @@ pub(super) fn verify<A: Clone, S: AdditiveScore, E>(
         limit: None,
         clock: &mut clock,
         clock_session: None,
+        phase_condition: None,
         last: Duration::ZERO,
         shared_bound: false,
         significant: None,

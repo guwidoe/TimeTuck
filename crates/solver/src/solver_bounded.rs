@@ -244,6 +244,7 @@ mod tests {
             limit: None,
             clock,
             clock_session: None,
+            phase_condition: None,
             last: Duration::ZERO,
             shared_bound: false,
             significant: None,

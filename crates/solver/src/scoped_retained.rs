@@ -39,6 +39,7 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
         extensions.metrics,
         extensions.failure,
         extensions.clock,
+        extensions.phase_terminations,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -320,6 +321,7 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
         extensions.metrics,
         extensions.failure,
         extensions.clock,
+        extensions.phase_terminations,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -595,6 +597,7 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
         extensions.metrics,
         extensions.failure,
         extensions.clock,
+        extensions.phase_terminations,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {

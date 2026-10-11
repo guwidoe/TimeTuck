@@ -63,7 +63,7 @@ impl Default for ProviderConstructionConfig<'_> {
 pub enum ProviderConstructionTermination {
     /// No eligible missing items remain; this does not assert hard feasibility.
     Completed,
-    /// A solve-wide construction condition stopped this phase.
+    /// A solve-wide or phase-local construction condition stopped this phase.
     Condition,
     NoCandidates,
     EvaluationLimit,

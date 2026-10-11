@@ -60,6 +60,11 @@ impl MoveEvaluationKind {
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct MoveEvaluationCounts([u64; 16]);
 impl MoveEvaluationCounts {
+    pub(crate) fn since(self, origin: Self) -> Self {
+        Self(std::array::from_fn(|i| {
+            self.0[i].saturating_sub(origin.0[i])
+        }))
+    }
     pub(crate) fn with_reconstruction(mut self, pending: u64) -> Self {
         let count = &mut self.0[MoveEvaluationKind::Reconstruction as usize];
         *count = count.saturating_add(pending);

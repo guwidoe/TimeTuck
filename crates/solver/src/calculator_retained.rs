@@ -43,6 +43,7 @@ where
         extensions.metrics,
         extensions.failure,
         extensions.clock,
+        extensions.phase_terminations,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -315,6 +316,7 @@ where
         extensions.metrics,
         extensions.failure,
         extensions.clock,
+        extensions.phase_terminations,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -582,6 +584,7 @@ where
         extensions.metrics,
         extensions.failure,
         extensions.clock,
+        extensions.phase_terminations,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {

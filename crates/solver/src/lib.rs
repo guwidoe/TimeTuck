@@ -265,6 +265,8 @@ pub use step_progress::{StepCountLimit, StepProgress};
 mod score_progress;
 pub use score_progress::{FeasibilityProgress, ScoreProgressError, ScoreTargetProgress};
 
+mod phase_termination;
+pub use phase_termination::PhaseTerminationBinding;
 mod solver_clock;
 pub use solver_clock::SolverClock;
 mod time_limit;

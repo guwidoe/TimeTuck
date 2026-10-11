@@ -206,7 +206,7 @@ impl ConstructionConfig<'_> {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstructionTermination {
-    /// The solve-wide composed condition stopped this scan.
+    /// A solve-wide or phase-local composed condition stopped this scan.
     Condition,
     /// Another eligible unassigned item remains after the step budget is spent.
     /// The preceding scan's winner is retained without truncating that scan.

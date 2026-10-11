@@ -17,6 +17,7 @@ fn phase_check_time_consumes_shared_deadline_without_consuming_evaluations() {
         None,
         None,
         None,
+        &[],
     ));
     let mut entered = vec![];
     let result: Result<_, SolverError<()>> = run_with_clock_observed(
@@ -70,6 +71,7 @@ fn score_without_new_assignment_checks_the_retained_phase_entry() {
         None,
         None,
         None,
+        &[],
     ));
     let mut clock = || Duration::ZERO;
     let phases = [

@@ -38,6 +38,10 @@ pub(crate) trait SearchControl<S = crate::SimpleScore> {
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         None
     }
+    /// Poll active expressions inside rebuilds even without optional counters.
+    fn monitors_rebuild_conditions(&self) -> bool {
+        false
+    }
     /// Pending reconstruction counts are visible only to move expressions.
     fn monitors_reconstruction_moves(&self) -> bool {
         false

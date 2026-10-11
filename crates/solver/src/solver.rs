@@ -249,6 +249,12 @@ impl<A, S: Clone> SolverResult<A, S> {
 }
 #[derive(Debug)]
 pub enum SolverError<E> {
+    InvalidPhaseTermination {
+        phase: usize,
+    },
+    DuplicatePhaseTermination {
+        phase: usize,
+    },
     /// Startup policy rejected a permanently missing required basic variable.
     /// The index is in the basic model, including for a mixed solution.
     PinnedUnassignedVariable {
@@ -321,6 +327,12 @@ pub enum SolverError<E> {
 impl<E: fmt::Display> fmt::Display for SolverError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidPhaseTermination { phase } => {
+                write!(f, "termination targets missing phase {phase}")
+            }
+            Self::DuplicatePhaseTermination { phase } => {
+                write!(f, "duplicate termination binding for phase {phase}")
+            }
             Self::PinnedUnassignedVariable { variable } => write!(
                 f,
                 "required basic variable {variable} is pinned with an unassigned value"
@@ -383,7 +395,9 @@ impl<E: Error + 'static> Error for SolverError<E> {
             Self::Phase { error, .. } => Some(error),
             Self::Custom { error, .. } => Some(error),
             Self::Repair { error, .. } => Some(error),
-            Self::EmptyPlan
+            Self::InvalidPhaseTermination { .. }
+            | Self::DuplicatePhaseTermination { .. }
+            | Self::EmptyPlan
             | Self::PhaseScoreMismatch { .. }
             | Self::PhaseScoreCheckFailed { .. }
             | Self::InvalidOptimisticBound { .. }
@@ -422,6 +436,7 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     limit: Option<Duration>,
     clock: &'c mut dyn FnMut() -> Duration,
     clock_session: Option<crate::solver_clock::ClockSession>,
+    phase_condition: Option<crate::phase_termination::PhaseControl<'c, S>>,
     last: Duration,
     shared_bound: bool,
     significant: Option<SignificantImprovement<S>>,
@@ -483,6 +498,29 @@ impl<S: Score> SolveControl<'_, S> {
         self.condition_expired
     }
 
+    fn phase_reached(&mut self, construction_score: Option<&S>, pending: u64) -> bool {
+        if self.phase_condition.is_none() {
+            return false;
+        }
+        self.sample();
+        let phase = self.phase_condition.as_mut().unwrap();
+        let moves = if phase.binding.needs_moves() {
+            self.move_counter
+                .as_ref()
+                .expect("phase move counter")
+                .snapshot()
+                .with_reconstruction(pending)
+        } else {
+            MoveEvaluationCounts::default()
+        };
+        phase.reached(
+            self.last,
+            self.score_counter.as_ref().map_or(0, |c| c.total()),
+            moves,
+            construction_score,
+        )
+    }
+
     fn sample(&mut self) {
         self.last = self.last.max((self.clock)());
     }
@@ -518,11 +556,13 @@ impl<S: Score> SolveControl<'_, S> {
         ((self.condition.is_some() || self.scored_condition.is_some())
             || self.lifecycle.enabled()
             || self.move_counter.is_some()
-            || self.clock_session.is_some())
+            || self.clock_session.is_some()
+            || self.phase_condition.is_some())
         .then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
-        if self.clock_session.is_some()
+        if self.phase_condition.is_some()
+            || self.clock_session.is_some()
             || self.move_counter.is_some()
             || self.lifecycle.enabled()
             || (self.condition.is_some() || self.scored_condition.is_some())
@@ -562,8 +602,17 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         self.move_counter.clone()
     }
+    fn monitors_rebuild_conditions(&self) -> bool {
+        self.condition.is_some()
+            || self.scored_condition.is_some()
+            || self.phase_condition.is_some()
+    }
     fn monitors_reconstruction_moves(&self) -> bool {
         self.condition_uses_moves
+            || self
+                .phase_condition
+                .as_ref()
+                .is_some_and(|p| p.binding.needs_moves())
     }
     fn stop_with_reconstruction_moves(&mut self, pending: u64) -> Option<LocalSearchTermination> {
         if self.stagnated() {
@@ -572,7 +621,9 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
             Some(LocalSearchTermination::SignificantImprovementTimeLimit)
         } else if self.step_stagnated() {
             Some(LocalSearchTermination::UnimprovedStepLimit)
-        } else if self.condition_reached_with_pending(None, pending) {
+        } else if self.condition_reached_with_pending(None, pending)
+            || self.phase_reached(None, pending)
+        {
             Some(LocalSearchTermination::StepCondition)
         } else {
             None
@@ -601,20 +652,32 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     }
     fn complete_construction_step(&mut self) {
         self.construction_steps = self.construction_steps.saturating_add(1);
+        if let Some(phase) = &mut self.phase_condition {
+            phase.construction_steps = phase.construction_steps.saturating_add(1);
+        }
         self.condition_reached();
+        self.phase_reached(None, 0);
     }
     fn construction_stopped(&mut self) -> bool {
-        self.condition_reached()
+        self.condition_reached() || self.phase_reached(None, 0)
     }
     fn monitors_complete_scores(&self) -> bool {
         self.condition_needs_best
+            || self
+                .phase_condition
+                .as_ref()
+                .is_some_and(|p| p.binding.needs_best())
     }
     fn observe_construction_score(&mut self, score: &S) {
         if score.structural() >= 0 {
             self.condition_reached_with_score(Some(score));
+            self.phase_reached(Some(score), 0);
         }
     }
     fn observe_goal_score(&mut self, score: &S) {
+        if let Some(phase) = &mut self.phase_condition {
+            phase.observe_best(score);
+        }
         if self.condition_needs_best
             && score.structural() >= 0
             && self.condition_best.as_ref().is_none_or(|best| score > best)
@@ -634,6 +697,14 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         }
     }
     fn start_search(&mut self) {
+        if self
+            .phase_condition
+            .as_ref()
+            .is_some_and(|p| p.last_improvement.is_none())
+        {
+            self.sample();
+            self.phase_condition.as_mut().unwrap().last_improvement = Some(self.last);
+        }
         self.started = true;
         if ((self.condition.is_some() || self.scored_condition.is_some())
             || self.unimproved_limit.is_some())
@@ -644,6 +715,15 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         }
     }
     fn record_improvement(&mut self) {
+        self.phase_reached(None, 0);
+        if let Some(phase) = &mut self.phase_condition
+            && !phase.expired
+        {
+            phase.steps.record_improvement();
+            if phase.last_improvement.is_some() {
+                phase.last_improvement = Some(self.last);
+            }
+        }
         self.condition_reached();
         if !self.step_stagnated() {
             self.steps.record_improvement();
@@ -654,6 +734,12 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         }
     }
     fn complete_step(&mut self, improved: bool) {
+        if let Some(phase) = &mut self.phase_condition
+            && !phase.expired
+        {
+            phase.steps.complete_step(improved);
+        }
+        self.phase_reached(None, 0);
         if ((self.condition.is_some() || self.scored_condition.is_some())
             || self.unimproved_steps_limit.is_some())
             && !self.step_stagnated()
@@ -786,6 +872,7 @@ enum PlanCallback<'a, A, S> {
         metrics: Option<&'a crate::SolverMetrics<S>>,
         failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
         clock: Option<&'a crate::SolverClock>,
+        phase_terminations: &'a [crate::PhaseTerminationBinding<'a, S>],
     },
 }
 impl<'a, A, S> PlanCallback<'a, A, S> {
@@ -796,12 +883,14 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
         metrics: Option<&'a crate::SolverMetrics<S>>,
         failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
         clock: Option<&'a crate::SolverClock>,
+        phase_terminations: &'a [crate::PhaseTerminationBinding<'a, S>],
     ) -> Option<Self> {
         if check.is_some()
             || lifecycle.is_some()
             || metrics.is_some()
             || failure.is_some()
             || clock.is_some()
+            || !phase_terminations.is_empty()
         {
             Some(Self::Checked {
                 events,
@@ -810,6 +899,7 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
                 metrics,
                 failure,
                 clock,
+                phase_terminations,
             })
         } else {
             events.map(Self::Events)
@@ -827,6 +917,33 @@ struct PlanObservation<'a, A, S> {
     clock_session: Option<crate::solver_clock::ClockSession>,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
+    fn phase_bindings(&self) -> &'a [crate::PhaseTerminationBinding<'a, S>] {
+        match &self.callback {
+            Some(PlanCallback::Checked {
+                phase_terminations, ..
+            }) => phase_terminations,
+            _ => &[],
+        }
+    }
+    fn validate_bindings<E>(&self, phases: usize) -> Result<(), SolverError<E>> {
+        let bindings = self.phase_bindings();
+        for (i, binding) in bindings.iter().enumerate() {
+            if binding.phase >= phases {
+                return Err(SolverError::InvalidPhaseTermination {
+                    phase: binding.phase,
+                });
+            }
+            if bindings[..i]
+                .iter()
+                .any(|other| other.phase == binding.phase)
+            {
+                return Err(SolverError::DuplicatePhaseTermination {
+                    phase: binding.phase,
+                });
+            }
+        }
+        Ok(())
+    }
     fn new(callback: PlanObserver<'a, A, S>) -> Self {
         Self {
             callback,
@@ -1054,6 +1171,7 @@ fn run<A, S: AdditiveScore, E: std::fmt::Debug>(
 where
     A: Clone,
 {
+    observation.validate_bindings(local.len())?;
     observation.clock_session = match &observation.callback {
         Some(PlanCallback::Checked {
             clock: Some(source),
@@ -1061,7 +1179,8 @@ where
         }) => Some(crate::solver_clock::ClockSession::new(source)),
         _ => None,
     };
-    let enabled = limits.termination.is_some()
+    let enabled = !observation.phase_bindings().is_empty()
+        || limits.termination.is_some()
         || limits.scored_termination.is_some()
         || limits.max_time.is_some()
         || limits.max_unimproved_time.is_some()
@@ -1122,17 +1241,21 @@ where
 {
     // Reborrow through a local adapter so callback storage does not tie the
     // solve clock and termination references to the caller's callback lifetime.
+    observation.validate_bindings(local.len())?;
+    let phase_bindings = observation.phase_bindings();
     let mut callback = observation.take_lifecycle();
     let lifecycle_enabled = callback.is_some();
     let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
     let mut time = SolveControl {
         move_counter: None,
+        phase_condition: None,
         score_counter: (limits
             .termination
             .is_some_and(SearchTermination::needs_score_counts)
             || limits
                 .scored_termination
-                .is_some_and(crate::ScoredSearchTermination::needs_score_counts))
+                .is_some_and(crate::ScoredSearchTermination::needs_score_counts)
+            || phase_bindings.iter().any(|b| b.needs_scores()))
         .then(Default::default),
         step_metrics: None,
         metric_phase: None,
@@ -1237,10 +1360,10 @@ where
         }) => Some(metrics.start()),
         _ => None,
     };
-    time.move_counter = metrics
-        .as_ref()
-        .map(|m| m.moves.clone())
-        .or_else(|| time.condition_uses_moves.then(Default::default));
+    time.move_counter = metrics.as_ref().map(|m| m.moves.clone()).or_else(|| {
+        (time.condition_uses_moves || phase_bindings.iter().any(|b| b.needs_moves()))
+            .then(Default::default)
+    });
     time.step_metrics = metrics.as_ref().map(|m| m.writer.clone());
     observation.metric_writer = metrics.as_ref().map(|m| m.writer.clone());
     let mut result = SolverResult {
@@ -1478,8 +1601,21 @@ where
             time.metric_phase = Some((index, kind));
             time.metric_step = 0;
             failure_phase = Some(crate::SolverEventProducer { phase: index, kind });
+            if let Some(binding) = phase_bindings.iter().find(|b| b.phase == index) {
+                time.sample();
+                time.phase_condition = Some(crate::phase_termination::PhaseControl::new(
+                    binding,
+                    time.last,
+                    time.score_counter.as_ref().map_or(0, |c| c.total()),
+                    time.move_counter
+                        .as_ref()
+                        .map_or_else(Default::default, |c| c.snapshot()),
+                    result.complete.then_some(result.score.as_ref()).flatten(),
+                ));
+            }
             time.lifecycle.start_phase(index, kind);
             let output = phase(index, initial, request, &mut time, observation);
+            time.phase_condition = None;
             if let (Some(metrics), Ok(out)) = (&observation.metric_writer, &output) {
                 let mut work = result.work;
                 work.add(out.work);
@@ -4084,6 +4220,7 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.metrics,
             extensions.failure,
             extensions.clock,
+            extensions.phase_terminations,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4115,6 +4252,7 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.metrics,
             extensions.failure,
             extensions.clock,
+            extensions.phase_terminations,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4139,6 +4277,7 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
             extensions.metrics,
             extensions.failure,
             extensions.clock,
+            extensions.phase_terminations,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4170,6 +4309,7 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
             extensions.metrics,
             extensions.failure,
             extensions.clock,
+            extensions.phase_terminations,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4206,6 +4346,7 @@ pub fn solve_list_stream_with_extensions<
             extensions.metrics,
             extensions.failure,
             extensions.clock,
+            extensions.phase_terminations,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4236,6 +4377,7 @@ pub fn solve_mixed_stream_with_extensions<
             extensions.metrics,
             extensions.failure,
             extensions.clock,
+            extensions.phase_terminations,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
