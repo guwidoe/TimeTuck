@@ -23615,3 +23615,102 @@ Three Astra/high agents continue, one implementation lane per worktree:
  specs require phase resets; no unsupported extra termination semantics added.
 runner-a is back with termination; its initial compile handle 64653 is agent-owned.
 Default clocks/metrics clock semantics and unused-clock costs must stay unchanged.
+
+
+Round 12 verified; round 13 integrated and checking (current handoff)
+--------------------------------------------------------------------
+This goal turn made progress: verified round12 after a test-only recovery,
+reviewed/preserved/integrated four more implementations, and started round13.
+Full rewrite remains active and incomplete.
+
+17760 TERMINAL101: one original clone-count regression expected11/7 clones for
+cross/same-row span exchanges; ownership-preserving span implementation uses8/4.
+All other jobs succeeded. Initial log preserved as
+work/parallel-round12-initial-check.log. Followup149a7f2 changes only those two
+expectations with explanatory comments, retaining state/history/undo assertions.
+83551 TERMINAL0 selective recovery:1Rust job RUN,844REUSE;46PythonREUSE.
+39256 recorder TERMINAL0:6,013 Rust tests,267doctests;3,298/4,855=67.93%,
+1,293pending264excluded0failed/unverified. Source
+a30097c7ddc2c4b8749c98a91a9377e1e498ad9144d218cb3a882d1f5f05cc5d; verification
+b4fb1d72a53f84d4917b2caf55e63b22ecf4b851c22c38d256ee1db4e8ad6eeb.
+work/parallel-round12-evidence.json proves successful final state and freshness.
+
+Round13 frozen Rust a150c54, provenance c337b3c. Integrated/reviewed:
+- d23ee19 from106a139: reuse optional keyed index during shadow registration,
+ fixed-source validation and typed owner grouping.29focused+Clippy;60matching
+ paired quadruples onEFS.2,048owner-pairs session19.529->2.766ms(7.06x),
+ program19.261->2.702ms(7.13x). Collision-heavy still quadratic; tiny indexed
+ +11-25%(0.3-0.6us), default256+6.5-17.4% noisy/overlapping countercases retained.
+ Final builder differs from focused snapshot only by consuming-self panic rustdoc;
+ parent mechanically verified non-rustdoc equality from archived snapshot.
+- 9a0667a from019be9b: reuse incoming tail-range eligibility across cut positions;
+ preserve exact order, duplicate input order, pin/range/undo behavior.18focused
+ +Clippy;2,952samples/164workloads onEFS with unchanged locallycompiled binaries.
+ Every movement/count/score/full-assignment checksum matches. Largefullscans:
+ unrestricted2.94-7.70x,explicitranges32.5-35.8x,restrictive23.3-60.1x; retained
+ restrictive scans17.1-35.9x. Same peak heap; iterator928->912bytes. Overall opening
+ median0.983x,first1.049x,partial1.946x,full2.174x,retained1.079x. Unchanged opening
+ cases up to28% slower with overlapping ranges; WSL variability explicit.
+- b314b59 from6a583c54: optional SolverClock shared across all18 solver routes,
+ per-solve monotonic clamp/rebase, per-phase/rebuild origins, metrics clock separate.
+ 135focused tests+Clippy. Two complete pinned TerminationTest deadline methods
+ reviewed against upstream test+test-only score fixture; c337b3c records methods
+ and two fixtures. Explicit actual-step barriers replace sleeps. No timingclaim.
+- a150c54 fromf5aec290: move-count expressions poll successful candidates inside
+ reconstruction using a temporary family-remapped counter. Existing successful
+ rebuild bulk metrics retained; failures publish no partial family counts.
+ 30focused+Clippy incl54 route/expression scenarios, outer-step conjunction,
+ scored expression, panic/error/cancellation and family handoff. No sourcecredit.
+All integrated patch IDs match originals. Mapping work/parallel-round13-commits.json;
+evidence work/parallel-round13-evidence/{construction,tails,clock,quota}/work.
+All changed agent files match saved final manifests; evidence/probe hashes verified.
+Clock copied provenance-additions.json is immutable here; agent reset its working
+file for its next batch, so never recopy that mutable path over this evidence.
+
+10835 LIVE: stable launcher prebuild_parallel_round13.py ->
+work/parallel-round13-prebuild.log then bash scripts/check.sh ->
+work/parallel-round13-final-check.log. Main Rust/provenance frozen; do not restart.
+After terminal0 run stable launcher work/record_parallel_round13.py; prepared and
+syntax checked, NOT RUN. Expected source credits3300 if new tests pass.
+After round13 verification, deliberately refresh original Java list comparison
+(scripts/benchmark_lists.py) including two-opt. Earlier plan to refresh after12
+was deferred to include the already-ready tail change and avoid immediate staleness.
+Do not keep postponing it for unrelated next-batch changes. Reserve an uncontended
+local timing window; local agent can use a released remote. Java/list evidence
+remains stale until actually refreshed; no UI rerun needed for backend reports.
+
+Next three Astra/high lanes remain active:
+- dense_scoring/local: adaptive hashed pillar grouping on indexed models.
+ Current production reviewed: one model-level hash function pointer, preserved
+ clone/repair capability; flat/schema groups preserve encounter/member order,
+ optional None and duplicate-order semantics; direct tiny/Eq-only path; hash-chain
+ cap8 falls back.19focused tests+Clippy/releasebuild passed. Paired timing on
+ explicitly loaned runner-a pending. No main integration. Notify termination when
+ runner-a released. Local isolated-j2 compilation allowed during heavy parentbuild,
+ but no local paired timings; later Java benchmark needs no competing build.
+- dependency_graph/runner-c: opt-in activity components rebuild only connected graph
+ components whose active plan changes. Initial three production files reviewed;
+ next refinement bounds sequential deferred-total storage to old/final constraint
+ scores. Global plan scan unchanged; all physical edges unify components, outside
+ batch deltas preserved.31focused+Clippy initial state; changed-path checks and
+ actual benchmarks pending. Four filtered-activity source adaptations drafted,
+ NOT yet parent-reviewed/credited. No main integration.
+- termination/runner-a: new phase-scoped composed Search/ScoredSearchTermination
+ limits approved as next capability; API/control design pending. Define independent
+ phase clocks/counts/best/stagnation and separate stop latch; phase stop continues
+ next phase while global stop ends solve. Validate bindings before callbacks.
+ Read/implement while runner-a loaned; no build on loaned machine. Broader assertion
+ policy was deferred per user priority for behavior/performance over machinery.
+
+Latest lane updates before this handoff commit:
+Pillar v1 timings matched8,640samples/320workloads and gave unique opening21-43x,
+retained5.5-11.3x, but80-row indexed opening nearly2x slower and Eq-only schema
+opening~25% slower. Agent preserving v1, restoring exact default loops and delaying
+index activation with both row-count and64-group guards. Final focused/paired
+rerun justified by production change, runner-a remains loaned.
+Phase bindings design approved: borrowed slice of indexed search/scored bindings,
+reject duplicate/out-of-range before callbacks. Independent per-phase origins,
+steps/stagnation/best/latch; clear before global handoff checks. Existing native
+stagnation arming retained (construction never; exact before first candidate;
+local/repair/custom after initialization). Must enable clocks/counters for phase
+bindings alone and prevent phase expiry leaking into global flags.
