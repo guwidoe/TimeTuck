@@ -49884,6 +49884,156 @@
       "upstream_test": "outOfRangeCrossValueIsCallerResponsibility",
       "local_test": "invalid_pillar_cross_value_is_rejected_by_checked_execution",
       "modifications": "Preserve full e1a=[1,2], e1b=[1], e2=[1,2] domains, starting [1,1,2], pillars [e1a,e1b]/[e2], and source exception-category plus diagnostic assertions. FiniteProblem::apply supplies the native checked execution boundary: ModelError::ValueOutsideDomain{variable:1} and message outside its domain replace IllegalStateException and outside of the related value range. No claim that raw move execution independently checks ranges or that native error timing equals Java MoveTester timing."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListChangeMoveSelectorTest.randomUnrestricted",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomUnrestricted",
+      "local_test": "change_unrestricted",
+      "modifications": "All 10 exact ordered codes retained. Catalog 10*3=30, direct triangular count 10 and last requested bound 10 retained. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListChangeMoveSelectorTest.randomAllowsUnassignedValues",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomAllowsUnassignedValues",
+      "local_test": "change_optional",
+      "modifications": "All 24 exact ordered codes retained. Catalog 4*6=24, direct triangular count 4 and last requested bound 3 retained; universe [1,2,3,4] includes unassigned 4, destination null remains None. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListChangeMoveSelectorTest.randomReversing",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomReversing",
+      "local_test": "change_reversing",
+      "modifications": "All 10 exact ordered codes retained. Catalog 2*10*13=260 retained with every reversal decision; source has no last-bound assertion. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListChangeMoveSelectorTest.randomWithSubListSizeBounds",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "randomWithSubListSizeBounds",
+      "local_test": "change_bounds",
+      "modifications": "All 5 exact ordered codes retained. Bounds [2,3], catalog 5*51=255 and last requested bound 5 retained. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListChangeMoveSelectorTest.skipSubListsSmallerThanMinimumSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "skipSubListsSmallerThanMinimumSize",
+      "local_test": "change_skip_short",
+      "modifications": "All 2 exact ordered codes retained. Bounds [2,2], empty B and short C, repeating eligible/ineligible owner order and last requested bound 2 retained. Source helper intentionally omits cardinality assertion. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListSwapMoveSelectorTest.sameEntityUnrestricted",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "sameEntityUnrestricted",
+      "local_test": "swap_unrestricted",
+      "modifications": "All 19 exact ordered codes retained. Catalog 10*10=100 and last requested bound 10 retained, including equal/overlapping proposals and canonical same-owner orientation. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListSwapMoveSelectorTest.sameEntityWithSubListSizeBounds",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "sameEntityWithSubListSizeBounds",
+      "local_test": "swap_bounds",
+      "modifications": "All 9 exact ordered codes retained. Bounds [2,3], catalog 5*5=25 and last requested bound 5 retained. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListSwapMoveSelectorTest.reversing",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "reversing",
+      "local_test": "swap_reversing",
+      "modifications": "All 6 exact ordered codes retained. Catalog 9*9*2=162 retained with all cross-owner and reversal decisions; source has no last-bound assertion. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListSwapMoveSelectorTest.skipSubListsSmallerThanMinimumSize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "skipSubListsSmallerThanMinimumSize",
+      "local_test": "swap_skip_short",
+      "modifications": "All 5 exact ordered codes retained. Bounds [2,2], empty B and short C, both opposite eligible/ineligible owner sequences, catalog 2*2=4 and last requested bound 2 retained. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "status": "implemented",
+      "id": "RandomSubListSwapMoveSelectorTest.allowsUnassignedValues",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "allowsUnassignedValues",
+      "local_test": "swap_optional",
+      "modifications": "All 16 exact ordered codes retained. Catalog 4*4=16 retained; universe [1,2,3,4] includes unassigned 4. Source has no last-bound assertion. Preserve every ordered proposal-code assertion and PlannerAssert continuation/isNeverEnding assertions; native non-optional iterator guarantees the non-null assertion. Scripted cyclic children retain advertised catalog cardinality independently of repetition. Explicit immutable owner indices replace source anchor-value/inverse-owner lookup; native ListProblem/ListSelectionContext replace descriptor and mock initialization. Raw change proposals retain PRE-removal coordinates including interior/no-op candidates. TestRandom integer/boolean decisions are interleaved through an injected draw; source -1 continuation sentinels become valid rank zero, and native next().is_some() replaces hasNext. No PRNG, Java phase lifecycle, descriptor/reflection or independently tested anchor-lookup parity claimed."
     }
   ],
   "fixtures": [
@@ -67605,6 +67755,136 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
       "upstream_test": "buildSolutionDescriptor, getValueList",
       "modifications": "Native ListProblem binds the complete value universe [1,2,3], owner ranges and ordered lists; no reflection or solution-generation behavior claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListEntity.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "constructors, valueList",
+      "modifications": "Ordered source entity rows become ListEntity<i32>; A/B/C encounter order is retained. Required assignment remains ListProblem default."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListSolution.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "entityList and valueList setters, buildSolutionDescriptor",
+      "modifications": "Native ListProblem contains complete declared value universe and rows; explicit native context replaces reflection/descriptors. Optional fixtures retain unassigned value 4. Unasserted score and Java object lifecycle omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListValue.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "code constructors, inverse owner/index declarations",
+      "modifications": "Value identity becomes distinct integer payload; fixed owner indices encode source anchor-to-owner mapping in scripted child sequences. No Java shadow annotation or separate shadow update credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListEntity.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListEntity.java",
+      "upstream_test": "constructors, valueList",
+      "modifications": "Ordered source entity rows become ListEntity<i32>; A/B/C encounter order is retained. allowsUnassignedValues becomes ListProblem::allowing_unassigned."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListSolution.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListSolution.java",
+      "upstream_test": "entityList and valueList setters, buildSolutionDescriptor",
+      "modifications": "Native ListProblem contains complete declared value universe and rows; explicit native context replaces reflection/descriptors. Optional fixtures retain unassigned value 4. Unasserted score and Java object lifecycle omitted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataAllowsUnassignedValuesListValue.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/TestdataAllowsUnassignedValuesListValue.java",
+      "upstream_test": "code constructors, inverse owner/index declarations",
+      "modifications": "Value identity becomes distinct integer payload; fixed owner indices encode source anchor-to-owner mapping in scripted child sequences. No Java shadow annotation or separate shadow update credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerAssert.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingMoveSelector, assertCodesOfNeverEndingIterableSelector, assertCodesOfNeverEndingIterator",
+      "modifications": "All invoked helper assertions preserved: exact ordered code list, nonempty continuation, never-ending metadata and advertised catalog size when supplied. Native iterator cannot be null. Continuation consumes one valid proposal instead of Java hasNext prefetch."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestRandom.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/TestRandom.java",
+      "upstream_test": "nextInt, nextBoolean, assertIntBoundJustRequested",
+      "modifications": "Scripted injected ranks preserve source span/reversal decision interleaving and asserted final integer bounds. Invalid -1 hasNext sentinels become valid zero only for unasserted continuation. No generator trace or boolean numeric-bound equivalence claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TestdataListUtils.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListUtils.java",
+      "upstream_test": "mockNeverEndingIterableValueSelector, mockNeverEndingDestinationSelector",
+      "modifications": "Native Scripted cyclic source replaces selector mocks; destination advertised size stays independently supplied (3,6,13,51). Value anchors become fixed owner indices in these immutable worlds. No mock invocations/lifecycle claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/repeating_sublist_source_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorTestUtils.repeating_sublist_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "solvingStarted and phaseStarted helpers used by random selector methods",
+      "modifications": "Native construction and ListSelectionContext/open replace mock solver/phase initialization; these invoked helper bodies add no assertions. phaseLifecycle test methods remain pending; no Java phase call-count claim."
     }
   ]
 }
