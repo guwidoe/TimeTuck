@@ -16,7 +16,65 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round55
+## Latest verified checkpoint — round56
+
+Feature c4ad9bd adds solve-wide phase-evaluation/time ceilings to the real
+assembled factory run, with immutable per-invocation builders and overrides.
+Budget origins precede runtime-resource loading; mode rebuilds and lifecycle
+hooks consume time. Native phases receive the stricter local/remaining limit.
+Zero budgets skip optimization while preserving loaded state and normal release.
+A binding that reports work beyond its evaluation ceiling fails with a typed
+error before successful phase publication. Callback work cannot be preempted.
+Unlimited runs continue borrowing configured phases; candidate loops unchanged.
+
+Observed and ordinary builders use the same budget/validation. Settings are read
+once into a copied per-run limit and do not mutate factory defaults, cached
+preparation or another active run. Assembly rejects nonfinal local search with
+all count ceilings at u64::MAX and absent time/score/stagnation/step controls
+unless a solve-wide limit is present. An override cannot remove that limit and
+silently accept unreachable phases. This is a native configuration policy, not
+Java API/default/RNG-trace parity. Source three-entity/two-value dummy-zero
+fixture retains explicit native structural incompleteness (-3).
+
+Four complete SolverFactoryTest cases and seven original integration controls
+pass. Originals use actual dense/stream work and cover simultaneous independent
+budgets, candidate clamping, zero/time stops, real mode rebuild counts, observed
+overrides, validation before preparation and cleanup after over-budget bindings.
+All source assertions/fixture modifications are attributed; originals earn no
+method credit. No upstream production or Enterprise sources used; pin unchanged.
+
+Final frozen runner-a gate passed once: 6,897 Rust tests, 290 doctests;
+3,628/4,855 methods passed (74.727%), 661 pending, 566 excluded, zero failed or
+unverified. Actual 16 Rust RUN/982 REUSE/46 Python REUSE, 216.435 seconds.
+Strict workspace Clippy took 43.51s, compilation of 16 targets took 42.80s. Do not
+repeat successful focused/final checks solely for a new commit, turn or context.
+
+Rust source: f237378e5a17e7d7c396366216f035afbc566a4420f384ffddc234b412d5fdcb.
+Report/verification: 243718b6389e2bd85b55d67418e7fa615725f0e1fbec20401c2fd81526e6b554.
+Remote root: e645785f52d670967085f8e5d907710e30f0271b9738e5a7ed02ba0965141d7c.
+Archive work/round56-runner-a-results.tar.gz SHA256:
+20991a2238abd918465e5bbd3113f6d14ae45e977a130150bd3a585375f0ff3f.
+Evidence/freeze: work/parallel-round56-evidence.json, parallel-round56-freeze.json.
+Launcher 41214 and collector 59178 completed zero. Imports preserve genuine
+checksums and original job/environment keys/dates. Seed the next runner-a gate
+from this actual round56 archive/root, not an earlier runner seed. Postcommit
+proof: work/verify_round56_postcommit.py, round56-postcommit-evidence.json.
+Both runner-a and runner-c were reachable this turn. No new agents/assignments.
+Backend-only report refresh; no UI/benchmark reruns or new throughput claims.
+Prior list measurements remain honestly stale. Objective active and incomplete.
+
+Next close solution metadata/fact binding gaps. TEST-only SolutionDescriptorTest
+54–244 was inspected: 24 pending cases, including real fact/entity member roles,
+computed fact accessors, duplicate/invalid-role rejection, composed members and
+actual heterogeneous entity input rejection. Extend native typed registrations
+and bindings, preserving complete asserted member sets and fixture shapes. Keep
+Java record/enum restrictions and reflection-only behavior pending unless a
+meaningful native behavior supports their complete specification. Factory XML
+and classloader cases remain pending. Further tracked/assertion-bank and shared
+termination scopes also remain; the evaluation/time ceilings do not establish
+all solve-wide termination compatibility. No new subagents or assignments.
+
+## Prior verified checkpoint — round55
 
 Feature 4fe2f02 adds executable field/getter selection, real borrowed upcast
 relationships and typed solution-aware shadow suppliers. SourcePathRegistry
