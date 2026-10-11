@@ -103,7 +103,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         for (index, value) in assignment.values().iter().enumerate() {
             updates.push(&source, TupleChange::put(index, (index, value.clone())))?;
         }
-        transaction.apply_updates(updates)?;
+        transaction.bind_planning_rows(updates)?;
         let initial_constraint_evaluations = transaction.score_evaluations();
         transaction.commit()?;
         Ok(Self {

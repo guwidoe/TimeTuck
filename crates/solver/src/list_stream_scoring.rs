@@ -154,7 +154,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                 ),
             )?;
         }
-        tx.apply_updates(updates)?;
+        tx.bind_planning_rows(updates)?;
         let initial_constraint_evaluations = tx.score_evaluations();
         tx.commit()?;
         Ok(Self {

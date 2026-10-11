@@ -256,6 +256,9 @@ trait Node<S: AdditiveScore> {
     fn source_count(&self) -> Option<usize> {
         None
     }
+    fn initialize_sorted_source(&mut self, _events: &[(usize, Event)]) -> bool {
+        false
+    }
     fn source_events(&self) -> Vec<Event> {
         Vec::new()
     }
@@ -317,6 +320,25 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
             out.extend(<Self as Node<S>>::apply(self, false, &event, arithmetic)?);
         }
         Ok(out)
+    }
+
+    fn initialize_sorted_source(&mut self, events: &[(usize, Event)]) -> bool {
+        if !self.0.is_empty()
+            || events
+                .iter()
+                .any(|(_, event)| typed::<I, T>(event).value.is_none())
+            || events
+                .windows(2)
+                .any(|pair| typed::<I, T>(&pair[0].1).id >= typed::<I, T>(&pair[1].1).id)
+        {
+            return false;
+        }
+        let rows = SnapshotMap::from_sorted(events.iter().map(|(_, event)| {
+            let change = typed::<I, T>(event);
+            (change.id.clone(), change.value.as_ref().unwrap().clone())
+        }));
+        self.0.install_snapshot(rows);
+        true
     }
 
     fn source_count(&self) -> Option<usize> {

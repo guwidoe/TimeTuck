@@ -257,6 +257,33 @@ impl<K, V> SnapshotMap<K, V> {
             journal: None,
         }
     }
+    // Caller has checked that keys are strictly ascending and distinct. Build
+    // from owned rows in input order without comparisons, rotations or path COW.
+    // A panicking iterator drops the partial tree before any owner publishes it.
+    pub(crate) fn from_sorted(rows: impl ExactSizeIterator<Item = (K, V)>) -> Self {
+        fn build<K, V>(rows: &mut impl Iterator<Item = (K, V)>, len: usize) -> Link<K, V> {
+            if len == 0 {
+                return None;
+            }
+            let left = build(rows, len / 2);
+            let (key, value) = rows.next().expect("exact sorted row count");
+            let right = build(rows, len - len / 2 - 1);
+            let height = 1 + height(&left).max(height(&right));
+            Some(Arc::new(Node {
+                key: Arc::new(key),
+                value: Arc::new(value),
+                left,
+                right,
+                height,
+                size: len,
+            }))
+        }
+        let len = rows.len();
+        Self {
+            root: build(&mut { rows }, len),
+            journal: None,
+        }
+    }
     pub(crate) fn clear(&mut self) {
         self.preserve_journal();
         self.root = None;
@@ -732,5 +759,33 @@ mod tests {
         count.set(0);
         check(&map.root);
         assert_eq!(map.len(), 127);
+    }
+    #[test]
+    fn sorted_initial_tree_supports_snapshots_and_later_edits() {
+        for len in [0, 1, 2, 255, 256, 513, 4096] {
+            let mut map = SnapshotMap::from_sorted((0..len).map(|i| (i, i * 2)));
+            check(&map.root);
+            assert_eq!(
+                map.iter().map(|(k, v)| (*k, *v)).collect::<Vec<_>>(),
+                (0..len).map(|i| (i, i * 2)).collect::<Vec<_>>()
+            );
+            let old = map.clone();
+            for i in (0..len).step_by(3) {
+                map.remove(&i);
+            }
+            for i in 0..len {
+                map.insert(i, i * 3);
+            }
+            check(&map.root);
+            check(&old.root);
+            assert_eq!(
+                old.iter().map(|(k, v)| (*k, *v)).collect::<Vec<_>>(),
+                (0..len).map(|i| (i, i * 2)).collect::<Vec<_>>()
+            );
+            assert_eq!(
+                map.iter().map(|(k, v)| (*k, *v)).collect::<Vec<_>>(),
+                (0..len).map(|i| (i, i * 3)).collect::<Vec<_>>()
+            );
+        }
     }
 }

@@ -287,6 +287,60 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         self.failed = false;
         Ok(())
     }
+    // Constructor-only binding. Unobserved sources still retain every row for
+    // source inspection and later weight reactivation. Their sorted initial
+    // rows need neither per-row AVL insertion nor empty propagation queues.
+    // Observed/activity/batched paths retain their exact callback interleaving.
+    pub(crate) fn bind_planning_rows(&mut self, batch: StreamBatch) -> Result<(), GraphError> {
+        const MIN_ROWS: usize = 256;
+        if batch.events.len() < MIN_ROWS
+            || self.graph.active.is_some()
+            || self.graph.batched_updates
+        {
+            return self.apply_updates(batch);
+        }
+        // Default observed-only graphs keep the ordinary loop, with no per-row
+        // grouping or event ownership overhead. This checks topology, not rows.
+        if !self
+            .graph
+            .nodes
+            .iter()
+            .enumerate()
+            .any(|(id, node)| self.graph.edges[id].is_empty() && node.source_count() == Some(0))
+        {
+            return self.apply_updates(batch);
+        }
+        self.valid()?;
+        self.failed = true;
+        self.validate_batch(&batch)?;
+        let mut events = batch.events.into_iter();
+        while let Some((source, _)) = events.as_slice().first() {
+            let source = *source;
+            let count = events
+                .as_slice()
+                .iter()
+                .take_while(|(id, _)| *id == source)
+                .count();
+            let bulk = count >= MIN_ROWS
+                && self.graph.edges[source].is_empty()
+                && self.graph.nodes[source].source_count() == Some(0);
+            let initialized = if bulk {
+                self.checkpoint(source);
+                self.graph.nodes[source].initialize_sorted_source(&events.as_slice()[..count])
+            } else {
+                false
+            };
+            if initialized {
+                for _ in events.by_ref().take(count) {}
+            } else {
+                for (_, event) in events.by_ref().take(count) {
+                    self.propagate(source, event)?;
+                }
+            }
+        }
+        self.failed = false;
+        Ok(())
+    }
     // Directors select batching only for graphs with an observed batched join.
     // Preserve legacy per-source ordering and scoring for ordinary graphs.
     pub(crate) fn apply_updates(&mut self, batch: StreamBatch) -> Result<(), GraphError> {
@@ -503,3 +557,6 @@ mod workspace_tests {
         assert!(q.buffers[7].capacity() >= 2);
     }
 }
+
+#[cfg(test)]
+mod initial_binding_tests;
