@@ -30,6 +30,16 @@ impl<V> From<DependencyError<V>> for ListShadowError<V> {
         Self::Dependency(value)
     }
 }
+/// Result of an explicit list-shadow value-universe reconciliation. Lists are
+/// sorted by value identity. Added/removed membership is reported independently
+/// of `changed`, which contains only actual derived-value changes among the new
+/// universe. A newly added value whose supplier returns None is still in `added`.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ListShadowMembershipUpdate<V> {
+    pub added: Vec<V>,
+    pub removed: Vec<V>,
+    pub changed: Vec<V>,
+}
 /// All structural inputs are from one complete field snapshot. The selected neighbor
 /// shadow is already updated. Unassigned values have no location or neighbor;
 /// their supplier still runs when dirty, so it can clear or compute its result.
@@ -53,7 +63,8 @@ type Supplier<'a, E, V, H> = dyn for<'c> FnMut(ListShadowContext<'c, E, V, H>) -
 /// neighbor dependencies and evaluates affected values once in dependency
 /// order. Equal results stop propagation. Unassigned values remain in the fixed
 /// universe and are processed individually, without conflating missing indices.
-/// Owner additions/removals need no new session; a changed value universe does.
+/// Owner additions/removals need no new session. Value membership remains fixed
+/// during ordinary updates; [`Self::reconcile_values`] changes it explicitly.
 ///
 /// Suppliers may read their context and immutable captured facts. Explicitly
 /// notify values affected by changed external facts. Do not mutate the bound
@@ -79,6 +90,11 @@ type Supplier<'a, E, V, H> = dyn for<'c> FnMut(ListShadowContext<'c, E, V, H>) -
 /// assert!(!session.is_current());
 /// session.update_changed()?;
 /// assert_eq!(session.values()?[&3].value,Some(0));
+/// registry.update_lists(list,[("route",vec![3u32,1,2,4])])?;
+/// assert!(matches!(session.update_changed(),Err(ListShadowError::UnknownValue(4))));
+/// let membership=session.reconcile_values([1,2,3,4])?;
+/// assert_eq!(membership.added,[4]);
+/// assert_eq!(session.values()?[&4].value,Some(3));
 /// # Ok::<(),Box<dyn std::error::Error>>(())
 /// ```
 pub struct ListShadowSession<'a, 's, E, V, H> {
@@ -250,10 +266,16 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         &self,
         rows: &BTreeMap<E, Vec<V>>,
     ) -> Result<BTreeMap<V, VariableListLocation<E, V>>, ListShadowError<V>> {
+        Self::positions_for(rows, self.cache.topology())
+    }
+    fn positions_for(
+        rows: &BTreeMap<E, Vec<V>>,
+        topology: &DependencyTopology<V>,
+    ) -> Result<BTreeMap<V, VariableListLocation<E, V>>, ListShadowError<V>> {
         let mut positions = BTreeMap::new();
         for (entity, list) in rows {
             for (index, value) in list.iter().enumerate() {
-                if !self.cache.values().contains_key(value) {
+                if topology.lookup(value).is_err() {
                     return Err(ListShadowError::UnknownValue(value.clone()));
                 }
                 positions.insert(
@@ -323,6 +345,97 @@ impl<'a, 's, E: Ord + Clone + 'static, V: Ord + Clone + 'static, H: Eq + 'static
         self.rows = rows;
         self.pending.clear();
         Ok(changed)
+    }
+    /// Atomically refresh against an explicitly supplied complete value universe.
+    /// First update the shared registry to the final lists, then call this method.
+    /// Every assigned value must occur exactly once in the supplied universe;
+    /// duplicate universe keys and missing assigned values fail before suppliers.
+    /// Unassigned registered values are valid and are initialized individually.
+    ///
+    /// Surviving identities retain cached shadows, including non-Clone values.
+    /// New values, pending notifications and changed locations/dependencies are
+    /// evaluated; unaffected components invoke no suppliers. Removed values are
+    /// forgotten without callbacks, and their pending notifications are discarded
+    /// only on success. Reintroducing an identity initializes it afresh.
+    ///
+    /// Validation errors and supplier panics retain the entire old universe,
+    /// cache and pending notifications. The externally changed registry is not
+    /// rolled back by this operation; restore it separately when needed. Existing
+    /// checkpoints include their own universes and restore without callbacks once
+    /// the corresponding registry snapshot has been restored.
+    ///
+    /// Membership changes rebuild topology and inspect all current list positions;
+    /// universe ordering also costs O(V log V). This preserves supplier work, not
+    /// a constant-time membership-update guarantee. An unchanged universe uses
+    /// the ordinary structural refresh after validation.
+    pub fn reconcile_values(
+        &mut self,
+        values: impl IntoIterator<Item = V>,
+    ) -> Result<ListShadowMembershipUpdate<V>, ListShadowError<V>> {
+        let mut topology = DependencyTopology::new(values)?;
+        let added = topology
+            .keys()
+            .iter()
+            .filter(|v| !self.cache.values().contains_key(v))
+            .cloned()
+            .collect();
+        let removed = self
+            .cache
+            .topology()
+            .keys()
+            .iter()
+            .filter(|v| topology.lookup(v).is_err())
+            .cloned()
+            .collect();
+        if topology.keys() == self.cache.topology().keys() {
+            return Ok(ListShadowMembershipUpdate {
+                added,
+                removed,
+                changed: self.update_changed()?,
+            });
+        }
+        let rows = self.state.snapshot();
+        let positions = Self::positions_for(&rows, &topology)?;
+        let mut edges = vec![];
+        let mut dirty = vec![];
+        for value in topology.keys() {
+            let location = positions.get(value);
+            if self.pending.contains(value) || self.positions.get(value) != location {
+                dirty.push(value.clone());
+            }
+            let neighbor = location.and_then(|p| match self.direction {
+                ListCascadeDirection::Previous => p.previous.as_ref(),
+                ListCascadeDirection::Next => p.next.as_ref(),
+            });
+            if let Some(neighbor) = neighbor {
+                edges.push((value.clone(), neighbor.clone()));
+            }
+        }
+        topology.update(&[], &edges)?;
+        let supplier = &mut self.supplier;
+        let direction = self.direction;
+        let changed = self
+            .cache
+            .reconcile_topology(topology, &dirty, |value, inputs| {
+                supplier(ListShadowContext {
+                    value,
+                    location: positions.get(value),
+                    previous_shadow: (direction == ListCascadeDirection::Previous)
+                        .then(|| inputs.first().and_then(|(_, v)| v.value.as_ref()))
+                        .flatten(),
+                    next_shadow: (direction == ListCascadeDirection::Next)
+                        .then(|| inputs.first().and_then(|(_, v)| v.value.as_ref()))
+                        .flatten(),
+                })
+            })?;
+        self.positions = positions;
+        self.rows = rows;
+        self.pending.clear();
+        Ok(ListShadowMembershipUpdate {
+            added,
+            removed,
+            changed,
+        })
     }
     /// Save both cached shadow state and the current bound field snapshot. To
     /// restore, first restore that field through VariableStateRegistry. Foreign

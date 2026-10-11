@@ -816,7 +816,8 @@ pub use variable_state::{
 
 mod list_shadow_session;
 pub use list_shadow_session::{
-    ListShadowCheckpoint, ListShadowContext, ListShadowError, ListShadowSession,
+    ListShadowCheckpoint, ListShadowContext, ListShadowError, ListShadowMembershipUpdate,
+    ListShadowSession,
 };
 
 mod list_state_supply;
