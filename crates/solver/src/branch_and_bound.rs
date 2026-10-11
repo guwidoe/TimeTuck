@@ -101,6 +101,10 @@ impl<S> BranchEvaluation<S> {
         }
     }
 }
+/// Controls the shared bounded-search engine. Values must clone to logically
+/// equivalent values. The engine may reuse an expanded parent's storage for its
+/// final child; exact Clone/Drop counts and payload lifetimes are not guaranteed.
+/// This reduces allocations without retaining additional frontier assignments.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct BranchAndBoundConfig<'a> {
     pub exploration: NodeExploration,
@@ -543,6 +547,7 @@ where
         let mut choices = tree.choices(&parent.assignment, parent.key.depth);
         let choice_count = choices.len();
         result.expanded_nodes += 1;
+        let mut final_choice = None;
         for breadth in 0..choice_count {
             if dominated(
                 parent.path_bound.as_ref(),
@@ -558,11 +563,30 @@ where
                 result.termination = reason;
                 return Ok(result);
             }
-            let child = tree.child(
-                &parent.assignment,
-                parent.key.depth,
-                choices.next().expect("exact choice count"),
-            );
+            let choice = choices.next().expect("exact choice count");
+            if breadth + 1 == choice_count {
+                // All sibling choices and stop checks have run in their original
+                // order. Release the iterator's borrow before consuming the parent.
+                final_choice = Some((breadth, choice));
+                break;
+            }
+            let child = tree.child(&parent.assignment, parent.key.depth, choice);
+            if !visit(
+                child,
+                parent.key.depth + 1,
+                breadth as u64,
+                parent.key.breadth,
+                parent.path_bound.as_ref(),
+                &mut result,
+                &mut frontier,
+                context,
+            )? {
+                return Ok(result);
+            }
+        }
+        drop(choices);
+        if let Some((breadth, choice)) = final_choice {
+            let child = tree.child_owned(parent.assignment, parent.key.depth, choice);
             if !visit(
                 child,
                 parent.key.depth + 1,

@@ -23,6 +23,9 @@ impl<B, L> MixedAssignment<B, L> {
     pub fn lists(&self) -> &ListAssignment<L> {
         &self.lists
     }
+    pub(crate) fn into_parts(self) -> (Assignment<B>, ListAssignment<L>) {
+        (self.basic, self.lists)
+    }
 }
 
 /// Both component moves form one transaction. Use an empty Composite in either

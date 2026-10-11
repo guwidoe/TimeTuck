@@ -19,6 +19,14 @@ pub(crate) trait BranchTree {
         depth: usize,
         choice: Self::Choice,
     ) -> Self::Assignment;
+    /// Consume an expanded parent after its final choice. Implementations must
+    /// produce the same logical child as `child` without duplicating the parent.
+    fn child_owned(
+        &self,
+        assignment: Self::Assignment,
+        depth: usize,
+        choice: Self::Choice,
+    ) -> Self::Assignment;
 }
 
 pub(crate) struct BasicTree<'a, V> {
@@ -91,8 +99,10 @@ impl<V: Eq + Clone> BranchTree for BasicTree<'_, V> {
         0..v.domain().len() + usize::from(v.allows_unassigned())
     }
     fn child(&self, a: &Assignment<V>, depth: usize, choice: usize) -> Assignment<V> {
+        self.child_owned(a.clone(), depth, choice)
+    }
+    fn child_owned(&self, mut child: Assignment<V>, depth: usize, choice: usize) -> Assignment<V> {
         let variable = self.remaining[depth];
-        let mut child = a.clone();
         child.values[variable] = self.problem.variables()[variable]
             .domain()
             .get(choice)
@@ -235,7 +245,14 @@ impl<V: Eq + Clone> BranchTree for ListTree<'_, V> {
         depth: usize,
         choice: Self::Choice,
     ) -> ListAssignment<V> {
-        let mut child = a.clone();
+        self.child_owned(a.clone(), depth, choice)
+    }
+    fn child_owned(
+        &self,
+        mut child: ListAssignment<V>,
+        depth: usize,
+        choice: Self::Choice,
+    ) -> ListAssignment<V> {
         if let Some(position) = choice {
             child.lists[position.entity].insert(
                 position.index,
@@ -314,6 +331,23 @@ impl<B: Eq + Clone, L: Eq + Clone> BranchTree for MixedTree<'_, B, L> {
             MixedChoice::Basic(c) => MixedAssignment::new(
                 self.basic.child(a.basic(), depth - self.lists.depth(), c),
                 a.lists().clone(),
+            ),
+        }
+    }
+    fn child_owned(
+        &self,
+        a: Self::Assignment,
+        depth: usize,
+        choice: Self::Choice,
+    ) -> Self::Assignment {
+        let (basic, lists) = a.into_parts();
+        match choice {
+            MixedChoice::List(c) => {
+                MixedAssignment::new(basic, self.lists.child_owned(lists, depth, c))
+            }
+            MixedChoice::Basic(c) => MixedAssignment::new(
+                self.basic.child_owned(basic, depth - self.lists.depth(), c),
+                lists,
             ),
         }
     }
