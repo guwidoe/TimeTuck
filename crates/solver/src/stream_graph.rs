@@ -38,6 +38,7 @@ mod indexed_batch;
 mod ordered_existence;
 mod partitioned_batch;
 mod stable_flat_map;
+mod weights;
 use activity::ActivityRule;
 pub use activity::{NodeActivity, StreamActivity};
 mod dataset;
@@ -238,6 +239,9 @@ trait Node<S: AdditiveScore> {
     }
     fn constraint_weight(&self) -> Option<&S> {
         None
+    }
+    fn validate_total(&self, _arithmetic: crate::ScoringArithmetic) -> Result<(), GraphError> {
+        Ok(())
     }
     fn replace_weight(&mut self, _weight: S) {
         unreachable!("not a weighted constraint")
@@ -931,6 +935,14 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             TerminalEvaluation::Weighted { weight, .. } => Some(weight),
             _ => None,
         }
+    }
+    fn validate_total(&self, arithmetic: crate::ScoringArithmetic) -> Result<(), GraphError> {
+        arithmetic
+            .sum(self.matches.values().map(|(_, score)| score))
+            .map(|_| ())
+            .map_err(|_| GraphError::ScoreOverflow {
+                constraint: Some(self.name.clone()),
+            })
     }
     fn replace_weight(&mut self, new: S) {
         match &mut self.evaluate {
@@ -2054,34 +2066,12 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         Ok(self.build())
     }
 
-    fn prune_disabled_constraints(&mut self) {
-        if !self.nodes.iter().any(|node| {
-            node.constraint_weight()
-                .is_some_and(|weight| *weight == S::ZERO)
-        }) {
-            return;
-        }
-        let mut needed: Vec<_> = self
-            .nodes
-            .iter()
-            .map(|node| node.dataset_rows().is_some())
-            .collect();
-        for &id in self.constraints.values() {
-            needed[id] = self.nodes[id]
-                .constraint_weight()
-                .is_none_or(|weight| *weight != S::ZERO);
-        }
-        // IDs are topological: parents always precede their children.
-        for id in (0..needed.len()).rev() {
-            needed[id] |= self.edges[id].iter().any(|edge| needed[edge.node]);
-        }
-        for edges in &mut self.edges {
-            edges.retain(|edge| needed[edge.node]);
-        }
+    fn prune_disabled_constraints(&mut self) -> Vec<weights::PrunedEdge> {
+        weights::prune(&self.nodes, &mut self.edges)
     }
 
     pub fn build(mut self) -> StreamGraph<'a, S> {
-        self.prune_disabled_constraints();
+        let pruned_edges = self.prune_disabled_constraints();
         let mut observed: Vec<_> = self
             .nodes
             .iter()
@@ -2105,6 +2095,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             .activity_pruning
             .then(|| Box::new(activity::ActivityComponents::new(&self.edges)));
         let mut graph = StreamGraph {
+            pruned_edges,
             activity_components,
             batch_workspace: batching::BatchWorkspace::default(),
             transaction_workspaces: Vec::new(),
@@ -2132,6 +2123,7 @@ struct TransactionWorkspace {
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    pruned_edges: Vec<weights::PrunedEdge>,
     transaction_workspaces: Vec<TransactionWorkspace>,
     batch_workspace: batching::BatchWorkspace,
     batched_updates: bool,

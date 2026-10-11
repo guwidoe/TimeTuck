@@ -551,6 +551,17 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         with_structure(self.graph.score(), self.problem, &self.assignment)
             .expect("structural count checked before binding or installing a move")
     }
+    /// Change live graph weights atomically, retaining this assignment and all
+    /// source/constraint handles. Rebuilds live branches from retained source facts;
+    /// returned work counts every replayed score callback, outside search budgets.
+    /// A later retained phase starts with the new score and fresh acceptance state.
+    /// See [`StreamGraph::apply_weight_overrides`] for rollback and replay costs.
+    pub fn apply_weight_overrides(
+        &mut self,
+        overrides: &crate::ConstraintWeightOverrides<S>,
+    ) -> Result<u128, MixedStreamScoringError> {
+        Ok(self.graph.apply_weight_overrides(overrides)?)
+    }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.graph.constraint_scores()
     }
