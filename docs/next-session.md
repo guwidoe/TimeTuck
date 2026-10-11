@@ -23023,3 +23023,37 @@ Evidence work/remote-build-evidence.json and work/remote-{runner-a,runner-c}-bui
 Both used exact8d7295f1d0252017535ed118dd8f85eeecbe15af source; original local full
 gate and dashboard evidence remain unchanged. Ready for subsequent remote jobs.
 Goal active/incomplete; no new solver change after the verified receiver commit.
+
+## Three concurrent Astra-high implementation agents (2026-10-11)
+
+User explicitly requested3concurrent GPT-6 Astra/high agents and3build machines.
+Executed with separate managed worktrees; all agents finished, no remote jobs live.
+Main integrations: b6c16d8 candidate quotas (agent termination272aea5); e4596b1 sparse
+rewiring (agent dependency_graph ebe3166);208f27c dense list scoring (agent
+ dense_scoring d049f70). Upstream/provenance unchanged;19original tests added.
+Local termination23focused tests; runner-a scoring19; runner-c graph26, including262144
+small graph transitions. Native measurements recorded in docs/compatibility.md;
+raw evidence copied to work/parallel-evidence/scoring/work and dependency/work.
+Merged implementation/test file hashes match the corresponding remote manifests.
+All measurements stay attached to isolated branch source states, not relabeled as
+measurements of the combined commit. No Java refresh or browser change.
+
+First combined gate92438 TERMINAL0; recorder99657 TERMINAL0. Frozen Rust208f27c:
+5745 Rust tests +256 doctests pass.673 Rust jobs RUN,123 REUSE; all46 Python jobs
+REUSE. Source fdfcf19b4d0f3fda9deff39202cd730f4dd21860ef4885b63f2b1dc93779e78f;
+verification89dac105b403667534c9f4c93cd0742fe74ee77c80988d8b85b6f6f9f0b7fb45.
+Coverage3284/4855 (67.642%),1307pending264excluded,0failed/unverified. No source
+method credits for these original regressions. Evidence work/parallel-evidence.json.
+Existing Java comparison stays visibly stale. No UI changes or browser rerun.
+
+Round2: all three agents finished on isolated branches based on208f27c; workers free.
+Ready commits:697f786 mixed dense scoring (16 focused tests on runner-a),845ad706
+atomic dependency batches (27 focused tests + new doctest on runner-c),6408d4 live score
+quotas (35 focused tests + focused Clippy on runner-a after scoring released it).
+The score-quota tests include780 budget differential pairs. Main Rust was kept frozen
+until the first combined gate/evidence completed. Round2 remains to integrate and
+verify together. Keep worktrees and ignored evidence until copied to main work/.
+Parent helper work/remote_worker.py supports immutable content-hash snapshots and
+explicit remote commands; local checks use work/with-verification-environment.py
+for actual stable PATH/cache reuse. Never relabel remote or old verification evidence.
+Goal active/incomplete; user authorized ongoing3-agent/3-machine implementation.

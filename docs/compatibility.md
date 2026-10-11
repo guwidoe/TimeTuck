@@ -6284,3 +6284,43 @@ the prior regression. Large receiver setup improves about 2x. Bulk anchors at
 4,096 values are about 10% slower in these measurements; small/medium two-anchor
 queries are about 8% slower. All checksums agree. Full samples and hashes are in
 work/receiver-performance.json; prior measurements remain tied to their own source.
+
+## Parallel candidate quotas, dense scoring and dependency rewiring
+
+SearchLimit now composes total or per-family move evaluation quotas in AND/OR
+expressions. Live counters span phases and work with metrics disabled; when
+metrics are enabled they share the same counters. Initialization and diagnostic
+scoring do not consume candidate quotas. Construction interruption policies,
+strict hard-budget precedence and exact exhaustion are preserved. Repair publishes
+candidate counts after each rebuild, so these cooperative expressions may cross
+thresholds within a rebuild; max_move_evaluations remains the strict safeguard.
+Eleven original regressions cover scoped, stream and calculator execution paths,
+custom/composite/rejected trials, bounded search and integer saturation. Score
+calculation counts are not yet expression leaves. No upstream method credit.
+
+Dense indexed list scoring now discovers value positions once per scoring pass
+and traverses touched rows for invalidation. Small/sparse and Eq-only queries keep
+direct lookup. Snapshots are temporary; consistency diagnostics independently
+rediscover positions. Three original regressions cover facts, callback counts,
+transaction failure/rollback and identity-work bounds. On runner-a, three alternating
+process pairs across72workloads produce2160samples with matching workload/result/
+callback checksums. At4096fully assigned values, eight full calculations fall from
+55.013 to4.058ms (13.56x); eight scored trials12.375 to2.345ms (5.28x), and explanations
+77.640 to17.536ms (4.43x). Half-assigned full calculation improves16.98x. Largest
+non-dense regression is32-value half-assigned sparse initialization:0.0854 to0.0941ms
+per64initializations (10.2%). No whole-solver or Java claim; measurements use the
+isolated scoring branch and remain attached to its actual source manifests.
+
+Dependency topology snapshots now share immutable metadata and persistent adjacency
+sets. Edits preserving component ranks reuse the existing order; other edits still
+recompute strongly connected components. DependencyCache updates affected reverse
+links, including through stream dependency nodes. Five original regressions include
+all262144transitions between directed three-node graphs, work bounds and stream
+rollback. On runner-c WSL, three alternating process pairs yield15samples per workload
+with matching topology/value checksums. Sparse4096-node2000rewires fall from721.737
+to2.591ms (278.6x);512-node400stream rewires20.326 to0.933ms (21.8x). Cycle-heavy512-
+node100updates regress2.5% (25.779 to26.424ms). Setup is excluded; these are native
+component measurements on the isolated graph branch, not a Java/whole-solver claim.
+Evidence is preserved in work/parallel-evidence/{scoring,dependency}/work, including
+raw samples, probes, manifests, binary metadata and focused logs. Neither original
+regression suite adds source-method credit.
