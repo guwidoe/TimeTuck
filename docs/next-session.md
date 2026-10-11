@@ -23127,3 +23127,49 @@ Round3 recorder work/record_parallel_round3.py is prepared/syntax-checked. Run v
 stable environment launcher only after gate success; it checks live freshness, exact
 provenance delta, all7source statuses, artifact hashes and actual final counts.
 No Java/whole-solver performance claim for round3. Full goal remains active.
+
+Round4 agents reactivated after round3 integration, all Astra/high settings retained.
+Each branches fromc148247 in its existing worktree. dense_scoring now owns substantive
+moves/selectors (runner-a), dependency_graph owns shadow/dependency/dataflow behavior
+or performance (runner-c), termination owns solver orchestration/lifecycle/search (LOCAL,
+NO CARGO until root77033 releases). They must propose scope before broad edits.
+Remote workers assigned exclusively; reuse a freed remote only after explicit root
+reassignment. Each must replace its work/provenance-additions.json with only round4
+entries; round3 originals are already copied under main work/parallel-round3-evidence.
+Main Rust/provenance stay frozen during gate77033. All source changes committed;
+latest pending handoff append is documentation-only. Goal active, no blocker.
+
+Round4 approved scopes: dense_scoring optimizes MoveUnion weighted sampling with
+adaptive indexed selection and a tiny-union path, preserving exact seeded draw,
+child polling and exhaustion semantics; same-host runner-a measurements required.
+dependency_graph adds explicit ShadowSession/ShadowSolutionManager update_notified
+refreshes: complete first update, only notified inputs/dynamic targets subsequently,
+ordinary full update unchanged, cached unnotified inputs preserved, failures retain
+notifications; independent diagnostics may still scan fully. Callback work bounds,
+not O(touched) total refresh, are the intended performance claim. runner-c assigned.
+termination implements retained calculator-backed solver-plan sessions for basic,
+list and mixed models, preserving stateful calculators, best-state handoffs,
+custom/exact/repair phases, diagnostics and honest callback/initialization work.
+No Java identity/factory-only method credit. Still no LOCAL Cargo until77033terminal;
+assign a free remote if one finishes first. All agents implementing independently.
+
+Round3 gate77033 TERMINAL0:5797Rust+259doctests,732Rust RUN71REUSE,46Python REUSE.
+Recorder29112 caught a reporting-only mapping error for the new private unit test:
+Cargo attributes it to src/lib.rs. Corrected local_path to that existing ledger
+convention and retained the actual assertion file in modifications. Rebuilt report
+from the unchanged passing Rust log (refresh86305 TERMINAL0), no Rust rerun.
+Recorder15556 TERMINAL0 confirms3291/4855 (67.786%),1300pending264excluded,
+0failed/unverified, exact7newsource passes and provenance delta. Source
+f4add39a70ce7626e614c3c940df2a818b5fe50e39eb7cf95b38a6b61419442b;
+verification8736d6eb1443e444195cc1ca2d0db783c4d915edeaf196ca1a1ff9a60ead2c79.
+Evidence work/parallel-round3-evidence.json; no browser change/rerun or Java refresh.
+
+Round4 all agents finished; workers released. Ready commits b99e7f1 indexed unions,
+8210abd notified shadows,9c91575 retained calculators. Relevant production paths
+reviewed by parent. Focused logs/manifests/probes/raw samples copied into
+work/parallel-round4-evidence/{moves,shadows,calculators}/work. No provenance additions.
+Move unions38focused tests,14workloads420samples same-host runner-a; shadows38tests+
+1doctest+Clippy runner-c; calculators29integrationtests+snapshot unit+Clippy runner-a.
+Calculator factory/reset/score/clone work3/3/6/0 vs1/1/4/4 for representative3phase
+stateful solve including setup, no universal wall-time speedup claim. All worktrees
+clean and agents idle. Main integration/combined round4 verification is next.

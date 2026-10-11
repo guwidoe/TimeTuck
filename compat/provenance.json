@@ -49471,14 +49471,14 @@
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.java",
       "upstream_test": "withConstructionHeuristic",
-      "local_path": "crates/solver/src/solver_significant_tests.rs",
+      "local_path": "crates/solver/src/lib.rs",
       "local_test": "solver::time_tests::significant_tests::significant_with_construction_heuristic",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Adapt all false termination and zero progress assertions at 500 ms and 1001 ms using the native solve-wide threshold control, its construction polling hook and explicit monotonic clock. Construction lifecycle and completed placements leave the shared timer unarmed. Java phase/solver queries map to construction/solver polling and the shared threshold progress; Java mocks and wall-clock epoch offsets are replaced by native lifecycle calls and elapsed durations. Other tests in this file are original regression tests, including cross-phase behavior; no credit is claimed for the separate mixed construction/local-search dual-gradient method."
+      "modifications": "Adapt all false termination and zero progress assertions at 500 ms and 1001 ms using the native solve-wide threshold control, its construction polling hook and explicit monotonic clock. Construction lifecycle and completed placements leave the shared timer unarmed. Java phase/solver queries map to construction/solver polling and the shared threshold progress; Java mocks and wall-clock epoch offsets are replaced by native lifecycle calls and elapsed durations. Other tests in this file are original regression tests, including cross-phase behavior; no credit is claimed for the separate mixed construction/local-search dual-gradient method. Cargo runs this unit test under src/lib.rs; its assertions are in crates/solver/src/solver_significant_tests.rs."
     }
   ],
   "fixtures": [
