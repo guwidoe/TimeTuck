@@ -1,7 +1,7 @@
 //! Bounded sampling of ordered list-value groups and eligible destinations.
 use crate::{
-    ListAssignment, ListDestinationError, ListDestinationIndex, ListMove, ListProblem,
-    MixedAssignment, MixedMove, MixedProblem, Move, MoveProvider, SampleError, SampleRandom,
+    ListAssignment, ListDestinationError, ListMove, ListProblem, MixedAssignment, MixedMove,
+    MixedProblem, Move, MoveProvider, SampleError, SampleRandom,
 };
 use std::{iter::FusedIterator, num::NonZeroUsize};
 
@@ -64,9 +64,10 @@ fn draw(random: &mut SampleRandom, bound: usize) -> usize {
 ///
 /// Setup indexes receivers and movable identities without cloning values. Drawing
 /// is lazy and keeps one permutation of eligible indices, not a factorial catalog.
-/// Each accepted proposal uses the existing validated gather builder, which owns
-/// a temporary assignment and may clone values. Work is bounded by attempts and
-/// per-proposal validation; it is not constant time in problem size.
+/// Each proposal borrows its source and copies references only for touched rows.
+/// Gather construction clones only the output values. Final pins and ranges are
+/// checked on touched rows; dependency-enabled models still check the global graph.
+/// Work is bounded by attempts; it is not constant time in problem size.
 ///
 /// ```
 /// use timetuck::*;
@@ -81,10 +82,9 @@ pub fn sampled_list_gather_moves<'a, V: Clone + Eq>(
     assignment: &'a ListAssignment<V>,
     config: GatherSamplingConfig,
 ) -> Result<impl FusedIterator<Item = ListMove<V>> + 'a, ListDestinationError> {
-    let destinations = ListDestinationIndex::new(problem, assignment, config.unassignment)?;
-    // Every group query is a subset of this set; establish count safety once.
-    destinations.for_values(&[])?;
-    let locations = problem.value_locations(assignment);
+    let (builder, destinations) =
+        crate::list_gather::GatherBuilder::for_sampling(problem, assignment, config.unassignment)?;
+    let locations = builder.locations();
     let eligible: Vec<_> = problem
         .values()
         .iter()
@@ -125,11 +125,11 @@ pub fn sampled_list_gather_moves<'a, V: Clone + Eq>(
                 }
             } else if indices[..size]
                 .iter()
-                .all(|&i| locations[eligible[i].0].is_none())
+                .all(|&i| builder.locations()[eligible[i].0].is_none())
             {
                 return None;
             }
-            problem.gather_move(assignment, &members, destination).ok()
+            builder.gather_move(&members, destination).ok()
         })
         .fuse())
 }

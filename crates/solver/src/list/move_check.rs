@@ -29,9 +29,9 @@ impl<V: Eq + Clone> ListProblem<V> {
         })
     }
 
-    /// Validate borrowed final rows whose membership is a permutation of a
-    /// previously validated assignment. Internal callers must establish entity
-    /// indices, unique membership and registry identity before using this path.
+    /// Validate borrowed final rows against a previously validated assignment.
+    /// Internal callers must establish entity indices, unique membership and
+    /// registry identity (including arrivals from unassigned values) first.
     /// Omitted rows are unchanged; pins, ranges and dependencies are checked in
     /// the same order as ordinary final-state candidate validation.
     pub(crate) fn validate_permuted_rows<'a>(
@@ -579,12 +579,7 @@ impl<'a, V: Eq + Clone> CandidateRows<'a, V> {
                 let mut previous = None;
                 for index in 0..self.len(entity)? {
                     let value = self.element(ListPosition { entity, index })?;
-                    let id = self
-                        .problem
-                        .values
-                        .iter()
-                        .position(|v| v == value)
-                        .expect("validated registry");
+                    let id = self.problem.value_index(value).expect("validated registry");
                     assigned[id] = true;
                     if let Some(parent) = previous {
                         dynamic.push((id, parent));
