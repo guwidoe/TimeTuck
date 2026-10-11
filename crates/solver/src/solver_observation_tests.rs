@@ -144,7 +144,19 @@ fn exact_observer_elapsed_time_stops_before_next_candidate_with_best_preserved()
             Ok(match request {
                 PhaseRequest::Custom(..) => unreachable!("fixture has no custom phase"),
                 PhaseRequest::Construction(c) => {
-                    constructed!(greedy_construction_with_observer(&p, &n, c, &mut notify)?)
+                    // Construction must share the fixture's controlled clock;
+                    // a real 5 ms timer can expire under unrelated build load.
+                    let start = elapsed.get();
+                    constructed!(crate::construction::construction_impl_with_clock_monitored(
+                        None,
+                        &p,
+                        p.initial_assignment(),
+                        c,
+                        |a| ScoreDirector::new(&p, &n, a).map(|director| {
+                            crate::solution_observation::Observed::new(director, &mut notify)
+                        }),
+                        || ms(elapsed.get() - start),
+                    )?)
                 }
                 PhaseRequest::Exact(c, prior) => {
                     let start = elapsed.get();
