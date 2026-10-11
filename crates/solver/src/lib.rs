@@ -1443,3 +1443,9 @@ pub use scoring_factory_bank::{
     PreparedScoreFactory, ScoreFactoryBuildError, ScoringFactoryDeclaration, ScoringFactoryRecipe,
     ScoringFactoryStrategy, decide_score_factory_matching,
 };
+
+mod schema_ruin_selection;
+pub use schema_ruin_selection::{
+    SchemaRuinBinding, SchemaRuinConfig, SchemaRuinError, SchemaRuinPhaseConfiguration,
+    SchemaRuinSelector,
+};

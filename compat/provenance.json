@@ -54114,6 +54114,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all source assertions through real assembled native resource lifetimes and phase execution. Explicit schema/recipes replace Java helper configuration and solver classes. Phase-mode vectors retain exact two entries, including inheritance and tracked override as a native diagnostic policy. Initialized basic 2/2 and uninitialized list 20/5 or 2/2 fixtures remain complete; list override runs up to fifty local-search steps. Views hold the actual scoring-context identity and become unreadable on replacement/cleanup, representing cleared Java working solutions. PhaseEntered observes completed replacement/release; PhaseCompleted observes actual accumulated successful work, preserving positive CH count and nondecreasing count at LS entry without a Java extra-score-call claim. Startup listener error preserves exact Boom diagnostic and closes its global resource. The invalid list provider yields one append of bad value to entity0 through actual native retained search. Error listeners see the real current assignment before cleanup; the overridden-phase view is captured and confirmed closed. Java range-message fragments use existing native entity/field/value diagnostics with exact fixture names. Non-null source results become actual owned Rust solutions/scores. No Java XML/reflection/API/ABI/random trace or full tracked-assertion compatibility."
+    },
+    {
+      "id": "DefaultSolverTest.failRuinRecreateWithMultiVar",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "failRuinRecreateWithMultiVar",
+      "local_path": "crates/solver/tests/schema_ruin_cases.rs",
+      "local_test": "fail_ruin_recreate_with_multi_var",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every asserted message fragment and complete uninitialized 2/2/2 mixed fixture. Explicit native schema declarations replace Java annotations and class discovery. Flatten two basic columns into four native slots; retain two list entities and both two-value registries and generated value labels. Multi-entity fixture registers separate genuine list/basic types; single-entity fixture retains shadow-only value types so they do not create ambiguity. Native solver assembly resolves and binds the configured ruin phase before scoring preparation; typed ambiguity/unknown-field errors include source-observed guidance, and preparation count is zero. Source comparator strengths/difficulty and shadow calculations are unused because invalid selection fails before scoring. Native actual scoring recipes are present and exercised by original valid repair regressions, which earn no additional source credit. No Java reflection/API/ABI or score-calculator execution is claimed for these rejection tests."
+    },
+    {
+      "id": "DefaultSolverTest.failRuinRecreateWithBadVar",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "failRuinRecreateWithBadVar",
+      "local_path": "crates/solver/tests/schema_ruin_cases.rs",
+      "local_test": "fail_ruin_recreate_with_bad_var",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every asserted message fragment and complete uninitialized 2/2/2 mixed fixture. Explicit native schema declarations replace Java annotations and class discovery. Flatten two basic columns into four native slots; retain two list entities and both two-value registries and generated value labels. Multi-entity fixture registers separate genuine list/basic types; single-entity fixture retains shadow-only value types so they do not create ambiguity. Native solver assembly resolves and binds the configured ruin phase before scoring preparation; typed ambiguity/unknown-field errors include source-observed guidance, and preparation count is zero. Source comparator strengths/difficulty and shadow calculations are unused because invalid selection fails before scoring. Native actual scoring recipes are present and exercised by original valid repair regressions, which earn no additional source credit. No Java reflection/API/ABI or score-calculator execution is claimed for these rejection tests."
+    },
+    {
+      "id": "DefaultSolverTest.failRuinRecreateWithMultiEntityMultiVar",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "failRuinRecreateWithMultiEntityMultiVar",
+      "local_path": "crates/solver/tests/schema_ruin_cases.rs",
+      "local_test": "fail_ruin_recreate_with_multi_entity_multi_var",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every asserted message fragment and complete uninitialized 2/2/2 mixed fixture. Explicit native schema declarations replace Java annotations and class discovery. Flatten two basic columns into four native slots; retain two list entities and both two-value registries and generated value labels. Multi-entity fixture registers separate genuine list/basic types; single-entity fixture retains shadow-only value types so they do not create ambiguity. Native solver assembly resolves and binds the configured ruin phase before scoring preparation; typed ambiguity/unknown-field errors include source-observed guidance, and preparation count is zero. Source comparator strengths/difficulty and shadow calculations are unused because invalid selection fails before scoring. Native actual scoring recipes are present and exercised by original valid repair regressions, which earn no additional source credit. No Java reflection/API/ABI or score-calculator execution is claimed for these rejection tests."
     }
   ],
   "fixtures": [
@@ -75020,6 +75065,97 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Actual native provider yields one bad value append to first entity at its current list length. Native checked transactional validation rejects it atomically and emits translated range diagnostics; before/after bean notifications are not copied. Original weighted objective is separate and adds no credit. Apache-2.0 fixture attribution only; no extra method credit."
+    },
+    {
+      "id": "schema-ruin-singleentity-TestdataMixedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedSolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "local_path": "crates/solver/tests/fixtures/schema_ruin_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain entity2/listvalue2/othervalue2 uninitialized layout, value labels and two basic columns per entity; omit unobserved comparator payloads and bean traversal. Weighted objective, native preparation counters and initialized helper are original regressions."
+    },
+    {
+      "id": "schema-ruin-singleentity-TestdataMixedEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEntity.java",
+      "upstream_test": "basicValue, secondBasicValue, valueList and declarativeShadowVariableValue declarations",
+      "local_path": "crates/solver/tests/fixtures/schema_ruin_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain all genuine fields and shadow declaration in typed native schema; native flattened slots replace bean fields, pins start disabled as in source. Weighted objective, native preparation counters and initialized helper are original regressions."
+    },
+    {
+      "id": "schema-ruin-singleentity-TestdataMixedValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedValue.java",
+      "upstream_test": "shadow-only entity declarations",
+      "local_path": "crates/solver/tests/fixtures/schema_ruin_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain all six shadow metadata fields; no supplier/cascading execution needed before selection rejection. Weighted objective, native preparation counters and initialized helper are original regressions."
+    },
+    {
+      "id": "schema-ruin-singleentity-TestdataMixedOtherValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedOtherValue.java",
+      "upstream_test": "shadow-only entity declarations",
+      "local_path": "crates/solver/tests/fixtures/schema_ruin_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain inverse collection and declarative shadow metadata; strengths are not read before invalid selection. Weighted objective, native preparation counters and initialized helper are original regressions."
+    },
+    {
+      "id": "schema-ruin-multientity-TestdataMixedMultiEntitySolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySolution.java",
+      "upstream_test": "generateUninitializedSolution",
+      "local_path": "crates/solver/tests/fixtures/schema_ruin_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain two entities per genuine type, two values per range, initialized empty list field and four uninitialized basic slots. No comparator payload behavior is used. Weighted objective, native preparation counters and initialized helper are original regressions."
+    },
+    {
+      "id": "schema-ruin-multientity-TestdataMixedMultiEntityFirstEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntityFirstEntity.java",
+      "upstream_test": "valueList declaration",
+      "local_path": "crates/solver/tests/fixtures/schema_ruin_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain list-only genuine entity type and complete two-entity field binding layout. Weighted objective, native preparation counters and initialized helper are original regressions."
+    },
+    {
+      "id": "schema-ruin-multientity-TestdataMixedMultiEntitySecondEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondEntity.java",
+      "upstream_test": "basicValue and secondBasicValue declarations",
+      "local_path": "crates/solver/tests/fixtures/schema_ruin_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain separate two-column basic entity type and complete two-entity layout. Weighted objective, native preparation counters and initialized helper are original regressions."
     }
   ]
 }

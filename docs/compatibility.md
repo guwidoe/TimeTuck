@@ -7224,3 +7224,38 @@ Callbacks introduce no candidate-loop work. No wall-clock speedup is claimed; pr
 performance comparisons remain visibly stale. Persistent list-state/index identity,
 per-step lifecycle hooks, whole-solve controls and complete tracked/assertion-factory
 execution remain pending; resource identity is not credited as list-state identity.
+
+
+### Schema-bound reconstruction fields
+
+Three DefaultSolverTest ruin/recreate rejection methods have complete native
+adaptations through SchemaRuinConfig and solver assembly. A selector resolves one
+genuine entity type and one planning field; shadow-only types do not create
+ambiguity. Unknown and ambiguous fields retain every source-asserted diagnostic
+fragment. The complete uninitialized 2/2/2 mixed fixtures retain four basic slots,
+two list entities, both value ranges and the single/multiple genuine entity types.
+Seven test-fixture records attribute generators and field/shadow declarations.
+Comparator payloads and shadow calculations are not evaluated before rejection.
+
+SolverAssemblyConfiguration binds each declared selector to an actual ruin phase
+before scoring preparation. Invalid phase indices/kinds, repeated phase bindings,
+missing/repeated field bindings and duplicate slots fail with typed errors. The
+prepared factory retains immutable selectors. Runtime candidate helpers validate
+actual value types, slot bounds and unassignment policy; mixed list registry indices
+use the actual basic-slot offset. List bindings must cover the complete list field;
+partial list entity scopes return a typed unsupported-scope error.
+
+solve_assembled_with_schema_repairs passes the selector, phase and real resource
+to the application's native phase binding. That binding installs the candidate pool
+in RuinRecreateConfig; ordinary callbacks continue to bind metadata themselves.
+Fine neighborhoods and additional repair pools remain separately configured and
+are not automatically intersected with this field selection. The existing repair
+engine retains pins, eligibility, budgets, acceptance, seeds and best-state retention.
+
+Five original regressions earn no source credit: actual assembled mixed repairs
+select one basic column or the list registry without changing the other component;
+repeated solves reuse preparation but own fresh resources; dense/stream basic and
+list repair agree on scored results; pre-preparation errors and runtime model
+validation remain typed. The default empty declaration allocates no selector vector.
+Candidate loops are unchanged. No wall-clock speedup is claimed, and prior
+performance comparisons remain visibly stale until a deliberate refresh.

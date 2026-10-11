@@ -1,5 +1,6 @@
 //! Validated model/scoring assembly and actual runtime phase-mode coordination.
 pub(crate) mod phase_views;
+mod schema_repairs;
 use super::{
     FactoryScoreDirector, FactoryScoreShape, PreparedScoreFactory, ScoreFactoryBuildError,
     ScoringFactoryDeclaration,
@@ -75,11 +76,18 @@ pub enum FactoryAssemblyError<E> {
     MissingSolutionRegistration,
     MissingEntityRegistration,
     ModelSchemaType,
-    PhaseModes { phases: usize, modes: usize },
+    PhaseModes {
+        phases: usize,
+        modes: usize,
+    },
     UnsupportedConstraintProfiling,
     Workers(FactoryWorkerError),
     Scoring(ScoreFactoryBuildError<E>),
     Resource(E),
+    SchemaRuin {
+        phase: usize,
+        error: crate::SchemaRuinError,
+    },
 }
 impl<E: fmt::Display> fmt::Display for FactoryAssemblyError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -89,6 +97,7 @@ impl<E: fmt::Display> fmt::Display for FactoryAssemblyError<E> {
             Self::ModelSchemaType=>f.write_str("solver model type differs from registered solution schema type"),
             Self::PhaseModes {phases,modes}=>write!(f,"solver has {phases} phases but {modes} declared phase modes"),
             Self::UnsupportedConstraintProfiling=>f.write_str("Constraint profiling from the reference configuration is unsupported; remove constraintStreamProfilingEnabled from the solver configuration"),
+            Self::SchemaRuin { phase, error } => write!(f,"phase {phase}: {error}"),
             Self::Workers(e)=>e.fmt(f),Self::Scoring(e)=>e.fmt(f),Self::Resource(e)=>e.fmt(f),
         }
     }
@@ -99,6 +108,7 @@ impl<E: Error + 'static> Error for FactoryAssemblyError<E> {
             Self::Workers(e) => Some(e),
             Self::Scoring(e) => Some(e),
             Self::Resource(e) => Some(e),
+            Self::SchemaRuin { error, .. } => Some(error),
             _ => None,
         }
     }
@@ -115,6 +125,7 @@ pub struct SolverAssemblyConfiguration<'a, M, S> {
     pub seed: u64,
     pub workers: FactoryWorkerRequest,
     pub reference_constraint_profiling: bool,
+    pub schema_ruin_phases: Vec<crate::SchemaRuinPhaseConfiguration>,
 }
 impl<M, S> SolverAssemblyConfiguration<'_, M, S> {
     pub fn for_factory_model(model: Rc<M>) -> Self {
@@ -127,6 +138,7 @@ impl<M, S> SolverAssemblyConfiguration<'_, M, S> {
             seed: 0,
             workers: FactoryWorkerRequest::None,
             reference_constraint_profiling: false,
+            schema_ruin_phases: vec![],
         }
     }
 }
@@ -139,6 +151,7 @@ pub struct AssembledSolverFactory<'a, M, P, I, D: ContextScoreResource> {
     metrics: ContextMetrics,
     seed: u64,
     workers: Option<usize>,
+    schema_ruin: Vec<Option<crate::SchemaRuinSelector>>,
 }
 impl<'a, P, I, D> ScoringFactoryDeclaration<'a, P, I, D, D::Error>
 where
@@ -220,6 +233,11 @@ where
                 SolverPhase::Exact(_) | SolverPhase::Custom(_) => {}
             }
         }
+        let schema_ruin = schema_repairs::prepare_schema_repairs(
+            &schema,
+            &config.phases,
+            &config.schema_ruin_phases,
+        )?;
         let bank = self
             .prepare_score_factory(config.model, shape, config.environment)
             .map_err(FactoryAssemblyError::Scoring)?;
@@ -232,6 +250,7 @@ where
             metrics: config.metrics,
             seed: config.seed,
             workers,
+            schema_ruin,
         })
     }
 }
