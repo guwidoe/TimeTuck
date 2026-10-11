@@ -1,7 +1,7 @@
 //! Lifecycle-aware concatenation and weighted interleaving of candidate sources.
 use crate::{
-    SelectionLifecycleEvent, SelectionSource, WeightedSelection, WeightedSelectionError,
-    random::SplitMix64,
+    LazyWeightedInterleave, SelectionLifecycleEvent, SelectionSource, WeightedSelection,
+    WeightedSelectionError, random::SplitMix64,
 };
 use std::{
     iter::{FusedIterator, Peekable},
@@ -106,8 +106,9 @@ pub type SelectionUnionIter<'a, T, D> = WeightedInterleave<Box<dyn Iterator<Item
 /// Compose candidate sources with explicit lifecycle forwarding. Events reach all
 /// children, including disabled ones; zero weights suppress size/open/poll calls.
 /// Ordered iteration opens children lazily and drains each before the next.
-/// Random iteration uses one buffered item per enabled child and never reopens an
-/// exhausted child. Neither mode materializes complete pools or deduplicates moves.
+/// random/random_with buffer one item per enabled child. The opt-in
+/// random_lazy/random_lazy_with methods draw before polling. Neither mode reopens
+/// exhausted children, materializes complete pools or deduplicates moves.
 /// Child membership/weights are fixed; source state may change at lifecycle events.
 pub struct SelectionUnion<C, T, S> {
     children: Vec<(S, f64)>,
@@ -169,6 +170,42 @@ impl<C, T, S: SelectionSource<C, T>> SelectionUnion<C, T, S> {
             })
             .collect();
         WeightedInterleave::new(children, draw).expect("validated union weights")
+    }
+    /// Draw a family before opening/polling it. Empty families consume a draw
+    /// when discovered, are permanently retired, and trigger a redraw. This is
+    /// opt-in: random_with retains its per-family prefetch and draw ordering.
+    /// Disabled families receive lifecycle events but never open/poll. Consumer
+    /// drop stops polling; callbacks and invalid draws follow LazyWeightedInterleave.
+    pub fn random_lazy_with<'a, D: FnMut() -> f64>(
+        &'a mut self,
+        context: &'a C,
+        draw: D,
+    ) -> LazyWeightedInterleave<Box<dyn Iterator<Item = T> + 'a>, D>
+    where
+        T: 'a,
+    {
+        let children = self
+            .children
+            .iter_mut()
+            .map(|(source, weight)| {
+                let cursor: Box<dyn Iterator<Item = T> + 'a> =
+                    Box::new(std::iter::once_with(move || source.open(context)).flatten());
+                (cursor, *weight)
+            })
+            .collect();
+        LazyWeightedInterleave::new(children, draw).expect("validated union weights")
+    }
+    /// Native seeded draw-before-poll selection. No Java PRNG equivalence.
+    pub fn random_lazy<'a>(
+        &'a mut self,
+        context: &'a C,
+        seed: u64,
+    ) -> impl FusedIterator<Item = Result<T, WeightedSelectionError>> + 'a
+    where
+        T: 'a,
+    {
+        let mut random = SplitMix64::new(seed);
+        self.random_lazy_with(context, move || random.unit())
     }
     pub fn random<'a>(
         &'a mut self,

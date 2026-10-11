@@ -711,6 +711,9 @@ pub use reachable_values::{
     ReachabilityError, ReachableValues, basic_reachability, list_reachability,
 };
 
+mod lazy_selection_union;
+pub use lazy_selection_union::LazyWeightedInterleave;
+
 mod selection_union;
 pub use selection_union::{SelectionUnion, SelectionUnionIter, WeightedInterleave};
 
