@@ -17,6 +17,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         [_] if placement.is_some() => None,
         [] => None,
         [order, trend] => Some(BoundedPhaseConfig {
+            order: None,
             exploration: match order.as_str() {
                 "depth" => NodeExploration::DepthFirst,
                 "breadth" => NodeExploration::BreadthFirst,
