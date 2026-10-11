@@ -15,6 +15,16 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/indexed_int_array_cases.rs` adapts all twenty nested methods
+  in `DynamicIntArrayTest`, including all negative-index parameter values.
+  The additional sparse-map reference regression is original. Native typed errors
+  replace Java exceptions; complete attribution is in `compat/provenance.json`.
+
+- `crates/solver/tests/brute_force_phase_cases.rs` adapts four complete methods
+  from `BruteForceTest`, covering required/optional basic and list variables, and
+  their domain and easy-score fixtures. Native traversal preserves the source's
+  final assignment, score and lifecycle assertions; substitutions are in provenance.
+
 - `crates/solver/tests/optional_list_union_solver_cases.rs` adapts the complete
   `AllowsUnassignedValuesListVariableSolverTest.runSolver` parameterized method,
   all six move-family configurations and its optional-list test-domain fixtures

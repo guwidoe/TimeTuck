@@ -11,25 +11,28 @@ remains v2.7.0, `8b815bc6b5f3eb81feedc94dea0885a93b267762`.
 
 Record complete adapted tests/fixtures in `compat/provenance.json`. Partial,
 original, skipped or empty tests earn no upstream-method credit. Crates remain
-unpublished. Conventional Commits, never amend/rebase/push. The user requests
-three concurrent GPT-6 Astra/high implementation agents, performance progress,
-occasional commits and selective verification without repeated checks/process overhead.
+unpublished. Conventional Commits, never amend/rebase/push. The current user direction is to finish integrating completed work, then close
+compatibility gaps so the pending backlog shrinks. Keep performance important,
+commit occasionally and reuse unchanged verification. No new subagents or
+assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round28
+## Latest verified checkpoint — round30
 
-Main159957f combined gate31794 and recorder25771 passed:
+Main5b11ce8 combined runner-c gate44932 and collector27544 passed:
 
-- 6,434 Rust tests and 277 doctests.
-- 3,368/4,855 upstream methods passing (69.372%); 921 pending, 566 excluded,
-  zero failed/unverified. No new source-method credit in this performance batch.
-- 883 Rust jobs ran; 48 Rust and 46 Python jobs reused unchanged evidence.
-- Source `c749386e88a54c50f22cc05928f27072d29b4878b0ba5c17166ebc34a05edb48`.
-- Verification `0d3ddfdf25ed9d59bd6a278bbc28f923886f833278d2ea10f7650ab02714e0d3`.
-- Evidence `work/parallel-round28-evidence.json` and associated freeze/review files.
+- 6,490 Rust tests and 278 doctests.
+- 3,389/4,855 upstream methods passing (69.804%);900pending,566excluded,
+  zero failed/unverified. Backlog reduced21 methods without changing exclusions.
+- 834Rust jobs ran,104Rust and46Python jobs reused unchanged runner-c evidence.
+- Source `22a239b29e837e9d1f9b622bdd35849865f272d051ea8ed504e900e4bdaf3ade`.
+- Verification `1dd3a2677acaf0a31c5f0335d07299a8b886f1729da80567a50d01d49ede90a6`.
+- Evidence `work/parallel-round30-evidence.json`, frozen input metadata, original
+  remote manifest/log and downloaded results archive. Round29 is also verified:
+  6463Rust/278docs,3368source methods; do not repeat either completed gate.
 
-Dashboard http://localhost:8765; reuse its server. Backend-only report refreshes
-need report/freshness inspection, not browser/Impeccable. Original-Java list report
-was current at25 and remains honestly stale; no automatic benchmark refresh.
+Dashboard http://localhost:8765 is current. Reuse its server. Backend-only report
+refreshes need report/freshness inspection, not browser/Impeccable. Original-Java
+list measurements remain visibly stale; native focused timing claims are separate.
 
 ## Verified implementation batch — round28
 
@@ -104,11 +107,11 @@ and collector88545 terminal0. Measurement digest
 `0e4893f822f7cde04d47c6d59b24f6475cab6ef3a3a3c517d20bc723180227af`.
 Remote absolute-path cache entries were not imported as local hits.
 
-## Integrated batch — round29 (combined check running on runner-c)
+## Verified integration batch — round29
 
 Seven already-reviewed slices committed together as main `2facd15` (29files,
 3442insertions/74deletions). No cherry-pick conflicts; one test expression formatted.
-Focused checks passed before integration; full batch status remains pending.
+Focused and combined checks passed; do not repeat them.
 
 - abc9331: reuse propagation queue/score-delta buffers. Large workloads allocate
   about20%less, modest1–3%timing gains; tiny mixed sparse+6.40%, peak+96–1024B.
@@ -129,34 +132,43 @@ copied focused evidence: `work/parallel-round29-reviewed.json` and
 `work/parallel-round29-evidence/`; frozen main inputs `work/parallel-round29-freeze.json`.
 Do not repeat completed source/probe reviews or isolated tests.
 
-User authorized moving integration verification to runner-c. Local gate64078 was stopped
-during Clippy (no runtime tests); remote final launcher29321 runs immutable main
-snapshot with six build jobs, then unchanged `bash scripts/check.sh`. First remote
-launcher39729 was stopped before runtime tests to correct a helper-file mutation;
-its logs are retained. Final label `round29-integration-final`, manifest/log under
-`work/remote-round29-integration-final*`. Vendoring config is in remote CARGO_HOME,
-keeping Rust repository input hashes identical. Collector48317 (`work/collect_round29_runner-c.py`) waits for this one build, downloads
-actual logs/metadata, checks the source digest and generates the local report;
-do not pretend remote cache records are local execution. Source tests remain
-unchanged during the gate. Python tests run remotely; upstream inventory/report
-runs locally because the worker does not contain the upstream Git submodule.
+## Completed batch — round30
 
-## Existing agents — finish only, no new work
+All completed agent work is now integrated. No agent tasks remain.
 
-User explicitly says to stop creating agents or assigning new work once current
-tasks finish. Do not refill slots. All existing agents are GPT-6 Astra/high.
+- 741ed79 cherry-picks31fbffc without conflicts: retained basic exact search fully
+  refreshes source rows on its first candidate, then propagates only changed rows.
+  Public replacement/repair retain full refresh. Full implementation/tests/probe
+  review completed;17artifacts and3sourcefiles hashed/copied under
+  `work/parallel-round30-evidence/sparse-stream-exact`.16focused tests/strictClippy
+  reused;100paired native samples/10workloads independently match outputs/logical
+  work. Wide128row/4096candidate workload ratio0.037–0.039, tiny/first roughlyflat.
+  These are isolated native before/after timings, not combined/Java claims.
+- 5b11ce8 adds native IndexedIntArray and20complete DynamicIntArrayTest methods,
+  including all3negative-index parameter values, plus one complete optional basic
+  BruteForce method. Preserve lifecycle ceiling3 and first-unassigned tie choice.
+  Provenance includes3adapted optional fixtures. Independent sparse-map window
+  reference is original and earns no method credit.25focused tests passed94854.
+  Verified source count3389, pending900; exclusions unchanged566.
 
-- dense_scoring and dependency_graph completed their tasks; do not restart them.
-- termination finished and stopped at31fbffc (based42160b6): private generated-basic
-  retained-stream exact transition optimization. Two production files plus original
-  sparse_stream_exact tests;16focused tests and strictClippy passed. One bounded
-  runner-a before/after comparison completed: wide128row/4096candidate exact solves
-  about0.037–0.039x baseline time, tiny/one-candidate cases roughlyflat. Agent claim,
-  not yet parent-accepted or integrated; production25line delta inspected, full new
-  test/probe/evidence review pending. Index `work/sparse-stream-exact-evidence.json`
-  in `/home/ralph/.codex/worktrees/diminished-returns/TimeTuck`. Worktree clean, both
-  workers released. Do not start another agent or task. Do not change frozen main
-  during the29gate; this last slice is for subsequent integration.
+The combined gate, report refresh and input/freshness checks all passed. Full
+fmt/Clippy, affected runtime targets and doctests passed; unchanged results reused.
+No outstanding integration or agent task remains. Review/evidence directories
+retain the final optimization's source/probe checks and native paired samples.
+Do not repeat source reviews, focused tests or these completed combined checks.
+
+The next work should close remaining compatibility gaps, prioritizing meaningful
+solver/domain/lifecycle behavior and complete source assertions. Keep performance
+important without replacing backlog work with additional optimization sweeps.
+No new subagents or follow-up assignments. Public API/ABI parity with Java remains
+out of scope; avoid counting partial mock/internals substitutes as full methods.
+
+Verification stays on runner-c. CARGO_HOME points to the unchanged round29 vendor setup,
+so environment keys remain stable. Remote cache log filenames are relocated after
+checksum validation; original input keys, output hashes and timestamps remain.
+run_job independently checks each new input/environment key before reuse. Remote
+execution is not relabeled as local execution. New commits alone do not invalidate
+checks. Keep original manifests/archives and failure logs. No new subagents.
 
 Compact derived-output experiment797eed0 is DEFERRED: about19%fewer allocations
 but only0–1.5%large gains and up9.24%regressions. Evidence preserved under
@@ -169,7 +181,7 @@ exact Java k-opt descriptor audits. Native cancellation extension remains deferr
 Local20threads/32GB/Rust1.92stable; integration builds moved to runner-c with six jobs.
 No local timing during parent builds. runner-a developer@runner-a.internal,8threads/48GB/glibc2.44;
 coordinate exclusive timing. runner-c developer@runner-c.internal,16threads/16GB, now reachable
-(hostnameNB-FH1MY); assigned parent integration gate. runner-a is free; all agents have stopped.
+(hostnameNB-FH1MY); available for integration verification. TimeTuck builds finished; all agents stopped.
 SSH BatchMode=yes,ConnectTimeout=10,StrictHostKeyChecking=yes.
 
 `work/remote_worker.py` uses immutable manifests/vendor sources. Injected root Cargo
