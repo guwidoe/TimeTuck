@@ -5,6 +5,9 @@ use crate::{
 };
 use std::{any::Any, collections::BTreeSet, error::Error, fmt, marker::PhantomData, rc::Rc};
 
+mod entities;
+use entities::EntityGroups;
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ShadowSessionError {
     Metadata(&'static str),
@@ -441,7 +444,10 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
     pub fn build(self) -> ShadowSession<'a, 's, K, W> {
         let topology = DependencyTopology::new(0..self.nodes.len()).expect("unique node indices");
         let pending = (0..self.nodes.len()).collect();
+        let entity_groups = EntityGroups::new(&self.nodes);
         ShadowSession {
+            entity_groups,
+            last_changed: Rc::from([]),
             identity: self.identity,
             nodes: self.nodes,
             edges: self.edges,
@@ -540,6 +546,8 @@ fn replace_dependencies<K, W>(
 /// # Ok::<(),Box<dyn std::error::Error>>(())
 /// ```
 pub struct ShadowSession<'a, 's, K, W> {
+    entity_groups: EntityGroups,
+    last_changed: Rc<[ShadowNodeRef]>,
     identity: Rc<()>,
     nodes: Vec<Node<'a, 's, K, W>>,
     edges: BTreeSet<(usize, usize)>,
@@ -551,6 +559,7 @@ pub struct ShadowSession<'a, 's, K, W> {
 }
 #[derive(Clone)]
 pub struct ShadowSessionCheckpoint {
+    last_changed: Rc<[ShadowNodeRef]>,
     identity: Rc<()>,
     cache: DependencyCache<usize, Stored>,
     edges: BTreeSet<(usize, usize)>,
@@ -634,6 +643,8 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         Ok(ResolvedSources { edges, signatures })
     }
     /// Return handles for changed derived fields, including inconsistency changes.
+    /// Successful refreshes also replace [`Self::changed_entities`]'s report;
+    /// a no-change refresh publishes an empty report. Failed refreshes retain it.
     pub fn update(&mut self, world: &W) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
         let resolved = self.resolve_sources(world, &self.edges)?;
         self.update_resolved(world, resolved)
@@ -701,7 +712,7 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
                 ),
             },
         )?;
-        let changed = changed
+        let changed: Vec<_> = changed
             .into_iter()
             .filter(|&i| matches!(nodes[i].operation, Operation::Derived(_)))
             .map(|index| ShadowNodeRef {
@@ -709,7 +720,9 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
                 identity: identity.clone(),
             })
             .collect();
+        let last_changed = changed.iter().cloned().collect();
         self.cache = next;
+        self.last_changed = last_changed;
         self.applied = applied;
         self.manual_applied = manual_applied;
         self.resolved = resolved.signatures;
@@ -722,6 +735,7 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     }
     pub(crate) fn capture(&self) -> ShadowSessionCheckpoint {
         ShadowSessionCheckpoint {
+            last_changed: self.last_changed.clone(),
             identity: self.identity.clone(),
             cache: self.cache.clone(),
             edges: self.applied.clone(),
@@ -758,6 +772,7 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     pub(crate) fn install(&mut self, saved: &ShadowSessionCheckpoint) {
         assert!(Rc::ptr_eq(&self.identity, &saved.identity));
         self.cache = saved.cache.clone();
+        self.last_changed = saved.last_changed.clone();
         self.edges = saved.requested_edges.clone();
         self.applied = saved.edges.clone();
         self.manual_applied = saved.manual_edges.clone();
