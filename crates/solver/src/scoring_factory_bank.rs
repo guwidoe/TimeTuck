@@ -1,4 +1,5 @@
 //! Prepared scoring recipes shared by independent native runtime resources.
+pub(crate) mod solver_assembly;
 use crate::{
     ContextMatchPolicy, ContextMetrics, EnvironmentMode, EnvironmentProfile,
     EnvironmentProfileError, InitializingScoreTrend, ScoreDefinition, ScoreTrendError,

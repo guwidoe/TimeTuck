@@ -1,4 +1,5 @@
 //! Reproducible search randomness; not for cryptography or Java PRNG compatibility.
+pub(crate) mod factory_stream;
 #[derive(Clone, Debug)]
 pub(crate) struct SplitMix64 {
     state: u64,

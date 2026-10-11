@@ -1429,6 +1429,12 @@ pub use segmented_slice::segment_access::{
 };
 
 mod scoring_factory_bank;
+pub use random::factory_stream::FactoryRandomStream;
+pub use scoring_factory_bank::solver_assembly::{
+    AssembledFactoryRun, AssembledSolverFactory, FactoryAssemblyError, FactoryAssemblySolution,
+    FactoryExecutionError, FactoryExecutionFailure, FactoryWorkerError, FactoryWorkerRequest,
+    SolverAssemblyConfiguration, resolve_factory_workers,
+};
 pub use scoring_factory_bank::{
     FactoryDirectorBuilder, FactoryDirectorSettings, FactoryScoreDirector, FactoryScoreShape,
     PreparedScoreFactory, ScoreFactoryBuildError, ScoringFactoryDeclaration, ScoringFactoryRecipe,

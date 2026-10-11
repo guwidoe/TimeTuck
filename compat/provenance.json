@@ -53619,6 +53619,336 @@
       "upstream_test": "assertionScoreDirectorFactoryInLenientEnvironmentMode_throwsException",
       "local_test": "assertion_score_director_factory_in_lenient_environment_mode_throws_exception",
       "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.moveThreadCountAutoIsCorrectlyResolvedWhenCpuCountIsPositive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "moveThreadCountAutoIsCorrectlyResolvedWhenCpuCountIsPositive",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "move_thread_count_auto_is_correctly_resolved_when_cpu_count_is_positive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.moveThreadCountAutoIsResolvedToNullWhenCpuCountIsNegative",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "moveThreadCountAutoIsResolvedToNullWhenCpuCountIsNegative",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "move_thread_count_auto_is_resolved_to_null_when_cpu_count_is_negative",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.moveThreadCountIsCorrectlyResolvedWhenValueIsPositive",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "moveThreadCountIsCorrectlyResolvedWhenValueIsPositive",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "move_thread_count_is_correctly_resolved_when_value_is_positive",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.moveThreadCountThrowsExceptionWhenValueIsNegative",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "moveThreadCountThrowsExceptionWhenValueIsNegative",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "move_thread_count_throws_exception_when_value_is_negative",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.moveThreadCountIsResolvedToNullWhenValueIsNone",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "moveThreadCountIsResolvedToNullWhenValueIsNone",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "move_thread_count_is_resolved_to_null_when_value_is_none",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.cachesScoreDirectorFactory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "cachesScoreDirectorFactory",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "caches_score_director_factory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.useCorrectRandomSeed",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "useCorrectRandomSeed",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "use_correct_random_seed",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.testNoSolutionConfiguration",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "testNoSolutionConfiguration",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "test_no_solution_configuration",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.testNoEntityConfiguration",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "testNoEntityConfiguration",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "test_no_entity_configuration",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.testInvalidMoveThreadCountConfiguration",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "testInvalidMoveThreadCountConfiguration",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "test_invalid_move_thread_count_configuration",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.testInvalidConstraintProfilingWithoutEnterprise",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "testInvalidConstraintProfilingWithoutEnterprise",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "test_invalid_constraint_profiling_without_enterprise",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.assertEnvironmentModeWithoutPhases",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "assertEnvironmentModeWithoutPhases",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "assert_environment_mode_without_phases",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.assertEnvironmentModeWithValidPhases",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "assertEnvironmentModeWithValidPhases",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "assert_environment_mode_with_valid_phases",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.assertEnvironmentWithNonReproducibleAndMismatchingPhase",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "assertEnvironmentWithNonReproducibleAndMismatchingPhase",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "assert_environment_with_non_reproducible_and_mismatching_phase",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.assertEnvironmentModeWithGlobalNotUsedByAnyPhase",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "assertEnvironmentModeWithGlobalNotUsedByAnyPhase",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "assert_environment_mode_with_global_not_used_by_any_phase",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.everyPhaseOverridingLeavesTheGlobalEnvironmentModeAlone",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "everyPhaseOverridingLeavesTheGlobalEnvironmentModeAlone",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "every_phase_overriding_leaves_the_global_environment_mode_alone",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.differingPhaseEnvironmentModesLeaveTheGlobalEnvironmentModeAlone",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "differingPhaseEnvironmentModesLeaveTheGlobalEnvironmentModeAlone",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "differing_phase_environment_modes_leave_the_global_environment_mode_alone",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.onePhaseLeftOnTheGlobalEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "onePhaseLeftOnTheGlobalEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "one_phase_left_on_the_global_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.phaseEnvironmentModeCannotMakeTheGlobalNonReproducible",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "phaseEnvironmentModeCannotMakeTheGlobalNonReproducible",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "phase_environment_mode_cannot_make_the_global_non_reproducible",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.solvesWithEveryPhaseOverridingAnUnsetGlobalEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "solvesWithEveryPhaseOverridingAnUnsetGlobalEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "solves_with_every_phase_overriding_an_unset_global_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.solvesWithConstraintStreamsAndAPhaseOverridingTheEnvironmentMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "solvesWithConstraintStreamsAndAPhaseOverridingTheEnvironmentMode",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "solves_with_constraint_streams_and_a_phase_overriding_the_environment_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
+    },
+    {
+      "id": "DefaultSolverFactoryTest.assertEnvironmentModeWithPhaseLessStrictThanDefault",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverFactoryTest.java",
+      "upstream_test": "assertEnvironmentModeWithPhaseLessStrictThanDefault",
+      "local_path": "crates/solver/tests/assembled_factory_cases.rs",
+      "local_test": "assert_environment_mode_with_phase_less_strict_than_default",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions expressed through real native assembly, typed schema/model registration, prepared scoring bank and EnvironmentProfile validation. XML, annotation/reflection and Java framework/class roles become explicit native registrations/recipes; no XML parsing or framework discovery compatibility. Missing registrations retain both diagnostic meanings using native terminology. Worker resolution preserves all observed values as an advisory budget, not launched threads. Seed 123456 opens native deterministic full-word generators, preserving seed/draw comparison, not Java random traces. Global mode remains independent of phase overrides. Two source solve cases execute real retained construction/local-search phases with complete initialized 2-value/2-entity fixture and zero/AlwaysPenalize objectives; stream search is bounded to 5 steps. Non-null Java solution/score/trend checks use actual owned Rust results/score metadata. Factory/descriptor identity uses actual shared model and prepared bank plus cached schema."
     }
   ],
   "fixtures": [
@@ -74369,6 +74699,110 @@
       "id": "scoring-factory-bank-TestdataSolution.generateSolution",
       "upstream_test": "generateSolution() and generateSolution(int,int,boolean)",
       "modifications": "Preserve complete default five-value/seven-entity initialized modulo assignment. Native finite-domain variables and integer identities replace Java beans, annotations and generated names. No solution descriptor/production implementation is copied."
+    },
+    {
+      "id": "assembled-factory-fixture-1",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/config/solver/testdataSolverConfig.xml",
+      "upstream_test": "XML test fixture model/entity/easy calculator configuration",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native schema/recipe bindings preserve only test-visible model/entity/calculator roles; no XML parsing. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "assembled-factory-fixture-2",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve negative ordered distinct-entity equal-assigned-value pair count; unassigned values do not collide. Native integer identity replaces named beans. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "assembled-factory-fixture-3",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataConstraintProvider.java",
+      "upstream_test": "defineConstraints Always penalize",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Actual native stream graph penalizes each assigned entity once; no upstream production provider read/copied. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "assembled-factory-fixture-4",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/invalid/noentity/TestdataNoEntitySolution.java",
+      "upstream_test": "score-only no-entity fixture role",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Explicit native solution schema with no registered entity types retains the invalid registration role; no Java annotations/getters. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "assembled-factory-fixture-5",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java",
+      "upstream_test": "DummyEasyScoreCalculator test fixture only",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve -1 iff any entity value has first-value identity, otherwise zero, with native domain value 0; no other helper/source implementation copied. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "assembled-factory-fixture-6",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "buildSolverConfig and TERMINATION_STEP_COUNT_LIMIT",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve helper zero objective and construction followed by local search bounded to ten steps; typed native phase vector replaces bean config. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "assembled-factory-fixture-7",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve exact zero objective through native dense scoring network. Apache-2.0 fixture attribution only; no method credit."
+    },
+    {
+      "id": "assembled-factory-fixture-8",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution() and generateSolution(int,int,boolean)",
+      "local_path": "crates/solver/tests/fixtures/assembled_factory_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete default 5-value/7-entity and explicit 2-value/2-entity initialized modulo assignment; integer finite-domain variables replace Java beans/names. Apache-2.0 fixture attribution only; no method credit."
     }
   ]
 }

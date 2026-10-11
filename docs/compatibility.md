@@ -7142,3 +7142,50 @@ like native stream graphs and caches immutable recipe data, not mutable director
 or a cloneable graph topology. Existing context/search/scoring hot paths are
 unchanged. Callback counts establish reuse; no wall-clock speedup is claimed and
 prior comparison measurements remain visibly stale.
+
+
+### Assembled native solver factories
+
+DefaultSolverFactoryTest's 22 methods have native adaptations through
+SolverAssemblyConfiguration/AssembledSolverFactory. Explicit registered solution
+and entity types replace XML/annotation/reflection and framework discovery.
+Registration is validated before scoring callbacks; an empty runtime collection
+is valid when its entity type remains registered. Model/schema type and phase
+mode counts are checked. The global mode remains independent of all overrides.
+Worker requests preserve every source-observed resolver value, as an advisory
+budget only; automatic CPU3 returns no workers by native policy. This does not
+launch threads. Reference constraint profiling configuration is rejected.
+
+The factory retains the actual model/schema and prepared scoring bank. Each run
+creates independent mutable dense/stream resources. Same-mode phases retain their
+resource; changes select cached preparation, copy current working input once,
+instantiate a resource with actual mode/reporting settings and release the old
+one. A returning mode reuses immutable preparation, never another run's director.
+Context-manager match settings are used explicitly (PhaseAssert and above or
+constraint-total metrics enable them). Logical phase work uses real result counts.
+Primary errors and suppressed release failures remain typed; failed preparations
+remain retryable. This single-threaded coordinator requires an application phase
+binding and does not claim Java solver API/ABI or object identity.
+
+Declared construction/local-search/ruin-recreate modes enable the native runner's
+existing full candidate or step boundary diagnostics; PhaseAssert uses coordinator
+boundaries. Exact/custom phases retain coordinator boundary checks. These are
+native policies, not complete Timefold tracked-assertion semantics. Independent
+assertion factories remain exposed but are not automatically run by assembly.
+The explicit factory seed controls fresh native full-word random openings and
+configured shuffled move order, random ties and ruin/recreate seed, wrapping with
+phase index. Other provider/acceptance seeds remain separately configured. No
+Java RNG sequence, stochastic trace or implicit default-phase claim is made.
+Empty phase vectors score the supplied state; whole-solve termination integration,
+custom callback binding and advanced phase checks remain separate.
+
+Both source solve cases run real retained construction/local search with complete
+initialized two-value/two-entity test fixtures: zero and AlwaysPenalize objectives,
+with the stream local search bounded to five steps. All eight used test/helper
+fixtures are attributed; upstream production and Enterprise remain unused. Eight
+original regressions add no source-method credit: actual scored solves, preparation
+reuse, independent concurrent sessions, current-state handoffs, mode and reporting
+settings, real calculation counts, failed preparation retry, typed failure cleanup,
+registration ordering, zero entities/empty plans and actual seeded search.
+Preparation/instance counts establish reuse, not a measured wall-clock speedup.
+Prior performance comparisons remain visibly stale until deliberately refreshed.
