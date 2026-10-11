@@ -124,12 +124,12 @@ fn direct_movement<V>(entity: usize, start: usize, end: usize, target: &[usize])
 
 // Prefix counts for identities not yet placed. All counts initially equal one,
 // so build the Fenwick tree directly in linear time without individual updates.
-struct RemainingRanks(Vec<usize>);
+pub(crate) struct RemainingRanks(Vec<usize>);
 impl RemainingRanks {
-    fn new(length: usize) -> Self {
+    pub(crate) fn new(length: usize) -> Self {
         Self((0..=length).map(|i| i & i.wrapping_neg()).collect())
     }
-    fn before(&self, mut index: usize) -> usize {
+    pub(crate) fn before(&self, mut index: usize) -> usize {
         let mut count = 0;
         while index != 0 {
             count += self.0[index];
@@ -137,7 +137,7 @@ impl RemainingRanks {
         }
         count
     }
-    fn remove(&mut self, identity: usize) {
+    pub(crate) fn remove(&mut self, identity: usize) {
         let mut index = identity + 1;
         while index < self.0.len() {
             self.0[index] -= 1;

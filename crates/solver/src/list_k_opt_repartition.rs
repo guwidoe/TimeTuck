@@ -66,9 +66,70 @@ fn repartition<V: Eq + Clone>(
     // entity-order range diagnostics and global dependency checks are shared
     // with ordinary move validation. No assigned payload is cloned.
     p.validate_permuted_rows(a, target)?;
-    // Track integer suffix identities while constructing current-index moves.
+    Ok(if tour.len() < 128 {
+        direct_relocations(p, a, entities, tour, lengths)
+    } else {
+        ranked_relocations(p, a, entities, tour, lengths)
+    })
+}
+
+// Placed identities form each destination's fixed target prefix. Unplaced
+// identities stay in their ORIGINAL row and relative order, even after other
+// rows send/receive values. Counts over each original identity interval therefore
+// recover the same current source index without shifting rows or positions.
+fn ranked_relocations<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    a: &ListAssignment<V>,
+    entities: &[usize],
+    tour: &[usize],
+    lengths: &[usize],
+) -> ListMove<V> {
+    let mut starts = Vec::with_capacity(entities.len());
+    let mut owners = Vec::with_capacity(tour.len());
+    for (row, &entity) in entities.iter().enumerate() {
+        starts.push(owners.len());
+        let length = a.lists()[entity].len() - p.entities()[entity].pinned_prefix();
+        owners.extend(std::iter::repeat_n(row, length));
+    }
+    let mut ranks = crate::list_k_opt::RemainingRanks::new(tour.len());
+    let mut placed = vec![0; entities.len()];
+    let mut moves = Vec::new();
+    let mut offset = 0;
+    for (row, (&entity, &length)) in entities.iter().zip(lengths).enumerate() {
+        for (index, &value) in tour[offset..offset + length].iter().enumerate() {
+            let from_row = owners[value];
+            let from_index =
+                placed[from_row] + ranks.before(value) - ranks.before(starts[from_row]);
+            if (from_row, from_index) != (row, index) {
+                moves.push(ListMove::Change {
+                    source: ListPosition {
+                        entity: entities[from_row],
+                        index: p.entities()[entities[from_row]].pinned_prefix() + from_index,
+                    },
+                    destination: ListPosition {
+                        entity,
+                        index: p.entities()[entity].pinned_prefix() + index,
+                    },
+                });
+            }
+            ranks.remove(value);
+            placed[row] += 1;
+        }
+        offset += length;
+    }
+    ListMove::Composite(moves)
+}
+
+fn direct_relocations<V: Eq + Clone>(
+    p: &ListProblem<V>,
+    a: &ListAssignment<V>,
+    entities: &[usize],
+    tour: &[usize],
+    lengths: &[usize],
+) -> ListMove<V> {
+    // Small proposals avoid tree setup and keep contiguous row updates.
     let mut current = Vec::with_capacity(entities.len());
-    let mut positions = Vec::with_capacity(values.len());
+    let mut positions = Vec::with_capacity(tour.len());
     for (row, &entity) in entities.iter().enumerate() {
         let length = a.lists()[entity].len() - p.entities()[entity].pinned_prefix();
         let start = positions.len();
@@ -105,7 +166,7 @@ fn repartition<V: Eq + Clone>(
         offset += length;
     }
     debug_assert!(current.iter().flatten().copied().eq(tour.iter().copied()));
-    Ok(ListMove::Composite(moves))
+    ListMove::Composite(moves)
 }
 impl<V: Eq + Clone> ListProblem<V> {
     /// Reconnect the combined cycle of the selected movable suffixes, then divide
@@ -162,9 +223,10 @@ impl<V: Eq + Clone> ListProblem<V> {
 /// Proposal counts are bounded; yields may repeat and final valid moves are not
 /// uniformly distributed. No Java sampling or implicit partition parity is claimed.
 ///
-/// Storage is linear in values plus entities. Range validation and current-index
-/// relocation construction may be quadratic. An empty/impossible combined cycle
-/// returns immediately, including with a maximal attempt budget. Zero attempts
+/// Storage is linear in values plus entities. Current-index relocation construction
+/// is O(n log n) for large proposals; range validation may still be quadratic.
+/// An empty/impossible combined cycle returns immediately, including with a
+/// maximal attempt budget. Zero attempts
 /// still validates the input. Missing values remain missing.
 pub fn sample_list_k_opt_repartitions<'a, V: Eq + Clone>(
     p: &'a ListProblem<V>,
