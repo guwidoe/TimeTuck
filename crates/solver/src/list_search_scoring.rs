@@ -3,6 +3,11 @@ use crate::list_scoring::ListSelection;
 use crate::{AdditiveScore, ListAssignment, ListMove, ListScoreDirector, ListScoringError};
 
 pub(crate) trait ListSearchDirector<V, S> {
+    fn capture_constraint_metrics(
+        &self,
+        _capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+    }
     type Error: From<crate::ListError> + From<crate::MoveProviderError>;
     fn notify_best(&mut self, _complete: impl FnOnce(&ListAssignment<V>) -> bool) {}
     fn assignment(&self) -> &ListAssignment<V>;
@@ -26,6 +31,12 @@ impl<V: Eq + Clone, S: AdditiveScore> ListSearchDirector<V, S> for ListScoreDire
     }
     fn score(&self) -> S {
         self.score()
+    }
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.capture_constraint_metrics(capture);
     }
     fn initial_constraint_evaluations(&self) -> u128 {
         self.constraint_scores().count() as u128

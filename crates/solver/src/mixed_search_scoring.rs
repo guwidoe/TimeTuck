@@ -3,6 +3,11 @@ use crate::mixed_scoring::MixedSelection;
 use crate::{AdditiveScore, MixedAssignment, MixedMove, MixedScoreDirector, MixedScoringError};
 
 pub(crate) trait MixedSearchDirector<B, L, S> {
+    fn capture_constraint_metrics(
+        &self,
+        _capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+    }
     type Error: From<crate::MixedError> + From<crate::MoveProviderError>;
     fn notify_best(&mut self, _complete: impl FnOnce(&MixedAssignment<B, L>) -> bool) {}
     fn assignment(&self) -> &MixedAssignment<B, L>;
@@ -28,6 +33,12 @@ impl<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedSearchDirector<B, L, S
     }
     fn score(&self) -> S {
         self.score()
+    }
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.capture_constraint_metrics(capture);
     }
     fn initial_constraint_evaluations(&self) -> u128 {
         self.constraint_scores().count() as u128

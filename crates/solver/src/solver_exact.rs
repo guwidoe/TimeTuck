@@ -229,10 +229,14 @@ pub(super) fn score_basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     g: &mut StreamGraph<'_, S>,
     s: &PlanningStreamSource<V>,
     a: &Assignment<V>,
+    capture: Option<&crate::solver_metrics::ConstraintMetricCapture<S>>,
 ) -> Result<(S, u128), StreamScoringError> {
     let mut tx = g.transaction();
     put_basic(&mut tx, s, a)?;
     let score = crate::scoring::with_structure(tx.score()?, p, a);
+    if let Some(capture) = capture {
+        tx.graph()?.capture_constraint_metrics(capture);
+    }
     Ok((score, tx.score_evaluations()))
 }
 pub(super) fn score_list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
@@ -240,10 +244,14 @@ pub(super) fn score_list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     g: &mut StreamGraph<'_, S>,
     s: &ListStreamSources<V>,
     a: &ListAssignment<V>,
+    capture: Option<&crate::solver_metrics::ConstraintMetricCapture<S>>,
 ) -> Result<(S, u128), ListStreamScoringError> {
     let mut tx = g.transaction();
     put_lists(&mut tx, s, p, a)?;
     let score = crate::list_scoring::with_structure(tx.score()?, p, a);
+    if let Some(capture) = capture {
+        tx.graph()?.capture_constraint_metrics(capture);
+    }
     Ok((score, tx.score_evaluations()))
 }
 pub(super) fn score_mixed<
@@ -255,11 +263,15 @@ pub(super) fn score_mixed<
     g: &mut StreamGraph<'_, S>,
     s: &MixedStreamSources<B, L>,
     a: &MixedAssignment<B, L>,
+    capture: Option<&crate::solver_metrics::ConstraintMetricCapture<S>>,
 ) -> Result<(S, u128), MixedStreamScoringError> {
     let mut tx = g.transaction();
     put_basic(&mut tx, &s.basic, a.basic())?;
     put_lists(&mut tx, &s.lists, p.lists(), a.lists())?;
     let score = crate::mixed_scoring::with_structure(tx.score()?, p, a)?;
+    if let Some(capture) = capture {
+        tx.graph()?.capture_constraint_metrics(capture);
+    }
     Ok((score, tx.score_evaluations()))
 }
 
@@ -328,7 +340,7 @@ mod tests {
                         row_score(&ListValueRow::from_assignment(i, v, a.lists())).score()
                     })
                     .sum::<i64>();
-            let (score, calls) = score_mixed(&p, &mut g, &s, a).unwrap();
+            let (score, calls) = score_mixed(&p, &mut g, &s, a, None).unwrap();
             assert_eq!(score, SimpleScore::new(expected));
             assert_eq!(calls, 6);
             assert!(g.source_rows(&s.basic).unwrap().is_empty());
@@ -336,7 +348,7 @@ mod tests {
             assert!(g.source_rows(&s.lists.values).unwrap().is_empty());
             assert_eq!(g.source_rows(&immutable).unwrap().len(), 1);
             assert_eq!(g.score(), SimpleScore::new(100));
-            let (score, calls) = score_list(p.lists(), &mut g, &s.lists, a.lists()).unwrap();
+            let (score, calls) = score_list(p.lists(), &mut g, &s.lists, a.lists(), None).unwrap();
             assert_eq!(
                 score,
                 SimpleScore::new(expected - a.basic().values()[0].unwrap_or(3) as i64)
@@ -359,7 +371,7 @@ mod tests {
         .unwrap();
         let mut g = b.build();
         assert!(crate::search::visit_assignments(&p, |a| {
-            let result = score_basic(&p, &mut g, &s, a);
+            let result = score_basic(&p, &mut g, &s, a, None);
             if a.values()[0] == Some(1) {
                 assert!(matches!(
                     result,

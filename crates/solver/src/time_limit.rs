@@ -28,6 +28,11 @@ pub(crate) fn monotonic_clock(enabled: bool) -> impl FnMut() -> Duration {
 
 /// Optional solve-wide observer; phase timers and step counters stay independent.
 pub(crate) trait SearchControl<S = crate::SimpleScore> {
+    fn constraint_metric_capture(
+        &self,
+    ) -> Option<&crate::solver_metrics::ConstraintMetricCapture<S>> {
+        None
+    }
     fn has_termination_context(&self, _scope: crate::TerminationProgressScope) -> bool {
         false
     }
@@ -92,6 +97,15 @@ pub(crate) trait SearchControl<S = crate::SimpleScore> {
     fn stop(&mut self) -> Option<crate::LocalSearchTermination>;
 }
 
+pub(crate) fn capture_constraint_metrics<S>(
+    shared: &Option<&mut dyn SearchControl<S>>,
+    capture: impl FnOnce(&crate::solver_metrics::ConstraintMetricCapture<S>),
+) {
+    if let Some(handle) = shared.as_ref().and_then(|s| s.constraint_metric_capture()) {
+        capture(handle);
+    }
+}
+
 pub(crate) struct TimeBudget<'m, C, S = crate::SimpleScore> {
     shared: Option<&'m mut dyn SearchControl<S>>,
     limit: Option<ElapsedTimeLimit>,
@@ -128,6 +142,12 @@ impl<'m, C: FnMut() -> Duration, S> TimeBudget<'m, C, S> {
             .as_ref()
             .and_then(|s| s.acceptance_elapsed())
             .unwrap_or_else(|| self.elapsed())
+    }
+    pub(crate) fn capture_constraint_metrics(
+        &self,
+        capture: impl FnOnce(&crate::solver_metrics::ConstraintMetricCapture<S>),
+    ) {
+        capture_constraint_metrics(&self.shared, capture);
     }
     pub(crate) fn start_step(&mut self) {
         if let Some(shared) = &mut self.shared {

@@ -69,6 +69,7 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -178,6 +179,9 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                     };
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                         best_graph = director.borrow().graph().capture_full();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let completion = config.strategy.is_completion();
@@ -223,6 +227,9 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                         best_graph = director.borrow().graph().capture_full();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let r = crate::ruin_engine::run(
@@ -345,6 +352,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -455,6 +463,9 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                         };
                     let mut best = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                         best_graph = director.borrow().graph().capture_full();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let completion = config.strategy.is_completion();
@@ -500,6 +511,9 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                         best_graph = director.borrow().graph().capture_full();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let r = crate::ruin_engine::run(
@@ -629,6 +643,7 @@ pub(crate) fn mixed<
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -745,6 +760,9 @@ pub(crate) fn mixed<
                         };
                     let mut best = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                         best_graph = director.borrow().graph().capture_full();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let completion = config.strategy.is_completion();
@@ -790,6 +808,9 @@ pub(crate) fn mixed<
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                         best_graph = director.borrow().graph().capture_full();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let r = crate::ruin_engine::run(

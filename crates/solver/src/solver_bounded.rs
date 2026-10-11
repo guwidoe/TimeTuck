@@ -249,6 +249,7 @@ mod tests {
     }
     fn control(clock: &mut dyn FnMut() -> Duration) -> SolveControl<'_> {
         SolveControl {
+            constraint_capture: None,
             move_counter: None,
             score_counter: None,
             step_metrics: None,

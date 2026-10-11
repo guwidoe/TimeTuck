@@ -441,6 +441,7 @@ enum PhaseRequest<'a, S> {
 struct SolveControl<'c, S = crate::SimpleScore> {
     move_counter: Option<crate::move_metrics::MoveCounter>,
     score_counter: Option<crate::score_evaluations::ScoreCounter>,
+    constraint_capture: Option<crate::solver_metrics::ConstraintMetricCapture<S>>,
     step_metrics: Option<crate::solver_metrics::MetricWriter<S>>,
     metric_phase: Option<(usize, SolverPhaseKind)>,
     metric_step: u64,
@@ -591,12 +592,14 @@ impl<S: Score> SolveControl<'_, S> {
             || self.stateful_condition.is_some())
             || self.lifecycle.enabled()
             || self.move_counter.is_some()
+            || self.constraint_capture.is_some()
             || self.clock_session.is_some()
             || self.phase_condition.is_some())
         .then_some(self)
     }
     fn monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
-        if self.step_metrics.is_some()
+        if self.constraint_capture.is_some()
+            || self.step_metrics.is_some()
             || self.acceptance_clock.is_some()
             || self.phase_condition.is_some()
             || self.clock_session.is_some()
@@ -632,6 +635,11 @@ impl<S: Score> SolveControl<'_, S> {
     }
 }
 impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
+    fn constraint_metric_capture(
+        &self,
+    ) -> Option<&crate::solver_metrics::ConstraintMetricCapture<S>> {
+        self.constraint_capture.as_ref()
+    }
     fn has_termination_context(&self, scope: crate::TerminationProgressScope) -> bool {
         match scope {
             crate::TerminationProgressScope::Solve => {
@@ -1145,7 +1153,8 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
     fn enable_constraint_metrics(
         &mut self,
     ) -> Option<crate::solver_metrics::ConstraintMetricCapture<S>> {
-        if matches!(&self.callback, Some(PlanCallback::Checked { metrics: Some(m), .. }) if m.requests_constraint_totals())
+        if self.constraint_capture.is_none()
+            && matches!(&self.callback, Some(PlanCallback::Checked { metrics: Some(m), .. }) if m.requests_constraint_totals())
         {
             self.constraint_capture = Some(Default::default());
         }
@@ -1442,12 +1451,14 @@ where
     // solve clock and termination references to the caller's callback lifetime.
     observation.validate_bindings(local)?;
     observation.validate_cooling(local, &limits)?;
+    let constraint_capture = observation.enable_constraint_metrics();
     let phase_bindings = observation.phase_bindings();
     let stateful_condition = observation.stateful_condition();
     let mut callback = observation.take_lifecycle();
     let lifecycle_enabled = callback.is_some();
     let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
     let mut time = SolveControl {
+        constraint_capture,
         move_counter: None,
         phase_condition: None,
         acceptance_clock: None,
@@ -2274,6 +2285,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -2351,7 +2363,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                         )
                     },
                     |a| {
-                        n.calculate(p, a)
+                        n.calculate_with_metrics(p, a, capture.as_ref())
                             .map(|score| (score, n.active_constraint_count() as u128))
                     },
                     observed.then_some(&mut notify),
@@ -2414,7 +2426,7 @@ fn solve_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                                 )
                             },
                             |a| {
-                                n.calculate(p, a)
+                                n.calculate_with_metrics(p, a, capture.as_ref())
                                     .map(|score| (score, n.active_constraint_count() as u128))
                             },
                             observed.then_some(&mut notify),
@@ -2636,6 +2648,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -2713,7 +2726,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                         )
                     },
                     |a| {
-                        n.calculate(p, a)
+                        n.calculate_with_metrics(p, a, capture.as_ref())
                             .map(|score| (score, n.active_constraint_count() as u128))
                     },
                     observed.then_some(&mut notify),
@@ -2776,7 +2789,7 @@ fn solve_list_impl<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
                                 )
                             },
                             |a| {
-                                n.calculate(p, a)
+                                n.calculate_with_metrics(p, a, capture.as_ref())
                                     .map(|score| (score, n.active_constraint_count() as u128))
                             },
                             observed.then_some(&mut notify),
@@ -2937,6 +2950,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -3017,7 +3031,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                         )
                     },
                     |a| {
-                        n.calculate(p, a)
+                        n.calculate_with_metrics(p, a, capture.as_ref())
                             .map(|score| (score, n.active_constraint_count() as u128))
                     },
                     observed.then_some(&mut notify),
@@ -3083,7 +3097,7 @@ fn solve_mixed_impl<'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore + 'c>(
                                 )
                             },
                             |a| {
-                                n.calculate(p, a)
+                                n.calculate_with_metrics(p, a, capture.as_ref())
                                     .map(|score| (score, n.active_constraint_count() as u128))
                             },
                             observed.then_some(&mut notify),
@@ -3250,6 +3264,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -3337,7 +3352,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                             config.strategy.branch_order(),
                         )
                     },
-                    |a| exact::score_basic(p, &mut g, &s, a),
+                    |a| exact::score_basic(p, &mut g, &s, a, capture.as_ref()),
                     observed.then_some(&mut notify),
                 )
                 .map_err(|e| bounded::error(index, e));
@@ -3401,7 +3416,7 @@ fn solve_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 'static
                                     visit,
                                 )
                             },
-                            |a| exact::score_basic(p, &mut g, &s, a),
+                            |a| exact::score_basic(p, &mut g, &s, a, capture.as_ref()),
                             observed.then_some(&mut notify),
                         )?
                     }
@@ -3569,6 +3584,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -3654,7 +3670,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                             config.strategy.branch_order(),
                         )
                     },
-                    |a| exact::score_list(p, &mut g, &s, a),
+                    |a| exact::score_list(p, &mut g, &s, a, capture.as_ref()),
                     observed.then_some(&mut notify),
                 )
                 .map_err(|e| bounded::error(index, e));
@@ -3718,7 +3734,7 @@ fn solve_list_stream_impl<'c, 'g, V: Eq + Clone + 'static, S: AdditiveScore + 's
                                     visit,
                                 )
                             },
-                            |a| exact::score_list(p, &mut g, &s, a),
+                            |a| exact::score_list(p, &mut g, &s, a, capture.as_ref()),
                             observed.then_some(&mut notify),
                         )?
                     }
@@ -3917,6 +3933,7 @@ fn solve_mixed_stream_impl<
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             if matches!(request, PhaseRequest::RuinRecreate(_)) {
                 let PhaseRequest::RuinRecreate(config) = request.with_time(time) else {
                     unreachable!()
@@ -4006,7 +4023,7 @@ fn solve_mixed_stream_impl<
                             config.strategy.branch_order(),
                         )
                     },
-                    |a| exact::score_mixed(p, &mut g, &s, a),
+                    |a| exact::score_mixed(p, &mut g, &s, a, capture.as_ref()),
                     observed.then_some(&mut notify),
                 )
                 .map_err(|e| bounded::error(index, e));
@@ -4073,7 +4090,7 @@ fn solve_mixed_stream_impl<
                                     visit,
                                 )
                             },
-                            |a| exact::score_mixed(p, &mut g, &s, a),
+                            |a| exact::score_mixed(p, &mut g, &s, a, capture.as_ref()),
                             observed.then_some(&mut notify),
                         )?
                     }

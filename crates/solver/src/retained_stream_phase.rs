@@ -20,6 +20,7 @@ macro_rules! retained {
             type Error = D::Error;
             fn assignment(&self) -> &$assignment { self.director.assignment() }
             fn score(&self) -> S { self.director.score() }
+            fn capture_constraint_metrics(&self, capture: &crate::solver_metrics::ConstraintMetricCapture<S>) { self.director.capture_constraint_metrics(capture); }
             fn initial_constraint_evaluations(&self) -> u128 { self.initialization_work }
             fn notify_best(&mut self, complete: impl FnOnce(&$assignment) -> bool) {
                 if let Some(on_best) = &mut self.on_best {
@@ -67,6 +68,12 @@ impl<A, M, S, D: crate::custom_phase::CommandDirector<A, M, S>>
     crate::custom_phase::CommandDirector<A, M, S> for RetainedPhase<'_, D>
 {
     type Error = D::Error;
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.director.capture_constraint_metrics(capture);
+    }
     fn notify_best(&mut self, complete: bool) {
         self.director.notify_best(complete);
         if let Some(on_best) = &mut self.on_best {

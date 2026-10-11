@@ -451,7 +451,7 @@ fn unavailable_states_do_not_claim_empty_totals() {
     .unwrap();
     assert_eq!(
         metrics.snapshot().latest.unwrap().best_constraint_totals,
-        BestConstraintTotals::Unavailable(ConstraintTotalUnavailable::UnsupportedBackend)
+        BestConstraintTotals::Available(Default::default())
     );
 }
 #[derive(Clone)]

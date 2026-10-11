@@ -62,6 +62,7 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -179,6 +180,9 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                         director
                             .borrow()
                             .refresh_retained(&mut best_state, &mut changes.borrow_mut());
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let completion = config.strategy.is_completion();
@@ -221,6 +225,9 @@ pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore>(
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {
                         best_state = director.borrow().capture_retained();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let r = crate::ruin_engine::run(
@@ -343,6 +350,7 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -460,6 +468,9 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                         director
                             .borrow()
                             .refresh_retained(&mut best_state, &mut changes.borrow_mut());
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let completion = config.strategy.is_completion();
@@ -502,6 +513,9 @@ pub(crate) fn list<V: Eq + Clone, S: AdditiveScore>(
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
                         best_state = director.borrow().capture_retained();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let r = crate::ruin_engine::run(
@@ -627,6 +641,7 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
         observation,
         |index, a, request, time, observation| {
             providers.start();
+            let capture = observation.constraint_capture.clone();
             let request = request.with_time(time);
             let observed = observation.has_events();
             let kind = request.kind();
@@ -752,6 +767,9 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                         director
                             .borrow()
                             .refresh_retained(&mut best_state, &mut changes.borrow_mut());
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let completion = config.strategy.is_completion();
@@ -794,6 +812,9 @@ pub(crate) fn mixed<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                     let director = RefCell::new(&mut *d);
                     let mut best = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
                         best_state = director.borrow().capture_retained();
+                        if let Some(capture) = &capture {
+                            director.borrow().capture_constraint_metrics(capture);
+                        }
                         notify(update);
                     };
                     let r = crate::ruin_engine::run(

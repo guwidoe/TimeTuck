@@ -505,6 +505,14 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
         problem: &MixedProblem<B, L>,
         assignment: &MixedAssignment<B, L>,
     ) -> Result<S, MixedScoringError> {
+        self.calculate_with_metrics(problem, assignment, None)
+    }
+    pub(crate) fn calculate_with_metrics(
+        &self,
+        problem: &MixedProblem<B, L>,
+        assignment: &MixedAssignment<B, L>,
+        capture: Option<&crate::solver_metrics::ConstraintMetricCapture<S>>,
+    ) -> Result<S, MixedScoringError> {
         let locations = self.validate_for_scoring(problem, assignment)?;
         let contributions = (0..self.constraint_count())
             .map(|i| self.contribution(i, problem, assignment, locations.as_ref()))
@@ -513,7 +521,22 @@ impl<'a, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedConstraintNetwork<
             .arithmetic
             .sum(&contributions)
             .map_err(|_| MixedScoringError::ScoreOverflow { constraint: None })?;
-        with_structure(total, problem, assignment)
+        let score = with_structure(total, problem, assignment)?;
+        if let Some(capture) = capture {
+            capture.capture_totals(
+                self.constraints
+                    .iter()
+                    .zip(contributions)
+                    .map(|(c, score)| {
+                        (
+                            c.name.as_str(),
+                            score,
+                            usize::from(c.weight.as_ref().is_none_or(|w| *w != S::ZERO)),
+                        )
+                    }),
+            );
+        }
+        Ok(score)
     }
 }
 pub(crate) fn with_structure<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
@@ -1024,6 +1047,29 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
     }
     pub fn score(&self) -> S {
         self.score.clone()
+    }
+    pub(crate) fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        capture.capture_totals(
+            self.network
+                .constraints
+                .iter()
+                .zip(&self.contributions)
+                .enumerate()
+                .map(|(index, (c, score))| {
+                    (
+                        c.name.as_str(),
+                        score.clone(),
+                        usize::from(
+                            self.weights
+                                .get(index, c.weight.as_ref())
+                                .is_none_or(|w| *w != S::ZERO),
+                        ),
+                    )
+                }),
+        );
     }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.network

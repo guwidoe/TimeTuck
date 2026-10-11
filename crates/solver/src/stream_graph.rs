@@ -284,6 +284,9 @@ trait Node<S: AdditiveScore> {
     fn is_constraint(&self) -> bool {
         false
     }
+    fn match_count(&self) -> usize {
+        0
+    }
     fn matches(&self) -> Option<&dyn Any> {
         None
     }
@@ -1010,6 +1013,9 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn is_constraint(&self) -> bool {
         true
+    }
+    fn match_count(&self) -> usize {
+        self.matches.len()
     }
     fn matches(&self) -> Option<&dyn Any> {
         Some(&self.matches)
@@ -2140,6 +2146,18 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
 impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
     pub fn score(&self) -> S {
         self.score.clone()
+    }
+    pub(crate) fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        capture.capture_totals(self.constraints.iter().map(|(name, &id)| {
+            (
+                name.as_str(),
+                self.nodes[id].score(),
+                self.nodes[id].match_count(),
+            )
+        }));
     }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.constraints

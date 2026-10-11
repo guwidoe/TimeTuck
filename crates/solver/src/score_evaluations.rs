@@ -62,6 +62,10 @@ fn rebuilding_inner<S, R>(
             .is_some_and(|s| s.monitors_rebuild_conditions())
         && from_control(shared).is_none()
         && shared.as_ref().and_then(|s| s.clock_session()).is_none()
+        && shared
+            .as_ref()
+            .and_then(|s| s.constraint_metric_capture())
+            .is_none()
     {
         return run(None);
     }
@@ -70,6 +74,11 @@ fn rebuilding_inner<S, R>(
         Option<crate::move_metrics::MoveCounter>,
     );
     impl<S> SearchControl<S> for Rebuild<'_, S> {
+        fn constraint_metric_capture(
+            &self,
+        ) -> Option<&crate::solver_metrics::ConstraintMetricCapture<S>> {
+            self.0.constraint_metric_capture()
+        }
         fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
             self.0.clock_session()
         }

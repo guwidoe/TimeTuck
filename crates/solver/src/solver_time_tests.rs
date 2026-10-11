@@ -95,7 +95,7 @@ fn exercise_variable<'a>(
                                 prior,
                                 time,
                                 || crate::branch_tree::BasicTree::new(&p),
-                                |a| exact::score_basic(&p, &mut g, &s, a),
+                                |a| exact::score_basic(&p, &mut g, &s, a, None),
                                 None,
                                 clock,
                             )
@@ -111,7 +111,7 @@ fn exercise_variable<'a>(
                                 prior,
                                 time,
                                 |visit| crate::search::visit_assignments(&p, visit),
-                                |a| exact::score_basic(&p, &mut g, &s, a),
+                                |a| exact::score_basic(&p, &mut g, &s, a, None),
                                 clock,
                             )?
                         }
@@ -295,6 +295,7 @@ fn elapsed_time_precedes_shared_goals_but_preserves_phase_reports() {
 fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time() {
     let mut disabled = || panic!("disabled global clock");
     let mut time: SolveControl<'_> = SolveControl {
+        constraint_capture: None,
         move_counter: None,
         score_counter: None,
         step_metrics: None,
@@ -333,6 +334,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
     let mut samples = [ms(3), ms(1), ms(8), ms(2), ms(10), ms(0)].into_iter();
     let mut clock = || samples.next().unwrap();
     let mut time: SolveControl<'_> = SolveControl {
+        constraint_capture: None,
         move_counter: None,
         score_counter: None,
         step_metrics: None,
@@ -462,6 +464,7 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
     let elapsed = Cell::new(ms(10_000));
     let mut clock = || elapsed.get();
     let mut time: SolveControl<'_> = SolveControl {
+        constraint_capture: None,
         move_counter: None,
         score_counter: None,
         step_metrics: None,
@@ -528,6 +531,7 @@ fn equal_score_moves_and_new_phase_initialization_do_not_reset_shared_stagnation
 
 fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> SolveControl<'a> {
     SolveControl {
+        constraint_capture: None,
         move_counter: None,
         score_counter: None,
         step_metrics: None,

@@ -356,6 +356,12 @@ impl<'a, S: AdditiveScore, C: FnMut() -> Duration> LocalTimeBudget<'a, S, C> {
     pub(crate) fn acceptance_elapsed(&mut self) -> Duration {
         self.base.acceptance_elapsed()
     }
+    pub(crate) fn capture_constraint_metrics(
+        &self,
+        capture: impl FnOnce(&crate::solver_metrics::ConstraintMetricCapture<S>),
+    ) {
+        self.base.capture_constraint_metrics(capture);
+    }
     pub(crate) fn start_step(&mut self) {
         self.base.start_step();
     }

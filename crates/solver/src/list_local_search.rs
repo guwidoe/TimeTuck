@@ -244,6 +244,7 @@ where
     .map(|scope| (scope, config.uses_termination_scope(scope)));
     time_budget.start_search();
     time_budget.observe_best_score(&result.best.as_ref().expect("initial best").score);
+    time_budget.capture_constraint_metrics(|c| director.capture_constraint_metrics(c));
     director.notify_best(|_| true);
     let mut progress = crate::StepProgress::default();
     loop {
@@ -385,6 +386,7 @@ where
         );
         provider.end_step();
         if notify_improvement {
+            time_budget.capture_constraint_metrics(|c| director.capture_constraint_metrics(c));
             director.notify_best(|_| true);
         }
         if selection.evaluation_limit {

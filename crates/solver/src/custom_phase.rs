@@ -95,6 +95,11 @@ pub struct CustomTrialOutcome<S> {
 }
 
 pub(crate) trait CommandDirector<A, M, S> {
+    fn capture_constraint_metrics(
+        &self,
+        _capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+    }
     fn notify_best(&mut self, _complete: bool) {}
     type Error;
     fn assignment(&self) -> &A;
@@ -130,6 +135,7 @@ macro_rules! director {
     ([$($generics:tt)*] $director:ty, $assignment:ty, $movement:ty, $error:ty, $search:ident, $restore:ident $(, $inspect:ident)?) => {
         impl<$($generics)*> CommandDirector<$assignment,$movement,S> for $director {
             type Error=$error;
+            fn capture_constraint_metrics(&self, capture: &crate::solver_metrics::ConstraintMetricCapture<S>) { self.capture_constraint_metrics(capture); }
             $(fn preview(&self,movement:&$movement)->Result<Option<MoveInspection<$assignment>>,Self::Error> {
                 self.$inspect(movement).map(Some)
             })?
@@ -342,6 +348,9 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
                 }
             }
             self.failed = true;
+            crate::time_limit::capture_constraint_metrics(&self.shared, |c| {
+                self.director.capture_constraint_metrics(c)
+            });
             self.director.notify_best(complete);
             (self.observer)(SolutionUpdate {
                 assignment: &self.best_assignment,
@@ -722,6 +731,9 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
     let best_assignment = director.assignment().clone();
     let best_score = director.score();
     let best_complete = complete(&best_assignment);
+    crate::time_limit::capture_constraint_metrics(&shared, |c| {
+        director.capture_constraint_metrics(c)
+    });
     director.notify_best(best_complete);
     observer(SolutionUpdate {
         assignment: &best_assignment,
@@ -1071,6 +1083,11 @@ pub fn mixed_stream_custom_phase_with_observer<
 // lifetime of the solve's mutable trait-object reference.
 struct SharedControl<'a, S>(Option<&'a mut dyn crate::time_limit::SearchControl<S>>);
 impl<S> crate::time_limit::SearchControl<S> for SharedControl<'_, S> {
+    fn constraint_metric_capture(
+        &self,
+    ) -> Option<&crate::solver_metrics::ConstraintMetricCapture<S>> {
+        self.0.as_ref().and_then(|s| s.constraint_metric_capture())
+    }
     fn clock_session(&self) -> Option<&crate::solver_clock::ClockSession> {
         self.0.as_ref().and_then(|s| s.clock_session())
     }

@@ -255,6 +255,10 @@ trait Engine<A, M, S> {
     fn assignment(&self) -> &A;
     fn score(&self) -> S;
     fn initial_evaluations(&self) -> u128;
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    );
     fn notify_best(&mut self, complete: impl FnOnce(&A) -> bool);
     fn assert_consistent(&mut self) -> Result<(), Self::Error>;
     fn select(
@@ -291,6 +295,7 @@ macro_rules! engine {
             fn assignment(&self) -> &$assignment { self.0.assignment() }
             fn score(&self) -> S { self.0.score() }
             fn initial_evaluations(&self) -> u128 { self.0.initial_constraint_evaluations() }
+            fn capture_constraint_metrics(&self, capture: &crate::solver_metrics::ConstraintMetricCapture<S>) { self.0.capture_constraint_metrics(capture); }
             fn notify_best(&mut self, complete: impl FnOnce(&$assignment) -> bool) { self.0.notify_best(complete); }
             fn assert_consistent(&mut self) -> Result<(), Self::Error> { self.0.assert_consistent() }
             fn select(&mut self, moves: impl Iterator<Item = $movement>, limit: u64, config: ProviderConstructionConfig, can_commit: impl Fn() -> bool, move_counter: &Option<crate::move_metrics::MoveCounter>, score_counter: &Option<crate::score_evaluations::ScoreCounter>) -> Result<Selected, Self::Error> {
@@ -391,6 +396,9 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
     if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
+    crate::time_limit::capture_constraint_metrics(&shared, |c| {
+        director.capture_constraint_metrics(c)
+    });
     director.notify_best(|a| shape.complete(a));
     crate::time_limit::observe_construction_score(
         &mut shared,
@@ -525,6 +533,9 @@ fn construct<F: Shape, S: AdditiveScore, D: Engine<F::Assignment, F::Move, S>>(
                 .construction_placement_completed(installed);
         provider.end_step();
         if installed {
+            crate::time_limit::capture_constraint_metrics(&shared, |c| {
+                director.capture_constraint_metrics(c)
+            });
             director.notify_best(|a| shape.complete(a));
         }
         if let Some(reason) = stopped

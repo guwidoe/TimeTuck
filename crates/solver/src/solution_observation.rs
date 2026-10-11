@@ -56,6 +56,12 @@ where
     fn assert_consistent(&mut self) -> Result<(), Self::Error> {
         self.director.assert_consistent()
     }
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.director.capture_constraint_metrics(capture);
+    }
     fn notify_best(&mut self, complete: impl FnOnce(&Assignment<V>) -> bool) {
         let complete = complete(self.director.assignment());
         self.director.notify_best(|_| complete);
@@ -298,6 +304,12 @@ where
     }
     fn assert_consistent(&mut self) -> Result<(), Self::Error> {
         self.director.assert_consistent()
+    }
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.director.capture_constraint_metrics(capture);
     }
     fn notify_best(&mut self, complete: impl FnOnce(&ListAssignment<V>) -> bool) {
         let complete = complete(self.director.assignment());
@@ -548,6 +560,12 @@ where
     }
     fn assert_consistent(&mut self) -> Result<(), Self::Error> {
         self.director.assert_consistent()
+    }
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.director.capture_constraint_metrics(capture);
     }
     fn notify_best(&mut self, complete: impl FnOnce(&MixedAssignment<B, L>) -> bool) {
         let complete = complete(self.director.assignment());

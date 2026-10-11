@@ -128,6 +128,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
     if config.assert_scores || config.assert_step_scores {
         director.assert_consistent()?;
     }
+    crate::time_limit::capture_constraint_metrics(&shared, |c| {
+        director.capture_constraint_metrics(c)
+    });
     director.notify_best(|assignment| problem.is_complete(assignment));
     crate::time_limit::observe_construction_score(
         &mut shared,
@@ -258,6 +261,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 director.assert_consistent()?;
             }
             if installed {
+                crate::time_limit::capture_constraint_metrics(&shared, |c| {
+                    director.capture_constraint_metrics(c)
+                });
                 director.notify_best(|assignment| problem.is_complete(assignment));
             }
             if selection.evaluation_limit {

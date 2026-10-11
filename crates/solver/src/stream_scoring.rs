@@ -486,6 +486,12 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
     ) -> Result<u128, StreamScoringError> {
         Ok(self.graph.apply_weight_overrides(overrides)?)
     }
+    pub(crate) fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.graph.capture_constraint_metrics(capture);
+    }
     pub fn constraint_scores(&self) -> impl Iterator<Item = (&str, S)> {
         self.graph.constraint_scores()
     }
@@ -578,6 +584,12 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
     }
     fn score(&self) -> S {
         self.score()
+    }
+    fn capture_constraint_metrics(
+        &self,
+        capture: &crate::solver_metrics::ConstraintMetricCapture<S>,
+    ) {
+        self.capture_constraint_metrics(capture);
     }
     fn initial_constraint_evaluations(&self) -> u128 {
         self.initial_constraint_evaluations

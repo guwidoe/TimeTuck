@@ -48,7 +48,7 @@ pub struct ConstraintTotalMetric<S> {
     pub match_count: usize,
 }
 /// Why requested totals are unavailable. Unavailable is distinct from an enabled
-/// calculator reporting a verified empty registry; totals never validate that the
+/// backend reporting verified empty totals; calculator totals never validate that the
 /// calculator's independent score agrees with its registered contributions.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConstraintTotalUnavailable {
@@ -198,11 +198,15 @@ impl<S: Score> SolverMetrics<S> {
     /// Request best constraint totals for subsequent solves using this handle.
     /// Fresh calculator plans enable optional match collection. Retained calculator
     /// plans use their existing setting without reset; construct their director with
-    /// `request_matches = true`. Other backends report UnsupportedBackend.
+    /// `request_matches = true`. Scoped and stream plans use cached contributions.
+    /// Scoped constraints expose one aggregate match each (zero for disabled
+    /// weights); stream constraints expose their retained terminal tuple counts.
+    /// An active zero-score match counts, even though it contributes no score.
     /// Totals publish with the best score before best-event callbacks, including
     /// partial construction states. Scoring callbacks and work counts are unchanged.
-    /// Copying totals costs O(registered constraints); fresh exact search also copies
-    /// totals for each evaluated node because its calculator is then dropped.
+    /// Copying totals costs O(registered constraints). Fresh exact search captures
+    /// each evaluated node before its scoring state is dropped or rolled back.
+    /// No totals traversal, allocation, lock, or extra scoring runs when disabled.
     /// Clones made before this builder retain their original request setting.
     pub fn with_best_constraint_totals(mut self) -> Self {
         self.constraint_totals = true;
@@ -410,6 +414,23 @@ pub(crate) struct ConstraintMetricCapture<S>(Arc<Mutex<Option<BestConstraintTota
 impl<S> Default for ConstraintMetricCapture<S> {
     fn default() -> Self {
         Self(Default::default())
+    }
+}
+impl<S> ConstraintMetricCapture<S> {
+    pub(crate) fn capture_totals<'a>(&self, totals: impl IntoIterator<Item = (&'a str, S, usize)>) {
+        let value = BestConstraintTotals::Available(
+            totals
+                .into_iter()
+                .map(|(name, score, match_count)| {
+                    (
+                        name.to_owned(),
+                        ConstraintTotalMetric { score, match_count },
+                    )
+                })
+                .collect::<BTreeMap<_, _>>()
+                .into(),
+        );
+        *self.0.lock().unwrap_or_else(|e| e.into_inner()) = Some(value);
     }
 }
 impl<S: crate::AdditiveScore> ConstraintMetricCapture<S> {
