@@ -6517,3 +6517,58 @@ uses 8190 callbacks versus 49152 for ordinary solving, both at 4096 logical eval
 (excluding director setup). Snapshot allocation/cloning costs remain; no wall-time
 speedup is claimed. Two complete upstream methods and two fixtures are newly mapped;
 combined verification is recorded in the handoff.
+
+## Sampled destination indexing and explicit basic reconstruction
+
+Sampled sublist changes lazily index cumulative destination slots after eight
+attempted proposals on models with at least 32 entities. Source-removal rank adjustment
+preserves exact random draws, reversal, unassignment, range rejection and output.
+Two original unit tests check every adjusted rank and interleaved random state;
+12 existing sampling/provider tests pass. On runner-a, three alternating process pairs
+give 960 samples over 32 workloads with identical move counts/checksums. At 512 entities,
+16,384-attempt scans improve 5.69–5.90x; at 4,096, 27.69–27.76x. Four-entity full scans
+regress 0.7–1.0%; tiny first results add 0.1–0.2 microseconds (up to 14%). The index retains
+16 bytes per entity once activated; measured peak allocations are unchanged because
+earlier validation/span setup dominates. Opening-only/one-attempt paths allocate
+no destination index. These are native proposal-generation measurements including
+opening, not whole-solver or Java comparisons.
+
+BasicRuinPlan exposes a separate repair model with selected movable variables cleared
+and all others pinned to the supplied assignment, including optional nulls. Finished
+required assignments become ordinary reversible composite moves in selection order.
+Unselected payloads and Eq-equivalent selected copies retain original payloads; changed
+identities use reconstruction payloads. Nested reconstruction needs its own budget;
+recorded TemporaryMoves supply guarded replay. The shared repair snapshot now retains
+diagnostic renderers and pillar metadata previously discarded by ordinary basic repair.
+Five original tests cover metadata, complete/optional states, budget-resume, rollback
+and scoped/stream providers; 19 existing basic/mixed repair tests also pass. No new
+source-method credit. Evidence for both changes is under work/parallel-round7-evidence.
+
+Shadow checkpoints now share immutable edges and resolved binding signatures.
+Initialized notified refreshes reuse that topology when manual edges are unchanged
+and no binding target is notified; sparse input preparation retains unnotified
+values during cycle recovery. Full polling keeps dense preparation. Four original
+regressions cover initialization, callbacks/work, rewires, cycles, restore and
+notifier failure; 17 focused tests pass. Same-runner-c interleaved direct-session measurements
+(420 samples, 10 workloads) improve full polling 1.16–1.20x and large notified refresh 156x.
+Actual strict ShadowCalculator move/score measurements (84 samples, 6 workloads) improve
+large notified moves 5.22x and true binding rewires 2.48x; these include strict
+consistency and scoring, but exclude setup. Strict diagnostics/projection can still
+visit all nodes. Intermediate regressions and timing variation remain in the evidence;
+no universal or Java speedup is claimed.
+
+Retained exact best snapshots now copy the union of score contributions changed
+since the prior best; dense transitions mark the entire snapshot dirty. Assignment,
+score and contribution clones are staged before publication. First exact and repair
+refresh boundaries remain unchanged. Six original tests include 390 model/strategy/
+budget comparisons, 48 prior-best cases, clone-work limits and sparse/full panic
+recovery. On runner-a, 420 samples include ordinary solving and interleaved retained
+baseline/current runs across 12 cases. Sparse heap-owned-score exact solves improve
+11.813 ms to 0.547 ms, clones 544,785 to 12,815; sparse SimpleScore 0.366 ms to 0.274 ms. Dense
+owned scores improve 1.4%, dense SimpleScore regresses 2.3%; tiny owned solves regress
+1.895 to 2.155 microseconds (13.7%). Short SimpleScore cases regress about 10%. Network
+construction is excluded; director initialization and snapshot cloning are included.
+Ordinary full scoring remains faster in dense/tiny cases, so retained scoring is
+not a universal improvement. Local/custom snapshots still use full copies. All
+round 7 tests are original and earn no source-method credit; raw evidence, manifests
+and intermediate variants are in work/parallel-round7-evidence.

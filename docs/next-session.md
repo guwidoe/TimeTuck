@@ -23289,3 +23289,33 @@ No upstream credit planned. LOCAL Cargo still held until32949prebuild completes;
 then tell termination it may use its separate target at-j2. Last prebuild status:
 fmt/Clippy passed (41.78s), calculating affected-target hashes. Remotes assigned
 exclusively; do not reassign while agent benchmarks run.
+
+Round6 gate32949 TERMINAL0; recorder93622 TERMINAL0.5857Rust+260doctests,
+614Rust RUN200REUSE,46PythonREUSE.3293/4855source methods(67.827%),1298pending,
+264excluded,0failed/unverified. Source037b8ccd375dcd67df969e1e5d8d8cabf9f04d9404adc1308f50e7c5c1956d82;
+verificatione8f07332508fcd0347d936aba95dcc17cda79cab2126355912993560d9c6321c.
+Evidence work/parallel-round6-evidence.json; old Java measurements remain stale.
+
+Round7 fully integrated:fd604bf(agent6bebc24) shared shadow checkpoints/sparse refresh;
+51a2e11(agent56ee683) sparse exact best snapshots; f834834(agent6759d2f) sampled
+destination indexing;72fa5d4(agentd262c61) BasicRuinPlan/repair metadata preservation.
+All committed Rust files match final focused manifests. Parent reviewed initial and
+final performance-path changes; code/tests/probes/evidence copied under
+work/parallel-round7-evidence/{moves,basic,shadows,scoped}/work. Shadows17tests+Clippy;
+scoped6tests+Clippy; moves14tests+Clippy and basic24tests+Clippy.17new original Rust
+methods total; provenance unchanged. Both move commits share this combined gate.
+Combined gate13214 LIVE, frozen Rust51a2e11: stable environment launcher runs
+work/prebuild_parallel_round7.py >work/parallel-round7-prebuild.log then
+bash scripts/check.sh >work/parallel-round7-final-check.log. Do not restart.
+Expected5874Rust+260docs/3293source methods; claim only actual terminal success.
+Run prepared work/record_parallel_round7.py through stable launcher after success;
+it checks actual source/freshness, unchanged provenance, merged file/probe hashes
+and records actual counts. All round7workers released; no lingering agent jobs.
+
+Next batch assigned to the same three Astra/high agents from51a2e11: moves/selectors
+on exclusive runner-a, shadows/dependencies on exclusive runner-c, solver/scoring on
+local. Scopes pending their code/test review. Local Cargo held while13214prebuild
+compiles; later notify termination to use separate target-j2 or a released remote.
+Main Rust/provenance stay frozen until gate+recorder success. Previous goal turn
+made progress: verified round6, integrated four substantive changes, started round7
+combined verification and next parallel implementation. Goal active/incomplete.
