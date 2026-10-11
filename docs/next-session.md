@@ -16,46 +16,57 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round33
+## Latest verified checkpoint — round34
 
-Main 0f347ba adds compiled shadow-source structure inspection and explicit Next
-source-member/parent support. Complete per-entity supplier bindings distinguish
-empty, directional, single-type and general declarations. Empty groups suppress
-only their grouped paths; populated groups retain declared directions even when
-later links are null. Nondeclarative entity types do not enlarge the target set.
-Inspection reads no terminal getters, invokes no suppliers and clones no entities.
-Shape is snapshot-dependent declaration structure, not cycle detection or a solver
-execution-plan switch. Existing evaluation and scoring algorithms are unchanged.
+Main 6b9c4dc adds EnvironmentProfile: preserved global/phase declarations, default
+PhaseAssert resolution, indexed genuine overrides and typed validation. Phases
+never replace the global policy. Reading rejected declarations stays valid;
+prepare validates the whole input before collecting an owned effective-mode list.
+NonReproducible permits explicit restatements but no genuine overrides; other
+phases must meet the global configuration eligibility level.
 
-All twelve GraphStructureTest methods now have complete adaptations and provenance
-for eleven fixture classes. Five original regressions cover forward dependency
-keys, live group reclassification, local/mixed directions, invalid binding checks
-and forbidden getter invocation. All 43 focused old/new checks passed on runner-a;
-Clippy subsequently caught a test initializer style issue, which was fixed before
-the final runner-c check. Failed attempt logs/manifests remain available.
+Prepared profiles bind NoAssert/PhaseAssert selection to the existing native
+phase score-check callback, using caller-supplied independent full scoring.
+NoAssert skips that scorer; PhaseAssert checks the selected handoff. Synthetic
+initial-only scoring uses the global mode. Separately configured safeguards stay
+active. Unsupported global/phase modes are rejected before binding; invalid runtime
+phase indices and scorer errors remain explicit. Backend kernels are unchanged.
+Step/undo/tracked/full/nonintrusive diagnostics, reseeding and score-director
+replacement remain pending; do not claim they work from configuration validation.
 
-Final runner-c gate 1515 and collector 56317 passed on frozen inputs:
+All nine EnvironmentModeUtilTest methods have complete query/validation adaptations
+and full provenance, plus the relevant two-phase test-helper layout. Four original
+regressions cover immutable preparation, sparse indices, first errors, unsupported
+bindings and selective checks through all nine native solver backends (18 real
+solves). No factory/solver/corruption/determinism source methods earn runtime credit.
+All 13 focused cases passed; the final gate also verified a transparent return-type
+alias added for Clippy. Initial callback-lifetime, mixed-config field and Clippy
+failures were fixed; their original logs/manifests remain available.
 
-- 6,534 Rust tests and 279 doctests.
-- 3,419/4,855 source methods passing (70.422%); 870 pending, 566 excluded,
-  zero failed/unverified. Backlog 882→870; exclusions unchanged.
-- 839 Rust jobs ran; 105 Rust and 46 Python jobs reused unchanged runner-c evidence.
-- Source `526f0d19b7e1119c3a065868edcab9e8598640145401b9f126e8e0496a562528`.
-- Verification `92a5945e51ddc5e72e529f92dccdeecd117d3388f304fdc2e89e65a81b80e35d`.
-- Evidence work/parallel-round33-evidence.json and freeze metadata; original
-  manifest/log and downloaded results archive retained. Gate took 709.71 seconds.
-  This compiler change selected broad shared solver/shadow-session dependencies;
-  do not repeat the completed check without relevant changed inputs or concerns.
+Final runner-c gate 95957 and collector 13714 passed on frozen inputs:
+
+- 6,547 Rust tests and 280 doctests.
+- 3,428/4,855 source methods passing (70.608%); 861 pending,
+  566 excluded, zero failed/unverified. Backlog 870→861; exclusions unchanged.
+- 4 Rust jobs ran; 943 Rust and 46 Python jobs reused unchanged runner-c evidence.
+- Source `f77df5512a336dd50598c5f6c00b2e57fe14783be1e8f3fbbfe397e649e6ef00`.
+- Verification `c39b7e3d706edb52edbeb4a7fa52b5278bc5b420efa239d15a0c9924b2ea55ff`.
+- Evidence work/parallel-round34-evidence.json and freeze metadata; original
+  manifest/log and downloaded results archive retained. Final gate took
+  140.045 seconds. Do not repeat it without relevant changed inputs or concerns.
 
 Dashboard http://localhost:8765 is current. Reuse its server. Backend report
 refreshes need data/freshness inspection, not browser/Impeccable. Original-Java
 list measurements remain visibly stale. No new performance claim in this batch.
 
-Prior round32 passed: 6,517 Rust/279 docs, 3,407 source methods, 882 pending.
+Prior round33 passed: 6,534 Rust/279 docs, 3,419 source methods, 870 pending.
+Compiled shadow-structure inspection/Next links and all twelve GraphStructureTest
+methods are already integrated and verified; do not repeat that 839-target gate.
 All completed agent work is integrated and committed. No new subagents or follow-up
 assignments. Continue closing complete pending Community cases while preserving
-native performance. This goal turn made progress (twelve verified domain methods);
-the full objective remains incomplete and active.
+native performance. This goal turn was progress (nine verified configuration
+methods and selective runtime phase checks). Full objective remains incomplete
+and active, confirmed by the goal tool this turn.
 
 ## Verified implementation batch — round28
 
