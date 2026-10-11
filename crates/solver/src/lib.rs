@@ -385,6 +385,8 @@ mod dependency_cache;
 pub use dependency_cache::DependencyCache;
 mod dependency_node;
 pub use dependency_node::{DependencyNode, DerivedChange};
+mod dynamic_dependency_node;
+pub use dynamic_dependency_node::{DynamicDependencyInput, DynamicDependencyNode};
 
 mod sequence_collector;
 pub use sequence_collector::{

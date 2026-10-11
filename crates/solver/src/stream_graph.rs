@@ -30,6 +30,7 @@
 //! ```
 
 mod dependency_batch;
+mod dynamic_dependency;
 mod facts;
 pub use facts::FactTransaction;
 mod activity;

@@ -182,6 +182,46 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
     pub fn topology(&self) -> &DependencyTopology<K> {
         &self.plan.topology
     }
+    // Rebuild membership without discarding surviving cached values. New nodes,
+    // changed incoming edges and changed cycle membership become roots; unchanged
+    // components keep their values and never run suppliers just for reindexing.
+    pub(crate) fn reconcile_topology(
+        &mut self,
+        topology: DependencyTopology<K>,
+        dirty: &[K],
+        evaluate: impl FnMut(&K, &[(&K, &DerivedValue<V>)]) -> Option<V>,
+    ) -> Result<Vec<K>, DependencyError<K>> {
+        let mut roots: BTreeSet<K> = dirty.iter().cloned().collect();
+        let mut values = self.values.clone();
+        for key in self.plan.topology.keys() {
+            if topology.lookup(key).is_err() {
+                values.remove(key);
+            }
+        }
+        for key in topology.keys() {
+            if !values.contains_key(key) {
+                values.insert(
+                    key.clone(),
+                    DerivedValue {
+                        value: None,
+                        inconsistent: false,
+                    },
+                );
+                roots.insert(key.clone());
+            } else if topology.is_cyclic(key)? != self.plan.topology.is_cyclic(key)?
+                || topology.dependencies(key)? != self.plan.topology.dependencies(key)?
+            {
+                roots.insert(key.clone());
+            }
+        }
+        let mut next = Self {
+            plan: Arc::new(Plan::new(topology)),
+            values,
+        };
+        let changed = next.update(&[], &[], &roots.into_iter().collect::<Vec<_>>(), evaluate)?;
+        *self = next;
+        Ok(changed)
+    }
     /// Apply removals, then additions, and reevaluate dirty/affected values.
     /// Returns exactly the final changed value keys, sorted by key. No-op edge
     /// batches alone invoke no suppliers. Unknown dirty keys fail atomically.
