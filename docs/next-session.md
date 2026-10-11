@@ -23487,3 +23487,56 @@ Round 10 queued/reviewed while round9 gate13762 still compiles (do not restart):
   sequential-test interference caveat. Local isolated-j2 builds permitted meanwhile.
 Main Rust/provenance remains frozen until13762 succeeds and round9 recorder passes.
 All three requested Astra/high agents active; no browser or Java benchmark rerun.
+
+
+Round 9 fully verified; round 10 integrated (current authoritative handoff)
+------------------------------------------------------------------------
+13762 TERMINAL0 and recorder18950 TERMINAL0.5934Rust+264doctests;700Rust jobs
+RUN/129REUSE;46PythonREUSE.3298/4855upstream methods=67.93%,1293pending,
+264excluded,0failed/unverified. Source a6a77b94dda8b55e66a40e4681aa61eea7851a56d7320368bdcf79a9f873b96d;
+verification af4a48c70364d2f9e32816dfb3d3eeb0c9abcead20fc3171aac72e7177657b60.
+work/parallel-round9-evidence.json verifies manifests, patch identities, provenance,
+and live dashboard freshness. Java/list benchmark evidence remains visibly stale.
+
+Round10 frozen Rust6e2fd6f, unchanged provenancefa08aad. Integrated/reviewed:
+-305822e fromee1f3d04: revision-aware live events;31focused tests+Clippy.
+-f2b34c5 from6b14996: explicit notified shadow streams;12focused checks+Clippy,
+ no extra world clone (retained Rc input event). Prose correction7d715e3 fromf37ee9b.
+-4318b97 from5e03d014: flattened linked cancellation;39Rust+2docs+Clippy,
+ independent local identity and cooperative-only parent cancellation.
+-94b1787 fromce3ca696: explicit list value membership reconciliation;14Rust+1doc
+ +Clippy, preserving non-Clone survivor shadows, atomic failure and checkpoints.
+-6e2fd6f from79e41c03: dependency-invalid gather/mass proposals skipped; shared
+ borrowed workspace, small/Eq-only opening fallback, sampled iterator Send+Sync.
+ 57distinct focused tests+Clippy.2700paired samples/150workloads match exact counts
+ and checksums.4096assigned+4096missing,128candidate scans27.72-90.37x native
+ gains;32sampledunassign draws10.77-18.08x;first7.92-21.20x. Countercases retained:
+ tiny opening+98ns,Eq-only+387ns,n128massopening+3-4us;largest mass opening peak
+ 110624->245840bytes, bounded scan mostly+48-80bytes,worst+15640bytes.
+ Native proposal timings only; no Java/whole-solve claim; sequential parent tests
+ may have interfered. Initial eager slower version preserved as superseded.
+All agent committed file hashes matched immutable copied manifests. All integrated
+patch IDs match originals; work/parallel-round10-commits.json records pairs.
+Evidence work/parallel-round10-evidence/{solver,shadows,cancellation,membership,moves}/work.
+No new upstream credit for these original native regressions.
+
+56425 LIVE: stable launcher prebuild_parallel_round10.py ->
+work/parallel-round10-prebuild.log then scripts/check.sh ->
+work/parallel-round10-final-check.log. Do not restart; main Rust/provenance frozen.
+After terminal0 run stable launcher work/record_parallel_round10.py; it is prepared,
+syntax checked, not executed. It additionally proves the separate prose correction.
+
+All three Astra/high agents continue isolated:
+-termination/runner-a: opt-in synchronous failure callback borrowing retained
+ handoff/error before SolveEnded/retained-resource teardown; no success snapshots.
+ Fresh failed kernel resources may already have dropped; no preflight/panic events.
+ Focused95382 belongs to agent; production parent review pending.
+-dependency_graph/runner-c: private field publication identity for O(1) list-shadow
+ currentness and dirty-only refresh without whole-row cloning; changed-publication
+ full fallback preserves validation/Eq-equal payload behavior. Scope approved,
+ implementation/paired native benchmarks pending.
+-dense_scoring/local: adaptive transaction-local assigned-ID membership index for
+ large indexed Assign composites; preserve all leaf effects/order/errors/rollback.
+ Scope approved; isolated-j2 compilation allowed, timings held during56425prebuild.
+This goal turn made progress: completed round9 evidence, reviewed and integrated
+five substantive changes, started one combined round10 gate. Rewrite remains active.

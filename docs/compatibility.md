@@ -6629,3 +6629,16 @@ At 8,192 values, full scans improve 4.58–29.20x with lower peak scratch memory
 the smallest balanced case regresses 18.36 to 22.30 microseconds. Opening-only
 timings vary under concurrent parent tests. Raw paired rounds and limits remain
 in work/parallel-round9-evidence/repartition; these are native proposal timings.
+
+
+Additional original native functionality: live jobs can publish revision-aware
+best/first-initialized events, and cooperative search can link application and
+job cancellation sources. Explicit notified shadow streams retain previous input
+events without additional world clones; explicit list value-universe reconciliation
+preserves survivor caches. Gather/mass neighborhoods skip dependency-invalid
+proposals and share borrowed validation/index state across candidates. These
+extensions earn no additional upstream-method credit. Their isolated focused
+checks and native proposal measurements are recorded in
+work/parallel-round10-evidence; the combined integration gate is pending as
+recorded in docs/next-session.md. Native timing gains do not establish Java or
+whole-solver performance parity.
