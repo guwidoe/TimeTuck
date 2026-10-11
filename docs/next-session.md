@@ -24150,3 +24150,28 @@ proposal pending, no build held. No need to rerun completed focused checks.
 runner-c79776 TERMINAL255 this turn after79551/8811; SSHstilltimeouts. Userwillbring
 laptoponline, prior dropped remote build processstate unknown; no duplicate
 restart. Local+runner-a productive. Goalactive/incomplete;nooverallblocker.
+
+
+Round19 gate followup:98853 TERMINAL101 (solver_oracle explicit config missing
+new order field);43368 TERMINAL101 (frontier_reclamation same issue). No combined
+tests had run. abb1f5b/206574f set order:None in those two old initializers;
+scanned remaining bounded config literals, no other omissions. Both failed logs
+preserved as parallel-round19-prebuild-{oracle,frontier}-failure.log; freeze JSON
+updated to Rust206574f.51650 LIVE retry:fmt/Clippy PASS,788affectedtargets compiling,
+101unchanged reused. Run prepared record_parallel_round19.py afterterminal0;
+recorder includes integration followup, still expects3335. No mainRust/provenance
+changes until final gate+recorder; do not rerun successful agent focused suites.
+
+Latest lanes: dense initialization validation draft23focusedtests+Clippy passed;
+final sparse/zero-weight fixture added before final release/paired measurement,
+runner-a owned. Preserve error precedence: model validation before score-weight
+comparisons, no trustshortcut. Dependency sampled-cache draft uses8probationIDs,
+8boxedrows withretainedIDs<=2*rightpool plus reusable scratch; frozenbaseline1311
+files; isolated-j2focusedchecks starting, timings held until parentidle/EFSavailable.
+Termination approved next phase-local diminished-return leaves composable in
+All/Any expressions; reuse existing exact arithmetic/history, independentwindows,
+first-steparming/per-phase reset. Validate local-search phase applicability before
+callbacks; reject solvewide/non-local bindings. Preserve existing publicconstructor
+bounds via validated typed config/prototype; no fabricated factory/ringbuffer
+methodcredit. Agentinvestigating/implementing, no build reported yet. Threeagents
+remainactive. EFSstilloffline,last79776TERMINAL255;no repeated approval needed.
