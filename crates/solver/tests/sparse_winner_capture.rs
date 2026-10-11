@@ -286,7 +286,7 @@ fn clone_panic_in_sparse_capture_restores_trial_and_cached_scores() {
         ScoreDirector::new(&p, &bn, p.initial_assignment()).unwrap(),
         FiniteProblem<Value>,
         Assignment<Value>,
-        plan(cfg),
+        plan(cfg.clone()),
         Move::Composite(vec![
             change(0, Value::new(1, 500, &c)),
             change(1, Value::new(1, 501, &c))
@@ -296,7 +296,7 @@ fn clone_panic_in_sparse_capture_restores_trial_and_cached_scores() {
         ListScoreDirector::new(&lp, &ln, lp.initial_assignment()).unwrap(),
         ListProblem<Value>,
         ListAssignment<Value>,
-        plan(cfg),
+        plan(cfg.clone()),
         ListMove::Change {
             source: pos(0, 0),
             destination: pos(1, 1)
