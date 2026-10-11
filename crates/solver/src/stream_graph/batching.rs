@@ -75,7 +75,7 @@ type BatchInputs = Vec<(bool, Event)>;
 trait BatchPendingQueue {
     fn push(&mut self, id: usize, input: (bool, Event));
     fn pop(&mut self) -> Option<(usize, BatchInputs)>;
-    fn clear(&mut self);
+    fn discard(&mut self, nodes: &[usize]);
     fn recycle(&mut self, _id: usize, _inputs: BatchInputs) {}
 }
 impl BatchPendingQueue for BTreeMap<usize, BatchInputs> {
@@ -85,8 +85,10 @@ impl BatchPendingQueue for BTreeMap<usize, BatchInputs> {
     fn pop(&mut self) -> Option<(usize, BatchInputs)> {
         self.pop_first()
     }
-    fn clear(&mut self) {
-        BTreeMap::clear(self);
+    fn discard(&mut self, nodes: &[usize]) {
+        for id in nodes {
+            self.remove(id);
+        }
     }
 }
 // Node IDs are topological ranks. Keep event buffers between batches and queue
@@ -128,11 +130,14 @@ impl BatchPendingQueue for BatchQueue {
     fn pop(&mut self) -> Option<(usize, BatchInputs)> {
         BatchQueue::pop(self)
     }
-    fn clear(&mut self) {
-        BatchQueue::clear(self);
-    }
     fn recycle(&mut self, id: usize, inputs: BatchInputs) {
         BatchQueue::recycle(self, id, inputs);
+    }
+    fn discard(&mut self, nodes: &[usize]) {
+        for &id in nodes {
+            self.buffers[id].clear();
+        }
+        self.ready.retain(|id| nodes.binary_search(&id.0).is_err());
     }
 }
 #[derive(Default)]
@@ -183,7 +188,8 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
     /// Each source ID keeps its last update; affected nodes run in topological
     /// order. Batched join nodes see both final inputs together. Other operators
     /// keep their per-event semantics and checked arithmetic rules. A change in
-    /// structural activity triggers one rebuild from all final retained sources.
+    /// structural activity rebuilds only affected connected components from their
+    /// final retained sources; pending changes in other components still settle.
     /// Any error/panic poisons the transaction; dropping restores all prior state.
     ///
     /// ```
@@ -241,27 +247,19 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             sources.recycle(source, events);
             self.route_batch(source, outputs?, pending);
         }
+        let mut changes = Vec::new();
         if self.graph.active.is_some() {
             let next = self.graph.active_plan();
             if self.graph.active.as_ref() != Some(&next) {
-                self.graph.active = Some(next);
-                for id in 0..self.graph.nodes.len() {
-                    self.checkpoint(id);
-                }
-                for node in &mut self.graph.nodes {
-                    if node.source_count().is_none() {
-                        node.clear();
-                    }
-                }
-                self.graph.score = S::ZERO;
-                pending.clear();
-                for id in 0..self.graph.nodes.len() {
+                let (nodes, reset_changes) = self.reset_activity_components(next);
+                changes.extend(reset_changes.into_iter().map(|(_, old)| (old, S::ZERO)));
+                pending.discard(&nodes);
+                for id in nodes {
                     let events = self.graph.nodes[id].source_events();
                     self.route_batch(id, events, pending);
                 }
             }
         }
-        let mut changes = Vec::new();
         while let Some((id, inputs)) = pending.pop() {
             if self.graph.active.as_ref().is_some_and(|active| !active[id]) {
                 pending.recycle(id, inputs);

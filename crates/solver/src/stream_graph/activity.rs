@@ -1,6 +1,71 @@
 //! Conservative source-emptiness activity and optional branch scheduling.
 use super::*;
 
+// Every physical edge participates, including both inputs of multi-input nodes.
+// Consequently no event can leave a component without traversing a missing edge.
+// This metadata exists only for graphs that enable activity pruning.
+pub(super) struct ActivityComponents {
+    component_of: Vec<usize>,
+    members: Vec<Vec<usize>>,
+}
+impl ActivityComponents {
+    pub(super) fn new(edges: &[Vec<Edge>]) -> Self {
+        fn root(parents: &mut [usize], mut node: usize) -> usize {
+            while parents[node] != node {
+                parents[node] = parents[parents[node]];
+                node = parents[node];
+            }
+            node
+        }
+        let mut parents: Vec<_> = (0..edges.len()).collect();
+        let mut sizes = vec![1; edges.len()];
+        for (source, downstream) in edges.iter().enumerate() {
+            for edge in downstream {
+                let mut a = root(&mut parents, source);
+                let mut b = root(&mut parents, edge.node);
+                if a == b {
+                    continue;
+                }
+                if sizes[a] < sizes[b] {
+                    std::mem::swap(&mut a, &mut b);
+                }
+                parents[b] = a;
+                sizes[a] += sizes[b];
+            }
+        }
+        let mut ids = vec![usize::MAX; edges.len()];
+        let mut component_of = Vec::with_capacity(edges.len());
+        let mut members: Vec<Vec<usize>> = Vec::new();
+        for node in 0..edges.len() {
+            let root = root(&mut parents, node);
+            if ids[root] == usize::MAX {
+                ids[root] = members.len();
+                members.push(Vec::new());
+            }
+            component_of.push(ids[root]);
+            members[ids[root]].push(node);
+        }
+        Self {
+            component_of,
+            members,
+        }
+    }
+    fn changed(&self, previous: &[bool], next: &[bool]) -> Vec<usize> {
+        let mut selected = vec![false; self.members.len()];
+        let mut nodes = Vec::new();
+        for (node, (old, new)) in previous.iter().zip(next).enumerate() {
+            let component = self.component_of[node];
+            if old != new && !selected[component] {
+                selected[component] = true;
+                nodes.extend_from_slice(&self.members[component]);
+            }
+        }
+        // Multiple components may be interleaved in registration order.
+        nodes.sort_unstable();
+        nodes
+    }
+}
+
 #[derive(Clone, Copy, Default)]
 pub(super) enum ActivityRule {
     #[default]
@@ -42,9 +107,13 @@ impl StreamActivity {
 impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     /// Enable source-emptiness pruning. Facts in every source are still retained.
     /// Updates skip branches unable to reach a live constraint or dataset. When
-    /// source emptiness changes the active plan, operator state is cleared and
-    /// rebuilt from retained facts; other updates remain incremental. Rebuild
-    /// callbacks count as ordinary work and can fail/roll back the transaction.
+    /// source emptiness changes the active plan, only connected operator components
+    /// whose activity changed are cleared and rebuilt from retained facts. All
+    /// declared edges (including both join inputs) connect their operators;
+    /// unrelated components retain their caches and invoke no replay callbacks.
+    /// Other updates remain incremental. Rebuild callbacks count as ordinary work
+    /// and can fail/roll back the transaction. The activity-plan scan remains
+    /// global; component membership adds O(nodes) metadata only when enabled.
     /// This trades transition cost for less work in persistently empty branches.
     /// Predicates must be pure; skipped branches do not validate their payloads.
     /// Disabled by default. Graph topology and source handles never change.
@@ -134,6 +203,30 @@ impl<S: AdditiveScore> StreamGraph<'_, S> {
     }
 }
 impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
+    pub(super) fn reset_activity_components(
+        &mut self,
+        next: Vec<bool>,
+    ) -> (Vec<usize>, Vec<(usize, S)>) {
+        let nodes = self
+            .graph
+            .activity_components
+            .as_ref()
+            .expect("pruning components")
+            .changed(self.graph.active.as_ref().expect("pruning plan"), &next);
+        self.graph.active = Some(next);
+        let mut changes = Vec::new();
+        for &id in &nodes {
+            self.checkpoint(id);
+            let node = &mut self.graph.nodes[id];
+            if node.is_constraint() {
+                changes.push((id, node.score()));
+            }
+            if node.source_count().is_none() {
+                node.clear();
+            }
+        }
+        (nodes, changes)
+    }
     pub(super) fn apply_with_activity(
         &mut self,
         source: usize,
@@ -153,32 +246,38 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         if was_empty != is_empty {
             let next = self.graph.active_plan();
             if self.graph.active.as_ref() != Some(&next) {
-                self.graph.active = Some(next);
-                // Checkpoint all caches before clearing, including caches already
-                // touched in this transaction. Their first checkpoint is retained.
-                for id in 0..self.graph.nodes.len() {
-                    self.checkpoint(id);
-                }
-                let events: Vec<_> = self
-                    .graph
-                    .nodes
+                let (nodes, original_scores) = self.reset_activity_components(next);
+                let events: Vec<_> = nodes
                     .iter()
-                    .enumerate()
-                    .flat_map(|(id, node)| {
-                        node.source_events()
+                    .flat_map(|&id| {
+                        self.graph.nodes[id]
+                            .source_events()
                             .into_iter()
                             .map(move |event| (id, event))
                     })
                     .collect();
-                for node in &mut self.graph.nodes {
-                    if node.source_count().is_none() {
-                        node.clear();
-                    }
-                }
-                self.graph.score = S::ZERO;
                 for (id, event) in events {
-                    self.propagate(id, event)?;
+                    self.drain_nodes(VecDeque::from([(
+                        Edge {
+                            node: id,
+                            right: false,
+                        },
+                        event,
+                    )]))?;
                 }
+                // Keep the old total until every selected component has settled:
+                // removing old contributions alone may overflow a valid total.
+                let changes: Vec<_> = original_scores
+                    .into_iter()
+                    .map(|(id, old)| (old, self.graph.nodes[id].score()))
+                    .collect();
+                self.graph.score = self
+                    .arithmetic
+                    .adjust(
+                        &self.graph.score,
+                        changes.iter().map(|(old, new)| (old, new)),
+                    )
+                    .map_err(|_| GraphError::ScoreOverflow { constraint: None })?;
                 return Ok(());
             }
         }
@@ -225,5 +324,54 @@ mod tests {
         tx.commit().unwrap();
         assert_eq!(g.score(), SimpleScore::new(7));
         g.assert_consistent().unwrap();
+    }
+    #[test]
+    fn component_candidate_restore_is_callback_free_and_preserves_other_caches() {
+        use std::cell::Cell;
+        let calls = Cell::new(0);
+        let mut b = StreamGraphBuilder::<SimpleScore>::new().with_activity_pruning();
+        let left = b.source::<usize, i64>();
+        let stable = b.source::<usize, i64>();
+        let right = b.source::<usize, i64>();
+        let mapped = b
+            .map(stable.port(), |v| {
+                calls.set(calls.get() + 1);
+                *v
+            })
+            .unwrap();
+        let data = b.dataset(&mapped).unwrap();
+        b.score("stable", &mapped, |v| SimpleScore::new(*v))
+            .unwrap();
+        let pairs = b
+            .join_equal(left.port(), right.port(), |_| (), |_| ())
+            .unwrap();
+        b.score("pairs", &pairs, |(a, c)| SimpleScore::new(a + c))
+            .unwrap();
+        let mut g = b.build();
+        let mut tx = g.transaction();
+        tx.apply(&left, TupleChange::put(0, 3)).unwrap();
+        tx.apply(&stable, TupleChange::put(0, 9)).unwrap();
+        tx.commit().unwrap();
+        let before = calls.get();
+        let mut tx = g.transaction();
+        tx.apply(&right, TupleChange::put(0, 4)).unwrap();
+        assert!(tx.checkpoint_count() < tx.graph.nodes.len());
+        let saved = tx.capture().unwrap();
+        drop(tx);
+        assert_eq!(g.score(), SimpleScore::new(9));
+        for value in [8, 10, 12] {
+            let mut tx = g.transaction();
+            tx.apply(&right, TupleChange::put(0, value)).unwrap();
+            drop(tx);
+        }
+        assert_eq!(calls.get(), before);
+        g.install(saved);
+        assert_eq!(calls.get(), before);
+        assert_eq!(g.dataset_rows(&data).unwrap()[&0], 9);
+        assert_eq!(g.score(), SimpleScore::new(16));
+        assert!(g.activity().get(&pairs).unwrap().active);
+        g.assert_consistent().unwrap();
+        let b = StreamGraphBuilder::<SimpleScore>::new();
+        assert!(b.build().activity_components.is_none());
     }
 }

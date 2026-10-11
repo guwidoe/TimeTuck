@@ -2101,7 +2101,11 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             .iter()
             .enumerate()
             .any(|(id, node)| node.prefers_batch() && observed[id]);
+        let activity_components = self
+            .activity_pruning
+            .then(|| Box::new(activity::ActivityComponents::new(&self.edges)));
         let mut graph = StreamGraph {
+            activity_components,
             batch_workspace: batching::BatchWorkspace::default(),
             transaction_workspaces: Vec::new(),
             batched_updates,
@@ -2133,6 +2137,7 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
     batched_updates: bool,
     activity_rules: Vec<ActivityRule>,
     active: Option<Vec<bool>>,
+    activity_components: Option<Box<activity::ActivityComponents>>,
     owner: Rc<()>,
     nodes: Vec<Box<dyn Node<S> + 'a>>,
     edges: Vec<Vec<Edge>>,
@@ -2406,7 +2411,27 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         )]);
         self.drain(pending)
     }
-    fn drain(&mut self, mut pending: VecDeque<(Edge, Event)>) -> Result<(), GraphError> {
+    fn drain(&mut self, pending: VecDeque<(Edge, Event)>) -> Result<(), GraphError> {
+        let changes = self.drain_nodes(pending)?;
+        let totals = if self.replaying {
+            crate::ScoringArithmetic::Wrapping
+        } else {
+            self.arithmetic
+        };
+        self.graph.score = totals
+            .adjust(
+                &self.graph.score,
+                changes.iter().map(|(old, new)| (old, new)),
+            )
+            .map_err(|_| GraphError::ScoreOverflow { constraint: None })?;
+        Ok(())
+    }
+    // Keep ordinary propagation and total adjustment in one optimized call frame.
+    #[inline(always)]
+    fn drain_nodes(
+        &mut self,
+        mut pending: VecDeque<(Edge, Event)>,
+    ) -> Result<Vec<(S, S)>, GraphError> {
         let arithmetic = NodeArithmetic {
             impact: self.arithmetic,
             totals: if self.replaying {
@@ -2437,14 +2462,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 }
             }
         }
-        self.graph.score = arithmetic
-            .totals
-            .adjust(
-                &self.graph.score,
-                changes.iter().map(|(old, new)| (old, new)),
-            )
-            .map_err(|_| GraphError::ScoreOverflow { constraint: None })?;
-        Ok(())
+        Ok(changes)
     }
     pub fn commit(mut self) -> Result<(), GraphError> {
         self.valid()?;
