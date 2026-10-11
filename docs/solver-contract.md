@@ -874,6 +874,17 @@ per-run cancellation token. Changes execute serially on the solver worker as
 run's token; after it returns, queued changes apply before a fresh solve. Each run
 rebuilds ordinary phase/solve limits. Explicit job cancellation stays latched.
 
+`add_problem_change_with_previous` on a job or manager also lends the edit an
+`Option<&LiveSolution<R>>`. This is the previous successfully returned run result,
+selected when the edit executes, including a cooperatively interrupted run. It is
+`None` before any run returns. It is separate from interim progress and consumer
+delivery, and may contain a partial or nonoptimal assignment. All changes drained
+for one restart see the same previous revision and the earlier edits to `P` in
+queue order. Callers can pin retained values or routes, then reconcile that old
+assignment with the edited model in the next solve. This adds no result clone,
+scoring callback or `R: Clone` bound. The ordinary input-only API shares the same
+queue, cancellation and receipt behavior. Edits still do not promise rollback.
+
 Changes receive monotonically increasing revisions. `ProblemChangeReceipt` succeeds
 only after the configured user consumer returns successfully with that revision or
 a later one. Applying a change, scoring or publishing a snapshot is insufficient.
@@ -2215,3 +2226,29 @@ are classified as Reconstruction without incrementing outer construction steps.
 Metrics still publish counts only after a successful rebuild; failures publish
 no partial rebuild counts. The temporary counter exists only when a move-count
 expression needs it. Hard budgets and cancellation remain independent.
+
+
+## Composed conditions for individual phases
+
+`SolverExtensions.phase_terminations` borrows a slice of
+`PhaseTerminationBinding::search(index, expression)` or `::scored(index, expression)`.
+Indices refer to the complete plan. Duplicate or out-of-range bindings fail before
+clock, lifecycle and scoring callbacks. The default empty slice activates no phase
+control or extra counters.
+
+Each bound phase starts independent elapsed-time, score-count and move-count origins,
+best-score history, stagnation tracking and expiry state. Time includes its start
+callback and preparation. Initial scoring counts as a score evaluation, but not a
+move. Complete retained input can satisfy a scored goal immediately; partial input
+cannot. Construction observes complete scores at retained placement boundaries.
+Local, repair and custom search arm stagnation after initialization; exact search
+arms it before enumeration, and construction never arms it.
+
+A phase condition stops that phase and allows the next phase to run. Its expiry
+state is removed before handoff checks; independent global limits keep their normal
+precedence and may stop the whole solve. An immovable initial-only solve enters no
+phase and therefore uses no phase binding. Reconstruction scans poll enabled
+expressions even without optional counters or an injected clock, and retain the
+existing rules for provisional candidate counts and successful bulk publication.
+Standalone kernel APIs are unchanged. These native semantics do not promise Java
+phase traces or reflective factory behavior.
