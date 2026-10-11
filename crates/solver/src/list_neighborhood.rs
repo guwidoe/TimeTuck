@@ -563,15 +563,32 @@ fn tail_swaps<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     order: I,
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
     positions(p, a, order.clone()).flat_map(move |left| {
-        positions(p, a, order.clone())
-            .filter(move |right| {
-                left.entity < right.entity
-                    && a.lists()[left.entity][left.index..]
+        order
+            .clone()
+            .filter(move |&entity| left.entity < entity && !p.entities()[entity].is_pinned())
+            .flat_map(move |entity| {
+                let row = &a.lists()[entity];
+                let prefix = p.entities()[entity].pinned_prefix();
+                // Eligibility of the incoming left suffix is shared by every
+                // right cut. Empty/prefix-pinned rows contribute no cuts.
+                let eligible = prefix < row.len()
+                    && (p.entities()[entity].value_range().is_none()
+                        || a.lists()[left.entity][left.index..]
+                            .iter()
+                            .all(|v| p.accepts(entity, v)));
+                let first = if !eligible {
+                    row.len()
+                } else if p.entities()[left.entity].value_range().is_none() {
+                    prefix
+                } else {
+                    // Every suffix after the last rejected value fits. Work
+                    // only on the movable tail, once per source/receiver pair.
+                    row[prefix..]
                         .iter()
-                        .all(|v| p.accepts(right.entity, v))
-                    && a.lists()[right.entity][right.index..]
-                        .iter()
-                        .all(|v| p.accepts(left.entity, v))
+                        .rposition(|v| !p.accepts(left.entity, v))
+                        .map_or(prefix, |offset| prefix + offset + 1)
+                };
+                (first..row.len()).map(move |index| ListPosition { entity, index })
             })
             .flat_map(move |right| {
                 let left = ListRange {
@@ -704,5 +721,159 @@ mod receiver_tests {
             assert_eq!(actual.next(), None);
             assert_eq!(actual.next(), None);
         }
+    }
+}
+
+#[cfg(test)]
+mod tail_range_tests {
+    use super::*;
+    use crate::ListEntity;
+
+    // Independent original position-pair enumeration, including encounter order.
+    fn reference(
+        p: &ListProblem<i32>,
+        a: &ListAssignment<i32>,
+        order: &[usize],
+        reversing: bool,
+    ) -> Vec<ListMove<i32>> {
+        let mut out = Vec::new();
+        for &l in order {
+            if p.entities()[l].is_pinned() {
+                continue;
+            }
+            for li in p.entities()[l].pinned_prefix()..a.lists()[l].len() {
+                for &r in order {
+                    if l >= r || p.entities()[r].is_pinned() {
+                        continue;
+                    }
+                    for ri in p.entities()[r].pinned_prefix()..a.lists()[r].len() {
+                        let fits = |owner: usize, values: &[i32]| {
+                            p.entities()[owner]
+                                .value_range()
+                                .is_none_or(|range| values.iter().all(|v| range.contains(v)))
+                        };
+                        if !fits(r, &a.lists()[l][li..]) || !fits(l, &a.lists()[r][ri..]) {
+                            continue;
+                        }
+                        let left = ListRange {
+                            entity: l,
+                            start: li,
+                            end: a.lists()[l].len(),
+                        };
+                        let right = ListRange {
+                            entity: r,
+                            start: ri,
+                            end: a.lists()[r].len(),
+                        };
+                        out.push(ListMove::SubListSwap {
+                            left,
+                            right,
+                            reverse: false,
+                        });
+                        if reversing && (left.end - left.start > 1 || right.end - right.start > 1) {
+                            out.push(ListMove::SubListSwap {
+                                left,
+                                right,
+                                reverse: true,
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        out
+    }
+
+    #[test]
+    fn tail_ranges_match_every_cut_with_pins_asymmetry_and_repeated_orders() {
+        let orders = [vec![0, 1, 2, 3], vec![3, 1, 0, 2, 1, 0], vec![2, 0], vec![]];
+        for cut in 0..=6 {
+            for mask in 0..64 {
+                let rows = [
+                    (0..cut).collect::<Vec<_>>(),
+                    (cut..6).collect(),
+                    vec![6],
+                    vec![],
+                ];
+                let entities = rows
+                    .iter()
+                    .enumerate()
+                    .map(|(owner, row)| {
+                        let mut entity = ListEntity::new(row.clone());
+                        if mask & 1 != 0 && owner == 2 {
+                            entity = entity.with_pinned(true);
+                        }
+                        if mask & 2 != 0 && !(mask & 1 != 0 && owner == 2) {
+                            entity = entity.with_pinned_prefix(row.len().min(1));
+                        }
+                        if mask & 4 != 0 && owner == 1 {
+                            entity = entity.with_pinned_prefix(row.len());
+                        }
+                        if mask & (8 << (owner % 3)) != 0 {
+                            // Original values remain valid; transferred suffixes can
+                            // contain multiple rejects before their final accepted run.
+                            entity = entity.with_value_range(
+                                (0..7)
+                                    .rev()
+                                    .filter(|v| row.contains(v) || (*v as usize + owner) % 3 == 0)
+                                    .collect(),
+                            );
+                        }
+                        entity
+                    })
+                    .collect::<Vec<_>>();
+                for p in [
+                    ListProblem::new((0..7).collect(), entities.clone()).unwrap(),
+                    ListProblem::new_indexed((0..7).collect(), entities).unwrap(),
+                ] {
+                    let a = p.initial_assignment();
+                    for order in &orders {
+                        for reverse in [false, true] {
+                            let expected = reference(&p, &a, order, reverse);
+                            let actual = tail_swaps(&p, &a, reverse, order.iter().copied())
+                                .collect::<Vec<_>>();
+                            assert_eq!(actual, expected, "cut={cut}, mask={mask}, order={order:?}");
+                            // Abandonment cannot affect the next opening.
+                            let _ = tail_swaps(&p, &a, reverse, order.iter().copied())
+                                .take(3)
+                                .count();
+                            assert_eq!(
+                                tail_swaps(&p, &a, reverse, order.iter().copied())
+                                    .collect::<Vec<_>>(),
+                                expected
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn unrestricted_tails_do_not_inspect_values_during_enumeration() {
+        use std::sync::atomic::{AtomicUsize, Ordering};
+        static EQUALITIES: AtomicUsize = AtomicUsize::new(0);
+        #[derive(Clone)]
+        struct Value(usize);
+        impl PartialEq for Value {
+            fn eq(&self, other: &Self) -> bool {
+                EQUALITIES.fetch_add(1, Ordering::Relaxed);
+                self.0 == other.0
+            }
+        }
+        impl Eq for Value {}
+        let p = ListProblem::new(
+            (0..64).map(Value).collect(),
+            vec![
+                ListEntity::new((0..32).map(Value).collect()),
+                ListEntity::new((32..64).map(Value).collect()),
+            ],
+        )
+        .unwrap();
+        let a = p.initial_assignment();
+        let moves = list_tail_swap_moves(&p, &a, true).unwrap();
+        EQUALITIES.store(0, Ordering::Relaxed);
+        assert_eq!(moves.count(), 2047);
+        assert_eq!(EQUALITIES.load(Ordering::Relaxed), 0);
     }
 }
