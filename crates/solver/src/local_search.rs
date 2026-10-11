@@ -618,6 +618,7 @@ where
     LocalSearchError: From<D::Error>,
 {
     let move_counter = crate::move_metrics::from_control(&shared);
+    let score_counter = crate::score_evaluations::from_control(&shared);
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     if provider.is_none() {
@@ -672,6 +673,7 @@ where
             Some(SplitMix64::new(seed))
         }
     };
+    crate::score_evaluations::record(&score_counter);
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
     result.best = Some(ScoredAssignment {
@@ -755,6 +757,7 @@ where
                 progress.completed_steps(),
             ),
             |movement, score| {
+                crate::score_evaluations::record(&score_counter);
                 crate::move_metrics::record(&move_counter, movement);
                 let variables = if tracks_variables {
                     movement.touched_variables()

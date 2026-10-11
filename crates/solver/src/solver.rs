@@ -394,6 +394,7 @@ enum PhaseRequest<'a, S> {
 // Clip immediately before phase entry, after any graph factory preparation.
 struct SolveControl<'c, S = crate::SimpleScore> {
     move_counter: Option<crate::move_metrics::MoveCounter>,
+    score_counter: Option<crate::score_evaluations::ScoreCounter>,
     step_metrics: Option<crate::solver_metrics::MetricWriter<S>>,
     metric_phase: Option<(usize, SolverPhaseKind)>,
     metric_step: u64,
@@ -422,6 +423,7 @@ impl<S: Score> SolveControl<'_, S> {
                 elapsed: self.last,
                 completed_steps: self.steps.completed_steps(),
                 construction_steps: self.construction_steps,
+                score_evaluations: self.score_counter.as_ref().map_or(0, |c| c.total()),
                 move_evaluations: if self.condition_uses_moves {
                     self.move_counter
                         .as_ref()
@@ -491,6 +493,9 @@ impl<S: Score> SolveControl<'_, S> {
     }
 }
 impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
+    fn score_counter(&self) -> Option<crate::score_evaluations::ScoreCounter> {
+        self.score_counter.clone()
+    }
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         self.move_counter.clone()
     }
@@ -971,6 +976,10 @@ where
     let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
     let mut time = SolveControl {
         move_counter: None,
+        score_counter: limits
+            .termination
+            .is_some_and(SearchTermination::needs_score_counts)
+            .then(Default::default),
         step_metrics: None,
         metric_phase: None,
         metric_step: 0,

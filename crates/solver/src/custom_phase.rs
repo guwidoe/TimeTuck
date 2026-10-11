@@ -179,6 +179,7 @@ pub struct CustomPhaseContext<'a, A, M, S, E> {
     failed: bool,
     shared: Option<&'a mut dyn crate::time_limit::SearchControl<S>>,
     move_counter: Option<crate::move_metrics::MoveCounter>,
+    score_counter: Option<crate::score_evaluations::ScoreCounter>,
     target: Option<S>,
     stop_when_feasible: bool,
 }
@@ -255,6 +256,7 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         if self.is_terminated() {
             return false;
         }
+        crate::score_evaluations::record(&self.score_counter);
         self.work.evaluations += 1;
         self.work.move_evaluations += 1;
         if let Some(counter) = &self.move_counter {
@@ -504,6 +506,8 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
         });
     }
     let mut director = create(initial).map_err(CustomPhaseError::Scoring)?;
+    let score_counter = crate::score_evaluations::from_control(&shared);
+    crate::score_evaluations::record(&score_counter);
     let work = CustomPhaseWork {
         evaluations: 1,
         constraint_evaluations: director.initial_evaluations(),
@@ -538,6 +542,7 @@ pub(crate) fn run_monitored_with_clock<A: Clone, M, S: Score, D: CommandDirector
         failed: false,
         shared: Some(&mut shared),
         move_counter,
+        score_counter,
         target,
         stop_when_feasible,
     };
@@ -871,6 +876,9 @@ impl<S> crate::time_limit::SearchControl<S> for SharedControl<'_, S> {
         if let Some(m) = &mut self.0 {
             m.step_ended(completed);
         }
+    }
+    fn score_counter(&self) -> Option<crate::score_evaluations::ScoreCounter> {
+        crate::score_evaluations::from_control(&self.0)
     }
     fn move_counter(&self) -> Option<crate::move_metrics::MoveCounter> {
         crate::move_metrics::from_control(&self.0)

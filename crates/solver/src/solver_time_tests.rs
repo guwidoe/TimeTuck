@@ -296,6 +296,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
     let mut disabled = || panic!("disabled global clock");
     let mut time: SolveControl<'_> = SolveControl {
         move_counter: None,
+        score_counter: None,
         step_metrics: None,
         metric_phase: None,
         metric_step: 0,
@@ -325,6 +326,7 @@ fn disabled_shared_clock_is_never_sampled_and_backwards_samples_cannot_add_time(
     let mut clock = || samples.next().unwrap();
     let mut time: SolveControl<'_> = SolveControl {
         move_counter: None,
+        score_counter: None,
         step_metrics: None,
         metric_phase: None,
         metric_step: 0,
@@ -445,6 +447,7 @@ fn exhausted_stagnation_is_not_reset_by_another_phase_or_a_late_improvement() {
     let mut clock = || elapsed.get();
     let mut time: SolveControl<'_> = SolveControl {
         move_counter: None,
+        score_counter: None,
         step_metrics: None,
         metric_phase: None,
         metric_step: 0,
@@ -502,6 +505,7 @@ fn equal_score_moves_and_new_phase_initialization_do_not_reset_shared_stagnation
 fn step_control<'a>(limit: u64, clock: &'a mut dyn FnMut() -> Duration) -> SolveControl<'a> {
     SolveControl {
         move_counter: None,
+        score_counter: None,
         step_metrics: None,
         metric_phase: None,
         metric_step: 0,

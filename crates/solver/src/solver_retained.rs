@@ -220,12 +220,12 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                         config,
                         Some(&mut best),
                         time.monitor(),
-                        |repair, initial, config| {
+                        |repair, initial, config, monitor| {
                             let mut director = director.borrow_mut();
                             // The repair model supplies temporary pins/ranges to selection;
                             // the original bound model keeps registry and scoring identities.
                             let r = crate::construction::construction_impl_monitored(
-                                None,
+                                monitor,
                                 repair,
                                 initial,
                                 config,
@@ -486,12 +486,12 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
                         config,
                         Some(&mut best),
                         time.monitor(),
-                        |repair, initial, config| {
+                        |repair, initial, config, monitor| {
                             let mut director = director.borrow_mut();
                             // The repair model supplies temporary pins/ranges to selection;
                             // the original bound model keeps registry and scoring identities.
                             let r = crate::list_construction::construction_impl_monitored(
-                                None,
+                                monitor,
                                 repair,
                                 initial,
                                 config,
@@ -765,12 +765,12 @@ pub(crate) fn mixed<
                         config,
                         Some(&mut best),
                         time.monitor(),
-                        |repair, initial, config| {
+                        |repair, initial, config, monitor| {
                             let mut director = director.borrow_mut();
                             // The repair model supplies temporary pins/ranges to selection;
                             // the original bound model keeps registry and scoring identities.
                             let r = crate::mixed_construction::construction_impl_monitored(
-                                None,
+                                monitor,
                                 repair,
                                 initial,
                                 MixedConstructionConfig {

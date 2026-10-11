@@ -93,6 +93,7 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         &P,
         P::Assignment,
         ConstructionConfig,
+        Option<&mut dyn crate::time_limit::SearchControl<S>>,
     ) -> Result<Repair<P::Assignment, S>, RuinRecreateError>,
 ) -> Result<RuinRecreateOutcome<(P::Assignment, S)>, RuinRecreateError> {
     let move_counter = crate::move_metrics::from_control(&shared);
@@ -153,7 +154,9 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         assert_step_scores: config.assert_step_scores,
         ..Default::default()
     };
-    let initial = rebuild(problem, initial, construction)?;
+    let initial = crate::score_evaluations::rebuilding(&mut shared, |monitor| {
+        rebuild(problem, initial, construction, monitor)
+    })?;
     result.evaluations = initial.evaluations;
     result.constraint_evaluations = initial.constraint_evaluations;
     let Some(mut current) = initial.solution() else {
@@ -346,19 +349,22 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             random.shuffle(movable);
             let repair = problem.repair(&current.0, &movable[..count])?;
             result.attempts += 1;
-            let candidate = rebuild(
-                &repair,
-                repair.initial(),
-                ConstructionConfig {
-                    max_evaluations: config.max_evaluations - result.evaluations,
-                    max_move_evaluations: config.max_move_evaluations.map(|limit| {
-                        limit - result.repair_move_evaluations - result.fine_move_evaluations
-                    }),
-                    max_steps: None,
-                    max_time: remaining(),
-                    ..construction
-                },
-            )?;
+            let candidate = crate::score_evaluations::rebuilding(&mut shared, |monitor| {
+                rebuild(
+                    &repair,
+                    repair.initial(),
+                    ConstructionConfig {
+                        max_evaluations: config.max_evaluations - result.evaluations,
+                        max_move_evaluations: config.max_move_evaluations.map(|limit| {
+                            limit - result.repair_move_evaluations - result.fine_move_evaluations
+                        }),
+                        max_steps: None,
+                        max_time: remaining(),
+                        ..construction
+                    },
+                    monitor,
+                )
+            })?;
             result.repair_move_evaluations += candidate.evaluations.saturating_sub(1);
             if let Some(counter) = &move_counter {
                 counter.add(
@@ -373,17 +379,20 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
         } else {
             let next = problem.apply_fine(&current.0, &movement.expect("selected fine move"))?;
             result.fine_move_attempts += 1;
-            let candidate = rebuild(
-                problem,
-                next,
-                ConstructionConfig {
-                    max_evaluations: 1,
-                    max_move_evaluations: Some(0),
-                    max_steps: Some(0),
-                    max_time: remaining(),
-                    ..construction
-                },
-            )?;
+            let candidate = crate::score_evaluations::rebuilding(&mut shared, |monitor| {
+                rebuild(
+                    problem,
+                    next,
+                    ConstructionConfig {
+                        max_evaluations: 1,
+                        max_move_evaluations: Some(0),
+                        max_steps: Some(0),
+                        max_time: remaining(),
+                        ..construction
+                    },
+                    monitor,
+                )
+            })?;
             result.fine_move_evaluations += candidate.evaluations;
             if let Some(counter) = &move_counter {
                 counter.add(crate::MoveEvaluationKind::FineRepair, candidate.evaluations);

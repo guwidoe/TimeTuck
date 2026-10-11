@@ -341,9 +341,17 @@ pub(crate) fn ruin_recreate_search_from_observed<V: Eq + Clone, S: AdditiveScore
         })
         .into());
     }
-    run(problem, initial, config, observer, shared, |p, a, c| {
-        greedy_construction_from(p, network, a, c).map_err(LocalSearchError::from)
-    })
+    run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, c, monitor| {
+            crate::construction::greedy_construction_from_monitored(monitor, p, network, a, c)
+                .map_err(LocalSearchError::from)
+        },
+    )
 }
 
 /// A fresh graph is required for initialization and each repair or fine-move score.
@@ -397,15 +405,25 @@ pub(crate) fn ruin_recreate_stream_search_from_observed<
     observer: crate::ruin_engine::RepairObserver<'_, Assignment<V>, S>,
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
-    run(problem, initial, config, observer, shared, |p, a, mut c| {
-        let start = c.max_time.map(|_| Instant::now());
-        let (graph, source) =
-            graph().map_err(|e| LocalSearchError::from(StreamScoringError::from(e)))?;
-        if let (Some(limit), Some(start)) = (c.max_time, start) {
-            c.max_time = Some(limit.saturating_sub(start.elapsed()));
-        }
-        greedy_stream_construction_from(p, graph, source, a, c).map_err(LocalSearchError::from)
-    })
+    run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, mut c, monitor| {
+            let start = c.max_time.map(|_| Instant::now());
+            let (graph, source) =
+                graph().map_err(|e| LocalSearchError::from(StreamScoringError::from(e)))?;
+            if let (Some(limit), Some(start)) = (c.max_time, start) {
+                c.max_time = Some(limit.saturating_sub(start.elapsed()));
+            }
+            crate::stream_scoring::greedy_stream_construction_from_monitored(
+                monitor, p, graph, source, a, c,
+            )
+            .map_err(LocalSearchError::from)
+        },
+    )
 }
 
 fn run<V: Eq + Clone, S: AdditiveScore>(
@@ -418,18 +436,26 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
         &FiniteProblem<V>,
         Assignment<V>,
         ConstructionConfig,
+        Option<&mut dyn crate::time_limit::SearchControl<S>>,
     ) -> Result<ConstructionResult<V, S>, LocalSearchError>,
 ) -> Result<RuinRecreateResult<V, S>, RuinRecreateError> {
-    crate::ruin_engine::run(problem, initial, config, observer, shared, |p, a, c| {
-        let r = rebuild(p, a, c)?;
-        Ok(crate::ruin_engine::Repair {
-            assignment: r.assignment,
-            score: r.score,
-            complete: r.complete,
-            evaluations: r.evaluations,
-            constraint_evaluations: r.constraint_evaluations,
-        })
-    })
+    crate::ruin_engine::run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, c, monitor| {
+            let r = rebuild(p, a, c, monitor)?;
+            Ok(crate::ruin_engine::Repair {
+                assignment: r.assignment,
+                score: r.score,
+                complete: r.complete,
+                evaluations: r.evaluations,
+                constraint_evaluations: r.constraint_evaluations,
+            })
+        },
+    )
     .map(|r| r.map(|(assignment, score)| ScoredAssignment { assignment, score }))
 }
 impl<V: Eq + Clone> crate::ruin_engine::RepairModel for FiniteProblem<V> {

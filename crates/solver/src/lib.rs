@@ -1273,6 +1273,7 @@ pub use score_json::{
 };
 
 mod move_metrics;
+mod score_evaluations;
 pub use move_metrics::{MoveEvaluationCounts, MoveEvaluationKind};
 mod solver_metrics;
 pub use solver_metrics::{

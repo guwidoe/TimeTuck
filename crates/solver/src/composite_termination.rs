@@ -86,6 +86,11 @@ pub enum SearchLimit {
     /// Reconstruction publishes its candidates after each rebuild, so a rebuild
     /// may cross this cooperative threshold; use max_move_evaluations for a hard cap.
     MoveEvaluations(u64),
+    /// Scored states across all phases, including every phase/rebuild initialization
+    /// and bounded-search node. Diagnostics, explanations and graph preparation are
+    /// excluded. Custom operations follow SolverWork's attempted-operation accounting.
+    /// Polled between candidates, including inside reconstruction scans.
+    ScoreEvaluations(u64),
     /// Evaluated candidates of one native family, including rejected candidates.
     /// Composite moves count once under their composite family, not per child.
     MoveEvaluationsOf {
@@ -122,6 +127,7 @@ pub struct SearchProgress {
     pub construction_steps: u64,
     /// Live candidate counts since solve entry, shared across phase handoffs.
     pub move_evaluations: crate::MoveEvaluationCounts,
+    pub score_evaluations: u64,
     pub unimproved_steps: Option<u64>,
     pub unimproved_time: Option<Duration>,
 }
@@ -132,6 +138,10 @@ impl SearchLimit {
             Self::Steps(n) => (
                 StepCountLimit::new(n).is_reached(progress.completed_steps),
                 StepCountLimit::new(n).progress(progress.completed_steps),
+            ),
+            Self::ScoreEvaluations(n) => (
+                StepCountLimit::new(n).is_reached(progress.score_evaluations),
+                StepCountLimit::new(n).progress(progress.score_evaluations),
             ),
             Self::MoveEvaluations(n) => (
                 StepCountLimit::new(n).is_reached(progress.move_evaluations.total()),
@@ -190,6 +200,15 @@ impl SearchLimit {
     }
 }
 impl SearchTermination<'_> {
+    pub(crate) fn needs_score_counts(&self) -> bool {
+        match self {
+            Self::Condition(SearchLimit::ScoreEvaluations(_)) => true,
+            Self::Condition(_) => false,
+            Self::All(children) | Self::Any(children) => {
+                children.iter().any(Self::needs_score_counts)
+            }
+        }
+    }
     pub(crate) fn needs_move_counts(&self) -> bool {
         match self {
             Self::Condition(

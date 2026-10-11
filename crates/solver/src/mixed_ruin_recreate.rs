@@ -87,9 +87,19 @@ pub(crate) fn ruin_recreate_mixed_search_from_observed<
     network
         .validate(problem, &initial)
         .map_err(MixedLocalSearchError::from)?;
-    run(problem, initial, config, observer, shared, |p, a, c| {
-        greedy_mixed_construction_from(p, network, a, c).map_err(MixedLocalSearchError::from)
-    })
+    run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, c, monitor| {
+            crate::mixed_construction::greedy_mixed_construction_from_monitored(
+                monitor, p, network, a, c,
+            )
+            .map_err(MixedLocalSearchError::from)
+        },
+    )
 }
 /// Stream counterpart, rebuilding the coupled graph for initialization and each
 /// repair or fine-move score. Factory work consumes the cooperative time budget. Validation and
@@ -148,16 +158,25 @@ pub(crate) fn ruin_recreate_mixed_stream_search_from_observed<
     observer: crate::ruin_engine::RepairObserver<'_, MixedAssignment<B, L>, S>,
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
-    run(problem, initial, config, observer, shared, |p, a, mut c| {
-        let start = c.construction.max_time.map(|_| Instant::now());
-        let (graph, sources) =
-            graph().map_err(|e| MixedLocalSearchError::from(MixedStreamScoringError::from(e)))?;
-        if let (Some(limit), Some(start)) = (c.construction.max_time, start) {
-            c.construction.max_time = Some(limit.saturating_sub(start.elapsed()));
-        }
-        greedy_mixed_stream_construction_from(p, graph, sources, a, c)
+    run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, mut c, monitor| {
+            let start = c.construction.max_time.map(|_| Instant::now());
+            let (graph, sources) = graph()
+                .map_err(|e| MixedLocalSearchError::from(MixedStreamScoringError::from(e)))?;
+            if let (Some(limit), Some(start)) = (c.construction.max_time, start) {
+                c.construction.max_time = Some(limit.saturating_sub(start.elapsed()));
+            }
+            crate::mixed_stream_scoring::greedy_mixed_stream_construction_from_monitored(
+                monitor, p, graph, sources, a, c,
+            )
             .map_err(MixedLocalSearchError::from)
-    })
+        },
+    )
 }
 fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
     problem: &MixedProblem<B, L>,
@@ -169,6 +188,7 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
         &MixedProblem<B, L>,
         MixedAssignment<B, L>,
         MixedConstructionConfig,
+        Option<&mut dyn crate::time_limit::SearchControl<S>>,
     ) -> Result<MixedConstructionResult<B, L, S>, MixedLocalSearchError>,
 ) -> Result<MixedRuinRecreateResult<B, L, S>, RuinRecreateError> {
     crate::ruin_engine::run(
@@ -177,7 +197,7 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
         config.search,
         observer,
         shared,
-        |p, a, construction| {
+        |p, a, construction, monitor| {
             let r = rebuild(
                 p,
                 a,
@@ -185,6 +205,7 @@ fn run<B: Eq + Clone, L: Eq + Clone, S: AdditiveScore>(
                     construction,
                     order: config.order,
                 },
+                monitor,
             )?;
             Ok(crate::ruin_engine::Repair {
                 assignment: r.assignment,

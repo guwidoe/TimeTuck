@@ -476,8 +476,8 @@ fn basic_repair<
         config,
         observer,
         shared,
-        |p, a, construction| {
-            let r = calculator_construction(p, a, factory, construction)
+        |p, a, construction, monitor| {
+            let r = basic_construction(monitor, p, factory, a, construction, None)
                 .map_err(LocalSearchError::from)?;
             Ok(crate::ruin_engine::Repair {
                 assignment: r.assignment,
@@ -947,8 +947,8 @@ fn list_repair<
         config,
         observer,
         shared,
-        |p, a, construction| {
-            let r = list_calculator_construction(p, a, factory, construction)
+        |p, a, construction, monitor| {
+            let r = list_construction(monitor, p, factory, a, construction, None)
                 .map_err(ListLocalSearchError::from)?;
             Ok(crate::ruin_engine::Repair {
                 assignment: r.assignment,
@@ -1443,15 +1443,17 @@ fn mixed_repair<
         config.search,
         observer,
         shared,
-        |p, a, construction| {
-            let r = mixed_calculator_construction(
+        |p, a, construction, monitor| {
+            let r = mixed_construction(
+                monitor,
                 p,
-                a,
                 factory,
+                a,
                 MixedConstructionConfig {
                     construction,
                     order: config.order,
                 },
+                None,
             )
             .map_err(MixedLocalSearchError::from)?;
             Ok(crate::ruin_engine::Repair {

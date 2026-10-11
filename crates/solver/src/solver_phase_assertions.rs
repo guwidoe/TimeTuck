@@ -21,6 +21,7 @@ pub(super) fn verify<A: Clone, S: AdditiveScore, E>(
     let mut clock = || Duration::ZERO;
     let mut time = SolveControl {
         move_counter: None,
+        score_counter: None,
         step_metrics: None,
         metric_phase: None,
         metric_step: 0,

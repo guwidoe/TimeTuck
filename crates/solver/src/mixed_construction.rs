@@ -146,6 +146,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
 ) -> Result<MixedConstructionResult<B, L, S>, D::Error> {
     let mut shared = shared;
     let move_counter = crate::move_metrics::from_control(&shared);
+    let score_counter = crate::score_evaluations::from_control(&shared);
     let mut time = crate::time_limit::TimeBudget::new(settings.construction.max_time, None, clock);
     let config = settings.construction;
     problem.validate(&initial).map_err(D::Error::from)?;
@@ -174,6 +175,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
         return Ok(result);
     }
     let mut director = make_director(initial)?;
+    crate::score_evaluations::record(&score_counter);
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
     if config.assert_scores || config.assert_step_scores {
@@ -255,6 +257,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     budget.remaining,
                     false,
                     |movement, score| {
+                        crate::score_evaluations::record(&score_counter);
                         crate::move_metrics::record(&move_counter, movement);
                         if config.optional == crate::OptionalConstruction::EvaluateUnassigned {
                             return true;
@@ -308,6 +311,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     budget.remaining,
                     false,
                     |movement, score| {
+                        crate::score_evaluations::record(&score_counter);
                         crate::move_metrics::record(&move_counter, movement);
                         if config.optional == crate::OptionalConstruction::EvaluateUnassigned {
                             return true;
@@ -365,6 +369,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                             budget.remaining,
                             false,
                             |movement, score| {
+                                crate::score_evaluations::record(&score_counter);
                                 crate::move_metrics::record(&move_counter, movement);
                                 config.optional == crate::OptionalConstruction::EvaluateUnassigned
                                     || !variable.allows_unassigned()
@@ -414,6 +419,7 @@ pub(crate) fn construction_impl_with_clock_monitored<
                             budget.remaining,
                             false,
                             |movement, score| {
+                                crate::score_evaluations::record(&score_counter);
                                 crate::move_metrics::record(&move_counter, movement);
                                 config.optional == crate::OptionalConstruction::EvaluateUnassigned
                                     || !lists.allows_unassigned()

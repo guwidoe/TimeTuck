@@ -79,9 +79,19 @@ pub(crate) fn ruin_recreate_list_search_from_observed<V: Eq + Clone, S: Additive
     network
         .validate(problem, &initial)
         .map_err(ListLocalSearchError::from)?;
-    run(problem, initial, config, observer, shared, |p, a, c| {
-        greedy_list_construction_from(p, network, a, c).map_err(ListLocalSearchError::from)
-    })
+    run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, c, monitor| {
+            crate::list_construction::greedy_list_construction_from_monitored(
+                monitor, p, network, a, c,
+            )
+            .map_err(ListLocalSearchError::from)
+        },
+    )
 }
 /// Stream counterpart with a fresh graph for initialization and each repair/fine score.
 /// Factory work is included in the cooperative time budget. No factories run
@@ -137,16 +147,25 @@ pub(crate) fn ruin_recreate_list_stream_search_from_observed<
     observer: crate::ruin_engine::RepairObserver<'_, ListAssignment<V>, S>,
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
-    run(problem, initial, config, observer, shared, |p, a, mut c| {
-        let start = c.max_time.map(|_| Instant::now());
-        let (graph, sources) =
-            graph().map_err(|e| ListLocalSearchError::from(ListStreamScoringError::from(e)))?;
-        if let (Some(limit), Some(start)) = (c.max_time, start) {
-            c.max_time = Some(limit.saturating_sub(start.elapsed()));
-        }
-        greedy_list_stream_construction_from(p, graph, sources, a, c)
+    run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, mut c, monitor| {
+            let start = c.max_time.map(|_| Instant::now());
+            let (graph, sources) =
+                graph().map_err(|e| ListLocalSearchError::from(ListStreamScoringError::from(e)))?;
+            if let (Some(limit), Some(start)) = (c.max_time, start) {
+                c.max_time = Some(limit.saturating_sub(start.elapsed()));
+            }
+            crate::list_stream_scoring::greedy_list_stream_construction_from_monitored(
+                monitor, p, graph, sources, a, c,
+            )
             .map_err(ListLocalSearchError::from)
-    })
+        },
+    )
 }
 fn run<V: Eq + Clone, S: AdditiveScore>(
     problem: &ListProblem<V>,
@@ -158,18 +177,26 @@ fn run<V: Eq + Clone, S: AdditiveScore>(
         &ListProblem<V>,
         ListAssignment<V>,
         ConstructionConfig,
+        Option<&mut dyn crate::time_limit::SearchControl<S>>,
     ) -> Result<ListConstructionResult<V, S>, ListLocalSearchError>,
 ) -> Result<ListRuinRecreateResult<V, S>, RuinRecreateError> {
-    crate::ruin_engine::run(problem, initial, config, observer, shared, |p, a, c| {
-        let r = rebuild(p, a, c)?;
-        Ok(crate::ruin_engine::Repair {
-            assignment: r.assignment,
-            score: r.score,
-            complete: r.complete,
-            evaluations: r.evaluations,
-            constraint_evaluations: r.constraint_evaluations,
-        })
-    })
+    crate::ruin_engine::run(
+        problem,
+        initial,
+        config,
+        observer,
+        shared,
+        |p, a, c, monitor| {
+            let r = rebuild(p, a, c, monitor)?;
+            Ok(crate::ruin_engine::Repair {
+                assignment: r.assignment,
+                score: r.score,
+                complete: r.complete,
+                evaluations: r.evaluations,
+                constraint_evaluations: r.constraint_evaluations,
+            })
+        },
+    )
     .map(|r| r.map(|(assignment, score)| ScoredListAssignment { assignment, score }))
 }
 impl<V: Eq + Clone> crate::ruin_engine::RepairModel for ListProblem<V> {

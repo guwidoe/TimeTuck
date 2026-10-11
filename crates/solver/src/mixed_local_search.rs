@@ -223,6 +223,7 @@ where
     let config = settings.search;
     let joint_moves = settings.joint_moves;
     let move_counter = crate::move_metrics::from_control(&shared);
+    let score_counter = crate::score_evaluations::from_control(&shared);
     let mut time_budget = crate::diminished_returns::LocalTimeBudget::new(&config, clock, shared)?;
     config.validate_acceptance()?;
     problem.validate(&initial).map_err(D::Error::from)?;
@@ -274,6 +275,7 @@ where
             Some(SplitMix64::new(seed))
         }
     };
+    crate::score_evaluations::record(&score_counter);
     result.evaluations = 1;
     result.constraint_evaluations = director.initial_constraint_evaluations();
     result.best = Some(ScoredMixedAssignment {
@@ -368,6 +370,7 @@ where
                 progress.completed_steps(),
             ),
             |movement, score| {
+                crate::score_evaluations::record(&score_counter);
                 crate::move_metrics::record(&move_counter, movement);
                 let keys = if tracks_entities {
                     tabu_keys(movement, problem.basic().variables().len())
