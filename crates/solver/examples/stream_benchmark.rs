@@ -156,7 +156,7 @@ mod tests {
                 network.source,
                 LocalSearchConfig {
                     acceptance: Acceptance::HillClimbing,
-                    neighborhood,
+                    neighborhood: neighborhood.clone(),
                     max_steps: 4,
                     max_evaluations: evaluation_budget(&case, neighborhood, 4).unwrap(),
                     max_accepted_moves: u64::MAX,
