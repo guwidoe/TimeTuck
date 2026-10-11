@@ -4,8 +4,8 @@
 
 Build an independent Rust constraint optimization solver using pinned Timefold
 Community tests/public APIs as specifications, with a visual compatibility and
-performance dashboard. Objective incomplete; goal tool currently reports paused.
-Do not claim it is active or use update_goal to resume it. Never copy or translate
+performance dashboard. Objective incomplete; goal tool confirmed active this turn.
+Keep pursuing the full objective; this batch is not completion. Never copy or translate
 upstream production; Community only, no formal clean-room claim. Upstream pin
 remains v2.7.0, `8b815bc6b5f3eb81feedc94dea0885a93b267762`.
 
@@ -16,23 +16,38 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round30
+## Latest verified checkpoint — round31
 
-Main5b11ce8 combined runner-c gate44932 and collector27544 passed:
+Main cb00f67 adds lossless TimeLimitSpec/TimeLimitUnits to existing
+TerminationProfile: whole-group replacement/fallback, checked additive units,
+zero/empty handling and configured-state queries. Normalization happens once
+before binding; solver evaluation loops retain their existing Duration controls.
+Six complete configuration methods and four duration factory methods have full
+provenance. Four original regressions cover boundaries and actual clocked solves;
+all 40 focused old/new profile cases passed on runner-c.
 
-- 6,490 Rust tests and 278 doctests.
-- 3,389/4,855 upstream methods passing (69.804%);900pending,566excluded,
-  zero failed/unverified. Backlog reduced21 methods without changing exclusions.
-- 834Rust jobs ran,104Rust and46Python jobs reused unchanged runner-c evidence.
-- Source `22a239b29e837e9d1f9b622bdd35849865f272d051ea8ed504e900e4bdaf3ade`.
-- Verification `1dd3a2677acaf0a31c5f0335d07299a8b886f1729da80567a50d01d49ede90a6`.
-- Evidence `work/parallel-round30-evidence.json`, frozen input metadata, original
-  remote manifest/log and downloaded results archive. Round29 is also verified:
-  6463Rust/278docs,3368source methods; do not repeat either completed gate.
+The final runner-c gate 27260 and collector 76531 passed on frozen inputs:
+
+- 6,504 Rust tests and 278 doctests.
+- 3,399/4,855 source methods passing (70.010%); 890 pending, 566 excluded,
+  zero failed/unverified. Backlog 900→890, exclusions unchanged.
+- 10 Rust jobs ran; 930 Rust and 46 Python jobs reused unchanged runner-c evidence.
+- Source `188255bbc857d84cf48ee39b16e4508c5a5cc75475fc134608000bd49a0772c0`.
+- Verification `a09f8b9e16f0b720e67a198f67a899d965ad3e688e29292114771b7325c94590`.
+- Evidence work/parallel-round31-evidence.json and freeze metadata; original
+  manifest/log and downloaded results archive retained. Gate took 106 seconds.
+- Initial prebuild caught a needless update in a new test; fixed before the final
+  snapshot. Failed-clippy log/manifest retained; no passing evidence relabeled.
 
 Dashboard http://localhost:8765 is current. Reuse its server. Backend-only report
 refreshes need report/freshness inspection, not browser/Impeccable. Original-Java
-list measurements remain visibly stale; native focused timing claims are separate.
+list measurements remain visibly stale. No new performance claim in this batch.
+Do not repeat this gate without relevant changed inputs or unresolved concerns.
+
+Prior round30 also passed: 6,490 Rust/278 docs, 3,389 source methods, 900 pending.
+All completed agent work is integrated and committed. No new subagents or follow-up
+assignments. Continue closing complete pending Community cases while preserving
+native performance. The full objective remains incomplete and active.
 
 ## Verified implementation batch — round28
 
