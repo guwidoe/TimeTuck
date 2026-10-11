@@ -3,6 +3,7 @@
 //! Values use stable `Eq` identities. Owner, index and neighbor views are derived
 //! from the lists, so they cannot become stale after a move or rollback.
 
+mod assigned_membership;
 pub(crate) mod move_check;
 mod value_index;
 
@@ -507,8 +508,9 @@ impl<V: Eq + Clone> ListProblem<V> {
     ) -> Result<AppliedListMove<'a, V>, ListError> {
         // Save before any mutation. Invalid entities are diagnosed by the normal
         // operation checks, retaining their ordering relative to earlier errors.
-        let saved = movement
-            .touched_entities()
+        let (entities, assignments) = movement.application_entities();
+        let mut membership = assigned_membership::AssignedMembership::new(self, assignments);
+        let saved = entities
             .into_iter()
             .filter_map(|entity| assignment.lists.get(entity).map(|v| (entity, v.clone())))
             .collect();
@@ -522,7 +524,7 @@ impl<V: Eq + Clone> ListProblem<V> {
             match step {
                 ListMove::Assign { value, destination } => {
                     transaction.insertion(*destination, false)?;
-                    if transaction.location(value).is_some() {
+                    if membership.contains(self, &transaction, value) {
                         return Err(ListError::AlreadyAssigned);
                     }
                     if !self.contains_value(value) {
@@ -535,6 +537,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                     record(value);
                     transaction.assignment.lists[destination.entity]
                         .insert(destination.index, value.clone());
+                    membership.insert(self, value);
                 }
                 ListMove::Change {
                     source,
@@ -667,6 +670,7 @@ impl<V: Eq + Clone> ListProblem<V> {
                     }
                     for value in &list[*start..*end] {
                         record(value);
+                        membership.remove(self, value);
                     }
                     list.drain(*start..*end);
                 }
@@ -750,11 +754,18 @@ pub enum ListMove<V> {
 }
 impl<V> ListMove<V> {
     pub fn touched_entities(&self) -> Vec<usize> {
+        self.application_entities().0
+    }
+    fn application_entities(&self) -> (Vec<usize>, usize) {
+        let mut assignments = 0;
         let mut pending = vec![self];
         let mut entities = Vec::new();
         while let Some(step) = pending.pop() {
             match step {
-                Self::Assign { destination, .. } => entities.push(destination.entity),
+                Self::Assign { destination, .. } => {
+                    entities.push(destination.entity);
+                    assignments += 1;
+                }
                 Self::Change {
                     source,
                     destination,
@@ -774,7 +785,7 @@ impl<V> ListMove<V> {
         }
         entities.sort_unstable();
         entities.dedup();
-        entities
+        (entities, assignments)
     }
 }
 
