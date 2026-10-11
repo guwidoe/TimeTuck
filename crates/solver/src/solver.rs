@@ -429,6 +429,7 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     lifecycle: crate::solver_lifecycle::Lifecycle<'c>,
     condition: Option<&'c SearchTermination<'c>>,
     scored_condition: Option<&'c crate::ScoredSearchTermination<'c, S>>,
+    stateful_condition: Option<crate::StatefulTerminationSession<'c, S>>,
     condition_needs_best: bool,
     condition_best: Option<S>,
     condition_expired: bool,
@@ -462,7 +463,10 @@ impl<S: Score> SolveControl<'_, S> {
         construction_score: Option<&S>,
         pending: u64,
     ) -> bool {
-        if self.condition.is_some() || self.scored_condition.is_some() {
+        if self.condition.is_some()
+            || self.scored_condition.is_some()
+            || self.stateful_condition.is_some()
+        {
             self.sample();
             let progress = SearchProgress {
                 elapsed: self.last,
@@ -481,6 +485,16 @@ impl<S: Score> SolveControl<'_, S> {
                 unimproved_steps: self.started.then(|| self.steps.unimproved_steps()),
                 unimproved_time: self.last_improvement.map(|last| self.last - last),
             };
+            let best = self
+                .condition_best
+                .as_ref()
+                .into_iter()
+                .chain(construction_score)
+                .max();
+            let stateful_reached = self
+                .stateful_condition
+                .as_mut()
+                .is_some_and(|session| session.status(progress, best).is_some_and(|s| s.reached));
             self.condition_expired |= self
                 .condition
                 .is_some_and(|c| c.status(progress).is_some_and(|s| s.reached))
@@ -495,6 +509,7 @@ impl<S: Score> SolveControl<'_, S> {
                     )
                     .is_some_and(|s| s.reached)
                 });
+            self.condition_expired |= stateful_reached;
         }
         self.condition_expired
     }
@@ -554,7 +569,9 @@ impl<S: Score> SolveControl<'_, S> {
         self.steps_expired
     }
     fn construction_monitor(&mut self) -> Option<&mut dyn crate::time_limit::SearchControl<S>> {
-        ((self.condition.is_some() || self.scored_condition.is_some())
+        ((self.condition.is_some()
+            || self.scored_condition.is_some()
+            || self.stateful_condition.is_some())
             || self.lifecycle.enabled()
             || self.move_counter.is_some()
             || self.clock_session.is_some()
@@ -567,7 +584,9 @@ impl<S: Score> SolveControl<'_, S> {
             || self.clock_session.is_some()
             || self.move_counter.is_some()
             || self.lifecycle.enabled()
-            || (self.condition.is_some() || self.scored_condition.is_some())
+            || (self.condition.is_some()
+                || self.scored_condition.is_some()
+                || self.stateful_condition.is_some())
             || self.significant.is_some()
             || self.unimproved_limit.is_some()
             || self.unimproved_steps_limit.is_some()
@@ -612,6 +631,7 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
     fn monitors_rebuild_conditions(&self) -> bool {
         self.condition.is_some()
             || self.scored_condition.is_some()
+            || self.stateful_condition.is_some()
             || self.phase_condition.is_some()
     }
     fn monitors_reconstruction_moves(&self) -> bool {
@@ -693,6 +713,20 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         }
     }
     fn observe_best_score(&mut self, score: &S) {
+        if self.stateful_condition.is_some()
+            || self
+                .phase_condition
+                .as_ref()
+                .is_some_and(|p| p.needs_history())
+        {
+            self.sample();
+            if let Some(session) = &mut self.stateful_condition {
+                session.observe_best(self.last, score);
+            }
+            if let Some(phase) = &mut self.phase_condition {
+                phase.observe_history(self.last, score);
+            }
+        }
         if self.started && self.significant.is_some() {
             self.sample();
             let limit = self.significant.as_mut().unwrap();
@@ -712,8 +746,24 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
             self.sample();
             self.phase_condition.as_mut().unwrap().last_improvement = Some(self.last);
         }
+        if self.stateful_condition.is_some()
+            || self
+                .phase_condition
+                .as_ref()
+                .is_some_and(|p| p.needs_history())
+        {
+            self.sample();
+            if let Some(session) = &mut self.stateful_condition {
+                session.start_search(self.last);
+            }
+            if let Some(phase) = &mut self.phase_condition {
+                phase.start_history(self.last);
+            }
+        }
         self.started = true;
-        if ((self.condition.is_some() || self.scored_condition.is_some())
+        if ((self.condition.is_some()
+            || self.scored_condition.is_some()
+            || self.stateful_condition.is_some())
             || self.unimproved_limit.is_some())
             && self.last_improvement.is_none()
         {
@@ -747,7 +797,9 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
             phase.steps.complete_step(improved);
         }
         self.phase_reached(None, 0);
-        if ((self.condition.is_some() || self.scored_condition.is_some())
+        if ((self.condition.is_some()
+            || self.scored_condition.is_some()
+            || self.stateful_condition.is_some())
             || self.unimproved_steps_limit.is_some())
             && !self.step_stagnated()
         {
@@ -880,9 +932,11 @@ enum PlanCallback<'a, A, S> {
         failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
         clock: Option<&'a crate::SolverClock>,
         phase_terminations: &'a [crate::PhaseTerminationBinding<'a, S>],
+        stateful_termination: Option<&'a crate::StatefulSearchTermination<'a, S>>,
     },
 }
 impl<'a, A, S> PlanCallback<'a, A, S> {
+    #[allow(clippy::too_many_arguments)]
     fn extensions(
         events: Option<&'a mut crate::SolverEventCallback<'a, A, S>>,
         check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
@@ -891,6 +945,7 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
         failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
         clock: Option<&'a crate::SolverClock>,
         phase_terminations: &'a [crate::PhaseTerminationBinding<'a, S>],
+        stateful_termination: Option<&'a crate::StatefulSearchTermination<'a, S>>,
     ) -> Option<Self> {
         if check.is_some()
             || lifecycle.is_some()
@@ -898,6 +953,7 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
             || failure.is_some()
             || clock.is_some()
             || !phase_terminations.is_empty()
+            || stateful_termination.is_some()
         {
             Some(Self::Checked {
                 events,
@@ -907,6 +963,7 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
                 failure,
                 clock,
                 phase_terminations,
+                stateful_termination,
             })
         } else {
             events.map(Self::Events)
@@ -924,6 +981,15 @@ struct PlanObservation<'a, A, S> {
     clock_session: Option<crate::solver_clock::ClockSession>,
 }
 impl<'a, A, S: Score> PlanObservation<'a, A, S> {
+    fn stateful_condition(&self) -> Option<&'a crate::StatefulSearchTermination<'a, S>> {
+        match &self.callback {
+            Some(PlanCallback::Checked {
+                stateful_termination,
+                ..
+            }) => *stateful_termination,
+            _ => None,
+        }
+    }
     fn phase_bindings(&self) -> &'a [crate::PhaseTerminationBinding<'a, S>] {
         match &self.callback {
             Some(PlanCallback::Checked {
@@ -1186,7 +1252,8 @@ where
         }) => Some(crate::solver_clock::ClockSession::new(source)),
         _ => None,
     };
-    let enabled = !observation.phase_bindings().is_empty()
+    let enabled = observation.stateful_condition().is_some()
+        || !observation.phase_bindings().is_empty()
         || limits.termination.is_some()
         || limits.scored_termination.is_some()
         || limits.max_time.is_some()
@@ -1250,6 +1317,7 @@ where
     // solve clock and termination references to the caller's callback lifetime.
     observation.validate_bindings(local.len())?;
     let phase_bindings = observation.phase_bindings();
+    let stateful_condition = observation.stateful_condition();
     let mut callback = observation.take_lifecycle();
     let lifecycle_enabled = callback.is_some();
     let mut lifecycle_callback = |event| callback.as_mut().expect("enabled lifecycle")(event);
@@ -1263,6 +1331,7 @@ where
             || limits
                 .scored_termination
                 .is_some_and(crate::ScoredSearchTermination::needs_score_counts)
+            || stateful_condition.is_some_and(crate::StatefulSearchTermination::needs_scores)
             || phase_bindings.iter().any(|b| b.needs_scores()))
         .then(Default::default),
         step_metrics: None,
@@ -1273,9 +1342,11 @@ where
         ),
         condition: limits.termination,
         scored_condition: limits.scored_termination,
+        stateful_condition: stateful_condition.map(crate::StatefulTerminationSession::new),
         condition_needs_best: limits
             .scored_termination
-            .is_some_and(crate::ScoredSearchTermination::needs_best_score),
+            .is_some_and(crate::ScoredSearchTermination::needs_best_score)
+            || stateful_condition.is_some_and(crate::StatefulSearchTermination::needs_best),
         condition_best: None,
         condition_expired: false,
         condition_uses_moves: limits
@@ -1283,7 +1354,8 @@ where
             .is_some_and(SearchTermination::needs_move_counts)
             || limits
                 .scored_termination
-                .is_some_and(crate::ScoredSearchTermination::needs_move_counts),
+                .is_some_and(crate::ScoredSearchTermination::needs_move_counts)
+            || stateful_condition.is_some_and(crate::StatefulSearchTermination::needs_moves),
         limit: limits.max_time,
         clock,
         clock_session: observation.clock_session.clone(),
@@ -4237,6 +4309,7 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.failure,
             extensions.clock,
             extensions.phase_terminations,
+            extensions.stateful_termination,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4269,6 +4342,7 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.failure,
             extensions.clock,
             extensions.phase_terminations,
+            extensions.stateful_termination,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4294,6 +4368,7 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
             extensions.failure,
             extensions.clock,
             extensions.phase_terminations,
+            extensions.stateful_termination,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4326,6 +4401,7 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
             extensions.failure,
             extensions.clock,
             extensions.phase_terminations,
+            extensions.stateful_termination,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4363,6 +4439,7 @@ pub fn solve_list_stream_with_extensions<
             extensions.failure,
             extensions.clock,
             extensions.phase_terminations,
+            extensions.stateful_termination,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4394,6 +4471,7 @@ pub fn solve_mixed_stream_with_extensions<
             extensions.failure,
             extensions.clock,
             extensions.phase_terminations,
+            extensions.stateful_termination,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),

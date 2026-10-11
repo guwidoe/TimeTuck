@@ -269,7 +269,10 @@ pub struct SolverExtensions<'a, P, A, M, S, E> {
     pub command: Option<&'a mut SolverCommandCallback<'a, A, M, S, E>>,
     /// Optional common clock for solve and phase budgets; see [`crate::SolverClock`].
     pub clock: Option<&'a crate::SolverClock>,
-    /// Composed phase-local limits; see [`crate::PhaseTerminationBinding`].
+    /// Optional solve-wide expression with independent retained-score histories.
+    /// Existing hard and static limits remain independent safeguards.
+    pub stateful_termination: Option<&'a crate::StatefulSearchTermination<'a, S>>,
+    /// Composed phase-local limits, reset and removed at each bound phase.
     pub phase_terminations: &'a [crate::PhaseTerminationBinding<'a, S>],
     pub events: Option<&'a mut SolverEventCallback<'a, A, S>>,
     /// Optional solve/phase/step notifications. Omit on a later solve to detach.
@@ -288,6 +291,7 @@ impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
             events: None,
             clock: None,
             phase_terminations: &[],
+            stateful_termination: None,
             score_check: None,
             failure: None,
             lifecycle: None,

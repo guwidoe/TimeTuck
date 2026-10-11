@@ -237,6 +237,7 @@ mod tests {
             lifecycle: Default::default(),
             condition: None,
             scored_condition: None,
+            stateful_condition: None,
             condition_needs_best: false,
             condition_best: None,
             condition_expired: false,

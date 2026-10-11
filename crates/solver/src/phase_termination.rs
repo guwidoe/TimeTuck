@@ -26,6 +26,7 @@ pub struct PhaseTerminationBinding<'a, S = crate::SimpleScore> {
     pub(crate) phase: usize,
     pub(crate) search: Option<&'a SearchTermination<'a>>,
     pub(crate) scored: Option<&'a ScoredSearchTermination<'a, S>>,
+    pub(crate) stateful: Option<&'a crate::StatefulSearchTermination<'a, S>>,
 }
 impl<'a, S> PhaseTerminationBinding<'a, S> {
     pub fn search(phase: usize, condition: &'a SearchTermination<'a>) -> Self {
@@ -33,6 +34,7 @@ impl<'a, S> PhaseTerminationBinding<'a, S> {
             phase,
             search: Some(condition),
             scored: None,
+            stateful: None,
         }
     }
     pub fn scored(phase: usize, condition: &'a ScoredSearchTermination<'a, S>) -> Self {
@@ -40,6 +42,15 @@ impl<'a, S> PhaseTerminationBinding<'a, S> {
             phase,
             search: None,
             scored: Some(condition),
+            stateful: None,
+        }
+    }
+    pub fn stateful(phase: usize, condition: &'a crate::StatefulSearchTermination<'a, S>) -> Self {
+        Self {
+            phase,
+            search: None,
+            scored: None,
+            stateful: Some(condition),
         }
     }
     pub fn phase(&self) -> usize {
@@ -53,6 +64,9 @@ impl<S: Score> PhaseTerminationBinding<'_, S> {
             || self
                 .scored
                 .is_some_and(ScoredSearchTermination::needs_score_counts)
+            || self
+                .stateful
+                .is_some_and(crate::StatefulSearchTermination::needs_scores)
     }
     pub(crate) fn needs_moves(&self) -> bool {
         self.search
@@ -60,15 +74,22 @@ impl<S: Score> PhaseTerminationBinding<'_, S> {
             || self
                 .scored
                 .is_some_and(ScoredSearchTermination::needs_move_counts)
+            || self
+                .stateful
+                .is_some_and(crate::StatefulSearchTermination::needs_moves)
     }
     pub(crate) fn needs_best(&self) -> bool {
         self.scored
             .is_some_and(ScoredSearchTermination::needs_best_score)
+            || self
+                .stateful
+                .is_some_and(crate::StatefulSearchTermination::needs_best)
     }
 }
 pub(crate) struct PhaseControl<'a, S> {
     pub(crate) binding: &'a PhaseTerminationBinding<'a, S>,
     origin: Duration,
+    stateful: Option<crate::StatefulTerminationSession<'a, S>>,
     scores: u64,
     moves: MoveEvaluationCounts,
     pub(crate) steps: StepProgress,
@@ -88,6 +109,7 @@ impl<'a, S: Score> PhaseControl<'a, S> {
         Self {
             binding,
             origin,
+            stateful: binding.stateful.map(crate::StatefulTerminationSession::new),
             scores,
             moves,
             steps: StepProgress::default(),
@@ -99,6 +121,21 @@ impl<'a, S: Score> PhaseControl<'a, S> {
                 None
             },
             expired: false,
+        }
+    }
+    pub(crate) fn needs_history(&self) -> bool {
+        self.binding
+            .stateful
+            .is_some_and(crate::StatefulSearchTermination::needs_history)
+    }
+    pub(crate) fn start_history(&mut self, now: Duration) {
+        if let Some(session) = &mut self.stateful {
+            session.start_search(now.saturating_sub(self.origin));
+        }
+    }
+    pub(crate) fn observe_history(&mut self, now: Duration, score: &S) {
+        if let Some(session) = &mut self.stateful {
+            session.observe_best(now.saturating_sub(self.origin), score);
         }
     }
     pub(crate) fn observe_best(&mut self, score: &S) {
@@ -125,6 +162,17 @@ impl<'a, S: Score> PhaseControl<'a, S> {
             unimproved_steps: self.last_improvement.map(|_| self.steps.unimproved_steps()),
             unimproved_time: self.last_improvement.map(|last| now.saturating_sub(last)),
         };
+        let best = self
+            .best
+            .as_ref()
+            .into_iter()
+            .chain(construction_score)
+            .max();
+        // Evaluate sessions before combining: no history update is short-circuited.
+        let stateful_reached = self
+            .stateful
+            .as_mut()
+            .is_some_and(|session| session.status(progress, best).is_some_and(|s| s.reached));
         self.expired |= self
             .binding
             .search
@@ -140,6 +188,7 @@ impl<'a, S: Score> PhaseControl<'a, S> {
                 )
                 .is_some_and(|s| s.reached)
             });
+        self.expired |= stateful_reached;
         self.expired
     }
 }
