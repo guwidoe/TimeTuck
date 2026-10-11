@@ -443,15 +443,17 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         let topology = DependencyTopology::new(0..self.nodes.len()).expect("unique node indices");
         let pending = (0..self.nodes.len()).collect();
         let entity_groups = EntityGroups::new(&self.nodes);
+        let fields = self.nodes.iter().map(|node| node.variable).collect();
         ShadowSession {
+            fields,
             entity_groups,
             last_changed: Rc::from([]),
             identity: self.identity,
             nodes: self.nodes,
-            edges: self.edges,
-            applied: BTreeSet::new(),
-            manual_applied: BTreeSet::new(),
-            resolved: vec![],
+            edges: Rc::new(self.edges),
+            applied: Rc::default(),
+            manual_applied: Rc::default(),
+            resolved: Rc::default(),
             pending,
             cache: DependencyCache::new(topology, |_, _| None),
         }
@@ -523,6 +525,8 @@ fn replace_dependencies<K, W>(
 /// reads. Checkpoints share non-Clone values and restore after registered inputs
 /// match again, invoking readers for validation but no derived suppliers. The
 /// session does not mutate assignments or apply Java setters automatically.
+/// Checkpoints share immutable edge sets and binding signatures as well as values;
+/// pending notification sets are copied. Manual rewires detach the shared edge set.
 ///
 /// ```
 /// use timetuck::*;
@@ -544,14 +548,15 @@ fn replace_dependencies<K, W>(
 /// # Ok::<(),Box<dyn std::error::Error>>(())
 /// ```
 pub struct ShadowSession<'a, 's, K, W> {
+    fields: Vec<PlanningVariableRef<'s>>,
     entity_groups: EntityGroups,
     last_changed: Rc<[ShadowNodeRef]>,
     identity: Rc<()>,
     nodes: Vec<Node<'a, 's, K, W>>,
-    edges: BTreeSet<(usize, usize)>,
-    applied: BTreeSet<(usize, usize)>,
-    manual_applied: BTreeSet<(usize, usize)>,
-    resolved: Vec<Option<Vec<usize>>>,
+    edges: Rc<BTreeSet<(usize, usize)>>,
+    applied: Rc<BTreeSet<(usize, usize)>>,
+    manual_applied: Rc<BTreeSet<(usize, usize)>>,
+    resolved: Rc<Vec<Option<Vec<usize>>>>,
     pending: BTreeSet<usize>,
     cache: DependencyCache<usize, Stored>,
 }
@@ -560,11 +565,11 @@ pub struct ShadowSessionCheckpoint {
     last_changed: Rc<[ShadowNodeRef]>,
     identity: Rc<()>,
     cache: DependencyCache<usize, Stored>,
-    edges: BTreeSet<(usize, usize)>,
-    manual_edges: BTreeSet<(usize, usize)>,
-    requested_edges: BTreeSet<(usize, usize)>,
+    edges: Rc<BTreeSet<(usize, usize)>>,
+    manual_edges: Rc<BTreeSet<(usize, usize)>>,
+    requested_edges: Rc<BTreeSet<(usize, usize)>>,
     pending: BTreeSet<usize>,
-    resolved: Vec<Option<Vec<usize>>>,
+    resolved: Rc<Vec<Option<Vec<usize>>>>,
 }
 impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     pub fn variable(
@@ -584,7 +589,7 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         replace_dependencies(
             &self.identity,
             &self.nodes,
-            &mut self.edges,
+            Rc::make_mut(&mut self.edges),
             &target.node,
             sources,
         )
@@ -619,17 +624,20 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     fn resolve_sources(
         &self,
         world: &W,
-        manual: &BTreeSet<(usize, usize)>,
+        manual: &Rc<BTreeSet<(usize, usize)>>,
     ) -> Result<ResolvedSources, ShadowSessionError> {
         self.resolve_sources_mode(world, manual, RefreshMode::All)
     }
     fn resolve_sources_mode(
         &self,
         world: &W,
-        manual: &BTreeSet<(usize, usize)>,
+        manual: &Rc<BTreeSet<(usize, usize)>>,
         mode: RefreshMode,
     ) -> Result<ResolvedSources, ShadowSessionError> {
-        let mut edges = manual.clone();
+        if let Some(resolved) = self.reuse_resolved_sources(manual, mode) {
+            return Ok(resolved);
+        }
+        let mut edges = manual.as_ref().clone();
         let mut signatures = vec![];
         for (index, node) in self.nodes.iter().enumerate() {
             let signature = if !mode.includes(index, &self.pending) {
@@ -657,7 +665,45 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
             }
             signatures.push(signature);
         }
-        Ok(ResolvedSources { edges, signatures })
+        Ok(self.share_resolved_sources(edges, signatures))
+    }
+    fn share_resolved_sources(
+        &self,
+        edges: BTreeSet<(usize, usize)>,
+        signatures: Vec<Option<Vec<usize>>>,
+    ) -> ResolvedSources {
+        ResolvedSources {
+            edges: if edges == *self.applied {
+                self.applied.clone()
+            } else {
+                Rc::new(edges)
+            },
+            signatures: if signatures == *self.resolved {
+                self.resolved.clone()
+            } else {
+                Rc::new(signatures)
+            },
+        }
+    }
+    // A complete successful refresh established every source signature. Reuse
+    // requires unchanged manual topology and no notified dynamic binding target;
+    // dirty ordinary inputs/suppliers may still change values and inconsistency.
+    fn reuse_resolved_sources(
+        &self,
+        manual: &Rc<BTreeSet<(usize, usize)>>,
+        mode: RefreshMode,
+    ) -> Option<ResolvedSources> {
+        (matches!(mode, RefreshMode::Notified)
+            && self.resolved.len() == self.nodes.len()
+            && manual == &self.manual_applied
+            && self
+                .pending
+                .iter()
+                .all(|&i| self.nodes[i].sources.is_none()))
+        .then(|| ResolvedSources {
+            edges: self.applied.clone(),
+            signatures: self.resolved.clone(),
+        })
     }
     /// Return handles for changed derived fields, including inconsistency changes.
     /// Successful refreshes also replace [`Self::changed_entities`]'s report;
@@ -671,6 +717,11 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     /// initializes every node. Later calls retain unnotified input values and
     /// binding signatures, while changed values still propagate to all dependents.
     /// Manual dependency edits are always applied, even with no notifications.
+    /// After initialization, unchanged manual dependencies and unnotified binding
+    /// targets reuse the resolved topology. Input preparation then visits only
+    /// notified inputs. Propagation, explicit consistency diagnostics and caller
+    /// projection may still touch many or all nodes; this is not an overall
+    /// constant-time refresh guarantee.
     ///
     /// The caller must notify every input whose reader result may differ, every
     /// target whose dynamic binding may differ, and every supplier that directly
@@ -678,8 +729,7 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     /// notify its consumers' bindings. Violating this contract can leave stale
     /// values or edges; use [`Self::update`] when complete notifications are not
     /// available. Independently requested diagnostics and checked restores still
-    /// read the full world. Metadata preparation still visits the graph: this
-    /// reduces reader/resolver callbacks, not total refresh work to O(notified).
+    /// read the full world.
     ///
     /// Resolver callbacks precede readers, both in registration order. Failures
     /// and callback panics preserve cached state and pending notifications for
@@ -718,62 +768,84 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
         resolved: ResolvedSources,
         mode: RefreshMode,
     ) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
-        let prepared = self
-            .nodes
-            .iter()
-            .enumerate()
-            .map(|(index, n)| match &n.operation {
-                Operation::Input(read) if mode.includes(index, &self.pending) => read(world),
-                Operation::Input(_) => self.cache.values()[&index].value.clone(),
-                Operation::Derived(_) => None,
-            })
-            .collect::<Vec<_>>();
+        let prepared = match mode {
+            RefreshMode::All => PreparedInputs::All(
+                self.nodes
+                    .iter()
+                    .map(|node| match &node.operation {
+                        Operation::Input(read) => read(world),
+                        Operation::Derived(_) => None,
+                    })
+                    .collect(),
+            ),
+            RefreshMode::Notified => PreparedInputs::Notified(
+                self.pending
+                    .iter()
+                    .filter_map(|&index| match &self.nodes[index].operation {
+                        Operation::Input(read) => Some((index, read(world))),
+                        Operation::Derived(_) => None,
+                    })
+                    .collect(),
+            ),
+        };
         let mut dirty = self.pending.clone();
-        for (index, signature) in resolved.signatures.iter().enumerate() {
-            if signature.is_some() && self.resolved.get(index) != Some(signature) {
-                dirty.insert(index);
+        if !Rc::ptr_eq(&resolved.signatures, &self.resolved) {
+            for (index, signature) in resolved.signatures.iter().enumerate() {
+                if signature.is_some() && self.resolved.get(index) != Some(signature) {
+                    dirty.insert(index);
+                }
             }
         }
-        for (index, node) in self.nodes.iter().enumerate() {
-            if matches!(node.operation, Operation::Input(_))
-                && self.cache.values()[&index].value != prepared[index]
-            {
-                dirty.insert(index);
+        match &prepared {
+            PreparedInputs::All(values) => {
+                for (index, node) in self.nodes.iter().enumerate() {
+                    if matches!(node.operation, Operation::Input(_))
+                        && self.cache.values()[&index].value != values[index]
+                    {
+                        dirty.insert(index);
+                    }
+                }
+            }
+            PreparedInputs::Notified(values) => {
+                for (index, value) in values {
+                    if &self.cache.values()[index].value != value {
+                        dirty.insert(*index);
+                    }
+                }
             }
         }
-        let removals = self
-            .applied
-            .difference(&resolved.edges)
-            .copied()
-            .collect::<Vec<_>>();
-        let additions = resolved
-            .edges
-            .difference(&self.applied)
-            .copied()
-            .collect::<Vec<_>>();
-        let fields = self
-            .nodes
-            .iter()
-            .map(|node| node.variable)
-            .collect::<Vec<_>>();
+        let (removals, additions) = if Rc::ptr_eq(&self.applied, &resolved.edges) {
+            (vec![], vec![])
+        } else {
+            (
+                self.applied.difference(&resolved.edges).copied().collect(),
+                resolved.edges.difference(&self.applied).copied().collect(),
+            )
+        };
         let nodes = &mut self.nodes;
         let identity = &self.identity;
         // Prepare potentially allocating publication data before installing a new cache.
         let manual_applied = self.edges.clone();
         let applied = resolved.edges;
         let mut next = self.cache.clone();
+        let cached = &self.cache;
         let changed = next.update(
             &removals,
             &additions,
             &dirty.into_iter().collect::<Vec<_>>(),
             |index, values| match &mut nodes[*index].operation {
-                Operation::Input(_) => prepared[*index].clone(),
+                // Cycle recovery and manual rewires can schedule an input that
+                // was not notified. It must retain its last sampled value.
+                Operation::Input(_) => prepared
+                    .get(index)
+                    .cloned()
+                    .unwrap_or_else(|| cached.values()[index].value.clone()),
                 Operation::Derived(supplier) => supplier(
                     world,
                     ShadowInputs {
                         identity,
                         values,
-                        fields: &fields,
+                        fields: &self.fields,
                     },
                 ),
             },
@@ -847,9 +919,25 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     }
 }
 
+enum PreparedInputs {
+    All(Vec<Option<Stored>>),
+    Notified(Vec<(usize, Option<Stored>)>),
+}
+impl PreparedInputs {
+    fn get(&self, index: &usize) -> Option<&Option<Stored>> {
+        match self {
+            Self::All(values) => values.get(*index),
+            Self::Notified(values) => values
+                .binary_search_by_key(index, |(key, _)| *key)
+                .ok()
+                .map(|at| &values[at].1),
+        }
+    }
+}
+
 struct ResolvedSources {
-    edges: BTreeSet<(usize, usize)>,
-    signatures: Vec<Option<Vec<usize>>>,
+    edges: Rc<BTreeSet<(usize, usize)>>,
+    signatures: Rc<Vec<Option<Vec<usize>>>>,
 }
 
 #[path = "shadow_diagnostics.rs"]

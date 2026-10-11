@@ -248,8 +248,11 @@ fn resolve_with_diagnostics<K: Eq + Clone, W>(
     world: &W,
     mode: RefreshMode,
 ) -> Result<(ResolvedSources, Vec<ShadowSourceReference<K>>), ShadowSessionError> {
+    if let Some(resolved) = session.reuse_resolved_sources(&session.edges, mode) {
+        return Ok((resolved, vec![]));
+    }
     let mut missing = Vec::new();
-    let mut edges = session.edges.clone();
+    let mut edges = session.edges.as_ref().clone();
     let mut signatures = Vec::with_capacity(session.nodes.len());
     for (index, node) in session.nodes.iter().enumerate() {
         if !mode.includes(index, &session.pending) {
@@ -302,5 +305,5 @@ fn resolve_with_diagnostics<K: Eq + Clone, W>(
         }
         signatures.push(Some(signature));
     }
-    Ok((ResolvedSources { edges, signatures }, missing))
+    Ok((session.share_resolved_sources(edges, signatures), missing))
 }
