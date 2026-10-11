@@ -764,6 +764,7 @@ enum PlanCallback<'a, A, S> {
         check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
         lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
         metrics: Option<&'a crate::SolverMetrics<S>>,
+        failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
     },
 }
 impl<'a, A, S> PlanCallback<'a, A, S> {
@@ -772,13 +773,15 @@ impl<'a, A, S> PlanCallback<'a, A, S> {
         check: Option<&'a mut crate::PhaseScoreCheck<'a, A, S>>,
         lifecycle: Option<&'a mut crate::SolverLifecycleCallback<'a>>,
         metrics: Option<&'a crate::SolverMetrics<S>>,
+        failure: Option<&'a mut crate::SolverFailureCallback<'a, A, S>>,
     ) -> Option<Self> {
-        if check.is_some() || lifecycle.is_some() || metrics.is_some() {
+        if check.is_some() || lifecycle.is_some() || metrics.is_some() || failure.is_some() {
             Some(Self::Checked {
                 events,
                 check,
                 lifecycle,
                 metrics,
+                failure,
             })
         } else {
             events.map(Self::Events)
@@ -809,6 +812,28 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
         match &mut self.callback {
             Some(PlanCallback::Checked { lifecycle, .. }) => lifecycle.take(),
             _ => None,
+        }
+    }
+    fn failed<E: std::fmt::Debug>(
+        &mut self,
+        result: &SolverResult<A, S>,
+        phase: Option<crate::SolverEventProducer>,
+        error: &SolverError<E>,
+    ) {
+        if let Some(PlanCallback::Checked {
+            failure: Some(callback),
+            ..
+        }) = &mut self.callback
+        {
+            callback(crate::SolverFailure {
+                assignment: &result.assignment,
+                score: result.score.as_ref(),
+                complete: result.complete,
+                work: result.work,
+                phases: &result.phases,
+                phase,
+                error,
+            });
         }
     }
     fn has_events(&self) -> bool {
@@ -983,7 +1008,7 @@ struct InitialState<A> {
     complete: bool,
     movable: bool,
 }
-fn run<A, S: AdditiveScore, E>(
+fn run<A, S: AdditiveScore, E: std::fmt::Debug>(
     limits: SolverLimits<'_, S>,
     local: &[SolverPhase<'_, S>],
     initial: impl FnOnce() -> InitialState<A>,
@@ -1009,7 +1034,7 @@ where
     run_with_clock_observed(limits, local, initial, &mut observation, phase, &mut clock)
 }
 #[cfg(test)]
-fn run_with_clock<A: Clone, S: AdditiveScore, E>(
+fn run_with_clock<A: Clone, S: AdditiveScore, E: std::fmt::Debug>(
     limits: SolverLimits<'_, S>,
     construction: ConstructionConfig<'_>,
     local: &[SolverPhase<'_, S>],
@@ -1034,7 +1059,7 @@ fn run_with_clock<A: Clone, S: AdditiveScore, E>(
         clock,
     )
 }
-fn run_with_clock_observed<A, S: AdditiveScore, E>(
+fn run_with_clock_observed<A, S: AdditiveScore, E: std::fmt::Debug>(
     limits: SolverLimits<'_, S>,
     local: &[SolverPhase<'_, S>],
     initial: impl FnOnce() -> InitialState<A>,
@@ -1173,27 +1198,28 @@ where
         .or_else(|| time.condition_uses_moves.then(Default::default));
     time.step_metrics = metrics.as_ref().map(|m| m.writer.clone());
     observation.metric_writer = metrics.as_ref().map(|m| m.writer.clone());
+    let mut result = SolverResult {
+        assignment: initial.assignment,
+        complete: initial.complete,
+        score: None,
+        work: SolverWork::default(),
+        phases: Vec::new(),
+        termination: SolverTermination::PlanCompleted,
+    };
+    let mut failure_phase = None;
     let outcome = (|| {
         time.lifecycle.start();
-        let mut result = SolverResult {
-            assignment: initial.assignment,
-            complete: initial.complete,
-            score: None,
-            work: SolverWork::default(),
-            phases: Vec::new(),
-            termination: SolverTermination::PlanCompleted,
-        };
         if !initial.movable && !local.iter().any(|p| matches!(p, SolverPhase::Exact(_))) {
             // Reuse the score-director initialization kernel with no user command.
             // This is not an entered custom phase and therefore produces no phase
             // report or FirstInitialized event. All plan validation above still runs.
             if time.condition_reached() {
                 result.termination = SolverTermination::Condition;
-                return Ok(result);
+                return Ok(());
             }
             if result.complete && limits.max_evaluations == 0 {
                 result.termination = SolverTermination::EvaluationLimit;
-                return Ok(result);
+                return Ok(());
             }
             if result.complete
                 && limits
@@ -1201,9 +1227,13 @@ where
                     .is_some_and(CancellationToken::is_cancelled)
             {
                 result.termination = SolverTermination::Cancelled;
-                return Ok(result);
+                return Ok(());
             }
             observation.initial_only = true;
+            failure_phase = Some(crate::SolverEventProducer {
+                phase: 0,
+                kind: SolverPhaseKind::Initial,
+            });
             let out = phase(
                 0,
                 Some(result.assignment.clone()),
@@ -1260,7 +1290,7 @@ where
             result.work = out.work;
             if !result.complete {
                 result.termination = SolverTermination::NoCompleteAssignment;
-                return Ok(result);
+                return Ok(());
             }
             let PhaseTermination::Custom(reason) = out.termination else {
                 unreachable!("initial scoring uses the custom director kernel")
@@ -1282,7 +1312,7 @@ where
                 C::BestScoreLimit => SolverTermination::BestScoreLimit,
                 C::FeasibleScore => SolverTermination::FeasibleScore,
             };
-            return Ok(result);
+            return Ok(());
         }
         for index in 0..local.len() {
             if time.condition_reached() {
@@ -1402,6 +1432,7 @@ where
             let kind = request.kind();
             time.metric_phase = Some((index, kind));
             time.metric_step = 0;
+            failure_phase = Some(crate::SolverEventProducer { phase: index, kind });
             time.lifecycle.start_phase(index, kind);
             let output = phase(index, initial, request, &mut time, observation);
             if let (Some(metrics), Ok(out)) = (&observation.metric_writer, &output) {
@@ -1560,8 +1591,12 @@ where
                 break;
             }
         }
-        Ok(result)
+        Ok(())
     })();
+    if let Err(error) = &outcome {
+        observation.failed(&result, failure_phase, error);
+    }
+    let outcome = outcome.map(|()| result);
     // Include errors/panics in solve-end lifecycle callbacks in the metric outcome.
     drop(time);
     if let Some(metrics) = &mut metrics {
@@ -3954,6 +3989,7 @@ pub fn solve_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.score_check,
             extensions.lifecycle,
             extensions.metrics,
+            extensions.failure,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -3983,6 +4019,7 @@ pub fn solve_list_with_extensions<'c, V: Eq + Clone, S: AdditiveScore + 'c>(
             extensions.score_check,
             extensions.lifecycle,
             extensions.metrics,
+            extensions.failure,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4005,6 +4042,7 @@ pub fn solve_mixed_with_extensions<'c, B: Eq + Clone, L: Eq + Clone, S: Additive
             extensions.score_check,
             extensions.lifecycle,
             extensions.metrics,
+            extensions.failure,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4034,6 +4072,7 @@ pub fn solve_stream_with_extensions<'c, 'g, V: Eq + Clone + 'static, S: Additive
             extensions.score_check,
             extensions.lifecycle,
             extensions.metrics,
+            extensions.failure,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4068,6 +4107,7 @@ pub fn solve_list_stream_with_extensions<
             extensions.score_check,
             extensions.lifecycle,
             extensions.metrics,
+            extensions.failure,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),
@@ -4096,6 +4136,7 @@ pub fn solve_mixed_stream_with_extensions<
             extensions.score_check,
             extensions.lifecycle,
             extensions.metrics,
+            extensions.failure,
         ),
         extensions.command,
         Some(&mut extensions.move_providers),

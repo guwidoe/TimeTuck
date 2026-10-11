@@ -41,6 +41,7 @@ where
         extensions.score_check,
         extensions.lifecycle,
         extensions.metrics,
+        extensions.failure,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -306,6 +307,7 @@ where
         extensions.score_check,
         extensions.lifecycle,
         extensions.metrics,
+        extensions.failure,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -566,6 +568,7 @@ where
         extensions.score_check,
         extensions.lifecycle,
         extensions.metrics,
+        extensions.failure,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {

@@ -44,6 +44,7 @@ pub(crate) fn basic<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         extensions.score_check,
         extensions.lifecycle,
         extensions.metrics,
+        extensions.failure,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -313,6 +314,7 @@ pub(crate) fn list<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
         extensions.score_check,
         extensions.lifecycle,
         extensions.metrics,
+        extensions.failure,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {
@@ -581,6 +583,7 @@ pub(crate) fn mixed<
         extensions.score_check,
         extensions.lifecycle,
         extensions.metrics,
+        extensions.failure,
     ));
     observation.repaired_initial = prepared != raw_initial;
     let initial = InitialState {

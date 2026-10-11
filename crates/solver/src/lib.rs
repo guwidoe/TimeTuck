@@ -551,7 +551,8 @@ pub use provider_search::{
 mod solver_extensions;
 pub use solver_extensions::{
     MixedSolverExtensions, MoveProviderBindingError, PhaseMoveProviders, PhaseScoreCheck,
-    SolverCommandCallback, SolverEventCallback, SolverExtensions,
+    SolverCommandCallback, SolverEventCallback, SolverExtensions, SolverFailure,
+    SolverFailureCallback,
 };
 
 pub use solver::{

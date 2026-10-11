@@ -198,6 +198,38 @@ pub type SolverEventCallback<'a, A, S> = dyn FnMut(SolverEvent<'_, A, S>) + 'a;
 pub type PhaseScoreCheck<'a, A, S> =
     dyn FnMut(usize, crate::SolverPhaseKind, &A) -> Result<Option<S>, String> + 'a;
 
+/// Failure of a started solve, borrowing the last successfully retained handoff.
+/// Before the first scored handoff, this is the original initial assignment with
+/// no score. A failed phase's candidates and any output rejected by score checks
+/// are excluded. Work and reports include successfully committed phases only;
+/// no counters are invented for a failed kernel.
+///
+/// `phase` identifies the most recently entered phase (or the synthetic Initial
+/// scoring kernel for an immovable model). A handoff error may name a following
+/// phase in `error` that was never entered. The error is borrowed through Debug
+/// for diagnostics; the unchanged typed error is returned by the solve function.
+#[derive(Debug)]
+pub struct SolverFailure<'a, A, S> {
+    pub assignment: &'a A,
+    pub score: Option<&'a S>,
+    pub complete: bool,
+    pub work: crate::SolverWork,
+    pub phases: &'a [crate::PhaseReport<S>],
+    pub phase: Option<crate::SolverEventProducer>,
+    pub error: &'a dyn fmt::Debug,
+}
+/// Called once for a normal error after SolveStarted, before SolveEnded and
+/// release of still-owned retained sessions/providers. A fresh phase kernel may
+/// already have dropped its local resources while returning its error. This
+/// callback never exposes the failed kernel's working state.
+///
+/// Preflight errors and unwinding panics do not notify. Like other synchronous
+/// observers, callback panics propagate instead of returning the original error;
+/// there is no recursive failure notification or further lifecycle notification
+/// during unwind. Returning normally preserves the original error. No snapshots
+/// are cloned and no scoring is performed for this callback.
+pub type SolverFailureCallback<'a, A, S> = dyn FnMut(SolverFailure<'_, A, S>) + 'a;
+
 /// Combine per-phase move providers, commands, progress events and score checks.
 /// Pass to a `solve*_with_extensions` entry point, including calculators. Existing plan
 /// validation, retained-best handoffs, shared budgets and cancellation still apply.
@@ -241,6 +273,8 @@ pub struct SolverExtensions<'a, P, A, M, S, E> {
     /// Optional live metrics; cloned handles can observe concurrent invocations.
     pub metrics: Option<&'a crate::SolverMetrics<S>>,
     pub score_check: Option<&'a mut PhaseScoreCheck<'a, A, S>>,
+    /// Observe a started solve's error and last retained handoff before solve teardown.
+    pub failure: Option<&'a mut SolverFailureCallback<'a, A, S>>,
 }
 impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
     fn default() -> Self {
@@ -249,6 +283,7 @@ impl<P, A, M, S, E> Default for SolverExtensions<'_, P, A, M, S, E> {
             command: None,
             events: None,
             score_check: None,
+            failure: None,
             lifecycle: None,
             metrics: None,
         }
