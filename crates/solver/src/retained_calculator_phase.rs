@@ -13,6 +13,10 @@ where C: IncrementalCalculator<$assignment, Change = $change> + Clone,
     /// collection setting. Earlier initialization is outside this call's work.
     /// Cached phase-entry scores consume the usual evaluation budget but no
     /// calculator invocation. A changed entry assignment is reset and scored.
+    /// Exact search refreshes its first candidate and repair refreshes reconstruction
+    /// entries even when identities compare equal: their scoring payloads may differ.
+    /// Each refresh consumes one actual calculator invocation within the existing
+    /// evaluation, using this same calculator instance.
     ///
     /// `Clone` must snapshot mutable scoring state independently. Shared external
     /// instrumentation is allowed only when it cannot affect scoring. Best-state

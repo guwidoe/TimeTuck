@@ -1,6 +1,6 @@
 //! Shared solver control over one independently cloneable calculator session.
 use super::*;
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 
 pub(crate) fn basic<V: Eq + Clone, S: AdditiveScore, C, F>(
     p: &FiniteProblem<V>,
@@ -169,9 +169,16 @@ where
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
+                    // The first candidate may replace equal planning identities
+                    // with different domain payloads. Later candidates use fixed
+                    // representatives from this one enumeration/completion tree.
+                    let first_candidate = Cell::new(true);
                     let evaluate = |a: &Assignment<V>| -> Result<(S, u128), ScoringError> {
                         let mut director = director.borrow_mut();
-                        let work = director.prepare_retained_phase(a.clone())?;
+                        let work = director.prepare_retained_assignment(
+                            a.clone(),
+                            first_candidate.replace(false),
+                        )?;
                         Ok((director.score()?, work))
                     };
                     let mut best = |update: SolutionUpdate<'_, Assignment<V>, S>| {
@@ -239,7 +246,7 @@ where
                                 config,
                                 |initial| {
                                     let initialization_work =
-                                        director.prepare_retained_phase(initial)?;
+                                        director.prepare_retained_assignment(initial, true)?;
                                     Ok(crate::retained_stream_phase::RetainedPhase {
                                         director: &mut **director,
                                         initialization_work,
@@ -446,9 +453,16 @@ where
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
+                    // The first candidate may replace equal planning identities
+                    // with different domain payloads. Later candidates use fixed
+                    // representatives from this one enumeration/completion tree.
+                    let first_candidate = Cell::new(true);
                     let evaluate = |a: &ListAssignment<V>| -> Result<(S, u128), ListScoringError> {
                         let mut director = director.borrow_mut();
-                        let work = director.prepare_retained_phase(a.clone())?;
+                        let work = director.prepare_retained_assignment(
+                            a.clone(),
+                            first_candidate.replace(false),
+                        )?;
                         Ok((director.score()?, work))
                     };
                     let mut best = |update: SolutionUpdate<'_, ListAssignment<V>, S>| {
@@ -516,7 +530,7 @@ where
                                 config,
                                 |initial| {
                                     let initialization_work =
-                                        director.prepare_retained_phase(initial)?;
+                                        director.prepare_retained_assignment(initial, true)?;
                                     Ok(crate::retained_stream_phase::RetainedPhase {
                                         director: &mut **director,
                                         initialization_work,
@@ -733,10 +747,17 @@ where
                     let initial = a.expect("exact handoff");
                     let mut best_state = d.capture_retained();
                     let director = RefCell::new(&mut *d);
+                    // The first candidate may replace equal planning identities
+                    // with different domain payloads. Later candidates use fixed
+                    // representatives from this one enumeration/completion tree.
+                    let first_candidate = Cell::new(true);
                     let evaluate =
                         |a: &MixedAssignment<B, L>| -> Result<(S, u128), MixedScoringError> {
                             let mut director = director.borrow_mut();
-                            let work = director.prepare_retained_phase(a.clone())?;
+                            let work = director.prepare_retained_assignment(
+                                a.clone(),
+                                first_candidate.replace(false),
+                            )?;
                             Ok((director.score()?, work))
                         };
                     let mut best = |update: SolutionUpdate<'_, MixedAssignment<B, L>, S>| {
@@ -807,7 +828,7 @@ where
                                 },
                                 |initial| {
                                     let initialization_work =
-                                        director.prepare_retained_phase(initial)?;
+                                        director.prepare_retained_assignment(initial, true)?;
                                     Ok(crate::retained_stream_phase::RetainedPhase {
                                         director: &mut **director,
                                         initialization_work,

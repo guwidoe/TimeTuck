@@ -151,8 +151,13 @@ where
         self.failure = None;
     }
     pub(crate) fn prepare_retained_phase(&mut self, initial: $assignment) -> Result<u128, $error> {
+        self.prepare_retained_assignment(initial, false)
+    }
+    // Eq may compare planning identities rather than scoring payloads. Reuse an
+    // equal assignment only when the caller preserves its payload representatives.
+    pub(crate) fn prepare_retained_assignment(&mut self, initial: $assignment, refresh_payloads: bool) -> Result<u128, $error> {
         self.healthy()?;
-        if self.assignment() == &initial {
+        if !refresh_payloads && self.assignment() == &initial {
             return Ok(0);
         }
         self.reset(initial)?;
