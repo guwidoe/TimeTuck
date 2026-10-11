@@ -1,8 +1,9 @@
 //! Assignment-aware native candidate sources and whole-source gating.
 use crate::{
-    Assignment, FiniteProblem, ListAssignment, ListError, ListProblem, ModelError, MoveError,
-    SelectionLifecycleEvent, SelectionSource,
+    Assignment, FiniteProblem, ListAssignment, ListError, ListProblem, ListSelectionView,
+    ModelError, MoveError, SelectionLifecycleEvent, SelectionSource,
 };
+use std::sync::Arc;
 
 /// Evaluate a context predicate before asking the child for size or opening it.
 /// Disabled contexts have exact size zero and never open/poll the child. Lifecycle
@@ -201,6 +202,9 @@ pub enum ListValueSelection {
 /// Finite registry-order list values. Movable includes assigned values outside
 /// full/prefix pins; unassigned values have their own selection mode. Eligibility
 /// for a particular destination must still be checked by the move provider.
+/// Supports validated borrowed contexts and owned (Arc<ListProblem<V>>,
+/// ListAssignment<V>) snapshots. Owned size/open calls validate the snapshot;
+/// borrowed contexts retain validation at construction.
 pub struct ListValueSource(pub ListValueSelection);
 /// Optional-list assignment filtering. Required lists bypass these filters so
 /// construction can still select values that have not yet been placed.
@@ -227,44 +231,41 @@ impl ListValueSource {
     }
 }
 
-fn selected_list_value<V: Eq + Clone>(
-    context: &ListSelectionContext<'_, V>,
+fn selected_list_value<V: Eq + Clone, C: ListSelectionView<V>>(
+    context: &C,
     mode: ListValueSelection,
     value: &V,
 ) -> bool {
-    let position = context.assignment.location(value);
+    let position = context.assignment().location(value);
     match mode {
         ListValueSelection::All => true,
         ListValueSelection::Assigned => position.is_some(),
         ListValueSelection::Unassigned => position.is_none(),
         ListValueSelection::Movable => position.is_some_and(|p| {
-            !context.problem.entities()[p.entity].is_pinned()
-                && p.index >= context.problem.entities()[p.entity].pinned_prefix()
+            !context.problem().entities()[p.entity].is_pinned()
+                && p.index >= context.problem().entities()[p.entity].pinned_prefix()
         }),
     }
 }
-impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, V> for ListValueSource {
-    fn size(&mut self, context: &ListSelectionContext<'_, V>) -> Option<usize> {
+impl ListValueSource {
+    fn size_view<V: Eq + Clone, C: ListSelectionView<V>>(&mut self, context: &C) -> Option<usize> {
         Some(
             context
-                .problem
+                .problem()
                 .values()
                 .iter()
                 .filter(|v| selected_list_value(context, self.0, v))
                 .count(),
         )
     }
-    fn open<'a>(
+    fn open_view<'a, V: Eq + Clone + 'a, C: ListSelectionView<V>>(
         &'a mut self,
-        context: &'a ListSelectionContext<'_, V>,
-    ) -> Box<dyn Iterator<Item = V> + 'a>
-    where
-        V: 'a,
-    {
+        context: &'a C,
+    ) -> Box<dyn Iterator<Item = V> + 'a> {
         let mode = self.0;
         Box::new(
             context
-                .problem
+                .problem()
                 .values()
                 .iter()
                 .filter(move |v| selected_list_value(context, mode, v))
@@ -273,9 +274,50 @@ impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, V> for ListValu
     }
 }
 
+impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, V> for ListValueSource {
+    fn size(&mut self, context: &ListSelectionContext<'_, V>) -> Option<usize> {
+        self.size_view(context)
+    }
+    fn open<'a>(
+        &'a mut self,
+        context: &'a ListSelectionContext<'_, V>,
+    ) -> Box<dyn Iterator<Item = V> + 'a>
+    where
+        V: 'a,
+    {
+        self.open_view(context)
+    }
+}
+impl<V: Eq + Clone> SelectionSource<(Arc<ListProblem<V>>, ListAssignment<V>), V>
+    for ListValueSource
+{
+    fn size(&mut self, context: &(Arc<ListProblem<V>>, ListAssignment<V>)) -> Option<usize> {
+        context
+            .problem()
+            .validate(context.assignment())
+            .expect("valid owned list selection context");
+        self.size_view(context)
+    }
+    fn open<'a>(
+        &'a mut self,
+        context: &'a (Arc<ListProblem<V>>, ListAssignment<V>),
+    ) -> Box<dyn Iterator<Item = V> + 'a>
+    where
+        V: 'a,
+    {
+        context
+            .problem()
+            .validate(context.assignment())
+            .expect("valid owned list selection context");
+        self.open_view(context)
+    }
+}
+
 /// A native list-span source for configured selectors and named recording.
 /// Stores size bounds and random state; indexes the current validated context on
 /// each opening without retaining/cloning list values or materializing all spans.
+/// Borrowed contexts and owned model/assignment snapshots share this same index
+/// preparation and random-state behavior; owned contexts enable configured providers.
 /// Uniform random ranks sample spans with replacement; native draws do not match
 /// Java entity-first traces. SourceRequest::random selects that mode only for
 /// uncached random pipelines; cache builders receive finite original enumeration.
@@ -300,27 +342,22 @@ impl SubListSource {
         self.bounds
     }
 }
-impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, crate::ListRange>
-    for SubListSource
-{
-    fn is_never_ending(&self) -> bool {
-        self.random
-    }
-    fn size(&mut self, c: &ListSelectionContext<'_, V>) -> Option<usize> {
-        crate::SubListSelection::new(c.problem, c.assignment, self.bounds)
+impl SubListSource {
+    fn size_view<V: Eq + Clone, C: ListSelectionView<V>>(&mut self, c: &C) -> Option<usize> {
+        crate::SubListSelection::new(c.problem(), c.assignment(), self.bounds)
             .expect("validated list context")
             .len()
             .try_into()
             .ok()
     }
-    fn open<'a>(
+    fn open_view<'a, V: Eq + Clone, C: ListSelectionView<V>>(
         &'a mut self,
-        c: &'a ListSelectionContext<'_, V>,
+        c: &'a C,
     ) -> Box<dyn Iterator<Item = crate::ListRange> + 'a>
     where
         crate::ListRange: 'a,
     {
-        let index = crate::SubListSelection::new(c.problem, c.assignment, self.bounds)
+        let index = crate::SubListSelection::new(c.problem(), c.assignment(), self.bounds)
             .expect("validated list context");
         if self.random {
             let mut random = crate::random::SplitMix64::new(self.seed);
@@ -335,5 +372,43 @@ impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, crate::ListRang
         } else {
             Box::new((0..index.len()).map(move |rank| index.at(rank).unwrap()))
         }
+    }
+}
+impl<V: Eq + Clone> SelectionSource<ListSelectionContext<'_, V>, crate::ListRange>
+    for SubListSource
+{
+    fn is_never_ending(&self) -> bool {
+        self.random
+    }
+    fn size(&mut self, c: &ListSelectionContext<'_, V>) -> Option<usize> {
+        self.size_view(c)
+    }
+    fn open<'a>(
+        &'a mut self,
+        c: &'a ListSelectionContext<'_, V>,
+    ) -> Box<dyn Iterator<Item = crate::ListRange> + 'a>
+    where
+        crate::ListRange: 'a,
+    {
+        self.open_view(c)
+    }
+}
+impl<V: Eq + Clone> SelectionSource<(Arc<ListProblem<V>>, ListAssignment<V>), crate::ListRange>
+    for SubListSource
+{
+    fn is_never_ending(&self) -> bool {
+        self.random
+    }
+    fn size(&mut self, c: &(Arc<ListProblem<V>>, ListAssignment<V>)) -> Option<usize> {
+        self.size_view(c)
+    }
+    fn open<'a>(
+        &'a mut self,
+        c: &'a (Arc<ListProblem<V>>, ListAssignment<V>),
+    ) -> Box<dyn Iterator<Item = crate::ListRange> + 'a>
+    where
+        crate::ListRange: 'a,
+    {
+        self.open_view(c)
     }
 }

@@ -1,9 +1,10 @@
 //! Composable sublist proposals from independently selected spans and destinations.
 use crate::{
-    ListMove, ListPosition, ListRange, ListSelectionContext, SelectionLifecycleEvent,
-    SelectionSource, SubListSelection, SubListSize, SubListSource,
+    ListAssignment, ListMove, ListPosition, ListProblem, ListRange, ListSelectionContext,
+    ListSelectionView, SelectionLifecycleEvent, SelectionSource, SubListSelection, SubListSize,
+    SubListSource,
 };
-use std::num::NonZeroUsize;
+use std::{num::NonZeroUsize, sync::Arc};
 
 /// Number of span coordinates in the model catalog, independent of how often a
 /// source repeats them or restricts its owner sequence. This is not traversal length.
@@ -12,6 +13,14 @@ pub trait SubListCardinality<C>: SelectionSource<C, ListRange> {
 }
 impl<V: Eq + Clone> SubListCardinality<ListSelectionContext<'_, V>> for SubListSource {
     fn span_count(&mut self, c: &ListSelectionContext<'_, V>) -> u128 {
+        SubListSelection::new(c.problem(), c.assignment(), self.bounds())
+            .expect("validated list context")
+            .len()
+    }
+}
+
+impl<V: Eq + Clone> SubListCardinality<(Arc<ListProblem<V>>, ListAssignment<V>)> for SubListSource {
+    fn span_count(&mut self, c: &(Arc<ListProblem<V>>, ListAssignment<V>)) -> u128 {
         SubListSelection::new(c.problem(), c.assignment(), self.bounds())
             .expect("validated list context")
             .len()
@@ -39,6 +48,8 @@ fn draw_sublist_proposal_rank(draw: &mut impl FnMut(u128) -> u128, bound: u128) 
 /// Rebuilds its coordinate index on each opening, so committed changes are visible.
 /// Lifecycle events pass to the entity source once. Random state continues across
 /// openings; construct a new source to restart a seed. No list payloads are cloned.
+/// Accepts borrowed contexts and owned model/assignment snapshots, including when
+/// composed into SubListChangeSource or SubListSwapSource for configured providers.
 pub struct EntitySubListSource<E, D = SubListProposalDraw> {
     entities: E,
     bounds: SubListSize,
@@ -106,45 +117,18 @@ impl<E, D> EntitySubListSource<E, D> {
         &mut self.entities
     }
 }
-impl<
-    'p,
-    V: Eq + Clone,
-    E: SelectionSource<ListSelectionContext<'p, V>, usize>,
-    D: FnMut(u128) -> u128,
-> SubListCardinality<ListSelectionContext<'p, V>> for EntitySubListSource<E, D>
-{
-    fn span_count(&mut self, c: &ListSelectionContext<'p, V>) -> u128 {
+impl<E, D: FnMut(u128) -> u128> EntitySubListSource<E, D> {
+    fn span_count_view<V: Eq + Clone, C: ListSelectionView<V>>(&self, c: &C) -> u128 {
         SubListSelection::new(c.problem(), c.assignment(), self.bounds)
             .expect("validated list context")
             .len()
     }
-}
-impl<
-    'p,
-    V: Eq + Clone,
-    E: SelectionSource<ListSelectionContext<'p, V>, usize>,
-    D: FnMut(u128) -> u128,
-> SelectionSource<ListSelectionContext<'p, V>, ListRange> for EntitySubListSource<E, D>
-{
-    fn event(&mut self, event: SelectionLifecycleEvent, c: &ListSelectionContext<'p, V>) {
-        self.entities.event(event, c);
-    }
-    fn is_never_ending(&self) -> bool {
-        self.repeating && self.entities.is_never_ending()
-    }
-    fn size(&mut self, c: &ListSelectionContext<'p, V>) -> Option<usize> {
-        if self.maximum_reads == 0 || self.span_count(c) == 0 {
-            Some(0)
-        } else {
-            None
-        }
-    }
-    fn open<'a>(
+    fn open_view<'a, V: Eq + Clone, C: ListSelectionView<V>>(
         &'a mut self,
-        c: &'a ListSelectionContext<'p, V>,
+        c: &'a C,
     ) -> Box<dyn Iterator<Item = ListRange> + 'a>
     where
-        ListRange: 'a,
+        E: SelectionSource<C, usize>,
     {
         let index = SubListSelection::new(c.problem(), c.assignment(), self.bounds)
             .expect("validated list context");
@@ -187,6 +171,91 @@ impl<
             })
             .fuse(),
         )
+    }
+}
+impl<
+    'p,
+    V: Eq + Clone,
+    E: SelectionSource<ListSelectionContext<'p, V>, usize>,
+    D: FnMut(u128) -> u128,
+> SubListCardinality<ListSelectionContext<'p, V>> for EntitySubListSource<E, D>
+{
+    fn span_count(&mut self, c: &ListSelectionContext<'p, V>) -> u128 {
+        self.span_count_view(c)
+    }
+}
+impl<
+    'p,
+    V: Eq + Clone,
+    E: SelectionSource<ListSelectionContext<'p, V>, usize>,
+    D: FnMut(u128) -> u128,
+> SelectionSource<ListSelectionContext<'p, V>, ListRange> for EntitySubListSource<E, D>
+{
+    fn event(&mut self, event: SelectionLifecycleEvent, c: &ListSelectionContext<'p, V>) {
+        self.entities.event(event, c);
+    }
+    fn is_never_ending(&self) -> bool {
+        self.repeating && self.entities.is_never_ending()
+    }
+    fn size(&mut self, c: &ListSelectionContext<'p, V>) -> Option<usize> {
+        if self.maximum_reads == 0 || self.span_count(c) == 0 {
+            Some(0)
+        } else {
+            None
+        }
+    }
+    fn open<'a>(
+        &'a mut self,
+        c: &'a ListSelectionContext<'p, V>,
+    ) -> Box<dyn Iterator<Item = ListRange> + 'a>
+    where
+        ListRange: 'a,
+    {
+        self.open_view(c)
+    }
+}
+impl<
+    V: Eq + Clone,
+    E: SelectionSource<(Arc<ListProblem<V>>, ListAssignment<V>), usize>,
+    D: FnMut(u128) -> u128,
+> SubListCardinality<(Arc<ListProblem<V>>, ListAssignment<V>)> for EntitySubListSource<E, D>
+{
+    fn span_count(&mut self, c: &(Arc<ListProblem<V>>, ListAssignment<V>)) -> u128 {
+        self.span_count_view(c)
+    }
+}
+impl<
+    V: Eq + Clone,
+    E: SelectionSource<(Arc<ListProblem<V>>, ListAssignment<V>), usize>,
+    D: FnMut(u128) -> u128,
+> SelectionSource<(Arc<ListProblem<V>>, ListAssignment<V>), ListRange>
+    for EntitySubListSource<E, D>
+{
+    fn event(
+        &mut self,
+        event: SelectionLifecycleEvent,
+        c: &(Arc<ListProblem<V>>, ListAssignment<V>),
+    ) {
+        self.entities.event(event, c);
+    }
+    fn is_never_ending(&self) -> bool {
+        self.repeating && self.entities.is_never_ending()
+    }
+    fn size(&mut self, c: &(Arc<ListProblem<V>>, ListAssignment<V>)) -> Option<usize> {
+        if self.maximum_reads == 0 || self.span_count(c) == 0 {
+            Some(0)
+        } else {
+            None
+        }
+    }
+    fn open<'a>(
+        &'a mut self,
+        c: &'a (Arc<ListProblem<V>>, ListAssignment<V>),
+    ) -> Box<dyn Iterator<Item = ListRange> + 'a>
+    where
+        ListRange: 'a,
+    {
+        self.open_view(c)
     }
 }
 
