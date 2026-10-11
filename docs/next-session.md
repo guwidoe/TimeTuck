@@ -23275,3 +23275,17 @@ then bash scripts/check.sh >work/parallel-round6-final-check.log. Do not restart
 After terminal success run prepared work/record_parallel_round6.py through stable
 launcher. It checks freshness/source, exact provenance delta and focused file hashes
 (including combined lib.rs additions). Main Rust/provenance frozen until recorder.
+
+Round7 scopes approved and work underway: dense_scoring indexes destination-slot
+weights for sampled sublist changes, retaining exact seeded draw/no-op/range/pin
+behavior and measuring setup/early abandonment plus small/sparse cases on runner-a.
+dependency_graph shares immutable shadow edges/signatures across checkpoints and
+adds eligible value-only notified refresh without rebuilding all metadata; runner-c
+measures checkpoint and refresh costs, with rewiring/cycles/recovery fallback.
+termination accumulates dirty scoped contribution indices since prior exact best
+to update best snapshots sparsely; preserve atomic clone-panic behavior and repair/
+first-exact payload fixes. Measure end-to-end baseline/current sparse/dense cases.
+No upstream credit planned. LOCAL Cargo still held until32949prebuild completes;
+then tell termination it may use its separate target at-j2. Last prebuild status:
+fmt/Clippy passed (41.78s), calculating affected-target hashes. Remotes assigned
+exclusively; do not reassign while agent benchmarks run.
