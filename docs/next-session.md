@@ -16,7 +16,102 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round41
+## Latest verified checkpoint — round42
+
+Main 0d137e6 adds SolutionComposition and actual basic-model solution binding.
+The full goal remains active and incomplete. No new agents or assignments.
+
+- Solution component chains compile inherited entity collection/singleton, range
+  and score declarations with canonical member origins. Plain empty components
+  relay ancestry; declaring members requires registration. Default depth is
+  unrestricted; explicit single_level allows depth 2. Names/providers/score counts
+  and entity types are validated before model/range/scoring access.
+- ComposedPlanningSolution retains ordinary compiled entity metadata. bind_basic
+  validates concrete member reads and field/provider links into FiniteProblem,
+  with stable entity-major named slots and collection occurrence indices.
+- Arc allocation identity folds aliases across lists/singletons without merging
+  equal-valued objects. Conflicting alias field snapshots fail. Shared objects are
+  retained; no Clone/Eq/Hash is required on entity payloads. Shadow fields are
+  excluded, optional basics preserved, and invalid initial values retain native
+  model errors. Preparation happens before solving, with no candidate hot-path
+  changes. List/mixed solution binding, automatic getters/class discovery and
+  reflective score setters remain separate capabilities; no Java API/ABI claim.
+
+All six SolverSolutionInheritanceTest methods have complete adaptations. Three
+successful actual bounded construction/local-search models run in dense/stream:
+Both: two 3-value ranges, four collections/eight children/two genuine fields,
+nullable empty base/child singletons, score 16. Abstract: one range/two collections/
+four children/one field, score 8. BaseOnly: one range/one collection/two children,
+score 2. Source move ceilings 100/14 become native candidate ceilings, with no
+trace/count parity. All genuine fields must be assigned, including unscored
+subValue; both base and child reward membership is retained.
+Three negatives fail real compilation for unregistered parent members, duplicate
+entityList and depth 3 under explicit depth 2 policy. Native diagnostics preserve
+translated source fragments/suggestions. Source ChildOnly actually generates
+Both, and Multiple generates ReplaceMember; these unused problem shapes are
+retained without binding invalid declarations. Used test generators/providers and
+individual declaration paths have provenance. No upstream production read/port.
+
+Seven original regressions cover default deep real solving, direct field origin
+in Multiple, canonical inheritance/member origins, alias/different-allocation
+identity and slots, populated singleton base/child constraint membership, complete
+eligibility/partial assignment/retraction and full recomputation in both directors,
+conflicting snapshots, binding/schema errors, empty/optional/shadow models and
+invalid initial ranges. Originals add no source credit.
+
+Focused 6 source tests then 13 source/original tests passed on runner-a. runner-c timed
+out before focused dispatch and remained unreachable; the user was asked once to
+wake it, with no answer this turn. Local cache preview found no matching hits;
+runner-a had no full-suite records. Its cold full gate took 1714.561s and passed all
+966 runtime targets, doctests and 46 Python checks. Strict lint first caught a 144-byte
+error variant; compact member categories plus boxed nested graph errors fixed it.
+An intermediate boxing conversion compile error was corrected before the full run.
+No broad tests had started on either failed lint snapshot.
+
+Late fixture review corrected Replaced/Multiple: source entities declare value
+*directly*, rather than inheriting the shared helper base. Preserve authentic full
+prepatch logs in work/round42-prepatch-runner-a-results.tar.gz and
+work/round42-prepatch-recovery.json;
+never claim their hashes as corrected-source evidence. The final gate independently
+reused matching keys and reran only both affected targets. The old waiting collector
+was stopped; worker/full check finished normally. No duplicate full build.
+
+Final runner-a gate and collector succeeded:
+
+- 6,672 Rust tests, 285 doctests; strict fmt/Clippy passed.
+- 3,504/4,855 source methods passing (72.173%) ; 785 pending, 566 excluded,
+  zero failed/unverified. Pending 791→785; exclusions unchanged.
+- Final selective pass: 2 Rust RUN, 964 Rust REUSE, 46 Python REUSE; 132.831s.
+- Rust source 4670ace696b3736cf8f2aff3dc1d2f09b4b8f1a819bc700ebd0663298bf18119.
+- Report/verification bbcef8e4d26266a60e8fd0d88e2a0e4e8ea06a763db50d0b491be62a8bba9249.
+- Final remote root 985bf0f72fc3456042874a233b1a5550a87eeaba45f01c2862951f1653a27c97.
+- Final archive work/round42-runner-a-results.tar.gz, SHA256
+  3763d64fa4939d2740053f27a7549cb6b07b03b8f76c0e8238d427bf9ac23d65.
+- Work evidence/freeze: parallel-round42-*,remote-round42-integration-final*,
+  round42-postcommit-evidence.json. Worker/collector finished; no jobs live.
+
+runner-a now has reusable full-suite records. Prefer that warm cache for the next
+batch; do not switch hosts purely because runner-c wakes. Stable CARGO_HOME path matches
+work/round42-runner-a-check.py, build jobs 6 and target-1.92.0. Seed the next check from
+its FINAL archive/root above: round42 scripts reference prepatch root 5ed4.../archive,
+so replace those explicitly when incrementing labels. Vendor/Cargo-home setup is
+preserved outside new snapshots on runner-a, with the unchanged pinned lockfile.
+Per-job environment keys differ across these hosts; runner-c successes did not become
+runner-a hits. Never retag old keys or logs to bypass that check.
+
+Dashboard server remains PID18158/port8765 (revalidate before reuse). Backend
+report/freshness checked via 127.0.0.1 without HTTP proxies; no browser/Impeccable.
+Java list measurements remain visibly stale. No new benchmark/speedup claim.
+Rust digest and report source_digest differ: the latter equals verification_digest.
+No pin change. Do not repeat completed focused/source/fixture reviews on context reset.
+
+Next prioritize substantive runtime compatibility gaps: SolverContextManagerTest
+(ten methods, already reviewed once in round41) needs actual retained/replaced
+scoring context identity, metric matching, cumulative counts and release/error
+handling; EnvironmentProfile alone does not provide these runtime behaviors.
+No new agents. Do not repeat completed factory/reflection/undo/ring audits.
+
+## Prior verified checkpoint — round41
 
 Main 5eb2d9a adds IdentityOrderedSet for shared domain objects. Full goal remains
 active and incomplete. No new agents or assignments.
