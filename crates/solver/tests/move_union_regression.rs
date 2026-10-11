@@ -83,6 +83,13 @@ fn list_value(f: &ListFact<'_, usize>) -> i64 {
 }
 #[test]
 fn unions_drive_swaps_across_all_models_and_scoring_backends() {
+    union_swaps(1);
+}
+#[test]
+fn indexed_unions_drive_swaps_across_all_models_and_scoring_backends() {
+    union_swaps(40);
+}
+fn union_swaps(copies: usize) {
     let p = basic();
     let l = lists();
     let m = MixedProblem::new(p.clone(), l.clone());
@@ -123,10 +130,14 @@ fn unions_drive_swaps_across_all_models_and_scoring_backends() {
     .unwrap();
     for order in [UnionOrder::Sequential, UnionOrder::Random { seed: 17 }] {
         for enabled in [false, true] {
-            let children = [
-                (Neighborhood::Change, 0),
-                (Neighborhood::Swap, u32::from(enabled)),
-            ];
+            let children: Vec<_> = (0..copies)
+                .flat_map(|_| {
+                    [
+                        (Neighborhood::Change, 0),
+                        (Neighborhood::Swap, u32::from(enabled)),
+                    ]
+                })
+                .collect();
             let config = LocalSearchConfig {
                 neighborhood_union: Some(&NeighborhoodUnion {
                     children: &children,
