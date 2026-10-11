@@ -23361,3 +23361,38 @@ best snapshots, including ordinary-solve baseline measurements. dependency_graph
 continues next useful dependency/shadow gap on exclusive runner-c from3fe1c9a.
 All round8 initial implementation files reviewed; final focused evidence for
 remaining changes pending. Do not rerun unrelated checks or Java benchmarks.
+
+Round8 fully integrated, frozen Rust82b1912: 9f4c444(agent6e3d0ba) sparse retained
+local/custom best snapshots,82b1912(agent5844851) borrowed gather construction,
+plus69c3ec2/e4640c1 above. All changed files match successful focused manifests;
+original tests only, no provenance changes. Evidence copied into
+work/parallel-round8-evidence/{moves,gather,shadows,scoped}/work.
+Scoped checks:6integration+2unit+Clippy;45local+27custom comparisons. runner-a
+1440samples show sparse owned local1.530ms->0.152ms/custom1.492ms->0.108ms;
+clonecounts69769->4105/68360->2696. Dense ratios0.968-1.015; small retained simple
+4.1-4.6%slower; local no-improvement simple13.8%slower. Ordinary owned local
+no-improvement11.6%slower overall, per-batch ratios1.104/1.113/1.001; unchanged
+callbacks/clones. Countercases retained, no universal speedup claim.
+Borrowed gather:34focused tests+Clippy,4new regressions; cached locations and
+touched borrowed rows replace full candidate clones, preserving payloads/errors/
+seeded output. Dependency identity lookup uses existing value_index. Same-local
+baseline5ad/current1440samples/80matching workloads:4096sparse128draws205.3ms->
+1.63ms(126.06x),mixed94.27x,unrestricted63.05x;tinyfull2.08-2.49x. Tinyopening
+0.2-0.4us slower, tiny densefirst0.63us slower. Not a Java or whole-solve claim.
+
+Round8 combined gate65333 LIVE: stable launcher runs work/prebuild_parallel_round8.py
+>work/parallel-round8-prebuild.log then bash scripts/check.sh
+>work/parallel-round8-final-check.log. Do not restart; main Rust/provenance frozen.
+After terminal0 run prepared work/record_parallel_round8.py via stable launcher;
+it validates current source/freshness, unchanged provenance, all4focused commit
+files and benchmark probes, then records actual counts. Do not claim fullpass yet.
+
+Next batch: same3Astra/high agents. dependency_graph on runner-c implements compiled
+entity eligibility over genuine assignment fields/list ownership/derived consistency
+with a shadow stream adapter; complete Community method credits only if justified.
+termination on runner-a implements typed score-goal AND/OR stopping expressions
+without changing existing untyped SearchLimit behavior, tracking complete retained
+best only when needed. dense_scoring picks next useful moves/selector gap; local
+Cargo held during65333prebuild, then release separate target-j2. Agent evidence
+from round8 copied before next edits. Goal active/incomplete; this turn verified
+round7 and integrated4substantial round8 changes.
