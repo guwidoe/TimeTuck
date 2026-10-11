@@ -4,6 +4,8 @@ use crate::{
     MixedProblem, Move, MoveProvider, SampleRandom,
 };
 use std::num::NonZeroUsize;
+mod source;
+pub use source::{ListSwapSourceLimits, ListValueSwapSource};
 
 /// Pair each selected left value with every right value, or consume the two
 /// filtered streams in lockstep. Paired stops when either stream ends. Pinning

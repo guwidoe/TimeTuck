@@ -985,8 +985,8 @@ pub use calculator_explanation::{
 
 mod list_value_swap;
 pub use list_value_swap::{
-    ListSwapPairing, ListValueSwapProvider, SampledListValueSwapProvider, list_value_swap_moves,
-    sample_list_value_swaps,
+    ListSwapPairing, ListSwapSourceLimits, ListValueSwapProvider, ListValueSwapSource,
+    SampledListValueSwapProvider, list_value_swap_moves, sample_list_value_swaps,
 };
 
 mod list_value_change;
