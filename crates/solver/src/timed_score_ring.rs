@@ -20,30 +20,34 @@ impl fmt::Display for TimedScoreRingError {
 }
 impl Error for TimedScoreRingError {}
 
-/// Owned physical storage for inspection/checkpoint restoration. Length explicitly
-/// distinguishes empty from full when the cursors coincide; zero is a valid time.
+/// Owned physical layout for inspection/checkpoint restoration. Length explicitly
+/// distinguishes empty from full when the cursors coincide. The default clock
+/// is u128 nanoseconds; any Copy/Ord/Default clock type can be used. Its default
+/// value is only vacant-slot padding, never an active-sample sentinel.
 /// Inactive slots can retain old payloads in an imported checkpoint. Operations
-/// never use those slots as live samples; eviction, growth and clear release them.
+/// never use those slots as live samples; overwrite, growth and clear release them.
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub struct TimedScoreRingState<S> {
+pub struct TimedScoreRingState<S, T = u128> {
     pub read: usize,
     pub write: usize,
     pub len: usize,
-    pub times: Vec<u128>,
+    pub times: Vec<T>,
     pub scores: Vec<Option<S>>,
 }
 #[derive(Clone, Debug)]
-struct Slot<S> {
-    time: u128,
+struct Slot<S, T> {
+    time: T,
     score: Option<S>,
 }
-fn vacant<S>() -> Slot<S> {
+fn vacant<S, T: Default>() -> Slot<S, T> {
     Slot {
-        time: 0,
+        time: T::default(),
         score: None,
     }
 }
-/// Chronologically ordered, growable ring. Insertion is amortized O(1), eviction
+/// Chronologically ordered, growable ring, defaulting to u128 timestamps. Native
+/// duration clocks can retain their representation without per-query conversion.
+/// Insertion is amortized O(1), eviction
 /// O(number removed), and storage O(peak live samples). Neither insertion nor
 /// growth clones a score. Capacity doubles on overflow; growth linearizes active
 /// entries and clears inactive slots. Capacity does not shrink on eviction.
@@ -62,15 +66,15 @@ fn vacant<S>() -> Slot<S> {
 /// # Ok::<(), timetuck::TimedScoreRingError>(())
 /// ```
 #[derive(Clone, Debug)]
-pub struct TimedScoreRing<S> {
-    entries: VecDeque<(u128, S)>,
+pub struct TimedScoreRing<S, T = u128> {
+    entries: VecDeque<(T, S)>,
     read: usize,
     capacity: usize,
     // Only imported checkpoints can contain inactive payloads/timestamps.
     // Normal runtime stores active samples only, avoiding an Option per score.
-    inactive: Option<Vec<Slot<S>>>,
+    inactive: Option<Vec<Slot<S, T>>>,
 }
-impl<S> TimedScoreRing<S> {
+impl<S, T: Ord + Copy + Default> TimedScoreRing<S, T> {
     pub fn new(capacity: usize) -> Result<Self, TimedScoreRingError> {
         if capacity == 0 {
             return Err(TimedScoreRingError::Capacity);
@@ -88,7 +92,7 @@ impl<S> TimedScoreRing<S> {
     }
     /// Validate cursor/length consistency and active score/time ordering before
     /// accepting an owned checkpoint. Inactive payloads are preserved verbatim.
-    pub fn from_state(state: TimedScoreRingState<S>) -> Result<Self, TimedScoreRingError> {
+    pub fn from_state(state: TimedScoreRingState<S, T>) -> Result<Self, TimedScoreRingError> {
         let n = state.times.len();
         if n == 0
             || n != state.scores.len()
@@ -122,7 +126,10 @@ impl<S> TimedScoreRing<S> {
                 .push_back((slot.time, slot.score.expect("validated active slot")));
         }
         result.read = state.read;
-        if slots.iter().any(|s| s.time != 0 || s.score.is_some()) {
+        if slots
+            .iter()
+            .any(|s| s.time != T::default() || s.score.is_some())
+        {
             result.inactive = Some(slots);
         }
         Ok(result)
@@ -145,13 +152,13 @@ impl<S> TimedScoreRing<S> {
         }
     }
     /// Sample by chronological offset, independent of physical wrap position.
-    pub fn get(&self, offset: usize) -> Option<(u128, &S)> {
+    pub fn get(&self, offset: usize) -> Option<(T, &S)> {
         self.entries.get(offset).map(|(t, s)| (*t, s))
     }
-    pub fn front(&self) -> Option<(u128, &S)> {
+    pub fn front(&self) -> Option<(T, &S)> {
         self.entries.front().map(|(t, s)| (*t, s))
     }
-    pub fn back(&self) -> Option<(u128, &S)> {
+    pub fn back(&self) -> Option<(T, &S)> {
         self.entries.back().map(|(t, s)| (*t, s))
     }
     /// Double checkpoint capacity and linearize active entries in its layout.
@@ -171,7 +178,7 @@ impl<S> TimedScoreRing<S> {
         drop(previous);
         Ok(())
     }
-    pub fn push(&mut self, time: u128, score: S) -> Result<(), TimedScoreRingError> {
+    pub fn push(&mut self, time: T, score: S) -> Result<(), TimedScoreRingError> {
         if self.back().is_some_and(|(previous, _)| time < previous) {
             return Err(TimedScoreRingError::BackwardsTime);
         }
@@ -180,7 +187,7 @@ impl<S> TimedScoreRing<S> {
     // The termination policy already clamps time and inspected the last score.
     pub(crate) fn push_chronological(
         &mut self,
-        time: u128,
+        time: T,
         score: S,
     ) -> Result<(), TimedScoreRingError> {
         if self.len() == self.capacity {
@@ -207,7 +214,7 @@ impl<S> TimedScoreRing<S> {
             .map(|(_, s)| s)
             .ok_or(TimedScoreRingError::Empty)
     }
-    pub fn retain_floor(&mut self, cutoff: u128) -> Result<(u128, &S), TimedScoreRingError> {
+    pub fn retain_floor(&mut self, cutoff: T) -> Result<(T, &S), TimedScoreRingError> {
         if self.is_empty() {
             return Err(TimedScoreRingError::Empty);
         }
@@ -230,7 +237,7 @@ impl<S> TimedScoreRing<S> {
     /// Materialize the physical checkpoint layout on demand. Runtime storage is
     /// a standard deque of active samples; inactive slots cost storage only when
     /// imported. Cursor/slot semantics do not depend on the deque's allocation.
-    pub fn state(&self) -> TimedScoreRingState<S>
+    pub fn state(&self) -> TimedScoreRingState<S, T>
     where
         S: Clone,
     {
@@ -238,7 +245,7 @@ impl<S> TimedScoreRing<S> {
             read: self.read,
             write: self.index(self.len()),
             len: self.len(),
-            times: vec![0; self.capacity],
+            times: vec![T::default(); self.capacity],
             scores: std::iter::repeat_with(|| None)
                 .take(self.capacity)
                 .collect(),

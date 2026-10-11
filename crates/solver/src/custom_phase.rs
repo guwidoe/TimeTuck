@@ -43,6 +43,8 @@ pub enum CustomPhaseError<E> {
     /// The command caught an operation error and returned success. A failed
     /// scoring operation cannot establish a valid result for this invocation.
     IgnoredOperationError,
+    /// Independent full scoring disagreed with the applied incremental score.
+    ScoreMismatch,
 }
 impl<E: fmt::Display> fmt::Display for CustomPhaseError<E> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -51,6 +53,9 @@ impl<E: fmt::Display> fmt::Display for CustomPhaseError<E> {
             Self::Command(e) => f.write_str(e),
             Self::IgnoredOperationError => {
                 f.write_str("custom command ignored a failed scoring operation")
+            }
+            Self::ScoreMismatch => {
+                f.write_str("temporary full score disagrees with incremental score")
             }
         }
     }
@@ -291,7 +296,14 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
         self.stop
     }
     fn begin(&mut self) -> bool {
+        self.begin_with_score_room(1)
+    }
+    fn begin_with_score_room(&mut self, required: u64) -> bool {
         if self.is_terminated() {
+            return false;
+        }
+        if self.config.max_evaluations - self.work.evaluations < required {
+            self.stop = Some(CustomPhaseTermination::EvaluationLimit);
             return false;
         }
         crate::score_evaluations::record(&self.score_counter);
@@ -540,6 +552,91 @@ impl<A: Clone, M, S: Score, E> CustomPhaseContext<'_, A, M, S, E> {
             return Ok(None);
         }
         self.evaluate_started(movement, visit)
+    }
+    /// Score one temporary move and route its applied assignment to exactly one
+    /// handler. A negative structural score selects `flawed`; otherwise `valid`
+    /// runs. The transaction always rolls back, including on a handler unwind.
+    /// This concerns scored structural state (including missing required values),
+    /// rather than the uninstalled dependency preview from evaluate_inspected.
+    pub fn evaluate_structured<R>(
+        &mut self,
+        movement: &M,
+        valid: impl FnOnce(&A) -> R,
+        flawed: impl FnOnce(&A) -> R,
+    ) -> Result<Option<R>, CustomPhaseError<E>> {
+        self.evaluate(movement, |a, score| {
+            if score.structural() < 0 {
+                flawed(a)
+            } else {
+                valid(a)
+            }
+        })
+    }
+    /// Route one temporary move after independent full rescoring. The callback
+    /// returns the score and its actual constraint work. It runs on the same
+    /// applied assignment, without replaying the move; its score must agree with
+    /// the incremental trial before either handler can see it. The assignment,
+    /// director score and retained best are restored after the handler.
+    ///
+    /// Two phase-local score-evaluation slots and one move slot must fit before
+    /// beginning. Shared composed conditions are polled at cooperative boundaries.
+    /// Only attempted scoring is charged: a failed initial trial never charges
+    /// the unused full rescore. Full scoring errors/mismatches invalidate the
+    /// phase even if caught. Full scorer panics likewise invalidate it; caught
+    /// handler panics can resume after rollback with known work. Neither handler
+    /// nor rescorer runs when a limit prevents the complete operation.
+    pub fn evaluate_structured_with_score<R>(
+        &mut self,
+        movement: &M,
+        rescore: impl FnOnce(&A) -> Result<(S, u128), E>,
+        valid: impl FnOnce(&A, S) -> R,
+        flawed: impl FnOnce(&A, S) -> R,
+    ) -> Result<Option<R>, CustomPhaseError<E>> {
+        if !self.begin_with_score_room(2) {
+            return Ok(None);
+        }
+        self.failed = true;
+        let failed = &mut self.failed;
+        let work = &mut self.work;
+        let counter = &self.score_counter;
+        let mut rescore = Some(rescore);
+        let mut valid = Some(valid);
+        let mut flawed = Some(flawed);
+        let mut value = None;
+        let mut scoring_error = None;
+        let mut mismatch = false;
+        let result = self.director.trial(movement, &mut |a, trial_score, count| {
+            work.constraint_evaluations += count;
+            crate::score_evaluations::record(counter);
+            work.evaluations += 1;
+            match rescore.take().expect("one rescore")(a) {
+                Err(error) => scoring_error = Some(error),
+                Ok((score, count)) => {
+                    work.constraint_evaluations += count;
+                    if score != trial_score {
+                        mismatch = true;
+                    } else {
+                        *failed = false;
+                        value = Some(if score.structural() < 0 {
+                            flawed.take().expect("one flawed handler")(a, score)
+                        } else {
+                            valid.take().expect("one valid handler")(a, score)
+                        });
+                        *failed = true;
+                    }
+                }
+            }
+            false
+        });
+        self.operation(result)?;
+        if let Some(error) = scoring_error {
+            return Err(CustomPhaseError::Scoring(error));
+        }
+        if mismatch {
+            return Err(CustomPhaseError::ScoreMismatch);
+        }
+        self.failed = false;
+        Ok(value)
     }
     /// Preview list dependency consistency before temporary scoring. A flawed
     /// candidate goes only to `flawed`, with its proposed assignment and affected

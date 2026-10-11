@@ -6878,3 +6878,22 @@ snapshots, verify move-only payload retention/release and test zero/duplicate/
 maximum times, backwards input, capacity errors and invalid checkpoints. Existing
 native policy/cache and eighteen-route solver composition regressions cover runtime
 integration; they earn no new source-method credit.
+
+Clock storage is now generic, with u128 as the public default and Duration used
+directly by diminished returns. Inactive snapshot padding is never an empty-time
+sentinel; custom negative, zero and maximum clock values remain valid. Pruning
+avoids touching the history when no predecessor can be removed. Two original
+clock/checkpoint regressions and the existing policy/source/solver cases cover
+these changes, with no additional source-method credit.
+
+### Structurally routed custom-phase trials
+
+All four DefaultPhaseCommandContextTest methods now have full native adaptations.
+Temporary scored trials select exactly one handler by structural validity, with
+the same success/error strings and one applied move. Scored variants independently
+recompute the full network on that candidate, preserving two actual calculations
+without move replay; ordinary variants calculate once. Source fixture cardinality
+and exact structural/ordinary scores are retained. Native required-value state
+replaces mocked fullyAssigned InnerScore wrappers, without Java metadata parity.
+Complete mappings appear in provenance and the solver contract. Original all-nine
+backend fresh/retained and failure/budget/unwind tests earn no method credit.

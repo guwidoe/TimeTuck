@@ -912,3 +912,10 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   length/Option values replace timestamp sentinels/null. Complete mappings are in
   `compat/provenance.json`. The ring implementation and separate reference-model,
   ownership and boundary regressions are original work.
+
+- `crates/solver/tests/custom_structure_cases.rs` adapts all four Community
+  `DefaultPhaseCommandContextTest` methods (Apache-2.0). Real temporary moves,
+  required-value structural scoring and independent full recomputation replace
+  Java mocks while preserving return, handler, move and scoring-call assertions.
+  Complete substitutions appear in `compat/provenance.json`. The implementation,
+  all-backend routing and failure/budget regressions are original work.

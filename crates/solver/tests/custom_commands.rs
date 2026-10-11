@@ -117,12 +117,14 @@ struct Outcome {
 #[derive(Debug, PartialEq)]
 enum Failure {
     Scoring,
+    ScoreMismatch,
     Ignored,
     Command,
 }
 fn failure<E>(e: CustomPhaseError<E>) -> Failure {
     match e {
         CustomPhaseError::Scoring(_) => Failure::Scoring,
+        CustomPhaseError::ScoreMismatch => Failure::ScoreMismatch,
         CustomPhaseError::IgnoredOperationError => Failure::Ignored,
         CustomPhaseError::Command(_) => Failure::Command,
     }

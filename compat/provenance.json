@@ -51924,6 +51924,66 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every initial physical timestamp/score slot, read/write cursor, operation, return/error assertion and final physical storage/cursor assertion. Native u128 nanoseconds replace nonnegative Java long fixtures; scores use native SimpleScore, Option replaces null and explicit active length distinguishes empty/full cursors without a zero timestamp sentinel. Imported inactive scores are retained until overwritten/growth/clear; growth linearizes only active samples. Typed errors replace Java exception classes. TimedScoreRing now backs actual diminished-returns termination; same-timestamp best replacement, exact window predecessor eviction and cache invalidation retain native behavior. No production implementation used. Original reference, ownership, malformed-state and extreme-time tests earn no source credit."
+    },
+    {
+      "id": "DefaultPhaseCommandContextTest.executeTemporarilyHandlingStructurallyFlawedSolutions_moveDoesNotFlawSolution",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/phase/custom/DefaultPhaseCommandContextTest.java",
+      "upstream_test": "executeTemporarilyHandlingStructurallyFlawedSolutions_moveDoesNotFlawSolution",
+      "local_path": "crates/solver/tests/custom_structure_cases.rs",
+      "local_test": "temporary_move_does_not_flaw_solution",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all return-string, selected-handler exactly-once, other-handler never, one applied-move and one/two score-calculation assertions. Retain three value choices and two entities as two required native variables. Replace mocked Move/InnerScoreDirector and fullyAssigned InnerScore wrappers with a real transactional change and a zero scoped constraint; temporary unassignment produces the asserted structural -1 and ordinary zero, without claiming Java initialized/fullyAssigned metadata parity. Reset the observable calculation counter after native phase initialization. Scored variants perform an independent full network recomputation on the same applied candidate and require score agreement before dispatch; ordinary variants use the single incremental calculation. Add assignment/director-score/best rollback and work assertions. Native budgets and fail-closed rescorer errors are separate original contracts. No production implementation copied."
+    },
+    {
+      "id": "DefaultPhaseCommandContextTest.executeTemporarilyHandlingStructurallyFlawedSolutions_moveFlawsSolution",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/phase/custom/DefaultPhaseCommandContextTest.java",
+      "upstream_test": "executeTemporarilyHandlingStructurallyFlawedSolutions_moveFlawsSolution",
+      "local_path": "crates/solver/tests/custom_structure_cases.rs",
+      "local_test": "temporary_move_flaws_solution",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all return-string, selected-handler exactly-once, other-handler never, one applied-move and one/two score-calculation assertions. Retain three value choices and two entities as two required native variables. Replace mocked Move/InnerScoreDirector and fullyAssigned InnerScore wrappers with a real transactional change and a zero scoped constraint; temporary unassignment produces the asserted structural -1 and ordinary zero, without claiming Java initialized/fullyAssigned metadata parity. Reset the observable calculation counter after native phase initialization. Scored variants perform an independent full network recomputation on the same applied candidate and require score agreement before dispatch; ordinary variants use the single incremental calculation. Add assignment/director-score/best rollback and work assertions. Native budgets and fail-closed rescorer errors are separate original contracts. No production implementation copied."
+    },
+    {
+      "id": "DefaultPhaseCommandContextTest.executeTemporarilyAndCalculateScoreHandlingStructurallyFlawedSolutions_moveDoesNotFlawSolution",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/phase/custom/DefaultPhaseCommandContextTest.java",
+      "upstream_test": "executeTemporarilyAndCalculateScoreHandlingStructurallyFlawedSolutions_moveDoesNotFlawSolution",
+      "local_path": "crates/solver/tests/custom_structure_cases.rs",
+      "local_test": "temporary_scored_move_does_not_flaw_solution",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all return-string, selected-handler exactly-once, other-handler never, one applied-move and one/two score-calculation assertions. Retain three value choices and two entities as two required native variables. Replace mocked Move/InnerScoreDirector and fullyAssigned InnerScore wrappers with a real transactional change and a zero scoped constraint; temporary unassignment produces the asserted structural -1 and ordinary zero, without claiming Java initialized/fullyAssigned metadata parity. Reset the observable calculation counter after native phase initialization. Scored variants perform an independent full network recomputation on the same applied candidate and require score agreement before dispatch; ordinary variants use the single incremental calculation. Add assignment/director-score/best rollback and work assertions. Native budgets and fail-closed rescorer errors are separate original contracts. No production implementation copied."
+    },
+    {
+      "id": "DefaultPhaseCommandContextTest.executeTemporarilyAndCalculateScoreHandlingStructurallyFlawedSolutions_moveFlawsSolution",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/phase/custom/DefaultPhaseCommandContextTest.java",
+      "upstream_test": "executeTemporarilyAndCalculateScoreHandlingStructurallyFlawedSolutions_moveFlawsSolution",
+      "local_path": "crates/solver/tests/custom_structure_cases.rs",
+      "local_test": "temporary_scored_move_flaws_solution",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all return-string, selected-handler exactly-once, other-handler never, one applied-move and one/two score-calculation assertions. Retain three value choices and two entities as two required native variables. Replace mocked Move/InnerScoreDirector and fullyAssigned InnerScore wrappers with a real transactional change and a zero scoped constraint; temporary unassignment produces the asserted structural -1 and ordinary zero, without claiming Java initialized/fullyAssigned metadata parity. Reset the observable calculation counter after native phase initialization. Scored variants perform an independent full network recomputation on the same applied candidate and require score agreement before dispatch; ordinary variants use the single incremental calculation. Add assignment/director-score/best rollback and work assertions. Native budgets and fail-closed rescorer errors are separate original contracts. No production implementation copied."
     }
   ],
   "fixtures": [

@@ -2187,6 +2187,7 @@ fn custom_error<E, F: From<E>>(phase: usize, error: CustomPhaseError<E>) -> Solv
         CustomPhaseError::Scoring(e) => CustomPhaseError::Scoring(e.into()),
         CustomPhaseError::Command(e) => CustomPhaseError::Command(e),
         CustomPhaseError::IgnoredOperationError => CustomPhaseError::IgnoredOperationError,
+        CustomPhaseError::ScoreMismatch => CustomPhaseError::ScoreMismatch,
     };
     SolverError::Custom { phase, error }
 }

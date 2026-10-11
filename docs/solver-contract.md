@@ -763,8 +763,32 @@ zero-time behavior and validation before zero work. Two controlled-clock unit
 methods cover initialization, observers, command bodies, candidate scoring, latched
 timeouts and count-limit precedence. A public doctest demonstrates temporary trials
 and retained bests. These are independent native contracts and add no upstream
-method credit. Deferred scoring and full Java structural-error/command API parity
+method credit. Deferred scoring and full Java command API parity
 remain unimplemented. Ordered integration and its source adaptations follow below.
+
+evaluate_structured(move, valid, flawed) dispatches exactly one handler using the
+trial's scored structural level: negative selects flawed. It scores the applied
+move once and always rolls back. Missing required values can produce such scores;
+domain, pin and dependency validation errors remain typed operation errors.
+evaluate_inspected instead previews dependency flaws before installation/scoring.
+
+evaluate_structured_with_score additionally takes an independent full scorer
+returning (score, actual constraint work). It rescores the same applied assignment
+without replay and requires equality with the incremental score before dispatch.
+Both phase-local score slots must fit before starting; one move slot is consumed.
+An invalid initial move never invokes or charges the full scorer. A full-scorer
+error, mismatch or caught panic invalidates the invocation. Caught handler panics
+retain known work and permit later operations after rollback. Shared composed
+conditions are checked at cooperative boundaries, rather than reserving arbitrary
+composed quotas atomically. The caller must supply an actual independent scorer
+and accurate work count to obtain independent validation.
+
+All four DefaultPhaseCommandContextTest methods preserve the exact success/error
+strings, selected/unused handler counts, one applied move and one/two calculations.
+Real native required-value structure replaces mocked InnerScore wrappers; this
+does not assert Java initialized-state metadata parity. Original regressions cover
+36 fresh/retained solves across all nine backends, rollback, full-scorer failures,
+handler/scorer panics, unused rescores and local/shared evaluation limits.
 
 ## Ordered custom phases
 
