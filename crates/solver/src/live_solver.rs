@@ -39,6 +39,46 @@ impl<R> Clone for LiveSolution<R> {
         }
     }
 }
+type LiveConsumer<R> = Box<dyn FnMut(u64, SolverBestEvent<'_, LiveSolution<R>>) + Send>;
+type LiveInitialized<R> = Box<dyn FnOnce(u64, &LiveSolution<R>, SolverInitialization) + Send>;
+
+/// Revision-aware callbacks for a live job. The solution consumer receives the
+/// revision and optional native phase origin together with each snapshot. Best
+/// delivery may coalesce updates; Final delivery calls it once with no producer.
+/// Successful solution consumption acknowledges changes through that revision.
+///
+/// Initialization is separate, once per job (not once per restart), and does not
+/// acknowledge changes. Both callbacks run serially on the consumer pool. A panic
+/// in either callback stops the live loop cooperatively and fails pending receipts;
+/// it is recorded in [`LiveSolverJob::callback_failures`]. Never wait on this job
+/// from its callbacks. Snapshots must independently own their problem facts.
+pub struct LiveSolverCallbacks<R> {
+    consumer: LiveConsumer<R>,
+    initialized: Option<LiveInitialized<R>>,
+}
+impl<R> LiveSolverCallbacks<R> {
+    pub fn new(
+        consumer: impl FnMut(u64, SolverBestEvent<'_, LiveSolution<R>>) + Send + 'static,
+    ) -> Self {
+        Self {
+            consumer: Box::new(consumer),
+            initialized: None,
+        }
+    }
+    /// Retain the first explicitly published initialization independently of
+    /// best-update coalescing. Delivery also occurs in Final mode or when solving
+    /// subsequently fails. No event is synthesized from a returned solve result.
+    pub fn on_first_initialized(
+        mut self,
+        callback: impl FnOnce(u64, &LiveSolution<R>, SolverInitialization) + Send + 'static,
+    ) -> Self {
+        self.initialized = Some(Box::new(callback));
+        self
+    }
+    fn plain(mut consumer: impl FnMut(u64, &R) + Send + 'static) -> Self {
+        Self::new(move |id, event| consumer(id, &event.solution.solution))
+    }
+}
 #[derive(Debug)]
 pub enum LiveSolveError<E> {
     Solve(E),
@@ -306,7 +346,7 @@ pub struct LiveRun<R> {
 /// not acknowledge problem changes: successful consumption does, for this
 /// revision and earlier revisions only.
 ///
-/// Intermediate publication is disabled for Final delivery and once this run's
+/// Intermediate best publication is disabled for Final delivery and once this run's
 /// cancellation token is set. Cancellation may race a publication already in
 /// progress; that snapshot still carries its original revision. The solve's
 /// returned result retains the existing final/warm-restart delivery semantics.
@@ -338,14 +378,50 @@ impl<R> LiveSolverProgress<'_, R> {
     /// Queue an owned best snapshot for the existing job consumer. False means
     /// it was not queued; true does not guarantee successful consumer execution.
     pub fn publish(&self, solution: R) -> bool {
+        self.publish_best(solution, None)
+    }
+    /// Publish an owned best snapshot with its actual native phase origin. Origin
+    /// and revision are coalesced atomically with the snapshot. Returned solve
+    /// results are still published without an origin: no origin is inferred from
+    /// an earlier intermediate update.
+    pub fn publish_from(&self, solution: R, producer: SolverEventProducer) -> bool {
+        self.publish_best(solution, Some(producer))
+    }
+    fn publish_best(&self, solution: R, producer: Option<SolverEventProducer>) -> bool {
         if !self.enabled || self.token.is_cancelled() {
             dispose(solution);
             return false;
         }
-        self.progress.publish(LiveSolution {
+        let snapshot = LiveSolution {
             revision: self.revision,
             solution: Arc::new(solution),
-        })
+        };
+        match producer {
+            Some(producer) => self.progress.publish_from(snapshot, producer),
+            None => self.progress.publish(snapshot),
+        }
+    }
+    /// Publish the job's first initialization, even in Final delivery mode. This
+    /// is explicit: the caller must obtain the initialization metadata from its
+    /// solver. Later attempts, including after a revision restart, are ignored.
+    /// A cancelled run cannot publish; already accepted events keep their original
+    /// revision. Initialization delivery alone never acknowledges problem changes.
+    pub fn publish_first_initialized(
+        &self,
+        solution: R,
+        initialization: SolverInitialization,
+    ) -> bool {
+        if self.token.is_cancelled() {
+            dispose(solution);
+            return false;
+        }
+        self.progress.publish_first_initialized(
+            LiveSolution {
+                revision: self.revision,
+                solution: Arc::new(solution),
+            },
+            initialization,
+        )
     }
 }
 type InspectProblem<P> = Box<dyn Fn(&P) -> ProblemSizeStatistics + Send>;
@@ -489,7 +565,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             config,
             None,
             move |p, old, token, _| solve(p, old, token).map(|r| (r, None)),
-            consumer,
+            LiveSolverCallbacks::plain(consumer),
         )
     }
     /// Publish best snapshots while a revision is still solving. Consumers run
@@ -517,7 +593,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             config,
             None,
             move |p, old, token, progress| solve(p, old, token, progress).map(|r| (r, None)),
-            consumer,
+            LiveSolverCallbacks::plain(consumer),
         )
     }
     /// Derive model size before queueing and after applying each batch of changes.
@@ -540,7 +616,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             config,
             Some(Box::new(inspect)),
             move |p, old, token, _| solve(p, old, token).map(|r| (r.solution, Some(r.work))),
-            consumer,
+            LiveSolverCallbacks::plain(consumer),
         )
     }
     /// Combine intermediate best publication with model inspection and actual
@@ -570,7 +646,64 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             move |p, old, token, progress| {
                 solve(p, old, token, progress).map(|r| (r.solution, Some(r.work)))
             },
-            consumer,
+            LiveSolverCallbacks::plain(consumer),
+        )
+    }
+    /// Submit a progress-enabled live solve with revision-aware solution and
+    /// first-initialized callbacks. Existing simple consumers remain available
+    /// through [`Self::submit_with_progress`]. Publication adds no score callbacks
+    /// or work counters and clones no solution payloads.
+    pub fn submit_with_events(
+        &self,
+        id: u64,
+        problem: P,
+        config: LiveSolverConfig,
+        mut solve: impl FnMut(
+            &P,
+            Option<&R>,
+            &CancellationToken,
+            &LiveSolverProgress<'_, R>,
+        ) -> Result<R, E>
+        + Send
+        + 'static,
+        callbacks: LiveSolverCallbacks<R>,
+    ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        self.submit_inner(
+            id,
+            problem,
+            config,
+            None,
+            move |p, old, token, progress| solve(p, old, token, progress).map(|r| (r, None)),
+            callbacks,
+        )
+    }
+    /// Combine revision-aware events with model inspection and actual work
+    /// accumulated once from each returned run, across all revisions.
+    pub fn submit_with_statistics_and_events(
+        &self,
+        id: u64,
+        problem: P,
+        config: LiveSolverConfig,
+        inspect: impl Fn(&P) -> ProblemSizeStatistics + Send + 'static,
+        mut solve: impl FnMut(
+            &P,
+            Option<&R>,
+            &CancellationToken,
+            &LiveSolverProgress<'_, R>,
+        ) -> Result<LiveRun<R>, E>
+        + Send
+        + 'static,
+        callbacks: LiveSolverCallbacks<R>,
+    ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
+        self.submit_inner(
+            id,
+            problem,
+            config,
+            Some(Box::new(inspect)),
+            move |p, old, token, progress| {
+                solve(p, old, token, progress).map(|r| (r.solution, Some(r.work)))
+            },
+            callbacks,
         )
     }
     fn submit_inner(
@@ -587,7 +720,7 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
         ) -> Result<(R, Option<SolverWork>), E>
         + Send
         + 'static,
-        mut consumer: impl FnMut(u64, &R) + Send + 'static,
+        callbacks: LiveSolverCallbacks<R>,
     ) -> Result<LiveSolverJob<P, R, E>, SubmitError> {
         let initial_size = inspect.as_ref().map(|inspect| inspect(&problem));
         let state = Arc::new(State::new());
@@ -604,26 +737,37 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
             id,
             started: false,
         };
+        let LiveSolverCallbacks {
+            mut consumer,
+            initialized,
+        } = callbacks;
         let delivered = state.clone();
-        let deliver = move |id, snapshot: &LiveSolution<R>| match capture(|| {
-            consumer(id, &snapshot.solution)
-        }) {
-            Ok(()) => delivered.acknowledge(snapshot.revision),
-            Err(message) => {
-                delivered.fail(ProblemChangeFailure::ConsumerPanicked(message.clone()));
-                std::panic::resume_unwind(Box::new(message));
+        let deliver = move |id, event: SolverBestEvent<'_, LiveSolution<R>>| {
+            let revision = event.solution.revision;
+            match capture(|| consumer(id, event)) {
+                Ok(()) => delivered.acknowledge(revision),
+                Err(message) => {
+                    delivered.fail(ProblemChangeFailure::ConsumerPanicked(message.clone()));
+                    std::panic::resume_unwind(Box::new(message));
+                }
             }
         };
         let finalized = state.clone();
         let failed = state.clone();
-        let callbacks = match config.delivery {
+        let mut callbacks = match config.delivery {
             LiveDelivery::Best => SolverJobCallbacks::default()
-                .on_best(deliver)
+                .on_best_event(deliver)
                 .on_final(move |_, _| finalized.fail(ProblemChangeFailure::Stopped)),
             LiveDelivery::Final => {
                 let mut deliver = deliver;
                 SolverJobCallbacks::default().on_final(move |id, s| {
-                    deliver(id, s);
+                    deliver(
+                        id,
+                        SolverBestEvent {
+                            solution: s,
+                            producer: None,
+                        },
+                    );
                     finalized.fail(ProblemChangeFailure::Stopped);
                 })
             }
@@ -633,6 +777,15 @@ impl<P: Send + 'static, R: Send + Sync + 'static, E: fmt::Display + Send + Sync 
                 failed.fail(ProblemChangeFailure::SolveFailed(error.to_string()));
             }
         });
+        if let Some(initialized) = initialized {
+            let failed = state.clone();
+            callbacks = callbacks.on_first_initialized(move |id, snapshot, metadata| {
+                if let Err(message) = capture(|| initialized(id, snapshot, metadata)) {
+                    failed.fail(ProblemChangeFailure::ConsumerPanicked(message.clone()));
+                    std::panic::resume_unwind(Box::new(message));
+                }
+            });
+        }
         let run = move |global: CancellationToken, progress: SolverProgress<LiveSolution<R>>| {
             let mut guard = guard;
             guard.started = true;
