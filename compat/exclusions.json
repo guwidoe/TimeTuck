@@ -16,6 +16,14 @@
     {
       "path_prefix": "migration/",
       "reason": "Java source migration tooling is outside the native Rust compatibility scope."
+    },
+    {
+      "path_prefix": "tools/migration/",
+      "reason": "Java source migration tooling is outside the native Rust compatibility scope."
+    },
+    {
+      "path_prefix": "service/quarkus/",
+      "reason": "JVM/Quarkus framework integration is outside the native Rust compatibility scope."
     }
   ]
 }
