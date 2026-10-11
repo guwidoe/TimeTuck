@@ -90,7 +90,7 @@ impl<K: Eq, W> ShadowSessionBuilder<'_, '_, K, W> {
                 return Err(ShadowSessionError::Metadata("duplicate ownership binding"));
             }
         }
-        let groups = EntityGroups::new(&self.nodes);
+        let groups = self.entity_groups();
         let mut fields = vec![];
         let mut group_of = vec![None; self.nodes.len()];
         for members in groups.groups {

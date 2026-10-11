@@ -12,7 +12,7 @@ mod entities;
 mod keyed_index;
 mod selection;
 use entities::EntityGroups;
-use keyed_index::{KeyHash, KeyedSourceIndex};
+use keyed_index::KeyedSourceIndex;
 pub use selection::{ShadowEntityFilter, ShadowEntitySelection};
 
 #[derive(Clone, Copy)]
@@ -182,7 +182,7 @@ pub struct ShadowSessionBuilder<'a, 's, K, W> {
     schema: &'s PlanningSchema,
     identity: Rc<()>,
     nodes: Vec<Node<'a, 's, K, W>>,
-    source_hash: Option<KeyHash<K>>,
+    source_index: Option<KeyedSourceIndex<K>>,
     edges: BTreeSet<(usize, usize)>,
 }
 impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
@@ -191,7 +191,7 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             schema,
             identity: Rc::new(()),
             nodes: vec![],
-            source_hash: None,
+            source_index: None,
             edges: BTreeSet::new(),
         }
     }
@@ -202,13 +202,20 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
     /// Keys must obey the usual `Eq`/`Hash` contract (equal keys hash equally), and
     /// registered identity must remain immutable for the session's lifetime.
     ///
-    /// The index is built once from all registrations at `build`/`try_build`,
-    /// including fields registered after this call. It borrows keys from the
-    /// session rather than cloning them and uses O(registered fields) extra space
-    /// and expected construction work, in addition to the existing Eq-only
-    /// duplicate/group/fixed-source validation costs. Collision-heavy keys can
-    /// still require linear lookup. Native handle bindings already use direct
-    /// indices and gain nothing from enabling this option.
+    /// Enabling this mode indexes all prior registrations; later successful
+    /// registrations append to that index. Repeated opt-in preserves the existing
+    /// index, which is moved into the session at `build`/`try_build`. This method
+    /// consumes the builder: a Hash panic while indexing prior registrations drops
+    /// it; the retry guarantee below applies to `input`/`derive` registration.
+    /// Hash and Eq checks finish before a registration is published, so callback
+    /// panics or duplicate errors leave the builder retryable. Registered key identity must
+    /// remain stable from enabling this mode onward, including during construction.
+    /// Keys are never cloned for indexing. Expected duplicate detection, owner
+    /// grouping and fixed-source lookup work becomes linear in their respective
+    /// registration/reference counts, using O(registered fields) extra space.
+    /// Collision-heavy keys can still require quadratic construction work.
+    /// Native handle bindings need no runtime key lookup, but their registration
+    /// and owner grouping also benefit from indexed construction.
     ///
     /// Each new registration built by a dynamic shadow-program factory gets its
     /// own index. Checkpoints reuse their session's immutable registration/index;
@@ -217,7 +224,9 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
     where
         K: std::hash::Hash,
     {
-        self.source_hash = Some(keyed_index::hash::<K>);
+        if self.source_index.is_none() {
+            self.source_index = Some(KeyedSourceIndex::new(keyed_index::hash::<K>, &self.nodes));
+        }
         self
     }
     fn register<T: 'static>(
@@ -231,11 +240,22 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
                 "field belongs to another schema",
             ));
         }
-        if self
-            .nodes
-            .iter()
-            .any(|n| n.variable == variable && n.entity == entity)
-        {
+        // Run all user Hash/Eq callbacks before changing either registration
+        // structure. Primitive bucket insertion below invokes no user callbacks.
+        let indexed_key = self
+            .source_index
+            .as_ref()
+            .map(|index| index.key(variable, &entity));
+        let duplicate = if let (Some(index), Some(key)) = (&self.source_index, indexed_key) {
+            index
+                .find_key(&self.nodes, variable, &entity, key)
+                .is_some()
+        } else {
+            self.nodes
+                .iter()
+                .any(|n| n.variable == variable && n.entity == entity)
+        };
+        if duplicate {
             return Err(ShadowSessionError::DuplicateNode);
         }
         let node = ShadowNode {
@@ -252,6 +272,9 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
             sources: None,
             fixed_sources: vec![],
         });
+        if let (Some(index), Some(key)) = (&mut self.source_index, indexed_key) {
+            index.insert(key);
+        }
         Ok(node)
     }
     /// Read a basic variable or an externally maintained shadow. All readers
@@ -436,13 +459,14 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
         let mut edges = vec![];
         for (target, node) in self.nodes.iter().enumerate() {
             for field in &node.fixed_sources {
-                let source = self
-                    .nodes
-                    .iter()
-                    .position(|candidate| {
+                let source = if let Some(index) = &self.source_index {
+                    index.find(&self.nodes, *field, &node.entity)
+                } else {
+                    self.nodes.iter().position(|candidate| {
                         candidate.variable == *field && candidate.entity == node.entity
                     })
-                    .ok_or(ShadowSessionError::UnregisteredSource)?;
+                }
+                .ok_or(ShadowSessionError::UnregisteredSource)?;
                 edges.push((target, source));
             }
         }
@@ -476,10 +500,8 @@ impl<'a, 's, K: Eq, W> ShadowSessionBuilder<'a, 's, K, W> {
     pub fn build(self) -> ShadowSession<'a, 's, K, W> {
         let topology = DependencyTopology::new(0..self.nodes.len()).expect("unique node indices");
         let pending = (0..self.nodes.len()).collect();
-        let entity_groups = EntityGroups::new(&self.nodes);
-        let source_index = self
-            .source_hash
-            .map(|hash| KeyedSourceIndex::new(hash, &self.nodes));
+        let entity_groups = self.entity_groups();
+        let source_index = self.source_index;
         let fields = self.nodes.iter().map(|node| node.variable).collect();
         ShadowSession {
             source_index,

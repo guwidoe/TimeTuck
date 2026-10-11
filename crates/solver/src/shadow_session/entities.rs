@@ -6,6 +6,44 @@ pub(super) struct EntityGroups {
     group_of: Vec<usize>,
 }
 impl EntityGroups {
+    fn indexed<K: Eq, W>(nodes: &[Node<'_, '_, K, W>], index: &KeyedSourceIndex<K>) -> Self {
+        // A bucket chains owner groups (not fields), retaining first-registration
+        // order even under collisions. Canonical types separate equal native keys.
+        let mut buckets = std::collections::HashMap::<(usize, u64), (usize, usize)>::new();
+        let mut next = Vec::new();
+        let mut groups: Vec<Vec<usize>> = Vec::new();
+        let mut group_of = Vec::with_capacity(nodes.len());
+        for (position, node) in nodes.iter().enumerate() {
+            let owner = node.variable.entity();
+            let key = (
+                std::ptr::from_ref(owner.definition()) as usize,
+                index.entity_hash(&node.entity),
+            );
+            let mut group = buckets.get(&key).map_or(usize::MAX, |b| b.0);
+            while group != usize::MAX {
+                let first = &nodes[groups[group][0]];
+                if first.variable.entity() == owner && first.entity == node.entity {
+                    break;
+                }
+                group = next[group];
+            }
+            if group == usize::MAX {
+                group = groups.len();
+                next.push(usize::MAX);
+                buckets
+                    .entry(key)
+                    .and_modify(|bucket| {
+                        next[bucket.1] = group;
+                        bucket.1 = group;
+                    })
+                    .or_insert((group, group));
+                groups.push(Vec::new());
+            }
+            groups[group].push(position);
+            group_of.push(group);
+        }
+        Self { groups, group_of }
+    }
     pub(super) fn new<K: Eq, W>(nodes: &[Node<'_, '_, K, W>]) -> Self {
         let mut groups: Vec<Vec<usize>> = Vec::new();
         let mut group_of = Vec::with_capacity(nodes.len());
@@ -24,6 +62,15 @@ impl EntityGroups {
             group_of.push(group);
         }
         Self { groups, group_of }
+    }
+}
+impl<K: Eq, W> ShadowSessionBuilder<'_, '_, K, W> {
+    pub(super) fn entity_groups(&self) -> EntityGroups {
+        if let Some(index) = &self.source_index {
+            EntityGroups::indexed(&self.nodes, index)
+        } else {
+            EntityGroups::new(&self.nodes)
+        }
     }
 }
 impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
@@ -45,8 +92,10 @@ impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
     /// are included. Membership is fixed after construction and is available even
     /// before an update or while changes are pending. Foreign handles fail.
     /// Queries use an immutable index without comparing entity keys. Building
-    /// that index once uses linear owner searches because keys require only `Eq`:
-    /// construction is O(fields × owners), quadratic in the worst case.
+    /// that index uses linear owner searches by default because keys require only
+    /// `Eq`: O(fields × owners), quadratic in the worst case. Opting into
+    /// [`ShadowSessionBuilder::with_keyed_source_index`] gives expected O(fields)
+    /// grouping; hash collisions retain the quadratic worst case.
     pub fn entity_nodes(
         &self,
         node: &ShadowNodeRef,
