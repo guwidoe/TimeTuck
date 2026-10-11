@@ -13,6 +13,7 @@ pub(super) struct ValueIndex<V> {
     heads: HashMap<u64, usize>,
     next: Vec<usize>,
     ranges: Vec<Option<Vec<usize>>>,
+    sparse_ranges: bool,
 }
 impl<V: Eq> ValueIndex<V> {
     pub(super) fn find(&self, values: &[V], value: &V) -> Option<usize> {
@@ -59,6 +60,7 @@ impl<V: Eq + Clone> ListProblem<V> {
             heads: HashMap::with_capacity(values.len()),
             next: Vec::with_capacity(values.len()),
             ranges: Vec::with_capacity(entities.len()),
+            sparse_ranges: false,
         };
         for (id, value) in values.iter().enumerate() {
             if index.find(&values, value).is_some() {
@@ -91,6 +93,15 @@ impl<V: Eq + Clone> ListProblem<V> {
                 return Err(ListError::InvalidPin { entity });
             }
         }
+        // A receiver index is worthwhile only for larger, mostly restricted
+        // models. Compute this immutable shape hint once, not on every scan.
+        let explicit = index.ranges.iter().filter_map(Option::as_ref);
+        let restricted = explicit.clone().count();
+        let memberships: u128 = explicit.map(|ids| ids.len() as u128).sum();
+        index.sparse_ranges = entities.len() >= 32
+            && values.len() >= 64
+            && restricted >= entities.len().div_ceil(2)
+            && memberships <= 8 * values.len() as u128;
         let model = Self {
             values,
             entities,
@@ -106,6 +117,18 @@ impl<V: Eq + Clone> ListProblem<V> {
 impl<V: Eq + Clone> ListProblem<V> {
     pub(crate) fn has_value_index(&self) -> bool {
         self.value_index.is_some()
+    }
+
+    pub(crate) fn has_sparse_entity_ranges(&self) -> bool {
+        self.value_index
+            .as_ref()
+            .is_some_and(|index| index.sparse_ranges)
+    }
+
+    // Only used after has_sparse_entity_ranges: None denotes an unrestricted
+    // entity. Registered IDs preserve model range membership without rehashing.
+    pub(crate) fn indexed_entity_range(&self, entity: usize) -> Option<&[usize]> {
+        self.value_index.as_ref().expect("indexed ranges").ranges[entity].as_deref()
     }
 
     // Internal callers already hold a valid registry ID; avoid rehashing its

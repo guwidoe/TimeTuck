@@ -4,6 +4,8 @@ use crate::{
 };
 
 use std::sync::{Arc, OnceLock};
+mod swap_index;
+use swap_index::{SwapPositions, SwapReceivers};
 
 // Defer the snapshot until the iterator is polled. Eq-only registries keep their
 // lazy direct lookup; indexed registries scan assigned values once.
@@ -127,6 +129,20 @@ fn swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     order: I,
     unique: bool,
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
+    // Dispatch once per emitted move, never once per rejected candidate, for
+    // models whose static range shape cannot benefit from a receiver index.
+    if p.has_sparse_entity_ranges() {
+        swap_index::SwapTraversal::Indexed(indexed_swap_pairs(p, a, order, unique))
+    } else {
+        swap_index::SwapTraversal::Direct(direct_swap_pairs(p, a, order, unique))
+    }
+}
+fn direct_swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    order: I,
+    unique: bool,
+) -> impl Iterator<Item = ListMove<V>> + 'a {
     // Shared by source positions, but initialized only when a replacement is
     // requested. Assigned swaps and required models need no missing-value scan.
     let missing = p
@@ -137,6 +153,81 @@ fn swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
         .flat_map(move |(offset, left)| {
             let assigned = positions(p, a, order.clone())
                 .skip(if unique { offset + 1 } else { 0 })
+                .filter(move |&right| {
+                    right != left
+                        && p.accepts(left.entity, &a.lists()[right.entity][right.index])
+                        && p.accepts(right.entity, &a.lists()[left.entity][left.index])
+                })
+                .map(move |right| ListMove::Swap { left, right });
+            let cache = missing.clone();
+            let mut cursor = 0;
+            let unassigned = std::iter::from_fn(move || {
+                let ids = cache
+                    .as_ref()?
+                    .get_or_init(|| unassigned_ids(p, a).collect());
+                let id = *ids.get(cursor)?;
+                cursor += 1;
+                Some(&p.values()[id])
+            })
+            .filter(move |v| p.accepts(left.entity, v))
+            .map(move |value| {
+                ListMove::Composite(vec![
+                    ListMove::Unassign {
+                        entity: left.entity,
+                        start: left.index,
+                        end: left.index + 1,
+                    },
+                    ListMove::Assign {
+                        value: value.clone(),
+                        destination: left,
+                    },
+                ])
+            });
+            assigned.chain(unassigned)
+        })
+}
+fn indexed_swap_pairs<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    order: I,
+    unique: bool,
+) -> impl Iterator<Item = ListMove<V>> + 'a {
+    // Shared by source positions, but initialized only when a replacement is
+    // requested. Assigned swaps and required models need no missing-value scan.
+    let missing = p
+        .allows_unassigned()
+        .then(|| Arc::new(OnceLock::<Vec<usize>>::new()));
+    // Keep default/Eq-only/small scans allocation-free. The index is built on
+    // the second requested source position and lives only for this snapshot.
+    // A caller taking only an early first-source proposal never builds it.
+    let receivers = p
+        .has_sparse_entity_ranges()
+        .then(OnceLock::<Option<Arc<SwapReceivers>>>::new);
+    positions(p, a, order.clone())
+        .enumerate()
+        .flat_map(move |(offset, left)| {
+            let index = receivers
+                .as_ref()
+                .filter(|_| offset != 0)
+                .and_then(|cache| {
+                    cache
+                        .get_or_init(|| SwapReceivers::new(p, a, order.clone()).map(Arc::new))
+                        .as_ref()
+                });
+            let candidates = match index {
+                Some(index) => {
+                    let value = p
+                        .value_index(&a.lists()[left.entity][left.index])
+                        .expect("validated value");
+                    SwapPositions::Indexed(index.positions(value, unique.then_some(offset)))
+                }
+                None => SwapPositions::Direct(positions(p, a, order.clone()).skip(if unique {
+                    offset + 1
+                } else {
+                    0
+                })),
+            };
+            let assigned = candidates
                 .filter(move |&right| {
                     right != left
                         && p.accepts(left.entity, &a.lists()[right.entity][right.index])
@@ -247,12 +338,12 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
         _ => {}
     }
     if matches!(neighborhood, Neighborhood::Swap | Neighborhood::UniqueSwap) {
-        return Box::new(swap_pairs(
-            p,
-            a,
-            order,
-            neighborhood == Neighborhood::UniqueSwap,
-        ));
+        let unique = neighborhood == Neighborhood::UniqueSwap;
+        return if p.has_sparse_entity_ranges() {
+            Box::new(indexed_swap_pairs(p, a, order, unique))
+        } else {
+            Box::new(direct_swap_pairs(p, a, order, unique))
+        };
     }
     // Keep the selected family behind one pointer. Nested mixed products must
     // not carry every possible iterator's state on the caller's stack.
@@ -290,6 +381,30 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     if let Neighborhood::TwoOpt { cross_entity } = neighborhood {
         return Box::new(two_opt_moves(p, a, cross_entity, order));
     }
+    let unique = neighborhood == Neighborhood::ChangeAndUniqueSwap;
+    if p.has_sparse_entity_ranges() {
+        combined_ordered(p, a, neighborhood, order, |order| {
+            indexed_swap_pairs(p, a, order, unique)
+        })
+    } else {
+        combined_ordered(p, a, neighborhood, order, |order| {
+            direct_swap_pairs(p, a, order, unique)
+        })
+    }
+}
+
+fn combined_ordered<
+    'a,
+    V: Eq + Clone,
+    I: Iterator<Item = usize> + Clone + 'a,
+    S: Iterator<Item = ListMove<V>> + 'a,
+>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    neighborhood: Neighborhood,
+    order: I,
+    make_swaps: impl FnOnce(I) -> S,
+) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
     let assigned = p
         .allows_unassigned()
         .then(|| assigns(p, a, order.clone()))
@@ -298,14 +413,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>
     let removed = unassigns(p, a, order.clone());
     let swapped = neighborhood
         .includes_swaps()
-        .then(|| {
-            swap_pairs(
-                p,
-                a,
-                order.clone(),
-                neighborhood == Neighborhood::ChangeAndUniqueSwap,
-            )
-        })
+        .then(|| make_swaps(order.clone()))
         .into_iter()
         .flatten();
     let max_length = match neighborhood {
