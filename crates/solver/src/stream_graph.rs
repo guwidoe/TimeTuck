@@ -29,6 +29,7 @@
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
 
+mod dependency_batch;
 mod facts;
 pub use facts::FactTransaction;
 mod activity;

@@ -2,7 +2,10 @@
 use crate::{
     DependencyCache, DependencyError, DependencyTopology, DerivedValue, SnapshotMap, TupleChange,
 };
-use std::{any::Any, collections::BTreeSet};
+use std::{
+    any::Any,
+    collections::{BTreeMap, BTreeSet},
+};
 
 pub type DerivedChange<K, T, V> = TupleChange<K, (T, DerivedValue<V>)>;
 
@@ -107,6 +110,95 @@ impl<'a, K: Ord + Clone, T: Clone, V: Clone + Eq> DependencyNode<'a, K, T, V> {
         )?;
         let mut affected: BTreeSet<_> = changed.into_iter().collect();
         affected.insert(change.id.clone());
+        let output = affected
+            .into_iter()
+            .filter_map(|key| {
+                if let Some(row) = next.rows.get(&key) {
+                    Some(TupleChange::put(
+                        key.clone(),
+                        (row.clone(), next.cache.values()[&key].clone()),
+                    ))
+                } else if self.state.rows.contains_key(&key) {
+                    Some(TupleChange::retract(key))
+                } else {
+                    None
+                }
+            })
+            .collect();
+        self.state = next;
+        Ok(output)
+    }
+    /// Settle a complete round of row changes against its final dependency graph.
+    /// Repeated keys keep only their last change. Every mentioned key must belong
+    /// to the declared universe, including absent retractions; IDs are validated
+    /// before invoking dependency callbacks. Dependencies are read once per final
+    /// present row, in key order. Superseded rows are never inspected or evaluated.
+    /// Removing a row absent before and after the round produces no work/output.
+    ///
+    /// Suppliers observe all final rows and edges together, so coordinated rewires
+    /// cannot expose transient cycles or intermediate derived values. Final cycles
+    /// remain inconsistent. Acyclic suppliers run at most once in dependency order;
+    /// equal results stop propagation. Each affected present row emits one final
+    /// replacement, including explicitly changed metadata with equal derived values.
+    /// Retractions emit only for previously present rows. Outputs are sorted by key.
+    ///
+    /// Metadata errors and ordinary callback/clone/comparison panics preserve the
+    /// entire node. External callback effects cannot be rolled back; callbacks must
+    /// read immutable inputs. Use separate [`Self::apply`] calls when intermediate
+    /// states are intentional, or [`crate::StreamGraphBuilder::derive_dependencies_batched`]
+    /// for this behavior inside graph batches and stream score directors.
+    pub fn apply_batch(
+        &mut self,
+        changes: impl IntoIterator<Item = TupleChange<K, T>>,
+    ) -> Result<Vec<DerivedChange<K, T, V>>, DependencyError<K>> {
+        let mut latest = BTreeMap::new();
+        for change in changes {
+            self.state.cache.topology().lookup(&change.id)?;
+            latest.insert(change.id, change.value);
+        }
+        let mut next = self.state.clone();
+        let mut removals = Vec::new();
+        let mut additions = Vec::new();
+        let mut dirty = Vec::new();
+        for (key, value) in latest {
+            if value.is_none() && !self.state.rows.contains_key(&key) {
+                continue;
+            }
+            let old = self.state.cache.topology().dependencies(&key)?;
+            let mut incoming = value
+                .as_ref()
+                .map_or_else(Vec::new, |row| (self.dependencies)(row));
+            incoming.sort();
+            incoming.dedup();
+            removals.extend(
+                old.iter()
+                    .filter(|k| incoming.binary_search(k).is_err())
+                    .map(|k| (key.clone(), (*k).clone())),
+            );
+            additions.extend(
+                incoming
+                    .iter()
+                    .filter(|k| old.binary_search(k).is_err())
+                    .map(|k| (key.clone(), k.clone())),
+            );
+            if let Some(row) = value {
+                next.rows.insert(key.clone(), row);
+            } else {
+                next.rows.remove(&key);
+            }
+            dirty.push(key);
+        }
+        if dirty.is_empty() {
+            return Ok(Vec::new());
+        }
+        let changed = next
+            .cache
+            .update(&removals, &additions, &dirty, |key, inputs| {
+                next.rows
+                    .get(key)
+                    .and_then(|row| (self.supplier)(key, row, inputs))
+            })?;
+        let affected: BTreeSet<_> = dirty.into_iter().chain(changed).collect();
         let output = affected
             .into_iter()
             .filter_map(|key| {
