@@ -33,3 +33,33 @@ fn check_pick_early_first_feasible_score_or_non_deteriorating_hard() {
     assert!(!pick.should_pick(previous, HardSoftScore::new(-11, -90).with_structural(-7)));
     assert!(pick.should_pick(previous, HardSoftScore::new(-10, -110).with_structural(-7)));
 }
+
+#[test]
+fn forager_does_not_pick_a_rejected_structurally_flawed_move() {
+    use timetuck::{ForagerConfig, MoveForager, MoveSelection, RejectedMovePolicy};
+    let previous = SimpleScore::new(-100).with_structural(-8);
+    let mut forager = MoveForager::new(ForagerConfig {
+        selection: MoveSelection::BestAccepted, // NEVER quit early.
+        current_score: previous,
+        best_score: previous,
+        // Exercise the structural rejection even when ordinary rejected moves
+        // may enter the fallback pool; construction itself needs no fallback.
+        rejected_moves: RejectedMovePolicy::BestScore,
+        ..Default::default()
+    });
+    // Source InnerScore has7 unassigned plus structural-1/ordinary0. Native
+    // structural state combines incompleteness with the rejected flaw. The
+    // source's initialized structurally-flawed sentinel maps to accepted=false.
+    let unassigned = 7;
+    let flawed = SimpleScore::new(0).with_structural(-1);
+    let candidate = flawed.with_structural(flawed.structural() - unassigned);
+    forager.add(candidate, false, 'a');
+    assert_eq!(forager.finalist_count(), 0);
+    assert_eq!(forager.accepted_candidates(), 0);
+    assert!(!forager.is_quit_early());
+    assert_eq!(
+        forager.pick(),
+        None,
+        "picked a rejected structurally flawed move"
+    );
+}

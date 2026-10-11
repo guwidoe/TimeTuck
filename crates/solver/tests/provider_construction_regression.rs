@@ -1013,3 +1013,89 @@ fn provider_optional_no_change_competes_last_in_all_models_and_backends() {
         );
     }
 }
+
+#[test]
+fn dependency_cycles_are_raw_rejections_without_scoring_or_partial_installation() {
+    // Value0 depends on1. Appending1 after0 closes a cycle; inserting1 before0
+    // makes legal progress. The initial assigned prefix itself has no cycle.
+    let lp = ListProblem::new(vec![0, 1], vec![ListEntity::new(vec![0])])
+        .unwrap()
+        .with_dependencies(vec![vec![1], vec![]])
+        .unwrap();
+    let mp = MixedProblem::new(
+        FiniteProblem::new(vec![Variable::new(vec![1]).with_initial(1)]).unwrap(),
+        lp.clone(),
+    );
+    for stream in [false, true] {
+        for (offer_valid, cap) in [(false, 100), (true, 100), (true, 1)] {
+            let config = Config {
+                max_scanned_moves: cap,
+                ..Default::default()
+            };
+            let proposals = || {
+                let mut moves = vec![insert(1, 0, 1)];
+                if offer_valid {
+                    moves.push(insert(1, 0, 0));
+                }
+                moves
+            };
+            let mut provider = |_: &ListProblem<i32>, _: &ListAssignment<i32>, _: u64| proposals();
+            let list = lists(&lp, lp.initial_assignment(), stream, config, &mut provider);
+            let mut provider =
+                |_: &MixedProblem<i32, i32>, _: &MixedAssignment<i32, i32>, _: u64| {
+                    proposals()
+                        .into_iter()
+                        .map(|lists| MixedMove {
+                            basic: Move::Composite(vec![]),
+                            lists,
+                        })
+                        .collect::<Vec<_>>()
+                };
+            let mixed = mixed(&mp, stream, config, &mut provider);
+            let completed = offer_valid && cap > 1;
+            let expected = if completed { vec![1, 0] } else { vec![0] };
+            assert_eq!(list.assignment.lists(), std::slice::from_ref(&expected));
+            assert_eq!(mixed.assignment.lists().lists(), &[expected]);
+            assert_eq!(mixed.assignment.basic().values(), &[Some(1)]);
+            lp.validate(&list.assignment).unwrap();
+            mp.validate(&mixed.assignment).unwrap();
+            for (scanned, rejected, evaluations, callbacks, steps, complete, termination) in [
+                (
+                    list.scanned_moves,
+                    list.rejected_moves,
+                    list.evaluations,
+                    list.constraint_evaluations,
+                    list.completed_steps,
+                    list.complete,
+                    list.termination,
+                ),
+                (
+                    mixed.scanned_moves,
+                    mixed.rejected_moves,
+                    mixed.evaluations,
+                    mixed.constraint_evaluations,
+                    mixed.completed_steps,
+                    mixed.complete,
+                    mixed.termination,
+                ),
+            ] {
+                assert_eq!(rejected, 1);
+                assert_eq!(scanned, 1 + u64::from(completed));
+                assert_eq!(evaluations, 1 + u64::from(completed));
+                assert_eq!(callbacks, 1 + u128::from(completed));
+                assert_eq!(steps, u64::from(completed));
+                assert_eq!(complete, completed);
+                assert_eq!(
+                    termination,
+                    if completed {
+                        Stop::Completed
+                    } else if cap == 1 {
+                        Stop::ScanLimit
+                    } else {
+                        Stop::NoCandidates
+                    }
+                );
+            }
+        }
+    }
+}
