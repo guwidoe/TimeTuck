@@ -53139,6 +53139,486 @@
       "upstream_test": "testUnsupportedOperations",
       "local_test": "unsupported_operations",
       "modifications": "Use independent native fixed-layout borrowed segment views; preserve every source value, index, mutation, buffer identity and error assertion applicable to the method. No Java API/ABI or reflection claim. Exercise all nine borrowed structural commands against the real fixed-layout mutable view; each returns typed FixedLayout instead of Java UnsupportedOperationException and preserves backing storage."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.easyScoreCalculator",
+      "status": "implemented",
+      "upstream_test": "easyScoreCalculator",
+      "local_test": "easy_score_calculator",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.incrementalScoreCalculator",
+      "status": "implemented",
+      "upstream_test": "incrementalScoreCalculator",
+      "local_test": "incremental_score_calculator",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.constraintStreams",
+      "status": "implemented",
+      "upstream_test": "constraintStreams",
+      "local_test": "constraint_streams",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.factoryIsSharedWithTheScoreDirectorsItBuilds",
+      "status": "implemented",
+      "upstream_test": "factoryIsSharedWithTheScoreDirectorsItBuilds",
+      "local_test": "factory_is_shared_with_the_score_directors_it_builds",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.noScoreCalculation_throwsException",
+      "status": "implemented",
+      "upstream_test": "noScoreCalculation_throwsException",
+      "local_test": "no_score_calculation_throws_exception",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.solverConfigWithoutScoreDirectorFactory_throwsException",
+      "status": "implemented",
+      "upstream_test": "solverConfigWithoutScoreDirectorFactory_throwsException",
+      "local_test": "solver_config_without_score_director_factory_throws_exception",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.multipleScoreCalculations_throwsException",
+      "status": "implemented",
+      "upstream_test": "multipleScoreCalculations_throwsException",
+      "local_test": "multiple_score_calculations_throws_exception",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.incrementalMultipleScoreCalculations_throwsException",
+      "status": "implemented",
+      "upstream_test": "incrementalMultipleScoreCalculations_throwsException",
+      "local_test": "incremental_multiple_score_calculations_throws_exception",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.noPhaseOverrideYieldsTheConcreteFactory",
+      "status": "implemented",
+      "upstream_test": "noPhaseOverrideYieldsTheConcreteFactory",
+      "local_test": "no_phase_override_yields_the_concrete_factory",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.oneOverridingPhaseYieldsTheMultiEnvironmentFactory",
+      "status": "implemented",
+      "upstream_test": "oneOverridingPhaseYieldsTheMultiEnvironmentFactory",
+      "local_test": "one_overriding_phase_yields_the_multi_environment_factory",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.everyPhaseOverridingYieldsTheMultiEnvironmentFactory",
+      "status": "implemented",
+      "upstream_test": "everyPhaseOverridingYieldsTheMultiEnvironmentFactory",
+      "local_test": "every_phase_overriding_yields_the_multi_environment_factory",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.phasesRestatingTheGlobalModeYieldTheConcreteFactory",
+      "status": "implemented",
+      "upstream_test": "phasesRestatingTheGlobalModeYieldTheConcreteFactory",
+      "local_test": "phases_restating_the_global_mode_yield_the_concrete_factory",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.multiEnvironmentFactoryCarriesTheConfiguredTrend",
+      "status": "implemented",
+      "upstream_test": "multiEnvironmentFactoryCarriesTheConfiguredTrend",
+      "local_test": "multi_environment_factory_carries_the_configured_trend",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.multiEnvironmentFactoryCarriesTheConfiguredAssertionFactory",
+      "status": "implemented",
+      "upstream_test": "multiEnvironmentFactoryCarriesTheConfiguredAssertionFactory",
+      "local_test": "multi_environment_factory_carries_the_configured_assertion_factory",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Prepare an independent concrete assertion recipe; preserve strategy and default NonReproducible requested mode. Reject nested assertions and primary modes weaker than StepAssert before any preparation. This API exposes the assertion factory; it does not install automatic checking in the top-level solver."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.easyScoreCalculatorServesEveryEnvironmentModeItself",
+      "status": "implemented",
+      "upstream_test": "easyScoreCalculatorServesEveryEnvironmentModeItself",
+      "local_test": "easy_score_calculator_serves_every_environment_mode_itself",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.incrementalScoreCalculatorServesEveryEnvironmentModeItself",
+      "status": "implemented",
+      "upstream_test": "incrementalScoreCalculatorServesEveryEnvironmentModeItself",
+      "local_test": "incremental_score_calculator_serves_every_environment_mode_itself",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.aFactoryWhichServesEveryModeItselfStillHonoursTheRequestedMode",
+      "status": "implemented",
+      "upstream_test": "aFactoryWhichServesEveryModeItselfStillHonoursTheRequestedMode",
+      "local_test": "a_factory_which_serves_every_mode_itself_still_honours_the_requested_mode",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.globalEnvironmentModeIsServedByTheFactoryItself",
+      "status": "implemented",
+      "upstream_test": "globalEnvironmentModeIsServedByTheFactoryItself",
+      "local_test": "global_environment_mode_is_served_by_the_factory_itself",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.otherEnvironmentModeGetsAFactoryOfItsOwn",
+      "status": "implemented",
+      "upstream_test": "otherEnvironmentModeGetsAFactoryOfItsOwn",
+      "local_test": "other_environment_mode_gets_a_factory_of_its_own",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.theFactoryForAnotherEnvironmentModeIsBuiltOnceAndShared",
+      "status": "implemented",
+      "upstream_test": "theFactoryForAnotherEnvironmentModeIsBuiltOnceAndShared",
+      "local_test": "the_factory_for_another_environment_mode_is_built_once_and_shared",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.childThreadScoreDirectorKeepsTheRequestedEnvironmentMode",
+      "status": "implemented",
+      "upstream_test": "childThreadScoreDirectorKeepsTheRequestedEnvironmentMode",
+      "local_test": "child_thread_score_director_keeps_the_requested_environment_mode",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Parameterized Java child roles map to the single role-independent native current-input copy operation; preserve FullAssert for the child using the complete initialized five-value/seven-entity modulo fixture. No thread is launched and no Java child-thread scheduling behavior is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.constraintMatchDisabledUnlessRequested",
+      "status": "implemented",
+      "upstream_test": "constraintMatchDisabledUnlessRequested",
+      "local_test": "constraint_match_disabled_unless_requested",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Default builder matching remains disabled even for FullAssert until explicitly applied. The native policy preserves both source PhaseAssert/FullAssert comparisons and constraint-total versus best-score-only metric requests. This is distinct from the existing context-manager settings contract."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.constraintMatchEnabledByEnvironmentMode",
+      "status": "implemented",
+      "upstream_test": "constraintMatchEnabledByEnvironmentMode",
+      "local_test": "constraint_match_enabled_by_environment_mode",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Default builder matching remains disabled even for FullAssert until explicitly applied. The native policy preserves both source PhaseAssert/FullAssert comparisons and constraint-total versus best-score-only metric requests. This is distinct from the existing context-manager settings contract."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.constraintMatchAppliedToTheBuilderReachesTheScoreDirector",
+      "status": "implemented",
+      "upstream_test": "constraintMatchAppliedToTheBuilderReachesTheScoreDirector",
+      "local_test": "constraint_match_applied_to_the_builder_reaches_the_score_director",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Default builder matching remains disabled even for FullAssert until explicitly applied. The native policy preserves both source PhaseAssert/FullAssert comparisons and constraint-total versus best-score-only metric requests. This is distinct from the existing context-manager settings contract."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.constraintMatchEnabledByMetric",
+      "status": "implemented",
+      "upstream_test": "constraintMatchEnabledByMetric",
+      "local_test": "constraint_match_enabled_by_metric",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Default builder matching remains disabled even for FullAssert until explicitly applied. The native policy preserves both source PhaseAssert/FullAssert comparisons and constraint-total versus best-score-only metric requests. This is distinct from the existing context-manager settings contract."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.constraintMatchNotEnabledByOtherMetric",
+      "status": "implemented",
+      "upstream_test": "constraintMatchNotEnabledByOtherMetric",
+      "local_test": "constraint_match_not_enabled_by_other_metric",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Default builder matching remains disabled even for FullAssert until explicitly applied. The native policy preserves both source PhaseAssert/FullAssert comparisons and constraint-total versus best-score-only metric requests. This is distinct from the existing context-manager settings contract."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.incrementalScoreCalculatorWithCustomProperties",
+      "status": "implemented",
+      "upstream_test": "incrementalScoreCalculatorWithCustomProperties",
+      "local_test": "incremental_score_calculator_with_custom_properties",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Explicit typed Properties replace reflective setter injection; string 1 and 7 are read from the actual session-owned DummyCalculator."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.initializingScoreTrendFromConfig",
+      "status": "implemented",
+      "upstream_test": "initializingScoreTrendFromConfig",
+      "local_test": "initializing_score_trend_from_config",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.initializingScoreTrendDefaultsToAny",
+      "status": "implemented",
+      "upstream_test": "initializingScoreTrendDefaultsToAny",
+      "local_test": "initializing_score_trend_defaults_to_any",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.buildWithAssertionScoreDirectorFactory",
+      "status": "implemented",
+      "upstream_test": "buildWithAssertionScoreDirectorFactory",
+      "local_test": "build_with_assertion_score_director_factory",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Prepare an independent concrete assertion recipe; preserve strategy and default NonReproducible requested mode. Reject nested assertions and primary modes weaker than StepAssert before any preparation. This API exposes the assertion factory; it does not install automatic checking in the top-level solver."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.nestedAssertionScoreDirectorFactory_throwsException",
+      "status": "implemented",
+      "upstream_test": "nestedAssertionScoreDirectorFactory_throwsException",
+      "local_test": "nested_assertion_score_director_factory_throws_exception",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. Prepare an independent concrete assertion recipe; preserve strategy and default NonReproducible requested mode. Reject nested assertions and primary modes weaker than StepAssert before any preparation. This API exposes the assertion factory; it does not install automatic checking in the top-level solver."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoring_factory_bank_cases.rs",
+      "id": "ScoreDirectorFactoryFactoryTest.assertionScoreDirectorFactoryInLenientEnvironmentMode_throwsException",
+      "status": "implemented",
+      "upstream_test": "assertionScoreDirectorFactoryInLenientEnvironmentMode_throwsException",
+      "local_test": "assertion_score_director_factory_in_lenient_environment_mode_throws_exception",
+      "modifications": "Replace Java reflective calculator/provider registration with typed native preparation/instantiation callbacks and actual full-recomputation, CalculatorSession or StreamScoreDirector resources. Native strategy/prepared-identity checks replace exact Java factory classes; immutable Rc model/score-shape identity replaces descriptor/score-definition object identity. Preserve all asserted configured values, error kinds/translated diagnostic fragments, requested modes, trends, identity relationships and match-policy results. No Java API/ABI, reflection or thread implementation claim. Cache immutable recipe data per stream mode; each director allocates independent runtime state/indexes. Full/incremental preparation is mode-independent. All valid runtime factory fixtures additionally open actual native scoring resources; source zero objective is retained. Original scored factory regression cases earn no source-method credit."
     }
   ],
   "fixtures": [
@@ -73837,6 +74317,58 @@
       "id": "MultipleDelegateListTest.inlineSegmentAccessFixture.segmented_access_cases",
       "upstream_test": "inline rows and mocked owner/position mapping in testGetIndexOfValue; shared six-value rows in the seven adapted methods",
       "modifications": "Inline String rows preserve a,b,c / d,e / f; explicit e1/e2/e3 and exact source value-to-owner/local-index callback replace test-only Mockito descriptor/state scaffolding. No upstream production fixture or implementation was copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/scoring_factory_bank_fixture.rs",
+      "id": "scoring-factory-bank-inline-TestCustomPropertiesEasyScoreCalculator",
+      "upstream_test": "TestCustomPropertiesEasyScoreCalculator",
+      "modifications": "Retain source zero full-evaluation objective using an independent ConstraintNetwork full recomputation. Native structured property data replaces Java setters; no reflective configuration support."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/scoring_factory_bank_fixture.rs",
+      "id": "scoring-factory-bank-inline-TestCustomPropertiesIncrementalScoreCalculator",
+      "upstream_test": "TestCustomPropertiesIncrementalScoreCalculator",
+      "modifications": "Retain source String/int data, zero score and no-op reset/change roles with a real native CalculatorSession; assertions read actual calculator-owned properties. Change type is unit because source notifications have no observed actions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/ScoreDirectorFactoryFactoryTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/scoring_factory_bank_fixture.rs",
+      "id": "scoring-factory-bank-inline-factory helper configuration and solverScopeWith",
+      "upstream_test": "factory helper configuration and solverScopeWith",
+      "modifications": "Typed recipe constructors and explicit EnvironmentProfile/ContextMetrics replace Java helper configs, classes and SolverScope. All three helpers select actual native resource implementations; stream fixture keeps the DummyConstraintProvider empty-objective role. No upstream production provider implementation is read/copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/scoring_factory_bank_fixture.rs",
+      "id": "scoring-factory-bank-TestdataSolution.generateSolution",
+      "upstream_test": "generateSolution() and generateSolution(int,int,boolean)",
+      "modifications": "Preserve complete default five-value/seven-entity initialized modulo assignment. Native finite-domain variables and integer identities replace Java beans, annotations and generated names. No solution descriptor/production implementation is copied."
     }
   ]
 }

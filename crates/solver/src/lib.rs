@@ -1427,3 +1427,10 @@ pub use segmented_slice::segment_access::{
     FixedSegmentRequest, SegmentAccessError, SegmentReferenceBuffer, SegmentedListCursor,
     SegmentedOwnerLookup,
 };
+
+mod scoring_factory_bank;
+pub use scoring_factory_bank::{
+    FactoryDirectorBuilder, FactoryDirectorSettings, FactoryScoreDirector, FactoryScoreShape,
+    PreparedScoreFactory, ScoreFactoryBuildError, ScoringFactoryDeclaration, ScoringFactoryRecipe,
+    ScoringFactoryStrategy, decide_score_factory_matching,
+};

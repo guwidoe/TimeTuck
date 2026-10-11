@@ -7102,3 +7102,43 @@ preparation, real corruption detection, shutdown and effective weight transfer.
 Originals earn no method credit. Java solution-object identity is represented by
 the shared model allocation plus transferred mutable assignment allocation;
 there is no Java API/ABI, reflective lifecycle or trace-equivalence claim.
+
+
+### Prepared native scoring factories
+
+All 32 ScoreDirectorFactoryFactoryTest methods have complete adaptations through
+ScoringFactoryDeclaration/PreparedScoreFactory. Typed full-evaluation, incremental
+and stream recipes instantiate actual native scoring resources. Rc identity retains
+the model, native score shape and prepared recipe across directors. Stream modes
+cache distinct immutable preparations; repeated requests share one preparation.
+Full/incremental recipes share mode-independent preparation while passing the
+requested mode to each independent runtime. Declared overrides determine the native
+multi-mode stream view; explicit global restatements do not. Default ANY/configured
+trends and independent assertion factories survive selection of another mode.
+
+Native builders keep match policy disabled unless the caller applies it. Explicit
+full-assertion modes and constraint-total metrics enable it; BestScore alone does
+not. This factory policy is distinct from existing context-manager settings.
+Assertion configurations reject nesting and primary modes weaker than StepAssert;
+the assertion recipe opens by default in NonReproducible. Factories expose that
+independent checking route; they do not install automatic assertion execution or
+mode checks in a top-level solve. Runtime callbacks must honor supplied settings.
+Typed property values replace reflective setter injection; source string/int
+assertions read the actual session-owned calculator. Exact Java factory classes
+become native strategy/resource checks. Child roles map to one native operation
+that copies current working input and retains requested mode/policy. No Java API,
+reflection, thread creation/scheduling or child-thread implementation is claimed.
+
+Eight original regressions add no method credit: real dense/stream edits, rollback,
+current-state children and independent scoring caches; every native mode and actual
+calculator registry policy; pre-callback validation; failed/panicked preparation,
+failed instantiation/child input and safe retries; reentrancy; non-Clone resource
+cleanup and retained metadata/assertion identity. Four fixture records attribute
+source zero calculators/configuration and the complete five-value/seven-entity
+initialized modulo fixture. Preparation callbacks run once per successful cached
+mode; errors/panics are not cached. Runtime nodes/indexes are still independently
+allocated from the application's prepared recipe. The bank is single-threaded
+like native stream graphs and caches immutable recipe data, not mutable directors
+or a cloneable graph topology. Existing context/search/scoring hot paths are
+unchanged. Callback counts establish reuse; no wall-clock speedup is claimed and
+prior comparison measurements remain visibly stale.
