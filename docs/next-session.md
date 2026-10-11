@@ -16,38 +16,48 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round31
+## Latest verified checkpoint — round32
 
-Main cb00f67 adds lossless TimeLimitSpec/TimeLimitUnits to existing
-TerminationProfile: whole-group replacement/fallback, checked additive units,
-zero/empty handling and configured-state queries. Normalization happens once
-before binding; solver evaluation loops retain their existing Duration controls.
-Six complete configuration methods and four duration factory methods have full
-provenance. Four original regressions cover boundaries and actual clocked solves;
-all 40 focused old/new profile cases passed on runner-c.
+Main 44b2946 adds ScoredTerminationProfile: typed threshold/feasibility validation and
+shared/ordinary/mixed sequence binding over existing native runtime controls.
+Configured stagnation replaces both inherited variants and selects plain or
+significant-improvement timing. None inherits feasibility; false clears it.
+TerminationExpression::compose preserves singleton identity and ordered borrowed
+AND/OR children without allocation, cloning or flattening. Empty config is None.
+Runtime solver/evaluator files are unchanged; helpers live in independent modules.
 
-The final runner-c gate 27260 and collector 76531 passed on frozen inputs:
+Eight complete TerminationFactoryTest methods have full provenance. Five original
+regressions cover typed errors, explicit replacement, real six-route step solves,
+clocked runtime equivalence and empty/nested/repeated composition. The one remaining
+nested configuration factory method is still pending; no manual nesting credit.
+All 27 focused old/new cases passed before a module-only relocation.
 
-- 6,504 Rust tests and 278 doctests.
-- 3,399/4,855 source methods passing (70.010%); 890 pending, 566 excluded,
-  zero failed/unverified. Backlog 900→890, exclusions unchanged.
-- 10 Rust jobs ran; 930 Rust and 46 Python jobs reused unchanged runner-c evidence.
-- Source `188255bbc857d84cf48ee39b16e4508c5a5cc75475fc134608000bd49a0772c0`.
-- Verification `a09f8b9e16f0b720e67a198f67a899d965ad3e688e29292114771b7325c94590`.
-- Evidence work/parallel-round31-evidence.json and freeze metadata; original
-  manifest/log and downloaded results archive retained. Gate took 106 seconds.
-- Initial prebuild caught a needless update in a new test; fixed before the final
-  snapshot. Failed-clippy log/manifest retained; no passing evidence relabeled.
+Final runner-c gate 52903 and collector 78806 passed on the final frozen inputs:
 
-Dashboard http://localhost:8765 is current. Reuse its server. Backend-only report
-refreshes need report/freshness inspection, not browser/Impeccable. Original-Java
-list measurements remain visibly stale. No new performance claim in this batch.
-Do not repeat this gate without relevant changed inputs or unresolved concerns.
+- 6,517 Rust tests and 279 doctests.
+- 3,407/4,855 source methods passing (70.175%); 882 pending, 566 excluded,
+  zero failed/unverified. Backlog 890→882; exclusions unchanged.
+- 7 Rust jobs ran; 935 Rust and 46 Python jobs reused unchanged runner-c evidence.
+- Source `44f93dcded5a1645215aab46084a234ed1e937e79e01c18ee86d835a467c1d32`.
+- Verification `bf34d35d621ae50a39e6419cc848247d315890292745efb9cf62069a39cd3a1a`.
+- Evidence work/parallel-round32-evidence.json and freeze metadata; original
+  manifest/log and downloaded results archive retained. Final gate took 130 seconds.
+- An obsolete snapshot with the new compose helper in the shared evaluator module
+  selected 837 affected targets. Its compile was deliberately stopped (exit -15)
+  before completing; obsolete manifest/log retained. Relocating the helper left
+  the evaluator unchanged and reduced the final affected set to seven.
 
-Prior round30 also passed: 6,490 Rust/278 docs, 3,389 source methods, 900 pending.
+Dashboard http://localhost:8765 is current. Reuse its server. Backend report
+refreshes need data/freshness inspection, not browser/Impeccable. Original-Java
+list measurements remain visibly stale. No new performance claim in this batch;
+configuration work occurs before solving. Do not repeat this completed gate
+without relevant changed inputs or unresolved concerns.
+
+Prior round31 also passed: 6,504 Rust/278 docs, 3,399 source methods, 890 pending.
 All completed agent work is integrated and committed. No new subagents or follow-up
 assignments. Continue closing complete pending Community cases while preserving
-native performance. The full objective remains incomplete and active.
+native performance. Previous goal turn was progress (ten verified configuration
+methods). The full objective remains incomplete and active.
 
 ## Verified implementation batch — round28
 
