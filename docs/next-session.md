@@ -16,7 +16,71 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round56
+## Latest verified checkpoint — round57
+
+Feature 11a0e07 adds explicit fact singleton/collection declarations, provider-only
+versus provider/fact roles, collection/array shape and external-parameter metadata.
+Compilation rejects invalid signatures/shapes before entity model construction,
+then checks duplicates and registered entity/fact role collisions. Native typed
+member/category lookup preserves the complete source member sets. No reflection
+or Java API/ABI discovery is claimed. Existing native defaults remain unchanged.
+
+SolutionFactAccessors installs actual typed stored/computed member callbacks.
+Readers validate root type, declared role/type, duplicate registration and all
+required accessors before invocation. Heterogeneous payload roles and singleton
+cardinality validate before publishing an owned membership snapshot. Canonical
+rows use actual Arc allocation identity, preserve member occurrence order and
+keep distinct equal-valued payloads separate. Payloads need no Clone/Eq/Hash;
+per-type row indexes avoid unrelated payload scans. Snapshot membership stays
+fixed, while shared interior payload mutation remains the caller's responsibility.
+
+BoundBasicSolution can retain a snapshot from its actual owned compiled descriptor.
+The same solution type cannot silently admit another layout's facts. Legacy basic
+binding remains available; facts require explicit registration/read/binding.
+Five originals cover real computed a,b,c collections, typed singleton reads,
+alias/equal-value identity, lifetimes, invalid registration, publication/cardinality
+failures and real dense/stream optima changing from 1 to 2 with new fact payloads.
+Candidate/search bodies unchanged; no new throughput claim.
+
+Twenty complete SolutionDescriptorTest source methods preserve all asserted member
+sets, including empty maps, duplicate entityList in the source expected set,
+invalid signatures and roles, composed and generic metadata, actual e1/v1/invalid
+v2 heterogeneous input and provider-only easy-score construction. Arrays and
+unannotated set storage remain explicit. Native registration terminology replaces
+the Java annotation diagnostic; generic T is instantiated as (). Generic metadata
+does not establish heterogeneous native slot execution. All 28 TEST-only fixtures
+and changes are attributed. No upstream production or Enterprise sources used.
+
+Final frozen runner-a gate passed once: 6,922 Rust tests, 290 doctests;
+3,648/4,855 source methods passed (75.139%), 641 pending, 566 excluded, zero
+failed/unverified. SolutionDescriptorTest 20/24; its remaining four are immutable
+record/enum restrictions, multiple weight fields, missing named supplier and
+ordinals. Actual 5 Rust RUN/995 REUSE/46 Python REUSE; 266.341 seconds. Reuse the
+successful focused/final checks while relevant inputs stay unchanged.
+
+Rust source: 554a7600752fd557e1a37563a4d16becda0a09f14b16a6770504bd2fe142b7b1.
+Report/verification: 594a5120b84117a9e61e189c60d6addd14b798c38cc40c56566826436979f3b7.
+Remote root: 38d0aa119f374eaabc944ad47b836783c42dcc40c94f7d85cca60dcbf6f61999.
+Archive work/round57-runner-a-results.tar.gz SHA256:
+bb0c1ff0532a514b4676420fbdc10de4e96de516818e920be830b327ed276027.
+Evidence/freeze: work/parallel-round57-evidence.json, parallel-round57-freeze.json.
+Launcher 98269 and collector 44347 completed zero. New observation/collection SSH
+connections requested Tailscale checks; user authenticated and collection resumed
+on the same verified worker. No restart or duplicate verification. Imports retain
+genuine checksums, keys, environment and dates. Seed the next runner-a gate from
+this actual round57 archive/root. Postcommit proof: work/verify_round57_postcommit.py,
+round57-postcommit-evidence.json. No agents/assignments. Backend-only dashboard
+refresh; no UI/benchmark reruns. Prior list measurements remain visibly stale.
+Objective active and incomplete.
+
+Next close named supplier and ordinal/weight integration gaps using TEST-only
+specifications, or connect the concrete fact/entity registry to typed stream-source
+validation for the remaining unknown-class cases. Leave Java immutable-class restrictions pending; Rust mutation requirements
+belong to concrete bindings and cannot be inferred from type syntax.
+Further whole-solve termination/advanced tracked assertion integration and other
+compatibility families remain incomplete. No new subagents or assignments.
+
+## Prior verified checkpoint — round56
 
 Feature c4ad9bd adds solve-wide phase-evaluation/time ceilings to the real
 assembled factory run, with immutable per-invocation builders and overrides.
