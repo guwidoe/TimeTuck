@@ -7766,3 +7766,20 @@ collisions/failures, stale/pinned destinations, rollback, anchor-crossing sectio
 retained prefixes and invalid input isolation. These earn no source credit. Existing
 K-opt search/sampling, scoring and lifecycle implementations remain unchanged.
 No performance measurements or throughput improvement are claimed.
+
+### Current list and K-opt performance checkpoint
+
+Both comparisons were refreshed on2026-10-12 using Rust1.92 and pinned Community2.7.0
+on the same runner-a Intel i5-1135G7 host.320 list and128 K-opt paired correctness/quality
+comparisons validate every output independently; compatibility method counts do not
+change. Three warmups and15 measured samples per runtime/workload across three forks.
+
+List workload Java/Rust median ratios span2.632–65.773. Sampled native K-opt has
+4.828–17.057x shorter measured times thanJava, while window K-opt has3.235–10.221x
+longer times. Scores and work differ; all small native K-opt results attain their
+enumerated optima, and larger optima are unknown. Current measurements expose the
+window strategy's performance gap; profiling is needed to identify its causes.
+These are bounded full-scoring workload comparisons, not general solver, identical-
+trace or equal-work claims. Existing detailed methodology, raw samples, quality and
+score-call counts remain available in the dashboard. Other measurements retain their
+own freshness status. No old measurements were relabeled as new evidence.

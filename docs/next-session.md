@@ -16,7 +16,49 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round69
+## Latest performance checkpoint — round70
+
+Fresh unchanged benchmark_lists.py and benchmark_kopt.py executed sequentially on
+runner-a, measuring Java and Rust on the same Intel i5-1135G7/Arch host, Rust1.92 and
+OpenJDK25.0.4.1. Actual3 warmups,5 samples/fork,3 forks; fixed seeds and budgets.
+Local Rust/source ledger unchanged from round69; no correctness suites or UI rerun.
+Setup's first attempt failed fingerprint verification because generated offline Cargo
+config had not been removed; fixed before any build/timing. Finished job88439 and
+collector95955 returnedzero. No source fingerprint or old measurements retagged.
+
+List comparison:320/320 independent paired cases valid,317 equal scores; Rust266
+andJava263 reach enumerated optima.12 timed workloads have Java/Rust median ratios
+2.632–65.773, with score/work differences retained (including construction32 Rust-1080
+versusJava-1062, and better native two-opt outcomes). These timings are specific to
+these original full-scoring workloads, not general equal-work/solver speed claims.
+K-opt:128/128 paired cases valid,114 equal scores; both native strategies each64/64
+optimal,Java57/64 on the same small routes. Sampled strategy4.828–17.057x shorter
+times thanJava; window strategy3.235–10.221x longer. Example2–3/16: sampled0.611ms
+score-212 versusJava10.424ms/-272; window78.702ms/-202 versusJava9.815ms/-272.
+Larger optima unknown. Differences in sampling, work and scores remain visible.
+Four exact-k boundary probes are not speed comparisons (Java only1 score call).
+
+Both list/kopt dashboard measurements current, all other statuses remain as reported.
+Compatibility unchanged3,685/4,855 (75.901%),602 pending,568 excluded,zero failed/
+unverified; existing7,011 Rust tests and290 doctests still valid at unchanged source.
+Rust:f78ad3ae128d1a7ebdd220234b1594d7db13fdf587b051c0bd412d0876e35c47.
+Report:9c6e6950af007c75bb2517a39b45f127afd7b2c11ef160f5239705817d09ed1d.
+List job:d0220d4eda638779e2e2c8f1734c1faa701fe927db269f4bf847df1b7e3ab8ab, measured:2026-10-12T05:01:07.949675+00:00.
+K-opt job:8e3a7e235d6e6e12017399624e1c7a4eb13040aac89de1ab02b626f5e3e7f8ce, measured:2026-10-12T05:01:42.976051+00:00.
+Remote root:2ed4daa283b23e129888c713971ffc9108667c0fc55cc68b3c32714a92bf532e; completed in121.028seconds.
+Archive work/round70-performance-results.tar.gz SHA256:e6604823076a7c68f284cb7687bec2acace9688bdc71c9aa6dd586186371d43b.
+Evidence work/round70-performance-evidence.json; archive preserves genuine remote
+measurement records/dates/output checksums and compiled binary checksums. Records
+not installed as local cache hits. Current backend/report freshness checked. Postcommit
+proof work/verify_round70_postcommit.py reuses unchanged correctness evidence and
+checks current measurement digests/checksums and clean Git. Next Rust gate still seeds
+from actual round69 correctness archive/root; performance archive is not a gate seed.
+
+Next investigate window-strategy performance through profiling before changing
+sampling/quality semantics, and continue closing remaining actual compatibility gaps.
+Do not refresh all measurements or repeat unchanged suites. Goal remains incomplete.
+
+## Latest verified Rust checkpoint — round69
 
 Feature6104ef7 adds independent retained-end K-opt partitioning and snapshot-checked
 single-entity edge rebasing. Combined suffix cycles split at original suffix-end
