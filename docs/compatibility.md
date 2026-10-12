@@ -8627,3 +8627,40 @@ All paired optimum scores and complete counts match; both exhaust without prunin
 The4-basic/3-domain workload measured1.464–1.516x. This is a native old/new comparison,
 not Java performance evidence. Original samples, build/binary/source hashes and
 archive are retained in work/round97-grouped-performance*.
+
+### Shared seeded range-aware list-change sampling
+
+SeededEntityRangeListChangeSource shares one explicit LCG48 stream between distinct
+range-union values and destination choices. Global entity/anchor category weights
+are retained; ranges qualify receivers and anchors. Compact anchor eligibility
+partitions IDs into an eligible prefix and rejected suffix. The decorated path
+samples the predicate-filtered scratch order with bounded rejection. Empty anchor
+branches append to a qualified receiver; optional unassignment remains available.
+All candidates pass the existing CorrelatedListValueChangeSource checker, including
+pins/ranges/dependency validity and PRE-to-POST destination normalization. Native
+default sampling and existing kernels remain unchanged. Openings continue a stream;
+SolveStarted resets it and StepStarted explicitly selects seed+step. This lifecycle
+policy is documented separately from source trace equivalence.
+
+All three remaining random entity-range ListChangeMoveSelectorTest methods now have
+complete adaptations: every seed0 prefix code, both fixture ranges, B anchor filter,
+optional model, extra lookahead and never-ending criterion. No moves or destinations
+are supplied as scripts. A TEST-derived Java probe records actual bounded draws and
+moves against the pinned Community artifact, compiling unchanged TEST helpers only;
+no production implementation is inspected.144longer moves across4seeds/3modes match,
+with actual move validity checked. Probe source/fixture/setup provenance and artifact
+hashes retained. Five original regressions additionally exercise continuing/reset
+streams, step seeds, edited-layout reopening, pin/range/exhaustion bounds, caught
+filter panic fusion and real dense/streamed solver runs reaching the same optimum.
+The first native source3case focus passed; five original cases passed after fixing
+mutable transaction test borrows, configuration cloning and an iterator drop.
+Frozen round98 local verification passed:7,319 Rust tests,290doctests;
+3,872/4,855 source methods (79.753%),415pending,568excluded,zero failed/unverified.
+Three Rust jobs ran;1,076Rust and46Python jobs reused genuine unchanged evidence.
+Clippy passed40.30seconds; affected compilation7.91seconds; final gate108.225seconds.
+An initial prebuild inferred964dependencies from private helper names such as union,
+Values and Destinations. The owned build was interrupted; unique private sampler
+names removed these false edges without modifying the verification matcher or old
+records. Final affected set is exactly lib and the two new test targets. Interrupted
+logs retained. Current K-opt and prior native grouped timings remain unchanged;
+older list timings stay stale. No benchmark/browser rerun or new Rust dependency.

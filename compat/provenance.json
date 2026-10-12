@@ -58181,6 +58181,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve the complete 2-entity/3-list-value/3-other-value fixture and both basic variables per entity. Native component layouts replace source single/multiple Java entity families; retain both source calculator contributions. Actual unbounded Cartesian mixed exact solving emits real Exact lifecycle phases and partial-node expansion steps, all strictly below60. No expected output moves/assignments, scripted steps or pruning bounds supplied. Verify actual completeness, every assigned basic pair, all assigned list values; add proof of33expansions/1944eligible leaves/no pruning/optimal7score. No Java traversal/count equality, class-loading or default pipeline strategy claim."
+    },
+    {
+      "id": "ListChangeMoveSelectorTest.randomWithEntityValueRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "randomWithEntityValueRange",
+      "local_path": "crates/solver/tests/seeded_range_list_change_cases.rs",
+      "local_test": "random_with_entity_value_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain both real row/range fixtures, overlapping ranges, seed0, all five exact source move-code observations, extra lookahead and never-ending metadata. Native registry indices/Arc views replace Java testdomain objects and score-director supplies; actual correlated move checks preserve PRE destination metadata and normalize execution indices. One shared LCG48 stream uses global category weights and compact/decorated range filtering; no desired moves, assignments or index scripts are supplied. Filter observes actual value owner and rejects B anchors. Other native/Java RNG and default selector traces are not claimed. Independent runtime-only Community probe validates144longer moves from4seeds/3modes; no production implementation read/copied."
+    },
+    {
+      "id": "ListChangeMoveSelectorTest.randomWithEntityValueRangeAndFiltering",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "randomWithEntityValueRangeAndFiltering",
+      "local_path": "crates/solver/tests/seeded_range_list_change_cases.rs",
+      "local_test": "random_with_entity_value_range_and_filtering",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain both real row/range fixtures, overlapping ranges, seed0, all five exact source move-code observations, extra lookahead and never-ending metadata. Native registry indices/Arc views replace Java testdomain objects and score-director supplies; actual correlated move checks preserve PRE destination metadata and normalize execution indices. One shared LCG48 stream uses global category weights and compact/decorated range filtering; no desired moves, assignments or index scripts are supplied. Filter observes actual value owner and rejects B anchors. Other native/Java RNG and default selector traces are not claimed. Independent runtime-only Community probe validates144longer moves from4seeds/3modes; no production implementation read/copied."
+    },
+    {
+      "id": "ListChangeMoveSelectorTest.randomAllowsUnassignedValuesWithEntityValueRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "randomAllowsUnassignedValuesWithEntityValueRange",
+      "local_path": "crates/solver/tests/seeded_range_list_change_cases.rs",
+      "local_test": "random_allows_unassigned_values_with_entity_value_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain both real row/range fixtures, overlapping ranges, seed0, all five exact source move-code observations, extra lookahead and never-ending metadata. Native registry indices/Arc views replace Java testdomain objects and score-director supplies; actual correlated move checks preserve PRE destination metadata and normalize execution indices. One shared LCG48 stream uses global category weights and compact/decorated range filtering; no desired moves, assignments or index scripts are supplied. Filter observes actual value owner and rejects B anchors. Other native/Java RNG and default selector traces are not claimed. Independent runtime-only Community probe validates144longer moves from4seeds/3modes; no production implementation read/copied."
     }
   ],
   "fixtures": [
@@ -81812,6 +81857,240 @@
       "upstream_test": "calculateScore",
       "local_path": "crates/solver/tests/fixtures/grouped_mixed_exact_fixture.rs",
       "modifications": "Preserve source list-row and separate basic-entity objective contributions.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-filter",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "IgnoreBValueSelectionFilter.accept",
+      "local_path": "crates/solver/tests/seeded_range_list_change_cases.rs",
+      "modifications": "Native borrowed assignment owner lookup replaces test value inverse entity getter; same B exclusion.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-setup",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListUtils.java",
+      "upstream_test": "getMimicRecordingIterableValueSelector; getEntityValueRangeDestinationSelector",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Adapt TEST factory setup into isolated observation harness, without reading production bodies.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-lifecycle",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/SelectorTestUtils.java",
+      "upstream_test": "solvingStarted; phaseStarted",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Retain TEST scope/random/phase initialization; direct real score director replaces delegating mock.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-director",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "mockScoreDirector",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Use TEST easy-score-director construction with real typed director rather than Mockito delegate.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-shared-random",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/random/MockRandomSource.java",
+      "upstream_test": "MockRandomSource",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged TEST adapter directly from pinned test source path; bounded/random-bit logging subclass is original.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-assert-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingMoveSelector; assertCodesOfNeverEndingIterableSelector",
+      "local_path": "crates/solver/tests/seeded_range_list_change_cases.rs",
+      "modifications": "Preserve every code, lookahead and never-ending criterion. Source overload does not assert size.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-TestdataListEntityProvidingSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
+      "upstream_test": "TEST fixture declarations/constructors",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged pinned TEST fixture from sourcepath in ignored work/classes; native two-row/range setup preserves source semantics. No Java class/ABI compatibility claim.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-TestdataListEntityProvidingEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingEntity.java",
+      "upstream_test": "TEST fixture declarations/constructors",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged pinned TEST fixture from sourcepath in ignored work/classes; native two-row/range setup preserves source semantics. No Java class/ABI compatibility claim.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-TestdataListEntityProvidingValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingValue.java",
+      "upstream_test": "TEST fixture declarations/constructors",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged pinned TEST fixture from sourcepath in ignored work/classes; native two-row/range setup preserves source semantics. No Java class/ABI compatibility claim.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-TestdataListUnassignedEntityProvidingSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingSolution.java",
+      "upstream_test": "TEST fixture declarations/constructors",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged pinned TEST fixture from sourcepath in ignored work/classes; native two-row/range setup preserves source semantics. No Java class/ABI compatibility claim.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-TestdataListUnassignedEntityProvidingEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/unassignedvar/TestdataListUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TEST fixture declarations/constructors",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged pinned TEST fixture from sourcepath in ignored work/classes; native two-row/range setup preserves source semantics. No Java class/ABI compatibility claim.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-change-observed-traces",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorTest.java",
+      "upstream_test": "derived runtime observation from TEST fixtures; seed0/1/5/19 in plain/filtered/optional modes",
+      "local_path": "crates/solver/tests/fixtures/seeded_range_list_change_oracle.tsv",
+      "modifications": "Original behavior observations, not copied source assertions:144moves plus bounded draws. Generated by compat/oracle/SelectorDrawProbe.java against public pinned Community artifact and unchanged TEST fixtures; original logs/artifact hashes in work/round98-oracle-evidence.json. Adds no method credit.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-oracle-support-TestdataObject",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "unchanged supporting TEST fixture/helper dependency",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged from the pinned TEST sourcepath into ignored observation classes. No production source inspection and no additional Rust compatibility credit.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-oracle-support-TestdataValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "unchanged supporting TEST fixture/helper dependency",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged from the pinned TEST sourcepath into ignored observation classes. No production source inspection and no additional Rust compatibility credit.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-oracle-support-TestdataListEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "unchanged supporting TEST fixture/helper dependency",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged from the pinned TEST sourcepath into ignored observation classes. No production source inspection and no additional Rust compatibility credit.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-oracle-support-TestdataListSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "unchanged supporting TEST fixture/helper dependency",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged from the pinned TEST sourcepath into ignored observation classes. No production source inspection and no additional Rust compatibility credit.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-oracle-support-TestdataListValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "unchanged supporting TEST fixture/helper dependency",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged from the pinned TEST sourcepath into ignored observation classes. No production source inspection and no additional Rust compatibility credit.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "seeded-range-oracle-support-CodeAssertable",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/CodeAssertable.java",
+      "upstream_test": "unchanged supporting TEST fixture/helper dependency",
+      "local_path": "compat/oracle/SelectorDrawProbe.java",
+      "modifications": "Compile unchanged from the pinned TEST sourcepath into ignored observation classes. No production source inspection and no additional Rust compatibility credit.",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",

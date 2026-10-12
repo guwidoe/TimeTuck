@@ -1648,3 +1648,8 @@ pub use planning_model_access::{
 
 mod grouped_mixed_exact;
 pub use grouped_mixed_exact::{GroupedMixedExactError, GroupedMixedExactSolver};
+
+mod seeded_range_list_change;
+pub use seeded_range_list_change::{
+    AcceptAllRangeAnchors, EntityRangeAnchorFilter, SeededEntityRangeListChangeSource,
+};

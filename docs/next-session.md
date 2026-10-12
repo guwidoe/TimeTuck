@@ -16,7 +16,59 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round97
+## Latest verified checkpoint — round98
+
+Shared seeded range-aware list-change sampling is integrated. One LCG48 stream
+coordinates distinct union values, global category weighting, qualified entity
+starts, compact eligible anchors, decorated rejection and append fallback. Actual
+proposals pass existing correlated pin/range/dependency checks and PRE/POST index
+normalization. Defaults unchanged. Reopening continues the stream; SolveStarted
+resets it and StepStarted explicitly seeds seed+step. Lifecycle policy beyond the
+source's initial seeded opening is native and not a Java equivalence claim.
+
+All three previously pending ListChangeMoveSelectorTest random entity-range methods
+now preserve every source fixture/range, seed0 prefix, B filter, optional case,
+extra lookahead and never-ending criterion. No scripted moves/destinations supplied.
+The isolated TEST-derived Java SelectorDrawProbe observes real pinned Community
+runtime draws/moves. It compiles unchanged TEST helpers from the pinned sourcepath,
+with no production implementation inspection.144additional moves match across
+4seeds(0,1,5,19)/3modes/plain-filtered-optional; actual native moves validate. Both
+oracle artifact hashes and all compiled TEST fixture provenance are preserved.
+Five originals cover full longer traces, stream continuation/reset/step seeds and
+edited-layout reopening, pins/ranges/bounded exhaustion, filter panic fusion and
+real dense/streamed solvers reaching the same optimum. Final all8cases pass.
+Initial original compilation fixed mutable apply transactions, cloned search config
+and explicit iterator drop; no runtime/kernel repair occurred. Oracle Java compile
+corrected the score-director import from TEST setup. No dependency/default RNG change.
+
+Clippy first passed38.29s but dependency matching included964targets from generic
+private names union/Values/Destinations. The owned prebuild was interrupted (6168
+terminal143); logs and process evidence retained under work/interrupted-round98-*
+and work/round98-interrupted-prebuild.json. Unique private names remove false edges
+without matcher changes, hash retagging or behavior changes. Representative original
+job keys match again. Final affected set exactly lib plus two new test targets:
+prebuild7204 terminal0, Clippy40.30s, compilation7.91s; cached1,076targets reusable.
+
+Local bash scripts/check.sh passed108.225seconds (gate only):7,319Rust tests,
+290doctests;3,872/4,855 (79.753%),415pending,568excluded,zero failed/unverified.
+Three Rust jobs ran;1,076Rust and46Python jobs reused original keys/hashes/dates.
+Gate77833/collector58739 terminal0. Source/log/archive/report freshness validated.
+Rust ff5814d31ea223ee62985eef3aae1080d3f0451f66f60868862abd94219a13b4.
+Report 198e791b4f2860bf7446a5125929a07d40badec4d779919efa82a4e36e32c9ee.
+Archive work/round98-local-results.tar.gz SHA256:
+3f0e6cbf33332ff572985f509ec5408f4a3f6ac8c0b96c1c377f10f873a6c700.
+Evidence work/parallel-round98-evidence.json; frozen inputs
+work/parallel-round98-freeze.json; clean postcommit proof work/round98-postcommit-evidence.json.
+Oracle evidence work/round98-oracle-evidence.json; probe
+compat/oracle/SelectorDrawProbe.java; actual logs work/round98-oracle-*.log.
+No remote build launched; continue verified local environment/cache while remotes
+remain unavailable. Prior wake request pending; don't keep asking without new need.
+K-opt round93 remains current; native grouped probe round97 preserved unchanged;
+older list metrics remain stale. No timing or browser refresh for backend-only data.
+Full goal incomplete,415pending. No new agents. Continue meaningful compatibility
+work with performance important; reuse completed verification on unchanged inputs.
+
+## Previous verified checkpoint — round97
 
 GroupedMixedExactSolver is integrated as an explicit standalone one-phase solver.
 The existing eligible list tree is reused; movable basic fields form one lazy
