@@ -2,6 +2,9 @@
 use crate::ValueRange;
 use std::{error::Error, fmt};
 
+/// Comparator accepted by the explicit immutable-sort rejection API.
+pub type TemporalRangeComparator<'a, T> = dyn Fn(&T, &T) -> std::cmp::Ordering + 'a;
+
 const YEAR_MIN: i32 = -999_999_999;
 const YEAR_MAX: i32 = 999_999_999;
 const SECOND: i128 = 1_000_000_000;
@@ -16,10 +19,16 @@ pub enum TemporalRangeError {
     DescendingBounds,
     UnsupportedUnit,
     UnalignedEnd,
+    IndexOutOfBounds { index: i128, size: u128 },
+    UnsupportedSorting,
 }
 impl fmt::Display for TemporalRangeError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
+            Self::IndexOutOfBounds { index, size } => {
+                return write!(f, "temporal index ({index}) is outside range size ({size})");
+            }
+            Self::UnsupportedSorting => "temporal progressions do not support in-place sorting",
             Self::InvalidDate => "invalid Gregorian date",
             Self::InvalidTime => "invalid local time",
             Self::InvalidYear => "year is outside -999999999..=999999999",
@@ -266,17 +275,18 @@ impl CalendarYear {
     }
 }
 
-mod sealed {
-    pub trait Sealed {}
-}
-/// Supported local civil values. Sealed so indexed-range invariants remain enforced.
-pub trait TemporalValue: sealed::Sealed + Copy + Ord {
-    #[doc(hidden)]
+/// Local civil or application-defined temporal values. Implementations must keep
+/// offset/distance/order consistent: distance is in whole units and offset from
+/// the original anchor reaches the endpoint. Supported offsets must preserve unit
+/// support and produce stable values. Range construction validates both endpoints;
+/// indexed access never enumerates or materializes the progression.
+pub trait TemporalValue: Copy + Ord {
+    fn supports_unit(self, unit: TemporalUnit) -> bool {
+        self.distance(self, unit).is_some()
+    }
     fn offset(self, amount: i128, unit: TemporalUnit) -> Option<Self>;
-    #[doc(hidden)]
     fn distance(self, end: Self, unit: TemporalUnit) -> Option<i128>;
 }
-impl sealed::Sealed for CivilDate {}
 impl TemporalValue for CivilDate {
     fn offset(self, amount: i128, unit: TemporalUnit) -> Option<Self> {
         if let Some(months) = unit.months() {
@@ -304,7 +314,6 @@ impl TemporalValue for CivilDate {
         Some(i128::from(end.day_number() - self.day_number()) / days)
     }
 }
-impl sealed::Sealed for CivilTime {}
 impl TemporalValue for CivilTime {
     fn offset(self, amount: i128, unit: TemporalUnit) -> Option<Self> {
         let scale = unit.nanos().filter(|&n| n < DAY)?;
@@ -315,7 +324,6 @@ impl TemporalValue for CivilTime {
         Some((end.nanos - self.nanos) / unit.nanos().filter(|&n| n < DAY)?)
     }
 }
-impl sealed::Sealed for CivilDateTime {}
 impl TemporalValue for CivilDateTime {
     fn offset(self, amount: i128, unit: TemporalUnit) -> Option<Self> {
         if unit.months().is_some() {
@@ -333,7 +341,6 @@ impl TemporalValue for CivilDateTime {
         Some((end.ticks() - self.ticks()) / unit.nanos()?)
     }
 }
-impl sealed::Sealed for CalendarYear {}
 impl TemporalValue for CalendarYear {
     fn offset(self, amount: i128, unit: TemporalUnit) -> Option<Self> {
         let years = unit.months().filter(|&m| m >= 12)? / 12;
@@ -383,11 +390,14 @@ impl<T: TemporalValue> TemporalValueRange<T> {
         if start > end {
             return Err(TemporalRangeError::DescendingBounds);
         }
+        if !start.supports_unit(unit) || !end.supports_unit(unit) {
+            return Err(TemporalRangeError::UnsupportedUnit);
+        }
         let distance = start
             .distance(end, unit)
             .ok_or(TemporalRangeError::UnsupportedUnit)?;
         let step = i128::from(step);
-        if distance % step != 0 || start.offset(distance, unit) != Some(end) {
+        if distance < 0 || distance % step != 0 || start.offset(distance, unit) != Some(end) {
             return Err(TemporalRangeError::UnalignedEnd);
         }
         Ok(Self {
@@ -397,6 +407,23 @@ impl<T: TemporalValue> TemporalValueRange<T> {
             unit,
             count: (distance / step) as u128,
         })
+    }
+    /// Checked signed indexing for inputs that may contain negative indices.
+    pub fn get_signed(&self, index: i128) -> Result<T, TemporalRangeError> {
+        u128::try_from(index).ok().and_then(|i| self.get(i)).ok_or(
+            TemporalRangeError::IndexOutOfBounds {
+                index,
+                size: self.count,
+            },
+        )
+    }
+    /// Immutable anchored progressions cannot be sorted in place. Comparator
+    /// views can be built externally; this never invokes the supplied comparator.
+    pub fn sort(
+        &mut self,
+        _compare: Option<&TemporalRangeComparator<'_, T>>,
+    ) -> Result<(), TemporalRangeError> {
+        Err(TemporalRangeError::UnsupportedSorting)
     }
 }
 impl<T: TemporalValue> ValueRange for TemporalValueRange<T> {

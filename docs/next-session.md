@@ -16,6 +16,59 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round82
+
+TemporalValue is now an explicit public Copy/Ord extension contract for civil or
+application-defined points, with offset/distance/order/unit-support laws documented.
+Constructor checks both endpoint support, nonnegative distance, positive step and exact
+end reachability. Built-in indexing/month clamping stays anchored and does not enumerate.
+get_signed provides actual negative/out-of-range rejection with index/size context;
+sort rejects in-place sorting without comparator evaluation. A named comparator alias
+retains local callback lifetimes. Custom implementations must obey documented laws.
+Independent nth_triangle/triangular_root implement checked signed32-bit intermediate
+counts and continuous inverse; safe46340 bound is mathematically derived from that
+intermediate/TEST expected count, without reading upstream production constants/code.
+Native negative/overflow errors are explicit; no comparative performance claim.
+
+Eight complete source methods close two families. TemporalValueRangeTest's remaining
+incrementUnitTypeNotSupportedByFrom/To preserve ACTUAL overwritten source stubbing:
+from=true/to=false and from=false/to=false respectively. Default compare is zero;
+native Years substitutes opaque mocked unit with unit-independent flags. Source mock
+arithmetic panics if validation fails to reject first. getIndexNegative retains Year0-to1,
+step1 Years and actual signed-1; sort retains same range and null comparator rejection.
+TriangularNumbersTest overflow/nthTriangle/triangularRoot/nonTriangularRoots retain
+all8 nth/root and7 nontriangular-provider rows, exact overflow message/kind, exact
+integer roots and both strict nontriangular floating bounds. TEST inputs/mocks/methods
+have provenance/notices. Native errors/public callbacks replace JVM interfaces/errors;
+no production copied, Java API/ABI, automatic inference or real JVM mock behavior claim.
+
+Five originals cover usable custom progressions, endpoint combinations, signed extremes,
+comparator nonexecution/unchanged values, malformed negative-distance rejection, all
+46,341 safe triangular inputs with exact wide reference/monotonicity/inverse/brackets,
+negative arguments and overflow boundaries. They earn no source credit. Focus8 new
+source+5 originals+21 existing temporal source+7 existing temporal originals all passed
+first runtime. First prebuild stopped at Clippy type_complexity for comparator argument
+before check.sh; factored a named alias. Obsolete log/manifest/freeze saved under
+work/round82-obsolete-*, failed root5d4a536ca148ec210f9a774e06a1d4d4f827d5fe1fbaf81ad9895563386773e6,
+terminal101. Final frozen runner-a bash scripts/check.sh passed once:7,083 Rust tests,
+290 doctests;3,716/4,855 (76.54%),571 pending,568 excluded,zero failed/unverified.
+Actual10 Rust RUN/1,036 REUSE/46 Python REUSE;206.496seconds. Temporal25/25,
+triangular4/4, variable-descriptor4/4 and abstract/custom cloner14/14,4/4 now pass.
+Raw solver/search/scoring unchanged; no benchmark/release suite/UI rerun/agents.
+K-opt measurements remain current; prior list measurements remain stale.
+Rust:fac791d67867195c5c28f5fcda3acac247349b0244f8ecad727815e3c4a624e6.
+Report:1798bfceb9449c57c879fecb59a9d2cfcca66fe46ebe99405614ca1db1cc7bcc.
+Remote root:24981738962f01ad248c0345e84c67cf06e0aba10e26f16af029c2136a9085d9.
+Archive work/round82-runner-a-results.tar.gz SHA256:
+d40311639257b023ed15a377fc148a7b7a9d3aa7540a7a88c4bacf83e120da74.
+Evidence/freeze:work/parallel-round82-evidence.json and parallel-round82-freeze.json.
+Launcher46626/collector65744 terminalzero. Postcommit proof:work/verify_round82_postcommit.py.
+Next gate seeds actual round82 archive/root. Goal active/incomplete;571 pending cases
+remain. Manager and native configuration/selector gaps remain worth pursuing. Do not
+substitute Rust abort/OOM recovery for the source's synthetic Java error throwable, or
+infer K-opt3 implicit per-list seams by feeding expected partitions. Keep reducing real
+compatibility gaps with performance important; no new agents/assignments.
+
 ## Latest verified checkpoint — round81
 
 PlanningVariableRef queries actual typed fields through borrowed PlanningVariableValue

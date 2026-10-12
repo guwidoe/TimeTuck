@@ -55766,6 +55766,126 @@
       "local_path": "crates/solver/tests/solution_parameter_range_cases.rs",
       "local_test": "value_range_descriptor_with_solution",
       "modifications": "Preserve successful construction of both parameter-aware provider descriptors. Native typed provider callbacks accept actual Solution or ExtendedSolution plus explicit base projection; composed base/child variable declarations and both inherited provider IDs are validated. Rust composition/static callback signatures replace Java annotation/inheritance/reflection and parameter assignability; source constructs descriptors without any solution binding, and no extra runtime criteria are credited. Native borrowed metadata/getters replace Java descriptors; unit-like immutable Value represents default-constructed source value where only field presence is queried. No score initialization, automatic phase/pin policy, API/ABI/reflection or production-copy claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TemporalValueRangeTest.incrementUnitTypeNotSupportedByFrom",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/TemporalValueRangeTest.java",
+      "upstream_test": "incrementUnitTypeNotSupportedByFrom",
+      "local_path": "crates/solver/tests/temporal_range_boundary_cases.rs",
+      "local_test": "increment_unit_type_not_supported_by_from",
+      "modifications": "Preserve actual source stubbing after overwrite: from is true and unstubbed to false, despite the source method name. Native custom TemporalValue exposes support flags; reject unsupported endpoint before arithmetic. Native Years substitutes opaque mocked unit because support is unit-independent in the fixture. Complete source criterion retained; explicit native custom mock has default equal comparison, and arithmetic panics if incorrectly reached. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TemporalValueRangeTest.incrementUnitTypeNotSupportedByTo",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/TemporalValueRangeTest.java",
+      "upstream_test": "incrementUnitTypeNotSupportedByTo",
+      "local_path": "crates/solver/tests/temporal_range_boundary_cases.rs",
+      "local_test": "increment_unit_type_not_supported_by_to",
+      "modifications": "Preserve actual source stubbing after overwrite: from is false and unstubbed to false. Native custom TemporalValue rejects unsupported endpoint before arithmetic; native Years substitutes opaque mocked unit without altering the support predicate. Complete source criterion retained; explicit native custom mock has default equal comparison, and arithmetic panics if incorrectly reached. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TemporalValueRangeTest.getIndexNegative",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/TemporalValueRangeTest.java",
+      "upstream_test": "getIndexNegative",
+      "local_path": "crates/solver/tests/temporal_range_boundary_cases.rs",
+      "local_test": "get_index_negative",
+      "modifications": "Preserve Year0-to1, step1 Years and actual signed index-1. Native checked signed access returns explicit IndexOutOfBounds rather than a JVM exception; no usize wrapping/conversion rejection is substituted for range behavior. Complete source criterion retained; explicit native custom mock has default equal comparison, and arithmetic panics if incorrectly reached. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TemporalValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/TemporalValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_path": "crates/solver/tests/temporal_range_boundary_cases.rs",
+      "local_test": "sort",
+      "modifications": "Preserve Year0-to1, step1 Years, null comparator and unsupported in-place sort. Native explicit UnsupportedSorting error replaces JVM UnsupportedOperationException; no Java API/ABI parity claimed. Complete source criterion retained; explicit native custom mock has default equal comparison, and arithmetic panics if incorrectly reached. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TriangularNumbersTest.overflow",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/TriangularNumbersTest.java",
+      "upstream_test": "overflow",
+      "local_path": "crates/solver/tests/triangular_number_cases.rs",
+      "local_test": "overflow",
+      "modifications": "Preserve highest-safe+1 overflow, native arithmetic error kind and exact integer overflow message. Native checked signed32-bit intermediate policy and continuous inverse implement independent mathematical formulas. Highest-safe metadata is derived mathematically/from TEST expected value; no upstream production or constant read/copied. Native Result errors replace Java exceptions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TriangularNumbersTest.nthTriangle",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/TriangularNumbersTest.java",
+      "upstream_test": "nthTriangle",
+      "local_path": "crates/solver/tests/triangular_number_cases.rs",
+      "local_test": "nth_triangle_case",
+      "modifications": "Preserve all8 parameter rows including0,1,2,3,4,5,23169 and highest-safe input derived as46340 from provided expectedtriangular value1073720970. Native checked signed32-bit intermediate policy and continuous inverse implement independent mathematical formulas. Highest-safe metadata is derived mathematically/from TEST expected value; no upstream production or constant read/copied. Native Result errors replace Java exceptions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TriangularNumbersTest.triangularRoot",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/TriangularNumbersTest.java",
+      "upstream_test": "triangularRoot",
+      "local_path": "crates/solver/tests/triangular_number_cases.rs",
+      "local_test": "triangular_root_case",
+      "modifications": "Preserve all8 original parameter rows with exact continuous root equality to the original integer n. Native checked signed32-bit intermediate policy and continuous inverse implement independent mathematical formulas. Highest-safe metadata is derived mathematically/from TEST expected value; no upstream production or constant read/copied. Native Result errors replace Java exceptions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TriangularNumbersTest.nonTriangularRoots",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/TriangularNumbersTest.java",
+      "upstream_test": "nonTriangularRoots",
+      "local_path": "crates/solver/tests/triangular_number_cases.rs",
+      "local_test": "non_triangular_roots",
+      "modifications": "Preserve all7 parameter rows and both strict floating bounds per row, including268435456 between23169 and23170. Native checked signed32-bit intermediate policy and continuous inverse implement independent mathematical formulas. Highest-safe metadata is derived mathematically/from TEST expected value; no upstream production or constant read/copied. Native Result errors replace Java exceptions."
     }
   ],
   "fixtures": [
@@ -78557,6 +78677,32 @@
       "upstream_test": "valueRangeDescriptorWithSolution provider/declaration/getter signatures; runtime values in originals earn no source credit",
       "local_path": "crates/solver/tests/fixtures/solution_parameter_range_fixture.rs",
       "modifications": "Adapt TEST-only parameter-aware entity providers, current value/entity collections, solution/shared values and base/child declaration relationships. Native composition plus actual typed Solution/ExtendedSolution/base-projection callback signatures replace Java inheritance/annotations/reflection; unused code/extra/score/constraint-weight properties not involved in the descriptor/provider assertions are not modeled or claimed. No production copied or Java assignability/API/ABI claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "temporal-unit-support-mock",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/TemporalValueRangeTest.java",
+      "upstream_test": "complete source mock or parameter-provider inputs",
+      "local_path": "crates/solver/tests/temporal_range_boundary_cases.rs",
+      "modifications": "Adapt TEST-only mock support stubbing and default zero comparison; preserve overwritten flags exactly, including misleading original method names. Native unit Years replaces opaque mock unit; custom public TemporalValue allows real endpoint support validation. Arithmetic is deliberately unreachable on unsupported endpoints."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "triangular-number-inputs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/TriangularNumbersTest.java",
+      "upstream_test": "complete source mock or parameter-provider inputs",
+      "local_path": "crates/solver/tests/triangular_number_cases.rs",
+      "modifications": "Adapt full TEST-only8 nth-provider and7 nontriangular-provider rows. Derive46340 from the highest-safe expectedtriangular result1073720970 rather than reading production constant. Preserve license/provenance; no production copied."
     }
   ]
 }

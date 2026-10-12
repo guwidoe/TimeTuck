@@ -8056,3 +8056,36 @@ GenuineVariableDescriptorTest4/4 now pass; overall3,708/4,855 (76.375%),579 pend
 568 excluded,zero failed/unverified. Final7,070 Rust tests/290 doctests;5 changed Rust
 jobs/1,037 reused jobs/46 Python reuses. K-opt measurement inputs remain current;
 prior list measurements remain stale.
+
+### Temporal endpoint capability and checked combinatorial arithmetic
+
+TemporalValue is now an explicit public Copy/Ord extension contract. Applications
+can supply offset/distance/unit-support behavior with consistent indexed-range laws.
+Construction validates both endpoint capabilities, nonnegative distance and exact
+whole-step reachability; built-in civil arithmetic remains anchored and indexed.
+get_signed rejects negative/out-of-range indices with contextual errors. Anchored
+progressions reject in-place sort without invoking the comparator; external views
+remain separate. Native custom implementations must obey the documented laws.
+
+All four remaining TemporalValueRangeTest methods retain their full criteria. The
+two mock cases preserve actual overwritten stubbing (from=true/to=false and
+from=false/to=false), rather than inferring inputs from misleading names. Native
+Years replaces the opaque mocked unit with unit-independent support flags. Signed
+Year0-to1 index-1 rejects through the range, and sort(None) remains unsupported.
+Three originals cover usable custom progressions, both endpoint capabilities,
+checked signed extremes, comparator nonexecution, stable values and inconsistent
+negative-distance rejection; existing calendar correctness cases are retained.
+
+Independent nth_triangle and triangular_root helpers implement checked signed32-bit
+intermediate counts and the continuous inverse. All four TriangularNumbersTest
+methods preserve every8 nth/root and7 nontriangular-provider row, overflow kind and
+exact message, and strict inverse-root bounds. Highest-safe input46340 is derived
+mathematically/from the supplied expected count, without reading production code.
+Two originals check every safe input, exact wide reference counts, monotonicity,
+roundtrip/bracket results and negative/overflow boundaries. TEST inputs/helpers retain
+provenance/notices; no production copied or Java API/ABI claimed. No source credit
+is earned by originals, and no comparative performance improvement is claimed.
+TemporalValueRangeTest25/25 and TriangularNumbersTest4/4 now pass. Overall3,716/4,855
+(76.54%),571 pending,568 excluded,zero failed/unverified. Final7,083 Rust tests/290
+doctests;10 changed Rust jobs/1,036 reused jobs/46 Python reuses. Raw solver/scoring/
+search remains unchanged; K-opt measurements are current and prior list data stays stale.

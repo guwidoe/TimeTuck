@@ -664,8 +664,8 @@ pub use exact_value_range::{BigIntegerValueRange, DecimalValueRange, ExactRangeE
 
 mod temporal_value_range;
 pub use temporal_value_range::{
-    CalendarYear, CivilDate, CivilDateTime, CivilTime, TemporalRangeError, TemporalUnit,
-    TemporalValue, TemporalValueRange,
+    CalendarYear, CivilDate, CivilDateTime, CivilTime, TemporalRangeComparator, TemporalRangeError,
+    TemporalUnit, TemporalValue, TemporalValueRange,
 };
 
 mod list_cascade;
@@ -1547,4 +1547,9 @@ pub use variable_initialization::PlanningVariableValue;
 mod solution_entity_ranges;
 pub use solution_entity_ranges::{
     BoundEntityRangeOwner, BoundEntityRangeSolution, SolutionEntityRangeAccessors,
+};
+
+mod triangular_numbers;
+pub use triangular_numbers::{
+    HIGHEST_SAFE_TRIANGULAR_N, TriangularError, nth_triangle, triangular_root,
 };
