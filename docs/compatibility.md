@@ -7636,7 +7636,7 @@ routing. No overall constant-time or throughput improvement is claimed.
 ### Fluent native solve-wide time configuration
 
 SolverTimeSettings configures spent and unimproved time on actual native limits,
-basic/list phase configurations and mixed configurations. Each setter changes only
+basic/list solver plans and mixed configurations. Each setter changes only
 its selected limit; None clears it, while zero remains immediate. No score Clone
 bound or parallel configuration metadata is introduced. Existing engine enforcement
 and phase-local policies remain unchanged.

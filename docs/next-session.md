@@ -16,7 +16,48 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round63
+## Latest verified checkpoint — round64
+
+Feature aca5879 adds SolverTimeSettings fluent spent/unimproved limits to the actual
+SolverLimits and basic/list/mixed SolverConfig, SolverPlan and SolverSequence types.
+Each setter changes its selected field only; None disables it, zero stays immediate,
+and borrowed settings/phase plans remain intact. No score Clone bound, parallel
+metadata or change to native search/termination enforcement.
+
+Four complete SolverConfigTest methods preserve exact two-minute duration settings
+and absent-to-configured full-evaluation/stream recipe registration. Actual original
+preparation callbacks execute and open their selected scoring directors. Typed
+recipes replace Java abstract class/reflection references; no JVM API claim. Existing
+attributed TEST-only scoring factory fixture reused unchanged. Three original controls
+cover preserved settings/plans/non-Clone score types and actual dense/stream spent
+and stagnation termination with two-minute limits through an explicit clock; no
+wall-clock sleep or upstream credit for originals. Focused4+3 passed; suppressed
+unused helper warnings only on this test's reused fixture module before final gate.
+
+Final frozen runner-a bash scripts/check.sh passed once:6,979 Rust tests,290 doctests;
+3,674/4,855 passed (75.675%),613 pending,568 excluded,zero failed/unverified.
+Actual5 Rust RUN/1,008 REUSE/46 Python REUSE;197.755seconds.
+Rust source:55dd5b125f24400b9de23b0babe2849e4e8ff8fe77e104e042faf7a92ae88e48.
+Report/verification:a1d4d829f51242036b518dfefc0d64b2c4c717125ca6f849c7a283e2932ee13a.
+Remote root:2c2f664e4e3cac07be79e38167b135e3dc4dd30d237fa1e4a919fb00176f0960.
+Archive work/round64-runner-a-results.tar.gz SHA256:e0cb0a1ea12b857a5e6c3a0c76c1f7d23c1452723add1db070f14a2b0ceb0794.
+Evidence/freeze:work/parallel-round64-evidence.json and parallel-round64-freeze.json.
+Launcher25686 and collector16780 completedzero. Postcommit proof
+work/verify_round64_postcommit.py checks frozen state, clean Git, current report and
+retained completed families. Seed next gate with this actual archive/root. runner-c unused;
+no new agents/assignments, UI runs or benchmarks. Older performance remains stale.
+
+Next close list-binding compatibility and wire actual native list events to typed
+current objects. SolverConfigTest.entityWithTwoPlanningListVariables TEST-only source
+inspected: two actual list fields/IDs and rejection naming the owner and both fields.
+Existing bind_list_with_facts rejects with generic ListFieldCount and loses those
+names; improve diagnostics and preserve full fixture/assertions. ListStreamSources
+already emits actual ordered entity lists and canonical value/owner/index/neighbor
+rows; use its journals for current typed list tuples, preserving actual allocations
+and unchanged facts. Avoid duplicating engine stagnation behavior already implemented.
+Goal remains active/incomplete.
+
+## Prior verified checkpoint — round63
 
 Feature 1a38102 wires actual native planning-variable events to typed current
 object/field tuples in real StreamScoreDirector and solve_stream execution.
