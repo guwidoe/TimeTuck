@@ -55961,6 +55961,201 @@
       "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
       "local_test": "test_solve_builder_for_existing_solving_methods",
       "modifications": "Preserve all cumulative forwarding counts1/2/3 for problemID and problem, final-consumer count1 after second call and best-consumer count1 after third. Native default submission traits use actual injected mock-builder setters; ID is forwarded in prepare_job(id), replacing separate Java ID setter. Unit opaque problem/result represents source mock-only interaction objects; no solve quality or Java API parity claimed. Complete source criteria retained with seeded/bounded native solve execution where applicable. TEST-only adapters; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertEnableNearbyForChangeMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertEnableNearbyForChangeMoveSelectorConfig",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_enable_nearby_for_change",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertEnableNearbyForSwapMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertEnableNearbyForSwapMoveSelectorConfig",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_enable_nearby_for_swap",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertEnableNearbyForListChangeMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertEnableNearbyForListChangeMoveSelectorConfig",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_enable_nearby_for_list_change",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertEnableNearbyForListSwapMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertEnableNearbyForListSwapMoveSelectorConfig",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_enable_nearby_for_list_swap",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertEnableNearbyForKoptMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertEnableNearbyForKoptMoveSelectorConfig",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_enable_nearby_for_kopt",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertEnableNearbyForUnionMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertEnableNearbyForUnionMoveSelectorConfig",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_enable_nearby_for_union",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertEnableNearbyForMultipleUnionMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertEnableNearbyForMultipleUnionMoveSelectorConfig",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_enable_nearby_for_multiple_union",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveSelectorConfigTest.assertDisabledNearbyAutoConfiguration",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "assertDisabledNearbyAutoConfiguration",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "assert_disabled_nearby_auto_configuration",
+      "modifications": "Preserve full default/custom selector configuration inputs, every capability/absence/presence criterion, native move-kind identity, primary/receiver/origin-role and meter references, Probabilistic order preservation, exact union/nested-union child sizes/order and ordinary-versus-nearby variants. All7 disabled kinds remain incapable/non-nearby. Native explicit enum/tree/role metadata replaces Java reflective configuration classes/marker interfaces; seeded unique native origin IDs replace unconstrained Java Random IDs without RNG/ID trace claim. TestDistanceMeter is retained as a native type key where the source only requires a distance-class reference; no Java API/ABI, probability distribution or automatic solver binding claim. TEST-only adaptation; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedChangeMoveTest.testEnableNearbyMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "testEnableNearbyMixedModel",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "change_enable_nearby_mixed_model",
+      "modifications": "Preserve complete source constructor/kind and mixed-model capability result false. Native kind capability participates in real schema validation before metric invocation; enum replaces Java config class. Source only checks this capability and no mixed solve/sampling trace is credited. No production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSwapMoveTest.testEnableNearbyMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "testEnableNearbyMixedModel",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "swap_enable_nearby_mixed_model",
+      "modifications": "Preserve complete source constructor/kind and mixed-model capability result false. Native kind capability participates in real schema validation before metric invocation; enum replaces Java config class. Source only checks this capability and no mixed solve/sampling trace is credited. No production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListChangeMoveTest.testEnableNearbyMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "testEnableNearbyMixedModel",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "list_change_enable_nearby_mixed_model",
+      "modifications": "Preserve complete source constructor/kind and mixed-model capability result true. Native kind capability participates in real schema validation before metric invocation; enum replaces Java config class. Source only checks this capability and no mixed solve/sampling trace is credited. No production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListSwapMoveTest.testEnableNearbyMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "testEnableNearbyMixedModel",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "list_swap_enable_nearby_mixed_model",
+      "modifications": "Preserve complete source constructor/kind and mixed-model capability result true. Native kind capability participates in real schema validation before metric invocation; enum replaces Java config class. Source only checks this capability and no mixed solve/sampling trace is credited. No production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedKOptListMoveTest.testEnableNearbyMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testEnableNearbyMixedModel",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "local_test": "kopt_enable_nearby_mixed_model",
+      "modifications": "Preserve complete source constructor/kind and mixed-model capability result true. Native kind capability participates in real schema validation before metric invocation; enum replaces Java config class. Source only checks this capability and no mixed solve/sampling trace is credited. No production copied."
     }
   ],
   "fixtures": [
@@ -78817,6 +79012,19 @@
       "upstream_test": "remaining SolverManagerTest full input/helper/mock setup",
       "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
       "modifications": "Adapt TEST-only legacy solve-method forwarding mock interaction setup into native submission manager/builder traits with real shared default helper implementations and cumulative counters. Mock-only unit inputs/results preserve original interaction criteria; no fixture score result or solver quality credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "nearby-move-config-inputs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/MoveSelectorConfigTest.java",
+      "upstream_test": "all8 full default/custom/union/nested/disabled inputs and configuration field checks",
+      "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
+      "modifications": "Adapt TEST-only concrete move kinds, actual entity/value/destination/origin roles, default/Probabilistic options, all union nesting and disabled7-kind inputs. Native explicit metadata/tree keeps original interaction/identity criteria without copying any configuration production implementation. Test distance type is only a registration key in these source metadata cases; runtime meter tests are original and earn no source credit."
     }
   ]
 }

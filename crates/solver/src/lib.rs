@@ -1559,3 +1559,9 @@ pub use solver_submission::{
     ConfiguredManagerCreateError, SolverManagerConfig, SolverSubmissionBuilder,
     SolverSubmissionManager, SolverTimeOverride,
 };
+
+mod nearby_move_config;
+pub use nearby_move_config::{
+    NearbyConfigError, NearbyDistanceRegistry, NearbyElementConfig, NearbyMoveConfig,
+    NearbyMoveKind, NearbySelectionConfig, NearbySelectorRole,
+};

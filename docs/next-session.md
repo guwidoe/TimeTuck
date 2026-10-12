@@ -16,6 +16,48 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round84
+
+NearbyMoveConfig now expands change, swap, list-change, list-swap and K-opt selector
+metadata into nearby variants. Unions preserve ordinary alternatives and nested
+topology; unsupported children remain intact. The persistent transformation retains
+custom orders and allocates deterministic IDs without collisions within the input
+tree. Reapplying an unchanged transformed tree is idempotent. Validation checks
+origin references, rejects sorted nearby receivers, and checks actual mixed-model
+capability. Explicit typed distance callbacks rank supplied legal candidates once,
+with stable ties, bounded input and finite nonnegative distances; signed zero ties
+retain encounter order. Callers still provide reachable/pin-filtered candidates.
+This does not wire automatic nearby sampling into the solver or establish Java
+sampling distributions, RNG traces or API/ABI parity. No production code copied.
+
+All eight MoveSelectorConfigTest methods and five testEnableNearbyMixedModel methods
+now have complete adaptations and provenance. Default/custom cases preserve selector
+roles, IDs/meter references and Probabilistic orders; ordinary/nearby union alternatives,
+nested union shape and all seven unsupported kinds are retained. Mixed source cases
+assert capability only, not a mixed solve. Four original controls check persistent
+trees/ID collisions, invalid bindings/sorting/mixed models, actual meter calls/ties/
+limits/errors, and ranking then executing a legal list move. Originals earn no source
+credit. Initial focused compilation corrected an ambiguous empty-vector assertion;
+all 13 source cases and four controls passed first runtime after that correction.
+
+Final frozen runner-a bash scripts/check.sh passed: 7,109 Rust tests, 290 doctests;
+3,734/4,855 (76.91%), 553 pending, 568 excluded, zero failed/unverified. Only three
+Rust jobs ran; 1,047 Rust and 46 Python jobs reused unchanged successful evidence.
+Remote batch took 205.973 seconds, including prebuild. No benchmark, release-suite,
+UI rerun or new agents. Core solver/search/scoring and raw manager worker/callback/
+job-builder bytes remain unchanged. K-opt measured inputs remain current; prior list
+measurements remain stale. Report/freshness checked by collector and postcommit proof.
+Rust: c416af1bb0467ecf0cda6ef97e4f02521edb4a0c105acaeadf60440745980c24.
+Report: 3924445077c75b857aa163fbb74054f33728aaad17bd6f9df71b67f96e7f009b.
+Remote root: 1e801c548ceda6676167e94aa3dc7efd626b563c6a9e710648eff65a2d04d260.
+Archive work/round84-runner-a-results.tar.gz SHA256:
+c67cadce49fe6079101257893abd6e2e1a3bf4948f707bbcefda4fa05928d0fc.
+Evidence/freeze: work/parallel-round84-evidence.json and parallel-round84-freeze.json.
+Postcommit proof: work/verify_round84_postcommit.py. Next gate seeds actual round84
+archive/root. Objective remains incomplete: 553 pending methods and broader runtime
+integration/quality/performance gaps remain. Continue shrinking compatibility gaps
+without new agents, expected-output scripting or unnecessary repeated verification.
+
 ## Latest verified checkpoint — round83
 
 Configured manager creation now accepts configuration/run functions or reusable factories

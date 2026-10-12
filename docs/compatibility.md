@@ -8118,3 +8118,32 @@ and scoring/search algorithms are unchanged; no comparative performance claim.
 SolverManagerTest36/36 now pass; overall3,721/4,855 (76.643%),566 pending,568 excluded,
 zero failed/unverified. Final7,092 Rust tests/290 doctests;8 changed Rust jobs/1,040
 reused jobs/46 Python reuses. K-opt inputs remain current; prior list data stays stale.
+
+
+### Nearby move configuration trees and typed distance ranking
+
+Native NearbyMoveConfig expands change, swap, list-change, list-swap and K-opt
+metadata with origin/receiver references and explicit distance-meter type keys.
+Unions retain ordinary alternatives alongside nearby variants and preserve nested
+unions and unsupported children. Custom orders survive the persistent transform;
+deterministic generated IDs avoid existing tree IDs. Unchanged transformed trees
+can be transformed again without duplication. Validation checks origin references,
+sorted receivers and mixed-model capability against the actual schema.
+
+Explicit typed distance callbacks rank supplied candidates once, reject invalid
+or oversized inputs, and preserve encounter order for equal distances (including
+signed zero). An original integration control ranks and executes an actual legal
+list move. Callers supply reachable/pin-filtered candidates; automatic solver
+nearby sampling and Java probability distributions/RNG traces remain unestablished.
+
+All eight MoveSelectorConfigTest methods preserve full default/custom configuration,
+roles/meter references, union alternatives, nesting and seven disabled kinds. Five
+mixed-model source methods preserve their actual capability booleans; they do not
+establish a mixed solve. Source inputs retain provenance/notices. Four original
+controls cover tree preservation/IDs, bindings/sorting/mixed restrictions, real
+metrics/ties/limits/errors and legal move execution, without extra method credit.
+No upstream production copied or Java API/ABI parity claimed. Overall 3,734/4,855
+(76.91%) pass, with 553 pending, 568 excluded and zero failed/unverified. Final
+7,109 Rust tests/290 doctests passed; three Rust jobs ran, 1,047 Rust jobs and 46
+Python jobs reused successful unchanged evidence. K-opt measurements remain current;
+prior list measurements remain stale. No comparative performance claim is added.
