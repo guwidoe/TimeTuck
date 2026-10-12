@@ -1593,3 +1593,9 @@ pub use benchmark_deviation::{
     BenchmarkReportRanking, MissingBenchmarkBlueprint, benchmark_score_deviations,
     format_benchmark_deviations,
 };
+
+mod config_properties;
+pub use config_properties::{
+    ConfigDivisionError, ConfigPropertyError, ConfigPropertyRegistry, abbreviate_config,
+    ceil_divide_config, meld_config_property, merge_config_property,
+};

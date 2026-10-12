@@ -57011,6 +57011,126 @@
       "local_path": "crates/solver/tests/benchmark_session_cases.rs",
       "local_test": "without_solver_benchmark_blue_print_type",
       "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.mergeProperty",
+      "status": "implemented",
+      "upstream_test": "mergeProperty",
+      "local_test": "merge_property",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.meldProperty",
+      "status": "implemented",
+      "upstream_test": "meldProperty",
+      "local_test": "meld_property",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.ceilDivide",
+      "status": "implemented",
+      "upstream_test": "ceilDivide",
+      "local_test": "ceil_divide",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.ceilDivideByZero",
+      "status": "implemented",
+      "upstream_test": "ceilDivideByZero",
+      "local_test": "ceil_divide_by_zero",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.applyCustomProperties",
+      "status": "implemented",
+      "upstream_test": "applyCustomProperties",
+      "local_test": "apply_custom_properties",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.applyCustomPropertiesSubset",
+      "status": "implemented",
+      "upstream_test": "applyCustomPropertiesSubset",
+      "local_test": "apply_custom_properties_subset",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.applyCustomPropertiesNonExistingCustomProperty",
+      "status": "implemented",
+      "upstream_test": "applyCustomPropertiesNonExistingCustomProperty",
+      "local_test": "apply_custom_properties_non_existing_custom_property",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "ConfigUtilsTest.abbreviate",
+      "status": "implemented",
+      "upstream_test": "abbreviate",
+      "local_test": "abbreviate",
+      "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
     }
   ],
   "fixtures": [
@@ -80088,6 +80208,19 @@
       "upstream_test": "complete source mock/property/score/sample/format/copy/missing-type inputs",
       "local_path": "crates/solver/tests/benchmark_session_cases.rs",
       "modifications": "Adapt TEST-only startup object shapes and failing mock getter as owned native callback failure retaining actual Arc root identity; preserve successful score samples and original integer mean, all scalar/nullable formatting inputs and reference option keys. Native en-CA represents Locale.CANADA; comparator/weight classes only registration identities, without adapting production bodies. Source null parent/mocked executor/report objects have no observed interactions and do not imply native framework or file-output parity. Originals exercise real solves and numerical/error boundaries without source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/config_property_cases.rs",
+      "id": "config-property-bean-enum-inputs",
+      "upstream_test": "ConfigUtilsTestBean and ConfigUtilsTestBeanEnum TEST-only fixture",
+      "modifications": "Adapt all thirteen primitive/nullable bean fields, default states, setter behavior and three enum values to an owned native fixture with explicit registry callbacks. Preserve all source literal custom-property inputs. No upstream production body copied."
     }
   ]
 }
