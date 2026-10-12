@@ -8425,3 +8425,31 @@ All1,066 Rust and46 Python jobs ran after shared Cargo inputs changed; Clippy pa
 The complete run including compilation took1933.553seconds. Actual frozen source,
 log/archive hashes, fixture copies and report freshness validated. Older performance
 measurements remain stale until a deliberate refresh; no comparative speed claim.
+
+### Benchmark XML factories and native result directories
+
+BenchmarkXmlConfiguration loads strings/files/caller resources and nested solver
+declarations using the existing parser dependency. It resolves inherited solver
+settings, repetition counts, worker requests, warm-up budgets and deduplicated
+file inputs into PreparedBenchmarkSuite. Explicit typed runner/file adapters bind
+full native signatures; null/wrong problem types and missing bindings fail before
+execution. File adapters and solver/configuration registrations preflight before
+input callbacks. Nested namespaces and depth limits are validated before recursion.
+
+Execution uses BenchmarkSession's global warm-up barrier and actual native callback
+results. Nonzero warm-up budgets request a cooperative warm-up repetition; measured
+trials retain errors and initialization status. Each run creates a unique child
+directory and a nonempty summary.json journal without overwriting prior runs. This
+is native journal output, not Java report generation. The bounded template dialect
+implements literal string lists and XML-escaped substitutions, and rejects unsupported
+expressions/directives; general FreeMarker compatibility is not claimed.
+
+All twenty PlannerBenchmarkFactoryTest methods have complete adaptations, including
+all resource/file/resolver variants, both optional directory arguments, full five XML/
+template resources, malformed input names/reasons, wrong/null models, actual output
+existence, uninitialized command results, three repetitions and three-solver/two-
+problem counts. Copied resources and rigid input/empty constraint/no-change/score/
+loader TEST helpers retain provenance/notices. Five originals verify complete unique
+journals, repeated configuration/problem runs, physical uninitialized results, bounded
+template language/escaping, registration preflight and warm-up-before-measurements.
+Existing solver kernels, benchmark session/scheduling and Cargo dependencies unchanged.

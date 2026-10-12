@@ -57446,6 +57446,306 @@
       "upstream_test": "visitReferencedClasses",
       "local_test": "visit_referenced_classes",
       "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromSolverConfigXmlResource",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromSolverConfigXmlResource",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_solver_config_xml_resource",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromSolverConfigXmlResource_classLoader",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromSolverConfigXmlResource_classLoader",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_solver_config_xml_resource_class_loader",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.problemIsNotASolutionInstance",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "problemIsNotASolutionInstance",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "problem_is_not_a_solution_instance",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.problemIsNull",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "problemIsNull",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "problem_is_null",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromXmlResource",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromXmlResource",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_xml_resource",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromXmlResource_classLoader",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromXmlResource_classLoader",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_xml_resource_class_loader",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromXmlResource_nonExisting",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromXmlResource_nonExisting",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_xml_resource_non_existing",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromInvalidXmlResource_failsShowingBothResourceAndReason",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromInvalidXmlResource_failsShowingBothResourceAndReason",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_invalid_xml_resource_fails_showing_both_resource_and_reason",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromInvalidXmlFile_failsShowingBothPathAndReason",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromInvalidXmlFile_failsShowingBothPathAndReason",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_invalid_xml_file_fails_showing_both_path_and_reason",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromXmlResource_uninitializedBestSolution",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromXmlResource_uninitializedBestSolution",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_xml_resource_uninitialized_best_solution",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromXmlResource_subSingleCount",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromXmlResource_subSingleCount",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_xml_resource_sub_single_count",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromXmlFile",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromXmlFile",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_xml_file",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromXmlFile_classLoader",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromXmlFile_classLoader",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_xml_file_class_loader",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromFreemarkerXmlResource",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromFreemarkerXmlResource",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_freemarker_xml_resource",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromFreemarkerXmlResource_classLoader",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromFreemarkerXmlResource_classLoader",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_freemarker_xml_resource_class_loader",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromFreemarkerXmlResource_nonExisting",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromFreemarkerXmlResource_nonExisting",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_freemarker_xml_resource_non_existing",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromFreemarkerXmlFile",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromFreemarkerXmlFile",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_freemarker_xml_file",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromFreemarkerXmlFile_classLoader",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromFreemarkerXmlFile_classLoader",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_freemarker_xml_file_class_loader",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.createFromSolverConfig",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "createFromSolverConfig",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "create_from_solver_config",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PlannerBenchmarkFactoryTest.buildPlannerBenchmark",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "buildPlannerBenchmark",
+      "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
+      "local_test": "build_planner_benchmark",
+      "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
     }
   ],
   "fixtures": [
@@ -80731,6 +81031,149 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
       "upstream_test": "Dummy component classes and both inline XML fragments",
       "modifications": "Retain TEST-only component names, all expected reference keys, namespace fragment, whitespace around solution key and invalid nested variableName. Native component keys replace type objects; abstract dummy production bodies are never implemented or consulted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-resource-classloaderTestdataBenchmarkConfig.xml",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/api/classloaderTestdataBenchmarkConfig.xml",
+      "upstream_test": "complete XML/template TEST resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml/classloaderTestdataBenchmarkConfig.xml",
+      "modifications": "Copied unchanged. Native execution redirects output to owned test paths; source-declared input path setup preserved."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-resource-classloaderTestdataBenchmarkConfigTemplate.xml.ftl",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/api/classloaderTestdataBenchmarkConfigTemplate.xml.ftl",
+      "upstream_test": "complete XML/template TEST resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml/classloaderTestdataBenchmarkConfigTemplate.xml.ftl",
+      "modifications": "Copied unchanged. Native execution redirects output to owned test paths; source-declared input path setup preserved."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-resource-testdataBenchmarkConfigTemplate.xml.ftl",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/api/testdataBenchmarkConfigTemplate.xml.ftl",
+      "upstream_test": "complete XML/template TEST resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml/testdataBenchmarkConfigTemplate.xml.ftl",
+      "modifications": "Copied unchanged. Native execution redirects output to owned test paths; source-declared input path setup preserved."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-resource-invalidBenchmarkConfig.xml",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/api/invalidBenchmarkConfig.xml",
+      "upstream_test": "complete XML/template TEST resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml/invalidBenchmarkConfig.xml",
+      "modifications": "Copied unchanged. Native execution redirects output to owned test paths; source-declared input path setup preserved."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-resource-solverConfig.xml",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/config/solver/testdataSolverConfig.xml",
+      "upstream_test": "complete XML/template TEST resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml/solverConfig.xml",
+      "modifications": "Copied unchanged. Native execution redirects output to owned test paths; source-declared input path setup preserved."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-resource-testdataBenchmarkConfig.xml",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/api/testdataBenchmarkConfig.xml",
+      "upstream_test": "complete XML/template TEST resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml/testdataBenchmarkConfig.xml",
+      "modifications": "Copied unchanged. Native execution redirects output to owned test paths; source-declared input path setup preserved."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-rigid-loader",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/util/RigidTestdataSolutionFileIO.java",
+      "upstream_test": "read",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml_fixture.rs",
+      "modifications": "Adapt TEST three required entities/two values to native variables. Validate file presence; ignore content as the source does. No solution payload writer claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-no-change",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/NoChangeCustomPhaseCommand.java",
+      "upstream_test": "changeWorkingSolution",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml_fixture.rs",
+      "modifications": "Adapt empty TEST command to actual native custom_phase callback with no edits; journal incomplete physical assignments."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-constraint-provider",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkFactoryTest.java",
+      "upstream_test": "TestdataConstraintProvider.defineConstraints",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml_fixture.rs",
+      "modifications": "Adapt empty TEST constraint array to a real zero-constraint network."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-diverted-loader",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/DivertingClassLoader.java",
+      "upstream_test": "diverted resource resolution",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml_fixture.rs",
+      "modifications": "Adapt observed prefix stripping/delegation via caller resolver; no JVM class loading/getResources claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-xml-score-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/benchmark_xml_fixture.rs",
+      "modifications": "Adapt assigned distinct ordered-pair equality penalty; retain double penalty and missing omission."
     }
   ]
 }

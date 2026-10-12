@@ -1615,3 +1615,10 @@ pub use solver_xml::{
     SolverXmlLimits, SolverXmlSchemaError, XmlFactoryError, XmlFactorySignature,
     XmlSolverFactoryRegistry,
 };
+
+mod benchmark_xml;
+pub use benchmark_xml::{
+    BENCHMARK_XML_NAMESPACE, BenchmarkFileError, BenchmarkXmlConfiguration, BenchmarkXmlError,
+    NativeBenchmarkTrial, XmlBenchmarkRun, XmlBenchmarkRuntime, XmlBenchmarkSolver,
+    render_benchmark_template,
+};

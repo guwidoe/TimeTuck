@@ -16,6 +16,22 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Round93 implementation — focused verification passed
+
+Benchmark XML/configuration factory and bounded literal-list templates implemented
+without new dependencies. Actual native runners/file adapters prepare existing
+benchmark suites and sessions; execution writes unique summary.json directories.
+All20 PlannerBenchmarkFactoryTest methods plus5 originals passed focused runner-a
+tests in26.553seconds, root398ac589d8c05134e669d885b347744b6cbb61452ce48f630eba534b4340eb1b.
+Provenance/resources/TEST-only loaders, no-change/empty-score/ordered-score helpers
+recorded. Native source physical results and output existence verified; no Java
+report/general FreeMarker/reflection claim. Initial local check corrected CPU
+parameter binding isize to i64 and removed unused import; no runtime repair.
+Shared solver/session/Cargo inputs unchanged; selective gate should reuse round92.
+Freeze Rust/provenance and run final bash scripts/check.sh once. Then deliberately
+refresh K-opt performance on idle runner-a with same pinned Java/workloads/configuration
+and real new inputs, preserving old measurements as history. No new agents.
+
 ## Latest verified checkpoint — round92
 
 XML configuration and actual native factory bindings integrated as c91c813.
