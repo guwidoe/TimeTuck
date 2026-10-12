@@ -1581,3 +1581,15 @@ pub use benchmark_config::{
     SingleBenchmarkStatistic, SolverBenchmarkDeclaration, automatic_parallel_benchmarks,
     generate_solver_benchmark_names,
 };
+
+mod benchmark_session;
+pub use benchmark_session::{
+    BenchmarkExecutionError, BenchmarkSession, BenchmarkSessionResult, BenchmarkSessionState,
+    BenchmarkStartError,
+};
+mod benchmark_deviation;
+pub use benchmark_deviation::{
+    BenchmarkBlueprintDeclaration, BenchmarkDeviationError, BenchmarkReportOptions,
+    BenchmarkReportRanking, MissingBenchmarkBlueprint, benchmark_score_deviations,
+    format_benchmark_deviations,
+};

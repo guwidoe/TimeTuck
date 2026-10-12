@@ -56861,6 +56861,156 @@
       "local_path": "crates/solver/tests/benchmark_config_cases.rs",
       "local_test": "duplicated_default_metrics",
       "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkTest.benchmarkingStartedTwice",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkTest.java",
+      "upstream_test": "benchmarkingStartedTwice",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "benchmarking_started_twice",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkTest.solverBenchmarkResultListIsEmpty",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkTest.java",
+      "upstream_test": "solverBenchmarkResultListIsEmpty",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "solver_benchmark_result_list_is_empty",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkTest.benchmarkDirectoryIsNull",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkTest.java",
+      "upstream_test": "benchmarkDirectoryIsNull",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "benchmark_directory_is_null",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkTest.exceptionMessagePropagatesWhenThrownDuringWarmUp",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkTest.java",
+      "upstream_test": "exceptionMessagePropagatesWhenThrownDuringWarmUp",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "exception_message_propagates_when_thrown_during_warm_up",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StatisticUtilsTest.singleDetermineStandardDeviationDoubles",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/StatisticUtilsTest.java",
+      "upstream_test": "singleDetermineStandardDeviationDoubles",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "single_determine_standard_deviation_doubles",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StatisticUtilsTest.multipleDetermineStandardDeviationDoubles",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/StatisticUtilsTest.java",
+      "upstream_test": "multipleDetermineStandardDeviationDoubles",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "multiple_determine_standard_deviation_doubles",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StatisticUtilsTest.largeDetermineStandardDeviationDoubles",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/StatisticUtilsTest.java",
+      "upstream_test": "largeDetermineStandardDeviationDoubles",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "large_determine_standard_deviation_doubles",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "StatisticUtilsTest.getStandardDeviationString",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/StatisticUtilsTest.java",
+      "upstream_test": "getStandardDeviationString",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "get_standard_deviation_string",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BenchmarkReportConfigTest.inheritBenchmarkReportConfig",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/report/BenchmarkReportConfigTest.java",
+      "upstream_test": "inheritBenchmarkReportConfig",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "inherit_benchmark_report_config",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkBluePrintConfigTest.withoutSolverBenchmarkBluePrintType",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/blueprint/SolverBenchmarkBluePrintConfigTest.java",
+      "upstream_test": "withoutSolverBenchmarkBluePrintType",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "local_test": "without_solver_benchmark_blue_print_type",
+      "modifications": "Preserve complete source once-only startup/no-cause, empty result and missing-directory message criteria; actual warm-up access to a TEST mocked entity getter fails with the same retained root object. Native sessions/configured callback access replace Java factory/executor/report mocks; output path is retained metadata, not a Java file/report generation claim. Preserve every successful score sample/encounter index, supplied floor-divided integer mean, success divisor and DELTA0.001 assertion; all six nullable/rounded/scientific string criteria; all four copied Canada/total-ranking/comparator/weight-factory keys; and absent blueprint error/message, as applicable. Native optional observations/profile/owned option copy and explicit registration keys replace JVM score/result/configuration classes. Unused source helper step settings are not modeled because mocked entity access fails before scoring. Independent exact-difference RMS and explicit native3-significant-digit formatter implement observed criteria; no arbitrary Java locale/formatting/executor/API/ABI parity, source production translation or performance claim."
     }
   ],
   "fixtures": [
@@ -79886,6 +80036,58 @@
       "upstream_test": "complete TEST-only configuration helper inputs, literal names, phase declarations, numeric criteria and statistic requests",
       "local_path": "crates/solver/tests/benchmark_config_cases.rs",
       "modifications": "Adapt all supplied TEST-only configuration/validation/metric-resolution inputs. Native EnvironmentProfile preserves original global and two phase option states; enum blueprint retains construction-only and construction/local variants. Named error kinds and message criteria replace JVM exceptions; no upstream production/helper body copied. Original native real-solve tests earn no source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-session-inputs-SolverBenchmarkBluePrintConfigTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/blueprint/SolverBenchmarkBluePrintConfigTest.java",
+      "upstream_test": "complete source mock/property/score/sample/format/copy/missing-type inputs",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "modifications": "Adapt TEST-only startup object shapes and failing mock getter as owned native callback failure retaining actual Arc root identity; preserve successful score samples and original integer mean, all scalar/nullable formatting inputs and reference option keys. Native en-CA represents Locale.CANADA; comparator/weight classes only registration identities, without adapting production bodies. Source null parent/mocked executor/report objects have no observed interactions and do not imply native framework or file-output parity. Originals exercise real solves and numerical/error boundaries without source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-session-inputs-BenchmarkReportConfigTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/report/BenchmarkReportConfigTest.java",
+      "upstream_test": "complete source mock/property/score/sample/format/copy/missing-type inputs",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "modifications": "Adapt TEST-only startup object shapes and failing mock getter as owned native callback failure retaining actual Arc root identity; preserve successful score samples and original integer mean, all scalar/nullable formatting inputs and reference option keys. Native en-CA represents Locale.CANADA; comparator/weight classes only registration identities, without adapting production bodies. Source null parent/mocked executor/report objects have no observed interactions and do not imply native framework or file-output parity. Originals exercise real solves and numerical/error boundaries without source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-session-inputs-DefaultPlannerBenchmarkTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkTest.java",
+      "upstream_test": "complete source mock/property/score/sample/format/copy/missing-type inputs",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "modifications": "Adapt TEST-only startup object shapes and failing mock getter as owned native callback failure retaining actual Arc root identity; preserve successful score samples and original integer mean, all scalar/nullable formatting inputs and reference option keys. Native en-CA represents Locale.CANADA; comparator/weight classes only registration identities, without adapting production bodies. Source null parent/mocked executor/report objects have no observed interactions and do not imply native framework or file-output parity. Originals exercise real solves and numerical/error boundaries without source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-session-inputs-StatisticUtilsTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/StatisticUtilsTest.java",
+      "upstream_test": "complete source mock/property/score/sample/format/copy/missing-type inputs",
+      "local_path": "crates/solver/tests/benchmark_session_cases.rs",
+      "modifications": "Adapt TEST-only startup object shapes and failing mock getter as owned native callback failure retaining actual Arc root identity; preserve successful score samples and original integer mean, all scalar/nullable formatting inputs and reference option keys. Native en-CA represents Locale.CANADA; comparator/weight classes only registration identities, without adapting production bodies. Source null parent/mocked executor/report objects have no observed interactions and do not imply native framework or file-output parity. Originals exercise real solves and numerical/error boundaries without source credit."
     }
   ]
 }

@@ -8250,3 +8250,36 @@ failed/unverified. Final 7,170 Rust tests and 290 doctests passed; three Rust jo
 ran, 1,053 Rust jobs and 46 Python jobs reused unchanged evidence. K-opt measured
 inputs remain current and prior list data stays stale. No benchmark refresh or
 comparative speed claim is added by these configuration/execution controls.
+
+### Benchmark session lifecycle, warm-up failures and score deviations
+
+BenchmarkSession validates configuration/directory metadata before its once-only
+start. It retains the output path without creating directories or writing Java
+reports. Every warm-up callback completes before the measured stage starts. A typed
+warm-up error cancels a linked local token, joins active workers and preserves its
+original error/cause; parent/sibling tokens remain unchanged. Active callbacks are
+cooperative. Cancellation yields an incomplete report; measured failures are retained.
+Completed, cancelled and failed sessions cannot restart. Panics propagate and leave
+Started rather than claiming completion. Native seeds and callback timing match the
+existing schedule, with global configuration indices in the staged result.
+
+Score deviations use exact ordinary-level differences before floating conversion,
+then scaled hypot accumulation instead of overflow-prone squared sums. Failed samples
+remain absent; the nonzero divisor must match successful samples. Structural quality
+is separate. Formatting has an explicit native three-significant-digit policy and
+preserves absent data. Invalid/nonfinite data and differing dimensions return typed
+errors. Report options preserve owned locale/ranking/registration keys; unresolved
+blueprint declarations fail before entering a prepared suite. These are native options,
+not reflective Java class instantiation or arbitrary locale/formatting parity.
+
+Four complete DefaultPlannerBenchmarkTest methods preserve startup/no-cause and both
+message criteria, and actual warm-up access to the mocked entity getter retains the
+same root object. Four StatisticUtilsTest methods preserve all samples, supplied integer
+average/divisor, DELTA0.001 and six null/scalar/scientific string criteria. The report
+copy and absent-blueprint methods preserve all four fields and the source message.
+TEST inputs/mocks retain provenance/notices. Four originals verify the stage barrier
+with actual solves, matched native seeds, cancellation isolation, failed/nonrestartable
+sessions, measured-error retention, exact large-offset differences, multiple dimensions,
+malformed statistics and option inheritance. Originals earn no source credit. Existing
+benchmark scheduling, solver scoring/search, metric capture and performance measurements
+remain unchanged; no new speed, executor trace or Java report-generation claim is made.

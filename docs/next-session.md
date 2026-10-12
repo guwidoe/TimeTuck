@@ -16,6 +16,44 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Round88 implementation — final check passed, collection pending
+
+BenchmarkSession now has once-only startup/state, retained directory metadata,
+a global completed-warm-up barrier before measurements, preserved typed warm-up
+causes, linked local cancellation without cancelling parents, measured-error
+retention and global trial indices. Native seeds/timing match existing scheduling;
+callback cloning remains outside timers. Panics propagate and do not permit retry.
+Directory metadata does not create files or implement Java reports.
+Score deviations use exact ordinary differences plus scaled hypot; absent failed
+samples are excluded with an explicit validated success divisor. Native compact
+formatting, owned report option inheritance and absent-blueprint validation added.
+
+Ten source cases and four originals passed focused tests. Originals include actual
+solves across the stage barrier, matched seeds, failure/cancellation isolation,
+large-offset precision, dimensions and malformed data. Initial compilation corrected
+adapter error inference and bendable dimension typing; no production runtime repair.
+TEST-only adaptations/provenance recorded; no upstream production copied. Existing
+benchmark configuration/scheduling, metrics, scoring/search and cancellation unchanged.
+
+Frozen runner-a bash scripts/check.sh completed with exit0 in208.406seconds, including
+prebuild/Clippy. Remote root:
+a4de23fb7186145bd459ec03a5d88874d497a199cf6eae9ea5c673e0b9893a7d.
+The final worker connection89772 is terminal0. Collection51887 is still live and
+waiting for renewed Tailscale SSH authentication at
+https://login.tailscale.com/a/l18169de1318697. The earlier diagnostic link timed out;
+use this collector link. User has been asked. Do not restart the successful check.
+Live collector: python3 work/collect_round88_runner-a.py. On authentication it will
+import original logs/checksums, publish the report and assert freshness. Poll the
+same session/process; if terminal inspect its outcome before retrying collection.
+Pending receipt: work/round88-pending-collection.json; freeze:
+work/parallel-round88-freeze.json. No old evidence was retagged. The dashboard still
+has round87's imported counts; do not present projected round88 counts as current.
+Once collection succeeds, update this checkpoint with actual counts/source/report/
+archive SHA, commit the handoff, and run work/verify_round88_postcommit.py. It checks
+clean state, hashes, current K-opt and the10 new source criteria. No Rust changes
+are needed for collection/docs; do not repeat the gate or benchmark/UI verification.
+Goal active/incomplete; no new agents. Keep remaining compatibility gaps shrinking.
+
 ## Latest verified checkpoint — round87
 
 Native benchmark declarations now cover validated names, inherited settings and
