@@ -1605,3 +1605,6 @@ pub use legacy_random::{InvalidLcg48Bound, Lcg48Random};
 pub use list_value_swap::replayed::{
     ListSwapPartnerOrder, ReplayedListSwapLimits, ReplayedListValueSwapSource,
 };
+
+mod list_range_value_source;
+pub use list_range_value_source::{ListRangeValueOrder, ListRangeValueSource};

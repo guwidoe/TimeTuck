@@ -16,6 +16,23 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Round91 implementation — focused verification passed
+
+ListRangeValueSource implements distinct effective entity-domain unions, finite
+registry-order traversal, seeded native/LCG48 draws, shared injected draw streams,
+step replay and lazy payload copies with panic fusion. Global domains avoid
+expanded memberships; unreachable registry values are excluded. Raw draws retain
+pinned/missing values for downstream filtering. One complete pin/entity-range
+change source case and seven originals passed final focused runner-a tests in
+26.312seconds (7fe9926880d6a3895d4204e24ff7c241fe1dc90de915874fef96dd7bdba5aee1).
+Originals include actual dense/stream searches, fresh layouts, domain union bounds,
+shared draw state and panic recovery. Source passed first compile/run; no focused
+failures. Provenance/notices recorded. Existing solver/move runtime and measured
+K-opt inputs unchanged. Three coupled change destination traces remain pending;
+do not substitute scripted outputs or claim those complete.
+Run one final frozen bash scripts/check.sh using genuine round90 cached records,
+then collect actual logs/report and commit verified handoff. No new agents.
+
 ## Latest verified checkpoint — round90
 
 Recorded-left list swap sampling integrated as b4c0b82. Three complete source

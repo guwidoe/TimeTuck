@@ -52,7 +52,7 @@ Automatic per-value destination replay is exercised separately through the new
 ReplayedListValueChangeSource: native seeded reproducibility, receiver ranges,
 pins, independent anchor filtering, unassignment/no-op metadata, bounded invalid
 cycles, lazy lifecycle delegation and real dense/stream list/mixed search. These
-original regressions earn no method credit. The four range-dependent random
+original regressions earn no method credit. The three coupled range-dependent random
 ListChangeMoveSelectorTest methods remain pending: their exact Java seed-0 output
 traces have not been established by the native sampling policy. Expected move
 prefixes were not substituted with scripted outputs to claim compatibility.
@@ -8353,3 +8353,26 @@ Frozen round90 verification passed on runner-a:7,206 Rust tests,290 doctests;
 Three Rust jobs ran;1,059 Rust and46 Python jobs reused unchanged successful inputs.
 Archive/source/log checksums and report freshness validated. A transient freshness
 HTTP timeout was resolved without repeating tests or regenerating the report.
+
+### Distinct raw list-range selection
+
+ListRangeValueSource supplies the distinct union of effective entity domains in
+canonical registry order. Overlap does not multiply value weights; unreachable
+registered values are omitted. Global ranges avoid expanded membership matrices,
+and zero entities/empty domains yield an empty stream. Original traversal is
+finite; native and optional public LCG48 sampling draw with replacement, including
+singletons. Pins and assignment status are checked downstream after raw draws.
+Opening is lazy, values clone only when yielded, and storage is linear in registry
+size. Unknown injected indices or caught draw/Clone panics fuse a cursor. Step
+events change subsequent opening seeds; solve start resets them. select_with allows
+cooperating selectors to share an explicit draw stream without implicit global RNG.
+
+A complete ListChangeMoveSelectorTest.randomWithPinningAndEntityValueRange
+adaptation retains four values, three entity domains/assignments, partial/full
+pins, all four mocked destinations, seed zero, both output strings, unbounded
+metadata and post-prefix availability. TEST-only fixtures/helpers retain notices
+and provenance. Seven originals cover distinct union order, empty/global domains,
+raw pinned/missing values, shared draw state, seeded lifecycle replay, panic fusion
+and actual dense/stream changes with fresh captured layouts. Coupled entity-range
+destination source traces remain pending. Native defaults and existing move checks
+remain unchanged; no broader Java RNG/selector trace claim or new speed claim.

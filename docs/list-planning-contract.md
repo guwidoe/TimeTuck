@@ -1360,3 +1360,12 @@ after edits. Global domains avoid expanded membership storage; explicit domains
 use sparse memberships and repeated large rows use the bounded existing cache.
 Native and optional public-LCG48 policies are explicit; singletons consume draws.
 Use ConfiguredMoveProvider with a finite draw limit for actual solver runs.
+
+ListRangeValueSource supplies distinct raw domain-union values in registry order.
+Original traversal is finite; native/LCG48 policies sample with replacement. Pins
+and missing/assigned status remain downstream move-selector responsibilities.
+Source openings allocate indices rather than cloned payload catalogs; global
+ranges avoid a per-entity expansion. Explicit injected draws may share caller
+state, while built-in seeds replay per opening/step. Caught draw/Clone panics fuse
+the cursor. ConfiguredMoveProvider can bind this source to actual checked list
+changes with fresh assignment snapshots each step.
