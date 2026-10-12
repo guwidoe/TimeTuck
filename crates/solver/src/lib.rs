@@ -1511,7 +1511,9 @@ pub use solution_mixed_binding::{
     BoundMixedEntity, BoundMixedSolution, MixedSolutionBindingError, SolutionMixedCollection,
     SolutionMixedEntityRecord,
 };
+mod object_clone_ordered_sets;
 mod object_graph_clone;
+pub use object_clone_ordered_sets::{ObjectComparator, ObjectLinkedIdentitySet, ObjectSortedSet};
 mod object_graph_clone_containers;
 mod object_graph_clone_fields;
 pub use object_graph_clone_containers::ObjectIdentity;

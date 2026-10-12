@@ -16,6 +16,57 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round80
+
+ObjectSortedSet adds tree-backed comparator ordering and comparator-defined uniqueness,
+retaining the comparator Arc. ObjectLinkedIdentitySet uses a hash membership index and
+first-insertion iteration order; removal is linear and preserves order. Registered clone
+factories rebase members through the shared graph map, retain comparator identity and
+reject copied-key collisions. Comparator ordering must remain stable while objects are
+stored, as for normal Rust tree keys. register_cloned_leaf uses ordinary Rust Clone;
+inner sharing/deep edges are still explicitly specified by the payload/factory.
+
+The last two full AbstractSolutionClonerTest methods now pass: cloneSetBasedSolution
+and deepPlanningClone. Sets preserve reverse fact/entity ordering, concrete native
+sorted/hash/insertion types, independent storage, comparator identity, d/c/b/a ordering,
+cross-container entity aliases and original planning-value mutation isolation. Various-
+type cloning preserves full3-value/4-entity1/1/3/3 input, every root/entity/shadow/general
+helper criterion, all8 primitive values and13 immutable reference allocations, record,
+shallow/deep lists, extra object/id and all5 various-type field policies. The unannotated
+alias keeps its original allocation while another field clones that same object. Actual
+erased annotated wrapper type remains concrete. Genuine planning-value and shadow-map
+mutations leave clones unchanged. Native BigInt/decimal coefficient-scale pair, UTF16
+char components and immutable UUID bytes replace JVM types; deterministic distinct
+version4 UUID/string links replace constructor randomness. Both source methods use real
+native basic binding. TEST-only source/helper/fixtures have provenance/notices; no
+production copied, reflection/annotation inference/Java inheritance/API/ABI claim.
+Four originals cover comparator equality/order/identity, copied-key collision errors,
+identity duplicate/removal/reinsertion semantics, aliases, empty sets and leaf sharing.
+
+First focused run passed set case but the new deep-type assertion double-locked its
+intentionally shared shallow-list Mutex. Corrected the test to obtain each element
+handle separately; stopped the exact obsolete test process (PID2725475) rooted at
+185f41bcf5b707791afe7f35bf9a8b800f1795b90afb9d440209946373de5624, terminal101.
+Corrected immutable source4db9f66420db7dfaf601b18f46e77dd4b9634fc2483dc1f2e353d6f4737f4bac
+passed2 source+4 originals. No production repair was needed for that assertion bug.
+Frozen runner-a bash scripts/check.sh passed once:7,060 Rust tests,290 doctests;
+3,704/4,855 (76.292%),583 pending,568 excluded,zero failed/unverified. Actual3 Rust
+RUN/1,035 REUSE/46 Python REUSE;202.297seconds. Abstract cloner14/14 and custom cloner4/4
+now pass; this does not imply Java reflection/annotation handling or general automatic
+cloning. Raw solver/search/scoring unchanged; no benchmarks/release suite/UI rerun/agents.
+K-opt measurements remain genuinely current; prior list measurements remain stale.
+Rust:fc1039a94a115a14452e3afcd53d13058bb074ea06880ce36b88345f69f18123.
+Report:bf6ca856370ff9af368a2cb69b73144cc83d19ad274f47515a383a3fa432d35b.
+Remote root:838366a162e045f8902a647c40bbc1fc3c46ed51358e67d142f2f0f35e8268ee.
+Archive work/round80-runner-a-results.tar.gz SHA256:
+88a11c3d549a649a6f8111996f2b0c9633436d49319ccbe2d7e57fb9516397bd.
+Evidence/freeze:work/parallel-round80-evidence.json and parallel-round80-freeze.json.
+Launcher36252/collector74639 terminalzero. Postcommit proof:work/verify_round80_postcommit.py.
+Next gate seeds actual round80 archive/root. Goal active/incomplete:583 pending cases
+and broader native solver/compatibility gaps remain. Move onto other remaining families,
+including K-opt3-opt boundaries, while keeping performance important and reusing unchanged
+verification. No new agents or assignments.
+
 ## Latest verified checkpoint — round79
 
 ObjectGraphObject exposes erased owning references. Concrete TypeId-indexed factory

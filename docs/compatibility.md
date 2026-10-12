@@ -7993,3 +7993,32 @@ Abstract cloner12/14 passed,2 pending; overall3,702/4,855 (76.251%),585 pending,
 excluded,zero failed/unverified. Final7,054 Rust tests/290 doctests;9 changed Rust
 jobs/1,027 reused jobs/46 Python reuses. No new performance claim; K-opt measurement
 inputs remain current and prior list measurements remain stale.
+
+### Ordered sets and complete various-type cloning
+
+ObjectSortedSet is tree-backed, retaining the comparator Arc and comparator-defined
+uniqueness. ObjectLinkedIdentitySet uses a hash membership index and first-insertion
+order; removal preserves order with linear work. Registered clone factories retain
+comparator identity, rebase members through the shared graph map and reject copied
+key collisions. Comparator ordering must remain stable while objects are stored,
+as for ordinary Rust tree keys. register_cloned_leaf applies ordinary Rust Clone
+without inferring deep edges or changing inner-reference semantics.
+
+Complete cloneSetBasedSolution preserves the actual reverse fact/entity ordering,
+native concrete sorted/hash/insertion container types, comparator identity, independent
+storage, all cross-container aliases and original planning-value mutation isolation.
+Complete deepPlanningClone retains every original/helper criterion:8 primitive fields,
+13 immutable reference allocations, all5 various-object field policies, the shared
+unannotated alias beside a cloned field, actual erased annotated runtime type, record,
+shallow/deep lists, extra object/id, nullable shadows and both original mutations.
+Native BigInt/decimal coefficient-scale pair, UTF16 char components and immutable UUID
+bytes replace JVM types; deterministic distinct UUID/string links replace randomness.
+Actual typed basic binding validates copied planning objects. These native explicit
+policies claim no reflection, annotation inference, Java inheritance or API/ABI parity.
+All TEST sources/helpers/fixtures retain provenance/notices. Four original controls
+cover comparator equality/identity/order, collisions, duplicate identity insertion,
+removal/reinsertion, aliases, empty sets and ordinary leaf Clone; no source credit.
+Abstract cloner14/14 passed,0 pending; overall3,704/4,855 (76.292%),583 pending,568
+excluded,zero failed/unverified. Final7,060 Rust tests/290 doctests;3 changed Rust
+jobs/1,035 reused jobs/46 Python reuses. Raw solving/scoring/search is unchanged;
+K-opt measurement inputs remain current and prior list measurements remain stale.
