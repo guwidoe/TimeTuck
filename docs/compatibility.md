@@ -8699,3 +8699,38 @@ source methods (79.918%),407pending,568excluded,zero failed/unverified. Three
 Rust jobs ran and1,078Rust/46Python jobs reused unchanged successful evidence.
 Existing K-opt measurements remain current and prior grouped native measurements
 retain their original samples/date; older list measurements remain visibly stale.
+
+## Coalesced best delivery with change acknowledgement
+
+BestDeliverySlot retains one latest eligible owned snapshot and its native phase
+origin. Registered edit batches are associated with the next eligible publication;
+replacements inherit previously captured batches. Taking a snapshot does not
+acknowledge them: successful consumers explicitly complete its receipts. Later
+registrations remain pending. Cancellation (or slot drop) cancels outstanding
+receipts, including taken snapshots, and completion cannot revive them. Predicates
+and snapshot factories run before retained state changes; rejected updates do not
+clone assignments. Native receipt waits are thread-safe and timeouts do not cancel
+work. The caller serializes publications and submissions through the owned slot
+and decides eligibility from the actual edit queue. Existing LiveSolverManager
+remains the integrated default for asynchronous jobs; this adapter supports custom
+consumer scheduling and captures actual synchronous SolverUpdate observations.
+
+All three BestSolutionHolderTest methods have complete native adaptations: distinct
+solution identities and every producer kind/index, consuming/empty takes, rejected
+and superseding publications, captured-versus-later future completion, cancellation
+without revival, and the TEST helper's single submitted edit identity/call count.
+Generated fixtures retain five values and seven cyclically initialized entities.
+Native owned slots and terminal receipts replace Java holder/future objects; no
+Java executor scheduling, ABI or shared LiveSolverManager implementation parity
+is claimed. Six original checks cover 2,000 nonclone owned replacements and exact
+batch cutoffs, cross-thread waiter wakeups and cancellation/completion races, failed
+submissions and caught callback panics, clone-free rejected updates, and actual
+queued ProblemChangeBatch edits followed by dense/streamed construction solves.
+The receipt stays pending until the changed solution is consumed and never includes
+a batch registered after its publication. Originals earn no source-method credit.
+
+Frozen round100 verification passed:7,340Rust tests and290doctests;3,883/4,855
+source methods (79.979%),404pending,568excluded,zero failed/unverified. Three
+Rust jobs ran;1,080Rust/46Python jobs reused unchanged original evidence. K-opt
+and prior grouped native measurements retain their original evidence; older list
+metrics remain stale. No new performance or Java executor-equivalence claim.

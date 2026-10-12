@@ -58346,6 +58346,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve source list size 3 times the pinned public maximum (10), 300 nonempty bounded default moves all of length <=10, and 300 explicit 2..30 moves including a span >10. The original binary-only SubListDefaultProbe observes the public constant without inspecting production implementation. Native seeds/attempt caps replace NeighborhoodTester infinite sampling; no random-trace parity. Both constructors use actual existing native span sampler and doability checks, never supplied expected moves. The existing unrestricted SubListChangeConfig default is unchanged; the new default_change provider factory bounds its own configuration."
+    },
+    {
+      "id": "BestSolutionHolderTest.setBestSolution",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/BestSolutionHolderTest.java",
+      "upstream_test": "setBestSolution",
+      "local_path": "crates/solver/tests/best_delivery_slot_cases.rs",
+      "local_test": "set_best_solution",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every identity, producer kind/index, empty/consuming take, true/false eligibility, coalescing, captured-versus-later change completion and cancellation assertion. Native BestDeliverySlot stores owned snapshots; Arc::ptr_eq replaces the Java identity comparator. Native terminal receipts replace CompletableFuture. The TEST-only addProblemChange helper becomes an actual FnOnce submission callback, verifying exactly one call, batch size one and the same change identity. Generated TEST solution shapes retain five values/seven cyclically initialized entities as native FiniteProblem snapshots. Explicit native phase origins replace EventProducerId. This optional custom-scheduling component is exercised with actual queued edits/solver observers separately; no Java executor/future ABI or unchanged LiveSolverManager behavioral-equivalence claim."
+    },
+    {
+      "id": "BestSolutionHolderTest.completeProblemChanges",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/BestSolutionHolderTest.java",
+      "upstream_test": "completeProblemChanges",
+      "local_path": "crates/solver/tests/best_delivery_slot_cases.rs",
+      "local_test": "complete_problem_changes",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every identity, producer kind/index, empty/consuming take, true/false eligibility, coalescing, captured-versus-later change completion and cancellation assertion. Native BestDeliverySlot stores owned snapshots; Arc::ptr_eq replaces the Java identity comparator. Native terminal receipts replace CompletableFuture. The TEST-only addProblemChange helper becomes an actual FnOnce submission callback, verifying exactly one call, batch size one and the same change identity. Generated TEST solution shapes retain five values/seven cyclically initialized entities as native FiniteProblem snapshots. Explicit native phase origins replace EventProducerId. This optional custom-scheduling component is exercised with actual queued edits/solver observers separately; no Java executor/future ABI or unchanged LiveSolverManager behavioral-equivalence claim."
+    },
+    {
+      "id": "BestSolutionHolderTest.cancelPendingChanges_noChangesRetrieved",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/BestSolutionHolderTest.java",
+      "upstream_test": "cancelPendingChanges_noChangesRetrieved",
+      "local_path": "crates/solver/tests/best_delivery_slot_cases.rs",
+      "local_test": "cancel_pending_changes_no_changes_retrieved",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every identity, producer kind/index, empty/consuming take, true/false eligibility, coalescing, captured-versus-later change completion and cancellation assertion. Native BestDeliverySlot stores owned snapshots; Arc::ptr_eq replaces the Java identity comparator. Native terminal receipts replace CompletableFuture. The TEST-only addProblemChange helper becomes an actual FnOnce submission callback, verifying exactly one call, batch size one and the same change identity. Generated TEST solution shapes retain five values/seven cyclically initialized entities as native FiniteProblem snapshots. Explicit native phase origins replace EventProducerId. This optional custom-scheduling component is exercised with actual queued edits/solver observers separately; no Java executor/future ABI or unchanged LiveSolverManager behavioral-equivalence claim."
     }
   ],
   "fixtures": [
@@ -82294,6 +82339,58 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt only TEST fixture shapes: two genuine values, generated cyclic initial assignments, explicit pillar assignments, and the 30-value single-list model. Rust typed declarations, integer values and aligned slot indices replace Java meta-model/entity objects; no fixture implementation port. Source solution/entity/value helpers are represented by declarations, binding, fixture and native ListProblem setup."
+    },
+    {
+      "id": "best-delivery-slot-TestdataSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/best_delivery_slot_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only generated fixture shapes: five value identities and seven entities initialized by index modulo five. Native FiniteProblem/Variable ownership inside distinct Arc instances replaces Java solution/entity objects. Only TEST fixture data/specification adapted; no production implementation read or copied."
+    },
+    {
+      "id": "best-delivery-slot-TestdataEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/best_delivery_slot_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only generated fixture shapes: five value identities and seven entities initialized by index modulo five. Native FiniteProblem/Variable ownership inside distinct Arc instances replaces Java solution/entity objects. Only TEST fixture data/specification adapted; no production implementation read or copied."
+    },
+    {
+      "id": "best-delivery-slot-TestdataValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/best_delivery_slot_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only generated fixture shapes: five value identities and seven entities initialized by index modulo five. Native FiniteProblem/Variable ownership inside distinct Arc instances replaces Java solution/entity objects. Only TEST fixture data/specification adapted; no production implementation read or copied."
+    },
+    {
+      "id": "best-delivery-slot-submission-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/BestSolutionHolderTest.java",
+      "upstream_test": "addProblemChange TEST helper",
+      "local_path": "crates/solver/tests/best_delivery_slot_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt the TEST helper verification to a native FnOnce batch-submission callback with a call counter and Arc identity check. Verify exactly one submitted edit is the original owned identity; native delivery receipt replaces CompletableFuture. No mock solver substituted for an actual native solve in the separate original integration checks."
     }
   ]
 }

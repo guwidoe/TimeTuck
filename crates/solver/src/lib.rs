@@ -1312,7 +1312,11 @@ pub use provider_group::MoveProviderGroup;
 
 mod int_collector_counts;
 
+mod best_delivery_slot;
 mod best_solution_tracker;
+pub use best_delivery_slot::{
+    BestDelivery, BestDeliveryReceipt, BestDeliverySlot, BestDeliveryStatus,
+};
 pub use best_solution_tracker::{BestSolutionTracker, RankedSolution};
 
 mod scored_list_values;

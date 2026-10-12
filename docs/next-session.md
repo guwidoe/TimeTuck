@@ -16,7 +16,46 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round99
+## Latest verified checkpoint — round100
+
+BestDeliverySlot now coalesces eligible owned snapshots with native phase origins
+and registered problem-change batches. Taking does not acknowledge changes;
+explicit successful consumption does. Replacements inherit unconsumed batches,
+later registrations stay pending, and cancellation/drop cannot be revived by late
+completion. Owned callbacks run before mutation; rejected observer updates do not
+clone assignments. Receipt waits use standard thread-safe one-shot completion.
+This optional component supports custom consumer scheduling and actual synchronous
+SolverUpdate observers; existing LiveSolverManager/default kernels are unchanged.
+
+All3BestSolutionHolderTest methods now have complete adaptations, including all
+identity/producer/cutoff/cancellation assertions and the single-call/same-edit
+TEST submission helper. Six originals cover2,000nonclone replacements, waiters,
+32cancellation/completion races, submission/predicate/factory panics, clone counts,
+and real queued ProblemChangeBatch edits plus dense/streamed construction solves.
+Initial original test compilation corrected SolverResult direct/optional fields
+and an explicit HRTB observer type; no runtime repair. Source3/original6focus passed.
+Focused Clippy passed17.29s; final all-target Clippy passed43.94s. Unique public
+method names avoid broad false verification dependencies; no matcher changes.
+
+Frozen local bash scripts/check.sh passed100.923seconds (gate only):7,340Rust
+and290doctests;3,883/4,855 (79.979%),404pending,568excluded,zero failed/unverified.
+Three Rust jobs ran;1,080Rust and46Python jobs reused original evidence; affected
+compilation26.01seconds. Source/log/archive/freshness checked; no remote gate.
+Rust 9c77891b910d5c1f5eae6f93fa3901d75180b621b6d38ff98f574405fd8cb5e7.
+Report 51a1a3822b3ba58c84297fdc30d09380b0b57b8650a787283a2f085d4a59d4d8.
+Archive work/round100-local-results.tar.gz SHA256:
+fc0090a311ca8462fc076d65a05e524c738d7dc1efdbf3728f7a016a72323a1a.
+Evidence work/parallel-round100-evidence.json; freeze work/parallel-round100-freeze.json;
+clean postcommit proof work/round100-postcommit-evidence.json. K-opt round93 remains
+current; grouped round97 source/binary/samples unchanged; older list timings stale.
+No benchmark/browser rerun for this optional backend component. Goal incomplete;
+continue meaningful compatibility gaps with performance important, current local
+cache reuse, occasional commits, and no new agents or assignments. The three
+DefaultLevelScoreState index/cache methods were inspected but not adapted; explicit
+step-index semantics remain pending. Java thread-interruption methods also remain
+pending; ordinary native cancellation alone cannot earn their source credit.
+
+## Previous verified checkpoint — round99
 
 Checked field-bound entity, whole-pillar and subpillar swap constructors now accept
 one declared basic field or a nonempty aligned field list. Metadata/alias validation
