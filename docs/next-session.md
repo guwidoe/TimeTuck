@@ -16,6 +16,46 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round78
+
+Added reusable non-null list, boxed-slice, identity-set and identity-map graph clone
+factories. ObjectIdentity owns an Arc and hashes/compares allocation identity, so
+mutable payloads do not invalidate keys and equal payloads remain distinct objects.
+Explicit field policies govern members and keys/values; all references are discovered
+before population. No reflection, automatic inference or GC: application-owned strong
+Arc cycles still require an ownership policy.
+
+Two complete AbstractSolutionClonerTest methods now pass:
+cloneEntityCollectionPropertySolution and cloneEntityArrayPropertySolution. Retain
+full3-value/3-entity1/1/3 input, root/code/score/shared-fact/allocation assertions,
+all list/set/map/nested-map/null/empty criteria and actual a->[b,c], c->[a,c] cycles.
+Native entity arrays use boxed slices; immutable value arrays use a shared Arc vector.
+Real native basic binding validates original/copied planning objects. Cycles detach
+only after assertions for Rust ownership cleanup. TEST fixture/method provenance and
+notices retained; no production copied. Three original controls verify key ownership,
+mutable/equal-payload identity, set/map rebasing, aliases/order/empty slices, explicit
+sharing, missing factories and mutation isolation, without upstream-method credit.
+
+Focused2+3 passed first runtime. Frozen runner-a bash scripts/check.sh passed once:
+7,046 Rust tests,290 doctests;3,698/4,855 (76.169%),589 pending,568 excluded,zero
+failed/unverified. Actual3 Rust RUN/1,031 REUSE/46 Python REUSE;202.241seconds,
+including strict fmt/Clippy and final doctests. Abstract cloner8/14 passed,6 pending.
+Raw solving/scoring/search unchanged; no benchmark, release suite or UI rerun.
+K-opt measurements remain genuinely current; prior list measurements stay stale.
+Rust source:6028f8a054455c6f1c6647c4cd0b303642d906138cc09aa23ef6e55f57614eab.
+Report:16a13106ecb0ace5c2533e9b65ecf7d010b842ac68b5047a10d8394a5283810a.
+Remote root:9ddef0ea69aee7e1edf54e416def407302e587b7cf9f7669296b826a17651378.
+Archive work/round78-runner-a-results.tar.gz SHA256:
+99259ed379c81427555efbee3128bca267fc88d383ff618b2d845d163cd877b0.
+Evidence/freeze:work/parallel-round78-evidence.json and parallel-round78-freeze.json.
+Launcher65809/collector35944 terminalzero. Postcommit proof:
+work/verify_round78_postcommit.py. Next gate seeds actual round78 archive/root.
+
+Remaining abstract-cloner cases include various-types deep policies, inheritance,
+set-based solutions and required deep-type enforcement. Other solver gaps including
+K-opt3-opt boundaries remain. Goal incomplete; continue backlog reduction with
+performance important and unchanged evidence reused. No new agents or assignments.
+
 ## Latest verified checkpoint — round77
 
 ObjectCloneFieldPolicy adds explicit Shared/Required/Registered field behavior to

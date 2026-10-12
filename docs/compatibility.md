@@ -7938,3 +7938,29 @@ nulls/aliases/container isolation and key/set collisions. Abstract cloner6/14 pa
 8 pending; overall3,696/4,855 (76.128%),591 pending,568 excluded,zero failed/unverified.
 Final7,041 Rust tests/290 doctests;5 changed Rust jobs/1,027 reused jobs/46 Python reuses.
 No raw solver changes or comparative performance claim; K-opt input hash stays current.
+
+### Cyclic entity containers and identity keys
+
+ObjectIdentity owns an Arc and compares/hashes its allocation address, so mutable
+payloads cannot change map membership and equal payloads in different allocations
+remain distinct. Registered non-null lists, boxed slices, identity sets and identity
+maps copy their storage and apply explicit element/key/value policies. Discovery
+queues references before population; repeated references and cycles resolve through
+the same graph identity map. Hash collection iteration order is unspecified. These
+are native factories, without reflection or automatic field inference. Strong Arc
+cycles still need an application ownership policy; the framework does not add GC.
+
+Complete cloneEntityCollectionPropertySolution and cloneEntityArrayPropertySolution
+adaptations retain the full three-value/three-entity input, shared facts, distinct
+root/entity/container storage, all source/helper code/value/size/identity criteria,
+empty/null containers, nested maps and a->[b,c], c->[a,c] references. Actual native
+basic binding validates copied planning objects. The native array uses a boxed slice;
+the immutable fact registry remains a shared Arc vector. Strong cyclic fixtures are
+detached only after assertions. TEST fixtures/methods retain notices and provenance.
+Three original controls cover identity ownership and payload mutation, equal-payload
+key separation, copied map/set membership, array/list aliases, empty slices, explicit
+sharing, missing factories and mutation isolation; they earn no upstream credit.
+Abstract cloner8/14 passed,6 pending; overall3,698/4,855 (76.169%),589 pending,568
+excluded,zero failed/unverified. Final7,046 Rust tests/290 doctests;3 changed Rust
+jobs/1,031 reused jobs/46 Python reuses. Raw solving/scoring/search is unchanged;
+no new performance claim, and K-opt measurement inputs remain current.

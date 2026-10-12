@@ -55586,6 +55586,36 @@
       "local_path": "crates/solver/tests/deep_field_clone_cases.rs",
       "local_test": "field_annotated_deep_planning_clone",
       "modifications": "Preserve full3-value/4-entity a/b/c/d input,1/1/3/3 assignments, root code solution, absent score, root/value-list/entity-list/entity and container identity criteria, all nullable shadow lists/maps, exact nested-map null keys/values/elements, shared immutable string references, general shadow list and original planning-value/map mutations with clone isolation. Actual typed native binding validates original/cloned planning objects. Explicit Required container/Shared immutable element policies replace Java deep-field annotations/reflection; immutable Arc<Vec<Option<Arc<String>>>> represents source nested list keys/values while preserving full equality/identity assertions. Native ordered maps replace HashMap/LinkedHashMap without asserting Java iteration traces. No annotation/API/ABI parity or general field-inference claim; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.cloneEntityCollectionPropertySolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneEntityCollectionPropertySolution",
+      "local_path": "crates/solver/tests/entity_container_clone_cases.rs",
+      "local_test": "clone_entity_collection_property_solution",
+      "modifications": "Preserve complete original3-value/3-entity a/b/c fixture,1/1/3 assignments, root code solution, absent score, allocation and every source/helper code/size/reference/content/null assertion, including actual cycles/self-reference. Native typed basic binding validates source and copied planning values. Full lists, identity sets, string-to-entity maps, entity-to-string maps and nested string-to-list maps; empty b containers and null b/c maps retained. Hash identity keys own native Arc allocations; no Java iteration trace is claimed. Explicit factory registration replaces annotation/reflection; strong native cycles detached only after all assertions for Arc ownership cleanup. No production implementation copied, no automatic field inference/API/ABI or Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.cloneEntityArrayPropertySolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneEntityArrayPropertySolution",
+      "local_path": "crates/solver/tests/entity_container_clone_cases.rs",
+      "local_test": "clone_entity_array_property_solution",
+      "modifications": "Preserve complete original3-value/3-entity a/b/c fixture,1/1/3 assignments, root code solution, absent score, allocation and every source/helper code/size/reference/content/null assertion, including actual cycles/self-reference. Native typed basic binding validates source and copied planning values. Full root and entity arrays use native mutable boxed slices; preserve lengths, order, empty b array, references a->[b,c] and c->[a,c]. Shared immutable value registry uses native Arc<Vec<Arc<Value>>> rather than JVM array type; source allocation-sharing criterion retained. Explicit factory registration replaces annotation/reflection; strong native cycles detached only after all assertions for Arc ownership cleanup. No production implementation copied, no automatic field inference/API/ABI or Java GC claim."
     }
   ],
   "fixtures": [
@@ -77974,6 +78004,71 @@
       "upstream_test": "fieldAnnotatedDeepPlanningClone full input and assertDeepCloningEntityClone helper, or field constructor/getter/setter semantics",
       "local_path": "crates/solver/tests/fixtures/deep_field_clone_fixture.rs",
       "modifications": "Adapt full TEST-only codes/values/entity and shadow-container input, including all null keys/values/list elements and default empty nested maps. Native Arc/Mutex objects support actual allocation/mutation/isolation checks; immutable Arc string/nested-list payloads preserve required reference or content equality. Registered typed callbacks replace annotations/reflection; native basic binding verifies actual planning fields. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "entity-container-inputs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneEntityCollectionPropertySolution/cloneEntityArrayPropertySolution full inputs/helpers or TEST constructor/field/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/entity_container_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual solution/entities/values/codes and all list/array/set/map inputs including empty/null cases and cyclic aliases. Arc/Mutex storage, boxed slices, identity-keyed hash collections and ordered string maps support actual reference and content checks; registered native factories replace annotations/reflection. Native immutable value registry preserves shared fact allocation; strong cyclic references are explicitly detached after assertions. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "entity-container-collection-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataEntityCollectionPropertyEntity.java",
+      "upstream_test": "cloneEntityCollectionPropertySolution/cloneEntityArrayPropertySolution full inputs/helpers or TEST constructor/field/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/entity_container_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual solution/entities/values/codes and all list/array/set/map inputs including empty/null cases and cyclic aliases. Arc/Mutex storage, boxed slices, identity-keyed hash collections and ordered string maps support actual reference and content checks; registered native factories replace annotations/reflection. Native immutable value registry preserves shared fact allocation; strong cyclic references are explicitly detached after assertions. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "entity-container-collection-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataEntityCollectionPropertySolution.java",
+      "upstream_test": "cloneEntityCollectionPropertySolution/cloneEntityArrayPropertySolution full inputs/helpers or TEST constructor/field/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/entity_container_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual solution/entities/values/codes and all list/array/set/map inputs including empty/null cases and cyclic aliases. Arc/Mutex storage, boxed slices, identity-keyed hash collections and ordered string maps support actual reference and content checks; registered native factories replace annotations/reflection. Native immutable value registry preserves shared fact allocation; strong cyclic references are explicitly detached after assertions. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "entity-container-array-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataArrayBasedEntity.java",
+      "upstream_test": "cloneEntityCollectionPropertySolution/cloneEntityArrayPropertySolution full inputs/helpers or TEST constructor/field/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/entity_container_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual solution/entities/values/codes and all list/array/set/map inputs including empty/null cases and cyclic aliases. Arc/Mutex storage, boxed slices, identity-keyed hash collections and ordered string maps support actual reference and content checks; registered native factories replace annotations/reflection. Native immutable value registry preserves shared fact allocation; strong cyclic references are explicitly detached after assertions. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "entity-container-array-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataArrayBasedSolution.java",
+      "upstream_test": "cloneEntityCollectionPropertySolution/cloneEntityArrayPropertySolution full inputs/helpers or TEST constructor/field/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/entity_container_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual solution/entities/values/codes and all list/array/set/map inputs including empty/null cases and cyclic aliases. Arc/Mutex storage, boxed slices, identity-keyed hash collections and ordered string maps support actual reference and content checks; registered native factories replace annotations/reflection. Native immutable value registry preserves shared fact allocation; strong cyclic references are explicitly detached after assertions. No production implementation copied."
     }
   ]
 }
