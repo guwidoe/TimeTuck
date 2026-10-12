@@ -16,22 +16,48 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Round90 implementation — focused verification passed
+## Latest verified checkpoint — round90
 
-Recorded-left list swap sampling closes three range/pin/optional source methods.
-Inverse domains, post-draw receiver/dependency checks, bounded fallback, snapshot
-refresh, step seeds and native/optional public LCG48 policies implemented. No
-Timefold production consulted. Global ranges avoid expanded memberships; existing
-bounded co-range cache reused. Existing swap runtime normalized content and K-opt
-measurement inputs unchanged. Seven originals include actual dense/stream search
-and135 independent JDK bounded-draw reference rows. Source fixture notices/provenance
-recorded. First source compile fixed only adapter lifetime/type/pin method names;
-original compile fixed only transactional assignment adapter. No runtime repair.
-Optimized focused compile caught a stale re-export after moving namespace wiring;
-corrected qualification. Final focused source3/original7/related6 passed on runner-a
-in25.928seconds, root2536bce90b9143b643fe49e2c453f4ba99f8c309fa49b17ed493aaceb8de68f4.
-Run one frozen final bash scripts/check.sh using genuine round89 cache records.
-Do not claim projected3802passed/485pending before actual collection. No new agents.
+Recorded-left list swap sampling integrated as b4c0b82. Three complete source
+methods preserve entity-range, pin and optional-value fixtures, all output prefixes,
+seed zero, unbounded metadata and post-prefix availability. Missing origins are
+skipped; optional missing partners replace assigned origins. Bounded partner
+failure returns an empty composite. Singleton Java NoChange identity remains an
+unmet criterion, so noReachableEntities still earns no source credit.
+Native replay snapshots positions, checks receiving ranges/dependencies after
+sampling, fuses on caught cursor panics, and changes opening seeds with step events.
+Global ranges avoid expanded memberships; explicit domains use sparse entity IDs;
+large repeated rows reuse the existing bounded cache. Optional public LCG48 draws
+match135 independent JDK rows. Existing swap runtime normalized content and K-opt
+measurement inputs unchanged. No Timefold production inspected.
+
+Final focused source3/original7/related6 passed in25.928seconds. Originals exercise
+actual dense/stream search, refreshed positions, deterministic replay, rejected
+work bounds, Eq-only values, panic fusion and JDK draw parity. Initial compile
+repairs were test adapter lifetime/type/pin API binding, transactional assignment
+binding and qualified exports after namespace relocation. No runtime repair.
+Failed immutable focused roots/logs remain under work/remote-round90-*.json/.log;
+no old output was retagged. TEST-only fixtures/helpers retain provenance/notices.
+
+Frozen runner-a bash scripts/check.sh passed in295.079seconds including prebuild:
+7,206 Rust tests,290 doctests;3,802/4,855 (78.311%),485pending,568excluded,
+zero failed/unverified. Three Rust jobs ran;1,059 Rust and46 Python jobs reused
+successful unchanged inputs. Clippy passed. Actual logs and archive were collected.
+Initial dashboard freshness HTTP request timed out; retry succeeded in3.12seconds.
+work/finish_round90_collection.py finished source/log/frozen/report assertions using
+already collected data, without redownloading, regenerating reports or rerunning tests.
+Rust digest: b74300c548dfa24f8a9b01ccfffbc5f6fafd9ff4584728d056746955c5d4c562.
+Report digest: 878a87831981184d8f3288df0e2139a1207e63120b62e689df64a01a8139f355.
+Remote root: 47f49853a3ca7cc94902345a5916b607288119afda70e3f4358d8995cf84efe4.
+Archive work/round90-runner-a-results.tar.gz SHA256:
+18f525da2f7bd37836b3c6b5d679083ead1400246195ca91672cfdbf52d22a86.
+Evidence: work/parallel-round90-evidence.json; clean postcommit proof:
+work/round90-postcommit-evidence.json. K-opt inputs current, older list data stale.
+No unrelated benchmark, release suite, UI verification or new agents.
+
+Continue remaining core compatibility gaps; useful next targets include recorded
+change destinations, construction validation and multi-entity K-opt seams. Preserve
+performance importance and narrow verification reuse. Full goal remains incomplete.
 
 ## Latest verified checkpoint — round89
 

@@ -8347,3 +8347,9 @@ The noReachableEntities source method remains pending: native fallback behavior
 does not establish Java singleton object identity. General selector trace parity
 and a comparative speed improvement are not claimed. Existing swap runtime and
 K-opt benchmark inputs remain unchanged.
+
+Frozen round90 verification passed on runner-a:7,206 Rust tests,290 doctests;
+3,802/4,855 source cases (78.311%),485 pending,568 excluded,zero failed/unverified.
+Three Rust jobs ran;1,059 Rust and46 Python jobs reused unchanged successful inputs.
+Archive/source/log checksums and report freshness validated. A transient freshness
+HTTP timeout was resolved without repeating tests or regenerating the report.
