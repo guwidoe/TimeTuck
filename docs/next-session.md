@@ -16,7 +16,55 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round57
+## Latest verified checkpoint — round58
+
+Feature e322fd1 adds typed named executable shadow suppliers, canonical per-variable
+range descriptors and solution-owned constraint weight readers. Callback registration
+and all declared name/type links validate before invocation; resolved suppliers
+retain actual callables and run in real ShadowSessions after the registry drops.
+Native owner/name registration replaces reflective method discovery. Three complete
+SolutionDescriptorTest methods close missing supplier, multiple weight fields and
+ordinal IDs; only Java record/enum restrictions remain pending (23/24 passed).
+
+Range descriptors borrow actual variables and provider declarations, follow canonical
+schema order and remain distinct for two basic fields sharing one provider. The
+basic binder indexes actual managed ranges by descriptor ordinals. Typed reads also
+construct real list/basic models. Constraint weights occur at most once across
+reachable components and match the score type. Real solution callbacks return owned
+maps for graph initialization; later maps alter a stream solver optimum without
+mutating old snapshots. Six originals cover these runtime paths, invalid inputs,
+inheritance, lifetimes and transactional registration. Candidate/search loops are
+unchanged; no throughput claim or Java reflection/ABI parity is made.
+
+Final frozen runner-a gate passed once: 6,931 Rust tests, 290 doctests;
+3,651/4,855 source methods passed (75.201%), 638 pending, 566 excluded, zero
+failed/unverified. Actual 891 Rust RUN/111 REUSE/46 Python REUSE; 1,416.553 seconds.
+The shared metadata file changes caused this broad rebuild. Do not repeat its
+successful checks while their relevant inputs remain unchanged.
+
+Rust source: a05339cbab96a2507e77ebc111c163bc49628e90a682bb28f2be0e0257b6eded.
+Report/verification: 546ef15ec80ae46e86f1354770c45850013234903b0bbf7368a01b6515573a4b.
+Remote root: 65614054fb4a088bd5eb6a20241c9e71cbe1f79ddcd2eafdb787ca16d3ae4ac0.
+Archive work/round58-runner-a-results.tar.gz SHA256:
+d5bb8a4e9d2dc78a45dcaba71619370b0890479d896da27352ee6f8385deafa6.
+Freeze/evidence: work/parallel-round58-freeze.json and parallel-round58-evidence.json.
+Collector 93192 completed zero. Launcher 56111 terminal success is being collected.
+Postcommit proof work/verify_round58_postcommit.py checks exact source/freshness and
+retained completed families. Backend-only report refresh; no UI/benchmark repeat.
+Prior performance measurements remain visibly stale. Objective active/incomplete.
+
+While this frozen gate ran, the primary agent reused the clean existing checkout
+/home/ralph/.codex/worktrees/diminished-returns/TimeTuck on the new branch
+codex/typed-stream-sources; no agents or assignments were created. The next stream
+registry batch contains actual retained allocation/projection sources and ten complete
+unknown-class methods with proper arity/source/join prefixes. runner-c focused cases
+10/10 and three original runtime controls pass; focused strict Clippy also passes.
+Its full final gate/integration is still pending and no extra dashboard credit is
+claimed here. Complete that batch next, then the remaining full polymorphism and
+list initialization/inverse-source cases. Keep closing compatibility gaps and
+performance important. No new subagents or assignments.
+
+## Prior verified checkpoint — round57
 
 Feature 11a0e07 adds explicit fact singleton/collection declarations, provider-only
 versus provider/fact roles, collection/array shape and external-parameter metadata.
