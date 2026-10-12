@@ -58226,6 +58226,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain both real row/range fixtures, overlapping ranges, seed0, all five exact source move-code observations, extra lookahead and never-ending metadata. Native registry indices/Arc views replace Java testdomain objects and score-director supplies; actual correlated move checks preserve PRE destination metadata and normalize execution indices. One shared LCG48 stream uses global category weights and compact/decorated range filtering; no desired moves, assignments or index scripts are supplied. Filter observes actual value owner and rejects B anchors. Other native/Java RNG and default selector traces are not claimed. Independent runtime-only Community probe validates144longer moves from4seeds/3modes; no production implementation read/copied."
+    },
+    {
+      "id": "SwapMoveProviderTest.singleVariableConstructorMatchesOneElementList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SwapMoveProviderTest.java",
+      "upstream_test": "singleVariableConstructorMatchesOneElementList",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "entity_single_variable_constructor_matches_one_element_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the entire source fixture and assertions using declared native fields/aligned slots. Single-field and one-element field-list constructors produce actual swaps; both pillar orientations retained. Empty selected field lists reject with is empty diagnostics. Native metadata replaces Java meta-models; no Java ABI or sampler trace parity claimed. Actual apply/rollback checked."
+    },
+    {
+      "id": "SwapMoveProviderTest.emptyListConstructorThrows",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SwapMoveProviderTest.java",
+      "upstream_test": "emptyListConstructorThrows",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "entity_empty_list_constructor_throws",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the entire source fixture and assertions using declared native fields/aligned slots. Single-field and one-element field-list constructors produce actual swaps; both pillar orientations retained. Empty selected field lists reject with is empty diagnostics. Native metadata replaces Java meta-models; no Java ABI or sampler trace parity claimed. Actual apply/rollback checked."
+    },
+    {
+      "id": "PillarSwapMoveProviderTest.singleVariableConstructorMatchesOneElementList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "singleVariableConstructorMatchesOneElementList",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "pillar_single_variable_constructor_matches_one_element_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the entire source fixture and assertions using declared native fields/aligned slots. Single-field and one-element field-list constructors produce actual swaps; both pillar orientations retained. Empty selected field lists reject with is empty diagnostics. Native metadata replaces Java meta-models; no Java ABI or sampler trace parity claimed. Actual apply/rollback checked."
+    },
+    {
+      "id": "PillarSwapMoveProviderTest.emptyListConstructorThrows",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/PillarSwapMoveProviderTest.java",
+      "upstream_test": "emptyListConstructorThrows",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "pillar_empty_list_constructor_throws",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the entire source fixture and assertions using declared native fields/aligned slots. Single-field and one-element field-list constructors produce actual swaps; both pillar orientations retained. Empty selected field lists reject with is empty diagnostics. Native metadata replaces Java meta-models; no Java ABI or sampler trace parity claimed. Actual apply/rollback checked."
+    },
+    {
+      "id": "SubPillarSwapMoveProviderTest.singleVariableConstructorMatchesOneElementList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "singleVariableConstructorMatchesOneElementList",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "subpillar_single_variable_constructor_matches_one_element_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the entire source fixture and assertions using declared native fields/aligned slots. Single-field and one-element field-list constructors produce actual swaps; both pillar orientations retained. Empty selected field lists reject with is empty diagnostics. Native metadata replaces Java meta-models; no Java ABI or sampler trace parity claimed. Actual apply/rollback checked."
+    },
+    {
+      "id": "SubPillarSwapMoveProviderTest.emptyListConstructorThrows",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarSwapMoveProviderTest.java",
+      "upstream_test": "emptyListConstructorThrows",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "subpillar_empty_list_constructor_throws",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the entire source fixture and assertions using declared native fields/aligned slots. Single-field and one-element field-list constructors produce actual swaps; both pillar orientations retained. Empty selected field lists reject with is empty diagnostics. Native metadata replaces Java meta-models; no Java ABI or sampler trace parity claimed. Actual apply/rollback checked."
+    },
+    {
+      "id": "SubPillarChangeMoveProviderTest.constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubPillarChangeMoveProviderTest.java",
+      "upstream_test": "constructorRejectsExplicitCrossingNullOnNonUnassignedVariable",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "constructor_rejects_explicit_crossing_null_on_non_unassigned_variable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve constructor rejection of explicit crossing null on the source required basic field and exactly-two subpillar policy. Native declaration metadata replaces Java meta-models; rejection happens before opening/scoring."
+    },
+    {
+      "id": "SubListChangeMoveProviderTest.noArgConstructorNeverExceedsDefaultMaximumSubListSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/builtin/SubListChangeMoveProviderTest.java",
+      "upstream_test": "noArgConstructorNeverExceedsDefaultMaximumSubListSize",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "local_test": "no_arg_constructor_never_exceeds_default_maximum_sublist_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve source list size 3 times the pinned public maximum (10), 300 nonempty bounded default moves all of length <=10, and 300 explicit 2..30 moves including a span >10. The original binary-only SubListDefaultProbe observes the public constant without inspecting production implementation. Native seeds/attempt caps replace NeighborhoodTester infinite sampling; no random-trace parity. Both constructors use actual existing native span sampler and doability checks, never supplied expected moves. The existing unrestricted SubListChangeConfig default is unchanged; the new default_change provider factory bounds its own configuration."
     }
   ],
   "fixtures": [
@@ -82096,6 +82216,84 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "id": "field-provider-constructors-TestdataSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only TEST fixture shapes: two genuine values, generated cyclic initial assignments, explicit pillar assignments, and the 30-value single-list model. Rust typed declarations, integer values and aligned slot indices replace Java meta-model/entity objects; no fixture implementation port. Source solution/entity/value helpers are represented by declarations, binding, fixture and native ListProblem setup."
+    },
+    {
+      "id": "field-provider-constructors-TestdataEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only TEST fixture shapes: two genuine values, generated cyclic initial assignments, explicit pillar assignments, and the 30-value single-list model. Rust typed declarations, integer values and aligned slot indices replace Java meta-model/entity objects; no fixture implementation port. Source solution/entity/value helpers are represented by declarations, binding, fixture and native ListProblem setup."
+    },
+    {
+      "id": "field-provider-constructors-TestdataValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only TEST fixture shapes: two genuine values, generated cyclic initial assignments, explicit pillar assignments, and the 30-value single-list model. Rust typed declarations, integer values and aligned slot indices replace Java meta-model/entity objects; no fixture implementation port. Source solution/entity/value helpers are represented by declarations, binding, fixture and native ListProblem setup."
+    },
+    {
+      "id": "field-provider-constructors-list-TestdataListSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only TEST fixture shapes: two genuine values, generated cyclic initial assignments, explicit pillar assignments, and the 30-value single-list model. Rust typed declarations, integer values and aligned slot indices replace Java meta-model/entity objects; no fixture implementation port. Source solution/entity/value helpers are represented by declarations, binding, fixture and native ListProblem setup."
+    },
+    {
+      "id": "field-provider-constructors-list-TestdataListEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only TEST fixture shapes: two genuine values, generated cyclic initial assignments, explicit pillar assignments, and the 30-value single-list model. Rust typed declarations, integer values and aligned slot indices replace Java meta-model/entity objects; no fixture implementation port. Source solution/entity/value helpers are represented by declarations, binding, fixture and native ListProblem setup."
+    },
+    {
+      "id": "field-provider-constructors-list-TestdataListValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "TEST domain fixture / generateSolution",
+      "local_path": "crates/solver/tests/field_provider_constructor_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only TEST fixture shapes: two genuine values, generated cyclic initial assignments, explicit pillar assignments, and the 30-value single-list model. Rust typed declarations, integer values and aligned slot indices replace Java meta-model/entity objects; no fixture implementation port. Source solution/entity/value helpers are represented by declarations, binding, fixture and native ListProblem setup."
     }
   ]
 }

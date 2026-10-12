@@ -16,7 +16,49 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round98
+## Latest verified checkpoint — round99
+
+Checked field-bound entity, whole-pillar and subpillar swap constructors now accept
+one declared basic field or a nonempty aligned field list. Metadata/alias validation
+uses the existing schema checks; entity binding encounter order is retained and
+pillar grouping uses only selected columns. Explicit crossing to unassigned values
+rejects required fields before opening. A separate default_change sampled provider
+bounds spans to2..10; explicit larger configurations and existing defaults remain.
+Existing movement/scoring/sampling kernels unchanged. Eight complete source methods
+now pass. Four original checks cover invalid bindings, all256binary layouts,
+selected/unselected pins, optional unassignment and real dense/streamed optima.
+Initial focused compilation corrected test API spellings (swap_move and span fields);
+no runtime repair. All12focused cases passed. No Java API/ABI or random-trace claim.
+
+The pinned public SubListSampler maximum10 was observed through an original
+binary-only public-constant probe. Committed compat/oracle/SubListDefaultProbe.java;
+original artifact hashes/log in work/round99-oracle-evidence.json and
+work/round99-sublist-default.log. TEST fixture shapes/provenance recorded; no
+production implementation read/copied. K-opt exploration remains uncredited:
+source local wrap cut(6,1) differs from the combined successor edge(6,4).
+Original opaque runtime successor observation is in work/KOptSeamProbe.java and
+work/round99-seam-probe.log; do not repeat it without a new question. All7remaining
+k-opt source methods stay pending; no desired partitions/outputs supplied as scripts.
+
+Frozen local bash scripts/check.sh passed102.369seconds (gate only):
+7,331Rust tests,290doctests;3,880/4,855 (79.918%),407pending,568excluded,
+zero failed/unverified. Three Rust jobs ran;1,078Rust and46Python jobs reused
+original evidence. Clippy passed54.18seconds; affected compilation18.65seconds.
+Rust 28755bfaf93370b8df8c808c18834832ae3767dda30d2689c28d987e8333b40f.
+Report e57950198008a89e35525b7210580cbc0cd27f36dcad54b30e03b06b2e66b5c2.
+Archive work/round99-local-results.tar.gz SHA256:
+250316972960c1d129af77c8af07855333edefbd5dd985bb4e038ce003b3782d.
+Evidence work/parallel-round99-evidence.json; frozen inputs
+work/parallel-round99-freeze.json; clean postcommit proof work/round99-postcommit-evidence.json.
+runner-a SSH timed out; no remote gate launched. Continue the current local cache.
+K-opt round93 remains current; native grouped round97 evidence unchanged; older
+list metrics remain stale. No benchmark/browser refresh for backend-only additions.
+Full goal incomplete;407pending. No new agents or assignments. Continue closing
+meaningful compatibility gaps, keeping performance important and reusing completed
+checks on unchanged inputs. Avoid generic private helper names that add false cache
+dependencies; new constructors deliberately use distinct method names.
+
+## Previous verified checkpoint — round98
 
 Shared seeded range-aware list-change sampling is integrated. One LCG48 stream
 coordinates distinct union values, global category weighting, qualified entity

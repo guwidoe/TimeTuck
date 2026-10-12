@@ -1036,6 +1036,8 @@ mod scaling_map;
 pub use scaling_map::{ScalingMap, ScalingMapConfig};
 
 mod entity_swap_provider;
+mod field_move_provider;
+pub use field_move_provider::FieldProviderError;
 mod reachable_entity_swap;
 pub use entity_swap_provider::{
     EntitySwapCandidate, EntitySwapError, EntitySwapOrder, EntitySwapProvider,

@@ -8664,3 +8664,38 @@ names removed these false edges without modifying the verification matcher or ol
 records. Final affected set is exactly lib and the two new test targets. Interrupted
 logs retained. Current K-opt and prior native grouped timings remain unchanged;
 older list timings stay stale. No benchmark/browser rerun or new Rust dependency.
+
+## Field-bound move provider constructors
+
+Native entity, whole-pillar and subpillar swaps now accept a declared single basic
+field or a nonempty list of aligned field bindings. Construction validates the
+entity declaration, basic kind, duplicate fields, slot alignment and aliasing;
+opening checks the actual model and assignment. Entity encounter order is retained,
+pillar grouping uses only selected columns, and unselected pins do not suppress
+otherwise eligible entities. Explicit crossing to unassigned values is rejected
+at construction for required declared fields. Existing move kernels, solver
+defaults and sampling distributions are unchanged.
+
+Eight complete source methods preserve the single/list constructor fixtures and
+actual expected swaps, all three empty-field-list rejection/message assertions,
+required-field crossing rejection, and default versus explicit sublist span bounds.
+The new default_change sampled provider uses 2..10 spans; the pinned Community
+public maximum 10 was observed through the binary-only SubListDefaultProbe. Its
+30-value fixture yields 300 bounded default moves and 300 explicitly configured
+moves including lengths above 10. Native bounded attempts and seeds replace the
+infinite Java NeighborhoodTester; no random-trace or Java API/ABI parity claim.
+The existing unrestricted SubListChangeConfig default remains available.
+
+Four original controls validate malformed/foreign bindings and late slot bounds,
+compare independent successor sets across all 256 eight-variable binary layouts,
+check encounter order and untouched pinned columns, exercise actual optional
+unassignments, and reach the same weighted optimum through dense and streamed
+local search. Originals and the constant probe earn no source-method credit.
+The remaining multi-entity k-opt wrap-boundary methods remain pending; no outputs
+were scripted or source credit assigned for the exploratory opaque-runtime probe.
+
+Frozen round99 verification passed:7,331Rust tests and290doctests;3,880/4,855
+source methods (79.918%),407pending,568excluded,zero failed/unverified. Three
+Rust jobs ran and1,078Rust/46Python jobs reused unchanged successful evidence.
+Existing K-opt measurements remain current and prior grouped native measurements
+retain their original samples/date; older list measurements remain visibly stale.
