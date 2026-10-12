@@ -8536,3 +8536,46 @@ counter assertion and a Clippy type-complexity warning. The corrected original
 assertion reads the actual custom context's committed-move counter. No solver/
 scoring kernel repair or benchmark rerun occurred. Source/log/archive/report
 freshness validated; round93 K-opt still current and older list results stale.
+
+### Typed planning-model access and stable alignment keys
+
+ListVariableAccess validates canonical list kind/element type and binds actual
+fixed-array getters into existing managed ranges. It accepts the declared native
+element type and rejects the list container type; no universal JVM assignability
+claim. ListArrayRange reads the caller's array once into owned range values, then
+uses existing native list construction/search and score kernels.
+
+BorrowedEntityExtractor reads actual registered solution members without cloning
+entities. Explicit SourceTypeHierarchy projections preserve embedded child-to-base
+identity, ignore unrelated heterogeneous elements and deduplicate aliases by the
+projected object's address. Equal distinct objects remain distinct. Getters run
+again on each extraction; no stale snapshot or reconstructed label-only object is
+substituted. Operational entities require at least one declared planning/shadow
+field and a nonzero-sized target type for address identity. Java immutable-record
+classification is not inferred or credited.
+
+AlignmentKeyRegistry resolves named typed readers against canonical schema field
+roles. Basic/list/shadow variables cannot serve as stable fact alignment keys;
+unknown keys and wrong return types fail before any reader runs. Absent keys return
+None without requiring other metadata. Owned AlignmentKeyMember readers survive
+registry/schema destruction and create ordered borrowed groups from actual keys.
+Native members/classes/errors replace source reflection/mocks and exception ABI.
+
+Eight complete source adaptations cover list types/container rejection/array
+construction, all11 extended singleton/typed/raw/object entity identities,
+zero-variable operational entity rejection, absent/fact/variable alignment members
+and every source diagnostic criterion. TEST fixtures/declarations have provenance.
+Five originals additionally run a real array-backed list solve, reject wrong list
+bindings, verify equal objects/alias deduplication and changed solution reads, group
+actual fact keys after registry destruction and reject invalid bindings before
+readers. Existing source accessor, planning schema, solver/scoring kernels and Cargo
+inputs unchanged. Focused13case verification passed in27.589seconds on runner-a.
+Initial local compilation replaced the insufficiently general Some function item
+with an explicit borrowed identity closure; no runtime repair was needed.
+
+Frozen round96 check passed on runner-a:7,304 Rust tests,290 doctests;
+3,867/4,855 source methods (79.650%),420pending,568excluded,zero failed/unverified.
+Three Rust jobs ran;1,071 Rust and46 Python jobs reused actual unchanged evidence.
+Successful prebuild/gate took294.981seconds; Clippy passed. Source/log/archive/report
+freshness validated. No benchmark or browser rerun: round93 K-opt still current,
+older list data stale. The immutable Java record entity case remains pending.

@@ -1639,3 +1639,9 @@ pub use phase_command_registry::{
     BoundPhaseCommands, CustomCommandNames, CustomPhaseCommands, NativePhaseCommand,
     PhaseCommandRegistry,
 };
+
+mod planning_model_access;
+pub use planning_model_access::{
+    AlignmentKeyMember, AlignmentKeyRegistry, BorrowedEntityExtractor, ListArrayRange,
+    ListVariableAccess, PlanningModelAccessError, resolve_alignment_key,
+};

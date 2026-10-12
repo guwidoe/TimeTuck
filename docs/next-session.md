@@ -16,7 +16,51 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round95
+## Latest verified checkpoint — round96
+
+Typed planning-model access is integrated. ListVariableAccess validates canonical
+list kind and element type, including rejection of the container type; actual
+fixed-array getters feed existing managed ranges and real native list solving.
+BorrowedEntityExtractor reads all registered singleton/typed/raw/object members,
+preserves real base/child projected identities, ignores unrelated objects and
+retains equal distinct allocations while deduplicating aliases. Existing safe
+SourceTypeHierarchy projections are reused. Operational entities need a declared
+planning/shadow field and nonzero-sized target for address identity; no record flag
+substitutes Java immutable-record classification, which remains pending.
+
+AlignmentKeyRegistry resolves actual typed fact readers, rejecting basic/list/
+shadow keys and missing/wrong bindings before any callback. Owned members survive
+registry/schema destruction and produce ordered borrowed groups from actual keys.
+Eight complete source methods and5originals pass: three list type/range cases,
+extended extraction's11identities, zero-variable rejection and all three alignment
+cases. TEST fixture/declaration provenance retained. Originals exercise real array
+list solving, type rejection, equal objects/alias identity/live solution reads,
+actual key grouping with reader lifetime independence and callback preflight.
+
+Focused all13 passed on runner-a in27.589seconds. Initial local compilation replaced
+an insufficiently general Some function item with an explicit HRTB borrowed closure.
+Final Rust also uses the canonical definition's is_empty() check. No runtime test
+failure, Clippy repair, existing kernel change or Cargo change occurred.
+
+runner-a bash scripts/check.sh passed in294.981seconds including prebuild:
+7,304 Rust tests,290 doctests;3,867/4,855 (79.650%),420pending,
+568excluded,zero failed/unverified. Three Rust jobs ran;1,071 Rust and46 Python jobs
+reused actual round95 keys/checksums/original timestamps. Clippy passed.
+Root 4f42c9c3fda7de7c94984c8548c5ce13988b62bdc67fbbc9a9a158d001d61e31.
+Rust digest f40e8fe72b0a6e7186ec3c6cee685634e2477ad537751ec3ca5a157daaf859b7.
+Report digest fe3877a8811e49784c52c71c16af091d5986ba1472507cb0e2edd8183d4fb831.
+Archive work/round96-runner-a-results.tar.gz SHA256:
+5f54faea9435aabb3c2160d19849b9704b937d7170da164b1173f2819bbde83d.
+Evidence work/parallel-round96-evidence.json; clean postcommit proof
+work/round96-postcommit-evidence.json. Gate61039/collector86536 terminal0.
+Frozen inputs work/parallel-round96-freeze.json. Source/log/archive/report freshness
+validated. Reuse successful checks; new commits/turns do not invalidate them.
+Round93 K-opt key/measurement remains current; older list results remain stale.
+No browser/benchmark rerun for backend-only work. Full goal incomplete;420pending.
+No new agents or assignments. Continue meaningful compatibility gaps; performance
+stays important and unresolved mixed exhaustive step ceilings remain uncredited.
+
+## Previous verified checkpoint — round95
 
 Native solver-build preflight and real custom-command binding are integrated.
 SolverBuildSettings validates actual typed schema fields and nested exhaustive
