@@ -7586,3 +7586,29 @@ fact references, independent indictment deduplication, explanation panic isolati
 foreign handles, live indexed/filter updates and transactional undo. Scoring callbacks
 are not replayed when explaining. These controls add no source-method credit.
 Candidate/search loops unchanged; no new throughput measurements are claimed.
+
+### Remaining stream identity cases and current planning fields
+
+Two complete source methods preserve all nine decimal equality self-join matches
+across separate equal/shared allocations, and the full unnamed-solution generated
+fixture filtered to one actual entity scored by an actual provider in a different
+native module. Native explicit registration replaces Java class loading/reflection;
+no JVM package or class-loader support is claimed. Both fixture changes are attributed.
+Two quad unassigned overrides are explicitly excluded: pinned upstream marks their
+empty bodies @Disabled. They earn zero passing credit; no placeholder tests were made.
+
+WorkingBasicObject tuples retain actual immutable entity/fact allocations and own
+current genuine-field values from native assignments. Shared field-name storage
+avoids copying schema names on each snapshot; payloads need no Clone bound. Typed
+source construction validates field kinds/value types before graph mutation. Full
+refreshes route every owned field snapshot, including replacement values whose
+planning identities compare equal. update_entity routes only the selected actual
+canonical entity row after whole-input validation, keeping unrelated tuples intact.
+
+Three original controls check changed scores from current fields despite unchanged
+initial object fields, preserved old explanation snapshots, initialized/unassigned
+membership, precise allocation identity, invalid/foreign inputs, callback-panic
+rollback and equal-identity replacement payloads. These earn no upstream credit.
+Snapshot producers and targeted updates are available; automatic wiring from the
+native solver's variable event source remains to be completed. Candidate/search
+loops unchanged, and no new throughput measurement is claimed.

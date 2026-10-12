@@ -6,10 +6,14 @@ use crate::{
 use std::{
     any::Any,
     collections::{HashMap, HashSet, VecDeque},
+    fmt,
     marker::PhantomData,
     sync::Arc,
 };
 type Project = dyn Send + Sync + for<'a> Fn(&'a dyn Any) -> &'a dyn Any;
+type SourcePaths = HashMap<PlanningType, Arc<Vec<Arc<Project>>>>;
+type WorkingRow<T, V> = (usize, WorkingBasicObject<T, V>);
+pub type WorkingBasicRows<T, V> = Vec<WorkingRow<T, V>>;
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum SolutionStreamError {
     UnknownType {
@@ -24,6 +28,13 @@ pub enum SolutionStreamError {
     BasicAssignment(crate::ModelError),
     ListAssignment(crate::ListError),
     WrongListValueType(PlanningType),
+    WrongWorkingValueType {
+        entity: PlanningType,
+        variable: String,
+        expected: PlanningType,
+        actual: PlanningType,
+    },
+    UnknownEntityRow(usize),
 }
 impl std::fmt::Display for SolutionStreamError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -161,10 +172,7 @@ impl SolutionStreamRegistry {
         ));
         Ok(())
     }
-    pub fn source<T: 'static, S: AdditiveScore + 'static>(
-        &self,
-        builder: &mut StreamGraphBuilder<'_, S>,
-    ) -> Result<CheckedSolutionStream<T>, SolutionStreamError> {
+    fn resolve_paths<T: 'static>(&self) -> Result<SourcePaths, SolutionStreamError> {
         let requested = PlanningType::of::<T>();
         let paths: HashMap<_, _> = self
             .concrete
@@ -177,6 +185,13 @@ impl SolutionStreamRegistry {
                 registered: self.concrete.clone(),
             });
         }
+        Ok(paths)
+    }
+    pub fn source<T: 'static, S: AdditiveScore + 'static>(
+        &self,
+        builder: &mut StreamGraphBuilder<'_, S>,
+    ) -> Result<CheckedSolutionStream<T>, SolutionStreamError> {
+        let paths = self.resolve_paths::<T>()?;
         Ok(CheckedSolutionStream {
             layout: self.layout.clone(),
             source: builder.source(),
@@ -361,3 +376,255 @@ impl<T: 'static> CheckedSolutionStream<T> {
         Ok(rows)
     }
 }
+
+/// A typed object with owned current genuine-field values. Object payloads remain
+/// immutable facts/initial state; `field()` reads the current native assignment.
+/// Field-name storage is shared between snapshots, and no domain-object clone
+/// bound is required. V cloning follows the native assignment's value semantics.
+pub struct WorkingBasicObject<T, V> {
+    object: SolutionStreamObject<T>,
+    names: Arc<[String]>,
+    values: Vec<Option<V>>,
+}
+impl<T, V: Clone> Clone for WorkingBasicObject<T, V> {
+    fn clone(&self) -> Self {
+        Self {
+            object: self.object.clone(),
+            names: self.names.clone(),
+            values: self.values.clone(),
+        }
+    }
+}
+impl<T: 'static, V> WorkingBasicObject<T, V> {
+    pub fn object(&self) -> &T {
+        self.object.get()
+    }
+    pub fn allocation(&self) -> &Arc<dyn Any + Send + Sync> {
+        self.object.allocation()
+    }
+    pub fn field(&self, name: &str) -> Option<&Option<V>> {
+        self.names
+            .iter()
+            .position(|n| n == name)
+            .map(|i| &self.values[i])
+    }
+    pub fn fields(&self) -> impl Iterator<Item = (&str, &Option<V>)> {
+        self.names.iter().map(String::as_str).zip(&self.values)
+    }
+}
+pub struct WorkingBasicStream<T, V> {
+    layout: Arc<ComposedPlanningSolution>,
+    paths: HashMap<PlanningType, Arc<Vec<Arc<Project>>>>,
+    names: HashMap<PlanningType, Arc<[String]>>,
+    source: StreamSource<usize, WorkingBasicObject<T, V>>,
+}
+impl SolutionStreamRegistry {
+    /// Build a genuine typed source whose tuples carry current planning fields.
+    /// Validate relevant basic field types before allocating a graph source node.
+    pub fn working_basic_source<T: 'static, V: Clone + 'static, S: AdditiveScore + 'static>(
+        &self,
+        builder: &mut StreamGraphBuilder<'_, S>,
+    ) -> Result<WorkingBasicStream<T, V>, SolutionStreamError> {
+        let paths = self.resolve_paths::<T>()?;
+        let mut names = HashMap::new();
+        for &ty in paths.keys() {
+            if let Ok(entity) = self.layout.schema().entity_type(ty) {
+                let mut fields = vec![];
+                for variable in entity.genuine_variables() {
+                    if !matches!(variable.kind(), crate::PlanningVariableKind::Basic { .. })
+                        || variable.value_type() != PlanningType::of::<V>()
+                    {
+                        return Err(SolutionStreamError::WrongWorkingValueType {
+                            entity: ty,
+                            variable: variable.name().into(),
+                            expected: variable.value_type(),
+                            actual: PlanningType::of::<V>(),
+                        });
+                    }
+                    fields.push(variable.name().to_owned());
+                }
+                names.insert(ty, Arc::from(fields));
+            }
+        }
+        Ok(WorkingBasicStream {
+            layout: self.layout.clone(),
+            paths,
+            names,
+            source: builder.source(),
+        })
+    }
+}
+impl<T: 'static, V> WorkingBasicStream<T, V> {
+    pub fn source(&self) -> &StreamSource<usize, WorkingBasicObject<T, V>> {
+        &self.source
+    }
+    pub fn port(&self) -> &StreamPort<usize, WorkingBasicObject<T, V>> {
+        self.source.port()
+    }
+    fn object(
+        &self,
+        ty: PlanningType,
+        object: &Arc<dyn Any + Send + Sync>,
+    ) -> Option<SolutionStreamObject<T>> {
+        self.paths.get(&ty).map(|path| SolutionStreamObject {
+            allocation: object.clone(),
+            path: path.clone(),
+            marker: PhantomData,
+        })
+    }
+}
+impl<T: 'static, V: Clone + Eq + 'static> WorkingBasicStream<T, V> {
+    /// Snapshot current field values, preserving actual entity/fact allocations.
+    /// Passing false includes entities with null genuine fields. Whole-assignment
+    /// validation precedes publication, including domain and pin constraints.
+    pub fn rows(
+        &self,
+        bound: &BoundBasicSolution<V>,
+        assignment: &crate::Assignment<V>,
+        initialized_only: bool,
+    ) -> Result<WorkingBasicRows<T, V>, SolutionStreamError> {
+        let facts = bound
+            .facts()
+            .ok_or(SolutionStreamError::MissingFactSnapshot)?;
+        if !Arc::ptr_eq(&self.layout, facts.descriptor()) {
+            return Err(SolutionStreamError::DifferentDescriptor);
+        }
+        bound
+            .problem()
+            .validate(assignment)
+            .map_err(SolutionStreamError::BasicAssignment)?;
+        let mut rows = vec![];
+        for fact in facts.records() {
+            if let Some(object) = self.object(fact.fact_type(), fact.object()) {
+                rows.push((
+                    Arc::as_ptr(fact.object()) as *const () as usize,
+                    WorkingBasicObject {
+                        object,
+                        names: Arc::from([]),
+                        values: vec![],
+                    },
+                ));
+            }
+        }
+        for (index, _) in bound.entities().iter().enumerate() {
+            if let Some(row) = self.entity_row(bound, assignment, index, initialized_only)? {
+                rows.push(row);
+            }
+        }
+        Ok(rows)
+    }
+    fn entity_row(
+        &self,
+        bound: &BoundBasicSolution<V>,
+        assignment: &crate::Assignment<V>,
+        index: usize,
+        initialized_only: bool,
+    ) -> Result<Option<WorkingRow<T, V>>, SolutionStreamError> {
+        let entity = bound
+            .entities()
+            .get(index)
+            .ok_or(SolutionStreamError::UnknownEntityRow(index))?;
+        let Some(object) = self.object(entity.entity_type(), entity.object()) else {
+            return Ok(None);
+        };
+        let values = entity
+            .slots()
+            .iter()
+            .map(|(_, slot)| assignment.values()[*slot].clone())
+            .collect::<Vec<_>>();
+        if initialized_only && values.iter().any(Option::is_none) {
+            return Ok(None);
+        }
+        let names = self.names[&entity.entity_type()].clone();
+        Ok(Some((
+            Arc::as_ptr(entity.object()) as *const () as usize,
+            WorkingBasicObject {
+                object,
+                names,
+                values,
+            },
+        )))
+    }
+    /// Refresh owned field snapshots transactionally, including updates whose
+    /// planning identities compare equal but carry different payloads. Existing
+    /// object handles remain stable; changed fields trigger actual graph routing.
+    pub fn refresh<S: AdditiveScore + 'static>(
+        &self,
+        graph: &mut crate::StreamGraph<'_, S>,
+        rows: Vec<(usize, WorkingBasicObject<T, V>)>,
+    ) -> Result<(), crate::GraphError> {
+        let old = graph
+            .source_rows(&self.source)?
+            .keys()
+            .copied()
+            .collect::<Vec<_>>();
+        let next = rows.iter().map(|(key, _)| *key).collect::<HashSet<_>>();
+        let mut tx = graph.transaction();
+        for key in old {
+            if !next.contains(&key) {
+                tx.apply(&self.source, crate::TupleChange::retract(key))?;
+            }
+        }
+        for (key, row) in rows {
+            tx.apply(&self.source, crate::TupleChange::put(key, row))?;
+        }
+        tx.commit()
+    }
+    /// Update one concrete canonical entity row and leave unrelated source rows
+    /// untouched. Validate the full native input before any graph publication.
+    pub fn update_entity<S: AdditiveScore + 'static>(
+        &self,
+        graph: &mut crate::StreamGraph<'_, S>,
+        bound: &BoundBasicSolution<V>,
+        assignment: &crate::Assignment<V>,
+        index: usize,
+        initialized_only: bool,
+    ) -> Result<(), WorkingBasicUpdateError> {
+        let facts = bound.facts().ok_or(WorkingBasicUpdateError::Source(
+            SolutionStreamError::MissingFactSnapshot,
+        ))?;
+        if !Arc::ptr_eq(&self.layout, facts.descriptor()) {
+            return Err(WorkingBasicUpdateError::Source(
+                SolutionStreamError::DifferentDescriptor,
+            ));
+        }
+        bound.problem().validate(assignment).map_err(|e| {
+            WorkingBasicUpdateError::Source(SolutionStreamError::BasicAssignment(e))
+        })?;
+        graph
+            .source_rows(&self.source)
+            .map_err(WorkingBasicUpdateError::Graph)?;
+        let row = self
+            .entity_row(bound, assignment, index, initialized_only)
+            .map_err(WorkingBasicUpdateError::Source)?;
+        let entity = bound
+            .entities()
+            .get(index)
+            .ok_or(WorkingBasicUpdateError::Source(
+                SolutionStreamError::UnknownEntityRow(index),
+            ))?;
+        if !self.paths.contains_key(&entity.entity_type()) {
+            return Ok(());
+        }
+        let key = Arc::as_ptr(entity.object()) as *const () as usize;
+        let mut tx = graph.transaction();
+        let change = row.map_or_else(
+            || crate::TupleChange::retract(key),
+            |(key, row)| crate::TupleChange::put(key, row),
+        );
+        tx.apply(&self.source, change)
+            .map_err(WorkingBasicUpdateError::Graph)?;
+        tx.commit().map_err(WorkingBasicUpdateError::Graph)
+    }
+}
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum WorkingBasicUpdateError {
+    Source(SolutionStreamError),
+    Graph(crate::GraphError),
+}
+impl fmt::Display for WorkingBasicUpdateError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "working basic update: {self:?}")
+    }
+}
+impl std::error::Error for WorkingBasicUpdateError {}

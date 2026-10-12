@@ -55134,6 +55134,68 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve the invalid construction state for a real false filtering callback before equality on entity/value and the subsequent extra join/penalty stages. Native OrderedJoinError::IndexedAfterFiltering replaces IllegalStateException. Typed projections retain actual value/allocation getters; order validation precedes graph node creation and callback invocation. Valid plans compile to native compound indexes and real short-circuit filters. Existing direct JoinConditions normalization remains unchanged; no Java API parity claimed."
+    },
+    {
+      "id": "AbstractBiConstraintStreamTest.joinerEqualsAndSameness",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "joinerEqualsAndSameness",
+      "local_path": "crates/solver/tests/remaining_stream_cases.rs",
+      "local_test": "bi_joiner_equals_and_sameness",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete generateSolution(1,2,1,2) relevant group/value/entity storage, two separately allocated equal 0.01 decimals, entity1/3 sharing the first allocation and all nine exact ordered entity/score matches including self pairs. Native Arc<Decimal> equality is value/scale equality and pointer identity remains separate. Actual checked-source allocations and native equality self-join produce matches; no scripted pair outputs. Arc typed planning values use native Arc-wrapper fact records; no Java API parity claimed."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.constraintProvidedFromUnknownPackage",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "constraintProvidedFromUnknownPackage",
+      "local_path": "crates/solver/tests/remaining_stream_cases.rs",
+      "local_test": "uni_constraint_provided_from_unknown_package",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full generated five-value/seven-entity fixture, keep only Generated Entity 0, execute actual Always penalize provider in a different native module and assert exact constraint/object/score match. Native explicit typed solution registration replaces Java unnamed-package class loading/reflection; provider/source identity is independent of module namespace. No JVM package/classloader equivalence claimed."
+    },
+    {
+      "id": "AbstractQuadConstraintStreamTest.ifExistsDoesNotIncludeUnassigned",
+      "status": "excluded",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifExistsDoesNotIncludeUnassigned",
+      "local_path": "upstream/timefold-solver/core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "local_test": "ifExistsDoesNotIncludeUnassigned",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "reason": "Pinned upstream override is @Disabled and has an empty body: too many matches to meaningfully assert; cost-benefit ratio is wrong here. No executable case or compatibility credit.",
+      "modifications": "Classification only; upstream source is unmodified and no local passing/placeholder test is created. Native unassigned-source behavior is verified elsewhere; this disabled empty override contributes zero passing credit."
+    },
+    {
+      "id": "AbstractQuadConstraintStreamTest.ifNotExistsDoesNotIncludeUnassigned",
+      "status": "excluded",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifNotExistsDoesNotIncludeUnassigned",
+      "local_path": "upstream/timefold-solver/core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "local_test": "ifNotExistsDoesNotIncludeUnassigned",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "reason": "Pinned upstream override is @Disabled and has an empty body: too many matches to meaningfully assert; cost-benefit ratio is wrong here. No executable case or compatibility credit.",
+      "modifications": "Classification only; upstream source is unmodified and no local passing/placeholder test is created. Native unassigned-source behavior is verified elsewhere; this disabled empty override contributes zero passing credit."
     }
   ],
   "fixtures": [
@@ -77028,6 +77090,45 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Native SimpleScore and ordered Vec<Arc<dyn Any + Send + Sync>> retain actual score/object references instead of Java generic Score/Object[] and Objects.requireNonNull. Used in the four complete construction-error methods and an original executing callback control; fixture attribution adds no method credit. Lavish source roles use the previously attributed fixture unchanged."
+    },
+    {
+      "id": "remaining-stream-decimal-lavish",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "bigDecimalProperty and complete relevant code/group/value TEST storage for joinerEqualsAndSameness",
+      "local_path": "crates/solver/tests/fixtures/remaining_stream_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native immutable Arc objects and explicit typed registration/getters replace Java discovery and setters. Decimal entity embeds the previously attributed lavish fields; equal values use code planning identity. Decimal arithmetic storage is restored for this test; other irrelevant arithmetic properties remain omitted. The generated unnamed solution stores real five values and seven entities before filtering and the named native provider executes actual graph construction. No JVM class-loading support or additional method credit from fixtures."
+    },
+    {
+      "id": "remaining-stream-unnamed-solution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/TestdataInUnnamedPackageSolution.java",
+      "upstream_test": "generateSolution(5,7), code/value/entity/score storage",
+      "local_path": "crates/solver/tests/fixtures/remaining_stream_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native immutable Arc objects and explicit typed registration/getters replace Java discovery and setters. Decimal entity embeds the previously attributed lavish fields; equal values use code planning identity. Decimal arithmetic storage is restored for this test; other irrelevant arithmetic properties remain omitted. The generated unnamed solution stores real five values and seven entities before filtering and the named native provider executes actual graph construction. No JVM class-loading support or additional method credit from fixtures."
+    },
+    {
+      "id": "remaining-stream-named-provider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataConstraintProvider.java",
+      "upstream_test": "defineConstraints and alwaysPenalizingConstraint TEST provider",
+      "local_path": "crates/solver/tests/fixtures/remaining_stream_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native immutable Arc objects and explicit typed registration/getters replace Java discovery and setters. Decimal entity embeds the previously attributed lavish fields; equal values use code planning identity. Decimal arithmetic storage is restored for this test; other irrelevant arithmetic properties remain omitted. The generated unnamed solution stores real five values and seven entities before filtering and the named native provider executes actual graph construction. No JVM class-loading support or additional method credit from fixtures."
     }
   ]
 }
