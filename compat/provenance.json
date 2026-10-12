@@ -55376,6 +55376,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve actual array/tree storage-state assertions, threshold-relative full age/string fixtures, strict comparison match sets/cardinality, no-demotion removal behavior and complete seeded drain/repeating reachability assertions. CandidateIndex uses its actual ScalingMap buckets; introspection reads their real representation/configuration, not stand-in flags. Native tuning replaces upstream constants; native promotion occurs on the next absent-key insertion after configured churn removals, so helper uses tolerance+1 transient cycles to reach the same required tree state. Native seeds0..9 preserve unique drain coverage and seed0 preserves60 repeating draws; no Java PRNG/storage traversal/API/ABI trace claim. Tuple occurrence identity maps to stable IDs retaining actual age payloads. Rust exhausted next returns None instead of Java NoSuchElementException."
+    },
+    {
+      "id": "SelectorBasedKOptListMoveTest.testMultiEntity2Opt",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity2Opt",
+      "local_path": "crates/solver/tests/kopt_partition_rebase_cases.rs",
+      "local_test": "test_multi_entity2_opt",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full8/12-value input/output fixtures, exact ordered rows, actual allocation identity, doable validation and all per-entity before/after range extents. Native retained suffix-end partition policy derives lengths from the input topology, without expected-output lengths or orientations supplied. It preserves these two cases; other Java multi-entity implicit-boundary cases remain pending. Native lifecycle brackets replace mocked descriptor/entity notifications; entity indices identify actual model rows. Value planning IDs use equivalent native integers instead of decimal code strings; no Java internal representation/API/ABI claim."
+    },
+    {
+      "id": "SelectorBasedKOptListMoveTest.testMultiEntity4Opt",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity4Opt",
+      "local_path": "crates/solver/tests/kopt_partition_rebase_cases.rs",
+      "local_test": "test_multi_entity4_opt",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full8/12-value input/output fixtures, exact ordered rows, actual allocation identity, doable validation and all per-entity before/after range extents. Native retained suffix-end partition policy derives lengths from the input topology, without expected-output lengths or orientations supplied. It preserves these two cases; other Java multi-entity implicit-boundary cases remain pending. Native lifecycle brackets replace mocked descriptor/entity notifications; entity indices identify actual model rows. Value planning IDs use equivalent native integers instead of decimal code strings; no Java internal representation/API/ABI claim."
+    },
+    {
+      "id": "SelectorBasedKOptListMoveTest.test3OptRebase",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "test3OptRebase",
+      "local_path": "crates/solver/tests/kopt_partition_rebase_cases.rs",
+      "local_test": "test3_opt_rebase",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete six-value source/destination fixture with distinct actual allocations, entity/value lookup mapping, complete ordered destination output and before/after range[0,6] notifications. Native immutable source/destination owner objects feed real list models; actual WorkingObjectLookup results resolve destination entity index and all six destination payloads. Snapshot-checked ListKOptEdgePlan regenerates destination movement; native lifecycle brackets replace Java score-director mocks and native assignments replace in-place entity setters. No Java API/ABI claim."
     }
   ],
   "fixtures": [
@@ -77452,6 +77497,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all match membership, equal cardinality, exhaustion and repeated next/peek assertions across seeds0..9, and full repeating reachability over60 seed0 draws. Native borrowed query samples replace Java iterators and RNG; exhausted next returns None. No Java trace claim."
+    },
+    {
+      "id": "kopt-inferred-partition-rebase-fixtures",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity2Opt/testMultiEntity4Opt/test3OptRebase values, ordered rows, endpoints and source/destination objects",
+      "local_path": "crates/solver/tests/kopt_partition_rebase_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only complete ordered fixtures, exact removed/added edges and notification expectations to actual native list models/lifecycle plans. Arc value/owner objects retain real source/destination allocations; code IDs become equivalent native integer IDs. Native assignment snapshots replace mutable Java object storage, with full list data retained in rebased owner payloads. No production implementation copied; the older explicitly partitioned output-only fixtures remain zero-credit originals."
     }
   ]
 }

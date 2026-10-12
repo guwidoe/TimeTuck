@@ -7742,3 +7742,27 @@ payload allocations without Clone bounds, captured-key rekeying/removal and iden
 bidirectional match/seeded sample results across array/tree representations. They
 earn no upstream credit. Factory fusion eligibility remains pending. No benchmark
 refresh or throughput improvement is claimed from exposing these settings.
+
+### Inferred K-opt sections and snapshot-checked edge rebasing
+
+list_k_opt_inferred_partition_move reconnects a selected combined suffix cycle and
+derives partitions from retained original suffix-end identities. The section crossing
+the anchor is rotated within the first row; other sections retain traversal order.
+It requires nonempty movable suffixes and validates final native ranges/pins/dependencies
+before movement. This explicit native policy preserves complete multi-entity2/4-opt
+fixtures without expected lengths/orientation supplied. Their full ordered outputs,
+allocation identity and before/after notification extents are now adapted. Other
+Java implicit-boundary cases remain pending; no general parity claim is made.
+
+ListKOptEdgePlan captures a validated single-entity row and edges, rejects stale
+ordered membership/pin prefixes, and rebases every actual row value through destination
+lookups. Destination collisions, incompatible rows/pins and invalid topology reject
+without model/assignment mutation. The complete3-opt rebase fixture uses distinct
+actual source/destination owner/value objects, real ID lookups, full destination output
+and lifecycle notifications. Native assignments replace Java in-place list setters.
+
+Three original controls cover moved destination entity indices, exact lookup counts,
+collisions/failures, stale/pinned destinations, rollback, anchor-crossing sections,
+retained prefixes and invalid input isolation. These earn no source credit. Existing
+K-opt search/sampling, scoring and lifecycle implementations remain unchanged.
+No performance measurements or throughput improvement are claimed.
