@@ -55571,6 +55571,21 @@
       "local_path": "crates/solver/tests/recursive_clone_cases.rs",
       "local_test": "clone_deeply_nested_solution",
       "modifications": "Preserve the original one-entity/one-root-value dependency-chain fixture, start2000-01-01T00:00:00, duration1hour, root ID and sequential child IDs, distinct root/collections/entities/root value and every chain ID/nonnull/allocation assertion. Native stress depth100000 replaces JVM-measured MAX_STACK_FRAMES+128; iterative discovery/population handles that full depth. Typed numeric date components and duration seconds replace Java time types. Native strong chains are detached iteratively only after all assertions because Rust Arc destruction is a separate concern from Java GC. Explicit registered factories replace reflection/annotations; no automatic field inference/API/ABI or shadow-supplier execution claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.fieldAnnotatedDeepPlanningClone",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "fieldAnnotatedDeepPlanningClone",
+      "local_path": "crates/solver/tests/deep_field_clone_cases.rs",
+      "local_test": "field_annotated_deep_planning_clone",
+      "modifications": "Preserve full3-value/4-entity a/b/c/d input,1/1/3/3 assignments, root code solution, absent score, root/value-list/entity-list/entity and container identity criteria, all nullable shadow lists/maps, exact nested-map null keys/values/elements, shared immutable string references, general shadow list and original planning-value/map mutations with clone isolation. Actual typed native binding validates original/cloned planning objects. Explicit Required container/Shared immutable element policies replace Java deep-field annotations/reflection; immutable Arc<Vec<Option<Arc<String>>>> represents source nested list keys/values while preserving full equality/identity assertions. Native ordered maps replace HashMap/LinkedHashMap without asserting Java iteration traces. No annotation/API/ABI parity or general field-inference claim; no production copied."
     }
   ],
   "fixtures": [
@@ -77920,6 +77935,45 @@
       "upstream_test": "supportsEntityToSolutionBacklinking/cloneDeeplyNestedSolution inputs, generateSolution(2,2), or dependency constructor/getter/setter semantics",
       "local_path": "crates/solver/tests/fixtures/recursive_clone_fixture.rs",
       "modifications": "Adapt TEST-only actual generated codes/values/entities and parent references; native Arc/Weak/Mutex graph storage permits real identity/backlink checks. Dependency fixture preserves actual date components, hour duration, nullable dependency lists, entity empty planning list and all root/child IDs. Unused default-null computed shadow payloads/suppliers are not modeled or claimed. Native registered typed shell/edge/fill callbacks replace Java annotation/reflection, without production implementation copied. Deep input count is explicitly100000 rather than JVM stack-measurement helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "deep-field-clone-inputs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "fieldAnnotatedDeepPlanningClone full input and assertDeepCloningEntityClone helper, or field constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/deep_field_clone_fixture.rs",
+      "modifications": "Adapt full TEST-only codes/values/entity and shadow-container input, including all null keys/values/list elements and default empty nested maps. Native Arc/Mutex objects support actual allocation/mutation/isolation checks; immutable Arc string/nested-list payloads preserve required reference or content equality. Registered typed callbacks replace annotations/reflection; native basic binding verifies actual planning fields. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "deep-field-clone-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/field/TestdataFieldAnnotatedDeepCloningEntity.java",
+      "upstream_test": "fieldAnnotatedDeepPlanningClone full input and assertDeepCloningEntityClone helper, or field constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/deep_field_clone_fixture.rs",
+      "modifications": "Adapt full TEST-only codes/values/entity and shadow-container input, including all null keys/values/list elements and default empty nested maps. Native Arc/Mutex objects support actual allocation/mutation/isolation checks; immutable Arc string/nested-list payloads preserve required reference or content equality. Registered typed callbacks replace annotations/reflection; native basic binding verifies actual planning fields. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "deep-field-clone-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/field/TestdataFieldAnnotatedDeepCloningSolution.java",
+      "upstream_test": "fieldAnnotatedDeepPlanningClone full input and assertDeepCloningEntityClone helper, or field constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/deep_field_clone_fixture.rs",
+      "modifications": "Adapt full TEST-only codes/values/entity and shadow-container input, including all null keys/values/list elements and default empty nested maps. Native Arc/Mutex objects support actual allocation/mutation/isolation checks; immutable Arc string/nested-list payloads preserve required reference or content equality. Registered typed callbacks replace annotations/reflection; native basic binding verifies actual planning fields. No production implementation copied."
     }
   ]
 }

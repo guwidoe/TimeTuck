@@ -7915,3 +7915,26 @@ undiscovered edges and callback failure/retry. Abstract cloner5/14 passed,9 pend
 overall3,695/4,855 (76.107%),592 pending,568 excluded,zero failed/unverified. Final7,037
 Rust tests/290 doctests;3 changed Rust jobs/1,027 reused jobs/46 Python reuses. No raw
 solver changes or comparative performance claim; K-opt's input digest stays current.
+
+### Explicit deep-field and nullable-container policies
+
+ObjectCloneFieldPolicy distinguishes Shared, Required and Registered fields. Shared
+always preserves the original handle, even if another field copies that allocation.
+Required resolves a discovered clone; Registered copies factory-backed types and
+shares only unregistered immutable facts. The clone view captures registered types,
+so missing discovery cannot silently share a registered object. Optional None stays
+None. Reusable nullable list/map and ordered-set registrations provide independent
+mutable storage and explicit member/key/value policies; rebased collisions fail.
+These are native registered policies, not Java annotations or automatic field inference.
+
+The full fieldAnnotatedDeepPlanningClone method preserves actual3-value/4-entity input,
+all root/entity/value/list/map/code/score criteria, exact nullable nested-map entries,
+shared string references, general shadow list and real original-mutation isolation.
+Native immutable nested-list payloads preserve the required reference/content checks;
+ordered map layout claims no Java iteration trace. Typed native binding validates
+actual cloned planning objects. Source fixtures/helper/method retain attribution.
+Three originals cover field-local sharing, registration/discovery requirements,
+nulls/aliases/container isolation and key/set collisions. Abstract cloner6/14 passed,
+8 pending; overall3,696/4,855 (76.128%),591 pending,568 excluded,zero failed/unverified.
+Final7,041 Rust tests/290 doctests;5 changed Rust jobs/1,027 reused jobs/46 Python reuses.
+No raw solver changes or comparative performance claim; K-opt input hash stays current.

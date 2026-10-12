@@ -16,6 +16,57 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round77
+
+ObjectCloneFieldPolicy adds explicit Shared/Required/Registered field behavior to
+iterative object graph cloning. Shared always returns the original allocation even
+when another field clones the same object. Required needs a registered/discovered
+clone. Registered copies only factory-backed types and shares unregistered immutable
+facts; the fixed clone view now captures registered types so an omitted discovery
+cannot silently share a registered object. Optional fields retain None. Reusable
+nullable list/map and ordered-set registrations allocate independent mutable container
+storage, apply element/key/value policies, preserve nulls and reject rebased key/set
+collisions. Required discovery and immutable-fact sharing remain explicit callbacks;
+no Java annotation/reflection or arbitrary automatic field inference claim.
+
+One full AbstractSolutionClonerTest.fieldAnnotatedDeepPlanningClone closes the entire
+three-value/four-entity1/1/3/3 fixture, root code solution, absent score, allocation,
+shared value-list/value/string references and all helper container checks. Preserve
+all shadow lists/maps, default-empty nested maps and exact null keys/values/list
+members. Native immutable Arc<Vec<Option<Arc<String>>>> represents nested source list
+keys/values, with all original content/reference criteria retained; ordered maps replace
+Java maps without iteration-trace claim. Actual original b planning-value and shadow-map
+mutations leave clones unchanged. A real typed native basic model rebinds/validates
+planning objects. TEST-only fixtures/helper/method have provenance/notices; no production
+copied. DeepPlanningClone's various primitive/boxed/class/alias case remains pending;
+do not infer its coverage from the field case.
+
+Three originals verify a shared reference stays original while a required field copies
+that same object; registered policy rejects omitted discovery and shares only absent-
+factory types; nullable lists preserve None/repeated shared handles and mutable isolation,
+and map/set rebase collisions reject without a returned graph. These earn no source
+credit. Focus1+3 passed; one unmatched generic angle bracket corrected during local fmt
+before compilation. No focused runtime repair needed. Final frozen runner-a bash
+scripts/check.sh passed once:7,041 Rust tests,290 doctests;3,696/4,855 (76.128%),591 pending,
+568 excluded,zero failed/unverified. Actual5 Rust RUN/1,027 REUSE/46 Python REUSE;
+203.273seconds. Abstract cloner6/14 passed,8 pending; recursive/backlink behavior retained.
+No raw solver/search/scoring algorithm changes, benchmark/performance claim, release
+correctness suite, UI rerun or agents. Rust:3240bdcb97edc958f7fb8439f475fb4c91bd2242160e38aecaf2b8aa414c1836.
+Report:ccc9695e8ccd618e909b08177165b5146230a6f07896762a4c2a3787ff5a085b.
+Remote root:b5cdde5e664edcaeb68f6f551004904ec88db83548ac1509980cf8e4b7b8d355.
+Archive work/round77-runner-a-results.tar.gz SHA256:fd011175d4785bf20ede71fa59fb5ccbc3b240cabdebcabda50e4b45c55f6bc3.
+Evidence/freeze:work/parallel-round77-evidence.json and parallel-round77-freeze.json.
+Launcher2524/collector56423 completedzero. Postcommit proof:work/verify_round77_postcommit.py.
+Next gate seeds from actual round77 archive/root. K-opt job inputs remain unchanged:
+d97e85200c8e0e784d034049d327bb4dc05f7be28263cf96691b7acd78e3f1f6; genuine measurements
+stay current, older list data stays stale. No evidence retagged or benchmarks repeated.
+
+Remaining clone work includes complex various-types deep policies, entity arrays/
+collections/sets/inheritance, required deep-type enforcement and mixed projection;
+8 abstract-cloner cases remain. Other solver compatibility gaps including K-opt3-opt
+boundaries remain. Goal active/incomplete; continue reducing backlog with actual
+behavior and performance preserved. No new agents.
+
 ## Latest verified checkpoint — round76
 
 ObjectGraphCloneRegistry provides explicitly registered typed allocation/discovery/

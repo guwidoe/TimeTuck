@@ -2,7 +2,7 @@
 use crate::*;
 use std::{
     any::Any,
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     rc::Rc,
     sync::{Arc, Weak},
 };
@@ -46,8 +46,12 @@ struct Entry {
 pub struct ObjectGraphCloneView {
     entries: Vec<Entry>,
     indices: HashMap<usize, usize>,
+    registered: HashSet<PlanningType>,
 }
 impl ObjectGraphCloneView {
+    pub(crate) fn has_factory<T: Any + Send + Sync>(&self) -> bool {
+        self.registered.contains(&PlanningType::of::<T>())
+    }
     pub fn len(&self) -> usize {
         self.entries.len()
     }
@@ -121,6 +125,9 @@ pub struct ObjectGraphDiscovery<'r, 'a> {
     view: ObjectGraphCloneView,
 }
 impl<'a> ObjectGraphDiscovery<'_, 'a> {
+    pub(crate) fn has_factory<T: Any + Send + Sync>(&self) -> bool {
+        self.registry.rules.contains_key(&PlanningType::of::<T>())
+    }
     pub fn required<T: Any + Send + Sync>(
         &mut self,
         source: &Arc<T>,
@@ -241,6 +248,7 @@ impl<'a> ObjectGraphCloneRegistry<'a> {
             view: ObjectGraphCloneView {
                 entries: Vec::new(),
                 indices: HashMap::new(),
+                registered: self.rules.keys().copied().collect(),
             },
         };
         context.required(source)?;

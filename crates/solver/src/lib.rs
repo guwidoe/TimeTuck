@@ -1512,6 +1512,8 @@ pub use solution_mixed_binding::{
     SolutionMixedEntityRecord,
 };
 mod object_graph_clone;
+mod object_graph_clone_fields;
+pub use object_graph_clone_fields::ObjectCloneFieldPolicy;
 mod solution_basic_accessors;
 mod solution_basic_clone;
 mod solution_basic_clone_plan;
