@@ -16,25 +16,55 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Round92 implementation — focused verification passed
+## Latest verified checkpoint — round92
 
-XML configuration/resource/file loading, owned declarations/inheritance/reference
-keys and explicit actual native factory builders implemented in solver_xml.rs.
-Pinned roxmltree0.21.1 added; local remote-vendor regenerated against actual new
-Cargo.lock. No Timefold production consulted. Native declared vocabulary is not
-full JAXB/XSD parity; preserved arbitrary runtime options require explicit builders.
-Nine SolverFactoryTest and eight SolverConfigTest complete TEST adaptations plus
-six originals passed focused runner-a tests in28.512seconds, root
-bbcb362686790fe45919becce126d7b63a64a85ea51907d1b9045659ae095150.
-Positive factory cases actually solve through native managers. Sources/resources/
-helpers retain provenance/notices. Namespace writing improved to remove only the
-parsed root declaration; byte/node/depth and entity limits, escaping, inheritance,
-recursive reference keys and typed builder failures covered. No focused failures.
-The shared Cargo inputs changed, requiring broad final regression; benchmark
-measurements now have changed inputs and must remain stale until a deliberate
-refresh. No retagging. Prepare a new stable Cargo home/vendor binding for this
-lockfile on runner-a, freeze Rust/provenance and run bash scripts/check.sh once.
-No new agents. Goal incomplete.
+XML configuration and actual native factory bindings integrated as c91c813.
+SolverXmlConfiguration parses bounded UTF-8 strings/files/caller resources through
+pinned roxmltree0.21.1, retaining owned declarations, class-reference keys and
+inheritance. Root namespace normalization preserves unmodified spelling/comments;
+mutated trees escape values. Native vocabulary/namespace/attribute/depth validation
+is explicit, not full Timefold XSD/JAXB parity. DTD/entity loading is not enabled.
+XmlSolverFactoryRegistry requires complete solution/entity/scoring signatures and
+actual typed builder callbacks returning existing SolverFactory objects. Builders
+must interpret or reject runtime options; parsing alone does not certify them.
+No reflective Java class loading/assignability/ABI or Enterprise implementation claim.
+
+Nine complete SolverFactoryTest and eight SolverConfigTest source methods retain
+all XML/load/path/resolver/error, both roundtrip, namespace/phase/environment/key,
+preview/inheritance and thirteen reference criteria. Positive factory cases run
+actual native jobs using adapted TEST-only ordered-pair equality scoring. Six XML
+resources copied unchanged with provenance/notices; TEST helper/class/loader roles
+recorded. Six originals cover limits/entity rejection, root-only namespace edits,
+escaping/child precedence, tree/reference roundtrip and actual builder cause/preflight
+behavior. Final focused17+6 passed in28.512seconds with no failures or runtime repair.
+A Default implementation was added to the temporary TEST-directory helper before
+freezing. No Timefold production inspected. Existing scoring/search kernels unchanged.
+
+Frozen runner-a bash scripts/check.sh passed in1933.553seconds including prebuild:
+7,237 Rust tests,290 doctests;3,820/4,855 (78.682%),467pending,568excluded,
+zero failed/unverified. All1,066 Rust jobs and46 Python jobs ran because shared
+Cargo inputs and the stable Cargo-home binding changed. Clippy passed. This was
+a genuine broader run, not retagging old evidence. Actual archive/log/source hashes,
+source-method criteria, unchanged fixture bytes and report freshness validated.
+Rust digest: d53e38186f4e4b45ba976554d45db98400b35a65292815c15eb66fe3d25dbb12.
+Report digest: 22275f93a739be9165303b4648f4548180648ffab1b26a3f17081ca9008f540d.
+Remote root: 8466e38f70e27090e68b6a56fae876e3a9cd9bbfa239f0cd14a862683cdacc06.
+Archive work/round92-runner-a-results.tar.gz SHA256:
+a52d0d999f721d6fd7c8da7b9251888645e78981538786660c79c772367689d1.
+Evidence: work/parallel-round92-evidence.json; clean postcommit proof:
+work/round92-postcommit-evidence.json. Source/collector handles19182/38259 terminal0.
+
+New stable runner-a Cargo home: /home/developer/.cache/timetuck-build/cargo-homes/
+(SHA256 of current Cargo.lock); vendor symlink under matching vendors/lock-hash.
+Do not return to the old7ccb Cargo home/vendor set; it lacks roxmltree. Local
+work/remote-vendor now matches new lock. Future unchanged-input checks should
+resume selective reuse seeded from the actual round92 archive and remote root.
+Older K-opt and list performance now remain visibly stale: dependency inputs changed.
+Old round71 comparison remains historical; no new native output/speed equivalence
+claim or benchmark refresh. Consider a deliberate K-opt refresh on an idle build
+host, then continue remaining compatibility gaps (benchmark XML factories can reuse
+the new parser dependency). Source record-type methods and three coupled random
+change destination traces remain pending. No new agents; full goal incomplete.
 
 ## Latest verified checkpoint — round91
 
