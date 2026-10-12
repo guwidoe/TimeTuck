@@ -7964,3 +7964,32 @@ Abstract cloner8/14 passed,6 pending; overall3,698/4,855 (76.169%),589 pending,5
 excluded,zero failed/unverified. Final7,046 Rust tests/290 doctests;3 changed Rust
 jobs/1,031 reused jobs/46 Python reuses. Raw solving/scoring/search is unchanged;
 no new performance claim, and K-opt measurement inputs remain current.
+
+### Concrete runtime clone dispatch and required field types
+
+ObjectGraphObject exposes an owning erased reference. TypeId-indexed registered
+factories dispatch on the actual payload type; typed and erased roots/fields share
+the existing iterative identity map. Required/Registered/Shared policies retain
+concrete types, cycles, repeated aliases and explicit shared references. Unregistered
+required runtime types and undiscovered registered objects fail. Named required
+optional fields additionally validate type policy even for None, with structured
+owner/field/target diagnostics and native Shared/register-factory remedies. This is
+explicit native registration, without reflection or annotation/type assignability.
+
+Full cloneAccessModifierSolution, cloneExtendedSolution, cloneExtendedThirdPartySolution
+and failDeepCloneRequiredTypeAnnotation methods retain all source/helper criteria.
+Native base/child composition replaces Java inheritance; two distinct base payload
+types support the ordinary and third-party cases. Actual type-erased c/d extra-object
+cycles resolve to cloned peers; facts/strings are shared and genuine-value mutations
+remain isolated. The access fixture retains constructor-backed final data, static
+identity and writeHello/readHello backing. The invalid fixture retains both values,
+both entity-local ranges and all four diagnostic criteria; Rust type names and native
+policy remedies replace Java class/annotation wording. Default-null constraint-weight
+overrides are not modeled or claimed. Source methods/fixtures have provenance/notices.
+Four original controls cover runtime type dispatch, cross-view aliases, cycles, foreign
+objects, shared fields, missing factories/discovery, nulls and field-policy retry; they
+earn no source credit. Raw solving/scoring/search algorithms remain unchanged.
+Abstract cloner12/14 passed,2 pending; overall3,702/4,855 (76.251%),585 pending,568
+excluded,zero failed/unverified. Final7,054 Rust tests/290 doctests;9 changed Rust
+jobs/1,027 reused jobs/46 Python reuses. No new performance claim; K-opt measurement
+inputs remain current and prior list measurements remain stale.

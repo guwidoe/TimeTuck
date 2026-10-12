@@ -55616,6 +55616,66 @@
       "local_path": "crates/solver/tests/entity_container_clone_cases.rs",
       "local_test": "clone_entity_array_property_solution",
       "modifications": "Preserve complete original3-value/3-entity a/b/c fixture,1/1/3 assignments, root code solution, absent score, allocation and every source/helper code/size/reference/content/null assertion, including actual cycles/self-reference. Native typed basic binding validates source and copied planning values. Full root and entity arrays use native mutable boxed slices; preserve lengths, order, empty b array, references a->[b,c] and c->[a,c]. Shared immutable value registry uses native Arc<Vec<Arc<Value>>> rather than JVM array type; source allocation-sharing criterion retained. Explicit factory registration replaces annotation/reflection; strong native cycles detached only after all assertions for Arc ownership cleanup. No production implementation copied, no automatic field inference/API/ABI or Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.cloneAccessModifierSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneAccessModifierSolution",
+      "local_path": "crates/solver/tests/extended_clone_cases.rs",
+      "local_test": "clone_access_modifier_solution",
+      "modifications": "Preserve complete3-value/4-entity1/1/3/3 input, code solution, root/entity/collection identities, shared facts, absent score, every source/helper code/value/extra criterion and actual original b mutation with clone isolation. Native typed basic binding validates copied planning objects. Preserve native static-final/static allocation criteria, full constructor-dependent final field and read/write-only setter backing for writeHello/readHello; all unpopulated fields stay null. Explicit native private-field reconstruction replaces JVM reflection/access modifiers. Native ordinary entity payload composes the reusable base; no reflection or Java visibility/API parity is claimed. Strong native cycles detached after assertions. TEST-only fixtures adapted; no production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.cloneExtendedSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneExtendedSolution",
+      "local_path": "crates/solver/tests/extended_clone_cases.rs",
+      "local_test": "clone_extended_solution",
+      "modifications": "Preserve complete3-value/4-entity1/1/3/3 input, code solution, root/entity/collection identities, shared facts, absent score, every source/helper code/value/extra criterion and actual original b mutation with clone isolation. Native typed basic binding validates copied planning objects. Rust child/base and solution/base composition replaces Java inheritance. Typed child factories and generic ObjectGraphObject payloads preserve actual concrete types, null a extra, b shared extraObjectOnEntity, root extraObjectOnSolution, and real c<->d extra-object cycles; no Java annotation inheritance or assignability claim. Default-null constraint-weight overrides are not modeled or claimed. Strong native cycles detached after assertions. TEST-only fixtures adapted; no production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.cloneExtendedThirdPartySolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneExtendedThirdPartySolution",
+      "local_path": "crates/solver/tests/extended_clone_cases.rs",
+      "local_test": "clone_extended_third_party_solution",
+      "modifications": "Preserve complete3-value/4-entity1/1/3/3 input, code solution, root/entity/collection identities, shared facts, absent score, every source/helper code/value/extra criterion and actual original b mutation with clone isolation. Native typed basic binding validates copied planning objects. A distinct native ThirdPartyPojo base composes into the child, with external accessors/factories. Type-erased extra-object fields preserve actual child runtime types, null a extra, b shared extraObjectOnEntity, root extraObjectOnSolution, and real c<->d cycles. Native composition replaces Java superclass/annotation mechanics without assignability/API parity. Strong native cycles detached after assertions. TEST-only fixtures adapted; no production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.failDeepCloneRequiredTypeAnnotation",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "failDeepCloneRequiredTypeAnnotation",
+      "local_path": "crates/solver/tests/extended_clone_cases.rs",
+      "local_test": "fail_deep_clone_required_type_annotation",
+      "modifications": "Preserve full generated s1 solution,2 values,2 entities1/2, separate local ranges containing both values, assigned1/2 and absent score. Required optional field policy rejects Value without a factory; structured owner/field/target error preserves all four diagnostic criteria. Native Rust type names and Shared/register-factory remedies replace Java qualified names/annotation remedies; no Java annotation handling claim. Strong native cycles detached after assertions. TEST-only fixtures adapted; no production implementation copied."
     }
   ],
   "fixtures": [
@@ -78069,6 +78129,162 @@
       "upstream_test": "cloneEntityCollectionPropertySolution/cloneEntityArrayPropertySolution full inputs/helpers or TEST constructor/field/getter/setter semantics",
       "local_path": "crates/solver/tests/fixtures/entity_container_clone_fixture.rs",
       "modifications": "Adapt TEST-only actual solution/entities/values/codes and all list/array/set/map inputs including empty/null cases and cyclic aliases. Arc/Mutex storage, boxed slices, identity-keyed hash collections and ordered string maps support actual reference and content checks; registered native factories replace annotations/reflection. Native immutable value registry preserves shared fact allocation; strong cyclic references are explicitly detached after assertions. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-0",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-1",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/accessmodifier/TestdataAccessModifierSolution.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-2",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedBaseEntity.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-3",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedChildEntity.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-4",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedSolution.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-5",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedExtendedSolution.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-6",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/thirdparty/TestdataThirdPartyEntityPojo.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-7",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/thirdparty/TestdataExtendedThirdPartyEntity.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-8",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/thirdparty/TestdataThirdPartySolutionPojo.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-9",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/thirdparty/TestdataExtendedThirdPartySolution.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-10",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/field/invalid/TestdataInvalidEntityProvidingEntity.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "extended-access-clone-fixture-11",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/field/invalid/TestdataInvalidEntityProvidingSolution.java",
+      "upstream_test": "cloneAccessModifierSolution/cloneExtendedSolution/cloneExtendedThirdPartySolution/failDeepCloneRequiredTypeAnnotation full inputs/helpers or TEST field/constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/extended_clone_fixture.rs",
+      "modifications": "Adapt actual TEST input and constructor-backed final/read-only/write-only/static fields, two distinct native base representations and generic child/solution composition, explicit mutable value/extra-object fields and cyclic handles. Arc<dyn Any+Send+Sync> replaces generic Java Object references; native registered factories use real runtime types. Native invalid2-value/2-entity local-range fixture and owner/field/type policy errors replace Java annotation diagnostics. Unused default-null constraint-weight override fields are not modeled or claimed. No production implementation copied, reflection/annotation-inheritance/assignability/visibility/Java GC claim."
     }
   ]
 }

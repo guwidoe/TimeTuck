@@ -1522,7 +1522,7 @@ mod solution_basic_clone_plan;
 mod solution_list_clone_plan;
 pub use object_graph_clone::{
     CopiedBasicObjectGraph, CopiedObjectGraph, ObjectGraphCloneError, ObjectGraphCloneRegistry,
-    ObjectGraphCloneView, ObjectGraphDiscovery,
+    ObjectGraphCloneView, ObjectGraphDiscovery, ObjectGraphObject,
 };
 pub use solution_basic_accessors::{
     BasicEntityFields, BasicSolutionAccessError, SolutionBasicAccessors,

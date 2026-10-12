@@ -16,6 +16,54 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round79
+
+ObjectGraphObject exposes erased owning references. Concrete TypeId-indexed factory
+lookup dispatches real runtime types, including erased roots, while typed and erased
+fields share the existing iterative identity map. Required/Registered/Shared policies
+preserve concrete types, cycles, repeated aliases and explicitly shared originals.
+Captured factory type IDs avoid silently sharing registered but undiscovered objects.
+Named required optional fields validate factory policy even for nulls, returning
+structured owner/field/target diagnostics and native Shared/register-factory remedies.
+Typed missing-root errors retain their prior form; dynamic missing types expose TypeId.
+No reflection, annotation inheritance, Java assignability or automatic field inference.
+
+Four full AbstractSolutionClonerTest methods now pass: cloneAccessModifierSolution,
+cloneExtendedSolution, cloneExtendedThirdPartySolution and failDeepCloneRequiredTypeAnnotation.
+Full ordinary3-value/4-entity1/1/3/3 fixtures retain root/code/score/shared-fact/entity/
+collection/extra assertions and genuine original b mutation isolation. Native base/
+child and root/base composition replaces Java inheritance; two distinct base payloads
+represent ordinary and third-party data. Actual erased extra-object c<->d references
+resolve to cloned peers; null and string extras remain correct. Access root preserves
+constructor-backed final field, static allocation and writeHello/readHello data.
+Invalid full s1/2-value/2-entity fixture retains separate local ranges and every one
+of the four diagnostic criteria, with native type names/policy remedies replacing
+Java class names/annotations. Default-null constraint-weight overrides are not modeled
+or claimed. Strong cycles detach after assertions; provenance/notices cover TEST-only
+source methods/fixtures. No production copied. Four originals cover mixed runtime
+factories, cross-view aliases, cycles, foreign objects, explicit sharing, missing
+factory/discovery, nulls and retry after required-field type registration.
+
+Focused initial3+3 new and9 existing controls passed. Added field-policy case/control
+then final4+4 passed. One initial CLI invocation named a nonexistent target; corrected
+before compilation. No runtime assertion repairs. Frozen runner-a bash scripts/check.sh
+passed once:7,054 Rust tests,290 doctests;3,702/4,855 (76.251%),585 pending,568 excluded,
+zero failed/unverified. Actual9 Rust RUN/1,027 REUSE/46 Python REUSE;203.479seconds.
+Abstract cloner12/14 passed,2 pending. Raw solving/scoring/search unchanged; no benchmark,
+release correctness suite, UI rerun or agents. K-opt measurements remain current,
+older list measurements remain stale. No evidence was retagged.
+Rust:045a6952d751c17fa5afb63bbae93b28e6faa8ffe5a833e7a5f029e5d52a7d03.
+Report:67fa67e183252f60f1384a27377af83bd284e2a281d9014b9379f4494a154e46.
+Remote root:a4d5715779f90c30f986f8a4b3714b0c9db667d1a4a5bffac04ee562f175b3e9.
+Archive work/round79-runner-a-results.tar.gz SHA256:
+fb2c4fe60b5f99bad9f9274ec177c2a88bba3844a55cef5ab9c8b21647c2fc24.
+Evidence/freeze:work/parallel-round79-evidence.json and parallel-round79-freeze.json.
+Launcher8698/collector95878 terminalzero. Postcommit proof:work/verify_round79_postcommit.py.
+Next gate seeds actual round79 archive/root. Remaining abstract-cloner cases are
+cloneSetBasedSolution and deepPlanningClone various primitive/boxed/class/alias policies;
+other solver gaps including K-opt3-opt boundaries remain. Goal incomplete and active;
+continue backlog reduction with performance important, no new agents/assignments.
+
 ## Latest verified checkpoint — round78
 
 Added reusable non-null list, boxed-slice, identity-set and identity-map graph clone

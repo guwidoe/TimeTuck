@@ -1,15 +1,23 @@
 //! Iterative allocation/discovery/population of explicitly registered object graphs.
 use crate::*;
 use std::{
-    any::Any,
+    any::{Any, TypeId},
     collections::{HashMap, HashSet},
     rc::Rc,
     sync::{Arc, Weak},
 };
-type Object = Arc<dyn Any + Send + Sync>;
+/// A type-erased owning reference; dispatch uses the concrete payload type.
+pub type ObjectGraphObject = Arc<dyn Any + Send + Sync>;
+type Object = ObjectGraphObject;
 #[derive(Debug)]
 pub enum ObjectGraphCloneError {
     MissingFactory(PlanningType),
+    MissingDynamicFactory(TypeId),
+    RequiredFieldWithoutFactory {
+        owner: PlanningType,
+        field: String,
+        target: PlanningType,
+    },
     DuplicateFactory(PlanningType),
     UndiscoveredReference,
     TypeMismatch,
@@ -19,6 +27,20 @@ pub enum ObjectGraphCloneError {
 impl std::fmt::Display for ObjectGraphCloneError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Self::RequiredFieldWithoutFactory {
+                owner,
+                field,
+                target,
+            } => write!(
+                f,
+                "The field ({field}) of type ({}) is configured to be deep-cloned but its type ({}) is not deep-cloned. Maybe use Shared for the field? Maybe register a clone factory for the type ({})?",
+                owner.name(),
+                target.name(),
+                target.name()
+            ),
+            Self::MissingDynamicFactory(id) => {
+                write!(f, "missing graph clone factory for runtime type {id:?}")
+            }
             Self::MissingFactory(t) => write!(f, "missing graph clone factory for {}", t.name()),
             Self::DuplicateFactory(t) => {
                 write!(f, "duplicate graph clone factory for {}", t.name())
@@ -46,11 +68,11 @@ struct Entry {
 pub struct ObjectGraphCloneView {
     entries: Vec<Entry>,
     indices: HashMap<usize, usize>,
-    registered: HashSet<PlanningType>,
+    registered: HashSet<TypeId>,
 }
 impl ObjectGraphCloneView {
     pub(crate) fn has_factory<T: Any + Send + Sync>(&self) -> bool {
-        self.registered.contains(&PlanningType::of::<T>())
+        self.registered.contains(&TypeId::of::<T>())
     }
     pub fn len(&self) -> usize {
         self.entries.len()
@@ -62,21 +84,53 @@ impl ObjectGraphCloneView {
         &self,
         source: &Arc<T>,
     ) -> Result<Arc<T>, ObjectGraphCloneError> {
+        let source: Object = source.clone();
+        self.required_object(&source)?
+            .downcast::<T>()
+            .map_err(|_| ObjectGraphCloneError::TypeMismatch)
+    }
+    /// Resolve a discovered object without losing its concrete runtime type.
+    pub fn required_object(
+        &self,
+        source: &ObjectGraphObject,
+    ) -> Result<ObjectGraphObject, ObjectGraphCloneError> {
         let key = Arc::as_ptr(source) as *const () as usize;
         let entry = self
             .indices
             .get(&key)
             .and_then(|i| self.entries.get(*i))
             .ok_or(ObjectGraphCloneError::UndiscoveredReference)?;
-        let erased: Object = source.clone();
-        if !Arc::ptr_eq(&erased, &entry.source) {
+        if !Arc::ptr_eq(source, &entry.source) {
             return Err(ObjectGraphCloneError::UndiscoveredReference);
         }
-        entry
-            .target
-            .clone()
-            .downcast::<T>()
-            .map_err(|_| ObjectGraphCloneError::TypeMismatch)
+        if entry.target.as_ref().type_id() != source.as_ref().type_id() {
+            return Err(ObjectGraphCloneError::TypeMismatch);
+        }
+        Ok(entry.target.clone())
+    }
+    pub fn object(
+        &self,
+        source: &ObjectGraphObject,
+        policy: ObjectCloneFieldPolicy,
+    ) -> Result<ObjectGraphObject, ObjectGraphCloneError> {
+        match policy {
+            ObjectCloneFieldPolicy::Shared => Ok(source.clone()),
+            ObjectCloneFieldPolicy::Required => self.required_object(source),
+            ObjectCloneFieldPolicy::Registered => {
+                if self.registered.contains(&source.as_ref().type_id()) {
+                    self.required_object(source)
+                } else {
+                    Ok(source.clone())
+                }
+            }
+        }
+    }
+    pub fn optional_object(
+        &self,
+        source: &Option<ObjectGraphObject>,
+        policy: ObjectCloneFieldPolicy,
+    ) -> Result<Option<ObjectGraphObject>, ObjectGraphCloneError> {
+        source.as_ref().map(|s| self.object(s, policy)).transpose()
     }
     /// Preserve explicitly shared facts; discovered objects resolve to copies.
     pub fn copied_or_shared<T: Any + Send + Sync>(
@@ -132,25 +186,86 @@ impl<'a> ObjectGraphDiscovery<'_, 'a> {
         &mut self,
         source: &Arc<T>,
     ) -> Result<(), ObjectGraphCloneError> {
+        let source: Object = source.clone();
+        self.enqueue(&source, PlanningType::of::<T>())
+    }
+    fn enqueue(
+        &mut self,
+        source: &ObjectGraphObject,
+        kind: PlanningType,
+    ) -> Result<(), ObjectGraphCloneError> {
         let key = Arc::as_ptr(source) as *const () as usize;
         if self.view.indices.contains_key(&key) {
             return Ok(());
         }
-        let kind = PlanningType::of::<T>();
         let rule = self
             .registry
             .rules
             .get(&kind)
             .ok_or(ObjectGraphCloneError::MissingFactory(kind))?;
-        let source: Object = source.clone();
-        let target = (rule.allocate)(&source)?;
+        let target = (rule.allocate)(source)?;
         self.view.indices.insert(key, self.view.entries.len());
         self.view.entries.push(Entry {
-            source,
+            source: source.clone(),
             target,
             kind,
         });
         Ok(())
+    }
+    pub fn required_object(
+        &mut self,
+        source: &ObjectGraphObject,
+    ) -> Result<(), ObjectGraphCloneError> {
+        let id = source.as_ref().type_id();
+        let kind = *self
+            .registry
+            .kinds
+            .get(&id)
+            .ok_or(ObjectGraphCloneError::MissingDynamicFactory(id))?;
+        self.enqueue(source, kind)
+    }
+    pub fn object(
+        &mut self,
+        source: &ObjectGraphObject,
+        policy: ObjectCloneFieldPolicy,
+    ) -> Result<(), ObjectGraphCloneError> {
+        match policy {
+            ObjectCloneFieldPolicy::Shared => Ok(()),
+            ObjectCloneFieldPolicy::Required => self.required_object(source),
+            ObjectCloneFieldPolicy::Registered => {
+                if self.registry.kinds.contains_key(&source.as_ref().type_id()) {
+                    self.required_object(source)
+                } else {
+                    Ok(())
+                }
+            }
+        }
+    }
+    pub fn optional_object(
+        &mut self,
+        source: &Option<ObjectGraphObject>,
+        policy: ObjectCloneFieldPolicy,
+    ) -> Result<(), ObjectGraphCloneError> {
+        if let Some(s) = source {
+            self.object(s, policy)?;
+        }
+        Ok(())
+    }
+    /// Require a type's clone factory for a declared deep field, including nulls.
+    /// A null value does not waive the field's type-policy requirement.
+    pub fn required_optional_field<Owner: 'static, T: Any + Send + Sync>(
+        &mut self,
+        field: &str,
+        source: &Option<Arc<T>>,
+    ) -> Result<(), ObjectGraphCloneError> {
+        if !self.has_factory::<T>() {
+            return Err(ObjectGraphCloneError::RequiredFieldWithoutFactory {
+                owner: PlanningType::of::<Owner>(),
+                field: field.into(),
+                target: PlanningType::of::<T>(),
+            });
+        }
+        self.optional_field(source, ObjectCloneFieldPolicy::Required)
     }
     pub fn weak<T: Any + Send + Sync>(
         &mut self,
@@ -162,7 +277,7 @@ impl<'a> ObjectGraphDiscovery<'_, 'a> {
         Ok(())
     }
 }
-pub struct CopiedObjectGraph<T> {
+pub struct CopiedObjectGraph<T: ?Sized> {
     pub root: Arc<T>,
     pub objects: ObjectGraphCloneView,
 }
@@ -183,6 +298,7 @@ pub struct CopiedBasicObjectGraph<T, V> {
 /// Copy work is O(discovered objects + declared edges), excluding callback work.
 pub struct ObjectGraphCloneRegistry<'a> {
     rules: HashMap<PlanningType, Rc<Rule<'a>>>,
+    kinds: HashMap<TypeId, PlanningType>,
 }
 impl Default for ObjectGraphCloneRegistry<'_> {
     fn default() -> Self {
@@ -193,6 +309,7 @@ impl<'a> ObjectGraphCloneRegistry<'a> {
     pub fn new() -> Self {
         Self {
             rules: HashMap::new(),
+            kinds: HashMap::new(),
         }
     }
     pub fn register<T: Any + Send + Sync>(
@@ -206,6 +323,7 @@ impl<'a> ObjectGraphCloneRegistry<'a> {
         if self.rules.contains_key(&kind) {
             return Err(ObjectGraphCloneError::DuplicateFactory(kind));
         }
+        self.kinds.insert(kind.id(), kind);
         self.rules.insert(
             kind,
             Rc::new(Rule {
@@ -243,15 +361,34 @@ impl<'a> ObjectGraphCloneRegistry<'a> {
         &self,
         source: &Arc<T>,
     ) -> Result<CopiedObjectGraph<T>, ObjectGraphCloneError> {
+        let kind = PlanningType::of::<T>();
+        if !self.rules.contains_key(&kind) {
+            return Err(ObjectGraphCloneError::MissingFactory(kind));
+        }
+        let source: Object = source.clone();
+        let copied = self.copy_object(&source)?;
+        Ok(CopiedObjectGraph {
+            root: copied
+                .root
+                .downcast::<T>()
+                .map_err(|_| ObjectGraphCloneError::TypeMismatch)?,
+            objects: copied.objects,
+        })
+    }
+    /// Copy a type-erased root with registered concrete-type factories.
+    pub fn copy_object(
+        &self,
+        source: &ObjectGraphObject,
+    ) -> Result<CopiedObjectGraph<dyn Any + Send + Sync>, ObjectGraphCloneError> {
         let mut context = ObjectGraphDiscovery {
             registry: self,
             view: ObjectGraphCloneView {
                 entries: Vec::new(),
                 indices: HashMap::new(),
-                registered: self.rules.keys().copied().collect(),
+                registered: self.kinds.keys().copied().collect(),
             },
         };
-        context.required(source)?;
+        context.required_object(source)?;
         let mut cursor = 0;
         while cursor < context.view.entries.len() {
             let entry = &context.view.entries[cursor];
@@ -263,7 +400,7 @@ impl<'a> ObjectGraphCloneRegistry<'a> {
         for entry in &context.view.entries {
             (self.rules[&entry.kind].populate)(&entry.source, &entry.target, &context.view)?;
         }
-        let root = context.view.required(source)?;
+        let root = context.view.required_object(source)?;
         Ok(CopiedObjectGraph {
             root,
             objects: context.view,
