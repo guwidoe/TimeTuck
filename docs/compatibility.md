@@ -8289,3 +8289,28 @@ The dashboard now records 3,791/4,855 passing source cases (78.084%), 496 pendin
 568 excluded and zero failed/unverified. Actual output checksums and freshness were
 validated; three changed Rust jobs ran and 1,055 unchanged jobs reused results.
 Performance measurements were preserved with their existing freshness status.
+
+### Typed configuration properties and signed arithmetic
+
+ConfigPropertyRegistry binds explicit typed setters to named string inputs. It
+validates unknown keys, duplicate input keys and parsing errors before any setter
+executes, preserves omitted fields, and rejects duplicate registrations. FromStr
+provides strict native parsing; Java reflection/coercion and constructor parity
+are not implied. Setter panics can retain earlier setter effects. Merge/meld
+helpers preserve absent/conflicting property behavior. Signed ceiling division
+avoids floating conversion and numerator overflow, with typed zero/overflow
+errors. Abbreviation reads at most four entries, including unbounded iterators.
+
+Eight complete ConfigUtilsTest methods retain every source criterion, including
+all twelve signed division rows and thirteen primitive/nullable/decimal/string/
+enum bean properties. The TEST-only bean and enum retain provenance/notices.
+Four originals check mutation failures, wide integer arithmetic, bounded iteration
+and configuration of an actual solver. Focused tests passed on runner-a. Six JVM
+reflection-related source methods remain pending; no source credit is given to
+original tests. Existing solver/search/scoring and performance workloads unchanged.
+
+Frozen round89 verification passed on runner-a: 7,196 Rust tests,290 doctests,
+3,799/4,855 source cases (78.249%),488 pending,568 excluded and zero failed or
+unverified cases. Three Rust jobs ran;1,057 Rust and46 Python jobs reused actual
+unchanged evidence. Dashboard freshness and original archive/log checksums were
+validated. No benchmark evidence was retagged or unrelated benchmark rerun.

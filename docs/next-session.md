@@ -4,7 +4,7 @@
 
 Build an independent Rust constraint optimization solver using pinned Timefold
 Community tests/public APIs as specifications, with a visual compatibility and
-performance dashboard. Objective incomplete; goal tool confirmed active this turn.
+performance dashboard. Objective incomplete; continue implementation after restored SSH access.
 Keep pursuing the full objective; this batch is not completion. Never copy or translate
 upstream production; Community only, no formal clean-room claim. Upstream pin
 remains v2.7.0, `8b815bc6b5f3eb81feedc94dea0885a93b267762`.
@@ -15,6 +15,39 @@ unpublished. Conventional Commits, never amend/rebase/push. The current user dir
 compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
+
+## Latest verified checkpoint — round89
+
+Typed configuration setters/utilities integrated as 85993f8 from the existing
+worktree branch codex/construction-validation (5f7c440). Eight complete source
+ConfigUtilsTest cases and four originals passed focused runner-a tests in25.729s.
+No focused failure or production repair. Native setters preflight unknown keys,
+duplicates and parse errors before mutation; omitted fields retained. Signed
+ceiling division handles signs/zero/overflow without floating rounding, and
+abbreviation consumes at most four entries. Source bean/enum retain provenance.
+Original controls include an actual solver, wide integer boundaries and mutation
+failures. Six JVM reflection cases remain pending. Core solver/search/scoring and
+performance workload bytes unchanged.
+
+Frozen runner-a bash scripts/check.sh passed in286.421seconds including prebuild:
+7,196 Rust tests and290 doctests; 3,799/4,855 (78.249%),488pending,568excluded,
+zero failed/unverified. Three Rust jobs ran;1,057 Rust and46 Python jobs reused
+genuine unchanged inputs. Clippy passed; actual collection validated original log
+checksums, source/report digests, source criteria and dashboard freshness.
+Rust digest: f2aec1786bb2ca402f253fccf443620253279bbaec57419d4d3925ff84da1fd1.
+Report digest: 7af624b13456626d21923533fa39259ad9c4989e6eb0f969264cf6ea4d07e04d.
+Remote root: 53b52c18c5a42fd7329cb29c2757955a7c50cc8d866c28b24ce30923d3b0f5d5.
+Archive work/round89-runner-a-results.tar.gz SHA256:
+c2e98cf4c3bf960cd94d16626c379b1dd6f12dbda22f937bd051f151fb8f1489.
+Evidence: work/parallel-round89-evidence.json; clean postcommit proof:
+work/round89-postcommit-evidence.json. K-opt inputs current, older list data stale.
+No benchmark refresh, release rerun, browser checks or new agents.
+
+Continue closing core compatibility gaps. Remaining core gaps include construction
+configuration validation, random entity value-range selectors, multi-entity K-opt
+seams, domain/accessor contracts and XML/factory interoperability. Do not fabricate
+JVM contracts or supply expected partitions to earn compatibility credit. Preserve
+performance importance and selective result reuse. Full objective remains incomplete.
 
 ## Latest verified checkpoint — round88
 
@@ -50,12 +83,6 @@ Archive work/round88-runner-a-results.tar.gz SHA256:
 Evidence: work/parallel-round88-evidence.json; clean postcommit proof:
 work/round88-postcommit-evidence.json. K-opt measured inputs remain current;
 older list data remains stale. No benchmark refresh or browser verification needed.
-
-Next batch is typed configuration property utilities on codex/construction-validation
-in /home/ralph/.codex/worktrees/dependency-graph/TimeTuck. Main remained frozen
-through collection. Finish eight ConfigUtilsTest cases with explicit native setters,
-record provenance, focused verification and one final coherent batch check.
-No new agents; objective active and incomplete.
 
 ## Latest verified checkpoint — round87
 
