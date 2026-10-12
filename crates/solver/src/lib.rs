@@ -1492,3 +1492,10 @@ pub use solution_list_binding::{
     BoundListEntity, BoundListSolution, ListSolutionBindingError, SolutionListCollection,
     SolutionListEntityRecord,
 };
+
+mod custom_constraint_declaration;
+pub use custom_constraint_declaration::{
+    ConstraintDeclarationError, CustomConstraintDeclaration, DeclaredCustomConstraint,
+};
+mod ordered_join_conditions;
+pub use ordered_join_conditions::{OrderedJoinConditions, OrderedJoinError};

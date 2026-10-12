@@ -7562,3 +7562,27 @@ callback-panic rollback and real dense/stream optimization retaining object iden
 An opt-in indexed list binding preserves the same object order/optionality/pins;
 indexed and Eq-only membership paths are tested separately. No Hash or payload-Clone
 bound is imposed on the default object payloads. No throughput measurement is claimed.
+
+### Executable custom constraint declarations and ordered joins
+
+Four complete failWithMultipleJustifications methods preserve every construction
+failure hint and the uni/bi/tri/quad source prefix, equality joins, factor 2 and
+penalty weight. An actual typed declaration owns its input port, weight and factor,
+retains one executable custom justification callback and rejects a second without
+replacing the first. Building registers a real weighted graph terminal; explanations
+use its actual live tuples/scores and the retained callback. Existing per-request
+explanation views remain independent. This is not a global callback registry or
+Java API/ABI implementation. The ordered score/fact helper fixture is attributed.
+
+The complete bi filtering-order method rejects an indexed condition after an actual
+filter before adding graph nodes or evaluating callbacks. Valid ordered sequences
+compile through native compound indexes and short-circuiting filters. Direct
+JoinConditions normalization remains unchanged; the native ordered API makes this
+construction rule explicit.
+
+Five originals exercise configured callback execution and first-registration
+preservation, changed retained scores/weight overrides/zero matches, ordered actual
+fact references, independent indictment deduplication, explanation panic isolation,
+foreign handles, live indexed/filter updates and transactional undo. Scoring callbacks
+are not replayed when explaining. These controls add no source-method credit.
+Candidate/search loops unchanged; no new throughput measurements are claimed.

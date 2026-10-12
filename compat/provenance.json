@@ -55059,6 +55059,81 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve actual v1/v2, e1/e2 and initial v1 index 0, no inverse member, required list metadata, all three score/match sets and incremental assignment/unassignment. Native ListProblem moves replace Java list notification calls; selection reads current assignment membership, never a fabricated inverse/index getter. A native provider alias and actual entity collection reads replace the dual entity/provider getter. Eq planning identity uses immutable code; current planning lists/positions live in the native assignment, while Arc object payloads retain immutable fact/initial-state data. Every match checks the original actual allocation. No Java listener/ABI trace equivalence claimed."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.failWithMultipleJustifications",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "failWithMultipleJustifications",
+      "local_path": "crates/solver/tests/constraint_declaration_cases.rs",
+      "local_test": "uni_fail_with_multiple_justifications",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete duplicate justifyWith construction failure and exact diagnostic hint. Actual native declaration retains one typed callback and rejects the second before adding its score terminal; no callback runs at registration. Preserve factor 2, penalty weight and source arity/prefix: uni entity, bi unique entity pair, tri equal-value entity pair joined to that value, quad additionally joined to the same value. Arc-backed ordered actual facts replace Java Object[]; native composed tuple shapes replace Java tuple arguments. The built native declaration executes its retained callback on actual graph scores when explaining; per-request explanation views remain independent, not a global callback registry or Java API/ABI implementation."
+    },
+    {
+      "id": "AbstractBiConstraintStreamTest.failWithMultipleJustifications",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "failWithMultipleJustifications",
+      "local_path": "crates/solver/tests/constraint_declaration_cases.rs",
+      "local_test": "bi_fail_with_multiple_justifications",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete duplicate justifyWith construction failure and exact diagnostic hint. Actual native declaration retains one typed callback and rejects the second before adding its score terminal; no callback runs at registration. Preserve factor 2, penalty weight and source arity/prefix: uni entity, bi unique entity pair, tri equal-value entity pair joined to that value, quad additionally joined to the same value. Arc-backed ordered actual facts replace Java Object[]; native composed tuple shapes replace Java tuple arguments. The built native declaration executes its retained callback on actual graph scores when explaining; per-request explanation views remain independent, not a global callback registry or Java API/ABI implementation."
+    },
+    {
+      "id": "AbstractTriConstraintStreamTest.failWithMultipleJustifications",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "failWithMultipleJustifications",
+      "local_path": "crates/solver/tests/constraint_declaration_cases.rs",
+      "local_test": "tri_fail_with_multiple_justifications",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete duplicate justifyWith construction failure and exact diagnostic hint. Actual native declaration retains one typed callback and rejects the second before adding its score terminal; no callback runs at registration. Preserve factor 2, penalty weight and source arity/prefix: uni entity, bi unique entity pair, tri equal-value entity pair joined to that value, quad additionally joined to the same value. Arc-backed ordered actual facts replace Java Object[]; native composed tuple shapes replace Java tuple arguments. The built native declaration executes its retained callback on actual graph scores when explaining; per-request explanation views remain independent, not a global callback registry or Java API/ABI implementation."
+    },
+    {
+      "id": "AbstractQuadConstraintStreamTest.failWithMultipleJustifications",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "failWithMultipleJustifications",
+      "local_path": "crates/solver/tests/constraint_declaration_cases.rs",
+      "local_test": "quad_fail_with_multiple_justifications",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete duplicate justifyWith construction failure and exact diagnostic hint. Actual native declaration retains one typed callback and rejects the second before adding its score terminal; no callback runs at registration. Preserve factor 2, penalty weight and source arity/prefix: uni entity, bi unique entity pair, tri equal-value entity pair joined to that value, quad additionally joined to the same value. Arc-backed ordered actual facts replace Java Object[]; native composed tuple shapes replace Java tuple arguments. The built native declaration executes its retained callback on actual graph scores when explaining; per-request explanation views remain independent, not a global callback registry or Java API/ABI implementation."
+    },
+    {
+      "id": "AbstractBiConstraintStreamTest.join_filtering_comesLast",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "join_filtering_comesLast",
+      "local_path": "crates/solver/tests/constraint_declaration_cases.rs",
+      "local_test": "bi_join_filtering_comes_last",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid construction state for a real false filtering callback before equality on entity/value and the subsequent extra join/penalty stages. Native OrderedJoinError::IndexedAfterFiltering replaces IllegalStateException. Typed projections retain actual value/allocation getters; order validation precedes graph node creation and callback invocation. Valid plans compile to native compound indexes and real short-circuit filters. Existing direct JoinConditions normalization remains unchanged; no Java API parity claimed."
     }
   ],
   "fixtures": [
@@ -76940,6 +77015,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt actual root/base/extended storage, extraObject fields, default no overrides, code/value/list fields, fully-pinned flag and index-only shadow value without inverse storage. Native explicit metadata/getters replace Java discovery; child components inherit genuine metadata from the owned base. Native current assignments own changing planning fields; immutable Arc allocations preserve object matches without payload clones. Provider/entity dual roles use an explicit provider alias. Eq/Hash use stable code identity rather than changing shadow index. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "configured-custom-justification-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractConstraintStreamTest.java",
+      "upstream_test": "TestConstraintJustification TEST helper score/facts fields and constructor",
+      "local_path": "crates/solver/tests/fixtures/custom_justification_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native SimpleScore and ordered Vec<Arc<dyn Any + Send + Sync>> retain actual score/object references instead of Java generic Score/Object[] and Objects.requireNonNull. Used in the four complete construction-error methods and an original executing callback control; fixture attribution adds no method credit. Lavish source roles use the previously attributed fixture unchanged."
     }
   ]
 }
