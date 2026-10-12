@@ -1,6 +1,6 @@
 //! Compile solution component declarations and bind their concrete basic models.
 use crate::{
-    ComposedPlanningSchema, FiniteProblem, ManagedValueRanges, ModelError, PlanningComposition,
+    ComposedPlanningSchema, FiniteProblem, ModelError, PlanningComposition,
     PlanningCompositionError, PlanningCompositionPolicy, PlanningSchema, PlanningType,
     PlanningVariableKind,
 };
@@ -27,6 +27,7 @@ pub enum SolutionMemberKind {
         provider: String,
     },
     Score(PlanningType),
+    ConstraintWeights(PlanningType),
 }
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SolutionMemberCategory {
@@ -36,6 +37,7 @@ pub enum SolutionMemberCategory {
     Entity,
     ValueRange,
     Score,
+    ConstraintWeights,
 }
 impl SolutionMemberKind {
     pub fn category(&self) -> SolutionMemberCategory {
@@ -54,6 +56,7 @@ impl SolutionMemberKind {
             } => SolutionMemberCategory::Entity,
             Self::ValueRange { .. } => SolutionMemberCategory::ValueRange,
             Self::Score(_) => SolutionMemberCategory::Score,
+            Self::ConstraintWeights(_) => SolutionMemberCategory::ConstraintWeights,
         }
     }
 }
@@ -167,6 +170,13 @@ impl SolutionMemberDefinition {
             SolutionMemberShape::Scalar,
         )
     }
+    pub fn constraint_weights<S: 'static>(name: impl Into<String>) -> Self {
+        Self::declaration(
+            name,
+            SolutionMemberKind::ConstraintWeights(PlanningType::of::<S>()),
+            SolutionMemberShape::Scalar,
+        )
+    }
     pub fn name(&self) -> &str {
         &self.name
     }
@@ -216,6 +226,14 @@ impl SolutionCompositionPolicy {
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum SolutionCompositionError {
+    MultipleConstraintWeights {
+        first: String,
+        second: String,
+    },
+    ConstraintWeightScoreType {
+        expected: PlanningType,
+        actual: PlanningType,
+    },
     MemberParameters {
         member: String,
         parameters: Vec<PlanningType>,
@@ -263,6 +281,10 @@ pub enum SolutionCompositionError {
 impl fmt::Display for SolutionCompositionError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::MultipleConstraintWeights { .. } => write!(
+                f,
+                "solution has more than one field of type ConstraintWeightOverrides"
+            ),
             Self::CollectionShape { member, .. } => write!(
                 f,
                 "solution member {member} does not return a Collection or an array."
@@ -475,6 +497,7 @@ impl SolutionComposition {
         let mut indices: HashMap<String, usize> = HashMap::new();
         let mut providers = HashSet::new();
         let mut score: Option<String> = None;
+        let mut weights: Option<String> = None;
         for index in order.into_iter().rev() {
             let c = &self.components[index];
             for member in &c.members {
@@ -491,6 +514,15 @@ impl SolutionComposition {
                     });
                 }
                 match &member.kind {
+                    SolutionMemberKind::ConstraintWeights(_) => {
+                        if let Some(first) = &weights {
+                            return Err(SolutionCompositionError::MultipleConstraintWeights {
+                                first: first.clone(),
+                                second: member.name.clone(),
+                            });
+                        }
+                        weights = Some(member.name.clone());
+                    }
                     SolutionMemberKind::Facts { allowed_types, .. } => {
                         if allowed_types.iter().collect::<HashSet<_>>().len() != allowed_types.len()
                         {
@@ -564,6 +596,23 @@ impl SolutionComposition {
         }
         if score.is_none() {
             return Err(SolutionCompositionError::MissingScore);
+        }
+        if let Some(name) = weights {
+            let SolutionMemberKind::ConstraintWeights(actual) = members[indices[&name]].kind()
+            else {
+                unreachable!()
+            };
+            let SolutionMemberKind::Score(expected) =
+                members[indices[score.as_ref().unwrap()]].kind()
+            else {
+                unreachable!()
+            };
+            if expected != actual {
+                return Err(SolutionCompositionError::ConstraintWeightScoreType {
+                    expected: *expected,
+                    actual: *actual,
+                });
+            }
         }
         Ok(ComposedPlanningSolution {
             entities: entity_schema,
@@ -705,8 +754,17 @@ pub struct BoundBasicSolution<V> {
     entities: Vec<BoundSolutionEntity>,
     collections: HashMap<String, Vec<usize>>,
     facts: Option<crate::BoundSolutionFacts>,
+    field_ranges: Vec<SolutionFieldRange>,
 }
 impl<V> BoundBasicSolution<V> {
+    pub fn value_range_descriptor_count(&self) -> usize {
+        self.field_ranges.len()
+    }
+    pub fn range_ordinal<E: 'static>(&self, variable: &str) -> Option<usize> {
+        self.field_ranges
+            .iter()
+            .position(|f| f.entity_type == PlanningType::of::<E>() && f.variable == variable)
+    }
     pub fn facts(&self) -> Option<&crate::BoundSolutionFacts> {
         self.facts.as_ref()
     }
@@ -753,6 +811,7 @@ impl ComposedPlanningSolution {
         ranges: Vec<SolutionRange<V>>,
         field_ranges: Vec<SolutionFieldRange>,
     ) -> Result<BoundBasicSolution<V>, SolutionBindingError> {
+        let descriptors = self.compile_variable_ranges(field_ranges)?;
         let mut range_values = HashMap::new();
         let mut bound_names = HashSet::new();
         for range in ranges {
@@ -851,35 +910,29 @@ impl ComposedPlanningSolution {
         for member in &self.members {
             if !matches!(
                 member.kind(),
-                SolutionMemberKind::Score(_) | SolutionMemberKind::Facts { .. }
+                SolutionMemberKind::Score(_)
+                    | SolutionMemberKind::Facts { .. }
+                    | SolutionMemberKind::ConstraintWeights(_)
             ) && !bound_names.contains(member.name())
             {
                 return Err(SolutionBindingError::MissingBinding(member.name().into()));
             }
         }
-        let mut managed: HashMap<(PlanningType, String), ManagedValueRanges<V>> = HashMap::new();
-        for field in field_ranges {
+        let mut managed = Vec::with_capacity(descriptors.iter().len());
+        for descriptor in descriptors.iter() {
+            let field = descriptor.definition();
             let error = || SolutionBindingError::InvalidFieldRange {
                 entity: field.entity_type,
                 variable: field.variable.clone(),
             };
-            let entity = self
-                .schema()
-                .entity_type(field.entity_type)
-                .map_err(|_| error())?;
-            let variable = entity
-                .genuine_variable(&field.variable)
-                .map_err(|_| error())?;
+            let variable = descriptor.variable();
             if !matches!(variable.kind(), PlanningVariableKind::Basic { .. }) {
                 return Err(SolutionBindingError::UnsupportedVariable {
                     entity: field.entity_type,
-                    variable: field.variable,
+                    variable: field.variable.clone(),
                 });
             }
-            if variable.value_type() != PlanningType::of::<V>()
-                || field.providers.is_empty()
-                || managed.contains_key(&(field.entity_type, field.variable.clone()))
-            {
+            if variable.value_type() != PlanningType::of::<V>() {
                 return Err(error());
             }
             let providers = field
@@ -898,17 +951,7 @@ impl ComposedPlanningSolution {
                     counts.get(&field.entity_type).copied().unwrap_or(0),
                 )
                 .map_err(|_| error())?;
-            managed.insert((field.entity_type, field.variable), ranges);
-        }
-        for entity in self.schema().entities() {
-            for variable in entity.genuine_variables() {
-                if !managed.contains_key(&(entity.entity_type(), variable.name().into())) {
-                    return Err(SolutionBindingError::MissingFieldRange {
-                        entity: entity.entity_type(),
-                        variable: variable.name().into(),
-                    });
-                }
-            }
+            managed.push(ranges);
         }
         let mut variables = vec![];
         let mut bound_entities = vec![];
@@ -918,9 +961,10 @@ impl ComposedPlanningSolution {
             let entity = self.schema().entity_type(record.entity_type).unwrap();
             let mut slots = vec![];
             for (field, initial) in entity.genuine_variables().zip(values) {
-                let mut variable = managed[&(record.entity_type, field.name().into())]
-                    .variable(*ordinal)
+                let descriptor = descriptors
+                    .get_type(record.entity_type, field.name())
                     .unwrap();
+                let mut variable = managed[descriptor.ordinal()].variable(*ordinal).unwrap();
                 if let Some(value) = initial {
                     variable = variable.with_initial(value);
                 }
@@ -940,6 +984,7 @@ impl ComposedPlanningSolution {
             entities: bound_entities,
             collections: member_rows,
             facts: None,
+            field_ranges: descriptors.iter().map(|d| d.definition().clone()).collect(),
         })
     }
 }

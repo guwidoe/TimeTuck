@@ -250,6 +250,10 @@ impl PartialEq for PlanningEntityRef<'_> {
 }
 impl Eq for PlanningEntityRef<'_> {}
 impl<'a> PlanningEntityRef<'a> {
+    /// Dense descriptor index within this schema, independent of object rows.
+    pub fn ordinal(self) -> usize {
+        self.index
+    }
     pub fn definition(self) -> &'a PlanningEntityDefinition {
         &self.schema.entities[self.index]
     }

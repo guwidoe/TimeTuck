@@ -1404,6 +1404,12 @@ mod identity_ordered_set;
 pub use identity_ordered_set::{IdentityOrderedIter, IdentityOrderedSet, IdentitySnapshot};
 
 mod solution_facts;
+mod solution_variable_ranges;
+pub use solution_variable_ranges::{SolutionVariableRange, SolutionVariableRanges};
+mod solution_weights;
+pub use solution_weights::{BoundSolutionWeights, SolutionWeightAccessor, SolutionWeightError};
+mod named_shadow_supplier;
+pub use named_shadow_supplier::{NamedShadowSuppliers, NamedSupplierError};
 pub use solution_facts::{
     BoundSolutionFacts, SolutionFactAccessors, SolutionFactError, SolutionFactRecord,
 };

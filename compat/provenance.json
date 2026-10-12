@@ -54834,6 +54834,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "local_path": "crates/solver/tests/solution_registry_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionDescriptorTest.testMultipleConstraintWeights",
+      "upstream_test": "testMultipleConstraintWeights",
+      "local_test": "test_multiple_constraint_weights",
+      "modifications": "Preserve both diagnostic assertions for two actual declared solution constraint-weight fields. Native ConstraintWeightOverrides terminology replaces the qualified Java interface type; actual solution declarations compile and reject duplicate roles."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "local_path": "crates/solver/tests/solution_registry_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionDescriptorTest.missingDeclarativeSupplierName",
+      "upstream_test": "missingDeclarativeSupplierName",
+      "local_test": "missing_declarative_supplier_name",
+      "modifications": "Preserve all five diagnostic fragments: shadow target, absent calculateEndTime, declaring owner, planning-solution parameter hint and spelling hint. Native typed callable registration/validation replaces reflective method discovery and @ShadowVariable terminology. Register executable calculateStartTime/updateDurationInDays callbacks from the actual fixture; leave calculateEndTime absent. Value entity/provider roles are explicit separate native accessor declarations over the same solution storage. No Java reflection or inheritance dispatch equivalence claimed."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "local_path": "crates/solver/tests/solution_registry_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolutionDescriptorTest.testOrdinalId",
+      "upstream_test": "testOrdinalId",
+      "local_test": "test_ordinal_id",
+      "modifications": "Preserve two entity descriptor ordinals, three genuine variable-specific range descriptors and exact unordered IDs 0,1,2. Actual list/two-basic variable types and their two declared providers compile into borrowed canonical descriptors. A shared provider does not merge the two basic descriptors. Explicit native metadata replaces annotations; no comparator trace or heterogeneous solver-run equivalence claimed."
     }
   ],
   "fixtures": [
@@ -76403,6 +76448,123 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-1",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/invalid/constraintweightoverrides/TestdataInvalidConstraintWeightOverridesSolution.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-2",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySolution.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-3",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntityFirstEntity.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-4",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondEntity.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-5",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntityFirstValue.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-6",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondValue.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-7",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/missing/TestdataDeclarativeMissingSupplierSolution.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-8",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/missing/TestdataDeclarativeMissingSupplierEntity.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-registry-fixture-9",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/missing/TestdataDeclarativeMissingSupplierValue.java",
+      "upstream_test": "TEST fixture declarations and callable bodies used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_registry_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
     }
   ]
 }

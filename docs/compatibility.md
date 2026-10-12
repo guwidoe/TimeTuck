@@ -7486,3 +7486,29 @@ and dense/stream optimization where new fact payloads change the optimum from
 1 to 2. These originals earn no method credit. Legacy basic binding remains
 available; callers needing facts must bind/read them explicitly. No automatic
 reflective getter discovery, search-loop change or throughput claim is made.
+
+### Solution range, supplier and weight registries
+
+Three further complete SolutionDescriptorTest methods preserve entity ordinals,
+all three variable-specific range IDs in the mixed list/two-basic fixture, both
+multiple-weight diagnostic assertions and all five missing-supplier fragments.
+Native type names and registration terminology replace qualified Java interface,
+class and annotation names. Named callable registration and an explicit validation
+stage replace method discovery; inherited callbacks require concrete-owner
+registration. The source's absent calculateEndTime remains absent. Java immutable
+record/enum restrictions remain pending.
+
+Range compilation resolves every genuine field to actual typed provider members
+in schema order. Two basic fields sharing a provider retain separate descriptors.
+The basic binder indexes actual managed ranges by these ordinals; descriptor reads
+also build real typed list/basic models. Six original controls cover invalid links,
+canonical order, inherited weight duplicates, root/score signatures, old snapshot
+ownership, executable named suppliers in a real shadow session and changed solution
+weights changing a native stream solver optimum. These controls add no method credit.
+
+Explicit solution weight declarations must match the score type and may occur only
+once across reachable components. A typed accessor reads an owned weight map from
+the actual solution for graph initialization; rebuilding with a later snapshot
+changes weights while older graphs/snapshots retain their configuration. Callback
+side effects and external mutations are the caller's responsibility. No new search
+throughput or Java reflection/ABI compatibility claim is made.
