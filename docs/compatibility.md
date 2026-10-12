@@ -8453,3 +8453,13 @@ loader TEST helpers retain provenance/notices. Five originals verify complete un
 journals, repeated configuration/problem runs, physical uninitialized results, bounded
 template language/escaping, registration preflight and warm-up-before-measurements.
 Existing solver kernels, benchmark session/scheduling and Cargo dependencies unchanged.
+
+Frozen round93 check passed on runner-a:7,262 Rust tests,290 doctests;3,840/4,855
+source cases (79.094%),447pending,568excluded,zero failed/unverified. Three Rust jobs
+ran;1,065 Rust and46 Python jobs reused unchanged evidence. Actual source/log/archive
+hashes and report freshness checked. A deliberate fresh K-opt run after correctness
+retains all128 native validated outcomes and8 timed scores/call counts. Current
+sampled Java/Rust ratios4.752–15.188; window0.153–1.319. Native window medians are
+37–39% slower than historical round71, while Java timings also rose; cause unproven.
+A post-timing read found the host on battery/powersave, without historical power
+metadata. Current measurements are retained; older list results remain stale.

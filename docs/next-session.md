@@ -16,21 +16,61 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Round93 implementation — focused verification passed
+## Latest verified checkpoint — round93
 
-Benchmark XML/configuration factory and bounded literal-list templates implemented
-without new dependencies. Actual native runners/file adapters prepare existing
-benchmark suites and sessions; execution writes unique summary.json directories.
-All20 PlannerBenchmarkFactoryTest methods plus5 originals passed focused runner-a
-tests in26.553seconds, root398ac589d8c05134e669d885b347744b6cbb61452ce48f630eba534b4340eb1b.
-Provenance/resources/TEST-only loaders, no-change/empty-score/ordered-score helpers
-recorded. Native source physical results and output existence verified; no Java
-report/general FreeMarker/reflection claim. Initial local check corrected CPU
-parameter binding isize to i64 and removed unused import; no runtime repair.
-Shared solver/session/Cargo inputs unchanged; selective gate should reuse round92.
-Freeze Rust/provenance and run final bash scripts/check.sh once. Then deliberately
-refresh K-opt performance on idle runner-a with same pinned Java/workloads/configuration
-and real new inputs, preserving old measurements as history. No new agents.
+Benchmark XML factories/native journal execution integrated as a0e386e. Native XML
+resource/file/resolver loading, inherited solver settings, sub-run counts, warm-up
+budgets and deduplicated inputs prepare existing benchmark suites. Typed runner/file
+bindings validate before callbacks; untyped input guards reject null/wrong models.
+Sessions execute actual native solvers and write unique summary.json directories,
+retaining initialization/error/work data. Template dialect covers bounded literal
+lists/escaped substitutions and rejects unhandled language; no general FreeMarker,
+JVM reflection or Java report claim. Cargo/solver/session kernels unchanged.
+
+All20 PlannerBenchmarkFactoryTest source methods and5 originals passed focused
+verification in26.553seconds. Complete resource/template/helpers and criteria have
+provenance/notices. Sources preserve all path/resolver/error/type/null/directory,
+actual output, custom-uninitialized, repeated and3-solver/2-problem criteria.
+Originals cover unique complete journals, physical incomplete states, templates,
+preflight and global warm-up barrier. First local check corrected only CPU binding
+isize->i64 and unused import; no runtime repair. No Timefold production consulted.
+
+Frozen runner-a bash scripts/check.sh passed in313.205seconds including prebuild:
+7,262 Rust tests,290 doctests;3,840/4,855 (79.094%),447pending,568excluded,
+zero failed/unverified. Three Rust jobs ran;1,065 Rust and46 Python jobs reused
+actual unchanged results. Clippy passed; original frozen/log/archive/report/freshness
+checks succeeded. Root bc34f05700725fa5fe4d95de4abfaaa754bec014fb225f065484f1eb28e91305.
+Rust digest f57700044dd0649b3946cc66579168442066c4229dbc327ea143822087ef58db.
+Report digest d8f3624ed97222ec9d55d069fa1047d00050a2859986ab297f7753ded16dd714.
+Archive work/round93-runner-a-results.tar.gz SHA256:
+bf7aa0e9fbc3cd08215ab1529cd402bb9369a088b2fa5f9c91a26f7283e29fe2.
+Evidence work/parallel-round93-evidence.json; clean postcommit proof
+work/round93-postcommit-evidence.json. Gate10737/collector71257 terminal0.
+
+Fresh K-opt measured only after correctness completed, idle with respect to our
+builds, same runner-a/JDK25.0.4.1/Rust1.92 and unchanged paired work/configuration:
+3warmups,5samples,3forks. Worker91668/collector10551 terminal0,85.218seconds including
+release build. Measurement key 0c447bff0835fd29cdd586371e8788eacbba54cb610a669888f5d240befd1358.
+Measured at 2026-10-12T16:05:05.151611+00:00.
+Archive work/round93-performance-results.tar.gz SHA256:
+29e1e6b62c27a48994064b36765436ed40aca617aa3259c5e5bfb94910ae5d71.
+Evidence work/round93-performance-evidence.json; actual comparison
+work/round93-kopt-comparison.json. All128 native validation solutions/scores/calls
+and8 timed scores/call counts match old measurements; old evidence kept historical.
+Small-route optima:Rust128/128,Java114/128,114equal scores. Sampled Java/Rust ratios
+4.752–15.188; window0.153–1.319. Larger native windows still lag Java. Native window
+medians7.098/20.583/57.872/67.460ms, about37–39% slower than round71; cause not proven.
+Java window medians also slower by26–41%. Post-timing host read shows battery
+(AC0), powersave, turbo enabled; historical power state unrecorded. This suggests
+common host conditions may matter but is not causal proof. Do not silently discard
+these results or change the user's power settings. Investigate in a future performance
+batch if comparing against old timings; keep current quality/work/speed evidence.
+Current K-opt dashboard fresh; older list metrics stale. No browser verification
+needed for backend-only refresh. No new agents. Full goal remains incomplete.
+
+Continue compatibility gaps, using the established stable Cargo home/vendor lock
+binding. Kernel performance still matters; do not refresh unrelated measurements or
+repeat unchanged verification merely for a commit/new turn.
 
 ## Latest verified checkpoint — round92
 
