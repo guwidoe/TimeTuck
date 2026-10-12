@@ -56216,6 +56216,141 @@
       "local_path": "crates/solver/tests/schema_list_config_cases.rs",
       "local_test": "union_enable_nearby_mixed_model",
       "modifications": "Preserve complete source configured/default selector input, actual list valueList field/entity type, concrete unfolded family, PHASE/STEP cache metadata, ORIGINAL selection order, selected-count200 and destination entity/value/comparator-key assertions where present. Native resolved schema references and explicit metadata keys replace reflective configuration classes; comparator type is a registration key only because source tests do not invoke its body. SchemaMoveProvider continues to regenerate assignment-sensitive moves; retained cache/comparator metadata requires an explicit typed selection binding to execute. Union source capability remains false and earns no runtime union sampling credit. No production copied or Java API/ABI/RNG parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListAssignMoveTest.toStringTest",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListAssignMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "list_assign_to_string",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListChangeMoveTest.toStringTest",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "list_change_to_string",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListSwapMoveTest.toStringTest",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "list_swap_to_string",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListUnassignMoveTest.toStringTest",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListUnassignMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "list_unassign_to_string",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListChangeMoveTest.toStringTest",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "sub_list_change_to_string",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListSwapMoveTest.toStringTest",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "sub_list_swap_to_string",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListSwapMoveTest.tabuIntrospection_oneEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "tabuIntrospection_oneEntity",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "list_swap_tabu_introspection_one_entity",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListSwapMoveTest.tabuIntrospection_oneEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "tabuIntrospection_oneEntity",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "sub_list_swap_tabu_introspection_one_entity",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedListUnassignMoveTest.doMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListUnassignMoveTest.java",
+      "upstream_test": "doMove",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "local_test": "list_unassign_do_move",
+      "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
     }
   ],
   "fixtures": [
@@ -79124,6 +79259,84 @@
       "upstream_test": "complete configured unfolding input and comparator type identity",
       "local_path": "crates/solver/tests/schema_list_config_cases.rs",
       "modifications": "Adapt TEST-only valueList schema selection and explicit200 limit, PHASE/STEP and ORIGINAL options. DummyEntityComparator represented as an explicit native registration key; its unused compare body is not translated. Typed entity/value/schema metadata replaces annotations/reflection; native closest-first runtime provider tests are original and earn no source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-move-description-inputs-ListAssign",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListAssignMoveTest.java",
+      "upstream_test": "complete diagnostic/post-execution inspection/unassignment source input rows, codes and move coordinates",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "modifications": "Adapt TEST-only numbered values and complete actual rows/empty rows, E1/e1/e2 labels, coordinates and reversal options into Arc-valued native assignments/problems. Native index0/1 retains owner identity and label mapping; metadata cases do not require reflection, descriptor fields, scores or upstream production. All original expected strings and asserted post-execution facts retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-move-description-inputs-ListChange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListChangeMoveTest.java",
+      "upstream_test": "complete diagnostic/post-execution inspection/unassignment source input rows, codes and move coordinates",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "modifications": "Adapt TEST-only numbered values and complete actual rows/empty rows, E1/e1/e2 labels, coordinates and reversal options into Arc-valued native assignments/problems. Native index0/1 retains owner identity and label mapping; metadata cases do not require reflection, descriptor fields, scores or upstream production. All original expected strings and asserted post-execution facts retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-move-description-inputs-ListSwap",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListSwapMoveTest.java",
+      "upstream_test": "complete diagnostic/post-execution inspection/unassignment source input rows, codes and move coordinates",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "modifications": "Adapt TEST-only numbered values and complete actual rows/empty rows, E1/e1/e2 labels, coordinates and reversal options into Arc-valued native assignments/problems. Native index0/1 retains owner identity and label mapping; metadata cases do not require reflection, descriptor fields, scores or upstream production. All original expected strings and asserted post-execution facts retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-move-description-inputs-ListUnassign",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListUnassignMoveTest.java",
+      "upstream_test": "complete diagnostic/post-execution inspection/unassignment source input rows, codes and move coordinates",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "modifications": "Adapt TEST-only numbered values and complete actual rows/empty rows, E1/e1/e2 labels, coordinates and reversal options into Arc-valued native assignments/problems. Native index0/1 retains owner identity and label mapping; metadata cases do not require reflection, descriptor fields, scores or upstream production. All original expected strings and asserted post-execution facts retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-move-description-inputs-SubListChange",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListChangeMoveTest.java",
+      "upstream_test": "complete diagnostic/post-execution inspection/unassignment source input rows, codes and move coordinates",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "modifications": "Adapt TEST-only numbered values and complete actual rows/empty rows, E1/e1/e2 labels, coordinates and reversal options into Arc-valued native assignments/problems. Native index0/1 retains owner identity and label mapping; metadata cases do not require reflection, descriptor fields, scores or upstream production. All original expected strings and asserted post-execution facts retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-move-description-inputs-SubListSwap",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "upstream_test": "complete diagnostic/post-execution inspection/unassignment source input rows, codes and move coordinates",
+      "local_path": "crates/solver/tests/list_move_description_cases.rs",
+      "modifications": "Adapt TEST-only numbered values and complete actual rows/empty rows, E1/e1/e2 labels, coordinates and reversal options into Arc-valued native assignments/problems. Native index0/1 retains owner identity and label mapping; metadata cases do not require reflection, descriptor fields, scores or upstream production. All original expected strings and asserted post-execution facts retained."
     }
   ]
 }

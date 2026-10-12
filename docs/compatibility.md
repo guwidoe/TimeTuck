@@ -8177,3 +8177,37 @@ Overall 3,738/4,855 (76.993%) now pass, with 549 pending, 568 excluded and zero
 failed/unverified. Final 7,119 Rust tests and 290 doctests passed; 18 Rust jobs ran,
 1,034 Rust jobs and 46 Python jobs reused unchanged evidence. K-opt measurements
 remain current, prior list data stays stale, and no new performance claim is added.
+
+### List-move diagnostics and post-execution records
+
+Native describe_list_move formats each primitive through caller-supplied entity/value
+labels. It borrows only needed current values and requires neither Clone nor Eq.
+Assignment destinations and sublist spans remain descriptive metadata, including
+out-of-range coordinates deliberately present in the source diagnostics. Formatting
+is not execution validation. Missing values, reversed span bounds, multi-value
+unassignment and composite descriptions return typed errors; child coordinates in
+composites may refer to intermediate states and require separate stage descriptions.
+
+RecordedListMove validates preparation through the existing model checker, normalizes
+same-owner sublist swaps lower-span-first (also inside composites), retains moved
+values and compares movement identity independently of captured values. Single swaps
+inspect values at their original positions in the supplied current assignment;
+sublist swaps retain normalized pre-execution values. This separate inspection API
+preserves the actual source post-execution criteria without changing solver tabu or
+pre-move metadata behavior. Records expose the native movement for ordinary execution.
+
+Six diagnostic methods retain every string/input/reversal/normalization assertion,
+including insertion15 and sublist swaps on empty rows. Two same-owner inspection
+methods execute actual moves first, then retain exact entity/value order and normalized
+equality criteria. The complete unassign doMove adaptation removes last, then remaining
+values, and checks all four original value/range notifications with no extra callbacks
+of those kinds. Native lifecycle additionally has its explicit final flush; source
+verification does not impose callback order. TEST inputs retain provenance/notices.
+Four originals cover non-Clone/non-Eq values, Unicode labels, malformed metadata,
+immutability, nested normalization/equality, retained values and preparation/query
+errors. Originals earn no source credit. No production implementation is copied.
+Overall 3,747/4,855 (77.178%) now pass; 540 pending, 568 excluded and zero
+failed/unverified. Final 7,132 Rust tests and 290 doctests passed, with three Rust
+jobs rerun, 1,051 Rust jobs and 46 Python jobs reused. Core list validation/lifecycle,
+scoring and search bytes remain unchanged. K-opt measurements are current, prior
+list data stays stale, and no comparative performance claim is added.

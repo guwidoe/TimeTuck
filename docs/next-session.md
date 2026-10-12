@@ -16,6 +16,49 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round86
+
+describe_list_move supplies explicit labeled diagnostics for primitive list moves,
+borrowing needed values without Clone/Eq. Source insertion15 and empty-row sublist
+coordinates intentionally remain format-only metadata; this is no doability claim.
+Missing source values, reversed spans, multi-value unassignment and composite
+formatting return typed errors. Composite stages need their own current coordinates.
+RecordedListMove prepares through native validation, normalizes same-owner sublist
+swaps lower-first even inside nested composites, retains values and compares only
+actual normalized movement. Single swaps inspect the supplied executed assignment's
+original positions; sublist swaps retain normalized pre-move values. Existing solver
+pre-move metadata and tabu policy remain unchanged. Records expose actual moves for
+normal transactional execution; formatting is outside solver hot paths.
+
+Nine complete upstream cases now pass: six list primitive string methods, same-owner
+list/sublist swap post-execution inspection, and ListUnassign doMove. Preserve every
+input/string/reversal/normalization, actual execution before inspection, Arc identity,
+entity/value order and normalized equality criterion. Unassignment removes last then
+remaining values, with all four original range/value callbacks and no other callbacks
+of those kinds. Native explicit flush is additional; source verification has no call
+order requirement. TEST-only inputs/provenance/notices retained; no production copied.
+Four originals cover non-Clone/non-Eq values, Unicode labels, malformed metadata,
+immutability, nested normalization/capture/equality and preparation/live-query errors.
+Focused cases/controls passed first compile/runtime; no repairs were needed.
+
+Frozen runner-a bash scripts/check.sh passed: 7,132 Rust tests, 290 doctests;
+3,747/4,855 (77.178%), 540 pending, 568 excluded, zero failed/unverified. Actual3 Rust
+RUN/1,051 REUSE/46 Python REUSE; 206.747 seconds including prebuild. Clippy clean.
+Report/freshness verified; postcommit proof checks clean state, frozen hashes, actual
+archives/report and unchanged list validation/lifecycle/core scoring/search bytes.
+K-opt measured inputs remain current; older list measurements stale. No benchmark,
+release suite, UI rerun or agents. The K-opt3 implicit seam cases remain pending;
+do not feed expected target rows or partitions to claim them passed.
+Rust: d96ef3d798db7a53d5c93bd07024a4a3cc2784acfb0cba9ae63305fb18b440ed.
+Report: e4d8116104fc01036267d2f961c37b519de6f0a7941ff12aba32ea6c11bc1967.
+Remote root: bfe7c5875c5dcce5c775f3fd0cdd61accd24116a17625e85bb50f4758cdeb614.
+Archive work/round86-runner-a-results.tar.gz SHA256:
+d03b9cce517de64c4069ac7b4ca1fb70b0d48604dbec94ffeedd64772ca9a1c5.
+Evidence/freeze: work/parallel-round86-evidence.json and parallel-round86-freeze.json.
+Proof: work/verify_round86_postcommit.py. Next gate seeds actual round86 archive/root.
+Objective remains active/incomplete. Continue substantive compatibility and runtime
+gaps with performance important, unchanged verification reused, and no new agents.
+
 ## Latest verified checkpoint — round85
 
 NearbyMoveProvider now binds validated leaf nearby configuration to an explicit typed
