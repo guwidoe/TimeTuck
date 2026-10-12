@@ -1511,10 +1511,15 @@ pub use solution_mixed_binding::{
     BoundMixedEntity, BoundMixedSolution, MixedSolutionBindingError, SolutionMixedCollection,
     SolutionMixedEntityRecord,
 };
+mod object_graph_clone;
 mod solution_basic_accessors;
 mod solution_basic_clone;
 mod solution_basic_clone_plan;
 mod solution_list_clone_plan;
+pub use object_graph_clone::{
+    CopiedBasicObjectGraph, CopiedObjectGraph, ObjectGraphCloneError, ObjectGraphCloneRegistry,
+    ObjectGraphCloneView, ObjectGraphDiscovery,
+};
 pub use solution_basic_accessors::{
     BasicEntityFields, BasicSolutionAccessError, SolutionBasicAccessors,
 };

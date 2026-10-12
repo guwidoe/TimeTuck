@@ -7890,3 +7890,28 @@ Abstract cloner3/14 methods passed,11 pending; overall3,693/4,855 (76.066%),594 
 568 excluded,zero failed/unverified. Final7,032 Rust tests/290 doctests;5 changed Rust
 jobs/1,023 reused jobs/46 Python reuses. Default raw solver paths remain unchanged;
 K-opt's measurement inputs remain current without an unrelated benchmark refresh.
+
+### Iterative registered object graph cloning
+
+ObjectGraphCloneRegistry separates typed shell allocation, edge discovery and field
+population. Discovery is iterative and memoizes actual allocations, so repeated
+references allocate once. All shells exist before population, enabling weak cycles/
+backlinks and deep graphs without recursive traversal. Required/collection/weak
+lookups reject undiscovered references; explicit sharing preserves immutable facts.
+The owned identity view retains both source/copy allocations. Registered callbacks
+choose fields and safe mutable/once-initialized storage; this does not infer arbitrary
+Rust fields or Java annotations. Errors return no graph, callback effects are not
+undone and panics propagate. Strong cycles/Arc destruction keep standard Rust behavior.
+copy_basic rebinds actual typed planning data and checks score/values/layout/isolation.
+
+Two complete AbstractSolutionClonerTest cases retain actual2-value/2-entity backlink
+inputs and a full one-entity/one-root-value dependency chain. Backlinks resolve to the
+new root and original references remain intact. Deep copy uses native100000-level
+stress in place of JVM-measured MAX_STACK_FRAMES+128; all root/collection/entity/value,
+date/duration/ID and chain checks are preserved. Iterative cleanup occurs after all
+assertions to avoid testing recursive Arc destruction. TEST fixtures/helpers are
+attributed. Three originals cover aliases/sharing/foreign references, rule errors,
+undiscovered edges and callback failure/retry. Abstract cloner5/14 passed,9 pending;
+overall3,695/4,855 (76.107%),592 pending,568 excluded,zero failed/unverified. Final7,037
+Rust tests/290 doctests;3 changed Rust jobs/1,027 reused jobs/46 Python reuses. No raw
+solver changes or comparative performance claim; K-opt's input digest stays current.

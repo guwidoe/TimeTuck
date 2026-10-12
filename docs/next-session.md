@@ -16,6 +16,59 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round76
+
+ObjectGraphCloneRegistry provides explicitly registered typed allocation/discovery/
+population rules. Discovery allocates/enqueues actual objects once through an owned
+identity map; it does not recurse into edges. All shells exist before fill callbacks,
+allowing weak cycles/backlinks to resolve to copied targets. Population has a fixed
+immutable view and cannot silently add undiscovered dependencies. Required, collection,
+weak and copied-or-shared lookups retain actual allocation identity; map ownership
+prevents recycled source addresses. Missing/duplicate rules, undiscovered edges and
+callback errors fail without returning a graph. Callback effects/escaped shells are
+not undone; panics propagate. Strong ownership cycles and deep Arc destruction keep
+ordinary Rust semantics. Factory policies explicitly choose fields/shared facts; no
+reflection or automatic arbitrary field inference claim. O(objects+declared edges)
+framework work excludes callback work. copy_basic rebinds a real typed native model
+and validates score, current planning values/aliases, ranges and entity isolation.
+
+Two complete AbstractSolutionClonerTest methods now pass. Backlink fixture preserves
+actual generateSolution(2,2) objects/codes/values, absent score and every original root/
+entity/reference assertion; native Weak pointers replace Java strong parent refs and
+resolve to the actual cloned root, with native binding after copy. Deep fixture keeps
+one entity with date2000-01-01T00:00:00, one root value/hour duration and sequential
+child IDs; all root/collection/entity/value and chain assertions remain. Native depth
+100000 explicitly replaces JVM-measured MAX_STACK_FRAMES+128, proving iterative copy
+of that full depth. No expected output/code-only stand-ins. Native strong dependency
+chains detach iteratively only after assertions to avoid a separate Arc-drop recursion
+concern absent under Java GC. Unused default-null computed shadows/suppliers not
+modeled/claimed. All TEST fixtures/helpers have provenance/notices; no production read.
+
+Three originals verify noncontiguous entity aliases, one allocation per original,
+weak root cycles, shared immutable facts, foreign lookup rejection and unchanged
+source backlinks; missing/duplicate factories preserving old rules; undiscovered fill
+edges and injected callback failure/no returned graph, followed by successful retry.
+Focused2+3 passed first attempt. Final frozen runner-a bash scripts/check.sh passed once:
+7,037 Rust tests,290 doctests;3,695/4,855 (76.107%),592 pending,568 excluded,zero failed/
+unverified. Actual3 Rust RUN/1,027 REUSE/46 Python REUSE;201.772seconds. Abstract cloner
+5/14 passed,9 pending; earlier basic/list/custom behavior retained. No raw solver/
+search/scoring/graph changes, benchmark/performance claim, release correctness suite,
+UI rerun or new agents. Rust:e408bf2b63363fe36dae30c9bb5bfb3c68e80da721c2a0e296c8d4287f6e5e96.
+Report:827fc537a60d1eccd47676d676ad777e50dd25bb8a2780ac8fc2ebb744d8751f.
+Remote root:e0c8fdff6e5060a64c10223a7793dcfbe2f07a9337fd74348f7646f6b752974f.
+Archive work/round76-runner-a-results.tar.gz SHA256:e6b191944429e4ff3d576fee97d404b03ae2cef883c8bfd3182619fe9692b560.
+Evidence/freeze:work/parallel-round76-evidence.json and parallel-round76-freeze.json.
+Launcher9037/collector58827 completedzero. Postcommit proof:work/verify_round76_postcommit.py.
+Next gate seeds from actual round76 archive/root. K-opt input key remains unchanged:
+d97e85200c8e0e784d034049d327bb4dc05f7be28263cf96691b7acd78e3f1f6. Genuine measurements
+stay current, older list data stays stale. No evidence retagged or benchmarks repeated.
+
+Remaining cloned-model work includes mixed projection, additional registered deep-
+field policies and9 abstract-cloner methods (sets/arrays/inheritance/annotated fields/
+required types). Generic graph cloning now supports explicit deep edges/weak cycles,
+not automatic Java annotations or arbitrary callback correctness. K-opt3-opt boundary/
+rebase/pins and other compatibility gaps remain. Goal active/incomplete.
+
 ## Latest verified checkpoint — round75
 
 ListSolutionClonePlan copies a real one-list-field typed binding. It prevalidates

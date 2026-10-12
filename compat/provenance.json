@@ -55541,6 +55541,36 @@
       "local_path": "crates/solver/tests/list_clone_plan_cases.rs",
       "local_test": "clone_list_variable_solution",
       "modifications": "Preserve all3 actual value handles, owner a with1/3 and b with2, score1, distinct root/owner-list/owners/per-owner list storage, original value-list and per-owner list element equality with exact pointer identity, ordered code assertions and actual removal of original value1 without changing copied list. The source descriptor names only Owner as a planning entity; native owner-only binding therefore keeps value handles shared, rather than replacing reference assertions by code equality. Explicit typed factories/root reconstruction replace Java descriptor/reflection; no API/ABI or general deep-field inference claim. Native mutable list storage replaces Java ArrayList, actual registered native list model validates copy. Additional registered shadow-value rebasing is checked only by original controls and earns no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.supportsEntityToSolutionBacklinking",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "supportsEntityToSolutionBacklinking",
+      "local_path": "crates/solver/tests/recursive_clone_cases.rs",
+      "local_test": "supports_entity_to_solution_backlinking",
+      "modifications": "Preserve generateSolution(2,2): full Generated Solution0, two Generated Value/Entity objects, alternating actual planning values, absent score, distinct solution/entities and each cloned entity backlink pointing to the actual cloned root. Native Weak backlinks replace Java strong parent pointers to avoid ownership cycles; typed registry allocate/discover/populate factories replace reflection. Actual native basic binding validates all planning values/aliases after copy; no scoring or expected root supplied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.cloneDeeplyNestedSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneDeeplyNestedSolution",
+      "local_path": "crates/solver/tests/recursive_clone_cases.rs",
+      "local_test": "clone_deeply_nested_solution",
+      "modifications": "Preserve the original one-entity/one-root-value dependency-chain fixture, start2000-01-01T00:00:00, duration1hour, root ID and sequential child IDs, distinct root/collections/entities/root value and every chain ID/nonnull/allocation assertion. Native stress depth100000 replaces JVM-measured MAX_STACK_FRAMES+128; iterative discovery/population handles that full depth. Typed numeric date components and duration seconds replace Java time types. Native strong chains are detached iteratively only after all assertions because Rust Arc destruction is a separate concern from Java GC. Explicit registered factories replace reflection/annotations; no automatic field inference/API/ABI or shadow-supplier execution claim."
     }
   ],
   "fixtures": [
@@ -77812,6 +77842,84 @@
       "upstream_test": "cloneListVariableSolution and assertEntityListClone; list owner/value/solution constructor/getter/setter fixture semantics",
       "local_path": "crates/solver/tests/fixtures/list_clone_plan_fixture.rs",
       "modifications": "Adapt full TEST-only 3-value/2-owner ordered fixture, score1 and actual mutable per-owner lists. Native Arc/Mutex list storage supports the original removal and allocation assertions. Value equality is allocation identity, preserving source TestdataObject reference equality. Owner-only source case shares values; original controls explicitly register cloned shadow-bearing values, initialize independent native inverse/index payloads, and rebuild backlinks to actual copied owner allocations. Typed native binding replaces annotations/reflection; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "recursive-clone-inputs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "supportsEntityToSolutionBacklinking/cloneDeeplyNestedSolution inputs, generateSolution(2,2), or dependency constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/recursive_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual generated codes/values/entities and parent references; native Arc/Weak/Mutex graph storage permits real identity/backlink checks. Dependency fixture preserves actual date components, hour duration, nullable dependency lists, entity empty planning list and all root/child IDs. Unused default-null computed shadow payloads/suppliers are not modeled or claimed. Native registered typed shell/edge/fill callbacks replace Java annotation/reflection, without production implementation copied. Deep input count is explicitly100000 rather than JVM stack-measurement helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "recursive-clone-backlink-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/backlinked/TestdataBacklinkedEntity.java",
+      "upstream_test": "supportsEntityToSolutionBacklinking/cloneDeeplyNestedSolution inputs, generateSolution(2,2), or dependency constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/recursive_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual generated codes/values/entities and parent references; native Arc/Weak/Mutex graph storage permits real identity/backlink checks. Dependency fixture preserves actual date components, hour duration, nullable dependency lists, entity empty planning list and all root/child IDs. Unused default-null computed shadow payloads/suppliers are not modeled or claimed. Native registered typed shell/edge/fill callbacks replace Java annotation/reflection, without production implementation copied. Deep input count is explicitly100000 rather than JVM stack-measurement helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "recursive-clone-backlink-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/backlinked/TestdataBacklinkedSolution.java",
+      "upstream_test": "supportsEntityToSolutionBacklinking/cloneDeeplyNestedSolution inputs, generateSolution(2,2), or dependency constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/recursive_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual generated codes/values/entities and parent references; native Arc/Weak/Mutex graph storage permits real identity/backlink checks. Dependency fixture preserves actual date components, hour duration, nullable dependency lists, entity empty planning list and all root/child IDs. Unused default-null computed shadow payloads/suppliers are not modeled or claimed. Native registered typed shell/edge/fill callbacks replace Java annotation/reflection, without production implementation copied. Deep input count is explicitly100000 rather than JVM stack-measurement helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "recursive-clone-dependency-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dependency/TestdataDependencyEntity.java",
+      "upstream_test": "supportsEntityToSolutionBacklinking/cloneDeeplyNestedSolution inputs, generateSolution(2,2), or dependency constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/recursive_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual generated codes/values/entities and parent references; native Arc/Weak/Mutex graph storage permits real identity/backlink checks. Dependency fixture preserves actual date components, hour duration, nullable dependency lists, entity empty planning list and all root/child IDs. Unused default-null computed shadow payloads/suppliers are not modeled or claimed. Native registered typed shell/edge/fill callbacks replace Java annotation/reflection, without production implementation copied. Deep input count is explicitly100000 rather than JVM stack-measurement helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "recursive-clone-dependency-value",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dependency/TestdataDependencyValue.java",
+      "upstream_test": "supportsEntityToSolutionBacklinking/cloneDeeplyNestedSolution inputs, generateSolution(2,2), or dependency constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/recursive_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual generated codes/values/entities and parent references; native Arc/Weak/Mutex graph storage permits real identity/backlink checks. Dependency fixture preserves actual date components, hour duration, nullable dependency lists, entity empty planning list and all root/child IDs. Unused default-null computed shadow payloads/suppliers are not modeled or claimed. Native registered typed shell/edge/fill callbacks replace Java annotation/reflection, without production implementation copied. Deep input count is explicitly100000 rather than JVM stack-measurement helper."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "recursive-clone-dependency-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/dependency/TestdataDependencySolution.java",
+      "upstream_test": "supportsEntityToSolutionBacklinking/cloneDeeplyNestedSolution inputs, generateSolution(2,2), or dependency constructor/getter/setter semantics",
+      "local_path": "crates/solver/tests/fixtures/recursive_clone_fixture.rs",
+      "modifications": "Adapt TEST-only actual generated codes/values/entities and parent references; native Arc/Weak/Mutex graph storage permits real identity/backlink checks. Dependency fixture preserves actual date components, hour duration, nullable dependency lists, entity empty planning list and all root/child IDs. Unused default-null computed shadow payloads/suppliers are not modeled or claimed. Native registered typed shell/edge/fill callbacks replace Java annotation/reflection, without production implementation copied. Deep input count is explicitly100000 rather than JVM stack-measurement helper."
     }
   ]
 }
