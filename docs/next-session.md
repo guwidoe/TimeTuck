@@ -16,25 +16,48 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Round91 implementation — focused verification passed
+## Latest verified checkpoint — round91
 
-ListRangeValueSource implements distinct effective entity-domain unions, finite
-registry-order traversal, seeded native/LCG48 draws, shared injected draw streams,
-step replay and lazy payload copies with panic fusion. Global domains avoid
-expanded memberships; unreachable registry values are excluded. Raw draws retain
-pinned/missing values for downstream filtering. One complete pin/entity-range
-change source case and seven originals passed final focused runner-a tests in
-26.312seconds (7fe9926880d6a3895d4204e24ff7c241fe1dc90de915874fef96dd7bdba5aee1).
-Originals include actual dense/stream searches, fresh layouts, domain union bounds,
-shared draw state and panic recovery. Source passed first compile/run; no focused
-failures. Final prebuild Clippy rejected an Arc around the thread-local Clone-panic
-fixture; changed only that fixture to the existing borrowed ListSelectionContext.
-Original failed remote root8f686f0025915d656e20a0b55cfba67ab3acff6f17b7017becd06f5887f710cd
-retained. Provenance/notices recorded. Existing solver/move runtime and measured
-K-opt inputs unchanged. Three coupled change destination traces remain pending;
-do not substitute scripted outputs or claim those complete.
-Run one final frozen bash scripts/check.sh using genuine round90 cached records,
-then collect actual logs/report and commit verified handoff. No new agents.
+Distinct raw list-range selection integrated as9d9f89f, fixture follow-upc604773.
+ListRangeValueSource implements effective entity-domain unions without duplicate
+weighting, finite registry-order traversal, native/LCG48 draw policies, injected
+shared draws and lifecycle replay. Opening is lazy; payloads clone only on return.
+Global domains avoid expanded memberships; explicit domains use a bitmap. Pins
+and assigned/missing status are filtered downstream, after raw draws. Empty unions
+never draw; caught draw/Clone panics fuse cursors. One complete pin/entity-range
+change source case retains all fixtures/mock inputs, seed0, both output strings,
+unbounded metadata and post-prefix availability. Provenance/notices recorded.
+Seven originals verify unions, empty/global domains, raw pins/missing values, shared
+draws, lifecycle replay, panic fusion and actual dense/stream changes with fresh
+layout captures. Focused source1/original7 passed in26.312seconds. No runtime repair.
+Prebuild Clippy caught Arc around the thread-local panic fixture; only that fixture
+changed to the existing borrowed selection context. Failed root/log/manifest/freeze
+retained separately:8f686f0025915d656e20a0b55cfba67ab3acff6f17b7017becd06f5887f710cd.
+
+Corrected frozen runner-a bash scripts/check.sh passed in267.55seconds including
+prebuild:7,214 Rust tests,290 doctests;3,803/4,855 (78.332%),484pending,568excluded,
+zero failed/unverified. Three Rust jobs ran;1,061 Rust and46 Python jobs reused
+actual unchanged successful inputs. Clippy passed. Collector checked frozen source,
+original output checksums, actual counts and dashboard freshness. Existing solver,
+move, raw swap and RNG implementations unchanged; K-opt inputs remain current and
+older list data remains stale. No unrelated benchmark, release rerun or UI check.
+Rust digest: b54ae9652718c292cd96eb40553439b99adbe2eadc3d38a5b875ddebba9a3db7.
+Report digest: 23bab47e13af6cac8ebdc88d324cc9e30f2e7e0b282e027731002904d846540b.
+Remote root: cc07cb1ded8068b17417bf79b8623297576b2235674d0aa5f551020aee779995.
+Archive work/round91-runner-a-results.tar.gz SHA256:
+8bad3cb2717bc42fbf032dab93e0c43a4f19c54349a99647f321e92a1665de37.
+Evidence: work/parallel-round91-evidence.json; clean postcommit proof:
+work/round91-postcommit-evidence.json.
+
+Three coupled random entity-range change destination source traces remain pending.
+Do not substitute desired output scripts or claim Java singleton/reflective parity.
+An additional core gap worth pursuing is XML configuration/factory interoperability:
+SolverFactoryTest has9 pending XML resource/file/resolver/error methods; its TEST
+source has been inspected, production not consulted. Resources live under core/src/
+test/resources/ai/timefold/solver/core/api/solver/ and core/config/solver/. Native
+configured factories should build actual solver/scoring objects, preserve all source
+criteria, and use explicit component registries rather than Java class loading.
+Continue full goal; no new agents. Performance and narrow verification reuse matter.
 
 ## Latest verified checkpoint — round90
 

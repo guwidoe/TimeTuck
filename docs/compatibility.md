@@ -8376,3 +8376,9 @@ raw pinned/missing values, shared draw state, seeded lifecycle replay, panic fus
 and actual dense/stream changes with fresh captured layouts. Coupled entity-range
 destination source traces remain pending. Native defaults and existing move checks
 remain unchanged; no broader Java RNG/selector trace claim or new speed claim.
+
+Frozen round91 verification passed on runner-a:7,214 Rust tests,290 doctests;
+3,803/4,855 source cases (78.332%),484 pending,568 excluded,zero failed/unverified.
+Three Rust jobs ran;1,061 Rust and46 Python jobs reused unchanged successful inputs.
+A prebuild Clippy fixture warning was corrected with a borrowed selection context;
+no solver runtime repair. Source/log/archive hashes and dashboard freshness validated.
