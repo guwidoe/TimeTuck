@@ -16,7 +16,66 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round60
+## Latest verified checkpoint — round61
+
+Feature 61d1243 adds executable CustomConstraintDeclaration/DeclaredCustomConstraint
+and OrderedJoinConditions. One custom declaration owns its actual input port,
+weight/factor and one typed justification callback. Duplicate registration rejects
+before adding its terminal and preserves the first callback; building registers a
+real weighted score node. Explanations invoke the stored callback on current retained
+tuples/scores without rerunning scoring. This is per-declaration configuration;
+ordinary independent per-request explanation views remain available. No global
+callback registry or Java API/ABI parity is claimed.
+
+Ordered joins retain actual conditions/filter callbacks, validate the full sequence
+before adding graph nodes, then compile through native compound indexes and ordered
+short-circuiting filters. Direct JoinConditions normalization remains unchanged.
+Candidate/search loops, graph/score-explanation core files remain unchanged; no
+throughput claim or benchmark refresh. Old performance stays visibly stale.
+
+Five complete source methods close uni/bi/tri/quad failWithMultipleJustifications
+and bi join_filtering_comesLast. Exact duplicate hint, factor 2, penalty weight and
+all known source/equality-join prefixes are preserved. Native typed errors replace
+Java exception classes. Actual ordered score/object helper fixture attributed;
+existing lavish fixture reused unchanged. Five originals verify first-callback
+preservation, changed weights/live scores/zero matches, exact ordered object
+references and independent indictment deduplication, explanation panic isolation,
+foreign handles, valid index/filter execution and transactional undo. Originals
+add no source-method credit. No production/Enterprise sources used, pin unchanged.
+
+runner-c initial dispatch failed before running any command (SSH connect timeout).
+runner-a handled focused tests and final gate; no user input or duplicate remote
+execution was needed. Focused 5 source + 5 originals passed. Strict Clippy passed
+after replacing SimpleScore clone calls with dereferences. No new agents/assignments.
+
+Final frozen runner-a gate passed once: 6,961 Rust tests, 290 doctests;
+3,668/4,855 methods passed (75.551%), 621 pending, 566 excluded, zero failed/unverified.
+Actual 3 Rust RUN/1,005 REUSE/46 Python REUSE; 196.543 seconds.
+Rust source: 9a2ef4109258f2e46e293f9b3950a50a0814e48fe4c1b82fd49cc1017df6e901.
+Report/verification: b80e1fd5647692e6601a527d3319bb2a371039210310c1e654dec795067b18ae.
+Remote root: 2b6588574ff47e222d48fa25f1882ec0c3b06bd625ecbb8631ab43ff5e0878ae.
+Archive work/round61-runner-a-results.tar.gz SHA256:
+85167e70e9c9904d42a07e1287e342d6b920f834d4b483b6a2b0992ed8ef03b3.
+Evidence/freeze work/parallel-round61-evidence.json and parallel-round61-freeze.json.
+Collector 90898 completed zero; launcher 92766 terminal success is being collected.
+Postcommit work/verify_round61_postcommit.py checks exact frozen source, clean Git,
+report/backend freshness and prior completed families. Seed the next gate from this
+actual archive/root. No UI rerun for backend-only refresh; reuse unchanged checks.
+
+Next adapt complete remaining bi joinerEqualsAndSameness: TEST source inspected at
+AbstractBiConstraintStreamTest.java:3200. Full fixture generateSolution(1,2,1,2), two
+independent equal 0.01 Decimal allocations; entity1/3 share the first allocation,
+entity2 owns the second. Equality self-join must produce all nine ordered pairs,
+including self pairs. Existing native equality joins may already support this;
+use actual decimal/object fixtures and exact matches, not scripted pair outputs.
+Then constraintProvidedFromUnknownPackage (uni:3582): unnamed solution, named
+provider, retained Generated Entity 0, one Always penalize match. Preserve native
+semantics and actual provider execution; no JVM class-loading claim. Broader typed
+current-field feeds, mixed/multiple-list solution bindings, whole-solve termination
+and advanced tracked assertion integration still remain. Keep shrinking backlog,
+performance important, no new subagents/assignments. Objective active/incomplete.
+
+## Prior verified checkpoint — round60
 
 Feature e1805ed adds actual list solution bindings and initialized source membership.
 The binder validates one genuine list field plus shadow-only entities, real provider
