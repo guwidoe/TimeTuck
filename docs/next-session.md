@@ -33,7 +33,8 @@ Five originals match every complete candidate set with independent enumeration f
 all8pin/range/optional combinations, compare real work, exercise all5frontier orders,
 empty/impossible/overflow models, shape validation, interruption closure and limits.
 Eligible-leaf observers are inline and budgeted. Focused7case runner-a verification
-passed25.165seconds; final updated candidate observers passed local18.971seconds.
+passed25.165seconds; updated candidate observers passed locally after18.91seconds
+reported compilation and0.03seconds reported test execution.
 Initial local code removed private validation access in favor of public shape/model
 preflight; first focus corrected a frontier enum spelling. No runtime/kernel repair.
 A readonly rustc probe confirms reusable static settings accept owned temporary models.

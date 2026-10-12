@@ -8607,7 +8607,8 @@ compare actual work, verify interruptions/overflow/empty spaces and exercise all
 five frontier orders on basic-only/list-only components. A paired native probe is
 provided; it is separate from existing Java comparisons and has no source credit.
 Focused source/original verification passed on runner-a in25.165seconds; updated
-candidate-set observers passed locally in18.971seconds. Initial checks corrected
+candidate-set observers passed locally:18.91seconds reported compilation and
+0.03seconds reported test execution. Initial checks corrected
 private shape validation access and a regression's frontier enum spelling. Existing
 kernels and Cargo files remain unchanged.
 
