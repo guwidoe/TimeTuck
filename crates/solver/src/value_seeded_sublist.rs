@@ -42,6 +42,13 @@ impl<'a, V: Ord> ValueSeededSubListSelection<'a, V> {
         }
         Ok(Self { owners, spans })
     }
+    pub(crate) fn retain_entities(&mut self, entities: &std::collections::BTreeSet<usize>) -> u128 {
+        self.owners.retain(|_, entity| entities.contains(entity));
+        entities
+            .iter()
+            .map(|entity| self.spans.entity_len(*entity))
+            .sum()
+    }
     pub fn seed_count(&self) -> usize {
         self.owners.len()
     }

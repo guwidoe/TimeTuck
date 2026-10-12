@@ -58766,6 +58766,81 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every activity and exactly-one downstream initialization notification assertion, including both boolean parameters for the map method. Native real sources/identity maps/unindexed equal joins and live scoring consumers replace mocked node/lifecycle/position-tracker objects. Initial fact completion uses actual declared graph topology and retained source rows; it forwards producer capability once, after both join inputs are initialized. Native callbacks record the forwarded value, not a substitute snapshot assertion. Empty inputs use empty sources; true inputs insert real tuples. No Java node/tuple ABI or solver initialization trace parity claim."
+    },
+    {
+      "id": "RandomSubListSelectorTest.emptyWhenMinimumSubListSizeGreaterThanListSize",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/RandomSubListSelectorTest.java",
+      "upstream_test": "emptyWhenMinimumSubListSizeGreaterThanListSize",
+      "local_path": "crates/solver/tests/value_sublist_source_cases.rs",
+      "local_test": "empty_when_minimum_sublist_size_greater_than_list_size",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the three-value list, minimum four/unbounded maximum, zero span count, never-ending metadata and complete empty iteration. Native source composes finite entity and repeating value children; no Java RNG trace claim."
+    },
+    {
+      "id": "RandomSubListSelectorTest.phaseLifecycle",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/RandomSubListSelectorTest.java",
+      "upstream_test": "phaseLifecycle",
+      "local_path": "crates/solver/tests/value_sublist_source_cases.rs",
+      "local_test": "sublist_phase_lifecycle",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve solve/phase start and end and both step start/end invocations on each real entity and value source, including the empty catalog. Native SelectionLifecycleEvent replaces mocked Java scope objects."
+    },
+    {
+      "id": "RandomSubListSelectorTest.validateConstructorArguments",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/RandomSubListSelectorTest.java",
+      "upstream_test": "validateConstructorArguments",
+      "local_path": "crates/solver/tests/value_sublist_source_cases.rs",
+      "local_test": "validate_constructor_arguments",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve rejection of (0,5) and (2,1) and acceptance of (1,1). SubListSize validates bounds before constructing the native value-driven source; typed InvalidSampleSize replaces Java exception types/text."
+    },
+    {
+      "id": "RandomSubListChangeMoveSelectorTest.phaseLifecycle",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListChangeMoveSelectorTest.java",
+      "upstream_test": "phaseLifecycle",
+      "local_path": "crates/solver/tests/value_sublist_source_cases.rs",
+      "local_test": "change_phase_lifecycle",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve solve/phase start/end and two step start/end counts for entity, value and destination children through actual composed value-driven span/change sources, including empty selections. Native events replace mocked Java scopes."
+    },
+    {
+      "id": "RandomSubListSwapMoveSelectorTest.phaseLifecycle",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/RandomSubListSwapMoveSelectorTest.java",
+      "upstream_test": "phaseLifecycle",
+      "local_path": "crates/solver/tests/value_sublist_source_cases.rs",
+      "local_test": "swap_phase_lifecycle",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all solve/phase and both step invocations on distinct left/right value children and doubled entity-child counts through shared native event storage in actual composed value-driven span/swap sources. Each source forwards every event independently; native events replace Java mock scopes."
     }
   ],
   "fixtures": [

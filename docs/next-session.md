@@ -16,7 +16,50 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round105
+## Latest verified checkpoint — round106
+
+ValueSubListSource connects live value seeds and a bounded entity catalog to
+owner-conditioned span selection and actual sublist change/swap providers.
+Catalog duplicates are deduplicated; seed duplicates retain their weighting.
+Pins, missing values and short suffixes skip draws. Owner indexes rebuild after
+committed moves; random state continues across openings. Catalog/rejection work
+is bounded, and exhausted or panicked seed/draw openings stay fused. Both children
+receive every lifecycle event, including empty selections and doubled shared
+entity events when composing swap sources. Existing borrowed indexes and direct
+span ranks avoid cloning list payloads or materializing quadratic span catalogs.
+The new source requires ordered values; owned provider contexts still clone rows.
+
+Five complete source adaptations close bounds/empty/lifecycle gaps in
+RandomSubListSelectorTest and RandomSubListChange/SwapMoveSelectorTest. Five
+original controls cover independent ranks/catalogs/pins, bounded reads and value
+weighting, empty/panic behavior, committed ownership and seeded continuity, plus
+actual scored search with balanced provider events. Native events/errors/read
+budgets replace Java mocks; no Java PRNG trace claim. All provenance recorded.
+The seven k-opt seam/selector methods remain pending; use round105 observations
+below rather than repeating answered probes. Goal remains incomplete.
+
+Frozen bash scripts/check.sh passed113.592s:7,408Rust tests and290doctests.
+Five Rust jobs ran;1,090Rust/46Python jobs reused their original successful records.
+Clippy9.54s; affected compilation24.46s. Compatibility3,913/4,855 (80.597%),
+374pending,568excluded,zero failed/unverified. Initial Clippy Copy cleanup affected
+only new original test code; final gate proves the frozen final state.
+Rust 2695db1173d68f51814ff4f938a83b27281ac1958727bb8a171ef672c811c706.
+Report 890a054fcb8ec672bb23a70eb4d0dd6a4d995eeee34a1054591a7426a59430dc.
+Archive work/round106-local-results.tar.gz SHA256:0a2e37c95e8756d5891917eab53aa3217d37fe59739ab5515359d1b655739496.
+Evidence work/parallel-round106-evidence.json; freeze work/parallel-round106-freeze.json;
+postcommit proof work/round106-postcommit-evidence.json. Final prebuild41468,
+gate75264 and collector43251 are terminal0; don't repeat unchanged checks.
+
+runner-a passed16 scoped selector tests on immutable actual inputs. Its manifest,
+logs and preserved scope are in work/round106-remote-evidence.json. Unrelated test
+Copy cleanup occurred afterward; no whole-final-state remote gate claim. Both
+hosts answered initial SSH reads; runner-c source dispatch then timed out twice before
+compilation. Local/runner-a work continued. Relevant k-opt performance inputs are
+unchanged: keep actual round104 date2026-10-12T21:40:59.542556+00:00. Older list
+metrics remain stale. Backend report/freshness inspected; no UI/rendering changes
+or repeated browser/benchmark checks. No new agents/assignments.
+
+## Previous verified checkpoint — round105
 
 ListKOptEndpointTopology now validates cuts in each separate movable list cycle,
 including local wraps, singleton loops and both parallel edges of a two-value row.

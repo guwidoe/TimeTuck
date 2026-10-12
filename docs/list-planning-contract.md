@@ -1369,3 +1369,25 @@ ranges avoid a per-entity expansion. Explicit injected draws may share caller
 state, while built-in seeds replay per opening/step. Caught draw/Clone panics fuse
 the cursor. ConfiguredMoveProvider can bind this source to actual checked list
 changes with fresh assignment snapshots each step.
+
+`ValueSubListSource` connects selected values to current owner-conditioned spans
+and composes directly with sublist change/swap sources and configured providers.
+Its entity child supplies a bounded catalog of eligible owners; duplicate owners
+are deduplicated while duplicate value seeds retain their weight. Both children
+receive every lifecycle event, including empty selections. Two span sources sharing
+an entity child each forward their event, preserving doubled invocation counts.
+The span need not contain its seed. Whole/prefix pins, unassigned/unknown seeds
+and short suffixes are skipped without a random draw. Catalog reads are bounded
+per opening and seed reads per requested item; exhaustion or a caught seed/draw
+panic fuses that opening. Reopening rebuilds borrowed owner indexes after committed
+changes, with the native random state continuing across openings. This source
+requires ordered values, uses the existing borrowed span/owner indexes, and does
+not clone list payloads itself. Capturing an owned provider context still clones
+assignment rows. Cardinality queries reopen the entity catalog and count unique
+spans; output length remains unknown unless empty. No Java RNG trace claim.
+
+Five complete source adaptations cover bound validation, empty selection and all
+entity/value/destination lifecycle counts. Five original controls compare every
+rank across restricted catalogs and pins, bound rejection work, check empty/panic
+behavior, ownership refresh and seeded continuity, and drive actual scored search
+through a configured provider with balanced child events.

@@ -1671,3 +1671,6 @@ pub use benchmark_archive::{BenchmarkArchive, BenchmarkArchiveError};
 
 mod list_k_opt_endpoints;
 pub use list_k_opt_endpoints::ListKOptEndpointTopology;
+
+mod value_sublist_source;
+pub use value_sublist_source::{ValueSubListSource, ValueSubListSourceLimits};

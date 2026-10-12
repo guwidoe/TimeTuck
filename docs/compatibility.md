@@ -8907,3 +8907,13 @@ Round105 final check passed 7,398 Rust tests and 290 doctests. Two Rust jobs ran
 remains 3,908/4,855 (80.494%), 379 pending: this intermediate topology earns zero
 new compatibility credit. A fixture-description correction refreshed report metadata
 only; execution keys/dates were preserved. Relevant performance inputs are unchanged.
+
+Five additional RandomSubListSelectorTest/change/swap methods now preserve bounds,
+empty-selection metadata and every entity/value/destination lifecycle invocation.
+Actual ValueSubListSource composes live entity catalogs and value seeds into
+owner-conditioned spans, and shared entity children receive doubled swap events.
+Native events, typed errors, ordered values and explicit read budgets replace
+Java mocks/descriptors. Original controls additionally cover pins, catalog
+restrictions, all span ranks, bounded rejection, panic/exhaustion, committed owner
+changes, seeded continuity and real configured-provider search. They earn no
+method credit. Java PRNG traces are not claimed.
