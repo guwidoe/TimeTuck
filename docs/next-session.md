@@ -32,7 +32,7 @@ optional membership, foreign equal-value handles retaining canonical allocations
 relocation and callback-panic rollback, foreign descriptors/graphs and actual nonzero
 constant scoring for zero lists. First focused attempt used incorrect native move
 variant names in the test; corrected to Change and Unassign(entity,start,end).
-Fixed focused6+1 new source+3 prior controls passed. Final aliases/display improved
+Fixed focused6+1 new source+5 prior controls passed. Final aliases/display improved
 before the final gate; no additional focused repetition.
 
 One complete SolverConfigTest.entityWithTwoPlanningListVariables preserves both
