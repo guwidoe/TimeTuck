@@ -16,7 +16,78 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round61
+## Latest verified checkpoint — round62
+
+Feature 5ec49f9 adds typed WorkingBasicObject/WorkingBasicStream current-field feeds.
+Tuples retain actual entity/fact allocations and immutable fact/initial-state payloads,
+with owned genuine values read from validated current native assignments. Field-name
+arrays are shared per concrete type. Constructors validate field kind/value types
+before adding graph sources. Full refreshes route all current snapshots, including
+replacement payloads with equal planning identity. update_entity routes only the
+specified actual canonical row, keeping unrelated rows intact; it validates all
+input and graph ownership even when the selected query has no matching entity type.
+Old explanation snapshots retain old fields. Object payloads need no Clone bound.
+
+Two complete source methods close bi joinerEqualsAndSameness and uni
+constraintProvidedFromUnknownPackage. Full decimal fixture preserves generated
+1/2/1/2 groups/values/entities, separate equal 0.01 allocations, shared first decimal
+on entity1/3, and all nine ordered actual object/score matches. Native equality
+self-join produces the pairs. The unnamed fixture generates five values/seven
+entities, retains Generated Entity 0, executes an actual provider in another native
+module and asserts the exact Always penalize object/score match. Explicit Rust
+registration replaces Java reflection/class loading; no JVM package support claimed.
+All changed TEST-only fixtures/aliases/Arc-wrapper records attributed.
+
+The remaining quad ifExistsDoesNotIncludeUnassigned/ifNotExistsDoesNotIncludeUnassigned
+overrides are @Disabled with empty bodies in the pin (quad source lines299/458).
+They are classified excluded with the exact source reason, zero passing credit and
+no local placeholder. Their local provenance paths point at the unmodified actual
+upstream source, not an invented Rust test. This changes exclusions from566 to568;
+only two genuine methods added to passed. Common uni111/111, bi95/95 and tri83/83
+are now fully passed; quad75/77 passed and2 excluded, none pending in these classes.
+
+Three originals cover score changes from current fields while object initial fields
+remain unchanged, actual allocation preservation, old explanation ownership,
+initialized/null selection, invalid/foreign inputs, callback-panic rollback and
+updated equal-identity payloads. Current score3 becomes9 when one field selectsv2;
+only that entity's callback reruns. These controls give no upstream method credit.
+Automatic solver variable-event wiring to these object/field tuples is still pending;
+manual validated snapshots/targeted updates are the new executable functionality.
+Candidate/search loops unchanged. No new performance measurement or throughput claim.
+
+runner-a focused2 source +3 originals and prior3 source controls passed. Fixed missing
+provider/fact role and fmt import, then strict Clippy type-complexity via aliases;
+the final ownership check passed focused tests and strict Clippy. No new agents or
+assignments. runner-c remained unused/offline; no new authentication request required.
+
+Final frozen runner-a gate passed once: 6,966 Rust tests,290 doctests;
+3,670/4,855 source methods passed (75.592%),617 pending,568 excluded,zero failed/unverified.
+Actual8 Rust RUN/1,002 REUSE/46 Python REUSE;202.397seconds.
+Rust source:62352932be8d2212e2fc65d8565fc53230ed8fe2058c6d1e1452b115d6ad422b.
+Report/verification:4a0c2bc40331a9d6fb5c76e7740fba6cfbfda9356782ac518913df798463a4b4.
+Remote root:53ce7d13fd648f46d203f55b24d0d124fbcc4cdbaf77f33596bbaa27da7c1cd6.
+Archive work/round62-runner-a-results.tar.gz SHA256:
+e76932d81605d236caddaba79ed83efd42cc36f654e1b8821eb04815603603fe.
+Evidence/freeze:work/parallel-round62-evidence.json and parallel-round62-freeze.json.
+Collector85819 completedzero; launcher97024 terminalsuccess is being collected.
+Postcommit proof work/verify_round62_postcommit.py checks exact frozen state,
+clean Git, report/backend freshness, old completed families and all four common
+stream class statuses. Seed the next gate from this actual archive/root. Reuse genuine
+unchanged results. No UI/benchmark reruns; old performance stays visibly stale.
+
+Next connect actual native variable events to WorkingBasicObject field tuples,
+including grouped multiple genuine fields and unchanged object identity, in real
+solve_stream/scoring execution. Snapshots alone do not establish automatic solver
+integration. Then expand remaining solver compatibility (configuration/termination,
+mixed/multiple-list bindings and advanced tracked assertions). SolverConfigTest
+TEST source inspected: callback-type setters and optional2-minute elapsed/unimproved
+elapsed settings, inheritance/XML and referenced classes. Preserve native runtime
+execution; avoid metadata-only stand-ins or Java API claims. Many Maven/framework
+methods remain pending in the broad inventory; don't relabel them as progress
+without justified scope evidence. No new agents/assignments, performance important,
+keep shrinking backlog. Objective active/incomplete.
+
+## Prior verified checkpoint — round61
 
 Feature 61d1243 adds executable CustomConstraintDeclaration/DeclaredCustomConstraint
 and OrderedJoinConditions. One custom declaration owns its actual input port,
