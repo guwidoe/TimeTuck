@@ -16,7 +16,54 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round67
+## Latest verified checkpoint — round68
+
+Feature 4969a64 exposes real CandidateIndex adaptive storage configuration/state
+and custom policy construction. All operations use the actual ScalingMap buckets;
+no stand-in mode flags. Existing default policy, queries, removal/rekeying and
+sampling implementations unchanged. ScalingMap config accessor returns its actual
+policy. No native solver/search/scoring/graph change or throughput claim.
+
+Five complete ComparisonIndexerTest methods close threshold growth/promotion,
+sticky tree representation after removal, monotonic array growth, unique tree-mode
+sampling and reverse tree-mode repeating sampling. Full threshold-relative age/string
+fixtures, strict match sets/cardinality and all ten seeded unique-drain exhaustion
+and60 seed0 repeating reachability assertions preserved. Native tuning parameters
+replace private Java constants. Native promotion occurs at the next absent-key
+insert after configured churn removals; tolerance+1 transient cycles reach the
+required promoted fixture. No Java tuning/traversal/RNG trace/API/ABI claim. TEST-only
+churn/tuple/sampling helpers attributed, no production implementation read/copied.
+ComparisonIndexerTest now18/19 passed; joinIndexEligibilityRouting alone pending.
+
+Two originals pass: actual custom-policy promotion/zero ceilings, payload allocation
+preservation without Clone bounds, captured-key rekeying/removal and identical
+bidirectional matches/seeded sampling across array/tree representations. Source5 and
+original2 focused passed without repair. Originals give no source-method credit.
+
+Final frozen runner-a bash scripts/check.sh passed once:7,005 Rust tests,290 doctests;
+3,682/4,855 passed (75.839%),605 pending,568 excluded,zero failed/unverified.
+Actual20 Rust RUN/1,000 REUSE/46 Python REUSE;212.143seconds.
+Rust source:495f66fe409c5f00d53d6485ba3d8ba3b57a5ad975beed3db9e33af302c68ee2.
+Report/verification:362cb264832a38667ef16340ca7bdc2146965690f0b44c5acc0b8957e22223d0.
+Remote root:6b59e9acc43d99834a3e179dcd8d4527da20f18d4dff0c5c2db13b21c483c6bd.
+Archive work/round68-runner-a-results.tar.gz SHA256:ca61a5007e19e03018208ea2ca2001a7587858bea5660a454d78eb41011bf63e.
+Evidence/freeze:work/parallel-round68-evidence.json and parallel-round68-freeze.json.
+Launcher25404/collector86345 completedzero. Postcommit proof
+work/verify_round68_postcommit.py checks frozen state, clean Git, fresh dashboard,
+retained completed families and18/19 ComparisonIndexerTest status. Seed next gate
+from this actual archive/root. No new agents, runner-c use, UI runs or benchmarks. Existing
+performance stays stale; do not relabel measurements after API additions.
+
+Next reduce remaining behavioral gaps and deliberately measure completed typed
+bindings where needed. Core pending families include K-opt multientity/rebasing,
+cloning and advanced tracked assertions, alongside JVM-specific integrations. Read
+complete TEST fixtures before adapting; native representation/immutable interfaces
+need explicit boundaries, not fake unsupported-operation stand-ins or class labels.
+Multiple-list binding remains real backend work. Avoid repeating verified basic,
+list, mixed, getter or comparison functionality without changed relevant inputs.
+Goal remains active/incomplete.
+
+## Prior verified checkpoint — round67
 
 Feature ec6c85e adds SolutionBasicAccessors executable typed entity/range getters,
 with constructor/member/type/duplicate/complete-registration validation before reads.
