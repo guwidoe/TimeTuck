@@ -16,7 +16,57 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round66
+## Latest verified checkpoint — round67
+
+Feature ec6c85e adds SolutionBasicAccessors executable typed entity/range getters,
+with constructor/member/type/duplicate/complete-registration validation before reads.
+It binds existing native inputs and actual fact snapshots; each entity/range callback
+runs once per explicit bind, outside native moves/scoring. Facts use separate readers.
+Payloads need no Clone bound; callback side effects are not rolled back, and failures
+publish no partial model. Object-safe application traits dispatch through actual
+retained allocations in sized handles. No native unsized/JVM interface discovery.
+
+Two complete SolverConfigTest cases close domainClassesAreInterfaces and
+variableWithPlanningIdIsARecord. Full pinned interface fixture has one entity ID
+entity, null initial value/score and one identity-valued empty-interface allocation;
+actual Always penalize stream provider and construction-only solve complete at-1.
+Full record fixture has five Generated Value records and seven Generated Entity
+objects, exact solution/code names and i-modulo5 allocation reuse, value-list fact
+and provider roles, and actual entity-count calculator scoring7 in construction-only
+solve. Rust immutable record Eq/Hash preserves code identity; native assignment/score
+replace in-place Java setters. Actual trait getters execute, no class-label stand-ins.
+All adapted TEST fixtures/calculator/provider attributed; no production source read.
+
+Three originals pass: once-per-bind getters outside actual moves, repeated reads
+preserving allocations, invalid/missing registrations before callback work, getter
+panic isolation and actual fact/value identity across equal record codes on distinct
+allocations. Initial source2 passed; original3 compilation needed an explicit empty
+entity-reader return type. Fixed original3 passed. Added a fixture result alias before
+final freeze to keep the public callback signature clear. Originals earn no credit.
+
+Final frozen runner-a bash scripts/check.sh passed once:6,998 Rust tests,290 doctests;
+3,677/4,855 passed (75.736%),610 pending,568 excluded,zero failed/unverified.
+Actual3 Rust RUN/1,015 REUSE/46 Python REUSE;198.466seconds.
+Rust source:0599e207048c451754841f464364a438b4403db2b1da62fd2b1387ea201999cf.
+Report/verification:bb6dbf790438c859e920c7deb41ed44c2ceef6d3fc01dab24809a54060f41574.
+Remote root:5b8ca8bc8df209fede189cbf6b29a36c777f585dafb95830638bbba543b18741.
+Archive work/round67-runner-a-results.tar.gz SHA256:16b1cc57423d355970ff9925d77e170facebfdd214f7bfde068ab3ae1be2e7f4.
+Evidence/freeze:work/parallel-round67-evidence.json and parallel-round67-freeze.json.
+Launcher24285/collector82839 completedzero. Postcommit proof
+work/verify_round67_postcommit.py checks frozen state, clean Git, dashboard freshness,
+retained completed families and7/17 SolverConfigTest cases. Seed next gate from this
+actual archive/root. Native engines unchanged; no new agents, runner-c use, UI checks or
+benchmarks. Old performance stays stale; no throughput claim.
+
+Next close remaining native behavior gaps and deliberately assess performance for
+completed typed inputs. SolverConfigTest has10 pending cases, mostly XML/reflection,
+inheritance/preview settings and Java record bans; do not fabricate Java compatibility
+or exclusions to improve percentages. Multiple-list binding and advanced tracked
+assertion integration remain actual backend work. Read full TEST cases/fixtures before
+adaptation; reuse unchanged verified basic/list/mixed/domain functionality.
+Goal remains active/incomplete.
+
+## Prior verified checkpoint — round66
 
 Feature be90ba5 adds BoundMixedSolution and actual typed mixed field event feeds.
 One descriptor binds multiple basic fields and one list field on the same real
