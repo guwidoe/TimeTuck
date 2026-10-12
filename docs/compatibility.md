@@ -7535,3 +7535,30 @@ caller's responsibility. Three original controls exercise real base/child graph
 scores, transitive fact projections, lifetimes and invalid registrations. The
 Cat/Animal/Dog control is attributed as fixture inspiration and gives no complete
 polymorphism-method credit. No new throughput measurements are claimed.
+
+### Initialized solution sources and concrete list binding
+
+Two complete forEach methods now cover the full base/child Cat/Animal/Dog fixture
+with actual empty solution-owned weights and every object/score match, and required
+list values lacking an inverse member through all initial/assign/unassign states.
+Typed parent composition and real borrowed projections replace Java inheritance;
+native list moves replace notification calls. The actual root/provider/entity data
+and all native fixture changes are attributed. This supersedes the earlier partial
+polymorphism control without giving that original control additional method credit.
+
+The concrete list binder supports one genuine list field plus shadow-only entities.
+It preserves original Arc allocations, canonical aliases/collection occurrences,
+provider types/order and pin baselines, and rejects inconsistent or incomplete
+reads before publication. Mixed or multiple-list-field layouts require separate
+native bindings. Basic/list initialized views read current native assignments;
+immutable object payloads retain facts and initial-state data. Current planning
+fields/positions are authoritative in those assignments, not in stale object fields.
+No automatic reflective setters or Java listener traces are claimed.
+
+Membership refreshes use graph transactions, retain unchanged immutable tuples and
+avoid redundant score work. Five original controls cover current slot changes,
+pins, aliases, canonical equal-value handling, invalid input, foreign graph handles,
+callback-panic rollback and real dense/stream optimization retaining object identity.
+An opt-in indexed list binding preserves the same object order/optionality/pins;
+indexed and Eq-only membership paths are tested separately. No Hash or payload-Clone
+bound is imposed on the default object payloads. No throughput measurement is claimed.

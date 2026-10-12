@@ -1486,3 +1486,9 @@ mod solution_stream_sources;
 pub use solution_stream_sources::{
     CheckedSolutionStream, SolutionStreamError, SolutionStreamObject, SolutionStreamRegistry,
 };
+
+mod solution_list_binding;
+pub use solution_list_binding::{
+    BoundListEntity, BoundListSolution, ListSolutionBindingError, SolutionListCollection,
+    SolutionListEntityRecord,
+};

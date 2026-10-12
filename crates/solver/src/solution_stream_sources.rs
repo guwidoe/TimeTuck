@@ -21,6 +21,9 @@ pub enum SolutionStreamError {
     DuplicateProjection,
     DifferentDescriptor,
     MissingFactSnapshot,
+    BasicAssignment(crate::ModelError),
+    ListAssignment(crate::ListError),
+    WrongListValueType(PlanningType),
 }
 impl std::fmt::Display for SolutionStreamError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -182,6 +185,123 @@ impl SolutionStreamRegistry {
     }
 }
 impl<T: 'static> CheckedSolutionStream<T> {
+    /// Transactionally refresh membership of immutable object/projection rows.
+    /// Existing allocations keep their tuples and avoid redundant score work.
+    /// Current planning-field snapshots require their own event feeds; this is
+    /// a membership refresh, not an interior-mutation notification.
+    pub fn refresh_membership<S: AdditiveScore + 'static>(
+        &self,
+        graph: &mut crate::StreamGraph<'_, S>,
+        rows: Vec<(usize, SolutionStreamObject<T>)>,
+    ) -> Result<(), crate::GraphError> {
+        let old_order: Vec<_> = graph.source_rows(&self.source)?.keys().copied().collect();
+        let old: HashSet<_> = old_order.iter().copied().collect();
+        let next: HashSet<_> = rows.iter().map(|(key, _)| *key).collect();
+        let mut tx = graph.transaction();
+        for key in old_order.iter().filter(|key| !next.contains(key)) {
+            tx.apply(&self.source, crate::TupleChange::retract(*key))?;
+        }
+        let mut inserted = old;
+        for (key, row) in rows {
+            if inserted.insert(key) {
+                tx.apply(&self.source, crate::TupleChange::put(key, row))?;
+            }
+        }
+        tx.commit()
+    }
+    /// Select entities using current native slots, including shadow-only
+    /// entities, while keeping ordinary facts. The object payload is immutable
+    /// fact/initial-state data; planning fields are read from the assignment.
+    pub fn initialized_basic<V: Eq>(
+        &self,
+        bound: &BoundBasicSolution<V>,
+        assignment: &crate::Assignment<V>,
+    ) -> Result<Vec<(usize, SolutionStreamObject<T>)>, SolutionStreamError> {
+        let facts = bound
+            .facts()
+            .ok_or(SolutionStreamError::MissingFactSnapshot)?;
+        let mut rows = self.facts(facts)?;
+        bound
+            .problem()
+            .validate(assignment)
+            .map_err(SolutionStreamError::BasicAssignment)?;
+        rows.extend(
+            bound
+                .entities()
+                .iter()
+                .filter(|e| {
+                    e.slots()
+                        .iter()
+                        .all(|(_, slot)| assignment.values()[*slot].is_some())
+                })
+                .filter_map(|e| self.row(e.entity_type(), e.object())),
+        );
+        Ok(rows)
+    }
+    /// Raw list-owner, shadow-only entity and fact objects from the concrete
+    /// binding. Current planning lists remain in the explicit native assignment.
+    pub fn list_bound<V>(
+        &self,
+        bound: &crate::BoundListSolution<V>,
+    ) -> Result<Vec<(usize, SolutionStreamObject<T>)>, SolutionStreamError> {
+        let mut rows = self.facts(bound.facts())?;
+        rows.extend(
+            bound
+                .entities()
+                .iter()
+                .filter_map(|e| self.row(e.entity_type(), e.object())),
+        );
+        Ok(rows)
+    }
+    /// Select real canonical list-value allocations using the live native
+    /// assignment. No inverse/index getter is consulted. Both required and
+    /// optional list fields exclude currently unassigned values for this view.
+    /// Native Eq identity determines canonical model rows; foreign equal-valued
+    /// assignment handles cannot replace the actual registered domain object.
+    pub fn initialized_list_values<C: Any + Send + Sync + Eq>(
+        &self,
+        bound: &crate::BoundListSolution<Arc<C>>,
+        assignment: &crate::ListAssignment<Arc<C>>,
+    ) -> Result<Vec<(usize, SolutionStreamObject<T>)>, SolutionStreamError> {
+        if !Arc::ptr_eq(&self.layout, bound.facts().descriptor()) {
+            return Err(SolutionStreamError::DifferentDescriptor);
+        }
+        let ty = PlanningType::of::<C>();
+        if !self.paths.contains_key(&ty) {
+            return Err(SolutionStreamError::WrongListValueType(ty));
+        }
+        let positions = bound
+            .problem()
+            .validate_using(assignment, true)
+            .map_err(SolutionStreamError::ListAssignment)?;
+        let assigned = match positions {
+            Some(positions) => positions
+                .into_iter()
+                .map(|p| p.is_some())
+                .collect::<Vec<_>>(),
+            None => {
+                // Eq-only models return no position table. Preserve their native
+                // identity semantics; indexed models use the single-pass result.
+                let mut assigned = vec![false; bound.problem().values().len()];
+                for value in assignment.lists().iter().flatten() {
+                    let index = bound.problem().value_index(value).expect("validated value");
+                    assigned[index] = true;
+                }
+                assigned
+            }
+        };
+        Ok(bound
+            .problem()
+            .values()
+            .iter()
+            .zip(assigned)
+            .filter(|(_, assigned)| *assigned)
+            .filter_map(|(value, _)| {
+                let object: Arc<dyn Any + Send + Sync> = value.clone();
+                self.row(ty, &object)
+            })
+            .collect())
+    }
     pub fn source(&self) -> &StreamSource<usize, SolutionStreamObject<T>> {
         &self.source
     }
