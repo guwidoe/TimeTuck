@@ -101,6 +101,22 @@ pub struct CandidateIndex<K, I, T> {
     buckets: ScalingMap<K, Vec<IndexedCandidate<I, T>>>,
     positions: BTreeMap<I, (K, usize)>,
 }
+impl<K, I, T> CandidateIndex<K, I, T> {
+    /// Tune the actual adaptive key storage. Existing query/removal/sampling
+    /// behavior is independent of representation; payloads are never cloned.
+    pub fn with_config(config: crate::ScalingMapConfig) -> Self {
+        Self {
+            buckets: ScalingMap::with_config(config),
+            positions: BTreeMap::new(),
+        }
+    }
+    pub fn storage_config(&self) -> crate::ScalingMapConfig {
+        self.buckets.config()
+    }
+    pub fn is_array_based(&self) -> bool {
+        self.buckets.is_array_based()
+    }
+}
 impl<K, I, T> Default for CandidateIndex<K, I, T> {
     fn default() -> Self {
         Self {

@@ -82,6 +82,9 @@ impl<K, V> ScalingMap<K, V> {
     pub fn is_array_based(&self) -> bool {
         matches!(self.storage, ScalingMapStorage::Array(_))
     }
+    pub fn config(&self) -> ScalingMapConfig {
+        self.config
+    }
     /// Clearing retains tree mode once promoted; array-mode churn is reset.
     pub fn clear(&mut self) {
         match &mut self.storage {

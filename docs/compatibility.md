@@ -7723,3 +7723,22 @@ explicit reads preserving allocations, invalid/incomplete registration before re
 getter panic isolation, actual fact/value identity and equal record codes on distinct
 allocations. These controls give no upstream credit. Native engines unchanged;
 no new performance measurement or throughput claim.
+
+### Adaptive comparison candidate storage coverage
+
+CandidateIndex now accepts a real ScalingMapConfig and exposes the actual backing
+storage configuration/array state. Defaults, storage promotion rules, queries,
+captured-key removal/rekeying and sampling implementations remain unchanged.
+
+Five complete ComparisonIndexerTest methods preserve threshold-relative age/string
+fixtures, actual promotion and sticky tree-state assertions, monotonic array growth,
+strict range match sets/cardinality and complete tree-backed unique/repeating draws.
+Native tuning replaces upstream private constants. Its next-insertion promotion
+policy needs tolerance+1 transient churn cycles to reach the required tree state;
+no exact tuning, Java iteration order or RNG trace equivalence is claimed.
+
+Two original controls verify real custom-policy promotion/zero ceilings, preserved
+payload allocations without Clone bounds, captured-key rekeying/removal and identical
+bidirectional match/seeded sample results across array/tree representations. They
+earn no upstream credit. Factory fusion eligibility remains pending. No benchmark
+refresh or throughput improvement is claimed from exposing these settings.

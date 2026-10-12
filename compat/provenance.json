@@ -55301,6 +55301,81 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all five generated immutable code-valued records and seven generated initialized entities, exact names, i modulo 5 allocation reuse, actual value-list fact/provider role and construction-only solve. The source calculator counts the actual entity collection and scores seven. Native immutable record Eq/Hash provides code planning identity; real typed getters read the generated objects into the native solver. Additional allocation/score/phase assertions strengthen source no-exception behavior. No Java record/reflection/API/ABI claim."
+    },
+    {
+      "id": "ComparisonIndexerTest.treeifiesPastArrayThreshold",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "treeifiesPastArrayThreshold",
+      "local_path": "crates/solver/tests/comparison_storage_cases.rs",
+      "local_test": "treeifies_past_array_threshold",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual array/tree storage-state assertions, threshold-relative full age/string fixtures, strict comparison match sets/cardinality, no-demotion removal behavior and complete seeded drain/repeating reachability assertions. CandidateIndex uses its actual ScalingMap buckets; introspection reads their real representation/configuration, not stand-in flags. Native tuning replaces upstream constants; native promotion occurs on the next absent-key insertion after configured churn removals, so helper uses tolerance+1 transient cycles to reach the same required tree state. Native seeds0..9 preserve unique drain coverage and seed0 preserves60 repeating draws; no Java PRNG/storage traversal/API/ABI trace claim. Tuple occurrence identity maps to stable IDs retaining actual age payloads. Rust exhausted next returns None instead of Java NoSuchElementException."
+    },
+    {
+      "id": "ComparisonIndexerTest.treeifyIsOneWayNoDemotionOnRemove",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "treeifyIsOneWayNoDemotionOnRemove",
+      "local_path": "crates/solver/tests/comparison_storage_cases.rs",
+      "local_test": "treeify_is_one_way_no_demotion_on_remove",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual array/tree storage-state assertions, threshold-relative full age/string fixtures, strict comparison match sets/cardinality, no-demotion removal behavior and complete seeded drain/repeating reachability assertions. CandidateIndex uses its actual ScalingMap buckets; introspection reads their real representation/configuration, not stand-in flags. Native tuning replaces upstream constants; native promotion occurs on the next absent-key insertion after configured churn removals, so helper uses tolerance+1 transient cycles to reach the same required tree state. Native seeds0..9 preserve unique drain coverage and seed0 preserves60 repeating draws; no Java PRNG/storage traversal/API/ABI trace claim. Tuple occurrence identity maps to stable IDs retaining actual age payloads. Rust exhausted next returns None instead of Java NoSuchElementException."
+    },
+    {
+      "id": "ComparisonIndexerTest.monotonicGrowthStaysArrayBased",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "monotonicGrowthStaysArrayBased",
+      "local_path": "crates/solver/tests/comparison_storage_cases.rs",
+      "local_test": "monotonic_growth_stays_array_based",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual array/tree storage-state assertions, threshold-relative full age/string fixtures, strict comparison match sets/cardinality, no-demotion removal behavior and complete seeded drain/repeating reachability assertions. CandidateIndex uses its actual ScalingMap buckets; introspection reads their real representation/configuration, not stand-in flags. Native tuning replaces upstream constants; native promotion occurs on the next absent-key insertion after configured churn removals, so helper uses tolerance+1 transient cycles to reach the same required tree state. Native seeds0..9 preserve unique drain coverage and seed0 preserves60 repeating draws; no Java PRNG/storage traversal/API/ABI trace claim. Tuple occurrence identity maps to stable IDs retaining actual age payloads. Rust exhausted next returns None instead of Java NoSuchElementException."
+    },
+    {
+      "id": "ComparisonIndexerTest.uniqueRandomIteratorTreeMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "uniqueRandomIteratorTreeMode",
+      "local_path": "crates/solver/tests/comparison_storage_cases.rs",
+      "local_test": "unique_random_iterator_tree_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual array/tree storage-state assertions, threshold-relative full age/string fixtures, strict comparison match sets/cardinality, no-demotion removal behavior and complete seeded drain/repeating reachability assertions. CandidateIndex uses its actual ScalingMap buckets; introspection reads their real representation/configuration, not stand-in flags. Native tuning replaces upstream constants; native promotion occurs on the next absent-key insertion after configured churn removals, so helper uses tolerance+1 transient cycles to reach the same required tree state. Native seeds0..9 preserve unique drain coverage and seed0 preserves60 repeating draws; no Java PRNG/storage traversal/API/ABI trace claim. Tuple occurrence identity maps to stable IDs retaining actual age payloads. Rust exhausted next returns None instead of Java NoSuchElementException."
+    },
+    {
+      "id": "ComparisonIndexerTest.randomIteratorReverseOrderTreeMode",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "randomIteratorReverseOrderTreeMode",
+      "local_path": "crates/solver/tests/comparison_storage_cases.rs",
+      "local_test": "random_iterator_reverse_order_tree_mode",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve actual array/tree storage-state assertions, threshold-relative full age/string fixtures, strict comparison match sets/cardinality, no-demotion removal behavior and complete seeded drain/repeating reachability assertions. CandidateIndex uses its actual ScalingMap buckets; introspection reads their real representation/configuration, not stand-in flags. Native tuning replaces upstream constants; native promotion occurs on the next absent-key insertion after configured churn removals, so helper uses tolerance+1 transient cycles to reach the same required tree state. Native seeds0..9 preserve unique drain coverage and seed0 preserves60 repeating draws; no Java PRNG/storage traversal/API/ABI trace claim. Tuple occurrence identity maps to stable IDs retaining actual age payloads. Rust exhausted next returns None instead of Java NoSuchElementException."
     }
   ],
   "fixtures": [
@@ -77351,6 +77426,32 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain the TEST calculator body counting the actual entity list, translated to native SimpleScore. No production calculator implementation copied."
+    },
+    {
+      "id": "comparison-storage-churn-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComparisonIndexerTest.java",
+      "upstream_test": "churnKey / newTuple / age tuple fixtures",
+      "local_path": "crates/solver/tests/comparison_storage_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only distinct age/string tuples and temporary churn-key insert/remove setup to stable native occurrence IDs with retained Arc string payloads. Native threshold/tolerance/cap configuration replaces private Java constants; tolerance+1 cycles reach native next-insertion promotion. No production implementation copied."
+    },
+    {
+      "id": "comparison-storage-sampling-helpers",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/AbstractIndexerTest.java",
+      "upstream_test": "assertUniqueRandomDrainMatchesForEach / assertRepeatingRandomNeverEnds",
+      "local_path": "crates/solver/tests/comparison_storage_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all match membership, equal cardinality, exhaustion and repeated next/peek assertions across seeds0..9, and full repeating reachability over60 seed0 draws. Native borrowed query samples replace Java iterators and RNG; exhausted next returns None. No Java trace claim."
     }
   ]
 }
