@@ -16,7 +16,53 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round94
+## Latest verified checkpoint — round95
+
+Native solver-build preflight and real custom-command binding are integrated.
+SolverBuildSettings validates actual typed schema fields and nested exhaustive
+selector coverage, rejecting comparator/factory conflicts, nearby sorting, unsafe
+entity-range cache scopes and automatic mixed-model phase deduction. List range
+scope derives from the actual ListProblem. A successful typed binder creates an
+existing SolverFactory; comparators/caches/nearby policy still require explicit
+native runtime bindings. No Java annotations/class loading/ABI claim.
+
+PhaseCommandRegistry validates every phase index/name before creating any command;
+per-solve mutable instances execute via existing CustomPhaseContext::run_commands.
+XML custom names and direct owned command arrays/vectors bind to actual custom
+phases, preserving shared budgets, best restoration and error/poison behavior.
+Eight complete source methods close all four remaining construction rejections,
+both direct/product missing-field configurations and three custom-phase failures.
+Copied XML and TEST metadata/fixture declarations retain provenance. Five originals
+exercise real factory/solve, coverage/cache validation, fresh command instances,
+preflight and direct commands with restoration/budgets. Existing kernels unchanged.
+
+Initial local checks corrected V:Eq+Clone on a list helper. Focused build corrected
+test references to aggregate work fields; focused runtime passed all8source and4of5
+originals, then corrected one assertion to inspect the actual custom context's
+committed_moves instead of aggregate accepted_moves. Failed focused logs/manifests
+are preserved. First prebuild corrected a Clippy type-complexity warning with an
+alias; work/failed-prebuild-* and work/round95-failed-prebuild.log retain it. Final
+frozen gate verifies the corrected full13case batch. No kernel repair occurred.
+
+runner-a bash scripts/check.sh passed in242.590seconds including prebuild:
+7,291 Rust tests,290 doctests;3,859/4,855 (79.485%),428pending,568excluded,
+zero failed/unverified. Three Rust jobs ran;1,069 Rust and46 Python jobs reused
+actual round94 input/environment keys, output hashes and original timestamps.
+Clippy passed. Root becbcd2d48db3b36cb9a91336b12bc4cf826c9cd1d89441cd6492e82b45ab222.
+Rust digest f2441c2d38e6124b248811222b38963289e62fad4a3f76b79936ecaba19c487c.
+Report digest 490998a2cba9a903dfa293f8e83a275015a3a9fc746e487e130d8ac13808fda0.
+Archive work/round95-runner-a-results.tar.gz SHA256:
+46cf03d9af5f1f8eaccffb6cef84a48212dc3e550b0039aba2c8435239fded40.
+Evidence work/parallel-round95-evidence.json; clean postcommit proof
+work/round95-postcommit-evidence.json. Gate43878/collector51077 terminal0.
+Frozen inputs work/parallel-round95-freeze.json. Reuse these successful checks;
+new commits/turns alone do not invalidate them. Source/log/archive/report freshness
+validated. Current round93 K-opt unchanged/current; older list data stays stale.
+No browser or benchmark rerun for this backend-only batch. No new agents or
+assignments. Full goal incomplete; continue meaningful compatibility gaps, keeping
+performance important and leaving real mixed exhaustive traversal ceilings pending.
+
+## Previous verified checkpoint — round94
 
 Native XML scalar/property/object I/O is integrated. XmlDuration uses checked
 nanosecond arithmetic and converts spentLimit declarations to native solver time

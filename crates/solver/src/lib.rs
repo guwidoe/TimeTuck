@@ -1628,3 +1628,14 @@ pub use xml_values::{
     XmlDuration, XmlObjectCodec, XmlOffsetDateTime, XmlValueError, apply_xml_properties,
     read_xml_properties, write_xml_properties,
 };
+
+mod solver_preflight;
+pub use solver_preflight::{
+    ConstructionSelectorDeclaration, ExhaustiveFieldSelection, PlanningFieldKey,
+    SolverBuildSettings, SolverPreflightError, VariableSorterDeclaration,
+};
+mod phase_command_registry;
+pub use phase_command_registry::{
+    BoundPhaseCommands, CustomCommandNames, CustomPhaseCommands, NativePhaseCommand,
+    PhaseCommandRegistry,
+};

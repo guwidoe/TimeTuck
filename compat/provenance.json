@@ -57911,6 +57911,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "DefaultConstructionHeuristicPhaseTest.failConstructionHeuristicEntityRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "failConstructionHeuristicEntityRange",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "fail_construction_heuristic_entity_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
+    },
+    {
+      "id": "DefaultConstructionHeuristicPhaseTest.failConstructionHeuristicListMixedProperties",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "failConstructionHeuristicListMixedProperties",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "fail_construction_heuristic_list_mixed_properties",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
+    },
+    {
+      "id": "DefaultConstructionHeuristicPhaseTest.failConstructionHeuristicBothNearbyAndSorting",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "failConstructionHeuristicBothNearbyAndSorting",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "fail_construction_heuristic_both_nearby_and_sorting",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
+    },
+    {
+      "id": "DefaultConstructionHeuristicPhaseTest.failMixedModelDefaultConfiguration",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/DefaultConstructionHeuristicPhaseTest.java",
+      "upstream_test": "failMixedModelDefaultConfiguration",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "fail_mixed_model_default_configuration",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
+    },
+    {
+      "id": "BruteForceTest.failMissingBasicVariableConfiguration",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BruteForceTest.java",
+      "upstream_test": "failMissingBasicVariableConfiguration",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "fail_missing_basic_variable_configuration",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
+    },
+    {
+      "id": "CustomPhaseConfigTest.nonExistentCustomPhaseCommand",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/phase/custom/CustomPhaseConfigTest.java",
+      "upstream_test": "nonExistentCustomPhaseCommand",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "non_existent_custom_phase_command",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
+    },
+    {
+      "id": "CustomPhaseConfigTest.nullCustomPhaseCommands",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/phase/custom/CustomPhaseConfigTest.java",
+      "upstream_test": "nullCustomPhaseCommands",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "null_custom_phase_commands",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
+    },
+    {
+      "id": "CustomPhaseConfigTest.nullCustomPhaseCommandList",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/phase/custom/CustomPhaseConfigTest.java",
+      "upstream_test": "nullCustomPhaseCommandList",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "local_test": "null_custom_phase_command_list",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete rejection and diagnostic criteria using explicit native schema/selector/comparator/phase declarations. Native type identities/names replace Java class identities/names and exceptions. Both entity-range declarations use real 3-value/3-entity entity-provided ranges; irrelevant shuffled Java order is not reproduced. Direct and Cartesian one-child exhaustive selector trees resolve independently and both fail full genuine-field coverage. Custom command source XML is unchanged; array and Vec null commands use actual optional native command objects, rejected before binding. Builder callbacks prove invalid metadata cannot construct/run a solver. No annotation discovery, Java exception ABI, comparator execution or nearby-selection parity is claimed."
     }
   ],
   "fixtures": [
@@ -81360,6 +81480,71 @@
       "local_path": "crates/solver/tests/xml_value_cases.rs",
       "modifications": "Retain original XML property fragment and nullable map criteria; native explicit codec replaces TEST bean field/JAXB annotations.",
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "custom-phase-nonexistent-xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/config/phase/custom/testSolverConfigWithNonexistentCustomPhase.xml",
+      "upstream_test": "XML resource",
+      "local_path": "crates/solver/tests/fixtures/preflight/testSolverConfigWithNonexistentCustomPhase.xml",
+      "modifications": "Copied unchanged TEST resource; keys are native registration lookups, not loaded Java classes.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "preflight-entity-provided-list-test-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/comparator/TestdataListSortableEntityProvidingSolution.java",
+      "upstream_test": "generateSolution(3,3,true)",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "modifications": "Adapt three entities/three values with complete entity-provided ranges; ignore shuffled order because rejection precedes iteration.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "preflight-invalid-list-sorter-test-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/invalid/TestdataInvalidListSortableEntity.java",
+      "upstream_test": "valueList comparatorClass/comparatorFactoryClass annotations",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "modifications": "Adapt conflicting typed comparator/factory declarations; no JVM annotation reflection.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "preflight-mixed-test-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEntity.java",
+      "upstream_test": "basicValue,secondBasicValue,valueList declarations",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "modifications": "Adapt two basic fields and one list field into genuine schema; shadow-owner-only entity has no genuine field coverage obligation.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "preflight-entity-provided-list-declaration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/sort/comparator/TestdataListSortableEntityProvidingEntity.java",
+      "upstream_test": "valueList/valueRange annotations and constructor",
+      "local_path": "crates/solver/tests/solver_preflight_cases.rs",
+      "modifications": "Adapt TEST entity-provided list range to actual native ListEntity::with_value_range; field identity/sorting inputs are explicit Rust declarations rather than annotation reflection.",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",

@@ -8498,3 +8498,41 @@ passed. Current round93 K-opt measurements remain current; no benchmark rerun or
 retagging. The initial local compile corrected a replace() argument, and the first
 remote prebuild caught a Clippy is_multiple_of warning; both are fixed in the final
 verified snapshot. No runtime test failure or solver kernel repair occurred.
+
+### Native solver build preflight and command binding
+
+SolverBuildSettings checks typed planning schemas before factory allocation:
+conflicting comparator/factory declarations, nearby/sorted selection, entity-range
+sorted caches and incomplete explicit exhaustive selector coverage are rejected.
+Nested Cartesian field selections resolve recursively with a depth ceiling;
+shadow fields are excluded. Automatic phase deduction rejects mixed basic/list
+schemas; explicit sequences remain available. List selector declarations can derive
+entity-range scope from the real ListProblem. Comparators/caches/nearby runtime
+policy still require a typed factory binder; metadata does not execute them.
+
+PhaseCommandRegistry resolves all custom phase indices and registration names before
+creating commands. Each bound invocation receives fresh mutable instances, including
+repeated names. CustomCommandNames reads existing XML declarations; optional owned
+command arrays/vectors reject null before binding. Commands execute through existing
+CustomPhaseContext::run_commands, preserving shared budgets, retained-best restoration
+and existing error/poison behavior. No JVM class loading or annotations are used.
+
+Eight complete source-method adaptations cover all four remaining construction
+configuration rejections, both missing-field exhaustive selector configurations,
+unregistered XML custom commands and array/list null commands. Native type identities/
+names and typed errors replace Java classes/exceptions; relevant diagnostics remain.
+Copied source XML and adapted metadata/fixture declarations have provenance. Five
+original integrations exercise a real factory/solve, nested coverage/bad fields,
+actual entity-range caches, fresh mutable command instances with complete preflight,
+and direct commands with retained-best restoration/shared limits. No solver/scoring
+kernel or Cargo dependency changed.
+
+Frozen round95 check passed on runner-a:7,291 Rust tests,290 doctests;
+3,859/4,855 source methods (79.485%),428pending,568excluded,zero failed/unverified.
+Three Rust jobs ran;1,069 Rust and46 Python jobs reused unchanged actual evidence.
+The successful prebuild/gate took242.590seconds. Initial checks corrected a generic
+list-model bound, test references to aggregate work fields, one wrong aggregate
+counter assertion and a Clippy type-complexity warning. The corrected original
+assertion reads the actual custom context's committed-move counter. No solver/
+scoring kernel repair or benchmark rerun occurred. Source/log/archive/report
+freshness validated; round93 K-opt still current and older list results stale.
