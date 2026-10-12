@@ -16,7 +16,55 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round62
+## Latest verified checkpoint — round63
+
+Feature 1a38102 wires actual native planning-variable events to typed current
+object/field tuples in real StreamScoreDirector and solve_stream execution.
+WorkingBasicModelStream compiles slot-to-allocation routing once, groups genuine
+fields by actual entity, and publishes only complete field occurrence groups.
+Initialized views additionally require every field to be assigned. Original object
+allocations and shared canonical field names are retained; domain payloads need no
+Clone bound. Immutable facts and shadow-only entities initialize through a separate
+constant source, leaving the planning source empty for the native director to load.
+Moves and undo use existing indexed group nodes and graph journals; native candidate
+loops and scoring directors remain unchanged. No throughput claim or new benchmark.
+
+Six original integration controls pass: real dense/stream optimum7 with two fields
+per entity and a nonzero constant constraint, routing only the changed entity,
+initialization filtering, composite changes, immutable old explanation snapshots,
+callback-panic rollback, foreign descriptors, and zero-variable models with actual
+constant scoring. An initial empty-model test helper erroneously projected an
+unregistered entity type; corrected to project only the actual registered fact.
+These originals earn no upstream method credit. Basic automatic event wiring is
+complete; current-field wiring for list/mixed bindings remains pending.
+
+runner-a final frozen bash scripts/check.sh passed once: 6,972 Rust tests,
+290 doctests;3,670/4,855 source methods passed (75.592%),617 pending,
+568 excluded,zero failed/unverified. Actual9 Rust RUN/1,002 REUSE/46 Python REUSE;
+199.198seconds. Focused6 originals and strict Clippy passed before the gate;
+no new agents or assignments. runner-c unused; renewed runner-a authentication worked.
+Rust source:522325cf80b249c215ff47df2d201454ff4f444e9b595f70a60ed56de1168b80.
+Report/verification:ed805b49d489a73940b6e14f2e229177b03c166a6a74d4db8a493833ddf05201.
+Remote root:dfba00afa62d239f6de36a7174611d99143eb357624a0bd5f86fc4ee9960c4c8.
+Archive work/round63-runner-a-results.tar.gz SHA256:f390916908ca9c9a1edcb29a1aac99c4b1e5bb46f00e381e90275f454a15d183.
+Evidence/freeze:work/parallel-round63-evidence.json and parallel-round63-freeze.json.
+Launcher88927 and collector95977 completedzero. Postcommit proof
+work/verify_round63_postcommit.py checks exact frozen files, clean Git, dashboard
+freshness and retained completed families. Seed the next gate from this actual
+archive/root; unchanged keys/checksums/dates remain authoritative. Backend-only
+report refresh required no UI rerun. Old performance measurements remain stale.
+
+Next shrink remaining compatibility gaps through executable native configuration
+and termination behavior, then list/mixed typed event binding and advanced tracked
+assertions. SolverConfigTest TEST-only methods inspected: actual optional score
+callback registration, two-minute spent/unimproved limits and config inheritance.
+Existing factory job overrides already support both time limits; avoid duplicate
+metadata-only containers. SolverFactoryTest's remaining nine cases are XML/resource
+loading, and DefaultSolverTest's one remaining case is custom Java class loading.
+Do not claim Java behavior from a native stand-in or reclassify pending cases simply
+to improve the percentage. Goal remains active/incomplete.
+
+## Prior verified checkpoint — round62
 
 Feature 5ec49f9 adds typed WorkingBasicObject/WorkingBasicStream current-field feeds.
 Tuples retain actual entity/fact allocations and immutable fact/initial-state payloads,
