@@ -1485,7 +1485,8 @@ pub use source_member::{
 mod solution_stream_sources;
 pub use solution_stream_sources::{
     CheckedSolutionStream, SolutionStreamError, SolutionStreamObject, SolutionStreamRegistry,
-    WorkingBasicObject, WorkingBasicRows, WorkingBasicStream, WorkingBasicUpdateError,
+    WorkingBasicModelPort, WorkingBasicModelStream, WorkingBasicObject, WorkingBasicRows,
+    WorkingBasicStream, WorkingBasicUpdateError,
 };
 
 mod solution_list_binding;

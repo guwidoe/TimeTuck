@@ -628,3 +628,120 @@ impl fmt::Display for WorkingBasicUpdateError {
     }
 }
 impl std::error::Error for WorkingBasicUpdateError {}
+
+pub type WorkingBasicModelPort<T, V> =
+    crate::StreamPort<crate::ConcatId<usize, usize>, WorkingBasicObject<T, V>>;
+/// Real native planning-variable source wired to typed current entity tuples.
+/// Multiple fields are grouped by the actual entity allocation; an entity emits
+/// only once all its field occurrences exist, and optionally only when non-null.
+/// Constant facts and shadow-only entities use an independent immutable source.
+pub struct WorkingBasicModelStream<T, V> {
+    variables: crate::PlanningStreamSource<V>,
+    constant: WorkingBasicStream<T, V>,
+    constant_rows: WorkingBasicRows<T, V>,
+    port: WorkingBasicModelPort<T, V>,
+}
+impl<T, V> WorkingBasicModelStream<T, V> {
+    pub fn planning_source(&self) -> &crate::PlanningStreamSource<V> {
+        &self.variables
+    }
+    pub fn port(&self) -> &WorkingBasicModelPort<T, V> {
+        &self.port
+    }
+}
+impl<T: 'static, V: Clone + Eq + 'static> WorkingBasicModelStream<T, V> {
+    /// Initialize only immutable facts/shadow-only objects. The planning source
+    /// stays empty for StreamScoreDirector/solve_stream to load and protect.
+    pub fn initialize_constants<S: AdditiveScore + 'static>(
+        &self,
+        graph: &mut crate::StreamGraph<'_, S>,
+    ) -> Result<(), crate::GraphError> {
+        self.constant.refresh(graph, self.constant_rows.clone())
+    }
+}
+impl SolutionStreamRegistry {
+    /// Bind current typed objects to actual native variable events. All object
+    /// and field routing metadata is compiled once; moves reuse native indexed
+    /// group updates and graph journals rather than scanning every entity.
+    pub fn working_basic_model<T: 'static, V: Clone + Eq + 'static, S: AdditiveScore + 'static>(
+        &self,
+        builder: &mut StreamGraphBuilder<'_, S>,
+        bound: &BoundBasicSolution<V>,
+        initialized_only: bool,
+    ) -> Result<WorkingBasicModelStream<T, V>, WorkingBasicUpdateError> {
+        let facts = bound.facts().ok_or(WorkingBasicUpdateError::Source(
+            SolutionStreamError::MissingFactSnapshot,
+        ))?;
+        if !Arc::ptr_eq(&self.layout, facts.descriptor()) {
+            return Err(WorkingBasicUpdateError::Source(
+                SolutionStreamError::DifferentDescriptor,
+            ));
+        }
+        let constant = self
+            .working_basic_source::<T, V, S>(builder)
+            .map_err(WorkingBasicUpdateError::Source)?;
+        let initial = bound.problem().initial_assignment();
+        let constant_rows = constant
+            .rows(bound, &initial, false)
+            .map_err(WorkingBasicUpdateError::Source)?
+            .into_iter()
+            .filter(|(_, row)| row.values.is_empty())
+            .collect();
+        let mut by_slot = vec![None; bound.problem().variables().len()];
+        let mut entities = HashMap::new();
+        for entity in bound.entities() {
+            let Some(object) = constant.object(entity.entity_type(), entity.object()) else {
+                continue;
+            };
+            if entity.slots().is_empty() {
+                continue;
+            }
+            let key = Arc::as_ptr(entity.object()) as *const () as usize;
+            let names = constant.names[&entity.entity_type()].clone();
+            for (_, slot) in entity.slots() {
+                by_slot[*slot] = Some(key);
+            }
+            entities.insert(key, (object, names));
+        }
+        let by_slot = Arc::new(by_slot);
+        let entities = Arc::new(entities);
+        let variables = builder.source::<usize, (usize, Option<V>)>();
+        let select = by_slot.clone();
+        let selected = builder
+            .filter(variables.port(), move |(slot, _)| {
+                select.get(*slot).is_some_and(Option::is_some)
+            })
+            .map_err(WorkingBasicUpdateError::Graph)?;
+        let groups = builder
+            .group_list(&selected, move |(slot, value)| {
+                (by_slot[*slot].expect("selected slot"), value.clone())
+            })
+            .map_err(WorkingBasicUpdateError::Graph)?;
+        let lengths = entities.clone();
+        let complete = builder
+            .filter(&groups, move |(key, values)| {
+                values.len() == lengths[key].1.len()
+                    && (!initialized_only || values.iter().all(Option::is_some))
+            })
+            .map_err(WorkingBasicUpdateError::Graph)?;
+        let current = builder
+            .map(&complete, move |(key, values)| {
+                let (object, names) = &entities[key];
+                WorkingBasicObject {
+                    object: object.clone(),
+                    names: names.clone(),
+                    values: values.iter().cloned().collect(),
+                }
+            })
+            .map_err(WorkingBasicUpdateError::Graph)?;
+        let port = builder
+            .concat(&current, constant.port())
+            .map_err(WorkingBasicUpdateError::Graph)?;
+        Ok(WorkingBasicModelStream {
+            variables,
+            constant,
+            constant_rows,
+            port,
+        })
+    }
+}

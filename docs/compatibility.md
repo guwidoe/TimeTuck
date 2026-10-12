@@ -7612,3 +7612,23 @@ rollback and equal-identity replacement payloads. These earn no upstream credit.
 Snapshot producers and targeted updates are available; automatic wiring from the
 native solver's variable event source remains to be completed. Candidate/search
 loops unchanged, and no new throughput measurement is claimed.
+
+### Native solver events feeding current typed objects
+
+WorkingBasicModelStream now connects the actual native planning-variable source to
+current entity tuples. Routing tables compile from concrete bound entity slots and
+allocations; native ordered reversible grouping assembles every genuine field of an
+entity before publishing its tuple. Initialized views additionally require non-null
+fields. Immutable facts and shadow-only entities use a separate constant source,
+initialized before StreamScoreDirector/solve_stream loads the empty planning source.
+This completes basic-variable automatic event wiring previously marked pending;
+mixed/list current-field event integration remains separate work.
+
+Six original controls exercise real solve_stream optimization against dense scoring,
+multiple genuine fields, static facts, exact stable allocations, targeted callback
+work, partial initialization, composite changes, old explanation ownership, rollback,
+foreign descriptors and zero-variable models executing nonzero constant constraints.
+No domain-object Clone bound is required. These originals earn no upstream method
+credit. Native candidate/search loops and scoring director implementation remain
+unchanged; the new opt-in graph pipeline follows their existing journals and event
+routing. No overall constant-time or throughput improvement is claimed.
