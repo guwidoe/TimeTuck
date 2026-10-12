@@ -7842,3 +7842,28 @@ Overall3,690/4,855 (76.004%),597 pending,568 excluded; zero failed/unverified. F
 native evidence:7,023 Rust tests,290 doctests,5 changed jobs/1,019 reused jobs. No
 benchmark refresh was needed: K-opt's actual measurement input hash remains unchanged.
 Automatic deep-cloner tests and list/mixed clone projection remain implementation gaps.
+
+### Registered basic entity clone plans
+
+BasicSolutionClonePlan allocates each actual bound entity once through a typed factory
+and rebuilds the root with a memoized BasicEntityClones map. Factories receive named
+planning-field values; root reconstruction can preserve aliases across collections
+and arrays. Both source/target allocations remain owned by the map; foreign equal
+objects cannot resolve by address reuse. Factory completeness and duplicate handling
+precede allocation. Rebinding checks layout, aliases, domains/pins/nullability,
+allocation isolation, score preservation and all planning values; map-bypassing roots
+are rejected. No scoring/search occurs, and absent scores remain absent. Mutable
+storage and unregistered/deep fields/backlinks remain application factory policies;
+this does not infer arbitrary Rust fields or solve recursive clone dependencies.
+
+Two complete AbstractSolutionClonerTest methods retain the full3-value/4-entity fixtures,
+shared value-list allocation, distinct root/list/entities, score/code/value assertions
+and original-mutation isolation where asserted. Property/field payload types and native
+registered getters replace Java annotation/reflection/Gizmo assumptions; no API/ABI
+parity claimed. Three originals cover allocation counts/aliases/source lifetime,
+foreign objects, missing/duplicate factories, root bypass and panic/retry isolation.
+TEST fixtures/helpers/methods have provenance/notices. Abstract cloner2/14 passed,
+12 pending; custom cloner4/4 remains covered. Overall3,692/4,855 (76.045%),595 pending,
+568 excluded; zero failed/unverified. Final7,028 Rust tests/290 doctests,5 changed jobs/
+1,021 reused jobs/46 Python reuses. Raw solver algorithms remain unchanged, and K-opt's
+actual measurement digest remains current without a benchmark refresh.

@@ -16,6 +16,61 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round74
+
+BasicSolutionClonePlan allocates each unique bound basic entity once through a typed
+registered factory, then rebuilds the application root using BasicEntityClones.
+Factories receive actual named planning values from the bound native snapshot.
+Root reconstruction preserves aliases across collections/arrays with map lookups.
+The map owns source/target allocations, preventing address reuse after root drop;
+equal foreign objects fail lookup. Numeric address keys permit safe ownership transfer
+without dereferencing addresses. All factory registrations validate before allocation;
+duplicates preserve existing factories. Shared validation checks score type/equality,
+allocation isolation, entity layout/collection aliases, domains/nullability/pins and
+planning values. Roots bypassing the allocated map are rejected. Membership validation
+uses a hash set rather than quadratic scanning. Copy performs no scoring/search and
+preserves absent scores. Mutable field storage, facts, unregistered/deep fields and
+backlinks remain explicit application factory policies; no arbitrary recursive/deep-
+field inference or Java reflection/API/ABI parity claimed. Default raw solves unchanged.
+
+Two complete AbstractSolutionClonerTest methods close cloneSolution and
+cloneFieldAnnotatedSolution: all3 values, four actual a/b/c/d entities with1/1/3/3,
+root code solution, distinct root/entity-list/entities, shared value-list allocation,
+score equality and every code/value assertion. Actual original b mutation to value2
+leaves cloned b at1 in the source method that asserts mutation. Separate concrete
+property/field payload types hold independent Mutex planning-field storage; native
+registered getters/factories replace annotation/reflection/Gizmo factory assumptions.
+TEST-only full fixtures/assertEntityClone helper are attributed, not production code.
+
+Three originals verify exactly2 factories for aliased2-entity/2-collection inputs,
+shared target aliases and actual source lifetime retention/foreign rejection; missing
+and duplicate registrations, no early root call and map-bypass rejection; factory
+panic/no partial publication and retry/input isolation. Focus2+3 passed. Address keys
+were changed to usize after focus; final gate verifies that final state. Shared clone
+validation was factored out and previous custom-clone cases remain green.
+
+Final frozen runner-a bash scripts/check.sh passed once:7,028 Rust tests,290 doctests;
+3,692/4,855 passed (76.045%),595 pending,568 excluded,zero failed/unverified.
+Actual5 Rust RUN/1,021 REUSE/46 Python REUSE;207.069seconds. Abstract cloner now2/14
+methods passed,12 pending; custom cloner remains4/4. No raw solver/search/scoring/graph
+algorithm change, benchmark/performance claim, release correctness run, UI rerun or
+new agents. Rust:2f9dbd157eaa149947c0c2cd2e2f22ccf3a50a6943c9e6073e5d83791ea389c6.
+Report:4b5d56810cf95f7e53faba6d6fae5cc20e9be16454e8299ab4090312c10eeaee.
+Remote root:368d4bbdeccaced9441d408f51238198a253d3bc773908a1a8eea750f8bc09d8.
+Archive work/round74-runner-a-results.tar.gz SHA256:0621b10670b3f20990f42f044e3af0d92030dfbf170c95ee44b491fc7b963590.
+Evidence/freeze:work/parallel-round74-evidence.json and parallel-round74-freeze.json.
+Launcher64039/collector91793 completedzero. Postcommit proof:work/verify_round74_postcommit.py.
+Next gate seeds from actual round74 archive/root. K-opt measurement key remains
+unchangedd97e85200c8e0e784d034049d327bb4dc05f7be28263cf96691b7acd78e3f1f6:
+genuine round71 measurements remain current, older list data stays stale. No evidence
+retagged, no unrelated benchmarks rerun.
+
+Remaining clone work includes native list/mixed projection, deep registered fields,
+recursive references/backlinks and remaining12 abstract-cloner source methods. Do not
+credit those from basic allocation-map cases. K-opt implicit3-opt boundaries and
+other real compatibility gaps remain. Goal active/incomplete; keep reducing backlog
+while preserving measured performance and source-test fidelity. No new agents.
+
 ## Latest verified checkpoint — round73
 
 BasicSolutionCloner runs actual typed basic solves and projects retained assignments

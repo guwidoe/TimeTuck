@@ -15,6 +15,10 @@ pub enum BasicSolutionCloneError {
     ScoreCorruption(String),
     SharedEntity { clone_index: usize },
     EntityLayoutChanged,
+    MissingCloneFactory(PlanningType),
+    DuplicateCloneFactory(PlanningType),
+    UnknownCloneEntity,
+    CloneTypeMismatch,
     AssignmentChanged,
 }
 impl std::fmt::Display for BasicSolutionCloneError {
@@ -33,6 +37,16 @@ impl std::fmt::Display for BasicSolutionCloneError {
                 f.write_str("clone score type differs from the registered solution score")
             }
             Self::EntityLayoutChanged => f.write_str("cloning changed the bound entity layout"),
+            Self::MissingCloneFactory(t) => {
+                write!(f, "missing entity clone factory for {}", t.name())
+            }
+            Self::DuplicateCloneFactory(t) => {
+                write!(f, "duplicate entity clone factory for {}", t.name())
+            }
+            Self::UnknownCloneEntity => {
+                f.write_str("entity allocation is not part of this clone map")
+            }
+            Self::CloneTypeMismatch => f.write_str("entity clone type mismatch"),
             Self::AssignmentChanged => {
                 f.write_str("cloning changed the retained planning assignment")
             }
@@ -132,45 +146,55 @@ impl<'a, D: 'static, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                 "Cloning corruption: the original's score {score:?} differs from the clone's score {cloned_score:?}"
             )));
         }
-        let binding = accessors
-            .bind(&solution)
-            .map_err(BasicSolutionCloneError::Binding)?;
-        let allocations: HashSet<_> = original
-            .entities()
-            .iter()
-            .map(|e| std::sync::Arc::as_ptr(e.object()) as *const ())
-            .collect();
-        for (clone_index, e) in binding.entities().iter().enumerate() {
-            if allocations.contains(&(std::sync::Arc::as_ptr(e.object()) as *const ())) {
-                return Err(BasicSolutionCloneError::SharedEntity { clone_index });
-            }
-        }
-        if original.entities().len() != binding.entities().len()
-            || original
-                .entities()
-                .iter()
-                .zip(binding.entities())
-                .any(|(a, b)| a.entity_type() != b.entity_type() || a.slots() != b.slots())
-            || accessors.layout().members().iter().any(|m| {
-                matches!(m.kind(), SolutionMemberKind::Entities { .. })
-                    && original.collection(m.name()) != binding.collection(m.name())
-            })
-            || original
-                .problem()
-                .variables()
-                .iter()
-                .zip(binding.problem().variables())
-                .any(|(a, b)| {
-                    a.domain() != b.domain()
-                        || a.is_pinned() != b.is_pinned()
-                        || a.allows_unassigned() != b.allows_unassigned()
-                })
-        {
-            return Err(BasicSolutionCloneError::EntityLayoutChanged);
-        }
-        if binding.problem().initial_assignment() != *assignment {
-            return Err(BasicSolutionCloneError::AssignmentChanged);
-        }
+        let binding = validate_basic_clone(accessors, original, &solution, assignment)?;
         Ok((solution, binding))
     }
+}
+
+pub(crate) fn validate_basic_clone<D: 'static, V: Eq + Clone + 'static>(
+    accessors: &SolutionBasicAccessors<'_, D, V>,
+    original: &BoundBasicSolution<V>,
+    solution: &D,
+    assignment: &Assignment<V>,
+) -> Result<BoundBasicSolution<V>, BasicSolutionCloneError> {
+    let binding = accessors
+        .bind(solution)
+        .map_err(BasicSolutionCloneError::Binding)?;
+    let allocations: HashSet<_> = original
+        .entities()
+        .iter()
+        .map(|e| std::sync::Arc::as_ptr(e.object()) as *const ())
+        .collect();
+    for (clone_index, e) in binding.entities().iter().enumerate() {
+        if allocations.contains(&(std::sync::Arc::as_ptr(e.object()) as *const ())) {
+            return Err(BasicSolutionCloneError::SharedEntity { clone_index });
+        }
+    }
+    if original.entities().len() != binding.entities().len()
+        || original
+            .entities()
+            .iter()
+            .zip(binding.entities())
+            .any(|(a, b)| a.entity_type() != b.entity_type() || a.slots() != b.slots())
+        || accessors.layout().members().iter().any(|m| {
+            matches!(m.kind(), SolutionMemberKind::Entities { .. })
+                && original.collection(m.name()) != binding.collection(m.name())
+        })
+        || original
+            .problem()
+            .variables()
+            .iter()
+            .zip(binding.problem().variables())
+            .any(|(a, b)| {
+                a.domain() != b.domain()
+                    || a.is_pinned() != b.is_pinned()
+                    || a.allows_unassigned() != b.allows_unassigned()
+            })
+    {
+        return Err(BasicSolutionCloneError::EntityLayoutChanged);
+    }
+    if binding.problem().initial_assignment() != *assignment {
+        return Err(BasicSolutionCloneError::AssignmentChanged);
+    }
+    Ok(binding)
 }
