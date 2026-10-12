@@ -15,10 +15,21 @@ pub enum ListSolutionBindingError {
     Range(ManagedRangeError),
     Model(ListError),
     ListFieldCount,
+    MultipleListFields(Vec<(PlanningType, String)>),
     ConflictingRecord(PlanningType),
 }
 impl std::fmt::Display for ListSolutionBindingError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Self::MultipleListFields(fields) = self {
+            f.write_str("list solution binding supports one genuine list field; found ")?;
+            for (i, (entity, field)) in fields.iter().enumerate() {
+                if i != 0 {
+                    f.write_str(", ")?;
+                }
+                write!(f, "{}::{field}", entity.name())?;
+            }
+            return Ok(());
+        }
         write!(f, "list solution binding: {self:?}")
     }
 }
@@ -133,6 +144,14 @@ impl ComposedPlanningSolution {
             return Err(SolutionBindingError::DifferentFactDescriptor.into());
         }
         let descriptors = self.compile_variable_ranges(field_ranges)?;
+        let list_fields: Vec<_> = descriptors
+            .iter()
+            .filter(|d| matches!(d.variable().kind(), PlanningVariableKind::List { .. }))
+            .map(|d| (d.definition().entity_type, d.definition().variable.clone()))
+            .collect();
+        if list_fields.len() > 1 {
+            return Err(ListSolutionBindingError::MultipleListFields(list_fields));
+        }
         let mut genuine = descriptors.iter();
         let descriptor = genuine
             .next()

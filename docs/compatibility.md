@@ -7647,3 +7647,28 @@ replace Java reflective class references and open actual prepared scoring direct
 Three original controls verify unchanged other settings and phase plans, non-Clone
 score types, and both two-minute criteria stopping real dense/stream solves through
 an explicit clock. No wall-clock sleeps or upstream credit for originals.
+
+### Native list events feeding typed current objects
+
+WorkingListModelStream publishes current ordered owner lists together with
+unchanged facts/shadow-only objects. WorkingListValue attaches canonical registered
+allocations to native current owner/index/previous/next rows, with explicit assigned
+membership filtering. Projection and allocation routing compile once; move updates
+use the existing list director's affected-row events and graph journals. Immutable
+object payloads remain facts/initial state. No object Clone or Hash bound is required,
+and stale object index/inverse fields are not consulted. Sources remain empty until
+the native director loads them; constants initialize through their own source.
+
+Six original controls execute dense versus stream exact list optimization, targeted
+callback work, current neighbors, old explanation snapshots, optional membership,
+equal-value foreign handles retaining canonical objects, actual allocation identity,
+callback-panic rollback, foreign descriptors/graphs and nonzero constant scoring on
+a zero-list model. Originals earn no source-method credit. Native search/scoring
+directors remain unchanged; no throughput or overall constant-time claim is made.
+
+One complete SolverConfigTest case preserves both real list declarations/provider
+IDs and rejects the unsupported one-list binding with the owner and both field
+names. Explicit native model preparation replaces reflective Java factory creation;
+no Java calculator loading or API/ABI claim. Structured MultipleListFields diagnostics
+retain all conflicting owner/field identities before concrete binding reads. Mixed
+typed model binding/current-field integration remains outstanding.

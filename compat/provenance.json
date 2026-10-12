@@ -55256,6 +55256,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve absent scoring registration followed by the selected full-evaluation calculator or stream provider recipe. Typed executable recipes replace Java abstract class/reflection configuration; verify original preparation callback execution, selected native strategy and actual director resource. Reuse the already attributed TEST-only scoring-factory fixture unchanged and execute its zero objective. No Java class-loader, API or ABI claim."
+    },
+    {
+      "id": "SolverConfigTest.entityWithTwoPlanningListVariables",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "entityWithTwoPlanningListVariables",
+      "local_path": "crates/solver/tests/list_configuration_cases.rs",
+      "local_test": "entity_with_two_planning_list_variables",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both genuine list declarations, their distinct provider IDs, root/entity/value/score roles and all owner/field diagnostic assertions. Explicit native list-model preparation replaces Java reflective factory creation; unsupported multiple-list setup fails with MultipleListFields before concrete provider/entity reads or scoring preparation. The unrelated Java calculator class reference is not imported; scoring cannot be constructed for the rejected binding. Native structured error additionally preserves exact owner/field identities; no Java API/ABI claim. TEST-only fixture declarations are inline in the attributed local test."
     }
   ],
   "fixtures": [
@@ -77189,6 +77204,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Native immutable Arc objects and explicit typed registration/getters replace Java discovery and setters. Decimal entity embeds the previously attributed lavish fields; equal values use code planning identity. Decimal arithmetic storage is restored for this test; other irrelevant arithmetic properties remain omitted. The generated unnamed solution stores real five values and seven entities before filtering and the named native provider executes actual graph construction. No JVM class-loading support or additional method credit from fixtures."
+    },
+    {
+      "id": "SolverConfigTest.twoListDeclarations",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "DummySolutionWithTwoListVariablesEntity/DummyEntityWithTwoListVariables/DummyEntityForListVariable",
+      "local_path": "crates/solver/tests/list_configuration_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt only TEST-visible declaration roles and exact field/provider names to native typed composition. Source case constructs configuration without a working solution: local marker types identify concrete native schema declarations, not a solver substitute; actual native binding rejects the two real genuine fields. No reflective getters/setters or production code copied."
     }
   ]
 }
