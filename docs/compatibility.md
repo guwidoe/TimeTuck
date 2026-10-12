@@ -8874,3 +8874,36 @@ duplicate credit. 976 Rust jobs ran; 116 Rust and 46 Python jobs reused unchange
 evidence. Fresh runner-a k-opt validation passed 128 cases; sampled ratios5.042–15.321,
 window0.174–1.440, with larger exhaustive windows still slower. Original measurement
 identities/dates retained; no causal performance claim. Older list metrics remain stale.
+
+## Local-cycle endpoint topology groundwork
+
+ListKOptEndpointTopology validates cuts in each selected movable list cycle,
+including wrap edges, two parallel edges in a two-value row, and singleton loops.
+Endpoint occurrence slots remain distinct when adjacent cuts share values. Added
+slot links must be a complete matching. Pair-preserving ordering and two-matchings
+connectivity expose cycle identities and oriented endpoint tours without mutating
+an assignment. Two-slot components are valid multigraph cycles; disconnected
+endpoint graphs remain inspectable but cannot be oriented as one whole tour.
+
+This is groundwork for the remaining k-opt selector/seam behavior. It does not
+construct physical list rewrites or determine implicit result partitions. All seven
+remaining k-opt source methods stay pending; no new source-method credit is taken.
+Five controls include all 123 perfect matchings for four/six/eight slots against
+an independent connectivity traversal, plus singleton/parallel-edge/pin/error cases.
+The first seam geometry is TEST-derived and recorded as a fixture, not a full method.
+
+A new opaque probe observes unchanged descriptors and pair-order tables before and
+after move conversion, with actual base/pinned/longer-row/entity-order results.
+Original four KOptListMoveIteratorTest methods pass unchanged against pinned
+Community binaries. Independent reversal/boundary-transport hypotheses did not
+explain all observed row rewrites; those results do not establish an implementation.
+Probe/runner/fixture provenance and original artifact hashes are preserved. Internal
+package-scoped descriptor observations are not supported end-user API claims.
+No production implementation source, decompilation or bytecode body was inspected.
+Existing solver/move defaults and previously measured hot paths are unchanged.
+
+Round105 final check passed 7,398 Rust tests and 290 doctests. Two Rust jobs ran;
+1,091 Rust and 46 Python jobs reused unchanged evidence. Source-method coverage
+remains 3,908/4,855 (80.494%), 379 pending: this intermediate topology earns zero
+new compatibility credit. A fixture-description correction refreshed report metadata
+only; execution keys/dates were preserved. Relevant performance inputs are unchanged.

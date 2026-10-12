@@ -16,7 +16,70 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round104
+## Latest verified checkpoint — round105
+
+ListKOptEndpointTopology now validates cuts in each separate movable list cycle,
+including local wraps, singleton loops and both parallel edges of a two-value row.
+Occurrence slots remain distinct for shared values/adjacent cuts. Added links are
+complete slot matchings; pair-preserving order, ranks, connected components and
+oriented endpoint tours are computed independently. Two matchings form degree-two
+multigraphs, including two-slot components. No assignment/score is changed and no
+physical list rewrite or implicit destination partition is supplied. This is a
+necessary intermediate component; the three seam and four selector methods remain
+pending. Zero new source-method credit, no exclusions or expected outputs as inputs.
+
+Five controls include all123perfect matchings of four/six/eight slots against an
+independent component traversal, plus source-derived seam geometry, singleton,
+parallel-edge, prefix and rejection cases. Physical-row translation and selection
+are still required before the remaining source assertions can be credited.
+
+New opaque descriptor-order probe is committed as
+compat/oracle/KOptSeamDescriptorProbe.java, with TEST fixture/helper provenance.
+Five actual base/pinned/longer-row/entity-order cases show descriptors unchanged
+on conversion and pair-order [0,2,1,3,4,5,6] rather than physical endpoint order.
+Actual resulting rows are in work/round105-seam-plan-probe.log. Original four
+KOptListMoveIteratorTest methods execute unchanged against pinned Community and
+all pass; committed runner compat/oracle/KOptIteratorSpecRunner.java. Original
+compilation/execution inputs/classes/artifact hashes in work/round105-oracle-evidence.json.
+Committed runner/checker add license comments to the actual work/ execution inputs;
+that distinction is recorded, not retagged. No production implementation or bytecode
+body inspected; package-scoped descriptor evidence is not an end-user API claim.
+
+Independent reversal/marker-transport hypotheses (dynamic endpoints up to3flips,
+fixed original coordinates up to4, cyclic-row comparison) did NOT explain all five
+observed physical rewrites. No implementation inference is established from them.
+The committed diagnostic is compat/oracle/KOptSeamHypothesisCheck.py; logs in
+work/round105-seam-hypotheses.log, work/round105-seam-fixed-position-hypothesis.log,
+work/round105-seam-cyclic-row-hypothesis.log. Do not repeat already answered probes
+or silently weaken the physical combined-cycle validator. Next: derive actual
+physical row/partition translation and genuine selector-produced endpoint matching,
+using these saved observations. Do not feed desired rows/partitions/partner arrays
+as implementation scripts for source credit. Original scope remains incomplete.
+
+Frozen bash scripts/check.sh passed188.762s:7,398Rust tests and
+290doctests. Two Rust jobs ran;1,091Rust/46Python jobs reused original successful
+records. Clippy1m20s; affected compilation1m04s. Compatibility unchanged:
+3,908/4,855 (80.494%),379pending,568excluded,zero failed/unverified. A fixture
+narrative was clarified after the gate; actual report regeneration refreshed only
+metadata. No Rust/test/method-mapping inputs or original execution keys/dates changed.
+Initial report/gate snapshot/evidence retained separately; recollected archive
+contains original records plus corrected current metadata. No test rerun for that edit.
+Rust 58a6d230ba104f244df78664d0786095d846572a27e539016aeb0dfdf01a3e7f.
+Report 7ed99b0e51447c19fa41c1f3d62bd1dfc20ed5ba86b29e3a2b169c7af299d579.
+Archive work/round105-local-results.tar.gz SHA256:719035407d6340a23d7e92409aa267ae40ce5efb7eac908e45cd92a2df768900.
+Evidence work/parallel-round105-evidence.json; freeze work/parallel-round105-freeze.json;
+postcommit proof work/round105-postcommit-evidence.json. Prebuild97560/gate16358 and
+collectors are terminal0. Don't repeat successful unchanged checks.
+
+Relevant performance inputs unchanged: reuse actual round104 k-opt measurements
+with date2026-10-12T21:40:59.542556+00:00; grouped round97 and prior late-acceptance
+probes retain their original scope/dates. Older list metrics remain stale. No UI/
+data-contract changes; backend report/freshness checked. No new agents/assignments.
+Goal incomplete; continue implementing full behavior, occasional commits and
+selective verification. Do not replace this intermediate topology with a claim
+that seam rewrites or selector generation are finished.
+
+## Previous verified checkpoint — round104
 
 Actual initial fact-capability delivery is implemented in the graph. Registrations
 are passive; retained facts and the original declared topology determine capability,

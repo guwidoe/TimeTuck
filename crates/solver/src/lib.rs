@@ -1668,3 +1668,6 @@ pub use seeded_range_list_change::{
 
 mod benchmark_archive;
 pub use benchmark_archive::{BenchmarkArchive, BenchmarkArchiveError};
+
+mod list_k_opt_endpoints;
+pub use list_k_opt_endpoints::ListKOptEndpointTopology;

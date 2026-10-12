@@ -82935,6 +82935,71 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt TEST-only node factories, identity mapping, downstream activity flag and callback observations into native typed graph registrations. Native scoring weights model an inactive sink; real source rows model input capability. Filter fixture retains A and its true/false membership transitions/retraction. No production implementation copied."
+    },
+    {
+      "id": "kopt-seam-descriptor-probe-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges/getSuccessorFunction/identityIndexOf",
+      "local_path": "compat/oracle/KOptSeamDescriptorProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only endpoint matching/descriptor construction with TEST local-wrap fixture preconditions into an opaque runtime probe. Record ordering tables before/after conversion and actual movement; real score director replaces mock. No production source/bytecode implementation inspected."
+    },
+    {
+      "id": "kopt-seam-descriptor-probe-fixtures",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt/testMultiEntity3OptPinned/testMultiEntity3OptRebase",
+      "local_path": "compat/oracle/KOptSeamDescriptorProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the two source rows/cut/add pairs and pinned prefix; add longer-row and entity-order variants to distinguish seam semantics. Probe earns no source-method compatibility credit."
+    },
+    {
+      "id": "original-upstream-kopt-iterator-execution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java",
+      "upstream_test": "Original full TEST class/helpers, unchanged source execution",
+      "local_path": "compat/oracle/KOptIteratorSpecRunner.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Compile the original pinned TEST source unchanged against pinned Community runtime; an original reflection runner invokes TEST methods, not production internals. Verify original fixture consistency before deriving native selection behavior. No Rust source-method credit. Generated classes remain in ignored work/; the committed original runner is the local execution entrypoint."
+    },
+    {
+      "id": "native-kopt-endpoint-seam-geometry",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt geometry only, not a complete source-method adaptation",
+      "local_path": "crates/solver/tests/kopt_endpoint_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Use the TEST row/cut/add geometry to verify an independent endpoint-slot topology. Public opaque ordering observations constrain the comparison. Physical movement, implicit partitioning and lifecycle assertions remain unimplemented and the source method stays pending. Other cases are original singleton/parallel-edge/pin/error controls."
+    },
+    {
+      "id": "kopt-seam-independent-hypothesis-models",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "TEST seam fixtures reused from recorded opaque probe",
+      "local_path": "compat/oracle/KOptSeamHypothesisCheck.py",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Independent mathematical hypothesis checker reads recorded probe declarations/results; reuses TEST-derived seam geometry. Checks cyclic reversals and boundary transport, reports no matches, earns no compatibility credit. No production implementation inspected."
     }
   ]
 }
