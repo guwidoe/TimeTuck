@@ -8463,3 +8463,38 @@ sampled Java/Rust ratios4.752–15.188; window0.153–1.319. Native window media
 37–39% slower than historical round71, while Java timings also rose; cause unproven.
 A post-timing read found the host on battery/powersave, without historical power
 metadata. Current measurements are retained; older list results remain stale.
+
+### Native XML scalar values and typed object I/O
+
+XmlDuration reads seconds-based ISO durations without floating-point rounding,
+including noncanonical seconds, signed components, days and nanosecond fractions.
+Its native formatter uses a global negative sign; universal Java formatting parity
+is not claimed. XmlOffsetDateTime preserves local civil components and an explicit
+UTC offset; instant comparisons are available separately. Native limits reject
+negative/overflowing durations. SolverXmlConfiguration exposes spentLimit as a
+std::time::Duration for existing solver time-budget settings.
+
+Nullable custom-property maps load namespace-qualified property attributes and
+bind through existing typed ConfigPropertyRegistry setters with parse preflight.
+XmlObjectCodec uses caller-provided typed decoders/encoders; it provides owned XML
+round trips and namespace override without JVM reflection. Parser causes remain
+observable for malformed XML and rejected entity declarations. The XXE source
+case keeps its exact payload and diagnostic, mapping SAXParseException to the
+actual native roxmltree DtdDetected cause; no file is loaded. Output escaping,
+namespace checks and size/node/depth limits apply to native serialization.
+
+Eleven complete source-method adaptations cover duration/date-time values and
+nulls, both property-map null directions, both original property entries, object
+id equality after a real round trip, invalid roots and XXE rejection. TEST-only
+bean/object fragments retain provenance. Five originals cover extreme/signed
+scalar values, offsets and leap dates, escaping/duplicate maps, setters plus a
+real solve with XML spentLimit, and codec namespace/callback/error behavior.
+These originals earn no source-method credit. No dependency or solver/scoring/
+benchmark-session kernel changed. Frozen round94 verification passed on runner-a:7,278 Rust tests,290 doctests;
+3,851/4,855 source methods (79.320%),436pending,568excluded,zero failed/unverified.
+Three Rust jobs ran;1,067 Rust and46 Python jobs reused actual unchanged evidence.
+Final prebuild/check took289.729seconds. Source/log/archive/report freshness checks
+passed. Current round93 K-opt measurements remain current; no benchmark rerun or
+retagging. The initial local compile corrected a replace() argument, and the first
+remote prebuild caught a Clippy is_multiple_of warning; both are fixed in the final
+verified snapshot. No runtime test failure or solver kernel repair occurred.

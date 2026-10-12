@@ -1622,3 +1622,9 @@ pub use benchmark_xml::{
     NativeBenchmarkTrial, XmlBenchmarkRun, XmlBenchmarkRuntime, XmlBenchmarkSolver,
     render_benchmark_template,
 };
+
+mod xml_values;
+pub use xml_values::{
+    XmlDuration, XmlObjectCodec, XmlOffsetDateTime, XmlValueError, apply_xml_properties,
+    read_xml_properties, write_xml_properties,
+};

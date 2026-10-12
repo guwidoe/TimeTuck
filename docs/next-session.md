@@ -4,7 +4,7 @@
 
 Build an independent Rust constraint optimization solver using pinned Timefold
 Community tests/public APIs as specifications, with a visual compatibility and
-performance dashboard. Objective incomplete; continue implementation after restored SSH access.
+performance dashboard. Objective incomplete; continue closing the remaining compatibility gaps.
 Keep pursuing the full objective; this batch is not completion. Never copy or translate
 upstream production; Community only, no formal clean-room claim. Upstream pin
 remains v2.7.0, `8b815bc6b5f3eb81feedc94dea0885a93b267762`.
@@ -16,7 +16,47 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round93
+## Latest verified checkpoint — round94
+
+Native XML scalar/property/object I/O is integrated. XmlDuration uses checked
+nanosecond arithmetic and converts spentLimit declarations to native solver time
+limits. XmlOffsetDateTime preserves civil components/offsets and offers separate
+instant comparisons. Nullable property maps apply actual typed setters after
+preflight. Explicit object codecs round-trip owned XML, preserve attribute/text
+whitespace, validate roots/namespaces, and reject XXE with the actual parser cause.
+No new dependency, reflection, Java ABI, or universal Java formatter claim.
+
+Eleven complete source methods from JaxbDurationAdapterTest,
+JaxbOffsetDateTimeAdapterTest,JaxbCustomPropertiesAdapterTest and GenericJaxbIOTest
+are adapted with TEST helper/fragment provenance. Five originals cover scalar
+extremes/invalid forms, leap dates/offsets, property escaping/duplicates, real solver
+configuration/execution and codec namespace/callback/XXE behavior. First focused
+runner-a run passed all16 in26.198seconds; final gate also covers the subsequent
+whitespace-preservation fix. First local compile corrected a replace() argument;
+first remote prebuild corrected a Clippy is_multiple_of warning. Failure logs
+are preserved under work/failed-prebuild-* and work/round94-failed-prebuild.log.
+No runtime test failure or kernel repair occurred.
+
+Frozen runner-a bash scripts/check.sh passed in289.729seconds including prebuild:
+7,278 Rust tests,290 doctests;3,851/4,855 (79.320%),436pending,568excluded,
+zero failed/unverified. Three Rust jobs ran;1,067 Rust and46 Python jobs reused
+unchanged keys/checksums/timestamps from actual round93 evidence. Clippy passed.
+Root f7e39d366b23577056de1537a5488c1b0317610e92fa6c4772d4151cd7268341.
+Rust digest d1295e6df9d7ac7208345358a83f6908542c1ca9f6e0d5deb6da166ef0ed8abe.
+Report digest 54ecf3bb9d08ebdb46aa7aad21aaf891bf8d1b9188c79d86d77e70117cda5d73.
+Archive work/round94-runner-a-results.tar.gz SHA256:
+b0cb4647385d6fc4f54648d5ce3577bc7c0de1adc2eb7a8891d250f1d8f8acb6.
+Evidence work/parallel-round94-evidence.json; postcommit proof
+work/round94-postcommit-evidence.json. Gate26056/collector47169 terminal0.
+Frozen files work/parallel-round94-freeze.json. Do not repeat these successful
+checks merely for a new commit/turn. Existing solver/scoring/session kernels and
+Cargo files unchanged. Current K-opt key/measurement from round93 remains current;
+older list measurements remain stale. No benchmark or browser rerun needed for
+this backend-only batch. The full goal remains incomplete, with436pending cases.
+No new agents or assignments. Continue meaningful remaining compatibility gaps;
+performance remains important, but avoid repeating completed verification.
+
+## Previous verified checkpoint — round93
 
 Benchmark XML factories/native journal execution integrated as a0e386e. Native XML
 resource/file/resolver loading, inherited solver settings, sub-run counts, warm-up

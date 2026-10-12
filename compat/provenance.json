@@ -57746,6 +57746,171 @@
       "local_path": "crates/solver/tests/benchmark_xml_cases.rs",
       "local_test": "build_planner_benchmark",
       "modifications": "Preserve every observed load/file/resolver/error/type/null/repetition/configuration criterion, both directory variants and three-solver/two-problem counts. Positive execution creates unique native output directories and nonempty JSON journals through real native solves; uninitialized custom results retained. Output is redirected to an owned test directory. Caller resolver replaces diverted JVM resource loader; type guards use native Any/P identity. Bounded literal-list/substitution rendering preserves complete TEST templates without claiming general FreeMarker parity. No Timefold production copied."
+    },
+    {
+      "id": "JaxbDurationAdapterTest.unmarshall",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbDurationAdapterTest.java",
+      "upstream_test": "unmarshall",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "duration_unmarshall",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "JaxbDurationAdapterTest.nullOrEmpty_shouldUnmarshallAsNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbDurationAdapterTest.java",
+      "upstream_test": "nullOrEmpty_shouldUnmarshallAsNull",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "duration_null_or_empty_should_unmarshall_as_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "JaxbDurationAdapterTest.marshall",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbDurationAdapterTest.java",
+      "upstream_test": "marshall",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "duration_marshall",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "JaxbOffsetDateTimeAdapterTest.unmarshall",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbOffsetDateTimeAdapterTest.java",
+      "upstream_test": "unmarshall",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "offset_date_time_unmarshall",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "JaxbOffsetDateTimeAdapterTest.nullOrEmpty_shouldUnmarshallAsNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbOffsetDateTimeAdapterTest.java",
+      "upstream_test": "nullOrEmpty_shouldUnmarshallAsNull",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "offset_date_time_null_or_empty_should_unmarshall_as_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "JaxbOffsetDateTimeAdapterTest.marshall",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbOffsetDateTimeAdapterTest.java",
+      "upstream_test": "marshall",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "offset_date_time_marshall",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "JaxbCustomPropertiesAdapterTest.readCustomProperties",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbCustomPropertiesAdapterTest.java",
+      "upstream_test": "readCustomProperties",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "read_custom_properties",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "JaxbCustomPropertiesAdapterTest.nullValues",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbCustomPropertiesAdapterTest.java",
+      "upstream_test": "nullValues",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "null_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "GenericJaxbIOTest.readWriteSimpleObject",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/GenericJaxbIOTest.java",
+      "upstream_test": "readWriteSimpleObject",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "read_write_simple_object",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "GenericJaxbIOTest.readThrowsExceptionOnInvalidXml",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/GenericJaxbIOTest.java",
+      "upstream_test": "readThrowsExceptionOnInvalidXml",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "read_throws_exception_on_invalid_xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
+    },
+    {
+      "id": "GenericJaxbIOTest.readOverridingNamespaceIsProtectedFromXXE",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/GenericJaxbIOTest.java",
+      "upstream_test": "readOverridingNamespaceIsProtectedFromXXE",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "local_test": "read_overriding_namespace_is_protected_from_xxe",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete value/null/round-trip and rejection assertions using explicit Rust scalar/object codecs rather than JAXB/reflection. Null-only source tests retain their actual assertions; additional empty/boundary checks are original. XXE case retains actual parser DtdDetected root cause and disallow-doctype-decl diagnostic in place of SAXParseException/Java stack trace. No Java reflection or exception ABI claim."
     }
   ],
   "fixtures": [
@@ -81174,6 +81339,32 @@
       "upstream_test": "calculateScore",
       "local_path": "crates/solver/tests/fixtures/benchmark_xml_fixture.rs",
       "modifications": "Adapt assigned distinct ordered-pair equality penalty; retain double penalty and missing omission."
+    },
+    {
+      "id": "xml-values-dummy-test-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/GenericJaxbIOTest.java",
+      "upstream_test": "DummyJaxbClass",
+      "local_path": "crates/solver/tests/fixtures/xml_values_fixture.rs",
+      "modifications": "Adapt TEST-only id attribute/text value and id-only equality to explicit typed Rust codec; no reflection constructor required.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "xml-values-property-test-bean-fragment",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/io/jaxb/JaxbCustomPropertiesAdapterTest.java",
+      "upstream_test": "TestBean; readCustomProperties XML fragment",
+      "local_path": "crates/solver/tests/xml_value_cases.rs",
+      "modifications": "Retain original XML property fragment and nullable map criteria; native explicit codec replaces TEST bean field/JAXB annotations.",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
     }
   ]
 }
