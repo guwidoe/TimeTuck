@@ -16,7 +16,66 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round58
+## Latest verified checkpoint — round59
+
+Feature 6983be0 integrates checked solution stream sources retaining real domain
+allocations and executable borrowed projections. Source types come from actual
+entity/fact declarations; provider-only members remain separate. Projection paths
+resolve once before source creation; tuples clone only Arc handles and borrow the
+actual embedded/referenced subobjects. Canonical allocation keys deduplicate aliases
+and preserve distinct equal-valued allocations. Fact/attached-basic reads require
+the actual owned compiled descriptor. Interior mutation is not a snapshot.
+
+Ten complete uni/bi/tri/quad unknownClass methods preserve the error kind, requested
+native i32 class and assignable-from diagnostics while constructing actual graph
+prefixes. Uni uses value groups, bi entity unique pairs, tri value-group pairs and
+entity groups, quad actual entity/group/value/entity equality joins. Native source
+binding replaces Java reflection; no arbitrary forEach assignment/list-inverse
+policy is claimed. All six TEST-only lavish fixture roles and changes are attributed.
+Three original graph/allocation controls establish real base/child score -5,
+transitive fact projections, no payload cloning, lifetimes and invalid registrations.
+The Cat/Animal/Dog control is explicitly partial fixture inspiration, not complete
+polymorphism credit. No upstream production/Enterprise sources used; pin unchanged.
+
+The primary agent developed this batch while the round58 gate ran, reusing the
+existing clean diminished-returns checkout on codex/typed-stream-sources. No agents
+or assignments were created. runner-c focused 10 source cases and three originals passed,
+as did focused strict Clippy. Feature branch commit 6b94f6a was cherry-picked as
+6983be0 after round58 postcommit proof completed. The secondary checkout remains
+clean at /home/ralph/.codex/worktrees/diminished-returns/TimeTuck; all work integrated.
+Focused runner-c logs/manifests copied unchanged into work/round59-focused-runner-c.
+
+Final frozen runner-a gate passed once: 6,944 Rust tests, 290 doctests;
+3,661/4,855 source methods passed (75.407%), 628 pending, 566 excluded, zero
+failed/unverified. Actual 3 Rust RUN/1,001 REUSE/46 Python REUSE; 281.802 seconds.
+Thirteen source methods closed across rounds58–59; the first gate's shared metadata
+rebuild cost 23m36s, while this additive module reused those successful jobs.
+Candidate/search loops unchanged; no new throughput claim. Old performance
+measurements remain visibly stale. Backend-only report refresh, no UI rerun.
+
+Rust source: 8533be41c2440618e63181c2a7c5f8e8c2736a873edc1da4ace1bf63c6da194a.
+Report/verification: 164276b93574eb16be5557f45ea7599925fdcc1dcfadd09b04e4d03f707f79ca.
+Remote root: 6c2d9d7f8b2fd78cb8dd174b3b882bf04327cb52ca8f1448fdc13b6875ff4292.
+Archive work/round59-runner-a-results.tar.gz SHA256:
+40d290ddf2d0b0168a502ad28a0be90c2b9337a6d65920ac80e5c4f179d69bc2.
+Freeze/evidence: work/parallel-round59-freeze.json and parallel-round59-evidence.json.
+Collector 45986 completed zero; launcher 4212 terminal success is being collected.
+Postcommit proof work/verify_round59_postcommit.py checks exact source/freshness,
+clean Git, prior completed families and the 23/24 solution descriptor family.
+Seed the next gate from this actual archive/root. Do not repeat unchanged checks.
+
+Next finish the full forEach_polymorphism fixture/weight/assignment integration,
+then list sources without inverse variables and further graph compatibility gaps
+(joiner ordering, multiple justifications and package identity). The current raw
+checked source API deliberately leaves initialization predicates explicit in graph
+filters; do not claim automatic native forEach/list-inverse policy without actual
+bindings and integration tests. Source wildcard members need explicit concrete
+allowed types for static source construction. Whole-solve termination/advanced
+tracked assertion integration and other compatibility families remain incomplete.
+Keep shrinking the backlog and performance important. No new subagents or assignments.
+Objective active and incomplete.
+
+## Prior verified checkpoint — round58
 
 Feature e322fd1 adds typed named executable shadow suppliers, canonical per-variable
 range descriptors and solution-owned constraint weight readers. Callback registration
