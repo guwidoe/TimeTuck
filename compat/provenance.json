@@ -58391,6 +58391,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every identity, producer kind/index, empty/consuming take, true/false eligibility, coalescing, captured-versus-later change completion and cancellation assertion. Native BestDeliverySlot stores owned snapshots; Arc::ptr_eq replaces the Java identity comparator. Native terminal receipts replace CompletableFuture. The TEST-only addProblemChange helper becomes an actual FnOnce submission callback, verifying exactly one call, batch size one and the same change identity. Generated TEST solution shapes retain five values/seven cyclically initialized entities as native FiniteProblem snapshots. Explicit native phase origins replace EventProducerId. This optional custom-scheduling component is exercised with actual queued edits/solver observers separately; no Java executor/future ABI or unchanged LiveSolverManager behavioral-equivalence claim."
+    },
+    {
+      "id": "SolverMetricsIT.checkDefaultMeters",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "upstream_test": "checkDefaultMeters",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "local_test": "check_default_meters",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the two-value/two-uninitialized-entity fixture, TEST zero objective, construction plus ten-step local ceiling, epoch clock/problem id, all exact meter names/types/tags/null-unit/null-description assertions, initially empty registration and removal of per-problem gauges after solving. Public pinned Community SolverMetric names are observed through an original binary-only probe; no production implementation read. Native SolverMetrics supplies actual runtime state to opt-in SolverMeterView. The change method uses real LiveSolverManager queueing/restart, preserves previous assignments, appends an entity/value and samples all three dimensions as 3. Bounded channels replace latches. Changed models use fresh native monitors rebound between runs. No Micrometer/global-registry ABI, default-monitor installation, Java listener ordering, instantaneous score-counter or score-level meter parity claim. Score-count gauges retain native phase-boundary publication; size-log is a floating assignment-scale estimate."
+    },
+    {
+      "id": "SolverMetricsIT.checkDefaultMetersTags",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "upstream_test": "checkDefaultMetersTags",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "local_test": "check_default_meters_tags",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the two-value/two-uninitialized-entity fixture, TEST zero objective, construction plus ten-step local ceiling, epoch clock/problem id, all exact meter names/types/tags/null-unit/null-description assertions, initially empty registration and removal of per-problem gauges after solving. Public pinned Community SolverMetric names are observed through an original binary-only probe; no production implementation read. Native SolverMetrics supplies actual runtime state to opt-in SolverMeterView. The change method uses real LiveSolverManager queueing/restart, preserves previous assignments, appends an entity/value and samples all three dimensions as 3. Bounded channels replace latches. Changed models use fresh native monitors rebound between runs. No Micrometer/global-registry ABI, default-monitor installation, Java listener ordering, instantaneous score-counter or score-level meter parity claim. Score-count gauges retain native phase-boundary publication; size-log is a floating assignment-scale estimate."
+    },
+    {
+      "id": "SolverMetricsIT.solveMetricsProblemChange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "upstream_test": "solveMetricsProblemChange",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "local_test": "solve_metrics_problem_change",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the two-value/two-uninitialized-entity fixture, TEST zero objective, construction plus ten-step local ceiling, epoch clock/problem id, all exact meter names/types/tags/null-unit/null-description assertions, initially empty registration and removal of per-problem gauges after solving. Public pinned Community SolverMetric names are observed through an original binary-only probe; no production implementation read. Native SolverMetrics supplies actual runtime state to opt-in SolverMeterView. The change method uses real LiveSolverManager queueing/restart, preserves previous assignments, appends an entity/value and samples all three dimensions as 3. Bounded channels replace latches. Changed models use fresh native monitors rebound between runs. No Micrometer/global-registry ABI, default-monitor installation, Java listener ordering, instantaneous score-counter or score-level meter parity claim. Score-count gauges retain native phase-boundary publication; size-log is a floating assignment-scale estimate."
     }
   ],
   "fixtures": [
@@ -82391,6 +82436,84 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt the TEST helper verification to a native FnOnce batch-submission callback with a call counter and Arc identity check. Verify exactly one submitted edit is the original owned identity; native delivery receipt replaces CompletableFuture. No mock solver substituted for an actual native solve in the separate original integration checks."
+    },
+    {
+      "id": "solver-meter-view-TestdataSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "TEST fixture/helper used by SolverMetricsIT",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture data/observable setup: native variable/domain identities, zero constraint network, epoch metric clock, construction plus local ceiling ten and exact identifier/measurement assertions. Channels replace TEST latches; exported readings/last samples replace the TEST registry. Production implementation is not copied. Native objective/queued edits execute against real solvers."
+    },
+    {
+      "id": "solver-meter-view-TestdataEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TEST fixture/helper used by SolverMetricsIT",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture data/observable setup: native variable/domain identities, zero constraint network, epoch metric clock, construction plus local ceiling ten and exact identifier/measurement assertions. Channels replace TEST latches; exported readings/last samples replace the TEST registry. Production implementation is not copied. Native objective/queued edits execute against real solvers."
+    },
+    {
+      "id": "solver-meter-view-TestdataValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TEST fixture/helper used by SolverMetricsIT",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture data/observable setup: native variable/domain identities, zero constraint network, epoch metric clock, construction plus local ceiling ten and exact identifier/measurement assertions. Channels replace TEST latches; exported readings/last samples replace the TEST registry. Production implementation is not copied. Native objective/queued edits execute against real solvers."
+    },
+    {
+      "id": "solver-meter-view-PlannerTestUtils-buildSolverConfig",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "TEST fixture/helper used by SolverMetricsIT",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture data/observable setup: native variable/domain identities, zero constraint network, epoch metric clock, construction plus local ceiling ten and exact identifier/measurement assertions. Channels replace TEST latches; exported readings/last samples replace the TEST registry. Production implementation is not copied. Native objective/queued edits execute against real solvers."
+    },
+    {
+      "id": "solver-meter-view-DummySimpleScoreEasyScoreCalculator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "TEST fixture/helper used by SolverMetricsIT",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture data/observable setup: native variable/domain identities, zero constraint network, epoch metric clock, construction plus local ceiling ten and exact identifier/measurement assertions. Channels replace TEST latches; exported readings/last samples replace the TEST registry. Production implementation is not copied. Native objective/queued edits execute against real solvers."
+    },
+    {
+      "id": "solver-meter-view-AbstractMeterTest-TestMeterRegistry",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/AbstractMeterTest.java",
+      "upstream_test": "TEST fixture/helper used by SolverMetricsIT",
+      "local_path": "crates/solver/tests/solver_meter_view_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture data/observable setup: native variable/domain identities, zero constraint network, epoch metric clock, construction plus local ceiling ten and exact identifier/measurement assertions. Channels replace TEST latches; exported readings/last samples replace the TEST registry. Production implementation is not copied. Native objective/queued edits execute against real solvers."
     }
   ]
 }

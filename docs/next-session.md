@@ -16,7 +16,55 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round100
+## Latest verified checkpoint — round101
+
+SolverMeterView now exports actual runtime monitor state with pinned default names,
+types, problem.id tags and null unit/description metadata. Registration is initially
+empty, has six per-problem gauges while active and leaves two global meters after
+completion. Historical published gauge values stay explicitly historical. Changed
+models use fresh monitors rebound between runs; cumulative errors carry forward.
+Concurrent same-problem runs, active/used rebinding and wrong dimensions reject.
+This optional exporter changes no solver defaults or existing monitor/kernel code.
+Score gauges retain phase-boundary counts; log-scale is a floating native estimate,
+not Java fixed-point/instantaneous-counter parity. No global Micrometer ABI claim.
+
+All3remaining default-meter/tag/live-change methods now preserve their full TEST
+fixtures, zero objective, epoch clock/id, ten-step ceiling and every assertion.
+A real LiveSolverManager edit/restart preserves old assignments, appends an entity
+and value, and samples all three dimensions as3. Four originals check real numeric
+readings, monotonic durations, unchanged scoring work, failure history/rebinding,
+invalid publication and overlapping actual solves without gauge averaging. Initial
+TEST compilation corrected token borrowing; no runtime repair. TEST helper path
+lookup was corrected before writing provenance. Public binary-only metric-name
+probe: compat/oracle/SolverMeterNamesProbe.java; work/round101-oracle-evidence.json
+and work/round101-meter-names-final.log. No production source read/copied.
+
+User reported remotes back: runner-a reachable with cached Rust1.92 path; runner-c still
+SSH timed out. runner-a focused7tests passed18.840s; actual log/manifest/evidence in
+work/remote-round101-focused.log, work/remote-round101-focused-manifest.json and
+work/round101-remote-focus-evidence.json. Its pre-adjustment source hashes/date stay
+original. Final local Clippy required collapsing a nested TEST guard; initial failed
+log/freeze retained. No runtime/core change. Final Clippy passed19.63s; affected
+compilation reported1m13s. Local current cache was used for the parent gate.
+
+Frozen bash scripts/check.sh passed232.296seconds (gate only):7,347Rust tests,
+290doctests;3,886/4,855 (80.041%),401pending,568excluded,zero failed/unverified.
+Three Rust jobs ran;1,082Rust and46Python jobs reused original evidence. Source/log/
+archive/freshness checked. Rust dc8cc1aa2abd4e8846b4df8490ee83355a38262657442efe23f734445f417219.
+Report 405ecb6ce031d9f4693e5f352b6a198100dc5b10ccfaf99e722bc7f0aa60ca82.
+Archive work/round101-local-results.tar.gz SHA256:
+187c25e42b6616a03299007dcad3949311e4dd15b8dffaf2ad5ec31571578299.
+Evidence work/parallel-round101-evidence.json; freeze work/parallel-round101-freeze.json;
+clean postcommit proof work/round101-postcommit-evidence.json. Original remote focus
+is kept separate from the final local state/gate; no evidence retagging. K-opt
+round93 remains current; grouped round97 unchanged; older list metrics stale.
+No browser/benchmark rerun for backend-only export. Goal incomplete,401pending.
+No new agents or assignments. Continue meaningful compatibility/performance work
+with selective reuse and occasional commits. Best-score listener ordering and
+exhaustive custom metric methods remain pending; source activity-notification/FILTER
+representation gaps inspected this turn also remain pending, with no proxy credit.
+
+## Previous verified checkpoint — round100
 
 BestDeliverySlot now coalesces eligible owned snapshots with native phase origins
 and registered problem-change batches. Taking does not acknowledge changes;

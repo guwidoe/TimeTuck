@@ -8734,3 +8734,36 @@ source methods (79.979%),404pending,568excluded,zero failed/unverified. Three
 Rust jobs ran;1,080Rust/46Python jobs reused unchanged original evidence. K-opt
 and prior grouped native measurements retain their original evidence; older list
 metrics remain stale. No new performance or Java executor-equivalence claim.
+
+## Named default solver meters
+
+SolverMeterView exports actual SolverMetrics state with the pinned Community
+default meter names, types and problem.id tags. No meters are registered before
+a run; six per-problem gauges exist during solving and disappear afterward, while
+untagged duration/error meters remain. Explicit publication keeps historical last
+values without pretending deregistered gauges are current. Changed model revisions
+use a fresh monitor and rebind after the previous run ends; cumulative error counts
+carry forward. Ambiguous concurrent runs, active/reused rebinding and mismatched
+dimensions return errors instead of averaged or mislabelled gauges. This is an
+opt-in application exporter, not a process-global Micrometer registry or automatic
+default installation. Score counts retain native phase-boundary publication, and
+size-log uses a floating native assignment-scale estimate.
+
+Three complete SolverMetricsIT methods preserve both exact default meter/type/tag/
+null-metadata sets before/during/after real solves, the epoch clock/id, two initial
+entities/values, zero TEST objective, ten-step local ceiling, and a queued live
+change preserving old assignments while adding an entity/value. Its actual
+restart samples all three dimensions as3. The original binary-only public-name
+probe records pinned SolverMetric names without production implementation access.
+Four originals check real duration/count/scale readings and unchanged scoring work,
+failure history/rebinding, validation without publication, and overlapping actual
+solves without gauge averaging. Best-score listener ordering and exhaustive custom
+metric methods remain pending; this batch does not earn their credit. No new timing
+claim or Java registry/executor ABI equivalence is established.
+
+Frozen round101 verification passed:7,347Rust tests and290doctests;3,886/4,855
+source methods (80.041%),401pending,568excluded,zero failed/unverified. Three
+Rust jobs ran;1,082Rust/46Python jobs reused original successful evidence. runner-a
+passed the seven focused cases before a final style-only TEST guard adjustment;
+the final local gate verifies that final state. Original remote hashes/logs remain
+separate. Existing performance evidence stays unchanged; older list metrics stale.
