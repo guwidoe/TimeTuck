@@ -13,6 +13,74 @@ struct Owner {
 fn values(n: usize) -> Vec<Arc<Value>> {
     (1..=n).map(|code| Arc::new(Value { code })).collect()
 }
+
+#[test]
+fn is_move_doable_value_range_provider_on_entity() {
+    let v = values(8);
+    let row = |codes: &[usize]| {
+        codes
+            .iter()
+            .map(|&code| v[code - 1].clone())
+            .collect::<Vec<_>>()
+    };
+    let ranges = [row(&[1, 2, 3, 5, 6, 7]), row(&[1, 3, 4, 5, 6, 7, 8])];
+    // The source solution discovers values by distinct encounter order across
+    // the actual entity providers, rather than a separate solution-level range.
+    let mut registry = Vec::new();
+    for value in ranges.iter().flatten() {
+        if !registry.iter().any(|old| Arc::ptr_eq(old, value)) {
+            registry.push(value.clone());
+        }
+    }
+    let p = ListProblem::new(
+        registry,
+        vec![
+            ListEntity::new(row(&[5, 2, 3, 1])).with_value_range(ranges[0].clone()),
+            ListEntity::new(row(&[6, 7, 4, 8])).with_value_range(ranges[1].clone()),
+        ],
+    )
+    .unwrap();
+    let before = p.initial_assignment();
+    let reconnect = |entities: &[usize], removed: &[(usize, usize)], added: &[(usize, usize)]| {
+        let members: Vec<_> = entities
+            .iter()
+            .flat_map(|&e| before.lists()[e].iter())
+            .collect();
+        let indices = |pairs: &[(usize, usize)]| {
+            pairs
+                .iter()
+                .map(|&(a, b)| {
+                    (
+                        members.iter().position(|value| value.code == a).unwrap(),
+                        members.iter().position(|value| value.code == b).unwrap(),
+                    )
+                })
+                .collect::<Vec<_>>()
+        };
+        list_k_opt_inferred_partition_move(
+            &p,
+            &before,
+            entities,
+            &indices(removed),
+            &indices(added),
+        )
+    };
+    // Same entity: all moved identities remain in its actual provider.
+    assert!(reconnect(&[0], &[(2, 5), (3, 1)], &[(1, 2), (3, 5)]).is_ok());
+    // Cross-entity: both resulting rows satisfy their separate providers.
+    assert!(reconnect(&[0, 1], &[(2, 3), (6, 7)], &[(2, 6), (7, 3)]).is_ok());
+    // Cross-entity: reject the provider violation, not an unrelated topology
+    // error. Preparation and doability queries never mutate the source.
+    let rejected = reconnect(&[0, 1], &[(5, 2), (4, 8)], &[(8, 2), (4, 5)]).unwrap_err();
+    let ListKOptError::List(error) = rejected else {
+        panic!("expected range rejection")
+    };
+    assert!(matches!(
+        error.without_range_report(),
+        ListError::ValueOutsideEntityRange { entity: 0 }
+    ));
+    assert_eq!(before, p.initial_assignment());
+}
 fn problem(values: &[Arc<Value>], rows: &[Vec<usize>]) -> ListProblem<Arc<Value>> {
     ListProblem::new(
         values.to_vec(),

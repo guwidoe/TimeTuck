@@ -16,6 +16,43 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round72
+
+One full SelectorBasedKOptListMoveTest entity-provider range method now passes.
+All8 canonical value objects, actual ordered entity-local ranges and initial lists,
+provider-union registry encounter order, and all three exact removed/added edge sets
+are preserved. Native validated retained-end reconnection preparation succeeds for
+same-entity and permitted cross-entity exchanges; the prohibited exchange produces
+an actual ValueOutsideEntityRange error for entity0, not an unrelated topology error.
+Queries leave input unchanged. Native snapshots/owner-index shadows replace Java
+mutable fields/mocked descriptor/range-manager setup; integer codes replace strings.
+The explicit native policy is not a universal Java implicit-partition/API/ABI claim.
+TEST-only fixture counterparts and the method are attributed in compat/provenance.json.
+No production code was inspected/copied; no native solver/library behavior changed.
+
+Focused full-method run passed1; final frozen runner-a bash scripts/check.sh passed
+once:7,015 Rust tests,290 doctests;3,686/4,855 passed (75.922%),601 pending,
+568 excluded,zero failed/unverified. Actual1 Rust RUN/1,021 REUSE/46 Python REUSE;
+161.265seconds including fmt/strict Clippy/one target compilation. K-opt class13/17
+passed,4 pending. Shared library inputs are byte-identical to3974858. No repeated
+unchanged suites, release correctness runs, UI runs or new subagents.
+Rust:b178514ac1cc9cbd77a5c2ee152ce17fe3b2fbccd10811d87269bd4a71c360b3.
+Report:16683b4131c691e16a38a2d799e1d96b21a7ab84d34e676ca8fc4392151a818b.
+Remote root:28cbea41faeaef0870f9f162cda817590fa8f6d10ecca60794901395b27ef56b.
+Archive work/round72-runner-a-results.tar.gz SHA256:094867999298de23153be163f4fbb8030b0de28533fdf9f19d4978e0fc73e074.
+Evidence/freeze:work/parallel-round72-evidence.json and parallel-round72-freeze.json.
+Launcher32546/collector32492 completedzero. Postcommit proof:work/verify_round72_postcommit.py.
+Next gate seeds from actual round72 archive/root. Existing round71 K-opt measurement
+hash remainsd97e85200c8e0e784d034049d327bb4dc05f7be28263cf96691b7acd78e3f1f6:
+test/provenance-only changes do not invalidate that job's unchanged inputs. K-opt
+measurements stay current with their genuine date/binary/environment; older list
+measurement stays visibly stale. No evidence hashes/dates retagged or benchmarks rerun.
+
+Remaining K-opt gaps: multi-entity3-opt, its rebase/pinned cases and nearby mixed-model
+configuration. These require actual boundary/routing work, not expected partitions
+or output-only stand-ins. Other compatibility gaps remain; continue reducing backlog
+while preserving measured performance and actual coverage. Goal active/incomplete.
+
 ## Latest verified checkpoint — round71
 
 Phase-local K-opt window reuse removes repeated positional candidate generation.

@@ -7797,3 +7797,23 @@ approximately unchanged. Prior list measurements remain visible and stale after
 this shared-search change; they were not relabeled current. Other measurements
 keep their own freshness status. Detailed samples, quality, counts and hashes
 remain in the dashboard and work/round71-performance-results.tar.gz.
+
+### K-opt entity-provider range doability
+
+One complete pinned SelectorBasedKOptListMoveTest method closes all three entity-range
+doability assertions. The native model preserves all8 canonical values, both full
+ordered entity providers, provider-union registry encounter order, original lists
+and exact removed/added edge sets. Validated native retained-end preparation succeeds
+for the same-entity and allowed cross-entity cases, and rejects the forbidden exchange
+with an actual entity-range error. No expected partition lengths/orientation feed
+construction. Source input remains unchanged. Native list snapshots and automatic
+owner/index shadows replace Java mutable fixtures and mocked range-manager/descriptor
+setup; equivalent integer IDs replace strings. This is not universal Java boundary,
+selector-order, API or ABI parity. TEST-only fixtures/method retain provenance/notices.
+
+Class coverage is13/17 methods;3,686/4,855 overall (75.922%),601 pending,568 excluded,
+zero failed/unverified. Native verification passes7,015 tests and290 doctests. Actual
+selective final check ran1 changed Rust job and reused1,021 unchanged Rust jobs plus
+46 Python jobs. Native library sources remain byte-identical to the window-cache
+checkpoint. K-opt's genuine per-job measurement digest is unchanged and remains
+current; no benchmark, release correctness suite or browser check was repeated.
