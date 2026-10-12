@@ -16,7 +16,59 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round65
+## Latest verified checkpoint — round66
+
+Feature be90ba5 adds BoundMixedSolution and actual typed mixed field event feeds.
+One descriptor binds multiple basic fields and one list field on the same real
+objects, preserving canonical allocation aliases, schema field order, all typed
+provider/collection reads, initial domains and explicit basic/list pins. Shadow-only
+entities/facts stay separate. Conflicting aliases, missing/foreign reads and invalid
+fields reject before native solve. Multiple genuine list declarations remain an
+explicit binding gap; they fail with existing structured field diagnostics.
+
+WorkingMixedModelStream joins actual basic/list events by entity allocation, publishes
+complete field occurrences and optionally filters non-null basic fields. Canonical
+list-value views use actual native positions/neighbors. List arrays are Arc-shared
+across basic-only updates and old snapshots, with no object Clone/Hash requirement.
+Constants initialize independently, leaving all native sources empty for the mixed
+director. Native search, scoring, graph and rollback implementations unchanged.
+
+Seven originals pass, including real dense/mixed-stream exact optimum114 with two
+basic fields plus list data on each object and nonzero facts; targeted routing,
+normalized alias ordering, shared list allocation, immutable old explanations,
+basic/list pins, invalid joint moves, callback-panic rollback, initialized/assigned
+filters, invalid/foreign binding inputs, foreign graph sources and zero-variable
+models scoring actual facts. Initial test wrongly expected one callback for a joint
+move; native delivery has intermediate field/list updates (three affected-row calls).
+Corrected to assert final owned fields and unchanged unrelated callbacks. A second
+counter assertion included explicit consistency rescoring; fixed to compare the
+baseline before the move. Final focused7 passed; prior basic6/list6 passed in the
+preceding focused run. Originals earn no upstream credit; provenance unchanged.
+
+Final frozen runner-a bash scripts/check.sh passed once:6,993 Rust tests,290 doctests;
+3,675/4,855 passed (75.695%),612 pending,568 excluded,zero failed/unverified.
+Actual11 Rust RUN/1,005 REUSE/46 Python REUSE;202.979seconds.
+Rust source:c6e386bfbad747cbade029e0812b884f5444b834c90d3a44759742dd3c860490.
+Report/verification:854c9a0c451bb25dc7100a6d438ea6dbfa05ea6f77cd0f0aec20c9179c211233.
+Remote root:605ecc915e37550f8768f00af05a5d2b381d3875ed3ad45c56a947771fcb59ad.
+Archive work/round66-runner-a-results.tar.gz SHA256:af40517445a10627a9c410402a5059b2a0d3b423745162115b575f496d7fefdc.
+Evidence/freeze:work/parallel-round66-evidence.json and parallel-round66-freeze.json.
+Launcher49020/collector2784 completedzero. Postcommit proof
+work/verify_round66_postcommit.py checks frozen state, clean Git, current dashboard,
+completed families and unchanged native engines. Seed next gate from this actual
+archive/root. No new agents, runner-c use, UI check or benchmarks; old performance stale.
+
+Next shrink remaining executable compatibility gaps and measure completed typed
+bindings where needed. Basic/list/mixed typed input and current-field integration
+are now present; do not repeat their implementation/verification without changed
+inputs. Remaining areas include multiple-list binding, advanced tracked assertions
+and native configuration/domain cases. SolverConfigTest still has12 pending cases,
+including actual interface-backed domain execution and record-valued planning IDs;
+read their full TEST-only fixtures before adapting them. XML/reflection/interface
+registration need explicit native adaptation boundaries; avoid class-label stand-ins
+or fake upstream credit. Goal remains active/incomplete.
+
+## Prior verified checkpoint — round65
 
 Feature fb4237a connects actual native list source events to WorkingListObject
 ordered current lists and WorkingListValue canonical objects with current position,
