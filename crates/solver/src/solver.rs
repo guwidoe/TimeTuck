@@ -1333,9 +1333,16 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
                 self.repaired_initial && self.score.is_none() && kind != SolverPhaseKind::Exact;
             self.score = Some(update.score.clone());
             self.complete = update.complete;
-            if let Some(metrics) = &self.metric_writer {
-                metrics.best(&update.score, update.complete, totals);
-            }
+            let deferred_metric = if let Some(metrics) = &self.metric_writer {
+                if metrics.best_after_callbacks() && !repair_baseline {
+                    Some(metrics.prepare_best(&update.score, update.complete, totals))
+                } else {
+                    metrics.best(&update.score, update.complete, totals);
+                    None
+                }
+            } else {
+                None
+            };
             if repair_baseline {
                 return;
             }
@@ -1358,6 +1365,12 @@ impl<'a, A, S: Score> PlanObservation<'a, A, S> {
                     ..
                 } => callback(SolverEvent::Best(update)),
                 PlanCallback::Checked { events: None, .. } => {}
+            }
+            if let Some(best) = deferred_metric {
+                self.metric_writer
+                    .as_ref()
+                    .expect("staged metric writer")
+                    .publish_best(best);
             }
         }
     }

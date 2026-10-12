@@ -2395,3 +2395,16 @@ reporting allocates only when requested. This is an implementation property, not
 measured speedup. Existing Java comparison measurements remain stale until a
 deliberate refresh. See compatibility.md's runtime scoring-context section for
 error cleanup, metric policy and assertion/termination limits.
+
+`SolverMetrics::with_best_metrics_after_callbacks` chooses publication after the
+synchronous best callback. The callback reads the preceding best score, completeness
+and constraint totals; those fields update together after success. Default handles
+retain publication before callbacks. Score/totals are staged before delivery,
+outside the monitor lock, without copying assignments. A callback panic discards
+its staged publication and closes the run as panicked with the preceding published
+best. Updates without an emitted callback and successful final results still publish
+immediately. Step/work publication timing and search/scoring decisions are unchanged.
+The setting belongs to a handle; earlier clones keep their setting while sharing
+the monitor. Original checks exercise both orders, scoped and fresh/retained streams,
+all model kinds, totals alignment, panic/retry, clone settings and twelve silent
+backend paths, comparing actual results and score callback counts.

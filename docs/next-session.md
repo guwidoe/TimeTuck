@@ -16,7 +16,69 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round106
+## Latest verified checkpoint — round107
+
+SolverMetrics now supports publication after synchronous best callbacks through
+with_best_metrics_after_callbacks. Defaults retain publication before callbacks.
+Score/completeness/constraint totals update together; staging copies no assignments
+and holds no monitor lock during callback execution. Callback panic discards its
+staged publication and closes with the preceding published best. Successful final
+results and updates without emitted callbacks still publish immediately. Settings
+belong to handles; earlier clones retain their settings on the shared monitor.
+Search/scoring and step/work publication are unchanged.
+
+Two complete SolverMetricsIT adaptations close its remaining gaps: all13methods
+are now adapted. Preserve the full none/reward fixture, three initialized preceding
+best observations/counter/final target, and positive exhaustive family counts at
+SolveEnded. Native partial events are filtered by completeness in the adapter;
+ExactAssignment replaces Java's ChangeMove meter taxonomy. No exact Java counts,
+registration lifecycle or RNG/search trace claim. Five originals cover both orders,
+matched totals across all models/scoped/fresh/retained streams, panic/retry, handle
+clones, twelve silent paths and unchanged actual score-callback counts/results.
+All provenance recorded. Source implementation remained fixed during final gate.
+
+Frozen bash scripts/check.sh passed486.138s:7,415Rust tests and290doctests.
+981Rust jobs ran;116Rust/46Python jobs reused original successful records.
+Clippy6.63s; affected compilation9m26s. Compatibility3,915/4,855 (80.639%),
+372pending,568excluded,zero failed/unverified. Initial development type/Clippy
+repairs are not final-state evidence; frozen gate proves actual final code.
+Rust 39bbfd6ab24847b2d78f9672e848baf15f5dd295ef1644f31065b0c63ccf1b37.
+Report 99df2942cbd145e9eda9e3bd41f9fe4a7d00557aa3897521204326dc9659c126.
+Archive work/round107-local-results.tar.gz SHA256:31dc69f56144ad2a2571ec0e65855b625bc465e6cb18511c0a42cd3945364506.
+Evidence work/parallel-round107-evidence.json; freeze work/parallel-round107-freeze.json;
+postcommit proof work/round107-postcommit-evidence.json. Prebuild1344/gate13427/
+collector46309 are terminal0; don't repeat unchanged checks. Generated empty
+benchmark input preserved as work/round107-generated-input.xml and removed.
+
+runner-c passed20 scoped metrics tests. runner-a passed7 targeted tests, release build
+and fresh Java/Rust k-opt measurement. Both immutable execution snapshots preceded
+only an unrelated regression-test style cleanup; their actual source identities
+remain distinct. Final full gate is local. Matching performance job inputs did
+not change; no source-key/date retagging. Details work/round107-remote-evidence.json
+and work/round107-performance-evidence.json. Performance archive
+work/round107-performance-results.tar.gz SHA256:
+c41a97e9b5df7fbb3cd7f00cbe9ccfd914fbd3b68dde750c09ba1244886cfdcc.
+Measured2026-10-12T23:34:11.539079+00:00:128validations,128Rust/114Javaoptima,
+114equal scores. Sampled ratios4.635–15.982; window0.185–1.440. Larger exhaustive
+windows still lag. Strategies/quality differ; no causal cross-round timing claim.
+Older list metrics remain stale. Backend report/freshness inspected; no UI changes.
+
+New KOptSeamMutationProbe records public List mutations on owned TEST fixtures,
+with fixture/helper provenance. Five cases preserve the prior outputs and show45
+clear/add/remove writes, no set flips: publication of final rows, not the detached
+rewrite planning. Evidence/log/classes in work/round107-seam-mutation-evidence.json.
+No production/private-field inspection and zero source-method credit. The seven
+seam/selector methods remain pending; don't repeat this answered probe.
+
+Next lifecycle gap: assembly opens a fixed random seed even in NonReproducible.
+Source determinism method compares1000 random words and accumulated score series
+across10solves for every mode. Correct objective penalizes assigned repetitions,
+not all conflicting pairs. Exact source/helper contracts in
+work/round107-next-gap-notes.json; record helper provenance before adaptation.
+Goal remains incomplete; keep full scope, performance, selective evidence reuse
+and occasional commits. No new agents/assignments.
+
+## Previous verified checkpoint — round106
 
 ValueSubListSource connects live value seeds and a bounded entity catalog to
 owner-conditioned span selection and actual sublist change/swap providers.

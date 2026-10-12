@@ -58841,6 +58841,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all solve/phase and both step invocations on distinct left/right value children and doubled entity-child counts through shared native event storage in actual composed value-driven span/swap sources. Each source forwards every event independently; native events replace Java mock scopes."
+    },
+    {
+      "id": "SolverMetricsIT.solveBestScoreMetrics",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "upstream_test": "solveBestScoreMetrics",
+      "local_path": "crates/solver/tests/best_metric_order_cases.rs",
+      "local_test": "solve_best_score_metrics",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both uninitialized entities, none/reward values, hard-zero/reward-count easy scoring, none-only first-fit construction and hill-climbing search with target0hard/2soft. Observe all three initialized best deliveries with a counter starting-1, every preceding hard/soft assertion and final counter2/score0hard/2soft, and require actual synchronous callback delivery/successful complete solve. Native snapshot publication explicitly runs after callbacks; native partial best events are filtered by completeness in the adapter. A none-only move provider replaces NoneValueSelectionFilter. Typed snapshots/per-run IDs replace Micrometer names, publication, UUID tags and latch waiting; no callback-registration or Java RNG trace parity."
+    },
+    {
+      "id": "SolverMetricsIT.esCustomMetrics",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/SolverMetricsIT.java",
+      "upstream_test": "esCustomMetrics",
+      "local_path": "crates/solver/tests/best_metric_order_cases.rs",
+      "local_test": "es_custom_metrics",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve three entities/three values initialized missing,v2,v1, actual exhaustive completion and observation of a strictly positive candidate-family counter during SolveEnded. Native exact completion scores whole assignments, so ExactAssignment replaces the Java ChangeMove(TestdataEntity.value) meter taxonomy; no Java change-move attribution, registration lifecycle, exact count or search trace claim. Typed per-run snapshots replace Micrometer publication and phase-scope mocks."
     }
   ],
   "fixtures": [
@@ -83075,6 +83105,32 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Independent mathematical hypothesis checker reads recorded probe declarations/results; reuses TEST-derived seam geometry. Checks cyclic reversals and boundary transport, reports no matches, earns no compatibility credit. No production implementation inspected."
+    },
+    {
+      "id": "kopt-seam-public-mutation-probe-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges/getSuccessorFunction/identityIndexOf",
+      "local_path": "compat/oracle/KOptSeamMutationProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only endpoint matching/descriptor construction with TEST local-wrap fixture preconditions into an opaque runtime probe. Record ordering tables before/after conversion and actual movement; real score director replaces mock. No production source/bytecode implementation inspected. Original AbstractList/RandomAccess wrapper records public set/add/remove/clear effects on TEST-owned row data. Repeats the recorded five inputs to answer a new physical-mutation question, with no production source/disassembly/private-field inspection and no native source-method credit."
+    },
+    {
+      "id": "kopt-seam-public-mutation-probe-fixtures",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt/testMultiEntity3OptPinned/testMultiEntity3OptRebase",
+      "local_path": "compat/oracle/KOptSeamMutationProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the two source rows/cut/add pairs and pinned prefix; add longer-row and entity-order variants to distinguish seam semantics. Probe earns no source-method compatibility credit. Original AbstractList/RandomAccess wrapper records public set/add/remove/clear effects on TEST-owned row data. Repeats the recorded five inputs to answer a new physical-mutation question, with no production source/disassembly/private-field inspection and no native source-method credit."
     }
   ]
 }

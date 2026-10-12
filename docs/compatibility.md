@@ -8917,3 +8917,13 @@ Java mocks/descriptors. Original controls additionally cover pins, catalog
 restrictions, all span ranks, bounded rejection, panic/exhaustion, committed owner
 changes, seeded continuity and real configured-provider search. They earn no
 method credit. Java PRNG traces are not claimed.
+
+Two remaining SolverMetricsIT methods now preserve the preceding best-score
+observations, initialized delivery count, final hard/soft result and positive
+exhaustive candidate-family monitoring at SolveEnded. Native best publication can
+explicitly run after callbacks; the adaptation observes initialized best events
+and replaces Micrometer publication/names/tags and latch waiting with synchronous
+typed snapshots. Native exhaustive completion scores whole assignments, so the
+ExactAssignment family replaces the Java ChangeMove meter label; exact Java
+counts, attribution and search traces are not claimed. Both methods preserve the
+source fixtures and assertions; five original matrix/failure checks add no credit.

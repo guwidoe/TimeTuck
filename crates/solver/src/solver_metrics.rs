@@ -154,12 +154,14 @@ struct Inner<S> {
 pub struct SolverMetrics<S> {
     inner: Arc<Inner<S>>,
     constraint_totals: bool,
+    best_after_callbacks: bool,
 }
 impl<S> Clone for SolverMetrics<S> {
     fn clone(&self) -> Self {
         Self {
             inner: self.inner.clone(),
             constraint_totals: self.constraint_totals,
+            best_after_callbacks: self.best_after_callbacks,
         }
     }
 }
@@ -182,6 +184,7 @@ impl<S: Score> SolverMetrics<S> {
     ) -> Self {
         Self {
             constraint_totals: false,
+            best_after_callbacks: false,
             inner: Arc::new(Inner {
                 state: Mutex::new(State {
                     next: 0,
@@ -195,6 +198,22 @@ impl<S: Score> SolverMetrics<S> {
             }),
         }
     }
+    /// Publish best score/completeness and requested constraint totals after the
+    /// synchronous best callback returns. The callback sees the preceding best
+    /// snapshot; step/work metrics retain their existing publication timing.
+    /// The default publishes best metrics before the callback.
+    ///
+    /// Accepted score/totals are staged before callback execution, without holding
+    /// the monitor lock or copying assignments. If a callback panics, that best
+    /// publication is discarded and the run closes as panicked with its preceding
+    /// published best. Successful final results still publish their final score.
+    /// Updates with no emitted best callback publish immediately. This setting
+    /// applies to subsequent solves using this handle; earlier clones keep their
+    /// prior setting while sharing the same monitor.
+    pub fn with_best_metrics_after_callbacks(mut self) -> Self {
+        self.best_after_callbacks = true;
+        self
+    }
     /// Request best constraint totals for subsequent solves using this handle.
     /// Fresh calculator plans enable optional match collection. Retained calculator
     /// plans use their existing setting without reset; construct their director with
@@ -202,7 +221,7 @@ impl<S: Score> SolverMetrics<S> {
     /// Scoped constraints expose one aggregate match each (zero for disabled
     /// weights); stream constraints expose their retained terminal tuple counts.
     /// An active zero-score match counts, even though it contributes no score.
-    /// Totals publish with the best score before best-event callbacks, including
+    /// Totals publish with the best score in the configured callback order, including
     /// partial construction states. Scoring callbacks and work counts are unchanged.
     /// Copying totals costs O(registered constraints). Fresh exact search captures
     /// each evaluated node before its scoring state is dropped or rolled back.
@@ -292,6 +311,11 @@ impl<S> Clone for MetricWriter<S> {
         }
     }
 }
+pub(crate) struct PreparedBestMetric<S> {
+    score: S,
+    complete: bool,
+    totals: Option<BestConstraintTotals<S>>,
+}
 impl<S: Score> MetricWriter<S> {
     pub(crate) fn constraint_source(&self) {
         self.update(|r| {
@@ -305,16 +329,32 @@ impl<S: Score> MetricWriter<S> {
             r.completed_step_count = r.completed_step_count.saturating_add(1);
         });
     }
+    pub(crate) fn best_after_callbacks(&self) -> bool {
+        self.metrics.best_after_callbacks
+    }
+    pub(crate) fn prepare_best(
+        &self,
+        score: &S,
+        complete: bool,
+        totals: Option<BestConstraintTotals<S>>,
+    ) -> PreparedBestMetric<S> {
+        // User cloning runs outside the monitor lock, before callback delivery.
+        PreparedBestMetric {
+            score: score.clone(),
+            complete,
+            totals,
+        }
+    }
     pub(crate) fn best(&self, score: &S, complete: bool, totals: Option<BestConstraintTotals<S>>) {
-        // Clone user score values before locking so a user Clone panic cannot
-        // poison the monitor or cause its unwind guard to lock recursively.
-        let score = score.clone();
+        self.publish_best(self.prepare_best(score, complete, totals));
+    }
+    pub(crate) fn publish_best(&self, best: PreparedBestMetric<S>) {
         self.update(|r| {
-            r.best_score = Some(score);
-            if let Some(totals) = totals {
+            r.best_score = Some(best.score);
+            if let Some(totals) = best.totals {
                 r.best_constraint_totals = totals;
             }
-            r.complete = complete;
+            r.complete = best.complete;
         });
     }
     fn update(&self, f: impl FnOnce(&mut SolveMetricSnapshot<S>)) {
