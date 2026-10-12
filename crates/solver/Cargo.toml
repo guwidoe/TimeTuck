@@ -11,4 +11,5 @@ workspace = true
 
 [dependencies]
 num-bigint = "=0.5.1"
+roxmltree = "=0.21.1"
 serde_json = { version = "=1.0.151", features = ["float_roundtrip"] }

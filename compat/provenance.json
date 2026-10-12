@@ -57191,6 +57191,261 @@
       "upstream_test": "randomWithPinningAndEntityValueRange",
       "local_test": "random_with_pinning_and_entity_value_range",
       "modifications": "Preserve all four values, all three entity domains/assignments, partial/full pins, full four-destination mock prefix, seed-zero raw range selection, exact two selected PRE-removal strings, unbounded metadata and post-prefix availability. Distinct registry-order domain union and documented optional LCG48 replace reflective raw-value selector; existing checked change source filters pins after raw draws. Mock destinations cycle to represent advertised unboundedness. No Timefold production copied or general RNG call-trace parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromXmlResource",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromXmlResource",
+      "local_test": "create_from_xml_resource",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromXmlResource_noGenericsForBackwardsCompatibility",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromXmlResource_noGenericsForBackwardsCompatibility",
+      "local_test": "create_from_xml_resource_no_generics_for_backwards_compatibility",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromNonExistingXmlResource_failsShowingResource",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromNonExistingXmlResource_failsShowingResource",
+      "local_test": "create_from_non_existing_xml_resource_fails_showing_resource",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromNonExistingXmlFile_failsShowingPath",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromNonExistingXmlFile_failsShowingPath",
+      "local_test": "create_from_non_existing_xml_file_fails_showing_path",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromXmlResource_classLoader",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromXmlResource_classLoader",
+      "local_test": "create_from_xml_resource_class_loader",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromXmlFile",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromXmlFile",
+      "local_test": "create_from_xml_file",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromXmlFile_classLoader",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromXmlFile_classLoader",
+      "local_test": "create_from_xml_file_class_loader",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromInvalidXmlResource_failsShowingBothResourceAndReason",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromInvalidXmlResource_failsShowingBothResourceAndReason",
+      "local_test": "create_from_invalid_xml_resource_fails_showing_both_resource_and_reason",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverFactoryTest.createFromInvalidXmlFile_failsShowingBothPathAndReason",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverFactoryTest.java",
+      "upstream_test": "createFromInvalidXmlFile_failsShowingBothPathAndReason",
+      "local_test": "create_from_invalid_xml_file_fails_showing_both_path_and_reason",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.xmlConfigRemainsSameAfterReadWrite",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "xmlConfigRemainsSameAfterReadWrite",
+      "local_test": "xml_config_remains_same_after_read_write",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.readXmlConfigWithNamespace",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "readXmlConfigWithNamespace",
+      "local_test": "read_xml_config_with_namespace",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.whiteCharsInClassName",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "whiteCharsInClassName",
+      "local_test": "white_chars_in_class_name",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.readAndValidateInvalidSolverConfig_failsIndicatingTheIssue",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "readAndValidateInvalidSolverConfig_failsIndicatingTheIssue",
+      "local_test": "read_and_validate_invalid_solver_config_fails_indicating_the_issue",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.withEnablePreviewFeatureSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "withEnablePreviewFeatureSet",
+      "local_test": "with_enable_preview_feature_set",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.inherit",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "inherit",
+      "local_test": "inherit",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.inheritEnumSet",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "inheritEnumSet",
+      "local_test": "inherit_enum_set",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "SolverConfigTest.visitReferencedClasses",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "visitReferencedClasses",
+      "local_test": "visit_referenced_classes",
+      "modifications": "Preserve all observed configuration XML, both roundtrip parameter values, fields, preview set, complete inherited declarations and all thirteen at-least-once reference identities. Native owned component keys replace Java Class objects; no JVM classloading/assignability claim. File/resource names and nested schema error criteria retained; typed SolverXmlSchemaError replaces SAX root type. Explicit typed callbacks construct existing native SolverFactory/manager objects and positive factory cases actually solve. Native inference represents the raw-generic case; caller resource resolution represents the diverted loader. No Timefold production implementation copied."
     }
   ],
   "fixtures": [
@@ -80359,6 +80614,123 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertCodesOfNeverEndingIterator/assertCodesOfNeverEndingIterableSelector",
       "modifications": "Retain exact complete output prefix, post-prefix availability and advertised unboundedness through native peekable iteration. No source-method credit for original cases."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/solver_xml/testdataSolverConfig.xml",
+      "id": "solver-xml-fixture-testdataSolverConfig",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/api/solver/testdataSolverConfig.xml",
+      "upstream_test": "complete XML TEST resource",
+      "modifications": "Copied TEST-only resource unchanged, with license/notices tracked here. Class references are declaration keys, not access to production class bodies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/solver_xml/classloaderTestdataSolverConfig.xml",
+      "id": "solver-xml-fixture-classloaderTestdataSolverConfig",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/api/solver/classloaderTestdataSolverConfig.xml",
+      "upstream_test": "complete XML TEST resource",
+      "modifications": "Copied TEST-only resource unchanged, with license/notices tracked here. Class references are declaration keys, not access to production class bodies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/solver_xml/invalidSolverConfig.xml",
+      "id": "solver-xml-fixture-invalidSolverConfig",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/api/solver/invalidSolverConfig.xml",
+      "upstream_test": "complete XML TEST resource",
+      "modifications": "Copied TEST-only resource unchanged, with license/notices tracked here. Class references are declaration keys, not access to production class bodies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/solver_xml/testSolverConfigWithNamespace.xml",
+      "id": "solver-xml-fixture-testSolverConfigWithNamespace",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/config/solver/testSolverConfigWithNamespace.xml",
+      "upstream_test": "complete XML TEST resource",
+      "modifications": "Copied TEST-only resource unchanged, with license/notices tracked here. Class references are declaration keys, not access to production class bodies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/solver_xml/testSolverConfigWithoutNamespace.xml",
+      "id": "solver-xml-fixture-testSolverConfigWithoutNamespace",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/config/solver/testSolverConfigWithoutNamespace.xml",
+      "upstream_test": "complete XML TEST resource",
+      "modifications": "Copied TEST-only resource unchanged, with license/notices tracked here. Class references are declaration keys, not access to production class bodies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/solver_xml/testSolverConfigWithEnumSet.xml",
+      "id": "solver-xml-fixture-testSolverConfigWithEnumSet",
+      "upstream_path": "core/src/test/resources/ai/timefold/solver/core/config/solver/testSolverConfigWithEnumSet.xml",
+      "upstream_test": "complete XML TEST resource",
+      "modifications": "Copied TEST-only resource unchanged, with license/notices tracked here. Class references are declaration keys, not access to production class bodies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/xml_factory_fixture.rs",
+      "id": "xml-easy-score-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "modifications": "Adapt TEST-only ordered distinct entity-pair equality penalty to native assigned value observations; retain missing-value omission and ordered-pair double penalty. Native run builds an actual scoring network/factory/manager and fresh problem per positive test."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/xml_factory_fixture.rs",
+      "id": "xml-diverting-loader-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/DivertingClassLoader.java",
+      "upstream_test": "diverted resource resolution and delegation",
+      "modifications": "Adapt observed diverted resource lookup with a caller resolver. Unobserved JVM loadClass/getResources behavior is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/solver_xml_cases.rs",
+      "id": "xml-config-reference-fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "Dummy component classes and both inline XML fragments",
+      "modifications": "Retain TEST-only component names, all expected reference keys, namespace fragment, whitespace around solution key and invalid nested variableName. Native component keys replace type objects; abstract dummy production bodies are never implemented or consulted."
     }
   ]
 }

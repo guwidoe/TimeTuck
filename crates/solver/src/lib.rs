@@ -1608,3 +1608,10 @@ pub use list_value_swap::replayed::{
 
 mod list_range_value_source;
 pub use list_range_value_source::{ListRangeValueOrder, ListRangeValueSource};
+
+mod solver_xml;
+pub use solver_xml::{
+    SOLVER_XML_NAMESPACE, SolverXmlCause, SolverXmlConfiguration, SolverXmlElement, SolverXmlError,
+    SolverXmlLimits, SolverXmlSchemaError, XmlFactoryError, XmlFactorySignature,
+    XmlSolverFactoryRegistry,
+};

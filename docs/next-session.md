@@ -16,6 +16,26 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Round92 implementation — focused verification passed
+
+XML configuration/resource/file loading, owned declarations/inheritance/reference
+keys and explicit actual native factory builders implemented in solver_xml.rs.
+Pinned roxmltree0.21.1 added; local remote-vendor regenerated against actual new
+Cargo.lock. No Timefold production consulted. Native declared vocabulary is not
+full JAXB/XSD parity; preserved arbitrary runtime options require explicit builders.
+Nine SolverFactoryTest and eight SolverConfigTest complete TEST adaptations plus
+six originals passed focused runner-a tests in28.512seconds, root
+bbcb362686790fe45919becce126d7b63a64a85ea51907d1b9045659ae095150.
+Positive factory cases actually solve through native managers. Sources/resources/
+helpers retain provenance/notices. Namespace writing improved to remove only the
+parsed root declaration; byte/node/depth and entity limits, escaping, inheritance,
+recursive reference keys and typed builder failures covered. No focused failures.
+The shared Cargo inputs changed, requiring broad final regression; benchmark
+measurements now have changed inputs and must remain stale until a deliberate
+refresh. No retagging. Prepare a new stable Cargo home/vendor binding for this
+lockfile on runner-a, freeze Rust/provenance and run bash scripts/check.sh once.
+No new agents. Goal incomplete.
+
 ## Latest verified checkpoint — round91
 
 Distinct raw list-range selection integrated as9d9f89f, fixture follow-upc604773.

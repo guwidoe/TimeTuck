@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+  <environmentMode>FULL_ASSERT</environmentMode>
+  <moveThreadCount>AUTO</moveThreadCount>
+  <solutionClass>ai.timefold.solver.core.testdomain.inheritance.entity.single.baseannotated.classes.childtoo.TestdataBothAnnotatedSolution</solutionClass>
+  <entityClass>ai.timefold.solver.core.testdomain.TestdataEntity</entityClass>
+  <entityClass>ai.timefold.solver.core.testdomain.inheritance.entity.single.baseannotated.classes.childtoo.TestdataBothAnnotatedChildEntity</entityClass>
+  <scoreDirectorFactory>
+    <easyScoreCalculatorClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyEasyScoreCalculator</easyScoreCalculatorClass>
+    <constraintProviderClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyConstraintProvider</constraintProviderClass>
+    <incrementalScoreCalculatorClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyIncrementalScoreCalculator</incrementalScoreCalculatorClass>
+    <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
+  </scoreDirectorFactory>
+  <nearbyDistanceMeterClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyNearbyDistanceClass</nearbyDistanceMeterClass>
+  <constructionHeuristic>
+    <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
+    <queuedEntityPlacer>
+      <entitySelector id="placerEntitySelector">
+        <entityClass>ai.timefold.solver.core.testdomain.TestdataEntity</entityClass>
+        <cacheType>PHASE</cacheType>
+        <selectionOrder>SORTED</selectionOrder>
+        <filterClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyEntityFilter</filterClass>
+        <sorterManner>DESCENDING</sorterManner>
+      </entitySelector>
+      <cartesianProductMoveSelector>
+        <changeMoveSelector>
+          <entitySelector mimicSelectorRef="placerEntitySelector"/>
+          <valueSelector variableName="subValue">
+            <downcastEntityClass>ai.timefold.solver.core.testdomain.inheritance.entity.single.baseannotated.classes.childtoo.TestdataBothAnnotatedChildEntity</downcastEntityClass>
+            <cacheType>PHASE</cacheType>
+            <selectionOrder>SORTED</selectionOrder>
+            <sorterManner>ASCENDING</sorterManner>
+          </valueSelector>
+        </changeMoveSelector>
+        <changeMoveSelector>
+          <filterClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyChangeMoveFilter</filterClass>
+          <entitySelector mimicSelectorRef="placerEntitySelector"/>
+          <valueSelector variableName="value">
+            <cacheType>PHASE</cacheType>
+            <selectionOrder>SORTED</selectionOrder>
+            <filterClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyValueFilter</filterClass>
+            <sorterManner>ASCENDING</sorterManner>
+          </valueSelector>
+        </changeMoveSelector>
+      </cartesianProductMoveSelector>
+    </queuedEntityPlacer>
+    <swapMoveSelector>
+      <variableNameIncludes>
+        <variableNameInclude>variableA</variableNameInclude>
+        <variableNameInclude>variableB</variableNameInclude>
+      </variableNameIncludes>
+    </swapMoveSelector>
+    <forager>
+      <pickEarlyType>FIRST_FEASIBLE_SCORE_OR_NON_DETERIORATING_HARD</pickEarlyType>
+    </forager>
+  </constructionHeuristic>
+  <customPhase>
+    <customPhaseCommandClass>ai.timefold.solver.core.api.solver.phase.PhaseCommand</customPhaseCommandClass>
+  </customPhase>
+  <exhaustiveSearch>
+    <exhaustiveSearchType>BRANCH_AND_BOUND</exhaustiveSearchType>
+    <nodeExplorationType>BREADTH_FIRST</nodeExplorationType>
+    <changeMoveSelector>
+      <valueSelector variableName="value">
+        <filterClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyValueFilter</filterClass>
+      </valueSelector>
+    </changeMoveSelector>
+  </exhaustiveSearch>
+  <localSearch>
+    <termination>
+      <terminationCompositionStyle>AND</terminationCompositionStyle>
+      <spentLimit>PT2S</spentLimit>
+      <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>
+      <termination>
+        <terminationCompositionStyle>OR</terminationCompositionStyle>
+        <secondsSpentLimit>20</secondsSpentLimit>
+        <unimprovedStepCountLimit>1000</unimprovedStepCountLimit>
+      </termination>
+    </termination>
+    <localSearchType>TABU_SEARCH</localSearchType>
+    <unionMoveSelector>
+      <pillarChangeMoveSelector>
+        <subPillarType>SEQUENCE</subPillarType>
+      </pillarChangeMoveSelector>
+      <pillarSwapMoveSelector>
+        <pillarSelector>
+          <entitySelector>
+            <filterClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyEntityFilter</filterClass>
+          </entitySelector>
+          <minimumSubPillarSize>5</minimumSubPillarSize>
+          <maximumSubPillarSize>10</maximumSubPillarSize>
+        </pillarSelector>
+      </pillarSwapMoveSelector>
+      <moveIteratorFactory>
+        <fixedProbabilityWeight>30.0</fixedProbabilityWeight>
+        <moveIteratorFactoryClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyMoveIteratorFactory</moveIteratorFactoryClass>
+        <moveIteratorFactoryCustomProperties>
+          <property name="moveIteratorProperty" value="moveIteratorPropertyValue"/>
+        </moveIteratorFactoryCustomProperties>
+      </moveIteratorFactory>
+      <moveListFactory>
+        <selectedCountLimit>500</selectedCountLimit>
+        <moveListFactoryClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummyMoveListFactory</moveListFactoryClass>
+        <moveListFactoryCustomProperties>
+          <property name="moveListProperty" value="moveListPropertyValue"/>
+        </moveListFactoryCustomProperties>
+      </moveListFactory>
+    </unionMoveSelector>
+    <acceptor>
+      <acceptorType>ENTITY_TABU</acceptorType>
+      <acceptorType>STEP_COUNTING_HILL_CLIMBING</acceptorType>
+      <entityTabuSize>5</entityTabuSize>
+      <entityTabuRatio>2.0</entityTabuRatio>
+      <stepCountingHillClimbingSize>10</stepCountingHillClimbingSize>
+      <stepCountingHillClimbingType>EQUAL_OR_IMPROVING_STEP</stepCountingHillClimbingType>
+    </acceptor>
+    <forager>
+      <pickEarlyType>FIRST_LAST_STEP_SCORE_IMPROVING</pickEarlyType>
+      <acceptedCountLimit>1000</acceptedCountLimit>
+      <finalistPodiumType>STRATEGIC_OSCILLATION</finalistPodiumType>
+      <breakTieRandomly>true</breakTieRandomly>
+    </forager>
+  </localSearch>
+  <partitionedSearch>
+    <solutionPartitionerClass>ai.timefold.solver.core.config.solver.SolverConfigTest$DummySolutionPartitioner</solutionPartitionerClass>
+    <solutionPartitionerCustomProperties>
+      <property name="minimumProcessListSize" value="300"/>
+      <property name="partCount" value="4"/>
+    </solutionPartitionerCustomProperties>
+    <constructionHeuristic>
+      <pooledEntityPlacer>
+        <changeMoveSelector/>
+      </pooledEntityPlacer>
+    </constructionHeuristic>
+    <localSearch>
+      <termination>
+        <minutesSpentLimit>5</minutesSpentLimit>
+        <bestScoreLimit>0hard/0soft</bestScoreLimit>
+      </termination>
+      <acceptor>
+        <simulatedAnnealingStartingTemperature>2hard/10000soft</simulatedAnnealingStartingTemperature>
+      </acceptor>
+    </localSearch>
+  </partitionedSearch>
+</solver>

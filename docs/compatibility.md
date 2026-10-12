@@ -8382,3 +8382,39 @@ Frozen round91 verification passed on runner-a:7,214 Rust tests,290 doctests;
 Three Rust jobs ran;1,061 Rust and46 Python jobs reused unchanged successful inputs.
 A prebuild Clippy fixture warning was corrected with a borrowed selection context;
 no solver runtime repair. Source/log/archive hashes and dashboard freshness validated.
+
+### XML configuration declarations and native factory bindings
+
+SolverXmlConfiguration reads bounded UTF-8 XML from strings, files or caller
+resource resolvers. The pinned roxmltree parser handles XML syntax and namespaces;
+external entity resolution is not installed and DTD parsing is disabled. Native
+validation covers the declared configuration vocabulary, unknown attributes,
+namespace/depth limits, misplaced variableName and empty component keys. This is
+a native declaration reader, not full Timefold XSD/bean validation. Owned trees
+preserve nested fields, reference keys and inheritance; unchanged read/write
+preserves document spelling/comments while omitting the root default solver
+namespace. Mutated declarations escape text and attributes. Environment modes
+have typed native values; other runtime options remain explicit declarations.
+
+XmlSolverFactoryRegistry binds complete solution/entity/scoring signatures to
+actual native builder callbacks. Missing, duplicate or unregistered bindings fail
+before execution; callbacks construct existing SolverFactory objects and must
+interpret or reject options. No reflective JVM class loading, Java type hierarchy
+or runtime support for arbitrary retained declaration fields is claimed. File and
+resource failures preserve their origin and typed underlying cause.
+
+Nine complete SolverFactoryTest XML methods retain all load/path/resolver/error
+criteria and build actual solver managers. Positive cases also run real native
+jobs using the adapted TEST-only ordered-equal-pair score calculator. Eight
+SolverConfigTest methods retain both exact whitespace-insensitive roundtrip inputs,
+namespace/phase/environment/component fields, whitespace trimming, schema cause,
+preview set, complete inheritance and all thirteen reference identities. Six XML
+resources were copied unchanged with provenance/notices. Class objects become
+owned native registration keys; method adaptations do not establish JVM API/ABI
+parity. Six originals verify entity rejection and bounds, namespace normalization,
+mutation escaping, child precedence, full tree/reference roundtrip and real builder
+cause/preflight behavior. Record-type methods remain pending.
+
+The parser dependency changes shared Cargo inputs, so this batch requires broad
+Rust regression. Prior performance measurements remain stale until deliberately
+refreshed; no old evidence is retagged. Existing scoring/search kernels unchanged.
