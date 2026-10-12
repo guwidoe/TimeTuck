@@ -16,7 +16,74 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round59
+## Latest verified checkpoint — round60
+
+Feature e1805ed adds actual list solution bindings and initialized source membership.
+The binder validates one genuine list field plus shadow-only entities, real provider
+reads, complete collection/range bindings, aliases, signatures and pins before
+publishing a native ListProblem. Arc payloads retain actual allocation identity;
+current planning lists/fields remain in explicit native assignments, while object
+payloads retain immutable facts/initial state. Multiple-list-field/mixed bindings
+remain separate work, not silently accepted. Optional indexed() preserves provider
+order, object allocations, optionality and pin baselines and uses native hash indexes.
+
+Initialized basic reads use current canonical native slots. Initialized list reads
+use current assignment membership and actual canonical domain allocations without
+consulting an inverse/index object getter. Indexed models reuse validation's position
+result; Eq-only models need the explicit canonical membership pass. Both paths are
+covered. Membership refreshes are graph transactions: retract absent keys in stable
+source order, insert only new keys, deduplicate aliases and avoid score replay for
+unchanged immutable tuples. This does not refresh interior mutations or implicitly
+write Java-style shadow/object fields; current planning values/positions are native
+assignment data. Candidate/search loops unchanged; no throughput claim.
+
+Two complete Community uni forEach methods preserve full source fixtures/assertions:
+polymorphism uses physically embedded base/extended roots, Cat/Animal/Dog, v1/v2,
+real empty solution-owned weights, parent/child metadata/projections and every exact
+object/score match. The no-inverse required-list case retains index-only shadow
+metadata and all initial/assign/unassign score/match sets through real native moves.
+Eight TEST fixtures/changes attributed; no production/Enterprise sources used, pin
+unchanged. Native Arc value-wrapper fact records and explicit provider/entity aliases
+replace Java discovery. Five originals cover live basic slots, aliases/pins,
+canonical foreign-equal handles, invalid input, foreign graphs, panic rollback,
+indexed models and actual dense/stream optima (-2, one value per owner) retaining
+original objects. No additional source-method credit from these originals.
+
+Focused runner-c cases 2/2, originals 5/5 and prior source controls 3/3 passed. Fixed
+compile issues (retract naming, parent-kind argument, owned accessor output) and the
+real Eq-only no-position-table assumption before the final gate. Focused strict
+Clippy passed after replacing the test fixture's tuple signature with an alias.
+Final stable-order refresh state was checked by the full frozen gate, not relabelled
+from older focused results. No new agents or assignments; both build machines used.
+
+Final frozen runner-a gate passed once: 6,951 Rust tests, 290 doctests;
+3,663/4,855 source methods passed (75.448%), 626 pending, 566 excluded, zero
+failed/unverified. Actual 5 Rust RUN/1,001 REUSE/46 Python REUSE; 189.613 seconds.
+Rust source: 5732b3ebd2f7415d4e152b3be237999752cac6da9c0f10be1f2ad2ec99f2406e.
+Report/verification: 595c478c8b2d6bfa189e1306d9cf7776f013e20c21e5bb686e223c50e3cd4330.
+Remote root: a6aedcec723cf005ec730dd91fc6ef6adab66e34d5c7bd89c14de22e7dd8a5dd.
+Archive work/round60-runner-a-results.tar.gz SHA256:
+aab28f7b2f1d39f92804a87055667c7de7f8250cc6dc6f18da4b808de330197d.
+Freeze/evidence work/parallel-round60-freeze.json and parallel-round60-evidence.json.
+Collector 74017 completed zero; launcher 9945 terminal success is being collected.
+Postcommit proof work/verify_round60_postcommit.py validates exact current source,
+backend/report freshness, clean Git and prior completed compatibility families.
+Reuse these genuine results while relevant inputs stay unchanged. Seed next gate
+from this actual archive/root. No UI or benchmark reruns; old performance stays stale.
+
+Next close the remaining joiner ordering, duplicate custom justification declaration
+and constraint-package gaps. TEST-only specs inspected: bi join_filtering_comesLast
+rejects filtering before equality during actual graph construction; uni/bi and
+tri/quad failWithMultipleJustifications reject configuring one constraint twice,
+with the exact hint 'Maybe the constraint calls justifyWith() twice?'. Current graph
+custom explanations are per-request callbacks, not configured declaration callbacks;
+implement an actual executable constraint declaration/configuration if adapting
+those cases, not a dummy count or error label. Broader typed current planning-field
+feeds and mixed/multiple-list solution bindings, whole-solve termination and advanced
+tracked assertion integration still remain. Keep shrinking backlog, performance
+important, no new subagents or assignments. Objective active and incomplete.
+
+## Prior verified checkpoint — round59
 
 Feature 6983be0 integrates checked solution stream sources retaining real domain
 allocations and executable borrowed projections. Source types come from actual
