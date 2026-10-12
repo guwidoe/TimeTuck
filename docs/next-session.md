@@ -16,6 +16,61 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round83
+
+Configured manager creation now accepts configuration/run functions or reusable factories
+with default/explicit worker/consumer settings. Native defaults1 solver/1 consumer make
+no Java AUTO sizing claim. Shared SolverSubmissionManager/Builder traits implement actual
+direct/final/listening helper delegation through builder setters and run; alternate
+implementations can reuse the same contract. Configured builders gain final/best setters,
+retaining other callbacks. Raw pool/consumer/callback/cancellation/shutdown loops unchanged.
+Sparse SolverTimeOverride applies only Some durations; None inherits existing defaults.
+Individual setters still explicitly clear limits and all calls retain their order. An
+explicit optional compiler receives the raw object once without pool locks; its output
+patch reaches the actual factory executor. Immutable job handles retain original override
+input separately from effective sequence, including after cloning/ID reuse. Factory
+configuration is never mutated. Factory configuration errors and pool I/O errors retain
+separate creation-error kinds. Raw scoring/search algorithms are unchanged.
+
+All five remaining SolverManagerTest methods now fully pass: create,errorThrowableInSolver,
+solveGenerics,solveWithTerminationUnimprovedSpentLimit,testSolveBuilderForExistingSolvingMethods.
+Source create retains four successful creation/close routes. Error case preserves ID1,
+full generated2-value v1/v2 and2-entity e1/e2 unassigned input, exact root-message,
+wrapped failure, once-only handler and both NOT_SOLVING states. Typed recoverable modeled
+allocation failure represents the explicitly thrown synthetic Java error; no actual
+Rust allocator OOM/abort recovery claim. Generic callbacks use broad Any arguments and
+actual native construction/local10-step zero-objective solve. Sparse override retains
+spent10s/unimproved1s defaults, raw spentNone/unimproved500ms and exact raw object passed
+once to actual native compiler hook, replacing Java static Mockito spy. Actual executor
+receives10s/500ms. Builder mock preserves all cumulative1/2/3 ID/problem forwarding and
+final/best counts1; native prepare_job(id) replaces a separate Java ID setter. TEST-only
+helper/zero-score fixtures and mocks retain provenance/notices; no production copied,
+Java wildcard/API/ABI/trace/clock-expression parity claim. Four originals verify actual
+helper solves and real callbacks, override isolation/order/clear and retained metadata,
+compiler normalization, invalid explicit sequences/pools and shutdown rejection.
+
+Initial focused compilation corrected a fixture score Option mismatch while preserving
+absence. Runtime source5 passed; one new invalid-factory control incorrectly used an
+empty SolverPlan, which normalizes into default phases. Corrected to an explicitly empty
+SolverSequence; final focused4 controls passed. No production runtime repair was needed.
+Final frozen runner-a bash scripts/check.sh passed once:7,092 Rust tests,290 doctests;
+3,721/4,855 (76.643%),566 pending,568 excluded,zero failed/unverified. Actual8 Rust RUN/
+1,040 REUSE/46 Python REUSE;234.4seconds. Manager36/36, temporal25/25, triangular4/4,
+variable-descriptor4/4 and abstract/custom cloner14/14,4/4 remain passing. No benchmarks,
+release suite, UI rerun or agents. K-opt measured-input hash remains genuinely current;
+prior list measurements remain stale. Factory changed; raw worker/callback/job-builder
+and solver/scoring/search source bytes remain unchanged and are checked by postcommit proof.
+Rust:e97adf5c45fca07e8b459c537868bfde2811de3eb353da1cef736594eda58dc5.
+Report:0bf3652d1797779fba75c2c67ddca9d7f939247b7c8756412f26dc9872fa9651.
+Remote root:c51fcb36900e56de56194c6b1e9f295433c28e1f5978fd5d311a6079924de037.
+Archive work/round83-runner-a-results.tar.gz SHA256:
+1e9bbfcf64483f74b33ae85954d71c9a38f7355db1fdfb33f8ff59a1001b24eb.
+Evidence/freeze:work/parallel-round83-evidence.json and parallel-round83-freeze.json.
+Launcher53118/collector41881 terminalzero. Postcommit proof:work/verify_round83_postcommit.py.
+Next gate seeds actual round83 archive/root. Goal active/incomplete;566 pending cases
+remain. Continue meaningful configuration/selector/compatibility gaps, keeping performance
+important and unchanged verification reused. No new agents or assignments.
+
 ## Latest verified checkpoint — round82
 
 TemporalValue is now an explicit public Copy/Ord extension contract for civil or

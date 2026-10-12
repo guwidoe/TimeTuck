@@ -8089,3 +8089,32 @@ TemporalValueRangeTest25/25 and TriangularNumbersTest4/4 now pass. Overall3,716/
 (76.54%),571 pending,568 excluded,zero failed/unverified. Final7,083 Rust tests/290
 doctests;10 changed Rust jobs/1,036 reused jobs/46 Python reuses. Raw solver/scoring/
 search remains unchanged; K-opt measurements are current and prior list data stays stale.
+
+### Configured manager creation, delegation and sparse time overrides
+
+Native managers can be created from configuration/run functions or reusable factories
+with default/explicit worker/consumer settings. Defaults are1 worker/1 consumer, without
+claiming Java AUTO sizing. Shared submission traits route direct, final-consumer and
+listening helpers through actual builder setters/run. Existing callback delivery, error
+containment, cancellation and shutdown rules remain those of the original native pool.
+
+SolverTimeOverride applies only supplied durations; None inherits current defaults.
+Individual time setters can still disable limits and later setters apply in call order.
+An optional explicit compiler receives the raw override once without pool locks and
+its returned patch reaches the actual factory executor. Job handles retain the original
+input alongside immutable effective configuration, including after cloning/ID reuse.
+
+All five remaining SolverManagerTest methods preserve complete source criteria: four
+creation/close paths, recoverable typed failure/root-message/once-only callback/status,
+actual generic callback/finder execution, sparse500ms override and exact compiler input
+forwarding, and cumulative1/2/3 builder delegation counts. Native preparation carries
+ID rather than a separate Java ID setter. The failure models the explicitly thrown
+synthetic Java allocation error; Rust allocator OOM/abort recovery is not claimed.
+Actual TEST helper2-value/2-entity and zero-objective/10-step fixtures retain provenance/
+notices. Four originals cover real solve callbacks, override isolation/order/clear,
+compiler normalization, invalid factories/pools and shutdown rejection. No source
+credit is earned by originals or additional quality checks. Raw worker/consumer loops
+and scoring/search algorithms are unchanged; no comparative performance claim.
+SolverManagerTest36/36 now pass; overall3,721/4,855 (76.643%),566 pending,568 excluded,
+zero failed/unverified. Final7,092 Rust tests/290 doctests;8 changed Rust jobs/1,040
+reused jobs/46 Python reuses. K-opt inputs remain current; prior list data stays stale.

@@ -157,6 +157,7 @@ impl<
             callbacks: SolverJobCallbacks::default(),
             size: None,
             config: self.factory.inner.config.clone(),
+            time_override: None,
         }
     }
     pub fn shutdown(&mut self) -> io::Result<()> {
@@ -169,12 +170,14 @@ impl<
 pub struct ConfiguredSolverJob<R, E, S: 'static = SimpleScore> {
     job: SolverJob<R, E>,
     config: Arc<SolverSequence<'static, S>>,
+    time_override: Option<SolverTimeOverride>,
 }
 impl<R, E, S: 'static> Clone for ConfiguredSolverJob<R, E, S> {
     fn clone(&self) -> Self {
         Self {
             job: self.job.clone(),
             config: self.config.clone(),
+            time_override: self.time_override,
         }
     }
 }
@@ -185,6 +188,10 @@ impl<R, E, S> Deref for ConfiguredSolverJob<R, E, S> {
     }
 }
 impl<R, E, S> ConfiguredSolverJob<R, E, S> {
+    /// Last explicit sparse override input; effective configuration is separate.
+    pub fn time_override(&self) -> Option<SolverTimeOverride> {
+        self.time_override
+    }
     pub fn configuration(&self) -> &SolverSequence<'static, S> {
         &self.config
     }
@@ -223,6 +230,7 @@ pub struct ConfiguredSolverJobBuilder<'a, P, R, E, S: 'static = SimpleScore> {
     callbacks: SolverJobCallbacks<R, E>,
     size: Option<ProblemSizeStatistics>,
     config: SolverSequence<'static, S>,
+    time_override: Option<SolverTimeOverride>,
 }
 impl<
     P: Send + 'static,
@@ -244,6 +252,37 @@ impl<
     }
     pub fn with_callbacks(mut self, callbacks: SolverJobCallbacks<R, E>) -> Self {
         self.callbacks = callbacks;
+        self
+    }
+    pub fn with_final_consumer(mut self, callback: impl FnOnce(u64, &R) + Send + 'static) -> Self {
+        self.callbacks = self.callbacks.on_final(callback);
+        self
+    }
+    pub fn with_best_consumer(mut self, callback: impl FnMut(u64, &R) + Send + 'static) -> Self {
+        self.callbacks = self.callbacks.on_best(callback);
+        self
+    }
+    /// Sparse None entries inherit defaults; existing individual setters can
+    /// explicitly disable a limit. Later setters still apply in call order.
+    pub fn with_time_override(self, override_input: SolverTimeOverride) -> Self {
+        self.with_time_override_using(override_input, |input| input)
+    }
+    /// Compile/normalize one sparse override before submission. The compiler
+    /// receives the exact input once without pool locks; its output is applied.
+    /// The job retains the original input alongside its effective configuration.
+    pub fn with_time_override_using(
+        mut self,
+        override_input: SolverTimeOverride,
+        compile: impl FnOnce(SolverTimeOverride) -> SolverTimeOverride,
+    ) -> Self {
+        let compiled = compile(override_input);
+        if let Some(limit) = compiled.max_time {
+            self.config.limits.max_time = Some(limit);
+        }
+        if let Some(limit) = compiled.max_unimproved_time {
+            self.config.limits.max_unimproved_time = Some(limit);
+        }
+        self.time_override = Some(override_input);
         self
     }
     pub fn with_problem_size(mut self, size: ProblemSizeStatistics) -> Self {
@@ -292,7 +331,11 @@ impl<
         let job = builder
             .run()
             .map_err(ConfiguredSolverJobBuildError::Submission)?;
-        Ok(ConfiguredSolverJob { job, config })
+        Ok(ConfiguredSolverJob {
+            job,
+            config,
+            time_override: self.time_override,
+        })
     }
 }
 

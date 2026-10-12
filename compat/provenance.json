@@ -55886,6 +55886,81 @@
       "local_path": "crates/solver/tests/triangular_number_cases.rs",
       "local_test": "non_triangular_roots",
       "modifications": "Preserve all7 parameter rows and both strict floating bounds per row, including268435456 between23169 and23170. Native checked signed32-bit intermediate policy and continuous inverse implement independent mathematical formulas. Highest-safe metadata is derived mathematically/from TEST expected value; no upstream production or constant read/copied. Native Result errors replace Java exceptions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.create",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "create",
+      "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
+      "local_test": "create",
+      "modifications": "Retain all4 successful creation/close paths: native config with default/explicit manager config, native factory with default/explicit config. Native defaults deliberately use1 solver/1 consumer; no Java AUTO sizing/class-loader or constructor/API parity claim. Complete source criteria retained with seeded/bounded native solve execution where applicable. TEST-only adapters; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.errorThrowableInSolver",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "errorThrowableInSolver",
+      "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
+      "local_test": "error_throwable_in_solver",
+      "modifications": "Preserve problemID1, generated2-value/2-entity solution, configured custom failure, exact exceptionInSolver root message, wrapped asynchronous failure, exception callback exactly once and manager/job NOT_SOLVING status. A typed recoverable native modeled-allocation failure represents the source explicitly thrown OutOfMemoryError; no actual Rust allocator OOM/abort recovery claim. Complete source criteria retained with seeded/bounded native solve execution where applicable. TEST-only adapters; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.solveGenerics",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "solveGenerics",
+      "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
+      "local_test": "solve_generics",
+      "modifications": "Preserve problemID1, default generated solution finder, broader native Any final/error callback argument types, failure handler that fails if invoked and successful final-job retrieval. Actual native construction/local search solves full2-value/2-entity fixture with zero objective and10-step ceiling; no Java wildcard/erasure/API parity claim. Complete source criteria retained with seeded/bounded native solve execution where applicable. TEST-only adapters; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.solveWithTerminationUnimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "solveWithTerminationUnimprovedSpentLimit",
+      "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
+      "local_test": "solve_with_termination_unimproved_spent_limit",
+      "modifications": "Preserve defaults spent10seconds/unimproved1second, override only500milliseconds unimproved, raw spentNone/raw unimproved500ms, and actual override compilation invocation exactly once with that raw object. Native explicit compiler hook replaces static Mockito TerminationFactory spy. Effective native factory executor additionally observes spent10s/unimproved500ms; no wall-clock execution/Java termination-expression trace claim. Complete source criteria retained with seeded/bounded native solve execution where applicable. TEST-only adapters; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverManagerTest.testSolveBuilderForExistingSolvingMethods",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "testSolveBuilderForExistingSolvingMethods",
+      "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
+      "local_test": "test_solve_builder_for_existing_solving_methods",
+      "modifications": "Preserve all cumulative forwarding counts1/2/3 for problemID and problem, final-consumer count1 after second call and best-consumer count1 after third. Native default submission traits use actual injected mock-builder setters; ID is forwarded in prepare_job(id), replacing separate Java ID setter. Unit opaque problem/result represents source mock-only interaction objects; no solve quality or Java API parity claimed. Complete source criteria retained with seeded/bounded native solve execution where applicable. TEST-only adapters; no production copied."
     }
   ],
   "fixtures": [
@@ -78703,6 +78778,45 @@
       "upstream_test": "complete source mock or parameter-provider inputs",
       "local_path": "crates/solver/tests/triangular_number_cases.rs",
       "modifications": "Adapt full TEST-only8 nth-provider and7 nontriangular-provider rows. Derive46340 from the highest-safe expectedtriangular result1073720970 rather than reading production constant. Preserve license/provenance; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "managed-factory-inputs",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "remaining SolverManagerTest full input/helper/mock setup",
+      "local_path": "crates/solver/tests/fixtures/managed_factory_fixture.rs",
+      "modifications": "Adapt TEST-only generated2-value v1/v2 and2-entity e1/e2 unassigned input, actual solution code, absent score and construction/local10-step phase helper. Native owned structs/Arc facts and solver callbacks replace Java object descriptors; projection preserves real fields/facts. No production copied or Java trace/API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "managed-factory-dummy-score",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/DummySimpleScoreEasyScoreCalculator.java",
+      "upstream_test": "remaining SolverManagerTest full input/helper/mock setup",
+      "local_path": "crates/solver/tests/fixtures/managed_factory_fixture.rs",
+      "modifications": "Adapt TEST-only constant-zero objective into an actual empty native constraint network; native construction/local solve and observer project actual assignments/score. No source scoring work-count/trace/API parity or production-copy claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "manager-submission-mock",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/SolverManagerTest.java",
+      "upstream_test": "remaining SolverManagerTest full input/helper/mock setup",
+      "local_path": "crates/solver/tests/solver_factory_facade_cases.rs",
+      "modifications": "Adapt TEST-only legacy solve-method forwarding mock interaction setup into native submission manager/builder traits with real shared default helper implementations and cumulative counters. Mock-only unit inputs/results preserve original interaction criteria; no fixture score result or solver quality credit."
     }
   ]
 }

@@ -1553,3 +1553,9 @@ mod triangular_numbers;
 pub use triangular_numbers::{
     HIGHEST_SAFE_TRIANGULAR_N, TriangularError, nth_triangle, triangular_root,
 };
+
+mod solver_submission;
+pub use solver_submission::{
+    ConfiguredManagerCreateError, SolverManagerConfig, SolverSubmissionBuilder,
+    SolverSubmissionManager, SolverTimeOverride,
+};
