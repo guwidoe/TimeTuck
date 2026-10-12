@@ -56351,6 +56351,516 @@
       "local_path": "crates/solver/tests/list_move_description_cases.rs",
       "local_test": "list_unassign_do_move",
       "modifications": "Preserve full TEST-only inputs and every diagnostic string, reversal flag, same-owner span normalization, post-execution entity/value order and equality assertion, or sequential unassignment/result and exact four range/value callback criteria as applicable. Actual Arc payload identity and native owner indices replace Java entity/value objects/descriptors. Single-swap inspection reads the executed current positions; retained sublist values use validated normalized pre-move capture. Record equality compares actual normalized movement, excluding captured values. Diagnostics intentionally format source out-of-range metadata, including insertion15/empty sublist rows, without a fake executable-move claim. Native lifecycle has one explicit additional final flush; all four original callbacks and no other range/value callbacks are asserted, original verification imposes no call order. Existing solver pre-move metadata/tabu policy unchanged. No production copied, Java API/ABI or performance claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.validNameWithUnderscoreAndSpace",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "validNameWithUnderscoreAndSpace",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "planner_valid_name_with_underscore_and_space",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.validNameWithJapanese",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "validNameWithJapanese",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "planner_valid_name_with_japanese",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.invalidNameWithSlash",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "invalidNameWithSlash",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "planner_invalid_name_with_slash",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.invalidNameWithSuffixWhitespace",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "invalidNameWithSuffixWhitespace",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "planner_invalid_name_with_suffix_whitespace",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.invalidNameWithPrefixWhitespace",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "invalidNameWithPrefixWhitespace",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "planner_invalid_name_with_prefix_whitespace",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.noSolverConfigs",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "noSolverConfigs",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "planner_no_solver_configs",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.phaseWithoutEnvironmentModeIsValid",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "phaseWithoutEnvironmentModeIsValid",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "phase_without_environment_mode_is_valid",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.phaseOverridingEnvironmentModeIsRejected",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "phaseOverridingEnvironmentModeIsRejected",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "phase_overriding_environment_mode_is_rejected",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.anyEnvironmentModeOverrideIsRejected",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "anyEnvironmentModeOverrideIsRejected",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "any_environment_mode_override_is_rejected",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.solverBenchmarkWithoutSolverConfigIsValid",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "solverBenchmarkWithoutSolverConfigIsValid",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "solver_benchmark_without_solver_config_is_valid",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.inheritedConfigWithoutPhaseOverrideIsValid",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "inheritedConfigWithoutPhaseOverrideIsValid",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "inherited_config_without_phase_override_is_valid",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.inheritedConfigOverridingEnvironmentModeIsRejected",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "inheritedConfigOverridingEnvironmentModeIsRejected",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "inherited_config_overriding_environment_mode_is_rejected",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.inheritedConfigOverridingEnvironmentModeIsRejectedWithBluePrintsOnly",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "inheritedConfigOverridingEnvironmentModeIsRejectedWithBluePrintsOnly",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "inherited_config_overriding_environment_mode_is_rejected_with_blueprints_only",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.nonUniqueSolverConfigName",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "nonUniqueSolverConfigName",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "non_unique_solver_config_name",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.uniqueNamesGenerated",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "uniqueNamesGenerated",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "unique_names_generated",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.resolveParallelBenchmarkCountAutomatically",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "resolveParallelBenchmarkCountAutomatically",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "resolve_parallel_benchmark_count_automatically",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.parallelBenchmarkDisabledByDefault",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "parallelBenchmarkDisabledByDefault",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "parallel_benchmark_disabled_by_default",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.resolvedParallelBenchmarkCountNegative",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "resolvedParallelBenchmarkCountNegative",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "resolved_parallel_benchmark_count_negative",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultPlannerBenchmarkFactoryTest.calculateWarmUpTimeMillisSpentLimit",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "calculateWarmUpTimeMillisSpentLimit",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "calculate_warm_up_time_millis_spent_limit",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.validNameWithUnderscoreAndSpace",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "validNameWithUnderscoreAndSpace",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "solver_valid_name_with_underscore_and_space",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.validNameWithJapanese",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "validNameWithJapanese",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "solver_valid_name_with_japanese",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.invalidNameWithSlash",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "invalidNameWithSlash",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "solver_invalid_name_with_slash",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.invalidNameWithSuffixWhitespace",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "invalidNameWithSuffixWhitespace",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "solver_invalid_name_with_suffix_whitespace",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.invalidNameWithPrefixWhitespace",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "invalidNameWithPrefixWhitespace",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "solver_invalid_name_with_prefix_whitespace",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.validNonZeroSubSingleCount",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "validNonZeroSubSingleCount",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "valid_non_zero_sub_single_count",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.validNullSubSingleCount",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "validNullSubSingleCount",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "valid_null_sub_single_count",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.invalidZeroSubSingleCount",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "invalidZeroSubSingleCount",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "invalid_zero_sub_single_count",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.invalidMonitorConfig",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "invalidMonitorConfig",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "invalid_monitor_config",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.defaultStatisticsAreUsedIfNotPresent",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "defaultStatisticsAreUsedIfNotPresent",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "default_statistics_are_used_if_not_present",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.convertToSolverMetric",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "convertToSolverMetric",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "convert_to_solver_metric",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SolverBenchmarkFactoryTest.problemStatisticsAreUsedIfPresent",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "problemStatisticsAreUsedIfPresent",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "problem_statistics_are_used_if_present",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ProblemBenchmarksConfigTest.testDetermineProblemStatisticTypeList",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/ProblemBenchmarksConfigTest.java",
+      "upstream_test": "testDetermineProblemStatisticTypeList",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "determine_problem_statistic_type_list",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ProblemBenchmarksConfigTest.testDetermineSingleStatisticTypeList",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/ProblemBenchmarksConfigTest.java",
+      "upstream_test": "testDetermineSingleStatisticTypeList",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "determine_single_statistic_type_list",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ProblemBenchmarksConfigTest.testDuplicatedDefaultMetrics",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/ProblemBenchmarksConfigTest.java",
+      "upstream_test": "testDuplicatedDefaultMetrics",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "local_test": "duplicated_default_metrics",
+      "modifications": "Preserve full TEST-only names/Unicode/whitespace, config absence, all explicit and inherited global/phase declarations (including late offending solver and blueprint-only input), conflicting/generated names, all9 CPU sizing rows, negative parallel string, additive1h/2m/5s/753ms result3725753, sub-run None/1/2/0 inputs, separate-monitor rejection, exact default/ordered metric selections, statistic enabled/empty/list behavior and inherited duplicate count, as applicable. Native typed configuration/profile/statistic enums and errors replace Java config classes, reflection and exception categories; settings and metric requests reach actual bounded native benchmark callbacks. Metric resolution deliberately does not validate the source helper sub-run0 input. Native CPU policy is independently inferred from test criteria, not copied production. Duration budgets are cooperative callback inputs, not preemption; no Java scheduling/order/trace/API/ABI or backend metric availability claim."
     }
   ],
   "fixtures": [
@@ -79337,6 +79847,45 @@
       "upstream_test": "complete diagnostic/post-execution inspection/unassignment source input rows, codes and move coordinates",
       "local_path": "crates/solver/tests/list_move_description_cases.rs",
       "modifications": "Adapt TEST-only numbered values and complete actual rows/empty rows, E1/e1/e2 labels, coordinates and reversal options into Arc-valued native assignments/problems. Native index0/1 retains owner identity and label mapping; metadata cases do not require reflection, descriptor fields, scores or upstream production. All original expected strings and asserted post-execution facts retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-config-inputs-DefaultPlannerBenchmarkFactoryTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/DefaultPlannerBenchmarkFactoryTest.java",
+      "upstream_test": "complete TEST-only configuration helper inputs, literal names, phase declarations, numeric criteria and statistic requests",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "modifications": "Adapt all supplied TEST-only configuration/validation/metric-resolution inputs. Native EnvironmentProfile preserves original global and two phase option states; enum blueprint retains construction-only and construction/local variants. Named error kinds and message criteria replace JVM exceptions; no upstream production/helper body copied. Original native real-solve tests earn no source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-config-inputs-SolverBenchmarkFactoryTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/SolverBenchmarkFactoryTest.java",
+      "upstream_test": "complete TEST-only configuration helper inputs, literal names, phase declarations, numeric criteria and statistic requests",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "modifications": "Adapt all supplied TEST-only configuration/validation/metric-resolution inputs. Native EnvironmentProfile preserves original global and two phase option states; enum blueprint retains construction-only and construction/local variants. Named error kinds and message criteria replace JVM exceptions; no upstream production/helper body copied. Original native real-solve tests earn no source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "benchmark-config-inputs-ProblemBenchmarksConfigTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/ProblemBenchmarksConfigTest.java",
+      "upstream_test": "complete TEST-only configuration helper inputs, literal names, phase declarations, numeric criteria and statistic requests",
+      "local_path": "crates/solver/tests/benchmark_config_cases.rs",
+      "modifications": "Adapt all supplied TEST-only configuration/validation/metric-resolution inputs. Native EnvironmentProfile preserves original global and two phase option states; enum blueprint retains construction-only and construction/local variants. Named error kinds and message criteria replace JVM exceptions; no upstream production/helper body copied. Original native real-solve tests earn no source credit."
     }
   ]
 }

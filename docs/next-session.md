@@ -16,6 +16,56 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round87
+
+Native benchmark declarations now cover validated names, inherited settings and
+phase fairness, reserved/generated Config_N names, individual sub-run counts,
+positive/default/AUTO worker sizing, checked additive warm-up durations, and ordered
+problem/single metric requests with explicit defaults/disable flags/deduplication.
+Construction blueprints expand into actual construction-only and construction/local
+phase declarations with correctly sized environment profiles. Explicit phase modes
+are forbidden, including inherited/blueprint-only inputs and later offending solvers.
+Global modes remain metadata delivered to native callbacks; no Java mode/trace claim.
+
+PreparedBenchmarkSuite runs existing per-configuration BenchmarkSchedule through a
+bounded scoped worker pool, capping workers by configuration count. Reports retain
+configuration order, with each report's local configuration index zero. Trial seeds
+match across configurations even with different repetition counts; input cloning,
+callback timing, cancellation and typed failure retention retain the native harness
+rules. Warm-up budget reaches warm-up callbacks only, for cooperative application;
+repetition count is separate. Metric requests do not certify backend availability.
+No automatic instrumentation/preemption or Java executor/order/thermal parity claim.
+Existing serial timing, monitoring and core search/scoring implementations unchanged.
+
+All 19 DefaultPlannerBenchmarkFactoryTest, 12 SolverBenchmarkFactoryTest and three
+ProblemBenchmarksConfigTest methods have complete TEST-only adaptations/provenance.
+Every name/input/error criterion, inherited and late phase cases, all nine CPU rows,
+exact3,725,753ms sum, invalid sub-run/monitor input and ordered statistic criterion
+are retained. Helper metric reads preserve source sub-run0 without shape validation.
+Four originals verify inheritance/blueprint profiles, two concurrent actual native
+solves with matching seeds/work and real metrics, preflight/cancellation/errors and
+checked duration/worker bounds. They earn no source credit. Initial compile corrected
+seed binding to TieBreaking and cancelled callback type inference. First runtime
+caught3-CPU sizing (rounded-up half through4 required); corrected native formula.
+Final focused34 source+4 controls passed. Original logs/roots retain failed states.
+
+Frozen runner-a bash scripts/check.sh passed: 7,170 Rust tests, 290 doctests;
+3,781/4,855 (77.878%), 506 pending, 568 excluded, zero failed/unverified. Actual3 Rust
+RUN/1,053 REUSE/46 Python REUSE; 207.793 seconds including prebuild. Clippy clean.
+Collector verified report/freshness; postcommit proof checks frozen/clean state,
+actual archives/report,34 source criteria and unchanged timing/metrics/core bytes.
+K-opt measured inputs current, older list data stale. No benchmark refresh, release
+suite, UI rerun or new agents. Full objective remains active/incomplete.
+Rust: 006ab59f116b2cfe991bf48e49334fe24bfec2b4cd307858d40ca6a2d539293f.
+Report: 83e00f5b64e7f6031cfecd22f9c7b2564765566fdd32119b01871a3992a7e9d1.
+Remote root: bfa487a3560896fe232162673a09cd3b8731f9e2ea814bb6268f99c07228f176.
+Archive work/round87-runner-a-results.tar.gz SHA256:
+ce8be497cbb015238e6f56c2d9fcd7844b76996861d6021ce63dcea1baa74ad8.
+Evidence/freeze: work/parallel-round87-evidence.json and parallel-round87-freeze.json.
+Proof: work/verify_round87_postcommit.py. Next gate seeds actual round87 archive/root.
+Continue closing substantive runtime/compatibility gaps with performance important,
+no new agents and unchanged verification reused. Do not claim final completion.
+
 ## Latest verified checkpoint — round86
 
 describe_list_move supplies explicit labeled diagnostics for primitive list moves,

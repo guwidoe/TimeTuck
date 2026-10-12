@@ -8211,3 +8211,42 @@ failed/unverified. Final 7,132 Rust tests and 290 doctests passed, with three Ru
 jobs rerun, 1,051 Rust jobs and 46 Python jobs reused. Core list validation/lifecycle,
 scoring and search bytes remain unchanged. K-opt measurements are current, prior
 list data stays stale, and no comparative performance claim is added.
+
+### Prepared benchmark declarations and bounded execution
+
+Native benchmark declarations validate Unicode-capable names, missing configurations,
+per-solver repetition counts, separate monitoring requests and explicit phase assertion
+modes. Phase modes are forbidden even in inherited/blueprint-only configurations, so
+one configuration cannot silently add per-phase diagnostic cost. Name generation
+reserves supplied names before filling Config_N gaps and fails before mutating inputs.
+Inherited settings retain global modes; construction blueprints expand into actual
+construction-only and construction/local phase declarations. Native CPU sizing follows
+the complete supplied CPU-count criteria, with checked positive explicit counts and
+one worker by default. Additive warm-up durations reject negative/overflowing inputs.
+
+Problem/single statistic requests preserve defaults, disable flags, encounter order,
+metric conversion and duplicate-free inheritance. Requests do not assert that every
+backend supplies every metric; unavailable data must remain unavailable. Prepared
+settings and requests reach actual benchmark callbacks. The scoped worker pool caps
+workers by configuration count and runs the existing per-configuration schedule with
+individual repetition counts, matching seeds, cloned inputs, retained typed failures,
+cancellation and unchanged timing rules. Reports retain declaration order and each
+report's local configuration index is zero. A warm-up duration budget is supplied to
+warm-up callbacks for cooperative application; repetition count is separate. This
+is not Java executor/order/trace parity or automatic instrumentation/preemption.
+
+All 19 DefaultPlannerBenchmarkFactoryTest, 12 SolverBenchmarkFactoryTest and three
+ProblemBenchmarksConfigTest methods preserve their full source inputs and criteria.
+This includes the late offending solver, blueprint-only inheritance, every name
+assertion, all nine CPU rows, the exact 3,725,753ms sum and all ordered statistic
+assertions. TEST-only helper inputs retain provenance/notices. Four originals cover
+inheritance/blueprint execution metadata, two concurrent actual native solves with
+matched seeds/work and metric capture, preflight/cancellation/failure retention, and
+checked duration/worker boundaries. Originals earn no source credit. Existing search,
+scoring, metric capture and serial benchmark timing kernels are unchanged; no new
+comparative performance claim or source production translation is made.
+Overall 3,781/4,855 (77.878%) now pass, with 506 pending, 568 excluded and zero
+failed/unverified. Final 7,170 Rust tests and 290 doctests passed; three Rust jobs
+ran, 1,053 Rust jobs and 46 Python jobs reused unchanged evidence. K-opt measured
+inputs remain current and prior list data stays stale. No benchmark refresh or
+comparative speed claim is added by these configuration/execution controls.

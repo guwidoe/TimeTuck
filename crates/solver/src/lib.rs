@@ -1572,3 +1572,12 @@ pub use schema_move_selection::{ResolvedListDestination, ResolvedListSelector};
 
 mod list_move_description;
 pub use list_move_description::{ListMoveDescriptionError, RecordedListMove, describe_list_move};
+
+mod benchmark_config;
+pub use benchmark_config::{
+    BenchmarkBlueprint, BenchmarkConfigError, BenchmarkMetric, BenchmarkSolverSettings,
+    BenchmarkSuiteDeclaration, BenchmarkWarmupLimits, PreparedBenchmarkSuite,
+    PreparedSolverBenchmark, ProblemBenchmarkStatistic, ProblemBenchmarkStatistics,
+    SingleBenchmarkStatistic, SolverBenchmarkDeclaration, automatic_parallel_benchmarks,
+    generate_solver_benchmark_names,
+};
