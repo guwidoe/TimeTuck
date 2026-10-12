@@ -16,7 +16,59 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round102
+## Latest verified checkpoint — round103
+
+BenchmarkArchive now publishes actual native benchmark journals under explicit
+calendar-valid timestamp names, discovers valid runs, and aggregates all/selected
+results into HTML and aggregate.json. Trial rows and original journals are retained;
+measured counts, failures, initialization and evaluations are merged. Warm-ups are
+excluded from measured totals. Cross-objective score strings remain separate.
+Concurrent publication reserves unique paths; malformed/partial/symlinked runs and
+traversal selections are ignored; overflow rejects before a misleading report is
+published. Browser launch is injected and failure preserves the completed report.
+Archive XML accepts report locale while delegating native solver validation.
+No Java XML/class-loading or locale-number-formatting ABI claim. Solver defaults
+and existing kernels/runners are unchanged. No production implementation copied.
+
+All 15 BenchmarkAggregatorTest methods now preserve complete assertions and their
+three-run TEST fixture: three entities/two values, names, zero warm-up, 10ms limit,
+real assigned-entity penalty (-3), XML input and en_US report setting. Deterministic
+explicit timestamps replace sleeps. Seven originals cover journal conservation,
+selection/duplicates, failures/incomplete/uninitialized/warm-ups, escaping, calendars,
+malformed input, concurrent publication, overflow, browser failure and XML errors.
+Initial focused run exposed unsupported benchmarkReport XML; archive configuration
+now handles it explicitly. Example compilation corrected limit-field/error types.
+
+runner-a passed seven originals and ran benchmark_archive_demo from final source
+in18.264s total; three actual models produced scores -2/-4/-6 and66evaluations.
+Remote archive work/round103-demo-results.tar.gz SHA256:
+18b86dfec9b9548d394370ff649fc1fa46a71a0ac23782fda5a241d42310ece6.
+Manifest/log and evidence in work/remote-round103-demo-manifest.json,
+work/remote-round103-demo.log and work/round103-demo-evidence.json. Chromium
+rendered the actual report and verified three rows/data link; screenshot/DOM hashes
+in work/round103-browser-evidence.json. runner-c SSH timed out again; no work was blocked.
+
+Frozen bash scripts/check.sh passed141.890s:7,382Rust tests,
+290doctests;3,904/4,855 (80.412%),383pending,568excluded,zero failed/unverified.
+Four Rust jobs ran;1,087Rust/46Python jobs reused original evidence. Final Clippy
+reported1m13s; affected compilation35.18s. Reused k-opt round102 remains current:
+its relevant input hashes, source date and original measurements are unchanged.
+Grouped round97 inputs unchanged; older list metrics stay stale. No benchmark rerun
+for this optional archive feature; dashboard layout/data contract unchanged.
+Rust c8ddf911a8e890375c4883a275fb7f2ae7e107fcdd55e412db3db712b806230e.
+Report db12bf4b56108977935eff521c777ad46ae403db2fa80aa3a488a2a7992d0afb.
+Archive work/round103-local-results.tar.gz SHA256:55c987c811465dcedca4f3f608192d9a2d4d349c7df4b27970896a460279a0a5.
+Evidence work/parallel-round103-evidence.json; freeze work/parallel-round103-freeze.json;
+clean postcommit proof work/round103-postcommit-evidence.json.
+Goal incomplete. No new agents/assignments. Continue actual compatibility gaps;
+remaining solver gaps include k-opt per-entity boundary/seam behavior, stream
+activity notifications and best-score/custom metrics. Preserve prior probe evidence
+when tackling those; don't repeat old seam/name experiments without a new question.
+The benchmark draft in work/benchmark_archive_draft.rs is superseded by this crate
+implementation and must not be copied over it. Use occasional commits/selective
+verification; performance remains important. Remotes are optional when unreachable.
+
+## Previous verified checkpoint — round102
 
 LateBestLevelState retains a score and explicit best-step index, skipping lazy
 score reads/clones at unchanged indices. Existing LateAcceptance uses this cache

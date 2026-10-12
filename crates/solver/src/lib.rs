@@ -1665,3 +1665,6 @@ mod seeded_range_list_change;
 pub use seeded_range_list_change::{
     AcceptAllRangeAnchors, EntityRangeAnchorFilter, SeededEntityRangeListChangeSource,
 };
+
+mod benchmark_archive;
+pub use benchmark_archive::{BenchmarkArchive, BenchmarkArchiveError};

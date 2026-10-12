@@ -58481,6 +58481,231 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateBenchmarks_nonExistentDirectory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateBenchmarks_nonExistentDirectory",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_benchmarks_non_existent_directory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateBenchmarks_directoryIsFile",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateBenchmarks_directoryIsFile",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_benchmarks_directory_is_file",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateBenchmarks_emptyDirectory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateBenchmarks_emptyDirectory",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_benchmarks_empty_directory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateBenchmarks_withValidResults",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateBenchmarks_withValidResults",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_benchmarks_with_valid_results",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateBenchmarks_withXmlConfig",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateBenchmarks_withXmlConfig",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_benchmarks_with_xml_config",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateSelectedBenchmarks_nonExistentDirectory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateSelectedBenchmarks_nonExistentDirectory",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_selected_benchmarks_non_existent_directory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateSelectedBenchmarks_directoryIsFile",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateSelectedBenchmarks_directoryIsFile",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_selected_benchmarks_directory_is_file",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateSelectedBenchmarks_noValidDirectories",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateSelectedBenchmarks_noValidDirectories",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_selected_benchmarks_no_valid_directories",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateSelectedBenchmarks_withValidDirectories",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateSelectedBenchmarks_withValidDirectories",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_selected_benchmarks_with_valid_directories",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.getAvailableBenchmarkDirectories_nonExistentDirectory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "getAvailableBenchmarkDirectories_nonExistentDirectory",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "get_available_benchmark_directories_non_existent_directory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.getAvailableBenchmarkDirectories_emptyDirectory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "getAvailableBenchmarkDirectories_emptyDirectory",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "get_available_benchmark_directories_empty_directory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.getAvailableBenchmarkDirectories_withValidDirectories",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "getAvailableBenchmarkDirectories_withValidDirectories",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "get_available_benchmark_directories_with_valid_directories",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateAndShowReportInBrowser_nonExistentDirectory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateAndShowReportInBrowser_nonExistentDirectory",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_and_show_report_in_browser_non_existent_directory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateAndShowReportInBrowser_emptyDirectory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateAndShowReportInBrowser_emptyDirectory",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_and_show_report_in_browser_empty_directory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
+    },
+    {
+      "id": "BenchmarkAggregatorTest.aggregateAndShowReportInBrowser_withValidResults",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "aggregateAndShowReportInBrowser_withValidResults",
+      "local_path": "crates/solver/tests/benchmark_archive_cases.rs",
+      "local_test": "aggregate_and_show_report_in_browser_with_valid_results",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all source assertions and the full three-run setup: three entities/two values, named solver runs, zero warm-up, 10ms limit, real assigned-entity penalty objective, XML input/locale, distinct timestamp directories. Native XmlBenchmarkRuntime executes actual solves and writes original journals; optional BenchmarkArchive publishes these under explicit deterministic timestamps and discovers/merges them. Native indices replace Java entity/value identifiers and explicit names replace Java inherited name placement; deterministic timestamp inputs replace wall-clock sleeps. Java aggregation factory settings do not run solvers again; archive configuration uses the existing native XML validator plus report locale handling. Typed native failures preserve asserted message fragments. An injected failing browser launcher preserves the source tolerance of headless environments. No Java XML output, class-loading, locale-formatting or numeric cross-objective score-aggregation ABI claim; all measured counts/work come from actual native journals."
     }
   ],
   "fixtures": [
@@ -82585,6 +82810,32 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain earlier six TEST-derived score comparisons as legacy fixture controls. Complete upstream method mappings now point to indexed adapters; no duplicate source-method credit."
+    },
+    {
+      "id": "benchmark-archive-setup",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/BenchmarkAggregatorTest.java",
+      "upstream_test": "setupBenchmarks/createValidBenchmarkConfig/runMultipleBenchmarks/runSingleBenchmark",
+      "local_path": "crates/solver/tests/fixtures/benchmark_archive_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only three-run entities/values, named solvers, zero warm-up,10ms limit, XML input and en_US report locale. Actual independent native solver runs replace Java factories; identities map to stable native indices, timestamps are deterministic explicit inputs. Unused Java aggregation factory/scoring settings are omitted from the native read-only archive handle; generated runs execute the source constraint-provider objective."
+    },
+    {
+      "id": "benchmark-archive-penalty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataConstraintProvider.java",
+      "upstream_test": "defineConstraints/alwaysPenalizingConstraint",
+      "local_path": "crates/solver/tests/fixtures/benchmark_archive_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only forEach assigned entity penalty of one into a native constraint counting assigned variables. Three assigned entities score -3. No production implementation copied."
     }
   ]
 }

@@ -8803,3 +8803,41 @@ larger exhaustive windows still slower. These are distinct search/quality worklo
 not evidence that the indexed cache caused cross-round solver timing changes.
 Original archive/source/date evidence is preserved; the dashboard marks this
 measurement current and older list measurements stale.
+
+## Native benchmark archives and aggregation
+
+BenchmarkArchive publishes actual XmlBenchmarkRun schema-1 journals under explicit
+calendar-valid timestamp names, reserves unique directories for concurrent writers,
+and makes journals discoverable after publication. Discovery ignores malformed
+journals, partial publications, aggregation outputs and symlinked run directories.
+Selected aggregation preserves order, removes duplicate selections, and rejects
+paths outside the archive name grammar. Original score strings and journals remain
+available in aggregate.json; measured trial counts, failures, initialization and
+work are merged with checked evaluation arithmetic. Warm-ups remain visible in
+raw data and are excluded from measured totals. Scores from different objectives
+are displayed separately, not numerically averaged or ranked.
+
+The HTML report displays real measured trials and links the combined data. Browser
+opening is supplied by the caller; a failed launcher does not discard the report.
+Archive XML configuration delegates solver validation to the existing parser and
+retains the report locale. Unsupported/duplicate report settings reject. This is
+an optional native journal API, without Java report/XML/class-loading parity or
+locale-specific numeric formatting. Existing runners and solver defaults are unchanged.
+
+All 15 BenchmarkAggregatorTest methods have adaptations preserving every source
+assertion and the full three-run fixture: three entities/two values, zero warm-up,
+10ms ceiling, named runs, input XML and en_US report configuration. Actual native
+solves use the TEST assigned-entity penalty, yielding -3 for three assigned entities.
+Explicit native timestamps replace sleeps; native indices replace Java identities.
+Seven originals cover merged-row conservation, selection order, repeated reports,
+failures/incomplete/uninitialized/warm-up data, escaping, malformed inputs/calendar,
+concurrent publication, browser failure, counter overflow and XML validation.
+The runnable benchmark_archive_demo generates reports from independent native
+models; it is original and earns no upstream-method credit.
+
+Frozen round103 verification passed 7,382 Rust tests and 290 doctests: 3,904/4,855
+source methods (80.412%), 383 pending, 568 excluded, zero failed/unverified. Four
+Rust jobs ran; 1,087 Rust and 46 Python jobs reused unchanged evidence. runner-a
+passed seven originals and produced the actual three-model example report; Chromium
+verified the rendered rows and data link. Relevant k-opt inputs are unchanged, so
+round102 measurements remain current with original dates; older list metrics stay stale.
