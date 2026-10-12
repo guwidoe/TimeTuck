@@ -7817,3 +7817,28 @@ selective final check ran1 changed Rust job and reused1,021 unchanged Rust jobs 
 46 Python jobs. Native library sources remain byte-identical to the window-cache
 checkpoint. K-opt's genuine per-job measurement digest is unchanged and remains
 current; no benchmark, release correctness suite or browser check was repeated.
+
+### Typed custom basic solution cloning
+
+BasicSolutionCloner binds actual typed input, validates a genuinely scored initial
+clone before search, runs ordinary native construction/local search and returns a
+validated owned application result with its rebound model and native phase report.
+Score type/equality, entity allocation isolation, types/slots, collection aliases,
+domains/nullability/pins and retained planning values are checked. Inputs stay
+immutable; actual snapshot assignment/score arguments replace Java in-place setters.
+Preflight adds one explicit score evaluation outside native phase counters/limits;
+callbacks run at initial/result boundaries. Unregistered fields/backlinks remain
+the application callback's responsibility. This is not automatic reflective/deep
+cloning or Java phase-internal cloning/API/ABI parity. Default raw solve paths remain
+unchanged. Errors publish no clone; callback side effects/interior mutations are not
+rolled back, and panics propagate.
+
+All4 CustomSolutionClonerTest methods now pass with actual solve/custom-clone invocation,
+original A entity/two-value/singleton/empty providers and exact corruption diagnostic
+prefixes. Four original controls additionally cover actual optimized value projection,
+fact sharing/entity isolation, altered values/providers, score metadata, panic retry
+and multi-collection aliases. All TEST fixtures/methods carry provenance/notices.
+Overall3,690/4,855 (76.004%),597 pending,568 excluded; zero failed/unverified. Final
+native evidence:7,023 Rust tests,290 doctests,5 changed jobs/1,019 reused jobs. No
+benchmark refresh was needed: K-opt's actual measurement input hash remains unchanged.
+Automatic deep-cloner tests and list/mixed clone projection remain implementation gaps.

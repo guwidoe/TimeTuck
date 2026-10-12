@@ -73,6 +73,9 @@ impl<'a, S: 'static, V: Clone + Eq + 'static> SolutionBasicAccessors<'a, S, V> {
     pub fn facts_mut(&mut self) -> &mut SolutionFactAccessors<'a, S> {
         &mut self.facts
     }
+    pub fn layout(&self) -> &Arc<ComposedPlanningSolution> {
+        &self.layout
+    }
     pub fn entities<E: Any + Send + Sync>(
         &mut self,
         name: impl Into<String>,

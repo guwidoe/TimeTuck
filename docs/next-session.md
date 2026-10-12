@@ -16,6 +16,58 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round73
+
+BasicSolutionCloner runs actual typed basic solves and projects retained assignments
+into application-owned entities. It validates registered score type before getter
+execution, scores the actual input once for clone preflight, validates that cloned
+initial state, runs ordinary native construction/search and validates the final
+retained clone. Rebinding checks allocation isolation against all original entities,
+entity types/slots, collection alias patterns, domains/nullability/pins and exact
+retained planning values. Returned solution, binding and native phase report are real;
+immutable values may stay shared. Domain inputs remain immutable. Clone callbacks
+execute at initial/result boundaries; errors publish no clone, panics propagate.
+Unregistered fields/backlinks remain application responsibilities. No automatic deep
+cloning, Java reflection/API/ABI or phase-internal clone trace parity claimed.
+Preflight is one extra score evaluation, exposed as clone_score_evaluations; this
+boundary work is outside native phase counters/limits. Default raw solves unchanged.
+
+Four complete CustomSolutionClonerTest methods preserve actual custom invocation/flag,
+missing and wrong score diagnostics and shared-entity corruption. Full single-entity A
+fixtures, correct2-value/missing-score1-value/other empty providers retained; typed
+fact wrappers preserve actual immutable value handles. Native2-step/32-evaluation
+bounds replace unspecified Java helper termination. Initial/result snapshot arguments
+replace mutation of Java input entities. Actual empty-domain native solves can skip
+scoring; initially result-only cloning failed NoScoredResult, so genuinely scored
+preflight now detects corruption before search without invented scores. Constructor
+error type, fact wrapper typing and regression inference were corrected during focus.
+TEST-only fixtures and all4 methods have provenance/notices; no production copied.
+
+Four originals verify preferred value2 from real optimization, correct rebound
+allocation/value handles and untouched input; dropped assignment/altered provider
+rejection; wrong registered score type before callback and panic/retry isolation;
+actual multi-collection alias preservation and changed alias-role rejection.
+Focused4+4 passed. Final frozen runner-a bash scripts/check.sh passed once:7,023 Rust
+tests,290 doctests;3,690/4,855 passed (76.004%),597 pending,568 excluded,zero failed/
+unverified. Actual5 Rust RUN/1,019 REUSE/46 Python REUSE;202.374seconds. Custom cloner
+class4/4 passed. Solver/search/scoring/graph/list/mixed algorithms unchanged; no new
+benchmark or performance claim, release correctness run, UI rerun or new agents.
+Rust:b054116720a4b8255e362dfb31f4b807cf6a827c768c511724e5f57d4e78f870.
+Report:34dffbac6a0d7de6b371a5233a7f1e43539af2978b02624e16b83b0a75c7a35f.
+Remote root:aed800de1f888d3fba8be0ea28a338dfed227d6a4cf08c7474de31dd612b70bb.
+Archive work/round73-runner-a-results.tar.gz SHA256:36d1df7e3cba6d3bb5e7345637f3aa69089657ca5918fbef6b8a525f10c2c286.
+Evidence/freeze:work/parallel-round73-evidence.json and parallel-round73-freeze.json.
+Launcher58089/collector25892 completedzero. Postcommit proof:work/verify_round73_postcommit.py.
+Next gate seeds from actual round73 archive/root. K-opt measurement key unchanged:
+d97e85200c8e0e784d034049d327bb4dc05f7be28263cf96691b7acd78e3f1f6; current genuine
+round71 measurements reused, older list data remains stale. No old evidence retagged.
+
+Continue shrinking actual compatibility gaps. Automatic deep cloning (14 source
+methods), list/mixed application clone projection, registered deep fields and backlink
+rewriting remain separate work. K-opt3-opt implicit-boundary/rebase/pin and nearby
+mixed configuration gaps remain. Keep source tests whole and boundaries explicit.
+Goal remains active/incomplete.
+
 ## Latest verified checkpoint — round72
 
 One full SelectorBasedKOptListMoveTest entity-provider range method now passes.

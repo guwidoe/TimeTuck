@@ -1512,9 +1512,11 @@ pub use solution_mixed_binding::{
     SolutionMixedEntityRecord,
 };
 mod solution_basic_accessors;
+mod solution_basic_clone;
 pub use solution_basic_accessors::{
     BasicEntityFields, BasicSolutionAccessError, SolutionBasicAccessors,
 };
+pub use solution_basic_clone::{BasicSolutionCloneError, BasicSolutionCloner, ClonedBasicSolution};
 mod list_k_opt_inferred;
 pub use list_k_opt_inferred::list_k_opt_inferred_partition_move;
 mod list_k_opt_edge_plan;

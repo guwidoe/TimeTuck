@@ -55436,6 +55436,66 @@
       "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
       "local_test": "is_move_doable_value_range_provider_on_entity",
       "modifications": "Preserve all8 actual values, full ordered entity-local providers, exact initial lists, three removed/added edge sets and all three doability assertions. Actual provider-union encounter order constructs the native registry. Validated native retained-end reconnection preparation maps success to true and a specific ValueOutsideEntityRange failure to false; no expected-output partition lengths/orientation supplied. Native list snapshots and derived owner/index shadows replace mutable Java entity fields and mocked score/range-manager setup; integer code IDs replace decimal strings. Queries leave source unchanged. No Java internal selector ordering/API/ABI claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CustomSolutionClonerTest.clonedUsingCustomCloner",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/solution/cloner/CustomSolutionClonerTest.java",
+      "upstream_test": "clonedUsingCustomCloner",
+      "local_path": "crates/solver/tests/custom_basic_clone_cases.rs",
+      "local_test": "cloned_using_custom_cloner",
+      "modifications": "Preserve actual custom clone invocation/flag, missing and unequal score corruption, and shared entity allocation rejection with the original diagnostic prefixes. Full single-entity A fixture and correct two-value/missing-score singleton/wrong-score and shared-entity empty providers retained. Actual native solve binds immutable typed input, constructs/searches with explicit2-step/32-evaluation local bounds, invokes the registered cloner on actual initial and retained assignments/scores and rebinds the returned domain. Strict clone validation checks a genuinely scored initial snapshot before search and the retained result afterwards, as an explicit boundary contract rather than Java reflective environment-mode phase-internal cloning; no identical traces or automatic deep-cloner/API/ABI parity claimed. Native errors replace IllegalStateException. Native working assignment replaces in-place source entity setters; application callback copies its actual retained values into new entity allocations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CustomSolutionClonerTest.scoreNotCloned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/solution/cloner/CustomSolutionClonerTest.java",
+      "upstream_test": "scoreNotCloned",
+      "local_path": "crates/solver/tests/custom_basic_clone_cases.rs",
+      "local_test": "score_not_cloned",
+      "modifications": "Preserve actual custom clone invocation/flag, missing and unequal score corruption, and shared entity allocation rejection with the original diagnostic prefixes. Full single-entity A fixture and correct two-value/missing-score singleton/wrong-score and shared-entity empty providers retained. Actual native solve binds immutable typed input, constructs/searches with explicit2-step/32-evaluation local bounds, invokes the registered cloner on actual initial and retained assignments/scores and rebinds the returned domain. Strict clone validation checks a genuinely scored initial snapshot before search and the retained result afterwards, as an explicit boundary contract rather than Java reflective environment-mode phase-internal cloning; no identical traces or automatic deep-cloner/API/ABI parity claimed. Native errors replace IllegalStateException. Native working assignment replaces in-place source entity setters; application callback copies its actual retained values into new entity allocations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CustomSolutionClonerTest.scoreNotEqual",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/solution/cloner/CustomSolutionClonerTest.java",
+      "upstream_test": "scoreNotEqual",
+      "local_path": "crates/solver/tests/custom_basic_clone_cases.rs",
+      "local_test": "score_not_equal",
+      "modifications": "Preserve actual custom clone invocation/flag, missing and unequal score corruption, and shared entity allocation rejection with the original diagnostic prefixes. Full single-entity A fixture and correct two-value/missing-score singleton/wrong-score and shared-entity empty providers retained. Actual native solve binds immutable typed input, constructs/searches with explicit2-step/32-evaluation local bounds, invokes the registered cloner on actual initial and retained assignments/scores and rebinds the returned domain. Strict clone validation checks a genuinely scored initial snapshot before search and the retained result afterwards, as an explicit boundary contract rather than Java reflective environment-mode phase-internal cloning; no identical traces or automatic deep-cloner/API/ABI parity claimed. Native errors replace IllegalStateException. Native working assignment replaces in-place source entity setters; application callback copies its actual retained values into new entity allocations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "CustomSolutionClonerTest.entitiesNotCloned",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/domain/solution/cloner/CustomSolutionClonerTest.java",
+      "upstream_test": "entitiesNotCloned",
+      "local_path": "crates/solver/tests/custom_basic_clone_cases.rs",
+      "local_test": "entities_not_cloned",
+      "modifications": "Preserve actual custom clone invocation/flag, missing and unequal score corruption, and shared entity allocation rejection with the original diagnostic prefixes. Full single-entity A fixture and correct two-value/missing-score singleton/wrong-score and shared-entity empty providers retained. Actual native solve binds immutable typed input, constructs/searches with explicit2-step/32-evaluation local bounds, invokes the registered cloner on actual initial and retained assignments/scores and rebinds the returned domain. Strict clone validation checks a genuinely scored initial snapshot before search and the retained result afterwards, as an explicit boundary contract rather than Java reflective environment-mode phase-internal cloning; no identical traces or automatic deep-cloner/API/ABI parity claimed. Native errors replace IllegalStateException. Native working assignment replaces in-place source entity setters; application callback copies its actual retained values into new entity allocations."
     }
   ],
   "fixtures": [
@@ -77564,6 +77624,58 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/valuerange/TestdataListEntityProvidingSolution.java",
       "upstream_test": "entity range/list fixture, value identities/shadows and distinct provider-union registry used by isMoveDoableValueRangeProviderOnEntity",
       "modifications": "Adapt TEST-only fixture semantics to actual native ListEntity local ranges, Arc values with equivalent integer code IDs, derived native owner/index shadows, and a registry discovered from the actual entity-provider union in encounter order. Native snapshots replace mutable Java objects and reflection/annotations; no production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "basic-custom-clone-TestdataCorrectlyClonedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/customcloner/TestdataCorrectlyClonedSolution.java",
+      "upstream_test": "TestdataCorrectlyClonedSolution constructor, valueRange and cloneSolution used by CustomSolutionClonerTest",
+      "local_path": "crates/solver/tests/fixtures/custom_basic_clone_fixture.rs",
+      "modifications": "Adapt TEST-only single-entity A, initially absent planning value/score, exact two/singleton/empty providers and actual custom cloner variants. Immutable native Arc entity/value payloads and retained native assignment replace mutable Java fields. Clone copies actual scored working values; correct values stay shared, entities are allocated anew except intentional corrupt shared variant. Typed registration replaces annotations/reflection. Cloner policy is selected explicitly; correct flag/missing or decremented score/shared entity behavior preserved. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "basic-custom-clone-TestdataScoreNotClonedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/customcloner/TestdataScoreNotClonedSolution.java",
+      "upstream_test": "TestdataScoreNotClonedSolution constructor, valueRange and cloneSolution used by CustomSolutionClonerTest",
+      "local_path": "crates/solver/tests/fixtures/custom_basic_clone_fixture.rs",
+      "modifications": "Adapt TEST-only single-entity A, initially absent planning value/score, exact two/singleton/empty providers and actual custom cloner variants. Immutable native Arc entity/value payloads and retained native assignment replace mutable Java fields. Clone copies actual scored working values; correct values stay shared, entities are allocated anew except intentional corrupt shared variant. Typed registration replaces annotations/reflection. Cloner policy is selected explicitly; correct flag/missing or decremented score/shared entity behavior preserved. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "basic-custom-clone-TestdataScoreNotEqualSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/customcloner/TestdataScoreNotEqualSolution.java",
+      "upstream_test": "TestdataScoreNotEqualSolution constructor, valueRange and cloneSolution used by CustomSolutionClonerTest",
+      "local_path": "crates/solver/tests/fixtures/custom_basic_clone_fixture.rs",
+      "modifications": "Adapt TEST-only single-entity A, initially absent planning value/score, exact two/singleton/empty providers and actual custom cloner variants. Immutable native Arc entity/value payloads and retained native assignment replace mutable Java fields. Clone copies actual scored working values; correct values stay shared, entities are allocated anew except intentional corrupt shared variant. Typed registration replaces annotations/reflection. Cloner policy is selected explicitly; correct flag/missing or decremented score/shared entity behavior preserved. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "basic-custom-clone-TestdataEntitiesNotClonedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/customcloner/TestdataEntitiesNotClonedSolution.java",
+      "upstream_test": "TestdataEntitiesNotClonedSolution constructor, valueRange and cloneSolution used by CustomSolutionClonerTest",
+      "local_path": "crates/solver/tests/fixtures/custom_basic_clone_fixture.rs",
+      "modifications": "Adapt TEST-only single-entity A, initially absent planning value/score, exact two/singleton/empty providers and actual custom cloner variants. Immutable native Arc entity/value payloads and retained native assignment replace mutable Java fields. Clone copies actual scored working values; correct values stay shared, entities are allocated anew except intentional corrupt shared variant. Typed registration replaces annotations/reflection. Cloner policy is selected explicitly; correct flag/missing or decremented score/shared entity behavior preserved. No production implementation copied."
     }
   ]
 }
