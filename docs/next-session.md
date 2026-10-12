@@ -16,7 +16,7 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Round88 implementation — final check passed, collection pending
+## Latest verified checkpoint — round88
 
 BenchmarkSession now has once-only startup/state, retained directory metadata,
 a global completed-warm-up barrier before measurements, preserved typed warm-up
@@ -38,21 +38,24 @@ benchmark configuration/scheduling, metrics, scoring/search and cancellation unc
 Frozen runner-a bash scripts/check.sh completed with exit0 in208.406seconds, including
 prebuild/Clippy. Remote root:
 a4de23fb7186145bd459ec03a5d88874d497a199cf6eae9ea5c673e0b9893a7d.
-The final worker connection89772 is terminal0. Collection51887 is still live and
-waiting for renewed Tailscale SSH authentication at
-https://login.tailscale.com/a/l18169de1318697. The earlier diagnostic link timed out;
-use this collector link. User has been asked. Do not restart the successful check.
-Live collector: python3 work/collect_round88_runner-a.py. On authentication it will
-import original logs/checksums, publish the report and assert freshness. Poll the
-same session/process; if terminal inspect its outcome before retrying collection.
-Pending receipt: work/round88-pending-collection.json; freeze:
-work/parallel-round88-freeze.json. No old evidence was retagged. The dashboard still
-has round87's imported counts; do not present projected round88 counts as current.
-Once collection succeeds, update this checkpoint with actual counts/source/report/
-archive SHA, commit the handoff, and run work/verify_round88_postcommit.py. It checks
-clean state, hashes, current K-opt and the10 new source criteria. No Rust changes
-are needed for collection/docs; do not repeat the gate or benchmark/UI verification.
-Goal active/incomplete; no new agents. Keep remaining compatibility gaps shrinking.
+Actual collection succeeded after SSH authentication. Verification passed with
+7,184 Rust tests and 290 doctests; 3,791/4,855 (78.084%), 496 pending,
+568 excluded, zero failed/unverified. Three Rust jobs ran, 1,055 reused prior
+successful inputs and 46 Python jobs reused. The collector validated original log
+checksums and current dashboard freshness. No successful check was restarted.
+Rust digest: 823e136c7a9a1ee3e24581cf85f0aba80d811b34a73b007052e77e95062cc423.
+Report digest: 54444bea610984d02ca5f64c0b5368887a42970226d70400447b7b02a3a5863b.
+Archive work/round88-runner-a-results.tar.gz SHA256:
+7edd3c18bd596f6e60e8409db4e922aebf0b67e9907ea83a619e6c8b82bd8c2e.
+Evidence: work/parallel-round88-evidence.json; clean postcommit proof:
+work/round88-postcommit-evidence.json. K-opt measured inputs remain current;
+older list data remains stale. No benchmark refresh or browser verification needed.
+
+Next batch is typed configuration property utilities on codex/construction-validation
+in /home/ralph/.codex/worktrees/dependency-graph/TimeTuck. Main remained frozen
+through collection. Finish eight ConfigUtilsTest cases with explicit native setters,
+record provenance, focused verification and one final coherent batch check.
+No new agents; objective active and incomplete.
 
 ## Latest verified checkpoint — round87
 
