@@ -8579,3 +8579,50 @@ Three Rust jobs ran;1,071 Rust and46 Python jobs reused actual unchanged evidenc
 Successful prebuild/gate took294.981seconds; Clippy passed. Source/log/archive/report
 freshness validated. No benchmark or browser rerun: round93 K-opt still current,
 older list data stale. The immutable Java record entity case remains pending.
+
+### Grouped Cartesian mixed exhaustive search
+
+GroupedMixedExactSolver is an explicit standalone exact solver, leaving default
+sequences unchanged. It reuses the existing eligible list tree and groups all
+movable basic variables into one lazy mixed-radix Cartesian branch. Existing pins,
+ranges, optional domains, dependency filtering and partial scoring remain active;
+no optimistic bound or score-based pruning is supplied. The same generic tree
+engine counts actual expanded partial nodes and visited leaves. Standard Exact
+lifecycle callbacks follow those real expansions, including incomplete interrupted
+attempts; errors and panics retain normal closure/unwind behavior. Evaluation,
+frontier, cancellation and cooperative time limits remain enforced. Products which
+exceed usize capacity are rejected before lifecycle execution; ordinary per-variable
+mixed search remains available. A leaf observer exposes each eligible scored leaf.
+
+Both remaining BruteForceTest mixed methods now have complete adaptations, including
+both2-entity/3-list-value/3-other-value fixtures, all four basic fields, their full
+source objectives, actual Exact phase/step observations strictly below60 and both
+list/basic completeness assertions. No expected assignments or scripted steps are
+supplied. The source fixture exhaustively visits all1,944 leaves with zero pruning:
+33 expansions and1,977 scores, versus969 expansions/2,913 scores for the existing
+per-variable tree. No Java traversal/count equality is claimed. TEST generators and
+calculators retain provenance. Five original tests compare full complete candidate
+sets with independent native enumeration across eight pin/range/optional cases,
+compare actual work, verify interruptions/overflow/empty spaces and exercise all
+five frontier orders on basic-only/list-only components. A paired native probe is
+provided; it is separate from existing Java comparisons and has no source credit.
+Focused source/original verification passed on runner-a in25.165seconds; updated
+candidate-set observers passed locally in18.971seconds. Initial checks corrected
+private shape validation access and a regression's frontier enum spelling. Existing
+kernels and Cargo files remain unchanged.
+
+Frozen round97 verification passed locally after both remote hosts went offline:
+7,311 Rust tests,290 doctests;3,869/4,855 source cases (79.691%),418pending,
+568excluded,zero failed/unverified. The older local cache required all1,077Rust and
+46Python jobs to run; fmt/Clippy prebuild results were reused. Local full target
+compilation took15m33s; the final gate took442.371seconds. Actual local evidence is
+kept separately from prior remote results; source/log/archive/report freshness
+validated. Round93 K-opt remains current; older list measurements remain stale.
+
+Paired native release timings on the same local WSL host measured grouping at
+1.263–1.929x the previous Rust tree across three workloads and three forks, each
+with3warmups/15samples/20invocations per sample and alternating before/after order.
+All paired optimum scores and complete counts match; both exhaust without pruning.
+The4-basic/3-domain workload measured1.464–1.516x. This is a native old/new comparison,
+not Java performance evidence. Original samples, build/binary/source hashes and
+archive are retained in work/round97-grouped-performance*.

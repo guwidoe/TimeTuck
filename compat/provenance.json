@@ -58151,6 +58151,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all list element/type/container and fixed-array construction assertions; explicit typed native binding replaces Java reflection. Extract every source singleton/typed/raw/object entity, excluding randomData; compare actual object/projection addresses for all eleven identities. Native embedded child-to-base projections replace Java assignability. Reject a zero-variable operational entity before reading objects; immutable Java record classification remains uncredited. Alignment cases preserve absent key, exact member name/declaring type, typed planning-field rejection and every supplier/target/key diagnostic substring. Real canonical schemas and registered readers replace mocks; native names/errors replace Java class/exception identities. No JVM reflection or universal subclass assignment claim."
+    },
+    {
+      "id": "BruteForceTest.solveWithMixedModel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BruteForceTest.java",
+      "upstream_test": "solveWithMixedModel",
+      "local_path": "crates/solver/tests/grouped_mixed_exact_cases.rs",
+      "local_test": "solve_with_mixed_model",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete 2-entity/3-list-value/3-other-value fixture and both basic variables per entity. Native component layouts replace source single/multiple Java entity families; retain both source calculator contributions. Actual unbounded Cartesian mixed exact solving emits real Exact lifecycle phases and partial-node expansion steps, all strictly below60. No expected output moves/assignments, scripted steps or pruning bounds supplied. Verify actual completeness, every assigned basic pair, all assigned list values; add proof of33expansions/1944eligible leaves/no pruning/optimal7score. No Java traversal/count equality, class-loading or default pipeline strategy claim."
+    },
+    {
+      "id": "BruteForceTest.solveWithMixedModelMultipleEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BruteForceTest.java",
+      "upstream_test": "solveWithMixedModelMultipleEntities",
+      "local_path": "crates/solver/tests/grouped_mixed_exact_cases.rs",
+      "local_test": "solve_with_mixed_model_multiple_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete 2-entity/3-list-value/3-other-value fixture and both basic variables per entity. Native component layouts replace source single/multiple Java entity families; retain both source calculator contributions. Actual unbounded Cartesian mixed exact solving emits real Exact lifecycle phases and partial-node expansion steps, all strictly below60. No expected output moves/assignments, scripted steps or pruning bounds supplied. Verify actual completeness, every assigned basic pair, all assigned list values; add proof of33expansions/1944eligible leaves/no pruning/optimal7score. No Java traversal/count equality, class-loading or default pipeline strategy claim."
     }
   ],
   "fixtures": [
@@ -81730,6 +81760,58 @@
       "upstream_test": "buildSolutionDescriptor; TestdataNoVariableEntity registration",
       "local_path": "crates/solver/tests/planning_model_access_cases.rs",
       "modifications": "Native schema has an empty variable list and operational entity extractor rejects it; preserve tested diagnostic. No Java record/mutability credit.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "grouped-exact-single-mixed-generator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedSolution.java",
+      "upstream_test": "generateUninitializedSolution(2,3,3)",
+      "local_path": "crates/solver/tests/fixtures/grouped_mixed_exact_fixture.rs",
+      "modifications": "Adapt2empty lists,3list values,3other values and4basic slots; entity comparator/shadow metadata is unused by unsorted exhaustive domain search.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "grouped-exact-single-mixed-score",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/singleentity/TestdataMixedEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/grouped_mixed_exact_fixture.rs",
+      "modifications": "Preserve +1per assigned basic field and +2singleton list/+1otherwise.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "grouped-exact-multi-mixed-generator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySolution.java",
+      "upstream_test": "generateUninitializedSolution(2,3,3)",
+      "local_path": "crates/solver/tests/fixtures/grouped_mixed_exact_fixture.rs",
+      "modifications": "Native list/basic components replace source separate entity families, with two rows/fourbasic slots and both3value domains; unsorted enumeration does not use comparator strength labels.",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "grouped-exact-multi-mixed-score",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedEntityEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/grouped_mixed_exact_fixture.rs",
+      "modifications": "Preserve source list-row and separate basic-entity objective contributions.",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",

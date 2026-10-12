@@ -1645,3 +1645,6 @@ pub use planning_model_access::{
     AlignmentKeyMember, AlignmentKeyRegistry, BorrowedEntityExtractor, ListArrayRange,
     ListVariableAccess, PlanningModelAccessError, resolve_alignment_key,
 };
+
+mod grouped_mixed_exact;
+pub use grouped_mixed_exact::{GroupedMixedExactError, GroupedMixedExactSolver};

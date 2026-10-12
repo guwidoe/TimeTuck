@@ -16,7 +16,59 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round96
+## Latest verified checkpoint — round97
+
+GroupedMixedExactSolver is integrated as an explicit standalone one-phase solver.
+The existing eligible list tree is reused; movable basic fields form one lazy
+mixed-radix Cartesian branch. No pruning bounds or expected assignments are supplied.
+Existing private tree engine/scoring/lifecycle code is reused without modification.
+Actual full source fixture:1,944leaves,33expanded partial steps,1,977scores; old native
+tree969expansions/2,913scores. Source callbacks observe real Exact phases/steps below60.
+Both remaining BruteForceTest mixed methods now have complete adapted fixtures,
+objectives and list/basic completeness assertions, with TEST-only provenance.
+Default sequences unchanged; no Java traversal/count/ABI parity. Group capacity is
+usize-bounded and rejected before lifecycle; ordinary search supports other cases.
+
+Five originals match every complete candidate set with independent enumeration for
+all8pin/range/optional combinations, compare real work, exercise all5frontier orders,
+empty/impossible/overflow models, shape validation, interruption closure and limits.
+Eligible-leaf observers are inline and budgeted. Focused7case runner-a verification
+passed25.165seconds; final updated candidate observers passed local18.971seconds.
+Initial local code removed private validation access in favor of public shape/model
+preflight; first focus corrected a frontier enum spelling. No runtime/kernel repair.
+A readonly rustc probe confirms reusable static settings accept owned temporary models.
+
+runner-a timed out before snapshot upload, so no remote gate launched. runner-c SSH also
+timed out; Tailscale Running showed both peers offline (runner-a lastseen17:20Z,
+runner-c15:50Z). Optional wake request pending; local work continued. Full local prebuild
+Clippy passed55.39s, all1,077target compilation15m33s. Older local evidence predates
+current inputs/environment and could not be relabeled as remote cache hits. Local
+bash scripts/check.sh passed442.371seconds:7,311Rust tests,290doctests;
+3,869/4,855 (79.691%),418pending,568excluded,zero failed/unverified. All1,077Rust and
+46Python jobs ran; fmt/Clippy reused prebuild. Gate8475/collector62955 terminal0.
+Rust 62db30e0c115137a5256a81920c4028dfa2d5fe4feeacbac84a66af7beeb51e7.
+Report b783c072d5a859ded01563b2878ab30fef12b8ee5f1e80a151ecc86b714b3efb.
+Archive work/round97-local-results.tar.gz SHA256:
+005de4af0488b278390862a356bd39b5d57bbd89153f04649894b94a74c948bc.
+Evidence work/parallel-round97-evidence.json; frozen inputs
+work/parallel-round97-freeze.json; clean postcommit proof work/round97-postcommit-evidence.json.
+Source/log/archive/report freshness validated; keep local execution separate from
+remote archives. Reuse these current local results next turn; no repeat for a commit.
+
+After correctness, a same-host local paired native release probe passed91885;
+release build39.30seconds then3forks/3workloads,3warmups/15samples/20invocations,
+alternating old/new order. All scores/complete counts match and both exhaust with
+zero pruning. Ratios1.263–1.929;4basic/3domain1.464–1.516. It is native old/new,
+not a Java comparison. JSON/build/binary/source/archive evidence retained:
+work/round97-grouped-performance.json, work/round97-grouped-performance-evidence.json,
+work/round97-grouped-performance-results.tar.gz SHA256:
+968a9efc4991893df2beb9dd2c11f1148f2cef90c5f1422173387654fc95ce00.
+Prior round93 K-opt remains current; old list data remains stale. No browser rerun
+for backend-only report updates. Full goal incomplete;418pending. No new agents.
+Continue closing meaningful gaps with performance important. The local verification
+cache is now current; preserve it and avoid broad reruns on unchanged inputs.
+
+## Previous verified checkpoint — round96
 
 Typed planning-model access is integrated. ListVariableAccess validates canonical
 list kind and element type, including rejection of the container type; actual
