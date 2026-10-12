@@ -1,6 +1,7 @@
 // Adapted from pinned Community ForEachUniNodeActivityTest,
 // IfExistsUniNodeActivityTest and ConcatUniUniNodeActivityTest, Apache-2.0.
 // See compat/provenance.json and THIRD_PARTY_NOTICES.md.
+use std::cell::RefCell;
 use timetuck::*;
 fn source_active(filtered: Option<bool>, fact: bool, downstream: bool) -> bool {
     let mut b = StreamGraphBuilder::<SimpleScore>::new().with_activity_pruning();
@@ -17,6 +18,7 @@ fn source_active(filtered: Option<bool>, fact: bool, downstream: bool) -> bool {
         t.apply(&source, TupleChange::put(0, "a")).unwrap();
         t.commit().unwrap();
     }
+    g.finish_initial_facts();
     g.activity().get(&out).unwrap().active
 }
 #[test]
@@ -60,6 +62,7 @@ fn settle<I, T>(
         tx.apply(&r, TupleChange::put(0, "b")).unwrap();
     }
     tx.commit().unwrap();
+    g.finish_initial_facts();
     g.activity().get(&out).unwrap().active
 }
 fn exists_active(exists: bool, left: bool, right: bool, downstream: bool) -> bool {
@@ -141,7 +144,7 @@ fn concat_inactive_when_downstream_inactive() {
     assert!(!concat_active(true, true, false));
 }
 // Additional complete methods from SingleInputNodeActivityTest and
-// JoinBiNodeActivityTest. Methods asserting lifecycle notifications stay pending.
+// JoinBiNodeActivityTest. Initial-fact forwarding is exercised below.
 fn mapped_active(upstream: bool, downstream: bool) -> bool {
     let mut b = StreamGraphBuilder::<SimpleScore>::new().with_activity_pruning();
     let l = b.source::<usize, &'static str>();
@@ -172,4 +175,64 @@ fn join_inactive_when_downstream_inactive() {
     b.score_weighted("sink", &out, SimpleScore::ZERO, |_| 1)
         .unwrap();
     assert!(!settle(b, l, r, out, true, true));
+}
+
+fn join_initial_notification(left: bool, right: bool) -> bool {
+    let notifications = RefCell::new(Vec::new());
+    let mut b = StreamGraphBuilder::<SimpleScore>::new().with_activity_pruning();
+    let l = b.source::<usize, &'static str>();
+    let r = b.source::<usize, &'static str>();
+    let join = b.join_equal(l.port(), r.port(), |_| (), |_| ()).unwrap();
+    b.score("downstream", &join, |_| SimpleScore::new(1))
+        .unwrap();
+    b.after_initial_facts(&join, |can| notifications.borrow_mut().push(can))
+        .unwrap();
+    let mut g = b.build();
+    let mut tx = g.transaction();
+    if left {
+        tx.apply(&l, TupleChange::put(0, "a")).unwrap();
+    }
+    if right {
+        tx.apply(&r, TupleChange::put(0, "b")).unwrap();
+    }
+    tx.commit().unwrap();
+    assert!(notifications.borrow().is_empty());
+    assert_eq!(g.finish_initial_facts(), 1);
+    assert_eq!(*notifications.borrow(), vec![left && right]);
+    assert_eq!(g.finish_initial_facts(), 0);
+    g.activity().get(&join).unwrap().active
+}
+#[test]
+fn join_active_when_both_sides_produce() {
+    assert!(join_initial_notification(true, true));
+}
+#[test]
+fn join_inactive_when_right_cannot_produce() {
+    assert!(!join_initial_notification(true, false));
+}
+#[test]
+fn join_inactive_when_left_cannot_produce() {
+    assert!(!join_initial_notification(false, true));
+}
+#[test]
+fn single_forwards_upstream_capability_downstream() {
+    for upstream in [true, false] {
+        let notifications = RefCell::new(Vec::new());
+        let mut b = StreamGraphBuilder::<SimpleScore>::new();
+        let source = b.source::<usize, &'static str>();
+        let mapped = b.map(source.port(), |s| *s).unwrap();
+        b.score("downstream", &mapped, |_| SimpleScore::new(1))
+            .unwrap();
+        b.after_initial_facts(&mapped, |can| notifications.borrow_mut().push(can))
+            .unwrap();
+        let mut g = b.build();
+        if upstream {
+            let mut tx = g.transaction();
+            tx.apply(&source, TupleChange::put(0, "a")).unwrap();
+            tx.commit().unwrap();
+        }
+        assert_eq!(g.finish_initial_facts(), 1);
+        assert_eq!(*notifications.borrow(), vec![upstream]);
+        assert_eq!(g.finish_initial_facts(), 0);
+    }
 }

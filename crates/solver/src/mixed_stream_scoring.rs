@@ -149,6 +149,7 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
         tx.bind_planning_rows(updates)?;
         let initial_constraint_evaluations = tx.score_evaluations();
         tx.commit()?;
+        graph.finish_initial_facts();
         Ok(Self {
             problem,
             assignment,

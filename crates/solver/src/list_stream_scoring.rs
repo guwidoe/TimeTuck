@@ -158,6 +158,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
         tx.bind_planning_rows(updates)?;
         let initial_constraint_evaluations = tx.score_evaluations();
         tx.commit()?;
+        graph.finish_initial_facts();
         let retained_index = crate::RetainedListIndex::new();
         assignment.index_owner.connect(&retained_index);
         Ok(Self {

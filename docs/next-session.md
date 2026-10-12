@@ -16,7 +16,61 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round103
+## Latest verified checkpoint — round104
+
+Actual initial fact-capability delivery is implemented in the graph. Registrations
+are passive; retained facts and the original declared topology determine capability,
+including zero-weight branches. Notifications occur once in producer order after
+all initial sources settle. Basic/list/mixed director construction and basic context
+recreation invoke completion after planning-row commit. No observer metadata is
+allocated by default; completion consumes and releases registered topology/callbacks.
+Rollback, later updates and candidate install do not repeat the initial delivery;
+callback panic propagates after consumption. No scoring replay or branch activation
+is introduced by notifications. Ordinary acceptance/scoring policies are unchanged.
+
+Four missing join/map source methods now preserve exact downstream notification
+assertions, including both boolean map parameters. Four existing filtered methods
+also check actual notifications through filter transitions and retraction. Seven
+originals cover real basic/list/mixed binding, disabled edges, ordering, rollback,
+foreign handles, panic, candidate install and32source/filter/key/scheduling cases.
+No production implementation copied; no Java node/tuple ABI or lifecycle trace claim.
+Initial compilation fixed observer-consumption cleanup, a unit-test import and mutable
+TEST director binding. Final Clippy type-complexity repair introduced a type alias.
+Focused36integration+1unit results retain their pre-alias source distinction; the
+frozen final gate proves the actual final state. No retagged verification evidence.
+
+Frozen local bash scripts/check.sh passed545.049s:7,393Rust tests,
+290doctests;3,908/4,855 (80.494%),379pending,568excluded,zero failed/unverified.
+976Rust jobs ran;116Rust and46Python jobs reused unchanged original evidence.
+Final all-target Clippy55.10s; affected compilation20m30s, preceding the final gate.
+Generated empty benchmark input preserved as work/round104-generated-input.xml.
+Rust 87af2a7c1ca4560f5e63cc30cc8e2297b17609df5aec788eb0ee133f4c43a307.
+Report 2d90dd9fedf9480c6818a8fe90f017d3be794e32be54ec3424c43ad231b095f5.
+Archive work/round104-local-results.tar.gz SHA256:182f46c0014a490d125fc219a193033658a4fd1afdbdf6c1b993698ddce384ac.
+Evidence work/parallel-round104-evidence.json; freeze work/parallel-round104-freeze.json;
+postcommit proof work/round104-postcommit-evidence.json. Prebuild61083/gate96209
+and performance40783/collector74536/localcollector70193 are terminal0; don't repeat.
+
+Fresh runner-a Java/Rust k-opt measured2026-10-12T21:40:59.542556+00:00 passed128
+validations: Rust128optima/Java114,114equal scores. Sampled ratios5.042–15.321,
+window0.174–1.440; larger exhaustive windows still lag. No causal cross-round timing
+claim. Archive work/round104-performance-results.tar.gz SHA256:
+f14486ac66685d0b4a578483cd2d9f537cbfaf6cd998fe1d9cec9709b1a14da8.
+Original identities/logs/date in work/round104-performance-evidence.json. runner-c timed
+out; runner-a and local work continued. Grouped round97 and native late-acceptance
+probe inputs unchanged; retain their old scope/dates. Older list measurements stale.
+No dashboard UI/data-contract changes; backend freshness checked without UI rerun.
+
+Goal incomplete; no new agents/assignments. Next remaining solver gaps include
+k-opt seams/selection and best-score/custom metrics. Exact k-opt contracts and the
+new unanswered descriptor-order question are in work/round104-next-kopt-notes.txt;
+public-signature metadata/jar hash in work/round104-kopt-public-metadata.json.
+Do not repeat the already answered successor probe. Do not feed expected partitions
+or endpoint arrays as implementation inputs for credit. No next probe/fixture was
+created during this freeze. Use tests/public metadata as specs, keep provenance and
+Community boundaries, performance and selective verification; commit occasionally.
+
+## Previous verified checkpoint — round103
 
 BenchmarkArchive now publishes actual native benchmark journals under explicit
 calendar-valid timestamp names, discovers valid runs, and aggregates all/selected

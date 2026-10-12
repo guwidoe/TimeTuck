@@ -35,6 +35,7 @@ mod facts;
 pub use facts::FactTransaction;
 mod activity;
 mod indexed_batch;
+mod initial_activity;
 mod ordered_existence;
 mod partitioned_batch;
 mod stable_flat_map;
@@ -1119,6 +1120,7 @@ pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
     compound_joins: compound_join::Registrations,
     activity_rules: Vec<ActivityRule>,
     activity_pruning: bool,
+    initial_activity: Option<Box<initial_activity::InitialActivityObservers<'a>>>,
     arithmetic: crate::ScoringArithmetic,
 }
 impl<S: AdditiveScore + 'static> Default for StreamGraphBuilder<'_, S> {
@@ -1137,6 +1139,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             compound_joins: compound_join::Registrations::default(),
             activity_rules: Vec::new(),
             activity_pruning: false,
+            initial_activity: None,
             arithmetic: crate::ScoringArithmetic::default(),
         }
     }
@@ -2113,6 +2116,10 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     }
 
     pub fn build(mut self) -> StreamGraph<'a, S> {
+        if let Some(observers) = &mut self.initial_activity {
+            observers.edges = self.edges.clone();
+            observers.callbacks.sort_by_key(|(node, _)| *node);
+        }
         let pruned_edges = self.prune_disabled_constraints();
         let mut observed: Vec<_> = self
             .nodes
@@ -2137,6 +2144,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             .activity_pruning
             .then(|| Box::new(activity::ActivityComponents::new(&self.edges)));
         let mut graph = StreamGraph {
+            initial_activity: self.initial_activity,
             pruned_edges,
             activity_components,
             batch_workspace: batching::BatchWorkspace::default(),
@@ -2195,6 +2203,7 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
     activity_rules: Vec<ActivityRule>,
     active: Option<Vec<bool>>,
     activity_components: Option<Box<activity::ActivityComponents>>,
+    initial_activity: Option<Box<initial_activity::InitialActivityObservers<'a>>>,
     owner: Rc<()>,
     nodes: Vec<Box<dyn Node<S> + 'a>>,
     edges: Vec<Vec<Edge>>,

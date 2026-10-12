@@ -8841,3 +8841,36 @@ Rust jobs ran; 1,087 Rust and 46 Python jobs reused unchanged evidence. runner-a
 passed seven originals and produced the actual three-model example report; Chromium
 verified the rendered rows and data link. Relevant k-opt inputs are unchanged, so
 round102 measurements remain current with original dates; older list metrics stay stale.
+
+## Initial fact-capability notifications
+
+StreamGraphBuilder::after_initial_facts registers passive producer-capability
+consumers. Completing a standalone graph's initial fact batch forwards each
+capability once in producer order; basic/list/mixed score directors and recreated
+basic scoring contexts complete that lifecycle after committing all planning rows.
+Capability uses retained facts and the declared topology, including zero-weight
+branches; predicates and join keys do not establish permanent emptiness. Hooks
+never enable a score branch or replay scoring callbacks. No initial-hook metadata
+is allocated without registrations; registered topology/callback storage is consumed
+and released on completion. Later updates, rollback and candidate installs do not
+repeat initial notifications. Callback panics propagate after consumption.
+
+The three missing JoinBiNodeActivityTest methods now preserve both their activity
+assertion and exactly-one downstream notification. The missing single-input method
+covers both boolean parameters. All four existing filtered-source adaptations now
+also verify the actual forwarded callback, including filter transitions before the
+initialization boundary. Java node/lifecycle/tracker mocks are replaced with real
+native sources, map/join operators, consumers and transactions; no production
+implementation is copied. No Java tuple/node ABI or initialization-trace claim.
+Seven originals cover native basic/list/mixed binding, producer order, disabled
+branches, rolled-back facts/foreign handles, callback panic, candidate installation,
+and 32 predicate/key/source combinations across both scheduling modes. Default
+solver acceptance/scoring policies and ordinary transaction propagation are unchanged.
+
+Frozen round104 verification passed 7,393 Rust tests and 290 doctests: 3,908/4,855
+source methods (80.494%), 379 pending, 568 excluded, zero failed/unverified. Four
+new source methods are counted; the four strengthened filtered methods earn no
+duplicate credit. 976 Rust jobs ran; 116 Rust and 46 Python jobs reused unchanged
+evidence. Fresh runner-a k-opt validation passed 128 cases; sampled ratios5.042–15.321,
+window0.174–1.440, with larger exhaustive windows still slower. Original measurement
+identities/dates retained; no causal performance claim. Older list metrics remain stale.
