@@ -16,7 +16,64 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round101
+## Latest verified checkpoint — round102
+
+LateBestLevelState retains a score and explicit best-step index, skipping lazy
+score reads/clones at unchanged indices. Existing LateAcceptance uses this cache
+with wrapping native epochs; independent full-history controls preserve acceptance,
+reset levels, chronology and clone preparation. All nine DefaultLevelScoreStateTest
+methods now have complete indexed adaptations: three new mappings, six upgraded
+from score-only fixtures. Old raw comparisons remain uncredited fixture controls.
+Four originals cover cache reads, wrapping/nonmonotonic indices, panic recovery and
+4,000 scores across four history sizes, two policies and three score families.
+No Java scope/index origin or solver trace ABI claim. No production code copied.
+
+runner-a passed all 18 focused tests on final source in16.734seconds. runner-c initially
+SSH-timed out; after the latest wake confirmation it became reachable during the
+local broad rebuild. That local gate is now complete; runner-c is available for the
+next batch.
+The original paired native probe first exposed a stable regression; that state was
+rejected and its raw evidence retained. Inline hints removed the large slowdown:
+hard-soft within1.3% of previous cost; hard-medium-soft before/after ratios1.096–1.155,
+bendable1.056–1.077 across three forks. This compares our own pre-change native
+acceptor, not Java or the whole solver. Files: work/round102-native-performance.json,
+work/round102-native-performance-evidence.json; rejected initial measurements in
+work/round102-initial-native-performance.json. Original source/binary/date preserved.
+
+Fresh runner-a Java/Rust k-opt measurements at2026-10-12T20:24:11.046878+00:00
+passed128validations, Rust128optima/Java114,114equal scores. Sampled ratios5.074–15.159;
+window0.164–1.368, so larger exhaustive windows still lag. Timing strategies/quality
+are distinct; do not attribute cross-round timing changes to this cache. Archive
+work/round102-performance-results.tar.gz SHA256:
+12064f5f1a15a808012642faec29397c960a0915d2a3c718e7ff74de6f281bc0.
+Evidence work/round102-performance-evidence.json preserves actual remote records.
+Grouped round97 inputs/samples unchanged; older list measurements remain stale.
+
+Frozen bash scripts/check.sh passed945.299seconds (gate only):7,360Rust tests,
+290doctests;3,889/4,855 (80.103%),398pending,568excluded,zero failed/unverified.
+973Rust jobs ran;115Rust and46Python jobs reused original successful evidence.
+Final Clippy reported2m23s; affected binary compilation34m28s, preceding the gate.
+The optional-list union debug test took170.88s versus58.81s in retained prior evidence;
+this is not a controlled release comparison and no cause is assigned. Release
+acceptor and fresh Java/Rust k-opt measurements above retain their actual scope.
+Source/log/archive/freshness checked; generated empty benchmark input preserved
+in work/round102-generated-input.xml. No UI/data-contract changes or browser rerun.
+Rust 7b5b975aa2ac1a569d3a81a54e479d978073b2deb921970fc01b9576dc035da2.
+Report df7aa9d0ca00c69d97be6f3cc04fb72f7392b2efd29964f3be32acde2b034b92.
+Archive work/round102-local-results.tar.gz SHA256:a91b16e5f71e9491eec41cc8684b1d32f64571a1f73d98c883ae22f8f76e5dd6.
+Evidence work/parallel-round102-evidence.json; freeze work/parallel-round102-freeze.json;
+postcommit proof work/round102-postcommit-evidence.json. Goal incomplete,398pending.
+No new agents or assignments. Continue closing real compatibility gaps with
+selective evidence reuse and occasional commits; performance remains important.
+
+Next candidate: actual persisted benchmark-result discovery/aggregation (15pending
+TEST methods). TEST/provider/helper specification notes in work/round102-next-gap-notes.txt;
+optional module draft in work/benchmark_archive_draft.rs is uncompiled, uncredited and
+outside the crate. Existing XmlBenchmarkRun already writes real summary.json results;
+reuse those without changing solver defaults. TEST objective penalizes each assigned
+entity (three entities/two values), not zero. runner-c is now SSH reachable for the next build.
+
+## Previous verified checkpoint — round101
 
 SolverMeterView now exports actual runtime monitor state with pinned default names,
 types, problem.id tags and null unit/description metadata. Registration is initially

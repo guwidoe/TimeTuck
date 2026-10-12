@@ -51,7 +51,9 @@ pub use local_search::{
 pub use step_termination::StepTermination;
 
 pub mod acceptance;
+mod late_best_level_state;
 pub use acceptance::{AcceptanceError, Acceptor, LateAcceptance, TerminationProgressScope};
+pub use late_best_level_state::LateBestLevelState;
 mod candidate_window;
 mod forager;
 mod random;

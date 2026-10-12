@@ -557,16 +557,17 @@ impl<S: Score> Acceptor<S> {
 pub struct LateAcceptance<S> {
     history: crate::ScoreHistory<S>,
     hill_climbing: bool,
-    best: S,
+    best: crate::LateBestLevelState<S, u64>,
 }
 impl<S: Score> LateAcceptance<S> {
+    #[inline]
     pub fn new(
         history_size: usize,
         hill_climbing: bool,
         initial_best: S,
     ) -> Result<Self, AcceptanceError> {
         let history = crate::ScoreHistory::new(history_size, initial_best)?;
-        let best = history.current().clone();
+        let best = crate::LateBestLevelState::at_best_step(history.current().clone(), 0);
         Ok(Self {
             history,
             hill_climbing,
@@ -581,12 +582,16 @@ impl<S: Score> LateAcceptance<S> {
     pub fn threshold(&self) -> S {
         self.history.current().clone()
     }
+    #[inline]
     pub fn accepts(&self, current: S, candidate: S) -> bool {
         candidate >= *self.history.current() || (self.hill_climbing && candidate >= current)
     }
+    #[inline]
     pub fn step_ended(&mut self, score: S) {
-        let improves = score > self.best;
-        let resets = improves && score.late_acceptance_cmp(&self.best).is_gt();
+        let improves = score > *self.best.baseline_score();
+        // Wrapping still differs from the immediately preceding epoch.
+        let epoch = self.best.baseline_index().wrapping_add(u64::from(improves));
+        let resets = improves && self.best.higher_reset_levels(&epoch, || &score);
         // Prepare every potentially panicking score clone before mutating history
         // or the retained best. Normal writes/resets move prepared values only.
         let new_best = improves.then(|| score.clone());
@@ -596,7 +601,7 @@ impl<S: Score> LateAcceptance<S> {
         }
         self.history.update(score);
         if let Some(best) = new_best {
-            self.best = best;
+            self.best.refresh_best_step(epoch, || best);
         }
     }
 }

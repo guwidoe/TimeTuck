@@ -12292,14 +12292,14 @@
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
       "upstream_test": "hardImprovementTriggersReset",
-      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
       "local_test": "hard_improvement_triggers_reset",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
     },
     {
       "id": "DefaultLevelScoreStateTest.softOnlyImprovementDoesNotTriggerReset",
@@ -12307,14 +12307,14 @@
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
       "upstream_test": "softOnlyImprovementDoesNotTriggerReset",
-      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
       "local_test": "soft_only_improvement_does_not_trigger_reset",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
     },
     {
       "id": "DefaultLevelScoreStateTest.mediumImprovementTriggersResetForHardMediumSoftScore",
@@ -12322,14 +12322,14 @@
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
       "upstream_test": "mediumImprovementTriggersResetForHardMediumSoftScore",
-      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
       "local_test": "medium_improvement_triggers_reset_for_hard_medium_soft_score",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
     },
     {
       "id": "DefaultLevelScoreStateTest.softOnlyImprovementDoesNotTriggerResetForHardMediumSoftScore",
@@ -12337,14 +12337,14 @@
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
       "upstream_test": "softOnlyImprovementDoesNotTriggerResetForHardMediumSoftScore",
-      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
       "local_test": "soft_only_improvement_does_not_trigger_reset_for_hard_medium_soft_score",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
     },
     {
       "id": "DefaultLevelScoreStateTest.hardImprovementTriggersResetForBendableScore",
@@ -12352,14 +12352,14 @@
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
       "upstream_test": "hardImprovementTriggersResetForBendableScore",
-      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
       "local_test": "hard_improvement_triggers_reset_for_bendable_score",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
     },
     {
       "id": "DefaultLevelScoreStateTest.softImprovementDoesNotTriggerResetForBendableScore",
@@ -12367,14 +12367,14 @@
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
       "upstream_test": "softImprovementDoesNotTriggerResetForBendableScore",
-      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
       "local_test": "soft_improvement_does_not_trigger_reset_for_bendable_score",
       "license": "Apache-2.0",
       "notice_paths": [
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
-      "modifications": "Preserve both complete score fixtures and the reset/no-reset assertion. Explicit initial/new-best Score::late_acceptance_cmp replaces mocked Java phase/step scopes, score definitions and cached update/check indices 0/1. Greater maps to the asserted reset and Equal to no reset. No Java index-cache/lifecycle equivalence is claimed; the three index/baseline-focused methods remain pending. Separate original tests verify actual history replacement and all six native search paths."
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
     },
     {
       "id": "CompositeAcceptorTest.isAccepted",
@@ -58436,6 +58436,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve the two-value/two-uninitialized-entity fixture, TEST zero objective, construction plus ten-step local ceiling, epoch clock/problem id, all exact meter names/types/tags/null-unit/null-description assertions, initially empty registration and removal of per-problem gauges after solving. Public pinned Community SolverMetric names are observed through an original binary-only probe; no production implementation read. Native SolverMetrics supplies actual runtime state to opt-in SolverMeterView. The change method uses real LiveSolverManager queueing/restart, preserves previous assignments, appends an entity/value and samples all three dimensions as 3. Bounded channels replace latches. Changed models use fresh native monitors rebound between runs. No Micrometer/global-registry ABI, default-monitor installation, Java listener ordering, instantaneous score-counter or score-level meter parity claim. Score-count gauges retain native phase-boundary publication; size-log is a floating assignment-scale estimate."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.firstStepAlwaysChecksLevel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "firstStepAlwaysChecksLevel",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
+      "local_test": "first_step_always_checks_level",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.skipsCheckWhenStepIndexUnchanged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "skipsCheckWhenStepIndexUnchanged",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
+      "local_test": "skips_check_when_step_index_unchanged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
+    },
+    {
+      "id": "DefaultLevelScoreStateTest.updateRefreshesBaselineForNextStep",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "updateRefreshesBaselineForNextStep",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
+      "local_test": "update_refreshes_baseline_for_next_step",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve every fully assigned score fixture, update/check index sequence, first-step sentinel, unchanged-index skip and refreshed-baseline assertion. Explicit native initial cache index 0 and signed -1/0/1/2 best-step inputs replace TEST mock scope getter sequences. Lazy Rust factories model reads; native Score reset-level comparisons replace Java score definitions/InnerScore. The same cache is integrated into existing LateAcceptance with wrapping native best epochs and unchanged ordinary reset/history policy. No Java implicit index origin, scope object or solver trace ABI claim. Earlier six comparison-only adapters are retained as uncredited legacy fixture controls; mappings now use the complete indexed adaptations."
     }
   ],
   "fixtures": [
@@ -82514,6 +82559,32 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt TEST-only fixture data/observable setup: native variable/domain identities, zero constraint network, epoch metric clock, construction plus local ceiling ten and exact identifier/measurement assertions. Channels replace TEST latches; exported readings/last samples replace the TEST registry. Production implementation is not copied. Native objective/queued edits execute against real solvers."
+    },
+    {
+      "id": "indexed-late-step-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "TEST fixture/helper and prior translated comparisons",
+      "local_path": "crates/solver/tests/late_best_index_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only buildStepScope getter sequences into explicit native update/check indices and lazy score factories. Preserve source score/index inputs; no scope implementation copied."
+    },
+    {
+      "id": "legacy-late-level-controls",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/lateacceptance/DefaultLevelScoreStateTest.java",
+      "upstream_test": "TEST fixture/helper and prior translated comparisons",
+      "local_path": "crates/solver/tests/late_level_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain earlier six TEST-derived score comparisons as legacy fixture controls. Complete upstream method mappings now point to indexed adapters; no duplicate source-method credit."
     }
   ]
 }

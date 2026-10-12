@@ -8767,3 +8767,39 @@ Rust jobs ran;1,082Rust/46Python jobs reused original successful evidence. runne
 passed the seven focused cases before a final style-only TEST guard adjustment;
 the final local gate verifies that final state. Original remote hashes/logs remain
 separate. Existing performance evidence stays unchanged; older list metrics stale.
+
+## Best-step-index-aware late acceptance
+
+LateBestLevelState caches the full retained score and an explicit best-step index.
+Repeated indices skip score reads/clones; changed indices refresh the baseline
+before subsequent reset-level checks. Signed pre-step sentinels and wrapping epochs
+are supported. Existing LateAcceptance now uses this same cache and advances its
+native epoch only for a strictly better completed-step score. Its history ordering,
+soft/hard/medium policy, clone preparation and phase behavior remain unchanged.
+Inline hints preserve the small acceptor's hot-path cost after adding index state.
+
+The three remaining DefaultLevelScoreStateTest methods now preserve the complete
+-1/0/1/2 chronology, skip and baseline-refresh assertions. The prior six score-only
+mappings now point to complete indexed fixtures with their original scores and
+0/1 update/check inputs; the old raw comparisons remain uncredited legacy controls.
+The native initial cache index is supplied explicitly rather than inferred from
+Java field initialization. No Java scope or whole-solver index trace ABI is claimed.
+Four originals check zero reads at repeated indices, nonmonotonic/wrapping indices,
+panic recovery and complete independent histories/acceptance decisions over4,000
+scores,4history sizes,2hill-climbing policies and3score families. Existing regressions
+cover all six dense/streamed basic/list/mixed search paths and decimal reset policy.
+
+An original paired native probe preserves the pre-change TimeTuck acceptor as its
+reference. The first attempt exposed stable slowdowns and was rejected; its raw
+artifacts remain. Inlining removed the large regression: final3forks/3workloads,
+3warmups/15samples/32invocations compare equal decisions/thresholds. This is a
+standalone native acceptor before/after probe, not Java or whole-solver performance.
+Shared solver inputs changed. The final broad check passed7,360Rust tests and
+290doctests:3,889/4,855source methods (80.103%),398pending,568excluded,zero
+failed/unverified. 973Rust jobs ran;115Rust/46Python jobs reused unchanged evidence.
+The fresh runner-a Java/Rust k-opt comparison passed128validations: Rust128optima,
+Java114,114equal scores. Sampled ratios5.074–15.159; window0.164–1.368, with
+larger exhaustive windows still slower. These are distinct search/quality workloads,
+not evidence that the indexed cache caused cross-round solver timing changes.
+Original archive/source/date evidence is preserved; the dashboard marks this
+measurement current and older list measurements stale.
