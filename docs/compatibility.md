@@ -8022,3 +8022,37 @@ Abstract cloner14/14 passed,0 pending; overall3,704/4,855 (76.292%),583 pending,
 excluded,zero failed/unverified. Final7,060 Rust tests/290 doctests;3 changed Rust
 jobs/1,035 reused jobs/46 Python reuses. Raw solving/scoring/search is unchanged;
 K-opt measurement inputs remain current and prior list measurements remain stale.
+
+### Reinitialization eligibility and solution-aware entity ranges
+
+PlanningVariableRef now queries actual typed fields through borrowed getters. Assigned
+basic fields are not reinitializable; null fields are, even when unassignment is
+allowed. List fields, including empty lists, are not reinitializable. Entity/value/kind
+metadata checks precede getters where possible. This eligibility query is separate
+from score initialization/feasibility and does not override pins or phase policy.
+
+SolutionEntityRangeAccessors binds multiple basic entity types/fields to entity-provided
+domains. Providers receive the actual solution/entity and may explicitly project a
+base solution. Complete registrations validate before getters; actual entity aliases
+contribute slots once, conflicting snapshots fail, provider IDs are scoped by owner
+type and each provider runs once per unique entity per bind across referencing fields.
+Domain unions retain encounter order, deduplicate equal values and preserve actual
+current values/unassignment policy. A new bind reads current source data, without
+reusing provider outputs across snapshots. The result retains real owner objects and
+field slots alongside a validated FiniteProblem; score/fact metadata is not bound by
+this adapter. Callback effects/panics are not rolled back.
+
+All four GenuineVariableDescriptorTest methods preserve complete criteria: actual
+assigned/null scalar fields for both unassignment policies, singleton/empty list
+fields, and successful construction of both solution-parameter provider descriptors.
+Native composition and typed base projection replace Java annotations/inheritance/
+reflection/parameter assignability. The parameter method constructs descriptors only;
+additional runtime provider cases earn no source-method credit. TEST methods/fixtures
+have provenance/notices. Six originals cover borrowed non-Clone/non-Eq values, wrong
+types/kinds/getter effects, multiple providers/types/fields, aliases/conflicts, invalid
+metadata, preflight failure, provider-read counts and actual base-projection rebinding.
+Raw solving/scoring/search is unchanged; no comparative performance claim.
+GenuineVariableDescriptorTest4/4 now pass; overall3,708/4,855 (76.375%),579 pending,
+568 excluded,zero failed/unverified. Final7,070 Rust tests/290 doctests;5 changed Rust
+jobs/1,037 reused jobs/46 Python reuses. K-opt measurement inputs remain current;
+prior list measurements remain stale.

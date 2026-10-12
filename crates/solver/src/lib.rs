@@ -1540,3 +1540,11 @@ mod list_k_opt_inferred;
 pub use list_k_opt_inferred::list_k_opt_inferred_partition_move;
 mod list_k_opt_edge_plan;
 pub use list_k_opt_edge_plan::{ListKOptEdgePlan, ListKOptRebaseError};
+
+mod variable_initialization;
+pub use variable_initialization::PlanningVariableValue;
+
+mod solution_entity_ranges;
+pub use solution_entity_ranges::{
+    BoundEntityRangeOwner, BoundEntityRangeSolution, SolutionEntityRangeAccessors,
+};

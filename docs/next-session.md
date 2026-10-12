@@ -16,6 +16,63 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round81
+
+PlanningVariableRef queries actual typed fields through borrowed PlanningVariableValue
+getters. Basic assigned=false eligibility and null=true eligibility hold for both
+unassignment policies; list fields are never reinitializable, even empty. Entity/value/
+kind mismatches reject before getters where possible. Values need no Clone/Eq for these
+queries. This is eligibility, not score initialization/feasibility, phase selection or
+pin override; raw solving/scoring/search policies are unchanged.
+
+SolutionEntityRangeAccessors adds solution-aware entity provider binding across multiple
+basic entity types/fields. Typed providers receive the actual solution/entity and can
+explicitly project a base solution. Registration/type/field/provider metadata validates
+before getters; entity aliases bind once, conflicting snapshots reject, provider IDs
+are owner-scoped and each provider runs once per unique entity per bind across fields.
+Equal values deduplicate in provider encounter order; current values/unassignment policy
+are retained and FiniteProblem validates before return. Bind results own actual entity
+handles and field slots; a new bind reads current source/provider data. This adapter
+binds domains/current values, not score/fact metadata, lists or implicit pin reads.
+Callback effects/panics are not rolled back. Native composition/static callback signatures
+replace Java reflection/annotation inheritance and parameter assignability.
+
+All four GenuineVariableDescriptorTest methods now fully pass: isReinitializable,
+isReinitializable_allowsUnassigned, isReinitializable_list and valueRangeDescriptorWithSolution.
+Actual typed a/b fields preserve every source boolean; the parameter method preserves
+successful construction of both plain and base/child provider descriptors, including both
+inherited provider IDs and solution parameter types. It has no source input binding;
+additional runtime tests earn no source-method credit. TEST fixtures/methods retain
+provenance/notices; default-constructed values where only presence matters use unit-like
+native Value. Six originals cover borrowed non-Clone/non-Eq values, getter side effects,
+type/shape/shadow rejection, actual provider calls, multiple fields/types/providers,
+domain unions, aliases/conflicts, preflight/metadata errors and live base-projection rebind.
+
+Focused3+2 passed; range focus caught duplicate provider reads across fields (4 vs3),
+fixed with per-bind/per-entity caching after a failed text patch. Final focused4+5 passed;
+additional actual base-projection runtime control passed in final gate. First prebuild
+stopped before check.sh with Clippy type_complexity at23.883seconds; simplified alias
+ledger to canonical Option value vectors, removing unused indices/duplicate field strings.
+Obsolete log/manifest/freeze saved under work/round81-obsolete-*; remote failed root
+0075e118a9ebfeebcf55c4ae1f2bf5c92196ae012033a96e26bd23cc2b561dae, terminal101.
+Final frozen runner-a bash scripts/check.sh passed once:7,070 Rust tests,290 doctests;
+3,708/4,855 (76.375%),579 pending,568 excluded,zero failed/unverified. Actual5 Rust RUN/
+1,037 REUSE/46 Python REUSE;201.194seconds. Native variable-descriptor4/4 and prior
+abstract/custom cloner14/14,4/4 remain passing. No benchmark/release suite/UI rerun/agents;
+K-opt measurements remain current and prior list measurements remain stale.
+Rust:c07626f569acb276d4715002e72f1a04821131be3d113bf69de2b9c96c7e71cb.
+Report:9eac22ef053e8f57458027ba72e6df0cd9ddded800df48d522c2f38b864a6efd.
+Remote root:72e8cddb016a5804d4768c307288da637a9db1df794c8f03b68dba166ed4b05e.
+Archive work/round81-runner-a-results.tar.gz SHA256:
+aa8dd56eec34898833af7ea9808c09a87c3f3ed36a84c22edfe1ab6a9efedb7f.
+Evidence/freeze:work/parallel-round81-evidence.json and parallel-round81-freeze.json.
+Launcher94803/collector97998 terminalzero. Postcommit proof:work/verify_round81_postcommit.py.
+Next gate seeds actual round81 archive/root. Goal active/incomplete;579 cases remain
+pending. K-opt multi-entity3-opt tests use per-list cyclic seams rather than the existing
+combined-cycle retained-end policy; do not claim them passing by feeding expected target
+rows/partitions. No upstream production inspected/copied. Keep reducing meaningful
+compatibility gaps, performance important, no new agents or assignments.
+
 ## Latest verified checkpoint — round80
 
 ObjectSortedSet adds tree-backed comparator ordering and comparator-defined uniqueness,
