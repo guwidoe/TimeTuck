@@ -55196,6 +55196,66 @@
       ],
       "reason": "Pinned upstream override is @Disabled and has an empty body: too many matches to meaningfully assert; cost-benefit ratio is wrong here. No executable case or compatibility credit.",
       "modifications": "Classification only; upstream source is unmodified and no local passing/placeholder test is created. Native unassigned-source behavior is verified elsewhere; this disabled empty override contributes zero passing credit."
+    },
+    {
+      "id": "SolverConfigTest.withTerminationSpentLimit",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "withTerminationSpentLimit",
+      "local_path": "crates/solver/tests/solver_time_settings_cases.rs",
+      "local_test": "with_termination_spent_limit",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve absent-to-configured transition and exact two-minute duration through native SolverConfig fluent solve-wide time setters; native optional duration fields replace the nullable nested Java termination bean. Values are the actual engine limits, not parallel metadata. Additional original deterministic dense/stream runtime controls execute the same two-minute settings without wall-clock sleeps."
+    },
+    {
+      "id": "SolverConfigTest.withTerminationUnimprovedSpentLimit",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "withTerminationUnimprovedSpentLimit",
+      "local_path": "crates/solver/tests/solver_time_settings_cases.rs",
+      "local_test": "with_termination_unimproved_spent_limit",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve absent-to-configured transition and exact two-minute duration through native SolverConfig fluent solve-wide time setters; native optional duration fields replace the nullable nested Java termination bean. Values are the actual engine limits, not parallel metadata. Additional original deterministic dense/stream runtime controls execute the same two-minute settings without wall-clock sleeps."
+    },
+    {
+      "id": "SolverConfigTest.withEasyScoreCalculatorClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "withEasyScoreCalculatorClass",
+      "local_path": "crates/solver/tests/solver_time_settings_cases.rs",
+      "local_test": "with_easy_score_calculator_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve absent scoring registration followed by the selected full-evaluation calculator or stream provider recipe. Typed executable recipes replace Java abstract class/reflection configuration; verify original preparation callback execution, selected native strategy and actual director resource. Reuse the already attributed TEST-only scoring-factory fixture unchanged and execute its zero objective. No Java class-loader, API or ABI claim."
+    },
+    {
+      "id": "SolverConfigTest.withConstraintProviderClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "withConstraintProviderClass",
+      "local_path": "crates/solver/tests/solver_time_settings_cases.rs",
+      "local_test": "with_constraint_provider_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve absent scoring registration followed by the selected full-evaluation calculator or stream provider recipe. Typed executable recipes replace Java abstract class/reflection configuration; verify original preparation callback execution, selected native strategy and actual director resource. Reuse the already attributed TEST-only scoring-factory fixture unchanged and execute its zero objective. No Java class-loader, API or ABI claim."
     }
   ],
   "fixtures": [

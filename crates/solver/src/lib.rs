@@ -1501,3 +1501,5 @@ pub use custom_constraint_declaration::{
 };
 mod ordered_join_conditions;
 pub use ordered_join_conditions::{OrderedJoinConditions, OrderedJoinError};
+mod solver_time_settings;
+pub use solver_time_settings::SolverTimeSettings;

@@ -7632,3 +7632,18 @@ No domain-object Clone bound is required. These originals earn no upstream metho
 credit. Native candidate/search loops and scoring director implementation remain
 unchanged; the new opt-in graph pipeline follows their existing journals and event
 routing. No overall constant-time or throughput improvement is claimed.
+
+### Fluent native solve-wide time configuration
+
+SolverTimeSettings configures spent and unimproved time on actual native limits,
+basic/list phase configurations and mixed configurations. Each setter changes only
+its selected limit; None clears it, while zero remains immediate. No score Clone
+bound or parallel configuration metadata is introduced. Existing engine enforcement
+and phase-local policies remain unchanged.
+
+Four complete SolverConfigTest methods preserve exact two-minute settings and
+absent-to-configured calculator/provider registration. Executable typed recipes
+replace Java reflective class references and open actual prepared scoring directors.
+Three original controls verify unchanged other settings and phase plans, non-Clone
+score types, and both two-minute criteria stopping real dense/stream solves through
+an explicit clock. No wall-clock sleeps or upstream credit for originals.
