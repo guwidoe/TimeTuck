@@ -16,7 +16,60 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round68
+## Latest verified checkpoint — round69
+
+Feature6104ef7 adds independent retained-end K-opt partitioning and snapshot-checked
+single-entity edge rebasing. Combined suffix cycles split at original suffix-end
+identities; the section crossing the anchor rotates within the first row. Sections
+are assigned in selected entity order and validate native ranges/pins/dependencies
+before movement. Nonempty suffixes required. No expected lengths/orientations fed
+into construction. This explicit policy is not universal Java implicit-boundary parity.
+
+ListKOptEdgePlan captures a validated row/edges, rejects stale order/pin prefixes and
+maps every row value through actual destination lookups, rejecting collisions,
+lookup failures, incompatible rows and topology without model/assignment mutation.
+It rebuilds destination movement through the existing native edge API. Source and
+destination models/owner/value allocations remain distinct and unchanged on error.
+No existing K-opt generation/search/sampling, score or lifecycle implementation change.
+
+Three complete SelectorBasedKOptListMoveTest cases close multi-entity2/4-opt and
+single-entity3-opt rebase. Full8/12-value inputs and ordered outputs, actual allocations
+and every before/after notification extent preserved. Rebase uses six real source /
+destination value objects and owner objects retaining actual list data; real ID lookup
+results derive destination entity index and payloads. Native assignment/lifecycle
+brackets replace Java in-place setters/mocks. TEST-only fixtures attributed. Older
+explicit-partition output-only cases still earn zero credit. Class now12/17 passed.
+
+Three originals pass: destination entity remapping, exact lookup counts, collisions,
+stale/pinned destinations and lookup failures, native rollback, anchor-crossing
+sections, prefixes and invalid/stale plan isolation. API check and focused3+3 passed.
+Owner fixture was strengthened after focus to feed native models from real owner
+list payloads and derive the index from actual lookup; final gate covers this state.
+No source-method credit for originals. No new benchmark or throughput claim.
+
+Final frozen runner-a bash scripts/check.sh passed once:7,011 Rust tests,290 doctests;
+3,685/4,855 passed (75.901%),602 pending,568 excluded,zero failed/unverified.
+Actual3 Rust RUN/1,019 REUSE/46 Python REUSE;198.001seconds.
+Rust source:f78ad3ae128d1a7ebdd220234b1594d7db13fdf587b051c0bd412d0876e35c47.
+Report/verification:9c6e6950af007c75bb2517a39b45f127afd7b2c11ef160f5239705817d09ed1d.
+Remote root:1ec6a25bc5088f7db77e77910444bd53b07eec48c3edc3d743f8a995d7c30c25.
+Archive work/round69-runner-a-results.tar.gz SHA256:acd2e1c419e889a319491eb5a22354429e20b5bf6a15f0f53f76e34d3b749fdc.
+Evidence/freeze:work/parallel-round69-evidence.json and parallel-round69-freeze.json.
+Launcher7248/collector70332 completedzero. Postcommit proof
+work/verify_round69_postcommit.py checks frozen state, clean Git, current report and
+completed families including12/17 K-opt cases. Seed next gate from this actual
+archive/root. No new agents, runner-c use, UI runs or benchmarks; old performance stale.
+
+Remaining K-opt cases are multi-entity3-opt/rebase/pinned, entity-range doable and
+nearby mixed-model configuration. The3-opt fixture has rows[1,2,3,6]/[4,5] and removed
+per-entity wrap6-1, absent in the ordinary concatenated-cycle model. Establish proper
+boundary behavior from full TEST fixtures/oracle execution, without reading production
+implementation or supplying expected output partitions. Other actual gaps include
+multiple-list binding and tracked assertions. Deliberately measure completed typed
+inputs where needed; reuse unchanged verified functionality.
+Goal remains active/incomplete.
+
+## Prior verified checkpoint — round68
 
 Feature 4969a64 exposes real CandidateIndex adaptive storage configuration/state
 and custom policy construction. All operations use the actual ScalingMap buckets;
