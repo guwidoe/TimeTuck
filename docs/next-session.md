@@ -16,6 +16,62 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round71
+
+Phase-local K-opt window reuse removes repeated positional candidate generation.
+The built-in single-family KOpt/ShuffledMoves path retains one shape and at most
+8,192 positional composites (twice the requested window, capped). Keys include
+K-opt bounds, ordered entity IDs, actual row lengths, pinned prefixes and whole-list
+pins. Filling remains lazy; uncached candidates use the original ordered generator.
+Payload order is irrelevant to these positional composites. The cache dies with
+its search phase. Providers, unions, sampled K-opt and other move orders keep their
+existing generation paths. No upstream production implementation inspected/copied.
+
+Three original controls cover changed lengths/pins/entity order/bounds, exhausted
+neighborhoods, exact ordered moves and seeded rolling windows after actual commits,
+prefix reuse and uncached tails, and cached search versus a fresh public-KOpt provider.
+Every scored row, final result, evaluation count and termination matches across four
+seeds and three windows. Originals earn no upstream-method credit. Initial control
+fixture pin metadata and test constructor/lifetime syntax were corrected before the
+successful focused3 run; final gate covers the final two-window/8,192 cap.
+
+One frozen runner-a bash scripts/check.sh passed:7,014 Rust tests,290 doctests;
+3,685/4,855 passed (75.901%),602 pending,568 excluded,zero failed/unverified.
+Actual911 Rust RUN/111 REUSE/46 Python REUSE;1,192.336seconds including broad
+compilation. Shared list-search changes required broad coverage. No release-mode
+correctness suite or UI rerun. Rust:5a953aac4381e33315b0df8d5041b0ab23a1741d66631bb6168a64775e7a7516.
+Report:7e0441b30c78bd46a3ae7e20a9c1cbc4d8b6448777885dc3ebae25ae83c73cba.
+Gate root:7ca65a373c4d1a28c2e687e761965a6169c454b213cc673a52e963754fb0a2eb.
+Archive work/round71-runner-a-results.tar.gz SHA256:2b3893c0a2a4d1e8f378ee052fbef523a93e00618ca05e8ad23dfab3aaca68c2.
+Evidence/freeze:work/parallel-round71-evidence.json and parallel-round71-freeze.json.
+Launcher6928/collector59123 completedzero. Seed the next gate from this actual
+round71 archive/root, never from a performance archive.
+
+Deliberate K-opt-only benchmark refresh used the unchanged benchmark_kopt.py on
+runner-a, Java and Rust on the same Intel i5-1135G7/Arch host, Rust1.92/JDK25.0.4.1;
+three warmups,five samples/fork,three forks. Release compilation overlapped the final
+regression batch; a genuine collected-success marker gated timing until tests ended.
+Native window medians (2–3/12,2–3/16,2–4/12,2–4/16):5.176,14.858,41.838,48.523ms,
+versus prior26.672,78.702,95.445,103.338ms:2.130–5.297x faster on these four workloads.
+All128 native validation solutions/scores/call counts and all8 timing workload scores/
+call counts match the actual prior reports exactly. Sampled timing stays approximately
+unchanged. Window Java/Rust ratios0.162–1.332; the larger window cases still lag Java.
+Sampled ratios4.492–15.356. Scores/work differ from Java; no general/equal-work claim.
+K-opt measured2026-10-12T05:41:22.174730Z, digestd97e85200c8e0e784d034049d327bb4dc05f7be28263cf96691b7acd78e3f1f6.
+Performance root:1176ae0b7e4c65ddd8927e33c6f0048700ba42564389a6888a69cec02f9950b8.
+Archive work/round71-performance-results.tar.gz SHA256:0243ecbb0c24f89be343a9b9bba091314a166a69ea7d30daf52019f6fa51d6f4.
+Raw records, dates, source/binary/report hashes and environment preserved in archive;
+not installed as pretend local cache hits. Comparison:work/round71-kopt-comparison.json.
+K-opt dashboard current; older list measurement honestly stale. Other statuses retain
+actual freshness. Postcommit proof:work/verify_round71_postcommit.py.
+
+Next close the remaining K-opt entity-range case from its full8-value TEST fixture:
+same-entity valid, cross-entity valid and cross-entity invalid against actual ranges.
+Source test read completely while this batch compiled; not yet adapted/credited.
+Other pending cases retain actual gaps, including multi-entity3-opt implicit boundaries.
+Keep performance important while shrinking the compatibility backlog. No new agents.
+Goal remains active/incomplete.
+
 ## Latest performance checkpoint — round70
 
 Fresh unchanged benchmark_lists.py and benchmark_kopt.py executed sequentially on

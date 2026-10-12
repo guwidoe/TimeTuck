@@ -7767,19 +7767,33 @@ retained prefixes and invalid input isolation. These earn no source credit. Exis
 K-opt search/sampling, scoring and lifecycle implementations remain unchanged.
 No performance measurements or throughput improvement are claimed.
 
-### Current list and K-opt performance checkpoint
+### Current K-opt performance checkpoint
 
-Both comparisons were refreshed on2026-10-12 using Rust1.92 and pinned Community2.7.0
-on the same runner-a Intel i5-1135G7 host.320 list and128 K-opt paired correctness/quality
-comparisons validate every output independently; compatibility method counts do not
-change. Three warmups and15 measured samples per runtime/workload across three forks.
+K-opt was deliberately refreshed on2026-10-12 with unchanged benchmark_kopt.py,
+Rust1.92 and pinned Community2.7.0 on the same runner-a Intel i5-1135G7 host.
+Three warmups and15 measured samples per runtime/workload across three forks.
+The phase-local bounded positional cache preserves generation order, complete
+native solutions, scores and score-call counts in all128 validation cases and
+all8 timing workloads compared with the actual preceding measurement. It caches
+at most8,192 moves for one shape; original lazy generation remains beyond that.
+Custom providers, unions, sampled K-opt and other move orders do not use this cache.
+Three original regressions additionally compare every scored trial with an uncached
+provider and exercise changed lengths/pins/order/bounds, lazy filling and cache tails.
+No upstream-method credit is earned by this optimization.
 
-List workload Java/Rust median ratios span2.632–65.773. Sampled native K-opt has
-4.828–17.057x shorter measured times thanJava, while window K-opt has3.235–10.221x
-longer times. Scores and work differ; all small native K-opt results attain their
-enumerated optima, and larger optima are unknown. Current measurements expose the
-window strategy's performance gap; profiling is needed to identify its causes.
-These are bounded full-scoring workload comparisons, not general solver, identical-
-trace or equal-work claims. Existing detailed methodology, raw samples, quality and
-score-call counts remain available in the dashboard. Other measurements retain their
-own freshness status. No old measurements were relabeled as new evidence.
+| Window workload | Prior native median ms | Current native median ms | Prior/current |
+|---|---:|---:|---:|
+| k2–3,12 values |26.672|5.176|5.153x|
+| k2–3,16 values |78.702|14.858|5.297x|
+| k2–4,12 values |95.445|41.838|2.281x|
+| k2–4,16 values |103.338|48.523|2.130x|
+
+Current Java/Rust median ratios span0.162–1.332 for window K-opt,4.492–15.356 for
+sampled K-opt. Larger window workloads still lag Java. Scores and work differ;
+all small native K-opt results attain their enumerated optima, and larger optima
+are unknown. These are bounded full-scoring workload measurements, not general
+solver or equal-work claims. Native sampled behavior and measured time remain
+approximately unchanged. Prior list measurements remain visible and stale after
+this shared-search change; they were not relabeled current. Other measurements
+keep their own freshness status. Detailed samples, quality, counts and hashes
+remain in the dashboard and work/round71-performance-results.tar.gz.

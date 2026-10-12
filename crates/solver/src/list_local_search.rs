@@ -218,6 +218,7 @@ where
         return Ok(result);
     }
     let mut provider = crate::move_provider::ProviderPhase::new(provider);
+    let k_opt_window = crate::list_k_opt_window::KOptWindowCache::new();
     let mut director = make_director(initial)?;
     let mut acceptor = config.start_acceptance(director.score(), problem.entities().len())?;
     let mut random = match config.move_order {
@@ -294,11 +295,19 @@ where
                 progress.completed_steps(),
                 &failure,
             )?),
-            None => crate::move_provider::ProvidedMoves::BuiltIn(
-                config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
+            None => crate::move_provider::ProvidedMoves::BuiltIn(config.select_neighborhoods(
+                progress.completed_steps(),
+                |neighborhood| {
+                    if config.neighborhood_union.is_none()
+                        && let crate::Neighborhood::KOpt(k) = neighborhood
+                        && let MoveOrder::ShuffledMoves { window, .. } = config.move_order
+                        && window.get() > 1
+                    {
+                        return k_opt_window.ordered(problem, &snapshot, k, &order, window.get());
+                    }
                     ordered(problem, &snapshot, neighborhood, order.iter().copied())
-                }),
-            ),
+                },
+            )),
         };
         let current = director.score();
         let tracks_entities = config.tracks_variables();

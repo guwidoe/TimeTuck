@@ -505,6 +505,7 @@ pub use list_mass_assignment::{
 };
 
 mod list_k_opt;
+mod list_k_opt_window;
 pub use list_k_opt::{ListKOptConfig, ListKOptError, list_k_opt_moves};
 
 mod list_k_opt_sampling;
