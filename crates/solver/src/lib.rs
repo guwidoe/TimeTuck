@@ -1599,3 +1599,9 @@ pub use config_properties::{
     ConfigDivisionError, ConfigPropertyError, ConfigPropertyRegistry, abbreviate_config,
     ceil_divide_config, meld_config_property, merge_config_property,
 };
+
+mod legacy_random;
+pub use legacy_random::{InvalidLcg48Bound, Lcg48Random};
+pub use list_value_swap::replayed::{
+    ListSwapPartnerOrder, ReplayedListSwapLimits, ReplayedListValueSwapSource,
+};

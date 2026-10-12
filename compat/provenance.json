@@ -57131,6 +57131,51 @@
       "upstream_test": "abbreviate",
       "local_test": "abbreviate",
       "modifications": "Preserve every observed source assertion. Explicit native typed setters replace reflective bean mutation; strict FromStr parses native numeric, boolean, enum and Decimal values. Option replaces boxed nulls; typed errors replace JVM exception classes. Signed division and abbreviation preserve all source inputs. No JVM reflection or arbitrary Java coercion parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/replayed_list_swap_cases.rs",
+      "id": "ListSwapMoveSelectorTest.randomWithEntityValueRange",
+      "status": "implemented",
+      "upstream_test": "randomWithEntityValueRange",
+      "local_test": "random_with_entity_value_range",
+      "modifications": "Preserve all source values, entity ranges, assignments, pins, complete recorded mock prefixes, seed zero, output strings, advertised unboundedness and post-prefix availability. Explicit recorded-left range replay replaces descriptor/mimic wiring. Mock input prefixes cycle to represent unbounded metadata. Optional missing origins are skipped; missing partners use atomic unassign/assign. Public Java Random bounded PRNG documentation supplies an independently implemented optional LCG48 draw stream; no Timefold production body copied or general selector trace parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/replayed_list_swap_cases.rs",
+      "id": "ListSwapMoveSelectorTest.randomWithPinningAndEntityValueRange",
+      "status": "implemented",
+      "upstream_test": "randomWithPinningAndEntityValueRange",
+      "local_test": "random_with_pinning_and_entity_value_range",
+      "modifications": "Preserve all source values, entity ranges, assignments, pins, complete recorded mock prefixes, seed zero, output strings, advertised unboundedness and post-prefix availability. Explicit recorded-left range replay replaces descriptor/mimic wiring. Mock input prefixes cycle to represent unbounded metadata. Optional missing origins are skipped; missing partners use atomic unassign/assign. Public Java Random bounded PRNG documentation supplies an independently implemented optional LCG48 draw stream; no Timefold production body copied or general selector trace parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/replayed_list_swap_cases.rs",
+      "id": "ListSwapMoveSelectorTest.randomAllowsUnassignedValuesWithEntityValueRange",
+      "status": "implemented",
+      "upstream_test": "randomAllowsUnassignedValuesWithEntityValueRange",
+      "local_test": "random_allows_unassigned_values_with_entity_value_range",
+      "modifications": "Preserve all source values, entity ranges, assignments, pins, complete recorded mock prefixes, seed zero, output strings, advertised unboundedness and post-prefix availability. Explicit recorded-left range replay replaces descriptor/mimic wiring. Mock input prefixes cycle to represent unbounded metadata. Optional missing origins are skipped; missing partners use atomic unassign/assign. Public Java Random bounded PRNG documentation supplies an independently implemented optional LCG48 draw stream; no Timefold production body copied or general selector trace parity claimed."
     }
   ],
   "fixtures": [
@@ -80221,6 +80266,45 @@
       "id": "config-property-bean-enum-inputs",
       "upstream_test": "ConfigUtilsTestBean and ConfigUtilsTestBeanEnum TEST-only fixture",
       "modifications": "Adapt all thirteen primitive/nullable bean fields, default states, setter behavior and three enum values to an owned native fixture with explicit registry callbacks. Preserve all source literal custom-property inputs. No upstream production body copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/replayed_list_swap_cases.rs",
+      "id": "replayed-list-swap-test-inputs",
+      "upstream_test": "three complete TEST-only range, pinning, optional value fixtures and mock prefixes; TestdataListUtils/PlannerAssert helper contracts",
+      "modifications": "Adapt TEST-only entity/list/value models to canonical i32 IDs. Retain every mock prefix and output assertion; native recorded input cycles represent advertised unboundedness. Helper schema/mimic/score director interactions become explicit model and source lifecycle setup; no production helper implementation copied. Independent JDK draw reference and native integration cases earn no source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/replayed_list_swap_cases.rs",
+      "id": "replayed-list-swap-mock-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListUtils.java",
+      "upstream_test": "getMimicRecordingIterableValueSelector/getFilteringValueRangeSelector",
+      "modifications": "Preserve TEST helper mock prefixes, seed and optimized-range/recorded-origin contract via explicit native replay and model fixtures. No upstream production helper implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/replayed_list_swap_cases.rs",
+      "id": "replayed-list-swap-prefix-assertion",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingIterator/assertCodesOfNeverEndingIterableSelector",
+      "modifications": "Preserve every output-prefix assertion, post-prefix availability and unbounded metadata when outputs exist. Native peekable cursor replaces Java Iterator.hasNext; source fixtures cycle recorded prefixes."
     }
   ]
 }

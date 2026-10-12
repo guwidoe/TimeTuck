@@ -1351,3 +1351,12 @@ Tiny list solves regress 5.99%; late-fallback solves regress up to 1.91%. Rank
 storage adds eight bytes per registry value to model clones. Measured ordered and
 sparse solve peaks fall by 128 KiB and 449 KiB respectively. No Java speedup is
 implied: `work/parallel-round22-evidence/certificate/work/dependency-order-performance.json`.
+
+Recorded-left swap sampling is available through ReplayedListValueSwapSource.
+It samples co-range partners for assigned movable origins, with bounded rejection
+and an empty-composite fallback. Missing right values can replace assigned origins;
+missing lefts are skipped. Selection captures immutable positions and must reopen
+after edits. Global domains avoid expanded membership storage; explicit domains
+use sparse memberships and repeated large rows use the bounded existing cache.
+Native and optional public-LCG48 policies are explicit; singletons consume draws.
+Use ConfiguredMoveProvider with a finite draw limit for actual solver runs.

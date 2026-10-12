@@ -16,6 +16,23 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Round90 implementation — focused verification passed
+
+Recorded-left list swap sampling closes three range/pin/optional source methods.
+Inverse domains, post-draw receiver/dependency checks, bounded fallback, snapshot
+refresh, step seeds and native/optional public LCG48 policies implemented. No
+Timefold production consulted. Global ranges avoid expanded memberships; existing
+bounded co-range cache reused. Existing swap runtime normalized content and K-opt
+measurement inputs unchanged. Seven originals include actual dense/stream search
+and135 independent JDK bounded-draw reference rows. Source fixture notices/provenance
+recorded. First source compile fixed only adapter lifetime/type/pin method names;
+original compile fixed only transactional assignment adapter. No runtime repair.
+Optimized focused compile caught a stale re-export after moving namespace wiring;
+corrected qualification. Final focused source3/original7/related6 passed on runner-a
+in25.928seconds, root2536bce90b9143b643fe49e2c453f4ba99f8c309fa49b17ed493aaceb8de68f4.
+Run one frozen final bash scripts/check.sh using genuine round89 cache records.
+Do not claim projected3802passed/485pending before actual collection. No new agents.
+
 ## Latest verified checkpoint — round89
 
 Typed configuration setters/utilities integrated as 85993f8 from the existing

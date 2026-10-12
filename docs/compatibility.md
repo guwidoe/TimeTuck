@@ -8314,3 +8314,36 @@ Frozen round89 verification passed on runner-a: 7,196 Rust tests,290 doctests,
 unverified cases. Three Rust jobs ran;1,057 Rust and46 Python jobs reused actual
 unchanged evidence. Dashboard freshness and original archive/log checksums were
 validated. No benchmark evidence was retagged or unrelated benchmark rerun.
+
+### Recorded-left list swap sampling
+
+ReplayedListValueSwapSource draws partners for one recorded assigned origin at a
+time. An opening captures positions and inverse domain membership; candidate
+partners share a value range with the origin, exclude that origin, respect pins
+and follow canonical registry order. Receiving ranges and dependency constraints
+are checked after sampling; rejected attempts consume randomness. Optional
+missing partners produce atomic unassign/assign replacements. Missing origins
+are skipped; paired/correlated sources retain their existing missing-origin rules.
+Bounded partner failure yields an empty no-change composite, not a proof that no
+improvement exists. Unknown origins and callback panics fuse an opening. Reopen
+for assignment changes; lifecycle steps change the reproducible opening seed.
+
+Global ranges do not expand a value-by-entity membership matrix. Explicit ranges
+use sparse entity IDs. Repeated large co-range rows reuse the existing bounded
+eight-row cache, retaining at most twice the registry size in cached IDs plus one
+scratch row. No Cartesian candidate catalog is built. Native defaults retain their
+PRNG; an optional Lcg48Random implements bounded draws from the public
+[Java Random specification](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Random.html).
+The JDK independently generated 135 mixed-bound reference draws, including signed
+seed extremes and rejection-heavy bounds. No Timefold production was inspected.
+
+Three complete ListSwapMoveSelectorTest methods preserve range, partial/full pin
+and optional fixtures, recorded mock prefixes, all output strings, seed zero and
+post-prefix availability. Mock prefixes cycle to represent advertised unbounded
+metadata; TEST helpers/inputs retain provenance. Seven originals check bounded
+fallbacks, invalid origins, reproducibility, refreshed positions, Eq-only values,
+JDK draw parity and actual dense/stream search. Originals earn no source credit.
+The noReachableEntities source method remains pending: native fallback behavior
+does not establish Java singleton object identity. General selector trace parity
+and a comparative speed improvement are not claimed. Existing swap runtime and
+K-opt benchmark inputs remain unchanged.
