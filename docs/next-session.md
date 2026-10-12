@@ -16,6 +16,49 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round85
+
+NearbyMoveProvider now binds validated leaf nearby configuration to an explicit typed
+origin callback, registered real distance meter and current-state child MoveProvider.
+It collects at most maximum+1 moves, ranks closest-first with stable ties, and consumes
+non-Clone/non-Eq payload occurrences exactly once. Origin/child refresh at every opening;
+no candidate cache survives. Zero avoids opening/capturing. Typed overflow/distance errors
+publish no partial stream and reach fallible solver bindings; infallible bindings retain
+the established panic boundary. Child/metric effects cannot roll back. Lifecycle,
+construction-completion and structural neighborhood-count hooks are forwarded.
+Callers own child reachability/pinning and explicit ordinary/nearby ProviderUnion
+composition. Java nearby distributions/RNG traces and automatic config-tree compilation
+remain gaps. The core scoring/search kernels are unchanged; no speedup claim is made.
+
+SchemaMovePlan list_selectors exposes concrete resolved list families, schema-owned
+value/destination references, cache scope, order, limit and comparator registration key.
+Cache/comparator metadata requires explicit typed selection binding; built-in schema
+providers still regenerate actual moves each opening. Three complete configured-unfolding
+source cases retain all input/asserted fields, PHASE/STEP, ORIGINAL and limit200; the
+last UnionMoveSelectorTest mixed capability method retains false. TEST input provenance/
+notices recorded; no production copied. Six originals cover owned occurrences/lifecycle,
+infinite bounds/retry/zero, binding preflight, actual basic/list solves on both backends,
+typed engine failure and metadata identity/runtime selected-count limits. No original
+source credit. First focused compile corrected unconsumed mock closure step types to
+u64; all new and related cases then passed first runtime. No production runtime repair.
+
+Frozen runner-a bash scripts/check.sh passed: 7,119 Rust tests, 290 doctests;
+3,738/4,855 (76.993%), 549 pending, 568 excluded, zero failed/unverified. Actual18 Rust
+RUN/1,034 REUSE/46 Python REUSE; 215.039 seconds including prebuild. Clippy clean.
+K-opt measured inputs remain current, older list measurements stale. No benchmark,
+release-suite, UI rerun or new agents. Backend report/freshness verified by collector;
+postcommit proof checks clean state, frozen hashes, archive/report and unchanged cores.
+Rust: f696b16eb8d5b5fe74d91ba73f2dfbef2e688e75e963e8b435773ad1a6ee2b45.
+Report: a716a3491f9612ad7f48e0dbb67918a356582e71da4ba6d147769bb6b14d9d0c.
+Remote root: cee40ed5b018e81d3a5de0a441f0b34fa2cd016f74a5e2ad00915ea1ed8672ee.
+Archive work/round85-runner-a-results.tar.gz SHA256:
+3b84adfbab137c5168c79f38bede04c024b38ae08bbdd86c67543267c694424e.
+Evidence/freeze: work/parallel-round85-evidence.json and parallel-round85-freeze.json.
+Proof: work/verify_round85_postcommit.py. Next gate seeds actual round85 archive/root.
+Objective active/incomplete; 549 source methods and broader runtime/quality/performance
+gaps remain. Continue closing substantive compatibility gaps without new agents or
+expected-output scripting and keep unchanged verification reused.
+
 ## Latest verified checkpoint — round84
 
 NearbyMoveConfig now expands change, swap, list-change, list-swap and K-opt selector

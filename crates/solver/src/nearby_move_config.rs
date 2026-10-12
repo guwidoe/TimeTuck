@@ -253,6 +253,9 @@ impl<O, D> Default for NearbyDistanceRegistry<'_, O, D> {
     }
 }
 impl<'a, O, D> NearbyDistanceRegistry<'a, O, D> {
+    pub fn contains_meter(&self, meter: PlanningType) -> bool {
+        self.meters.contains_key(&meter)
+    }
     pub fn register<M: 'static>(
         &mut self,
         meter: impl Fn(&O, &D) -> f64 + 'a,

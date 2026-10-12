@@ -1565,3 +1565,7 @@ pub use nearby_move_config::{
     NearbyConfigError, NearbyDistanceRegistry, NearbyElementConfig, NearbyMoveConfig,
     NearbyMoveKind, NearbySelectionConfig, NearbySelectorRole,
 };
+
+mod nearby_move_provider;
+pub use nearby_move_provider::NearbyMoveProvider;
+pub use schema_move_selection::{ResolvedListDestination, ResolvedListSelector};

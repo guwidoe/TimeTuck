@@ -69,6 +69,13 @@ pub struct SchemaMoveConfig {
     pub variables: Vec<String>,
     pub order: UnionOrder,
     pub selected_count_limit: Option<usize>,
+    /// Retained configuration metadata for explicit selection-cache bindings.
+    /// The built-in schema provider regenerates moves from each current state;
+    /// this field alone does not cache assignment-sensitive moves.
+    pub cache_scope: SelectionCacheScope,
+    /// Explicit comparator registration key retained during list unfolding.
+    /// Executing a comparator requires a separately configured typed selection.
+    pub entity_comparator: Option<PlanningType>,
 }
 impl SchemaMoveConfig {
     pub fn new(kind: SchemaMoveKind) -> Self {
@@ -80,6 +87,8 @@ impl SchemaMoveConfig {
             variables: Vec::new(),
             order: UnionOrder::Sequential,
             selected_count_limit: None,
+            cache_scope: SelectionCacheScope::Uncached,
+            entity_comparator: None,
         }
     }
     pub fn with_crossing_unassigned(mut self, enabled: bool) -> Self {
@@ -241,6 +250,8 @@ impl SchemaMoveConfig {
             branches,
             order: self.order,
             selected_count_limit: self.selected_count_limit,
+            cache_scope: self.cache_scope,
+            entity_comparator: self.entity_comparator,
         })
     }
 }
@@ -256,6 +267,8 @@ pub struct SchemaMovePlan<'s> {
     branches: Vec<SchemaMoveBranch<'s>>,
     pub order: UnionOrder,
     pub selected_count_limit: Option<usize>,
+    pub cache_scope: SelectionCacheScope,
+    pub entity_comparator: Option<PlanningType>,
 }
 /// Map one declared field to native variable slots (basic) or entity slots (list),
 /// in entity order. Different basic columns for one type must have equal lengths.
@@ -313,7 +326,52 @@ impl fmt::Display for SchemaMoveError {
     }
 }
 impl Error for SchemaMoveError {}
+/// Fully resolved list-selector metadata. Variable references retain schema
+/// identity; destination entity and value resolve from that same genuine field.
+/// Cache/comparator keys are retained for explicit typed selection bindings, not
+/// implicitly executed by SchemaMoveProvider.
+#[derive(Clone, Debug)]
+pub struct ResolvedListSelector<'s> {
+    pub kind: SchemaMoveBranchKind,
+    pub value: PlanningVariableRef<'s>,
+    pub destination: Option<ResolvedListDestination<'s>>,
+    pub cache_scope: SelectionCacheScope,
+    pub order: UnionOrder,
+    pub selected_count_limit: Option<usize>,
+}
+#[derive(Clone, Debug)]
+pub struct ResolvedListDestination<'s> {
+    pub entity: PlanningType,
+    pub entity_comparator: Option<PlanningType>,
+    pub value: PlanningVariableRef<'s>,
+}
 impl<'s> SchemaMovePlan<'s> {
+    /// Read each resolved list branch without mutating or reopening the plan.
+    /// Generic change/swap configurations have already become concrete list kinds.
+    pub fn list_selectors(&self) -> impl Iterator<Item = ResolvedListSelector<'s>> + '_ {
+        self.branches.iter().filter_map(|branch| {
+            let value = *branch.variables.first()?;
+            if !matches!(value.kind(), PlanningVariableKind::List { .. }) {
+                return None;
+            }
+            Some(ResolvedListSelector {
+                kind: branch.kind,
+                value,
+                destination: matches!(
+                    branch.kind,
+                    SchemaMoveBranchKind::ListChange | SchemaMoveBranchKind::SubListChange(_)
+                )
+                .then_some(ResolvedListDestination {
+                    entity: value.entity().entity_type(),
+                    entity_comparator: self.entity_comparator,
+                    value,
+                }),
+                cache_scope: self.cache_scope,
+                order: self.order,
+                selected_count_limit: self.selected_count_limit,
+            })
+        })
+    }
     pub fn branches(&self) -> &[SchemaMoveBranch<'s>] {
         &self.branches
     }

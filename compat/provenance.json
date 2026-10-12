@@ -56156,6 +56156,66 @@
       "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
       "local_test": "kopt_enable_nearby_mixed_model",
       "modifications": "Preserve complete source constructor/kind and mixed-model capability result true. Native kind capability participates in real schema validation before metric invocation; enum replaces Java config class. Source only checks this capability and no mixed solve/sampling trace is credited. No production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ChangeMoveSelectorFactoryTest.unfoldConfiguredIntoListChangeMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldConfiguredIntoListChangeMoveSelectorConfig",
+      "local_path": "crates/solver/tests/schema_list_config_cases.rs",
+      "local_test": "change_unfold_configured_into_list_change_move_selector_config",
+      "modifications": "Preserve complete source configured/default selector input, actual list valueList field/entity type, concrete unfolded family, PHASE/STEP cache metadata, ORIGINAL selection order, selected-count200 and destination entity/value/comparator-key assertions where present. Native resolved schema references and explicit metadata keys replace reflective configuration classes; comparator type is a registration key only because source tests do not invoke its body. SchemaMoveProvider continues to regenerate assignment-sensitive moves; retained cache/comparator metadata requires an explicit typed selection binding to execute. Union source capability remains false and earns no runtime union sampling credit. No production copied or Java API/ABI/RNG parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SwapMoveSelectorFactoryTest.unfoldConfiguredIntoListSwapMoveSelectorConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldConfiguredIntoListSwapMoveSelectorConfig",
+      "local_path": "crates/solver/tests/schema_list_config_cases.rs",
+      "local_test": "swap_unfold_configured_into_list_swap_move_selector_config",
+      "modifications": "Preserve complete source configured/default selector input, actual list valueList field/entity type, concrete unfolded family, PHASE/STEP cache metadata, ORIGINAL selection order, selected-count200 and destination entity/value/comparator-key assertions where present. Native resolved schema references and explicit metadata keys replace reflective configuration classes; comparator type is a registration key only because source tests do not invoke its body. SchemaMoveProvider continues to regenerate assignment-sensitive moves; retained cache/comparator metadata requires an explicit typed selection binding to execute. Union source capability remains false and earns no runtime union sampling credit. No production copied or Java API/ABI/RNG parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListChangeMoveSelectorFactoryTest.unfoldedConfigInheritsFromFoldedConfig",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "unfoldedConfigInheritsFromFoldedConfig",
+      "local_path": "crates/solver/tests/schema_list_config_cases.rs",
+      "local_test": "list_change_unfolded_config_inherits_from_folded_config",
+      "modifications": "Preserve complete source configured/default selector input, actual list valueList field/entity type, concrete unfolded family, PHASE/STEP cache metadata, ORIGINAL selection order, selected-count200 and destination entity/value/comparator-key assertions where present. Native resolved schema references and explicit metadata keys replace reflective configuration classes; comparator type is a registration key only because source tests do not invoke its body. SchemaMoveProvider continues to regenerate assignment-sensitive moves; retained cache/comparator metadata requires an explicit typed selection binding to execute. Union source capability remains false and earns no runtime union sampling credit. No production copied or Java API/ABI/RNG parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnionMoveSelectorTest.testEnableNearbyMixedModel",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/composite/UnionMoveSelectorTest.java",
+      "upstream_test": "testEnableNearbyMixedModel",
+      "local_path": "crates/solver/tests/schema_list_config_cases.rs",
+      "local_test": "union_enable_nearby_mixed_model",
+      "modifications": "Preserve complete source configured/default selector input, actual list valueList field/entity type, concrete unfolded family, PHASE/STEP cache metadata, ORIGINAL selection order, selected-count200 and destination entity/value/comparator-key assertions where present. Native resolved schema references and explicit metadata keys replace reflective configuration classes; comparator type is a registration key only because source tests do not invoke its body. SchemaMoveProvider continues to regenerate assignment-sensitive moves; retained cache/comparator metadata requires an explicit typed selection binding to execute. Union source capability remains false and earns no runtime union sampling credit. No production copied or Java API/ABI/RNG parity claim."
     }
   ],
   "fixtures": [
@@ -79025,6 +79085,45 @@
       "upstream_test": "all8 full default/custom/union/nested/disabled inputs and configuration field checks",
       "local_path": "crates/solver/tests/nearby_move_config_cases.rs",
       "modifications": "Adapt TEST-only concrete move kinds, actual entity/value/destination/origin roles, default/Probabilistic options, all union nesting and disabled7-kind inputs. Native explicit metadata/tree keeps original interaction/identity criteria without copying any configuration production implementation. Test distance type is only a registration key in these source metadata cases; runtime meter tests are original and earn no source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "resolved-list-config-inputs-ChangeMoveSelectorFactoryTest",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/ChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "complete configured unfolding input and comparator type identity",
+      "local_path": "crates/solver/tests/schema_list_config_cases.rs",
+      "modifications": "Adapt TEST-only valueList schema selection and explicit200 limit, PHASE/STEP and ORIGINAL options. DummyEntityComparator represented as an explicit native registration key; its unused compare body is not translated. Typed entity/value/schema metadata replaces annotations/reflection; native closest-first runtime provider tests are original and earn no source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "resolved-list-config-inputs-SwapMoveSelectorFactoryTest",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorFactoryTest.java",
+      "upstream_test": "complete configured unfolding input and comparator type identity",
+      "local_path": "crates/solver/tests/schema_list_config_cases.rs",
+      "modifications": "Adapt TEST-only valueList schema selection and explicit200 limit, PHASE/STEP and ORIGINAL options. DummyEntityComparator represented as an explicit native registration key; its unused compare body is not translated. Typed entity/value/schema metadata replaces annotations/reflection; native closest-first runtime provider tests are original and earn no source credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "resolved-list-config-inputs-ListChangeMoveSelectorFactoryTest",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "complete configured unfolding input and comparator type identity",
+      "local_path": "crates/solver/tests/schema_list_config_cases.rs",
+      "modifications": "Adapt TEST-only valueList schema selection and explicit200 limit, PHASE/STEP and ORIGINAL options. DummyEntityComparator represented as an explicit native registration key; its unused compare body is not translated. Typed entity/value/schema metadata replaces annotations/reflection; native closest-first runtime provider tests are original and earn no source credit."
     }
   ]
 }

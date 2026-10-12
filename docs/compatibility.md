@@ -8147,3 +8147,33 @@ No upstream production copied or Java API/ABI parity claimed. Overall 3,734/4,85
 7,109 Rust tests/290 doctests passed; three Rust jobs ran, 1,047 Rust jobs and 46
 Python jobs reused successful unchanged evidence. K-opt measurements remain current;
 prior list measurements remain stale. No comparative performance claim is added.
+
+### Nearby configuration bound to current-state move providers
+
+NearbyMoveProvider binds a validated leaf configuration to an explicit typed origin
+callback, registered distance meter and existing legal-move provider. Each opening
+captures the current assignment/step, reads at most the configured maximum plus one
+proposal, ranks actual moves closest-first and consumes each occurrence once without
+Clone/Eq requirements. It forwards lifecycle, construction-completion and structural
+neighborhood-count queries. Zero skips origin/child work. Overflow and invalid distances
+publish no partial stream; callback effects cannot be rolled back. Typed errors reach
+fallible solver bindings; the infallible interface uses the established panic boundary.
+Ordinary/nearby alternatives can be composed explicitly with ProviderUnion. Java nearby
+probability distributions and automatic configuration-tree compilation remain gaps.
+
+Schema move plans expose resolved list-selector metadata while retaining phase/step
+cache choices, entity-comparator registration keys, order and selected-count limits.
+Generic change/swap resolve to actual list families with schema-owned value references
+and destination entity/value references. Cache/comparator metadata requires explicit
+typed selection binding; SchemaMoveProvider continues to regenerate current-state
+moves and does not silently cache stale positions or invoke registered comparators.
+Three complete source unfolding cases preserve all original fields and the 200 limit;
+the remaining union mixed-model capability method preserves false. Six original
+controls cover metadata identity/limits, owned payload ordering/lifecycle, bounded
+infinite collection/retry/zero behavior, binding failures, actual basic/list search on
+both scoring backends and a typed distance failure through the solver. Originals add
+no source-method credit; TEST-only configuration inputs retain provenance/notices.
+Overall 3,738/4,855 (76.993%) now pass, with 549 pending, 568 excluded and zero
+failed/unverified. Final 7,119 Rust tests and 290 doctests passed; 18 Rust jobs ran,
+1,034 Rust jobs and 46 Python jobs reused unchanged evidence. K-opt measurements
+remain current, prior list data stays stale, and no new performance claim is added.
