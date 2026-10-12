@@ -1,5 +1,6 @@
 //! Schema-checked typed stream sources retaining actual solution allocations.
 mod working_list;
+mod working_mixed;
 use crate::{
     AdditiveScore, BoundBasicSolution, BoundSolutionFacts, ComposedPlanningSolution, PlanningType,
     SolutionMemberKind, StreamGraphBuilder, StreamPort, StreamSource,
@@ -14,6 +15,9 @@ use std::{
 pub use working_list::{
     WorkingListModelPort, WorkingListModelStream, WorkingListObject, WorkingListUpdateError,
     WorkingListValue, WorkingListValuePort,
+};
+pub use working_mixed::{
+    WorkingMixedModelPort, WorkingMixedModelStream, WorkingMixedObject, WorkingMixedUpdateError,
 };
 type Project = dyn Send + Sync + for<'a> Fn(&'a dyn Any) -> &'a dyn Any;
 type SourcePaths = HashMap<PlanningType, Arc<Vec<Arc<Project>>>>;

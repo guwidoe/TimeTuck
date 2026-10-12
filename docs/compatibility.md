@@ -7672,3 +7672,29 @@ names. Explicit native model preparation replaces reflective Java factory creati
 no Java calculator loading or API/ABI claim. Structured MultipleListFields diagnostics
 retain all conflicting owner/field identities before concrete binding reads. Mixed
 typed model binding/current-field integration remains outstanding.
+
+### Combined basic/list typed solution binding
+
+BoundMixedSolution now builds both native components from the same concrete
+descriptor and actual entity/fact allocations. One object may own multiple basic
+fields and one list field. Typed provider reads, every required collection/member,
+field kind/name, allocation aliases, initial domains and basic/list pins validate
+before return. Alias field ordering is normalized to the schema; aliases contribute
+one row while distinct allocations remain separate. Multiple genuine list declarations
+remain unsupported by this binding and retain structured diagnostics.
+
+WorkingMixedModelStream groups actual basic/list events into current typed object
+snapshots, with explicit non-null basic initialization filtering. Current list arrays
+are shared across basic-only updates. Canonical value views follow actual native
+owner/index/neighbor rows. Facts and shadow-only objects use their own constant
+source; all three native sources stay empty until the mixed director loads them.
+Object getters remain immutable fact/initial payloads. Joint changes can deliver
+intermediate snapshots, matching existing native event semantics; candidate completion
+and graph/assignment rollback remain transactional. No native engine changes.
+
+Seven original controls exercise a real mixed exact solve matching dense optimum114,
+two basic fields plus ordered lists on the same objects, precise routing and shared
+list storage, canonical aliases, old explanations, basic/list pins, invalid joint
+moves, callback-panic rollback, initialized/assigned filtering, invalid fields/reads,
+foreign descriptors/graphs and nonzero facts on zero-variable models. These originals
+add no upstream-method credit. No new throughput measurement or claim is made.

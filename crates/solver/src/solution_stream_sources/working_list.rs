@@ -43,8 +43,8 @@ impl<T: 'static, V> WorkingListObject<T, V> {
 /// The object is the original canonical allocation. Position and neighbor state
 /// comes from the current native list assignment, independent of object getters.
 pub struct WorkingListValue<T, V> {
-    object: SolutionStreamObject<T>,
-    state: ListValueRow<V>,
+    pub(super) object: SolutionStreamObject<T>,
+    pub(super) state: ListValueRow<V>,
 }
 impl<T, V: Clone> Clone for WorkingListValue<T, V> {
     fn clone(&self) -> Self {

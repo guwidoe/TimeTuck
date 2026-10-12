@@ -1488,6 +1488,7 @@ pub use solution_stream_sources::{
     WorkingBasicModelPort, WorkingBasicModelStream, WorkingBasicObject, WorkingBasicRows,
     WorkingBasicStream, WorkingBasicUpdateError, WorkingListModelPort, WorkingListModelStream,
     WorkingListObject, WorkingListUpdateError, WorkingListValue, WorkingListValuePort,
+    WorkingMixedModelPort, WorkingMixedModelStream, WorkingMixedObject, WorkingMixedUpdateError,
 };
 
 mod solution_list_binding;
@@ -1504,3 +1505,8 @@ mod ordered_join_conditions;
 pub use ordered_join_conditions::{OrderedJoinConditions, OrderedJoinError};
 mod solver_time_settings;
 pub use solver_time_settings::SolverTimeSettings;
+mod solution_mixed_binding;
+pub use solution_mixed_binding::{
+    BoundMixedEntity, BoundMixedSolution, MixedSolutionBindingError, SolutionMixedCollection,
+    SolutionMixedEntityRecord,
+};
