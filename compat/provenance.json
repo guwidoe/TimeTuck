@@ -54879,6 +54879,156 @@
       "upstream_test": "testOrdinalId",
       "local_test": "test_ordinal_id",
       "modifications": "Preserve two entity descriptor ordinals, three genuine variable-specific range descriptors and exact unordered IDs 0,1,2. Actual list/two-basic variable types and their two declared providers compile into borrowed canonical descriptors. A shared provider does not merge the two basic descriptors. Explicit native metadata replaces annotations; no comparator trace or heterogeneous solver-run equivalence claimed."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.join_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "join_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "uni_join_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.forEach_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "forEach_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "uni_for_each_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.ifExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "uni_if_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractUniConstraintStreamTest.ifNotExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "uni_if_not_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractBiConstraintStreamTest.ifExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "bi_if_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractBiConstraintStreamTest.ifNotExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/bi/AbstractBiConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "bi_if_not_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractTriConstraintStreamTest.ifExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "tri_if_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractTriConstraintStreamTest.ifNotExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/tri/AbstractTriConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "tri_if_not_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractQuadConstraintStreamTest.ifExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "quad_if_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
+    },
+    {
+      "id": "AbstractQuadConstraintStreamTest.ifNotExists_unknownClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/quad/AbstractQuadConstraintStreamTest.java",
+      "upstream_test": "ifNotExists_unknownClass",
+      "local_path": "crates/solver/tests/solution_stream_source_cases.rs",
+      "local_test": "quad_if_not_exists_unknown_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the invalid-argument error kind, requested unknown class name and assignable-from diagnostic during actual typed graph construction. Native i32 and SolutionStreamError::UnknownType replace java.lang.Integer and IllegalArgumentException. Explicit checked source creation replaces reflective class-based binding; rejection precedes the native join/existence/score stages. Preserve each known prefix: uni value-group source, bi entity unique-pairs, tri value-group unique-pairs joined to entity groups, quad actual entity/group/value/entity equality joins. Native composed tuple shapes and Arc allocation keys replace Java tuple APIs and identity getters. No Java API/reflection parity or arbitrary forEach assignment/list-inverse semantics claimed."
     }
   ],
   "fixtures": [
@@ -76565,6 +76715,97 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve actual solution storage and member/variable names, two weight fields, mixed list/two-basic fields and two genuine value types/providers. Native explicit metadata/typed callables replace reflection; missing calculateEndTime remains absent. Declarative supplier duration uses integral seconds and start dates use day offsets relative to the source 2025-04-29 18:40 origin. Arc ownership replaces Java shared objects; basic entity/value types reuse the previously attributed fixture. Comparator classes and Java mutability restrictions are not adapted or claimed. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-stream-projection-control",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/uni/AbstractUniConstraintStreamTest.java",
+      "upstream_test": "forEach_polymorphism (fixture inspiration only; no method credit)",
+      "local_path": "crates/solver/tests/solution_stream_source_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Partial native operational control retains Cat/Animal/Dog and embedded base/child allocation relationships in two actual graph constraints. Explicit typed registration, a metadata root and separately owned concrete native binding replace Java solution setters/getters; native scalar 1/2 replace v1/v2, and unrelated fact projections add original controls. This is not a complete adapted source method and earns no compatibility credit; the full source fixture and all forEach semantics remain to be integrated."
+    },
+    {
+      "id": "solution-stream-lavish-solution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "TEST fixture source-role declarations and code/group/value relationships used by unknownClass construction methods",
+      "local_path": "crates/solver/tests/fixtures/solution_stream_lavish_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt actual fact/entity/provider/score member names and types and code/group/value storage. Arc objects and optional links replace Java references. Arithmetic properties, generators and unused getters/setters are omitted because the source methods reject graph construction before working-solution initialization; no arithmetic/generator or additional method credit claimed. Explicit Rust declarations replace annotation/reflection discovery."
+    },
+    {
+      "id": "solution-stream-lavish-entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "TEST fixture source-role declarations and code/group/value relationships used by unknownClass construction methods",
+      "local_path": "crates/solver/tests/fixtures/solution_stream_lavish_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt actual fact/entity/provider/score member names and types and code/group/value storage. Arc objects and optional links replace Java references. Arithmetic properties, generators and unused getters/setters are omitted because the source methods reject graph construction before working-solution initialization; no arithmetic/generator or additional method credit claimed. Explicit Rust declarations replace annotation/reflection discovery."
+    },
+    {
+      "id": "solution-stream-lavish-value",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValue.java",
+      "upstream_test": "TEST fixture source-role declarations and code/group/value relationships used by unknownClass construction methods",
+      "local_path": "crates/solver/tests/fixtures/solution_stream_lavish_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt actual fact/entity/provider/score member names and types and code/group/value storage. Arc objects and optional links replace Java references. Arithmetic properties, generators and unused getters/setters are omitted because the source methods reject graph construction before working-solution initialization; no arithmetic/generator or additional method credit claimed. Explicit Rust declarations replace annotation/reflection discovery."
+    },
+    {
+      "id": "solution-stream-lavish-valuegroup",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
+      "upstream_test": "TEST fixture source-role declarations and code/group/value relationships used by unknownClass construction methods",
+      "local_path": "crates/solver/tests/fixtures/solution_stream_lavish_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt actual fact/entity/provider/score member names and types and code/group/value storage. Arc objects and optional links replace Java references. Arithmetic properties, generators and unused getters/setters are omitted because the source methods reject graph construction before working-solution initialization; no arithmetic/generator or additional method credit claimed. Explicit Rust declarations replace annotation/reflection discovery."
+    },
+    {
+      "id": "solution-stream-lavish-entitygroup",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntityGroup.java",
+      "upstream_test": "TEST fixture source-role declarations and code/group/value relationships used by unknownClass construction methods",
+      "local_path": "crates/solver/tests/fixtures/solution_stream_lavish_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt actual fact/entity/provider/score member names and types and code/group/value storage. Arc objects and optional links replace Java references. Arithmetic properties, generators and unused getters/setters are omitted because the source methods reject graph construction before working-solution initialization; no arithmetic/generator or additional method credit claimed. Explicit Rust declarations replace annotation/reflection discovery."
+    },
+    {
+      "id": "solution-stream-lavish-extra",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishExtra.java",
+      "upstream_test": "TEST fixture source-role declarations and code/group/value relationships used by unknownClass construction methods",
+      "local_path": "crates/solver/tests/fixtures/solution_stream_lavish_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt actual fact/entity/provider/score member names and types and code/group/value storage. Arc objects and optional links replace Java references. Arithmetic properties, generators and unused getters/setters are omitted because the source methods reject graph construction before working-solution initialization; no arithmetic/generator or additional method credit claimed. Explicit Rust declarations replace annotation/reflection discovery."
     }
   ]
 }

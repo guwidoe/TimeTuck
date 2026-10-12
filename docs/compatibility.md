@@ -7512,3 +7512,26 @@ the actual solution for graph initialization; rebuilding with a later snapshot
 changes weights while older graphs/snapshots retain their configuration. Callback
 side effects and external mutations are the caller's responsibility. No new search
 throughput or Java reflection/ABI compatibility claim is made.
+
+### Checked solution stream sources
+
+Ten complete unknownClass construction cases cover uni joins/forEach and
+uni/bi/tri/quad existence queries. Native typed invalid-source errors preserve
+the requested class and assignable-from diagnostics. The known graph prefixes
+retain actual source types, unique pairs and the quad equality joins; rejection
+occurs while constructing the requested right source, before graph data reads.
+Native i32 replaces java.lang.Integer. These cases establish class validation,
+not arbitrary Java reflection or automatic forEach assignment/list-inverse policy.
+
+The registry accepts declared entity/fact types, excludes provider-only members,
+and resolves executable borrowed type projections before source creation. Tuples
+retain real allocations and compiled projection paths without cloning payloads.
+Canonical allocation keys preserve alias identity and distinguish equal-valued
+objects. Empty registered collections remain legal sources; unconstrained fact
+members require concrete allowed-type declarations for static source construction.
+Fact/attached-basic reads require the actual compiled descriptor; explicit graph
+filters select initialized assignments. Interior shared mutation remains the
+caller's responsibility. Three original controls exercise real base/child graph
+scores, transitive fact projections, lifetimes and invalid registrations. The
+Cat/Animal/Dog control is attributed as fixture inspiration and gives no complete
+polymorphism-method credit. No new throughput measurements are claimed.

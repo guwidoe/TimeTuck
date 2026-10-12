@@ -1481,3 +1481,8 @@ pub use source_member::{
     SelectedSourceAccessor, SolutionSourceSupplier, SourceAccessorKind, SourceAccessorOptions,
     SourceMemberError, SourceTypeHierarchy,
 };
+
+mod solution_stream_sources;
+pub use solution_stream_sources::{
+    CheckedSolutionStream, SolutionStreamError, SolutionStreamObject, SolutionStreamRegistry,
+};
