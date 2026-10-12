@@ -16,6 +16,63 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
+## Latest verified checkpoint — round75
+
+ListSolutionClonePlan copies a real one-list-field typed binding. It prevalidates
+registered factories and root/score metadata, allocates shadow-only entities before
+owners, rebases registry values once, and feeds rebased ordered lists to owner
+factories. Completed allocation maps let root callbacks rewrite actual application
+owner/index backlinks. Rebinding validates descriptor identity, entity types/indices,
+collection aliases, allocations/map membership, registry order, ordered lists,
+optionality, entity ranges and full/prefix pins. Returned root, binding and map are
+actual allocations. BasicEntityClones now exposes private reusable empty/insert/
+target-membership helpers. No scoring/search or raw solver algorithm changes.
+No arbitrary recursive/deep-field or mixed/basic projection claim; callbacks remain
+responsible for mutable storage, registered value policy and application backlinks.
+Native assignment shadows derive from rebound lists. Errors publish no copy; callback
+side effects are not undone and panics propagate.
+
+One complete AbstractSolutionClonerTest.cloneListVariableSolution passes with all3
+actual value handles, owners a=[1,3]/b=[2], score1, distinct root/owner-list/owners/
+per-owner list storage, complete code/value/identity assertions and actual removal
+of original value1 without changing cloned list. Source descriptor explicitly names
+only owners; value reference equality is preserved through shared fact handles,
+not replaced by code-only equality. TEST-only source/helper/list fixtures attributed.
+Separate original controls register shadow-bearing Value entities: new values rebase
+into new owner lists; actual inverse/index payloads reference copied owners; native
+shadow projections agree and old index mutation cannot alter clone. Other controls
+cover optional/unassigned extra values, prefix pins, aliased owner collections, actual
+colliding value rebasing and mutated mapped output lists. Specific native duplicate-
+assignment/range error and AssignmentChanged are checked. These earn no source credit.
+
+Focus1+3 passed; strengthened collision assertion initially expected Model rather than
+Range(List(...)) wrapping. A textual patch missed the formatted pattern; obsolete
+check root4dd648008ceff52ce05d43cb73a0563bec288657eed030bbb19effd13c8d18b2
+was deliberately stopped (exit241) before final check, its log/manifest retained as
+work/round75-obsolete-*; no successful evidence claimed. Corrected control passed
+before final freeze. Pin-policy field syntax, Value Debug and a borrow scope were
+also corrected in focused tests. Final gate covers corrected coherent source.
+
+Final frozen runner-a bash scripts/check.sh passed once on final source:7,032 Rust
+tests,290 doctests;3,693/4,855 (76.066%),594 pending,568 excluded,zero failed/unverified.
+Actual5 Rust RUN/1,023 REUSE/46 Python REUSE;201.911seconds. Abstract cloner3/14 passed,
+11 pending; basic/custom cloning retained. No new benchmark, performance claim,
+release correctness suite, UI rerun or agents. Rust:d9b3cae10c2c73be7b4e941fc6d077192ccff40f22d311d202a7426841346978.
+Report:eb8949a243905248486062de7db6c579588eb89abaa10f13c98ac6b604eb1ee3.
+Remote root:e1f233405fe62cc929b4e5cafb15513467c2d91bb59837ee1d8be3b838ab9a98.
+Archive work/round75-runner-a-results.tar.gz SHA256:7d829cd0ea122a48499395b1061ef4b1782a6eada1428f3d3a6eecd924b9d989.
+Evidence/freeze:work/parallel-round75-evidence.json and parallel-round75-freeze.json.
+Final launcher71295/collector77601 completedzero. Postcommit proof:work/verify_round75_postcommit.py.
+Next gate seeds from actual round75 archive/root. K-opt measurement inputs remain
+unchangedd97e85200c8e0e784d034049d327bb4dc05f7be28263cf96691b7acd78e3f1f6:
+genuine measurements stay current, older list data stays stale. No old evidence retagged.
+
+Remaining work includes mixed model clone projection, registered deep fields,
+recursive clone dependencies/backlinks and11 abstract-cloner methods. Application
+shadow payload correctness here is verified in originals, not inferred for arbitrary
+callbacks. K-opt3-opt boundary/rebase/pins and other compatibility gaps remain.
+Goal active/incomplete. Keep reducing backlog while retaining actual performance.
+
 ## Latest verified checkpoint — round74
 
 BasicSolutionClonePlan allocates each unique bound basic entity once through a typed

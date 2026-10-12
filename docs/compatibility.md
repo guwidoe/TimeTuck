@@ -7867,3 +7867,26 @@ TEST fixtures/helpers/methods have provenance/notices. Abstract cloner2/14 passe
 568 excluded; zero failed/unverified. Final7,028 Rust tests/290 doctests,5 changed jobs/
 1,021 reused jobs/46 Python reuses. Raw solver algorithms remain unchanged, and K-opt's
 actual measurement digest remains current without a benchmark refresh.
+
+### List-owner and registered-value clone plans
+
+ListSolutionClonePlan binds the actual one-list-field model, allocates shadow-only
+entities before owners, rebases registry values once and supplies ordered rebased
+lists to owner factories. Completed allocation maps support root callbacks rebuilding
+application owner/index backlinks. Rebinding validates descriptor identity, allocation
+isolation, types/indices, collection aliases, registry/list order, optionality, ranges
+and full/prefix pins. Copies execute no scoring/search. Native shadows derive from the
+rebound model; application mutable storage/backlinks remain callback responsibilities.
+This does not infer arbitrary deep fields, recursive dependencies or mixed/basic lists.
+
+The complete cloneListVariableSolution source case preserves all3 actual shared value
+handles, owners a=[1,3]/b=[2], score1, root/list/entity/storage isolation, complete ordered
+code/reference assertions and original removal/clone isolation. The source descriptor
+names only owners, so native values remain shared rather than weakening identity
+assertions to code equality. Three originals separately verify registered value clones,
+actual owner/index references and isolation, optional values/pins/aliases, collision
+rejection and altered mapped lists. All TEST fixtures/helpers have provenance/notices.
+Abstract cloner3/14 methods passed,11 pending; overall3,693/4,855 (76.066%),594 pending,
+568 excluded,zero failed/unverified. Final7,032 Rust tests/290 doctests;5 changed Rust
+jobs/1,023 reused jobs/46 Python reuses. Default raw solver paths remain unchanged;
+K-opt's measurement inputs remain current without an unrelated benchmark refresh.

@@ -16,6 +16,23 @@ pub struct BasicEntityClones {
     entries: HashMap<usize, CloneEntry>,
 }
 impl BasicEntityClones {
+    pub(crate) fn empty() -> Self {
+        Self {
+            entries: HashMap::new(),
+        }
+    }
+    pub(crate) fn insert(&mut self, source: Object, target: Object) {
+        self.entries.insert(
+            Arc::as_ptr(&source) as *const () as usize,
+            CloneEntry { source, target },
+        );
+    }
+    pub(crate) fn targets(&self) -> HashSet<usize> {
+        self.entries
+            .values()
+            .map(|e| Arc::as_ptr(&e.target) as *const () as usize)
+            .collect()
+    }
     pub fn len(&self) -> usize {
         self.entries.len()
     }

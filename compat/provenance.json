@@ -55526,6 +55526,21 @@
       "local_path": "crates/solver/tests/basic_clone_plan_cases.rs",
       "local_test": "clone_field_annotated_solution",
       "modifications": "Preserve all3 immutable values, actual a/b/c/d entities assigned1/1/3/3, root code solution, distinct root/entity-list/entity allocations, shared value-list allocation, score equality (including absent score), full code/value assertions and original b-to-value2 mutation with clone isolation where asserted. Native registered entity factories allocate actual payloads once; typed root reconstruction consumes a memoized allocation map. Separate concrete property/field entity types and getters replace Java annotation/reflection/descriptor factories and Gizmo-specific assumptions; no Java API/ABI/access-control or arbitrary automatic deep-field/cycle parity claimed. Native Mutex-backed planning fields permit the actual original-object mutation independently of copied fields. No score is invented or search run for unscored copies."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractSolutionClonerTest.cloneListVariableSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneListVariableSolution",
+      "local_path": "crates/solver/tests/list_clone_plan_cases.rs",
+      "local_test": "clone_list_variable_solution",
+      "modifications": "Preserve all3 actual value handles, owner a with1/3 and b with2, score1, distinct root/owner-list/owners/per-owner list storage, original value-list and per-owner list element equality with exact pointer identity, ordered code assertions and actual removal of original value1 without changing copied list. The source descriptor names only Owner as a planning entity; native owner-only binding therefore keeps value handles shared, rather than replacing reference assertions by code equality. Explicit typed factories/root reconstruction replace Java descriptor/reflection; no API/ABI or general deep-field inference claim. Native mutable list storage replaces Java ArrayList, actual registered native list model validates copy. Additional registered shadow-value rebasing is checked only by original controls and earns no source-method credit."
     }
   ],
   "fixtures": [
@@ -77745,6 +77760,58 @@
       "upstream_test": "cloneSolution/cloneFieldAnnotatedSolution full three-value/four-entity inputs and assertEntityClone helper, or field fixture constructor/getter/setter semantics",
       "local_path": "crates/solver/tests/fixtures/basic_clone_plan_fixture.rs",
       "modifications": "Adapt TEST-only literal fixtures, full root/entity/value codes and mutable scalar planning-field getter/setter semantics. Arc value-list/entity-list/objects preserve actual allocation assertions; separate property/field payload types hold independently owned Mutex<Option<Arc<Value>>> storage. Registered native metadata/getters/factories replace Java annotations/reflection. The helper builds actual native bindings and a reusable memoized clone plan; immutable facts may be shared. No production implementation copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-clone-plan-input",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/AbstractSolutionClonerTest.java",
+      "upstream_test": "cloneListVariableSolution and assertEntityListClone; list owner/value/solution constructor/getter/setter fixture semantics",
+      "local_path": "crates/solver/tests/fixtures/list_clone_plan_fixture.rs",
+      "modifications": "Adapt full TEST-only 3-value/2-owner ordered fixture, score1 and actual mutable per-owner lists. Native Arc/Mutex list storage supports the original removal and allocation assertions. Value equality is allocation identity, preserving source TestdataObject reference equality. Owner-only source case shares values; original controls explicitly register cloned shadow-bearing values, initialize independent native inverse/index payloads, and rebuild backlinks to actual copied owner allocations. Typed native binding replaces annotations/reflection; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-clone-plan-owner",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "cloneListVariableSolution and assertEntityListClone; list owner/value/solution constructor/getter/setter fixture semantics",
+      "local_path": "crates/solver/tests/fixtures/list_clone_plan_fixture.rs",
+      "modifications": "Adapt full TEST-only 3-value/2-owner ordered fixture, score1 and actual mutable per-owner lists. Native Arc/Mutex list storage supports the original removal and allocation assertions. Value equality is allocation identity, preserving source TestdataObject reference equality. Owner-only source case shares values; original controls explicitly register cloned shadow-bearing values, initialize independent native inverse/index payloads, and rebuild backlinks to actual copied owner allocations. Typed native binding replaces annotations/reflection; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-clone-plan-value",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "cloneListVariableSolution and assertEntityListClone; list owner/value/solution constructor/getter/setter fixture semantics",
+      "local_path": "crates/solver/tests/fixtures/list_clone_plan_fixture.rs",
+      "modifications": "Adapt full TEST-only 3-value/2-owner ordered fixture, score1 and actual mutable per-owner lists. Native Arc/Mutex list storage supports the original removal and allocation assertions. Value equality is allocation identity, preserving source TestdataObject reference equality. Owner-only source case shares values; original controls explicitly register cloned shadow-bearing values, initialize independent native inverse/index payloads, and rebuild backlinks to actual copied owner allocations. Typed native binding replaces annotations/reflection; no production copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "list-clone-plan-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "cloneListVariableSolution and assertEntityListClone; list owner/value/solution constructor/getter/setter fixture semantics",
+      "local_path": "crates/solver/tests/fixtures/list_clone_plan_fixture.rs",
+      "modifications": "Adapt full TEST-only 3-value/2-owner ordered fixture, score1 and actual mutable per-owner lists. Native Arc/Mutex list storage supports the original removal and allocation assertions. Value equality is allocation identity, preserving source TestdataObject reference equality. Owner-only source case shares values; original controls explicitly register cloned shadow-bearing values, initialize independent native inverse/index payloads, and rebuild backlinks to actual copied owner allocations. Typed native binding replaces annotations/reflection; no production copied."
     }
   ]
 }
