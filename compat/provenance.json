@@ -54534,6 +54534,306 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve construction followed by two local-search phases, the constant-zero TEST objective and the unreachable-phase diagnostic. All native count ceilings at u64::MAX and absent time/score/stagnation/step controls represent an unconfigured termination in this assembly policy; bounded native defaults remain finite. Assembly rejects the second local phase before scoring preparation when there is no solve-wide ceiling; no Java infinite RNG trace is claimed."
+    },
+    {
+      "id": "SolutionDescriptorTest.problemFactProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "problemFactProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "problem_fact_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
+    },
+    {
+      "id": "SolutionDescriptorTest.readMethodProblemFactCollectionProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "readMethodProblemFactCollectionProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "read_method_problem_fact_collection_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. The TEST computed collection retains a,b,c and is executable through the typed fact reader; actual repeated reads are checked by originals."
+    },
+    {
+      "id": "SolutionDescriptorTest.problemFactCollectionPropertyWithArgument",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "problemFactCollectionPropertyWithArgument",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "problem_fact_collection_property_with_argument",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Preserve the actual fixture method extra int argument in signature metadata, rejected before any member callback."
+    },
+    {
+      "id": "SolutionDescriptorTest.duplicateProblemFactCollectionProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "duplicateProblemFactCollectionProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "duplicate_problem_fact_collection_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
+    },
+    {
+      "id": "SolutionDescriptorTest.duplicatePlanningEntityCollectionProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "duplicatePlanningEntityCollectionProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "duplicate_planning_entity_collection_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
+    },
+    {
+      "id": "SolutionDescriptorTest.duplicatePlanningScorePropertyProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "duplicatePlanningScorePropertyProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "duplicate_planning_score_property_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
+    },
+    {
+      "id": "SolutionDescriptorTest.missingPlanningScorePropertyProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "missingPlanningScorePropertyProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "missing_planning_score_property_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
+    },
+    {
+      "id": "SolutionDescriptorTest.problemFactIsPlanningEntityCollectionProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "problemFactIsPlanningEntityCollectionProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "problem_fact_is_planning_entity_collection_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Preserve both fact and entity collection roles on the same member, rejected before compilation/publication."
+    },
+    {
+      "id": "SolutionDescriptorTest.planningEntityIsProblemFactProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "planningEntityIsProblemFactProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "planning_entity_is_problem_fact_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Keep entity and entityAsFact separately named but of the same registered entity type; reject the fact role."
+    },
+    {
+      "id": "SolutionDescriptorTest.planningEntityIsProblemFactCollectionProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "planningEntityIsProblemFactCollectionProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "planning_entity_is_problem_fact_collection_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Keep entities and entitiesAsFacts separately named but of the same registered entity type; reject the fact role."
+    },
+    {
+      "id": "SolutionDescriptorTest.planningEntityIsProblemFactArrayProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "planningEntityIsProblemFactArrayProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "planning_entity_is_problem_fact_array_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Preserve the invalid entity-as-facts array alongside its valid entity array and separate value provider."
+    },
+    {
+      "id": "SolutionDescriptorTest.wildcardProblemFactAndEntityProperties",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "wildcardProblemFactAndEntityProperties",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "wildcard_problem_fact_and_entity_properties",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
+    },
+    {
+      "id": "SolutionDescriptorTest.wildcardSupersEntityListProperty",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "wildcardSupersEntityListProperty",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "wildcard_supers_entity_list_property",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Preserve exactly e1, v1 and the invalid v2 value in the entity collection; real native binding rejects its value-object type before model publication. Schema construction succeeds first as in the source."
+    },
+    {
+      "id": "SolutionDescriptorTest.noProblemFactPropertyWithEasyScoreCalculation",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "noProblemFactPropertyWithEasyScoreCalculation",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "no_problem_fact_property_with_easy_score_calculation",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Provider-only valueList does not become a fact collection. Build an actual empty native model and execute its zero objective as an additional positive control; class/bean discovery is replaced by explicit registration."
+    },
+    {
+      "id": "SolutionDescriptorTest.extended",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "extended",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "extended",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Embedded parent declarations preserve both value collections, both single entities, and entityList/subEntityList/rawEntityList/objectEntityList. The duplicate entityList in the source assertion is treated as a set occurrence, not a second declaration. Concrete base/child registrations replace raw/Object/wildcard reflection."
+    },
+    {
+      "id": "SolutionDescriptorTest.setProperties",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "setProperties",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "set_properties",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Preserve the annotated valueSet/entitySet only; unannotated hash/ordered/tree sets remain storage fields, not discovered planning members."
+    },
+    {
+      "id": "SolutionDescriptorTest.arrayProperties",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "arrayProperties",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "array_properties",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Keep array-shaped value/entity collection declarations and native boxed-slice storage; no Vec-only metadata substitution."
+    },
+    {
+      "id": "SolutionDescriptorTest.generic",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "generic",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "generic",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Monomorphize T to () and preserve GenericValue<T> and GenericValue<HashMap<T,GenericValue<T>>> distinct type metadata plus all three variable names. PhantomData replaces the Java generic parameter. This does not claim heterogeneous native variable-slot execution."
+    },
+    {
+      "id": "SolutionDescriptorTest.testNoSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "testNoSolution",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "test_no_solution",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. Replace the exact Java annotation phrase with its native equivalent: not registered as a planning solution but defines planning members. Preserve the unregistered solution with its declared score member and descriptor-build failure."
+    },
+    {
+      "id": "SolutionDescriptorTest.testBadFactCollection",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "testBadFactCollection",
+      "local_path": "crates/solver/tests/solution_fact_cases.rs",
+      "local_test": "test_bad_fact_collection",
+      "status": "implemented",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native explicit solution/entity member declarations replace Java annotations/reflection. Preserve complete asserted member-name sets (including empty sets), declared roles, provider names, invalid signatures/role collisions and success/error behavior. Arc ownership, typed concrete classes and explicit allowed-type sets replace Java object/subclass discovery; array shape is explicit. No Java API/ABI/reflection or generic-erasure parity is claimed. No original regression is counted as a source method."
     }
   ],
   "fixtures": [
@@ -75739,6 +76039,370 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain all declared fixture storage, previous and invalid target shadow metadata, and invalid Integer/i32 solution parameter. Unreachable callback replaces null-returning source supplier to assert it is not executed. Native solution-aware callback validation and real positive shadow evaluation cover the operational feature."
+    },
+    {
+      "id": "solution-fact-fixture-1",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-2",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-3",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataArrayBasedSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-4",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataSetBasedSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-5",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedExtendedSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-6",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/invalid/badfactcollection/TestdataBadFactCollectionSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-7",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/invalid/entityannotatedasproblemfact/TestdataEntityAnnotatedAsProblemFactArraySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-8",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/invalid/entityannotatedasproblemfact/TestdataEntityAnnotatedAsProblemFactCollectionSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-9",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/invalid/entityannotatedasproblemfact/TestdataEntityAnnotatedAsProblemFactSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-10",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/invalid/nosolution/TestdataNoSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-11",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/generic/TestdataGenericEntity.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-12",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/generic/TestdataGenericSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-13",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/TestdataNoProblemFactPropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-14",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/TestdataProblemFactPropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-15",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/TestdataReadMethodProblemFactCollectionPropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-16",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/TestdataWildcardSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-17",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/invalid/TestdataDuplicatePlanningEntityCollectionPropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-18",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/invalid/TestdataDuplicatePlanningScorePropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-19",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/invalid/TestdataDuplicateProblemFactCollectionPropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-20",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/invalid/TestdataMissingScorePropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-21",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/invalid/TestdataProblemFactCollectionPropertyWithArgumentSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-22",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/invalid/TestdataProblemFactIsPlanningEntityCollectionPropertySolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-23",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/solutionproperties/invalid/TestdataUnsupportedWildcardSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-24",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedSolution.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-25",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedChildEntity.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-26",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataSetBasedEntity.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-27",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/collection/TestdataArrayBasedEntity.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
+    },
+    {
+      "id": "solution-fact-fixture-28",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/generic/TestdataGenericValue.java",
+      "upstream_test": "TEST fixture declarations, member roles and relevant field/method shapes used by SolutionDescriptorTest",
+      "local_path": "crates/solver/tests/fixtures/solution_fact_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only member names, value/entity/provider/score roles, computed a,b,c values, extra int parameter, collection/array/set storage and embedded base/child declaration structure. Arc records replace Java Object slots and actual concrete type sets replace wildcard/raw collections. Generic T is concretized to (), with PhantomData and distinct complex-map value metadata. Native explicit declarations replace annotation/reflection and source getter aliases; unannotated storage is not discovered. Fixture attribution adds no method credit."
     }
   ]
 }

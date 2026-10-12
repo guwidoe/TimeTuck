@@ -7452,3 +7452,37 @@ real dense/stream optimization, mode rebuild counts, independent simultaneous
 budgets, zero/deadline exits, release after failures and override validation.
 Original tests earn no upstream-method credit. Unlimited runs continue borrowing
 the configured phase rather than cloning it. No new throughput claim is made.
+
+
+## Solution fact members and bindings
+
+Twenty SolutionDescriptorTest methods now preserve complete asserted member sets,
+provider/fact distinctions, duplicate/missing-score checks, extra-argument and
+collection-shape rejection, entity/fact role separation, generic member metadata,
+composed solution declarations and actual heterogeneous entity input rejection.
+Explicit native declarations and embedded components replace annotations,
+reflection, raw collections and Java inheritance. Arrays retain an explicit shape;
+provider-only members are not silently exposed as facts. Generic metadata does
+not establish heterogeneous solver-slot execution. The record/enum restrictions,
+multiple weight-override fields, missing named supplier and ordinal cases remain
+pending. All adapted TEST-only fixtures and diagnostic terminology changes are
+attributed in provenance; upstream production is not a source.
+
+SolutionFactAccessors binds real typed callbacks to the compiled descriptor. Reads
+execute stored or computed collection getters, retain actual Arc allocations and
+publish owned membership snapshots only after role/type/cardinality validation.
+Missing registrations fail before callbacks; failed registration cannot replace
+an existing reader. Canonical rows deduplicate allocation aliases, preserving
+member occurrence order and keeping distinct equal-valued allocations separate.
+Payloads need no Clone/Eq/Hash bound. A per-type row index supports typed reads
+without scanning unrelated payloads. Snapshot membership is immutable; mutable
+interior payloads remain the application's responsibility.
+
+Bound basic solutions can retain a fact snapshot from their actual compiled
+descriptor. An equal solution type alone cannot admit another descriptor's facts.
+Five original controls check actual computed a,b,c reads, allocation/lifetime
+behavior, invalid registration and atomic publication, singleton cardinality,
+and dense/stream optimization where new fact payloads change the optimum from
+1 to 2. These originals earn no method credit. Legacy basic binding remains
+available; callers needing facts must bind/read them explicitly. No automatic
+reflective getter discovery, search-loop change or throughput claim is made.

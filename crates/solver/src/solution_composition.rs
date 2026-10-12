@@ -14,6 +14,10 @@ use std::{
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum SolutionMemberKind {
+    Facts {
+        allowed_types: Vec<PlanningType>,
+        singleton: bool,
+    },
     Entities {
         allowed_types: Vec<PlanningType>,
         singleton: bool,
@@ -26,6 +30,8 @@ pub enum SolutionMemberKind {
 }
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SolutionMemberCategory {
+    ProblemFact,
+    ProblemFactCollection,
     EntityCollection,
     Entity,
     ValueRange,
@@ -34,6 +40,12 @@ pub enum SolutionMemberCategory {
 impl SolutionMemberKind {
     pub fn category(&self) -> SolutionMemberCategory {
         match self {
+            Self::Facts {
+                singleton: true, ..
+            } => SolutionMemberCategory::ProblemFact,
+            Self::Facts {
+                singleton: false, ..
+            } => SolutionMemberCategory::ProblemFactCollection,
             Self::Entities {
                 singleton: false, ..
             } => SolutionMemberCategory::EntityCollection,
@@ -49,8 +61,70 @@ impl SolutionMemberKind {
 pub struct SolutionMemberDefinition {
     name: String,
     kind: SolutionMemberKind,
+    shape: SolutionMemberShape,
+    parameters: Vec<PlanningType>,
+    fact_collection: bool,
+}
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum SolutionMemberShape {
+    Scalar,
+    Collection,
+    Array,
 }
 impl SolutionMemberDefinition {
+    fn declaration(
+        name: impl Into<String>,
+        kind: SolutionMemberKind,
+        shape: SolutionMemberShape,
+    ) -> Self {
+        Self {
+            name: name.into(),
+            kind,
+            shape,
+            parameters: vec![],
+            fact_collection: false,
+        }
+    }
+    pub fn problem_fact<T: 'static>(name: impl Into<String>) -> Self {
+        Self::problem_facts(name, vec![PlanningType::of::<T>()], true)
+    }
+    pub fn problem_fact_collection<T: 'static>(name: impl Into<String>) -> Self {
+        Self::problem_facts(name, vec![PlanningType::of::<T>()], false)
+    }
+    /// Empty allowed types accept any concrete non-entity fact. Actual records
+    /// still undergo role/type checks when an accessor reads the solution.
+    pub fn problem_facts(
+        name: impl Into<String>,
+        allowed_types: Vec<PlanningType>,
+        singleton: bool,
+    ) -> Self {
+        Self::declaration(
+            name,
+            SolutionMemberKind::Facts {
+                allowed_types,
+                singleton,
+            },
+            if singleton {
+                SolutionMemberShape::Scalar
+            } else {
+                SolutionMemberShape::Collection
+            },
+        )
+    }
+    /// Declare the additional problem-fact role of a provider collection.
+    /// Entity/fact role collisions are rejected during compilation.
+    pub fn as_problem_fact_collection(mut self) -> Self {
+        self.fact_collection = true;
+        self
+    }
+    pub fn with_member_shape(mut self, shape: SolutionMemberShape) -> Self {
+        self.shape = shape;
+        self
+    }
+    pub fn with_external_parameter<P: 'static>(mut self) -> Self {
+        self.parameters.push(PlanningType::of::<P>());
+        self
+    }
     pub fn entity_collection<E: 'static>(name: impl Into<String>) -> Self {
         Self::entities(name, vec![PlanningType::of::<E>()], false)
     }
@@ -63,28 +137,35 @@ impl SolutionMemberDefinition {
         allowed_types: Vec<PlanningType>,
         singleton: bool,
     ) -> Self {
-        Self {
-            name: name.into(),
-            kind: SolutionMemberKind::Entities {
+        Self::declaration(
+            name,
+            SolutionMemberKind::Entities {
                 allowed_types,
                 singleton,
             },
-        }
+            if singleton {
+                SolutionMemberShape::Scalar
+            } else {
+                SolutionMemberShape::Collection
+            },
+        )
     }
     pub fn value_range<V: 'static>(name: impl Into<String>, provider: impl Into<String>) -> Self {
-        Self {
-            name: name.into(),
-            kind: SolutionMemberKind::ValueRange {
+        Self::declaration(
+            name,
+            SolutionMemberKind::ValueRange {
                 value_type: PlanningType::of::<V>(),
                 provider: provider.into(),
             },
-        }
+            SolutionMemberShape::Collection,
+        )
     }
     pub fn score<S: 'static>(name: impl Into<String>) -> Self {
-        Self {
-            name: name.into(),
-            kind: SolutionMemberKind::Score(PlanningType::of::<S>()),
-        }
+        Self::declaration(
+            name,
+            SolutionMemberKind::Score(PlanningType::of::<S>()),
+            SolutionMemberShape::Scalar,
+        )
     }
     pub fn name(&self) -> &str {
         &self.name
@@ -135,6 +216,20 @@ impl SolutionCompositionPolicy {
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum SolutionCompositionError {
+    MemberParameters {
+        member: String,
+        parameters: Vec<PlanningType>,
+    },
+    CollectionShape {
+        member: String,
+        shape: SolutionMemberShape,
+    },
+    FactIsEntity {
+        member: String,
+        entity: PlanningType,
+    },
+    MemberRoleConflict(String),
+    InvalidFactTypes(String),
     DuplicateComponent(PlanningType),
     UnknownComponent(PlanningType),
     Cycle(PlanningType),
@@ -168,6 +263,10 @@ pub enum SolutionCompositionError {
 impl fmt::Display for SolutionCompositionError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::CollectionShape { member, .. } => write!(
+                f,
+                "solution member {member} does not return a Collection or an array."
+            ),
             Self::UnregisteredMembers { component, names } => write!(
                 f,
                 "{} is not registered as a planning solution but defines planning members. Maybe register {} as a planning solution. Maybe remove the planning members ([{}]).",
@@ -214,6 +313,18 @@ pub struct CompiledSolutionMember {
     declaring_type: PlanningType,
 }
 impl CompiledSolutionMember {
+    pub fn shape(&self) -> SolutionMemberShape {
+        self.declaration.shape
+    }
+    pub fn is_problem_fact_collection(&self) -> bool {
+        matches!(
+            self.kind(),
+            SolutionMemberKind::Facts {
+                singleton: false,
+                ..
+            }
+        ) || self.declaration.fact_collection
+    }
     pub fn name(&self) -> &str {
         self.declaration.name()
     }
@@ -315,6 +426,48 @@ impl SolutionComposition {
                 maximum: max.get(),
             });
         }
+        // Signature/shape errors do not depend on entity registration and must
+        // fail before constructing any model or invoking a member callback.
+        for &index in &order {
+            for member in &self.components[index].members {
+                if !member.parameters.is_empty() {
+                    return Err(SolutionCompositionError::MemberParameters {
+                        member: member.name.clone(),
+                        parameters: member.parameters.clone(),
+                    });
+                }
+                let collection = matches!(
+                    member.kind,
+                    SolutionMemberKind::Entities {
+                        singleton: false,
+                        ..
+                    } | SolutionMemberKind::Facts {
+                        singleton: false,
+                        ..
+                    } | SolutionMemberKind::ValueRange { .. }
+                );
+                if collection && member.shape == SolutionMemberShape::Scalar {
+                    return Err(SolutionCompositionError::CollectionShape {
+                        member: member.name.clone(),
+                        shape: member.shape,
+                    });
+                }
+                if member.fact_collection
+                    && !matches!(
+                        member.kind,
+                        SolutionMemberKind::ValueRange { .. }
+                            | SolutionMemberKind::Facts {
+                                singleton: false,
+                                ..
+                            }
+                    )
+                {
+                    return Err(SolutionCompositionError::MemberRoleConflict(
+                        member.name.clone(),
+                    ));
+                }
+            }
+        }
         let entity_schema = entities
             .compile::<S>(entity_roots, entity_policy)
             .map_err(|e| SolutionCompositionError::Entities(Box::new(e)))?;
@@ -338,6 +491,22 @@ impl SolutionComposition {
                     });
                 }
                 match &member.kind {
+                    SolutionMemberKind::Facts { allowed_types, .. } => {
+                        if allowed_types.iter().collect::<HashSet<_>>().len() != allowed_types.len()
+                        {
+                            return Err(SolutionCompositionError::InvalidFactTypes(
+                                member.name.clone(),
+                            ));
+                        }
+                        for &t in allowed_types {
+                            if entity_schema.schema().entity_type(t).is_ok() {
+                                return Err(SolutionCompositionError::FactIsEntity {
+                                    member: member.name.clone(),
+                                    entity: t,
+                                });
+                            }
+                        }
+                    }
                     SolutionMemberKind::Entities { allowed_types, .. } => {
                         let unique: HashSet<_> = allowed_types.iter().collect();
                         if allowed_types.is_empty() || unique.len() != allowed_types.len() {
@@ -353,7 +522,18 @@ impl SolutionComposition {
                             })?;
                         }
                     }
-                    SolutionMemberKind::ValueRange { provider, .. } => {
+                    SolutionMemberKind::ValueRange {
+                        provider,
+                        value_type,
+                    } => {
+                        if member.fact_collection
+                            && entity_schema.schema().entity_type(*value_type).is_ok()
+                        {
+                            return Err(SolutionCompositionError::FactIsEntity {
+                                member: member.name.clone(),
+                                entity: *value_type,
+                            });
+                        }
                         if provider.is_empty() {
                             return Err(SolutionCompositionError::EmptyProvider(
                                 member.name.clone(),
@@ -393,6 +573,15 @@ impl SolutionComposition {
     }
 }
 impl ComposedPlanningSolution {
+    pub fn members_in(
+        &self,
+        category: SolutionMemberCategory,
+    ) -> impl Iterator<Item = &CompiledSolutionMember> {
+        self.members.iter().filter(move |m| match category {
+            SolutionMemberCategory::ProblemFactCollection => m.is_problem_fact_collection(),
+            _ => m.kind().category() == category,
+        })
+    }
     pub fn schema(&self) -> &PlanningSchema {
         self.entities.schema()
     }
@@ -449,6 +638,7 @@ impl SolutionFieldRange {
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum SolutionBindingError {
+    DifferentFactDescriptor,
     UnknownMember(String),
     WrongMemberKind(String),
     DuplicateBinding(String),
@@ -514,8 +704,12 @@ pub struct BoundBasicSolution<V> {
     problem: FiniteProblem<V>,
     entities: Vec<BoundSolutionEntity>,
     collections: HashMap<String, Vec<usize>>,
+    facts: Option<crate::BoundSolutionFacts>,
 }
 impl<V> BoundBasicSolution<V> {
+    pub fn facts(&self) -> Option<&crate::BoundSolutionFacts> {
+        self.facts.as_ref()
+    }
     pub fn problem(&self) -> &FiniteProblem<V> {
         &self.problem
     }
@@ -532,6 +726,23 @@ impl<V> BoundBasicSolution<V> {
 }
 
 impl ComposedPlanningSolution {
+    /// Attach a validated fact snapshot to the concrete basic binding. It must
+    /// belong to this actual descriptor; matching only a solution type would
+    /// permit snapshots from a different member/schema configuration.
+    pub fn bind_basic_with_facts<V: Clone + Eq + 'static>(
+        &self,
+        collections: Vec<SolutionCollection<V>>,
+        ranges: Vec<SolutionRange<V>>,
+        field_ranges: Vec<SolutionFieldRange>,
+        facts: crate::BoundSolutionFacts,
+    ) -> Result<BoundBasicSolution<V>, SolutionBindingError> {
+        if !std::ptr::eq(self, facts.descriptor().as_ref()) {
+            return Err(SolutionBindingError::DifferentFactDescriptor);
+        }
+        let mut bound = self.bind_basic(collections, ranges, field_ranges)?;
+        bound.facts = Some(facts);
+        Ok(bound)
+    }
     /// Bind explicit collection/range reads once, before search. Basic variables
     /// only; list/mixed binding and automatic object getters are separate APIs.
     /// All names/types/provider links and initial values are validated. Aliased
@@ -638,8 +849,10 @@ impl ComposedPlanningSolution {
             member_rows.insert(collection.member, indices);
         }
         for member in &self.members {
-            if !matches!(member.kind(), SolutionMemberKind::Score(_))
-                && !bound_names.contains(member.name())
+            if !matches!(
+                member.kind(),
+                SolutionMemberKind::Score(_) | SolutionMemberKind::Facts { .. }
+            ) && !bound_names.contains(member.name())
             {
                 return Err(SolutionBindingError::MissingBinding(member.name().into()));
             }
@@ -726,6 +939,7 @@ impl ComposedPlanningSolution {
             problem,
             entities: bound_entities,
             collections: member_rows,
+            facts: None,
         })
     }
 }
