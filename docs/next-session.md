@@ -16,7 +16,57 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round64
+## Latest verified checkpoint — round65
+
+Feature fb4237a connects actual native list source events to WorkingListObject
+ordered current lists and WorkingListValue canonical objects with current position,
+previous/next values and explicit assigned filtering. Routing/projections compile
+once; original allocations and immutable object payloads remain unchanged. Facts
+and shadow-only rows initialize through their actual constant source before the
+native director loads/protects its empty entity/value sources. No object Clone/Hash
+bound, getter-derived shadow state or change to native search/scoring directors.
+
+Six originals pass: dense/list-stream exact optimum22 with nonzero constant scoring,
+targeted owner/value callback work and updated neighbors, immutable old explanations,
+optional membership, foreign equal-value handles retaining canonical allocations,
+relocation and callback-panic rollback, foreign descriptors/graphs and actual nonzero
+constant scoring for zero lists. First focused attempt used incorrect native move
+variant names in the test; corrected to Change and Unassign(entity,start,end).
+Fixed focused6+1 new source+3 prior controls passed. Final aliases/display improved
+before the final gate; no additional focused repetition.
+
+One complete SolverConfigTest.entityWithTwoPlanningListVariables preserves both
+real genuine declarations/provider IDs and all owner/two-field failure diagnostics.
+Native one-list binding rejects before concrete reads with MultipleListFields,
+retaining every conflicting owner/field identity. TEST-only declarations inline and
+attributed; unrelated Java calculator class loading not imported. Native model
+preparation replaces reflective factory creation, no Java API/ABI claim. Original
+runtime controls earn no source-method credit. Mixed binding remains outstanding.
+
+Final frozen runner-a bash scripts/check.sh passed once:6,986 Rust tests,290 doctests;
+3,675/4,855 passed (75.695%),612 pending,568 excluded,zero failed/unverified.
+Actual11 Rust RUN/1,004 REUSE/46 Python REUSE;200.179seconds.
+Rust source:a463dd6dc953b5a6cad57b99d0766f47fb1de6e263c14692c4f5b8252cc82992.
+Report/verification:682384d28b74267eaf5900d3a62ff1e693c3ebea93ff631a301c9f1d52eda789.
+Remote root:4a97975fe2089a6f314a07c6e5e5b665bf7793044bac07b632c9021f2614c42e.
+Archive work/round65-runner-a-results.tar.gz SHA256:5a7ec2d3461c3dd7bd4997e77bf685847d19f430d28552d1bdc13b6dc051fc10.
+Evidence/freeze:work/parallel-round65-evidence.json and parallel-round65-freeze.json.
+Launcher4198/collector92002 completedzero. Postcommit proof
+work/verify_round65_postcommit.py checks frozen state, clean Git, report freshness,
+completed families,5/17 SolverConfigTest cases and unchanged native basic/list/mixed
+scoring/search/graph implementation. Seed next gate from this actual archive/root.
+No new agents, runner-c usage, UI verification or benchmarks; older performance stale.
+
+Next integrate mixed typed binding/current fields. Native MixedProblem and
+MixedStreamSources already support mathematical mixed solving, but BoundBasicSolution
+requires every genuine field to be basic and BoundListSolution only supports a single
+list field plus shadow-only entities. Neither binds real combined basic/list objects.
+Use actual canonical descriptor/allocations, distinct typed basic/list values, provider
+ranges, aliases and pins to build native mixed inputs; keep current tuples/journals
+connected to their real sources. Then close remaining executable compatibility gaps
+and assess performance for completed bindings. Goal remains active/incomplete.
+
+## Prior verified checkpoint — round64
 
 Feature aca5879 adds SolverTimeSettings fluent spent/unimproved limits to the actual
 SolverLimits and basic/list/mixed SolverConfig, SolverPlan and SolverSequence types.
