@@ -55271,6 +55271,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve both genuine list declarations, their distinct provider IDs, root/entity/value/score roles and all owner/field diagnostic assertions. Explicit native list-model preparation replaces Java reflective factory creation; unsupported multiple-list setup fails with MultipleListFields before concrete provider/entity reads or scoring preparation. The unrelated Java calculator class reference is not imported; scoring cannot be constructed for the rejected binding. Native structured error additionally preserves exact owner/field identities; no Java API/ABI claim. TEST-only fixture declarations are inline in the attributed local test."
+    },
+    {
+      "id": "SolverConfigTest.domainClassesAreInterfaces",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "domainClassesAreInterfaces",
+      "local_path": "crates/solver/tests/domain_getter_cases.rs",
+      "local_test": "domain_classes_are_interfaces",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the exact anonymous interface fixture: one entity with ID entity and null initial value, one identity-valued interface object, null initial score, actual Always penalize provider and construction-only solving. Rust object-safe application traits and sized handles retaining Arc trait objects replace Java interfaces/reflection; actual virtual getters feed validated native binding, then actual current-field stream events drive nonzero -1 scoring. The native assignment owns current planning state rather than mutating Java-style setters. Additional completion, allocation, score and phase assertions strengthen the source no-exception assertion; no JVM interface/class-loader/API/ABI claim."
+    },
+    {
+      "id": "SolverConfigTest.variableWithPlanningIdIsARecord",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "variableWithPlanningIdIsARecord",
+      "local_path": "crates/solver/tests/domain_getter_cases.rs",
+      "local_test": "variable_with_planning_id_is_a_record",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all five generated immutable code-valued records and seven generated initialized entities, exact names, i modulo 5 allocation reuse, actual value-list fact/provider role and construction-only solve. The source calculator counts the actual entity collection and scores seven. Native immutable record Eq/Hash provides code planning identity; real typed getters read the generated objects into the native solver. Additional allocation/score/phase assertions strengthen source no-exception behavior. No Java record/reflection/API/ABI claim."
     }
   ],
   "fixtures": [
@@ -77217,6 +77247,110 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapt only TEST-visible declaration roles and exact field/provider names to native typed composition. Source case constructs configuration without a working solution: local marker types identify concrete native schema declarations, not a solver substitute; actual native binding rejects the two real genuine fields. No reflective getters/setters or production code copied."
+    },
+    {
+      "id": "domain-getter-TestdataInterfaceSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/interfaces/TestdataInterfaceSolution.java",
+      "upstream_test": "generateSolution and solution interface getters",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture roles, exact generated values/IDs/allocations and objective to native immutable Arc objects, object-safe trait handles and executable typed getter callbacks. Explicit native metadata replaces annotations/reflective descriptor helpers; native assignments own current fields, retaining immutable object initial payloads. Trait value identity uses actual underlying Arc allocation; immutable record values use code Eq/Hash. No production code or Java ABI copied."
+    },
+    {
+      "id": "domain-getter-TestdataInterfaceEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/interfaces/TestdataInterfaceEntity.java",
+      "upstream_test": "ID and value interface getters",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture roles, exact generated values/IDs/allocations and objective to native immutable Arc objects, object-safe trait handles and executable typed getter callbacks. Explicit native metadata replaces annotations/reflective descriptor helpers; native assignments own current fields, retaining immutable object initial payloads. Trait value identity uses actual underlying Arc allocation; immutable record values use code Eq/Hash. No production code or Java ABI copied."
+    },
+    {
+      "id": "domain-getter-TestdataInterfaceValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/interfaces/TestdataInterfaceValue.java",
+      "upstream_test": "identity-valued empty interface",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture roles, exact generated values/IDs/allocations and objective to native immutable Arc objects, object-safe trait handles and executable typed getter callbacks. Explicit native metadata replaces annotations/reflective descriptor helpers; native assignments own current fields, retaining immutable object initial payloads. Trait value identity uses actual underlying Arc allocation; immutable record values use code Eq/Hash. No production code or Java ABI copied."
+    },
+    {
+      "id": "domain-getter-TestdataInterfaceConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/interfaces/TestdataInterfaceConstraintProvider.java",
+      "upstream_test": "defineConstraints / Always penalize",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture roles, exact generated values/IDs/allocations and objective to native immutable Arc objects, object-safe trait handles and executable typed getter callbacks. Explicit native metadata replaces annotations/reflective descriptor helpers; native assignments own current fields, retaining immutable object initial payloads. Trait value identity uses actual underlying Arc allocation; immutable record values use code Eq/Hash. No production code or Java ABI copied."
+    },
+    {
+      "id": "domain-getter-TestdataRecordSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/record/TestdataRecordSolution.java",
+      "upstream_test": "generateSolution(5,7), code and entity/value/score storage",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture roles, exact generated values/IDs/allocations and objective to native immutable Arc objects, object-safe trait handles and executable typed getter callbacks. Explicit native metadata replaces annotations/reflective descriptor helpers; native assignments own current fields, retaining immutable object initial payloads. Trait value identity uses actual underlying Arc allocation; immutable record values use code Eq/Hash. No production code or Java ABI copied."
+    },
+    {
+      "id": "domain-getter-TestdataRecordEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/record/TestdataRecordEntity.java",
+      "upstream_test": "code and initialized value getters",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture roles, exact generated values/IDs/allocations and objective to native immutable Arc objects, object-safe trait handles and executable typed getter callbacks. Explicit native metadata replaces annotations/reflective descriptor helpers; native assignments own current fields, retaining immutable object initial payloads. Trait value identity uses actual underlying Arc allocation; immutable record values use code Eq/Hash. No production code or Java ABI copied."
+    },
+    {
+      "id": "domain-getter-TestdataRecordValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/record/TestdataRecordValue.java",
+      "upstream_test": "immutable code PlanningId record",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-only fixture roles, exact generated values/IDs/allocations and objective to native immutable Arc objects, object-safe trait handles and executable typed getter callbacks. Explicit native metadata replaces annotations/reflective descriptor helpers; native assignments own current fields, retaining immutable object initial payloads. Trait value identity uses actual underlying Arc allocation; immutable record values use code Eq/Hash. No production code or Java ABI copied."
+    },
+    {
+      "id": "domain-getter-record-calculator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "DummyRecordEasyScoreCalculator.calculateScore",
+      "local_path": "crates/solver/tests/fixtures/domain_getter_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain the TEST calculator body counting the actual entity list, translated to native SimpleScore. No production calculator implementation copied."
     }
   ]
 }

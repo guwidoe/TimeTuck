@@ -1510,3 +1510,7 @@ pub use solution_mixed_binding::{
     BoundMixedEntity, BoundMixedSolution, MixedSolutionBindingError, SolutionMixedCollection,
     SolutionMixedEntityRecord,
 };
+mod solution_basic_accessors;
+pub use solution_basic_accessors::{
+    BasicEntityFields, BasicSolutionAccessError, SolutionBasicAccessors,
+};

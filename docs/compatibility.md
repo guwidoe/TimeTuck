@@ -7698,3 +7698,28 @@ list storage, canonical aliases, old explanations, basic/list pins, invalid join
 moves, callback-panic rollback, initialized/assigned filtering, invalid fields/reads,
 foreign descriptors/graphs and nonzero facts on zero-variable models. These originals
 add no upstream-method credit. No new throughput measurement or claim is made.
+
+### Executable basic getters and interface/record domains
+
+SolutionBasicAccessors validates actual solution/entity/value registrations and
+complete member/provider coverage before getter execution. Typed callbacks build
+the existing native basic binding with its actual fact snapshot and schema ranges.
+Entity/range callbacks run once per explicit bind, independent of subsequent scoring
+and moves; fact callbacks remain separately registered. Domain payloads need no
+Clone bound, and failed reads publish no partial model. Callback side effects are
+not rolled back. Application callbacks can dispatch through real object-safe traits;
+sized handles retain actual trait allocations without JVM reflection/discovery.
+
+Two complete SolverConfigTest cases preserve the full one-entity/one-value anonymous
+interface fixture and its actual Always penalize provider, and five generated
+immutable code-valued records with seven initialized generated entities and the
+actual entity-count calculator. Both execute construction-only native solves, scoring
+-1 and7 respectively. Provider/fact roles, names, null initial states, allocation
+reuse and record value identity are preserved. Native assignments own current fields
+and score; no Java interface/record/API/ABI or in-place setter support is claimed.
+
+Three original controls verify getter work outside real solver moves, repeated
+explicit reads preserving allocations, invalid/incomplete registration before reads,
+getter panic isolation, actual fact/value identity and equal record codes on distinct
+allocations. These controls give no upstream credit. Native engines unchanged;
+no new performance measurement or throughput claim.
