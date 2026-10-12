@@ -136,7 +136,8 @@ fn original_and_random_clone_panics_fuse_without_eager_value_copies() {
         vec![ListEntity::new(vec![make(1), make(2)])],
     )
     .unwrap();
-    let c = (Arc::new(p.clone()), p.initial_assignment());
+    let assignment = p.initial_assignment();
+    let c = ListSelectionContext::new(&p, &assignment).unwrap();
     for order in [
         ListRangeValueOrder::Original,
         ListRangeValueOrder::NativeRandom { seed: 0 },

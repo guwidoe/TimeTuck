@@ -27,7 +27,10 @@ change source case and seven originals passed final focused runner-a tests in
 26.312seconds (7fe9926880d6a3895d4204e24ff7c241fe1dc90de915874fef96dd7bdba5aee1).
 Originals include actual dense/stream searches, fresh layouts, domain union bounds,
 shared draw state and panic recovery. Source passed first compile/run; no focused
-failures. Provenance/notices recorded. Existing solver/move runtime and measured
+failures. Final prebuild Clippy rejected an Arc around the thread-local Clone-panic
+fixture; changed only that fixture to the existing borrowed ListSelectionContext.
+Original failed remote root8f686f0025915d656e20a0b55cfba67ab3acff6f17b7017becd06f5887f710cd
+retained. Provenance/notices recorded. Existing solver/move runtime and measured
 K-opt inputs unchanged. Three coupled change destination traces remain pending;
 do not substitute scripted outputs or claim those complete.
 Run one final frozen bash scripts/check.sh using genuine round90 cached records,
