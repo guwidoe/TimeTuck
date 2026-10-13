@@ -627,6 +627,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
             selected_accepted: false,
             selected: None,
             evaluations: 0,
+            replay_evaluations: 0,
             constraint_evaluations: 0,
             evaluation_limit: false,
         };

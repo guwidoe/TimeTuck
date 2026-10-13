@@ -766,6 +766,7 @@ impl<B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore + 'stati
             selected: None,
             selected_accepted: false,
             evaluations: 0,
+            replay_evaluations: 0,
             constraint_evaluations: 0,
             evaluation_limit: false,
         };

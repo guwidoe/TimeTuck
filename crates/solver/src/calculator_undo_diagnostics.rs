@@ -15,8 +15,24 @@ pub enum CalculatorUndoDiagnostics {
     #[default]
     Default,
     Disabled,
+    /// Skip undo assertions, but score a selected move again on its actual
+    /// replayed state. The additional calculation counts toward the search limit.
+    NonIntrusive,
     Score,
     Tracked,
+}
+impl CalculatorUndoDiagnostics {
+    /// Undo policy for a native environment-mode phase. Candidate, committed
+    /// step and phase checks remain controlled by the phase runner/profile.
+    pub fn for_environment_mode(mode: crate::EnvironmentMode) -> Self {
+        use crate::EnvironmentMode::*;
+        match mode {
+            TrackedFullAssert => Self::Tracked,
+            FullAssert | StepAssert => Self::Score,
+            NonIntrusiveFullAssert => Self::NonIntrusive,
+            PhaseAssert | NoAssert | NonReproducible => Self::Disabled,
+        }
+    }
 }
 #[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub struct CalculatorUndoField {

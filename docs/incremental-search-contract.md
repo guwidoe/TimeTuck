@@ -2445,5 +2445,29 @@ primary. ShadowCalculator can capture live assignment/projection fields without
 cloning its complete projection; capture runs only for explicitly tracked trials.
 Committed previews perform no undo comparison, although their pre-trial capture
 is made before the visitor decides to commit. Default/score-only paths capture
-no fields. These are native controls; the full upstream undo-shadow method remains
-pending until every mode and inverse-membership assertion is integrated.
+no fields. These native controls underpin the complete seven-mode undo-shadow
+adaptation described below.
+
+Fresh independent calculators may implement recompute_score_from to score the
+actual working projection without invoking shadow suppliers. None retains the
+normal fresh-reset comparison. The fresh instance is not reset before the hook;
+its factory/hook must initialize independent scorer state. Raw structural scores
+remain forbidden, and native assignment structure is added once. Both cached and
+live scores still must match this independent recomputation. ShadowCalculator's
+with_live_shadow_score_recomputation enables this with the actual non-Clone
+projection, running preflight/validation/scoring without reading or refreshing
+the graph. Default behavior remains unchanged.
+
+CalculatorUndoDiagnostics::for_environment_mode maps tracked/full/step modes to
+actual tracked/score undo checks and nonintrusive-full to NonIntrusive. That policy
+skips undo assertions and rescores selected replay on its actual state; it reserves
+one score slot and counts the extra calculation in result work and composed live
+score termination. Candidate/committed score assertions remain active. Phase and
+unasserted modes disable explicit undo checks. Completed-step assertions run only
+after a selected move commits; initial and candidate checks retain their scopes.
+
+EnvironmentModeTest.corruptedUndoShadowVariable now has a complete seven-mode
+adaptation: actual owned clone fields with the deliberate v1 undo bug, inverse
+notifications in both directions, native score-evaluation ceiling10, exact tracked
+field evidence and successful final inverse memberships. Manual native calculator
+callbacks replace Java annotations/listeners; no Java search-trace claim.

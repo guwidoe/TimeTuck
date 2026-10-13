@@ -16,7 +16,60 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round110
+## Latest verified checkpoint — round111
+
+EnvironmentModeTest.corruptedUndoShadowVariable is fully adapted across all seven
+modes. Retain two initialized entity/value identities, actual owned valueClone
+fields with the v1 undo supplier bug, real inverse notifications, equality-count
+objective and a 10 native logical score-evaluation ceiling. Tracked mode retains
+actual v2/expected v1 valueClone evidence; full/step report undo corruption; phase,
+unasserted and nonintrusive-full modes complete with correct final inverse
+memberships. Native IDs/callbacks replace Java annotations/listeners; no Java
+trace or calculation-accounting equivalence is claimed. Four TEST helper entries
+and one source case recorded. Full goal remains incomplete.
+
+Fresh calculators can score the actual working projection independently of
+shadow refresh/reset. ShadowCalculator opts in with a fresh initialized scorer,
+actual non-Clone H and preflight/validation; default fresh-reset checks remain.
+Both cached/live scores still must match independent recomputation. NonIntrusive
+undo policy skips undo assertions and scores selected replay on its actual state,
+reserving/counting the additional evaluation in work and composed live score
+termination. Candidate/committed assertions remain active. Completed-step checks
+require a committed move; initial/candidate checks retain their scopes. Three
+originals cover non-Clone projection/independent scorer corruption, all-model
+replay budgets/live termination and empty/rejected/committed step boundaries.
+28 focused cases and Clippy (53.91s) passed. Affected compilation took 5m42s.
+
+Frozen bash scripts/check.sh passed in 379.832s:
+7,436 Rust tests and 290 doctests. 991 Rust jobs ran; 112 Rust and 46 Python jobs
+reused successful records.
+Compatibility: 3,918/4,855 (80.700%), 369 pending, 568 excluded, zero failed/unverified.
+Rust digest 492d9f5c95d8685204b192e576ee257086894df1d29bea1a088673c4932b6ff6.
+Report digest 098f1631cd00692276f78fc83cd05318caff035dba65558f22be1a4ba6b951d1.
+Archive work/round111-local-results.tar.gz SHA256:2ff4248dd576db10e6874aea38b1e37c0bcb29afc22ba21a2cbda7f0079052e7.
+Evidence work/parallel-round111-evidence.json; frozen inputs
+work/parallel-round111-freeze.json; postcommit proof
+work/round111-postcommit-evidence.json. Prebuild9381/gate94147 terminal0;
+do not repeat successful unchanged checks. Preserve actual job keys/log hashes/
+dates. Backend report/freshness checked; no UI changes/repeated browser checks.
+
+Performance dispatch 48485 is still awaiting Tailscale SSH authentication; the
+question/link has already been sent. work/round111-performance-dispatch.log
+retains the actual request. Do not claim a remote result or redispatch while
+this handle remains live. Once authenticated, collect actual immutable results
+using work/collect_round111_performance.py and genuinely regenerate report data
+with scripts/compat_report.py; no unchanged Rust regression rerun is needed.
+The round110 k-opt measurement remains visibly stale with its original date
+2026-10-13T00:52:53.995921+00:00; do not retag it as current. Inspect the pending
+worker before changing its expected source inputs. runner-c last observed offline.
+
+Next-gap notes work/round111-next-gap-notes.json: ProblemSizeStatistics fixed-point
+method needs pinned public precision/reference outputs before adaptation; seven
+k-opt seam/iterator methods still remain, with saved probes already answered.
+No new agents/assignments. Continue full goal, shrink backlog, keep performance
+important, selective verification and occasional commits.
+
+## Previous verified checkpoint — round110
 
 Calculator undo diagnostics now retain actual typed field differences and optional
 score corruption after a rolled-back trial in basic/list/mixed search, including

@@ -379,3 +379,72 @@ fn tracked_undo_captures_real_nonclone_shadow_projection_in_fresh_search() {
     assert_eq!(captures.get(), 2);
     assert_eq!(result.evaluations, 2);
 }
+#[test]
+fn fresh_scoring_reads_actual_nonclone_projection_without_running_suppliers() {
+    let s = schema::<ListAssignment<i32>>();
+    let p = problem();
+    let supplier_calls = Cell::new(0);
+    let supplier_calls = &supplier_calls;
+    for corrupt_scorer in [false, true] {
+        let factory = || {
+            let entity = s.entity::<Entity>().unwrap();
+            let mut b = ShadowSessionBuilder::<usize, ListAssignment<i32>>::new(&s);
+            let input = b
+                .input(entity.variable("world").unwrap(), 0, |a| Some(a.clone()))
+                .unwrap();
+            let source = input.clone();
+            let history = Cell::new(0_i64);
+            let cost = b
+                .derive(entity.variable("cost").unwrap(), 0, move |_, i| {
+                    supplier_calls.set(supplier_calls.get() + 1);
+                    history.set(history.get() + 1);
+                    Some(list_cost(i.get(&source).unwrap().unwrap()) + history.get())
+                })
+                .unwrap();
+            b.set_dependencies(&cost, &[input.erase()]).unwrap();
+            let score_calls = Cell::new(0_i64);
+            let manager = list_declarative_solution_manager(
+                &p,
+                b.build(),
+                move |_, g| Ok::<_, &'static str>(Cost(*g.read(&cost).unwrap().value.unwrap())),
+                |_, _| Ok(()),
+                move |_, h| {
+                    score_calls.set(score_calls.get() + 1);
+                    Ok(SimpleScore::new(
+                        h.derived.0 + if corrupt_scorer { score_calls.get() } else { 0 },
+                    ))
+                },
+            );
+            ShadowCalculator::new(manager, || ListDerivedShadows {
+                builtin: vec![],
+                derived: Cost(0),
+            })
+            .with_live_shadow_score_recomputation()
+        };
+        let mut d =
+            ListCalculatorScoreDirector::new(&p, p.initial_assignment(), factory, false).unwrap();
+        if !corrupt_scorer {
+            d.apply(&relocation()).unwrap().commit();
+            assert_eq!(d.score().unwrap(), SimpleScore::new(-6));
+        }
+        let before = supplier_calls.get();
+        let result = d.assert_consistent();
+        assert_eq!(
+            supplier_calls.get(),
+            before,
+            "fresh scoring must not reset/refresh shadows"
+        );
+        if corrupt_scorer {
+            assert!(
+                matches!(result, Err(ListScoringError::ScoreCorruption(_))),
+                "{result:?}"
+            );
+        } else {
+            result.unwrap();
+            assert_eq!(
+                d.calculator().unwrap().solution().unwrap().shadows.derived,
+                Cost(-6)
+            );
+        }
+    }
+}

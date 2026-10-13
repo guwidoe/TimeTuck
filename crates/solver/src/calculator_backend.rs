@@ -17,7 +17,8 @@ macro_rules! calculator_backend {
 /// One calculator invocation is counted as one opaque constraint evaluation;
 /// callback work, inverse notifications and diagnostic recomputation are not
 /// separately counted. Scans replay the winner's notifications without scoring
-/// it twice. Calculators and factories must be deterministic and keep captured
+/// it twice by default. NonIntrusive reserves/counts a selected replay score.
+/// Calculators and factories must be deterministic and keep captured
 /// problem facts immutable throughout the search.
 ///
 /// Candidate preparation copies the assignment, but never the calculator cache.
@@ -78,7 +79,7 @@ where
     fn verify_undo(&mut self, before: Option<crate::CalculatorStateSnapshot>, assert_scores: bool) -> Result<(), $error> {
         use crate::CalculatorUndoDiagnostics as Policy;
         match self.undo_diagnostics {
-            Policy::Disabled => return Ok(()),
+            Policy::Disabled | Policy::NonIntrusive => return Ok(()),
             Policy::Default => return if assert_scores { self.assert_consistent() } else { Ok(()) },
             Policy::Score | Policy::Tracked => {}
         }
@@ -133,6 +134,12 @@ where
     pub fn assignment(&self) -> &$assignment {
         self.session.solution()
     }
+    /// Inspect the actual ready calculator, including its owned shadow fields.
+    /// Read adapters must not mutate scoring dependencies through interior state.
+    pub fn calculator(&self) -> Result<&C, $error> {
+        self.healthy()?;
+        Ok(self.session.calculator())
+    }
     pub fn score(&self) -> Result<C::Score, $error> {
         self.healthy()?;
         Ok(self.score.clone())
@@ -153,14 +160,21 @@ where
         self.failure = None;
         Ok(())
     }
-    /// Compare cached, live calculator and fresh-reset scores without repairing
-    /// the live calculator or invalidating its retained match handles.
+    /// Compare cached/live scores with independent recomputation, using a fresh
+    /// reset by default or the calculator's explicit projection-scoring hook.
+    /// This does not repair live state or invalidate retained match handles.
     pub fn assert_consistent(&mut self) -> Result<(), $error> {
         self.healthy()?;
         let live = Self::calculate(self.problem, &mut self.session)?;
-        let mut fresh = CalculatorSession::new(self.assignment().clone(), (self.factory)(), false)
-            .map_err($error::Calculator)?;
-        let recomputed = Self::calculate(self.problem, &mut fresh)?;
+        let mut fresh = (self.factory)();
+        let recomputed = if let Some(score) = fresh.recompute_score_from(self.session.calculator()).map_err($error::Calculator)? {
+            if score.structural() != 0 { return Err($error::Calculator(MatchRegistryError::StructuralContribution)); }
+            $structure(score, self.problem, self.assignment())?
+        } else {
+            let mut fresh = CalculatorSession::new(self.assignment().clone(), fresh, false)
+                .map_err($error::Calculator)?;
+            Self::calculate(self.problem, &mut fresh)?
+        };
         for working in [&self.score, &live] {
             if *working != recomputed {
                 return Err($error::ScoreCorruption(Box::new(

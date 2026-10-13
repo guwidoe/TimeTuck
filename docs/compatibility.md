@@ -8950,3 +8950,14 @@ are not claimed. Four original controls check actual causes, phase/mode context,
 mode gating, arbitrary-work classification, release failures and failure-observer
 visibility; they earn no method credit. The undo-shadow corruption method remains
 pending.
+
+The remaining EnvironmentModeTest undo-shadow method now preserves all seven mode
+outcomes and final inverse memberships. Native owned fields/forward-inverse
+calculator callbacks retain the actual v1 clone-supplier bug and equality-count
+objective. Tracked mode reports actual v2/expected v1 on valueClone; full/step
+report undo corruption. Nonintrusive full retains score assertions and independently
+scores selected replay, with its extra evaluation reserved/counted. The native
+10-evaluation ceiling includes initial/trial/replay work and excludes diagnostics;
+implicit Java search choices/traces are not compared. Three original regressions
+cover actual non-Clone projection scoring, independent scorer corruption, all-model
+replay budgets/live score termination and real completed-step check boundaries.

@@ -105,6 +105,17 @@ impl<'a, 's, K: Eq + Clone, A, H, S, E> ShadowSolutionManager<'a, 's, K, A, H, S
     pub fn session_mut(&mut self) -> &mut ShadowSession<'a, 's, K, A> {
         &mut self.session
     }
+    pub(crate) fn score_projection(
+        &mut self,
+        assignment: &A,
+        shadows: &H,
+    ) -> Result<S, ShadowSolutionError<K, E>> {
+        for check in &mut self.preflight {
+            check(assignment).map_err(ShadowSolutionError::Adapter)?;
+        }
+        (self.validate)(assignment, shadows).map_err(ShadowSolutionError::Adapter)?;
+        (self.calculate)(assignment, shadows).map_err(ShadowSolutionError::Adapter)
+    }
     pub fn update<'r>(
         &mut self,
         solution: &'r mut ManagedSolution<A, H, S>,

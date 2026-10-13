@@ -439,6 +439,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
                     }
                 }
             };
+            for _ in 0..selection.replay_evaluations {
+                crate::score_evaluations::record(&score_counter);
+            }
             result.evaluations += selection.evaluations;
             let completed =
                 selection.evaluations > 0 && !scan.discarded(selection.evaluation_limit);

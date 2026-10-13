@@ -36,6 +36,7 @@ pub struct ShadowCalculator<'a, 's, K, A, H, S, E, C = Vec<usize>> {
     manager: ShadowSolutionManager<'a, 's, K, A, H, S, E>,
     initial_shadows: Box<dyn FnMut() -> H + 'a>,
     undo_diagnostics: crate::CalculatorUndoDiagnostics,
+    recompute_live_projection: bool,
     undo_capture: Option<Box<UndoStateCapture<'a, A, H>>>,
     notifier: Option<Box<ChangeNotifier<'a, 's, K, A, E, C>>>,
     state: Option<ManagedSolution<A, H, S>>,
@@ -56,6 +57,7 @@ impl<'a, 's, K: Eq + Clone + fmt::Debug, A: Clone, H, S: AdditiveScore, E: fmt::
             notifier: None,
             undo_capture: None,
             undo_diagnostics: crate::CalculatorUndoDiagnostics::Default,
+            recompute_live_projection: false,
             state: None,
             ready: false,
             changing: false,
@@ -66,6 +68,15 @@ impl<'a, 's, K: Eq + Clone + fmt::Debug, A: Clone, H, S: AdditiveScore, E: fmt::
     /// a cloneable shadow projection or changing the calculator factory interface.
     pub fn with_undo_diagnostics(mut self, policy: crate::CalculatorUndoDiagnostics) -> Self {
         self.undo_diagnostics = policy;
+        self
+    }
+    /// Use a fresh manager's scorer on the actual live shadow projection during
+    /// consistency checks, without resetting or refreshing that projection.
+    /// This checks scoring independently of shadow recomputation. Explicit undo
+    /// diagnostics still compare the restored score and tracked fields. The
+    /// manager factory must create independently initialized scorer state.
+    pub fn with_live_shadow_score_recomputation(mut self) -> Self {
+        self.recompute_live_projection = true;
         self
     }
     /// Supply immutable owned field captures from the actual live assignment and
@@ -146,6 +157,20 @@ impl<K: Eq + Clone + fmt::Debug, A: Clone, H, S: AdditiveScore, E: fmt::Display,
     type Change = C;
     fn undo_diagnostics(&self) -> crate::CalculatorUndoDiagnostics {
         self.undo_diagnostics
+    }
+    fn recompute_score_from(&mut self, working: &Self) -> Result<Option<S>, MatchRegistryError> {
+        if !self.recompute_live_projection {
+            return Ok(None);
+        }
+        working.require_ready()?;
+        let state = working
+            .state
+            .as_ref()
+            .ok_or(MatchRegistryError::NeedsReset)?;
+        self.manager
+            .score_projection(&state.assignment, &state.shadows)
+            .map(Some)
+            .map_err(|e| MatchRegistryError::Calculator(e.to_string()))
     }
     fn capture_undo_state(
         &self,

@@ -839,6 +839,9 @@ where
             config.assert_scores,
         )?;
         failure.check()?;
+        for _ in 0..selection.replay_evaluations {
+            crate::score_evaluations::record(&score_counter);
+        }
         result.evaluations += selection.evaluations;
         result.constraint_evaluations += selection.constraint_evaluations;
         let mut notify_improvement = false;
@@ -873,7 +876,7 @@ where
             result.completed_steps = progress.completed_steps();
             result.unimproved_steps = progress.unimproved_steps();
         }
-        if config.assert_scores || config.assert_step_scores {
+        if selection.selected.is_some() && (config.assert_scores || config.assert_step_scores) {
             director.assert_consistent()?;
         }
         time_budget.end_step(

@@ -587,6 +587,7 @@ pub(crate) struct MixedSelection<B, L> {
     pub selected: Option<MixedMove<B, L>>,
     pub selected_accepted: bool,
     pub evaluations: u64,
+    pub replay_evaluations: u64,
     pub constraint_evaluations: u128,
     pub evaluation_limit: bool,
 }
@@ -708,6 +709,7 @@ impl<'p, 'c, B: Eq + Clone, L: Eq + Clone, S: AdditiveScore> MixedScoreDirector<
             selected: None,
             selected_accepted: false,
             evaluations: 0,
+            replay_evaluations: 0,
             constraint_evaluations: 0,
             evaluation_limit: false,
         };

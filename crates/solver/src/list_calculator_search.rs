@@ -67,12 +67,16 @@ where
             selected_accepted: false,
             selected: None,
             evaluations: 0,
+            replay_evaluations: 0,
             constraint_evaluations: 0,
             evaluation_limit: false,
         };
         let mut forager = MoveForager::new(forager.into());
+        let rescore_selected =
+            self.undo_diagnostics == crate::CalculatorUndoDiagnostics::NonIntrusive;
+        let trial_limit = max_evaluations.saturating_sub(u64::from(rescore_selected));
         for movement in moves {
-            if result.evaluations == max_evaluations {
+            if result.evaluations == trial_limit {
                 result.evaluation_limit = true;
                 break;
             }
@@ -104,7 +108,14 @@ where
             return Ok(result);
         }
         if let Some((movement, score, accepted)) = forager.pick() {
-            self.apply_with_score(&movement, Some(score))?.commit();
+            if rescore_selected {
+                self.apply(&movement)?.commit();
+                result.replay_evaluations += 1;
+                result.evaluations += 1;
+                result.constraint_evaluations += 1;
+            } else {
+                self.apply_with_score(&movement, Some(score))?.commit();
+            }
             if assert_scores {
                 self.assert_consistent()?;
             }

@@ -389,3 +389,241 @@ fn rolled_back_custom_previews_use_actual_tracked_state_but_commits_do_not_check
     .unwrap();
     assert_eq!(calls.get(), 1); // before capture; a committed trial has no undo comparison
 }
+#[derive(Clone)]
+struct ReplayCounter<C> {
+    policy: CalculatorUndoDiagnostics,
+    direction: i64,
+    score: i64,
+    calls: Rc<Cell<u64>>,
+    marker: PhantomData<C>,
+}
+impl<A: Position<Change = C>, C> IncrementalCalculator<A> for ReplayCounter<C> {
+    type Score = SimpleScore;
+    type Justification = ();
+    type Change = C;
+    fn undo_diagnostics(&self) -> CalculatorUndoDiagnostics {
+        self.policy
+    }
+    fn reset(
+        &mut self,
+        a: &A,
+        _: &mut MatchRegistry<SimpleScore, ()>,
+    ) -> Result<(), MatchRegistryError> {
+        self.score = a.marker();
+        Ok(())
+    }
+    fn after_change(
+        &mut self,
+        a: &A,
+        _: &C,
+        _: &mut MatchRegistry<SimpleScore, ()>,
+    ) -> Result<(), MatchRegistryError> {
+        self.score = a.marker();
+        Ok(())
+    }
+    fn calculate_score(&mut self) -> SimpleScore {
+        self.calls.set(self.calls.get() + 1);
+        SimpleScore::new(self.score * self.direction)
+    }
+}
+#[test]
+fn nonintrusive_replay_scores_respect_all_model_budgets_and_live_score_termination() {
+    let bp = basic();
+    let lp = lists();
+    let mp = MixedProblem::new(bp.clone(), lp.clone());
+    for limit in [1, 2, 3, 4] {
+        let cfg = LocalSearchConfig {
+            max_steps: 1,
+            max_evaluations: limit,
+            selection: MoveSelection::FirstAccepted,
+            ..Default::default()
+        };
+        let expected = if limit >= 3 { 3 } else { 1 };
+        let calls = Rc::new(Cell::new(0));
+        let b = calculator_local_search_with_provider(
+            &bp,
+            bp.initial_assignment(),
+            || ReplayCounter::<Vec<usize>> {
+                score: 0,
+                policy: CalculatorUndoDiagnostics::NonIntrusive,
+                direction: 1,
+                calls: calls.clone(),
+                marker: PhantomData,
+            },
+            cfg.clone(),
+            &mut |_: &FiniteProblem<i64>, _: &Assignment<i64>, _: u64| {
+                vec![Move::Change {
+                    variable: 0,
+                    value: Some(1),
+                }]
+            },
+        )
+        .unwrap();
+        assert_eq!(b.evaluations, expected);
+        assert_eq!(calls.get(), expected);
+        assert_eq!(b.completed_steps, u64::from(limit >= 3));
+        calls.set(0);
+        let l = list_calculator_local_search_with_provider(
+            &lp,
+            lp.initial_assignment(),
+            || ReplayCounter::<Vec<usize>> {
+                score: 0,
+                policy: CalculatorUndoDiagnostics::NonIntrusive,
+                direction: 1,
+                calls: calls.clone(),
+                marker: PhantomData,
+            },
+            cfg.clone(),
+            &mut |_: &ListProblem<i64>, _: &ListAssignment<i64>, _: u64| vec![movement()],
+        )
+        .unwrap();
+        assert_eq!(l.evaluations, expected);
+        assert_eq!(calls.get(), expected);
+        assert_eq!(l.completed_steps, u64::from(limit >= 3));
+        calls.set(0);
+        let m = mixed_calculator_local_search_with_provider(
+            &mp,
+            mp.initial_assignment(),
+            || ReplayCounter::<MixedCalculatorChange> {
+                score: 0,
+                policy: CalculatorUndoDiagnostics::NonIntrusive,
+                direction: 1,
+                calls: calls.clone(),
+                marker: PhantomData,
+            },
+            MixedLocalSearchConfig {
+                search: cfg,
+                ..Default::default()
+            },
+            &mut |_: &MixedProblem<i64, i64>, _: &MixedAssignment<i64, i64>, _: u64| {
+                vec![MixedMove {
+                    basic: Move::Composite(vec![]),
+                    lists: movement(),
+                }]
+            },
+        )
+        .unwrap();
+        assert_eq!(m.evaluations, expected);
+        assert_eq!(calls.get(), expected);
+        assert_eq!(m.completed_steps, u64::from(limit >= 3));
+    }
+    let calls = Rc::new(Cell::new(0));
+    let mut d = CalculatorScoreDirector::new(
+        &bp,
+        bp.initial_assignment(),
+        || ReplayCounter::<Vec<usize>> {
+            score: 0,
+            policy: CalculatorUndoDiagnostics::NonIntrusive,
+            direction: 1,
+            calls: calls.clone(),
+            marker: PhantomData,
+        },
+        false,
+    )
+    .unwrap();
+    let result = d
+        .run_solver(SolverSequence {
+            phases: vec![SolverPhase::LocalSearch(LocalSearchConfig {
+                max_steps: u64::MAX,
+                selection: MoveSelection::FirstAccepted,
+                ..Default::default()
+            })],
+            limits: SolverLimits {
+                termination: Some(&SearchTermination::Condition(
+                    SearchLimit::ScoreEvaluations(3),
+                )),
+                ..Default::default()
+            },
+        })
+        .unwrap();
+    assert_eq!(result.work.evaluations, 3);
+    assert_eq!(calls.get(), 3);
+}
+#[test]
+fn completed_step_assertions_skip_empty_and_rejected_scans_but_check_real_steps() {
+    let bp = basic();
+    let lp = lists();
+    let mp = MixedProblem::new(bp.clone(), lp.clone());
+    for (empty, direction, expected) in [(true, 1, 3), (false, -1, 4), (false, 1, 6)] {
+        let cfg = LocalSearchConfig {
+            max_steps: 1,
+            assert_step_scores: true,
+            ..Default::default()
+        };
+        let calls = Rc::new(Cell::new(0));
+        let expected_steps = u64::from(!empty && direction == 1);
+        let b = calculator_local_search_with_provider(
+            &bp,
+            bp.initial_assignment(),
+            || ReplayCounter::<Vec<usize>> {
+                policy: CalculatorUndoDiagnostics::Default,
+                direction,
+                score: 0,
+                calls: calls.clone(),
+                marker: PhantomData,
+            },
+            cfg.clone(),
+            &mut |_: &FiniteProblem<i64>, _: &Assignment<i64>, _: u64| {
+                if empty {
+                    vec![]
+                } else {
+                    vec![Move::Change {
+                        variable: 0,
+                        value: Some(1),
+                    }]
+                }
+            },
+        )
+        .unwrap();
+        assert_eq!(b.completed_steps, expected_steps);
+        assert_eq!(calls.get(), expected);
+        calls.set(0);
+        let l = list_calculator_local_search_with_provider(
+            &lp,
+            lp.initial_assignment(),
+            || ReplayCounter::<Vec<usize>> {
+                policy: CalculatorUndoDiagnostics::Default,
+                direction,
+                score: 0,
+                calls: calls.clone(),
+                marker: PhantomData,
+            },
+            cfg.clone(),
+            &mut |_: &ListProblem<i64>, _: &ListAssignment<i64>, _: u64| {
+                if empty { vec![] } else { vec![movement()] }
+            },
+        )
+        .unwrap();
+        assert_eq!(l.completed_steps, expected_steps);
+        assert_eq!(calls.get(), expected);
+        calls.set(0);
+        let m = mixed_calculator_local_search_with_provider(
+            &mp,
+            mp.initial_assignment(),
+            || ReplayCounter::<MixedCalculatorChange> {
+                policy: CalculatorUndoDiagnostics::Default,
+                direction,
+                score: 0,
+                calls: calls.clone(),
+                marker: PhantomData,
+            },
+            MixedLocalSearchConfig {
+                search: cfg,
+                ..Default::default()
+            },
+            &mut |_: &MixedProblem<i64, i64>, _: &MixedAssignment<i64, i64>, _: u64| {
+                if empty {
+                    vec![]
+                } else {
+                    vec![MixedMove {
+                        basic: Move::Composite(vec![]),
+                        lists: movement(),
+                    }]
+                }
+            },
+        )
+        .unwrap();
+        assert_eq!(m.completed_steps, expected_steps);
+        assert_eq!(calls.get(), expected);
+    }
+}

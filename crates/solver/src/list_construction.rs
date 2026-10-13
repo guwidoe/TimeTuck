@@ -226,6 +226,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 scan.policy(previous.clone()),
                 config.assert_scores,
             )?;
+            for _ in 0..selection.replay_evaluations {
+                crate::score_evaluations::record(&score_counter);
+            }
             result.evaluations += selection.evaluations;
             result.constraint_evaluations += selection.constraint_evaluations;
             let installed = matches!(selection.selected, Some(ListMove::Assign { .. }));

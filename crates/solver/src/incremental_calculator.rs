@@ -230,6 +230,21 @@ pub trait IncrementalCalculator<P> {
     fn undo_diagnostics(&self) -> crate::CalculatorUndoDiagnostics {
         crate::CalculatorUndoDiagnostics::Default
     }
+    /// A fresh independent calculator may score the working calculator's actual
+    /// projection without refreshing shadows. None uses the normal reset-based
+    /// recomputation. Implementations must not modify working state, must retain
+    /// the same objective, and must return an ordinary (zero structural) score.
+    /// The receiver is newly constructed, not reset; initialize scorer state in
+    /// the factory or in this hook. This does not replace explicit undo checks.
+    fn recompute_score_from(
+        &mut self,
+        _working: &Self,
+    ) -> Result<Option<Self::Score>, MatchRegistryError>
+    where
+        Self: Sized,
+    {
+        Ok(None)
+    }
     /// Capture real calculator-owned fields for opt-in tracked undo diagnostics.
     /// The returned values must be independent immutable snapshots. None means
     /// unsupported; no capture is requested by default or for score-only checks.

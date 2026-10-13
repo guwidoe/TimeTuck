@@ -58901,6 +58901,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all seven modes, four uninitialized variables/three stable identities, actual first-value custom initialization,1000move limit and corrupted different-values objective subtracting an incrementing call count. Full/tracked/nonintrusive modes and STEP_ASSERT must return an actual consistency-check failure with correct mode/phase and working/recomputed score evidence; PHASE_ASSERT must return its phase corruption diagnostic; NO_ASSERT/NON_REPRODUCIBLE must solve without diagnostic failure. Typed native ScoreAssertion/PhaseAssertion and error text replace Java IllegalStateException/message spellings. Native named constraint evidence replaces STEP_ASSERT's unavailable-analysis fallback, as with existing corrupted easy-score adaptations. First-accepted/shuffled/late-acceptance settings replace implicit Java default random search without a Java trace claim. No expected scores or returned failures are scripted."
+    },
+    {
+      "id": "EnvironmentModeTest.corruptedUndoShadowVariable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/EnvironmentModeTest.java",
+      "upstream_test": "corruptedUndoShadowVariable",
+      "local_path": "crates/solver/tests/environment_undo_shadow_cases.rs",
+      "local_test": "corrupted_undo_shadow_variable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven mode outcomes, two initialized entity/value identities with matching clones/inverse collections, the actual clone supplier refusing v1 updates after initialization, equality-count easy score, tracked actual-v2/expected-v1 valueClone diagnostic, full/step undo diagnostic, and every successful mode final inverse membership assertion. Native owned IDs/fields and calculator forward/inverse callbacks replace Java annotations/listeners; actual ready calculator fields are inspected, not rebuilt for assertions. Native assembled default neighborhood/acceptance and logical score-evaluation ceiling10 (initial/trials/selected replay, excluding diagnostic scorer invocations) replace implicit Java phase choices/calculation accounting; no Java trace or API equivalence is claimed. Fresh independent easy scoring reads current shadows; nonintrusive selected replay is rescored with reserved budget."
     }
   ],
   "fixtures": [
@@ -83226,6 +83241,58 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve the corrupted branch: negative repetitions after first identity minus a call counter incremented on every calculation. Native Cell and one named incremental constraint replace Java easy-calculator state; no whole-Java calculator trace claim."
+    },
+    {
+      "id": "environment-undo-shadow-entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/testutil/corruptedundoshadow/CorruptedUndoShadowEntity.java",
+      "upstream_test": "updateValueClone",
+      "local_path": "crates/solver/tests/fixtures/corrupted_undo_shadow_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve two entity/value identities, actual value/valueClone fields, the clone supplier refusing updates to v1 after initialization, inverse membership notifications in both directions, and equality-count easy score. Native integer IDs, owned Rust fields and calculator callbacks replace Java objects/annotations; fresh easy scoring reads actual shadows without running suppliers. No Java API or search-trace claim."
+    },
+    {
+      "id": "environment-undo-shadow-value",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/testutil/corruptedundoshadow/CorruptedUndoShadowValue.java",
+      "upstream_test": "inverse-relation entities collection",
+      "local_path": "crates/solver/tests/fixtures/corrupted_undo_shadow_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve two entity/value identities, actual value/valueClone fields, the clone supplier refusing updates to v1 after initialization, inverse membership notifications in both directions, and equality-count easy score. Native integer IDs, owned Rust fields and calculator callbacks replace Java objects/annotations; fresh easy scoring reads actual shadows without running suppliers. No Java API or search-trace claim."
+    },
+    {
+      "id": "environment-undo-shadow-solution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/testutil/corruptedundoshadow/CorruptedUndoShadowSolution.java",
+      "upstream_test": "entityList/valueList/score",
+      "local_path": "crates/solver/tests/fixtures/corrupted_undo_shadow_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve two entity/value identities, actual value/valueClone fields, the clone supplier refusing updates to v1 after initialization, inverse membership notifications in both directions, and equality-count easy score. Native integer IDs, owned Rust fields and calculator callbacks replace Java objects/annotations; fresh easy scoring reads actual shadows without running suppliers. No Java API or search-trace claim."
+    },
+    {
+      "id": "environment-undo-shadow-easyscorecalculator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/testutil/corruptedundoshadow/CorruptedUndoShadowEasyScoreCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/fixtures/corrupted_undo_shadow_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve two entity/value identities, actual value/valueClone fields, the clone supplier refusing updates to v1 after initialization, inverse membership notifications in both directions, and equality-count easy score. Native integer IDs, owned Rust fields and calculator callbacks replace Java objects/annotations; fresh easy scoring reads actual shadows without running suppliers. No Java API or search-trace claim."
     }
   ]
 }

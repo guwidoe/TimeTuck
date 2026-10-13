@@ -551,6 +551,7 @@ pub(crate) struct ListSelection<V> {
     pub selected: Option<ListMove<V>>,
     pub selected_accepted: bool,
     pub evaluations: u64,
+    pub replay_evaluations: u64,
     pub constraint_evaluations: u128,
     pub evaluation_limit: bool,
 }
@@ -675,6 +676,7 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             selected: None,
             selected_accepted: false,
             evaluations: 0,
+            replay_evaluations: 0,
             constraint_evaluations: 0,
             evaluation_limit: false,
         };
