@@ -16,7 +16,74 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round126
+## Latest verified checkpoint — round128
+
+Three GPT-6.1 Sol agents completed separate lanes. runner-c17 placer tests/Clippy passed;
+local42 occurrence/explanation cases and Clippy passed. Root runner-c3 frontier cases/
+Clippy passed after one actual local compile failure (incorrect structural-score
+constructor); log preserved. runner-a/public-binary k-opt discriminator produced32
+observations:15 executed,17not doable; no new Rust algorithm/source-method credit.
+All original logs, manifests, failures and helper sources preserved under
+work/round128-agent-evidence. Full goal remains incomplete and active.
+
+Eight complete source methods and eleven fixtures integrated: three placer copy
+methods, four constraint-match/total equality/hash/order methods, frontier pruning.
+RebuildablePlacer builds actual existing construction queues/providers from retained
+configuration/factory. Copy calls once and owns fresh session/lifecycle state;
+manual sessions return the complete unavailable diagnostic. Factories remain
+responsible for freshness/ordinary validation; no candidate/scoring dispatch added.
+ConstraintOccurrenceLedger imports real ScoreExplanation contributions, preserves
+unique handle identity across replacement and historical snapshots, and publishes
+checked totals/indictments. Total identity/order is constraint name; explicit match
+diagnostic comparison separates payload order from Rust identity ordering. Import
+batches per constraint: actual256-match graph control counts512 payload clones and
+zero rescoring. Clone work is staged before checked publication, preserving failed
+updates. Existing ExplainedMatch payload equality and normal scoring unchanged.
+PruningFrontier owns actual branch payloads with native priorities/stable ties and
+full-score incumbent pruning; unknown bounds survive, invalid incumbents reject.
+Originals execute recorded moves. Caller bounds must be admissible/attainable;
+existing exhaustive enumeration is unchanged. Eight originals earn no source credit.
+
+Frozen merged bash scripts/check.sh passed once on runner-c in54.044s:
+7,573Rust tests and290doctests. Seven Rust jobs ran;1,146Rust and46Python jobs reused
+genuine matching runner-c records. Clippy33.98s; prebuild98.968s; total153.237s.
+Compatibility3,990/4,855 (82.183%),297pending,568excluded,zero failed/unverified.
+Rust digest 56f790f558d07cddb8750816eecc863dd531784f64e677c355be70c6150da3ea.
+Report digest 1b2d0d9f2ff01d24f288d9738c3c26ce3944eb4440433edbf34c6082c72b1ebd.
+Archive work/round128-runner-c-results.tar.gz SHA256:157699d65d2ae0fec944757a6870264d88cf1be5b13d2cd0572cef2c0be629d0.
+Evidence work/parallel-round128-evidence.json; freeze work/parallel-round128-freeze.json;
+postcommit proof work/round128-postcommit-evidence.json. runner-c source snapshot
+ddd4bf21b65e3ddbbfd6df2f94118b08e7b952cb51585f09628b1db506d7b1a2.
+Keep remote job records separate under work/round128-runner-c-results/work/verification;
+relocation preserves original keys, log checksums and dates. Do not repeat successful
+matching-input checks. Backend report/freshness inspected; no UI changes/repeated
+browser checks. Older performance evidence retains actual dates/source/binaries,
+including sampling2026-10-13T04:59:18.200098+00:00 and paired Java
+k-opt2026-10-13T02:08:50.481824+00:00, visibly stale. No new speed/timing claim.
+
+Round127 longer-interior probe and round128 alternate-matching probe source/provenance
+are now integrated: compat/oracle/KOptSeamInteriorProbe.java and
+KOptSeamMatchingProbe.java, four fixture-only records. No probe replay. Saved original
+pinned artifact hashes/output in work/round128-agent-evidence/kopt. The alternate
+matching{1–2,3–5,4–6} yields base rows[1,2]/[3,4,6,5], lacking3–5 in the combined
+endpoint cycle. Reversing first removed pair changes doability; reversing middle
+pair retains old output. General endpoint-tour plus physical-interior attachment is
+therefore insufficient. Remaining rule: orientation-sensitive descriptor-to-rewrite
+conversion, interior transport and implicit row boundaries. All seven exact virtual
+seam/iterator methods remain pending. Do not add scripted fixtures, repeat refuted
+probes or duplicate endpoint-only scaffolding. No production implementation/private
+fields/bytecode bodies inspected; test-visible binary behavior is not supported
+end-user API equivalence. Continue actual runtime gaps, including construction
+factory unfold/build and the remaining k-opt conversion.
+
+All agents/build jobs are terminal. Preserve needed ignored evidence, then archive
+integrated placer-factories-round128, constraint-occurrences-round128 and old
+kopt-seams-round126 worktrees after commit. Temporary runner-c wake39698 must be stopped;
+no persistent power settings changed. Up to three GPT-6.1 Sol agents and all three
+build machines remain authorized. Pin unchanged; commit occasionally, keep
+performance important and batch related shared changes before broad checks.
+
+## Previous verified checkpoint — round126
 
 Three GPT-6.1 Sol lanes completed: runner-c9 focused branch-restoration cases plus
 Clippy; runner-a17 local-cycle cases plus Clippy; local42 threshold/profile/matrix

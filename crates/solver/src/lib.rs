@@ -1719,3 +1719,15 @@ pub use list_k_opt_local_cycles::ListKOptLocalCyclePlan;
 
 mod scoped_significant_improvement;
 pub use scoped_significant_improvement::ScopedSignificantImprovement;
+
+mod pruning_frontier;
+pub use pruning_frontier::{PruningFrontier, UninitializedPessimisticBound};
+
+mod rebuildable_placer;
+pub use rebuildable_placer::{PlacerCopyError, RebuildablePlacer};
+
+mod constraint_occurrences;
+pub use constraint_occurrences::{
+    ConstraintOccurrence, ConstraintOccurrenceBinding, ConstraintOccurrenceId,
+    ConstraintOccurrenceLedger, ConstraintOccurrenceTotal,
+};

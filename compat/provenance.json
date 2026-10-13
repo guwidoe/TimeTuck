@@ -59878,6 +59878,126 @@
       "upstream_test": "withConstructionHeuristicAndLocalSearch",
       "local_test": "with_construction_heuristic_and_local_search",
       "modifications": "Preserve every phase/solver termination and exact gradient assertion, CH times 0/500/1001 and post-end queries, LS entry1501 best5, step1502 best10 below accumulated7 threshold, step2001 and final2502 expiry. Java spies and clock mocks map to explicit native scoped lifecycle/elapsed time/best-score observations. ScopedSignificantImprovement is the real runtime wired to the existing score-aware solver profile, ordered phase hooks, initialized score observations, stopping and scoped termination-progress contexts. Native solve anchor begins at CH end1001; phase anchor begins LS1501, independently seeded from best5. Source final phaseEnded uses earlier CH scope; it has no asserted output and the native mismatched end does not reset the active LS runtime. No Java scope ABI/search trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ExhaustiveSearchPhaseScopeTest.testNodePruning",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/scope/ExhaustiveSearchPhaseScopeTest.java",
+      "upstream_test": "testNodePruning",
+      "local_path": "crates/solver/tests/pruning_frontier_cases.rs",
+      "local_test": "node_pruning",
+      "status": "implemented",
+      "modifications": "Preserve three fully initialized 0/1/2 nodes, zero depth/parent breadth/breadth, each score as its finite optimistic bound, initial pessimistic i32 minimum and improvement to1, and exact final queue size1. Native owning priority frontier and actual score-first comparator replace Java phase scope/TreeSet and mocks. Caller-provided admissible/attainable bounds; no automatic Java scope integration or ABI claim. Existing solver enumeration unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PooledEntityPlacerTest.copy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PooledEntityPlacerTest.java",
+      "upstream_test": "copy",
+      "local_path": "crates/solver/tests/placer_copy_cases.rs",
+      "local_test": "pooled_entity_copy",
+      "modifications": "Preserve exact unavailable-copy diagnostic and exactly one factory invocation for copy. Native RebuildablePlacer retains immutable construction policy and a real queue/provider factory; copy creates a fresh PlacementQueue with fresh sources, cache, cursor and lifecycle. Additional assertions execute original/copied placements, verify retained config and fresh state. Native explicit recorded key/replay roles replace Java mimic selectors/metamodels; three source dummy moves a1/a2/b1 in one pooled placement. Initial native build is outside the copy invocation count. No Java ABI or reflective metadata claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "QueuedEntityPlacerTest.copy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerTest.java",
+      "upstream_test": "copy",
+      "local_path": "crates/solver/tests/placer_copy_cases.rs",
+      "local_test": "queued_entity_copy",
+      "modifications": "Preserve exact unavailable-copy diagnostic and exactly one factory invocation for copy. Native RebuildablePlacer retains immutable construction policy and a real queue/provider factory; copy creates a fresh PlacementQueue with fresh sources, cache, cursor and lifecycle. Additional assertions execute original/copied placements, verify retained config and fresh state. Native explicit recorded key/replay roles replace Java mimic selectors/metamodels; entity keys a/b, primary values1/2/3 and secondary values8/9, recorded entity key consumed by both Cartesian change branches. Initial native build is outside the copy invocation count. No Java ABI or reflective metadata claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "QueuedValuePlacerTest.copy",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedValuePlacerTest.java",
+      "upstream_test": "copy",
+      "local_path": "crates/solver/tests/placer_copy_cases.rs",
+      "local_test": "queued_value_copy",
+      "modifications": "Preserve exact unavailable-copy diagnostic and exactly one factory invocation for copy. Native RebuildablePlacer retains immutable construction policy and a real queue/provider factory; copy creates a fresh PlacementQueue with fresh sources, cache, cursor and lifecycle. Additional assertions execute original/copied placements, verify retained config and fresh state. Native explicit recorded key/replay roles replace Java mimic selectors/metamodels; entity candidates a/b/c and recorded value keys1/2, candidate changes consuming the replayed current value. Initial native build is outside the copy invocation count. No Java ABI or reflective metadata claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_occurrence_cases.rs",
+      "id": "ConstraintMatchTest.equalsAndHashCode",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/constraint/ConstraintMatchTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_test": "match_equals_and_hash_code",
+      "modifications": "Preserve every source identity/equality/hash/comparison assertion, all ordered fixtures and all forward/reverse pair comparisons. Native unique occurrence handles refer to retained actual ScoreExplanation contributions; cloning retains handle identity while equal payloads at distinct occurrences differ. ExplainedMatch payload equality is unchanged. Explicit diagnostic_cmp orders name, score, fact-list count and ordered facts; it intentionally does not implement inconsistent Rust Ord. Totals are borrowed views over actual ConstraintExplanation data, with Eq/Hash/Ord using only constraint name, including same c key at scores0/0/-7. Source Object cast bypasses comparable assertion for unequal equal-payload matches; native adaptation likewise checks identity inequality separately. No Java object/hash numeric/API parity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_occurrence_cases.rs",
+      "id": "ConstraintMatchTest.compareTo",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/constraint/ConstraintMatchTest.java",
+      "upstream_test": "compareTo",
+      "local_test": "match_compare_to",
+      "modifications": "Preserve every source identity/equality/hash/comparison assertion, all ordered fixtures and all forward/reverse pair comparisons. Native unique occurrence handles refer to retained actual ScoreExplanation contributions; cloning retains handle identity while equal payloads at distinct occurrences differ. ExplainedMatch payload equality is unchanged. Explicit diagnostic_cmp orders name, score, fact-list count and ordered facts; it intentionally does not implement inconsistent Rust Ord. Totals are borrowed views over actual ConstraintExplanation data, with Eq/Hash/Ord using only constraint name, including same c key at scores0/0/-7. Source Object cast bypasses comparable assertion for unequal equal-payload matches; native adaptation likewise checks identity inequality separately. No Java object/hash numeric/API parity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_occurrence_cases.rs",
+      "id": "ConstraintMatchTotalTest.equalsAndHashCode",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/constraint/ConstraintMatchTotalTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_test": "total_equals_and_hash_code",
+      "modifications": "Preserve every source identity/equality/hash/comparison assertion, all ordered fixtures and all forward/reverse pair comparisons. Native unique occurrence handles refer to retained actual ScoreExplanation contributions; cloning retains handle identity while equal payloads at distinct occurrences differ. ExplainedMatch payload equality is unchanged. Explicit diagnostic_cmp orders name, score, fact-list count and ordered facts; it intentionally does not implement inconsistent Rust Ord. Totals are borrowed views over actual ConstraintExplanation data, with Eq/Hash/Ord using only constraint name, including same c key at scores0/0/-7. Source Object cast bypasses comparable assertion for unequal equal-payload matches; native adaptation likewise checks identity inequality separately. No Java object/hash numeric/API parity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_occurrence_cases.rs",
+      "id": "ConstraintMatchTotalTest.compareTo",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/constraint/ConstraintMatchTotalTest.java",
+      "upstream_test": "compareTo",
+      "local_test": "total_compare_to",
+      "modifications": "Preserve every source identity/equality/hash/comparison assertion, all ordered fixtures and all forward/reverse pair comparisons. Native unique occurrence handles refer to retained actual ScoreExplanation contributions; cloning retains handle identity while equal payloads at distinct occurrences differ. ExplainedMatch payload equality is unchanged. Explicit diagnostic_cmp orders name, score, fact-list count and ordered facts; it intentionally does not implement inconsistent Rust Ord. Totals are borrowed views over actual ConstraintExplanation data, with Eq/Hash/Ord using only constraint name, including same c key at scores0/0/-7. Source Object cast bypasses comparable assertion for unequal equal-payload matches; native adaptation likewise checks identity inequality separately. No Java object/hash numeric/API parity claim."
     }
   ],
   "fixtures": [
@@ -84686,6 +84806,149 @@
       "id": "scoped-threshold-ch-ls-clock-fixture",
       "upstream_test": "withConstructionHeuristicAndLocalSearch/setup",
       "modifications": "Preserve window1000, thresholdSimpleScore7, CH scope and steps, LS scope and best-score-improved observations, starting time0, best5 at1501 and10 at1502, no later improvements, source final earlier-CH scope end. Replace mocks with deterministic explicit native runtime inputs; original integration test separately executes actual two-entity CH then LS through ScoredTerminationProfile and injected SolverClock."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "AbstractNodeComparatorTest.buildNode.pruning_frontier",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/node/comparator/AbstractNodeComparatorTest.java",
+      "upstream_test": "buildNode",
+      "local_path": "crates/solver/tests/pruning_frontier_cases.rs",
+      "modifications": "TEST helper default optimistic bound equals fully assigned score; retain depth/score/parentBreadth/breadth 0/0..2/0/0 for the complete node-pruning fixture. Native SearchNodeKey and finite scores replace mock nodes; no production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "pooled_entity_copy-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PooledEntityPlacerTest.java",
+      "upstream_test": "copy",
+      "local_path": "crates/solver/tests/fixtures/placer_copy_fixture.rs",
+      "modifications": "Preserve three source dummy moves a1/a2/b1 in one pooled placement. Native immutable Config plus genuine SelectionSource/PlacementSource implementations construct fresh existing PlacementQueue sessions; finite source policies replace Java selector mocks. Cartesian entity placements enumerate both value domains with the same recorded entity; value placements enumerate all entity candidates using the same recorded value."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "queued_entity_copy-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerTest.java",
+      "upstream_test": "copy",
+      "local_path": "crates/solver/tests/fixtures/placer_copy_fixture.rs",
+      "modifications": "Preserve entity keys a/b, primary values1/2/3 and secondary values8/9, recorded entity key consumed by both Cartesian change branches. Native immutable Config plus genuine SelectionSource/PlacementSource implementations construct fresh existing PlacementQueue sessions; finite source policies replace Java selector mocks. Cartesian entity placements enumerate both value domains with the same recorded entity; value placements enumerate all entity candidates using the same recorded value."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "queued_value_copy-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedValuePlacerTest.java",
+      "upstream_test": "copy",
+      "local_path": "crates/solver/tests/fixtures/placer_copy_fixture.rs",
+      "modifications": "Preserve entity candidates a/b/c and recorded value keys1/2, candidate changes consuming the replayed current value. Native immutable Config plus genuine SelectionSource/PlacementSource implementations construct fresh existing PlacementQueue sessions; finite source policies replace Java selector mocks. Cartesian entity placements enumerate both value domains with the same recorded entity; value placements enumerate all entity candidates using the same recorded value."
+    },
+    {
+      "id": "round127-seam-interior-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt/setup",
+      "local_path": "compat/oracle/KOptSeamInteriorProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt the source A[1,2,3,6]/B[4,5] fixture, local-wrap and two internal cuts, same added endpoint matching and native source labels into seven new opaque runtime observations. Insert two/three nonendpoint values into each valid retained interval, separately and together; inspect actual returned rows and descriptor accessor arrays. Inputs remain original/test-derived variants; no supplied expected-output scripts or Rust source-method credit."
+    },
+    {
+      "id": "round127-seam-interior-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges(InnerScoreDirector,ListVariableDescriptor,ListVariableDescriptor,List,List)",
+      "local_path": "compat/oracle/KOptSeamInteriorProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST tourArray/incl identity mapping and descriptor/getKOptListMove invocation; real working-state suppliers use the existing TEST-visible binary helpers, with no implementation inspection. Register owned test data, execute the move and read owned rows plus accessible descriptor getters; no private fields, decompilation or bytecode body inspection. Internal package-scoped accessors are not claimed as supported end-user APIs. Pinned Community artifact identity and original actual logs are retained in round127 evidence."
+    },
+    {
+      "id": "round128-seam-matching-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt/setup",
+      "local_path": "compat/oracle/KOptSeamMatchingProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain only source-derived A/B local-wrap geometry and original three removed pairs. Independently enumerate all15 added endpoint perfect matchings and observe base and simultaneous longer-interior layouts, plus two reversed-cut orientations. Use the recorded round127 longer-interior inputs without replaying its successful observations. Outputs are actual callable binary doability/execution results, not supplied expected rows. These exploratory fixture variants earn no complete source-method credit."
+    },
+    {
+      "id": "round128-seam-matching-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges(InnerScoreDirector,ListVariableDescriptor,ListVariableDescriptor,List,List)",
+      "local_path": "compat/oracle/KOptSeamMatchingProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST endpoint-array/incl construction and descriptor conversion through registered test-domain data and TEST-visible binary successor/between helpers. Observe move doability before execution; unavailable candidates report false, while accepted candidates execute and expose actual owned rows/descriptor accessor arrays. Internal package-scoped accessors are not supported end-user API claims. No production source, private fields, decompilation or bytecode body inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_occurrence_cases.rs",
+      "id": "constraint-match-default-justification-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/constraint/ConstraintMatchTest.java",
+      "upstream_test": "buildConstraintMatch",
+      "modifications": "Preserve source constraint name, SimpleScore and ordered fact varargs including repetitions, creating DefaultJustification with original order and separate deduplicated indictment facts. Fixture creates actual ledger contributions and receives unique native handles. Ten compareTo rows and equal c/zero/e1 occurrences remain separate."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_occurrence_cases.rs",
+      "id": "constraint-match-total-key-score-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/constraint/ConstraintMatchTotalTest.java",
+      "upstream_test": "equalsAndHashCode/compareTo/setup",
+      "modifications": "Preserve three c totals scores0/0/-7 and different d key; preserve ordered a/aa/ab/b/c/ca/cb/d zero totals. Empty ledgers hold real zero-score constraint snapshots; score-7 total is derived from an actual retained contribution. No scripted total score field."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_occurrence_cases.rs",
+      "id": "constraint-occurrence-planner-assert-comparison-verifier",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertObjectsAreEqual/assertObjectsAreNotEqual/assertCompareToOrder",
+      "modifications": "Preserve every i<j pair: equality/hash and comparator equality for comparable equal fixtures, inequality plus comparator inequality for totals, identity-only inequality after Object cast for occurrences, forward less/reverse greater for every ordered pair. Native diagnostic comparator deliberately remains distinct from Eq for occurrence handles."
     }
   ]
 }

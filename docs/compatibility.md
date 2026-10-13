@@ -9209,3 +9209,39 @@ The complete construction/local-search source method retains all timing, thresho
 and gradient assertions. Controlled-clock native execution and the existing six-path
 shared timer matrix cover actual construction, local search, other phases, handoff
 gaps and disabled policies. No wall-clock trace or Java lifecycle ABI parity claim.
+
+## Rebuildable placement sessions and identity-bearing explanations
+
+RebuildablePlacer retains a configuration and recipe that builds actual existing
+construction queues/providers. Copy invokes the factory once and owns fresh session
+state; manual sessions reject with the complete source diagnostic. Factories remain
+responsible for fresh state and ordinary provider validation. Three full source
+methods retain pooled, entity-major Cartesian and value-major replay fixtures;
+originals cover real configured construction, independent lifecycle/cursors and
+factory failures. There is no extra dispatch in candidate/scoring loops.
+
+ConstraintOccurrenceLedger imports actual retained ScoreExplanation contributions
+without scoring. Unique handles preserve occurrence identity across replacement,
+while historical handles retain historical payloads. Total identity/order uses
+constraint name, independent of score. Diagnostic match comparison uses name, score,
+fact count then ordered facts; it is separate from Rust identity ordering. Checked
+updates/removal preserve real totals and indictment memberships. Imports batch each
+constraint, avoiding repeated per-match rebuilding; a256-contribution graph control
+counts512 payload clones and zero rescoring. Four complete source equality/hash/order
+methods retain all assertions. Existing ExplainedMatch payload equality/scoring
+remain unchanged; explicit native import identities are not Java object identities.
+
+PruningFrontier owns actual branch payloads and uses native exploration priorities,
+stable insertion ties and full-score incumbent pruning. Unknown bounds survive;
+uninitialized incumbents reject before publication. The complete source method
+retains all three nodes, the i32 minimum incumbent and improvement to1, leaving one
+queued node. Originals execute retained recorded moves and verify stable order/
+rejection. Caller bounds must be admissible/attainable; existing enumeration is
+unchanged, without Java scope/traces or automatic bound inference claims.
+
+Two new opaque k-opt probes retain longer-interior and alternate-matching observations
+from pinned TEST-derived geometry. Accepted conversions may differ from the logical
+endpoint matching and reversed cuts may change doability. All seven exact virtual
+seam/iterator methods remain pending. Four fixture records document these probes;
+there is no source-case or speculative runtime credit. No production implementation,
+private fields or bytecode bodies inspected. No new timing or speed claim.
