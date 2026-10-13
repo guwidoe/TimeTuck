@@ -16,7 +16,56 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round115
+## Latest verified checkpoint — round116
+
+Move exposes a borrowed, fallible selector eligibility query. Composite eligibility
+is the OR of primitive child queries against the opening context, traversed in
+child order with true/error short-circuit; empty moves never access the context.
+Primitive/empty root queries allocate no traversal buffer. Executable checking
+still evaluates the final assignment and is unchanged; restoring composites may
+be selector-eligible but fail executable doability. No scoring/applying/cloning
+occurs during the query. Borrowed no-change rebasing returns the original move
+reference without destination lookups; real leaves delegate to existing identity/
+collision checks and own the rebased result. Nested empty trees also borrow; no
+Java/global singleton claim. Complete adaptations preserve all four dummy
+eligibility combinations using real primitive changes and the native checker,
+null-context no-change eligibility and same-object no-change rebasing. All 8
+SelectorBasedCompositeMoveTest and both SelectorBasedNoChangeMoveTest methods
+now pass. Three source cases recorded. Three original controls cover ordered
+nested traversal, callback errors, restoring composites, identity and rebase
+lookup/collision failures. Pin unchanged; full objective remains incomplete.
+
+15 focused cases passed; Clippy passed in 32.27s; 4 affected targets compiled
+in 6.19s and 1,105 unchanged targets reused. Frozen bash scripts/check.sh passed
+in 101.231s: 7,462 Rust tests and 290 doctests.
+Rust jobs: {'RUN': 4, 'REUSE': 1105}; Python jobs: {'REUSE': 46}.
+Compatibility: 3,933/4,855 (81.009%), 354 pending,
+568 excluded, zero failed/unverified. Rust digest 7acdf8a2fef70398f72536e2b939275fadd254d43c5d84195ab2e96ce40166fa.
+Report digest 0a4be0c83a53208323160eb89c9af2fcaebbf87f8f62e148523eb46b38cd149d.
+Archive work/round116-local-results.tar.gz SHA256:1ee5660a6f9310a42106556730cb750f02c2662429970875c27f570cf827afdb.
+Evidence work/parallel-round116-evidence.json; freeze
+work/parallel-round116-freeze.json; postcommit proof
+work/round116-postcommit-evidence.json. Prebuild92013/gate26078 terminal0;
+do not repeat successful unchanged checks. Actual keys/log hashes/dates remain.
+Backend report/data freshness inspected; no UI changes/repeated browser checks.
+
+No benchmark refresh for additive selector/rebase APIs; existing execution/scoring
+hot paths unchanged. Preserve older native and paired Java measurements with
+actual dates/source state and visibly stale status where applicable. Paired k-opt
+actual date remains 2026-10-13T02:08:50.481824+00:00. Last native partition
+comparison remains scoped to round114; no Java/general speed claim.
+User reported both remote machines back. runner-a was reachable but required
+renewed Tailscale SSH authentication; runner-c diagnostic SSH still timed out.
+This batch's full gate ran locally. No remote result relabeled as local.
+
+Continue closing actual core behavior gaps; seven saved k-opt seam/iterator
+methods remain pending. Do not repeat answered production-free probes.
+Other gaps include random selector traces/eligibility, Bavet deactivation/index
+routing, shadow dependencies and exact phase behavior. No new agents/assignments.
+Keep performance important, shrink backlog, use selective reuse and commit
+occasionally. Full objective remains active and incomplete.
+
+## Previous verified checkpoint — round115
 
 ListRange supplies geometry-only selector swap eligibility and borrowed arrival-
 range checks, explicitly separate from strict ListProblem checking/application.

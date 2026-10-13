@@ -71,6 +71,17 @@ not imply Java candidate-state visibility or custom listener parity. Original
 regressions check transactional replacement, rollback, sparse best snapshots,
 phase restores, cached lookup work and panic recovery without extra method credit.
 
+All eight SelectorBasedCompositeMoveTest methods and both
+SelectorBasedNoChangeMoveTest methods now have complete adaptations. The native
+selector query evaluates primitive eligibility against the opening context and
+accepts a composite if any child is eligible. It does not simulate edits or
+replace final-assignment validation: a restoring composite may be selector-
+eligible and still fail executable doability. Empty compositions do not access
+the context. Borrowed no-change rebasing preserves the saved move's pointer
+identity without destination lookups; native code makes no global singleton
+claim. The four dummy true/false combinations use real primitive changes and
+the native checker; original controls cover order, errors and rebasing collisions.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

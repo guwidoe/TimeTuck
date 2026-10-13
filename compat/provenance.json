@@ -59096,6 +59096,51 @@
       "local_path": "crates/solver/tests/selector_sublist_swap_cases.rs",
       "local_test": "is_move_doable_value_range_provider_on_entity",
       "modifications": "Preserve every same/different entity overlap/gap/touch judgement, including source spans extending beyond the four-value row, and all six receiver-range outcomes across both reverse flags. Retain exact initially invalid entity-specific fixture: ranges[1,2,3]/[1,3,4,5], rows[1,4,2]/[3,5]. Native stable IDs and borrowed selector geometry/arrival-membership checks replace Java descriptors/value-range-manager mocks. No fixture repair, strict executable-validation weakening, pin/dependency or execution-validity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedCompositeMoveTest.isMoveDoable",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedCompositeMoveTest.java",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/selector_composite_doability_cases.rs",
+      "local_test": "is_move_doable",
+      "modifications": "Preserve all four ordered true/false child combinations and composite eligibility assertions. Native primitive changes queried by BasicMoveChecker against the same opening assignment replace TEST dummy child eligibility and mock score director; selector OR is distinct from final executable assignment checking. No Java API or execution trace claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedNoChangeMoveTest.isMoveDoable",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedNoChangeMoveTest.java",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/selector_no_change_cases.rs",
+      "local_test": "is_move_doable",
+      "modifications": "Preserve ineligibility without any context access: an empty native Move composition replaces the Java no-change instance; panic-on-use callback replaces the null score director."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedNoChangeMoveTest.rebase",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/move/SelectorBasedNoChangeMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/selector_no_change_cases.rs",
+      "local_test": "rebase",
+      "modifications": "Preserve same-object rebasing with an empty destination lookup. Native Cow::Borrowed and pointer identity preserve the saved move reference; both rebasing callbacks fail if invoked. No global singleton or Java API claim."
     }
   ],
   "fixtures": [
