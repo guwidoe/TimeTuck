@@ -4,6 +4,7 @@ use std::{
     fmt,
     rc::{Rc, Weak},
 };
+mod link_slots;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum EntryListError {

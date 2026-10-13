@@ -30,6 +30,7 @@ impl RefreshMode {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ShadowSessionError {
+    EmptyEntityArray,
     Metadata(&'static str),
     DuplicateNode,
     ForeignNode,
@@ -47,6 +48,7 @@ pub enum ShadowSessionError {
 impl fmt::Display for ShadowSessionError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::EmptyEntityArray => f.write_str("The entity array cannot be empty."),
             Self::Callback(error) => error.fmt(f),
             Self::FixedDependencyCycle(variables) => write!(
                 f,

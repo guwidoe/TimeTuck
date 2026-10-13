@@ -59261,6 +59261,36 @@
       "upstream_test": "equalIndexerMarkerTypes",
       "local_test": "equal_indexer_marker_types",
       "modifications": "Preserve Ann under key F, repeating/unique roles, both removal rejections and repeated-drain rejection. Actual keyed CandidateIndex bucket factories expose native role traits; no Java class/API identity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TupleListTest.remove_nullsSlotsOnTuple",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/tuple/TupleListTest.java",
+      "upstream_test": "remove_nullsSlotsOnTuple",
+      "local_path": "crates/solver/tests/tuple_link_slots_cases.rs",
+      "local_test": "remove_nulls_slots_on_tuple",
+      "modifications": "Preserve two tuple identities, removing the first, and both cleared link-slot assertions. Native stable handles and current-list link_slots inspection replace intrusive tuple store positions0/1; previous/next slots retain that order. Native handles store no neighbor pointers, while removed membership is explicitly cleared; original drop controls additionally prove no retained neighboring payload ownership. No Java tuple layout/API claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ShadowVariableUpdateTest.emptyEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/ShadowVariableUpdateTest.java",
+      "upstream_test": "emptyEntities",
+      "local_path": "crates/solver/tests/shadow_entity_batch_cases.rs",
+      "local_test": "empty_entities",
+      "modifications": "Preserve rejection of an empty entity input and the exact source message fragment. Native ShadowSession.update_entities checks its actual selection before notifications/readers/suppliers, then performs valid batches through registered owner groups and notified refresh. A typed EmptyEntityArray error replaces the Java exception; registered native node handles replace reflective entity objects."
     }
   ],
   "fixtures": [

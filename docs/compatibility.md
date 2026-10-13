@@ -119,6 +119,18 @@ duplicate occurrences, non-Clone borrowed payloads, wide remapping state and laz
 supplier counts. Linked-list random-access rejection remains pending; native
 indexed storage does not implement that sequential Java backend.
 
+All eleven TupleListTest methods now have complete native adaptations. Removed
+entry handles expose empty previous/next link slots; links are resolved from
+current storage, so handles never retain neighbor pointers. Existing strict
+neighbor queries still reject removed handles. Original controls cover compaction,
+insertion, foreign handles, clear and neighboring payload destruction.
+ShadowSession additionally refreshes nonempty entity batches through actual
+registered owner groups, rejects empty selections before callbacks, validates
+all handles before notifications and deduplicates repeated owners. Notified
+refresh preserves unrelated cached inputs and pending work on failure. Empty
+entity input retains the exact source diagnostic. Native batch handles replace
+reflective object arrays; no Java intrusive layout or API parity is claimed.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

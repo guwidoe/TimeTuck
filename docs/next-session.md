@@ -16,7 +16,69 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round119
+## Latest verified checkpoint — round120
+
+EntryList.link_slots resolves current previous/next links and returns two empty
+slots for removed handles, rejecting foreign handles before lookup. No intrusive
+neighbor pointers are stored; strict previous_entry/next_entry still reject
+removed handles. Complete TupleList removal adaptation preserves two identities,
+removal of the first and both null-link assertions. All 11 TupleListTest methods
+now pass. Two originals cover compaction/insertion, retained removed handles,
+foreign handles, clear and non-Clone neighboring payload destruction; retained
+removed handles keep their own payload but cannot retain a neighbor/list owner.
+
+ShadowSession.update_entities is a real nonempty registered owner-batch refresh.
+Any owner field can represent the owner; duplicates collapse to one notification.
+Empty/foreign selections fail before dirty-state changes or callbacks. Selected
+owners' fields use existing mark_entities_dirty plus update_notified paths, with
+ordinary dependency propagation. Unselected external world facts must stay
+unchanged; update remains the full-refresh API. Callback failures preserve the
+old cache and retain pending notifications for retry. Empty array adaptation
+preserves exact source message "The entity array cannot be empty." Two originals
+cover whole-selection validation, selective/duplicate refresh counts, empty
+failure preserving earlier pending work and supplier-panic retry. Five of six
+ShadowVariableUpdateTest methods pass; invalidInverseRelation remains pending.
+Two full source cases recorded; no Java intrusive layout/reflection/API parity
+claim. Pin unchanged; full goal incomplete.
+
+34 focused cases passed (18 links, 16 shadow). Clippy passed in 35.37s.
+Affected compilation took 3m 47s;
+prebuild selected 1,013 affected targets and reused 109 unchanged targets.
+Frozen bash scripts/check.sh passed in 363.030s:
+7,485 Rust tests and 290 doctests. Rust jobs: {'RUN': 1013, 'REUSE': 109};
+Python jobs: {'REUSE': 46}.
+Compatibility: 3,943/4,855 (81.215%), 344 pending,
+568 excluded, zero failed/unverified. Rust digest fd9893c7c7bf88f1379a15c2c2960ab3efcd8463e342a2d56f87657de0db27ac.
+Report digest 4d2781f9fb3846198b56d145e805c10b3dd8b2e6d989fc0d463c5d8d6dc60ff7.
+Archive work/round120-local-results.tar.gz SHA256:cb1c2d5573224f6290ce2ef41f20c5a7dfa14efe598f0f1e9865f1819106536b.
+Evidence work/parallel-round120-evidence.json; freeze
+work/parallel-round120-freeze.json; postcommit proof
+work/round120-postcommit-evidence.json. Prebuild20509/gate 47146 terminal0;
+do not repeat successful unchanged checks. Actual keys/log hashes/dates remain.
+Backend report/data freshness inspected; no UI changes/repeated browser checks.
+
+No benchmark refresh for additive link inspection/owner-batch APIs. Existing
+execution, sampling and graph refresh algorithms are unchanged; new owner
+refresh delegates existing notified behavior. Prior native comparisons keep
+actual source/binary/driver/date and scoped results. Round119 sampling comparison
+actual date2026-10-13T04:59:18.200098+00:00, sourcef9aa9c6ea011a41b05f0ea05a235ca82c584b0d7e18d2fb9af564e8441bdabc1,
+with up5.1% regressions retained. Paired Java k-opt keeps actual date
+2026-10-13T02:08:50.481824+00:00, visibly stale as inputs dictate. No retags or
+freshness claims for old evidence. No live remote jobs; previous65218/53624
+terminal255 and SSH authentication URL expired. Full correctness ran locally.
+
+Continue core gaps. Invalid inverse relation needs a genuine nullable collection
+publication boundary; do not replace the source null fixture with a valid Vec or
+claim a generic missing-shadow check satisfies its diagnostics. Cascading required
+method signatures concern Java discovery; native typed suppliers do not yet
+establish both wrong-return/field-as-method cases. VariableSupport deferred list
+graph events need full actual edge-removal/addition assertions and concurrent
+group fixture; native notified refresh alone is not source credit. Seven k-opt
+seam/iterator methods remain pending; saved probes already answered. Keep
+performance important, shrink backlog, selective reuse and occasional commits.
+No new agents/assignments. Full goal remains active and incomplete.
+
+## Previous verified checkpoint — round119
 
 ReadOnlyRandomCursor, RepeatingRandomCursor and UniqueRandomCursor expose actual
 sampling roles through existing range, candidate-bucket and concatenated-query

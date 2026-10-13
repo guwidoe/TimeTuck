@@ -74,6 +74,25 @@ impl<K: Eq, W> ShadowSessionBuilder<'_, '_, K, W> {
     }
 }
 impl<K: Eq, W> ShadowSession<'_, '_, K, W> {
+    /// Refresh a nonempty batch of registered entity owners. Any registered
+    /// field can represent its owner; repeated owners are processed once.
+    /// Empty/foreign selections fail before dirty state changes or callbacks.
+    /// Every selected owner's fields are notified, then update_notified refreshes
+    /// them and propagates actual changes to dependents. Unselected external
+    /// world facts must remain unchanged, as with update_notified; use update
+    /// for a full refresh. Callback failures retain pending notifications for
+    /// retry while preserving the previous successful cached results.
+    pub fn update_entities(
+        &mut self,
+        world: &W,
+        entities: &[ShadowNodeRef],
+    ) -> Result<Vec<ShadowNodeRef>, ShadowSessionError> {
+        if entities.is_empty() {
+            return Err(ShadowSessionError::EmptyEntityArray);
+        }
+        self.mark_entities_dirty(entities)?;
+        self.update_notified(world)
+    }
     fn entity_group(&self, node: &ShadowNodeRef) -> Result<usize, ShadowSessionError> {
         Ok(self.entity_groups.group_of[lookup(&self.identity, self.nodes.len(), node)?])
     }
