@@ -16,17 +16,68 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest implementation checkpoint — round146
+## Latest verified checkpoint — round150
+
+The frozen coherent main batch passed one actual LOCAL `bash scripts/check.sh`:
+8,069 Rust tests and290 doctests,519.623s. Prebuild/Clippy1087.676s; total1611.580s.
+All1,280 Rust jobs and46 Python jobs ran because no matching actual local cache
+records existed for this source/environment. Future unchanged local results are
+reusable; do not repeat this gate. Source guards/log checksums/current report and
+backend freshness were inspected. No UI/data-contract change; no browser rerun.
+
+Compatibility is4,294/4,855 (88.445%),12 pending,549 excluded,zero failed/unverified.
+Nineteen complete pure Community data methods (10 model IDs,4 API versions,5
+resource paths) now override only their own blanket service/quarkus exclusion.
+Full source assertions and exact fixtures/messages/category adapters execute.
+Three originals construct real dispatchers, execute actual prioritized commands
+and native solves, inspect receipts/OpenAPI and reject invalid bindings. Owned
+metadata/nativeASCII/path policies are explicit; no JVM/CDI/HTTP claim. Seven
+originals and three attributed fixture records were added; exclusion rules,
+pin,Cargo and shared solver kernels remain unchanged.
+
+The optional RepairedKOptProvider makes the existing selector usable through
+both native scoring backends: live seeded owner/position/direction draws,
+retained combined-edge repair callbacks,fixed opening suffix lengths,bounded
+attempts and invalid/range/no-op filtering. Four originals cover actual geometry,
+pins,config/budgets,live reopen and independently rescored improving search.
+Positional emitted moves require immediate consumption; no Java traces/general
+partition/default changes or source credit. Both nonsequential metadata methods
+remain pending. Initial compile/control failures are preserved, not hidden.
+
+Receipts `work/parallel-round150-freeze.json`, `work/parallel-round150-evidence.json`,
+`work/round150-local-run.json`; exact19 method records `work/round150-added-source-ids.json`.
+Rust digest033094edaf3c8e79fdc2d6d822ecd45dffafe15685dab8f667addaaa6892a165;
+report digestf51e3f973fd38c314211bb08eaff2d8bb1064be03616f95843436082eea9972e.
+Basec9cde056f9bd7b38c77dba7e980ca8dcdcdd62f1. Agent sources/proofs preserved
+and hashchecked under `work/round148-agent-evidence/repaired-provider` (13files)
+and `work/round150-agent-evidence/service-descriptor` (14files). Both finished
+managed trees are queued for archive; no live agent/compiler tasks remain.
+Two existing Sol agents worked; no new subagents spawned.
+
+All three round146 actual paired benchmark input digests remain unchanged,
+and solver/k-opt/list measurements are current with original dates and raw
+proofs. Native window improvement1.97–8.77x and unequal-quality Java comparisons
+retain their original scope. No benchmark rerun/rekey. Older unrelated evidence
+remains visibly stale. runner-c WSL remains offline; runner-a collection1238 ended255
+before authentication. Its PASSED round146 gate must not restart. That historical
+archive remains pending; the collector now validates the original freeze against
+checkpointc9cde056 and leaves current logs/report unchanged. Current dashboard
+verification is independently complete from the actual LOCAL round150 gate.
+The goal is active and incomplete; do not claim project completion from these counts.
+
+## Previous implementation checkpoint — round146
 
 Three native slices are integrated; the goal remains incomplete. The frozen merged
 `bash scripts/check.sh` finished on runner-a with exit0 and before/after source
 guards, in368.414s after993.100s prebuild/Clippy (worker1362.0s). Its existing
 connection completed normally. Collection is pending Tailscale SSH authentication;
-do not rerun verification. The live collection handle is1238, helper
-`work/collect_round146_live_archive.py`, archive `work/round146-runner-a-results.tar.gz`.
-Authenticate the pending connection link, then poll that handle and validate with
-`python3 work/collect_round146_runner-a.py`. Do not open another collection connection
-while1238 remains live. If it expires, preserve its outcome before a new request.
+do not rerun verification. Collection1238 is now authoritatively terminal255:
+SSH timed out before authentication; the local archive remains0bytes. Outcome
+`work/round146-collection-attempt1-result.json` preserves the failed attempt.
+The old login link is no longer backed by a live connection. When the user is
+available or authentication state changes, start a fresh collection using
+`work/collect_round146_live_archive.py`, then validate its actual archive with
+`python3 work/collect_round146_runner-a.py`. Do not relaunch the passed gate.
 
 Freeze `work/parallel-round146-freeze.json`; worker manifest/log
 `work/remote-round146-integration-{manifest.json,log}`. Remote snapshot
@@ -69,6 +120,38 @@ in those trees. Main gate was run once, with per-job selective reuse. runner-c W
 Tailscale peer remains offline (lastseen2026-10-13T16:40:32Z), SSH timeout;
 local/runner-a work proceeded. Do not repeat an unchanged failed connectivity check
 or authentication request. Computer-use guidance forbids automating auth dialogs.
+
+## Completed focused slices — rounds148/149, integrated in round150
+
+Round148 optional RepairedKOptProvider is frozen at c9cde056 in managed
+`/home/ralph/.codex/worktrees/repaired-provider-round148/TimeTuck`. Four originals
+and affected Clippy passed; no source credit/default/kernel changes. Parent review
+is done and13 source/helper/log/manifest files are preserved/hashchecked under
+`work/round148-agent-evidence/repaired-provider`. Native seeded live draws feed
+actual repair callbacks and fixed opening suffix lengths. Emitted composites are
+positional and need immediate consumption; reopen derives changed owners/lengths.
+Both scoring backends improve independently scored routes under explicit limits.
+Initial compile/two original-control failures remain preserved. No live148 jobs.
+
+Round149 service descriptor is implemented in managed
+`/home/ralph/.codex/worktrees/service-descriptor-round149/TimeTuck` at c9cde056.
+Its19 pure Community model-id/version/resource-path cases are currently covered
+by the broad service/quarkus exclusion; complete adapted assertions can earn
+credit via existing explicit provenance overrides after actual proof. Exclusion
+rules/pin/JVM framework scope remain unchanged. Three originals consume validated
+metadata through actual EmployeeRouteDispatcher commands/receipts/OpenAPI.
+Parent source/all19TEST assertion review is done. Final22cases/affectedClippy completed LOCAL1761 exit0; source hashes
+were unchanged throughout. All source/proofs are preserved/hashchecked under
+work/round150-agent-evidence/service-descriptor. Both slices are now integrated
+in a coherent round150 main batch. Frozen final local check27369 completed exit0 via
+work/run_round150_local.py, with twelve prebuild workers and genuine local job
+keys. No matching local result records exist for this state. Earlier runner-a146
+check is not restarted/rekeyed: its collector now validates the historical
+freeze against checkpoint c9cde056 and preserves current logs/report untouched.
+New source/logs/freshness will come from the actual round150 local run. All three
+round146 paired benchmark input digests remain unchanged and no benchmark reruns
+are needed. Exact expected4294passed/12pending/549excluded after final proof.
+No new subagents spawned; two existing Sol agents handled these isolated slices.
 
 ## Previous verified checkpoint — round145
 

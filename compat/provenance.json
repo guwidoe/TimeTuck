@@ -64354,6 +64354,310 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Complete source Ann insertion with none key and seeded0 repeating/unique rejection assertions execute through real LinkedList-owned sequential leaves. Native identity0/unit key/borrowed IndexedCandidate replace UniTuple and CompositeKey.none; typed LeafRandomAccessUnsupported replaces UnsupportedOperationException. New common CandidateLeafView is implemented for existing actual dense CandidateBucket and actual linked buckets; dense factories delegate existing real seeded marker samplers, linked backend rejects unsupported access without materialization. No Vec capability flag or ordinary dense index changes."
+    },
+    {
+      "id": "ModelNameValidationTest.testValidModelId",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testValidModelId",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_valid_model_id",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testEmptyModelId",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testEmptyModelId",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_empty_model_id",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testModelIdWithMultipleUnderscores",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testModelIdWithMultipleUnderscores",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_model_id_with_multiple_underscores",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testWhitespaceModelId",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testWhitespaceModelId",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_whitespace_model_id",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testModelIdWithEmoji",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testModelIdWithEmoji",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_model_id_with_emoji",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testSystemModelId",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testSystemModelId",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_system_model_id",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testModelIdWithDotSystem",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testModelIdWithDotSystem",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_model_id_with_dot_system",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testModelIdWithNullCharacter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testModelIdWithNullCharacter",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_model_id_with_null_character",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testModelIdWithDollarNotAllowed",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testModelIdWithDollarNotAllowed",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_model_id_with_dollar_not_allowed",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelNameValidationTest.testTooLongModelId",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "testTooLongModelId",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "test_too_long_model_id",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ApplicationVersionValidationTest.validVersionDoesNotThrow",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ApplicationVersionValidationTest.java",
+      "upstream_test": "validVersionDoesNotThrow",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "valid_version_does_not_throw",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ApplicationVersionValidationTest.nullVersionThrows",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ApplicationVersionValidationTest.java",
+      "upstream_test": "nullVersionThrows",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "null_version_throws",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ApplicationVersionValidationTest.emptyVersionThrows",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ApplicationVersionValidationTest.java",
+      "upstream_test": "emptyVersionThrows",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "empty_version_throws",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ApplicationVersionValidationTest.blankVersionThrows",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ApplicationVersionValidationTest.java",
+      "upstream_test": "blankVersionThrows",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "blank_version_throws",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelResourceTypeParsingTest.versionedPath",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelResourceTypeParsingTest.java",
+      "upstream_test": "versionedPath",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "versioned_path",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelResourceTypeParsingTest.nonVersionedPath",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelResourceTypeParsingTest.java",
+      "upstream_test": "nonVersionedPath",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "non_versioned_path",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelResourceTypeParsingTest.emptyPath",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelResourceTypeParsingTest.java",
+      "upstream_test": "emptyPath",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "empty_path",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelResourceTypeParsingTest.missingPathSegment",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelResourceTypeParsingTest.java",
+      "upstream_test": "missingPathSegment",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "missing_path_segment",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "ModelResourceTypeParsingTest.versionOnlyPath",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelResourceTypeParsingTest.java",
+      "upstream_test": "versionOnlyPath",
+      "local_path": "crates/solver/tests/service_model_descriptor_cases.rs",
+      "local_test": "version_only_path",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
     }
   ],
   "fixtures": [
@@ -92357,6 +92661,48 @@
       "upstream_test": "setupValidNonsequential4OptMove/createMockKOptListMoveIterator selected draw shape",
       "local_path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
       "modifications": "Use TEST-derived single-row22member and origin/value/extra-cut position pattern with varied independent integer payloads. Original native controls verify actual disconnected components, real repair geometry, retained combined edges, executable moves/undo, stale snapshot/pin/budget/removed-edge validation. No source method credit; exact source metadata proof still fails four additional partner slots. Round146 adds original current-removed-edge callback controls, combined cross-owner pinned-prefix boundaries, sixteen even-k/reverse geometries and actual dense/stream search providers; bounded reference tail observation does not earn source credit."
+    },
+    {
+      "id": "service-descriptor-ModelNameValidationTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelNameValidationTest.java",
+      "upstream_test": "literal fixtures for testValidModelId, testEmptyModelId, testModelIdWithMultipleUnderscores, testWhitespaceModelId, testModelIdWithEmoji, testSystemModelId, testModelIdWithDotSystem, testModelIdWithNullCharacter, testModelIdWithDollarNotAllowed, testTooLongModelId",
+      "local_path": "crates/solver/tests/fixtures/service_model_descriptor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve 10 complete TEST examples: ID strings including rocket/NUL and computed255a+underscore; version v1/null/empty/three spaces; resource paths versioned/unversioned/empty/slash/version-only as applicable. Rust UTF-8 replaces Java surrogate spelling; Option replaces null. No source implementation copied."
+    },
+    {
+      "id": "service-descriptor-ApplicationVersionValidationTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ApplicationVersionValidationTest.java",
+      "upstream_test": "literal fixtures for validVersionDoesNotThrow, nullVersionThrows, emptyVersionThrows, blankVersionThrows",
+      "local_path": "crates/solver/tests/fixtures/service_model_descriptor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve 4 complete TEST examples: ID strings including rocket/NUL and computed255a+underscore; version v1/null/empty/three spaces; resource paths versioned/unversioned/empty/slash/version-only as applicable. Rust UTF-8 replaces Java surrogate spelling; Option replaces null. No source implementation copied."
+    },
+    {
+      "id": "service-descriptor-ModelResourceTypeParsingTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelResourceTypeParsingTest.java",
+      "upstream_test": "literal fixtures for versionedPath, nonVersionedPath, emptyPath, missingPathSegment, versionOnlyPath",
+      "local_path": "crates/solver/tests/fixtures/service_model_descriptor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
+      ],
+      "modifications": "Preserve 5 complete TEST examples: ID strings including rocket/NUL and computed255a+underscore; version v1/null/empty/three spaces; resource paths versioned/unversioned/empty/slash/version-only as applicable. Rust UTF-8 replaces Java surrogate spelling; Option replaces null. No source implementation copied."
     }
   ]
 }

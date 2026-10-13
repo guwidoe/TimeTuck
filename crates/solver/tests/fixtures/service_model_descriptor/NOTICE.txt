@@ -1,0 +1,5 @@
+Adapted Timefold Solver Community TEST cases and literal fixtures.
+Copyright Timefold contributors. Licensed under Apache License 2.0.
+Pinned commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762
+ModelNameValidationTest, ApplicationVersionValidationTest, ModelResourceTypeParsingTest.
+See compat/provenance.json and compat/licenses/timefold-Apache-2.0.txt.

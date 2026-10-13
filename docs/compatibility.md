@@ -9936,3 +9936,5 @@ reuse exact cached-vs-reference score/trial/termination traces. Existing focused
 cases cover independent permutation references, pinned/ranged models, actual
 execution/undo, sampling, scoring errors/panics and shadow/cache consistency.
 There is no additional upstream-method credit from this performance change.
+
+Round149: 19 pure deployment data-contract methods now have full native adaptations (10 model IDs, 4 API versions, 5 resource paths), despite their service prefix. Owned validated descriptors create the real EmployeeRouteDispatcher; three originals cover actual commands, solving, receipts/OpenAPI, ownership and rejected bindings. Exceptions adapt to Result/domain errors. Only the TEST examples are source-backed: native ASCII ID profile (255-byte limit, optional single suffix), safe path segments and explicit path/version mismatch checks are additional policy. Model-ID suffix does not imply API version. No Quarkus/CDI, Java ABI or generic HTTP claim; blanket exclusions and upstream pin remain unchanged.

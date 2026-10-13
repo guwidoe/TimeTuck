@@ -1104,3 +1104,5 @@ It earns no source method credit.
   Exact original TEST execution, adapted complete metadata probe and failure
   snapshots are separately preserved under `work/round145-*`; full partner
   metadata remains unsupported. No production/Enterprise implementation read.
+
+Round149 service_model_descriptor_cases.rs and fixtures/service_model_descriptor_fixture.rs adapt the 19 pinned Community deployment data-contract tests and their literals under Apache-2.0. Exact attribution appears in compat/provenance.json and fixtures/service_model_descriptor/NOTICE.txt. Native descriptor/runtime implementation is independent; no framework support is claimed.

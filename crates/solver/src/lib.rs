@@ -2026,3 +2026,12 @@ pub use list_k_opt_subtour_repair::{
 
 mod list_virtual_seam_provider;
 pub use list_virtual_seam_provider::{VirtualSeam3OptProvider, discover_virtual_seam_three_opt};
+
+mod list_repaired_k_opt_provider;
+pub use list_repaired_k_opt_provider::{RepairedKOptMoves, RepairedKOptProvider};
+
+mod service_model_descriptor;
+pub use service_model_descriptor::{
+    ServiceApiVersion, ServiceDescriptorError, ServiceDescriptorErrorKind, ServiceModelDescriptor,
+    ServiceModelId, ServiceResourcePath, ServiceResourceType,
+};
