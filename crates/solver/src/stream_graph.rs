@@ -32,6 +32,7 @@
 mod dependency_batch;
 mod dynamic_dependency;
 mod facts;
+mod filter_map;
 pub use facts::FactTransaction;
 mod activity;
 mod indexed_batch;

@@ -82,6 +82,18 @@ identity without destination lookups; native code makes no global singleton
 claim. The four dummy true/false combinations use real primitive changes and
 the native checker; original controls cover order, errors and rebasing collisions.
 
+All eleven BavetNodeDeactivationTest methods now have complete adaptations.
+The empty-class filter/map chain uses a native fused filter_map node and retains
+the zero-active-nodes, inactive-source/map and absent-separate-filter assertions.
+Native scoring terminals are graph nodes, so its actual topology has exactly
+three nodes. Existing explicit filter and map APIs retain their topology. The
+fused operator preserves input identity, emits zero or one mapped row, retracts
+previously accepted rows on rejection and retains only accepted identities.
+Original controls cover immediate/batch updates, transactions, saved candidate
+installation, panic recovery and source-based structural activity. Native fused-
+versus-separate timings have their own source/binary/date scope; they establish
+no Java performance equivalence or Java node/API parity.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

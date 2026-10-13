@@ -253,6 +253,8 @@ pub use stable_flat_map::StableFlatMapNode;
 mod canonical_flat_map;
 mod flat_map_stream;
 pub use flat_map_stream::FlatMapNode;
+mod filter_map_stream;
+pub use filter_map_stream::FilterMapNode;
 
 mod overlap_join;
 pub use overlap_join::OverlapJoinNode;

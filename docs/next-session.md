@@ -16,7 +16,70 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round116
+## Latest verified checkpoint — round117
+
+Native FilterMapNode and StreamGraphBuilder.filter_map fuse zero-or-one projection
+through one physical graph node, preserving input identity. Only accepted IDs
+are retained; rejected replacements retract previous outputs, absent/rejected
+retracts emit nothing and retracts never call the projection. Borrowed event
+processing avoids cloning input/output payloads. Callback/key/output preparation
+precedes persistent-root installation. Graph checkpoints, trial undo, saved-state
+installation, batching, rebuild and structural activity use ordinary node paths.
+Existing separate filter/map APIs and topology are unchanged. Empty-class true-
+filter/identity-map/unit-penalty adaptation preserves zero active nodes, inactive
+source/map and absence of a separate filter node; native topology is exactly
+source, fused map and score terminal. All 11 BavetNodeDeactivationTest methods
+now pass; one complete source case recorded. Four originals cover non-Clone
+payloads, rejection/retraction, callback panic recovery, 400 independent immediate/
+batch/pruned/unpruned transaction and saved-state checks, downstream rollback,
+foreign ports and rejected-row structural capability. Pin unchanged; goal incomplete.
+
+15 focused cases passed (one original unit plus 14 integration cases). Clippy
+passed in 36.80s. Affected compilation took 4m 22s; prebuild selected 999
+affected targets and reused 113 unchanged targets. Frozen bash scripts/check.sh passed in 378.347s:
+7,467 Rust tests and 290 doctests. Rust jobs: {'RUN': 999, 'REUSE': 113};
+Python jobs: {'REUSE': 46}.
+Compatibility: 3,934/4,855 (81.030%), 353 pending,
+568 excluded, zero failed/unverified. Rust digest f81b47b256c2c4f7d257dd7c304dcec254c6a7e9435d7b2ca1deb43debc5f458.
+Report digest 8143495610328d3cb4fbfb2bbac6d2e888434e275a1e7fe2ba7c5ffb7f8c1de3.
+Archive work/round117-local-results.tar.gz SHA256:2c5bd39a5025714ac6ca40406131e691790f1e44a6397e4faaa0e60b8af66646.
+Evidence work/parallel-round117-evidence.json; freeze
+work/parallel-round117-freeze.json; postcommit proof
+work/round117-postcommit-evidence.json. Prebuild59468/gate 81040 terminal0;
+do not repeat successful unchanged checks. Actual keys/log hashes/dates remain.
+Backend report/data freshness inspected; no UI changes/repeated browser checks.
+
+Original same-binary native fused-versus-separate performance evidence:
+work/round117-native-performance.json and raw output -raw.json. Actual date
+2026-10-13T04:10:44.306930+00:00; source/binary/driver hashes retained. Eight workloads
+use 8/256 rows, 512-byte inputs, 1/4 or 3/4 acceptance and immediate/batch
+transactions, including setup and four updates/retractions per transaction.
+3 alternating forks, 2 warmups, 5 samples each; checksums, final independently
+validated scores and logical score evaluation counts agree. Fused/separate time
+ratios (immediate/batch): 8 rows, 1/4 accepted 0.647/0.670; 8 rows,
+3/4 accepted 0.936/0.869; 256 rows, 1/4 accepted 0.676/0.633; 256 rows,
+3/4 accepted 0.942/0.922. Scoped 6–37% lower median time; no Java or
+whole-solver claim.
+Measured after focused correctness; full gate followed on the same Rust state.
+Paired Java k-opt retains actual date 2026-10-13T02:08:50.481824+00:00, visibly
+stale. Prior native partition evidence remains scoped to round114, without retags.
+
+Prior live remote diagnostic65218 is now terminal255: runner-a authentication
+connection expired and runner-c timed out. Separate runner-c diagnostic53624 terminal255.
+work/round117-remote-terminal.json preserves results. Old auth URL is expired;
+do not repeat it or restart completed local checks. No live remote jobs.
+Full gate and new native measurements ran locally, never relabeled as remote.
+
+Continue actual compatibility gaps. ComparisonIndexer routing still needs actual
+factory/strategy semantics; existing compound joins currently use partitioned
+storage even with no equality. UnindexedJoin predicate-twice test remains pending;
+do not add redundant callback work just to manufacture its count. Seven k-opt
+seam/iterator methods remain pending; saved probes already answered. Other gaps:
+random selector traces, shadow dependencies and exact phase behavior. No new
+agents/assignments. Keep performance important, shrink backlog, selective reuse
+and occasional Conventional commits. Full goal remains active and incomplete.
+
+## Previous verified checkpoint — round116
 
 Move exposes a borrowed, fallible selector eligibility query. Composite eligibility
 is the OR of primitive child queries against the opening context, traversed in
