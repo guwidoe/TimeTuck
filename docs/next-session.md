@@ -16,7 +16,67 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round137
+## Latest verified checkpoint — round138
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in
+90.612s: 7,788 Rust tests and 290 doctests. Compatibility
+4,109/4,855 (84.634%), 178 pending, 568 excluded, zero failed/unverified.
+Twenty-two complete methods, twelve TEST helper fixtures and twelve originals
+added. Eleven Rust jobs ran; 1,217 unchanged Rust jobs and all 46 Python jobs
+reused matching actual runner-a evidence. Prebuild 154.804s, Clippy 50.75s,
+affected compilation 32.92s, worker total 245.970s. Shared batched-join input
+policy changes include relevant existing regressions; the graph scheduler and
+default policies remain unchanged. No old evidence hashes were relabeled.
+Rust digest 5f138bb19c4a8b665a5878f64b817de7c4c802b06ceab82c6bb7b5c05ebdaeac.
+Report digest 510a540dccd5b28da16bd14b9b485745cfd52ca969b7541a6188786d52f1119a.
+runner-a source 96f74e67a7dbbf084c5bfa342588029148a7ff484a82a3ac7e1b70755631ad55.
+Archive `work/round138-runner-a-results.tar.gz` SHA256 46dc71b98141d19555b9d4436a33731043bb5204ee320d3b3a1c474ae597eab8.
+Evidence `work/parallel-round138-evidence.json`, freeze
+`work/parallel-round138-freeze.json`, IDs `work/round138-added-source-ids.json`.
+All three managed worktrees archived; no live lane/worker jobs. Exact files,
+source manifests, logs and failures are preserved in `work/round138-agent-evidence`.
+Root `work/round138-root-focus2.json` records 12 focused tests/Clippy passing;
+focus1's original control wrongly expected an empty domain to reject during
+construction. It now converts an actual duplicate-domain error into diagnostics;
+that failed control and the corrected final evidence both remain preserved.
+runner-c probe timed out before dispatch; runner-a/local performed actual checks.
+
+Two odd-sequential k-opt iterator methods retain all k=3/k=5 cut/partner
+assertions, using current route positions and actual origin/value/direction draws.
+Native physical plans execute with explicit lengths; disconnected components are
+inspectable. Four originals cover k=3/5/7/9, owners/pins, undo, independent edge
+checks and oversized-k rejection. Remaining five virtual-seam execution/nonsequential
+repair methods are still pending. The new TEST-derived retained-edge certificate
+invalidates a physical-edge-only interpretation; it does not invalidate the source
+tests or implement their outputs. Preserve it; avoid repeating refuted seam probes.
+
+Two stream/map methods demonstrate actual independent input-role predicate walks
+with coalesced final publications and actual array/tree storage traversal. Three
+originals plus seven existing batched cases/regressions passed locally. Linked-leaf
+random-access rejection remains pending rather than adding a meaningless stub.
+
+Nine geographic methods cover actual travel adjustment identities/callbacks,
+waypoints, spherical distances/time and bounded matrix JSON round trips. Native
+50 km/h nearest-second conversion follows the public Community quickstart preset;
+the pinned service default is unspecified by its TEST and is not claimed. Native
+versioned JSON is not a Java/Jackson wire-format claim. Raw JSON byte bounds remain
+caller-owned; dense allocation entry limits are enforced. Two originals cover
+coordinates, sparse directed/unreachable matrices, callbacks and limits.
+
+Nine service definition methods preserve exact formatted issue/legacy/type JSON,
+summary status/counts/nulls and Example/Template alias parsing. Explicit owned
+payloads replace private Java field discovery; unknown maturity strings remain
+native Other labels, without claiming full Java enum semantics. Three originals
+exercise real model errors, nested escaping, ownership, severity/key checks and
+label errors. No implementation consumes expected output fixtures.
+
+Goal remains incomplete. Continue genuine remaining core and service compatibility,
+keep performance important, reuse successful checks for unchanged relevant inputs,
+and avoid fixture-only flags or scaffolds. Existing three GPT-6.1 Sol agents are
+reusable, at most three active. Existing benchmarks retain original dates and stale
+status; no performance claim or duplicate browser check for this backend refresh.
+
+## Previous verified checkpoint — round137
 
 The final frozen `bash scripts/check.sh` passed once on runner-a in 88.801s:
 7,754 Rust tests and 290 doctests. Compatibility 4,087/4,855 (84.181%),

@@ -61453,6 +61453,336 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserves actual extended solution fixture with four entities, null/string extras and cyclic c/d backlinks. UnsupportedRoot replaces Java IllegalArgumentException; encountered/base/known identities use actual native PlanningType names. Complete four-part diagnostic uses explicit-root-registration advice in place of DomainAccessType.REFLECTION, a documented native remedy rather than bytecode/reflection parity. Allowed-root runtime originals clone the same ownership graph and shared facts; rejection occurs before clone callbacks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValidationIssueSerializationTest.serializeValidationResult",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/validation/ValidationIssueSerializationTest.java",
+      "upstream_test": "serializeValidationResult",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "serialize_validation_result",
+      "modifications": "Preserve full exact formatted JSON strings including field order, spacing, all legacy fallback/custom messages, entityId and message metadata kind. Explicit owned issue payload fields replace Jackson private-field discovery. A generic ordered JSON renderer escapes every scalar/key and formats real records; no expected strings enter execution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValidationIssueSerializationTest.serializeLegacyValidationResultWithoutLegacyMessage",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/validation/ValidationIssueSerializationTest.java",
+      "upstream_test": "serializeLegacyValidationResultWithoutLegacyMessage",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "serialize_legacy_validation_result_without_legacy_message",
+      "modifications": "Preserve full exact formatted JSON strings including field order, spacing, all legacy fallback/custom messages, entityId and message metadata kind. Explicit owned issue payload fields replace Jackson private-field discovery. A generic ordered JSON renderer escapes every scalar/key and formats real records; no expected strings enter execution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValidationIssueSerializationTest.serializeLegacyValidationResult",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/validation/ValidationIssueSerializationTest.java",
+      "upstream_test": "serializeLegacyValidationResult",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "serialize_legacy_validation_result",
+      "modifications": "Preserve full exact formatted JSON strings including field order, spacing, all legacy fallback/custom messages, entityId and message metadata kind. Explicit owned issue payload fields replace Jackson private-field discovery. A generic ordered JSON renderer escapes every scalar/key and formats real records; no expected strings enter execution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValidationIssueSerializationTest.serializeValidationIssueType",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/validation/ValidationIssueSerializationTest.java",
+      "upstream_test": "serializeValidationIssueType",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "serialize_validation_issue_type",
+      "modifications": "Preserve full exact formatted JSON strings including field order, spacing, all legacy fallback/custom messages, entityId and message metadata kind. Explicit owned issue payload fields replace Jackson private-field discovery. A generic ordered JSON renderer escapes every scalar/key and formats real records; no expected strings enter execution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValidationSummaryTest.ofCountsIssuesByCodeAndSeverity",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/internal/events/ValidationSummaryTest.java",
+      "upstream_test": "ofCountsIssuesByCodeAndSeverity",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "of_counts_issues_by_code_and_severity",
+      "modifications": "Preserve all status, total and per-code severity counts, duplicate occurrences, empty zero/empty-map results and unsupported null counts/maps. Native summary computes from actual owned issues in one pass; Option replaces Java nullable fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValidationSummaryTest.ofWithNoIssuesReportsZeroCounts",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/internal/events/ValidationSummaryTest.java",
+      "upstream_test": "ofWithNoIssuesReportsZeroCounts",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "of_with_no_issues_reports_zero_counts",
+      "modifications": "Preserve all status, total and per-code severity counts, duplicate occurrences, empty zero/empty-map results and unsupported null counts/maps. Native summary computes from actual owned issues in one pass; Option replaces Java nullable fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ValidationSummaryTest.ofWhenValidationNotSupportedCarriesStatusOnly",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/internal/events/ValidationSummaryTest.java",
+      "upstream_test": "ofWhenValidationNotSupportedCarriesStatusOnly",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "of_when_validation_not_supported_carries_status_only",
+      "modifications": "Preserve all status, total and per-code severity counts, duplicate occurrences, empty zero/empty-map results and unsupported null counts/maps. Native summary computes from actual owned issues in one pass; Option replaces Java nullable fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ModelMaturityLevelTest.deserializeExampleAsTemplate",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/ModelMaturityLevelTest.java",
+      "upstream_test": "deserializeExampleAsTemplate",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "deserialize_example_as_template",
+      "modifications": "Preserve both complete JSON parse/canonical Template assertions. Native owned maturity parser maps the legacy Example string to Template; unknown future string labels remain Other and nonstrings fail. No claim of complete Java enum/rejection semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ModelMaturityLevelTest.deserializeTemplateAsTemplate",
+      "status": "implemented",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/ModelMaturityLevelTest.java",
+      "upstream_test": "deserializeTemplateAsTemplate",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "local_test": "deserialize_template_as_template",
+      "modifications": "Preserve both complete JSON parse/canonical Template assertions. Native owned maturity parser maps the legacy Example string to Template; unknown future string labels remain Other and nonstrings fail. No claim of complete Java enum/rejection semantics."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnindexedJoinBiNodeTest.withoutPreload_walksEachPairTwice",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/bi/UnindexedJoinBiNodeTest.java",
+      "upstream_test": "withoutPreload_walksEachPairTwice",
+      "local_path": "crates/solver/tests/stream_traversal_cases.rs",
+      "local_test": "without_preload_walks_each_pair_twice",
+      "modifications": "Complete cold-start2left/3right named input load and count2*2*3 use actual BatchedJoinNode DeferredByInputRole. Constant equality key represents native unindexed candidates; independent dirty left/right roles walk actual matching IDs, evaluate predicate and reconcile actual pair state, publishing unique final events. Native explicit mode replaces Java settle-distance/store-tracker configuration; no Java tuning/layer-layout or scheduler ABI claim. Actual pair/event control added; callbacks must have stable predicate results."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScalingNavigableMapTest.arrayModeIsAlwaysAscendingRegardlessOfReversed",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "upstream_test": "arrayModeIsAlwaysAscendingRegardlessOfReversed",
+      "local_path": "crates/solver/tests/stream_traversal_cases.rs",
+      "local_test": "array_mode_is_always_ascending_regardless_of_reversed",
+      "modifications": "Full3/1/2 insert fixture and actual array storage assertion, ascending and requested reversed output1/2/3 preserved through optional storage_traversal over live actual ScalingMap Vec/tree representation. Standard iter/range ordering remains unchanged. Backend-sensitive diagnostic traversal is explicit native policy; no Java map ABI/tuning parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeTest.adjust_identity_returnsSameInstance_reachable",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/travel/TravelTimeTest.java",
+      "upstream_test": "adjust_identity_returnsSameInstance_reachable",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "adjust_identity_returns_same_instance_reachable",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeTest.adjust_identity_returnsSameInstance_unreachable",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/travel/TravelTimeTest.java",
+      "upstream_test": "adjust_identity_returnsSameInstance_unreachable",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "adjust_identity_returns_same_instance_unreachable",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeTest.adjust_nullAdjuster_throwsException",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/travel/TravelTimeTest.java",
+      "upstream_test": "adjust_nullAdjuster_throwsException",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "adjust_null_adjuster_throws_exception",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeTest.adjust_nonIdentity_adjustsSeconds",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/travel/TravelTimeTest.java",
+      "upstream_test": "adjust_nonIdentity_adjustsSeconds",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "adjust_non_identity_adjusts_seconds",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeTest.adjust_nonIdentity_doesNotChangeUnreachableAndReturnsSameInstance",
+      "status": "implemented",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/travel/TravelTimeTest.java",
+      "upstream_test": "adjust_nonIdentity_doesNotChangeUnreachableAndReturnsSameInstance",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "adjust_non_identity_does_not_change_unreachable_and_returns_same_instance",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. "
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HaversineTravelTimeAndDistanceMatrixProviderTest.calculateTravelTime",
+      "status": "implemented",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/HaversineTravelTimeAndDistanceMatrixProviderTest.java",
+      "upstream_test": "calculateTravelTime",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "calculate_travel_time",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. Validated GeoLocation and existing independently implemented spherical distance replace Java Location/provider/injection. Preserve both city coordinate pairs and conversion-helper equality for travel, all-global coverage with empty options, or three ordered waypoints with empty options. Conversion uses an explicit native50km/h nearest-second preset from primary Community public quickstart docs https://docs.timefold.ai/timefold-solver/1.x/quickstart/quarkus-vehicle-routing/vehicle-routing-solution ; independent rational arithmetic implements that mathematical preset. The pinned TEST exposes helper-relation only, so Java maps-service driving default/road-network/traffic parity is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HaversineTravelTimeAndDistanceMatrixProviderTest.getLocationsOutOfMap",
+      "status": "implemented",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/HaversineTravelTimeAndDistanceMatrixProviderTest.java",
+      "upstream_test": "getLocationsOutOfMap",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "get_locations_out_of_map",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. Validated GeoLocation and existing independently implemented spherical distance replace Java Location/provider/injection. Preserve both city coordinate pairs and conversion-helper equality for travel, all-global coverage with empty options, or three ordered waypoints with empty options. Conversion uses an explicit native50km/h nearest-second preset from primary Community public quickstart docs https://docs.timefold.ai/timefold-solver/1.x/quickstart/quarkus-vehicle-routing/vehicle-routing-solution ; independent rational arithmetic implements that mathematical preset. The pinned TEST exposes helper-relation only, so Java maps-service driving default/road-network/traffic parity is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "HaversineWaypointsProviderTest.getWaypoints",
+      "status": "implemented",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/HaversineWaypointsProviderTest.java",
+      "upstream_test": "getWaypoints",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "get_waypoints",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. Validated GeoLocation and existing independently implemented spherical distance replace Java Location/provider/injection. Preserve both city coordinate pairs and conversion-helper equality for travel, all-global coverage with empty options, or three ordered waypoints with empty options. Conversion uses an explicit native50km/h nearest-second preset from primary Community public quickstart docs https://docs.timefold.ai/timefold-solver/1.x/quickstart/quarkus-vehicle-routing/vehicle-routing-solution ; independent rational arithmetic implements that mathematical preset. The pinned TEST exposes helper-relation only, so Java maps-service driving default/road-network/traffic parity is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeAndDistanceMatrixTest.matrixDeserializationShouldBeSuccessful",
+      "status": "implemented",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/TravelTimeAndDistanceMatrixTest.java",
+      "upstream_test": "matrixDeserializationShouldBeSuccessful",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "local_test": "matrix_deserialization_should_be_successful",
+      "modifications": "Preserve complete source assertions and fixture inputs. Arc allocation identity replaces Java isSameAs; NativeTravelTime Option seconds represents reachable/unreachable and unchanged adjust returns the same allocation, changed adjust executes the real closure, missing Option adjuster rejects via native Result rather than Java NullPointerException. Compute all real geographic matrix entries from the same three literal Atlanta coordinates, serialize bytes with serde_json, deserialize into new native directed matrices and perform all three exact original-location lookups5795/10570/6891. Native versioned JSON is explicit; no Jackson/Java wire schema parity claimed. Require a caller entry ceiling before dense allocation; preserve nullable missing edges and explicit unreachable sentinel in native originals."
+    },
+    {
+      "id": "KOptListMoveIteratorTest.testSequentialKOptOnSameEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java",
+      "upstream_test": "testSequentialKOptOnSameEntity",
+      "local_path": "crates/solver/tests/sequential_kopt_cases.rs",
+      "local_test": "test_sequential_k_opt_on_same_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions: chosen k, complete origin/value draw-order endpoint sequence, and complete sequential matching. Same-entity method runs both k3 and k5 on one selector configuration; different-entities method retains e1/e2/e1/e2/e1 roles for k5. Native zero-based occurrence indices omit the Java sentinel and translate every partner entry. Explicit bounded distribution draws replace mocked Random; actual route successors and pins feed an executable physical local-cycle plan. Java HashMap fixture iteration is adapted to deterministic native entity order. Physical execution uses explicit lengths and retains actual local adjacencies, not source virtual-seam/implicit-partition conversion; no credit for pending execution or nonsequential repair methods."
+    },
+    {
+      "id": "KOptListMoveIteratorTest.testSequentialKOptOnDifferentEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java",
+      "upstream_test": "testSequentialKOptOnDifferentEntities",
+      "local_path": "crates/solver/tests/sequential_kopt_cases.rs",
+      "local_test": "test_sequential_k_opt_on_different_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions: chosen k, complete origin/value draw-order endpoint sequence, and complete sequential matching. Same-entity method runs both k3 and k5 on one selector configuration; different-entities method retains e1/e2/e1/e2/e1 roles for k5. Native zero-based occurrence indices omit the Java sentinel and translate every partner entry. Explicit bounded distribution draws replace mocked Random; actual route successors and pins feed an executable physical local-cycle plan. Java HashMap fixture iteration is adapted to deterministic native entity order. Physical execution uses explicit lengths and retains actual local adjacencies, not source virtual-seam/implicit-partition conversion; no credit for pending execution or nonsequential repair methods."
     }
   ],
   "fixtures": [
@@ -88032,6 +88362,162 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "service-validation-TestIssue-fixture",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/validation/ValidationIssueSerializationTest.java",
+      "upstream_test": "TestIssue",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "modifications": "Adapt nested TEST issue constructor/code, ERROR severity, empty metadata and entityId to explicit native payload constructor."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "service-validation-TestLegacyIssue-fixture",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/api/validation/ValidationIssueSerializationTest.java",
+      "upstream_test": "TestLegacyIssue",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "modifications": "Adapt nested TEST ERROR issue/entityId/custom legacy message into executable native issue data."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "service-validation-summary-TestIssue-fixture",
+      "upstream_path": "service/definition/src/test/java/ai/timefold/solver/service/definition/internal/events/ValidationSummaryTest.java",
+      "upstream_test": "TestIssue",
+      "local_path": "crates/solver/tests/service_validation_cases.rs",
+      "modifications": "Adapt nested TEST code/severity constructor and empty metadata into actual owned issue rows; preserve duplicated MISSING_SKILL rows."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "deferred-role-counting-node-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/bi/UnindexedJoinBiNodeTest.java",
+      "upstream_test": "createCountingNode/createInputTuple/TestTracker",
+      "local_path": "crates/solver/tests/stream_traversal_cases.rs",
+      "modifications": "Actual Cell diagnostic predicate counts genuine role candidate evaluations; native stable tuple IDs and active enqueue replace Java UniTuple/store-size20/position tracker. Explicit DeferredByInputRole replaces MIN_DEFER_DISTANCE configuration; no production constant read or native threshold parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "deferred-role-load-and-settle-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/bi/UnindexedJoinBiNodeTest.java",
+      "upstream_test": "loadAndSettle",
+      "local_path": "crates/solver/tests/stream_traversal_cases.rs",
+      "modifications": "Fullleftthenright insertion order and L/R numbered facts retained; actual native propagate performs preparation/reconciliation and publishes lifecycle events. No expected pair payload or walk count supplied to runtime."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "scaling-storage-key-traversal-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ScalingNavigableMapTest.java",
+      "upstream_test": "ascendingKeys/descendingKeys/keys",
+      "local_path": "crates/solver/tests/stream_traversal_cases.rs",
+      "modifications": "Requested direction traverses actual borrowed array/tree storage via explicit native storage_traversal. Actual physical array order remains ascending and actual tree iteration uses reverse direction. Standard semantic iter retains ordinary reverse order; no copied key vector drives runtime."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round138-travel-scalar-values",
+      "upstream_path": "service/maps/api/src/test/java/ai/timefold/solver/service/maps/api/model/travel/TravelTimeTest.java",
+      "upstream_test": "TravelTime.of/UNREACHABLE/adjust fixtures",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "modifications": "Retain123 and10seconds, identity and+5adjusters, null-as-None and static unreachable identity; no scalar factory production implementation was read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round138-travel-provider-cities",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/HaversineTravelTimeAndDistanceMatrixProviderTest.java",
+      "upstream_test": "calculateTravelTime/getLocationsOutOfMap locations",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "modifications": "Retain Gent/Brno and Svolvaer/Lulea full literal coordinates and expected-meter helper arguments939748/442297. Existing calculateDistance source credit unchanged. Empty map options become the native spherical global-coverage contract."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round138-travel-waypoints",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/HaversineWaypointsProviderTest.java",
+      "upstream_test": "getWaypoints/baseWaypointLocations",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "modifications": "Preserve three Andorra coordinates/order and empty options; Arc locations preserve allocations without intermediate road vertices."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round138-travel-matrix-atlanta",
+      "upstream_path": "service/maps/haversine/src/test/java/ai/timefold/solver/service/maps/haversine/impl/TravelTimeAndDistanceMatrixTest.java",
+      "upstream_test": "matrixDeserializationShouldBeSuccessful locations",
+      "local_path": "crates/solver/tests/geographic_travel_cases.rs",
+      "modifications": "Retain all three exact latitude/longitude literals, source/destination ordering, fresh serialization/deserialization and three original-key distance assertions. Versioned native JSON replaces Jackson bytes; no wire-format parity claimed."
+    },
+    {
+      "id": "round138-odd-sequential-kopt-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java",
+      "upstream_test": "setupValidOddSequentialKOptMove; KOptMoveInfo.verify",
+      "local_path": "crates/solver/tests/fixtures/sequential_kopt_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts complete relevant TEST fixture generation: owner multiplicities allocate values, alternating extra values, start/end markers, first origin index1, per-owner increments3, reverse remaining selector draws and corresponding successors. Native matching recurrence adapts the helper computed sequential partner expectations; typed zero-based indices replace one-based sentinel slots. No Java class/reflection/iterator ABI parity."
+    },
+    {
+      "id": "round138-kopt-physical-edge-certificate",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt; testMultiEntity3OptPinned",
+      "local_path": "work/round138-kopt-seam-certificate.py",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Copies only removed/added edges, source rows and asserted target rows into an independent multiset proof. Both have three retained local adjacencies absent from the expected combined target cycle; this certifies the native physical-edge contract cannot be represented as the source virtual-seam contract. No runtime oracle/probe repeated, no Rust fixture-output plan and no source-case credit."
     }
   ]
 }

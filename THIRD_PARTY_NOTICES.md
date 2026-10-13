@@ -974,3 +974,14 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   `GizmoSolutionClonerTest.cloneExtendedSolution`. TEST-only model dependencies
   and the attributed extended cloning fixture are adapted to executable native
   factories and explicit root contracts; provenance records the native limits.
+
+- `crates/solver/tests/service_validation_cases.rs` adapts Community validation
+  serialization, issue summaries and legacy maturity label TEST assertions and
+  nested TEST issue fixtures. Apache-2.0 attribution is recorded in
+  `compat/provenance.json`; native implementations and separate regressions are original.
+
+- `crates/solver/tests/sequential_kopt_cases.rs` and
+  `fixtures/sequential_kopt_fixture.rs` adapt the two odd-sequential
+  `KOptListMoveIteratorTest` methods and their TEST helper. The independent
+  `work/round138-kopt-seam-certificate.py` records TEST-derived move inputs and
+  expected rows without implementation credit. Native limits are in provenance.

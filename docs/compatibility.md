@@ -9559,3 +9559,40 @@ after each edit. All six operations and four final assertions retain canonical
 identities; originals exercise shifted positions, scores and queued edit receipts.
 The fixture retains the source generated Lavish dimensions 2/5/3/7; its irrelevant
 random long property is fixed to zero. No new solver hot path is introduced.
+
+
+ServiceValidationBuilder derives error/warning/OK status from real owned issues.
+The optional service records preserve exact JSON formatting/field order, escaped
+arbitrary payloads, legacy fallback/custom messages and issue-type message metadata.
+Summary aggregation counts actual duplicate issue occurrences separately by code
+and severity, with absent counts for unsupported validation. Nine complete source
+methods retain all serialization strings, summary values and Example/Template
+canonicalization. Payload keys are explicitly registered, not reflected from Java
+private fields. Maturity unknown string labels are retained for native forward
+compatibility; a complete upstream enum contract is not claimed. Originals convert
+a real invalid finite model into diagnostics, preserve snapshot ownership, exercise
+escaping/nested values, severity precedence, duplicate/reserved keys and label errors.
+
+Nine travel/matrix methods are adapted: five TravelTime adjustments (real callbacks, missing adjuster, unchanged/unreachable allocation identity), both remaining Haversine provider methods, ordered waypoints, and geographic matrix JSON round trip with all three exact Atlanta distances. Existing calculateDistance credit and spherical implementation are unchanged. Native travel conversion is an explicit 50 km/h nearest-second mathematical preset from the [Community public quickstart](https://docs.timefold.ai/timefold-solver/1.x/quickstart/quarkus-vehicle-routing/vehicle-routing-solution); the pinned TEST checks its conversion-helper relationship, not a literal service driving default, so no pinned Java-default equivalence is asserted. Native JSON is a versioned coordinate/distance/time format, without Java/Jackson schema claims. Dense matrix creation/decoding requires a caller entry ceiling; callers should separately bound raw JSON byte input because parsing precedes table validation. Original cases exercise antimeridian/polar coordinates, reachable/unreachable callback execution, sparse directed matrices, serialized unreachable/missing entries, location handle identity and allocation-limit rejection. No road-network/traffic/transport service behavior or speed benchmark is claimed.
+
+
+Two complete sequential k-opt iterator methods retain all selected k=3/k=5
+cut endpoints and added partner assertions, derived from actual origin/value
+draws and current movable route positions. Native proposals expose the existing
+physical local-cycle plan, including disconnected component inspection and
+explicit repartition lengths. Even-k repair and reference virtual-seam execution
+remain pending; no fixture-specific execution output is substituted. Originals
+exercise k=3/5/7/9, varied owners/pins, undo, independent physical edges and
+oversized-k rejection. The new TEST-derived retained-edge certificate invalidates
+a physical-edge-only interpretation of the baseline/pinned reference outputs;
+it does not show that the source behavior is wrong or implemented.
+
+DeferredByInputRole is an optional actual batched join reconciliation policy.
+Each dirty input role visits its own old/new candidate neighborhood and updates
+private accepted-pair state, then publishes one final event per pair. The full
+without-preload source method observes twelve predicate visits and six results
+for the 2-by-3 cold load. Existing default modes and graph scheduling remain
+unchanged. Originals check moves, retractions, preloading and transactional
+failure; related existing batched cases pass. The optional ScalingMap diagnostic
+traversal borrows the actual array/tree storage, respecting ascending array order
+and requested tree direction. Normal iter/range contracts remain unchanged.

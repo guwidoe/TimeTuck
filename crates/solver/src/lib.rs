@@ -14,6 +14,7 @@
 
 mod entry_permutation;
 mod pillar_swap_selection;
+mod scaling_map_traversal;
 pub use pillar_swap_selection::{PillarSwapSelection, PillarSwapSelectionError};
 mod inner_termination_config;
 mod live_range_view;
@@ -1876,3 +1877,21 @@ pub use member_accessor_factory::{
 
 mod object_clone_plan;
 pub use object_clone_plan::{ObjectClonePlan, ObjectClonePlanBuilder, ObjectClonePlanError};
+
+mod service_validation;
+pub use service_validation::{
+    ServiceModelMaturity, ServiceValidationBuilder, ServiceValidationError, ServiceValidationIssue,
+    ServiceValidationIssueType, ServiceValidationResult, ServiceValidationStatus,
+    ServiceValidationSummary, ValidationSeverity,
+};
+
+mod geographic_travel;
+pub use geographic_travel::{
+    GeographicTravelError, GeographicTravelMatrices, NativeTravelTime, spherical_driving_seconds,
+    spherical_locations_out_of_map, spherical_travel_time, spherical_waypoints,
+};
+
+mod list_k_opt_sequential;
+pub use list_k_opt_sequential::{
+    ListKOptSequentialSelector, SequentialKOptError, SequentialKOptProposal,
+};

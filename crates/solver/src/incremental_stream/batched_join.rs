@@ -2,6 +2,7 @@
 use super::{JoinComparison, JoinSide};
 use crate::{SnapshotMap, TupleChange, TupleLifecycleEvent};
 use std::collections::BTreeSet;
+mod input_roles;
 
 /// Eager evaluates each input on enqueue; Deferred evaluates only the last value
 /// of each changed ID at propagation. Both publish only final round events.
@@ -9,6 +10,10 @@ use std::collections::BTreeSet;
 pub enum JoinEvaluation {
     Eager,
     Deferred,
+    /// Reconcile dirty left and right roles independently against final input
+    /// state. A pair dirty on both roles is checked twice, then published once.
+    /// Preload temporarily evaluates on arrival, restoring this mode afterward.
+    DeferredByInputRole,
 }
 #[derive(Clone)]
 struct State<I, J, L, R, K> {
@@ -36,7 +41,9 @@ type Events<I, J, L, R> = Vec<TupleLifecycleEvent<(I, J), (L, R)>>;
 /// Equality-indexed, filtered join with atomic round publication. Tuple equality
 /// keys express multiple equalities; a constant key allows arbitrary predicates.
 /// Deferred rounds keep only the latest input for each ID, update both indexes,
-/// then check each affected final candidate pair once. Eager mode evaluates every
+/// then check each affected final candidate pair once. DeferredByInputRole retains
+/// independent role reconciliation: each role checks its own affected pairs,
+/// including a second check for pairs dirty on both roles. Eager mode evaluates every
 /// input as it arrives, on private roots. Intermediate values may therefore call
 /// callbacks only in Eager mode; callbacks must be pure and stable.
 ///
@@ -132,6 +139,9 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         left: &SnapshotMap<I, Option<L>>,
         right: &SnapshotMap<J, Option<R>>,
     ) -> Prepared<I, J, L, R, K> {
+        if self.evaluation == JoinEvaluation::DeferredByInputRole && !self.preloading {
+            return self.prepare_by_input_role(state, left, right);
+        }
         let mut next = state.clone();
         update_side(&mut next.left, left, &self.left_key);
         update_side(&mut next.right, right, &self.right_key);
