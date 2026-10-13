@@ -81,6 +81,7 @@ pub enum ListScoringError {
         constraint: usize,
     },
     ScoreCorruption(Box<crate::ScoreCorruption>),
+    UndoCorruption(Box<crate::CalculatorUndoCorruption>),
     CorruptedTotal,
 }
 impl fmt::Display for ListScoringError {
@@ -89,6 +90,7 @@ impl fmt::Display for ListScoringError {
             Self::Provider(e) => e.fmt(f),
             Self::Model(error) if error.range_report().is_some() => error.fmt(f),
             Self::ScoreCorruption(report) => report.fmt(f),
+            Self::UndoCorruption(report) => report.fmt(f),
             Self::Calculator(error) => error.fmt(f),
             _ => write!(f, "list scoring error: {self:?}"),
         }
@@ -99,6 +101,7 @@ impl Error for ListScoringError {
         match self {
             Self::Provider(e) => Some(e),
             Self::ScoreCorruption(report) => Some(report.as_ref()),
+            Self::UndoCorruption(report) => Some(report.as_ref()),
             Self::Model(error) => Some(error),
             Self::Calculator(error) => Some(error),
             Self::InvalidWeight(error) => Some(error),

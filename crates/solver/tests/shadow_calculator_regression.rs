@@ -337,3 +337,45 @@ fn mutation_panic_and_out_of_order_callbacks_invalidate_the_owned_projection() {
         SimpleScore::new(-14)
     );
 }
+#[test]
+fn tracked_undo_captures_real_nonclone_shadow_projection_in_fresh_search() {
+    let s = schema::<ListAssignment<i32>>();
+    let p = problem();
+    let calls = Cell::new(0);
+    let fail = Cell::new(0);
+    let captures = Cell::new(0);
+    let factory = || {
+        list_calculator(&s, &p, &calls, &fail)
+            .with_undo_diagnostics(CalculatorUndoDiagnostics::Tracked)
+            .with_undo_state_capture(|_, h| {
+                captures.set(captures.get() + 1);
+                let mut snapshot = CalculatorStateSnapshot::new();
+                snapshot.capture(
+                    CalculatorUndoField {
+                        entity_key: "0".into(),
+                        entity_type: "Entity".into(),
+                        entity_description: "entity0".into(),
+                        variable: "cost".into(),
+                    },
+                    h.derived.0,
+                    h.derived.0.to_string(),
+                )?;
+                Ok(snapshot)
+            })
+    };
+    let mut provider = |_: &ListProblem<i32>, _: &ListAssignment<i32>, _: u64| vec![relocation()];
+    let result = list_calculator_local_search_with_provider(
+        &p,
+        p.initial_assignment(),
+        factory,
+        LocalSearchConfig {
+            max_steps: 1,
+            max_evaluations: 2,
+            ..Default::default()
+        },
+        &mut provider,
+    )
+    .unwrap();
+    assert_eq!(captures.get(), 2);
+    assert_eq!(result.evaluations, 2);
+}

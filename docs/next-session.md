@@ -16,7 +16,56 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round109
+## Latest verified checkpoint — round110
+
+Calculator undo diagnostics now retain actual typed field differences and optional
+score corruption after a rolled-back trial in basic/list/mixed search, including
+custom previews. Default preserves existing assertions; Score checks undo
+independently; Tracked requires independent immutable owned field captures;
+Disabled skips undo checks only. Fresh non-Clone calculators supply policy through
+the trait; retained directors can override it. ShadowCalculator captures actual
+live assignment/projection fields without cloning the full projection. Committed
+previews skip undo comparison; default/score-only paths capture no fields. Existing
+callback/rollback errors remain primary. Reports do not repair calculator state.
+Five original diagnostics regressions and one actual non-Clone shadow regression
+add no upstream-method credit. Provenance and pin are unchanged. Full
+EnvironmentModeTest.corruptedUndoShadowVariable remains pending: every mode and
+final inverse membership still needs integration. Next-gap notes:
+work/round110-next-gap-notes.json. No new subagents or assignments.
+
+Frozen bash scripts/check.sh passed in 376.076s:
+7,432 Rust tests and 290 doctests. 990 Rust jobs ran; 112 Rust and 46 Python jobs
+reused successful records. Clippy passed in 54.70s; affected compilation took
+12m32s. Shared calculator/error changes required broad coverage. Compatibility
+remains 3,917/4,855 (80.680%), 370 pending, 568 excluded, zero failed/unverified.
+No partial-source credit.
+Rust digest d8bcba6238f11cbe90ac7523dac7c190832f201beafd3d60ea9a64c41bb2b8af.
+Report digest d8201433faee5c1a88324930e0a8005af59124e8a907ba22eceb1f4dfbd09615.
+Archive work/round110-local-results.tar.gz SHA256:
+1146be05433948aa2a0c6445572077b2c85cbd524d63ae625a70316c2e66cce8.
+Evidence work/parallel-round110-evidence.json; frozen inputs
+work/parallel-round110-freeze.json; postcommit proof
+work/round110-postcommit-evidence.json. Prebuild5315/gate7931 are terminal0;
+do not repeat successful unchanged checks. Preserve actual per-job input keys,
+log hashes and dates. Generated empty benchmark input is preserved outside the
+source tree in work/round110-generated-input.xml.
+
+runner-a passed 14 targeted undo/calculator cases and freshly measured paired
+k-opt workloads at 2026-10-13T00:52:53.995921+00:00. All 128 validation cases passed;
+Rust 128 optimal/Java 114 optimal/114 equal. Original remote inputs/environment/binary
+identity retained in work/round110-performance-evidence.json and archive
+work/round110-performance-results.tar.gz SHA256:
+23de1983b1ba2fb3b2a6e69a52f16830cda17539caef4c74decd373a1c9ffedb.
+Window Java/Rust timing ratios: 1.466, 0.595, 0.204, 0.185;
+sampled: 7.597, 14.205, 4.508, 7.856.
+Strategies/quality differ; these timings do not establish equal-work throughput or
+a causal improvement over older runs. K-opt metrics are current; older list
+metrics stay stale. Backend report/freshness inspected; no UI changes or repeated
+browser checks. runner-c initial dispatch and retry timed out before build; Windows
+Tailscale status reports runner-c-p14s-wsl offline, runner-a online. Full goal remains
+incomplete, including seven k-opt seam methods; saved probes are already answered.
+
+## Previous verified checkpoint — round109
 
 Declared-phase consistency-check failures now retain ScoreAssertion context:
 actual phase index, requested step/full mode and original resource error. Error

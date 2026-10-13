@@ -32,6 +32,7 @@ where
     session: CalculatorSession<$assignment, C>,
     score: C::Score,
     failure: Option<MatchRegistryError>,
+    undo_diagnostics: crate::CalculatorUndoDiagnostics,
     metric_capture: Option<crate::solver_metrics::ConstraintMetricCapture<C::Score>>,
 }
 impl<'p, $($v,)+ C, F> $director<'p, $($v,)+ C, F>
@@ -50,14 +51,51 @@ where
         let mut session = CalculatorSession::new(initial, factory(), request_matches)
             .map_err($error::Calculator)?;
         let score = Self::calculate(problem, &mut session)?;
+        let undo_diagnostics = session.calculator().undo_diagnostics();
         Ok(Self {
             problem,
             factory,
             session,
             score,
             failure: None,
+            undo_diagnostics,
             metric_capture: None,
         })
+    }
+    /// Configure actual per-trial undo checks for subsequent searches through
+    /// this retained director. The default preserves legacy assert_scores checks.
+    /// Tracked requires IncrementalCalculator::capture_undo_state support.
+    pub fn with_undo_diagnostics(mut self, policy: crate::CalculatorUndoDiagnostics) -> Self {
+        self.undo_diagnostics = policy;
+        self
+    }
+    fn capture_undo(&self) -> Result<Option<crate::CalculatorStateSnapshot>, $error> {
+        if self.undo_diagnostics != crate::CalculatorUndoDiagnostics::Tracked { return Ok(None); }
+        self.healthy()?;
+        self.session.calculator().capture_undo_state().map_err($error::Calculator)?
+            .map(Some).ok_or_else(|| $error::Calculator(MatchRegistryError::Calculator("tracked calculator undo state is unsupported".into())))
+    }
+    fn verify_undo(&mut self, before: Option<crate::CalculatorStateSnapshot>, assert_scores: bool) -> Result<(), $error> {
+        use crate::CalculatorUndoDiagnostics as Policy;
+        match self.undo_diagnostics {
+            Policy::Disabled => return Ok(()),
+            Policy::Default => return if assert_scores { self.assert_consistent() } else { Ok(()) },
+            Policy::Score | Policy::Tracked => {}
+        }
+        let fields = match before {
+            Some(before) => {
+                let after = self.capture_undo()?.expect("tracked state remains supported");
+                before.differences(&after)
+            }
+            None => Vec::new(),
+        };
+        let score = match self.assert_consistent() {
+            Ok(()) => None,
+            Err($error::ScoreCorruption(report)) => Some(*report),
+            Err(error) => return Err(error),
+        };
+        if fields.is_empty() && score.is_none() { return Ok(()); }
+        Err($error::UndoCorruption(Box::new(crate::CalculatorUndoCorruption { score, fields })))
     }
     pub(crate) fn with_metric_capture(mut self, capture: Option<crate::solver_metrics::ConstraintMetricCapture<C::Score>>) -> Self {
         self.metric_capture = capture;

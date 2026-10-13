@@ -1674,3 +1674,9 @@ pub use list_k_opt_endpoints::ListKOptEndpointTopology;
 
 mod value_sublist_source;
 pub use value_sublist_source::{ValueSubListSource, ValueSubListSourceLimits};
+
+mod calculator_undo_diagnostics;
+pub use calculator_undo_diagnostics::{
+    CalculatorStateSnapshot, CalculatorUndoCorruption, CalculatorUndoDiagnostics,
+    CalculatorUndoDifference, CalculatorUndoField,
+};

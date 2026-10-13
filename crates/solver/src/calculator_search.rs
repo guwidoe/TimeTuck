@@ -106,6 +106,7 @@ where
                 result.evaluation_limit = true;
                 break;
             }
+            let undo_state = self.capture_undo()?;
             let candidate = self.apply(&movement)?;
             result.evaluations += 1;
             result.constraint_evaluations += 1;
@@ -120,9 +121,7 @@ where
             let stop = forager.is_quit_early() || (accepted && quit_early.should_pick(score));
             drop(candidate);
             self.healthy()?;
-            if assert_scores {
-                self.assert_consistent()?;
-            }
+            self.verify_undo(undo_state, assert_scores)?;
             if stop {
                 break;
             }
@@ -174,13 +173,16 @@ where
         movement: &Move<V>,
         visit: &mut dyn FnMut(&Assignment<V>, C::Score, u128) -> bool,
     ) -> Result<(), ScoringError> {
+        let undo_state = self.capture_undo()?;
         let candidate = self.apply(movement)?;
         if visit(candidate.assignment(), candidate.score(), 1) {
             candidate.commit();
+            self.healthy()
         } else {
             drop(candidate);
+            self.healthy()?;
+            self.verify_undo(undo_state, false)
         }
-        self.healthy()
     }
 }
 

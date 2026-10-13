@@ -8,6 +8,9 @@ use std::{fmt, marker::PhantomData};
 type ChangeNotifier<'a, 's, K, A, E, C> =
     dyn FnMut(&A, &A, &C, &mut ShadowSession<'a, 's, K, A>) -> Result<(), E> + 'a;
 
+type UndoStateCapture<'a, A, H> =
+    dyn Fn(&A, &H) -> Result<crate::CalculatorStateSnapshot, MatchRegistryError> + 'a;
+
 /// Bridge an owned shadow manager into basic, list or mixed calculator search.
 /// `initial_shadows` supplies an empty projection for each reset; H need not be
 /// Clone. Each factory supplied to a search director must build an independent
@@ -32,6 +35,8 @@ type ChangeNotifier<'a, 's, K, A, E, C> =
 pub struct ShadowCalculator<'a, 's, K, A, H, S, E, C = Vec<usize>> {
     manager: ShadowSolutionManager<'a, 's, K, A, H, S, E>,
     initial_shadows: Box<dyn FnMut() -> H + 'a>,
+    undo_diagnostics: crate::CalculatorUndoDiagnostics,
+    undo_capture: Option<Box<UndoStateCapture<'a, A, H>>>,
     notifier: Option<Box<ChangeNotifier<'a, 's, K, A, E, C>>>,
     state: Option<ManagedSolution<A, H, S>>,
     ready: bool,
@@ -49,11 +54,30 @@ impl<'a, 's, K: Eq + Clone + fmt::Debug, A: Clone, H, S: AdditiveScore, E: fmt::
             manager,
             initial_shadows: Box::new(initial_shadows),
             notifier: None,
+            undo_capture: None,
+            undo_diagnostics: crate::CalculatorUndoDiagnostics::Default,
             state: None,
             ready: false,
             changing: false,
             change_type: PhantomData,
         }
+    }
+    /// Configure fresh native searches using this calculator without requiring
+    /// a cloneable shadow projection or changing the calculator factory interface.
+    pub fn with_undo_diagnostics(mut self, policy: crate::CalculatorUndoDiagnostics) -> Self {
+        self.undo_diagnostics = policy;
+        self
+    }
+    /// Supply immutable owned field captures from the actual live assignment and
+    /// shadow projection for Tracked calculator undo checks. Called only when
+    /// explicitly requested; no scoring, refresh or reset is performed here.
+    /// Captures must not alias mutable model/projection storage.
+    pub fn with_undo_state_capture(
+        mut self,
+        capture: impl Fn(&A, &H) -> Result<crate::CalculatorStateSnapshot, MatchRegistryError> + 'a,
+    ) -> Self {
+        self.undo_capture = Some(Box::new(capture));
+        self
     }
     /// Opt into notified shadow refreshes after each matched change callback.
     /// The notifier receives the calculator's last published assignment, the new
@@ -120,6 +144,19 @@ impl<K: Eq + Clone + fmt::Debug, A: Clone, H, S: AdditiveScore, E: fmt::Display,
     type Score = S;
     type Justification = ();
     type Change = C;
+    fn undo_diagnostics(&self) -> crate::CalculatorUndoDiagnostics {
+        self.undo_diagnostics
+    }
+    fn capture_undo_state(
+        &self,
+    ) -> Result<Option<crate::CalculatorStateSnapshot>, MatchRegistryError> {
+        self.require_ready()?;
+        let Some(capture) = &self.undo_capture else {
+            return Ok(None);
+        };
+        let state = self.state.as_ref().ok_or(MatchRegistryError::NeedsReset)?;
+        capture(&state.assignment, &state.shadows).map(Some)
+    }
     fn reset(
         &mut self,
         solution: &A,

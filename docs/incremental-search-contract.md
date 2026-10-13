@@ -2428,3 +2428,22 @@ errors retain their existing Resource classification, and checks outside a decla
 phase retain their original classification. No extra checks or scoring calls are
 introduced. Actual completed work remains available to failure observers before
 cleanup, and secondary release failures remain separate from the primary check.
+
+CalculatorUndoDiagnostics optionally checks actual calculator state after every
+undone scored trial, including custom previews. Default retains existing
+assert_scores behavior; Score checks undo independently of candidate assertions;
+Tracked additionally compares immutable calculator-owned field captures; Disabled
+skips explicit undo checks while candidate/committed-state checks remain configured.
+IncrementalCalculator::undo_diagnostics supplies fresh-search policy without a
+Clone requirement; retained directors can override it. Tracked capture capability
+is required before applying a trial. Snapshot equality uses original Eq types,
+not display text; missing fields/type differences are visible and duplicate
+identity is rejected. Callbacks must return independent immutable owned values.
+UndoCorruption retains formatted field differences and optional score evidence
+without repairing calculator state. Existing callback/rollback errors remain
+primary. ShadowCalculator can capture live assignment/projection fields without
+cloning its complete projection; capture runs only for explicitly tracked trials.
+Committed previews perform no undo comparison, although their pre-trial capture
+is made before the visitor decides to commit. Default/score-only paths capture
+no fields. These are native controls; the full upstream undo-shadow method remains
+pending until every mode and inverse-membership assertion is integrated.

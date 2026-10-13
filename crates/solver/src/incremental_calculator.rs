@@ -224,6 +224,20 @@ pub trait IncrementalCalculator<P> {
     type Score: AdditiveScore;
     type Justification;
     type Change;
+    /// Initial undo-check policy for native calculator directors. This also
+    /// configures fresh non-Clone calculator searches; retained directors may
+    /// override it explicitly. The default retains existing scoring behavior.
+    fn undo_diagnostics(&self) -> crate::CalculatorUndoDiagnostics {
+        crate::CalculatorUndoDiagnostics::Default
+    }
+    /// Capture real calculator-owned fields for opt-in tracked undo diagnostics.
+    /// The returned values must be independent immutable snapshots. None means
+    /// unsupported; no capture is requested by default or for score-only checks.
+    fn capture_undo_state(
+        &self,
+    ) -> Result<Option<crate::CalculatorStateSnapshot>, MatchRegistryError> {
+        Ok(None)
+    }
     fn supports_matches(&self) -> bool {
         false
     }
