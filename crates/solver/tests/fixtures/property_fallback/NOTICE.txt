@@ -1,0 +1,5 @@
+Timefold Solver Community TEST adaptation and literal fixtures.
+Copyright Timefold contributors. Apache License 2.0.
+Pinned commit 8b815bc6b5f3eb81feedc94dea0885a93b267762
+service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java
+See compat/provenance.json and compat/licenses/timefold-Apache-2.0.txt.

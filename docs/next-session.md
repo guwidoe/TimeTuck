@@ -16,7 +16,48 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round150
+## Latest verified checkpoint — round154
+
+Integrated owned legacy-property resolution and actual diminished-return runtime
+binding. Compatibility is 4,319/4,855 (88.96%), 12 pending, 524 excluded,
+zero failed or unverified. This is test compatibility, not project completion.
+All 18 property methods include the six parameter rows; all seven recorder
+methods retain complete nested presence/absence, window/ratio and disabled-phase
+assertions. Seven originals exercise real dispatcher solves, diagnostics,
+validation, explicit-policy preservation, and controlled-clock standard/mixed
+search with both scoring backends. The thirty-minute window survives short runs
+and expires when sufficient time elapses. Native declarations preserve unset
+fields independently of resolved execution defaults. No framework or JVM claim.
+
+One frozen LOCAL `bash scripts/check.sh` passed: 8,101 Rust tests and 290 doctests.
+Only five Rust jobs ran; 1,279 Rust jobs and all 46 Python jobs reused actual
+matching records. Prebuild/Clippy took 197.361s, gate 138.509s, total 339.904s.
+Do not repeat unchanged verification. Receipt `work/parallel-round154-evidence.json`,
+freeze `work/parallel-round154-freeze.json`, new source IDs
+`work/round154-added-source-ids.json`. Rust digest
+0845856b83332c679d1259beb1e0bb538d7e813e49d9e825021c0b9408af64ec;
+report digest 2fe411ddae58e29138ac38f24ea2725976ed9e0c7c3cb2e2cf1901b782bc5e66.
+Three round146 paired performance inputs remain unchanged and current, with their
+original dates and scope; no benchmark rerun or rekey. Backend report/freshness
+checked; no UI/data-contract changes, so no browser rerun.
+
+Frozen agent code, helpers, logs, failure evidence and manifests are preserved at
+`work/round154-agent-evidence/{property-fallback,diminished-runtime}`. The initial
+round152 compile error and later focused-only window control check remain recorded.
+All three finished managed trees are queued for archive. No new agents spawned;
+three existing Sol agents were reused. The k-opt spare-workspace proposal was
+rejected: an unused block chosen to match an asserted suffix is insufficient.
+Both nonsequential metadata methods remain pending; no code or credit changed.
+
+After the user reported runner-c awake, SSH still timed out. Its WSL Tailscale peer
+runner-c.internal reports offline (last seen 2026-10-13T16:40:32.1Z). runner-a is online,
+but current SSH connection 57900 needs renewed authentication; a live-link question
+was sent. No remote build was claimed. Historical round146 archive remains pending;
+do not rerun its passed gate or overwrite current evidence with old results.
+Base 1fb1fbebbc40a9979128edd4a01a2a122caeb39a; postcommit receipt will be
+`work/round154-postcommit-evidence.json`. The goal remains active and incomplete.
+
+## Previous verified checkpoint — round150
 
 The frozen coherent main batch passed one actual LOCAL `bash scripts/check.sh`:
 8,069 Rust tests and290 doctests,519.623s. Prebuild/Clippy1087.676s; total1611.580s.

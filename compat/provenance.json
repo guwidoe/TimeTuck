@@ -64658,6 +64658,406 @@
         "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
       ],
       "modifications": "Preserve full literal fixtures, success/error and exact messages or property-name substring assertions. Java exception categories adapt to native typed Result errors; ResourceType equality uses an owned native type. Independent ASCII/path profile is explicitly narrower outside these examples; no Java reflection, Quarkus/CDI or HTTP support claim. Actual descriptor construction consumes parsed version/resource in the existing employee dispatcher."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackToExactLegacyName",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackToExactLegacyName",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_to_exact_legacy_name",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.prefersNewNameOverLegacyForExactRename",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "prefersNewNameOverLegacyForExactRename",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "prefers_new_name_over_legacy_for_exact_rename",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackAcrossPrefixRename_platform",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackAcrossPrefixRename_platform",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_across_prefix_rename_platform",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackAcrossPrefixRename_defaultConfig",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackAcrossPrefixRename_defaultConfig",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_across_prefix_rename_default_config",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackAcrossPrefixRename_termination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackAcrossPrefixRename_termination",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_across_prefix_rename_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackAcrossPrefixRename_contact",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackAcrossPrefixRename_contact",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_across_prefix_rename_contact",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackAcrossPrefixRename_rest",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackAcrossPrefixRename_rest",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_across_prefix_rename_rest",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackAcrossPrefixRename_storage",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackAcrossPrefixRename_storage",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_across_prefix_rename_storage",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackForMultipleLegacyNames_firstLegacy",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackForMultipleLegacyNames_firstLegacy",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_for_multiple_legacy_names_first_legacy",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.fallsBackForMultipleLegacyNames_secondLegacy",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "fallsBackForMultipleLegacyNames_secondLegacy",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "falls_back_for_multiple_legacy_names_second_legacy",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.newNameWinsOverMultipleLegacyNames",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "newNameWinsOverMultipleLegacyNames",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "new_name_wins_over_multiple_legacy_names",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.apiVersionResolvesFromLegacyVersion",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "apiVersionResolvesFromLegacyVersion",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "api_version_resolves_from_legacy_version",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.apiVersionResolvesFromLegacyModelVersion",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "apiVersionResolvesFromLegacyModelVersion",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "api_version_resolves_from_legacy_model_version",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.restResourceLegacyRename",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "restResourceLegacyRename",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "rest_resource_legacy_rename",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.schemaValidationLegacyRename",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "schemaValidationLegacyRename",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "schema_validation_legacy_rename",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.unknownPropertyReturnsNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "unknownPropertyReturnsNull",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "unknown_property_returns_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.logsWarningWhenLegacyPropertyIsDefined",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "logsWarningWhenLegacyPropertyIsDefined",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "logs_warning_when_legacy_property_is_defined",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRenamedPropertiesFallbackInterceptorTest.doesNotLogWarningWhenOnlyNewPropertyIsDefined",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "doesNotLogWarningWhenOnlyNewPropertyIsDefined",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "local_test": "does_not_log_warning_when_only_new_property_is_defined",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "Preserve every full TEST value/null/canonical-precedence assertion. Both parameterized warning methods execute all three exact/prefix/ordered-alias mapping pairs; live typed diagnostic callback replaces JUL capture, owned native source replaces SmallRye builder. No Quarkus/CDI/JUL support or complete unseen mapping inventory claimed."
+    },
+    {
+      "id": "TimefoldRecorderDiminishedReturnsTest.nothingSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "nothingSet",
+      "local_path": "crates/solver/tests/diminished_runtime_cases.rs",
+      "local_test": "nothing_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
+    },
+    {
+      "id": "TimefoldRecorderDiminishedReturnsTest.onlyEnabledSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "onlyEnabledSet",
+      "local_path": "crates/solver/tests/diminished_runtime_cases.rs",
+      "local_test": "only_enabled_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
+    },
+    {
+      "id": "TimefoldRecorderDiminishedReturnsTest.onlySlidingWindowSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "onlySlidingWindowSet",
+      "local_path": "crates/solver/tests/diminished_runtime_cases.rs",
+      "local_test": "only_sliding_window_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
+    },
+    {
+      "id": "TimefoldRecorderDiminishedReturnsTest.onlyMinimumImprovementRatioSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "onlyMinimumImprovementRatioSet",
+      "local_path": "crates/solver/tests/diminished_runtime_cases.rs",
+      "local_test": "only_minimum_improvement_ratio_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
+    },
+    {
+      "id": "TimefoldRecorderDiminishedReturnsTest.minimumImprovementRatioAndSlidingWindowSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "minimumImprovementRatioAndSlidingWindowSet",
+      "local_path": "crates/solver/tests/diminished_runtime_cases.rs",
+      "local_test": "minimum_improvement_ratio_and_sliding_window_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
+    },
+    {
+      "id": "TimefoldRecorderDiminishedReturnsTest.disabledAndMinimumImprovementRatioAndSlidingWindowSet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "disabledAndMinimumImprovementRatioAndSlidingWindowSet",
+      "local_path": "crates/solver/tests/diminished_runtime_cases.rs",
+      "local_test": "disabled_and_minimum_improvement_ratio_and_sliding_window_set",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
+    },
+    {
+      "id": "TimefoldRecorderDiminishedReturnsTest.disabledAndPhasesConfigured",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "disabledAndPhasesConfigured",
+      "local_path": "crates/solver/tests/diminished_runtime_cases.rs",
+      "local_test": "disabled_and_phases_configured",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
     }
   ],
   "fixtures": [
@@ -92703,6 +93103,48 @@
         "crates/solver/tests/fixtures/service_model_descriptor/NOTICE.txt"
       ],
       "modifications": "Preserve 5 complete TEST examples: ID strings including rocket/NUL and computed255a+underscore; version v1/null/empty/three spaces; resource paths versioned/unversioned/empty/slash/version-only as applicable. Rust UTF-8 replaces Java surrogate spelling; Option replaces null. No source implementation copied."
+    },
+    {
+      "id": "property-fallback-sixteen ordinary property maps/query/value/null fixtures",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "sixteen ordinary property maps/query/value/null fixtures",
+      "local_path": "crates/solver/tests/property_fallback_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "All exact16 property maps, key/value strings and expected results copied from TEST; no source implementation."
+    },
+    {
+      "id": "property-fallback-renamedProperties",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/runtime/src/test/java/ai/timefold/solver/service/quarkus/deployment/config/TimefoldRenamedPropertiesFallbackInterceptorTest.java",
+      "upstream_test": "renamedProperties",
+      "local_path": "crates/solver/tests/fixtures/property_fallback_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/property_fallback/NOTICE.txt"
+      ],
+      "modifications": "All3 exact/prefix/multiple-legacy parameter pairs retained, warning string substring asserted in both complete methods."
+    },
+    {
+      "id": "diminished-runtime-recorder-setup-helpers",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "setUp/assertNoDiminishedReturns/assertDiminishedReturns; all 7 method input declarations",
+      "local_path": "crates/solver/tests/fixtures/diminished_runtime_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Preserve nested optional declaration setup, both full assertion helpers, literal30-minute window/123.0 ratio, empty phase-list and explicit construction+local fixture. Rust owned Option and typed phases replace mocks/reflection/null containers; actual raw and resolved native configuration both observed. Original runtime tests additionally execute the bound policies; not source fixture output scripting."
     }
   ]
 }

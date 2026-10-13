@@ -2035,3 +2035,13 @@ pub use service_model_descriptor::{
     ServiceApiVersion, ServiceDescriptorError, ServiceDescriptorErrorKind, ServiceModelDescriptor,
     ServiceModelId, ServiceResourcePath, ServiceResourceType,
 };
+
+mod renamed_properties;
+pub use renamed_properties::{OwnedPropertySource, PropertyFallbackRules, PropertyFallbackWarning};
+
+mod diminished_runtime_binding;
+pub use diminished_runtime_binding::{
+    DiminishedReturnsDeclaration, DiminishedRuntimeBinding, DiminishedRuntimeError,
+    RuntimeDiminishedReturns, RuntimeSolverProperties, RuntimeSolverTermination,
+    RuntimeTerminationProperties,
+};

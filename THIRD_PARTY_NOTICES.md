@@ -1106,3 +1106,7 @@ It earns no source method credit.
   metadata remains unsupported. No production/Enterprise implementation read.
 
 Round149 service_model_descriptor_cases.rs and fixtures/service_model_descriptor_fixture.rs adapt the 19 pinned Community deployment data-contract tests and their literals under Apache-2.0. Exact attribution appears in compat/provenance.json and fixtures/service_model_descriptor/NOTICE.txt. Native descriptor/runtime implementation is independent; no framework support is claimed.
+
+Round151 property_fallback_cases.rs and fixtures/property_fallback_fixture.rs adapt complete pinned Community TimefoldRenamedPropertiesFallbackInterceptorTest cases and literals under Apache-2.0. Exact provenance and fixture NOTICE are recorded; native resolver is independent.
+
+Round152 diminished_runtime_cases.rs and fixtures/diminished_runtime_fixture.rs adapt all seven complete pinned Community TimefoldRecorderDiminishedReturnsTest methods, setup, helper assertions and duration/ratio literals under Apache-2.0. Exact attribution appears in compat/provenance.json and fixtures/diminished_runtime/NOTICE.txt. Native typed runtime binding replaces Quarkus mocks/reflection and executes actual native phase policies; no framework integration or JVM ABI compatibility is claimed.

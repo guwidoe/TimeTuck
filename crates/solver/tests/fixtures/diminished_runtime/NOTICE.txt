@@ -1,0 +1,6 @@
+Adapted from Timefold Solver Community TEST sources, Apache License 2.0.
+Pinned commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762
+Source: quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java
+Local cases: diminished_runtime_cases.rs; setup/helpers: diminished_runtime_fixture.rs.
+See compat/provenance.json and compat/licenses/timefold-Apache-2.0.txt.
+Native runtime binding is independent; no production implementation inspected.
