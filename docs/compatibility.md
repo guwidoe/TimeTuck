@@ -8969,3 +8969,13 @@ half ties, NaN zero and i64 saturation. Native ProblemScale.fixed_point_log adds
 the default statistic while explicit scaled_log keeps its existing rounding rule.
 An original boundary regression also preserves integral doubles above 2^52. No
 production source, private fields or bytecode was inspected.
+
+All six remaining ScalingSequencedSet unsupported-mutation methods now preserve
+their runtime failures through callable native cursor/collection/view operations.
+Typed UnsupportedSequencedSetOperation replaces Java exceptions; retainAll()/
+removeAll() diagnostics retain operation identity. Existing iter() remains unchanged.
+A separate borrowed cursor supports forward/reverse traversal and rejects removal
+without changing its position. Reverse views reject insertion/removal/clear/extend
+without mutating the original. Two original regressions exercise all storage forms,
+borrow-error precedence, failed-call positions/live views and nonconsumed streaming
+inputs. Compile-time restrictions are not used as passing runtime evidence.

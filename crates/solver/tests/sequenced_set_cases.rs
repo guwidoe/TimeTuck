@@ -6,6 +6,69 @@ use std::{
     sync::Arc,
 };
 use timetuck::*;
+#[test]
+fn iterator_remove_throws_exception() {
+    let s = ScalingSequencedSet::new();
+    s.insert("a").unwrap();
+    let mut iterator = s.cursor();
+    assert_eq!(*iterator.next().unwrap(), "a");
+    assert_eq!(
+        iterator.remove_current(),
+        Err(UnsupportedSequencedSetOperation::IteratorRemoval)
+    );
+}
+#[test]
+fn retain_all_throws_exception() {
+    let s = ScalingSequencedSet::<&str>::new();
+    let error = s.retain_all(&["a"]).unwrap_err();
+    assert_eq!(error, UnsupportedSequencedSetOperation::RetainAll);
+    assert!(error.to_string().contains("retainAll()"));
+}
+#[test]
+fn remove_all_throws_exception() {
+    let s = ScalingSequencedSet::<&str>::new();
+    let error = s.remove_all(&["a"]).unwrap_err();
+    assert_eq!(error, UnsupportedSequencedSetOperation::RemoveAll);
+    assert!(error.to_string().contains("removeAll()"));
+}
+#[test]
+fn reversed_is_read_only() {
+    let s = ScalingSequencedSet::new();
+    s.extend(["a", "b"]).unwrap();
+    let reverse = s.reversed();
+    assert_eq!(
+        reverse.insert("c"),
+        Err(UnsupportedSequencedSetOperation::ReadOnlyInsert)
+    );
+    assert_eq!(
+        reverse.remove(&"a"),
+        Err(UnsupportedSequencedSetOperation::ReadOnlyRemove)
+    );
+}
+#[test]
+fn reversed_iterator_remove_throws_exception() {
+    let s = ScalingSequencedSet::new();
+    s.extend(["a", "b"]).unwrap();
+    let mut iterator = s.reversed().cursor();
+    assert_eq!(*iterator.next().unwrap(), "b");
+    assert_eq!(
+        iterator.remove_current(),
+        Err(UnsupportedSequencedSetOperation::IteratorRemoval)
+    );
+}
+#[test]
+fn add_first_and_add_last_throw_exception() {
+    let s = ScalingSequencedSet::new();
+    s.insert("a").unwrap();
+    assert_eq!(
+        s.insert_first("b"),
+        Err(UnsupportedSequencedSetOperation::InsertFirst)
+    );
+    assert_eq!(
+        s.insert_last("b"),
+        Err(UnsupportedSequencedSetOperation::InsertLast)
+    );
+}
 fn values<T: Copy>(s: &ScalingSequencedSet<T>) -> Vec<T> {
     s.iter().map(|v| *v).collect()
 }

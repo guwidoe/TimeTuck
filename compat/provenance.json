@@ -58931,6 +58931,96 @@
       "local_path": "crates/solver/tests/named_statistics_cases.rs",
       "local_test": "get_approximate_problem_scale_log_as_fixed_point_long",
       "modifications": "Preserve both 100/250 log10-constructor comparisons against scaled approximate log at the pinned default precision. Native ProblemScale.fixed_point_log and explicit precision1,000,000 replace the Java statistics container; opaque TEST-visible public API observations establish exact reference outputs2,000,000/2,397,940. No production implementation inspection or Java ABI claim."
+    },
+    {
+      "id": "ScalingSequencedSetTest.iteratorRemoveThrowsException",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "iteratorRemoveThrowsException",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "iterator_remove_throws_exception",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source setup, actual iterator advance/reverse traversal and runtime unsupported-operation assertion. Callable Rust cursor/collection/view operations return a typed UnsupportedSequencedSetOperation instead of Java exceptions; retainAll()/removeAll() operation diagnostics are preserved. Existing Rust iter() stays unchanged; cursor() supplies runtime removal capability negotiation. No compile-time restriction or test-only scripted failure substituted; no JVM ABI claim."
+    },
+    {
+      "id": "ScalingSequencedSetTest.retainAllThrowsException",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "retainAllThrowsException",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "retain_all_throws_exception",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source setup, actual iterator advance/reverse traversal and runtime unsupported-operation assertion. Callable Rust cursor/collection/view operations return a typed UnsupportedSequencedSetOperation instead of Java exceptions; retainAll()/removeAll() operation diagnostics are preserved. Existing Rust iter() stays unchanged; cursor() supplies runtime removal capability negotiation. No compile-time restriction or test-only scripted failure substituted; no JVM ABI claim."
+    },
+    {
+      "id": "ScalingSequencedSetTest.removeAllThrowsException",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "removeAllThrowsException",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "remove_all_throws_exception",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source setup, actual iterator advance/reverse traversal and runtime unsupported-operation assertion. Callable Rust cursor/collection/view operations return a typed UnsupportedSequencedSetOperation instead of Java exceptions; retainAll()/removeAll() operation diagnostics are preserved. Existing Rust iter() stays unchanged; cursor() supplies runtime removal capability negotiation. No compile-time restriction or test-only scripted failure substituted; no JVM ABI claim."
+    },
+    {
+      "id": "ScalingSequencedSetTest.reversedIsReadOnly",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "reversedIsReadOnly",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "reversed_is_read_only",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source setup, actual iterator advance/reverse traversal and runtime unsupported-operation assertion. Callable Rust cursor/collection/view operations return a typed UnsupportedSequencedSetOperation instead of Java exceptions; retainAll()/removeAll() operation diagnostics are preserved. Existing Rust iter() stays unchanged; cursor() supplies runtime removal capability negotiation. No compile-time restriction or test-only scripted failure substituted; no JVM ABI claim."
+    },
+    {
+      "id": "ScalingSequencedSetTest.reversedIteratorRemoveThrowsException",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "reversedIteratorRemoveThrowsException",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "reversed_iterator_remove_throws_exception",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source setup, actual iterator advance/reverse traversal and runtime unsupported-operation assertion. Callable Rust cursor/collection/view operations return a typed UnsupportedSequencedSetOperation instead of Java exceptions; retainAll()/removeAll() operation diagnostics are preserved. Existing Rust iter() stays unchanged; cursor() supplies runtime removal capability negotiation. No compile-time restriction or test-only scripted failure substituted; no JVM ABI claim."
+    },
+    {
+      "id": "ScalingSequencedSetTest.addFirstAndAddLastThrowException",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ScalingSequencedSetTest.java",
+      "upstream_test": "addFirstAndAddLastThrowException",
+      "local_path": "crates/solver/tests/sequenced_set_cases.rs",
+      "local_test": "add_first_and_add_last_throw_exception",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve each source setup, actual iterator advance/reverse traversal and runtime unsupported-operation assertion. Callable Rust cursor/collection/view operations return a typed UnsupportedSequencedSetOperation instead of Java exceptions; retainAll()/removeAll() operation diagnostics are preserved. Existing Rust iter() stays unchanged; cursor() supplies runtime removal capability negotiation. No compile-time restriction or test-only scripted failure substituted; no JVM ABI claim."
     }
   ],
   "fixtures": [

@@ -16,7 +16,52 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round112
+## Latest verified checkpoint — round113
+
+All 36 ScalingSequencedSetTest methods now pass. Six remaining runtime unsupported
+mutation cases preserve source setup, actual forward/reverse cursor advance,
+exception-to-typed-error mapping and retainAll()/removeAll() diagnostic identity.
+Callable UnsupportedSequencedSetOperation results distinguish unsupported
+capabilities from normal iterator borrow failures. Base endpoint insertion/bulk
+membership edits reject; reversed insertion/removal/clear/extend reject without
+modifying the original. Existing iter() and hot mutation/storage paths remain
+unchanged. A separate borrowed SequencedSetCursor supports fused/exact-size,
+double-ended forward/reverse traversal and rejects removal without advancing.
+No compile-time restriction or empty/scaffold test earns runtime failure credit.
+Six source cases recorded; pin unchanged; full objective still incomplete.
+
+Two originals cover all four storage forms, empty/active/exhausted cursors,
+failed-call positions/size hints, borrow-error precedence, original membership/
+storage preservation, live reverse views and nonconsumed streaming inputs.
+44 focused cases and Clippy (58.58s) passed; affected compilation
+6m 56s. Frozen bash scripts/check.sh passed
+395.623s: 7,446 Rust tests and 290 doctests. 1,001 Rust jobs ran; 102 Rust and
+46 Python jobs reused successful records. Compatibility: 3,925/4,855 (80.844%),
+362 pending, 568 excluded,
+zero failed/unverified. Rust digest e8ded83b77ae43e0558f661a6447df0776fb54a9008d7d723b9a55bd68a6328a.
+Report digest f0bd668e36b271cca82d62908687b6b61044021d5b105e5551b046e2c85b6237.
+Archive work/round113-local-results.tar.gz SHA256:f7b545fda3ae4312a39a58aaa7bb29fa5c473a2933bf2ab36e9459dbdc02bbe5.
+Evidence work/parallel-round113-evidence.json; freeze
+work/parallel-round113-freeze.json; postcommit proof
+work/round113-postcommit-evidence.json. Prebuild82497 and final gate terminal0;
+do not repeat successful unchanged verification. Preserve actual per-job keys/
+log hashes/dates. Backend report/data freshness checked; no UI changes or repeated
+browser tests. No new agents or assignments.
+
+No performance refresh for additive capability APIs; no performance change claim.
+Prior paired k-opt measurements retain actual local date
+2026-10-13T02:08:50.481824+00:00 and original 128-validation/quality/work scope.
+Relevant hashed inputs changed, so k-opt and older list metrics remain visibly
+stale. Never retag old evidence. runner-a prior dispatch 48485 terminal 1 before
+build; no current remote results claimed. runner-c last observed offline. Local builds
+remain available; no machine availability blocker to implementation.
+
+Continue full goal and shrink remaining compatibility backlog. Seven k-opt
+seam/iterator methods remain pending; saved probes are already answered. Public
+API/documentation and TEST contracts only; do not inspect/copy/translate production.
+Preserve full original scope, performance and occasional Conventional commits.
+
+## Previous verified checkpoint — round112
 
 ProblemScale.fixed_point_log supplies the pinned default precision 1,000,000,
 nearest-integer rounding with ties toward positive infinity, saturated i64 bounds

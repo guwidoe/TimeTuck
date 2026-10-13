@@ -4,6 +4,108 @@ use std::{
     sync::Arc,
 };
 use timetuck::*;
+#[test]
+fn rejected_mutations_preserve_cursor_positions_storage_and_live_views() {
+    for n in [0, 1, 2, 16, 17, 40] {
+        let s = ScalingSequencedSet::new();
+        s.extend(0..n).unwrap();
+        let storage = s.storage();
+        let expected: Vec<_> = (0..n).collect();
+        let reverse = s.reversed();
+        for backwards in [false, true] {
+            let mut cursor = if backwards {
+                reverse.cursor()
+            } else {
+                s.cursor()
+            };
+            assert_eq!(
+                cursor.remove_current(),
+                Err(UnsupportedSequencedSetOperation::IteratorRemoval)
+            );
+            let oriented: Vec<_> = if backwards {
+                expected.iter().copied().rev().collect()
+            } else {
+                expected.clone()
+            };
+            let mut remaining = oriented.into_iter();
+            while cursor.len() > 0 {
+                assert_eq!(*cursor.next().unwrap(), remaining.next().unwrap());
+                let len = cursor.len();
+                assert_eq!(
+                    cursor.remove_current(),
+                    Err(UnsupportedSequencedSetOperation::IteratorRemoval)
+                );
+                assert_eq!(cursor.len(), len);
+                assert_eq!(cursor.size_hint(), (len, Some(len)));
+                assert_eq!(
+                    reverse.clear(),
+                    Err(UnsupportedSequencedSetOperation::ReadOnlyClear)
+                );
+                assert_eq!(
+                    reverse.insert(100),
+                    Err(UnsupportedSequencedSetOperation::ReadOnlyInsert)
+                );
+                assert_eq!(
+                    reverse.remove(&0),
+                    Err(UnsupportedSequencedSetOperation::ReadOnlyRemove)
+                );
+                assert_eq!(s.insert(100), Err(SequencedSetBorrowed));
+                if cursor.len() > 0 {
+                    assert_eq!(*cursor.next_back().unwrap(), remaining.next_back().unwrap());
+                }
+            }
+            assert!(cursor.next().is_none());
+            assert!(cursor.next_back().is_none());
+            assert_eq!(
+                cursor.remove_current(),
+                Err(UnsupportedSequencedSetOperation::IteratorRemoval)
+            );
+        }
+        assert_eq!(values(&s), expected);
+        assert_eq!(s.storage(), storage);
+        assert_eq!(
+            s.insert_first(100),
+            Err(UnsupportedSequencedSetOperation::InsertFirst)
+        );
+        assert_eq!(
+            s.insert_last(100),
+            Err(UnsupportedSequencedSetOperation::InsertLast)
+        );
+        assert_eq!(values(&s), expected);
+        s.insert(100).unwrap();
+        assert_eq!(*reverse.first().unwrap(), 100);
+    }
+}
+#[test]
+fn unsupported_bulk_and_read_only_operations_never_consume_streamed_inputs() {
+    let s = ScalingSequencedSet::<u32>::new();
+    s.extend([1, 2]).unwrap();
+    let reverse = s.reversed();
+    assert_eq!(
+        s.retain_all(std::iter::from_fn(|| -> Option<&u32> {
+            panic!("retain input read")
+        })),
+        Err(UnsupportedSequencedSetOperation::RetainAll)
+    );
+    assert_eq!(
+        s.remove_all(std::iter::from_fn(|| -> Option<&u32> {
+            panic!("remove input read")
+        })),
+        Err(UnsupportedSequencedSetOperation::RemoveAll)
+    );
+    assert_eq!(
+        reverse.extend(std::iter::from_fn(|| -> Option<u32> {
+            panic!("extend input read")
+        })),
+        Err(UnsupportedSequencedSetOperation::ReadOnlyExtend)
+    );
+    assert_eq!(values(&s), [1, 2]);
+    let empty = ScalingSequencedSet::<u32>::new();
+    assert_eq!(
+        empty.reversed().clear(),
+        Err(UnsupportedSequencedSetOperation::ReadOnlyClear)
+    );
+}
 fn values(s: &ScalingSequencedSet<u32>) -> Vec<u32> {
     s.iter().map(|v| *v).collect()
 }

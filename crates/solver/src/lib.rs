@@ -1074,7 +1074,8 @@ pub use move_tester::{MoveDraft, MoveDraftModel, MoveTestContext, MoveTestError,
 mod sequenced_set;
 pub use sequenced_set::{
     InvalidSequencedSetSize, ReversedSequencedSet, SEQUENCED_SET_ARRAY_LIMIT, ScalingSequencedSet,
-    SequencedSetBorrowed, SequencedSetIter, SequencedSetStorage,
+    SequencedSetBorrowed, SequencedSetCursor, SequencedSetIter, SequencedSetStorage,
+    UnsupportedSequencedSetOperation,
 };
 mod ordered_set_collector;
 pub use ordered_set_collector::OrderedSetCollector;

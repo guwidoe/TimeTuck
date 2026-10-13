@@ -40,6 +40,37 @@ impl fmt::Display for SequencedSetBorrowed {
 }
 impl std::error::Error for SequencedSetBorrowed {}
 
+/// Runtime capability rejection, distinct from an active-iterator borrow error.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum UnsupportedSequencedSetOperation {
+    IteratorRemoval,
+    RetainAll,
+    RemoveAll,
+    InsertFirst,
+    InsertLast,
+    ReadOnlyInsert,
+    ReadOnlyRemove,
+    ReadOnlyClear,
+    ReadOnlyExtend,
+}
+impl fmt::Display for UnsupportedSequencedSetOperation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let operation = match self {
+            Self::IteratorRemoval => "iterator.remove()",
+            Self::RetainAll => "retainAll()",
+            Self::RemoveAll => "removeAll()",
+            Self::InsertFirst => "addFirst()",
+            Self::InsertLast => "addLast()",
+            Self::ReadOnlyInsert => "reversed.insert()",
+            Self::ReadOnlyRemove => "reversed.remove()",
+            Self::ReadOnlyClear => "reversed.clear()",
+            Self::ReadOnlyExtend => "reversed.extend()",
+        };
+        write!(f, "{operation} is not supported by this sequenced set")
+    }
+}
+impl std::error::Error for UnsupportedSequencedSetOperation {}
+
 struct Link<T> {
     value: Option<Arc<T>>,
     previous: usize,
@@ -328,6 +359,40 @@ impl<T> ScalingSequencedSet<T> {
     pub fn reversed(&self) -> ReversedSequencedSet<'_, T> {
         ReversedSequencedSet { original: self }
     }
+    /// Borrowed iteration with a callable, explicitly unsupported removal
+    /// operation for clients that negotiate mutation capabilities at runtime.
+    pub fn cursor(&self) -> SequencedSetCursor<'_, T> {
+        SequencedSetCursor {
+            inner: self.iter(),
+            reversed: false,
+        }
+    }
+    /// Bulk membership editing and endpoint positioning are unsupported. Inputs
+    /// are not iterated, compared or hashed before returning the typed error.
+    pub fn retain_all<'a>(
+        &self,
+        _values: impl IntoIterator<Item = &'a T>,
+    ) -> Result<bool, UnsupportedSequencedSetOperation>
+    where
+        T: 'a,
+    {
+        Err(UnsupportedSequencedSetOperation::RetainAll)
+    }
+    pub fn remove_all<'a>(
+        &self,
+        _values: impl IntoIterator<Item = &'a T>,
+    ) -> Result<bool, UnsupportedSequencedSetOperation>
+    where
+        T: 'a,
+    {
+        Err(UnsupportedSequencedSetOperation::RemoveAll)
+    }
+    pub fn insert_first(&self, _value: T) -> Result<bool, UnsupportedSequencedSetOperation> {
+        Err(UnsupportedSequencedSetOperation::InsertFirst)
+    }
+    pub fn insert_last(&self, _value: T) -> Result<bool, UnsupportedSequencedSetOperation> {
+        Err(UnsupportedSequencedSetOperation::InsertLast)
+    }
 }
 impl<T: Eq + Hash> ScalingSequencedSet<T> {
     /// Validate signed external size hints. The native with_capacity(0) remains
@@ -476,6 +541,42 @@ impl<T> DoubleEndedIterator for SequencedSetIter<'_, T> {
 impl<T> ExactSizeIterator for SequencedSetIter<'_, T> {}
 impl<T> FusedIterator for SequencedSetIter<'_, T> {}
 
+pub struct SequencedSetCursor<'a, T> {
+    inner: SequencedSetIter<'a, T>,
+    reversed: bool,
+}
+impl<T> SequencedSetCursor<'_, T> {
+    /// Removal is unsupported before, during and after traversal. Rejection
+    /// leaves both the membership and traversal position unchanged.
+    pub fn remove_current(&mut self) -> Result<(), UnsupportedSequencedSetOperation> {
+        Err(UnsupportedSequencedSetOperation::IteratorRemoval)
+    }
+}
+impl<T> Iterator for SequencedSetCursor<'_, T> {
+    type Item = Arc<T>;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.reversed {
+            self.inner.next_back()
+        } else {
+            self.inner.next()
+        }
+    }
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.inner.size_hint()
+    }
+}
+impl<T> DoubleEndedIterator for SequencedSetCursor<'_, T> {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        if self.reversed {
+            self.inner.next()
+        } else {
+            self.inner.next_back()
+        }
+    }
+}
+impl<T> ExactSizeIterator for SequencedSetCursor<'_, T> {}
+impl<T> FusedIterator for SequencedSetCursor<'_, T> {}
+
 /// A live read-only orientation of the same set. Reversing it returns the original.
 pub struct ReversedSequencedSet<'a, T> {
     original: &'a ScalingSequencedSet<T>,
@@ -498,6 +599,29 @@ impl<'a, T> ReversedSequencedSet<'a, T> {
     }
     pub fn reversed(&self) -> &'a ScalingSequencedSet<T> {
         self.original
+    }
+    pub fn cursor(&self) -> SequencedSetCursor<'a, T> {
+        SequencedSetCursor {
+            inner: self.original.iter(),
+            reversed: true,
+        }
+    }
+    /// Read-only view mutation attempts are rejected without inspecting values
+    /// or modifying the original set, including when another cursor is active.
+    pub fn insert(&self, _value: T) -> Result<bool, UnsupportedSequencedSetOperation> {
+        Err(UnsupportedSequencedSetOperation::ReadOnlyInsert)
+    }
+    pub fn remove(&self, _value: &T) -> Result<bool, UnsupportedSequencedSetOperation> {
+        Err(UnsupportedSequencedSetOperation::ReadOnlyRemove)
+    }
+    pub fn clear(&self) -> Result<(), UnsupportedSequencedSetOperation> {
+        Err(UnsupportedSequencedSetOperation::ReadOnlyClear)
+    }
+    pub fn extend(
+        &self,
+        _values: impl IntoIterator<Item = T>,
+    ) -> Result<bool, UnsupportedSequencedSetOperation> {
+        Err(UnsupportedSequencedSetOperation::ReadOnlyExtend)
     }
 }
 impl<T: Eq + Hash> ReversedSequencedSet<'_, T> {
