@@ -9645,3 +9645,53 @@ and the TEST nearby declarations. Explicit native callbacks consume the size in
 real LateAcceptance execution. Historical statistics/nearby declarations do not
 claim Java reflection or nearby execution parity. Incomplete historical results
 retain the established native completeness-first ranking policy.
+
+Eight descriptor methods and the void-member factory method now use explicit
+executable member registrations. Native owner/value type identities, getter names,
+setter signatures and conditional consumers correspond to actual typed callbacks.
+Private method declarations reject before callbacks; private fields route through
+registered public accessors. Rust Arc ownership and generic collection types remain
+visible instead of Java erasure. Unit-return actions execute through the existing
+RegisteredMember void binding. RegisteredRustCallback describes the real backend,
+without a MethodHandle speed claim. No Gizmo generation or classloader parity is
+claimed. Originals exercise current values, real writes, callback selection and
+silence, Arc identity, and repeated mutable actions.
+
+Twenty-three platform deployment methods now execute a native optional client:
+fourteen deploy, four permissions and five undeploy. Actual caller transport
+receives method/path/query, secret-safe bearer authorization and owned serialized
+metadata plus real descriptor archive bytes. Only identified registration-key or
+same-version conflicts permit an enabled overwrite PATCH; other codes and empty
+or malformed bodies retain full source failures. Permissions parse typed arrays,
+validate before reporting, and undeployment consumes real response statuses.
+Skip/dry-run/missing-token controls issue no request. Native DeploymentPackage
+metadata and a versioned length-prefixed binary envelope explicitly replace Maven
+injection, JVM/JAR packaging and unread production HTTP payload conventions;
+no HTTP wire ABI or external platform integration is claimed. Original checks
+vary artifact bytes/model/key/tenant, verify byte preservation and path escaping,
+reject invalid metadata/malformed replies, exercise transport failures and check
+secret-safe Debug output. ConfigureMojo and Enterprise behavior are outside scope.
+
+Seven additional benchmark methods preserve complete inherited statistic
+hibernation/serialization across all twelve concrete Community TEST point
+fixtures, three line/bar chart metadata contracts, full TEST XML aggregation and
+actual three-entity benchmark CSV recording. Native typed CSV persistence frees
+resident points only after successful writing; typed XML preserves statistic
+identity and values. Linux RSS and physical memory replace JVM heap counters.
+Chart artifacts contain actual series/categories and adaptive reductions, with
+failed runs excluded; rendering and Java chart/JAXB ABI parity are not claimed.
+
+The optional CSV collector uses native local-search entry and retained-best
+callbacks; construction-only runs produce no score rows. An original caught and
+corrected stale best metrics at StepEnded. The source benchmark model runs with
+an explicit seed, 100ms unimproved limit and ten-step safeguard; one native warmup
+run replaces the source minimum one millisecond. Plot coordinates use finite
+f64 while persisted points/bar counts retain exact integers; coordinate collisions
+fail validation. Merged-XSD validation remains pending because its generated
+schemas were unavailable as TEST fixtures; production schemas were not inspected.
+
+The deployment TEST archive remains byte-for-byte intact. A reversible hexadecimal
+fixture supplies those exact bytes through a tracked text literal; its decoded SHA
+matches the original ZIP. This is a test-loader adaptation for the development
+dependency scanner's binary-as-UTF8 limitation, not a replacement package. Both
+prebuild failures occurred before check.sh and are preserved.

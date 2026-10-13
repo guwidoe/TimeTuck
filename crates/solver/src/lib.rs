@@ -1946,3 +1946,23 @@ pub use maps_client::{
     MapsRequest, MapsRequestKind, MapsResponse, MapsSolutionEvent, MapsTransport,
     MapsTransportError, MapsWaypointRoute,
 };
+
+mod executable_member_descriptor;
+pub use executable_member_descriptor::{
+    ExecutableFieldIdentity, ExecutableMemberBackend, ExecutableMemberDescriptor,
+    ExecutableMemberKind, ExecutableMethodIdentity, ExecutableVoidMember,
+};
+
+mod platform_deployment;
+pub use platform_deployment::{
+    DeploymentOptions, DeploymentOutcome, DeploymentPackage, PlatformDeploymentClient,
+    PlatformDeploymentError, PlatformLog, PlatformLogLevel, PlatformMethod, PlatformModelType,
+    PlatformPermissions, PlatformRequest, PlatformResponse, PlatformTransport,
+};
+
+mod benchmark_runtime;
+pub use benchmark_runtime::{
+    BenchmarkChartGeometry, BenchmarkRecordAggregation, BenchmarkStatistic,
+    BenchmarkStatisticChart, BenchmarkStatisticPoint, BenchmarkStatisticRun,
+    benchmark_solve_with_best_csv, benchmark_statistic_charts,
+};

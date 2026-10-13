@@ -16,7 +16,81 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round140
+## Latest verified checkpoint — round141
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in
+93.272s: 7,941 Rust tests and 290 doctests. Compatibility
+4,223/4,855 (86.982%), 64 pending, 568 excluded, zero failed/unverified.
+Nine changed Rust jobs ran; 1,243 unchanged Rust jobs and all 46 Python jobs
+reused matching actual runner-a evidence. Final prebuild 108.202s; worker total
+202.044s. Earlier prebuild-only failures are retained separately.
+Rust digest 068536bc945d6d68f821268dcd2b534b55b6f0eb44c287fa33fbccbe23b7da62.
+Report digest d97fcbdb8844262f02266c90bdf6342d4bda6d2e916e083664c06c79e55734d8.
+runner-a source 0328898c792dbdb3ffb6517e69667732c76131a5d3557a4b44eb8ec29a1389cb.
+Archive `work/round141-runner-a-results.tar.gz` SHA256 85f3250174f789bd00fe86d76cbf3364996aa25e4d4d9cc54d6f375c33b215a4.
+Evidence `work/parallel-round141-evidence.json`; freeze
+`work/parallel-round141-freeze.json`; postcommit receipt
+`work/round141-postcommit-evidence.json`. Backend report/freshness inspected;
+UI/data contract unchanged, no browser check repeated.
+
+Thirty-nine complete methods close 23 platform deployment/permission/undeploy
+contracts, seven benchmark runtime/statistic contracts and nine executable-member
+metadata/void contracts. Twelve originals and twenty-nine attributed TEST fixtures
+added, including two evidence-only k-opt probes and the reversible ZIP encoding.
+Exact IDs: `work/round141-added-source-ids.json`. All three managed worktrees
+archived; all lane jobs terminal. Native implementation remains incomplete.
+
+The platform client executes caller transport, parses descriptor/build metadata,
+transmits the exact original TEST archive bytes and applies typed conflict-code
+PATCH rules. Skip/dry-run/token behavior, permissions, errors and logs retain all
+source assertions. Native length-prefixed package envelope/caller transport replace
+unread production HTTP payload/Maven/JVM ABI. No external request, publishing or
+private credential use occurred. Initial Clippy style failure remains preserved.
+
+Benchmark CSV hibernation and XML/statistic-kind round trips retain all twelve
+concrete source point fixtures. Line/bar chart data exports use actual point data,
+with no Java renderer claim. Typed historical aggregation retains all source fields;
+real local-search runs record CSV through metrics/lifecycle and actual Best events.
+An original caught missed score improvements from StepEnded timing; the optional
+collector now observes real Best events. Construction-only runs record no LS rows.
+Four originals and all seven source methods pass; XSD remains pending because its
+generated schemas are unavailable as TEST fixtures. No production schemas read.
+
+Executable descriptors derive owner/value identities from real Rust types,
+register actual getters/setters, dispatch conditional consumers and deny private
+method access before callbacks. Private fields use executable public accessors.
+Rust Arc/generic types remain explicit rather than Java erasure. Unit-return factory
+actions invoke existing RegisteredMember callbacks and mutate actual entities;
+RegisteredRustCallback labels the actual backend without a MethodHandle speed claim.
+No reflection, Gizmo generation or classloader parity. Three originals cover real
+writes/current reads, callback selection/silence, identities and repeated actions.
+Root's initial Arc inference compile failure is saved; corrected focused12/Clippy pass.
+
+Both bounded k-opt public-call probes are new evidence, with zero method credit.
+The read trace cannot establish absence of prebuilt payload capture or attribute
+all reads to execution versus notification/undo. The controlled temporal experiment
+swaps interior values7/8 after move preparation, refreshes shadows/director, and
+executes the same move. Actual ownership follows the changed live positions.
+Preserve exact changes, supplies and caveats in
+`work/round141-agent-evidence/kopt-execution/round141-kopt-handoff.json`.
+It does not establish a generic reconnection/repair recipe. All five hard k-opt
+methods remain pending; do not repeat refuted topology/orientation/seam probes.
+
+Two prebuild attempts passed Clippy then hit the development dependency scanner's
+binary-as-UTF8 issue; neither reached check.sh. Logs/manifests/freeze preserved in
+`work/round141-prebuild-failure{1,2}`. Test ZIP is retained unchanged; a text fixture
+decodes to those exact bytes before upload. Both actual runtime and expectation
+use the tracked text input; no dependency is silently omitted. SHA/equality receipt
+`work/round141-archive-encoding-evidence.json`. Binary literal scanning remains a
+known verifier limitation to fix during a deliberate tooling/broad-verification
+batch. Verification engine unchanged, so unrelated old proof was not invalidated.
+Explicit benchmark exports avoid unrelated invalidation; fresh round139 paired
+solver/k-opt/list input hashes remain unchanged, with original run dates retained.
+
+runner-c WSL remains offline in current Tailscale status. runner-a/local supplied actual
+checks; runner-c was not repeatedly probed or dispatched. No live/uncollected runner-c job.
+
+## Previous verified checkpoint — round140
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in
 95.237s: 7,890 Rust tests and 290 doctests. Compatibility

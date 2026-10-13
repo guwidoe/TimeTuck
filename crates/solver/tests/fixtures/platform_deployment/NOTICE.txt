@@ -1,0 +1,11 @@
+Adapted Timefold Community TESTs and fixtures, Apache License 2.0.
+Copyright Timefold contributors. Pinned commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Source: service/tools/maven-plugin/src/test/{java,resources}.
+The original model-descriptor.zip is copied unchanged; model-descriptor.json and
+build-info.json are its complete extracted TEST fixture members. Maven test POM
+options and test transport/log fixtures are adapted to native explicit settings.
+See compat/provenance.json, THIRD_PARTY_NOTICES.md and
+compat/licenses/timefold-Apache-2.0.txt for identities, modifications and license.
+
+model-descriptor.hex reversibly encodes the original model-descriptor.zip bytes.
+The runtime test fixture decodes those same bytes before upload. Apache-2.0.

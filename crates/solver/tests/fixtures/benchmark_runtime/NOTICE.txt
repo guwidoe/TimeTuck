@@ -1,0 +1,7 @@
+Adapted Community benchmark TEST points, lifecycle/file assertions and complete
+aggregator XML fixture originate from Timefold Solver Community, pinned commit
+8b815bc6b5f3eb81feedc94dea0885a93b267762, Copyright Timefold BV and contributors.
+Apache License 2.0: see compat/licenses/timefold-Apache-2.0.txt.
+Exact TEST/helper provenance and native adaptations: compat/provenance.json.
+Native runtime implementation and separately identified originals are independent.
+No production or Enterprise implementation/schema sources were used.

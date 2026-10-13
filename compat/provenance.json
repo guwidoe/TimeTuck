@@ -62921,6 +62921,621 @@
         "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
       ],
       "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testCreatingDescriptorForPrivateFieldWithPublicAccessorsWork",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testCreatingDescriptorForPrivateFieldWithPublicAccessorsWork",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_creating_descriptor_for_private_field_with_public_accessors_work",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testThatCreatingDescriptorForPrivateMembersFail",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testThatCreatingDescriptorForPrivateMembersFail",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_that_creating_descriptor_for_private_members_fail",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testThatWhenIsMethodExecuteConsumerIffMemberIsMethod",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testThatWhenIsMethodExecuteConsumerIffMemberIsMethod",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_that_when_is_method_execute_consumer_iff_member_is_method",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testThatWhenIsFieldExecuteConsumerIffMemberIsField",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testThatWhenIsFieldExecuteConsumerIffMemberIsField",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_that_when_is_field_execute_consumer_iff_member_is_field",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testThatGetDeclaringClassNameIsCorrect",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testThatGetDeclaringClassNameIsCorrect",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_that_get_declaring_class_name_is_correct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testMemberDescriptorNameIsCorrect",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testMemberDescriptorNameIsCorrect",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_member_descriptor_name_is_correct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testMemberDescriptorSetterIsCorrect",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testMemberDescriptorSetterIsCorrect",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_member_descriptor_setter_is_correct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "GizmoMemberDescriptorTest.testMemberDescriptorTypeNameIsCorrect",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "testMemberDescriptorTypeNameIsCorrect",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "test_member_descriptor_type_name_is_correct",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves full descriptor assertions via typed executable registrations and actual conditional consumers. Native PlanningType identities/names replace Java class/MethodDesc/FieldDesc descriptors. Rust Arc ownership and Vec<Map> generic types are retained rather than Java object handles/raw Collection erasure. Setter identity accompanies a real typed setter callback; private registrations reject before callback execution. Existing RegisteredMember bindings execute field/getter/setter actions. No reflection, Gizmo generation, bytecode or classloader parity is claimed."
+    },
+    {
+      "id": "MemberAccessorFactoryTest.methodReturnVoid",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java",
+      "upstream_test": "methodReturnVoid",
+      "local_path": "crates/solver/tests/executable_member_cases.rs",
+      "local_test": "method_return_void",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves selected method kind, updateValue name, unit value/generic type and actual A-to-A/A mutation. ExecutableVoidMember factory validates an actual mutable RegisteredMember callback. RegisteredRustCallback accurately replaces the JVM MethodHandle implementation label, with no speed-equivalence claim; mutable invoke replaces Java executeGetter for a void operation."
+    },
+    {
+      "id": "DeployModelMojoTest.testSkipByParameter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testSkipByParameter",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_skip_by_parameter",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailsWithoutAccessToken",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailsWithoutAccessToken",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fails_without_access_token",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testDryRunDoesNotNeedAnAccessToken",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testDryRunDoesNotNeedAnAccessToken",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_dry_run_does_not_need_an_access_token",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testRegisterModel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testRegisterModel",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_register_model",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testRegisterModelWithPatch",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testRegisterModelWithPatch",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_register_model_with_patch",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testRegisterModelWithPatchOnModelVersionConflict",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testRegisterModelWithPatchOnModelVersionConflict",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_register_model_with_patch_on_model_version_conflict",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailWithoutPatchOnModelIdConflict",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailWithoutPatchOnModelIdConflict",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fail_without_patch_on_model_id_conflict",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailWithoutPatchOnUnidentifiedConflict",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailWithoutPatchOnUnidentifiedConflict",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fail_without_patch_on_unidentified_conflict",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailOnUpdateReportsPlatformError",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailOnUpdateReportsPlatformError",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fail_on_update_reports_platform_error",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailWithoutPatchOnMalformedConflictBody",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailWithoutPatchOnMalformedConflictBody",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fail_without_patch_on_malformed_conflict_body",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailWithoutPatchOnEmptyConflictBody",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailWithoutPatchOnEmptyConflictBody",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fail_without_patch_on_empty_conflict_body",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailOnMissingModelDescriptor",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailOnMissingModelDescriptor",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fail_on_missing_model_descriptor",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testRegisterModelSharedType",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testRegisterModelSharedType",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_register_model_shared_type",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "DeployModelMojoTest.testFailOnIncompleteDeploy",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/DeployModelMojoTest.java",
+      "upstream_test": "testFailOnIncompleteDeploy",
+      "local_path": "crates/solver/tests/platform_deploy_cases.rs",
+      "local_test": "test_fail_on_incomplete_deploy",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "PermissionsMojoTest.testReportsPermissions",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/PermissionsMojoTest.java",
+      "upstream_test": "testReportsPermissions",
+      "local_path": "crates/solver/tests/platform_permissions_cases.rs",
+      "local_test": "test_reports_permissions",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "PermissionsMojoTest.testWarnsWhenTokenLacksPushAccess",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/PermissionsMojoTest.java",
+      "upstream_test": "testWarnsWhenTokenLacksPushAccess",
+      "local_path": "crates/solver/tests/platform_permissions_cases.rs",
+      "local_test": "test_warns_when_token_lacks_push_access",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "PermissionsMojoTest.testFailsWhenNotAuthorized",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/PermissionsMojoTest.java",
+      "upstream_test": "testFailsWhenNotAuthorized",
+      "local_path": "crates/solver/tests/platform_permissions_cases.rs",
+      "local_test": "test_fails_when_not_authorized",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "PermissionsMojoTest.testFailsWhenAccessTokenMissing",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/PermissionsMojoTest.java",
+      "upstream_test": "testFailsWhenAccessTokenMissing",
+      "local_path": "crates/solver/tests/platform_permissions_cases.rs",
+      "local_test": "test_fails_when_access_token_missing",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "UndeployModelMojoTest.testSkipByParameter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/UndeployModelMojoTest.java",
+      "upstream_test": "testSkipByParameter",
+      "local_path": "crates/solver/tests/platform_undeploy_cases.rs",
+      "local_test": "test_skip_by_parameter",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "UndeployModelMojoTest.testFailsWithoutAccessToken",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/UndeployModelMojoTest.java",
+      "upstream_test": "testFailsWithoutAccessToken",
+      "local_path": "crates/solver/tests/platform_undeploy_cases.rs",
+      "local_test": "test_fails_without_access_token",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "UndeployModelMojoTest.testUndeploy",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/UndeployModelMojoTest.java",
+      "upstream_test": "testUndeploy",
+      "local_path": "crates/solver/tests/platform_undeploy_cases.rs",
+      "local_test": "test_undeploy",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "UndeployModelMojoTest.testUndeployNotExisting",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/UndeployModelMojoTest.java",
+      "upstream_test": "testUndeployNotExisting",
+      "local_path": "crates/solver/tests/platform_undeploy_cases.rs",
+      "local_test": "test_undeploy_not_existing",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "id": "UndeployModelMojoTest.testUndeployFailureWithoutDetails",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/UndeployModelMojoTest.java",
+      "upstream_test": "testUndeployFailureWithoutDetails",
+      "local_path": "crates/solver/tests/platform_undeploy_cases.rs",
+      "local_test": "test_undeploy_failure_without_details",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Full TEST assertions adapted to native executed caller transport, owned log events and typed errors. Preserves every key, status, conflict code/body, request count/path/query, diagnostic and log assertion. Native DeploymentPackage supplies actual original descriptor archive bytes plus extracted descriptor/build metadata, without Maven goal injection, JVM/JAR ABI or HTTP/Wiremock claims. Native versioned length-prefixed deployment envelope explicitly replaces unread production HTTP payload. Source dummy tokens remain local test inputs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "AbstractSubSingleStatisticTest.hibernation",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/AbstractSubSingleStatisticTest.java",
+      "upstream_test": "hibernation",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "local_test": "hibernation",
+      "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "AbstractSubSingleStatisticTest.serialization",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/AbstractSubSingleStatisticTest.java",
+      "upstream_test": "serialization",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "local_test": "serialization",
+      "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "ScoreCalculationSpeedSubSingleStatisticTest.generateCharts",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/scorecalculationspeed/ScoreCalculationSpeedSubSingleStatisticTest.java",
+      "upstream_test": "generateCharts",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "local_test": "score_calculation_speed_generate_charts",
+      "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "MoveEvaluationSpeedSubSingleStatisticTest.generateCharts",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/moveevaluationspeed/MoveEvaluationSpeedSubSingleStatisticTest.java",
+      "upstream_test": "generateCharts",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "local_test": "move_evaluation_speed_generate_charts",
+      "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "MoveCountPerTypeSubSingleStatisticTest.generateCharts",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/movecountpertype/MoveCountPerTypeSubSingleStatisticTest.java",
+      "upstream_test": "generateCharts",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "local_test": "move_count_per_type_generate_charts",
+      "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "PlannerBenchmarkTest.runPlannerBenchmark",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/api/PlannerBenchmarkTest.java",
+      "upstream_test": "runPlannerBenchmark",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "local_test": "run_planner_benchmark",
+      "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "PlannerBenchmarkResultTest.xmlReadBenchmarkResultAggregated",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark-aggregator/src/test/java/ai/timefold/solver/benchmark/aggregator/PlannerBenchmarkResultTest.java",
+      "upstream_test": "xmlReadBenchmarkResultAggregated",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "local_test": "xml_read_benchmark_result_aggregated",
+      "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
     }
   ],
   "fixtures": [
@@ -90086,6 +90701,406 @@
         "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
       ],
       "modifications": "TEST symbolic class declarations retained and validated; native explicit factory bindings replace reflection. Abstract TEST classes are never instantiated and nearby declarations do not claim execution."
+    },
+    {
+      "id": "gizmo-executable-member-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/gizmo/GizmoTestdataEntity.java",
+      "upstream_test": "value/id/genericField getters/setter and readMethod",
+      "local_path": "crates/solver/tests/fixtures/executable_member_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts only used TEST helper data/actions to explicit Rust ownership/types/callback registrations. Arc<TestValue> carries object handles, Vec<BTreeMap<String,String>> carries the generic collection, and updateValue allocates a new slash-combined value. Unused annotations and helpers omitted. Private-owner setup is a native explicitly denied binding; no Java reflection or source generated code copied."
+    },
+    {
+      "id": "field-executable-member-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/field/TestdataFieldAnnotatedEntity.java",
+      "upstream_test": "private value and public getValue/setValue",
+      "local_path": "crates/solver/tests/fixtures/executable_member_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts only used TEST helper data/actions to explicit Rust ownership/types/callback registrations. Arc<TestValue> carries object handles, Vec<BTreeMap<String,String>> carries the generic collection, and updateValue allocates a new slash-combined value. Unused annotations and helpers omitted. Private-owner setup is a native explicitly denied binding; no Java reflection or source generated code copied."
+    },
+    {
+      "id": "void-executable-member-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "updateValue and value setup",
+      "local_path": "crates/solver/tests/fixtures/executable_member_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts only used TEST helper data/actions to explicit Rust ownership/types/callback registrations. Arc<TestValue> carries object handles, Vec<BTreeMap<String,String>> carries the generic collection, and updateValue allocates a new slash-combined value. Unused annotations and helpers omitted. Private-owner setup is a native explicitly denied binding; no Java reflection or source generated code copied."
+    },
+    {
+      "id": "descriptor-native-owner-setup",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberDescriptorTest.java",
+      "upstream_test": "private-member visibility and native owner registration setup",
+      "local_path": "crates/solver/tests/fixtures/executable_member_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts only used TEST helper data/actions to explicit Rust ownership/types/callback registrations. Arc<TestValue> carries object handles, Vec<BTreeMap<String,String>> carries the generic collection, and updateValue allocates a new slash-combined value. Unused annotations and helpers omitted. Private-owner setup is a native explicitly denied binding; no Java reflection or source generated code copied."
+    },
+    {
+      "id": "round141-kopt-read-observation",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges/getSuccessorFunction/identityIndexOf/testMultiEntity3Opt",
+      "local_path": "compat/oracle/KOptSeamReadProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-owned descriptor construction and rows to an opaque Community runtime observation using public list/state calls. Original longer-row interiors and public read logging. No production bodies/private fields inspected; no native compatibility case credit."
+    },
+    {
+      "id": "round141-kopt-temporal-observation",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges/getSuccessorFunction/identityIndexOf/testMultiEntity3Opt",
+      "local_path": "compat/oracle/KOptSeamTemporalProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST-owned descriptor construction and rows to an opaque Community runtime observation using public list/state calls. Original longer-row interiors and public read logging. Exchange two interior objects after move preparation, refresh shadows and reset real director, then execute same move and observe real supply ownership/index. Notification spy initialization failed and is preserved; successful run does not instrument notifications. No production bodies/private fields inspected; no native compatibility case credit."
+    },
+    {
+      "id": "round141-platform-fixture-0",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/resources/model-descriptor.zip",
+      "upstream_test": "TEST deployment fixture",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment/model-descriptor.zip",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Archive copied byte-for-byte; complete original bytes are transmitted and checked by native upload original."
+    },
+    {
+      "id": "round141-platform-fixture-1",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/resources/model-descriptor.zip",
+      "upstream_test": "TEST deployment fixture",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment/model-descriptor.json",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Extracted complete timefold-model-descriptor.json TEST archive member, used for real runtime metadata validation/serialization."
+    },
+    {
+      "id": "round141-platform-fixture-2",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/resources/model-descriptor.zip",
+      "upstream_test": "TEST deployment fixture",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment/build-info.json",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Extracted complete build-info.json TEST archive member; build version is parsed and serialized."
+    },
+    {
+      "id": "round141-platform-fixture-3",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/resources/project-to-test/pom.xml",
+      "upstream_test": "TEST deployment fixture",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment/../platform_deployment_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Native explicit options preserve model-key, overwrite=true, handleSubscription=true and exact selected tenant; Maven configuration injection replaced."
+    },
+    {
+      "id": "round141-platform-fixture-4",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/resources/project-to-test/pom-shared.xml",
+      "upstream_test": "TEST deployment fixture",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment/../platform_deployment_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Second exact tenant is preserved by full shared-type source case; explicit native options replace Maven configuration injection."
+    },
+    {
+      "id": "round141-platform-helper-TestAccessTokenProvider.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/TestAccessTokenProvider.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Native explicit owned AccessTokenSecret dummy inputs replace provider inheritance; executable transport queue and level/message assertions replace Wiremock/log helper. No production superclass or implementation read/copied."
+    },
+    {
+      "id": "round141-platform-helper-utils/InMemoryMojoLog.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/utils/InMemoryMojoLog.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Native explicit owned AccessTokenSecret dummy inputs replace provider inheritance; executable transport queue and level/message assertions replace Wiremock/log helper. No production superclass or implementation read/copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-BestScoreSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/bestscore/BestScoreSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-BestSolutionMutationSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/bestsolutionmutation/BestSolutionMutationSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-MemoryUseSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/memoryuse/MemoryUseSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-MoveCountPerStepSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/movecountperstep/MoveCountPerStepSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-MoveCountPerTypeSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/movecountpertype/MoveCountPerTypeSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-MoveEvaluationSpeedSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/moveevaluationspeed/MoveEvaluationSpeedSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-ScoreCalculationSpeedSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/scorecalculationspeed/ScoreCalculationSpeedSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-StepScoreSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/stepscore/StepScoreSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-ConstraintMatchTotalBestScoreSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/subsingle/constraintmatchtotalbestscore/ConstraintMatchTotalBestScoreSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-ConstraintMatchTotalStepScoreSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/subsingle/constraintmatchtotalstepscore/ConstraintMatchTotalStepScoreSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-PickedMoveTypeBestScoreSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/subsingle/pickedmovetypebestscore/PickedMoveTypeBestScoreSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-PickedMoveTypeStepScoreSubSingleStatisticTest",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/subsingle/pickedmovetypestepscore/PickedMoveTypeStepScoreSubSingleStatisticTest.java",
+      "upstream_test": "getSubSingleStatisticConstructor/getInputPoints/runTest",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Complete TEST fixture input values and assertions adapted to typed native statistic points and enum subtype identity. All signed integer extremes, constraint IDs, scores, comma-bearing move types and actual memory measurements retained. No upstream point implementation inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-statistic-owner",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/statistic/AbstractSubSingleStatisticTest.java",
+      "upstream_test": "createSubStatistic",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime_fixture.rs",
+      "modifications": "Actual isolated directories and native statistic ownership replace Java result graph/JAXB root construction; deterministic process-scoped TEST names replace UUIDs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-aggregator-xml",
+      "upstream_path": "tools/benchmark-aggregator/src/test/resources/ai/timefold/solver/benchmark/aggregator/testPlannerBenchmarkResult.xml",
+      "upstream_test": "complete XML TEST resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_runtime/aggregator.xml",
+      "modifications": "Copied full TEST XML unchanged; native typed record parsing and real outcome aggregation, not opaque pass-through."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_runtime/NOTICE.txt"
+      ],
+      "id": "benchmark-runtime-always-penalize",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataConstraintProvider.java",
+      "upstream_test": "defineConstraints/alwaysPenalizingConstraint",
+      "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
+      "modifications": "Native actual one-penalty-per-assigned-entity constraint graph preserves source three-entity/two-value model, score -3 after construction and local search."
+    },
+    {
+      "id": "platform-deployment-model-descriptor-hex",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/resources/model-descriptor.zip",
+      "upstream_test": "TEST deployment fixture",
+      "local_path": "crates/solver/tests/fixtures/platform_deployment/model-descriptor.hex",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
+      ],
+      "modifications": "Exact TEST ZIP bytes reversibly encoded as lowercase hexadecimal for a text literal loader; Rust decodes the original bytes before deployment. Original ZIP retained separately. This avoids binary resource parsing in the development dependency scanner; no replacement archive or data changes."
     }
   ]
 }
