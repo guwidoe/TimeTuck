@@ -16,7 +16,53 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round114
+## Latest verified checkpoint — round115
+
+ListRange supplies geometry-only selector swap eligibility and borrowed arrival-
+range checks, explicitly separate from strict ListProblem checking/application.
+Different entities are geometrically independent; same-entity nonempty spans
+must not overlap, with touch allowed. Geometry does not validate endpoint bounds.
+Range-aware cross-entity checks borrow only selected slices and use each receiving
+entity's actual range; same-row swaps have no arrivals. No whole-assignment,
+pin/dependency, scoring, cloning or executable-validity claim. Reversing spans
+cannot change incoming membership. Both selector doability methods are fully
+adapted, retaining out-of-row intervals and the exact initially invalid fixture
+ranges[1,2,3]/[1,3,4,5], rows[1,4,2]/[3,5]; no fixture repair/strict-check weakening.
+All 9 SelectorBasedSubListSwapMoveTest methods now pass. Two source cases and one
+fixture recorded. Two originals cover strict execution rejecting metadata-only
+candidates, non-Clone arrivals/lookup counts, geometry short-circuit and bounds/
+entity validation before range callbacks. Pin unchanged; full goal incomplete.
+
+14 focused cases passed; Clippy passed in 34.26s; only 3 affected targets compiled in 6.85s,
+1,103 unchanged targets reused. Frozen bash scripts/check.sh passed
+102.576s: 7,456 Rust tests and 290 doctests. 3 Rust jobs ran; 1,103 Rust and
+46 Python jobs reused successful records. Compatibility: 3,930/4,855 (80.947%),
+357 pending, 568 excluded, zero failed/unverified. Rust digest c3f7475dc34bfb8833360f279cf3e7780bc6a18cda4157f4e27c76e5e9ba999e.
+Report digest ab22078eb1ae16b2b750e36e0d910e224cb765ca83a5f431fd5c5ae5e10526e3.
+Archive work/round115-local-results.tar.gz SHA256:7cd0f0fe37dc07877541765ee7d3d89a6edab67c8d61a1ad05bdf1dcefa8d1d3.
+Evidence work/parallel-round115-evidence.json; freeze
+work/parallel-round115-freeze.json; postcommit proof
+work/round115-postcommit-evidence.json. Prebuild58953/gate72435 terminal0;
+do not repeat successful unchanged checks. Actual job keys/log hashes/dates remain.
+Backend report/data freshness inspected; no UI changes/repeated browser tests.
+
+No benchmark refresh for additive selector prefilters; existing execution/scoring
+hot paths unchanged. Preserve older native before/after actual execution state
+and paired Java measurements with original dates/scope, visibly stale as relevant
+job inputs dictate. Paired k-opt actual date 2026-10-13T02:08:50.481824+00:00.
+No old source hashes or dates retagged. Last native default partition comparison
+immediate 1.029x/batch 0.949x remains scoped to round114; no Java/general-speed claim.
+Remote prior runner-a dispatch terminal1; runner-c last offline; local builds available.
+
+Continue full objective; seven k-opt seam/iterator methods still pending with
+saved probes already answered. Other remaining core cases include random selector
+traces/eligibility, Bavet deactivation/index routing, shadow dependencies and exact
+phase step behavior. Inspect TEST/public API/current native contracts before
+adapting; do not change fixtures, script expected outputs or inspect/port production.
+No new agents/assignments; keep shrinking backlog, performance important, selective
+reuse and occasional Conventional commits.
+
+## Previous verified checkpoint — round114
 
 PartitionedJoinNode can initialize each lazy side through an injectable factory
 returning the actual owned JoinPartitionSide installed in single and batched
@@ -475,7 +521,7 @@ logs and preserved scope are in work/round106-remote-evidence.json. Unrelated te
 Copy cleanup occurred afterward; no whole-final-state remote gate claim. Both
 hosts answered initial SSH reads; runner-c source dispatch then timed out twice before
 compilation. Local/runner-a work continued. Relevant k-opt performance inputs are
-unchanged: keep actual round104 date2026-10-12T21:40:59.542556+00:00. Older list
+unchanged: keep actual round104 date 2026-10-12T21:40:59.542556+00:00. Older list
 metrics remain stale. Backend report/freshness inspected; no UI/rendering changes
 or repeated browser/benchmark checks. No new agents/assignments.
 
@@ -535,7 +581,7 @@ postcommit proof work/round105-postcommit-evidence.json. Prebuild97560/gate16358
 collectors are terminal0. Don't repeat successful unchanged checks.
 
 Relevant performance inputs unchanged: reuse actual round104 k-opt measurements
-with date2026-10-12T21:40:59.542556+00:00; grouped round97 and prior late-acceptance
+with date 2026-10-12T21:40:59.542556+00:00; grouped round97 and prior late-acceptance
 probes retain their original scope/dates. Older list metrics remain stale. No UI/
 data-contract changes; backend report/freshness checked. No new agents/assignments.
 Goal incomplete; continue implementing full behavior, occasional commits and

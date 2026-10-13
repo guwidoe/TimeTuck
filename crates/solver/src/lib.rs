@@ -1584,6 +1584,7 @@ pub use nearby_move_provider::NearbyMoveProvider;
 pub use schema_move_selection::{ResolvedListDestination, ResolvedListSelector};
 
 mod list_move_description;
+mod list_selector_eligibility;
 pub use list_move_description::{ListMoveDescriptionError, RecordedListMove, describe_list_move};
 
 mod benchmark_config;

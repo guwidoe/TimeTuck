@@ -59066,6 +59066,36 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve signed negative-count failure and all four out-of-range reserve/release failures in both sparse and forced-dense200-slot fixtures, including source argument-specific diagnostic fragments. Typed native signed boundary methods replace Java IllegalArgumentException while existing unsigned APIs remain unchanged; validation completes before mutation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListSwapMoveTest.isMoveDoable",
+      "status": "implemented",
+      "upstream_test": "isMoveDoable",
+      "local_path": "crates/solver/tests/selector_sublist_swap_cases.rs",
+      "local_test": "is_move_doable",
+      "modifications": "Preserve every same/different entity overlap/gap/touch judgement, including source spans extending beyond the four-value row, and all six receiver-range outcomes across both reverse flags. Retain exact initially invalid entity-specific fixture: ranges[1,2,3]/[1,3,4,5], rows[1,4,2]/[3,5]. Native stable IDs and borrowed selector geometry/arrival-membership checks replace Java descriptors/value-range-manager mocks. No fixture repair, strict executable-validation weakening, pin/dependency or execution-validity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SelectorBasedSubListSwapMoveTest.isMoveDoableValueRangeProviderOnEntity",
+      "status": "implemented",
+      "upstream_test": "isMoveDoableValueRangeProviderOnEntity",
+      "local_path": "crates/solver/tests/selector_sublist_swap_cases.rs",
+      "local_test": "is_move_doable_value_range_provider_on_entity",
+      "modifications": "Preserve every same/different entity overlap/gap/touch judgement, including source spans extending beyond the four-value row, and all six receiver-range outcomes across both reverse flags. Retain exact initially invalid entity-specific fixture: ranges[1,2,3]/[1,3,4,5], rows[1,4,2]/[3,5]. Native stable IDs and borrowed selector geometry/arrival-membership checks replace Java descriptors/value-range-manager mocks. No fixture repair, strict executable-validation weakening, pin/dependency or execution-validity claim."
     }
   ],
   "fixtures": [
@@ -83456,6 +83486,19 @@
       "upstream_test": "getProblemSizeStatisticsFromCountLong/getProblemSizeStatisticsFromDoubleLog/getApproximateProblemScaleLogAsFixedPointLong",
       "local_path": "compat/oracle/ProblemScaleApiProbe.java",
       "modifications": "Adapt TEST constructors and publicly callable statistics/MathUtils operations into an opaque API probe. Print default precision, both exact source comparisons and original rounding/saturation boundary observations. Do not inspect production source, private fields or bytecode."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedSubListSwapMoveTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "selector-sublist-swap-doability-fixtures",
+      "upstream_test": "isMoveDoable/isMoveDoableValueRangeProviderOnEntity/setup",
+      "local_path": "crates/solver/tests/selector_sublist_swap_cases.rs",
+      "modifications": "Preserve the TEST entity/value identities, exact row contents, out-of-row metadata intervals and distinct receiving ranges. Stable integer IDs and raw ListAssignment replace Java entity/value objects and annotations; actual TEST helper constructor signature confirms range-before-row argument order."
     }
   ]
 }

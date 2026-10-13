@@ -8996,3 +8996,12 @@ factory dispatch occurs outside generic update/install loops. Batched updates
 carry an inlining hint after a scoped native before/after timing check exposed
 an initial regression. Original/current checksum agreement and raw timed samples
 remain separate from the stale Java comparison.
+
+SelectorBasedSubListSwapMove's two remaining doability methods preserve every
+source judgement, including metadata intervals beyond actual rows and the exact
+initially invalid receiver-range fixture. ListRange now provides geometry-only
+selector eligibility and borrowed incoming-range checks; these do not validate
+whole assignments, pins, dependencies or execution feasibility. Same-row swaps
+have no arrivals; reversing does not change membership checks. Existing strict
+move checking/application is unchanged. Two original regressions exercise this
+boundary, non-Clone payloads, exact lookup counts and prelookup range/entity errors.
