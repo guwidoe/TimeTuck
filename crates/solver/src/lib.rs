@@ -1698,3 +1698,12 @@ pub use observed_composite_acceptor::{ObservedAcceptorChild, ObservedCompositeAc
 
 mod basic_group_move_metadata;
 pub use basic_group_move_metadata::{GroupMoveMetadataError, NamedMassChange, PillarSwapPlan};
+
+mod basic_ruin_selection;
+pub use basic_ruin_selection::{BasicRuinSelection, BasicRuinSelectionError};
+
+mod list_ruin_selection;
+pub use list_ruin_selection::{ListRuinSelection, ListRuinSelectionError};
+
+mod basic_move_inspection;
+pub use basic_move_inspection::InspectedBasicMove;

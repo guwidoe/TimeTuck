@@ -16,7 +16,61 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round124
+## Latest verified checkpoint — round125
+
+Three GPT-6.1 Sol agents completed separate worktrees. runner-c passed nine basic ruin
+focused tests, runner-a fourteen list ruin tests, and local thirteen basic move
+inspection tests. All 36 focused tests passed; actual initial compiler failures and
+remote manifests/logs are preserved under work/round125-agent-evidence. Root fixed
+three successive Clippy failures before the final gate (nested if, Arc pointer
+fixture representation, redundant closures); all failure logs remain in work.
+
+15 complete source methods and ten fixtures integrated: basic/list ruin rebase and
+equality; eleven change/swap/pillar getters/descriptions including genuine null
+retention after assignment. BasicRuinSelection retains field identity, ordered
+entity slots and an unordered value footprint; duplicate mapped identities reject.
+ListRuinSelection retains ordered values and an entity set; rebasing entity
+collisions collapses the set. Explicit native slot bindings prepare existing repair
+plans. Pointer-aware test handles preserve returned destination identity; list
+equality preserves the source fixture's swapped domain categories.
+InspectedBasicMove captures canonical registry metadata and actual old values;
+preflight rejects stale sources, then ordinary sequential registry writes execute.
+Descriptions retain old values after execution. Multi-column payloads share a
+Rust value type and application labels replace Java display classes. No Java ABI,
+reflection, RNG or atomic scored transaction claim. Existing solver/tabu/scoring
+hot paths unchanged. Seven originals cover real repair/execution and validation.
+
+Frozen merged bash scripts/check.sh passed once on runner-c in
+53.669s: 7,541 Rust tests and 290 doctests.
+Seven Rust jobs ran; 1,133 Rust and 46 Python jobs reused genuine unchanged runner-c
+records. Reuse relocates checksum-validated output paths only, preserving keys,
+dates and actual logs. Clippy passed in 12.02s; total prebuild74.650s.
+Compatibility: 3,975/4,855 (81.874%), 312 pending, 568 excluded,
+zero failed/unverified. Rust digest 3c4ed03fee86085fb21c100e7fe13cb90f83df677ee220e7ea7088dc894ac5cf.
+Report digest 21d8900430274ad58fe169a68814689cce74bb355a64be8bcba4b0c89e190919.
+Archive work/round125-runner-c-results.tar.gz SHA256:c1f15bf86d3fb4f4642f628606c2ab2948d1006023bb30b8f19b60e53becc0a0.
+Evidence work/parallel-round125-evidence.json; freeze
+work/parallel-round125-freeze.json; postcommit proof
+work/round125-postcommit-evidence.json. runner-c snapshot
+ab822e1d19b98ac8e8413d411c99d59fbba150b95b4c40be6629743a2fb95798.
+Do not repeat successful matching-input checks. Remote per-job records stay
+separate under work/round125-runner-c-results/work/verification. Backend report and
+freshness checked; no UI changes/repeated browser checks.
+
+All three agents are finished with no live build jobs. Preserve ignored focus
+artifacts before archiving their integrated worktrees. Temporary Windows wake
+lock87059 is limited to one hour and must be stopped after collection; no persistent
+power configuration changed. Up to three GPT-6.1 Sol agents/all three build machines
+remain authorized for further independent implementation; goal remains incomplete.
+
+No benchmark refresh for these additive APIs. Preserve sampling's actual
+2026-10-13T04:59:18.200098+00:00 date/source and retained regressions up to5.1%,
+and paired Java k-opt's actual2026-10-13T02:08:50.481824+00:00 evidence, visibly
+stale. No speed claims/retags. Continue genuine compatibility gaps, including seven
+k-opt seam/iterator cases; saved probes already answered. Keep performance
+important, shrink backlog, batch integration and commit occasionally. Pin unchanged.
+
+## Previous verified checkpoint — round124
 
 Three GPT-6.1 Sol agents completed disjoint worktrees. runner-c ran 21 focused list
 tests; runner-a ran 18 pillar/mass tests; local ran 10 termination tests using an

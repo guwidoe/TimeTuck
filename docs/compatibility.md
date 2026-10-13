@@ -9128,3 +9128,27 @@ whole assignments, pins, dependencies or execution feasibility. Same-row swaps
 have no arrivals; reversing does not change membership checks. Existing strict
 move checking/application is unchanged. Two original regressions exercise this
 boundary, non-Clone payloads, exact lookup counts and prelookup range/entity errors.
+
+## Ruin selection identity and retained basic move inspection
+
+BasicRuinSelection separates declared field, ordered native entity slots and an
+unordered unique value footprint from generated repair writes. Rebasing preserves
+metadata, looks up every selected entity/distinct value once and rejects collisions.
+ListRuinSelection preserves ordered values (including duplicates) and entity-set
+identity; rebasing mapped entity collisions collapses the set. Explicit slot binding
+prepares existing executable basic/list repair plans. Generic payload equality
+defines identity; pointer-aware handles retain actual destination object identity.
+
+InspectedBasicMove captures canonical registry variables, entity groups and actual
+old values, including None. Accessors, descriptions and execution share that state.
+Execution preflights unchanged source values then uses ordinary sequential registry
+writes; descriptions retain captured values after assignment. Multi-column payloads
+share one Rust value type; application labels replace Java display-class names.
+Existing solver, tabu and scoring paths are unchanged.
+
+Four complete ruin rebase/equality methods and eleven complete change/swap/pillar
+accessor/description methods preserve all source assertions. The list equality
+fixture retains the source's intentionally swapped domain categories. Ten fixture
+records and seven original regressions cover actual repair/execution, stale sources,
+identity collisions, metadata rejection and retained null values. No Java RNG,
+reflection, ABI or whole-solver performance claim is made.

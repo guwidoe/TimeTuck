@@ -59546,6 +59546,231 @@
       "local_path": "crates/solver/tests/significant_improvement_cases.rs",
       "local_test": "for_negative_unimproved_time_millis_exception_is_thrown",
       "modifications": "Signed native SignificantImprovementConfig::from_millis(-1, SimpleScore::ZERO) rejects at construction with typed NegativeTime and source cannot be negative message. No unsigned compile-time rejection substitutes for runtime behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedRuinRecreateMoveTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_ruin_selection_cases.rs",
+      "id": "SelectorBasedRuinRecreateMoveTest.rebase",
+      "status": "implemented",
+      "upstream_test": "rebase",
+      "local_test": "rebase",
+      "modifications": "Preserve complete entity-order/value-set rebase assertions, all five identity lookups with distinct destination handles, and all four field/entity/value equality comparisons. Native schema field identity replaces descriptor mocks; ordered slots replace entity objects and pointer-aware Arc handles preserve distinct snapshot value identities. BasicRuinSelection metadata binds to executable BasicRuinPlan reconstruction, independent of generated write equality; explicit callers supply reconstruction policy/budget instead of mocked Java phase builder/scope. No Java API or implicit reconstruction parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedRuinRecreateMoveTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_ruin_selection_cases.rs",
+      "id": "SelectorBasedRuinRecreateMoveTest.equality",
+      "status": "implemented",
+      "upstream_test": "equality",
+      "local_test": "equality",
+      "modifications": "Preserve complete entity-order/value-set rebase assertions, all five identity lookups with distinct destination handles, and all four field/entity/value equality comparisons. Native schema field identity replaces descriptor mocks; ordered slots replace entity objects and pointer-aware Arc handles preserve distinct snapshot value identities. BasicRuinSelection metadata binds to executable BasicRuinPlan reconstruction, independent of generated write equality; explicit callers supply reconstruction policy/budget instead of mocked Java phase builder/scope. No Java API or implicit reconstruction parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListRuinRecreateMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_ruin_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve v1/v2, three entities e1/e2/e3 including original and destination member payloads, pointer-based mappings, exact destination object identity, unordered entity membership and ordered destination values. Native ListRuinSelection retains actual list-variable descriptor identity; native callback lookup replaces mock MoveDirector. Builder/scope mocks and seed zero carry no asserted behavior and are not modeled. Callback order is documented native behavior, not an unasserted Java trace claim.",
+      "id": "SelectorBasedListRuinRecreateMoveTest.rebase",
+      "status": "implemented",
+      "local_test": "rebase"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListRuinRecreateMoveTest.java",
+      "upstream_test": "equality",
+      "local_path": "crates/solver/tests/list_ruin_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all five constructions and four equality/inequality assertions including same descriptor versus distinct mocked descriptor. Native borrowed schema variable identity replaces mocked descriptor identity. Preserve source fixture entity objects in ordered value list and value objects in entity set; generic metadata equality is independent of executable registry binding. Unasserted builder/scope mocks and seed zero are omitted; native repair algorithm is chosen through actual ListRuinPlan preparation.",
+      "id": "SelectorBasedListRuinRecreateMoveTest.equality",
+      "status": "implemented",
+      "local_test": "equality"
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedChangeMoveTest.getters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "getters",
+      "local_test": "change_getters",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedChangeMoveTest.toStringTest",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_test": "change_to_string",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedChangeMoveTest.toStringTestMultiVar",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "toStringTestMultiVar",
+      "local_test": "change_to_string_multi_var",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedSwapMoveTest.getters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "getters",
+      "local_test": "swap_getters",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedSwapMoveTest.toStringTest",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_test": "swap_to_string",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedSwapMoveTest.toStringTestMultiVar",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "toStringTestMultiVar",
+      "local_test": "swap_to_string_multi_var",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedPillarChangeMoveTest.getters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarChangeMoveTest.java",
+      "upstream_test": "getters",
+      "local_test": "pillar_change_getters",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedPillarChangeMoveTest.toStringTest",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarChangeMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_test": "pillar_change_to_string",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedPillarSwapMoveTest.getters",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarSwapMoveTest.java",
+      "upstream_test": "getters",
+      "local_test": "pillar_swap_getters",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedPillarSwapMoveTest.toStringTest",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarSwapMoveTest.java",
+      "upstream_test": "toStringTest",
+      "local_test": "pillar_swap_to_string",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "ChangeMoveTest.toStringShowsTheOriginalValueAfterAssigningAnUnassignedEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
+      "upstream_test": "toStringShowsTheOriginalValueAfterAssigningAnUnassignedEntity",
+      "local_test": "original_null_value_survives_assignment",
+      "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
     }
   ],
   "fixtures": [
@@ -84118,6 +84343,136 @@
       "upstream_test": "DummySimpleScoreInterruptingEasyScoreCalculator.calculateScore",
       "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
       "modifications": "Preserve exactly two unassigned => zero score, one => interrupt current worker and zero score, none => assertion failure. Real constraint callback and native cooperative worker flag replace Java thread flag; all ten source policies execute."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedRuinRecreateMoveTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_ruin_selection_cases.rs",
+      "id": "basic-ruin-selection-rebase-fixture",
+      "upstream_test": "rebase",
+      "modifications": "Inline TEST v1/v2 identity handles, e1 assigned v1/e2 null/e3 assigned v1 and distinct matching destination snapshot for rebase; two entities, two values and distinct descriptor schema for equality. Native schema and slot identities replace Java fixtures and mocks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedRuinRecreateMoveTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_ruin_selection_cases.rs",
+      "id": "basic-ruin-selection-equality-fixture",
+      "upstream_test": "equality",
+      "modifications": "Inline TEST v1/v2 identity handles, e1 assigned v1/e2 null/e3 assigned v1 and distinct matching destination snapshot for rebase; two entities, two values and distinct descriptor schema for equality. Native schema and slot identities replace Java fixtures and mocks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListRuinRecreateMoveTest.java",
+      "upstream_test": "rebase",
+      "local_path": "crates/solver/tests/list_ruin_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt complete inline source object/descriptor setup. Preserve v1/v2, three entities e1/e2/e3 including original and destination member payloads, pointer-based mappings, exact destination object identity, unordered entity membership and ordered destination values. Native ListRuinSelection retains actual list-variable descriptor identity; native callback lookup replaces mock MoveDirector. Builder/scope mocks and seed zero carry no asserted behavior and are not modeled. Callback order is documented native behavior, not an unasserted Java trace claim.",
+      "id": "round125-list-ruin-rebase-fixture"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SelectorBasedListRuinRecreateMoveTest.java",
+      "upstream_test": "equality",
+      "local_path": "crates/solver/tests/list_ruin_selection_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt complete inline source object/descriptor setup. Preserve all five constructions and four equality/inequality assertions including same descriptor versus distinct mocked descriptor. Native borrowed schema variable identity replaces mocked descriptor identity. Preserve source fixture entity objects in ordered value list and value objects in entity set; generic metadata equality is independent of executable registry binding. Unasserted builder/scope mocks and seed zero are omitted; native repair algorithm is chosen through actual ListRuinPlan preparation.",
+      "id": "round125-list-ruin-equality-fixture"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerTestUtils.java",
+      "upstream_test": "mockRebasingScoreDirector",
+      "local_path": "crates/solver/tests/list_ruin_selection_cases.rs",
+      "id": "round125-list-ruin-pointer-lookup-helper",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt exact identity-based mapping helper with Rc::ptr_eq and return cloned handle to exact mapped destination; no matching by label or structural equality. Error-return replaces unknown-object Java exception. Source helper null mapping is not exercised by the adapted non-null method and no null-lookup compatibility credit is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedChangeMoveTest-inspection-fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedChangeMoveTest.java",
+      "upstream_test": "getters/toStringTest/toStringTestMultiVar/setup",
+      "modifications": "Adapt full inline entity/value fixtures into bound registry fields and entity code keys; preserve all a-h/v1-v4/w1-w2/1 codes used by these methods, primaryValue/secondaryValue/tertiaryValueAllowedUnassigned field order, null groups, pillar membership and orientation. String-valued native fixture labels replace distinct Java value classes; generated ChangeMove fixture has two available values and one unassigned entity. All descriptions derive from actual registry values, not expected strings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedSwapMoveTest-inspection-fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedSwapMoveTest.java",
+      "upstream_test": "getters/toStringTest/toStringTestMultiVar/setup",
+      "modifications": "Adapt full inline entity/value fixtures into bound registry fields and entity code keys; preserve all a-h/v1-v4/w1-w2/1 codes used by these methods, primaryValue/secondaryValue/tertiaryValueAllowedUnassigned field order, null groups, pillar membership and orientation. String-valued native fixture labels replace distinct Java value classes; generated ChangeMove fixture has two available values and one unassigned entity. All descriptions derive from actual registry values, not expected strings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedPillarChangeMoveTest-inspection-fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarChangeMoveTest.java",
+      "upstream_test": "getters/toStringTest/setup",
+      "modifications": "Adapt full inline entity/value fixtures into bound registry fields and entity code keys; preserve all a-h/v1-v4/w1-w2/1 codes used by these methods, primaryValue/secondaryValue/tertiaryValueAllowedUnassigned field order, null groups, pillar membership and orientation. String-valued native fixture labels replace distinct Java value classes; generated ChangeMove fixture has two available values and one unassigned entity. All descriptions derive from actual registry values, not expected strings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "SelectorBasedPillarSwapMoveTest-inspection-fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SelectorBasedPillarSwapMoveTest.java",
+      "upstream_test": "getters/toStringTest/setup",
+      "modifications": "Adapt full inline entity/value fixtures into bound registry fields and entity code keys; preserve all a-h/v1-v4/w1-w2/1 codes used by these methods, primaryValue/secondaryValue/tertiaryValueAllowedUnassigned field order, null groups, pillar membership and orientation. String-valued native fixture labels replace distinct Java value classes; generated ChangeMove fixture has two available values and one unassigned entity. All descriptions derive from actual registry values, not expected strings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/basic_move_inspection_cases.rs",
+      "id": "ChangeMoveTest-inspection-fixtures",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
+      "upstream_test": "toStringShowsTheOriginalValueAfterAssigningAnUnassignedEntity/setup",
+      "modifications": "Adapt full inline entity/value fixtures into bound registry fields and entity code keys; preserve all a-h/v1-v4/w1-w2/1 codes used by these methods, primaryValue/secondaryValue/tertiaryValueAllowedUnassigned field order, null groups, pillar membership and orientation. String-valued native fixture labels replace distinct Java value classes; generated ChangeMove fixture has two available values and one unassigned entity. All descriptions derive from actual registry values, not expected strings."
     }
   ]
 }
