@@ -61783,6 +61783,309 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserves full descriptor assertions: chosen k, complete origin/value draw-order endpoint sequence, and complete sequential matching. Same-entity method runs both k3 and k5 on one selector configuration; different-entities method retains e1/e2/e1/e2/e1 roles for k5. Native zero-based occurrence indices omit the Java sentinel and translate every partner entry. Explicit bounded distribution draws replace mocked Random; actual route successors and pins feed an executable physical local-cycle plan. Java HashMap fixture iteration is adapted to deterministic native entity order. Physical execution uses explicit lengths and retains actual local adjacencies, not source virtual-seam/implicit-partition conversion; no credit for pending execution or nonsequential repair methods."
+    },
+    {
+      "id": "SdkBuildTimeObjectMapperTest.deserializationOfUnknownProperties_throwsException",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/jackson/src/test/java/ai/timefold/solver/service/jackson/impl/SdkBuildTimeObjectMapperTest.java",
+      "upstream_test": "deserializationOfUnknownProperties_throwsException",
+      "local_path": "crates/solver/tests/sdk_time_cases.rs",
+      "local_test": "deserialization_of_unknown_properties_throws_exception",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all source JSON/date/duration strings and assertions. TypedJsonRecordError replaces Java JsonProcessingException categorization; unknownProperty diagnostic retained. Explicit typed record constructor/accessor registration replaces Jackson/Java records and mapper discovery. Native Gregorian/fixed-offset/nanosecond construction and parsing preserve +02:00, UTC Z and PT5H30M. Null None fields serialize omitted as exact empty object. Native configured string/date-time/allOf validator uses the actual temporal parser and preserves exact single validation error for missing T. No JVM reflection/Jackson factory ABI or arbitrary JSON Schema parity; native temporal profile and unsupported keywords are documented."
+    },
+    {
+      "id": "SdkBuildTimeObjectMapperTest.serializeNonNullProperties_onlyIncludesNonNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/jackson/src/test/java/ai/timefold/solver/service/jackson/impl/SdkBuildTimeObjectMapperTest.java",
+      "upstream_test": "serializeNonNullProperties_onlyIncludesNonNull",
+      "local_path": "crates/solver/tests/sdk_time_cases.rs",
+      "local_test": "serialize_non_null_properties_only_includes_non_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all source JSON/date/duration strings and assertions. TypedJsonRecordError replaces Java JsonProcessingException categorization; unknownProperty diagnostic retained. Explicit typed record constructor/accessor registration replaces Jackson/Java records and mapper discovery. Native Gregorian/fixed-offset/nanosecond construction and parsing preserve +02:00, UTC Z and PT5H30M. Null None fields serialize omitted as exact empty object. Native configured string/date-time/allOf validator uses the actual temporal parser and preserves exact single validation error for missing T. No JVM reflection/Jackson factory ABI or arbitrary JSON Schema parity; native temporal profile and unsupported keywords are documented."
+    },
+    {
+      "id": "SdkBuildTimeObjectMapperTest.serializeAndDeserializeDateTime_preservesTimeZone",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/jackson/src/test/java/ai/timefold/solver/service/jackson/impl/SdkBuildTimeObjectMapperTest.java",
+      "upstream_test": "serializeAndDeserializeDateTime_preservesTimeZone",
+      "local_path": "crates/solver/tests/sdk_time_cases.rs",
+      "local_test": "serialize_and_deserialize_date_time_preserves_time_zone",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all source JSON/date/duration strings and assertions. TypedJsonRecordError replaces Java JsonProcessingException categorization; unknownProperty diagnostic retained. Explicit typed record constructor/accessor registration replaces Jackson/Java records and mapper discovery. Native Gregorian/fixed-offset/nanosecond construction and parsing preserve +02:00, UTC Z and PT5H30M. Null None fields serialize omitted as exact empty object. Native configured string/date-time/allOf validator uses the actual temporal parser and preserves exact single validation error for missing T. No JVM reflection/Jackson factory ABI or arbitrary JSON Schema parity; native temporal profile and unsupported keywords are documented."
+    },
+    {
+      "id": "SdkBuildTimeObjectMapperTest.serializeOffsetDateTimeAsString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/jackson/src/test/java/ai/timefold/solver/service/jackson/impl/SdkBuildTimeObjectMapperTest.java",
+      "upstream_test": "serializeOffsetDateTimeAsString",
+      "local_path": "crates/solver/tests/sdk_time_cases.rs",
+      "local_test": "serialize_offset_date_time_as_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all source JSON/date/duration strings and assertions. TypedJsonRecordError replaces Java JsonProcessingException categorization; unknownProperty diagnostic retained. Explicit typed record constructor/accessor registration replaces Jackson/Java records and mapper discovery. Native Gregorian/fixed-offset/nanosecond construction and parsing preserve +02:00, UTC Z and PT5H30M. Null None fields serialize omitted as exact empty object. Native configured string/date-time/allOf validator uses the actual temporal parser and preserves exact single validation error for missing T. No JVM reflection/Jackson factory ABI or arbitrary JSON Schema parity; native temporal profile and unsupported keywords are documented."
+    },
+    {
+      "id": "SdkBuildTimeObjectMapperTest.serializeDurationAsString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/jackson/src/test/java/ai/timefold/solver/service/jackson/impl/SdkBuildTimeObjectMapperTest.java",
+      "upstream_test": "serializeDurationAsString",
+      "local_path": "crates/solver/tests/sdk_time_cases.rs",
+      "local_test": "serialize_duration_as_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all source JSON/date/duration strings and assertions. TypedJsonRecordError replaces Java JsonProcessingException categorization; unknownProperty diagnostic retained. Explicit typed record constructor/accessor registration replaces Jackson/Java records and mapper discovery. Native Gregorian/fixed-offset/nanosecond construction and parsing preserve +02:00, UTC Z and PT5H30M. Null None fields serialize omitted as exact empty object. Native configured string/date-time/allOf validator uses the actual temporal parser and preserves exact single validation error for missing T. No JVM reflection/Jackson factory ABI or arbitrary JSON Schema parity; native temporal profile and unsupported keywords are documented."
+    },
+    {
+      "id": "ValidatorTest.validOffsetDateTimeFormat",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/schema/ValidatorTest.java",
+      "upstream_test": "validOffsetDateTimeFormat",
+      "local_path": "crates/solver/tests/sdk_time_cases.rs",
+      "local_test": "valid_offset_date_time_format",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all source JSON/date/duration strings and assertions. TypedJsonRecordError replaces Java JsonProcessingException categorization; unknownProperty diagnostic retained. Explicit typed record constructor/accessor registration replaces Jackson/Java records and mapper discovery. Native Gregorian/fixed-offset/nanosecond construction and parsing preserve +02:00, UTC Z and PT5H30M. Null None fields serialize omitted as exact empty object. Native configured string/date-time/allOf validator uses the actual temporal parser and preserves exact single validation error for missing T. No JVM reflection/Jackson factory ABI or arbitrary JSON Schema parity; native temporal profile and unsupported keywords are documented."
+    },
+    {
+      "id": "ValidatorTest.invalidOffsetDateTimeFormat",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/schema/ValidatorTest.java",
+      "upstream_test": "invalidOffsetDateTimeFormat",
+      "local_path": "crates/solver/tests/sdk_time_cases.rs",
+      "local_test": "invalid_offset_date_time_format",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves all source JSON/date/duration strings and assertions. TypedJsonRecordError replaces Java JsonProcessingException categorization; unknownProperty diagnostic retained. Explicit typed record constructor/accessor registration replaces Jackson/Java records and mapper discovery. Native Gregorian/fixed-offset/nanosecond construction and parsing preserve +02:00, UTC Z and PT5H30M. Null None fields serialize omitted as exact empty object. Native configured string/date-time/allOf validator uses the actual temporal parser and preserves exact single validation error for missing T. No JVM reflection/Jackson factory ABI or arbitrary JSON Schema parity; native temporal profile and unsupported keywords are documented."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleProviderTest.assignShiftToEmployeeAssignedShift",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleProviderTest.java",
+      "upstream_test": "assignShiftToEmployeeAssignedShift",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "assign_shift_to_employee_assigned_shift",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleProviderTest.assignShiftToEmployeeUnassignedShift",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleProviderTest.java",
+      "upstream_test": "assignShiftToEmployeeUnassignedShift",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "assign_shift_to_employee_unassigned_shift",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.constraintWeightsAvailableAfterDatasetComputed",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "constraintWeightsAvailableAfterDatasetComputed",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "constraint_weights_available_after_dataset_computed",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.datasetComputedEventCarriesSolveRequestedFlag",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "datasetComputedEventCarriesSolveRequestedFlag",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "dataset_computed_event_carries_solve_requested_flag",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.solveEmployeeSchedule",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "solveEmployeeSchedule",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "solve_employee_schedule",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.uploadAndSolveEmployeeSchedule",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "uploadAndSolveEmployeeSchedule",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "upload_and_solve_employee_schedule",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.uploadOnlySchedule",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "uploadOnlySchedule",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "upload_only_schedule",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.getValidationResult",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "getValidationResult",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "get_validation_result",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.getIssueTypes",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "getIssueTypes",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "get_issue_types",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "EmployeeScheduleResourceTest.getIssueTypeByCode",
+      "status": "implemented",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "getIssueTypeByCode",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "local_test": "get_issue_type_by_code",
+      "modifications": "Preserve complete source employee/skill/shift fixtures and all method assertions, both SOLVE/NONE flag rows, initialized/initial-best/final-best counts and producer identities, feasible fully assigned medium0 results, upload statuses/metrics, or typed shift-time issue and registry code/severity/single-message metadata. Actual owned WorkerDatasetFacade persistence/command consumption decodes current stored input, validates real end<start data, computes assignedness, runs native FiniteProblem/ConstraintNetwork solve_with_events and publishes actual initialization/coalesced phase best/final results. Provider penalty0/1 comes from real ScoreDirector contributions. Native skill-domain eligibility is explicit policy; unknown production constraints are not claimed. Native synchronous resource/query calls replace HTTP202/200/CDI/await infrastructure; complete resource transport behavior is not claimed. Typed EmployeeShiftEndBeforeStartIssue plus shared ServiceValidationResult replaces Java subclass/reflection. A registered native message replaces the production-defined ISSUE_MESSAGE constant whose body was not read; metadata identity/consistency retained, exact Java wording not claimed. Deterministic UTC-day seconds8/16 replace tomorrow date, preserving ordering and original field equalities. Disabled SSE watching/404/410/cancellation method remains pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "LineChartTest.stepSize",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/LineChartTest.java",
+      "upstream_test": "stepSize",
+      "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
+      "local_test": "step_size",
+      "modifications": "All13 decimal CsvSource parameter rows preserved. Exact native nearest-log-decade tick uses squared arbitrary-precision coefficient comparison, avoiding binary logarithms/underflow. Numeric comparison replaces stripTrailingZeros equality; step coefficient1 retains canonical power-of-ten representation. No Java BigDecimal ABI claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "LineChartTest.testDownSamplingProcess",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/LineChartTest.java",
+      "upstream_test": "testDownSamplingProcess",
+      "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
+      "local_test": "test_down_sampling_process",
+      "modifications": "Complete3CSVresources parsed, all3840expectedkeys and everyexpectednon-nullvalue checked. Actual8932x/8932y include3510nulls; source builder skips nulls, producing5422points. Independently written LTTB from Steinarsson2013 thesis algorithm4.2 selects3840points, true reduction asserted. Explicit native3840resolution replaces private chart build settings; no chart image/artifact/UI parity claimed. Runtime never reads expected CSV or selected-point lookup; no bucket tuning after first algorithm. Native API additionally preserves explicit gap/run endpoints in originals."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "MillisecondDurationNumberFormatFactoryTest.millisecondFormatting",
+      "status": "implemented",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/MillisecondDurationNumberFormatFactoryTest.java",
+      "upstream_test": "millisecondFormatting",
+      "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
+      "local_test": "millisecond_formatting",
+      "modifications": "All6 null/0/second/minute/hour/day en-US label cases preserved. Native pure Option<u64> formatter has explicit en-US grouping and no process-locale dependency, replacing Freemarker mock number model and cs-CZ ambient Java locale. Negative elapsed times/JVM formatting API not claimed."
     }
   ],
   "fixtures": [
@@ -88518,6 +88821,181 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Copies only removed/added edges, source rows and asserted target rows into an independent multiset proof. Both have three retained local adjacencies absent from the expected combined target cycle; this certifies the native physical-edge contract cannot be represented as the source virtual-seam contract. No runtime oracle/probe repeated, no Rust fixture-output plan and no source-case credit."
+    },
+    {
+      "id": "round139-sdk-time-SdkBuildTimeObjectMapperTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/jackson/src/test/java/ai/timefold/solver/service/jackson/impl/SdkBuildTimeObjectMapperTest.java",
+      "upstream_test": "Simple, DateTimeWrapper, DurationWrapper and JSON text",
+      "local_path": "crates/solver/tests/fixtures/sdk_time_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts TEST-only private record fields and exact string/allOf date-time schema to real typed native optional fields and registered constructors/getters/setters. Native typed scalar codec replaces Java mapper/reflection; no production mapper factory inspected. Full source assertion strings retained in sdk_time_cases.rs."
+    },
+    {
+      "id": "round139-sdk-time-ValidatorTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/json/src/test/java/ai/timefold/solver/service/json/internal/schema/ValidatorTest.java",
+      "upstream_test": "ISO_8601_OFFSET_DATE_TIME_SCHEMA and payload/error strings",
+      "local_path": "crates/solver/tests/fixtures/sdk_time_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts TEST-only private record fields and exact string/allOf date-time schema to real typed native optional fields and registered constructors/getters/setters. Native typed scalar codec replaces Java mapper/reflection; no production mapper factory inspected. Full source assertion strings retained in sdk_time_cases.rs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round139-employee-provider-fixtures",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleProviderTest.java",
+      "upstream_test": "assignShiftToEmployeeAssignedShift/assignShiftToEmployeeUnassignedShift",
+      "local_path": "crates/solver/tests/fixtures/employee_resource_fixture.rs",
+      "modifications": "Assigned/unassigned Ann employee with AMBULANCE and Ambulance shift1 identities retained. Native typed IDs reference actual employee data; unused provider-fixture dates use valid native8/16 defaults. Only assignedness penalty0/1 is sourced."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round139-employee-resource-input",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "createInputEmployeeSchedule",
+      "local_path": "crates/solver/tests/fixtures/employee_resource_fixture.rs",
+      "modifications": "Retain Ann EMERGENCY+AMBULANCE, Beth AMBULANCE+DERMATOLOGY, Carl CARDIOLOGY+ANESTHESIA; all four exact shift names/skills and8/16UTC order. Native owned structs/JSON persistence replace production domain classes, never inspected. No overlap/other production constraint parity inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round139-employee-assert-assigned",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "assertAllShiftsAssigned/awaitFeasiblyAssigned",
+      "local_path": "crates/solver/tests/fixtures/employee_resource_fixture.rs",
+      "modifications": "Preserve every shift employee non-null assertion plus feasible hard score and medium0. Native synchronous completed solve/read replaces60second polling bounds; no transport timeout claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round139-employee-request-query",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "post/getModelResponse/getOutputEmployeeSchedule/getValidationResult/solveRequestedScenarios",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "modifications": "SOLVE/NONE flags, uploaded identity reuse, owned current output/query metrics and both rows preserved with actualFacade store/events and solver consumer. Native Result and local IDs replace REST/CDI/Jackson and UUID plumbing; post/query delivery and solve completion are separate actual steps."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round139-employee-wrong-shift",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "getValidationResult/wrongShift",
+      "local_path": "crates/solver/tests/employee_resource_cases.rs",
+      "modifications": "Actual fifth Wrong shift retains AMBULANCE, start16UTC/end8UTC, stable ID and exact payload field snapshots. Typed native issue feeds shared validation record; registry registered message is native metadata, not an inspected production constant."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "benchmark-line-chart-xValues-csv",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/result/xValues.csv",
+      "upstream_test": "LineChartTest.testDownSamplingProcess resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_chart/xValues.csv",
+      "modifications": "Copied unmodified Apache-2.0 TEST resource; all tokens used in complete native case. resultValues is exclusively an expected-test observation and never enters native runtime. Stale Java initial ArrayList capacities do not limit parsed actual data."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "benchmark-line-chart-yValues-csv",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/result/yValues.csv",
+      "upstream_test": "LineChartTest.testDownSamplingProcess resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_chart/yValues.csv",
+      "modifications": "Copied unmodified Apache-2.0 TEST resource; all tokens used in complete native case. resultValues is exclusively an expected-test observation and never enters native runtime. Stale Java initial ArrayList capacities do not limit parsed actual data."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "benchmark-line-chart-resultValues-csv",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/result/resultValues.csv",
+      "upstream_test": "LineChartTest.testDownSamplingProcess resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_chart/resultValues.csv",
+      "modifications": "Copied unmodified Apache-2.0 TEST resource; all tokens used in complete native case. resultValues is exclusively an expected-test observation and never enters native runtime. Stale Java initial ArrayList capacities do not limit parsed actual data."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "benchmark-line-chart-decimal-tick-fixture",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/LineChartTest.java",
+      "upstream_test": "stepSize CsvSource",
+      "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
+      "modifications": "All13 difference/expectedstep pairs translated exactly; numeric native decimal equality represents Java stripped representation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "benchmark-line-chart-csv-reading-helper",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/LineChartTest.java",
+      "upstream_test": "testDownSamplingProcess CSV loops/Builder.add",
+      "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
+      "modifications": "Rust include_str CSV parsing preserves every source x/y/null/result token and source skip-null builder behavior; expected3840pairs checked after runtime only. Native point budget explicit3840; no Java chart image output asserted or claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_chart/NOTICE.txt"
+      ],
+      "id": "benchmark-elapsed-number-model-locale-fixture",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/MillisecondDurationNumberFormatFactoryTest.java",
+      "upstream_test": "NUMBER_FORMAT/templateNumberModel/setExpectedLocale",
+      "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
+      "modifications": "Option<u64> sourcevalues replace TemplateNumberModel#getAsNumber; pure explicit en-US formatter avoids ambient-locale dependence. All source translated strings retained; no JVM global locale mutated."
     }
   ]
 }

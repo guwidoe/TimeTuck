@@ -1,0 +1,9 @@
+These CSV test resources are copied unmodified from Timefold Solver Community
+2.7.0, commit 8b815bc6b5f3eb81feedc94dea0885a93b267762:
+  tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/result/xValues.csv
+  tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/result/yValues.csv
+  tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/result/resultValues.csv
+Licensed under Apache-2.0. See compat/licenses/timefold-Apache-2.0.txt,
+THIRD_PARTY_NOTICES.md and compat/provenance.json for attribution and adaptations.
+The result CSV is an expected-test observation only; native runtime code never
+reads it or derives selected indices from it.

@@ -16,6 +16,10 @@ mod entry_permutation;
 mod pillar_swap_selection;
 mod scaling_map_traversal;
 pub use pillar_swap_selection::{PillarSwapSelection, PillarSwapSelectionError};
+mod benchmark_chart_data;
+pub use benchmark_chart_data::{
+    BenchmarkSeries, ChartDataError, ChartPoint, benchmark_tick_step, format_benchmark_millis,
+};
 mod inner_termination_config;
 mod live_range_view;
 mod local_phase_plan;
@@ -1894,4 +1898,22 @@ pub use geographic_travel::{
 mod list_k_opt_sequential;
 pub use list_k_opt_sequential::{
     ListKOptSequentialSelector, SequentialKOptError, SequentialKOptProposal,
+};
+
+mod json_temporal;
+mod typed_json_record;
+pub use json_temporal::{JsonDuration, JsonOffsetDateTime, JsonTemporalError};
+pub use typed_json_record::{
+    JsonRecordScalar, OffsetDateTimeJsonValidator, TypedJsonRecordCodec, TypedJsonRecordError,
+};
+
+mod employee_schedule_resource;
+pub use employee_schedule_resource::{
+    EmployeeDatasetStatus, EmployeeResourceEvent, EmployeeResourceEventKind,
+    EmployeeScheduleResource, EmployeeScheduleResponse, EmployeeShift, NATIVE_SHIFT_END_MESSAGE,
+    NativeEmployeeSchedule, SHIFT_END_BEFORE_START, ScheduleEmployee,
+};
+
+pub use employee_schedule_resource::{
+    EmployeeScheduleValidation, EmployeeShiftEndBeforeStartIssue,
 };

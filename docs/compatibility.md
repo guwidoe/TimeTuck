@@ -9596,3 +9596,24 @@ unchanged. Originals check moves, retractions, preloading and transactional
 failure; related existing batched cases pass. The optional ScalingMap diagnostic
 traversal borrows the actual array/tree storage, respecting ascending array order
 and requested tree direction. Normal iter/range contracts remain unchanged.
+
+Two employee assignedness provider methods and eight enabled EmployeeScheduleResourceTest methods now use a real owned native resource: WorkerDatasetFacade commands are consumed, stored JSON decoded to employee/shift facts, typed shift end-before-start issues generated and shared validation records published, and actual finite solver construction/local phases score and assign eligible employees. Producer labels derive from actual initialization/phase results; retained improvements are coalesced by phase rather than prescribed event tables. Both operation flags, source3employee4shift fixture, score/weight metadata, upload-only metrics, validation fields, query types and exact source successful solve event counts are adapted. Native skill-domain filtering is explicit policy, with no unknown production constraint-provider claim. Native registered issue message consistency replaces the unread production constant; exact Java wording is not claimed. UTC-day seconds replace tomorrow-date transport values. HTTP/CDI/await/SSE are not implemented, and disabled watching/404/410/cancellation stays pending. Originals solve1/3/7shifts through actual command consumption, retain independent owned input/output snapshots, verify published score consistency, and reject missing datasets, skill-infeasible/no-solution and invalid-time solves without false completion.
+
+Seven typed JSON/time methods now use an explicit constructor/accessor codec,
+validated Gregorian fixed-offset values, signed nanosecond durations and a narrow
+string/date-time validator. Unknown fields and scalar values validate before
+callbacks; None fields are omitted. All source temporal strings, retained offsets
+and error assertions execute. The supported profile is years 0000..9999, offsets
+within 18 hours and up to nine fractional digits; named zones, leap seconds and
+expanded years are outside scope. Durations support days/time units, with native
+negative canonical formatting; no general Java duration or arbitrary JSON Schema
+parity is claimed. Duplicate JSON keys follow serde_json's last-value policy.
+
+Three complete benchmark-data methods preserve all thirteen decimal tick cases,
+all six elapsed labels and every assertion over the full three TEST CSV fixtures.
+Independent mathematical LTTB selection reduces 5422 non-null points to an
+explicit 3840-point budget; this is a documented adaptation of private chart
+settings. Runtime selection never reads golden samples. Native gaps retain run
+endpoints and discontinuities, and insufficient budgets reject. Exact BigInt tick
+rounding avoids floating underflow; elapsed formatting is explicitly en-US. No
+chart image, frontend, private default or renderer ABI parity is claimed.

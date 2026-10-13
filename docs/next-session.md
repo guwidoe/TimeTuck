@@ -16,7 +16,60 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round138
+## Latest verified checkpoint — round139
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in
+90.786s: 7,818 Rust tests and 290 doctests. Compatibility
+4,129/4,855 (85.046%), 158 pending, 568 excluded, zero failed/unverified.
+Thirteen Rust jobs ran; 1,221 unchanged Rust jobs and all 46 Python jobs reused
+matching actual runner-a evidence. Prebuild 158.816s; worker total 250.112s.
+Rust digest 08633e3bbd1f1ec77f9b7a6bc743b5d921b556ee24ffb70327958cbaf1401f17.
+Report digest 9083af906d2aa2bbd9a7468dae24b11f54dfeb1e0dc234da84f6d9776c20a37d.
+runner-a source 593051afc6ad3af0d9f52fff88b025286918f35c0d5a7e8eff89b18abc3a3b22.
+Archive `work/round139-runner-a-results.tar.gz` SHA256 c4a4692b5714c8281cfb85049e43ec1b2f639be83487e9cc46fc3ba12e43d981.
+Evidence `work/parallel-round139-evidence.json`, freeze
+`work/parallel-round139-freeze.json`, IDs `work/round139-added-source-ids.json`.
+
+Twenty complete methods close seven typed-JSON/time contracts, ten employee
+provider/resource contracts, and three benchmark-data contracts. Ten original
+controls and thirteen attributed TEST fixtures were added. The employee resource
+consumes real stored commands and runs the native solver; HTTP/CDI/SSE watching
+remain outside scope. Typed temporal values use fixed offsets, Gregorian years
+0000..9999 and nanoseconds, with no named zones or leap seconds; the narrow
+validator is not a general JSON Schema engine. Signed duration canonicalization
+is native. Benchmark data uses independently written mathematical LTTB sampling
+with an explicit 3840-point budget, retaining all full source CSV assertions;
+private chart defaults and rendering are not claimed. Five hard k-opt execution
+and nonsequential repair cases remain pending.
+
+Focused lane verification passed on local/runner-a. The employee original exposed
+an actual no-solution state error; it now transitions to Failed, and the corrected
+focus passed. SDK tests passed before a behavior-equivalent remainder-expression
+Clippy correction; Clippy reran, and the final merged gate covers the final state.
+All focused failures and actual input manifests remain preserved under
+`work/round139-agent-evidence`. The three managed worktrees are archived.
+
+Fresh paired Java/Rust measurements were deliberately collected locally for
+exact solver, k-opt and list jobs, using three forks, five samples and three
+warmups. No agent compiler/test overlapped those local measurement runs. All
+three per-job input hashes remain unchanged after integration. Their original
+run dates and artifact checksums are retained; unrelated older measurements
+remain visibly stale. Evidence: `work/round139-performance-evidence.json`.
+Tiny exact workloads yielded 6.11–330.35x Java/Rust median ratios; these include
+per-solve setup and are not whole-solver or large-workload speed claims. All four
+sampled k-opt timing workloads were faster with equal or better scores; window
+workloads sometimes ran slower while returning better scores. There are eight
+k-opt timing workloads total. All 128 small k-opt quality cases validated, with
+114 equal scores and 128 native/114 Java independent optima. Candidate counts
+and no-work boundary probes remain separate; no equal-work claim. List two-opt
+at 32 values returned a better Java score despite lower Rust elapsed time.
+
+runner-c timed out before dispatch on the latest fresh SSH probe; runner-a/local
+provided the actual verification. There is no uncollected live runner-c job in this
+batch. Use runner-c when reachable; do not repeat unchanged checks or restart jobs
+merely because observing them timed out.
+
+## Previous verified checkpoint — round138
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in
 90.612s: 7,788 Rust tests and 290 doctests. Compatibility

@@ -15,6 +15,14 @@ notices. No tracked NOTICE-named file was found at this revision; reassess on up
 
 The following test files adapt the pinned Community tests:
 
+- `crates/solver/tests/benchmark_chart_data_cases.rs` adapts all thirteen
+  `LineChartTest.stepSize` parameters, the full `testDownSamplingProcess` CSV
+  assertions and all six `MillisecondDurationNumberFormatFactoryTest` labels.
+  Three unmodified Apache-2.0 TEST CSV files and their attribution live in
+  `crates/solver/tests/fixtures/benchmark_chart`. Native triangle sampling is
+  independently written from Steinarsson's 2013 thesis algorithm 4.2; no external
+  implementation was copied. No chart image, UI or Java formatting ABI is claimed.
+
 - `crates/solver/tests/solution_composition_cases.rs` adapts all six methods in
   `SolverSolutionInheritanceTest`. Test-domain component/member declarations,
   used generators and base/child scoring providers are adapted in
@@ -985,3 +993,9 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   `KOptListMoveIteratorTest` methods and their TEST helper. The independent
   `work/round138-kopt-seam-certificate.py` records TEST-derived move inputs and
   expected rows without implementation credit. Native limits are in provenance.
+
+- `crates/solver/tests/sdk_time_cases.rs` and
+  `fixtures/sdk_time_fixture.rs` adapt all five `SdkBuildTimeObjectMapperTest`
+  methods and both offset-date-time `ValidatorTest` methods from pinned Community
+  TESTs. Record/schema/string fixture details and native limitations are recorded
+  in `compat/provenance.json`; production mapper sources were not used.
