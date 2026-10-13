@@ -9152,3 +9152,60 @@ fixture retains the source's intentionally swapped domain categories. Ten fixtur
 records and seven original regressions cover actual repair/execution, stale sources,
 identity collisions, metadata rejection and retained null values. No Java RNG,
 reflection, ABI or whole-solver performance claim is made.
+
+## Recorded exhaustive frontier restoration and signed collection boundaries
+
+BranchRestorer stores actual recorded incoming edges with parent preimage validation.
+Basic restoration undoes to the common ancestor and replays only the new branch;
+list restoration undoes to the root and replays the full insertion prefix. The
+common ancestor search is linear in branch depth. Each successful edge advances
+the cursor before observers, preserving completed progress on callback panic or
+a later transactional error. Native callers supply transactional model execution;
+existing exhaustive enumeration still uses its established snapshot traversal. Two
+complete source methods preserve every forward/undo invocation with real native
+basic/list writes. Native additional state/order/error assertions earn no credit.
+
+Checked signed access validates negative/unrepresentable external indices before
+ordinary lazy reads or entry-list edits. It preserves lazy supplier caching, stable
+entry handles, slot holes and cursor revisions on rejection; unsigned hot paths
+are unchanged. The optional SignedValueRange trait delegates nonnegative indices
+to the actual range and returns None for negative indices, consistent with native
+range absence. Four complete ComposingList/BooleanValueRange/ElementAwareArrayList
+methods preserve all bounds and Index/Size/slotCount diagnostic assertions.
+
+## Executable physical local-cycle reconnection
+
+`ListKOptLocalCyclePlan` expands selected movable suffixes into real physical
+cycles, preserving every uncut adjacency and non-endpoint interior. Removed-edge
+occurrence ports distinguish singleton loops and parallel edges. Replacing those
+ports with a validated added matching exposes actual physical components and
+oriented tours. Connected tours produce ordinary executable relocations through
+the existing native repartition machinery with explicit target row lengths;
+disconnected subtours reject whole-tour execution. Snapshot membership/prefix,
+receiving ranges, pins and dependency constraints remain validated. Other selected
+suffix lengths may change, including becoming empty. Existing combined-cycle
+validation and search providers are unchanged.
+
+Three original regressions exercise real execution/undo, pinned prefixes,
+non-endpoint interiors, all 105 eight-port matchings, complete membership and every
+retained/added adjacency, disconnected rejection, singleton/parallel topology,
+invalid cuts, final receiving ranges and stale snapshots. These are original native
+checks and earn no source-method credit. They implement physical local-cycle
+semantics, not the reference's implicit virtual-seam interpretation. The three
+multi-entity 3-opt and four iterator methods remain pending: exact reference row
+partitioning and its synthetic endpoint-to-interior correspondence are unresolved.
+No benchmark refresh or performance-equivalence claim is made for this optional API.
+
+## Score-threshold timing across construction and search
+
+ScopedSignificantImprovement is the ordered solver profile's runtime for configured
+score-threshold stagnation. Construction ignores stagnation and arms the solve
+interval when it ends; search entry arms a separate phase interval. The first
+initialized search best seeds both score anchors. Phase resets retain the solve
+interval; qualifying improvements and irreversible expiry reuse the existing exact
+SignificantImprovement policy. Progress contexts expose actual solve/phase gradients
+alongside configured termination conditions. Unconfigured paths remain inert.
+The complete construction/local-search source method retains all timing, threshold
+and gradient assertions. Controlled-clock native execution and the existing six-path
+shared timer matrix cover actual construction, local search, other phases, handoff
+gaps and disabled policies. No wall-clock trace or Java lifecycle ABI parity claim.

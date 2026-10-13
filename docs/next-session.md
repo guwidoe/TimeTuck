@@ -16,7 +16,83 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round125
+## Latest verified checkpoint — round126
+
+Three GPT-6.1 Sol lanes completed: runner-c9 focused branch-restoration cases plus
+Clippy; runner-a17 local-cycle cases plus Clippy; local42 threshold/profile/matrix
+cases plus Clippy. Root6 signed-boundary cases passed before one additional cursor
+assertion; the final gate covers that final assertion and the linear-depth common
+ancestor review change. Actual logs/manifests/failures preserved under
+work/round126-agent-evidence. The threshold failure initially used the improvement
+step counter for construction; corrected to construction_steps==2, preserving two
+actual CH steps. Private SolveControl unit fixtures now bind the scoped policy.
+
+Seven complete source methods and eight fixtures integrated: both exhaustive
+restoration methods, construction/local-search score-threshold lifecycle, and four
+signed collection bounds methods. BranchRestorer holds actual recorded moves,
+validates parent preimages, undoes to a common ancestor for basic slots or root for
+list insertions, and replays actual writes. Completed edge progress advances before
+observers; execution callbacks must be transactional on error. Existing exhaustive
+snapshot traversal is unchanged; this is an explicit reusable frontier API.
+
+ScopedSignificantImprovement is integrated into configured ordered solver timing:
+CH ignores stagnation and arms the solve interval on completion; search entry arms
+a separate phase interval. Initialized best seeds both score anchors, phase resets
+retain the solve timer, and exact threshold/irreversible expiry reuse existing
+policy. Full source chronology and every gradient assertion retained; originals
+exercise real controlled-clock two-step CH and two-step LS, handoff gaps, resets
+and disabled policies. Existing six-path basic/list/mixed × scoring matrix passes.
+Unconfigured paths remain inert; no Java lifecycle/trace ABI claim.
+
+Signed boundaries reject negative/unrepresentable indices before materialization or
+mutation, preserving actual lazy supplier errors/cache, entry handles/holes and
+cursor revision. Unsigned paths are unchanged; Boolean range None is native
+absence. Two source bounds diagnostics preserve Index/Size/slotCount strings.
+ListKOptLocalCyclePlan adds executable physical occurrence-port expansion and
+repartition, retaining uncut interiors, local wraps, singleton loops, parallel
+edges, pins, ranges and undo. Three originals include all105 eight-port matchings;
+physical cycles are distinct from unresolved virtual seams. Zero source credit
+for this capability; all seven exact k-opt seam/iterator methods remain pending.
+
+Frozen merged bash scripts/check.sh passed once on runner-c in233.721s:
+7,557 Rust tests and290 doctests. Shared solver inputs required1,036 Rust jobs;
+111 Rust and46 Python jobs reused genuine matching runner-c evidence. Clippy33.85s;
+prebuild538.931s, largely rebuilding affected integration targets. Total772.908s.
+Compatibility:3,982/4,855 (82.019%),305pending,568excluded,zero failed/unverified.
+Rust digest b93760a59dbd7a001e0da3ee5d25ee1e08e71b446324f443dc8a4d25dab88337.
+Report digest b330cb2ec324814c42f2ae5573dcf3ad3c04ef6e1729188b3a109ae256fa9c7b.
+Archive work/round126-runner-c-results.tar.gz SHA256:ef4158f229b3455fabdbf18ebb56a7ef5f6c519ad300dcbc3acd92fff5f52dcf.
+Evidence work/parallel-round126-evidence.json; freeze
+work/parallel-round126-freeze.json; postcommit proof
+work/round126-postcommit-evidence.json. runner-c snapshot
+93046e69c4a5383f415a27954464a76a89e599994e041256f3e9fe17741f1cfa.
+Do not repeat matching-input successful checks. Keep remote per-job records
+separate under work/round126-runner-c-results/work/verification; relocation preserves
+actual keys, log checksums and dates. Backend report/freshness inspected; no UI
+changes/repeated browser verification. No benchmark refresh; prior sampling and
+paired Java k-opt dates/source/binaries remain visibly stale. No speed claim.
+
+While runner-c verified, the k-opt agent completed a separate round127 opaque probe.
+Seven longer-interior observations for the existing three-cut geometry show
+A=[1,X,2,3,Y,6],B=[4,5,Z] -> combined[1,5,Z,2,reverse(X),Y,6,4,3], with rowA
+length len(A)-2 even across interiors. This is new evidence, not a general native
+algorithm or method credit. Preserve work/round127-seam-evidence (probe source,
+original logs/evidence and agent provenance). Its two fixture records and new
+compat/oracle/KOptSeamInteriorProbe.java remain only in the kopt-seams-round126
+worktree: not integrated into the frozen main snapshot. Do not rerun the successful
+probe; use its actual pinned binary hashes. No production source/private field/
+bytecode body inspected. Future work must derive a general seam/partition model,
+not scripted outputs or duplicate endpoint-only scaffolding.
+
+All agents and build jobs finished. Archive integrated exhaustive-restore and
+time-threshold worktrees after commit, preserving ignored logs. Retain kopt-seams
+worktree until its separate round127 source/provenance is integrated. Temporary runner-c
+wake lock62074 must be stopped after collection; no persistent power changes.
+Up to three GPT-6.1 Sol agents/all three build machines remain authorized. Pin
+unchanged; full objective incomplete, goal active. Keep performance important,
+shrink actual backlog and batch shared changes before broad verification.
+
+## Previous verified checkpoint — round125
 
 Three GPT-6.1 Sol agents completed separate worktrees. runner-c passed nine basic ruin
 focused tests, runner-a fourteen list ruin tests, and local thirteen basic move

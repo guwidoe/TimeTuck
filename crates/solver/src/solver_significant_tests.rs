@@ -14,7 +14,12 @@ fn significant_with_construction_heuristic() {
     let now = Cell::new(0);
     let mut clock = || ms(now.get());
     let mut shared = step_control(u64::MAX, &mut clock);
-    shared.significant = Some(SignificantImprovement::new(threshold(1000, 7)));
+    shared.significant = Some(ScopedSignificantImprovement::new(threshold(1000, 7)));
+    shared
+        .significant
+        .as_mut()
+        .unwrap()
+        .phase_started(SolverPhaseKind::Construction, Duration::ZERO);
     shared.lifecycle.start();
     shared
         .lifecycle
@@ -26,12 +31,20 @@ fn significant_with_construction_heuristic() {
         // both inactive; their shared policy reports zero progress throughout.
         assert!(!shared.construction_stopped());
         assert_eq!(
-            shared.significant.as_mut().unwrap().progress(ms(elapsed)),
+            shared
+                .significant
+                .as_mut()
+                .unwrap()
+                .progress(TerminationProgressScope::Solve, ms(elapsed)),
             0.0
         );
         assert!(shared.stop().is_none());
         assert_eq!(
-            shared.significant.as_mut().unwrap().progress(ms(elapsed)),
+            shared
+                .significant
+                .as_mut()
+                .unwrap()
+                .progress(TerminationProgressScope::Solve, ms(elapsed)),
             0.0
         );
         if elapsed == 500 {
@@ -47,19 +60,38 @@ fn significant_accumulates_small_gains_and_keeps_one_anchor_across_phases() {
     let now = Cell::new(0);
     let mut clock = || ms(now.get());
     let mut shared = step_control(u64::MAX, &mut clock);
-    shared.significant = Some(SignificantImprovement::new(threshold(1000, 7)));
+    shared.significant = Some(ScopedSignificantImprovement::new(threshold(1000, 7)));
+    shared
+        .significant
+        .as_mut()
+        .unwrap()
+        .phase_started(SolverPhaseKind::LocalSearch, Duration::ZERO);
     shared.start_search();
     shared.observe_best_score(&SimpleScore::ZERO);
     now.set(500);
     shared.record_improvement();
     shared.observe_best_score(&SimpleScore::new(5));
-    assert_eq!(shared.significant.as_mut().unwrap().progress(ms(500)), 0.5);
+    assert_eq!(
+        shared
+            .significant
+            .as_mut()
+            .unwrap()
+            .progress(TerminationProgressScope::Solve, ms(500)),
+        0.5
+    );
     shared.start_search(); // Phase handoff does not restart the anchor.
     shared.observe_best_score(&SimpleScore::new(5));
     now.set(750);
     shared.record_improvement();
     shared.observe_best_score(&SimpleScore::new(7)); // Accumulated 5 + 2 qualifies.
-    assert_eq!(shared.significant.as_mut().unwrap().progress(ms(750)), 0.0);
+    assert_eq!(
+        shared
+            .significant
+            .as_mut()
+            .unwrap()
+            .progress(TerminationProgressScope::Solve, ms(750)),
+        0.0
+    );
     now.set(1750);
     assert!(shared.stop().is_none()); // Exact equality is deliberately allowed.
     now.set(1751);
@@ -235,7 +267,12 @@ fn significant_repair_and_fine_search_keep_late_improvement_but_stop() {
         let now = Cell::new(0);
         let mut clock = || ms(now.get());
         let mut shared = step_control(u64::MAX, &mut clock);
-        shared.significant = Some(SignificantImprovement::new(threshold(0, 1)));
+        shared.significant = Some(ScopedSignificantImprovement::new(threshold(0, 1)));
+        shared
+            .significant
+            .as_mut()
+            .unwrap()
+            .phase_started(SolverPhaseKind::LocalSearch, Duration::ZERO);
         let p = FiniteProblem::new(vec![Variable::new(vec![0, 1, 2]).with_initial(0)]).unwrap();
         let result = crate::ruin_engine::run(
             &p,
@@ -309,7 +346,12 @@ fn significant_shared_timer_interrupts_list_and_mixed_candidate_scans() {
         let now = Cell::new(0);
         let mut clock = || ms(now.get());
         let mut shared = step_control(u64::MAX, &mut clock);
-        shared.significant = Some(SignificantImprovement::new(threshold(1, 7)));
+        shared.significant = Some(ScopedSignificantImprovement::new(threshold(1, 7)));
+        shared
+            .significant
+            .as_mut()
+            .unwrap()
+            .phase_started(SolverPhaseKind::LocalSearch, Duration::ZERO);
         let lists = ListProblem::new(
             vec![0, 1, 2],
             vec![ListEntity::new(vec![0, 1, 2]), ListEntity::new(vec![])],

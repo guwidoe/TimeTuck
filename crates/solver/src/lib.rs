@@ -1707,3 +1707,15 @@ pub use list_ruin_selection::{ListRuinSelection, ListRuinSelectionError};
 
 mod basic_move_inspection;
 pub use basic_move_inspection::InspectedBasicMove;
+
+mod signed_index_access;
+pub use signed_index_access::{SignedIndexError, SignedValueRange};
+
+mod branch_restoration;
+pub use branch_restoration::{BranchRestoreError, BranchRestoreMode, BranchRestorer};
+
+mod list_k_opt_local_cycles;
+pub use list_k_opt_local_cycles::ListKOptLocalCyclePlan;
+
+mod scoped_significant_improvement;
+pub use scoped_significant_improvement::ScopedSignificantImprovement;

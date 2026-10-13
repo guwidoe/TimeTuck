@@ -469,7 +469,7 @@ struct SolveControl<'c, S = crate::SimpleScore> {
     phase_condition: Option<crate::phase_termination::PhaseControl<'c, S>>,
     last: Duration,
     shared_bound: bool,
-    significant: Option<SignificantImprovement<S>>,
+    significant: Option<ScopedSignificantImprovement<S>>,
     unimproved_limit: Option<Duration>,
     last_improvement: Option<Duration>,
     unimproved_expired: bool,
@@ -571,10 +571,13 @@ impl<S: Score> SolveControl<'_, S> {
         if self
             .significant
             .as_ref()
-            .is_some_and(SignificantImprovement::is_started)
+            .is_some_and(ScopedSignificantImprovement::is_started)
         {
             self.sample();
-            self.significant.as_mut().unwrap().expired(self.last)
+            self.significant
+                .as_mut()
+                .unwrap()
+                .is_terminated(crate::TerminationProgressScope::Solve, self.last)
         } else {
             false
         }
@@ -655,11 +658,42 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
                 self.condition.is_some()
                     || self.scored_condition.is_some()
                     || self.stateful_condition.is_some()
+                    || self.significant.is_some()
             }
-            crate::TerminationProgressScope::Phase => self.phase_condition.is_some(),
+            crate::TerminationProgressScope::Phase => {
+                self.phase_condition.is_some() || self.significant.is_some()
+            }
         }
     }
     fn termination_progress(&mut self, scope: crate::TerminationProgressScope) -> Option<f64> {
+        if self.significant.is_some() {
+            self.sample();
+            let significant = self
+                .significant
+                .as_mut()
+                .unwrap()
+                .progress(scope, self.last);
+            let ordinary = match scope {
+                crate::TerminationProgressScope::Solve => self
+                    .condition_status_with_pending(None, 0)
+                    .and_then(|s| s.progress),
+                crate::TerminationProgressScope::Phase => self
+                    .phase_condition
+                    .as_mut()
+                    .and_then(|phase| {
+                        phase.status(
+                            self.last,
+                            self.score_counter.as_ref().map_or(0, |c| c.total()),
+                            self.move_counter
+                                .as_ref()
+                                .map_or_else(Default::default, |c| c.snapshot()),
+                            None,
+                        )
+                    })
+                    .and_then(|s| s.progress),
+            };
+            return Some(ordinary.map_or(significant, |value| value.max(significant)));
+        }
         match scope {
             crate::TerminationProgressScope::Solve => self
                 .condition_status_with_pending(None, 0)
@@ -806,11 +840,7 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         if self.started && self.significant.is_some() {
             self.sample();
             let limit = self.significant.as_mut().unwrap();
-            if limit.is_started() {
-                limit.is_terminated(self.last, score);
-            } else {
-                limit.start(self.last, score.clone());
-            }
+            limit.observe_best(self.last, score);
         }
     }
     fn start_search(&mut self) {
@@ -1544,7 +1574,7 @@ where
         significant: limits
             .significant_improvement
             .cloned()
-            .map(SignificantImprovement::new),
+            .map(ScopedSignificantImprovement::new),
         unimproved_limit: limits.max_unimproved_time,
         last_improvement: None,
         unimproved_expired: false,
@@ -1885,6 +1915,13 @@ where
             };
             time.acceptance_clock = timed_acceptance
                 .then(|| crate::solver_clock::PhaseClock::new(time.clock_session.as_ref()));
+            if time.significant.is_some() {
+                time.sample();
+                time.significant
+                    .as_mut()
+                    .unwrap()
+                    .phase_started(kind, time.last);
+            }
             time.lifecycle.start_phase(index, kind);
             let output = phase(index, initial, request, &mut time, observation);
             time.phase_condition = None;
@@ -1893,6 +1930,13 @@ where
                 let mut work = result.work;
                 work.add(out.work);
                 metrics.phase(index, work);
+            }
+            if time.significant.is_some() && kind == SolverPhaseKind::Construction {
+                time.sample();
+                time.significant
+                    .as_mut()
+                    .unwrap()
+                    .phase_ended(kind, time.last);
             }
             time.lifecycle.end_phase();
             let mut out = output?;

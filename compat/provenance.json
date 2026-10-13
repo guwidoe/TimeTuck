@@ -59771,6 +59771,113 @@
       "upstream_test": "toStringShowsTheOriginalValueAfterAssigningAnUnassignedEntity",
       "local_test": "original_null_value_survives_assignment",
       "modifications": "Preserve every source entity/value code, ordered field name/getter assertion and exact description assertion. Native canonical registered fields/entity keys and captured actual prior Option values replace Java descriptors/object instances. Application string labels represent test-domain value codes (including other-value w1/w2); no Java class/reflection ABI claim. Pillar metadata reads every member and validates homogeneous registered values. ChangeMove null regression executes the real registry change before describing its retained genuinely null prior value. Description-only no-ops remain inspectable without execution eligibility."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "indexOutOfBoundsNegative",
+      "id": "ComposingListTest.indexOutOfBoundsNegative",
+      "status": "implemented",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "local_test": "composing_list_index_out_of_bounds_negative",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete empty/one-entry/four-entry fixture and all negative/upper-bound assertions through checked native signed access. Typed bounds errors replace Java exceptions; Boolean range uses None, consistent with its existing out-of-range adaptation. Composing Index/Size and array slotCount diagnostics retain exact asserted numbers/text. Signed boundary APIs validate before delegates; unsigned paths and storage policies unchanged. No Java API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "getIndexNegative",
+      "id": "BooleanValueRangeTest.getIndexNegative",
+      "status": "implemented",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "local_test": "boolean_range_get_index_negative",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete empty/one-entry/four-entry fixture and all negative/upper-bound assertions through checked native signed access. Typed bounds errors replace Java exceptions; Boolean range uses None, consistent with its existing out-of-range adaptation. Composing Index/Size and array slotCount diagnostics retain exact asserted numbers/text. Signed boundary APIs validate before delegates; unsigned paths and storage policies unchanged. No Java API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "upstream_test": "addAtNegativeIndex",
+      "id": "ElementAwareArrayListTest.addAtNegativeIndex.L923",
+      "status": "implemented",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "local_test": "array_list_add_at_negative_index",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete empty/one-entry/four-entry fixture and all negative/upper-bound assertions through checked native signed access. Typed bounds errors replace Java exceptions; Boolean range uses None, consistent with its existing out-of-range adaptation. Composing Index/Size and array slotCount diagnostics retain exact asserted numbers/text. Signed boundary APIs validate before delegates; unsigned paths and storage policies unchanged. No Java API parity claim.",
+      "upstream_line": 923
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "upstream_test": "entryAtRejectsOutOfRangeSlots",
+      "id": "ElementAwareArrayListTest.entryAtRejectsOutOfRangeSlots.L1458",
+      "status": "implemented",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "local_test": "array_list_entry_at_rejects_out_of_range_slots",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete empty/one-entry/four-entry fixture and all negative/upper-bound assertions through checked native signed access. Typed bounds errors replace Java exceptions; Boolean range uses None, consistent with its existing out-of-range adaptation. Composing Index/Size and array slotCount diagnostics retain exact asserted numbers/text. Signed boundary APIs validate before delegates; unsigned paths and storage policies unchanged. No Java API parity claim.",
+      "upstream_line": 1458
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/branch_restoration_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.restoreWorkingSolutionForBasicVariable",
+      "status": "implemented",
+      "upstream_test": "restoreWorkingSolutionForBasicVariable",
+      "local_test": "restore_working_solution_for_basic_variable",
+      "modifications": "Preserve every source node forward/undo invocation count and parent topology. Real native recorded basic changes/list assignments and guarded recorded undo replace mocked Java moves; observation counts successful committed edge executions, with additional exact bottom-up undo/top-down forward order and final assignment assertions. Basic uses common-ancestor retention; list replays the full root path including the common prefix. Native arena root has no incoming edge, preserving zero root invocations. Explicit BranchRestorer serves externally scheduled native frontiers; existing snapshot-based exhaustive enumeration is unchanged. No Java scope/metadata/ABI or automatic exhaustive-phase integration claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/branch_restoration_cases.rs",
+      "id": "DefaultExhaustiveSearchPhaseTest.restoreWorkingSolutionForListVariable",
+      "status": "implemented",
+      "upstream_test": "restoreWorkingSolutionForListVariable",
+      "local_test": "restore_working_solution_for_list_variable",
+      "modifications": "Preserve every source node forward/undo invocation count and parent topology. Real native recorded basic changes/list assignments and guarded recorded undo replace mocked Java moves; observation counts successful committed edge executions, with additional exact bottom-up undo/top-down forward order and final assignment assertions. Basic uses common-ancestor retention; list replays the full root path including the common prefix. Native arena root has no incoming edge, preserving zero root invocations. Explicit BranchRestorer serves externally scheduled native frontiers; existing snapshot-based exhaustive enumeration is unchanged. No Java scope/metadata/ABI or automatic exhaustive-phase integration claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoped_significant_improvement_cases.rs",
+      "id": "UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.withConstructionHeuristicAndLocalSearch",
+      "status": "implemented",
+      "upstream_test": "withConstructionHeuristicAndLocalSearch",
+      "local_test": "with_construction_heuristic_and_local_search",
+      "modifications": "Preserve every phase/solver termination and exact gradient assertion, CH times 0/500/1001 and post-end queries, LS entry1501 best5, step1502 best10 below accumulated7 threshold, step2001 and final2502 expiry. Java spies and clock mocks map to explicit native scoped lifecycle/elapsed time/best-score observations. ScopedSignificantImprovement is the real runtime wired to the existing score-aware solver profile, ordered phase hooks, initialized score observations, stopping and scoped termination-progress contexts. Native solve anchor begins at CH end1001; phase anchor begins LS1501, independently seeded from best5. Source final phaseEnded uses earlier CH scope; it has no asserted output and the native mismatched end does not reset the active LS runtime. No Java scope ABI/search trace claim."
     }
   ],
   "fixtures": [
@@ -84473,6 +84580,112 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ChangeMoveTest.java",
       "upstream_test": "toStringShowsTheOriginalValueAfterAssigningAnUnassignedEntity/setup",
       "modifications": "Adapt full inline entity/value fixtures into bound registry fields and entity code keys; preserve all a-h/v1-v4/w1-w2/1 codes used by these methods, primaryValue/secondaryValue/tertiaryValueAllowedUnassigned field order, null groups, pillar membership and orientation. String-valued native fixture labels replace distinct Java value classes; generated ChangeMove fixture has two available values and one unassigned entity. All descriptions derive from actual registry values, not expected strings."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/ComposingListTest.java",
+      "upstream_test": "indexOutOfBoundsNegative",
+      "id": "ComposingListTest.indexOutOfBoundsNegative.signed_bounds_fixture",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST-derived empty list, one entry a, default Boolean range, or four sequential entries as specified in the named method; native constructor/payloads replace Java allocation. No production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "getIndexNegative",
+      "id": "BooleanValueRangeTest.getIndexNegative.signed_bounds_fixture",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST-derived empty list, one entry a, default Boolean range, or four sequential entries as specified in the named method; native constructor/payloads replace Java allocation. No production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "upstream_test": "addAtNegativeIndex",
+      "id": "ElementAwareArrayListTest.addAtNegativeIndex.L923.signed_bounds_fixture",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST-derived empty list, one entry a, default Boolean range, or four sequential entries as specified in the named method; native constructor/payloads replace Java allocation. No production implementation used.",
+      "upstream_line": 923
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareArrayListTest.java",
+      "upstream_test": "entryAtRejectsOutOfRangeSlots",
+      "id": "ElementAwareArrayListTest.entryAtRejectsOutOfRangeSlots.L1458.signed_bounds_fixture",
+      "local_path": "crates/solver/tests/signed_index_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST-derived empty list, one entry a, default Boolean range, or four sequential entries as specified in the named method; native constructor/payloads replace Java allocation. No production implementation used.",
+      "upstream_line": 1458
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/branch_restoration_cases.rs",
+      "id": "exhaustive-branch-restoration-basic_variable-fixture",
+      "upstream_test": "restoreWorkingSolutionForBasicVariable; createNode",
+      "modifications": "Preserve all seven source node identities and exact ancestry, including list node3B parent node3A despite equal Java layer numbers; native ancestry does not normalize that relationship. Root is node0; basic diverges after node1, list current node3B is ancestor of target node4B with unused node2A. Real optional basic slots/list values supply actual executable edges in place of TEST helper move/undo mocks; scores 7/unassigned96 are unasserted scope metadata and not used to claim restoration behavior."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/DefaultExhaustiveSearchPhaseTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/branch_restoration_cases.rs",
+      "id": "exhaustive-branch-restoration-list_variable-fixture",
+      "upstream_test": "restoreWorkingSolutionForListVariable; createNode",
+      "modifications": "Preserve all seven source node identities and exact ancestry, including list node3B parent node3A despite equal Java layer numbers; native ancestry does not normalize that relationship. Root is node0; basic diverges after node1, list current node3B is ancestor of target node4B with unused node2A. Real optional basic slots/list values supply actual executable edges in place of TEST helper move/undo mocks; scores 7/unassigned96 are unasserted scope metadata and not used to claim restoration behavior."
+    },
+    {
+      "id": "round126-physical-local-cycle-wrap-geometry",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt/fromRemovedAndAddedEdges",
+      "local_path": "crates/solver/tests/kopt_local_cycle_execution_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Reuse only source-derived three-cut local-wrap geometry and occurrence-slot added matching (1,3)/(2,5)/(4,0). Replace source payloads with integer identities, add pinned identity 0 and non-endpoint interior values, extend both local rows, and use explicit native result lengths. Verify ordinary physical uncut-adjacency preservation and actual execution/undo rather than the source virtual-seam expected rows or notifications. This is a fixture-only adaptation, not a complete source method; all seven pending seam/iterator methods remain pending. Other exhaustive matching/singleton/range controls are original native checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/scoped_significant_improvement_cases.rs",
+      "id": "scoped-threshold-ch-ls-clock-fixture",
+      "upstream_test": "withConstructionHeuristicAndLocalSearch/setup",
+      "modifications": "Preserve window1000, thresholdSimpleScore7, CH scope and steps, LS scope and best-score-improved observations, starting time0, best5 at1501 and10 at1502, no later improvements, source final earlier-CH scope end. Replace mocks with deterministic explicit native runtime inputs; original integration test separately executes actual two-entity CH then LS through ScoredTerminationProfile and injected SolverClock."
     }
   ]
 }
