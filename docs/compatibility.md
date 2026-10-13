@@ -106,6 +106,19 @@ without projection calls, contradictory comparisons, sharing and rollback;
 existing heterogeneous conjunction controls exercise updates and panic recovery.
 This establishes native behavior, not Java factory/node/API layout parity.
 
+All five DefaultRepeatingRandomIteratorTest methods and all four
+DefaultUniqueRandomIteratorTest methods now have complete adaptations, together
+with the leaf/equality IndexerRandomIteratorMarkerTest methods. Native repeating
+and unique factories return distinct role traits over their actual samplers.
+Read-only removal always returns a typed error; explicit unbounded repeating
+try_for_each_remaining rejects before draws, group loading or consumer invocation.
+Unique Iterator::for_each keeps its finite drain behavior. Normal Rust Iterator
+adapters remain available, with take(limit) for repeating consumption. No Java
+class identity or PRNG trace parity is claimed. Original controls preserve seeds,
+duplicate occurrences, non-Clone borrowed payloads, wide remapping state and lazy
+supplier counts. Linked-list random-access rejection remains pending; native
+indexed storage does not implement that sequential Java backend.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

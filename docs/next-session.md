@@ -16,7 +16,68 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round118
+## Latest verified checkpoint — round119
+
+ReadOnlyRandomCursor, RepeatingRandomCursor and UniqueRandomCursor expose actual
+sampling roles through existing range, candidate-bucket and concatenated-query
+factories. Existing unique index/slice/range samplers also implement the unique
+read-only contract. Removal always returns a typed error; explicit repeating
+try_for_each_remaining rejects even empty cursors before draws, suppliers or
+consumer calls. Finite unique Iterator::for_each still drains; standard Rust
+Iterator adapters remain available, with take(limit) for repeating consumption.
+Private transparent adapters add no bookkeeping fields and delegate next/nth/
+size_hint/fold to their real samplers. No RNG/remapping algorithm or payload clone
+change; no Java class/PRNG trace claim. Six complete source cases recorded, plus
+one adapted marker helper. All 5 DefaultRepeatingRandomIteratorTest and all 4
+DefaultUniqueRandomIteratorTest methods now pass; both native leaf/equality marker
+cases pass. Linked-list unsupported-access method remains pending; no artificial
+sequential storage backend or false credit. Three originals cover preserved
+random draws and seeded order after rejection, non-Clone/lazy suppliers, wide
+unique state, empty views and duplicate occurrence finite draining. Pin unchanged;
+full goal remains incomplete.
+
+25 focused cases passed. Clippy passed in 57.01s. Affected compilation took 6m 52s;
+1,009 affected targets selected and 109 unchanged targets reused. Frozen bash scripts/check.sh
+passed in 367.106s: 7,479 Rust tests and 290 doctests.
+Rust jobs: {'RUN': 1009, 'REUSE': 109}; Python jobs: {'REUSE': 46}.
+Compatibility: 3,941/4,855 (81.174%), 346 pending,
+568 excluded, zero failed/unverified. Rust digest f9aa9c6ea011a41b05f0ea05a235ca82c584b0d7e18d2fb9af564e8441bdabc1.
+Report digest 6c2d155bcb5b02038ed620c5e555172fdce03c1bee2103c541db7e31faea6428.
+Archive work/round119-local-results.tar.gz SHA256:dea8cf61391397f35d700e11a2cdea4c874f362a328b9d28674c49072ff6f21c.
+Evidence work/parallel-round119-evidence.json; freeze
+work/parallel-round119-freeze.json; postcommit proof
+work/round119-postcommit-evidence.json. Prebuild23348/gate 52216 terminal0;
+do not repeat successful unchanged checks. Actual keys/log hashes/dates remain.
+Backend report/data freshness inspected; no UI changes/repeated browser checks.
+
+Original native before/after sampling comparison against b9f0d5fb9082213ef0b74683c56ae61e2533a981:
+work/round119-native-performance.json and -raw.json; saved baseline/current
+binaries work/round119-random-cursor-baseline and -current. Actual date
+2026-10-13T04:59:18.200098+00:00; source/binary/driver hashes retained. Identical
+native driver, lockfile and release configuration: 8/4096 occurrences, source
+construction and at least 200,000 repeated draws or complete unique permutation
+draws per sample. Three alternating forks, two warmups, five samples. Order-
+sensitive output hashes agree; each unique cursor's occurrence sum is validated.
+Current/baseline time ratios (8/4096 occurrences): range repeat 0.879/1.051;
+bucket repeat 0.969/0.989; bucket unique 1.010/0.917; concat repeat 1.027/0.924;
+concat unique 1.015/1.043. Scope includes regressions up to 5.1%; no general
+speed improvement or causal/Java/whole-solver claim. Sampling algorithms unchanged.
+Measured after focused correctness; broad gate followed on the same frozen Rust
+state. An initial driver-only build failure (wrong method name) happened before
+any measurement, retained in -failed.log artifacts; final driver uses push_slice.
+Earlier native and paired Java measurements retain their actual source/date scope,
+visibly stale where inputs changed. Java k-opt date remains
+2026-10-13T02:08:50.481824+00:00. No live remote jobs; prior65218/53624 terminal255
+and old SSH auth URL expired. Full gate/native comparison ran locally.
+
+Continue real core gaps: tuple removal slots/lifecycle, random selector traces,
+shadow dependencies and exact phase behavior. Seven k-opt seam/iterator methods
+remain pending, with saved probes already answered; do not repeat them. Unindexed
+join duplicate-predicate count remains pending; do not manufacture redundant work.
+No new agents/assignments. Keep performance important, shrink backlog, selective
+reuse and occasional Conventional commits. Full goal remains active and incomplete.
+
+## Previous verified checkpoint — round118
 
 JoinConditions.uses_equality_partitions reports the actual pair-join construction
 choice without calling projections. Equality-first normalization preserves trailing

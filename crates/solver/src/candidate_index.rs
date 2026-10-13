@@ -47,9 +47,12 @@ impl<'a, I, T> CandidateBucket<'a, I, T> {
     pub fn unique(
         &self,
         seed: u64,
-    ) -> impl FusedIterator<Item = &'a IndexedCandidate<I, T>> + use<'a, I, T> {
-        unique_slice_samples(self.entries, seed)
-            .map(|v| v.expect("seeded draws stay within their bound"))
+    ) -> impl crate::UniqueRandomCursor<Item = &'a IndexedCandidate<I, T>> + FusedIterator + use<'a, I, T>
+    {
+        crate::random_cursor_policy::UniqueCursor(
+            unique_slice_samples(self.entries, seed)
+                .map(|v| v.expect("seeded draws stay within their bound")),
+        )
     }
     /// Uniform draws with replacement. Empty buckets terminate immediately;
     /// nonempty buckets never exhaust. Equal payloads remain distinct occurrences.
@@ -57,22 +60,26 @@ impl<'a, I, T> CandidateBucket<'a, I, T> {
     pub fn repeating(
         &self,
         seed: u64,
-    ) -> impl FusedIterator<Item = &'a IndexedCandidate<I, T>> + use<'a, I, T> {
+    ) -> impl crate::RepeatingRandomCursor<Item = &'a IndexedCandidate<I, T>>
+    + FusedIterator
+    + use<'a, I, T> {
         let entries = self.entries;
         let mut random = SplitMix64::new(seed);
-        std::iter::from_fn(move || {
-            if entries.is_empty() {
-                None
-            } else {
-                let index = if entries.len() == 1 {
-                    0
+        crate::random_cursor_policy::RepeatingCursor(
+            std::iter::from_fn(move || {
+                if entries.is_empty() {
+                    None
                 } else {
-                    random.below_wide(entries.len() as u128) as usize
-                };
-                Some(&entries[index])
-            }
-        })
-        .fuse()
+                    let index = if entries.len() == 1 {
+                        0
+                    } else {
+                        random.below_wide(entries.len() as u128) as usize
+                    };
+                    Some(&entries[index])
+                }
+            })
+            .fuse(),
+        )
     }
 }
 /// Independent candidate index for constructing native neighborhoods.
@@ -290,19 +297,22 @@ impl<K: Ord + Clone, I: Ord + Clone, T> CandidateIndex<K, I, T> {
 pub fn repeating_candidates<'s, T>(
     candidates: &'s LazyConcat<'_, T>,
     seed: u64,
-) -> impl FusedIterator<Item = Result<&'s T, crate::LazyConcatError>> + 's {
+) -> impl crate::RepeatingRandomCursor<Item = Result<&'s T, crate::LazyConcatError>> + FusedIterator + 's
+{
     let mut random = SplitMix64::new(seed);
-    std::iter::from_fn(move || {
-        if candidates.is_empty() {
-            None
-        } else {
-            let i = if candidates.len() == 1 {
-                0
+    crate::random_cursor_policy::RepeatingCursor(
+        std::iter::from_fn(move || {
+            if candidates.is_empty() {
+                None
             } else {
-                random.below_wide(candidates.len() as u128) as usize
-            };
-            Some(candidates.get(i))
-        }
-    })
-    .fuse()
+                let i = if candidates.len() == 1 {
+                    0
+                } else {
+                    random.below_wide(candidates.len() as u128) as usize
+                };
+                Some(candidates.get(i))
+            }
+        })
+        .fuse(),
+    )
 }

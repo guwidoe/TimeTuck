@@ -54,7 +54,10 @@ pub trait ValueRange {
     }
     /// Uniform occurrence sampling with replacement; nonempty ranges repeat.
     /// Empty ranges exhaust immediately. Native seeds do not match Java traces.
-    fn random_iter(&self, seed: u64) -> impl FusedIterator<Item = Self::Value> + '_
+    fn random_iter(
+        &self,
+        seed: u64,
+    ) -> impl crate::RepeatingRandomCursor<Item = Self::Value> + FusedIterator + '_
     where
         Self: Sized,
     {
@@ -65,23 +68,25 @@ pub trait ValueRange {
     fn random_iter_with<'a>(
         &'a self,
         mut draw: impl FnMut(u128) -> u128 + 'a,
-    ) -> impl FusedIterator<Item = Self::Value> + 'a
+    ) -> impl crate::RepeatingRandomCursor<Item = Self::Value> + FusedIterator + 'a
     where
         Self: Sized,
     {
-        std::iter::from_fn(move || {
-            let size = self.len();
-            if size == 0 {
-                return None;
-            }
-            let index = draw(size);
-            assert!(index < size, "value-range draw must be less than its bound");
-            Some(
-                self.get(index)
-                    .expect("value range must supply every in-range index"),
-            )
-        })
-        .fuse()
+        crate::random_cursor_policy::RepeatingCursor(
+            std::iter::from_fn(move || {
+                let size = self.len();
+                if size == 0 {
+                    return None;
+                }
+                let index = draw(size);
+                assert!(index < size, "value-range draw must be less than its bound");
+                Some(
+                    self.get(index)
+                        .expect("value range must supply every in-range index"),
+                )
+            })
+            .fuse(),
+        )
     }
     /// Materialize only after checking an explicit element limit. This limit does
     /// not measure bytes or guarantee allocation success. Duplicate values remain.

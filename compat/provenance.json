@@ -59171,6 +59171,96 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all four factory eligibility results for less-than age, less-than plus greater-than age, equal gender, and equal gender then less-than age. Native JoinConditions metadata drives the actual pair-join factory: no equality uses standalone left/right ordered indexes, while normalized equality prefixes use shared partitions. Typed Rust projections replace Java getter joiners and IndexerFactory; no Java API/layout parity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/random_cursor_policy_cases.rs",
+      "id": "DefaultRepeatingRandomIteratorTest.emptySource",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRepeatingRandomIteratorTest.java",
+      "upstream_test": "emptySource",
+      "local_test": "repeating_empty_source",
+      "modifications": "Preserve empty-source false has-next, failed next and unsupported removal. Native bounded lookahead/None represents exhaustion, with a typed removal error; empty immutable enumerated range and seed0 replace ElementAwareArrayList/Java Random."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/random_cursor_policy_cases.rs",
+      "id": "DefaultRepeatingRandomIteratorTest.removeIsNotSupported",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRepeatingRandomIteratorTest.java",
+      "upstream_test": "removeIsNotSupported",
+      "local_test": "repeating_remove_is_not_supported",
+      "modifications": "Preserve the single A occurrence, one successful draw, then unsupported removal; native repeating range factory and typed removal error replace Java iterator/exception APIs."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/random_cursor_policy_cases.rs",
+      "id": "DefaultRepeatingRandomIteratorTest.forEachRemainingIsNotSupported",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultRepeatingRandomIteratorTest.java",
+      "upstream_test": "forEachRemainingIsNotSupported",
+      "local_test": "repeating_for_each_remaining_is_not_supported",
+      "modifications": "Preserve the single A occurrence and rejection of the explicit unbounded drain operation. Native try_for_each_remaining returns a typed error without reading the sampler or invoking its consumer; standard Rust Iterator adapters remain available for deliberately bounded consumption."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/random_cursor_policy_cases.rs",
+      "id": "DefaultUniqueRandomIteratorTest.removeThrows",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/DefaultUniqueRandomIteratorTest.java",
+      "upstream_test": "removeThrows",
+      "local_test": "unique_remove_throws",
+      "modifications": "Preserve single A, a successful unique draw, then unsupported removal. Existing borrowed unique sampler implements the read-only cursor contract and returns a typed error instead of a Java exception."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/random_cursor_policy_cases.rs",
+      "id": "IndexerRandomIteratorMarkerTest.leafIndexerMarkerTypes",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/IndexerRandomIteratorMarkerTest.java",
+      "upstream_test": "leafIndexerMarkerTypes",
+      "local_test": "leaf_indexer_marker_types",
+      "modifications": "Preserve Ann in the unkeyed leaf, repeating/unique roles, both removal rejections and repeated-drain rejection. Unit-key CandidateIndex dense bucket is the native leaf; factory return traits establish actual sampling roles rather than Java instanceOf checks. No Java class/API identity claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/random_cursor_policy_cases.rs",
+      "id": "IndexerRandomIteratorMarkerTest.equalIndexerMarkerTypes",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/IndexerRandomIteratorMarkerTest.java",
+      "upstream_test": "equalIndexerMarkerTypes",
+      "local_test": "equal_indexer_marker_types",
+      "modifications": "Preserve Ann under key F, repeating/unique roles, both removal rejections and repeated-drain rejection. Actual keyed CandidateIndex bucket factories expose native role traits; no Java class/API identity claim."
     }
   ],
   "fixtures": [
@@ -83574,6 +83664,19 @@
       "upstream_test": "isMoveDoable/isMoveDoableValueRangeProviderOnEntity/setup",
       "local_path": "crates/solver/tests/selector_sublist_swap_cases.rs",
       "modifications": "Preserve the TEST entity/value identities, exact row contents, out-of-row metadata intervals and distinct receiving ranges. Stable integer IDs and raw ListAssignment replace Java entity/value objects and annotations; actual TEST helper constructor signature confirms range-before-row argument order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/random_cursor_policy_cases.rs",
+      "id": "random-indexer-marker-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/IndexerRandomIteratorMarkerTest.java",
+      "upstream_test": "assertMarkerTypes",
+      "modifications": "Preserve both sampling-role assertions and all three unsupported-operation assertions. Rust generic trait bounds and typed errors replace Java instanceof/exception checks; callers use actual native leaf/keyed factories."
     }
   ]
 }

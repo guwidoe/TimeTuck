@@ -761,7 +761,11 @@ pub use placement_queue::{
 };
 pub use placement_queue_provider::{PlacementProviderError, PlacementQueueProvider};
 
+mod random_cursor_policy;
 mod unique_sampling;
+pub use random_cursor_policy::{
+    RandomCursorOperationError, ReadOnlyRandomCursor, RepeatingRandomCursor, UniqueRandomCursor,
+};
 pub use unique_sampling::{
     UniqueIndices, UniqueSampleError, UniqueSliceSamples, unique_indices, unique_slice_samples,
 };

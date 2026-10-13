@@ -198,9 +198,13 @@ impl<'a, T> LazyConcat<'a, T> {
     pub fn samples(
         &self,
         seed: u64,
-    ) -> impl FusedIterator<Item = Result<&T, LazyConcatError>> + '_ {
-        unique_indices(self.length as u128, seed)
-            .map(|index| self.get(index.expect("seeded draws stay within their bound") as usize))
+    ) -> impl crate::UniqueRandomCursor<Item = Result<&T, LazyConcatError>> + FusedIterator + '_
+    {
+        crate::random_cursor_policy::UniqueCursor(
+            unique_indices(self.length as u128, seed).map(|index| {
+                self.get(index.expect("seeded draws stay within their bound") as usize)
+            }),
+        )
     }
 }
 
