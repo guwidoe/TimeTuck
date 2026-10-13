@@ -3,6 +3,9 @@ use std::{error::Error, fmt};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SlotReservationError {
+    InvalidSlotCount(i64),
+    SignedSlotOutOfBounds { slot: i64, count: usize },
+    SignedLogicalIndexOutOfBounds { index: i64, count: usize },
     SlotOutOfBounds { slot: usize, count: usize },
     LogicalIndexOutOfBounds { index: usize, count: usize },
     AllocationFailed,
@@ -10,6 +13,15 @@ pub enum SlotReservationError {
 impl fmt::Display for SlotReservationError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::InvalidSlotCount(count) => {
+                write!(f, "slotCount ({count}) must be nonnegative and fit usize")
+            }
+            Self::SignedSlotOutOfBounds { slot, count } => {
+                write!(f, "The slot ({slot}) is outside 0..{count}")
+            }
+            Self::SignedLogicalIndexOutOfBounds { index, count } => {
+                write!(f, "The logicalIndex ({index}) is outside 0..{count}")
+            }
             Self::SlotOutOfBounds { slot, count } => write!(f, "slot {slot} is outside 0..{count}"),
             Self::LogicalIndexOutOfBounds { index, count } => {
                 write!(f, "logical index {index} is outside 0..{count}")
@@ -36,7 +48,7 @@ enum ReservationStorage {
 ///
 /// A promotion may allocate the entire index space. Use a sparse map instead for
 /// very large spaces with few remappings. Indices/counts are unsigned; negative
-/// inputs must be rejected when converting external data. All index validation
+/// inputs can use the signed boundary methods before conversion. All index validation
 /// precedes mutation, and failed allocation leaves the mappings unchanged.
 ///
 /// ```
@@ -55,6 +67,12 @@ pub struct SlotReservationMap {
     storage: ReservationStorage,
 }
 impl SlotReservationMap {
+    /// Validate an external signed count before constructing any storage.
+    pub fn try_with_slot_count(slot_count: i64) -> Result<Self, SlotReservationError> {
+        usize::try_from(slot_count)
+            .map(Self::new)
+            .map_err(|_| SlotReservationError::InvalidSlotCount(slot_count))
+    }
     pub fn new(slot_count: usize) -> Self {
         Self {
             slot_count,
@@ -64,6 +82,33 @@ impl SlotReservationMap {
     }
     pub fn slot_count(&self) -> usize {
         self.slot_count
+    }
+    fn signed_slot(&self, slot: i64) -> Result<usize, SlotReservationError> {
+        usize::try_from(slot)
+            .ok()
+            .filter(|&slot| slot < self.slot_count)
+            .ok_or(SlotReservationError::SignedSlotOutOfBounds {
+                slot,
+                count: self.slot_count,
+            })
+    }
+    pub fn resolve_signed(&self, slot: i64) -> Result<usize, SlotReservationError> {
+        self.resolve(self.signed_slot(slot)?)
+    }
+    /// Validate both external arguments before any sparse/dense mutation.
+    pub fn reserve_signed(&mut self, slot: i64, index: i64) -> Result<usize, SlotReservationError> {
+        let slot = self.signed_slot(slot)?;
+        let index = usize::try_from(index)
+            .ok()
+            .filter(|&index| index < self.slot_count)
+            .ok_or(SlotReservationError::SignedLogicalIndexOutOfBounds {
+                index,
+                count: self.slot_count,
+            })?;
+        self.reserve(slot, index)
+    }
+    pub fn release_signed(&mut self, slot: i64) -> Result<usize, SlotReservationError> {
+        self.release(self.signed_slot(slot)?)
     }
     /// Number of nonidentity entries, independent of allocated capacity.
     pub fn len(&self) -> usize {

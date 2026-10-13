@@ -8979,3 +8979,20 @@ without changing its position. Reverse views reject insertion/removal/clear/exte
 without mutating the original. Two original regressions exercise all storage forms,
 borrow-error precedence, failed-call positions/live views and nonconsumed streaming
 inputs. Compile-time restrictions are not used as passing runtime evidence.
+
+FusedEqualIndexTest's last method now verifies actual lazy side factories: zero
+right-side creation through reservation, left insertion, empty query/count and
+left removal; exactly one right creation on first right insertion. Factories
+return the independently owned side index installed by single/batched updates.
+Factory panics retain installed roots while external callback effects remain
+outside rollback. The two remaining SlotReservationMap methods now reject signed
+negative counts/slots and oversized arguments with source-specific diagnostics
+in sparse and dense storage. Existing unsigned paths remain unchanged. Three
+original regressions cover side lifetimes/rekeys/batched rollback and signed
+validation preserving all mappings before mutation.
+
+Default join-side initialization retains a statically bound initializer; custom
+factory dispatch occurs outside generic update/install loops. Batched updates
+carry an inlining hint after a scoped native before/after timing check exposed
+an initial regression. Original/current checksum agreement and raw timed samples
+remain separate from the stale Java comparison.

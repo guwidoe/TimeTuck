@@ -59021,6 +59021,51 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve each source setup, actual iterator advance/reverse traversal and runtime unsupported-operation assertion. Callable Rust cursor/collection/view operations return a typed UnsupportedSequencedSetOperation instead of Java exceptions; retainAll()/removeAll() operation diagnostics are preserved. Existing Rust iter() stays unchanged; cursor() supplies runtime removal capability negotiation. No compile-time restriction or test-only scripted failure substituted; no JVM ABI claim."
+    },
+    {
+      "id": "FusedEqualIndexTest.lazyAllocation_leftOnlyKey_rightNotAllocated",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/FusedEqualIndexTest.java",
+      "upstream_test": "lazyAllocation_leftOnlyKey_rightNotAllocated",
+      "local_path": "crates/solver/tests/reserved_partition_cases.rs",
+      "local_test": "lazy_allocation_left_only_key_right_not_allocated",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain actual injectable right-side factory counts0 through bucket reservation/left insertion/empty right iteration/right count, nonremovable left occupancy then removable empty reserved bucket after left removal, and exactly1 initialization on first right insertion. Native PartitionedJoinNode factories return independently owned actual JoinPartitionSide storage installed in the lazy bucket; opaque reservation identity replaces Java bucket objects, integer row IDs replace entry handles, and typed native state/count queries express removability. No observer-only counter or Java storage/ABI claim."
+    },
+    {
+      "id": "SlotReservationMapTest.negativeSlotCountIsRejected",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/SlotReservationMapTest.java",
+      "upstream_test": "negativeSlotCountIsRejected",
+      "local_path": "crates/solver/tests/slot_reservation_cases.rs",
+      "local_test": "negative_slot_count_is_rejected",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve signed negative-count failure and all four out-of-range reserve/release failures in both sparse and forced-dense200-slot fixtures, including source argument-specific diagnostic fragments. Typed native signed boundary methods replace Java IllegalArgumentException while existing unsigned APIs remain unchanged; validation completes before mutation."
+    },
+    {
+      "id": "SlotReservationMapTest.outOfRangeArgumentsAreRejectedInBothStages",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/SlotReservationMapTest.java",
+      "upstream_test": "outOfRangeArgumentsAreRejectedInBothStages",
+      "local_path": "crates/solver/tests/slot_reservation_cases.rs",
+      "local_test": "out_of_range_arguments_are_rejected_in_both_stages",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve signed negative-count failure and all four out-of-range reserve/release failures in both sparse and forced-dense200-slot fixtures, including source argument-specific diagnostic fragments. Typed native signed boundary methods replace Java IllegalArgumentException while existing unsigned APIs remain unchanged; validation completes before mutation."
     }
   ],
   "fixtures": [
@@ -74024,7 +74069,7 @@
       "local_path": "crates/solver/tests/shared_partition_cases.rs",
       "id": "FusedEqualIndexTest.singleEqualBucketSharingAndOps.shared_partition_queries",
       "upstream_test": "singleEqualBucketSharingAndOps",
-      "modifications": "PARTIAL method fixture, no method credit. single_equal_bucket_ops_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+      "modifications": "PARTIAL method fixture, no method credit. single_equal_bucket_ops_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. Complete case entries elsewhere now track source method coverage; this partial fixture itself earns no method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -74037,7 +74082,7 @@
       "local_path": "crates/solver/tests/shared_partition_cases.rs",
       "id": "FusedEqualIndexTest.emptyBucketCleanup.shared_partition_queries",
       "upstream_test": "emptyBucketCleanup",
-      "modifications": "PARTIAL method fixture, no method credit. empty_bucket_cleanup_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+      "modifications": "PARTIAL method fixture, no method credit. empty_bucket_cleanup_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. Complete case entries elsewhere now track source method coverage; this partial fixture itself earns no method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -74050,7 +74095,7 @@
       "local_path": "crates/solver/tests/shared_partition_cases.rs",
       "id": "FusedEqualIndexTest.equalPlusEqualKeyedByCompositeKey.shared_partition_queries",
       "upstream_test": "equalPlusEqualKeyedByCompositeKey",
-      "modifications": "PARTIAL method fixture, no method credit. composite_equal_key_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+      "modifications": "PARTIAL method fixture, no method credit. composite_equal_key_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. Complete case entries elsewhere now track source method coverage; this partial fixture itself earns no method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -74063,7 +74108,7 @@
       "local_path": "crates/solver/tests/shared_partition_cases.rs",
       "id": "FusedEqualIndexTest.equalPlusLessThanSuffixIsPerSideAndFlipped.shared_partition_queries",
       "upstream_test": "equalPlusLessThanSuffixIsPerSideAndFlipped",
-      "modifications": "PARTIAL method fixture, no method credit. equal_plus_less_than_suffix_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+      "modifications": "PARTIAL method fixture, no method credit. equal_plus_less_than_suffix_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. Complete case entries elsewhere now track source method coverage; this partial fixture itself earns no method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
@@ -74076,7 +74121,7 @@
       "local_path": "crates/solver/tests/shared_partition_cases.rs",
       "id": "FusedEqualIndexTest.lazyAllocation_leftOnlyKey_rightNotAllocated.shared_partition_queries",
       "upstream_test": "lazyAllocation_leftOnlyKey_rightNotAllocated",
-      "modifications": "PARTIAL method fixture, no method credit. lazy_opposite_side_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. All six source methods remain pending."
+      "modifications": "PARTIAL method fixture, no method credit. lazy_opposite_side_partial uses native row IDs and tuple projections, shared partition counts and borrowed opposite-side queries. Retains adapted row membership/count, direction, cleanup or lazy-side observations. Native cleanup is automatic; no Java get-or-create bucket handle/pointer identity, explicit empty-bucket lifecycle, hasSuffix/indexer-factory routing, or injectable factory-call-count equivalence is claimed. Complete case entries elsewhere now track source method coverage; this partial fixture itself earns no method credit."
     },
     {
       "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",

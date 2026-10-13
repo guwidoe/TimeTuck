@@ -2,6 +2,41 @@
 // Pinned commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762.
 // See compat/provenance.json and THIRD_PARTY_NOTICES.md.
 use timetuck::*;
+#[test]
+fn lazy_allocation_left_only_key_right_not_allocated() {
+    use std::cell::Cell;
+    let right_init = Cell::new(0);
+    let mut index = PartitionedJoinNode::<'_, usize, usize, &str, &str, &str, ()>::new(
+        JoinComparison::Equal,
+        |_| ("X", ()),
+        |_| ("X", ()),
+    )
+    .with_side_factories(JoinPartitionSide::new, || {
+        right_init.set(right_init.get() + 1);
+        JoinPartitionSide::new()
+    });
+    let bucket = index.reserve_partition("X");
+    assert_eq!(right_init.get(), 0);
+    index.apply_left(TupleChange::put(0, "leftTuple"));
+    assert_eq!(right_init.get(), 0);
+    let mut matches = 0;
+    for _ in index.matching_right(&"X", &()) {
+        matches += 1;
+    }
+    assert_eq!(matches, 0);
+    assert_eq!(index.matching_right(&"X", &()).count(), 0);
+    assert_eq!(right_init.get(), 0);
+    let state = index.partition_state(&"X").unwrap();
+    assert!(!(state.left_rows == 0 && state.right_rows == 0));
+    assert!(!state.right_initialized);
+    index.apply_left(TupleChange::retract(0));
+    let state = index.partition_state(&"X").unwrap();
+    assert!(state.left_rows == 0 && state.right_rows == 0);
+    assert_eq!(index.partition_reservation(&"X"), Some(bucket));
+    index.apply_right(TupleChange::put(0, "rightTuple"));
+    assert_eq!(right_init.get(), 1);
+    assert!(index.partition_state(&"X").unwrap().right_initialized);
+}
 type Row = (&'static str, i32, &'static str);
 type Join = PartitionedJoinNode<'static, usize, usize, Row, Row, &'static str, i32>;
 fn join(comparison: JoinComparison) -> Join {

@@ -2,6 +2,25 @@
 // See compat/provenance.json for the pinned source and changes.
 use std::{collections::HashMap, num::NonZeroUsize};
 use timetuck::*;
+#[test]
+fn negative_slot_count_is_rejected() {
+    let error = SlotReservationMap::try_with_slot_count(-1).unwrap_err();
+    assert_eq!(error, SlotReservationError::InvalidSlotCount(-1));
+    assert!(error.to_string().contains("slotCount (-1)"));
+}
+#[test]
+fn out_of_range_arguments_are_rejected_in_both_stages() {
+    for mut map in [SlotReservationMap::new(200), dense()] {
+        let e = map.reserve_signed(200, 0).unwrap_err();
+        assert!(e.to_string().contains("The slot (200)"));
+        let e = map.reserve_signed(-1, 0).unwrap_err();
+        assert!(e.to_string().contains("The slot (-1)"));
+        let e = map.reserve_signed(0, 200).unwrap_err();
+        assert!(e.to_string().contains("The logicalIndex (200)"));
+        let e = map.release_signed(200).unwrap_err();
+        assert!(e.to_string().contains("The slot (200)"));
+    }
+}
 fn dense() -> SlotReservationMap {
     let mut map = SlotReservationMap::new(200);
     for slot in 0..=16 {

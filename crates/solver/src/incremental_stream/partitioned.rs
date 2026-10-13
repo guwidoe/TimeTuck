@@ -5,6 +5,27 @@ use std::{any::Any, rc::Rc};
 mod batch;
 
 type Projection<'a, T, E, K> = dyn Fn(&T) -> (E, K) + 'a;
+type SideFactory<'a, I, T, K> = dyn Fn() -> JoinPartitionSide<I, T, K> + 'a;
+
+/// An independently owned empty side index returned by a partition factory.
+/// The node installs this actual storage on first insertion. Factories may reuse
+/// cloned empty templates; subsequent mutations use persistent independent roots.
+#[derive(Clone)]
+pub struct JoinPartitionSide<I, T, K> {
+    inner: JoinSide<I, T, K>,
+}
+impl<I, T, K> JoinPartitionSide<I, T, K> {
+    pub fn new() -> Self {
+        Self {
+            inner: JoinSide::new(),
+        }
+    }
+}
+impl<I, T, K> Default for JoinPartitionSide<I, T, K> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 #[derive(Clone)]
 struct SharedJoinBucket<I, J, L, R, K> {
     left: Option<JoinSide<I, L, K>>,
@@ -66,6 +87,7 @@ fn update_partition<
     projection: &dyn Fn(&L) -> (E, K),
     comparison: JoinComparison,
     access: JoinPartitionAccess<I, J, L, R, K, B>,
+    initialize: impl Fn() -> JoinSide<I, L, K>,
 ) -> JoinChanges<I, J, L, R> {
     let new = change.value.map(|row| {
         let (equal, key) = projection(&row);
@@ -97,7 +119,7 @@ fn update_partition<
     if let Some((equal, key, row)) = new {
         let mut bucket = groups.get(&equal).cloned().unwrap_or_else(access.create);
         let (side, other) = (access.split)(&mut bucket);
-        output.extend(side.get_or_insert_with(JoinSide::new).apply(
+        output.extend(side.get_or_insert_with(initialize).apply(
             other.as_ref().unwrap_or(&empty),
             TupleChange::put(change.id.clone(), row),
             &|_| key.clone(),
@@ -165,6 +187,8 @@ pub struct PartitionedJoinNode<'a, I, J, L, R, E, K> {
     state: SharedJoinPartitions<I, J, L, R, E, K>,
     left_key: Box<Projection<'a, L, E, K>>,
     right_key: Box<Projection<'a, R, E, K>>,
+    left_factory: Option<Box<SideFactory<'a, I, L, K>>>,
+    right_factory: Option<Box<SideFactory<'a, J, R, K>>>,
 }
 impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: Ord + Clone>
     PartitionedJoinNode<'a, I, J, L, R, E, K>
@@ -179,7 +203,24 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: 
             state: SharedJoinPartitions::new(),
             left_key: Box::new(left_key),
             right_key: Box::new(right_key),
+            left_factory: None,
+            right_factory: None,
         }
+    }
+    /// Initialize each partition side lazily with its factory's actual storage.
+    /// Reservation, empty queries, removals and repeated puts do not initialize
+    /// an unused side. Initialized sides are retained with reserved partitions.
+    /// Replaces factories for future initializations; existing indexes remain.
+    /// Factory panics leave installed node state unchanged. External factory
+    /// effects are not rolled back, like projection/clone callback effects.
+    pub fn with_side_factories(
+        mut self,
+        left: impl Fn() -> JoinPartitionSide<I, L, K> + 'a,
+        right: impl Fn() -> JoinPartitionSide<J, R, K> + 'a,
+    ) -> Self {
+        self.left_factory = Some(Box::new(left));
+        self.right_factory = Some(Box::new(right));
+        self
     }
     /// Reserve an equality group for later row updates, without initializing
     /// either side. Repeated reservations return the same identity. Reserving an
@@ -313,35 +354,63 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: 
     }
     pub fn apply_left(&mut self, change: TupleChange<I, L>) -> JoinChanges<I, J, L, R> {
         let mut candidate = self.state.clone();
-        let output = update_partition(
-            &mut candidate.groups,
-            &mut candidate.left_membership,
-            change,
-            &self.left_key,
-            self.comparison,
-            JoinPartitionAccess {
-                create: SharedJoinBucket::new,
-                split: |b| (&mut b.left, &b.right),
-                empty: SharedJoinBucket::automatically_removable,
-            },
-        );
+        let access = JoinPartitionAccess {
+            create: SharedJoinBucket::new,
+            split: |b| (&mut b.left, &b.right),
+            empty: SharedJoinBucket::automatically_removable,
+        };
+        let output = if let Some(factory) = &self.left_factory {
+            update_partition(
+                &mut candidate.groups,
+                &mut candidate.left_membership,
+                change,
+                &self.left_key,
+                self.comparison,
+                access,
+                || factory().inner,
+            )
+        } else {
+            update_partition(
+                &mut candidate.groups,
+                &mut candidate.left_membership,
+                change,
+                &self.left_key,
+                self.comparison,
+                access,
+                JoinSide::new,
+            )
+        };
         self.state = candidate;
         output
     }
     pub fn apply_right(&mut self, change: TupleChange<J, R>) -> JoinChanges<I, J, L, R> {
         let mut candidate = self.state.clone();
-        let output = update_partition(
-            &mut candidate.groups,
-            &mut candidate.right_membership,
-            change,
-            &self.right_key,
-            self.comparison.reversed(),
-            JoinPartitionAccess {
-                create: SharedJoinBucket::new,
-                split: |b| (&mut b.right, &b.left),
-                empty: SharedJoinBucket::automatically_removable,
-            },
-        )
+        let access = JoinPartitionAccess {
+            create: SharedJoinBucket::new,
+            split: |b| (&mut b.right, &b.left),
+            empty: SharedJoinBucket::automatically_removable,
+        };
+        let output = if let Some(factory) = &self.right_factory {
+            update_partition(
+                &mut candidate.groups,
+                &mut candidate.right_membership,
+                change,
+                &self.right_key,
+                self.comparison.reversed(),
+                access,
+                || factory().inner,
+            )
+        } else {
+            update_partition(
+                &mut candidate.groups,
+                &mut candidate.right_membership,
+                change,
+                &self.right_key,
+                self.comparison.reversed(),
+                access,
+                JoinSide::new,
+            )
+        }
         .into_iter()
         .map(|change| TupleChange {
             id: (change.id.1, change.id.0),

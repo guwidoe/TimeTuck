@@ -16,7 +16,72 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round113
+## Latest verified checkpoint — round114
+
+PartitionedJoinNode can initialize each lazy side through an injectable factory
+returning the actual owned JoinPartitionSide installed in single and batched
+updates. Default factories remain absent; reservation/empty queries/removals do
+not invoke them. Existing initialized sides survive reserved empty lifetimes;
+cleanup/recreation/rekey create only needed sides. Factory panics preserve all
+installed roots/reservation identities, while external effects are not rolled
+back. Complete FusedEqualIndexTest lazy-allocation adaptation retains every
+factory 0/1 assertion, actual queries/counts and removability transition. All 6
+source methods now pass. Historical partial fixtures still earn no method credit.
+
+Signed SlotReservationMap boundaries reject negative/oversized count/slot/index
+arguments before conversion/mutation, with exact source diagnostic identity in
+sparse and dense 200-slot fixtures. Existing unsigned APIs/hot path unchanged.
+Both remaining source methods fully adapted; all 14 source methods now pass.
+Three originals cover repeated/batched/rekey side initialization, reserved cleanup,
+factory-panic atomicity and signed validation preserving every mapping/count/tier.
+Three new source cases recorded; pin unchanged; full objective remains incomplete.
+
+39 initial focused cases and final dispatch controls passed; final Clippy
+31.94s. Default side construction stays statically bound,
+custom dispatch is outside generic loops, and batch gets an inlining hint. Affected compilation
+2m 47s. Frozen bash scripts/check.sh passed
+398.054s: 7,452 Rust tests and 290 doctests. 1,035 Rust jobs ran; 69 Rust and
+46 Python jobs reused successful records. Compatibility: 3,928/4,855 (80.906%),
+359 pending, 568 excluded,
+zero failed/unverified. Rust digest b38185575e0c1f8751102730e56cb872b1ae1a2acca0ef2c4dbc14d6650a0a82.
+Report digest 37d22cf28dd1b5fb36af5c3e3c73c41fdd557605abc8fdfba20b8218c2a7a94e.
+Archive work/round114-local-results.tar.gz SHA256:311ca09ad7d097cff651197562b48a334aff5f1ee8e47ce79ab9ed8ad9e894b1.
+Evidence work/parallel-round114-evidence.json; freeze
+work/parallel-round114-freeze.json; postcommit proof
+work/round114-postcommit-evidence.json. Final prebuild17900/gate74461 are terminal0;
+do not repeat successful unchanged verification. Backend report/freshness checked;
+no UI changes/repeated browser tests. Actual job keys/log hashes/dates retained.
+
+Scoped native default-path partition performance compared prior commit d9c5a9d
+against current code with identical driver/lockfile after focused correctness and release
+builds, with no concurrent builds/tests during measurements. Immediate/batch
+rekeys/replacements/queries,256rows/side/32equality groups,3000rounds,3warmups,
+5samples across3alternating forks. All checksum results agree. Current/baseline
+median ratios: immediate 1.029,
+batch 0.949. Actual date/CPU/Rust/
+platform/driver/binary hashes and raw samples in work/round114-native-performance.json;
+release log work/round114-native-release-build.log. This is a scoped native
+before/after diagnostic, not Java comparison or general performance proof.
+Initial batch 1.102x and dispatch-only 1.071x results are retained separately
+in work/round114-native-performance-initial.json and
+work/round114-native-performance-dispatch.json. The final 1.029x immediate/0.949x
+batch timings motivated the final source freeze; broad regression ran afterward
+on those exact inputs, with no benchmark retagging/repeated unchanged measurement.
+Older paired Java/k-opt measurements remain stale with their actual date
+2026-10-13T02:08:50.481824+00:00. No stale evidence retagged. Remote availability
+is not an implementation blocker; prior runner-a job terminal1, runner-c last offline.
+
+Continue full objective and close remaining compatibility gaps. SubListSwap
+selector doability has distinct prefilter semantics: Source tests intentionally
+accept intervals beyond actual rows when checking only overlap, and entity-range
+fixtures include an initially invalid value that the swap can repair. Do not
+weaken strict native executable move validation or change those fixtures for
+credit. Inspect TEST/current model contracts before implementing a faithful
+selector prefilter. Seven k-opt seam/iterator methods remain; saved probes already
+answered. Community TEST/public API specifications only, no production port.
+No new agents/assignments; keep performance, selective reuse and commits.
+
+## Previous verified checkpoint — round113
 
 All 37 ScalingSequencedSetTest methods now pass (36 adapted Rust test functions). Six remaining runtime unsupported
 mutation cases preserve source setup, actual forward/reverse cursor advance,

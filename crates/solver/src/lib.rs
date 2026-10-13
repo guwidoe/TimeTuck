@@ -180,8 +180,8 @@ pub use existence_stream::{ExistenceMode, ExistsNode};
 pub mod incremental_stream;
 pub use incremental_stream::batched_join::{BatchedJoinNode, JoinEvaluation};
 pub use incremental_stream::{
-    FilterNode, GroupNode, JoinComparison, JoinNode, JoinPartitionReservation, JoinPartitionState,
-    PartitionedJoinNode, ScoreNode, StructuralStreamContribution, TupleChange,
+    FilterNode, GroupNode, JoinComparison, JoinNode, JoinPartitionReservation, JoinPartitionSide,
+    JoinPartitionState, PartitionedJoinNode, ScoreNode, StructuralStreamContribution, TupleChange,
 };
 
 pub mod stream_graph;

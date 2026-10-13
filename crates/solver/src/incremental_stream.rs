@@ -30,7 +30,9 @@
 mod group_batch;
 mod join_batch;
 mod partitioned;
-pub use partitioned::{JoinPartitionReservation, JoinPartitionState, PartitionedJoinNode};
+pub use partitioned::{
+    JoinPartitionReservation, JoinPartitionSide, JoinPartitionState, PartitionedJoinNode,
+};
 
 use crate::SnapshotMap;
 use std::any::Any;

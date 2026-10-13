@@ -1,6 +1,50 @@
 use std::{collections::HashMap, num::NonZeroUsize};
 use timetuck::*;
 #[test]
+fn signed_validation_preserves_sparse_and_dense_mappings_before_mutation() {
+    for dense in [false, true] {
+        let mut map = SlotReservationMap::try_with_slot_count(200).unwrap();
+        if dense {
+            for i in 0..17 {
+                map.reserve(i, i + 100).unwrap();
+            }
+        } else {
+            map.reserve_signed(5, 100).unwrap();
+        }
+        let before: Vec<_> = (0..200).map(|i| map.resolve(i).unwrap()).collect();
+        let count = map.len();
+        let mode = map.is_dense();
+        for (slot, index) in [
+            (-1, 0),
+            (200, 0),
+            (0, -1),
+            (0, 200),
+            (i64::MAX, 0),
+            (0, i64::MAX),
+        ] {
+            assert!(map.reserve_signed(slot, index).is_err());
+            assert_eq!((map.len(), map.is_dense()), (count, mode));
+            assert_eq!(
+                (0..200)
+                    .map(|i| map.resolve(i).unwrap())
+                    .collect::<Vec<_>>(),
+                before
+            );
+        }
+        for slot in [-1, 200, i64::MAX] {
+            assert!(map.resolve_signed(slot).is_err());
+            assert!(map.release_signed(slot).is_err());
+        }
+        assert_eq!(map.resolve_signed(5).unwrap(), before[5]);
+        assert_eq!(map.release_signed(5).unwrap(), before[5]);
+        assert_eq!(map.resolve_signed(5).unwrap(), 5);
+    }
+    let mut empty = SlotReservationMap::try_with_slot_count(0).unwrap();
+    assert!(empty.reserve_signed(0, 0).is_err());
+    assert!(empty.release_signed(0).is_err());
+    assert!(empty.is_empty());
+}
+#[test]
 fn mutations_return_previous_values_and_keep_exact_counts() {
     for size in [0, 1, 2, 3, 4, 17, 32, 33, 200] {
         let mut map = SlotReservationMap::new(size);

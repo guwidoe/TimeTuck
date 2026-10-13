@@ -15,6 +15,98 @@ const RELATIONS: [JoinComparison; 5] = [
 ];
 type Row = (i32, i32, i64);
 type Pairs = BTreeMap<(usize, usize), (Row, Row)>;
+#[test]
+fn side_factories_initialize_once_per_side_and_respect_reserved_cleanup_and_rekeys() {
+    let left = Cell::new(0);
+    let right = Cell::new(0);
+    let mut n = PartitionedJoinNode::new(
+        JoinComparison::Equal,
+        |r: &Row| (r.0, r.1),
+        |r: &Row| (r.0, r.1),
+    )
+    .with_side_factories(
+        || {
+            left.set(left.get() + 1);
+            JoinPartitionSide::new()
+        },
+        || {
+            right.set(right.get() + 1);
+            JoinPartitionSide::new()
+        },
+    );
+    let token = n.reserve_partition(1);
+    assert_eq!((left.get(), right.get()), (0, 0));
+    n.apply_left(TupleChange::put(0, (1, 2, 3)));
+    n.apply_left(TupleChange::put(0, (1, 2, 4)));
+    assert_eq!((left.get(), right.get()), (1, 0));
+    n.apply_batch(
+        [TupleChange::put(1, (1, 2, 5))],
+        [
+            TupleChange::put(0, (1, 2, 6)),
+            TupleChange::put(1, (1, 2, 7)),
+        ],
+    );
+    assert_eq!((left.get(), right.get()), (1, 1));
+    assert_eq!(n.matches().count(), 4);
+    n.apply_batch(
+        [TupleChange::retract(0), TupleChange::retract(1)],
+        [TupleChange::retract(0), TupleChange::retract(1)],
+    );
+    assert_eq!((left.get(), right.get()), (1, 1));
+    n.apply_right(TupleChange::put(0, (1, 2, 8)));
+    assert_eq!(right.get(), 1);
+    n.apply_right(TupleChange::retract(0));
+    n.remove_reserved_partition(&1, &token);
+    n.apply_right(TupleChange::put(0, (1, 2, 9)));
+    assert_eq!(right.get(), 2);
+    n.apply_right(TupleChange::put(0, (2, 2, 9)));
+    assert_eq!(right.get(), 3);
+    assert!(n.partition_state(&1).is_none());
+    assert_eq!(n.matching_right(&2, &2).count(), 1);
+}
+#[test]
+fn factory_panics_preserve_installed_single_and_batched_state() {
+    for batch in [false, true] {
+        let fail = Cell::new(false);
+        let calls = Cell::new(0);
+        let mut n = PartitionedJoinNode::new(
+            JoinComparison::Equal,
+            |r: &Row| (r.0, r.1),
+            |r: &Row| (r.0, r.1),
+        )
+        .with_side_factories(JoinPartitionSide::new, || {
+            calls.set(calls.get() + 1);
+            assert!(!fail.get(), "factory panic");
+            JoinPartitionSide::new()
+        });
+        let token = n.reserve_partition(1);
+        n.apply_left(TupleChange::put(0, (1, 2, 3)));
+        let before = n.partition_state(&1);
+        fail.set(true);
+        assert!(
+            catch_unwind(AssertUnwindSafe(|| {
+                if batch {
+                    n.apply_batch(
+                        [TupleChange::put(1, (2, 2, 4))],
+                        [TupleChange::put(0, (1, 2, 5))],
+                    );
+                } else {
+                    n.apply_right(TupleChange::put(0, (1, 2, 5)));
+                }
+            }))
+            .is_err()
+        );
+        assert_eq!(n.partition_state(&1), before);
+        assert_eq!(n.partition_reservation(&1), Some(token));
+        assert!(n.partition_state(&2).is_none());
+        assert!(n.matches().next().is_none());
+        assert_eq!(calls.get(), 1);
+        fail.set(false);
+        n.apply_right(TupleChange::put(0, (1, 2, 5)));
+        assert_eq!(calls.get(), 2);
+        assert_eq!(n.matches().count(), 1);
+    }
+}
 fn accepts(c: JoinComparison, a: &Row, b: &Row) -> bool {
     a.0 == b.0
         && match c {

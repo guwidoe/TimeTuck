@@ -33,6 +33,7 @@ fn install<
     membership: &mut SnapshotMap<I, E>,
     changes: &mut Prepared<I, E, K, L>,
     access: JoinPartitionAccess<I, J, L, R, K, B>,
+    initialize: impl Fn() -> JoinSide<I, L, K>,
 ) {
     for (id, value) in changes {
         let old = membership.get(id).cloned();
@@ -58,7 +59,7 @@ fn install<
             let mut bucket = groups.get(&equal).cloned().unwrap_or_else(access.create);
             let side = (access.split)(&mut bucket)
                 .0
-                .get_or_insert_with(JoinSide::new);
+                .get_or_insert_with(&initialize);
             let same_key = side.rows.get(id).is_some_and(|(old, _)| *old == key);
             side.install_projected(id.clone(), Some((key, row)), same_key);
             if !same_group {
@@ -141,6 +142,7 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: Ord 
     /// Pure callbacks/stable keys are required; destructor panics and callback side
     /// effects are excluded. Persistent state holds input rows/indexes, not pairs;
     /// dense batches can require quadratic temporary output space.
+    #[inline]
     pub fn apply_batch(
         &mut self,
         left: impl IntoIterator<Item = TupleChange<I, L>>,
@@ -155,26 +157,50 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, E: Ord + Clone, K: Ord 
         self.state
             .affected(&left, &right, self.comparison, &mut pairs);
         let mut next = self.state.clone();
-        install(
-            &mut next.groups,
-            &mut next.left_membership,
-            &mut left,
-            JoinPartitionAccess {
-                create: SharedJoinBucket::new,
-                split: |b| (&mut b.left, &b.right),
-                empty: SharedJoinBucket::automatically_removable,
-            },
-        );
-        install(
-            &mut next.groups,
-            &mut next.right_membership,
-            &mut right,
-            JoinPartitionAccess {
-                create: SharedJoinBucket::new,
-                split: |b| (&mut b.right, &b.left),
-                empty: SharedJoinBucket::automatically_removable,
-            },
-        );
+        let access = JoinPartitionAccess {
+            create: SharedJoinBucket::new,
+            split: |b| (&mut b.left, &b.right),
+            empty: SharedJoinBucket::automatically_removable,
+        };
+        if let Some(factory) = &self.left_factory {
+            install(
+                &mut next.groups,
+                &mut next.left_membership,
+                &mut left,
+                access,
+                || factory().inner,
+            );
+        } else {
+            install(
+                &mut next.groups,
+                &mut next.left_membership,
+                &mut left,
+                access,
+                JoinSide::new,
+            );
+        }
+        let access = JoinPartitionAccess {
+            create: SharedJoinBucket::new,
+            split: |b| (&mut b.right, &b.left),
+            empty: SharedJoinBucket::automatically_removable,
+        };
+        if let Some(factory) = &self.right_factory {
+            install(
+                &mut next.groups,
+                &mut next.right_membership,
+                &mut right,
+                access,
+                || factory().inner,
+            );
+        } else {
+            install(
+                &mut next.groups,
+                &mut next.right_membership,
+                &mut right,
+                access,
+                JoinSide::new,
+            );
+        }
         next.affected(&left, &right, self.comparison, &mut pairs);
         pairs.sort();
         pairs.dedup();
