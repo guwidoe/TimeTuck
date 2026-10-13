@@ -1689,3 +1689,9 @@ pub use calculator_undo_diagnostics::{
     CalculatorStateSnapshot, CalculatorUndoCorruption, CalculatorUndoDiagnostics,
     CalculatorUndoDifference, CalculatorUndoField,
 };
+
+mod basic_change_recording;
+pub use basic_change_recording::{BasicChangeRecorder, BasicRestoreAction, RecordedBasicUndo};
+
+mod observed_composite_acceptor;
+pub use observed_composite_acceptor::{ObservedAcceptorChild, ObservedCompositeAcceptor};

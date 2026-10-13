@@ -59321,6 +59321,36 @@
       "upstream_test": "shadowVariableListGraphEvents",
       "local_test": "shadow_variable_list_graph_events",
       "modifications": "Preserve full three-owner/six-visit fixture, groups A and B with first-member representatives, all initial ready/start/finish and predecessor edges, at-most initial add count and zero removals. Explicit native before_dependencies_changed calls map previous/owner fact notifications to their affected dynamic targets: actual applied edges are detached once before fact mutation; raw row and predecessor/owner setters add nothing. Pending currentness fails; notified flush adds exactly A1-finish to C-ready with no removals and restores currentness. Native node handles and opt-in committed event records replace Java reflective descriptor notifications and Mockito spies. C combines local stages in one node as in the source graph, with no Java node/ABI or automatic reflection dispatch claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/RecordedUndoMoveTest.java",
+      "local_path": "crates/solver/tests/recorded_basic_undo_cases.rs",
+      "id": "RecordedUndoMoveTest.executeReplaysActionsInReverseRecordingOrder",
+      "status": "implemented",
+      "upstream_test": "executeReplaysActionsInReverseRecordingOrder",
+      "local_test": "execute_replays_actions_in_reverse_recording_order",
+      "modifications": "Preserve three actual variable-change instructions labeled action1/action2/action3 and exact setter observation order action3/action2/action1. Native BasicRestoreAction and RecordedBasicUndo execute real typed registry changes; post-write observer replaces the mocked descriptor setter and verifies actual restored values. Native field names replace helper labels and integer keys replace opaque entity/value objects. No Java solution-view/descriptor ABI or multi-action atomicity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/localsearch/decider/acceptor/composite/CompositeAcceptorTest.java",
+      "local_path": "crates/solver/tests/composite_acceptor_lifecycle_cases.rs",
+      "id": "CompositeAcceptorTest.phaseLifecycle",
+      "status": "implemented",
+      "upstream_test": "phaseLifecycle",
+      "local_test": "phase_lifecycle",
+      "modifications": "Preserve all source lifecycle calls across one solve, two phases and three steps and all six per-child callback count assertions for three children. ObservedCompositeAcceptor owns actual native ValueAcceptor children with registered lifecycle observers; typed SolverLifecycleEvent values replace mocked Java scopes. Event dispatch is explicit, and phase notifications do not reset acceptance memory; callers create fresh native state at their chosen boundary. No Java API/scope-object parity or automatic attachment to solver configuration claim."
     }
   ],
   "fixtures": [
@@ -83763,6 +83793,32 @@
       "id": "variable-support-concurrent-six-visit-fixture",
       "upstream_test": "shadowVariableListGraphEvents/setup",
       "modifications": "Adapt inline owners 1/2/3, visits a1/a2/b1/b2/b3/c, rows [a1,b1,c]/[a2,b2]/[b3], concurrent groups [a1,a2]/[b1,b2,b3], actual predecessor and owner shadow fields into native World. Group representatives share a real start node; singleton C combines local stages. Actual dependency resolvers read the mutable predecessor fields, not scripted edge results."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/RecordedUndoMoveTest.java",
+      "local_path": "crates/solver/tests/recorded_basic_undo_cases.rs",
+      "id": "recorded-undo-variable-change-action-fixture",
+      "upstream_test": "variableChangeAction",
+      "modifications": "Replace mocked descriptor/setValue with actual typed basic fields, registered entity keys and restored values; record labels only after actual setter publication. Preserve three distinct action identities and exact observed order."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "composite-acceptor-phase-lifecycle-verifier",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "verifyPhaseLifecycle(LocalSearchPhaseLifecycleListener,int,int,int)",
+      "local_path": "crates/solver/tests/composite_acceptor_lifecycle_cases.rs",
+      "modifications": "Preserve exact solving-start/end counts 1, phase-start/end counts 2 and step-start/end counts 3 for every child. Native recorded callbacks replace Mockito invocation verification."
     }
   ]
 }

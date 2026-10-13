@@ -154,6 +154,22 @@ values unreadable. Manual/fixed edges cannot be detached with this API. Native
 handles replace reflective descriptor dispatch; automatic Java discovery is not
 claimed. Ordinary refreshes incur no event reporting allocations.
 
+RecordedUndoMoveTest reverse replay now executes typed basic restore instructions
+through the live variable registry, preserving exact observed setter order.
+BasicChangeRecorder captures actual prior values, including repeated writes and
+unassignment; replay updates ordinary inverse indexes and event trackers. It
+advances its cursor after each committed write and before the observer, so errors
+or observer panics retain only remaining actions for retry. This is sequential
+replay with visible intermediate states, not an atomic scored transaction.
+
+CompositeAcceptorTest.phaseLifecycle now preserves all child notification counts
+across two phases and three steps. The native observed composite owns live child
+acceptance states, short-circuits candidate conjunctions and broadcasts explicit
+lifecycle events and selected-step state updates to all children. Lifecycle
+notifications do not reset policy memory or attach themselves to solver config;
+callers define that boundary. Ordinary acceptors retain their existing paths.
+Native typed events and registered observers replace Java mock scopes/listeners.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

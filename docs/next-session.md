@@ -16,7 +16,66 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round122
+## Latest verified checkpoint — round123
+
+BasicChangeRecorder captures actual prior basic field values before successful
+registry changes. RecordedBasicUndo replays typed restore instructions in reverse,
+using ordinary registry publication, inverse indexes and before/after tracking.
+Each successful write advances its cursor before the observer. Registry errors
+retain failed/remaining actions; observer panics consume the completed action.
+Replay is sequential, exposing intermediate states; not an atomic scored move.
+Canonical basic value metadata validates at action construction, while registry
+execution enforces schema, bound key type and known entity. Application key IDs
+need not equal the metadata's domain entity type.
+
+ObservedCompositeAcceptor owns actual ValueAcceptor children with registered
+observers. Candidate conjunction short-circuits; lifecycle broadcasts and selected
+step updates visit every child. Notifications are explicit typed events, do not
+reset policy memory and do not automatically attach to solver configuration.
+Native callers create fresh child states at the intended boundary. Existing
+acceptor/search paths are unchanged. Inline observer panics stop later callbacks.
+
+Two complete source methods and two fixtures recorded: RecordedUndoMoveTest's
+three-action exact reverse setter order, and CompositeAcceptorTest.phaseLifecycle
+with all six notification counts for three children across two phases/three
+steps. All RecordedUndoMoveTest and CompositeAcceptorTest methods now pass.
+Five originals verify real repeated/multi-field/unassigned restoration, intermediate
+inverse/index/trackers, error retry, metadata rejection, observer panics, rejection
+not suppressing later lifecycle/state updates, empty conjunction and callback
+order. No Java descriptor/solution-view/scope ABI claim. Pin unchanged.
+
+14 focused cases passed. Earlier compile/inference/borrow fixture failures remain
+in actual logs; final cases passed. Clippy passed in 36.20s; five affected targets
+compiled in 7.55s. Frozen bash scripts/check.sh passed in
+101.034s: 7,500 Rust tests and 290 doctests.
+Rust jobs: {'RUN': 5, 'REUSE': 1125}; Python jobs: {'REUSE': 46}.
+Compatibility: 3,947/4,855 (81.298%), 340 pending,
+568 excluded, zero failed/unverified. Rust digest ae3a4a86da8652eed791008d5fede2b1b953252090da353a2258552ba665faf6.
+Report digest 03259c7f27cf8d3cc4c5d824f08da844de034241071542adcb7826f094454389.
+Archive work/round123-local-results.tar.gz SHA256:0346cde8afbd2c5218e776b7f2f2867850775493d3f369999141c9e1c8a2ff4c.
+Evidence work/parallel-round123-evidence.json; freeze
+work/parallel-round123-freeze.json; postcommit proof
+work/round123-postcommit-evidence.json. Prebuild38851 and gate27217 completed;
+do not rerun successful unchanged checks. Backend data/freshness inspected;
+no UI changes or repeated browser checks.
+
+No benchmark refresh for optional recording/observed-child APIs. Existing hot
+search/sampling paths unchanged; no new speed claim. Preserve older native and
+Java evidence dates/source/binary/driver, including round119 sampling
+2026-10-13T04:59:18.200098+00:00 (regressions retained up to 5.1%) and paired
+Java k-opt2026-10-13T02:08:50.481824+00:00, still visibly stale. No retags.
+Previous runner-a22683/runner-c60562 terminal255; their old auth URL expired.
+No live remote jobs. Full correctness ran locally.
+
+Continue remaining actual compatibility gaps. Check move access/description
+and equality methods in families; keep semantic identity distinct from trial
+successor equality. Ruin/recreate rebase/equality and seven k-opt seam/iterator
+cases remain; saved k-opt probes already answered. Interrupted/negative-time
+termination paths remain candidates. Native typed suppliers don't establish
+Java discovery signature errors. Keep performance important, shrink backlog,
+commit occasionally. No new agents. Full goal remains active and incomplete.
+
+## Previous verified checkpoint — round122
 
 ShadowSession.before_dependencies_changed detaches resolved incoming edges from
 the actual DependencyCache topology before external facts mutate, without running
