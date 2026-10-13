@@ -64123,6 +64123,101 @@
       "local_path": "crates/solver/tests/compiled_member_cases.rs",
       "local_test": "test_returned_member_accessor",
       "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/gizmo/GizmoSolutionClonerTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "GizmoSolutionClonerTest.instanceOfComparatorTest",
+      "upstream_test": "instanceOfComparatorTest",
+      "status": "implemented",
+      "local_path": "crates/solver/tests/type_specificity_cases.rs",
+      "local_test": "instance_of_comparator_test",
+      "modifications": "Retain all four identity and ten directional comparison assertions. Actual Rust borrowed parent projections replace JVM instanceof/interface relationships. Comparator depth is derived from transitive projection graph within candidate set and drives executable typed dispatch. Unrelated equal-depth types use deterministic native type-name/TypeId tie policy; JVM reflection/bytecode identities are not claimed."
+    },
+    {
+      "id": "EmployeeScheduleResourceTest.solveEmployeeScheduleWithWatching",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "solveEmployeeScheduleWithWatching",
+      "local_path": "crates/solver/tests/employee_watching_cases.rs",
+      "local_test": "solve_employee_schedule_with_watching",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/employee_watching/NOTICE.txt"
+      ],
+      "modifications": "Source disabled/flaky method is a real active deterministic Rust test with every assertion. Explicit installed native subscription replaces SSE client/latch timing. Real unknown/terminal endpoint errors retain404/410. Actual current dataset and solver events deliver computed/started/active/completed metadata; actual native solving consumes commands and assigns all four original shifts before querying final output. Subscription drains preserve error absence and cancellation. Native synchronous typed transport replaces HTTP/CDI/SSE wire/runtime, no Java reactive ABI claim."
+    },
+    {
+      "id": "OpenApiTest.testOperationHasPriorityQueryParam",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/OpenApiTest.java",
+      "upstream_test": "testOperationHasPriorityQueryParam",
+      "local_path": "crates/solver/tests/employee_openapi_cases.rs",
+      "local_test": "test_operation_has_priority_query_param",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/employee_watching/NOTICE.txt"
+      ],
+      "modifications": "Complete generated-file existence/read, four POST operation lookup/priority-query assertions and all version-prefixed paths execute. Native version is explicitly caller supplied, replacing injected applicationVersion. Public source OperationId symbols map to explicit native schedule/solveDataset/fromInput/fromPatch identifiers, without reading generated/private constants or claiming literal Java constant parity. The same executable route definitions feed dispatcher route lookup, parsed priority and real queue ordering, plus generated JSON OpenAPI. Original executes all four commands through actual employee resource/model operations; no schema-only parameter facade."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/token_crypto/NOTICE.txt"
+      ],
+      "id": "AccessTokenProviderTest.encryptedTokenInTheSettingsIsDecrypted",
+      "status": "implemented",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "encryptedTokenInTheSettingsIsDecrypted",
+      "local_path": "crates/solver/tests/token_crypto_cases.rs",
+      "local_test": "encrypted_token_in_the_settings_is_decrypted",
+      "modifications": "Retain complete TEST assertions, TOKEN/master strings, exact outside-comment text and legitimately braced plaintext. Real native Maven3SettingsDecrypter parses explicitly selected synthetic settings-security.xml, decrypts encrypted master under exact public settings.security key, then decrypts stored token through existing provider. Ciphertexts generated using bounded opaque public Plexus2.0 API replace fresh Java cipher calls; actual RustCrypto AES128-CBC/PKCS7, SHA256(password UTF8||salt), OS-random writer and base64 framing perform computation, never fixture lookup/runtime Java. No Timefold/Maven/Plexus implementation or bytecode inspected. Framing is empirical bounded interoperability, not a claim of a complete published wire specification, all Maven versions, Maven4 encryption, Java plugins/relocation or secure modern storage."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/token_crypto/NOTICE.txt"
+      ],
+      "id": "AccessTokenProviderTest.encryptedTokenWithACommentIsNotReportedAsUnencrypted",
+      "status": "implemented",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "encryptedTokenWithACommentIsNotReportedAsUnencrypted",
+      "local_path": "crates/solver/tests/token_crypto_cases.rs",
+      "local_test": "encrypted_token_with_a_comment_is_not_reported_as_unencrypted",
+      "modifications": "Retain complete TEST assertions, TOKEN/master strings, exact outside-comment text and legitimately braced plaintext. Real native Maven3SettingsDecrypter parses explicitly selected synthetic settings-security.xml, decrypts encrypted master under exact public settings.security key, then decrypts stored token through existing provider. Ciphertexts generated using bounded opaque public Plexus2.0 API replace fresh Java cipher calls; actual RustCrypto AES128-CBC/PKCS7, SHA256(password UTF8||salt), OS-random writer and base64 framing perform computation, never fixture lookup/runtime Java. No Timefold/Maven/Plexus implementation or bytecode inspected. Framing is empirical bounded interoperability, not a claim of a complete published wire specification, all Maven versions, Maven4 encryption, Java plugins/relocation or secure modern storage."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/token_crypto/NOTICE.txt"
+      ],
+      "id": "AccessTokenProviderTest.decryptedTokenMayContainCurlyBraces",
+      "status": "implemented",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "decryptedTokenMayContainCurlyBraces",
+      "local_path": "crates/solver/tests/token_crypto_cases.rs",
+      "local_test": "decrypted_token_may_contain_curly_braces",
+      "modifications": "Retain complete TEST assertions, TOKEN/master strings, exact outside-comment text and legitimately braced plaintext. Real native Maven3SettingsDecrypter parses explicitly selected synthetic settings-security.xml, decrypts encrypted master under exact public settings.security key, then decrypts stored token through existing provider. Ciphertexts generated using bounded opaque public Plexus2.0 API replace fresh Java cipher calls; actual RustCrypto AES128-CBC/PKCS7, SHA256(password UTF8||salt), OS-random writer and base64 framing perform computation, never fixture lookup/runtime Java. No Timefold/Maven/Plexus implementation or bytecode inspected. Framing is empirical bounded interoperability, not a claim of a complete published wire specification, all Maven versions, Maven4 encryption, Java plugins/relocation or secure modern storage."
     }
   ],
   "fixtures": [
@@ -91925,6 +92020,102 @@
       "upstream_test": "assertMemberWithInheritance",
       "local_path": "crates/solver/tests/compiled_member_cases.rs",
       "modifications": "Retain every helper assertion and both extended/base parameter types, real initial list and same-accessor reread after solution mutation. Native typed ChildEntity/base projections replace reflection/inheritance discovery; annotations are explicit source declarations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/gizmo/GizmoSolutionClonerTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "type-specificity-interfaces-fixture",
+      "upstream_test": "Animal/Robot/Zebra/RobotZebra test-only interfaces",
+      "local_path": "crates/solver/tests/type_specificity_cases.rs",
+      "modifications": "Typed contained Rust parents and actual borrowed projection functions replace Java test-only interface inheritance. No synthetic class metadata or expected ordering table."
+    },
+    {
+      "id": "round143-kopt-public-successor-context-discriminator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges/getSuccessorFunction/identityIndexOf/testMultiEntity3Opt",
+      "local_path": "compat/oracle/KOptSeamContextProbe.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt the existing attributed longer-interior TEST fixture and TEST descriptor helper. One new bounded public callback query evaluates multi-entity successor on six endpoint objects and checks each declared removed pair in that context. Does not execute a prescribed target or inspect production bodies, bytecode or private fields. Context mismatch is observation evidence only; zero native method credit."
+    },
+    {
+      "id": "round143-watching-schedule",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/EmployeeScheduleResourceTest.java",
+      "upstream_test": "createInputEmployeeSchedule/assertAllShiftsAssigned/awaitFeasiblyAssigned/post/getModelResponse",
+      "local_path": "crates/solver/tests/employee_watching_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/employee_watching/NOTICE.txt"
+      ],
+      "modifications": "Reuses full existing employee_resource_fixture.rs at new watching/control use sites, preserving three employees/four shifts/all skills and captured8/16time fields. Fixed native UTC-day seconds replace tomorrow wall-clock; typed resource metadata/query replace HTTP response helpers."
+    },
+    {
+      "id": "round143-watching-events",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/InMemoryMessagingTestResource.java",
+      "upstream_test": "start/stop and source SseClient",
+      "local_path": "crates/solver/tests/employee_watching_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/employee_watching/NOTICE.txt"
+      ],
+      "modifications": "Executable native bounded subscription hub replaces in-memory channels/reactive SSE client registration and cancellation. Real existing native solver event publications drive all statuses, no fixture event/status table."
+    },
+    {
+      "id": "round143-openapi-helpers",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/test-model/src/test/java/ai/timefold/solver/service/testmodel/OpenApiTest.java",
+      "upstream_test": "assertOperation/findOperationById",
+      "local_path": "crates/solver/tests/employee_openapi_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/employee_watching/NOTICE.txt"
+      ],
+      "modifications": "Full generatedJSON traversal preserves four source public operation-symbol mappings, POST lookup and priority query assertion; native filesystem output replaces SmallRyeOpenAPI parse and injectedversion."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/token_crypto/NOTICE.txt"
+      ],
+      "id": "token-crypto-maven-decrypter-helper",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "mavenDecrypter/settingsWithServer/TOKEN",
+      "local_path": "crates/solver/tests/fixtures/token_crypto_fixture.rs",
+      "modifications": "Retain synthetic master encrypted using DefaultSecDispatcher.SYSTEM_PROPERTY_SEC_LOCATION public constant settings.security and actual isolated settings-security.xml. Native explicit path/immutable master snapshot plus existing settings/provider replaces Java SettingsDecrypter/dispatcher injection. No real user secret files, environment or credentials read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/token_crypto/NOTICE.txt"
+      ],
+      "id": "token-crypto-plexus2-public-api-vectors",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "three crypto methods/TOKEN/master/bracedToken/comment inputs",
+      "local_path": "crates/solver/tests/fixtures/token_crypto/plexus2_vectors.json",
+      "modifications": "Three exact TEST input rows and thirty-three original varied-length/Unicode/NUL/empty-key rows encrypted by opaque public Plexus2.0 API. Outputs are generated synthetic interoperability data, not copied cipher implementation. Standard JCE finite candidate experiment independently validates SHA256 split/key/IV and eight-byte salt, offset9, header7/tail7 framing. Fresh native writer outputs independently decrypted by public Plexus API; Java exists only as bounded development observer, never runtime dependency/shim. Proof Java/logs/artifact hashes recorded in work/round143-token-crypto-evidence.json."
     }
   ]
 }

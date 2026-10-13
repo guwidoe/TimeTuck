@@ -1,0 +1,254 @@
+[
+  {
+    "kind": "source",
+    "plaintext": "dummy-access-token",
+    "password": "the-master-password",
+    "ciphertext": "{BIdeEtTB2f8HA3k72KivL+KkI9TIslBk7HiBkpaIMDZYPaqAGuUc+97a16NIuowb}",
+    "encrypted_master": "{etAtQ3JCZRcHVXbtwezwdboww6Qg6WMwg585rvQvtx2lD3Jg5OSc5SA+jreNXHE4}"
+  },
+  {
+    "kind": "source",
+    "plaintext": "dummy-access-token",
+    "password": "the-master-password",
+    "ciphertext": "rotate before 2026-12-01 {Tl65oeyVBbIHH8GqwSNK9v/K3eJk4O+d1BudhdcyB70ITBuDw1BYeoh3BuXmNX9d}",
+    "encrypted_master": "{Ci3RSOBhY5QHJ3+5CFrY2n1DgihmjKQHUpw9jIcMCe4zCGXdRZchQCqhHfp8AHj0}"
+  },
+  {
+    "kind": "source",
+    "plaintext": "dummy-{not}-cipher-text",
+    "password": "the-master-password",
+    "ciphertext": "{WpMVNqGgoTYHwNDTDPXGaQwIIe9hEdaCW8n1eJ+pRKzuIoi+l+6/72BsEDkwWmbE}",
+    "encrypted_master": "{InygjzgrpxUH+qeAgGJC0B1oZUmkuD04SSb9oLW8omiXBsoqJQoNrdH6gXxaw9k6}"
+  },
+  {
+    "kind": "vector",
+    "plaintext": "x-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{VeIKzSU971IH6S/OhHnSPR/hmymyHtgmtMfIyqGvydaX7/QRkYc20ENvRKG/ozVF}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{sy2VG89VP0IH/gZ24WWaRZZrFIuWJJuviH9gzRpi8krL8iPF+PE/aqADU34Rrg+n}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{sBZUd80BcfsH1CnF2+k2S7OuXKuKNrWiCSWOT4G8N4/JH4Kjhdlg5bOQEoxs0n/x}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{am8PAL4sVLgH8Q1go/8jVzTx2pLDd6abmMBGRXzGlxiwwMxsfos7XN47ZlEilS3I}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{/9uGhJDSaQQHoIhROiPjP1/R8TF52Rim0gM9AfSLJd1IEH5AhLZvR0lcZi//NoYiHlFbUu209I+uGmlaicdNBA==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{Re5HEZ+AzOEHCR86NDlrVgcaU3HTWBqxz2PvyJ4mHxprCpLLI6SWWKGfvDeKq6p3xld2VYs+1F7KC4+06tAKLQ==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{6CQCD1CspaYHPUilbeMEaeSPzqyNBmQw0HROUjOSqdGoJzt1LdItjk8JBxKz+pbDJNafWODXouDPAH7wMD7Ryg==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{jbf+XNBsRwoHZW3qlw6OqnQzrUn8gcOOI1GPHWo2hmhcwVW0jjOrJYQIw9eSOkKUAlmNjqhDzOdhZU3euBFvgYRMSqWt1j5CH8yNovV56XM=}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{nCs1JCQIICcH1VoEQ5eOrY6oyIWPqClAXR2F9XyDwiSTm6i3vZjgl81GEuEVmjVp5/cCGibKcZgcFhoV6QVtb/3WB24f0kKYeu/I+UWFgTQ=}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{zJ2dWW8bcUwHFDL/CulGLXr3FZWJ9RSZ/WUx/XnejdpwRNhoKVq6tfihk5ZtH4fKRB9MCIe5oFURKui5YVS8yPtor0VgHuLoZnqomuuVrSCTkpSUu5ADGeZiYtb0t6GZWo2vVsMoXqtcva5g2Y8S3g==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "the-master-password",
+    "ciphertext": "{nNqrMnyABnwH0IXbUIjvsuGELk1AfaGt3JwQqoVddOHdgQ3rcKZo1w64NQrlM4lq1IslD9SKJvqCNOArIx53TFPYC36RYX3XmFTeS9HNnoQv8ylZEquCCeOJs1oBcKGw08Zp8w+Pic9EWgKEiQAXNqBu70Jiu/dYqMAIKr5NJ6TvWiVtuaoc2ULBwhCsCD/6BCV/Aw21Tc77oLS2vrGz+6p7FRpF7zmZjcDQGZ+uiRoXn+p6a2SPZ8eFKkRJFro9PnoEWogJ2O3jdQsJ4m5xclfuriVQJazKyd+/HfOARA5RUCTlh/UFBD4ThUg43n2h6gyc2w1ucIN4kteKCbY5Va/TSaBiJHdrygO0HsJ8nMzalPSzuI5OTZgbRcQbaoFrs9nWUwcQlX8RCOOeIYD+7Q==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "x-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{3PUDoYuRsdoHM0QvDlur+BxJSQBHv5y9RsLG7GP0NBL0e9bVQSxrtB19c3vPMo8Q}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{9bIQH1GKQhAHxNY4KxmcjBdZ0uoqJtrUwiAxYz6O75NdQWxViurwZJ5HO+5AQgeC}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{7/6OD8hfB2EHr7W63JZ8eqXtu+KFgQhV319KsIvZHLTxleveNw+uGnPhllDflFGE}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{foqFxabW08oHOmgVvGViFw1386hU8C863Ei8XaG9j/Pam4vXm8XZ9GtFfJNzS2vH}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{KzceOAESic8H28PWNuusjCmGktWMEnl/cWLi5jDD1j/3e6JA5ytySu0KsWqZIk5tdSW2vhv18G7PHlLEufAzsA==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{JmdLOelK9foHrqPPP+EmWBXnTaSWgwXfwFGEmNA45+sWzRFgdc0jJS785rp1Kf2qCy+US0q5RPBTlorWsW33xA==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{EVxna1Thi5IH3C9wxIQbTQLlIzzJ1QUIPoNkdAjfN9gsUab8SywXH53UFJZDwm3saMI37ltwWsaP9/YA8IquHQ==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{5elaPTqmAWoH86BCBKLG/A7onliFg0Zlsw/8Gi5T3FD4iw9zn0kamYjwwMeuPcUdH3OHac9ttwchZyY9TB5q9MkNhtHdLems5h0NSZVG18M=}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{Oy2r0NJMA1UH4HVU+WVtyHDjdZHrOsWIKICTO50tYbrUBVQIq05MaD6orltGizs4MSTN16WEshsTfIpDMbeXPY7Qxr9AougnkRp1CsAOZrI=}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{KE45Y0VmbtoHg1u7rEfF2hERoCfFpEMOBR58ODtuAF/etngyAZxyVjHbUnqKMPUOy3Y64oNBZl6IgaI07BCNLe52kvPtzUvR8JPoB9uBSyY0Gktk4TuSh00JaaWYUTrqNGs0mKX61IIytM3++dnzFA==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "",
+    "ciphertext": "{lddrtZEUyN4HllKhlKoT92763lCmuArpWU/uYTNDyGqnxDFvGzDBslxGzrL2eS5WM4DXqq9KXiSqOr0Ckd9O7jNRkKMsaYlUQr6VMbMqY9JlCuetsycZHAqmgJarViSyQp57/WLgqUrRTEplwApeXNtXJXvaoBEvikJzYxGgCuNG0kcdwckHhCQHWDLWb9iciiClraNnjGRWbhUNyPfzHHtLsrpg0wemR9MsBOq4eVtxqShdEQCnt3/gtMEfHa6nGqWbczD9NcymeImGwjycopN8F/0Z4Hf32bkrWvOmCPWZk//J6JGqRLKyu8aCEUtHYkluwV2gk/tJ6U/qqcglLdsKBdVuvE0t0Z35/mOkc4jnsH2aVxVFXAmOj3a/Z/xAsbDnR+F32YYsLC/bAyzYEQ==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "x-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{j7nYO7guwngHLKtEk1ldH2Pgk4NoebHDSmsAer1KVD+DI0PFwl4rtTkM3O4cxZJH}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{jD7OPhbTUIkHGtFSIPiBnObMDVEWmLshhLcwERwnJuUG+AqEnhxYuGs2vmhk271N}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{6Z+CKJfey1gH08pr2Ql+GV+/hw/OTO1joKUVBNK8lauz79OnWCHfD48+0CyFwMON}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{ZwsefvnGGvwHhS/nYinnzI8xZURTUoPIFDXYn82vyWu0I17pwGHcP9xogHD4N5+Q}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{DV1ZhzX5ieMHGCSvAJNlO26glnzm+aMDg8tY+axboSjjXOaUCJO+7bMYDhyk2/B1IUiBypf8PcnbC/3CVbumdw==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{cudEydRH+4kHVY4Ibp7x61eSv0uQozJwYC/W7zEAtJvWwaxCCLSCKWA6JOjnRyLw+3I4ZjurRWP27/nkVAF36A==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{QoK92lhJdgMHjRDyfUoa/ezoE5Zpha9TWmLG3X2BAPLkFKfdKsvj82MjLOBlVMf2jqVxgjIfJ7uhJ2qWSKuQeA==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{W4cTt129HaUHvj6L6NFXOraWrIbcr78zUxCjAPx4m4Nkv/Ag/P/LVZ+Vn4ddOUf4Pe6Vx5qAGA/kmbNxPLC9hguuycEPHwLHIEFmZeO5JFs=}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{w5AWfSkzwSwH0Szzwx6XWW0/ej/4ZmHpbx97ObW8iKSGCIiX+ALzLcKenX5WHMB/LIOzCiWE9w0ttBDJctUF264qHfgnqD6lMNhWexsvhRk=}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{fHiJmdaD8O4HHIEIflCzkrNcT5C74Em/QJsHbLrXia7MSLJnaGRcKJY2GXhi0pwVDyozFo6e8nUM8LBHIqYVxoBn+74sJVKUFnLIFbTvU4ecivwlBgOT6HFox03SEk3SAIJoffqHhZhdWY/48Bg8fA==}",
+    "encrypted_master": ""
+  },
+  {
+    "kind": "vector",
+    "plaintext": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-{}-漢字-🙂\u0000",
+    "password": "漢字-€-🙂",
+    "ciphertext": "{TdZMmY+TZ5UHoxacFBcZNyaMaGqmubbg5n+SYrip9hnSsu26firs0M6Bib3+BXMa7H7jQSp01952r32qnPN79foBTggS6+1m5i4UU7QvopvDvjQx7HcR5xgzZadl7j+cilGAz4t1HD8By1CDsizeRxvXfbAzD3H8PeHCfcqV57adbqiD0Mji8gXGiKwO8VsdeVv8p+jJr/lrBqPA+JVPOzQYsN2VRxWaIwLw/BivSJUqQH6eQRjE+cdD9kjOV96p64JHFte89IxXLJsGRmC+nKbrxpkkZKY/e50u2DYICmU0Dx7QT4aysry5Vo4mEmgOpShGzeOcr5P2XcyGxNGCfB6bqQu7WJiqgjpSdobxzDHFavaNgHI4kiQiaVl4Fz2Ldka31IOkCXsQdmeF3i9mCA==}",
+    "encrypted_master": ""
+  }
+]

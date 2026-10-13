@@ -13,3 +13,9 @@ workspace = true
 num-bigint = "=0.5.1"
 roxmltree = "=0.21.1"
 serde_json = { version = "=1.0.151", features = ["float_roundtrip"] }
+aes = { version = "=0.8.4", features = ["zeroize"] }
+cbc = { version = "=0.1.2", features = ["alloc", "block-padding"] }
+sha2 = "=0.10.9"
+base64 = "=0.22.1"
+zeroize = "=1.8.2"
+getrandom = "=0.2.16"

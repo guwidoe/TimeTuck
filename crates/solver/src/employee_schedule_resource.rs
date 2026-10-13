@@ -263,6 +263,7 @@ pub struct EmployeeScheduleResource {
     facade: EmployeeFacade,
     records: BTreeMap<String, EmployeeScheduleResponse>,
     events: Vec<EmployeeResourceEvent>,
+    watches: crate::employee_schedule_watching::EmployeeWatchHub,
 }
 impl Default for EmployeeScheduleResource {
     fn default() -> Self {
@@ -279,7 +280,22 @@ impl EmployeeScheduleResource {
             ),
             records: BTreeMap::new(),
             events: Vec::new(),
+            watches: crate::employee_schedule_watching::EmployeeWatchHub::default(),
         }
+    }
+    pub fn subscribe(
+        &self,
+        id: &str,
+        capacity: usize,
+    ) -> Result<crate::EmployeeSubscription, crate::EmployeeWatchError> {
+        let record = self
+            .records
+            .get(id)
+            .ok_or(crate::EmployeeWatchError::NotFound)?;
+        self.watches.subscribe(record, capacity)
+    }
+    pub fn active_subscription_count(&self) -> usize {
+        self.watches.count()
     }
     pub fn events(&self) -> &[EmployeeResourceEvent] {
         &self.events
@@ -330,6 +346,7 @@ impl EmployeeScheduleResource {
         producer: Option<String>,
         solve_requested: bool,
     ) {
+        self.watches.publish(record);
         self.events.push(EmployeeResourceEvent {
             id: record.id.clone(),
             kind,
@@ -423,6 +440,7 @@ impl EmployeeScheduleResource {
             Err(error) => {
                 record.status = EmployeeDatasetStatus::Failed;
                 record.error = Some(error.clone());
+                self.watches.publish(&record);
                 self.records.insert(id.into(), record);
                 Err(error)
             }
@@ -458,6 +476,7 @@ impl EmployeeScheduleResource {
                     let error = "solver produced no solution".to_string();
                     record.status = EmployeeDatasetStatus::Failed;
                     record.error = Some(error.clone());
+                    self.watches.publish(&record);
                     self.records.insert(id.into(), record);
                     return Err(error);
                 };

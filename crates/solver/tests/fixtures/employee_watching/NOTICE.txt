@@ -1,0 +1,9 @@
+Apache-2.0 adaptations of pinned Timefold Community TESTs.
+Copyright Timefold contributors.
+Commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Source service/test-model/src/test/java/ai/timefold/solver/service/testmodel/
+EmployeeScheduleResourceTest.java, OpenApiTest.java,
+InMemoryMessagingTestResource.java. Source helper schedule is reused from
+employee_resource_fixture.rs. Native subscriptions and typed route dispatcher
+replace Quarkus HTTP/CDI/SSE and Java reactive registration. No production
+implementation, generated-private constant, or Enterprise source inspected.

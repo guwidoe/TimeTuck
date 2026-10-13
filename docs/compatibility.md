@@ -9750,3 +9750,59 @@ backend. Process-local function addresses distinguish bindings but do not prove
 machine-code equality or portable identity. Rust type identities retain nullable
 and generic ownership wrappers. Java reflection/classloader ABI remains outside
 scope; existing registered-callback member APIs retain their own backend labels.
+
+The complete instance-of comparator method now derives native specificity depth
+from executable borrowed parent projections. All identity/directional source
+assertions execute. Immutable compiled dispatch chooses the most specific
+registered handler and projects the current concrete object; original controls
+consume its changing domains through actual native solving. Ties use Rust type
+names and TypeIds, not JVM class ordering. Existing source-accessor policy and
+clone dispatch remain unchanged; no Java reflection/bytecode claim is made.
+
+The source disabled/flaky employee watching method now runs as an active native
+Rust test with all assertions. Actual subscription registration precedes solving;
+current dataset metadata and existing solver event publication deliver computed,
+started, active and completed updates. Unknown/terminal subscriptions yield typed
+404/410 endpoint errors; cancellation/drop remove registrations. Bounded per-stream
+queues (1..4096) and 256 active subscribers reject overload, and terminal or resource
+drop closes streams. Actual failed solves publish their retained error and terminal
+status. Ordinary unsubscribed event publication performs no metadata cloning.
+
+One complete OpenAPI contract generates and reads actual version-prefixed JSON
+from shared executable route definitions. The same definitions dispatch all four
+POST operations and parse the advertised int32 priority parameter; a bounded queue
+executes higher priorities first with stable FIFO ties. Native schedule, existing
+solve, input and typed assignment-patch operations consume real employee models.
+Explicit native operation identifiers adapt public source symbols; no generated
+private constants, HTTP/CDI/SSE wire ABI or Java OperationId literal parity is
+claimed. Originals verify independent datasets/subscriptions, cancellation/drop,
+queue/subscriber bounds, actual solve failure, dynamic dispatch order and full
+assignments. Native subscription installation replaces flaky asynchronous timing.
+
+Three remaining access-token crypto methods now execute genuine native Maven3
+legacy decryption through the existing provider trait: an explicitly selected
+synthetic settings-security.xml encrypted master uses the public settings.security
+key, then decrypts server tokens and outside comments without plaintext warnings.
+Braces in legitimately decrypted tokens remain usable. RustCrypto AES128-CBC,
+PKCS7 and SHA256 primitives replace any Java runtime; secret/debug errors remain
+redacted. Derived key, AES schedule and working plaintext buffers are zeroized;
+returned AccessTokenSecret retains its existing owned String/exposure contract.
+
+The envelope/key derivation is independently validated against bounded opaque
+Plexus2.0 public API observations:36 forward vectors, including three exact TEST
+inputs, and36 fresh native writer outputs independently decrypted by Plexus.
+This is empirical interoperability, not a complete published framing specification
+or all-version claim. Maven4, relocation, implicit credential/home-file reads and
+JVM/plugin ABI are not implemented. Maven3's legacy single-hash unauthenticated
+CBC format is obfuscation-grade; successful unpadding is not authentication.
+The native writer preserves that format using fresh OS salt/filler randomness.
+The changed Cargo.lock/dependency inputs invalidate relevant prior verification
+and performance freshness; old measurement evidence must not be relabeled.
+
+The bounded public k-opt context probe establishes that the TEST helper accepts
+a local-wrap edge absent from the descriptor successor context. An independently
+implemented declared-port grammar was executed with real ownership/undo controls,
+but both slot/rank coordinate policies and orientations failed the exact source
+repro. The refuted API was removed; raw source, attributed fixture and failure
+evidence are preserved. Neither observation establishes general virtual-seam
+repair semantics; all five associated methods remain pending.

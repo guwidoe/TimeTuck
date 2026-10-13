@@ -16,7 +16,74 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round142
+## Latest verified checkpoint — round143
+
+The merged `bash scripts/check.sh` passed once on runner-a in 408.736s:
+8,006 Rust tests and 290 doctests. Compatibility is 4,266/4,855 (87.868%),
+21 pending, 568 excluded, zero failed/unverified. Six complete methods close
+three encrypted-token contracts, two watching/OpenAPI contracts and one
+specificity-comparator contract. Ten original controls and seven fixture
+records were added. All 1,266 Rust jobs and 46 Python jobs ran; new crypto
+Cargo inputs invalidated the prior evidence. Worker total including prebuild
+was 1,413.961s. The goal remains incomplete.
+
+Base faa7c802b8dcb1a3960c3f465cc0d3558325354c. Freeze and result receipts:
+`work/parallel-round143-freeze.json`, `work/parallel-round143-evidence.json`.
+Rust digest 36c77172f537802a3972ec8e0eacf28a95863459095e65ec967810b61e30551c.
+Report digest 0042421462ad86550e00621591d84b450b5a0783edfa4f77c1bda3b04bec8d3c.
+runner-a snapshot f34edec21e3402f6a8403a29262b8e59c1eafa7d2baa8a0ba1e79c9e4f53f2bb.
+Collected archive `work/round143-runner-a-results.tar.gz`, SHA256
+2417707775b9e5e4683090afd573365c64e04ae4859e148e423e073f6d6f7960.
+Source, terminal status and log/archive hashes were checked before reporting.
+Earlier prebuild-only vendor-symlink failure is retained in
+`work/round143-prebuild-failure1`; resolving the actual vendor directory fixed
+packaging, with the same frozen Rust source. No failed source evidence was reused.
+
+Crypto: 28 focused tests and Clippy passed. Encrypted master/security XML and
+native AES/CBC/SHA256 interoperation execute; 36 fresh native ciphertexts passed
+the public Plexus API. Framing is bounded empirical Plexus 2.0 evidence, not a
+published complete wire specification. OS randomness, bounded inputs, redacted
+errors and temporary-key/plaintext zeroization execute. No Maven 4 or implicit
+credential-file reads. Vendor receipt: `work/round143-vendor-evidence.json`.
+
+Service: 18 focused tests (two new source, four originals, twelve existing) and
+Clippy passed after an unused-helper fix. Actual solver records feed bounded
+subscriptions, including cancellation, failure and terminal/not-found handling.
+Shared routes generate JSON and consume actual priority commands. Native typed
+transport replaces HTTP/CDI/SSE and Java operation identifiers.
+
+Comparator: the complete source case passed initial focus. An original scorer
+incorrectly unwrapped an uninitialized value; that failure is preserved in
+`work/round143-root-initial-focus-*`. The corrected original helper, all three
+originals and Clippy passed. Borrowed projections derive specificity and execute
+callbacks against current domains. Existing source-accessor policy is unchanged;
+source_member.rs adds an internal borrowed projection entrypoint.
+
+K-opt: three original coordinate-grammar controls and Clippy passed, but the
+complete source example failed under both slot/rank policies and orientations.
+The refuted runtime/export was removed. Candidate code, fixture attribution and
+raw failures are preserved in `work/round143-agent-evidence`, alongside one
+bounded public context probe. All five methods remain pending, with no source
+credit. Every lane preservation receipt was hash-checked before archival.
+
+Three deliberate paired Java/Rust performance jobs completed on this frozen
+state; all three dashboard measurements are current. Receipt:
+`work/round143-performance-evidence.json`. Measurement total was 191.347s,
+three forks/five samples per workload, with no concurrent local compiler jobs.
+These bounded workload results are not a general speed or quality guarantee;
+some k-opt window workloads remain slower than Java. Older unrelated results
+retain their dates and stale status. Backend report/freshness inspected; no UI
+or data-contract change, so browser verification was not repeated.
+
+Round144 is separate work based on faa7c802. Schema validation has passed its
+focused source/original checks and awaits review/integration. Its public latest
+XSD documents require explicit version/namespace adaptation; they are not the
+pinned generated TEST resources. K-opt round144 candidates still fail the full
+interior/seam cases and earn no source credit. Candidate code and failure logs
+must be preserved before their worktree is archived. runner-c last timed out before
+dispatch; no runner-c build is awaiting collection. Continue using available hosts.
+
+## Previous verified checkpoint — round142
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in
 94.450s: 7,990 Rust tests and 290 doctests.

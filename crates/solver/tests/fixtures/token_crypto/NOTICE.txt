@@ -1,0 +1,9 @@
+Three adapted AccessTokenProviderTest crypto contracts and mavenDecrypter helper
+inputs originate from pinned Timefold Solver Community TESTs, commit
+8b815bc6b5f3eb81feedc94dea0885a93b267762; Copyright Timefold BV and contributors.
+Apache License 2.0: compat/licenses/timefold-Apache-2.0.txt.
+Exact provenance: compat/provenance.json. Cipher outputs are generated synthetic
+public Plexus2.0 API observations; native framing/implementation and original
+controls are independent. No Maven/Plexus/Timefold implementation or bytecode
+inspected. Cryptographic primitives use vetted RustCrypto dependencies under
+MIT/Apache-2.0; zeroize/getrandom/base64 retain their package licenses.

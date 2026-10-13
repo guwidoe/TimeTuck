@@ -1985,3 +1985,20 @@ pub use compiled_member_factory::{
     CompiledMemberAccessor, CompiledMemberAnnotation, CompiledMemberBody, CompiledMemberCodeType,
     CompiledMemberFactory, CompiledMemberKind, CompiledMemberRegistration, CompiledMemberRole,
 };
+
+mod type_specific_dispatch;
+pub use type_specific_dispatch::{
+    TypeSpecificDispatchBuilder, TypeSpecificDispatcher, TypeSpecificityError, TypeSpecificityOrder,
+};
+
+mod employee_schedule_watching;
+pub use employee_schedule_watching::{
+    EmployeeRouteCommand, EmployeeRouteDefinition, EmployeeRouteDispatcher, EmployeeRouteOperation,
+    EmployeeRouteReceipt, EmployeeSubscription, EmployeeWatchError, EmployeeWatchMetadata,
+};
+
+mod maven3_token_crypto;
+pub use maven3_token_crypto::{
+    MAVEN3_MASTER_ENCRYPTION_KEY, Maven3CryptoError, Maven3SettingsDecrypter,
+    decrypt_maven3_password, encrypt_maven3_password,
+};

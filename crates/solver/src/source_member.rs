@@ -71,6 +71,20 @@ impl SourceTypeHierarchy {
     pub fn is_assignable(&self, value: PlanningType, expected: PlanningType) -> bool {
         self.path(value, expected).is_some()
     }
+    pub(crate) fn project_value<'v>(
+        &self,
+        source: PlanningType,
+        target: PlanningType,
+        mut value: &'v dyn Any,
+    ) -> Option<&'v dyn Any> {
+        if value.type_id() != source.id() {
+            return None;
+        }
+        for project in self.path(source, target)? {
+            value = project(value)?;
+        }
+        Some(value)
+    }
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum SourceMemberError {
