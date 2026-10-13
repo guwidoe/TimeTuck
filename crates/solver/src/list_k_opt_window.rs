@@ -1,46 +1,48 @@
-//! Phase-local reuse of position-only K-opt candidates before window shuffling.
+//! Phase-local owned position plans; shuffle handles and materialize selected moves.
+use crate::list_k_opt::PositionPlan;
 use crate::{ListAssignment, ListKOptConfig, ListMove, ListProblem};
 use std::cell::RefCell;
-
 #[derive(Eq, PartialEq)]
 struct Shape {
     config: ListKOptConfig,
     entities: Vec<(usize, usize, usize, bool)>,
 }
-
-struct Prefix<V> {
+struct Prefix {
     shape: Option<Shape>,
-    moves: Vec<ListMove<V>>,
+    moves: Vec<PositionPlan>,
+    generator: Option<Box<dyn Iterator<Item = PositionPlan>>>,
     exhausted: bool,
     #[cfg(test)]
     generated: usize,
+    #[cfg(test)]
+    materialized: std::cell::Cell<usize>,
 }
-
-pub(crate) struct KOptWindowCache<V>(RefCell<Prefix<V>>);
-
-impl<V: Eq + Clone> KOptWindowCache<V> {
+enum Handle {
+    Cached(usize),
+    Owned(PositionPlan),
+}
+pub(crate) struct KOptWindowCache(RefCell<Prefix>);
+impl KOptWindowCache {
     pub(crate) fn new() -> Self {
         Self(RefCell::new(Prefix {
             shape: None,
             moves: Vec::new(),
+            generator: None,
             exhausted: false,
             #[cfg(test)]
             generated: 0,
+            #[cfg(test)]
+            materialized: std::cell::Cell::new(0),
         }))
     }
-
-    /// K-opt produces only positional relocations: payload order, ranges and
-    /// scores do not participate in generation. Keep at most one shape and a
-    /// bounded prefix per phase, never payload-dependent or cross-phase moves.
-    /// Nothing is generated until next(); the original lazy tail stays available.
-    pub(crate) fn ordered<'a>(
+    fn tokens<'a, V: Eq + Clone>(
         &'a self,
-        problem: &'a ListProblem<V>,
-        assignment: &'a ListAssignment<V>,
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
         config: ListKOptConfig,
         order: &[usize],
         window: usize,
-    ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
+    ) -> Box<dyn Iterator<Item = Handle> + 'a> {
         let shape = Shape {
             config,
             entities: order
@@ -55,51 +57,114 @@ impl<V: Eq + Clone> KOptWindowCache<V> {
                 })
                 .collect(),
         };
+        let tail_shape = shape.entities.clone();
         {
             let mut prefix = self.0.borrow_mut();
             if prefix.shape.as_ref() != Some(&shape) {
+                prefix.generator = Some(Box::new(crate::list_k_opt::ordered_positions(
+                    config,
+                    shape.entities.clone().into_iter(),
+                )));
                 prefix.shape = Some(shape);
                 prefix.moves.clear();
                 prefix.exhausted = false;
             }
         }
-        // A rolling window refills after each score trial. Retain a second
-        // window so a short scan does not immediately regenerate the prefix.
         let limit = window.saturating_mul(2).min(8192);
-        let order = order.to_vec();
-        let mut generated = None;
         let mut index = 0;
+        let mut tail = None;
         Box::new(std::iter::from_fn(move || {
             let mut prefix = self.0.borrow_mut();
-            if let Some(movement) = prefix.moves.get(index) {
+            if index < prefix.moves.len() {
+                let token = Handle::Cached(index);
                 index += 1;
-                return Some(movement.clone());
+                return Some(token);
             }
             if prefix.exhausted {
                 return None;
             }
-            let generator = generated.get_or_insert_with(|| {
-                crate::list_k_opt::ordered(problem, assignment, config, order.clone().into_iter())
-                    .skip(index)
-            });
-            let next = generator.next();
+            let next = if index < limit {
+                prefix
+                    .generator
+                    .as_mut()
+                    .expect("owned shape generator")
+                    .next()
+            } else {
+                tail.get_or_insert_with(|| {
+                    crate::list_k_opt::ordered_positions(config, tail_shape.clone().into_iter())
+                        .skip(index)
+                })
+                .next()
+            };
             #[cfg(test)]
             if next.is_some() {
                 prefix.generated += 1;
             }
             if index < limit {
-                if let Some(movement) = &next {
-                    prefix.moves.push(movement.clone());
-                } else {
-                    prefix.exhausted = true;
+                match next {
+                    Some(plan) => {
+                        prefix.moves.push(plan);
+                        let token = Handle::Cached(index);
+                        index += 1;
+                        Some(token)
+                    }
+                    None => {
+                        prefix.exhausted = true;
+                        None
+                    }
                 }
+            } else {
+                index += usize::from(next.is_some());
+                next.map(Handle::Owned)
             }
-            index += usize::from(next.is_some());
-            next
         }))
     }
+    fn materialize<V>(&self, handle: Handle) -> ListMove<V> {
+        let prefix = self.0.borrow();
+        #[cfg(test)]
+        prefix.materialized.set(prefix.materialized.get() + 1);
+        match handle {
+            Handle::Cached(index) => prefix.moves[index].materialize(),
+            Handle::Owned(plan) => plan.materialize(),
+        }
+    }
+    pub(crate) fn shuffled<'a, V: Eq + Clone>(
+        &'a self,
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+        config: ListKOptConfig,
+        order: &[usize],
+        ordering: (
+            crate::MoveOrder,
+            Option<&'a mut crate::random::SplitMix64>,
+            u64,
+        ),
+    ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
+        let (mode, random, remaining) = ordering;
+        let crate::MoveOrder::ShuffledMoves { window, .. } = mode else {
+            unreachable!("cached window ordering")
+        };
+        let tokens = self.tokens(problem, assignment, config, order, window.get());
+        Box::new(
+            crate::candidate_window::order_moves(tokens, mode, random, remaining)
+                .map(move |handle| self.materialize(handle)),
+        )
+    }
+    #[cfg(test)]
+    fn ordered<'a, V: Eq + Clone>(
+        &'a self,
+        problem: &ListProblem<V>,
+        assignment: &ListAssignment<V>,
+        config: ListKOptConfig,
+        order: &[usize],
+        window: usize,
+    ) -> Box<dyn Iterator<Item = ListMove<V>> + 'a> {
+        Box::new(
+            self.tokens(problem, assignment, config, order, window)
+                .map(move |token| self.materialize(token)),
+        )
+    }
 }
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -280,6 +345,81 @@ mod tests {
                 assert_eq!(cached, reference);
                 assert_eq!(trials, *trace.borrow());
             }
+        }
+    }
+}
+
+#[cfg(test)]
+mod handle_tests {
+    use super::*;
+    use crate::{ListEntity, MoveOrder, random::SplitMix64};
+    use std::num::NonZeroUsize;
+    #[test]
+    fn lookahead_materializes_only_selected_moves_and_preserves_the_seeded_sequence() {
+        let p = ListProblem::new(
+            (0..12).collect(),
+            vec![ListEntity::new((0..12).collect()).with_pinned_prefix(1)],
+        )
+        .unwrap();
+        let a = p.initial_assignment();
+        let k = ListKOptConfig::new(2, 4).unwrap();
+        let cache = KOptWindowCache::new();
+        for window in [1, 7, 4096] {
+            for seed in 0..3 {
+                let mode = MoveOrder::ShuffledMoves {
+                    seed,
+                    window: NonZeroUsize::new(window).unwrap(),
+                };
+                let before = cache.0.borrow().materialized.get();
+                let mut random = SplitMix64::new(seed);
+                let actual: Vec<_> = cache
+                    .shuffled(&p, &a, k, &[0], (mode, Some(&mut random), 10000))
+                    .take(3)
+                    .collect();
+                assert_eq!(cache.0.borrow().materialized.get() - before, 3);
+                let mut random = SplitMix64::new(seed);
+                let expected: Vec<_> = crate::candidate_window::order_moves(
+                    crate::list_k_opt::ordered(&p, &a, k, [0].into_iter()),
+                    mode,
+                    Some(&mut random),
+                    10000,
+                )
+                .take(3)
+                .collect();
+                assert_eq!(actual, expected);
+                assert!(cache.0.borrow().moves.len() <= 8192);
+            }
+        }
+    }
+    #[test]
+    fn grown_prefix_and_uncached_tail_preserve_original_moves_across_restarts() {
+        let p =
+            ListProblem::new((0..10).collect(), vec![ListEntity::new((0..10).collect())]).unwrap();
+        let a = p.initial_assignment();
+        let k = ListKOptConfig::new(2, 4).unwrap();
+        let cache = KOptWindowCache::new();
+        for (window, count) in [(2, 2), (7, 10), (7, 31), (16, 43), (2, 51)] {
+            let seed = 9;
+            let mode = MoveOrder::ShuffledMoves {
+                seed,
+                window: NonZeroUsize::new(window).unwrap(),
+            };
+            let mut actual_random = SplitMix64::new(seed);
+            let mut expected_random = SplitMix64::new(seed);
+            let actual: Vec<_> = cache
+                .shuffled(&p, &a, k, &[0], (mode, Some(&mut actual_random), 10000))
+                .take(count)
+                .collect();
+            let expected: Vec<_> = crate::candidate_window::order_moves(
+                crate::list_k_opt::ordered(&p, &a, k, [0].into_iter()),
+                mode,
+                Some(&mut expected_random),
+                10000,
+            )
+            .take(count)
+            .collect();
+            assert_eq!(actual, expected);
+            assert!(cache.0.borrow().moves.len() <= 32);
         }
     }
 }

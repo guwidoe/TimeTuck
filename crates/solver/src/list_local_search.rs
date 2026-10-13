@@ -288,43 +288,59 @@ where
             random.shuffle(&mut order);
         }
         let failure = crate::fallible_move_provider::ProviderFailure::default();
-        let moves = match provider.provider() {
-            Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
-                problem,
-                &snapshot,
-                progress.completed_steps(),
-                &failure,
-            )?),
-            None => crate::move_provider::ProvidedMoves::BuiltIn(config.select_neighborhoods(
-                progress.completed_steps(),
-                |neighborhood| {
-                    if config.neighborhood_union.is_none()
-                        && let crate::Neighborhood::KOpt(k) = neighborhood
-                        && let MoveOrder::ShuffledMoves { window, .. } = config.move_order
-                        && window.get() > 1
-                    {
-                        return k_opt_window.ordered(problem, &snapshot, k, &order, window.get());
-                    }
-                    ordered(problem, &snapshot, neighborhood, order.iter().copied())
-                },
-            )),
-        };
-        let current = director.score();
-        let tracks_entities = config.tracks_variables();
-        let tracks_values = config.tracks_values();
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,
             result.evaluations,
         );
-        let selection = director.select_best(
-            crate::candidate_window::order_moves(
+        let cached = if provider.is_none()
+            && config.neighborhood_union.is_none()
+            && matches!(config.move_order,MoveOrder::ShuffledMoves{window,..} if window.get()>1)
+        {
+            if let crate::Neighborhood::KOpt(k) =
+                config.neighborhood.at_step(progress.completed_steps())
+            {
+                Some(k)
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+        let moves: Box<dyn Iterator<Item = crate::ListMove<V>> + '_> = if let Some(k) = cached {
+            k_opt_window.shuffled(
+                problem,
+                &snapshot,
+                k,
+                &order,
+                (config.move_order, random.as_mut(), budget.remaining),
+            )
+        } else {
+            let moves = match provider.provider() {
+                Some(p) => crate::move_provider::ProvidedMoves::Custom(p.moves(
+                    problem,
+                    &snapshot,
+                    progress.completed_steps(),
+                    &failure,
+                )?),
+                None => crate::move_provider::ProvidedMoves::BuiltIn(
+                    config.select_neighborhoods(progress.completed_steps(), |neighborhood| {
+                        ordered(problem, &snapshot, neighborhood, order.iter().copied())
+                    }),
+                ),
+            };
+            Box::new(crate::candidate_window::order_moves(
                 moves,
                 config.move_order,
                 random.as_mut(),
                 budget.remaining,
-            )
-            .take_while(|_| {
+            ))
+        };
+        let current = director.score();
+        let tracks_entities = config.tracks_variables();
+        let tracks_values = config.tracks_values();
+        let selection = director.select_best(
+            moves.take_while(|_| {
                 !failure.failed()
                     && !config.cancelled()
                     && !time_budget.expired(&result.best.as_ref().expect("initial best").score)

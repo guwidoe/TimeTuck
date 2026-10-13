@@ -92331,6 +92331,32 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Source Ann payload, one tuple occurrence, none key and two seed0 factory requests preserved. Explicit native identity/unit key and existing seeded sampler family replace tuple wrapper/JavaPRNG API, no identical Java random trace claim."
+    },
+    {
+      "id": "round146-fresh-partner-tail-api-experiment",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java",
+      "upstream_test": "createMockKOptListMoveIterator/setupValidNonsequential4OptMove/testNonsequentialKOptOnSameEntity/testNonsequentialKOptOnDifferentEntity",
+      "local_path": "compat/oracle/PartnerTailExperiment.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Original pinned TEST class/helper source is copied unchanged. Experiment calls its private fixture helpers through TEST-only reflection; production objects accessed only via constructors, callback factories, descriptor and cycle getters already used by Community TESTs. Every fixture/variant receives a new original helper context and a new descriptor. Compare full17/active13/alteredtail and a retained-matching active-prefix sensitivity control; no fixture outputs drive runtime construction. No production bodies/bytecode/private fields/reflection inspected and no source credit. Runtime and raw evidence are retained separately in work/round146-agent-evidence/partner-experiment. This fixture earns no source method credit and makes no raw Java getter ABI or execution parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "subtour-repair-source-draw-shape-controls",
+      "upstream_test": "setupValidNonsequential4OptMove/createMockKOptListMoveIterator selected draw shape",
+      "local_path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
+      "modifications": "Use TEST-derived single-row22member and origin/value/extra-cut position pattern with varied independent integer payloads. Original native controls verify actual disconnected components, real repair geometry, retained combined edges, executable moves/undo, stale snapshot/pin/budget/removed-edge validation. No source method credit; exact source metadata proof still fails four additional partner slots. Round146 adds original current-removed-edge callback controls, combined cross-owner pinned-prefix boundaries, sixteen even-k/reverse geometries and actual dense/stream search providers; bounded reference tail observation does not earn source credit."
     }
   ]
 }

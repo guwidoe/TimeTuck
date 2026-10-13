@@ -16,7 +16,61 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round145
+## Latest implementation checkpoint — round146
+
+Three native slices are integrated; the goal remains incomplete. The frozen merged
+`bash scripts/check.sh` finished on runner-a with exit0 and before/after source
+guards, in368.414s after993.100s prebuild/Clippy (worker1362.0s). Its existing
+connection completed normally. Collection is pending Tailscale SSH authentication;
+do not rerun verification. The live collection handle is1238, helper
+`work/collect_round146_live_archive.py`, archive `work/round146-runner-a-results.tar.gz`.
+Authenticate the pending connection link, then poll that handle and validate with
+`python3 work/collect_round146_runner-a.py`. Do not open another collection connection
+while1238 remains live. If it expires, preserve its outcome before a new request.
+
+Freeze `work/parallel-round146-freeze.json`; worker manifest/log
+`work/remote-round146-integration-{manifest.json,log}`. Remote snapshot
+2b921b10a5e9bb5b327ec37cd8da115d2914f40b9b5ed737d8f34593c5cefce0.
+New source-method credit0; expected unchanged4275/4855, pending12, excluded568.
+Keep the dashboard's previous correctness evidence stale until the actual new
+archive/log/source manifest is collected. Do not rekey old evidence. Exact full
+Rust/doctest/job counts await collection;13 new original Rust tests are integrated.
+
+Optional even-k repair derives live combined suffix adjacency and bridges retained
+edges across disconnected components. Six original controls exercise varied
+geometry, pins, physical execution/undo, budgets, and both actual scoring backends.
+Native endpoint metadata is active-graph only; both full nonsequential source
+methods remain pending. The fresh opaque TEST-helper experiment earns fixture-only
+attribution and no source credit. No production implementation inspection.
+
+Optional virtual-seam discovery lazily enumerates live eligible owner pairs and
+internal cuts under an attempt budget, feeding the existing MoveProvider interface.
+Five originals exercise receiving ranges, pins, allocation ownership/undo, bounded
+real dense/stream search and an independent physical-edge certificate. Defaults
+remain unchanged; larger physical repartitions are not claimed missing.
+
+Window k-opt retains an owned positional enumerator, shuffles cheap plan handles,
+and materializes only selected moves. Two new original unit controls and41 focused
+checks/affected Clippy passed. All60 native before/after route/score/score-call
+comparisons match; four scoped runner-a workloads improved1.97–8.77x. Root refreshed
+three actual paired Java/native benchmark jobs locally, all exit0,198.223s total;
+receipt `work/round146-performance-evidence.json` and raw logs preserve actual
+measurement digests. K-opt128/128 valid,114 equal scores; list320/320 valid,
+319 equal scores. Window Rust3.047/3.573ms(K2–3,n12/16),8.249/6.910ms(K2–4)
+versusJava10.291/14.082/12.559/14.073ms, with better Rust scores in all four.
+Different quality and work prevent a general equal-work speed claim. Older
+unrelated differential/benchmark evidence remains stale; no UI contract changed.
+
+Sources/helpers/failures/raw receipts are preserved and hashchecked under
+`work/round146-agent-evidence` (repair, partner-experiment, virtual-seam-provider,
+window-performance); provider147 was merged into this coherent146 batch. Their
+completed managed trees have been queued for archive; no tasks/builds remain live
+in those trees. Main gate was run once, with per-job selective reuse. runner-c WSL
+Tailscale peer remains offline (lastseen2026-10-13T16:40:32Z), SSH timeout;
+local/runner-a work proceeded. Do not repeat an unchanged failed connectivity check
+or authentication request. Computer-use guidance forbids automating auth dialogs.
+
+## Previous verified checkpoint — round145
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in 108.275s:
 8,030 Rust tests and 290 doctests. Compatibility is 4,275/4,855 (88.054%),

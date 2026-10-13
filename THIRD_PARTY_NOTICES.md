@@ -1091,3 +1091,16 @@ Round145 virtual_seam_cases.rs, fixtures/virtual_seam_fixture.rs, the attributed
 Round145 linked-list leaf adaptation preserves the full Community
 IndexerRandomIteratorMarkerTest.linkedListLeafIndexerRejectsRandomAccess method
 and Ann/none/seed0 TEST fixture under Apache-2.0; exact provenance is recorded.
+
+`compat/oracle/PartnerTailExperiment.java` reuses pinned Community TEST fixture
+helpers under Apache-2.0. TEST-only reflection calls original fixture setup;
+production objects use TEST-specified public constructor/factory/cycle APIs.
+Exact source attribution and bounded observations appear in compat/provenance.json.
+It earns no source method credit.
+
+- `kopt_subtour_repair_regression.rs` uses the selected draw-position shape from
+  pinned Community `KOptListMoveIteratorTest` (Apache-2.0), translated to varied
+  integer payloads. Native repair controls earn no source-method credit.
+  Exact original TEST execution, adapted complete metadata probe and failure
+  snapshots are separately preserved under `work/round145-*`; full partner
+  metadata remains unsupported. No production/Enterprise implementation read.

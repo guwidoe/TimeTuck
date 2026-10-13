@@ -9871,3 +9871,68 @@ identity and ordering, genuine owned removal/drop, current payload updates/rekey
 unknown/duplicate/empty errors, both-backend generic leaf traversal, and real dense
 random sampling/marker operation semantics. Native typed capability error replaces
 Java UnsupportedOperationException; no JVM/Java random trace parity is claimed.
+
+A bounded fresh-descriptor experiment compares full, active-only and changed-tail
+partner arrays on both pending nonsequential fixtures. Constructor/cycle/factory
+observations match for those three variants; changing the active prefix changes
+one cycle into six. Every variant uses fresh objects and contexts. The raw
+Java getter retains its actual array, so raw layout parity remains unproven.
+This evidence supports active graph normalization for the tested observations
+only; it does not establish arbitrary move execution, feasibility or the purpose
+of the extra entries. Source methods remain pending. Exact commands, artifacts,
+code and raw results are preserved in work/round146-agent-evidence/partner-experiment.
+
+A separate even-k selector candidate now analyzes actual selected combined
+movable-suffix adjacency, then splices two retained edges from disconnected
+components using live value/extra-cut callbacks. It derives all six physical cuts
+and twelve endpoint partners for both nonsequential TEST fixtures, including
+shared-value incoming/outgoing cut occurrences. Combined retained-edge, movement
+and undo controls execute. The earlier independent-local-cycle candidate failed
+multirow component analysis and is preserved separately.
+
+Both exact unmodified Community TEST methods pass against the opaque reference,
+but both native full metadata probes fail: their partner arrays contain sixteen
+occurrences while the native cut/reconnection model derives twelve. The four
+additional slots remain unexplained; no capacity/virtual-alias meaning is claimed
+or constant tail appended. Both methods remain pending with zero source credit.
+Candidate geometry uses an explicit native retained-edge bridge policy and
+caller row lengths, without claiming Java repair-draw/partition parity. Native
+candidate source, raw reference execution and failing full-field proofs are
+preserved for review; existing odd selector semantics are unchanged.
+
+Round146 promotes this optional selector to native active-graph use. All initial
+owner draws complete before cuts resolve against concatenated selected movable
+suffixes; both initial and repair cuts cross actual combined row boundaries.
+Repair callbacks receive current components and removed edges, while anchor
+selection searches every retained original edge in another component. This
+explicit native policy is independent of Java draw and surplus-buffer semantics.
+Six original controls include sixteen varied even-k/direction geometries, pinned
+multiowner boundary execution, and actual dense/stream local-search providers
+that refresh proposals from each current assignment. Existing odd selection is
+unchanged. Reverse draws can require up to k-1 splices, consuming two extra cuts
+per splice; callers must supply an adequate maximum or receive RepairBudget.
+
+The bounded opaque Community experiment preserved by the parent compares fresh
+full, truncated-active, altered-tail, and altered-active descriptors. Tail changes
+did not affect observed active cycles or move-factory conversion, while the active
+control changed cycles. Raw getters retained the different arrays. Runtime writes
+and move-doability were outside that experiment; no broader tail equivalence or
+full Java metadata compatibility is claimed. Both nonsequential methods remain
+pending, with zero additional source-method credit.
+
+The K-opt rolling-window cache now owns a resumable positional enumerator and
+bounded prefix of relocation plans. Reopening a step reuses enumeration state
+rather than generating/skipping its known prefix again. Seeded rolling shuffling
+buffers plan handles; only selected candidates become real native Composite
+moves. The prefix remains capped at8192 plans, with a lazy uncached tail; shape,
+entity order, k-bounds and pin metadata still control invalidation. Ordinary and
+sampled move generation construct native moves directly through the same position
+relocation builder, without an intermediate plan allocation. Planning payloads,
+scores and user callbacks are absent from the retained generator.
+
+Original regression controls compare full seeded sequences across growing windows,
+restarts and uncached tails, prove only emitted candidates are materialized, and
+reuse exact cached-vs-reference score/trial/termination traces. Existing focused
+cases cover independent permutation references, pinned/ranged models, actual
+execution/undo, sampling, scoring errors/panics and shadow/cache consistency.
+There is no additional upstream-method credit from this performance change.

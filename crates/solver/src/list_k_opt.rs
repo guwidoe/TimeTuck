@@ -61,69 +61,100 @@ pub(crate) fn edge(a: usize, b: usize) -> (usize, usize) {
 
 // Reorder with ordinary relocations, preserving assigned payloads and transaction
 // rollback. All positions and target indices refer to the immutable input list.
+/// Owned positional relocations, independent of planning payloads and snapshots.
+pub(crate) struct PositionPlan {
+    relocations: Vec<(ListPosition, ListPosition)>,
+}
+impl PositionPlan {
+    fn new(length: usize, entity: usize, target: &[usize]) -> Self {
+        Self {
+            relocations: position_relocations(length, entity, target, |source, destination| {
+                (source, destination)
+            }),
+        }
+    }
+    pub(crate) fn materialize<V>(&self) -> ListMove<V> {
+        ListMove::Composite(
+            self.relocations
+                .iter()
+                .map(|&(source, destination)| ListMove::Change {
+                    source,
+                    destination,
+                })
+                .collect(),
+        )
+    }
+}
+fn position_relocations<T>(
+    length: usize,
+    entity: usize,
+    target: &[usize],
+    mut make: impl FnMut(ListPosition, ListPosition) -> T,
+) -> Vec<T> {
+    let Some(start) = target.iter().enumerate().position(|(i, &value)| i != value) else {
+        return Vec::new();
+    };
+    let remaining = length - start;
+    let mut relocations = Vec::new();
+    if remaining < 128 {
+        let mut current: Vec<_> = (start..length).collect();
+        for (index, &wanted) in target[start..].iter().enumerate() {
+            let source = current
+                .iter()
+                .position(|&i| i == wanted)
+                .expect("permutation");
+            if source != index {
+                relocations.push(make(
+                    ListPosition {
+                        entity,
+                        index: start + source,
+                    },
+                    ListPosition {
+                        entity,
+                        index: start + index,
+                    },
+                ));
+                current.remove(source);
+                current.insert(index, wanted);
+            }
+        }
+    } else {
+        let mut ranks = RemainingRanks::new(remaining);
+        for (offset, &wanted) in target[start..].iter().enumerate() {
+            let index = start + offset;
+            let source = index + ranks.before(wanted - start);
+            if source != index {
+                relocations.push(make(
+                    ListPosition {
+                        entity,
+                        index: source,
+                    },
+                    ListPosition { entity, index },
+                ));
+            }
+            ranks.remove(wanted - start);
+        }
+    }
+    relocations
+}
+
 pub(crate) fn movement<V: Eq + Clone>(
     a: &ListAssignment<V>,
     entity: usize,
     target: &[usize],
 ) -> ListMove<V> {
-    let Some(start) = target.iter().enumerate().position(|(i, &value)| i != value) else {
-        return ListMove::Composite(vec![]);
-    };
-    // A fixed prefix never participates in relocations. Avoid both its search
-    // cost and scratch storage, especially for long pinned prefixes.
-    let remaining = a.lists()[entity].len() - start;
-    if remaining < 128 {
-        return direct_movement(entity, start, a.lists()[entity].len(), &target[start..]);
-    }
-    let mut ranks = RemainingRanks::new(remaining);
-    let mut moves = Vec::new();
-    for (offset, &wanted) in target[start..].iter().enumerate() {
-        let index = start + offset;
-        // Earlier choices form the fixed target prefix. Everything still in the
-        // suffix retains original identity order, regardless of earlier moves.
-        let source = index + ranks.before(wanted - start);
-        if source != index {
-            moves.push(ListMove::Change {
-                source: ListPosition {
-                    entity,
-                    index: source,
-                },
-                destination: ListPosition { entity, index },
-            });
-        }
-        ranks.remove(wanted - start);
-    }
-    ListMove::Composite(moves)
+    ListMove::Composite(position_relocations(
+        a.lists()[entity].len(),
+        entity,
+        target,
+        |source, destination| ListMove::Change {
+            source,
+            destination,
+        },
+    ))
 }
 
-fn direct_movement<V>(entity: usize, start: usize, end: usize, target: &[usize]) -> ListMove<V> {
-    let mut current: Vec<_> = (start..end).collect();
-    let mut moves = Vec::new();
-    for (index, &wanted) in target.iter().enumerate() {
-        let source = current
-            .iter()
-            .position(|&i| i == wanted)
-            .expect("permutation");
-        if source != index {
-            moves.push(ListMove::Change {
-                source: ListPosition {
-                    entity,
-                    index: start + source,
-                },
-                destination: ListPosition {
-                    entity,
-                    index: start + index,
-                },
-            });
-            current.remove(source);
-            current.insert(index, wanted);
-        }
-    }
-    ListMove::Composite(moves)
-}
-
-// Prefix counts for identities not yet placed. All counts initially equal one,
-// so build the Fenwick tree directly in linear time without individual updates.
+// Prefix counts for identities not yet placed; initial counts are all one.
 pub(crate) struct RemainingRanks(Vec<usize>);
 impl RemainingRanks {
     pub(crate) fn new(length: usize) -> Self {
@@ -358,11 +389,34 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
     config: ListKOptConfig,
     order: impl Iterator<Item = usize> + 'a,
 ) -> impl Iterator<Item = ListMove<V>> + 'a {
-    order
-        .filter(move |&e| !p.entities()[e].is_pinned())
-        .flat_map(move |e| {
-            let start = p.entities()[e].pinned_prefix();
-            let n = a.lists()[e].len() - start;
+    ordered_targets(
+        config,
+        order.map(move |e| {
+            (
+                e,
+                a.lists()[e].len(),
+                p.entities()[e].pinned_prefix(),
+                p.entities()[e].is_pinned(),
+            )
+        }),
+    )
+    .map(move |(entity, _, target)| movement(a, entity, &target))
+}
+pub(crate) fn ordered_positions<'a>(
+    config: ListKOptConfig,
+    shape: impl Iterator<Item = (usize, usize, usize, bool)> + 'a,
+) -> impl Iterator<Item = PositionPlan> + 'a {
+    ordered_targets(config, shape)
+        .map(|(entity, length, target)| PositionPlan::new(length, entity, &target))
+}
+fn ordered_targets<'a>(
+    config: ListKOptConfig,
+    shape: impl Iterator<Item = (usize, usize, usize, bool)> + 'a,
+) -> impl Iterator<Item = (usize, usize, Vec<usize>)> + 'a {
+    shape
+        .filter(|&(_, _, _, pinned)| !pinned)
+        .flat_map(move |(entity, length, start, _)| {
+            let n = length - start;
             SubPillarSelection::combinations(config.minimum, config.maximum)
                 .expect("validated k bounds")
                 .indices(if n < 4 { 0 } else { n })
@@ -371,7 +425,7 @@ pub(crate) fn ordered<'a, V: Eq + Clone>(
                     let target: Vec<_> = (0..start)
                         .chain(tour.into_iter().map(|i| i + start))
                         .collect();
-                    movement(a, e, &target)
+                    (entity, length, target)
                 })
         })
 }

@@ -2017,3 +2017,12 @@ pub use linked_candidate_index::{
     CandidateLeafView, LeafRandomAccessUnsupported, LeafRepeatingCursor, LeafUniqueCursor,
     LinkedCandidateBucket, LinkedCandidateIndex,
 };
+
+mod list_k_opt_subtour_repair;
+pub use list_k_opt_subtour_repair::{
+    ListKOptCombinedRepairPlan, ListKOptRepairError, ListKOptRepairProposal,
+    ListKOptSubtourRepairSelector,
+};
+
+mod list_virtual_seam_provider;
+pub use list_virtual_seam_provider::{VirtualSeam3OptProvider, discover_virtual_seam_three_opt};
