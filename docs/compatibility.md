@@ -9245,3 +9245,38 @@ endpoint matching and reversed cuts may change doability. All seven exact virtua
 seam/iterator methods remain pending. Four fixture records document these probes;
 there is no source-case or speculative runtime credit. No production implementation,
 private fields or bytecode bodies inspected. No new timing or speed claim.
+
+## Construction inference, sublist defaults and repeating swap fallback
+
+ConstructionPlacerPlan infers real basic fields/entity replay roles and binds
+flattened slots to actual queues/providers. Explicit native comparators implement
+the configured entity sort policy, with ordinary-order fallback when absent. Four
+complete factory methods preserve field, selector, cache/replay and sorter assertions;
+originals exercise actual configured construction, copied sessions and binding errors.
+
+SchemaSubListFactory infers list fields and builds repeating current-snapshot
+proposals with default reversal, preserving separate field boundaries. Solver
+openings have finite output limits; mandatory catalog limits reject conservative
+structural bounds before generation, with a bounded collection backstop. The
+1024-value guard verifies zero payload clones and preserved random state on rejection.
+Four complete single/multi-entity change/swap factory methods retain all assertions.
+Originals execute proposals and real list/mixed solves with both mixed scoring
+backends. Optional finite catalogs trade memory for repeated indexed draws; ordinary
+lazy paths are unchanged. No Java RNG/cache/lifecycle ABI claim.
+
+SubListSpan identity includes the entity, start and length, describes the complete
+source range and binds to ordinary sublist moves. PillarSelectionDemand records
+shared live source/filter identities, canonical field refs and existing policy;
+preparation uses existing real pillar grouping without caching predicate results.
+Three full source methods and originals cover equality, actual moves/grouping,
+changed facts, descriptor/binding errors and metadata independence from execution.
+
+RepeatingListSwapAttempts reuses the existing swap checker and one assignment index.
+Each output draws a left occurrence and probes a finite right budget, returning a
+real candidate or shared no-change token. The token converts to an executable empty
+composite; empty left pools exhaust, empty right pools yield fallback. A failed
+bounded search is not an optimum proof. Ordinary swap sources/samplers are unchanged.
+The complete noReachableEntities method retains both exact receiver ranges/initial
+rows, seed0, availability and shared identity assertion. Native deterministic
+controls validate actual moves/fallbacks, replay, no mutation and cursor guards.
+No new measured performance or speed claim; old benchmark evidence remains stale.

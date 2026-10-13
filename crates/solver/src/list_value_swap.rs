@@ -5,6 +5,11 @@ use crate::{
 };
 use std::num::NonZeroUsize;
 mod eligibility_cache;
+mod fallback;
+pub use fallback::{
+    LIST_SWAP_NO_CHANGE, ListSwapAttempt, ListSwapNoChange, RepeatingListSwapAttempts,
+    repeating_list_swap_attempts,
+};
 pub(crate) mod replayed;
 mod source;
 pub use source::{ListSwapPartnerFactory, ListSwapSourceLimits, ListValueSwapSource};

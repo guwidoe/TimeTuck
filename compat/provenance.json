@@ -59998,6 +59998,186 @@
       "upstream_test": "compareTo",
       "local_test": "total_compare_to",
       "modifications": "Preserve every source identity/equality/hash/comparison assertion, all ordered fixtures and all forward/reverse pair comparisons. Native unique occurrence handles refer to retained actual ScoreExplanation contributions; cloning retains handle identity while equal payloads at distinct occurrences differ. ExplainedMatch payload equality is unchanged. Explicit diagnostic_cmp orders name, score, fact-list count and ordered facts; it intentionally does not implement inconsistent Rust Ord. Totals are borrowed views over actual ConstraintExplanation data, with Eq/Hash/Ord using only constraint name, including same c key at scores0/0/-7. Source Object cast bypasses comparable assertion for unequal equal-payload matches; native adaptation likewise checks identity inequality separately. No Java object/hash numeric/API parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListSwapMoveSelectorTest.noReachableEntities",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "upstream_test": "noReachableEntities",
+      "local_path": "crates/solver/tests/list_swap_fallback_cases.rs",
+      "local_test": "no_reachable_entities",
+      "status": "implemented",
+      "modifications": "Retain two values1/2, A accepts1/2 with assigned2, B accepts1 with assigned1, seed0, repeating availability and exact shared no-change identity after failed reachability. Native bounded random pair attempts use existing real swap checker and a single shared fallback token; conversion executes an empty native composite. Explicit finite partner budget replaces implicit Java rejection search. Native opening replaces Java selector/director lifecycle setup; no Java RNG trace/class/ABI equivalence claimed. Ordinary swap sampling/source paths unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "PooledEntityPlacerFactoryTest.unfoldNew",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PooledEntityPlacerFactoryTest.java",
+      "upstream_test": "unfoldNew",
+      "local_test": "pooled_unfold_new",
+      "modifications": "Preserve all source selector/entity/field/replay/sorting and placement assertions. Typed ConstructionPlacerPlan inference binds schema field refs to native entity rows, builds real PlacementQueue/PlacementQueueProvider sessions and supports retained RebuildablePlacer recipes. Native change config type replaces Java exact/only ChangeMoveSelectorConfig class assertions; native exact PlanningType replaces Java entity-class assignability. Balanced typed lifecycle replaces mocked Java scope/director/ValueRangeManager. Single inferred genuine Entity.value field, absent explicit change entity and entity replay identity; real generated domain changes strengthen the source config assertions. No Java ABI/reflection or Java default RNG trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "QueuedEntityPlacerFactoryTest.buildFromUnfoldNew",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerFactoryTest.java",
+      "upstream_test": "buildFromUnfoldNew",
+      "local_test": "queued_entity_build_from_unfold_new",
+      "modifications": "Preserve all source selector/entity/field/replay/sorting and placement assertions. Typed ConstructionPlacerPlan inference binds schema field refs to native entity rows, builds real PlacementQueue/PlacementQueueProvider sessions and supports retained RebuildablePlacer recipes. Native change config type replaces Java exact/only ChangeMoveSelectorConfig class assertions; native exact PlanningType replaces Java entity-class assignability. Balanced typed lifecycle replaces mocked Java scope/director/ValueRangeManager. Two native schema fields primaryValue/secondaryValue and two change selectors; source initialized e1/e2 slots retain all four current values and shared ordered domain. First entity/first field placement preserves all four helper value codes, owner e1 and exhaustion. No Java ABI/reflection or Java default RNG trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "QueuedEntityPlacerFactoryTest.buildWithEntitySortManner",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerFactoryTest.java",
+      "upstream_test": "buildWithEntitySortManner",
+      "local_test": "queued_entity_build_with_entity_sort_manner",
+      "modifications": "Preserve all source selector/entity/field/replay/sorting and placement assertions. Typed ConstructionPlacerPlan inference binds schema field refs to native entity rows, builds real PlacementQueue/PlacementQueueProvider sessions and supports retained RebuildablePlacer recipes. Native change config type replaces Java exact/only ChangeMoveSelectorConfig class assertions; native exact PlanningType replaces Java entity-class assignability. Balanced typed lifecycle replaces mocked Java scope/director/ValueRangeManager. Native sortable entity policy retains both Sorted selection order and DescendingIfAvailable manner. Explicit application comparator replaces Java reflective fixture comparator and orders actual queue keys. No Java ABI/reflection or Java default RNG trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "QueuedValuePlacerFactoryTest.buildEntityPlacer_withoutConfiguredMoveSelector",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedValuePlacerFactoryTest.java",
+      "upstream_test": "buildEntityPlacer_withoutConfiguredMoveSelector",
+      "local_test": "queued_value_build_without_configured_move_selector",
+      "modifications": "Preserve all source selector/entity/field/replay/sorting and placement assertions. Typed ConstructionPlacerPlan inference binds schema field refs to native entity rows, builds real PlacementQueue/PlacementQueueProvider sessions and supports retained RebuildablePlacer recipes. Native change config type replaces Java exact/only ChangeMoveSelectorConfig class assertions; native exact PlanningType replaces Java entity-class assignability. Balanced typed lifecycle replaces mocked Java scope/director/ValueRangeManager. Explicit entity with omitted move/field config infers its sole genuine field. Source e1/e2 uninitialized fixture and values v1/v2 produce the exact first-v1 entity-order placement and exhaustion. No Java ABI/reflection or Java default RNG trace claim."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/selection_identity_cases.rs",
+      "id": "SubListTest.equals",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/SubListTest.java",
+      "upstream_test": "equals",
+      "local_test": "sublist_equals",
+      "modifications": "Preserve every source assertion. SubListSpan uses entity identity, start and length; all five equality cases and exact A[2..7] description are retained. Checked endpoint geometry resolves application entity keys into actual list indices and produces ordinary executable SubListChange moves. PillarSelectionDemand uses cloned canonical source/filter callback identities, copied actual registered basic variable references and existing whole/subpillar policy identity; self, same wrapper, copied list and independently repeated wrapper over same source/filter all compare equal. Native live finite entity catalog replaces Java JUST_IN_TIME random entity selector; no Java selection trace/reflection/ABI claim. Actual grouping preparation reads current source/filter predicates and binds fields to existing PillarSchema/PillarSelectionPolicy, retaining no stale predicate cache."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/selection_identity_cases.rs",
+      "id": "SubListTest.testToString",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/SubListTest.java",
+      "upstream_test": "testToString",
+      "local_test": "sublist_to_string",
+      "modifications": "Preserve every source assertion. SubListSpan uses entity identity, start and length; all five equality cases and exact A[2..7] description are retained. Checked endpoint geometry resolves application entity keys into actual list indices and produces ordinary executable SubListChange moves. PillarSelectionDemand uses cloned canonical source/filter callback identities, copied actual registered basic variable references and existing whole/subpillar policy identity; self, same wrapper, copied list and independently repeated wrapper over same source/filter all compare equal. Native live finite entity catalog replaces Java JUST_IN_TIME random entity selector; no Java selection trace/reflection/ABI claim. Actual grouping preparation reads current source/filter predicates and binds fields to existing PillarSchema/PillarSelectionPolicy, retaining no stale predicate cache."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/selection_identity_cases.rs",
+      "id": "PillarDemandTest.equality",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/PillarDemandTest.java",
+      "upstream_test": "equality",
+      "local_test": "pillar_demand_equality",
+      "modifications": "Preserve every source assertion. SubListSpan uses entity identity, start and length; all five equality cases and exact A[2..7] description are retained. Checked endpoint geometry resolves application entity keys into actual list indices and produces ordinary executable SubListChange moves. PillarSelectionDemand uses cloned canonical source/filter callback identities, copied actual registered basic variable references and existing whole/subpillar policy identity; self, same wrapper, copied list and independently repeated wrapper over same source/filter all compare equal. Native live finite entity catalog replaces Java JUST_IN_TIME random entity selector; no Java selection trace/reflection/ABI claim. Actual grouping preparation reads current source/filter predicates and binds fields to existing PillarSchema/PillarSelectionPolicy, retaining no stale predicate cache."
+    },
+    {
+      "id": "SubListChangeMoveSelectorFactoryTest.buildMoveSelector",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SubListChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "buildMoveSelector",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "local_test": "change_build_move_selector",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve default selector configuration, complete single/multi-entity schema field identities/types, build-time random/just-in-time intent and both never-ending/reversing assertions. Native schema inference binds a real repeating SchemaSubListSource backed by current executable native sublist proposals, with explicit empty row bindings because the source method creates metadata but no working solution. Seed0 and caller resource limits replace Java policy/mocks; native opening rebuilds a bounded coordinate catalog then samples with replacement. Independent originals exercise productive repetition, execution, solver use, field separation and rejection. No Java PRNG trace, implicit cache/lifecycle or selector-class ABI equivalence claimed."
+    },
+    {
+      "id": "SubListChangeMoveSelectorFactoryTest.buildMoveSelectorMultiEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SubListChangeMoveSelectorFactoryTest.java",
+      "upstream_test": "buildMoveSelectorMultiEntity",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "local_test": "change_build_move_selector_multi_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve default selector configuration, complete single/multi-entity schema field identities/types, build-time random/just-in-time intent and both never-ending/reversing assertions. Native schema inference binds a real repeating SchemaSubListSource backed by current executable native sublist proposals, with explicit empty row bindings because the source method creates metadata but no working solution. Seed0 and caller resource limits replace Java policy/mocks; native opening rebuilds a bounded coordinate catalog then samples with replacement. Independent originals exercise productive repetition, execution, solver use, field separation and rejection. No Java PRNG trace, implicit cache/lifecycle or selector-class ABI equivalence claimed."
+    },
+    {
+      "id": "SubListSwapMoveSelectorFactoryTest.buildBaseMoveSelector",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SubListSwapMoveSelectorFactoryTest.java",
+      "upstream_test": "buildBaseMoveSelector",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "local_test": "swap_build_base_move_selector",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve default selector configuration, complete single/multi-entity schema field identities/types, build-time random/just-in-time intent and both never-ending/reversing assertions. Native schema inference binds a real repeating SchemaSubListSource backed by current executable native sublist proposals, with explicit empty row bindings because the source method creates metadata but no working solution. Seed0 and caller resource limits replace Java policy/mocks; native opening rebuilds a bounded coordinate catalog then samples with replacement. Independent originals exercise productive repetition, execution, solver use, field separation and rejection. No Java PRNG trace, implicit cache/lifecycle or selector-class ABI equivalence claimed."
+    },
+    {
+      "id": "SubListSwapMoveSelectorFactoryTest.buildMoveSelectorMultiEntity",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/SubListSwapMoveSelectorFactoryTest.java",
+      "upstream_test": "buildMoveSelectorMultiEntity",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "local_test": "swap_build_move_selector_multi_entity",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve default selector configuration, complete single/multi-entity schema field identities/types, build-time random/just-in-time intent and both never-ending/reversing assertions. Native schema inference binds a real repeating SchemaSubListSource backed by current executable native sublist proposals, with explicit empty row bindings because the source method creates metadata but no working solution. Seed0 and caller resource limits replace Java policy/mocks; native opening rebuilds a bounded coordinate catalog then samples with replacement. Independent originals exercise productive repetition, execution, solver use, field separation and rejection. No Java PRNG trace, implicit cache/lifecycle or selector-class ABI equivalence claimed."
     }
   ],
   "fixtures": [
@@ -84949,6 +85129,214 @@
       "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
       "upstream_test": "assertObjectsAreEqual/assertObjectsAreNotEqual/assertCompareToOrder",
       "modifications": "Preserve every i<j pair: equality/hash and comparator equality for comparable equal fixtures, inequality plus comparator inequality for totals, identity-only inequality after Object cast for occurrences, forward less/reverse greater for every ordered pair. Native diagnostic comparator deliberately remains distinct from Eq for occurrence handles."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ListSwapMoveSelectorTest.noReachableEntities.fallback_fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/ListSwapMoveSelectorTest.java",
+      "upstream_test": "noReachableEntities",
+      "local_path": "crates/solver/tests/list_swap_fallback_cases.rs",
+      "modifications": "Complete TEST-derived entity-specific range fixture: numeric Rust identities1/2 replace value objects code1/2; entity slots0/1 replace A/B, retaining exact ranges/initial rows. Native list model validation/cursor replace Java mocked director and mimic selector wiring. No production implementation used."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "construction-factory-pooled_unfold_new-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PooledEntityPlacerFactoryTest.java",
+      "upstream_test": "unfoldNew; generateTestdataSolution/generateSolution where applicable",
+      "modifications": "Single inferred genuine Entity.value field, absent explicit change entity and entity replay identity; real generated domain changes strengthen the source config assertions. Native schema and explicit flattened slots replace Java solution/selector reflection; real finite domains and live assignment fixtures supply generated moves rather than scripted candidate tokens."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "construction-factory-queued_entity_build_from_unfold_new-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerFactoryTest.java",
+      "upstream_test": "buildFromUnfoldNew; generateTestdataSolution/generateSolution where applicable",
+      "modifications": "Two native schema fields primaryValue/secondaryValue and two change selectors; source initialized e1/e2 slots retain all four current values and shared ordered domain. First entity/first field placement preserves all four helper value codes, owner e1 and exhaustion. Native schema and explicit flattened slots replace Java solution/selector reflection; real finite domains and live assignment fixtures supply generated moves rather than scripted candidate tokens."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "construction-factory-queued_entity_build_with_entity_sort_manner-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedEntityPlacerFactoryTest.java",
+      "upstream_test": "buildWithEntitySortManner; generateTestdataSolution/generateSolution where applicable",
+      "modifications": "Native sortable entity policy retains both Sorted selection order and DescendingIfAvailable manner. Explicit application comparator replaces Java reflective fixture comparator and orders actual queue keys. Native schema and explicit flattened slots replace Java solution/selector reflection; real finite domains and live assignment fixtures supply generated moves rather than scripted candidate tokens."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "construction-factory-queued_value_build_without_configured_move_selector-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/QueuedValuePlacerFactoryTest.java",
+      "upstream_test": "buildEntityPlacer_withoutConfiguredMoveSelector; generateTestdataSolution/generateSolution where applicable",
+      "modifications": "Explicit entity with omitted move/field config infers its sole genuine field. Source e1/e2 uninitialized fixture and values v1/v2 produce the exact first-v1 entity-order placement and exhaustion. Native schema and explicit flattened slots replace Java solution/selector reflection; real finite domains and live assignment fixtures supply generated moves rather than scripted candidate tokens."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "construction-factory-entity-placement-assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PlacementAssertions.java",
+      "upstream_test": "assertEntityPlacement",
+      "modifications": "Preserve every helper next/existence, native change type, entity/value identity and final exhaustion assertion through actual placement iteration. Native indices denote stable fixture entity identity and domain values retain source codes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/construction_factory_cases.rs",
+      "id": "construction-factory-value-placement-assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/constructionheuristic/placer/entity/PlacementAssertions.java",
+      "upstream_test": "assertValuePlacement",
+      "modifications": "Preserve every helper next/existence, native change type, entity/value identity and final exhaustion assertion through actual placement iteration. Native indices denote stable fixture entity identity and domain values retain source codes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/selection_identity_cases.rs",
+      "id": "sublist-span-identity-geometry-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/list/SubListTest.java",
+      "upstream_test": "equals/testToString/setup",
+      "modifications": "Preserve source inline metadata and identity repetitions. Sublist fixture retains expected(A,3,9), different(B,3,9)/(A,9,3)/(A,9,9)/(A,3,3), same(A,3,9) and formatting(A,2,5). Pillar fixture registers the actual basic value field, whole-pillar policy, one shared entity-source reader and one shared true predicate; copied vectors retain canonical refs and repeated source/filter handles retain callback identity. Native explicit catalogs/canonical schema handles replace Java descriptors and filtering wrappers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/selection_identity_cases.rs",
+      "id": "pillar-demand-shared-filter-source-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/PillarDemandTest.java",
+      "upstream_test": "equality/setup",
+      "modifications": "Preserve source inline metadata and identity repetitions. Sublist fixture retains expected(A,3,9), different(B,3,9)/(A,9,3)/(A,9,9)/(A,3,3), same(A,3,9) and formatting(A,2,5). Pillar fixture registers the actual basic value field, whole-pillar policy, one shared entity-source reader and one shared true predicate; copied vectors retain canonical refs and repeated source/filter handles retain callback identity. Native explicit catalogs/canonical schema handles replace Java descriptors and filtering wrappers."
+    },
+    {
+      "id": "round129-sublist-single-solution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListSolution.java",
+      "upstream_test": "buildSolutionDescriptor",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain ListEntity and shadow-only ListValue entity declarations in the native schema. Source factory methods instantiate no planning rows/values; explicit empty bindings preserve that state."
+    },
+    {
+      "id": "round129-sublist-single-list-entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListEntity.java",
+      "upstream_test": "valueList",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain one genuine required list field valueList of ListValue element type."
+    },
+    {
+      "id": "round129-sublist-single-shadow-value",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/TestdataListValue.java",
+      "upstream_test": "entity/index",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain the shadow-only entity and its entity-owner/index fields with native ListEntity/i32 types; Java boxed nullable index mechanics are not exercised or claimed."
+    },
+    {
+      "id": "round129-sublist-multi-solution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySolution.java",
+      "upstream_test": "buildSolutionDescriptor",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain both genuine entity declarations and their distinct FirstValue/SecondValue types; no source row/value instance counts are invented."
+    },
+    {
+      "id": "round129-sublist-multi-first-entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntityFirstEntity.java",
+      "upstream_test": "valueList",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain one required list field valueList of FirstValue element type; unused difficulty/comparator/labels do not affect the source factory assertions."
+    },
+    {
+      "id": "round129-sublist-multi-second-entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/mixed/multientity/TestdataMixedMultiEntitySecondEntity.java",
+      "upstream_test": "basicValue/secondBasicValue",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain both required basic fields, each of SecondValue type. Actual schema inference excludes both from list-source construction."
+    },
+    {
+      "id": "round129-sublist-heuristic-policy",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/HeuristicConfigPolicyTestUtils.java",
+      "upstream_test": "buildHeuristicConfigPolicy(SolutionDescriptor)",
+      "local_path": "crates/solver/tests/schema_sublist_factory_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt the supplied schema and seed0 context into native source binding. Original native solver controls use score assertions; no Java policy/sorter/ClassInstanceCache object or implicit lifecycle/PRNG trace equivalence is claimed. Retain RANDOM/just-in-time build intent through per-opening native catalog construction and repeating random draws."
     }
   ]
 }

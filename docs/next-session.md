@@ -16,7 +16,71 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round128
+## Latest verified checkpoint — round129
+
+Frozen merged bash scripts/check.sh passed once on runner-c in235.964s:
+7,598Rust tests and290doctests. Shared parent-file dependency invalidation required
+1,050Rust jobs;111Rust and46Python jobs reused genuine unchanged runner-c records.
+Clippy33.99s; prebuild538.540s; total774.752s. Compatibility4,002/4,855 (82.430%),
+285pending,568excluded,zero failed/unverified. No compatibility credit for originals.
+Rust digest 8e3c3d1e21d06aec8349ef2cfe638960a12fac6e2171c1bbdcdc631be00c98ce.
+Report digest 7e08a547c66964758df183abfb59a57e1639de73167302accb0d2edaf6a158fd.
+Archive work/round129-runner-c-results.tar.gz SHA256:cdd413cb5ddefc8b0928accc9ecad56c21023fd72ce225b7a1ad7340b8a46183.
+Evidence work/parallel-round129-evidence.json; freeze work/parallel-round129-freeze.json;
+postcommit proof work/round129-postcommit-evidence.json. runner-c source snapshot
+d27adf737ed39711bd73c51789b9c3912c064f38743a2902ec955213f2591d67.
+Remote job records stay separate under work/round129-runner-c-results/work/verification;
+reuse relocates outputs only with checksum validation, preserving original keys,
+dates and logs. Backend report/freshness inspected. Do not repeat matching-input
+successful checks. Root merged formatting changes only; final gate covers them.
+
+Three GPT-6.1 Sol lanes completed: runner-c17 construction factory cases/Clippy;
+runner-a26 sublist cases/Clippy; local6 selection identity cases/Clippy. Root3
+repeating swap fallback tests passed locally. Actual failure logs/intermediate
+states and final manifests preserved under work/round129-agent-evidence.
+
+12 complete source methods and16 fixtures integrated: four construction factory
+inference/default/sort methods, four single/multi-entity sublist change/swap factory
+methods, two SubList identity/description methods, PillarDemand equality and
+ListSwapMoveSelector noReachableEntities.13 new original regressions earn no credit.
+
+ConstructionPlacerPlan binds canonical genuine fields to actual native queues/
+providers and rebuilding recipes. Explicit comparator replaces reflective sorter;
+ordinary-order fallback retained. Configured real solves, fresh copy/replay and
+metadata/binding errors tested. SchemaSubListFactory builds actual repeating
+current-snapshot proposals; defaults reverse, basic fields are excluded, and bound
+field boundaries remain separate. Native flat carriers require caller type-union
+binding for heterogeneous fields. Finite output and mandatory catalog limits bound
+this optional materialized source: conservative structural preflight, collection
+backstop,1024-value zero-clone/RNG-preservation control, real list/mixed solves and
+both mixed scoring backends. Ordinary lazy paths unchanged. Optional mimic-property
+error method remains pending. No Java RNG/cache/lifecycle ABI claim.
+
+SubListSpan maps source entity/start/length to actual geometry/moves with checked
+endpoints. PillarSelectionDemand records live source/filter identity, canonical
+refs and existing policy; grouping uses current facts without caching decisions.
+RepeatingListSwapAttempts reuses existing swap validation/index and bounded right
+probes; yields actual candidates or the canonical shared fallback token, converted
+to executable empty composite. Empty left fuses; empty right repeats fallback.
+Native occurrence weighting/seeds replace Java mock selector wiring; no PRNG trace
+claim. Fallback is not an optimum proof. Existing swap algorithms unchanged except
+parent module declarations/exports, which nevertheless invalidate broad file-based
+verification inputs. Do not retag old evidence to bypass freshness checks.
+
+No UI changes/repeated browser verification. No benchmark refresh; older sampling
+and paired Java k-opt evidence retain actual dates/source/binaries and stay stale.
+Seven exact virtual seam/iterator methods remain pending; all earlier discriminators
+preserved. Do not repeat refuted probes or add scripted outputs/duplicate endpoint
+scaffolding. Remaining inference is descriptor-to-rewrite conversion, orientation-
+sensitive feasibility, interior transport and implicit row boundaries.
+
+All agents/build jobs terminal after gate. Archive the three integrated round129
+worktrees only after commit and preserving ignored evidence. Stop temporary runner-c
+wake98540 after collection; no persistent settings changes. Up to three GPT-6.1 Sol
+agents/all three build machines remain authorized. Full objective incomplete and
+active; pin unchanged. Keep performance important and shrink actual backlog.
+
+## Previous verified checkpoint — round128
 
 Three GPT-6.1 Sol agents completed separate lanes. runner-c17 placer tests/Clippy passed;
 local42 occurrence/explanation cases and Clippy passed. Root runner-c3 frontier cases/

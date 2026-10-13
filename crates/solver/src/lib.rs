@@ -1726,8 +1726,34 @@ pub use pruning_frontier::{PruningFrontier, UninitializedPessimisticBound};
 mod rebuildable_placer;
 pub use rebuildable_placer::{PlacerCopyError, RebuildablePlacer};
 
+pub use list_value_swap::{
+    LIST_SWAP_NO_CHANGE, ListSwapAttempt, ListSwapNoChange, RepeatingListSwapAttempts,
+    repeating_list_swap_attempts,
+};
+
 mod constraint_occurrences;
 pub use constraint_occurrences::{
     ConstraintOccurrence, ConstraintOccurrenceBinding, ConstraintOccurrenceId,
     ConstraintOccurrenceLedger, ConstraintOccurrenceTotal,
 };
+
+mod construction_placer_factory;
+pub use construction_placer_factory::{
+    ConstructionChangeSelector, ConstructionEntityComparator, ConstructionEntitySort,
+    ConstructionFactoryError, ConstructionFactoryQueue, ConstructionFieldBinding,
+    ConstructionPlacerKind, ConstructionPlacerPlan, FactoryConstructionKeys,
+    FactoryConstructionMoves,
+};
+
+pub use construction_placer_factory::{ConstructionFactoryProvider, ConstructionPlacerRecipe};
+
+pub use construction_placer_factory::ConstructionEntityOrder;
+
+mod selection_identity;
+pub use selection_identity::{
+    PillarEntityFilter, PillarEntitySource, PillarSelectionDemand, SelectionIdentityError,
+    SubListSpan,
+};
+
+mod schema_sublist_factory;
+pub use schema_sublist_factory::{SchemaSubListFactory, SchemaSubListSource};
