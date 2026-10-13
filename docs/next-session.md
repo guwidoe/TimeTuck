@@ -16,7 +16,71 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round132
+## Latest verified checkpoint — round133
+
+The frozen merged `bash scripts/check.sh` passed once on runner-c in 245.283s:
+7,663 Rust tests and 290 doctests. Internal branch-record constructor/visibility
+changes required broad regression: 1,080 Rust jobs ran, 115 unchanged Rust jobs
+and 46 Python jobs reused matching evidence. Prebuild 554.928s,
+merged Clippy 35.56s, worker total 800.661s. Compatibility 4,030/4,855 (83.007%),
+257 pending,568 excluded,zero failed/unverified. Six complete methods, twelve
+fixtures and ten originals added. Originals earn no upstream-method credit.
+Rust digest 8932c0e40898bab3efdf6a3060a86c0b74c7921c499dd2e1e9d6fb9f4d93f4af.
+Report digest 4d10f03071c71b5636a5391316a0e3f77567091065f9d0cf890409c8ea3a40ad.
+runner-c source 85f0074874c01a2b66060b1158509ba760f70a8aa5451249bb50f8d709b7d56c.
+Archive `work/round133-runner-c-results.tar.gz` SHA256: e615c2b4a6e2df9f575eeec23da7357364c6961cef1921c73ab86568b74491be.
+Evidence `work/parallel-round133-evidence.json`, freeze
+`work/parallel-round133-freeze.json`, source IDs `work/round133-added-source-ids.json`.
+Agent artifacts under `work/round133-agent-evidence`; root focus
+`work/round133-root-evidence.json`. Genuine round132 runner-c records seeded reuse,
+with checksum-validated path relocation; original keys/times/logs retained.
+The exact source method name in basic provenance was corrected after freezing;
+`work/round133-report-metadata-correction.json` and preserved original ledger
+prove that only this metadata field changed. Frozen Rust digest remains unchanged;
+collector validates every other frozen input and regenerates current report.
+Dashboard data/freshness verified; no UI changes/browser rerun. Measurements stay stale.
+
+Optional run_exact_phase executes actual native moves, inverse records,
+BranchRestorer and PruningFrontier. ExactMovePhaseConfig preserves exploration
+validation, bounded/unbounded execution, step ceiling and first strict best.
+ExactBasicPhaseModel branches over all remaining movable entities × ordered
+domains; ExactListPhaseModel appends remaining values to current/later configured
+owners, with scheduling layer independent of actual completion. Each complete
+black-box source method passes all 40 configurations: 36 exact lifecycle/final-best
+traces and 4 exact invalid diagnostics. Basic cap 10; list cap 46. Varied native
+models, domains/pins/ranges, independent Cartesian/list optima, bounds and zero
+budgets pass. Source list ONLY_DOWN bound is explicitly preserved although its
+empty-list soft component can improve; admissibility is not inferred. Native
+originals supply admissible bounds. Existing exhaustive defaults/hot paths remain.
+Mixed source score-calculator/restoration trace remains pending; no partial credit.
+
+ReconstructionPhaseBuilder owns actual cloned model/assignment worker contexts,
+inherits enclosing environment assertions, preserves root placer identity and
+copies placers for derived contexts with multiple configured workers. Execution
+binds to the exact context and uses native provider construction. Full 3 source
+methods and 3 originals cover identity/mode/copy, separate reconstruction, native
+ruin+repair, foreign/sibling rejection and score corruption checks. No parallel
+executor or Java trend-width/reflection/ABI equivalence claimed.
+
+LocalSearchPhasePlan fluently consumes actual LocalSearchConfig/SolverPhase.
+Explicit variable tabu chooses BestAccepted; retained-best feasible stopping
+and accepted-candidate caps reach existing search. Full chaining method and 2
+originals verify actual feasible stop and different cap-selected moves. Root
+first focus failed because FirstAccepted made the cap ineffective; explicit
+BestAccepted preset fixed actual behavior and final 3 focus tests passed. No Java
+TABU default tuning parity. Basic/list compiler/type warnings and reconstruction
+fixture dead-code errors are preserved alongside actual final focused/Clippy passes.
+runner-c basic 10 focus/Clippy; runner-a list 3 focus/Clippy; local reconstruction 11 focus/
+Clippy (includes existing copy controls). All jobs/agents terminal. No extra scope.
+
+Commit after staged review. Preserve ignored evidence before archiving the three
+round133 worktrees; stop the temporary runner-c wake connection 80917 after collection.
+Seven k-opt seam methods remain pending, with prior refuted probes preserved.
+Goal remains active/incomplete; pin unchanged. Continue shrinking compatibility
+backlog, keep performance important, reuse unchanged verification; at most 3
+GPT-6.1 Sol agents and all 3 build machines remain authorized.
+
+## Previous verified checkpoint — round132
 
 The frozen merged `bash scripts/check.sh` passed once on runner-c in 244.386s:
 7,647 Rust tests and 290 doctests. Shared composition ancestry, snapshot metadata

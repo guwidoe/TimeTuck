@@ -9430,3 +9430,31 @@ hold-view, touching2..4 merge and changed hash. Originals exercise live geometry
 retained snapshots, invalid updates and zero clones during repeated hash reads.
 This optional owner has no Clone/shared-fork semantics and makes no incremental
 maintenance or speed claim; ordinary collectors are unchanged.
+
+The optional exact list move phase now reproduces the complete BlackBox list exhaustive trace method: all40 configurations,46-step ceiling, invalid exploration diagnostics, and finalbest. It uses real append/unassign moves, recorded root replay, entity-position scheduling, and independent complete-assignment detection. Explicit order permutations replace Java comparator discovery. The source fixture declares ONLY_DOWN and this declaration is retained as its supplied current-score bound; because empty-list soft penalties can improve, that particular declaration is not a general admissibility guarantee. Callers must supply valid bounds for optimum guarantees; native originals check varying models with admissible bounds. Ordinary exhaustive defaults are unchanged. Mixed-variable score-call/restoration traces remain pending.
+
+Round 133 adds an optional move-based exhaustive phase using native branch records,
+inverse moves, restoration and frontier ordering. The basic adapter branches over
+all remaining movable entities and ordered domains. The list adapter schedules
+ordered owners independently of completion and appends remaining values only to
+the current or later owner. Both complete source methods preserve all 40 parameter
+rows, exact observed step traces, ceilings and final best results. Caller-provided
+bounds control pruning; native originals use admissible bounds. The source list
+fixture's declared ONLY_DOWN bound is preserved even though assigning empty lists
+can improve its soft score; passing that trace does not establish admissibility.
+Existing snapshot-based exhaustive defaults remain unchanged. The mixed source
+calculator-call/restoration trace remains pending.
+
+ReconstructionPhaseBuilder uses actual owned problem/assignment contexts, inherited
+environment assertions and real reconstruction through native providers. Derived
+contexts receive fresh placer copies when configured for multiple workers; phase
+execution is bound to its exact context. Three complete source methods preserve
+single-context identity, FULL_ASSERT inheritance and derived-context isolation.
+Originals reconstruct independently, repair a ruined snapshot, reject foreign
+contexts and detect score corruption. This adds no parallel executor or Java ABI.
+
+LocalSearchPhasePlan consumes the existing local search configuration through a
+fluent native interface. Explicit variable tabu selects best-accepted scanning;
+feasible termination and accepted-candidate limits reach the actual solver phase.
+The complete chaining method and originals verify real feasible stopping and a
+candidate cap changing the chosen move. No Java preset tuning parity is claimed.

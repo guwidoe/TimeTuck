@@ -96,6 +96,14 @@ pub struct RecordedMove<A, M> {
     undo: M,
 }
 impl<A: Eq, M> RecordedMove<A, M> {
+    pub(crate) fn from_parts(before: A, after: A, forward: M, undo: M) -> Self {
+        Self {
+            before,
+            after,
+            forward,
+            undo,
+        }
+    }
     pub fn before(&self) -> &A {
         &self.before
     }
@@ -124,7 +132,10 @@ impl<A: Eq, M> RecordedMove<A, M> {
 pub type RecordedTemporaryResult<R, A, M, D, E> =
     Result<(R, RecordedMove<A, M>), TemporaryMoveError<D, E>>;
 
-fn inverse_basic<V: Eq + Clone>(before: &Assignment<V>, after: &Assignment<V>) -> Move<V> {
+pub(crate) fn inverse_basic<V: Eq + Clone>(
+    before: &Assignment<V>,
+    after: &Assignment<V>,
+) -> Move<V> {
     Move::Composite(
         before
             .values()
@@ -139,7 +150,7 @@ fn inverse_basic<V: Eq + Clone>(before: &Assignment<V>, after: &Assignment<V>) -
             .collect(),
     )
 }
-fn inverse_list<V: Eq + Clone>(
+pub(crate) fn inverse_list<V: Eq + Clone>(
     before: &ListAssignment<V>,
     after: &ListAssignment<V>,
 ) -> ListMove<V> {
@@ -171,7 +182,7 @@ fn inverse_list<V: Eq + Clone>(
     }
     ListMove::Composite(steps)
 }
-fn inverse_mixed<B: Eq + Clone, L: Eq + Clone>(
+pub(crate) fn inverse_mixed<B: Eq + Clone, L: Eq + Clone>(
     before: &MixedAssignment<B, L>,
     after: &MixedAssignment<B, L>,
 ) -> MixedMove<B, L> {

@@ -60508,6 +60508,96 @@
       "upstream_test": "lookUpImmutable",
       "local_test": "look_up_immutable",
       "modifications": "Preserve all26 source data rows with actual typed immutable values: bool/i8/i16/i32/i64/f32/f64, BigInt1, Decimal1, char!, emptyString, SystemTime epoch12345ms, distinct temporal component records preserving complete source fields, UTC offsetseconds0, Duration5days and Period1year2months3days. Add/remove execute core Immutable registration policies without runtime failures; lookup preserves every value equality and adds original external Arc identity assertion. Explicit immutable schema replaces Java type discovery. Temporal records assert field/value preservation only, not native calendar/time-zone arithmetic, Java classes or API/ABI parity."
+    },
+    {
+      "id": "LocalSearchPhaseConfigTest.withMethodCallsProperlyChain",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/localsearch/LocalSearchPhaseConfigTest.java",
+      "upstream_test": "withMethodCallsProperlyChain",
+      "local_path": "crates/solver/tests/local_phase_plan_cases.rs",
+      "local_test": "with_method_calls_properly_chain",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve chained tabu selection, enabled feasibility termination and accepted-candidate limit5. Required native config fields replace non-null Java child DTOs. Explicit best-accepted scanning with variable tabu tenure1/aspirationtrue and HardSoft native score context replace unspecified Java TABU_SEARCH preset tuning; no default-tuning/ABI claim. Existing native kernels consume the resulting config/phase directly. Originals prove actual feasibility stopping and cap1-versus-cleared scan changes the selected move while retaining tabu policy."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BlackBoxBasicVariableExhaustiveSearchPhaseTest.verifyExhaustiveSearchSteps",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxBasicVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "verifyExhaustiveSearchSteps",
+      "local_path": "crates/solver/tests/exact_basic_phase_cases.rs",
+      "local_test": "verify_exhaustive_search_steps",
+      "modifications": "Preserve all36 valid configuration traces: all10 exact step-ended working states plus exact final best, five branch-and-bound node exploration policies \u00d7 two entity orders \u00d7 three value orders, and six brute-force configurations. Preserve all four invalid brute-force/node-order combinations and their complete diagnostic text. Native optional ExactMovePhaseConfig/run_exact_phase invokes actual native changes, independent duplicate calculator/structural scoring, PruningFrontier and guarded RecordedMove/BranchRestorer restoration; no trace states are used by production code. Change selection covers every currently unassigned entity \u00d7 ordered values, with no scripted successor output. Terminal candidates update first strict best during real generation and are not steps. Entity labels sort lexically and value codes sort by native numeric order equivalent on this fixture; native explicit admissible ONLY_DOWN upper bound strips structural levels. Existing snapshot exhaustive/profile defaults remain unchanged; no Java factory/lifecycle/object ABI claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BlackBoxListVariableExhaustiveSearchPhaseTest.verifyExhaustiveSearchSteps",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxListVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "verifyExhaustiveSearchSteps",
+      "local_path": "crates/solver/tests/exact_list_phase_cases.rs",
+      "local_test": "verify_exhaustive_search_steps",
+      "modifications": "Preserve all40 parameter rows:30 branch-and-bound,6 legal brute-force,4 incompatible configurations. Execute actual native ListProblem Assign/Unassign moves through recorded restoration and configured frontier ordering. Entity-layer traversal uses same-or-later append destinations and independently tests completion; hard=-list length for multi-value rows, soft=-empty row count, structural=-unassigned. Preserve source entity order2/1/3, value order1/3/2, comparator ascending/descending cases, declared ONLY_DOWN ordinary current-score bound,46-step cap, every lifecycle step and final best. Native public configuration supplies bound explicitly; source declared score trend is faithfully preserved even though empty-row soft penalties can improve, and no admissibility/Java reflection parity is inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/RuinRecreateConstructionHeuristicPhaseBuilderTest.java",
+      "local_path": "crates/solver/tests/reconstruction_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RuinRecreateConstructionHeuristicPhaseBuilderTest.buildSingleThreaded",
+      "status": "implemented",
+      "upstream_test": "buildSingleThreaded",
+      "local_test": "build_single_threaded",
+      "modifications": "Preserve every source assertion: PHASE_ASSERT single-worker build shares actual placer allocation; enclosing FULL_ASSERT is retained by nested phase; move worker count2 with actual derived working context returns a fresh placer distinct from original. RebuildablePlacer retains real ConstructionPlacerRecipe/Plan provider sessions, and copies rebuild fresh queue/cache/lifecycle state. Native ReconstructionContext owns actual current problem/assignment and derives independent workers with real retained parent lineage, replacing mocked scoreDirector.isDerived. Exact context-bound reconstruct executes existing provider-based construction, installs inherited native score checks, and commits retained results only on success. Source unconstrained initializing trend ANY/ANY/ANY corresponds to no native optimistic bounds; no Java trend-width, descriptor/config ABI, parallel executor or score-director reflection claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/RuinRecreateConstructionHeuristicPhaseBuilderTest.java",
+      "local_path": "crates/solver/tests/reconstruction_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RuinRecreateConstructionHeuristicPhaseBuilderTest.nestedPhaseRunsInTheEnclosingPhaseEnvironmentMode",
+      "status": "implemented",
+      "upstream_test": "nestedPhaseRunsInTheEnclosingPhaseEnvironmentMode",
+      "local_test": "nested_phase_runs_in_the_enclosing_phase_environment_mode",
+      "modifications": "Preserve every source assertion: PHASE_ASSERT single-worker build shares actual placer allocation; enclosing FULL_ASSERT is retained by nested phase; move worker count2 with actual derived working context returns a fresh placer distinct from original. RebuildablePlacer retains real ConstructionPlacerRecipe/Plan provider sessions, and copies rebuild fresh queue/cache/lifecycle state. Native ReconstructionContext owns actual current problem/assignment and derives independent workers with real retained parent lineage, replacing mocked scoreDirector.isDerived. Exact context-bound reconstruct executes existing provider-based construction, installs inherited native score checks, and commits retained results only on success. Source unconstrained initializing trend ANY/ANY/ANY corresponds to no native optimistic bounds; no Java trend-width, descriptor/config ABI, parallel executor or score-director reflection claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/RuinRecreateConstructionHeuristicPhaseBuilderTest.java",
+      "local_path": "crates/solver/tests/reconstruction_builder_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RuinRecreateConstructionHeuristicPhaseBuilderTest.buildMultiThreaded",
+      "status": "implemented",
+      "upstream_test": "buildMultiThreaded",
+      "local_test": "build_multi_threaded",
+      "modifications": "Preserve every source assertion: PHASE_ASSERT single-worker build shares actual placer allocation; enclosing FULL_ASSERT is retained by nested phase; move worker count2 with actual derived working context returns a fresh placer distinct from original. RebuildablePlacer retains real ConstructionPlacerRecipe/Plan provider sessions, and copies rebuild fresh queue/cache/lifecycle state. Native ReconstructionContext owns actual current problem/assignment and derives independent workers with real retained parent lineage, replacing mocked scoreDirector.isDerived. Exact context-bound reconstruct executes existing provider-based construction, installs inherited native score checks, and commits retained results only on success. Source unconstrained initializing trend ANY/ANY/ANY corresponds to no native optimistic bounds; no Java trend-width, descriptor/config ABI, parallel executor or score-director reflection claim."
     }
   ],
   "fixtures": [
@@ -86083,6 +86173,162 @@
       "id": "lookup-immutable-full26-value-fixture",
       "upstream_test": "data",
       "modifications": "Preserve every parameter row and both internal/external values. Temporal types are distinct typed records with actual calendar/time components; there are no validity flags or labels substituting for values. Monday=DayOfWeek1, December=Month12, Year1999, YearMonth1999/12, date1/2/3, minute-only times with seconds/nanos0, full offset/zoned datetime1/2/3 4:5:6 nano7, offsettime1:2:3 nano4, offset0UTC, Duration432000seconds and Period1/2/3. BigInt/Decimal and std scalar/SystemTime/Duration retain native representations; no new dependency/calendar implementation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "exact-basic-full-parameter-traces",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxBasicVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "params; getBranchAndBoundConfigs; getBruteForceConfigs",
+      "local_path": "crates/solver/tests/fixtures/exact_basic_trace_rows.rs",
+      "modifications": "Complete direct TEST adaptation of all40 parameter rows, including all36 eleven-state trace expectations and4 invalid rows. Only the test fixture retains expected states; engine/model generation never consumes them."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "exact-basic-input-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxBasicVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "buildSolution; buildSolverConfig",
+      "local_path": "crates/solver/tests/exact_basic_phase_cases.rs",
+      "modifications": "Preserve four initially unassigned entity identities in entity4/entity2/entity3/entity1 order; three values1/3/2; PHASE sorted entity/value policies NONE/DESCENDING/ASCENDING; exact10-step ceiling; explicit ONLY_DOWN score bound. Native field-slot identities and calculated permutations replace Java selectors/reflection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "exact-basic-independent-score-calculator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxBasicVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "TestdataComparableDifferentValuesCalculator.calculateScore",
+      "local_path": "crates/solver/tests/exact_basic_phase_cases.rs",
+      "modifications": "Preserve actual source TEST calculator body: skip null, penalize each occurrence after first by1. Native ConstraintNetwork independent calculator supplies real ordinary score and native required-variable structural score; the comment typo suggesting1111=-4 is not an assertion and is not substituted for the actual body."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "exact-basic-state-recorder",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxBasicVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "TestdataSolutionStateRecorder.stepEnded; solvingEnded; addWorkingSolution",
+      "local_path": "crates/solver/tests/exact_basic_phase_cases.rs",
+      "modifications": "Preserve completed-step observation order, null dash rendering, value codes, ordered entity fields and final-best snapshot append. Actual native move phase callback and returned strict best replace Java listener/scope objects without claiming event ABI."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "exact-basic-code-comparator-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/comparable/TestdataCodeComparator.java",
+      "upstream_test": "compare",
+      "local_path": "crates/solver/tests/exact_basic_phase_cases.rs",
+      "modifications": "Preserve TEST helper code ordering for entity4/entity2/entity3/entity1 and values1/3/2. Native lexical entity comparator and numeric1..3 value comparator calculate real permutations, including reversed descending order; no Java annotation comparator discovery claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round133-list-exact-params",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxListVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "params/getBranchAndBoundConfigs/getBruteForceConfigs",
+      "local_path": "crates/solver/tests/fixtures/exact_list_trace_fixture.rs",
+      "modifications": "Retain full40-row parameter matrix and every manually specified expected lifecycle trace, including finalbest and invalid rows; Java enum values map to native explicit configuration. No generated expected outputs substitute for solver execution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round133-list-exact-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxListVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "buildSolution/buildSolverConfig/TestdataComparableSingleValueCalculator/TestdataSolutionStateRecorder",
+      "local_path": "crates/solver/tests/exact_list_phase_cases.rs",
+      "modifications": "Preserve three empty entity rows in2/1/3 order and three typed integer value identities1/3/2, configured46step cap, source hard/soft scoring and ONLY_DOWN trend, sorted entity-name display and value-list order. Rust typed identity/indices replace Java objects and class annotations; real native move execution drives all observations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round133-list-sortable-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/comparator/TestdataListSortableEntity.java",
+      "upstream_test": "constructor/getComparatorValue",
+      "local_path": "crates/solver/tests/exact_list_phase_cases.rs",
+      "modifications": "Preserve entity difficulty1/2/3 and empty lists; native registry slots and explicit sorted permutations replace reflected comparator annotation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round133-list-sortable-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/sort/comparator/TestdataListSortableSolution.java",
+      "upstream_test": "valueList/entityList/getters/setters",
+      "local_path": "crates/solver/tests/exact_list_phase_cases.rs",
+      "modifications": "Native ListProblem carries real value registry/entity rows; class annotations and descriptor discovery are replaced by explicit model construction. Unused generated helper behavior is not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round133-list-sortable-values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestdataSortableValue.java",
+      "upstream_test": "constructor/getComparatorValue",
+      "local_path": "crates/solver/tests/exact_list_phase_cases.rs",
+      "modifications": "Preserve value identities and strength1/3/2 as i32 stable native values."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round133-list-sort-comparator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/common/TestSortableObjectComparator.java",
+      "upstream_test": "compare",
+      "local_path": "crates/solver/tests/exact_list_phase_cases.rs",
+      "modifications": "Integer ascending comparison and reversed descending order become explicit index permutations; no JVM comparator machinery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/RuinRecreateConstructionHeuristicPhaseBuilderTest.java",
+      "local_path": "crates/solver/tests/fixtures/reconstruction_builder_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "reconstruction-phase-builder-enclosing-policy-fixture",
+      "upstream_test": "buildSingleThreaded/nestedPhaseRunsInTheEnclosingPhaseEnvironmentMode/buildMultiThreaded/setup",
+      "modifications": "Adapt complete TEST policy setup: PHASE_ASSERT/FULL_ASSERT, solution/entity basic value metadata, unconstrained initializing trend and default mocked construction config, move workers2 and derived-score-director prerequisite. Native registered Solution/Entity/value metadata, actual queued ConstructionPlacerPlan slot binding and RebuildablePlacer recipe supply real providers; owned parent/worker problem and assignment contexts establish derivation. Native fixture two entities/two values is additional runtime setup, not a claimed source generated-solution fixture. Native unbounded initialization replaces all three ANY declarations without creating unused Java trend metadata or asserting score-width parity."
     }
   ]
 }

@@ -14,11 +14,13 @@
 
 mod inner_termination_config;
 mod live_range_view;
+mod local_phase_plan;
 mod score_level;
 pub use inner_termination_config::{
     BuiltInnerTermination, InnerTerminationCondition, InnerTerminationConfig,
 };
 pub use live_range_view::{LiveConnectedRangeCollector, LiveConnectedRangeView};
+pub use local_phase_plan::LocalSearchPhasePlan;
 mod sublist_selection_config;
 pub use score_level::ScoreLevel;
 pub use sublist_selection_config::{SubListSelectionBuildError, SubListSelectionConfig};
@@ -1800,4 +1802,22 @@ mod descriptor_mutation_views;
 pub use descriptor_mutation_views::{
     DescriptorFieldObservation, DescriptorMutationError, DescriptorMutationReport,
     DescriptorMutationViews,
+};
+
+mod exact_phase;
+pub use exact_phase::{
+    ExactMovePhaseConfig, ExactPhaseBest, ExactPhaseError, ExactPhaseKind, ExactPhaseModel,
+    ExactPhaseOutcome, ExactPhaseResult, InvalidExactExploration, run_exact_phase,
+};
+
+mod exact_basic_phase;
+pub use exact_basic_phase::{ExactBasicModelError, ExactBasicPhaseModel};
+
+mod exact_list_phase;
+pub use exact_list_phase::{ExactListPhaseError, ExactListPhaseModel};
+
+mod reconstruction_phase;
+pub use reconstruction_phase::{
+    ReconstructionBuildError, ReconstructionContext, ReconstructionContextError,
+    ReconstructionPhase, ReconstructionPhaseBuilder, ReconstructionRunError,
 };
