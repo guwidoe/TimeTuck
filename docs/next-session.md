@@ -16,7 +16,87 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round133
+## Latest verified checkpoint — round134
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in 391.077s:
+7,693 Rust tests and 290 doctests. All 1,201 Rust jobs and 46 Python jobs ran because
+the actual runner-a environment differs from the round133 runner-c records. Cache keys
+include full platform/Python/PATH/tool versions; none were relabeled or retagged.
+Prebuild 1027.990s, merged Clippy 51.99s, worker total 1,419.573s.
+Compatibility 4,052/4,855 (83.460%), 235 pending, 568 excluded, zero failed/unverified.
+Twenty-two complete methods, thirteen fixtures and eight originals added.
+Rust digest e65158ceeb2fe45f4481647c3549908e15c12a00fb6c200f3dad3c3be67d7763.
+Report digest 8033a6ad8c01c55716c0676d7e2f07db5c09dfab95b89ebd60658a8ab0337dd7.
+runner-a source 82740987bd3c1d003872135795d6e8f80a03636411bc4b503e707a758520a9a9.
+Archive `work/round134-runner-a-results.tar.gz` SHA256: f3c2398a8d7c75c6d92cb8f499033993f84b8cccfe46d92f1f4d0a44b07b532e.
+Evidence `work/parallel-round134-evidence.json`, freeze
+`work/parallel-round134-freeze.json`, IDs `work/round134-added-source-ids.json`.
+Agent artifacts `work/round134-agent-evidence`, root focus
+`work/round134-root-evidence.json`. Collector verifies actual frozen Rust/files/logs
+and backend report freshness. No UI/render changes, browser rerun or benchmark
+refresh; existing measurements remain visibly stale. Use the actual runner-a
+records on runner-a next time; if runner-c returns, round133 runner-c evidence remains a
+valid cache seed for genuinely unchanged inputs/environment. Do not repeat the
+completed suite merely for a new turn/commit or to obtain a different host label.
+
+Root adds exclusively borrowed SignedCounter32/64 wrapping arithmetic and primitive
+casts: all 6 MutableInt/Long methods, including complete comparisons/max-value casts.
+OccurrenceCounts uses a hash index and real reclaimable logical slots; all 2 count/
+display methods retain every source observation. Native capacity means retained
+logical slots, not Vec backing capacity; no source linear-probe/performance claim.
+Two originals cover varied counts against an independent map, cloning/reuse,
+missing decrements and signed boundaries. Ten focused tests and Clippy 20.37s pass
+locally (75767/41315). No solver/collector hot-path changes.
+
+CheckedMoveTester explicitly accepts Option input at application boundaries and
+validates absent solution/move/callback names before underlying model work or
+callbacks. It delegates actual native MoveTester sessions. All 4 remaining source
+methods plus 3 originals pass; finite/list/mixed application, temporary observation,
+real apply/undo/replay and errors/panics tested. Shared move_tester.rs and its old 5
+source methods/records unchanged. Old record prose is historical; current docs/new
+records supersede its pending-null wording. runner-a final 40514 passed; final output
+honestly includes 12 total because old 5 were launched before reuse steering.
+New contribution 7 tests; unchanged focus2 evidence reused, no further reruns.
+Compiler failure from wrong list variant preserved; actual Change variant fixed.
+Rust Option/native errors replace Java NPE/reflection/aliasing ABI.
+
+WorkerDatasetFacade provides native Store/EventSink traits, real owned in-memory
+JSON/config/metadata snapshots, clock-backed submit time, store-derived IDs/origins,
+independent selected input/output children, atomic existing JsonPatch and checked-ID
+SolveStart. Ten complete facade methods and3 originals pass 13 focused tests locally
+(6948); Clippy 19.78s (11614). Originals cover nonempty nested patches, multigeneration
+ownership, failure publication boundaries and actual native solving from stored
+input after consuming Start. Event requests do not claim completed solving.
+Sink failure after persistence keeps record/earlier delivery; no global-ID/durable/
+reactive/JVM infrastructure guarantee. No added dependencies/shared solver edits.
+
+Mixed exhaustive method remains pending, with NO Rust/engine changes or source
+credit. The TEST-derived opaque probe reproduces both complete 171/183 calculator
+traces and one 37-step phase, returned best `(12)(21)[4][5,6]`. Basic Cartesian
+root+9 expansions consumes 10 steps. List frontier has two distinct null-move roots
+at the same basic-best/empty-list state: brute secondroot step 20; bounded step 24.
+Every other list restoration scores its actual node; initial bounded root has an
+extra calculation, and two final calculations observe lastworking, not returnedbest.
+Do not script two separate list runs or consume fixture states in Rust. Need general
+native multi-root/initial-cache/restoration semantics with full source trace proof.
+Probe `.java`, observations JSON, 5 fixtures and three variants/logs/artifact hashes
+preserved; no production source/private fields/bytecode bodies inspected. Frozen
+`work/round134-agent-evidence/mixed/round134-mixed-final-probe-evidence.json` and
+archive `round134-mixed-probe-evidence.tar.gz` SHA256:
+d5c2157f80c21622b56775bfb704b9fbcd9efe769de2c8bd7cafaa19b202ebca.
+
+runner-c dispatch 62259 ended 1 before remote verification started (SSH mkdir timeout);
+source fac5e202..., documented `work/round134-runner-c-dispatch-failure.json`. Temporary
+wake 13554 also ended 255 before connection; no wake process started or remains.
+Fallback runner-a 27704 and collection 47737 terminal 0. No check was restarted due
+to an observation timeout. Model-capacity errors in two GPT-6.1 Sol lanes retried
+once, then both completed; all agents/builds now terminal. Commit after staged
+review; preserve ignored artifacts before archiving all three round134 worktrees.
+Goal remains active/incomplete, pin unchanged, seven k-opt seam methods still
+pending with prior refuted probes retained. Continue closing compatibility gaps,
+keep performance important; at most 3 GPT-6.1 Sol agents/all 3 machines authorized.
+
+## Previous verified checkpoint — round133
 
 The frozen merged `bash scripts/check.sh` passed once on runner-c in 245.283s:
 7,663 Rust tests and 290 doctests. Internal branch-record constructor/visibility

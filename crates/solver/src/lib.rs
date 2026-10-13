@@ -1821,3 +1821,18 @@ pub use reconstruction_phase::{
     ReconstructionBuildError, ReconstructionContext, ReconstructionContextError,
     ReconstructionPhase, ReconstructionPhaseBuilder, ReconstructionRunError,
 };
+
+mod numeric_counters;
+pub use numeric_counters::{
+    OccurrenceCountError, OccurrenceCounts, SignedCounter32, SignedCounter64,
+};
+
+mod checked_move_tester;
+pub use checked_move_tester::{CheckedMoveTestContext, CheckedMoveTestError, CheckedMoveTester};
+
+mod worker_dataset_facade;
+pub use worker_dataset_facade::{
+    InMemoryWorkerDatasetStore, NewWorkerDataset, WorkerDataset, WorkerDatasetEvent,
+    WorkerDatasetEventKind, WorkerDatasetEventSink, WorkerDatasetFacade, WorkerDatasetMetadata,
+    WorkerDatasetSelector, WorkerDatasetStatus, WorkerDatasetStore, WorkerFacadeError,
+};

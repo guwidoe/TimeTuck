@@ -60598,6 +60598,336 @@
       "upstream_test": "buildMultiThreaded",
       "local_test": "build_multi_threaded",
       "modifications": "Preserve every source assertion: PHASE_ASSERT single-worker build shares actual placer allocation; enclosing FULL_ASSERT is retained by nested phase; move worker count2 with actual derived working context returns a fresh placer distinct from original. RebuildablePlacer retains real ConstructionPlacerRecipe/Plan provider sessions, and copies rebuild fresh queue/cache/lifecycle state. Native ReconstructionContext owns actual current problem/assignment and derives independent workers with real retained parent lineage, replacing mocked scoreDirector.isDerived. Exact context-bound reconstruct executes existing provider-based construction, installs inherited native score checks, and commits retained results only on success. Source unconstrained initializing trend ANY/ANY/ANY corresponds to no native optimistic bounds; no Java trend-width, descriptor/config ABI, parallel executor or score-director reflection claim."
+    },
+    {
+      "id": "MutableIntTest.arithmetic",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MutableIntTest.java",
+      "upstream_test": "arithmetic",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "int_arithmetic",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "id": "MutableIntTest.comparison",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MutableIntTest.java",
+      "upstream_test": "comparison",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "int_comparison",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "id": "MutableIntTest.values",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MutableIntTest.java",
+      "upstream_test": "values",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "int_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "id": "MutableLongTest.arithmetic",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MutableLongTest.java",
+      "upstream_test": "arithmetic",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "long_arithmetic",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "id": "MutableLongTest.comparison",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MutableLongTest.java",
+      "upstream_test": "comparison",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "long_comparison",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "id": "MutableLongTest.values",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/MutableLongTest.java",
+      "upstream_test": "values",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "long_values",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "id": "DynamicLinearProbeNonNegativeIntCounterTest.count",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicLinearProbeNonNegativeIntCounterTest.java",
+      "upstream_test": "count",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "count",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "id": "DynamicLinearProbeNonNegativeIntCounterTest.testToString",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/DynamicLinearProbeNonNegativeIntCounterTest.java",
+      "upstream_test": "testToString",
+      "local_path": "crates/solver/tests/numeric_counter_cases.rs",
+      "local_test": "test_to_string",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve full source arithmetic result/current value, comparison/self equality and both ordering directions, or maximum-width four primitive casts. Native exclusively borrowed typed counters explicitly wrap at width boundaries. For occurrence count methods preserve all source zero/get/increment/decrement/reclaimed-slot capacity observations and exact display states. Native hash index and actual reusable logical slots replace unspecified source probe implementation; no linear-probe layout/performance claim. Original varied key/count trace crosschecks independent map, clone isolation and retained slot reuse; original signed wrapping/narrowing conversions are explicit native extensions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.usingWithNullSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "usingWithNullSolution",
+      "local_path": "crates/solver/tests/checked_move_tester_cases.rs",
+      "local_test": "using_with_null_solution",
+      "modifications": "Retain the complete absent-argument case, actual built model/tester/context, initialized2-value2-entity solution where present, empty dummy edit or empty inspection callback as applicable, failure and diagnostic argument-name containment. Rust Option::None and CheckedMoveTestError replace Java null/NullPointerException; typed FiniteProblem and real MoveTester/MoveDraft contexts replace reflective solution metadata. Missing checks happen before edits/inspection and delegate all present inputs to native execution. No Java exception-class, reflection or externally aliased entity-mutation parity is claimed. Add unchanged-assignment and callback-silence checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.executeWithNullMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "executeWithNullMove",
+      "local_path": "crates/solver/tests/checked_move_tester_cases.rs",
+      "local_test": "execute_with_null_move",
+      "modifications": "Retain the complete absent-argument case, actual built model/tester/context, initialized2-value2-entity solution where present, empty dummy edit or empty inspection callback as applicable, failure and diagnostic argument-name containment. Rust Option::None and CheckedMoveTestError replace Java null/NullPointerException; typed FiniteProblem and real MoveTester/MoveDraft contexts replace reflective solution metadata. Missing checks happen before edits/inspection and delegate all present inputs to native execution. No Java exception-class, reflection or externally aliased entity-mutation parity is claimed. Add unchanged-assignment and callback-silence checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.executeTemporarilyWithNullMove",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "executeTemporarilyWithNullMove",
+      "local_path": "crates/solver/tests/checked_move_tester_cases.rs",
+      "local_test": "execute_temporarily_with_null_move",
+      "modifications": "Retain the complete absent-argument case, actual built model/tester/context, initialized2-value2-entity solution where present, empty dummy edit or empty inspection callback as applicable, failure and diagnostic argument-name containment. Rust Option::None and CheckedMoveTestError replace Java null/NullPointerException; typed FiniteProblem and real MoveTester/MoveDraft contexts replace reflective solution metadata. Missing checks happen before edits/inspection and delegate all present inputs to native execution. No Java exception-class, reflection or externally aliased entity-mutation parity is claimed. Add unchanged-assignment and callback-silence checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MoveTesterTest.executeTemporarilyWithNullCallback",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/preview/api/move/test/MoveTesterTest.java",
+      "upstream_test": "executeTemporarilyWithNullCallback",
+      "local_path": "crates/solver/tests/checked_move_tester_cases.rs",
+      "local_test": "execute_temporarily_with_null_callback",
+      "modifications": "Retain the complete absent-argument case, actual built model/tester/context, initialized2-value2-entity solution where present, empty dummy edit or empty inspection callback as applicable, failure and diagnostic argument-name containment. Rust Option::None and CheckedMoveTestError replace Java null/NullPointerException; typed FiniteProblem and real MoveTester/MoveDraft contexts replace reflective solution metadata. Missing checks happen before edits/inspection and delegate all present inputs to native execution. No Java exception-class, reflection or externally aliased entity-mutation parity is claimed. Add unchanged-assignment and callback-silence checks."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.createDataset_persistsAndEmitsValidateComputeWithoutSolve",
+      "status": "implemented",
+      "upstream_test": "createDataset_persistsAndEmitsValidateComputeWithoutSolve",
+      "local_test": "create_dataset_persists_and_emits_validate_compute_without_solve",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.createAndSolveDataset_emitsValidateComputeWithSolveTrue",
+      "status": "implemented",
+      "upstream_test": "createAndSolveDataset_emitsValidateComputeWithSolveTrue",
+      "local_test": "create_and_solve_dataset_emits_validate_compute_with_solve_true",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.solveDataset_sendsStartCommand",
+      "status": "implemented",
+      "upstream_test": "solveDataset_sendsStartCommand",
+      "local_test": "solve_dataset_sends_start_command",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.solveDataset_unknownId_throwsItemNotFound",
+      "status": "implemented",
+      "upstream_test": "solveDataset_unknownId_throwsItemNotFound",
+      "local_test": "solve_dataset_unknown_id_throws_item_not_found",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.createDataset_fromExistingDataset_missingParent_throwsItemNotFound",
+      "status": "implemented",
+      "upstream_test": "createDataset_fromExistingDataset_missingParent_throwsItemNotFound",
+      "local_test": "create_dataset_from_existing_dataset_missing_parent_throws_item_not_found",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.createDataset_fromExistingDataset_emitsValidateComputeWithoutSolve",
+      "status": "implemented",
+      "upstream_test": "createDataset_fromExistingDataset_emitsValidateComputeWithoutSolve",
+      "local_test": "create_dataset_from_existing_dataset_emits_validate_compute_without_solve",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.createAndSolveDataset_fromExistingDataset_emitsValidateComputeWithSolveTrue",
+      "status": "implemented",
+      "upstream_test": "createAndSolveDataset_fromExistingDataset_emitsValidateComputeWithSolveTrue",
+      "local_test": "create_and_solve_dataset_from_existing_dataset_emits_validate_compute_with_solve_true",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.patchDataset_missingParent_throwsItemNotFound",
+      "status": "implemented",
+      "upstream_test": "patchDataset_missingParent_throwsItemNotFound",
+      "local_test": "patch_dataset_missing_parent_throws_item_not_found",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.patchDataset_emitsValidateComputeWithoutSolve",
+      "status": "implemented",
+      "upstream_test": "patchDataset_emitsValidateComputeWithoutSolve",
+      "local_test": "patch_dataset_emits_validate_compute_without_solve",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "DefaultSolverWorkerFacadeTest.patchAndSolveDataset_emitsValidateComputeWithSolveTrue",
+      "status": "implemented",
+      "upstream_test": "patchAndSolveDataset_emitsValidateComputeWithSolveTrue",
+      "local_test": "patch_and_solve_dataset_emits_validate_compute_with_solve_true",
+      "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
     }
   ],
   "fixtures": [
@@ -86329,6 +86659,175 @@
       "id": "reconstruction-phase-builder-enclosing-policy-fixture",
       "upstream_test": "buildSingleThreaded/nestedPhaseRunsInTheEnclosingPhaseEnvironmentMode/buildMultiThreaded/setup",
       "modifications": "Adapt complete TEST policy setup: PHASE_ASSERT/FULL_ASSERT, solution/entity basic value metadata, unconstrained initializing trend and default mocked construction config, move workers2 and derived-score-director prerequisite. Native registered Solution/Entity/value metadata, actual queued ConstructionPlacerPlan slot binding and RebuildablePlacer recipe supply real providers; owned parent/worker problem and assignment contexts establish derivation. Native fixture two entities/two values is additional runtime setup, not a claimed source generated-solution fixture. Native unbounded initialization replaces all three ANY declarations without creating unused Java trend metadata or asserting score-width parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round134-move-tester-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "generateSolution/buildMetaModel",
+      "local_path": "crates/solver/tests/checked_move_tester_cases.rs",
+      "modifications": "Preserve initialized2-value2-entity cyclic identity assignment. Native integer value identities/FiniteProblem variables replace named Java entity/value objects, solution getters and reflective metadata. Uninitialized overload is not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round134-move-tester-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "value/constructors/getValue/setValue",
+      "local_path": "crates/solver/tests/checked_move_tester_cases.rs",
+      "modifications": "One actual genuine basic value field per entity becomes a native Variable slot. Numeric registry identities preserve reference-domain distinction and cyclic assigned values; no Java reflection machinery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round134-move-tester-value",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "constructors",
+      "local_path": "crates/solver/tests/checked_move_tester_cases.rs",
+      "modifications": "Native stable integer0/1 identities replace two distinct named TestdataValue objects. Value payload/class implementation is not copied."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/testdata/TestdataModelInput.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "worker-facade-owned-value-input-fixture",
+      "upstream_test": "constructor/getValue/equals",
+      "modifications": "Preserve actual String value field and value equality for hello/x/orig as owned JSON object value property. Native independent child snapshots retain real nested JSON values; no source expected result substitutes for reads."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/testdata/TestdataStorage.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "worker-facade-in-memory-storage-fixture",
+      "upstream_test": "constructor",
+      "modifications": "Use actual native in-memory record storage, not mocked getters, preserving the TEST helper real reads-reflect-writes contract. Complete metadata/input/config records persist together; JSONValue deep ownership replaces ObjectMapper serialization. No upstream storage implementation inspected or ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/testdata/TestdataStorageService.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "worker-facade-storage-service-binding-fixture",
+      "upstream_test": "constructor/getModelInputClass/getConfigurationClass",
+      "modifications": "Native WorkerDatasetStore/get_dataset/get_metadata bind actual JSON value/configuration data and typed metadata snapshots in place of Java subclass/type-token service plumbing. Source empty configuration/input getter assertions all use actual native stored records; unused input/output metrics APIs are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/testutil/RecordingEmitter.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "worker-facade-recording-emitter-fixture",
+      "upstream_test": "send/getLastMessage/size/clear",
+      "modifications": "Preserve recorded payloads, last-message/count observations and explicit clearing. Native event sink owns actual typed emitted events and filtered event channels replace separate RecordingEmitter instances. Delivery is synchronous Result, not reactive CompletionStage/Mutiny API parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/worker/src/test/java/ai/timefold/solver/service/worker/impl/DefaultSolverWorkerFacadeTest.java",
+      "local_path": "crates/solver/tests/worker_facade_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "worker-facade-unique-run-setup-fixture",
+      "upstream_test": "setUp/uniqueRunName",
+      "modifications": "Preserve fresh real storage and emitters per source method plus distinct requested run names. Native isolated store and deterministic per-case run names/clock replace UUID and wall-clock setup; source only asserts requested name preservation/non-null submit time. Terminate emitter setup has no asserted calls in these ten methods and adds no terminate-worker compatibility credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-opaque-solver-config",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "buildSolverConfig",
+      "local_path": "compat/oracle/MixedExactTraceProbe.java",
+      "modifications": "Adapt TEST solver config for both declared BRUTE_FORCE/null and BRANCH_AND_BOUND/DEPTH_FIRST combinations, both unsorted entity/value order, ONLY_DOWN and37-step phase ceiling. Run pinned Community binary using TEST fixture classes and instrument only public lifecycle/step getters referenced by Community TESTs. No Rust compatibility credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-opaque-input-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "buildSolution",
+      "local_path": "compat/oracle/MixedExactTraceProbe.java",
+      "modifications": "Preserve two mixed entities entity1/entity2 with difficulties1/2, initially null primary/secondary basic fields, empty lists; basic values1/2/3 with strengths1/2/3 and list values4/5/6. Compile only pinned Community TEST/helper source with pinned binary dependencies; no production source compilation/inspection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-opaque-calculator-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "calculateScore",
+      "local_path": "compat/oracle/MixedExactTraceProbe.java",
+      "modifications": "Adapt nested TEST TestdataComparableMixedCalculator calculation: empty list-1, size>1 -5, equal primary/secondary identities (including null/null)-1, repeated primary identity-5. Observe every actual call/state; no expected state arrays drive execution."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-opaque-recorder-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "addWorkingSolution",
+      "local_path": "compat/oracle/MixedExactTraceProbe.java",
+      "modifications": "Adapt TEST WorkingSolutionTracker notation for ordered entity1/entity2 fixture, nullable basic dash markers and comma-separated list values. Additional opaque actual step logs retain expanding node toString and getMove, with no private field or bytecode body inspection. Three exact historical source variants and logs preserved in work/round134-probe-sources."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-observed-shared-frontier-traces",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "params",
+      "local_path": "compat/oracle/fixtures/mixed_exact_trace_observations.json",
+      "modifications": "Verify actual pinned-runtime calculator traces equal every source expected state in both configs:171brute/183branch-and-bound calls, each37steps. Record observed step/node/move/cache chronology and actual returnedbest `(12)(21)[4][5,6]` for both. Two null-move root entries in same list frontier (`0-0` and`0-1`) explain repeated prefix; do not substitute two scripted list runs. These observations are not native implementation or full source-method credit."
     }
   ]
 }

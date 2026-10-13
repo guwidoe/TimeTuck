@@ -4145,8 +4145,11 @@ collisions, lookup failures/panics and independent source/target replay.
 Five MoveTesterTest methods now preserve successful construction/binding, committed
 swap, temporary swap/rotation observations and full restoration. Native model
 references and isolated draft callbacks replace reflection metadata and mutation
-observed through Java entity aliases. Four runtime-null argument cases remain
-pending; Rust references/closures are non-null. One initialized cyclic solution
+observed through Java entity aliases. The four absent solution/move/callback cases
+now use an optional CheckedMoveTester boundary over the same actual native sessions,
+retaining argument-name diagnostics and callback silence before execution. Rust
+Option/results replace null/NullPointerException, without Java exception-class parity.
+One initialized cyclic solution
 helper retains attribution. Original regressions additionally cover basic/list/mixed
 composition, pins, partial lists, independent branches, rollback on errors/panics,
 foreign-draft rejection and replay through incremental list scoring.
@@ -9458,3 +9461,37 @@ fluent native interface. Explicit variable tabu selects best-accepted scanning;
 feasible termination and accepted-candidate limits reach the actual solver phase.
 The complete chaining method and originals verify real feasible stopping and a
 candidate cap changing the chosen move. No Java preset tuning parity is claimed.
+
+SignedCounter32 and SignedCounter64 provide exclusively borrowed, explicit wrapping
+arithmetic and primitive numeric casts. Six complete utility methods retain current
+values, returned arithmetic results, value ordering and maximum-width conversions.
+OccurrenceCounts uses a native hash index and actual reclaimable logical entry
+slots; zero counts release slots for reuse while retaining their allocation count.
+Two complete methods retain every count/capacity observation and exact display
+state. Capacity denotes retained logical slots, not Vec backing capacity; display
+follows those slots. No linear-probe layout or performance equivalence is claimed.
+Originals crosscheck varied counts against an independent map, clone isolation,
+slot reuse, signed width boundaries and narrowing casts. Ordinary collector and
+solver hot paths are unchanged.
+
+WorkerDatasetFacade persists complete owned JSON input/configuration/metadata
+records before emitting Created and ValidateCompute requests. Native store-derived
+parent/origin linkage and cloned input/output selection preserve independent
+children. Patch creation uses the existing atomic JsonPatch implementation before
+persistence. SolveStart requires an existing ID. Ten complete facade methods
+retain metadata, stored input, lineage and exact command identities/solve flags;
+originals exercise nonempty patches, multigeneration ownership, failure boundaries
+and a Start command consumed by the actual native solver. Emitted requests do not
+claim completed solving. Failed event delivery leaves persisted data and earlier
+external delivery intact. The in-memory store uses local monotonic IDs; global
+identity, durable storage and reactive/JVM infrastructure are not inferred.
+
+The mixed exhaustive source method remains pending. A TEST-derived opaque runtime
+probe reproduces both full calculator traces (171 brute-force and 183 bounded
+calls), the shared 37-step phase and returned best `(12)(21)[4][5,6]`. Observed
+list-frontier nodes include two distinct null-move roots at the same empty-list
+working state. This disproves a scripted two-run reconstruction and identifies
+needed general multi-root/cache/restoration behavior. Source variants, artifact
+hashes and logs remain preserved. No probe output is consumed by Rust execution,
+no production source/private fields/bytecode bodies were inspected, and these
+observations earn no source-method compatibility credit.
