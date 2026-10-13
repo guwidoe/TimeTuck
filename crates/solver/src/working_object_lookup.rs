@@ -12,11 +12,11 @@ pub enum WorkingLookupStrategy {
 }
 /// One explicitly declared ID field/accessor. Key extraction must be deterministic;
 /// registered IDs must not change through interior mutability.
-pub struct PlanningIdMember<T, K> {
+pub struct PlanningIdMember<T: ?Sized, K> {
     pub name: &'static str,
     pub read: fn(&T) -> Option<K>,
 }
-impl<T, K> PlanningIdMember<T, K> {
+impl<T: ?Sized, K> PlanningIdMember<T, K> {
     pub fn new(name: &'static str, read: fn(&T) -> Option<K>) -> Self {
         Self { name, read }
     }
@@ -24,11 +24,11 @@ impl<T, K> PlanningIdMember<T, K> {
 /// Native metadata replaces annotation discovery. ID-bearing schemas must declare
 /// exactly one non-null ID; validation occurs when an operation needs the schema.
 /// Immutable objects pass through lookup without registration (unless disabled).
-pub enum WorkingLookupSchema<T, K> {
+pub enum WorkingLookupSchema<T: ?Sized, K> {
     PlanningIds(Vec<PlanningIdMember<T, K>>),
     Immutable,
 }
-impl<T, K> WorkingLookupSchema<T, K> {
+impl<T: ?Sized, K> WorkingLookupSchema<T, K> {
     pub fn id(name: &'static str, read: fn(&T) -> Option<K>) -> Self {
         Self::PlanningIds(vec![PlanningIdMember::new(name, read)])
     }
@@ -94,7 +94,25 @@ impl<K: fmt::Debug> fmt::Display for WorkingLookupError<K> {
 }
 impl<K: fmt::Debug> Error for WorkingLookupError<K> {}
 
-/// Registry for one concrete Rust object type. IDs are scoped to this registry;
+/// Optional concrete object diagnostics around the ordinary typed lookup error.
+/// Captured only on failure; canonical registration and ID validation are unchanged.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct WorkingLookupObjectError<K> {
+    pub cause: WorkingLookupError<K>,
+    pub object: String,
+}
+impl<K: fmt::Debug> fmt::Display for WorkingLookupObjectError<K> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}; object {}", self.cause, self.object)
+    }
+}
+impl<K: fmt::Debug + 'static> Error for WorkingLookupObjectError<K> {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        Some(&self.cause)
+    }
+}
+
+/// Registry for a Rust concrete type or explicit trait/interface view. IDs are scoped to this registry;
 /// separate registries isolate model/entity types even when their key types match.
 /// Lookup returns the original stored Arc, not an equal clone of its payload.
 /// Removing by external same-ID clone is rejected. Reset-with is atomic on errors
@@ -114,12 +132,12 @@ impl<K: fmt::Debug> Error for WorkingLookupError<K> {}
 /// assert_eq!(found.label,"working");
 /// # Ok::<(),WorkingLookupError<u64>>(())
 /// ```
-pub struct WorkingObjectLookup<T, K> {
+pub struct WorkingObjectLookup<T: ?Sized, K> {
     strategy: WorkingLookupStrategy,
     schema: WorkingLookupSchema<T, K>,
     objects: BTreeMap<K, Arc<T>>,
 }
-impl<T, K: Ord> WorkingObjectLookup<T, K> {
+impl<T: ?Sized, K: Ord> WorkingObjectLookup<T, K> {
     pub fn new(strategy: WorkingLookupStrategy, schema: WorkingLookupSchema<T, K>) -> Self {
         Self {
             strategy,
@@ -166,6 +184,23 @@ impl<T, K: Ord> WorkingObjectLookup<T, K> {
         self.objects.insert(key, object);
         Ok(())
     }
+    /// Add with the actual object's Debug representation attached on error.
+    /// Concrete typed bindings retain their concrete Rust type in the cause,
+    /// even when their ID getter explicitly projects into a parent field/view.
+    /// Trait-object schemas call the actual supplied trait getter, and lookup
+    /// still returns the stored canonical Arc allocation. No reflection or
+    /// automatic trait/subclass discovery is performed.
+    pub fn add_debug(&mut self, object: Arc<T>) -> Result<(), WorkingLookupObjectError<K>>
+    where
+        T: fmt::Debug,
+    {
+        self.add(object.clone())
+            .map_err(|cause| WorkingLookupObjectError {
+                cause,
+                object: format!("{object:?}"),
+            })
+    }
+
     pub fn remove(&mut self, object: &Arc<T>) -> Result<(), WorkingLookupError<K>> {
         let Some(key) = self.key(object)? else {
             return Ok(());

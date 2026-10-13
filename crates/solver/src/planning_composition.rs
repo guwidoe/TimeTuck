@@ -201,6 +201,7 @@ pub struct PlanningComposition {
 pub struct ComposedPlanningSchema {
     schema: PlanningSchema,
     origins: HashMap<PlanningType, BTreeMap<String, PlanningType>>,
+    ancestry: HashMap<PlanningType, Vec<PlanningType>>,
 }
 impl ComposedPlanningSchema {
     pub fn schema(&self) -> &PlanningSchema {
@@ -210,6 +211,13 @@ impl ComposedPlanningSchema {
         self.schema
     }
     /// Query without allocating or traversing the ancestry graph.
+    /// Explicit composition ancestry for descriptor matching; no Rust subclass
+    /// or reflective assignability inference. Includes the concrete root itself.
+    pub fn matches_descriptor(&self, concrete: PlanningType, descriptor: PlanningType) -> bool {
+        self.ancestry
+            .get(&concrete)
+            .is_some_and(|parents| parents.contains(&descriptor))
+    }
     pub fn field_origin(&self, entity: PlanningType, field: &str) -> Option<PlanningType> {
         self.origins.get(&entity)?.get(field).copied()
     }
@@ -243,6 +251,7 @@ impl PlanningComposition {
         let mut seen_roots = HashSet::new();
         let mut entities = vec![];
         let mut origins = HashMap::new();
+        let mut ancestry = HashMap::new();
         for &root in roots {
             if !seen_roots.insert(root) {
                 return Err(PlanningCompositionError::DuplicateRoot(root));
@@ -252,6 +261,13 @@ impl PlanningComposition {
                 .get(&root)
                 .ok_or(PlanningCompositionError::UnknownComponent(root))?;
             let order = self.ancestry(index, policy)?;
+            ancestry.insert(
+                root,
+                order
+                    .iter()
+                    .map(|&index| self.components[index].component)
+                    .collect(),
+            );
             let mut vars = vec![];
             let mut owners = BTreeMap::new();
             for i in order {
@@ -275,6 +291,7 @@ impl PlanningComposition {
         Ok(ComposedPlanningSchema {
             schema: PlanningSchema::new::<S>(entities).map_err(PlanningCompositionError::Schema)?,
             origins,
+            ancestry,
         })
     }
     fn ancestry(

@@ -16,7 +16,86 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round131
+## Latest verified checkpoint — round132
+
+The frozen merged `bash scripts/check.sh` passed once on runner-c in 244.386s:
+7,647 Rust tests and 290 doctests. Shared composition ancestry, snapshot metadata
+and lookup changes required broad regression: 1,077 Rust jobs ran, 110 unchanged
+Rust jobs and 46 Python jobs reused genuine matching records. Prebuild 550.402s;
+merged Clippy 35.24s; full worker 795.041s. Compatibility 4,024/4,855 (82.884%),
+263 pending, 568 excluded, zero failed/unverified. Nine complete methods, thirteen
+fixtures and eight originals added; originals earn no upstream-method credit.
+Rust digest 63be79b5b1866ed16d887f4126ace1a2245c7d0f1a9e1f3ad25cfe7fa4a0bc90.
+Report digest 17fa24e370072483d1431d51b280eec07bd191685d3daddea6750a62f7e74d75.
+Archive `work/round132-runner-c-results.tar.gz` SHA256: f5311d95e54d007d13637223528df59cbc64009541881cbe1c411508ac8c317e.
+Final remote source 5300dee464ae4dca0cb9fee80066c798cafbad571fe16d0a29259c3349549cd1.
+Evidence `work/parallel-round132-evidence.json`, freeze `work/parallel-round132-freeze.json`,
+IDs `work/round132-added-source-ids.json`, focused artifacts under
+`work/round132-agent-evidence`, and root focus `work/round132-root-evidence.json`.
+Collector used actual final merged output, validated frozen files/source/logs and
+inspected backend report freshness. Successful previous runner-c record relocation only
+changed output paths with checksum validation; original keys/dates/logs retained.
+No repeated browser checks or benchmark refresh. Existing measurements stay stale.
+
+Three GPT-6.1 Sol lanes: runner-c score access twelve cases/Clippy; runner-a descriptor
+mutation twenty-one cases/Clippy; local required lookup forty-eight cases/Clippy.
+Local immutable extension three cases each executes all twenty-six typed rows;
+only that new target/Clippy reran, unchanged required lookup evidence reused.
+Root live range three cases passed runner-c. Actual lookup reader-lifetime compile
+failures retained. First merged prebuild failed Clippy type complexity in root
+live range field; named SharedRanges alias fixed it. Failure snapshot5a06ee7d...
+manifest/log, `work/parallel-round132-freeze-failure1.json` and
+`work/round132-prebuild-failure1.log` preserved. Bash final gate ran only after fix.
+Root prior focus remains evidence for its original input; final gate covers alias.
+
+SolutionScoreAccessor validates actual composed solution/member/score metadata
+before getter/setter callbacks. TypedScoreDefinition reuses native ScoreDefinition.
+Full SimpleScore definition/type and initialNone/sameArc(-2) methods preserved.
+Real manager refresh, director application/result publication, calculation failure
+preserving old score identity and zero callbacks on bad metadata passed. Ordinary
+by-value scores/hot paths unchanged; callbacks explicitly access declared fields.
+No Java reflection/member-name ABI inference or score-value redesign.
+
+WorkingObjectLookup now supports T:?Sized explicit trait/interface views while
+retaining canonical Arc identities. Optional add_debug captures real object Debug
+only on failure. Concrete child binding projects actual inherited parent ID getter;
+null rejection includes native child type and representation. Full interface/reset/
+add/lookup/remove and inherited-null-ID methods adapted; original rebase resolves
+real slot/value then applies native move. Three immutable methods preserve all26
+primitive/BigInt/Decimal/std-time/typed temporal-component rows under existing
+explicit Immutable schema; records model exact fields only, no calendar arithmetic
+or automatic Java class whitelist discovery. No new dependencies/core change for
+this extension. Old concrete lookup semantics remain.
+
+DescriptorMutationViews derives actual matched descriptor-field observations from
+validated composition ancestry and declaring-field identity, then compares genuine
+SolutionTracker registered snapshots. Full3/7/17 lists plus base/child singletons
+produce29base+50child occurrences=79, with unique distance54. Existing None/Some/All
+unique mutation methods unchanged. Originals exercise real apply/undo/commit across
+cardinalities, inherited-child change2, child-only1, base1, selected descriptors and
+invalid/partial/foreign registrations. Composition retains ancestry once, and
+snapshot exposes registered field metadata; no fixture-only weights/readers or
+runtime Java assignability. Optional comparison is separate from unique distance.
+
+LiveConnectedRangeCollector stages actual existing collector updates/sweep/index
+before publishing to held views. View anchored to logical occurrence observes merge/
+split/removal/reinsertion through the same object; current hash borrows contents
+without cached hash or payload clones. Immutable ordinary snapshots stay unchanged.
+Full0..2/hold-view/touching2..4/changedhash source method adapted. Original geometry,
+retained snapshots, invalid updates and100read zero-clone controls passed. Optional
+owner has no Clone/shared-fork semantics or view Eq/stable mutable key claim. It
+uses existing rebuild algorithm; no incremental maintenance/measured speed claim.
+
+All agents/build jobs terminal after collection. Commit after staged diff review;
+preserve ignored evidence before archiving score-access-round132,
+mutation-views-round132 and lookup-views-round132 worktrees; confirm archived state.
+Temporary runner-c wake31066 stopped by exact payload match after collection; cleanup81479.
+Seven hard k-opt seam methods remain pending; do not repeat refuted probes/script
+fixture-specific outputs. Full goal remains active and incomplete, pin unchanged.
+Keep performance important and shrink actual compatibility backlog; all3machines/
+at most3GPT-6.1Sol agents remain authorized. Reuse unchanged successful checks.
+
+## Previous verified checkpoint — round131
 
 The frozen merged `bash scripts/check.sh` passed once on runner-c in 59.082s:
 7,630 Rust tests and 290 doctests. Per-job reuse ran 47 affected Rust targets,

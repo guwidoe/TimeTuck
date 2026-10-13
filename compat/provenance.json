@@ -60373,6 +60373,141 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve both invalid bindings, exact cascadeValueReturnType/badUpdateCascadeValueWithReturnType and cascadeValue/value identities, actual class/property/requested-member diagnostic context. Source first target name is missing despite a differently named returning method; second name identifies data rather than a callable. Explicit native schema and actual erased typed callback/data registrations replace Java reflective descriptor discovery. Native Rust type names replace Java class/annotation spelling; source semantic diagnostic assertions retained without Java method-lookup ABI claims. Bound valid callbacks initialize/update the existing ListCascadeCache; original controls verify actual signature rejection before callbacks and real valid cascade execution."
+    },
+    {
+      "id": "ConnectedRangeTrackerTest.testHashCodeReflectsMutation",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "testHashCodeReflectsMutation",
+      "local_path": "crates/solver/tests/live_range_view_cases.rs",
+      "local_test": "hash_code_reflects_mutation",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve insert0..2, hold the same live component view, insert touching2..4, and assert held-view hash changes after merge. Native stable logical occurrence IDs anchor live views to actual existing collector components; hash reads current complete native values instead of Java identity/cache semantics. Immutable ordinary snapshots remain unchanged. Originals cover merge/split/removal/reinsertion, staged invalid update, retained snapshots and zero payload clones on repeated hash reads."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreDescriptorTest.scoreDefinition",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/score/descriptor/ScoreDescriptorTest.java",
+      "upstream_test": "scoreDefinition",
+      "local_path": "crates/solver/tests/solution_score_access_cases.rs",
+      "local_test": "score_definition",
+      "modifications": "Preserve the actual SimpleScore definition instance/type assertion with native TypedScoreDefinition<SimpleScore>, validated against the actual composed score-member declaration, and preserve exact raw score type through PlanningType equality. Native definition zero/level operations reuse the existing ScoreDefinition trait. SolutionScoreAccessor binds validated ComposedPlanningSolution metadata before callback access. Explicit Rust solution/member/type declarations replace Java descriptor reflection; no Java class/annotation/ABI claim or ordinary by-value score redesign."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ScoreDescriptorTest.scoreAccess",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/score/descriptor/ScoreDescriptorTest.java",
+      "upstream_test": "scoreAccess",
+      "local_path": "crates/solver/tests/solution_score_access_cases.rs",
+      "local_test": "score_access",
+      "modifications": "Preserve initial absent score and exact same-object identity after setting SimpleScore(-2). Live typed callbacks address the actual solution field; Option<Arc<SimpleScore>> retains the exact supplied allocation rather than recreating an Eq-equal value. SolutionScoreAccessor binds validated ComposedPlanningSolution metadata before callback access. Explicit Rust solution/member/type declarations replace Java descriptor reflection; no Java class/annotation/ABI claim or ordinary by-value score redesign."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/lookup_view_cases.rs",
+      "id": "LookupManagerTest.lookupInterfaceEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupManagerTest.java",
+      "upstream_test": "lookupInterfaceEntity",
+      "local_test": "lookup_interface_entity",
+      "modifications": "Preserve every source assertion. Interface case resets, adds both actual Arc<dyn InterfaceEntity> objects with IDs0/1, looks up separately allocated external trait objects and verifies Arc::ptr_eq against canonical stored allocations, then removes both canonical objects. Inherited-null case binds concrete Child through actual Parent ID getter, adds a genuine None ID and verifies typed failure text must not be null, actual std::any::type_name::<Child>() and actual object Debug id=null. Native typed trait views and parent projection replace Java interface/annotation inheritance discovery; optional add_debug supplies real object diagnostics, no fake subclass flags/type strings or Java reflection/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/lookup_view_cases.rs",
+      "id": "LookupStrategyIdOrNoneTest.addWithNullIdInSuperclass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyIdOrNoneTest.java",
+      "upstream_test": "addWithNullIdInSuperclass",
+      "local_test": "add_with_null_id_in_superclass",
+      "modifications": "Preserve every source assertion. Interface case resets, adds both actual Arc<dyn InterfaceEntity> objects with IDs0/1, looks up separately allocated external trait objects and verifies Arc::ptr_eq against canonical stored allocations, then removes both canonical objects. Inherited-null case binds concrete Child through actual Parent ID getter, adds a genuine None ID and verifies typed failure text must not be null, actual std::any::type_name::<Child>() and actual object Debug id=null. Native typed trait views and parent projection replace Java interface/annotation inheritance discovery; optional add_debug supplies real object diagnostics, no fake subclass flags/type strings or Java reflection/ABI parity."
+    },
+    {
+      "id": "MutationCounterTest.countMutationsOnExtendedEntities",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/mutation/MutationCounterTest.java",
+      "upstream_test": "countMutationsOnExtendedEntities",
+      "local_path": "crates/solver/tests/descriptor_mutation_cases.rs",
+      "local_test": "count_mutations_on_extended_entities",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve two snapshots with val1 versus val2, actual singular base/child members and lists3/7/17 with empty Object list, every base value and child subValue assignment, and the complete baseDescriptorCount+childDescriptorCount assertion. Actual typed composition ancestry derives registered descriptor/concrete-field observations; existing BasicFieldBinding readers capture genuine fields once into SolutionTracker snapshots. Base matches inherited child value while child matches both its fields, yielding29+50 observations without hardcoded runtime weights or duplicated fixture readers. Additional unique54 check preserves existing unique mutation semantics. Native IDs/flat field slots replace Java object/collection reflection; no Java inheritance/ABI claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyImmutableTest.java",
+      "local_path": "crates/solver/tests/immutable_lookup_matrix_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LookupStrategyImmutableTest.addImmutable",
+      "status": "implemented",
+      "upstream_test": "addImmutable",
+      "local_test": "add_immutable",
+      "modifications": "Preserve all26 source data rows with actual typed immutable values: bool/i8/i16/i32/i64/f32/f64, BigInt1, Decimal1, char!, emptyString, SystemTime epoch12345ms, distinct temporal component records preserving complete source fields, UTC offsetseconds0, Duration5days and Period1year2months3days. Add/remove execute core Immutable registration policies without runtime failures; lookup preserves every value equality and adds original external Arc identity assertion. Explicit immutable schema replaces Java type discovery. Temporal records assert field/value preservation only, not native calendar/time-zone arithmetic, Java classes or API/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyImmutableTest.java",
+      "local_path": "crates/solver/tests/immutable_lookup_matrix_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LookupStrategyImmutableTest.removeImmutable",
+      "status": "implemented",
+      "upstream_test": "removeImmutable",
+      "local_test": "remove_immutable",
+      "modifications": "Preserve all26 source data rows with actual typed immutable values: bool/i8/i16/i32/i64/f32/f64, BigInt1, Decimal1, char!, emptyString, SystemTime epoch12345ms, distinct temporal component records preserving complete source fields, UTC offsetseconds0, Duration5days and Period1year2months3days. Add/remove execute core Immutable registration policies without runtime failures; lookup preserves every value equality and adds original external Arc identity assertion. Explicit immutable schema replaces Java type discovery. Temporal records assert field/value preservation only, not native calendar/time-zone arithmetic, Java classes or API/ABI parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyImmutableTest.java",
+      "local_path": "crates/solver/tests/immutable_lookup_matrix_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LookupStrategyImmutableTest.lookUpImmutable",
+      "status": "implemented",
+      "upstream_test": "lookUpImmutable",
+      "local_test": "look_up_immutable",
+      "modifications": "Preserve all26 source data rows with actual typed immutable values: bool/i8/i16/i32/i64/f32/f64, BigInt1, Decimal1, char!, emptyString, SystemTime epoch12345ms, distinct temporal component records preserving complete source fields, UTC offsetseconds0, Duration5days and Period1year2months3days. Add/remove execute core Immutable registration policies without runtime failures; lookup preserves every value equality and adds original external Arc identity assertion. Explicit immutable schema replaces Java type discovery. Temporal records assert field/value preservation only, not native calendar/time-zone arithmetic, Java classes or API/ABI parity."
     }
   ],
   "fixtures": [
@@ -85779,6 +85914,175 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Retain route valueList field element type as separate StandardCascadeValue marker rather than treating an invalid callback-owner fixture as the list element type. No working value/list instances are created by this descriptor-failure source method."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "score-descriptor-test-solution-layout-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/score/descriptor/ScoreDescriptorTest.java",
+      "upstream_test": "scoreDefinition; scoreAccess",
+      "local_path": "crates/solver/tests/fixtures/score_access_fixture.rs",
+      "modifications": "Retain TEST default nullable score field and SimpleScore declaration with a native actual composed solution layout and live getter/setter callbacks; only the score-relevant fixture members are bound. Arc storage models Java object identity while metadata identifies raw SimpleScore. No value/entity/range behavior credit is taken."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "score-descriptor-testdata-score-member-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataSolution.java",
+      "upstream_test": "score field; getScore; setScore",
+      "local_path": "crates/solver/tests/fixtures/score_access_fixture.rs",
+      "modifications": "Adapt only nullable SimpleScore field and direct getter/setter semantics used by ScoreDescriptorTest. Native Option<Arc<SimpleScore>> callbacks preserve the same stored allocation. Java annotation discovery is replaced with explicit compiled member metadata; unrelated fixture methods are not adapted or claimed."
+    },
+    {
+      "id": "ConnectedRangeTrackerTest.live_hash_range_fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/collector/connected_ranges/ConnectedRangeTrackerTest.java",
+      "upstream_test": "TestRange and getIntegerConnectedRangeTracker used by testHashCodeReflectsMutation",
+      "local_path": "crates/solver/tests/live_range_view_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt source0..2/2..4 range objects to captured native endpoint/value tuples with stable occurrence IDs0/1; use existing IntegerRangeMetric with widened endpoints. Getters/constructor map to tuple fields; unused setters and Java hash/object identity are not ported. Held native component view hash is computed from actual current collector data."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/lookup_view_cases.rs",
+      "id": "interface-canonical-lookup-entity-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupManagerTest.java",
+      "upstream_test": "InterfaceEntity",
+      "modifications": "Preserve String IDs0/1, interface implementation, null planning value and ignored setter. Native Entity implements real InterfaceEntity trait; Arc trait coercions retain original object allocation; explicit schema dispatches its actual ID getter."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/lookup_view_cases.rs",
+      "id": "lookup-interface-declared-id-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/interfaces/TestdataInterfaceEntity.java",
+      "upstream_test": "getId/getValue/setValue",
+      "modifications": "Adapt TEST-only annotated interface into actual Rust object-safe trait methods; declared ID getter is bound to WorkingLookupSchema<dyn InterfaceEntity>, with typed optional planning value/getter/setter. No Java reflective annotation discovery is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/lookup_view_cases.rs",
+      "id": "lookup-inherited-parent-id-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/lookup/TestdataObjectIntegerId.java",
+      "upstream_test": "constructor/getId",
+      "modifications": "Preserve actual nullable integer parent ID and getter in native Parent field/method. Child schema calls that parent method; no flattened fake nullable/class metadata substitutes for actual child-to-parent binding."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/lookup_view_cases.rs",
+      "id": "lookup-inherited-child-null-debug-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/lookup/TestdataObjectIntegerIdSubclass.java",
+      "upstream_test": "constructor/toString",
+      "modifications": "Preserve Child containing actual Parent initialized with null and actual child formatter producing id=null from its inherited getter. Concrete type identity derives from Rust type_name; diagnostic uses supplied object Debug at failure rather than scripted class flags or strings."
+    },
+    {
+      "id": "round132-extended-mutation-values",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/mutation/MutationCounterTest.java",
+      "upstream_test": "countMutationsOnExtendedEntities/setup",
+      "local_path": "crates/solver/tests/descriptor_mutation_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain two value identities1/2, both initialized snapshots, full3/7/17counts and original descriptor-count expressions. Numeric native IDs replace unused Java object labels."
+    },
+    {
+      "id": "round132-extended-mutation-generator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedExtendedSolution.java",
+      "upstream_test": "generateSolution(int,int,int)",
+      "local_path": "crates/solver/tests/fixtures/descriptor_mutation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain base singleton, child singleton, base list, child list, raw child list and empty Object list in actual entity/field slot layout. All physical genuine fields are bound once to native model slots; child inherited values share their actual child field snapshot and acquire additional descriptor observations solely from compiled ancestry. Unused generated labels become stable entity IDs."
+    },
+    {
+      "id": "round132-extended-mutation-base-solution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedSolution.java",
+      "upstream_test": "entityList/valueList/subValueList",
+      "local_path": "crates/solver/tests/fixtures/descriptor_mutation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt base entity collection contract and value identities through native flattened field binding; no Java reflection/generic/raw collection discovery claim. The source only compares assigned fields, so native explicit domains permit both identities for real move controls without claiming source range validation."
+    },
+    {
+      "id": "round132-extended-mutation-child",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedChildEntity.java",
+      "upstream_test": "TestdataEntity inheritance/subValue",
+      "local_path": "crates/solver/tests/fixtures/descriptor_mutation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain actual explicit Base ancestry and one declared child subValue field through registered native PlanningComponent and Owned parent. Compile both registered descriptor roots; inherited declaring-field identity is derived by current PlanningComposition."
+    },
+    {
+      "id": "round132-extended-mutation-base-entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "value",
+      "local_path": "crates/solver/tests/fixtures/descriptor_mutation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain one genuine base value field of the same value identity domain as child subValue. Native field references/type checks and actual BasicFieldBinding snapshots replace Java getters/annotations; each concrete field is registered once."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/LookupStrategyImmutableTest.java",
+      "local_path": "crates/solver/tests/immutable_lookup_matrix_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "lookup-immutable-full26-value-fixture",
+      "upstream_test": "data",
+      "modifications": "Preserve every parameter row and both internal/external values. Temporal types are distinct typed records with actual calendar/time components; there are no validity flags or labels substituting for values. Monday=DayOfWeek1, December=Month12, Year1999, YearMonth1999/12, date1/2/3, minute-only times with seconds/nanos0, full offset/zoned datetime1/2/3 4:5:6 nano7, offsettime1:2:3 nano4, offset0UTC, Duration432000seconds and Period1/2/3. BigInt/Decimal and std scalar/SystemTime/Duration retain native representations; no new dependency/calendar implementation."
     }
   ]
 }

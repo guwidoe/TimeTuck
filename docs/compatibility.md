@@ -9378,3 +9378,55 @@ method name is absent; the second resolves to actual integer data. Two originals
 verify saved scores, exact pointer identity, current layouts, unassignment, errors
 before setters/callbacks, genuine wrong signatures and valid cascade recomputation.
 No ordinary scoring/search hotpaths or benchmark evidence are changed.
+
+## Descriptor occurrence mutation views
+
+`DescriptorMutationViews` compiles registered descriptor observations from actual
+`PlanningComposition` ancestry and inherited declaring-field identity. It compares
+current `SolutionTracker` snapshots captured through native field bindings. A
+child's inherited field contributes once through each matching base/child descriptor;
+its child-only field contributes only through the child. Missing registrations,
+foreign snapshot metadata and invalid descriptor requests reject. Lists count once
+per changed field occurrence. Explicit native ancestry replaces reflective class
+assignability; no Java inheritance/ABI equivalence is claimed.
+
+The complete extended-entity source case retains both snapshots, two singular
+members,3/7/17lists and empty Object list. Its29base+50child observations derive79,
+while unchanged ordinary unique snapshot distance is54. Two original controls apply,
+undo and commit actual native moves across varied cardinalities, separating inherited,
+child-only and base-only changes, selected views, unchanged state and invalid views.
+Existing countMutationsNone/Some/All retain unique semantics and original credit.
+The unique report is the existing distance across all registered snapshot fields;
+register genuine fields when using it as planning mutation distance.
+
+Round132 adds SolutionScoreAccessor bound to actual composed solution/member/score
+metadata. Typed definition operations reuse ScoreDefinition. Explicit live getter
+and setter callbacks preserve the exact supplied Arc score allocation; calculation
+errors do not invoke publication. Two complete ScoreDescriptor methods preserve
+SimpleScore definition/type, initial absent score, and same-object -2 score access.
+Originals exercise real solution-manager refresh, director move/result publication
+and validation before any callback. Ordinary by-value scores and hot paths remain
+unchanged; Java reflection/member-name ABI is not inferred.
+
+WorkingObjectLookup now accepts explicit unsized Rust trait views while retaining
+canonical Arc allocations and existing ID/reset/removal semantics. Optional
+add_debug attaches the actual object representation only on failure; inherited
+ID access uses a concrete child binding to its actual parent getter. Complete
+interface lookup and superclass-null-ID cases plus real native move rebase/apply
+controls pass. All three immutable methods additionally preserve all 26 source
+rows: native primitive/BigInt/Decimal/std time values and distinct temporal
+component records representing exact fields. These are value-preservation fixtures,
+not calendar arithmetic or automatic Java immutable-class discovery. Immutable
+lookup remains the existing explicitly selected pass-through policy.
+
+LiveConnectedRangeCollector adds optional held component views to the existing
+range collector. Updates stage ordinary captured-state changes, endpoint sweep and
+ID/component indexing before publication. A held view follows its anchor through
+merges/splits, becomes absent on removal and reattaches on reinsertion. Its current
+content hash borrows published data, without rebuilding or cloning payloads; no Eq
+implementation presents it as a stable mutable collection key. Immutable ordinary
+snapshots retain previous contents. The complete live hash method preserves0..2,
+hold-view, touching2..4 merge and changed hash. Originals exercise live geometry,
+retained snapshots, invalid updates and zero clones during repeated hash reads.
+This optional owner has no Clone/shared-fork semantics and makes no incremental
+maintenance or speed claim; ordinary collectors are unchanged.

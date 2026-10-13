@@ -13,10 +13,12 @@
 //! ```
 
 mod inner_termination_config;
+mod live_range_view;
 mod score_level;
 pub use inner_termination_config::{
     BuiltInnerTermination, InnerTerminationCondition, InnerTerminationConfig,
 };
+pub use live_range_view::{LiveConnectedRangeCollector, LiveConnectedRangeView};
 mod sublist_selection_config;
 pub use score_level::ScoreLevel;
 pub use sublist_selection_config::{SubListSelectionBuildError, SubListSelectionConfig};
@@ -827,8 +829,8 @@ pub use basic_inverse_stream::{BasicInverseStream, basic_inverse_stream};
 
 mod working_object_lookup;
 pub use working_object_lookup::{
-    PlanningIdMember, WorkingLookupError, WorkingLookupSchema, WorkingLookupStrategy,
-    WorkingObjectLookup,
+    PlanningIdMember, WorkingLookupError, WorkingLookupObjectError, WorkingLookupSchema,
+    WorkingLookupStrategy, WorkingObjectLookup,
 };
 
 mod named_statistics;
@@ -1787,4 +1789,15 @@ pub use value_owned_list_manager::{ValueOwnedListSolutionManager, ValueOwnedList
 mod cascade_callback_binding;
 pub use cascade_callback_binding::{
     BoundCascadeCallback, CascadeCallbackBindingError, CascadeCallbackRegistry, ListCascadeCallback,
+};
+
+mod solution_score_accessor;
+pub use solution_score_accessor::{
+    SolutionScoreAccessError, SolutionScoreAccessor, TypedScoreDefinition,
+};
+
+mod descriptor_mutation_views;
+pub use descriptor_mutation_views::{
+    DescriptorFieldObservation, DescriptorMutationError, DescriptorMutationReport,
+    DescriptorMutationViews,
 };

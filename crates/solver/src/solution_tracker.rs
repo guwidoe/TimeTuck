@@ -127,6 +127,10 @@ impl<'v, E: Ord> Iterator for ChangedValues<'v, E> {
 }
 impl<E: Ord> std::iter::FusedIterator for ChangedValues<'_, E> {}
 impl<'s, E: Ord + Clone> SolutionSnapshot<'s, E> {
+    /// Actual field registration metadata captured by this snapshot.
+    pub fn registered_fields(&self) -> impl Iterator<Item = PlanningVariableRef<'s>> + '_ {
+        self.fields.iter().map(|(field, _)| *field)
+    }
     /// Get one typed captured value. Unknown fields return Metadata; missing
     /// entities return None; a present value of another type returns ValueType.
     pub fn get<V: 'static>(
