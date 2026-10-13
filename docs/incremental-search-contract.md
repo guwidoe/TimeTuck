@@ -2419,3 +2419,12 @@ seeds retain their configuration; deterministic choices remain deterministic.
 Reproducible modes retain their configured seeds, phase offsets and borrowed
 phase path when no run limits require a copy. Fresh seed selection occurs after
 successful runtime startup, and standalone openings never alter a live session.
+
+Declared-phase resource consistency failures in step/full modes now retain typed
+ScoreAssertion context: phase index, requested mode and the original resource
+error. Its Error::source preserves the underlying cause. PhaseAssert keeps its
+existing phase-corruption guidance. Arbitrary phase callback errors and release
+errors retain their existing Resource classification, and checks outside a declared
+phase retain their original classification. No extra checks or scoring calls are
+introduced. Actual completed work remains available to failure observers before
+cleanup, and secondary release failures remain separate from the primary check.

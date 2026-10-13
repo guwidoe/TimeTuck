@@ -16,7 +16,56 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round108
+## Latest verified checkpoint — round109
+
+Declared-phase consistency-check failures now retain ScoreAssertion context:
+actual phase index, requested step/full mode and original resource error. Error
+chaining preserves the cause. PhaseAssert retains its existing PhaseAssertion
+corruption guidance. Arbitrary work errors, release errors and checks outside a
+declared phase retain their original classifications. No extra scoring/checks.
+Completed work is visible to failure observers before cleanup; secondary failures
+remain separate. No failure is classified by parsing its text.
+
+EnvironmentModeTest.corruptedConstraints is fully adapted across all seven modes.
+Retain four uninitialized variables/three identities, actual first-value custom
+initialization,1000move ceiling and negative repetitions minus an incrementing
+callback counter. Step/full modes report mode/phase with actual working/recomputed
+and named constraint evidence; phase mode reports its corruption diagnostic;
+unasserted modes solve without diagnostic failure. Native typed failures/text and
+available named evidence replace Java exceptions/unavailable-analysis fallback,
+consistent with prior corrupted easy-score adaptations. No Java search trace claim.
+Two fixture/helper entries recorded. Four originals cover actual causes/context,
+arbitrary-work classification, mode gating, release failures and observer visibility.
+Existing problem-change and phase-corruption controls still pass.
+
+Frozen bash scripts/check.sh passed104.774s:7,426Rust tests and290doctests.
+20Rust jobs ran;1,081Rust/46Python jobs reused original successful records.
+Clippy34.55s; affected compilation8.84s. Compatibility3,917/4,855 (80.680%),
+370pending,568excluded,zero failed/unverified. Rust/provenance remained frozen.
+Rust 76c211908fdefd24816cab5f3edaebf073863e11820d46b19aa9f6513b3b3d7a.
+Report a7e27a45745d7a963c84a3d55655c0a6ba714c476bd999811c4899f84bd57b51.
+Archive work/round109-local-results.tar.gz SHA256:01d676a65771cae2a5c4b99991b9fb1f3fd0a5af1b907e89622451cce876f3b9.
+Evidence work/parallel-round109-evidence.json; freeze work/parallel-round109-freeze.json;
+postcommit proof work/round109-postcommit-evidence.json. Prebuild66797/gate92543/
+collector54548 are terminal0; do not repeat successful unchanged checks.
+runner-a passed13 scoped cases/controls on identical immutable Rust inputs;
+work/round109-remote-evidence.json retains originals. runner-c dispatch timed out before
+build. Relevant performance inputs unchanged: preserve round107 k-opt date/scope
+2026-10-12T23:34:11.539079+00:00. Older list metrics remain stale. Backend data/
+freshness inspected; no UI changes or repeated browser/benchmark checks.
+
+Remaining environment method: corruptedUndoShadowVariable. The TEST supplier
+keeps stale v2 when undoing to v1; score rewards genuine==clone. Tracked/full/step
+must detect undo; phase/unasserted/nonintrusive-full success must preserve final
+inverse membership. Native ShadowCalculator, SolutionTracker and calculator checks
+exist, but actual solver integration/mode distinction still needs implementation.
+Exact fixture/helper contracts in work/round109-next-gap-notes.json. Record source
+helper provenance before adaptation; no scripted report/changed fixture credit.
+Seven k-opt methods remain pending; saved mutation probe is already answered.
+Goal incomplete; preserve full scope, performance, selective reuse and commits.
+No new agents/assignments.
+
+## Previous verified checkpoint — round108
 
 Assembled NonReproducible runs and standalone factory-stream openings now receive
 fresh native seeds. A process-random salt plus atomic ticket prevents reuse within

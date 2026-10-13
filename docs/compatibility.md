@@ -8939,3 +8939,14 @@ identity occurrence. Original controls additionally cover simultaneous sessions,
 seed replay, phase offsets, clamps, explicit acceptance seeds, ruin recreation and
 concurrent seed allocation; they earn no method credit. The two corruption methods
 remain pending.
+
+EnvironmentModeTest.corruptedConstraints now preserves its full seven-mode
+failure/no-failure matrix, four-variable/three-value fixture, actual custom
+initialization and incrementing corrupted-score callback. Step/full failures carry
+typed native mode/phase and working/recomputed evidence; phase failures retain
+corruption guidance. A named native constraint supplies real detail in place of
+Java's unavailable-analysis fallback; Java exception spellings and search traces
+are not claimed. Four original controls check actual causes, phase/mode context,
+mode gating, arbitrary-work classification, release failures and failure-observer
+visibility; they earn no method credit. The undo-shadow corruption method remains
+pending.

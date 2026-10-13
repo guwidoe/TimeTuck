@@ -58886,6 +58886,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all seven environment modes, two independent solvers,1000 corresponding random-number equality/inequality assertions and accumulated completed-step-score series equality/inequality after each of10solve pairs. Four uninitialized variables share three stable integer identities; actual custom initialization assigns the first value to all four, then local search terminates at1000evaluated moves. Native64-bit SplitMix words replace Java32-bit random numbers; native first-accepted, shuffled-window32, late-acceptance32 selection supplies unscripted randomized search in place of implicit Java defaults. Actual per-step snapshots replace the Java working-score listener; native custom-command step granularity and Java RNG/search traces are not claimed. NonReproducible factory openings/runs receive fresh process-local seeds; seeded modes preserve configured streams. No expected score traces or random outputs are supplied."
+    },
+    {
+      "id": "EnvironmentModeTest.corruptedConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/EnvironmentModeTest.java",
+      "upstream_test": "corruptedConstraints",
+      "local_path": "crates/solver/tests/environment_corruption_cases.rs",
+      "local_test": "corrupted_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven modes, four uninitialized variables/three stable identities, actual first-value custom initialization,1000move limit and corrupted different-values objective subtracting an incrementing call count. Full/tracked/nonintrusive modes and STEP_ASSERT must return an actual consistency-check failure with correct mode/phase and working/recomputed score evidence; PHASE_ASSERT must return its phase corruption diagnostic; NO_ASSERT/NON_REPRODUCIBLE must solve without diagnostic failure. Typed native ScoreAssertion/PhaseAssertion and error text replace Java IllegalStateException/message spellings. Native named constraint evidence replaces STEP_ASSERT's unavailable-analysis fallback, as with existing corrupted easy-score adaptations. First-accepted/shuffled/late-acceptance settings replace implicit Java default random search without a Java trace claim. No expected scores or returned failures are scripted."
     }
   ],
   "fixtures": [
@@ -83185,6 +83200,32 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Implement the uncorrupted branch used by determinism: negative assigned-count minus distinct-count, with identity represented by integer IDs. No corrupted call-counter branch claim; native incremental constraint caching/checks replace the easy calculator framework."
+    },
+    {
+      "id": "environment-corruption-input-initializer",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/EnvironmentModeTest.java",
+      "upstream_test": "setUpInputProblem/TestdataFirstValueInitializer.changeWorkingSolution",
+      "local_path": "crates/solver/tests/environment_corruption_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Four uninitialized variables, three shared identities and actual four native custom commands preserve fixture/first-value initialization; integer IDs and native schema replace Java objects/reflection."
+    },
+    {
+      "id": "environment-corruption-different-values-calculator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/testutil/calculator/AbstractTestdataDifferentValuesCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/environment_corruption_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the corrupted branch: negative repetitions after first identity minus a call counter incremented on every calculation. Native Cell and one named incremental constraint replace Java easy-calculator state; no whole-Java calculator trace claim."
     }
   ]
 }

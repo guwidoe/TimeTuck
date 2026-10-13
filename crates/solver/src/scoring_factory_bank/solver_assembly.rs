@@ -91,6 +91,13 @@ pub enum FactoryAssemblyError<E> {
         actual: u128,
     },
     UnsupportedConstraintProfiling,
+    /// A declared-phase resource consistency check failed. The resource error
+    /// remains intact; arbitrary phase callback failures are not classified here.
+    ScoreAssertion {
+        phase: usize,
+        mode: EnvironmentMode,
+        error: E,
+    },
     PhaseAssertion {
         phase: usize,
         error: E,
@@ -114,6 +121,7 @@ impl<E: fmt::Display> fmt::Display for FactoryAssemblyError<E> {
             Self::EvaluationBudgetExceeded {limit,actual}=>write!(f,"factory phase binding exceeded solve-wide evaluation budget ({limit}): reported {actual} logical evaluations"),
             Self::UnsupportedConstraintProfiling=>f.write_str("Constraint profiling from the reference configuration is unsupported; remove constraintStreamProfilingEnabled from the solver configuration"),
             Self::SchemaRuin { phase, error } => write!(f,"phase {phase}: {error}"),
+            Self::ScoreAssertion {phase,mode,error}=>write!(f,"phase {phase} {mode:?} resource consistency check failed: {error}"),
             Self::PhaseAssertion {phase,error}=>write!(f,"phase {phase} assertion detected possible score corruption: {error}; use FULL_ASSERT to locate the failing move, or NO_ASSERT to disable these diagnostics"),
             Self::Workers(e)=>e.fmt(f),Self::Scoring(e)=>e.fmt(f),Self::Resource(e)=>e.fmt(f),
         }
@@ -124,7 +132,9 @@ impl<E: Error + 'static> Error for FactoryAssemblyError<E> {
         match self {
             Self::Workers(e) => Some(e),
             Self::Scoring(e) => Some(e),
-            Self::Resource(e) | Self::PhaseAssertion { error: e, .. } => Some(e),
+            Self::Resource(e)
+            | Self::PhaseAssertion { error: e, .. }
+            | Self::ScoreAssertion { error: e, .. } => Some(e),
             Self::SchemaRuin { error, .. } => Some(error),
             _ => None,
         }
@@ -289,11 +299,15 @@ where
     }
     fn check_context(&mut self) -> Result<(), Self::Error> {
         self.0.resource.check_context().map_err(|error| {
-            match self.1.filter(|_| {
-                self.0.factory_director_settings().requested_mode == EnvironmentMode::PhaseAssert
-            }) {
-                Some(phase) => FactoryAssemblyError::PhaseAssertion { phase, error },
-                None => FactoryAssemblyError::Resource(error),
+            let mode = self.0.factory_director_settings().requested_mode;
+            match self.1 {
+                Some(phase) if mode == EnvironmentMode::PhaseAssert => {
+                    FactoryAssemblyError::PhaseAssertion { phase, error }
+                }
+                Some(phase) if mode >= EnvironmentMode::StepAssert => {
+                    FactoryAssemblyError::ScoreAssertion { phase, mode, error }
+                }
+                _ => FactoryAssemblyError::Resource(error),
             }
         })
     }
