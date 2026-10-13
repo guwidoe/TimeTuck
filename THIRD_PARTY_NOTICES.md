@@ -967,3 +967,10 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   and `SolverConfigTest.solutionIsARecord` / `entityIsARecord`. Native schema
   roles and explicit read-only shape declarations adapt their TEST-only domain
   fixtures; details are recorded in `compat/provenance.json`.
+
+- `crates/solver/tests/object_clone_plan_cases.rs` and its
+  `clone_class_plan_fixture.rs` / `clone_root_contract_fixture.rs` fixtures adapt
+  `GizmoCloningUtilsTest.getDeepClonedClasses` and
+  `GizmoSolutionClonerTest.cloneExtendedSolution`. TEST-only model dependencies
+  and the attributed extended cloning fixture are adapted to executable native
+  factories and explicit root contracts; provenance records the native limits.

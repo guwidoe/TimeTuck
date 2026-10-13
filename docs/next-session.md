@@ -16,7 +16,50 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round136
+## Latest verified checkpoint — round137
+
+The final frozen `bash scripts/check.sh` passed once on runner-a in 88.801s:
+7,754 Rust tests and 290 doctests. Compatibility 4,087/4,855 (84.181%),
+200 pending, 568 excluded, zero failed/unverified. Eight complete methods,
+20 TEST helper fixtures and seven originals added. Only six Rust jobs ran;
+1,214 unchanged Rust jobs and all 46 Python jobs reused actual matching runner-a
+evidence. Prebuild 153.491s (Clippy50.88s, affected compilation32.50s),
+worker total242.872s. Optional factory/clone modules and a real problem-change
+fixture leave shared kernels unchanged; reuse did not require rekeying old results.
+Rust digest 4c950b77a38e4850808b0ad61cc4fa2a6f026d6b7f0b1df6d603b5a19fb7d3bd.
+Report digest f2c30a8705d913b344a79b4c09911f764a319db07a1809b1e95be981d44ee1f3.
+runner-a source6bedbf73328913aade13bc6da0481d04c5a5d1694d1e948e40887423ec6df544.
+Archive `work/round137-runner-a-results.tar.gz` SHA256 cdbadc95c27b9e7decf3f207469fd3d1a4b376a6d1c0d08bd708ddb18268b545.
+Evidence `work/parallel-round137-evidence.json`, freeze
+`work/parallel-round137-freeze.json`, IDs `work/round137-added-source-ids.json`.
+All three round137 worktrees archived, no live lane jobs. Exact focused files,
+logs/failed attempts and overlay bases preserved in `work/round137-agent-evidence`.
+Agent Git basecb2ffa5 included exact frozen136 overlay; root integrated only own
+deltas after committed1360103f3c. Root corrected derivedDefault's unnecessary
+owner/value bounds; actual non-Default owner control is covered by this finalgate.
+
+Five factory methods execute direct/public-getter bindings and preserve a seeded
+Arc's callback/cache identity with typed owner/value/member/role keys. No Java
+reflection/generated names claimed; MethodHandle/classloader methods stay pending.
+Two clone-plan methods derive six model types from executable factory dependencies
+and reject unknown roots before callbacks; originals preserve owned/shared aliases,
+four entities and c/d cycle. Explicit native root registration replaces JVM remedy;
+caller factories must honor declared ownership/dependency contracts. No Gizmo claim.
+The full problem-change case resolves external-to-current-working Arc identities
+for all six edits/four final assertions. Originals check shifted positions, actual
+score and queued edit receipts; no new core API/hot path. runner-c timeout before next
+dispatch and local initial inference failure retained; successful local fallback
+checks use isolated targets. runner-a combined gate verifies final merged state.
+
+Goal remains incomplete. Continue closing the remaining compatibility gaps,
+including seven hard k-opt cases; do not repeat refuted seam probes. Pending JVM
+reflection/classloader/bytecode-specific assertions need genuine native behavior
+or explicit later scope audit, never fixture-only flags/scaffold credit. The three
+existing GPT-6.1 Sol agents are reusable, at most three active. No duplicate suite
+just for this commit/reset. Existing benchmark dates remain stale; no performance
+claim or browser rerun for these backend-only report refreshes.
+
+## Previous verified checkpoint — round136
 
 The frozen final `bash scripts/check.sh` passed once on runner-a in 349.273s:
 7,739 Rust tests and 290 doctests. Compatibility 4,079/4,855 (84.016%),

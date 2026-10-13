@@ -1867,3 +1867,12 @@ pub use model_mutability_access::{
     BoundModelMutabilityAccess, ModelMutabilityAccess, ModelMutabilityAccessError,
     PlanningModelRole, ReadOnlyModelShape,
 };
+
+mod member_accessor_factory;
+pub use member_accessor_factory::{
+    FactoryAccessorKind, FactoryMemberAccessor, MemberFactoryRegistration, NativeAccessorValue,
+    NativeMemberAccessorFactory, NativeMemberKey,
+};
+
+mod object_clone_plan;
+pub use object_clone_plan::{ObjectClonePlan, ObjectClonePlanBuilder, ObjectClonePlanError};

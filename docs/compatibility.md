@@ -9540,3 +9540,22 @@ Native semantic bounded draws replace Java mock draw traces. Originals exhaust
 all permutations through six entries, retain identity across duplicate payloads and
 removals, check bounds beyond u64, and consume real pillar moves with validated
 weights/candidate ceilings. No Java RNG or speed equivalence is claimed.
+
+Five MemberAccessorFactoryTest methods now use an optional real native field/getter factory: private fields with actual public getter/setter bindings select executable bean access; exposed fields select direct access; missing published getters reject with complete diagnostic fragments before callbacks. Name/type and String/Arc identity writes are preserved. The preexisting accessor case uses typed member keys and retains a supplied executable Arc and actions; this explicitly adapts the generated-classname input key, without any Gizmo generation claim. MethodHandle-speed/classloader cases stay pending. Originals distinguish selected getter/setter callbacks from forbidden private direct-field callbacks and verify current reads, access-role cache separation and denied writes. Round136 overlay remains intact.
+
+
+An executable ObjectClonePlan derives the model-type dependency closure from
+registered allocation/discovery/population factories, while support containers
+remain separate. Two complete source methods retain the six expected model types
+and rejection of an actual extended root outside the allowed contract. Originals
+execute every model factory, preserve owned/shared aliases and the four-entity
+cycle, and verify missing factories/root rejection before callbacks. Native type
+registrations replace annotation/subclass discovery; the remedy is explicit root
+registration rather than JVM reflection. No Gizmo generation is claimed.
+
+The complete problem-change method uses the existing CalculatorSession editor
+with real external-to-working Arc bindings resolved against current membership
+after each edit. All six operations and four final assertions retain canonical
+identities; originals exercise shifted positions, scores and queued edit receipts.
+The fixture retains the source generated Lavish dimensions 2/5/3/7; its irrelevant
+random long property is fixed to zero. No new solver hot path is introduced.

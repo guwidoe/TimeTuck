@@ -61333,6 +61333,126 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserves every source diagnostic assertion, including both record and enum branches. Explicit typed native model names and read-only Record/Enum shape declarations replace Java reflection; actual access capabilities validate against composed schema roles before callbacks. Source enum branch rejects TestdataEnumEntity inside mutable TestdataEnumSolution. No Java class/record discovery, factory ABI, or reflection parity claimed. Mutable capabilities execute real native model reads and write back director working state in original regressions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorFactoryTest.fieldAnnotatedEntityWithPublicGetter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java",
+      "upstream_test": "fieldAnnotatedEntityWithPublicGetter",
+      "local_path": "crates/solver/tests/member_factory_cases.rs",
+      "local_test": "field_annotated_entity_with_public_getter",
+      "modifications": "Preserve the full source binding-kind/name/type and getter/setter or rejected-member diagnostic assertions; same Arc value allocations replace Java identity and String reads/writes retain exact firstValue/secondValue fixtures. Native factory selects actual direct-field or public getter/setter callback routes through RegisteredMember validation, errors before callbacks. Reflection implementation classes become native executable binding kinds; native type identities replace Java Class. Application-declared exposure/class/annotation labels replace reflection. Preexisting cache case explicitly substitutes typed owner/value/member/access-role key for Gizmo generated-class-name lookup and supplied executable Arc for Mockito accessor; preserve exact same allocation and add real actions. No generated-name algorithm, Gizmo, bytecode/classloader/Java exception ABI claim; MethodHandle speed-note and classloader cases remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorFactoryTest.privateField",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java",
+      "upstream_test": "privateField",
+      "local_path": "crates/solver/tests/member_factory_cases.rs",
+      "local_test": "private_field",
+      "modifications": "Preserve the full source binding-kind/name/type and getter/setter or rejected-member diagnostic assertions; same Arc value allocations replace Java identity and String reads/writes retain exact firstValue/secondValue fixtures. Native factory selects actual direct-field or public getter/setter callback routes through RegisteredMember validation, errors before callbacks. Reflection implementation classes become native executable binding kinds; native type identities replace Java Class. Application-declared exposure/class/annotation labels replace reflection. Preexisting cache case explicitly substitutes typed owner/value/member/access-role key for Gizmo generated-class-name lookup and supplied executable Arc for Mockito accessor; preserve exact same allocation and add real actions. No generated-name algorithm, Gizmo, bytecode/classloader/Java exception ABI claim; MethodHandle speed-note and classloader cases remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorFactoryTest.publicField",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java",
+      "upstream_test": "publicField",
+      "local_path": "crates/solver/tests/member_factory_cases.rs",
+      "local_test": "public_field",
+      "modifications": "Preserve the full source binding-kind/name/type and getter/setter or rejected-member diagnostic assertions; same Arc value allocations replace Java identity and String reads/writes retain exact firstValue/secondValue fixtures. Native factory selects actual direct-field or public getter/setter callback routes through RegisteredMember validation, errors before callbacks. Reflection implementation classes become native executable binding kinds; native type identities replace Java Class. Application-declared exposure/class/annotation labels replace reflection. Preexisting cache case explicitly substitutes typed owner/value/member/access-role key for Gizmo generated-class-name lookup and supplied executable Arc for Mockito accessor; preserve exact same allocation and add real actions. No generated-name algorithm, Gizmo, bytecode/classloader/Java exception ABI claim; MethodHandle speed-note and classloader cases remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorFactoryTest.publicProperty",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java",
+      "upstream_test": "publicProperty",
+      "local_path": "crates/solver/tests/member_factory_cases.rs",
+      "local_test": "public_property",
+      "modifications": "Preserve the full source binding-kind/name/type and getter/setter or rejected-member diagnostic assertions; same Arc value allocations replace Java identity and String reads/writes retain exact firstValue/secondValue fixtures. Native factory selects actual direct-field or public getter/setter callback routes through RegisteredMember validation, errors before callbacks. Reflection implementation classes become native executable binding kinds; native type identities replace Java Class. Application-declared exposure/class/annotation labels replace reflection. Preexisting cache case explicitly substitutes typed owner/value/member/access-role key for Gizmo generated-class-name lookup and supplied executable Arc for Mockito accessor; preserve exact same allocation and add real actions. No generated-name algorithm, Gizmo, bytecode/classloader/Java exception ABI claim; MethodHandle speed-note and classloader cases remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorFactoryTest.shouldUseGeneratedMemberAccessorIfExists",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java",
+      "upstream_test": "shouldUseGeneratedMemberAccessorIfExists",
+      "local_path": "crates/solver/tests/member_factory_cases.rs",
+      "local_test": "should_use_generated_member_accessor_if_exists",
+      "modifications": "Preserve the full source binding-kind/name/type and getter/setter or rejected-member diagnostic assertions; same Arc value allocations replace Java identity and String reads/writes retain exact firstValue/secondValue fixtures. Native factory selects actual direct-field or public getter/setter callback routes through RegisteredMember validation, errors before callbacks. Reflection implementation classes become native executable binding kinds; native type identities replace Java Class. Application-declared exposure/class/annotation labels replace reflection. Preexisting cache case explicitly substitutes typed owner/value/member/access-role key for Gizmo generated-class-name lookup and supplied executable Arc for Mockito accessor; preserve exact same allocation and add real actions. No generated-name algorithm, Gizmo, bytecode/classloader/Java exception ABI claim; MethodHandle speed-note and classloader cases remain pending."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MockProblemChangeDirectorTest.problemChange",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/change/MockProblemChangeDirectorTest.java",
+      "upstream_test": "problemChange",
+      "local_path": "crates/solver/tests/problem_alias_cases.rs",
+      "local_test": "problem_change",
+      "modifications": "Full six operations and all four final assertions execute through actual CalculatorSession::edit_problem. Caller lookup binds actual external Arc allocation identities to actual canonical working allocations, then resolves current membership afresh for each edit. Different source/working object names retained; mutations and assertions observe the canonical allocation. Native errors/callbacks replace Java mock/director API. Additional actual scoring, notification ordering, canonical addition and external nonmutation controls; no JVM alias/reflection parity."
+    },
+    {
+      "id": "GizmoCloningUtilsTest.getDeepClonedClasses",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/gizmo/GizmoCloningUtilsTest.java",
+      "upstream_test": "getDeepClonedClasses",
+      "local_path": "crates/solver/tests/object_clone_plan_cases.rs",
+      "local_test": "get_deep_cloned_classes",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Exact six-class any-order assertion preserved using dependency closure over executable typed allocation/discovery/population factories. Explicit class dependencies and native field policies replace Java annotation/field discovery. Supporting containers are not model classes. Original runtime tests execute all six factories and verify ownership, aliases and sharing; no JVM/Gizmo code generation parity claimed."
+    },
+    {
+      "id": "GizmoSolutionClonerTest.cloneExtendedSolution",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/gizmo/GizmoSolutionClonerTest.java",
+      "upstream_test": "cloneExtendedSolution",
+      "local_path": "crates/solver/tests/object_clone_plan_cases.rs",
+      "local_test": "clone_extended_solution",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves actual extended solution fixture with four entities, null/string extras and cyclic c/d backlinks. UnsupportedRoot replaces Java IllegalArgumentException; encountered/base/known identities use actual native PlanningType names. Complete four-part diagnostic uses explicit-root-registration advice in place of DomainAccessType.REFLECTION, a documented native remedy rather than bytecode/reflection parity. Allowed-root runtime originals clone the same ownership graph and shared facts; rejection occurs before clone callbacks."
     }
   ],
   "fixtures": [
@@ -87662,6 +87782,256 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round137-factory-field-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/field/TestdataFieldAnnotatedEntity.java",
+      "upstream_test": "value/getValue/setValue/constructors",
+      "local_path": "crates/solver/tests/fixtures/member_factory_fixture.rs",
+      "modifications": "Preserve source-used actual typed field/getter/setter bodies and source constructor data order including all six visibility fixture strings. Arc stable payload handles replace Java value identity; explicit field exposure/class/property labels replace reflective declarations. Unused solution collections, score and inaccessible property methods are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round137-factory-value",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "constructor",
+      "local_path": "crates/solver/tests/fixtures/member_factory_fixture.rs",
+      "modifications": "Preserve source-used actual typed field/getter/setter bodies and source constructor data order including all six visibility fixture strings. Arc stable payload handles replace Java value identity; explicit field exposure/class/property labels replace reflective declarations. Unused solution collections, score and inaccessible property methods are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round137-factory-visibility",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/accessmodifier/TestdataVisibilityModifierSolution.java",
+      "upstream_test": "constructor/fields/getPublicProperty/setPublicProperty",
+      "local_path": "crates/solver/tests/fixtures/member_factory_fixture.rs",
+      "modifications": "Preserve source-used actual typed field/getter/setter bodies and source constructor data order including all six visibility fixture strings. Arc stable payload handles replace Java value identity; explicit field exposure/class/property labels replace reflective declarations. Unused solution collections, score and inaccessible property methods are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "problem-alias-lavish-solution-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishSolution.java",
+      "upstream_test": "generateSolution",
+      "local_path": "crates/solver/tests/fixtures/problem_alias_fixture.rs",
+      "modifications": "Preserves2valuegroups/5facts/3entitygroups/7entities, group round-robin and exact assigned value references. Arc identities plus explicit namespace/current-membership lookup replace Java objects/mock dispatch. Irrelevant Math.random long property fixed at0, verified; no stochastic trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "problem-alias-lavish-object-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntity.java",
+      "upstream_test": "TestdataLavishEntity,VALUE_FIELD,setValue,setEntityGroup",
+      "local_path": "crates/solver/tests/fixtures/problem_alias_fixture.rs",
+      "modifications": "Typed native Object fields retain names, actual group/value references and mutability; field label value retained. Only fields used by complete method represented. Fact/group TEST fixture constructors and code strings represented through owned String and Arc."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "problem-alias-explicit-working-binding-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/change/MockProblemChangeDirectorTest.java",
+      "upstream_test": "whenLookingUp setup",
+      "local_path": "crates/solver/tests/fixtures/problem_alias_fixture.rs",
+      "modifications": "Retains actual external and canonical object allocations in typed namespace bindings, never parses names or substitutes expected outcomes. Fresh live membership lookup returns unique current index and rejects missing/duplicate bindings. Source three explicit lookups retained; originals exercise shifted indices and actual queued edit receipt/scoring."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "problem-alias-TestdataLavishValue-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValue.java",
+      "upstream_test": "TestdataLavishValue",
+      "local_path": "crates/solver/tests/fixtures/problem_alias_fixture.rs",
+      "modifications": "Relevant named object/group constructors and references represented by actual Arc allocations; domain groups are typed stored strings, not reflection objects. Native objects retained and checked by allocation identity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "problem-alias-TestdataLavishEntityGroup-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishEntityGroup.java",
+      "upstream_test": "TestdataLavishEntityGroup",
+      "local_path": "crates/solver/tests/fixtures/problem_alias_fixture.rs",
+      "modifications": "Relevant named object/group constructors and references represented by actual Arc allocations; domain groups are typed stored strings, not reflection objects. Native objects retained and checked by allocation identity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "problem-alias-TestdataLavishValueGroup-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/score/lavish/TestdataLavishValueGroup.java",
+      "upstream_test": "TestdataLavishValueGroup",
+      "local_path": "crates/solver/tests/fixtures/problem_alias_fixture.rs",
+      "modifications": "Relevant named object/group constructors and references represented by actual Arc allocations; domain groups are typed stored strings, not reflection objects. Native objects retained and checked by allocation identity."
+    },
+    {
+      "id": "problem-alias-TestdataObject-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TestdataObject/code",
+      "local_path": "crates/solver/tests/fixtures/problem_alias_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Owned native code strings retain TEST object names; source inherits allocation identity equality, represented by Arc::ptr_eq rather than name equality. Caller bindings intentionally allow differently named external/working instances; no annotation discovery used."
+    },
+    {
+      "id": "round137-clone-plan-clone-deepcloning-AnnotatedTestdataVariousTypes.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/AnnotatedTestdataVariousTypes.java",
+      "local_path": "crates/solver/tests/fixtures/clone_class_plan_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-clone-deepcloning-ExtraDeepClonedObject.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/ExtraDeepClonedObject.java",
+      "local_path": "crates/solver/tests/fixtures/clone_class_plan_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-clone-deepcloning-TestdataDeepCloningEntity.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/TestdataDeepCloningEntity.java",
+      "local_path": "crates/solver/tests/fixtures/clone_class_plan_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-clone-deepcloning-TestdataVariousTypes.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/TestdataVariousTypes.java",
+      "local_path": "crates/solver/tests/fixtures/clone_class_plan_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-clone-deepcloning-field-TestdataFieldAnnotatedDeepCloningEntity.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/field/TestdataFieldAnnotatedDeepCloningEntity.java",
+      "local_path": "crates/solver/tests/fixtures/clone_class_plan_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-clone-deepcloning-field-TestdataFieldAnnotatedDeepCloningSolution.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/clone/deepcloning/field/TestdataFieldAnnotatedDeepCloningSolution.java",
+      "local_path": "crates/solver/tests/fixtures/clone_class_plan_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-inheritance-solution-baseannotated-childnot-TestdataOnlyBaseAnnotatedBaseEntity.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedBaseEntity.java",
+      "local_path": "crates/solver/tests/fixtures/clone_root_contract_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-inheritance-solution-baseannotated-childnot-TestdataOnlyBaseAnnotatedChildEntity.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedChildEntity.java",
+      "local_path": "crates/solver/tests/fixtures/clone_root_contract_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-inheritance-solution-baseannotated-childnot-TestdataOnlyBaseAnnotatedExtendedSolution.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedExtendedSolution.java",
+      "local_path": "crates/solver/tests/fixtures/clone_root_contract_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
+    },
+    {
+      "id": "round137-clone-plan-inheritance-solution-baseannotated-childnot-TestdataOnlyBaseAnnotatedSolution.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedSolution.java",
+      "local_path": "crates/solver/tests/fixtures/clone_root_contract_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST helper adaptation: native typed executable factory graph and ownership-relevant field relationships replace Java annotations/subtyping. Class-closure fixture retains the required six class relationships and owned/shared Various alias behavior; does not claim every helper primitive/immutable field or inherited AbstractSolutionClonerTest assertions. Root-contract fixture reuses attributed extended_clone_fixture.rs preserving values1/2/3, four entities a/b/c/d, null/string extras and cyclic c/d references. Rust composition and explicit root identities replace JVM inheritance."
     }
   ]
 }
