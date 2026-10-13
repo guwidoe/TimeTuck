@@ -50,3 +50,10 @@ fn score_improves_too_late_terminates() {
     queries(&mut t, 1001, 10, true, None);
     // Native policy drops naturally; Java phaseEnded/solvingEnded have no asserted output.
 }
+
+#[test]
+fn for_negative_unimproved_time_millis_exception_is_thrown() {
+    let error = SignificantImprovementConfig::from_millis(-1, SimpleScore::ZERO).unwrap_err();
+    assert_eq!(error, SignificantImprovementError::NegativeTime);
+    assert!(error.to_string().contains("cannot be negative"));
+}

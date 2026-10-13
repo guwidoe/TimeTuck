@@ -180,6 +180,28 @@ impl<V: Eq + Clone> RecordedListMove<V> {
     }
 }
 impl<V> RecordedListMove<V> {
+    /// Describe a prepared change using its retained value, including after its
+    /// source row has become empty. Other primitives use their usual metadata.
+    pub fn describe(
+        &self,
+        current: &ListAssignment<V>,
+        mut entity_label: impl FnMut(usize) -> String,
+        mut value_label: impl FnMut(&V) -> String,
+    ) -> Result<String, ListMoveDescriptionError> {
+        if let ListMove::Change {
+            source,
+            destination,
+        } = self.movement
+        {
+            return Ok(format!(
+                "{} {{{} -> {}}}",
+                value_label(&self.values[0]),
+                position_label(source, &mut entity_label),
+                position_label(destination, &mut entity_label)
+            ));
+        }
+        describe_list_move(&self.movement, current, entity_label, value_label)
+    }
     pub fn movement(&self) -> &ListMove<V> {
         &self.movement
     }

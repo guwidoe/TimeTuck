@@ -4,6 +4,7 @@ use std::{cmp::Ordering, error::Error, fmt, time::Duration};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SignificantImprovementError {
+    NegativeTime,
     FlawedThreshold,
     NoScoreLevels,
     UnsupportedArithmetic,
@@ -12,6 +13,7 @@ pub enum SignificantImprovementError {
 impl fmt::Display for SignificantImprovementError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
+            Self::NegativeTime => "unimproved time limit cannot be negative",
             Self::FlawedThreshold => "improvement threshold must have zero structural state",
             Self::NoScoreLevels => "improvement threshold requires ordinary score levels",
             Self::UnsupportedArithmetic => {
@@ -38,6 +40,13 @@ pub struct SignificantImprovementConfig<S> {
     levels: usize,
 }
 impl<S: Score> SignificantImprovementConfig<S> {
+    /// Validate signed external milliseconds before constructing the score policy.
+    pub fn from_millis(window: i64, minimum: S) -> Result<Self, SignificantImprovementError> {
+        let millis =
+            u64::try_from(window).map_err(|_| SignificantImprovementError::NegativeTime)?;
+        Self::new(Duration::from_millis(millis), minimum)
+    }
+
     pub fn new(window: Duration, minimum: S) -> Result<Self, SignificantImprovementError> {
         if minimum.structural() != 0 {
             return Err(SignificantImprovementError::FlawedThreshold);

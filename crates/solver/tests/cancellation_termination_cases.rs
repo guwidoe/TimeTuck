@@ -215,3 +215,98 @@ fn mixed_solver_phase_terminations() {
     );
     assert_eq!(result.termination, SolverTermination::PlanCompleted);
 }
+
+// Explicit native thread-flag adaptation; all ten source policies and assertions.
+#[test]
+fn terminate_early_construction_heuristic_interrupted() {
+    for row in 0..10 {
+        let problem = initial(false);
+        let interruption = CooperativeThreadInterrupt::current();
+        interruption.clear();
+        let token = interruption.cancellation_token();
+        let initial_scores = Cell::new(0);
+        let requests = Cell::new(0);
+        let mut network = ConstraintNetwork::<i32, SimpleScore>::new(2);
+        // DummySimpleScoreInterruptingEasyScoreCalculator: score the initial
+        // state, interrupt this worker while one entity is assigned, and fail
+        // if complete construction is ever scored.
+        network
+            .add_constraint("termination scorer", vec![0, 1], |values| {
+                match values.iter().filter(|value| value.is_none()).count() {
+                    2 => initial_scores.set(initial_scores.get() + 1),
+                    1 => {
+                        requests.set(requests.get() + 1);
+                        CooperativeThreadInterrupt::current().interrupt();
+                    }
+                    _ => panic!("Expected Construction Heuristic to terminate early"),
+                }
+                SimpleScore::ZERO
+            })
+            .unwrap();
+        let result = with_policy(row, true, &token, |plan| {
+            solve_with_observer(&problem, &network, plan, |_| {})
+        })
+        .unwrap();
+        assert!(
+            result.score.is_some(),
+            "row {row}: returned solution must have a score"
+        );
+        assert!(
+            initial_scores.get() > 0,
+            "row {row}: missing initial scoring"
+        );
+        assert!(
+            requests.get() > 0,
+            "row {row}: termination callback did not fire"
+        );
+        assert!(token.is_cancelled());
+        assert!(interruption.is_interrupted());
+        assert!(interruption.clear());
+        assert!(!token.is_cancelled());
+        assert_eq!(result.termination, SolverTermination::Cancelled);
+        assert!(!result.complete);
+    }
+}
+
+#[test]
+fn terminate_early_local_search_interrupted() {
+    for row in 0..10 {
+        let problem = initial(true);
+        let interruption = CooperativeThreadInterrupt::current();
+        interruption.clear();
+        let token = interruption.cancellation_token();
+        let requests = Cell::new(0);
+        let mut network = ConstraintNetwork::<i32, SimpleScore>::new(2);
+        // TestdataConstraintProviderNonzeroValues: generated value code ending
+        // in 0 contains zero; penalize each assigned entity using that value.
+        network
+            .add_constraint("Value contains zero", vec![0, 1], |values| {
+                SimpleScore::new(
+                    -(values
+                        .iter()
+                        .filter(|value| value.is_some_and(|v| *v == 0))
+                        .count() as i64),
+                )
+            })
+            .unwrap();
+        let result = with_policy(row, false, &token, |plan| {
+            solve_with_observer(&problem, &network, plan, |event| {
+                assert_eq!(event.kind, SolverPhaseKind::LocalSearch);
+                requests.set(requests.get() + 1);
+                CooperativeThreadInterrupt::current().interrupt();
+            })
+        })
+        .unwrap();
+        assert!(
+            result.score.is_some(),
+            "row {row}: returned solution must exist"
+        );
+        assert!(requests.get() > 0, "row {row}: best listener did not fire");
+        assert!(token.is_cancelled());
+        assert!(interruption.is_interrupted());
+        assert!(interruption.clear());
+        assert!(!token.is_cancelled());
+        assert_eq!(result.termination, SolverTermination::Cancelled);
+        assert_eq!(result.score, Some(SimpleScore::new(-1)));
+    }
+}

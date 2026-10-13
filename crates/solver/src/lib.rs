@@ -281,7 +281,7 @@ pub use time_limit::ElapsedTimeLimit;
 mod timed_search_tests;
 
 pub mod cancellation;
-pub use cancellation::CancellationToken;
+pub use cancellation::{CancellationToken, CooperativeThreadInterrupt};
 
 pub use list_search::exhaustive_list_search_with_config;
 pub use mixed_search::exhaustive_mixed_search_with_config;
@@ -1695,3 +1695,6 @@ pub use basic_change_recording::{BasicChangeRecorder, BasicRestoreAction, Record
 
 mod observed_composite_acceptor;
 pub use observed_composite_acceptor::{ObservedAcceptorChild, ObservedCompositeAcceptor};
+
+mod basic_group_move_metadata;
+pub use basic_group_move_metadata::{GroupMoveMetadataError, NamedMassChange, PillarSwapPlan};

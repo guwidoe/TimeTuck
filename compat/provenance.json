@@ -59351,6 +59351,201 @@
       "upstream_test": "phaseLifecycle",
       "local_test": "phase_lifecycle",
       "modifications": "Preserve all source lifecycle calls across one solve, two phases and three steps and all six per-child callback count assertions for three children. ObservedCompositeAcceptor owns actual native ValueAcceptor children with registered lifecycle observers; typed SolverLifecycleEvent values replace mocked Java scopes. Event dispatch is explicit, and phase notifications do not reset acceptance memory; callers create fresh native state at their chosen boundary. No Java API/scope-object parity or automatic attachment to solver configuration claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "ListChangeMoveTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_test": "list_change_equals_and_hash_code",
+      "modifications": "Preserve every equality, equal-hash, differing coordinate/reversal and null/other-type assertion, or every diagnostic containment assertion. Native owner indices represent distinct entity identities; typed ListMove coordinates replace the Java metamodel. An Option/dynamic Any boundary checks missing and other-type values. ListChange is actually executed before description using the prepared record retained moved value; source positions are not read after execution. No Java API/ABI or hash-number parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "ListChangeMoveTest.toStringContainsMoveDetails",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "toStringContainsMoveDetails",
+      "local_test": "list_change_to_string_contains_move_details",
+      "modifications": "Preserve every equality, equal-hash, differing coordinate/reversal and null/other-type assertion, or every diagnostic containment assertion. Native owner indices represent distinct entity identities; typed ListMove coordinates replace the Java metamodel. An Option/dynamic Any boundary checks missing and other-type values. ListChange is actually executed before description using the prepared record retained moved value; source positions are not read after execution. No Java API/ABI or hash-number parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "SubListChangeMoveTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_test": "sub_list_change_equals_and_hash_code",
+      "modifications": "Preserve every equality, equal-hash, differing coordinate/reversal and null/other-type assertion, or every diagnostic containment assertion. Native owner indices represent distinct entity identities; typed ListMove coordinates replace the Java metamodel. An Option/dynamic Any boundary checks missing and other-type values. ListChange is actually executed before description using the prepared record retained moved value; source positions are not read after execution. No Java API/ABI or hash-number parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "SubListChangeMoveTest.toStringContainsMoveDetails",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "toStringContainsMoveDetails",
+      "local_test": "sub_list_change_to_string_contains_move_details",
+      "modifications": "Preserve every equality, equal-hash, differing coordinate/reversal and null/other-type assertion, or every diagnostic containment assertion. Native owner indices represent distinct entity identities; typed ListMove coordinates replace the Java metamodel. An Option/dynamic Any boundary checks missing and other-type values. ListChange is actually executed before description using the prepared record retained moved value; source positions are not read after execution. No Java API/ABI or hash-number parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "SubListSwapMoveTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_test": "sub_list_swap_equals_and_hash_code",
+      "modifications": "Preserve every equality, equal-hash, differing coordinate/reversal and null/other-type assertion, or every diagnostic containment assertion. Native owner indices represent distinct entity identities; typed ListMove coordinates replace the Java metamodel. An Option/dynamic Any boundary checks missing and other-type values. ListChange is actually executed before description using the prepared record retained moved value; source positions are not read after execution. No Java API/ABI or hash-number parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "SubListSwapMoveTest.toStringContainsMoveDetails",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "toStringContainsMoveDetails",
+      "local_test": "sub_list_swap_to_string_contains_move_details",
+      "modifications": "Preserve every equality, equal-hash, differing coordinate/reversal and null/other-type assertion, or every diagnostic containment assertion. Native owner indices represent distinct entity identities; typed ListMove coordinates replace the Java metamodel. An Option/dynamic Any boundary checks missing and other-type values. ListChange is actually executed before description using the prepared record retained moved value; source positions are not read after execution. No Java API/ABI or hash-number parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "SubListUnassignMoveTest.equalsAndHashCode",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListUnassignMoveTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "local_test": "sub_list_unassign_equals_and_hash_code",
+      "modifications": "Preserve every equality, equal-hash, differing coordinate/reversal and null/other-type assertion, or every diagnostic containment assertion. Native owner indices represent distinct entity identities; typed ListMove coordinates replace the Java metamodel. An Option/dynamic Any boundary checks missing and other-type values. ListChange is actually executed before description using the prepared record retained moved value; source positions are not read after execution. No Java API/ABI or hash-number parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "equalsAndHashCodeIgnoreMemberDrawOrderWithinEachPillar",
+      "local_path": "crates/solver/tests/basic_group_move_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve four distinct entity identities, both reversed draws, shortened right pillar, equality/hash agreement and inequality assertions. Native oriented PillarSwapPlan retains actual schema variable identity and canonical members; no assignment snapshot substitutes for semantic identity. None and runtime type identity replace Java null/unrelated-object comparison.",
+      "id": "PillarSwapMoveTest.equalsAndHashCodeIgnoreMemberDrawOrderWithinEachPillar",
+      "status": "implemented",
+      "local_test": "equals_and_hash_code_ignore_member_draw_order_within_each_pillar"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "describeIncludesEntityAndVariableName",
+      "local_path": "crates/solver/tests/basic_group_move_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve two single-member pillars and exact description string. Actual native registered basic variable name supplies value; explicit TestdataEntity display label replaces Java reflected class name. Metadata remains attached to an executable PillarSwapPlan; no Java metamodel ABI claim.",
+      "id": "PillarSwapMoveTest.describeIncludesEntityAndVariableName",
+      "status": "implemented",
+      "local_test": "pillar_describe_includes_entity_and_variable_name"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "describeIncludesEntityAndVariableName",
+      "local_path": "crates/solver/tests/basic_group_move_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve single entity, destination v and exact description string. Actual native registered basic variable name supplies value; explicit TestdataEntity display label replaces Java reflected class name. NamedMassChange retains the real existing executable MassChange; no Java metamodel ABI claim.",
+      "id": "MassChangeMoveTest.describeIncludesEntityAndVariableName",
+      "status": "implemented",
+      "local_test": "mass_describe_includes_entity_and_variable_name"
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationTest.terminateEarlyConstructionHeuristicInterrupted",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "terminateEarlyConstructionHeuristicInterrupted",
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "local_test": "terminate_early_construction_heuristic_interrupted",
+      "modifications": "Preserve all ten TerminationArgumentSource policies, two entities/two values, real native phase execution and every source assertion. Java current-thread interruption maps explicitly to opt-in CooperativeThreadInterrupt and linked solver cancellation; construction scorer interrupts at one unassigned entity and rejects complete scoring, local best listener interrupts during actual search. Rust has no implicit Java thread interrupt flag or asynchronous preemption. Native cancellation returns scored retained result; persistent thread flag is explicitly cleared after checking."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TerminationTest.terminateEarlyLocalSearchInterrupted",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "terminateEarlyLocalSearchInterrupted",
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "local_test": "terminate_early_local_search_interrupted",
+      "modifications": "Preserve all ten TerminationArgumentSource policies, two entities/two values, real native phase execution and every source assertion. Java current-thread interruption maps explicitly to opt-in CooperativeThreadInterrupt and linked solver cancellation; construction scorer interrupts at one unassigned entity and rejects complete scoring, local best listener interrupts during actual search. Rust has no implicit Java thread interrupt flag or asynchronous preemption. Native cancellation returns scored retained result; persistent thread flag is explicitly cleared after checking."
+    },
+    {
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.forNegativeUnimprovedTimeMillis_exceptionIsThrown",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest.java",
+      "upstream_test": "forNegativeUnimprovedTimeMillis_exceptionIsThrown",
+      "local_path": "crates/solver/tests/significant_improvement_cases.rs",
+      "local_test": "for_negative_unimproved_time_millis_exception_is_thrown",
+      "modifications": "Signed native SignificantImprovementConfig::from_millis(-1, SimpleScore::ZERO) rejects at construction with typed NegativeTime and source cannot be negative message. No unsigned compile-time rejection substitutes for runtime behavior."
     }
   ],
   "fixtures": [
@@ -83819,6 +84014,110 @@
       "upstream_test": "verifyPhaseLifecycle(LocalSearchPhaseLifecycleListener,int,int,int)",
       "local_path": "crates/solver/tests/composite_acceptor_lifecycle_cases.rs",
       "modifications": "Preserve exact solving-start/end counts 1, phase-start/end counts 2 and step-start/end counts 3 for every child. Native recorded callbacks replace Mockito invocation verification."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "list_change-move-details-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/ListChangeMoveTest.java",
+      "upstream_test": "equalsAndHashCode, toStringContainsMoveDetails",
+      "modifications": "Inline source TEST fixture values A/B (A/B/C for sublist-change description) and distinct Entity1/Entity2 or EntityA/EntityB owner identities; unassign uses one owner with two values. Native coordinate construction replaces Java fixture/metamodel setup."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "sub_list_change-move-details-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListChangeMoveTest.java",
+      "upstream_test": "equalsAndHashCode, toStringContainsMoveDetails",
+      "modifications": "Inline source TEST fixture values A/B (A/B/C for sublist-change description) and distinct Entity1/Entity2 or EntityA/EntityB owner identities; unassign uses one owner with two values. Native coordinate construction replaces Java fixture/metamodel setup."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "sub_list_swap-move-details-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListSwapMoveTest.java",
+      "upstream_test": "equalsAndHashCode, toStringContainsMoveDetails",
+      "modifications": "Inline source TEST fixture values A/B (A/B/C for sublist-change description) and distinct Entity1/Entity2 or EntityA/EntityB owner identities; unassign uses one owner with two values. Native coordinate construction replaces Java fixture/metamodel setup."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/list_move_details_cases.rs",
+      "id": "sub_list_unassign-move-details-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/SubListUnassignMoveTest.java",
+      "upstream_test": "equalsAndHashCode",
+      "modifications": "Inline source TEST fixture values A/B (A/B/C for sublist-change description) and distinct Entity1/Entity2 or EntityA/EntityB owner identities; unassign uses one owner with two values. Native coordinate construction replaces Java fixture/metamodel setup."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "equalsAndHashCodeIgnoreMemberDrawOrderWithinEachPillar",
+      "local_path": "crates/solver/tests/basic_group_move_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt full inline fixture: Preserve four distinct entity identities, both reversed draws, shortened right pillar, equality/hash agreement and inequality assertions. Native oriented PillarSwapPlan retains actual schema variable identity and canonical members; no assignment snapshot substitutes for semantic identity. None and runtime type identity replace Java null/unrelated-object comparison.",
+      "id": "round124-PillarSwapMoveTest-equalsAndHashCodeIgnoreMemberDrawOrderWithinEachPillar-fixture"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/PillarSwapMoveTest.java",
+      "upstream_test": "describeIncludesEntityAndVariableName",
+      "local_path": "crates/solver/tests/basic_group_move_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt full inline fixture: Preserve two single-member pillars and exact description string. Actual native registered basic variable name supplies value; explicit TestdataEntity display label replaces Java reflected class name. Metadata remains attached to an executable PillarSwapPlan; no Java metamodel ABI claim.",
+      "id": "round124-PillarSwapMoveTest-describeIncludesEntityAndVariableName-fixture"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/move/builtin/MassChangeMoveTest.java",
+      "upstream_test": "describeIncludesEntityAndVariableName",
+      "local_path": "crates/solver/tests/basic_group_move_metadata_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt full inline fixture: Preserve single entity, destination v and exact description string. Actual native registered basic variable name supplies value; explicit TestdataEntity display label replaces Java reflected class name. NamedMassChange retains the real existing executable MassChange; no Java metamodel ABI claim.",
+      "id": "round124-MassChangeMoveTest-describeIncludesEntityAndVariableName-fixture"
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "current-thread-interrupting-score-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationTest.java",
+      "upstream_test": "DummySimpleScoreInterruptingEasyScoreCalculator.calculateScore",
+      "local_path": "crates/solver/tests/cancellation_termination_cases.rs",
+      "modifications": "Preserve exactly two unassigned => zero score, one => interrupt current worker and zero score, none => assertion failure. Real constraint callback and native cooperative worker flag replace Java thread flag; all ten source policies execute."
     }
   ]
 }

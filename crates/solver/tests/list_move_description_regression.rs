@@ -197,3 +197,38 @@ fn record_preparation_retains_model_checks_and_live_swap_inspection_checks_posit
         vec![1, 2]
     );
 }
+
+#[test]
+fn retained_change_description_survives_source_replacement() {
+    let problem = ListProblem::new(
+        vec![10, 20, 30],
+        vec![ListEntity::new(vec![10, 20]), ListEntity::new(vec![30])],
+    )
+    .unwrap();
+    let mut current = problem.initial_assignment();
+    let record = RecordedListMove::prepare(
+        &problem,
+        &current,
+        ListMove::Change {
+            source: ListPosition {
+                entity: 0,
+                index: 0,
+            },
+            destination: ListPosition {
+                entity: 1,
+                index: 1,
+            },
+        },
+    )
+    .unwrap();
+    problem
+        .apply(&mut current, record.movement())
+        .unwrap()
+        .commit();
+    assert_eq!(current.lists()[0], vec![20]);
+    let text = record
+        .describe(&current, |i| format!("row{i}"), |v| v.to_string())
+        .unwrap();
+    assert_eq!(text, "10 {row0[0] -> row1[1]}");
+    assert_eq!(record.planning_values(&current).unwrap(), vec![&10]);
+}

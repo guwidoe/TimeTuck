@@ -13,10 +13,73 @@ Record complete adapted tests/fixtures in `compat/provenance.json`. Partial,
 original, skipped or empty tests earn no upstream-method credit. Crates remain
 unpublished. Conventional Commits, never amend/rebase/push. The current user direction is to finish integrating completed work, then close
 compatibility gaps so the pending backlog shrinks. Keep performance important,
-commit occasionally and reuse unchanged verification. No new subagents or
-assignments; all previous agents have finished.
+commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
+builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round123
+## Latest verified checkpoint — round124
+
+Three GPT-6.1 Sol agents completed disjoint worktrees. runner-c ran 21 focused list
+tests; runner-a ran 18 pillar/mass tests; local ran 10 termination tests using an
+explicit worktree manifest. All focused runs passed. Preserve original manifests,
+logs and source scope in work/round124-agent-evidence; the local wrong-root log
+is a reproduced diagnostic, not an original completed-check record.
+
+13 complete source methods and eight fixtures integrated: list change/sublist
+change/sublist swap/sublist unassign equality/hash and descriptions; pillar swap
+semantic equality and pillar/mass descriptions; both interrupted termination
+phases (all ten policies each) and negative significant-improvement milliseconds.
+List descriptions retain prepared moved values after source removal/replacement.
+PillarSwapPlan uses canonical membership, oriented pillars and actual variable
+identity independently of generated write snapshots; NamedMassChange wraps
+existing executable moves. Registered field names and application display labels
+provide descriptions. Existing tabu identity is unchanged. Review removed repeated
+right-pillar allocations from overlap validation; final merged gate covers it.
+
+CooperativeThreadInterrupt is opt-in, thread-specific and clearable, with explicit
+links to ordinary cancellation polling; cross-thread controllers may request the
+owning worker's flag. Ordinary tokens/hot paths are unchanged. No implicit Java
+interrupt flag, preemption or Java metadata/ABI claim. Signed negative time rejects
+before constructing score policy. Six new originals cover retained descriptions,
+semantic identity versus generated writes, real multi-column execution/rollback,
+metadata validation, thread isolation/clearing and signed-time boundaries.
+
+Frozen merged bash scripts/check.sh passed on runner-c in
+261.945s: 7,519 Rust tests and 290 doctests.
+Rust jobs: {'RUN': 1134}; Python jobs: {'RUN': 46}.
+runner-c Clippy passed (36.27s); prebuild total542.491s including dependency selection,
+compilation and a brief laptop sleep. Its first merged gate establishes genuine
+per-job runner-c records; none were relabeled from local results.
+Compatibility: 3,960/4,855 (81.565%), 327 pending,
+568 excluded, zero failed/unverified. Rust digest d64af8bbe622b7446306d4f5cf80c15f92906a010a26f3dd5b5be68563b5c5b1.
+Report digest 2809b9d2a67b360468bde3141290ddee01704aecfdc08e021c01c8e6592ef1b4.
+Archive work/round124-runner-c-results.tar.gz SHA256:685bf34fd316bd3f38437ff971d128b904f4560d9ad442b39705cae297e8c00f.
+Evidence work/parallel-round124-evidence.json; freeze
+work/parallel-round124-freeze.json; postcommit proof
+work/round124-postcommit-evidence.json. runner-c source snapshot
+744f7e2887dc270104f0d2d6f12011ac0735a7c58fc2ae51e8d41639a990e946.
+Do not repeat successful unchanged checks. Remote per-job records stay separate
+under work/round124-runner-c-results/work/verification; future runner-c reuse may relocate
+output paths only with checksum validation, preserving keys/dates/source scope.
+Backend report/freshness inspected; no UI changes/repeated browser checks.
+
+User authorized up to three concurrent GPT-6.1 Sol implementation agents and all
+three build machines, overriding the earlier no-new-agents direction. These three
+finished; no active agent jobs. Current managed worktrees preserve their source
+diffs; archive only after integrated commit and needed ignored evidence is saved.
+runner-a and runner-c SSH both succeeded on retry. runner-c briefly slept during combined
+run; original85272 continued, no duplicate gate. Temporary Windows build wake
+lock77108 was created for at most one hour; no persistent power-setting change.
+
+No benchmark refresh for these APIs. Preserve old native and paired Java evidence
+source/binary/driver/date, including sampling2026-10-13T04:59:18.200098+00:00
+(regressions up to 5.1% retained) and k-opt2026-10-13T02:08:50.481824+00:00,
+still visibly stale. No speed claims/retags. Continue remaining genuine gaps;
+ruin/recreate rebase/equality and seven k-opt seam/iterator cases remain. Saved
+k-opt probes already answered. Keep performance important, shrink backlog,
+parallelize independent implementation, commit occasionally. Pin unchanged;
+full goal remains active and incomplete.
+
+## Previous verified checkpoint — round123
 
 BasicChangeRecorder captures actual prior basic field values before successful
 registry changes. RecordedBasicUndo replays typed restore instructions in reverse,

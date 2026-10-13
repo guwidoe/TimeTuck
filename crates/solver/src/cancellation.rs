@@ -87,6 +87,44 @@ impl CancellationToken {
                 .is_some_and(|sources| sources.iter().any(|source| source.load(Ordering::Acquire)))
     }
 }
+thread_local! {
+    static THREAD_INTERRUPTION: Arc<AtomicBool> = Arc::default();
+}
+
+/// Opt-in cooperative interruption for the current native thread. Rust has no
+/// standard Java-style thread interrupt flag: callers explicitly connect this
+/// flag to their solver cancellation token. Requests survive callback return
+/// and remain set until cleared; they never preempt user code or unwind it.
+/// A handle may be sent to a controller thread to interrupt its originating
+/// worker. Each worker has an independent flag. Ordinary tokens are unaffected.
+#[derive(Clone, Debug)]
+pub struct CooperativeThreadInterrupt {
+    requested: Arc<AtomicBool>,
+}
+impl CooperativeThreadInterrupt {
+    pub fn current() -> Self {
+        THREAD_INTERRUPTION.with(|requested| Self {
+            requested: requested.clone(),
+        })
+    }
+    pub fn interrupt(&self) -> bool {
+        !self.requested.swap(true, Ordering::AcqRel)
+    }
+    pub fn is_interrupted(&self) -> bool {
+        self.requested.load(Ordering::Acquire)
+    }
+    /// Consume the worker flag. Existing linked tokens observe the cleared flag;
+    /// their own direct cancellation remains one-way and is never cleared here.
+    pub fn clear(&self) -> bool {
+        self.requested.swap(false, Ordering::AcqRel)
+    }
+    pub fn cancellation_token(&self) -> CancellationToken {
+        CancellationToken {
+            requested: Arc::default(),
+            parents: Some(Arc::from([self.requested.clone()])),
+        }
+    }
+}
 // Configuration equality compares cancellation identity, not mutable flag state.
 impl PartialEq for CancellationToken {
     fn eq(&self, other: &Self) -> bool {

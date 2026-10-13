@@ -170,6 +170,30 @@ notifications do not reset policy memory or attach themselves to solver config;
 callers define that boundary. Ordinary acceptors retain their existing paths.
 Native typed events and registered observers replace Java mock scopes/listeners.
 
+Seven additional list-move methods preserve native equal/hash contracts and
+primitive descriptions, including coordinates, reversal, null/other-type
+boundaries and post-execution inspection. Prepared list changes retain their
+original moved value for descriptions after the source becomes empty or holds a
+different value. Existing live single-swap inspection remains unchanged.
+
+PillarSwapPlan exposes semantic identity from canonical pillar members and actual
+selected variable metadata, preserving left/right orientation independently of
+generated write snapshots. It regenerates executable native moves from current
+assignments; NamedMassChange pairs existing executable mass moves with metadata.
+Descriptions derive registered field names and accept application entity display
+labels. The three source methods preserve every equality/hash and exact description
+assertion. Callers bind metadata columns to native slots; existing tabu policies
+keep their established identity rules.
+
+Both interrupted-phase TerminationTest methods now run all ten source policies
+through real native solver phases. CooperativeThreadInterrupt exposes an explicit
+thread-specific, clearable flag connected to existing cancellation polling.
+Controller threads can request interruption of the owning worker; ordinary tokens
+remain independent. This establishes cooperative cancellation outcomes, not Java
+implicit interrupt flags or preemption. Signed significant-improvement milliseconds
+reject negative values before score-policy validation. Source fixtures and full
+adaptations are recorded with the unchanged Community pin.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,
