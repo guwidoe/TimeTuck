@@ -64,6 +64,7 @@ fn draw_index(
 pub struct ReachableEntitySwapProvider {
     schema: EntitySwapProvider,
     sampling: EntitySwapSampling,
+    eligible_partners: bool,
 }
 impl ReachableEntitySwapProvider {
     pub fn new(
@@ -75,7 +76,17 @@ impl ReachableEntitySwapProvider {
         Ok(Self {
             schema: EntitySwapProvider::new(rows, EntitySwapOrder::Cartesian { left, right })?,
             sampling,
+            eligible_partners: false,
         })
+    }
+    /// Draw uniformly from the current left entity's eligible right occurrences.
+    /// This optional policy scans the right order to count and locate each candidate, retaining
+    /// duplicates. It never caches predicate results across assignment changes.
+    /// Empty eligible orders produce the existing self-swap fallback without a
+    /// right draw. Default selection continues to use bounded raw probes.
+    pub fn with_eligible_partner_sampling(mut self) -> Self {
+        self.eligible_partners = true;
+        self
     }
     pub fn rows(&self) -> &[Vec<usize>] {
         self.schema.rows()
@@ -147,30 +158,72 @@ impl ReachableEntitySwapProvider {
         }
     }
     /// Inject bounded indices for deterministic sampling. Each callback receives
-    /// the pin-filtered order length, including one-element orders. An invalid
+    /// the pin-filtered left/raw-right order length, or the eligible right count
+    /// under eligible-partner sampling, including one-element orders. An invalid
     /// index yields one error then ends the iterator; callback panics propagate.
     pub fn select_with<'a, V: Eq, F: FnMut(usize) -> usize + 'a>(
         &'a self,
         p: &'a FiniteProblem<V>,
         a: &'a Assignment<V>,
+        draw: F,
+    ) -> Result<
+        impl Iterator<Item = Result<EntitySwapCandidate<V>, InvalidEntitySwapDraw>> + 'a,
+        EntitySwapError,
+    > {
+        self.select_with_limit(p, a, draw, Some(self.sampling.max_candidates))
+    }
+    /// Unbounded borrowed candidate stream for callers that own termination.
+    /// Nonempty left orders keep yielding (including self fallback); an invalid
+    /// draw emits one error then fuses. Solver MoveProvider uses the bounded API.
+    pub fn select_repeating_with<'a, V: Eq, F: FnMut(usize) -> usize + 'a>(
+        &'a self,
+        p: &'a FiniteProblem<V>,
+        a: &'a Assignment<V>,
+        draw: F,
+    ) -> Result<
+        impl Iterator<Item = Result<EntitySwapCandidate<V>, InvalidEntitySwapDraw>> + 'a,
+        EntitySwapError,
+    > {
+        self.select_with_limit(p, a, draw, None)
+    }
+    fn select_with_limit<'a, V: Eq, F: FnMut(usize) -> usize + 'a>(
+        &'a self,
+        p: &'a FiniteProblem<V>,
+        a: &'a Assignment<V>,
         mut draw: F,
+        limit: Option<u64>,
     ) -> Result<
         impl Iterator<Item = Result<EntitySwapCandidate<V>, InvalidEntitySwapDraw>> + 'a,
         EntitySwapError,
     > {
         let (left, right) = self.schema.orders(p, a)?;
-        let mut remaining = if left.is_empty() {
-            0
-        } else {
-            self.sampling.max_candidates
-        };
+        let mut remaining = if left.is_empty() { Some(0) } else { limit };
         Ok(std::iter::from_fn(move || {
-            if remaining == 0 {
-                return None;
+            if let Some(n) = &mut remaining {
+                if *n == 0 {
+                    return None;
+                }
+                *n -= 1;
             }
-            remaining -= 1;
             let result = (|| {
                 let l = left[draw_index(left.len(), &mut draw)?];
+                if self.eligible_partners {
+                    let eligible = || {
+                        right
+                            .iter()
+                            .copied()
+                            .filter(|&r| self.reachable(p, a, l, r))
+                    };
+                    let count = eligible().count();
+                    let r = if count == 0 {
+                        l
+                    } else {
+                        eligible()
+                            .nth(draw_index(count, &mut draw)?)
+                            .expect("unchanged borrowed eligibility")
+                    };
+                    return Ok(self.movement(l, r));
+                }
                 for _ in 0..self.sampling.max_partner_attempts {
                     if right.is_empty() {
                         break;
@@ -183,7 +236,7 @@ impl ReachableEntitySwapProvider {
                 Ok(self.movement(l, l))
             })();
             if result.is_err() {
-                remaining = 0;
+                remaining = Some(0);
             }
             Some(result)
         }))

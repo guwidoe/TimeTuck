@@ -60928,6 +60928,231 @@
       "upstream_test": "patchAndSolveDataset_emitsValidateComputeWithSolveTrue",
       "local_test": "patch_and_solve_dataset_emits_validate_compute_with_solve_true",
       "modifications": "Preserve every source event count/id/solve flag, stored-input equality, metadata name/tag/status/time/parent/origin assertion and unknown-ID typed failure without command delivery. Native facade commits actual complete owned JSON/configuration/metadata records, store derives origin from actual parent, and callback sink records real Created/ValidateCompute/SolveStart events. Source UNSOLVED selector maps Input; emptyConfiguration maps JSON{}, null patch option maps None and empty operations use existing JsonPatch Model mode. In-memory store-local monotonic IDs and deterministic fixture clock/names replace UUID/time infrastructure without asserting global identity or JVM/reactive messaging ABI. Commands request downstream work rather than claiming validation/solving already completed. Child snapshots are independently owned; no scripted storage expectations."
+    },
+    {
+      "id": "IntValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/IntValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_path": "crates/solver/tests/range_order_capability_cases.rs",
+      "local_test": "int_sort",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete source construction (0..7 integer, 0..4 scale-zero decimal, or boolean generator) and absent-comparator in-place sort rejection. Optional native RangeInPlaceOrder exposes actual owner capability: fixed indexed generators reject before enumeration/callback; stored ordered enumerations stage and publish real sorting. Native i64 IntegerValueRange represents both small Int/Long fixtures; no Java integer-width/class ABI equivalence is claimed. Originals verify huge lazy generator preservation/no comparator invocation, native stored natural/custom order, comparator panic retention and actual construction consuming the reordered domain. Existing bounded sorted-copy API and ordinary solver defaults remain unchanged."
+    },
+    {
+      "id": "LongValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/LongValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_path": "crates/solver/tests/range_order_capability_cases.rs",
+      "local_test": "long_sort",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete source construction (0..7 integer, 0..4 scale-zero decimal, or boolean generator) and absent-comparator in-place sort rejection. Optional native RangeInPlaceOrder exposes actual owner capability: fixed indexed generators reject before enumeration/callback; stored ordered enumerations stage and publish real sorting. Native i64 IntegerValueRange represents both small Int/Long fixtures; no Java integer-width/class ABI equivalence is claimed. Originals verify huge lazy generator preservation/no comparator invocation, native stored natural/custom order, comparator panic retention and actual construction consuming the reordered domain. Existing bounded sorted-copy API and ordinary solver defaults remain unchanged."
+    },
+    {
+      "id": "BigIntegerValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigIntegerValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_path": "crates/solver/tests/range_order_capability_cases.rs",
+      "local_test": "big_integer_sort",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete source construction (0..7 integer, 0..4 scale-zero decimal, or boolean generator) and absent-comparator in-place sort rejection. Optional native RangeInPlaceOrder exposes actual owner capability: fixed indexed generators reject before enumeration/callback; stored ordered enumerations stage and publish real sorting. Native i64 IntegerValueRange represents both small Int/Long fixtures; no Java integer-width/class ABI equivalence is claimed. Originals verify huge lazy generator preservation/no comparator invocation, native stored natural/custom order, comparator panic retention and actual construction consuming the reordered domain. Existing bounded sorted-copy API and ordinary solver defaults remain unchanged."
+    },
+    {
+      "id": "BigDecimalValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BigDecimalValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_path": "crates/solver/tests/range_order_capability_cases.rs",
+      "local_test": "big_decimal_sort",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete source construction (0..7 integer, 0..4 scale-zero decimal, or boolean generator) and absent-comparator in-place sort rejection. Optional native RangeInPlaceOrder exposes actual owner capability: fixed indexed generators reject before enumeration/callback; stored ordered enumerations stage and publish real sorting. Native i64 IntegerValueRange represents both small Int/Long fixtures; no Java integer-width/class ABI equivalence is claimed. Originals verify huge lazy generator preservation/no comparator invocation, native stored natural/custom order, comparator panic retention and actual construction consuming the reordered domain. Existing bounded sorted-copy API and ordinary solver defaults remain unchanged."
+    },
+    {
+      "id": "BooleanValueRangeTest.sort",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/valuerange/BooleanValueRangeTest.java",
+      "upstream_test": "sort",
+      "local_path": "crates/solver/tests/range_order_capability_cases.rs",
+      "local_test": "boolean_sort",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve complete source construction (0..7 integer, 0..4 scale-zero decimal, or boolean generator) and absent-comparator in-place sort rejection. Optional native RangeInPlaceOrder exposes actual owner capability: fixed indexed generators reject before enumeration/callback; stored ordered enumerations stage and publish real sorting. Native i64 IntegerValueRange represents both small Int/Long fixtures; no Java integer-width/class ABI equivalence is claimed. Originals verify huge lazy generator preservation/no comparator invocation, native stored natural/custom order, comparator panic retention and actual construction consuming the reordered domain. Existing bounded sorted-copy API and ordinary solver defaults remain unchanged."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorValidatorTest.includeAnnotationInfoIfPresent",
+      "status": "implemented",
+      "upstream_test": "includeAnnotationInfoIfPresent",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "local_test": "include_annotation_info_if_present",
+      "modifications": "Preserve the complete2-entry source assertion table, including repeated rows, all valid/invalid fields/methods, member/class diagnostic prefixes, annotation labels where requested, and every source-required diagnostic substring. RegisteredMember native callable signatures (field/getter/setter, read0/read1/read2, void) determine parameter counts and operations; accepted bindings execute actual typed callbacks, getter-with-setter writes then reads actual fields. Explicit application-declared exposure and diagnostic Java class/value labels replace reflection/access modifiers; Result errors replace IllegalArgumentException. Rust optional strings preserve source null values, and supplied one-parameter input is returned by the actual callable. No Java reflection, automatic class visibility discovery or JVM exception parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorValidatorTest.membersInPrivateClassFail",
+      "status": "implemented",
+      "upstream_test": "membersInPrivateClassFail",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "local_test": "members_in_private_class_fail",
+      "modifications": "Preserve the complete3-entry source assertion table, including repeated rows, all valid/invalid fields/methods, member/class diagnostic prefixes, annotation labels where requested, and every source-required diagnostic substring. RegisteredMember native callable signatures (field/getter/setter, read0/read1/read2, void) determine parameter counts and operations; accepted bindings execute actual typed callbacks, getter-with-setter writes then reads actual fields. Explicit application-declared exposure and diagnostic Java class/value labels replace reflection/access modifiers; Result errors replace IllegalArgumentException. Rust optional strings preserve source null values, and supplied one-parameter input is returned by the actual callable. No Java reflection, automatic class visibility discovery or JVM exception parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorValidatorTest.fieldOrGetterMethod",
+      "status": "implemented",
+      "upstream_test": "fieldOrGetterMethod",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "local_test": "field_or_getter_method",
+      "modifications": "Preserve the complete12-entry source assertion table, including repeated rows, all valid/invalid fields/methods, member/class diagnostic prefixes, annotation labels where requested, and every source-required diagnostic substring. RegisteredMember native callable signatures (field/getter/setter, read0/read1/read2, void) determine parameter counts and operations; accepted bindings execute actual typed callbacks, getter-with-setter writes then reads actual fields. Explicit application-declared exposure and diagnostic Java class/value labels replace reflection/access modifiers; Result errors replace IllegalArgumentException. Rust optional strings preserve source null values, and supplied one-parameter input is returned by the actual callable. No Java reflection, automatic class visibility discovery or JVM exception parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorValidatorTest.fieldOrGetterMethodWithSetter",
+      "status": "implemented",
+      "upstream_test": "fieldOrGetterMethodWithSetter",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "local_test": "field_or_getter_method_with_setter",
+      "modifications": "Preserve the complete14-entry source assertion table, including repeated rows, all valid/invalid fields/methods, member/class diagnostic prefixes, annotation labels where requested, and every source-required diagnostic substring. RegisteredMember native callable signatures (field/getter/setter, read0/read1/read2, void) determine parameter counts and operations; accepted bindings execute actual typed callbacks, getter-with-setter writes then reads actual fields. Explicit application-declared exposure and diagnostic Java class/value labels replace reflection/access modifiers; Result errors replace IllegalArgumentException. Rust optional strings preserve source null values, and supplied one-parameter input is returned by the actual callable. No Java reflection, automatic class visibility discovery or JVM exception parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorValidatorTest.fieldOrReadMethod",
+      "status": "implemented",
+      "upstream_test": "fieldOrReadMethod",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "local_test": "field_or_read_method",
+      "modifications": "Preserve the complete13-entry source assertion table, including repeated rows, all valid/invalid fields/methods, member/class diagnostic prefixes, annotation labels where requested, and every source-required diagnostic substring. RegisteredMember native callable signatures (field/getter/setter, read0/read1/read2, void) determine parameter counts and operations; accepted bindings execute actual typed callbacks, getter-with-setter writes then reads actual fields. Explicit application-declared exposure and diagnostic Java class/value labels replace reflection/access modifiers; Result errors replace IllegalArgumentException. Rust optional strings preserve source null values, and supplied one-parameter input is returned by the actual callable. No Java reflection, automatic class visibility discovery or JVM exception parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorValidatorTest.fieldOrReadMethodWithOptionalParameter",
+      "status": "implemented",
+      "upstream_test": "fieldOrReadMethodWithOptionalParameter",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "local_test": "field_or_read_method_with_optional_parameter",
+      "modifications": "Preserve the complete14-entry source assertion table, including repeated rows, all valid/invalid fields/methods, member/class diagnostic prefixes, annotation labels where requested, and every source-required diagnostic substring. RegisteredMember native callable signatures (field/getter/setter, read0/read1/read2, void) determine parameter counts and operations; accepted bindings execute actual typed callbacks, getter-with-setter writes then reads actual fields. Explicit application-declared exposure and diagnostic Java class/value labels replace reflection/access modifiers; Result errors replace IllegalArgumentException. Rust optional strings preserve source null values, and supplied one-parameter input is returned by the actual callable. No Java reflection, automatic class visibility discovery or JVM exception parity is claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "MemberAccessorValidatorTest.voidMethod",
+      "status": "implemented",
+      "upstream_test": "voidMethod",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "local_test": "void_method",
+      "modifications": "Preserve the complete5-entry source assertion table, including repeated rows, all valid/invalid fields/methods, member/class diagnostic prefixes, annotation labels where requested, and every source-required diagnostic substring. RegisteredMember native callable signatures (field/getter/setter, read0/read1/read2, void) determine parameter counts and operations; accepted bindings execute actual typed callbacks, getter-with-setter writes then reads actual fields. Explicit application-declared exposure and diagnostic Java class/value labels replace reflection/access modifiers; Result errors replace IllegalArgumentException. Rust optional strings preserve source null values, and supplied one-parameter input is returned by the actual callable. No Java reflection, automatic class visibility discovery or JVM exception parity is claimed."
+    },
+    {
+      "id": "SwapMoveSelectorTest.singleVarRandomSelectionWithEntityValueRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "singleVarRandomSelectionWithEntityValueRange",
+      "local_path": "crates/solver/tests/eligible_swap_cases.rs",
+      "local_test": "single_var_random_selection_with_entity_value_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves every source emitted prefix, configured Cartesian size, nonempty-prefix continuation and empty-prefix behavior across all assignment transitions. Native current-snapshot eligible partner sampling uses semantic indices instead of Java TestRandom raw/cache-dependent call traces; explicit unbounded borrowed streams preserve never-ending continuation; real solver MoveProvider remains bounded. Actual aligned domain validation and self fallback are controlled additionally; shared third solution-range column included. No Java RNG trace or selector lifecycle API equivalence claimed."
+    },
+    {
+      "id": "SwapMoveSelectorTest.multiVarRandomSelectionWithEntityValueRange",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/SwapMoveSelectorTest.java",
+      "upstream_test": "multiVarRandomSelectionWithEntityValueRange",
+      "local_path": "crates/solver/tests/eligible_swap_cases.rs",
+      "local_test": "multi_var_random_selection_with_entity_value_range",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves every source emitted prefix, configured Cartesian size, nonempty-prefix continuation and empty-prefix behavior across all assignment transitions. Native current-snapshot eligible partner sampling uses semantic indices instead of Java TestRandom raw/cache-dependent call traces; explicit unbounded borrowed streams preserve never-ending continuation; real solver MoveProvider remains bounded. Actual aligned domain validation and self fallback are controlled additionally; shared third solution-range column included. No Java RNG trace or selector lifecycle API equivalence claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "BlackBoxMixedVariableExhaustiveSearchPhaseTest.verifyExhaustiveSearchSteps",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "verifyExhaustiveSearchSteps",
+      "local_path": "crates/solver/tests/exact_mixed_phase_cases.rs",
+      "local_test": "verify_exhaustive_search_steps",
+      "modifications": "Preserve both complete declared configurations: BRUTE_FORCE/null and BRANCH_AND_BOUND/DEPTH_FIRST, unsorted entity/value order,37totalphase steps, every171/183 observable calculator/restoration state and actual returnedbest12/21[4][5,6] withfullyinitialized score-5. Expected arrays use the round134 fixture verified exactly against source params; no expected states enter runtime. Native grouped Cartesian basic moves, list-owner layers, true score-cache preimages, independent root arenas/identities in one list frontier, pruning and actual mixed inverse transactions generate the traces. Explicit native plan list_roots2 maps the two observed null-root entries as a legitimate caller multi-root policy; no Java factory rule for deriving root multiplicity is claimed. A single shared remaining budget governs both stages. Final actual working-score validation/publication calls preserve source final two calculator observations separately from returned best. Native integer IDs preserve fixture value identity; live MixedConstraintNetwork provides actual structural/ordinary scoring. Selected basic witness remains fixed during list stage; cross-component global optimality requires a valid staged objective and valid caller bounds. No Java reflection, RNG, shadow/listener/object ABI or production implementation claim."
     }
   ],
   "fixtures": [
@@ -86828,6 +87053,149 @@
       "upstream_test": "params",
       "local_path": "compat/oracle/fixtures/mixed_exact_trace_observations.json",
       "modifications": "Verify actual pinned-runtime calculator traces equal every source expected state in both configs:171brute/183branch-and-bound calls, each37steps. Record observed step/node/move/cache chronology and actual returnedbest `(12)(21)[4][5,6]` for both. Two null-move root entries in same list frontier (`0-0` and`0-1`) explain repeated prefix; do not substitute two scripted list runs. These observations are not native implementation or full source-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round135-member-public-class",
+      "upstream_test": "PublicClass",
+      "local_path": "crates/solver/tests/fixtures/member_validator_fixture.rs",
+      "modifications": "Actual named optional-string fields and typed getter/setter/read/void callbacks preserve the declared PublicClass table, default nulls and parameter-return behavior. Void callback adds an observable execution count to verify invocation. Explicit labels/public or internal registered exposure replace Java visibility discovery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round135-member-private-class",
+      "upstream_test": "PrivateClass",
+      "local_path": "crates/solver/tests/fixtures/member_validator_fixture.rs",
+      "modifications": "A distinct native private fixture type retains publicField/privateFieldWithGetter and a void callback; registered declaring-type exposure is internal, causing rejection before callbacks. Canonical Java class label is explicit diagnostic metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorValidatorTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round135-member-assert-helpers",
+      "upstream_test": "assertFieldPasses/assertMethodPasses/assertFieldFails/assertMethodFails",
+      "local_path": "crates/solver/tests/member_validator_cases.rs",
+      "modifications": "Preserve every source class/member prefix and required diagnostic substring in all valid/invalid table rows. Native bound handles execute accepted callbacks rather than reflection; no validation-only fixture flags."
+    },
+    {
+      "id": "eligible-swap-entity-range-fixtures",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/multivar/TestdataAllowsUnassignedMultiVarEntityProvidingEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedMultiVarEntityProvidingEntity",
+      "local_path": "crates/solver/tests/eligible_swap_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native aligned rows retain entity-owned first/second ranges plus solution-owned optional third column [1], all missing/assigned transitions; integer values/row indices replace named object identities."
+    },
+    {
+      "id": "eligible-swap-prefix-assertion-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/PlannerAssert.java",
+      "upstream_test": "assertCodesOfNeverEndingIterableSelector",
+      "local_path": "crates/solver/tests/eligible_swap_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Full helper prefix, nonempty continuation, configured size and DO_NOT_ASSERT_SIZE empty-prefix behavior adapted to unbounded borrowed native stream; no lifecycle mocks."
+    },
+    {
+      "id": "eligible-swap-semantic-draw-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/TestRandom.java",
+      "upstream_test": "TestRandom/reset",
+      "local_path": "crates/solver/tests/eligible_swap_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Explicit callback draw streams with deterministic semantic eligible indices replace cache-dependent Java raw index traces; exact source reset streams recorded alongside adaptations. Index bounds checked in actual provider, never fixture-selected moves."
+    },
+    {
+      "id": "eligible-swap-single-entity-range-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/unassignedvar/TestdataAllowsUnassignedEntityProvidingEntity.java",
+      "upstream_test": "TestdataAllowsUnassignedEntityProvidingEntity",
+      "local_path": "crates/solver/tests/eligible_swap_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native optional variable per entity retains A/C[1,4] and B[2,3] ranges and actual source null/assigned states; row IDs and integer facts replace named objects."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-native-source-input-plan",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "buildSolution",
+      "local_path": "crates/solver/tests/exact_mixed_phase_cases.rs",
+      "modifications": "Preserve two entity rows with four null basic fields, domains1/2/3, empty two-row list registry4/5/6. Explicit native basic_groups [[0,1],[2,3]] bind actual per-entity simultaneous field moves; declared owner/value encounter orders and list_roots2 retain the observed source configuration via caller policy rather than scripted duplicate runs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-native-config-caches",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "buildSolverConfig",
+      "local_path": "crates/solver/tests/exact_mixed_phase_cases.rs",
+      "modifications": "Preserve source two configurations, NONE sorter order,ONLY_DOWN and37-step ceiling; fullphase basic/list work shares budget. Native seeded runtime keeps assignment-bound calculator cache, distinct root/node identity and shared frontier/incumbent; bounds are caller declarations, not inferred from callback implementation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-native-calculator",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/exact_mixed_phase_cases.rs",
+      "modifications": "Adapt nested TEST TestdataComparableMixedCalculator body exactly: empty list-1, listsize>1 -5, equal primary/secondary (including null/null)-1, repeated primary identity-5. Actual MixedConstraintNetwork appends genuine required-variable structural score. The calculator logs real generated/restored states before independent calculation."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "mixed-exact-native-score-state-recorder",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/exhaustivesearch/BlackBoxMixedVariableExhaustiveSearchPhaseTest.java",
+      "upstream_test": "addWorkingSolution",
+      "local_path": "crates/solver/tests/exact_mixed_phase_cases.rs",
+      "modifications": "Preserve nested TEST WorkingSolutionTracker field order, nullable basic dash markers and list brackets/comma notation. Compare every real calculator call against all171/183 source-verified expected states. Final best snapshot is separately checked against actual preserved round134 pinned observations, which already have their own provenance."
     }
   ]
 }

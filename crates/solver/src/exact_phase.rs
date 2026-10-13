@@ -106,6 +106,18 @@ pub trait ExactPhaseModel {
     fn restore_mode(&self) -> BranchRestoreMode {
         BranchRestoreMode::CommonAncestor
     }
+    /// Observe actual root/record identity after a completed expansion. Root
+    /// arenas are independent even when their physical starting states are equal.
+    fn expanded(
+        &mut self,
+        _root: usize,
+        _node: usize,
+        _depth: usize,
+        _working: &Self::Assignment,
+        _score: &Self::Score,
+    ) -> Result<(), Self::Error> {
+        Ok(())
+    }
     fn restored(&mut self, _working: &Self::Assignment) -> Result<(), Self::Error> {
         Ok(())
     }
@@ -125,6 +137,8 @@ pub struct ExactPhaseResult<A, S> {
 #[derive(Debug)]
 pub enum ExactPhaseError<E> {
     Configuration(InvalidExactExploration),
+    InvalidRootCount,
+    InitialScoreState,
     Model(E),
     Restore(BranchRestoreError<E>),
 }
@@ -144,11 +158,42 @@ pub type ExactPhaseOutcome<A, S, E> = Result<ExactPhaseResult<A, S>, ExactPhaseE
 pub fn run_exact_phase<M: ExactPhaseModel>(
     model: &mut M,
     config: ExactMovePhaseConfig,
+    step: impl FnMut(&M::Assignment, &M::Score),
+) -> ExactPhaseOutcome<M::Assignment, M::Score, M::Error> {
+    run_seeded_exact_phase(model, config, None, 1, step)
+}
+/// A genuinely calculated score tied to its exact assignment preimage. Cached
+/// initial scoring is opt-in; matching state alone cannot validate application
+/// facts captured by the calculator, which the caller must keep unchanged.
+#[derive(Clone, Debug)]
+pub struct ExactPhaseScoreCache<A, S> {
+    pub assignment: A,
+    pub score: S,
+}
+/// Seed several declared root entries into one frontier. Identical root contexts
+/// retain distinct scheduling breadths, share pruning/best state and consume one
+/// step budget. This is not sequential rerunning. Existing single-root defaults
+/// retain their original scoring and lifecycle behavior.
+pub fn run_seeded_exact_phase<M: ExactPhaseModel>(
+    model: &mut M,
+    config: ExactMovePhaseConfig,
+    cached: Option<ExactPhaseScoreCache<M::Assignment, M::Score>>,
+    root_count: usize,
     mut step: impl FnMut(&M::Assignment, &M::Score),
 ) -> ExactPhaseOutcome<M::Assignment, M::Score, M::Error> {
     let order = config.validate().map_err(ExactPhaseError::Configuration)?;
+    if root_count == 0 {
+        return Err(ExactPhaseError::InvalidRootCount);
+    }
     let mut working = model.initial().map_err(ExactPhaseError::Model)?;
-    let score = model.score(&working).map_err(ExactPhaseError::Model)?;
+    let score = if let Some(cache) = cached {
+        if cache.assignment != working {
+            return Err(ExactPhaseError::InitialScoreState);
+        }
+        cache.score
+    } else {
+        model.score(&working).map_err(ExactPhaseError::Model)?
+    };
     let mut best = ExactPhaseBest {
         assignment: working.clone(),
         score: score.clone(),
@@ -161,7 +206,10 @@ pub fn run_exact_phase<M: ExactPhaseModel>(
             generated: 0,
         });
     }
-    let mut restorer = BranchRestorer::new(working.clone());
+    let mut restorers: Vec<_> = (0..root_count)
+        .map(|_| BranchRestorer::new(working.clone()))
+        .collect();
+    let mut current_root = 0;
     let mut frontier = PruningFrontier::new(order);
     let bound = if config.kind == ExactPhaseKind::BranchAndBound {
         model
@@ -170,25 +218,33 @@ pub fn run_exact_phase<M: ExactPhaseModel>(
     } else {
         None
     };
-    frontier.push(
-        SearchNodeKey {
-            depth: 0,
-            score,
-            optimistic_bound: bound,
-            parent_breadth: 0,
-            breadth: 0,
-        },
-        0usize,
-    );
+    for root in 0..root_count {
+        frontier.push(
+            SearchNodeKey {
+                depth: 0,
+                score: score.clone(),
+                optimistic_bound: bound.clone(),
+                parent_breadth: 0,
+                breadth: root as u64,
+            },
+            (root, 0usize),
+        );
+    }
     let mut steps = 0;
     let mut generated = 0;
-    let mut breadth = 0u64;
+    let mut breadth = (root_count - 1) as u64;
     while steps < config.max_steps {
-        let Some((key, node)) = frontier.pop() else {
+        let Some((key, (root, node))) = frontier.pop() else {
             break;
         };
         let mode = model.restore_mode();
-        restorer
+        if root != current_root {
+            restorers[current_root]
+                .restore(0, mode, &mut working, |a, m| model.apply(a, m), |_, _| {})
+                .map_err(ExactPhaseError::Restore)?;
+            current_root = root;
+        }
+        restorers[root]
             .restore(
                 node,
                 mode,
@@ -233,7 +289,7 @@ pub fn run_exact_phase<M: ExactPhaseModel>(
             };
             let undo = model.inverse(&working, &child);
             let record = RecordedMove::from_parts(working.clone(), child, movement, undo);
-            let child_node = restorer
+            let child_node = restorers[root]
                 .add_child(node, record)
                 .expect("child built from current node");
             frontier.push(
@@ -244,10 +300,13 @@ pub fn run_exact_phase<M: ExactPhaseModel>(
                     parent_breadth: key.breadth,
                     breadth,
                 },
-                child_node,
+                (root, child_node),
             );
         }
         steps += 1;
+        model
+            .expanded(root, node, key.depth, &working, &key.score)
+            .map_err(ExactPhaseError::Model)?;
         step(&working, &key.score);
     }
     Ok(ExactPhaseResult {

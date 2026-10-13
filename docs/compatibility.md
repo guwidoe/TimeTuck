@@ -9434,7 +9434,7 @@ retained snapshots, invalid updates and zero clones during repeated hash reads.
 This optional owner has no Clone/shared-fork semantics and makes no incremental
 maintenance or speed claim; ordinary collectors are unchanged.
 
-The optional exact list move phase now reproduces the complete BlackBox list exhaustive trace method: all40 configurations,46-step ceiling, invalid exploration diagnostics, and finalbest. It uses real append/unassign moves, recorded root replay, entity-position scheduling, and independent complete-assignment detection. Explicit order permutations replace Java comparator discovery. The source fixture declares ONLY_DOWN and this declaration is retained as its supplied current-score bound; because empty-list soft penalties can improve, that particular declaration is not a general admissibility guarantee. Callers must supply valid bounds for optimum guarantees; native originals check varying models with admissible bounds. Ordinary exhaustive defaults are unchanged. Mixed-variable score-call/restoration traces remain pending.
+The optional exact list move phase now reproduces the complete BlackBox list exhaustive trace method: all40 configurations,46-step ceiling, invalid exploration diagnostics, and finalbest. It uses real append/unassign moves, recorded root replay, entity-position scheduling, and independent complete-assignment detection. Explicit order permutations replace Java comparator discovery. The source fixture declares ONLY_DOWN and this declaration is retained as its supplied current-score bound; because empty-list soft penalties can improve, that particular declaration is not a general admissibility guarantee. Callers must supply valid bounds for optimum guarantees; native originals check varying models with admissible bounds. Ordinary exhaustive defaults are unchanged. Mixed-variable score-call/restoration traces are implemented by the optional seeded mixed phase described below.
 
 Round 133 adds an optional move-based exhaustive phase using native branch records,
 inverse moves, restoration and frontier ordering. The basic adapter branches over
@@ -9486,7 +9486,7 @@ claim completed solving. Failed event delivery leaves persisted data and earlier
 external delivery intact. The in-memory store uses local monotonic IDs; global
 identity, durable storage and reactive/JVM infrastructure are not inferred.
 
-The mixed exhaustive source method remains pending. A TEST-derived opaque runtime
+The mixed exhaustive source method is now implemented by the optional native seeded phase below. A TEST-derived opaque runtime
 probe reproduces both full calculator traces (171 brute-force and 183 bounded
 calls), the shared 37-step phase and returned best `(12)(21)[4][5,6]`. Observed
 list-frontier nodes include two distinct null-move roots at the same empty-list
@@ -9495,3 +9495,28 @@ needed general multi-root/cache/restoration behavior. Source variants, artifact
 hashes and logs remain preserved. No probe output is consumed by Rust execution,
 no production source/private fields/bytecode bodies were inspected, and these
 observations earn no source-method compatibility credit.
+
+All seven MemberAccessorValidatorTest methods are adapted with their complete63 assertion entries, including duplicates, annotation/class/member prefixes, and required diagnostic fragments. The optional RegisteredMember API validates explicit exposed access roles against actual typed read/getter/setter/parameter/void callbacks and returns executable bindings. Accepted table members run callbacks; originals exercise native integer fields, live setters/readbacks, parameter requirements, void updates and failures before callbacks. Registered exposure and diagnostic names are application declarations rather than reflection or access-modifier discovery. No Java exception-class, reflection inheritance, Gizmo/bytecode/classloader parity is claimed; related reflection accessor methods remain pending. Shared solver/accessor kernels are unchanged.
+
+RangeInPlaceOrder makes native owner ordering capability explicit. Immutable
+integer, exact integer/decimal and boolean generators reject in-place sorting
+before enumeration or comparator invocation. Stored ordered enumerations stage
+natural/custom sorting before publication. Five complete source methods retain
+all original constructions and absent-comparator rejection. Originals preserve a
+huge generator without materialization, verify comparator silence/panic retention
+and feed the reordered stored domain into real native construction. The native i64
+range represents both small Int/Long fixtures, with no Java width/class ABI claim;
+existing bounded sorted copies and solver defaults remain unchanged.
+
+The complete mixed exhaustive method now passes both full 171/183 calculator
+traces, one shared 37-step budget and actual best `(12)(21)[4][5,6]`, score -5.
+Optional seeded exact search keeps separate real branch-restoration arenas and
+node identities in one frontier/incumbent, with assignment-bound score caches.
+The mixed adapter performs grouped Cartesian basic moves and ordered list appends;
+restorations calculate actual states, and final checks validate/publish the working
+score separately from retained best. Explicit configurable root multiplicity
+replaces Java factory inference; probe data is never an execution input. Originals
+cover varied roots/groups/domains/owners, budgets, valid bounds, bad plans/caches
+and final calculator corruption. The chosen basic witness remains fixed during
+list search: joint optimality requires a valid staged objective. Existing ordinary
+mixed solving and uncached single-root defaults retain their native behavior.

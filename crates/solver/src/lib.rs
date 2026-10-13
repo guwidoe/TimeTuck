@@ -1836,3 +1836,20 @@ pub use worker_dataset_facade::{
     WorkerDatasetEventKind, WorkerDatasetEventSink, WorkerDatasetFacade, WorkerDatasetMetadata,
     WorkerDatasetSelector, WorkerDatasetStatus, WorkerDatasetStore, WorkerFacadeError,
 };
+
+mod range_in_place_order;
+pub use range_in_place_order::{RangeInPlaceOrder, RangeOrderComparator, RangeOrderError};
+
+mod registered_member;
+pub use registered_member::{
+    BoundRegisteredMember, MemberAccessError, MemberAccessRole, MemberExposure, RegisteredMember,
+    RegisteredMemberBody,
+};
+
+pub use exact_phase::{ExactPhaseScoreCache, run_seeded_exact_phase};
+
+mod exact_mixed_phase;
+pub use exact_mixed_phase::{
+    ExactMixedModelError, ExactMixedPhaseOutcome, ExactMixedPhasePlan, ExactMixedPhaseResult,
+    run_exact_mixed_phase,
+};

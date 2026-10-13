@@ -16,7 +16,86 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round134
+## Latest verified checkpoint — round135
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in 347.705s:
+7,719 Rust tests and 290 doctests. Shared exact-phase and reachable-swap changes
+required broad regression: 1,092 Rust jobs ran, 117 unchanged Rust jobs and 46 Python
+jobs reused matching runner-a evidence. Prebuild 1030.424s, merged
+Clippy 50.91s, worker total 1,378.668s. Compatibility 4,067/4,855 (83.769%), 220 pending,
+568 excluded, zero failed/unverified. Fifteen complete methods, eleven fixtures and
+eleven originals added. Do not repeat the suite just for a turn/commit reset.
+Rust digest 54d0068e11b0582ac2f9554b0d87f793938efb160c85300379c007dbc979896e.
+Report digest 9eaae380519707d3c77d4a89935e3482e6bdcd390d6e9df848380e0cd09fe255.
+runner-a source e44753199096838f63201885d1074c049212a92e3f22d4708a1ca38428b83eba.
+Archive `work/round135-runner-a-results.tar.gz` SHA256: 5527bf342c82b2ca9259dadc04fc78b4a18bb3f7422e3620eb97b2e67831cd33.
+Evidence `work/parallel-round135-evidence.json`, freeze
+`work/parallel-round135-freeze.json`, IDs `work/round135-added-source-ids.json`.
+Focused artifacts `work/round135-agent-evidence` and root
+`work/round135-root-evidence.json`. Actual frozen files/logs/source and current
+report freshness verified. No UI change/browser rerun or benchmark refresh;
+existing performance measurements remain stale, with original dates preserved.
+
+Mixed exhaustive full source method passes both complete 171/183 calculator traces,
+37 steps and actual returned best `(12)(21)[4][5,6]`, score -5. Optional
+run_seeded_exact_phase uses separate real BranchRestorer arenas/node identities
+in one frontier/incumbent/budget. ExactPhaseScoreCache preimage must match model
+start; captured scoring facts must remain unchanged. Existing uncached single-root
+entry delegates unchanged policy. Mixed plan explicitly declares grouped basic
+field rows, owner/value order and root multiplicity; no Java factory inference or
+fixture-state consumption. Actual Cartesian mixed moves and ordered list appends
+score/restores real states. Final working-score cache validation and publication
+are real calculations, separate from retained best. Four originals cover 1..3 roots,
+varied groups/domains/owners with analytic valid bound optimum, shared budgets/invalid
+plans/cache preimages and calculator corruption. The chosen basic witness stays fixed
+during lists; joint optimality requires valid staged objective. Ordinary general mixed
+solver unchanged. runner-c 14 focus includes changed engine's80 existing basic/list params
+and restore controls; affectedClippy pass final 19457. Earlierfocus2compilefailure
+preserved; no duplicateprobe/fullgate/commit. Four sourcehelper fixtures added;
+previous134opaqueprobe evidence remains valid historical observation.
+
+RegisteredMember bodies derive return/arity from actual typed field/getter/setter/
+read0/read1/read2/void callbacks. Bound handles enforce declared exposure and role
+before executing actual reads/writes/parameters/void actions. All 7 validator methods,
+including all 63 assertion entries/repeats, plus 3 originals pass. Exposure/class/return
+names are explicit applicationmetadata, not Rust/Java reflection discovery or JVM
+ABI. Getter/setterfallback and privateclass/member/arity/void errors preserve
+required source diagnostics before callbacks. runner-a 14764 pass 10 tests/Clippy;
+no sharedfield_binding/kernel changes. Related reflection 5 remain pending.
+
+ReachableEntitySwapProvider optional eligible-partner sampling counts/scans current
+borrowed right occurrences, retaining duplicate weights and no per-candidateVec.
+Unbounded borrowed select_repeating_with preserves real source continuation;
+ordinary provider/solver consumption remains bounded/raw by default. Both complete
+single/multi-variable per-entity range source prefixes/size/lookahead assertions
+pass. Native semanticeligible indices replace cache-dependent Java mock draws;
+no Java RNG/lifecycle/ABI promise. Two originals verify current-assignment refresh,
+replays/duplicates/errors and actualsolving. Local final 14 affected tests 70054 and
+Clippy 24.24s 72104 pass; old 4 focus 70040 retained. Only afterwardrustdocclarification
+changed, reused per projectdoc-onlypolicy; finalmergedgate coverscurrentfiles.
+
+RangeInPlaceOrder rejects sorting fixed integer/exactdecimal/boolean generators
+before enumeration/comparator calls. Stored ordered enumerations stage andpublish
+natural/custom sorts; old bounded sorted-copy API remains. Full 5 source cases + 2
+originals pass locally 7 tests 56368, Clippy 24.42s 62469. Nativei64represents both small
+Int/Long fixtures, no Java width/class ABI. Huge 1e30 generator stayslazy; original
+stored duplicates stayinrange and explicitdedup feeds native distinct-domain model
+for realconstruction. Actual source API arity/helper compile failures preserved;
+sharedtargetdir producedmissingexports despite presentrootexports, isolatedtarget
+compiled them (exactcachecause unproven). Original initiallyusedduplicateddomain,
+then correctedinputdedup respects native model invariant. Final 7 pass; mergedgate
+coversallcurrentinputs. Avoid concurrently sharing a targetdir across worktrees
+when different library exports can collide; never retag failed/freshness evidence.
+
+Allagents/builds terminal; commit afterstagedreview and preserve ignored evidence
+before archiving mixed-frontier-round135/member-validator-round135/swap-selection-
+round135. No temporarywakeprocess inthisbatch. Goal active/incomplete, pinunchanged.
+Seven k-opt seam methods remainpending with priorrefutedprobes retained. Continue
+closingrealcompatibility gaps, keep performanceimportant, at most 3 GPT-6.1 Sol agents
+and all 3 machines authorized; reuse actualrunner-a records for unchanged verification.
+
+
+## Previous verified checkpoint — round134
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in 391.077s:
 7,693 Rust tests and 290 doctests. All 1,201 Rust jobs and 46 Python jobs ran because
