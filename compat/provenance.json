@@ -64294,6 +64294,66 @@
       "local_path": "crates/solver/tests/version_module_banner_cases.rs",
       "local_test": "enterprise_banner_with_git_ref_no_refs",
       "modifications": "Adapt complete pure display assertions from pinned Community TEST only. Explicit source ENTERPRISE_NAME product mapping to caller label TimeTuck Solver Bundle; exact module labels core/enterprise, supplied aaa1111/bbb2222 refs, spacing and missing-ref omission retained. Real missing does-not-exist-git.properties filesystem reads execute for existing VersionReporter fallback; validated caller VersionMetadata carries supplied TEST refs and actual Cargo package version. Generic caller-named module provenance formatter has no edition flags/detection/services or Enterprise runtime/artifacts/features. No Enterprise implementation/artifact read or supported; module enterprise is fixture text only. Actual caller metadata/resource resolution, not a forged product/feature identity. Existing Community formatter unchanged."
+    },
+    {
+      "id": "SelectorBasedKOptListMoveTest.testMultiEntity3Opt",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt",
+      "local_path": "crates/solver/tests/virtual_seam_cases.rs",
+      "local_test": "multi_entity_three_opt",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete method: source row/cut/added-port declarations, isMoveDoable true, exact value-instance order and all four before/after list ranges with the same caller canonical list-variable metadata. Arc allocations use pointer identity; native ListProblem entity keys and independent entity allocations replace JVM object references. Real topology-derived interval reconnection owns uncut gap blocks and computes row boundaries from original cut-tail ownership, with no expected target or target-length construction arguments. Native ListChangeRecorder brackets actual compound list writes. Pinned method retains the exact prefix and movable-owner configuration. Rebase maps all six original value instances and both entity keys, emits only destination allocations, and executes against real destination lists; original lookup identity checks are strengthened. Native typed callbacks/field handles replace mocked Java score-director calls; no Java ABI/reflection claim."
+    },
+    {
+      "id": "SelectorBasedKOptListMoveTest.testMultiEntity3OptPinned",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3OptPinned",
+      "local_path": "crates/solver/tests/virtual_seam_cases.rs",
+      "local_test": "multi_entity_three_opt_pinned",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete method: source row/cut/added-port declarations, isMoveDoable true, exact value-instance order and all four before/after list ranges with the same caller canonical list-variable metadata. Arc allocations use pointer identity; native ListProblem entity keys and independent entity allocations replace JVM object references. Real topology-derived interval reconnection owns uncut gap blocks and computes row boundaries from original cut-tail ownership, with no expected target or target-length construction arguments. Native ListChangeRecorder brackets actual compound list writes. Pinned method retains the exact prefix and movable-owner configuration. Rebase maps all six original value instances and both entity keys, emits only destination allocations, and executes against real destination lists; original lookup identity checks are strengthened. Native typed callbacks/field handles replace mocked Java score-director calls; no Java ABI/reflection claim."
+    },
+    {
+      "id": "SelectorBasedKOptListMoveTest.testMultiEntity3OptRebase",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3OptRebase",
+      "local_path": "crates/solver/tests/virtual_seam_cases.rs",
+      "local_test": "multi_entity_three_opt_rebase",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the complete method: source row/cut/added-port declarations, isMoveDoable true, exact value-instance order and all four before/after list ranges with the same caller canonical list-variable metadata. Arc allocations use pointer identity; native ListProblem entity keys and independent entity allocations replace JVM object references. Real topology-derived interval reconnection owns uncut gap blocks and computes row boundaries from original cut-tail ownership, with no expected target or target-length construction arguments. Native ListChangeRecorder brackets actual compound list writes. Pinned method retains the exact prefix and movable-owner configuration. Rebase maps all six original value instances and both entity keys, emits only destination allocations, and executes against real destination lists; original lookup identity checks are strengthened. Native typed callbacks/field handles replace mocked Java score-director calls; no Java ABI/reflection claim."
+    },
+    {
+      "id": "IndexerRandomIteratorMarkerTest.linkedListLeafIndexerRejectsRandomAccess",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/IndexerRandomIteratorMarkerTest.java",
+      "upstream_test": "linkedListLeafIndexerRejectsRandomAccess",
+      "local_path": "crates/solver/tests/linked_candidate_index_cases.rs",
+      "local_test": "linked_list_leaf_indexer_rejects_random_access",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Complete source Ann insertion with none key and seeded0 repeating/unique rejection assertions execute through real LinkedList-owned sequential leaves. Native identity0/unit key/borrowed IndexedCandidate replace UniTuple and CompositeKey.none; typed LeafRandomAccessUnsupported replaces UnsupportedOperationException. New common CandidateLeafView is implemented for existing actual dense CandidateBucket and actual linked buckets; dense factories delegate existing real seeded marker samplers, linked backend rejects unsupported access without materialization. No Vec capability flag or ordinary dense index changes."
     }
   ],
   "fixtures": [
@@ -92219,6 +92279,58 @@
       "upstream_test": "NONEXISTENT_GIT_PROPERTIES/four enterpriseBannerWithGitRef parameter pairs",
       "local_path": "crates/solver/tests/version_module_banner_cases.rs",
       "modifications": "Retain missing-resource name, both/only-core/only-extension/no-ref source pairs and pure expected formatting. Source product constant explicitly maps to generic caller label; source enterprise module token retained as ordinary supplied provenance text. Filesystem loader confirms actual absent resource; validated VersionMetadata uses actual Cargo version with explicit source TEST ref values. No Enterprise artifact, service or production constant value inspected."
+    },
+    {
+      "id": "round145-virtual-seam-source-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges/identityIndexOf",
+      "local_path": "crates/solver/tests/fixtures/virtual_seam_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapt TEST pair matching/identity lookup and fixture setup to Arc identity values, independent ListProblem ownership, caller canonical planning-list metadata and real ListChangeRecorder callbacks around actual writes. The source methods preserve all declared values/rows/pins/notifications/rebase assertions."
+    },
+    {
+      "id": "round145-virtual-seam-baseline-interior-proof",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "testMultiEntity3Opt/fromRemovedAndAddedEdges",
+      "local_path": "crates/solver/examples/kopt_virtual_seam_proof.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Source baseline fixture plus the previously attributed longer-interior source-helper extension from preserved round127/142 opaque runtime evidence. Baseline and interior target checks consume a topology-derived native plan with real automatic partition and undo; no target lengths or expected arrays are fed into move construction."
+    },
+    {
+      "id": "round145-virtual-seam-interior-live-controls",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/SelectorBasedKOptListMoveTest.java",
+      "upstream_test": "fromRemovedAndAddedEdges/testMultiEntity3Opt",
+      "local_path": "crates/solver/tests/virtual_seam_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Reuse attributed longer-interior geometry and round142 temporal expected rows in original controls, along with original varied gap/pin/label/entity-order and 48 port order/direction controls. New runtime reads current payloads after preparation and records actual notification snapshots. Independent signed owner-block formula checks interval reconstruction; actual native list search with both scoring directors consumes the new movement under explicit seed/step/evaluation limits and improves a recomputed quadratic-load objective. No additional source-method credit for originals."
+    },
+    {
+      "id": "round145-linked-ann-leaf",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/bavet/common/index/IndexerRandomIteratorMarkerTest.java",
+      "upstream_test": "linkedListLeafIndexerRejectsRandomAccess Ann/none/Random(0) fixture",
+      "local_path": "crates/solver/tests/linked_candidate_index_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Source Ann payload, one tuple occurrence, none key and two seed0 factory requests preserved. Explicit native identity/unit key and existing seeded sampler family replace tuple wrapper/JavaPRNG API, no identical Java random trace claim."
     }
   ]
 }

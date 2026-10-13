@@ -16,7 +16,73 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round144
+## Latest verified checkpoint — round145
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in 108.275s:
+8,030 Rust tests and 290 doctests. Compatibility is 4,275/4,855 (88.054%),
+12 pending, 568 excluded, zero failed/unverified. Four complete methods close
+multi-entity 3-opt execution, pinned execution, rebase and sequential linked-leaf
+rejection. Eight originals and four attributed TEST fixture records were added.
+Twenty-seven affected Rust jobs ran; 1,248 unchanged Rust jobs and all 46 Python
+jobs reused matching actual runner-a evidence. Prebuild169.889s; worker total278.631s.
+Base 0f3abca2d47ba48dd6996a0649340c62dea5c2bb. Goal remains incomplete.
+
+Freeze/result receipts `work/parallel-round145-freeze.json`,
+`work/parallel-round145-evidence.json`; IDs `work/round145-added-source-ids.json`.
+Rust digest ee78d2f1dde028da234b73119d6a72458b67f086761afbcc787279e6b75d78f4;
+report digest ffd60e5a2b0df8679992f49775d3ba33582c5424a8a2f8839ce3538c7e9b2e68.
+runner-a snapshot a696c11313cfa34b8d480c70c2bef74fc26c6d48e622c468bb37cd9e40305394.
+Archive `work/round145-runner-a-results.tar.gz`, SHA256
+7193c174cc845ff940a3c5798ba2b23df99f6478b8949466ca06e63f540d3b47.
+Terminal status, source guards and raw log/archive hashes were checked before
+report refresh. Backend freshness inspected; no UI/data-contract change and no
+browser verification repeated.
+
+VirtualSeam3OptPlan derives owned payload intervals and row boundaries from live
+positions and declared cut topology. Exact source outputs, pin preservation,
+identity-aware rebase and actual canonical before/after ranges pass. No target
+rows/lengths configure execution. Final local83034: three full source cases and
+five original controls plus affected Clippy passed. Original provider integration
+improves independently recomputed quadratic row-load score through both actual
+list-search backends, with explicit seed/step/evaluation limits. Seven unchanged
+physical/sequential controls also passed. An earlier E0502 test-helper compile
+failure remains preserved. Supported topology is explicit; general patterns
+and both nonsequential selector methods remain pending.
+
+LinkedCandidateIndex uses actual LinkedList payload nodes and existing key/ID
+maps. The shared borrowed leaf trait delegates dense samplers; sequential leaves
+reject both unsupported random factories. No fake flag or dense regression.
+runner-a99810 passed one full source, three originals and six existing cursor
+controls plus affected Clippy. Payload ownership/order/replacement/removal and
+both backend interfaces execute. Ordinary dense APIs and Cargo inputs unchanged.
+
+Sources and raw proofs are preserved and hash-checked in
+`work/round145-agent-evidence` (virtual-seam execution20 files, linked-index13).
+K-opt worktree base is faa7c802; linked tree base is 0f3abca. Shared append-only
+exports/docs/notices were merged against each actual base; old Cargo inputs were
+not copied. All three round143 benchmark input digests remain unchanged and
+measurements current; no benchmark repeated, dates changed or results rekeyed.
+The linked-index tree can be archived. The execution tree remains active for a
+new bounded public-API evidence task; do not archive it during that task.
+
+The separate repaired-selector candidate remains isolated, with zero source
+method credit. Both unmodified pinned original TEST methods passed once. The
+local-cycle candidate failed; combined/global-cycle analysis derives the exact
+six cuts/all12 removed values/first12 partner entries for both full fixtures and
+passes actual retained-edge/movement/undo controls. Full field checks fail on
+four additional partner entries, whose meaning remains unproven. No invented
+aliases, capacity claim or constant tail. Final local56152 passed three originals
+plus six unchanged odd controls; Clippy93446 passed. Its source/commands/failed
+raw proofs await root preservation before archival. Current evidence in
+`/home/ralph/.codex/worktrees/kopt-repair-round145/TimeTuck/work/round145-kopt-repair-evidence.json`.
+
+The execution agent is running one separate bounded round146 public-API experiment
+on those additional entries. Fresh constructor/factory and observation-sensitive
+active-prefix controls are required before claiming any inactive-tail behavior;
+no production/private implementation inspection. Neither selector method is
+credited. runner-c restart request remains pending; local and runner-a work continues.
+
+## Previous verified checkpoint — round144
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in 94.933s:
 8,018 Rust tests and 290 doctests. Compatibility is 4,271/4,855 (87.971%),

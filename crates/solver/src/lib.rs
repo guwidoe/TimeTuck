@@ -2008,3 +2008,12 @@ pub use xsd_profile::{XsdMergePolicy, XsdProfile, XsdProfileError, XsdValidation
 
 mod version_module_banner;
 pub use version_module_banner::{ModuleBannerError, VersionModuleProvenance};
+
+mod list_k_opt_virtual_seam;
+pub use list_k_opt_virtual_seam::{VirtualSeam3OptPlan, VirtualSeamListChange};
+
+mod linked_candidate_index;
+pub use linked_candidate_index::{
+    CandidateLeafView, LeafRandomAccessUnsupported, LeafRepeatingCursor, LeafUniqueCursor,
+    LinkedCandidateBucket, LinkedCandidateIndex,
+};

@@ -9840,3 +9840,34 @@ validated VersionMetadata carries each supplied ref. Originals read current JSON
 resource metadata and verify unknown revisions, ordering, invalid inputs and
 label conflicts. Existing Community version formatting is unchanged. No edition
 flags/detection or Enterprise artifact/service/runtime/feature support is added.
+
+The optional `VirtualSeam3OptPlan` closes the three multi-entity 3-opt execution,
+pinned and rebase methods with real compound list mutations, exact before/after
+ranges and canonical metadata, destination identity lookups and real undo controls.
+The supported shape is explicit: two selected owners, a local wrap plus internal
+cut on the first and an internal cut on the second, with alternating cross links.
+Its route consists of actual signed owned intervals; the wrap gap retains its
+payload orientation and original cut-tail ownership determines row lengths.
+No target rows or lengths configure execution. Declaration order/direction, live
+interiors, pins, labels and owner ordering are covered. Existing native list-search
+provider/director APIs consume its movement and improve an independently calculated
+load score through both backends with seed 0x145 and bounded evaluations/steps.
+Default providers are unchanged. General k-opt patterns and the two nonsequential
+iterator repair methods remain pending; no Java API/ABI or reflection claim.
+
+One linked-leaf random-access rejection method now uses actual optional
+LinkedCandidateIndex ownership. std::collections::LinkedList stores payload nodes,
+with borrowed ordered traversal, direct current-node replacement and stable-order
+removal/rekeying. Payloads require no Clone/Eq. ID-to-key capture uses the existing
+ScalingMap/BTreeMap machinery; node location/removal is linear, without a speed
+claim. The common CandidateLeafView is implemented for actual existing dense
+CandidateBucket and linked buckets. Dense factories delegate current real seeded
+repeating/unique samplers; linked factories reject unsupported access before any
+iteration or copied candidate materialization. No typeflag governs a Vec backend.
+
+Optional interface cursors erase types through boxed native iterators; existing
+ordinary dense APIs/hotpaths remain unchanged. Originals verify borrowed node
+identity and ordering, genuine owned removal/drop, current payload updates/rekeying,
+unknown/duplicate/empty errors, both-backend generic leaf traversal, and real dense
+random sampling/marker operation semantics. Native typed capability error replaces
+Java UnsupportedOperationException; no JVM/Java random trace parity is claimed.

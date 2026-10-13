@@ -1085,3 +1085,9 @@ Apache license is fabricated for them. See tests/fixtures/xsd_profile/NOTICE.txt
   and product-label mapping appear in `compat/provenance.json` (Apache-2.0).
   Native formatting consumes caller metadata; no Enterprise implementation,
   artifact, detection, service or feature is used or claimed.
+
+Round145 virtual_seam_cases.rs, fixtures/virtual_seam_fixture.rs, the attributed interior portions of virtual_seam_regression.rs and kopt_virtual_seam_proof.rs adapt pinned Timefold Community TEST/helper fixtures under Apache-2.0. See compat/provenance.json. Native interval/block/ownership code is independently derived; no upstream production implementation was inspected.
+
+Round145 linked-list leaf adaptation preserves the full Community
+IndexerRandomIteratorMarkerTest.linkedListLeafIndexerRejectsRandomAccess method
+and Ann/none/seed0 TEST fixture under Apache-2.0; exact provenance is recorded.
