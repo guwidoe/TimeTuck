@@ -16,7 +16,62 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round143
+## Latest verified checkpoint — round144
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in 94.933s:
+8,018 Rust tests and 290 doctests. Compatibility is 4,271/4,855 (87.971%),
+16 pending, 568 excluded, zero failed/unverified. Five complete methods close
+merged-schema validation and four module-provenance display contracts; seven
+original controls and two attributed TEST fixture records were added.
+Five affected Rust jobs ran; 1,265 unchanged Rust jobs and all 46 Python jobs
+reused matching actual runner-a evidence. Prebuild 166.646s; worker total262.083s.
+Base 51097a68e0d6b3adf6541940b4535badb1f9551f. The goal remains incomplete.
+
+Receipts `work/parallel-round144-freeze.json`, `work/parallel-round144-evidence.json`;
+exact source IDs `work/round144-added-source-ids.json`. Rust digest
+3fcbb0c2a359553225a887db701494a7c017d3a81b3556e34fddd106939b3a03;
+report digest da74d2ba72a746e9ac3596190ca732604849c19b2166e6577a52b536e83c65c4.
+runner-a snapshot 0e584dabc14d72e061e798b96f56bf45545339c06c55e81fb8a1df5df8503959.
+Archive `work/round144-runner-a-results.tar.gz`, SHA256
+bedadd446411f974341d0eb9ae3a4be6fec035544613ffbe024365aa9abcb1e2.
+Source/terminal/log/archive hashes were checked before report refresh.
+
+Schema revised focus45323 passed six tests and affected Clippy; initial anonymous
+complex rejection and both intermediate successful proofs remain immutable.
+Review added inline simple-attribute checks and fixed128 declaration/inheritance
+bounds, with rejection controls. The full pinned TEST XML is unchanged; public
+latest declarations replace unavailable generated schemas under an explicit
+version/namespace adaptation. Separate URL/version/SHA/license metadata is in
+compat/specifications.json. No general XSD/JAXB compatibility claim.
+
+Banner focus8718 passed four source cases and two originals; Clippy84484 passed.
+Actual optional resource reads and validated metadata feed caller-ordered module
+provenance. Product name maps explicitly; source module labels remain supplied
+text. No Enterprise artifact, implementation, service, detection or runtime
+feature is used. Existing Community formatter and Cargo inputs are unchanged.
+
+All schema/banner sources and raw receipts are preserved with verified hash
+manifests in `work/round144-agent-evidence`; their managed trees can be archived.
+The k-opt round144 failure snapshots (45 files) are preserved separately; its
+agent is testing a new round145 interval/block derivation in the existing tree.
+Do not archive that active tree or claim any of its five pending source methods
+without full-case proof. Old schema focus archives/hashes were retained after
+the review fix. Integration resumed after a missing banner manifest filename;
+existing copied schema bytes were checked before idempotent continuation. No
+Rust failure or old-result hash rewriting arose from that packaging correction.
+
+Public schema snapshots retain unchanged downloaded bytes, including whitespace;
+exact hashes were checked. Other staged files pass whitespace review. All three
+round143 benchmark input digests remain unchanged and measurements are current;
+no performance job repeated and no dates/hashes changed. Older unrelated data
+remain stale. Backend report/freshness inspected; no UI/data-contract change,
+so browser verification was not repeated.
+
+runner-c SSH timed out; Tailscale reports its WSL peer offline, while runner-a is online.
+The runner-c tailscaled restart request is pending. Local and runner-a checks continue;
+no runner-c build awaits collection. Continue the active goal; this is not completion.
+
+## Previous verified checkpoint — round143
 
 The merged `bash scripts/check.sh` passed once on runner-a in 408.736s:
 8,006 Rust tests and 290 doctests. Compatibility is 4,266/4,855 (87.868%),

@@ -2002,3 +2002,9 @@ pub use maven3_token_crypto::{
     MAVEN3_MASTER_ENCRYPTION_KEY, Maven3CryptoError, Maven3SettingsDecrypter,
     decrypt_maven3_password, encrypt_maven3_password,
 };
+
+mod xsd_profile;
+pub use xsd_profile::{XsdMergePolicy, XsdProfile, XsdProfileError, XsdValidationLimits};
+
+mod version_module_banner;
+pub use version_module_banner::{ModuleBannerError, VersionModuleProvenance};

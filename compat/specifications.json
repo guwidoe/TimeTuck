@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "specifications": [
+    {
+      "id": "round144-public-solver-xsd",
+      "url": "https://timefold.ai/xsd/solver/solver.xsd",
+      "documentation_url": "https://docs.timefold.ai/timefold-solver/latest/running-timefold-solver/benchmarking-and-tweaking",
+      "fetched_on": "2026-10-13",
+      "advertised_documentation_version": "2.7.1/latest",
+      "schema_declared_version": "1.0",
+      "sha256": "5fcb7484bf48949c2985e38844226c4206129f1f0005428ffc5e9788c6226277",
+      "bytes": 63453,
+      "local_path": "crates/solver/tests/fixtures/xsd_profile/public-solver.xsd",
+      "license": "No license statement in retrieved public schema; retained attributed local nonpublished API specification data; no Apache attribution inferred",
+      "modifications": "Snapshot bytes unchanged. Native parsed compiler explicitly retargets overlay namespace and replaces conflicting primary types on caller OverlayTypes policy. Public latest snapshots are not the unavailable pinned generated updated schemas; no byte/version parity claim."
+    },
+    {
+      "id": "round144-public-benchmark-xsd",
+      "url": "https://timefold.ai/xsd/benchmark/benchmark.xsd",
+      "documentation_url": "https://docs.timefold.ai/timefold-solver/latest/running-timefold-solver/benchmarking-and-tweaking",
+      "fetched_on": "2026-10-13",
+      "advertised_documentation_version": "2.7.1/latest",
+      "schema_declared_version": "1.0",
+      "sha256": "03afed87824b2423feb7d17ac45ee0ea555a1bd89e80fa64849baf550f9aec91",
+      "bytes": 84361,
+      "local_path": "crates/solver/tests/fixtures/xsd_profile/public-benchmark.xsd",
+      "license": "No license statement in retrieved public schema; retained attributed local nonpublished API specification data; no Apache attribution inferred",
+      "modifications": "Snapshot bytes unchanged. Native parsed compiler explicitly retargets overlay namespace and replaces conflicting primary types on caller OverlayTypes policy. Public latest snapshots are not the unavailable pinned generated updated schemas; no byte/version parity claim."
+    }
+  ]
+}

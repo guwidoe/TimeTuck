@@ -1,0 +1,15 @@
+validBenchmarkConfig.xml is a complete copied Timefold Community TEST fixture,
+Apache-2.0, pinned commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Source tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/xsd/.
+Copyright Timefold contributors; see compat/provenance.json and Apache license.
+
+public-benchmark.xsd and public-solver.xsd are unchanged public declarative API
+specification snapshots, NOT pinned TEST/production implementation resources.
+URLs https://timefold.ai/xsd/benchmark/benchmark.xsd and
+https://timefold.ai/xsd/solver/solver.xsd, publicly linked by official documentation.
+Fetched 2026-10-13; documentation advertised Timefold Solver2.7.1/latest.
+No license statement appeared in fetched schema data; no Apache license inferred
+for these snapshots. They are kept only as attributed local nonpublished
+specification inputs. Exact SHA/version/URL/license boundary in compat/specifications.json.
+They replace unavailable pinned generated *-updated.xsd inputs explicitly,
+without asserting byte/version equivalence or Java/XSD-wide conformity.

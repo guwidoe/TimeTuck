@@ -1074,3 +1074,14 @@ See compat/provenance.json and crates/solver/tests/fixtures/employee_watching/NO
 `compat/oracle/KOptSeamContextProbe.java` adapts TEST-only k-opt helpers
 and fixture values at the pinned Apache-2.0 Community revision. Its public-call
 observations and failed native experiment earn no upstream method credit.
+
+Round144 XsdAggregatorTest and its unchanged full TEST XML fixture remain
+Apache-2.0. Public latest XSD declaration snapshots have separate URL/version/SHA
+and retrieved-license boundary in compat/specifications.json; no pinned commit or
+Apache license is fabricated for them. See tests/fixtures/xsd_profile/NOTICE.txt.
+
+- `version_module_banner_cases.rs` adapts four pure named-module banner display
+  methods from pinned Community `SolverVersionUtilsTest`. Exact source identities
+  and product-label mapping appear in `compat/provenance.json` (Apache-2.0).
+  Native formatting consumes caller metadata; no Enterprise implementation,
+  artifact, detection, service or feature is used or claimed.

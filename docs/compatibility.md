@@ -9806,3 +9806,37 @@ but both slot/rank coordinate policies and orientations failed the exact source
 repro. The refuted API was removed; raw source, attributed fixture and failure
 evidence are preserved. Neither observation establishes general virtual-seam
 repair semantics; all five associated methods remain pending.
+
+One merged-schema method uses an independent bounded XSD declaration profile and
+actual read/validate/decode boundary. Full pinned TEST validBenchmarkConfig.xml is
+unchanged. Public latest [benchmark API schema](https://timefold.ai/xsd/benchmark/benchmark.xsd)
+and [solver API schema](https://timefold.ai/xsd/solver/solver.xsd), linked by
+[official documentation](https://docs.timefold.ai/timefold-solver/latest/running-timefold-solver/benchmarking-and-tweaking),
+replace unavailable pinned generated updated schemas explicitly. Public document
+version2.7.1/latest and snapshot hashes/licenses are separate in
+compat/specifications.json; no pinned resource equivalence is claimed.
+
+The native merger retargets overlay references to the primary namespace under an
+explicit conflict policy. Written merged declarations recompile independently;
+validation rejects wrong sequence/cardinality, primitive types, enum values,
+attributes, namespaces and missing references before existing BenchmarkRecordConfig
+decoding. Sequence/choice repetition, named/anonymous complex content, complex extension, string enum restrictions,
+abstract/final types, required/optional simple attributes, and string/boolean/int/
+long/double lexical values form the supported profile. Unknown declarations,
+facets and unsupported instance attributes reject; external resolution, xsi:type,
+nil, identity constraints, wildcards and full Java/JAXB/XSD parity are unsupported.
+Caller XML-byte/node/step/depth limits bound parsing and matching; schemas have
+a2MiB/20,000-node cap, fixed128 declaration/derivation depth cap before
+recursive compilation/inheritance consumption, and a32-overlay cap.
+This is a declarative API-data specification use, not production implementation
+copying. Schema snapshots state no retrieved license; crates remain unpublished.
+
+Four pure version-banner display methods from the Community TEST file now adapt
+through generic caller-named module provenance. The source product constant maps
+explicitly to a caller bundle name; core/enterprise tokens in those fixtures are
+ordinary supplied module labels, preserving all spacing and missing-ref cases.
+Actual missing-resource reads execute the existing VersionReporter fallback;
+validated VersionMetadata carries each supplied ref. Originals read current JSON
+resource metadata and verify unknown revisions, ordering, invalid inputs and
+label conflicts. Existing Community version formatting is unchanged. No edition
+flags/detection or Enterprise artifact/service/runtime/feature support is added.
