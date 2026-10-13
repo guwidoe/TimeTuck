@@ -316,6 +316,18 @@ impl fmt::Display for SolutionCompositionError {
             ),
             Self::DuplicateMember {
                 name,
+                original,
+                redefining,
+                kind: SolutionMemberCategory::ConstraintWeights,
+                ..
+            } => write!(
+                f,
+                "constraint weight declaration {name} was already found in {}; it is redeclared in {}",
+                original.name(),
+                redefining.name()
+            ),
+            Self::DuplicateMember {
+                name,
                 kind: SolutionMemberCategory::EntityCollection,
                 replacement: SolutionMemberCategory::EntityCollection,
                 ..

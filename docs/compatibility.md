@@ -9326,3 +9326,55 @@ lazy defaults remain unchanged. Prefetch timing is explicit, disabled weights
 do not poll, exhausted cursors retire, and a caught post-draw callback panic fuses
 the scan. Originals cover finite traversal/replay, cached polling/panic behavior
 and real six-step optimization. No Java RNG trace or speed improvement claim.
+
+Round131 adds a catalog whose declarations retain exact caller identity and
+declared weights, including zero-weight constraints. CatalogGraphBuilder registers
+actual native stream terminals before publishing catalog entries; handles support
+existing explanation queries. Full DefaultConstraintMetaModel lookup assertions
+and all 19 constraint-name CSV rows are adapted. This optional catalog documents
+its native name policy; legacy graph registration names are unchanged. Actual
+scoring, zero-weight pruning, explanations and invalid/duplicate/foreign/structural
+registration controls are exercised; source helper/fixture provenance is recorded.
+
+InnerTerminationConfig resolves an ordered configured child list into existing
+SearchTermination leaves once. The full remaining TerminationFactory inner-list
+method preserves a single seconds1 child, elapsed-time kind and exact1000ms.
+Built policies compose using existing AND/OR semantics and bind alongside inherited
+OR safeguards without runtime unit conversion/allocation. Empty units contribute
+no condition; explicit zero remains active. Originals exercise actual exact search
+with a controlled clock, inherited guards and overflow before publication. Deeper
+expressions remain available through the existing borrowed expression API; no Java
+factory/reflection ABI claim.
+
+SolutionWeightAccessor.new_nullable now validates typed layout metadata through
+the existing accessor and maps an actual absent getter value to no overrides.
+The complete NullOverrides case runs the real initialized-entity First weight
+constraint with empty facts and exact zero reward. The complete extended-solution
+case exercises inherited duplicate weight-field rejection and its diagnostic.
+Native layout error classification is preserved; Java reflective inheritance is
+represented by explicit composition. Originals exercise populated/default/changed/
+disabled weights, frozen graph initialization snapshots and zero getter calls on
+invalid metadata. No graph hotpath or performance claim.
+
+## Value-owned builtin publication and cascade callback bindings
+
+`ValueOwnedListSolutionManager` binds real row-ordered owner objects and setters
+for actual value-owned fields. Existing list-manager refresh/validation/scoring
+runs first, then builtin projections publish with exact owner references. ShadowsOnly
+preserves saved score and avoids scoring; ScoreOnly avoids setters. Current layout,
+unassignment and repeated updates are covered. Sequential setter effects are not
+rolled back on callback panic; native planning lists remain explicit assignments.
+
+`CascadeCallbackRegistry` retains actual typed callbacks or data. Binding checks
+real shadow metadata, native owner/result types and callable Rust signatures before
+callbacks run. A bound callback initializes/updates the existing `ListCascadeCache`,
+so signature validation is connected to actual cascade execution. Native registry
+names/types replace reflective Java discovery and annotation/class spelling;
+Java overload/method lookup parity is not claimed.
+
+Two complete source methods retain null-inverse same-owner/index-zero publication
+and both invalid cascading property/member diagnostic cases. The first erroneous
+method name is absent; the second resolves to actual integer data. Two originals
+verify saved scores, exact pointer identity, current layouts, unassignment, errors
+before setters/callbacks, genuine wrong signatures and valid cascade recomputation.
+No ordinary scoring/search hotpaths or benchmark evidence are changed.

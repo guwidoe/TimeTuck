@@ -12,7 +12,11 @@
 //! assert_eq!("0hard/-1000000soft".parse(), Ok(feasible));
 //! ```
 
+mod inner_termination_config;
 mod score_level;
+pub use inner_termination_config::{
+    BuiltInnerTermination, InnerTerminationCondition, InnerTerminationConfig,
+};
 mod sublist_selection_config;
 pub use score_level::ScoreLevel;
 pub use sublist_selection_config::{SubListSelectionBuildError, SubListSelectionConfig};
@@ -1771,3 +1775,16 @@ pub use shared_pillar_sampler::{SharedSamplerSubPillarSwaps, StatefulPillarSampl
 
 mod primed_move_union;
 pub use primed_move_union::{AvailableMoveCursor, IteratorMoveCursor, PrimedMoveUnion};
+
+mod constraint_catalog;
+pub use constraint_catalog::{
+    CatalogConstraint, CatalogGraph, CatalogGraphBuilder, ConstraintCatalog, DeclaredConstraint,
+    InvalidConstraintName, validate_catalog_constraint_name,
+};
+
+mod value_owned_list_manager;
+pub use value_owned_list_manager::{ValueOwnedListSolutionManager, ValueOwnedListUpdateError};
+mod cascade_callback_binding;
+pub use cascade_callback_binding::{
+    BoundCascadeCallback, CascadeCallbackBindingError, CascadeCallbackRegistry, ListCascadeCallback,
+};

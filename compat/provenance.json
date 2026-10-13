@@ -60268,6 +60268,111 @@
       "upstream_test": "hasNextOnlyPollsTheDrawnIterator",
       "local_test": "has_next_only_polls_the_drawn_iterator",
       "modifications": "Preserve seed0, three counting children with indices0/1/2, every constructor count exactly1 and after one actual native draw selected count exactly2 while both other counts remain1. AvailableMoveCursor separates availability polling from move generation, so draw itself cannot inflate the availability count. PrimedMoveUnion provides the opt-in contract and ProviderUnion.with_primed_polling integrates it into real solver scans. Native SplitMix64 replaces Java Random without a Java PRNG trace claim. Existing lazy MoveUnion/default ProviderUnion paths remain unchanged."
+    },
+    {
+      "id": "TerminationFactoryTest.buildInnerTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "buildInnerTermination",
+      "local_path": "crates/solver/tests/inner_termination_config_cases.rs",
+      "local_test": "build_inner_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve outer configured inner list containing one seconds1 child, result size1, elapsed-time condition kind and exact1000ms value. Native ordered leaf configuration resolves units before binding existing borrowed SearchTermination expressions into SolverLimits; no Java factory/reflection ABI claim. Originals exercise actual controlled-clock exact search, AND composition with inherited guard, empty-unit/zero distinction and overflow before publication."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_catalog_cases.rs",
+      "id": "DefaultConstraintMetaModelTest.test",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/stream/DefaultConstraintMetaModelTest.java",
+      "upstream_test": "test",
+      "local_test": "default_constraint_meta_model_test",
+      "modifications": "Preserve all four exact same-instance lookups for Test Constraint1/2/3/4 with declared weights1/10/100/0. Caller-owned Rc declarations replace Java constraint references; optional CatalogGraphBuilder binds each declaration to a real existing weighted stream terminal and retains zero-weight declarations after graph pruning. Native validated name lookup replaces Java ConstraintRef metamodel lookup; source TEST mock factory/schema setup is replaced with a real native graph source/registration. No Java object hierarchy/ABI claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_catalog_cases.rs",
+      "id": "AbstractConstraintBuilderTest.idSanitized",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/AbstractConstraintBuilderTest.java",
+      "upstream_test": "idSanitized",
+      "local_test": "id_sanitized",
+      "modifications": "Preserve all19 CsvSource rows: seven successful constructions and twelve exact invalid-name outcomes, including literal null/nil, missing empty field, escaped slash/backslash patterns and punctuation-only names. Actual native DeclaredConstraint optional-name construction returns InvalidConstraintName instead of Java IllegalArgumentException; accepted declarations register real stream terminals. Native optional-catalog Unicode alphanumeric/explicit punctuation policy is documented and does not alter legacy StreamGraph names or claim arbitrary Java regex parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/nullable_solution_weights_cases.rs",
+      "id": "NullOverridesTest.doesNotThrowNPEOnNoOverrides",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/test/NullOverridesTest.java",
+      "upstream_test": "doesNotThrowNPEOnNoOverrides",
+      "local_test": "does_not_throw_npe_on_no_overrides",
+      "modifications": "Preserve all source assertions: selected firstConstraint, empty given facts and rewardsWith(0) use actual native tracked First weight reward+1 with initialized-entity filtering and ConstraintAssertion RewardImpact Exactly0. Typed solution-owned nullable override getter returns genuine None, mapped to no overrides before real graph initialization. Inherited duplicate constraintWeightOverrides declaration rejects during existing composition compilation with typed DuplicateMember/ConstraintWeights and source already found diagnostic, before any read callback. Explicit native metadata, typed getter and default Solution replace Java descriptor/reflection/ConstraintVerifier setup; no Java ABI/exception-type parity claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/nullable_solution_weights_cases.rs",
+      "id": "ConstraintWeightOverridesTest.failsFastOnExtendedSolution",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/ConstraintWeightOverridesTest.java",
+      "upstream_test": "failsFastOnExtendedSolution",
+      "local_test": "fails_fast_on_extended_solution",
+      "modifications": "Preserve all source assertions: selected firstConstraint, empty given facts and rewardsWith(0) use actual native tracked First weight reward+1 with initialized-entity filtering and ConstraintAssertion RewardImpact Exactly0. Typed solution-owned nullable override getter returns genuine None, mapped to no overrides before real graph initialization. Inherited duplicate constraintWeightOverrides declaration rejects during existing composition compilation with typed DuplicateMember/ConstraintWeights and source already found diagnostic, before any read callback. Explicit native metadata, typed getter and default Solution replace Java descriptor/reflection/ConstraintVerifier setup; no Java ABI/exception-type parity claim."
+    },
+    {
+      "id": "AbstractSolutionManagerTest.updateAssignedValueWithNullInverseRelation",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractSolutionManagerTest.java",
+      "upstream_test": "updateAssignedValueWithNullInverseRelation",
+      "local_path": "crates/solver/tests/value_owned_list_manager_cases.rs",
+      "local_test": "update_assigned_value_with_null_inverse_relation",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve one actual e1 owner object and one assigned value object, initial null inverse/index, optional list model and ShadowsOnly policy. ValueOwnedListSolutionManager delegates real builtin refresh/validation to the existing list manager, then publishes through actual value-owned setters. Rc::ptr_eq preserves source same-entity identity assertion; native Some(0usize) replaces boxed Java index zero. Explicit native model/network/owner binding replaces reflective solver factory and abstract Java scoring-factory route; no score calculation occurs under this policy."
+    },
+    {
+      "id": "SingleCascadingUpdateShadowVariableTest.requiredShadowVariableDependencies",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/cascade/SingleCascadingUpdateShadowVariableTest.java",
+      "upstream_test": "requiredShadowVariableDependencies",
+      "local_path": "crates/solver/tests/cascade_callback_binding_cases.rs",
+      "local_test": "required_shadow_variable_dependencies",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both invalid bindings, exact cascadeValueReturnType/badUpdateCascadeValueWithReturnType and cascadeValue/value identities, actual class/property/requested-member diagnostic context. Source first target name is missing despite a differently named returning method; second name identifies data rather than a callable. Explicit native schema and actual erased typed callback/data registrations replace Java reflective descriptor discovery. Native Rust type names replace Java class/annotation spelling; source semantic diagnostic assertions retained without Java method-lookup ABI claims. Bound valid callbacks initialize/update the existing ListCascadeCache; original controls verify actual signature rejection before callbacks and real valid cascade execution."
     }
   ],
   "fixtures": [
@@ -85518,6 +85623,162 @@
       "id": "uniform-union-counted-native-label-fixture",
       "upstream_test": "LabeledMove.index",
       "modifications": "Preserve index0/1/2 labels through actual native Move::Change.variable and Some(index) destination. Source method never executes its LabeledMove; native fixture does not claim its no-op execution ABI. Separate original solver regression executes real generated Change moves through the primed ProviderUnion path."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_catalog_cases.rs",
+      "id": "constraint-catalog-four-declarations-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/director/stream/DefaultConstraintMetaModelTest.java",
+      "upstream_test": "test",
+      "modifications": "Inline four named TEST constraint instances and exact1/10/100/0 weights; stable Rc handles supply caller identity. Existing native StreamGraph source/weighted registration replaces mock Java TestConstraintFactory descriptor setup."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_catalog_cases.rs",
+      "id": "constraint-catalog-name-validation-csv-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/AbstractConstraintBuilderTest.java",
+      "upstream_test": "idSanitized CsvSource",
+      "modifications": "Preserve all19 source CSV strings and expected booleans including correct Java text-block escape interpretation; the empty unquoted field maps to native None. Test constructs actual declarations and registers accepted ones, checking typed errors and no catalog publication for rejected rows."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/constraint_catalog_cases.rs",
+      "id": "constraint-catalog-testconstraint-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testconstraint/TestConstraint.java",
+      "upstream_test": "TestConstraint constructor",
+      "modifications": "Preserve TEST helper declared constraint name, supplied score weight and reward direction using immutable native declaration handles and actual positive weighted stream factors. Java AbstractConstraint inheritance/default metadata is not ported."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/nullable_solution_weights_fixture.rs",
+      "id": "nullable-first-reward-constraint-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintweightoverrides/TestdataConstraintWeightOverridesConstraintProvider.java",
+      "upstream_test": "firstConstraint",
+      "modifications": "Preserve actual forEach(TestdataEntity), rewardSimpleScore.ONE and First weight name. Native initialized-value filter and tracked factor1 reward use actual graph matching/constraint assertions; source entity values map to Option<i32> and no scoring callbacks are substituted with expected results."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/nullable_solution_weights_fixture.rs",
+      "id": "nullable-solution-owned-weight-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintweightoverrides/TestdataConstraintWeightOverridesSolution.java",
+      "upstream_test": "declarations/getConstraintWeightOverrides",
+      "modifications": "Preserve nullable constraintWeightOverrides field, valueList/entityList, score and entity basic value metadata in registered native components and typed Solution getters. Empty given facts produce a default solution with actual None overrides; original controls use real populated solution entity rows and weight snapshots."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/nullable_solution_weights_fixture.rs",
+      "id": "extended-duplicate-weight-declaration-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/constraintweightoverrides/TestdataExtendedConstraintWeightOverridesSolution.java",
+      "upstream_test": "declarations/buildExtendedSolutionDescriptor",
+      "modifications": "Preserve registered derived solution, actual base solution ancestry and redeclaration of the same constraintWeightOverrides name/type. Native SolutionComposition resolves inherited declarations before callback access and preserves the already found failure assertion; no reflective Java getter override ABI claim."
+    },
+    {
+      "id": "round131-assigned-null-inverse-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/score/stream/common/AbstractSolutionManagerTest.java",
+      "upstream_test": "updateAssignedValueWithNullInverseRelation/setup",
+      "local_path": "crates/solver/tests/value_owned_list_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain e1/assigned labels, one entity holding one assigned value, initial None inverse/index and ShadowsOnly update. Rc handles retain exact object identity. Unasserted neighbor fields remain available in native builtin projection; fixture value-owned setter targets owner/index only."
+    },
+    {
+      "id": "round131-pinned-optional-list-entity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/pinned/TestdataPinnedUnassignedValuesListEntity.java",
+      "upstream_test": "constructor/valueList",
+      "local_path": "crates/solver/tests/value_owned_list_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain optional list assignment and default unpinned prefix0. Use explicit native ListEntity/model owner catalog instead of Java field getter metadata."
+    },
+    {
+      "id": "round131-pinned-optional-list-value",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/list/unassignedvar/pinned/TestdataPinnedUnassignedValuesListValue.java",
+      "upstream_test": "constructor/entity/index",
+      "local_path": "crates/solver/tests/value_owned_list_manager_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain actual value object with initially null owner/index and setters writing those exact fields. Native None/Rc/usize replace Java references/Integer; owner same-instance assertion remains pointer-based."
+    },
+    {
+      "id": "round131-cascade-wrong-method",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/wrongcascade/TestdataCascadingWrongMethod.java",
+      "upstream_test": "buildEntityDescriptor/cascadeValueReturnType",
+      "local_path": "crates/solver/tests/cascade_callback_binding_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain owner/previous/next/cascadeValue/cascadeValueReturnType declarations, valid updateCascadeValue registration and actual differently named returning function updateCascadeValueWithReturnType. The requested badUpdateCascadeValueWithReturnType is genuinely absent. No callback body runs; no expected-invalid boolean or Java reflective lookup emulation used."
+    },
+    {
+      "id": "round131-cascade-invalid-field",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/shadow/wrongcascade/TestdataCascadingInvalidField.java",
+      "upstream_test": "buildEntityDescriptor/cascadeValue",
+      "local_path": "crates/solver/tests/cascade_callback_binding_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain owner/previous/next/cascadeValue declarations and requested value name. Register actual integer data under value rather than a typed cascade callable. Combine independent descriptor contexts in one native registry while keeping entity-type namespaces and both failure identities; no Java reflection parity claim."
+    },
+    {
+      "id": "round131-cascade-route-metadata",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/cascade/single/TestdataSingleCascadingEntity.java",
+      "upstream_test": "valueList",
+      "local_path": "crates/solver/tests/cascade_callback_binding_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Retain route valueList field element type as separate StandardCascadeValue marker rather than treating an invalid callback-owner fixture as the list element type. No working value/list instances are created by this descriptor-failure source method."
     }
   ]
 }

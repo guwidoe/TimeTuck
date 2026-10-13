@@ -16,7 +16,74 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round130
+## Latest verified checkpoint — round131
+
+The frozen merged `bash scripts/check.sh` passed once on runner-c in 59.082s:
+7,630 Rust tests and 290 doctests. Per-job reuse ran 47 affected Rust targets,
+reused 1,131 unchanged Rust targets and 46 Python jobs. Prebuild 108.811s;
+merged Clippy 34.75s; full worker 168.126s. Compatibility 4,015/4,855 (82.698%),
+272 pending, 568 excluded, zero failed/unverified. Seven complete methods and twelve
+fixture records added; nine original regressions earn no source-method credit.
+Rust digest 91b32a45a1d448cb93ab0900a95a2ea961cc18da2c2798969f05638d7637a59b.
+Report digest d509f0a9d7bab518c667954378df2a7eed5cfb2c0ed3a5bb6e9b1c96cb604f7c.
+Archive `work/round131-runner-c-results.tar.gz` SHA256: f60b112fb280f83fe6fb165cc4b1e4d6785c0dc11c165c824dd258dd5d27951e.
+Remote source snapshot 35c3ac5c5f337c04b1ef4a416909ab392aa75d47b54a1ab220c5aef1bfb14196.
+Evidence `work/parallel-round131-evidence.json`, freeze `work/parallel-round131-freeze.json`,
+new IDs `work/round131-added-source-ids.json` and focused evidence under
+`work/round131-agent-evidence`. Actual previous runner-c records were checksum validated;
+output relocation preserved original keys, dates and log hashes. Collector generated
+report from actual merged test output and inspected backend freshness. No repeated
+UI verification or benchmark refresh; existing measurements remain visibly stale.
+
+Three GPT-6.1 Sol lanes: runner-c constraint catalog four focused cases/Clippy; runner-a
+shadow publication/callback binding nine cases/Clippy; local nullable weights 37
+cases/Clippy. Root inner termination four cases passed on runner-c. Final manifests and
+original intermediate/failure logs preserved. Weight first compile failed on a
+nonexistent native ONE constant; corrected constructor verified. Shadow first lint
+failed test type complexity; final type alias verified. No hidden failures/source credit.
+
+CatalogGraphBuilder registers actual graph terminals before publishing exact
+caller Rc declaration identities. Zero declared weights remain inspectable even
+when actual scoring prunes them. All four source lookup identities and all nineteen
+name CSV rows preserved; optional native name policy leaves legacy graph names
+unchanged. Real scoring/explanations and invalid/duplicate/foreign/structural
+registration prove no partial catalog publication. No arbitrary Java regex claim.
+
+SolutionWeightAccessor.new_nullable reuses typed layout validation and maps actual
+None getter results to no overrides before real graph initialization. Full empty
+First weight reward-zero and duplicate inherited weight-field error methods adapted.
+Existing typed composition rejection retained with required diagnostic context;
+original snapshots/default/changed/disabled/populated scoring and zero getter calls
+on invalid metadata passed. Shared composition diagnostic and accessor changes
+received affected regression coverage; no graph hotpath or measured speed claim.
+
+ValueOwnedListSolutionManager wraps the existing manager and publishes builtin
+fields into original caller-owned value objects using explicit owner-row catalogs.
+The full one-assigned-value/null inverse method proves original owner Rc identity
+and index0. ShadowsOnly preserves saved score and performs no scoring; ScoreOnly
+calls no publication setter. Current layout, unassignment and invalid-input controls
+passed. External callback effects are sequential and not rolled back on panic.
+CascadeCallbackRegistry checks actual registered Rust input/output types against
+native property metadata, then executes existing ListCascadeCache. The full two
+wrong-method/data-field cases preserve native entity/property/method diagnostics.
+Real erased data retained; no validity flags or Java reflection/overload parity.
+
+InnerTerminationConfig resolves the ordered native leaf list once; single seconds1
+child produces elapsed-time condition1000ms. Existing AND/OR composition and inherited
+OR safeguard bind actual SolverLimits without runtime conversion/allocation. Empty
+unit groups absent, explicit zero active, overflow rejects before publication. Actual
+controlled-clock exact search stops after one scored candidate. Deeper expressions
+remain in existing borrowed API. Seven hard k-opt seam methods remain pending; do
+not repeat refuted probes or replace them with fixture-specific output rules.
+
+Commit after staged review; preserve ignored evidence before archiving the three
+round131 managed worktrees. Confirm archive results. Temporary runner-c wake20713 was
+stopped by exact payload match after successful collection; cleanup result60950.
+Full objective remains active/incomplete; upstream pin unchanged. Use all three
+machines and at most three GPT-6.1 Sol agents as authorized. Keep performance
+important, shrink actual behavior backlog, and reuse unchanged successful checks.
+
+## Previous verified checkpoint — round130
 
 The frozen merged `bash scripts/check.sh` passed once on runner-c in 57.231s:
 7,614 Rust tests and 290 doctests. Per-job reuse ran 19 affected Rust targets,

@@ -68,6 +68,17 @@ impl<'a, P: 'static, S: 'static> SolutionWeightAccessor<'a, P, S> {
             read: Box::new(read),
         })
     }
+    /// Read a nullable solution-owned override field. None means no overrides:
+    /// declared graph defaults remain effective, including in an empty-fact
+    /// constraint assertion. Metadata validation finishes before any getter call.
+    /// The owned result captures this read; later solution edits do not change it.
+    pub fn new_nullable(
+        layout: Arc<ComposedPlanningSolution>,
+        read: impl Fn(&P) -> Option<ConstraintWeightOverrides<S>> + 'a,
+    ) -> Result<Self, SolutionWeightError> {
+        Self::new(layout, move |solution| read(solution).unwrap_or_default())
+    }
+
     pub fn read(&self, solution: &P) -> BoundSolutionWeights<S> {
         BoundSolutionWeights {
             layout: self.layout.clone(),
