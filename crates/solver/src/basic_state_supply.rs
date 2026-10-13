@@ -8,6 +8,7 @@ use std::{
     error::Error,
     fmt,
 };
+mod external_inverse;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct BasicInverseChange<'s, E, V> {
@@ -25,6 +26,12 @@ pub struct BasicStateUpdate<'s, E, V> {
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum BasicSupplyError<E, V> {
+    NullInverseCollection {
+        entity: Option<E>,
+        value: V,
+        variable: String,
+        inverse: String,
+    },
     DuplicateValue(V),
     UnknownValue(V),
     DuplicateSeed(V),
@@ -34,6 +41,18 @@ pub enum BasicSupplyError<E, V> {
 }
 impl<E: fmt::Debug, V: fmt::Debug> fmt::Display for BasicSupplyError<E, V> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if let Self::NullInverseCollection {
+            entity: Some(entity),
+            value,
+            variable,
+            inverse,
+        } = self
+        {
+            return write!(
+                f,
+                "The entity ({entity:?}) has a variable ({variable}) with value ({value:?}) which has a sourceVariableName variable ({inverse}) which is null."
+            );
+        }
         write!(f, "basic state supply: {self:?}")
     }
 }

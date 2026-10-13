@@ -16,7 +16,50 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round120
+## Latest verified checkpoint — round121
+
+BasicStateSupply now validates nullable external inverse collections and stages
+checked imports before publishing changes. Diagnostics use live assignment and
+bound field metadata. Manager preflight rejects nulls before readers or scoring.
+Validation preserves notification history; import errors and reader/Clone panics
+preserve earlier publication. Existing non-null refresh paths are unchanged.
+One complete source method plus its fixture are recorded with provenance. All
+six ShadowVariableUpdateTest methods now pass. Four original regressions cover
+invalid collections, unknown values, missing bindings, unchanged pending history,
+reader failure and 24 Clone fault points. Pin unchanged; goal incomplete.
+
+11 distinct focused cases passed. Two Clippy issues in tests were corrected;
+actual failure logs remain in the archive. Final Clippy passed in 6.31s and six
+affected targets compiled in 7.04s. Frozen bash scripts/check.sh passed in
+94.674s: 7,490 Rust tests and 290 doctests.
+Rust jobs: {'RUN': 6, 'REUSE': 1118}; Python jobs: {'REUSE': 46}.
+Compatibility: 3,944/4,855 (81.236%), 343 pending,
+568 excluded, zero failed/unverified. Rust digest 2fb88dd56b04f7d1599cddfeda7d7a2bfcd4b0bebbd0c2b13772b1e0957cc9d6.
+Report digest 5f544cd6708d8b282f72abd251f7a28fc9ebae9e86a4d597a4c2ba3f75d8eb31.
+Archive work/round121-local-results.tar.gz SHA256:be246a63ecbe938fda525ce44b9e9cbc6ee512031f574f13054b5d75ddd60dd5.
+Evidence work/parallel-round121-evidence.json; freeze
+work/parallel-round121-freeze.json; postcommit proof
+work/round121-postcommit-evidence.json. Prebuild24895/gate3565 completed;
+do not repeat successful unchanged checks. Backend data/freshness inspected;
+no UI changes or repeated browser checks.
+
+No benchmark refresh for the optional checked import. Prior native measurements
+keep their actual source, driver, binary and dates. Round119 sampling date remains
+2026-10-13T04:59:18.200098+00:00, including regressions up to 5.1%. Paired Java
+k-opt date remains 2026-10-13T02:08:50.481824+00:00, visibly stale. No retags.
+Final correctness ran locally. On the latest user wake notification runner-a was
+reachable but requested renewed SSH authentication; runner-c still timed out. Neither
+provided this batch's results. Authentication request is pending.
+
+Continue genuine compatibility gaps, especially deferred list dependency graph
+notifications. Preserve real edge removal/addition assertions and concurrent
+group fixtures; ordinary notified refresh alone does not earn source credit.
+Native typed suppliers do not establish Java discovery signature errors. Seven
+k-opt seam/iterator gaps remain; do not repeat already answered saved probes.
+Keep performance important, shrink backlog, commit occasionally. No new agents.
+Full goal remains active and incomplete.
+
+## Previous verified checkpoint — round120
 
 EntryList.link_slots resolves current previous/next links and returns two empty
 slots for removed handles, rejecting foreign handles before lookup. No intrusive

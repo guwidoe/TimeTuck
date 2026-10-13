@@ -131,6 +131,18 @@ refresh preserves unrelated cached inputs and pending work on failure. Empty
 entity input retains the exact source diagnostic. Native batch handles replace
 reflective object arrays; no Java intrusive layout or API parity is claimed.
 
+All six ShadowVariableUpdateTest methods now have complete native adaptations.
+The invalid inverse fixture keeps its null collection, zero duration and exact
+entity/value identities. BasicStateSupply validates actual optional external
+inverse fields, with diagnostic identity from the live assignment and bound
+metadata. Checked import stages collection validation and ordinary refresh before
+installing publication history; nulls, duplicates, unknown values and callback/
+clone panics leave earlier publication unchanged. Full solution updates can use
+the same validator as manager preflight before readers, projection or scoring.
+Native typed null-collection errors replace Java exception classes. Existing
+non-null refresh_changed behavior remains unchanged; generic missing-shadow
+checks were not substituted for inverse-field validation.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,
