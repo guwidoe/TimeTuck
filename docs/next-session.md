@@ -16,7 +16,52 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round107
+## Latest verified checkpoint — round108
+
+Assembled NonReproducible runs and standalone factory-stream openings now receive
+fresh native seeds. A process-random salt plus atomic ticket prevents reuse within
+the process, without a cryptographic contract. Each successful session retains
+its actual seed, available via assembled_run_seed for native stream replay.
+Factory-owned shuffled move orders/random ties and ruin recreation use that seed
+plus phase index, before run-budget clamping. Explicit acceptance/provider seeds
+remain configured, and deterministic strategies remain deterministic. Reproducible
+modes keep exact configured streams/phase offsets and their no-copy phase path.
+Standalone openings do not change active sessions; failed startup chooses no seed.
+
+EnvironmentModeTest.determinism is fully adapted: all seven modes,1000corresponding
+native-word comparisons and accumulated actual step-score comparisons after each
+of10solve pairs. Four uninitialized variables/three identities, real first-value
+custom commands and1000evaluated-move stopping retain the source fixture. Native
+64-bit words/first-accepted/shuffled-window32/late-acceptance32 replace implicit
+Java RNG/default search choices; no Java traces or step-granularity claim. Actual
+objective is negative repeated occurrences after the first identity. Three TEST
+fixture/helper provenance entries recorded. Four originals cover overlapping
+sessions/standalone draws, seeded modes/offsets, observed clamps/explicit acceptor
+seeds and actual ruin recreation; one unit checks2048distinct seeds across8threads.
+The two environment corruption methods and seven k-opt methods remain pending.
+
+Frozen bash scripts/check.sh passed167.433s:7,421Rust tests and290doctests.
+18Rust jobs ran;1,081Rust/46Python jobs reused original successful records.
+Clippy47.62s; affected compilation9.72s. Compatibility3,916/4,855 (80.659%),
+371pending,568excluded,zero failed/unverified. Rust/provenance inputs stayed fixed.
+Rust f65495122255275182fe45d316f664dcf0ff7c63482f505ec431d16ba60ea679.
+Report 555d762b2bdf0dc4bd94377d41a818935a0d8c2d5894fdf7fcdd2483039193ab.
+Archive work/round108-local-results.tar.gz SHA256:fd72b782ef5f22a32688e4ee86e0318ac48b7dfca03d0f91031111b38275a053.
+Evidence work/parallel-round108-evidence.json; freeze work/parallel-round108-freeze.json;
+postcommit proof work/round108-postcommit-evidence.json. Prebuild42310/gate82538/
+collector85380 are terminal0; do not repeat successful unchanged checks.
+
+runner-a passed5seeding cases/controls on identical immutable Rust inputs. Original
+manifest/logs in work/round108-remote-evidence.json. runner-c source dispatch timed out
+before build; local and runner-a work continued. No new agents/assignments.
+Relevant performance inputs unchanged: preserve actual round107 k-opt date
+2026-10-12T23:34:11.539079+00:00 and scope, no source-key/date retagging or repeated
+benchmark. Older list metrics stay stale. Backend report/freshness inspected;
+no UI/data-contract changes or repeated browser checks. Goal remains incomplete.
+Continue closing actual remaining contracts; do not inflate exclusions or credit
+partial seam probes. Saved prior seam mutation observation remains answered.
+
+## Previous verified checkpoint — round107
 
 SolverMetrics now supports publication after synchronous best callbacks through
 with_best_metrics_after_callbacks. Defaults retain publication before callbacks.

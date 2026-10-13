@@ -8927,3 +8927,15 @@ typed snapshots. Native exhaustive completion scores whole assignments, so the
 ExactAssignment family replaces the Java ChangeMove meter label; exact Java
 counts, attribution and search traces are not claimed. Both methods preserve the
 source fixtures and assertions; five original matrix/failure checks add no credit.
+
+EnvironmentModeTest.determinism now preserves all seven modes, all1000
+corresponding random-word comparisons and accumulated step-score comparisons
+after each of10solve pairs. Four uninitialized variables, three identities, actual
+first-value custom initialization and1000move termination retain the source
+fixture. Native64-bit words and first-accepted/shuffled/late-acceptance selection
+replace Java implicit RNG/search defaults without asserting identical Java traces
+or step granularity. The actual objective penalizes repetitions after the first
+identity occurrence. Original controls additionally cover simultaneous sessions,
+seed replay, phase offsets, clamps, explicit acceptance seeds, ruin recreation and
+concurrent seed allocation; they earn no method credit. The two corruption methods
+remain pending.

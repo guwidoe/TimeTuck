@@ -58871,6 +58871,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve three entities/three values initialized missing,v2,v1, actual exhaustive completion and observation of a strictly positive candidate-family counter during SolveEnded. Native exact completion scores whole assignments, so ExactAssignment replaces the Java ChangeMove(TestdataEntity.value) meter taxonomy; no Java change-move attribution, registration lifecycle, exact count or search trace claim. Typed per-run snapshots replace Micrometer publication and phase-scope mocks."
+    },
+    {
+      "id": "EnvironmentModeTest.determinism",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/EnvironmentModeTest.java",
+      "upstream_test": "determinism",
+      "local_path": "crates/solver/tests/environment_determinism_cases.rs",
+      "local_test": "determinism",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve all seven environment modes, two independent solvers,1000 corresponding random-number equality/inequality assertions and accumulated completed-step-score series equality/inequality after each of10solve pairs. Four uninitialized variables share three stable integer identities; actual custom initialization assigns the first value to all four, then local search terminates at1000evaluated moves. Native64-bit SplitMix words replace Java32-bit random numbers; native first-accepted, shuffled-window32, late-acceptance32 selection supplies unscripted randomized search in place of implicit Java defaults. Actual per-step snapshots replace the Java working-score listener; native custom-command step granularity and Java RNG/search traces are not claimed. NonReproducible factory openings/runs receive fresh process-local seeds; seeded modes preserve configured streams. No expected score traces or random outputs are supplied."
     }
   ],
   "fixtures": [
@@ -83131,6 +83146,45 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve the two source rows/cut/add pairs and pinned prefix; add longer-row and entity-order variants to distinguish seam semantics. Probe earns no source-method compatibility credit. Original AbstractList/RandomAccess wrapper records public set/add/remove/clear effects on TEST-owned row data. Repeats the recorded five inputs to answer a new physical-mutation question, with no production source/disassembly/private-field inspection and no native source-method credit."
+    },
+    {
+      "id": "environment-determinism-input-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/EnvironmentModeTest.java",
+      "upstream_test": "setUpInputProblem",
+      "local_path": "crates/solver/tests/environment_determinism_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Four uninitialized variables, three shared identities and fresh input per solve preserve the source fixture; integer IDs/native schema replace Java entity/value/reflection types."
+    },
+    {
+      "id": "environment-determinism-initializer",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/EnvironmentModeTest.java",
+      "upstream_test": "TestdataFirstValueInitializer.changeWorkingSolution",
+      "local_path": "crates/solver/tests/environment_determinism_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Execute and score four real native changes to the first domain value through CustomPhaseContext; no returned assignment or score is scripted."
+    },
+    {
+      "id": "environment-determinism-different-values-calculator",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/testutil/calculator/AbstractTestdataDifferentValuesCalculator.java",
+      "upstream_test": "calculateScore",
+      "local_path": "crates/solver/tests/environment_determinism_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Implement the uncorrupted branch used by determinism: negative assigned-count minus distinct-count, with identity represented by integer IDs. No corrupted call-counter branch claim; native incremental constraint caching/checks replace the easy calculator framework."
     }
   ]
 }

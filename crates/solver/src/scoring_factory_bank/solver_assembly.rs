@@ -143,6 +143,9 @@ pub struct SolverAssemblyConfiguration<'a, M, S> {
     /// unless a solve-wide ceiling is configured. Native defaults are bounded.
     pub run_limits: FactoryRunLimits,
     pub metrics: ContextMetrics,
+    /// Seed used by reproducible modes. NonReproducible chooses a fresh seed
+    /// for every run and standalone factory-stream opening. Explicit acceptance
+    /// and provider-specific seeds remain owned by their configurations.
     pub seed: u64,
     pub workers: FactoryWorkerRequest,
     pub reference_constraint_profiling: bool,
@@ -239,23 +242,14 @@ where
                 SolverPhase::LocalSearch(search) => {
                     search.assert_scores |= full;
                     search.assert_step_scores |= step;
-                    let phase_seed = config.seed.wrapping_add(index as u64);
-                    match &mut search.move_order {
-                        crate::MoveOrder::Original => {}
-                        crate::MoveOrder::ShuffledVariables { seed }
-                        | crate::MoveOrder::ShuffledMoves { seed, .. } => *seed = phase_seed,
-                    }
-                    if let crate::TieBreaking::Random { seed } = &mut search.tie_breaking {
-                        *seed = phase_seed;
-                    }
                 }
                 SolverPhase::RuinRecreate(search) => {
-                    search.seed = config.seed.wrapping_add(index as u64);
                     search.assert_scores |= full;
                     search.assert_step_scores |= step;
                 }
                 SolverPhase::Exact(_) | SolverPhase::Custom(_) => {}
             }
+            random_seed::reseed_phase(phase, config.seed.wrapping_add(index as u64));
         }
         let schema_ruin = schema_repairs::prepare_schema_repairs(
             &schema,
@@ -355,6 +349,7 @@ where
     owner: &'f AssembledSolverFactory<'a, M, P, I, D>,
     manager: AssemblyManager<'a, M, P, I, D>,
     next_phase: usize,
+    seed: u64,
     budget: RunBudget,
 }
 impl<'a, M: 'a, P: 'a, I: 'a, D: ContextScoreResource + 'a> AssembledSolverFactory<'a, M, P, I, D>
@@ -379,8 +374,15 @@ where
     pub fn assembled_worker_budget(&self) -> Option<usize> {
         self.workers
     }
+    /// Reproducible modes open the configured seed; NonReproducible opens a fresh
+    /// native stream. This standalone opening does not consume a running session.
     pub fn open_assembled_random(&self) -> FactoryRandomStream {
-        FactoryRandomStream::seeded_factory_stream(self.seed)
+        let seed = if self.global.is_reproducible() {
+            self.seed
+        } else {
+            random_seed::fresh_seed()
+        };
+        FactoryRandomStream::seeded_factory_stream(seed)
     }
     pub fn assembled_solver_builder(&self) -> AssembledSolverBuilder<'_, 'a, M, P, I, D> {
         AssembledSolverBuilder {
@@ -450,6 +452,7 @@ where
             owner: self,
             manager,
             next_phase: 0,
+            seed: self.open_assembled_random().factory_stream_seed(),
             budget,
         })
     }
@@ -551,6 +554,12 @@ where
         let handle = self.manager.handle();
         Some(handle.director()?.0.factory_director_settings())
     }
+    /// The actual factory-owned seed of this session. Reconstruct a native stream
+    /// for replay with FactoryRandomStream::seeded_factory_stream. Reproducible
+    /// sessions keep the configured seed; NonReproducible sessions differ.
+    pub fn assembled_run_seed(&self) -> u64 {
+        self.seed
+    }
     pub fn assembled_run_limits(&self) -> FactoryRunLimits {
         self.budget.limits
     }
@@ -575,15 +584,23 @@ where
         &self,
         phase: &'p SolverPhase<'a, D::Score>,
     ) -> std::borrow::Cow<'p, SolverPhase<'a, D::Score>> {
-        if self.budget.limits == FactoryRunLimits::default() {
+        let reseed = !self.owner.global.is_reproducible();
+        if !reseed && self.budget.limits == FactoryRunLimits::default() {
             return std::borrow::Cow::Borrowed(phase);
         }
-        std::borrow::Cow::Owned(run_limits::clamp_phase(
-            phase.clone(),
-            self.budget
-                .remaining_evaluations(self.manager.calculation_count()),
-            self.budget.remaining_time(),
-        ))
+        let mut phase = phase.clone();
+        if reseed {
+            random_seed::reseed_phase(&mut phase, self.seed.wrapping_add(self.next_phase as u64));
+        }
+        if self.budget.limits != FactoryRunLimits::default() {
+            phase = run_limits::clamp_phase(
+                phase,
+                self.budget
+                    .remaining_evaluations(self.manager.calculation_count()),
+                self.budget.remaining_time(),
+            );
+        }
+        std::borrow::Cow::Owned(phase)
     }
     // Preserve the original resource error and attach guidance only to real
     // PHASE_ASSERT checks, never arbitrary phase callbacks or release failures.
@@ -667,3 +684,5 @@ where
         Ok((input, score, count))
     }
 }
+
+mod random_seed;

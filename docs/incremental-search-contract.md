@@ -2408,3 +2408,14 @@ The setting belongs to a handle; earlier clones keep their setting while sharing
 the monitor. Original checks exercise both orders, scoped and fresh/retained streams,
 all model kinds, totals alignment, panic/retry, clone settings and twelve silent
 backend paths, comparing actual results and score callback counts.
+
+Assembled factories now choose a fresh native seed for each NonReproducible run
+and each standalone factory-stream opening. A process-random salt and atomic
+sequence prevent seed reuse within the process; no cryptographic contract. A
+run retains one seed across all phases, exposed as assembled_run_seed for replay.
+Factory-owned shuffled move orders/random ties and ruin-recreation receive the
+run seed plus phase index before budget clamping. Explicit acceptance/provider
+seeds retain their configuration; deterministic choices remain deterministic.
+Reproducible modes retain their configured seeds, phase offsets and borrowed
+phase path when no run limits require a copy. Fresh seed selection occurs after
+successful runtime startup, and standalone openings never alter a live session.
