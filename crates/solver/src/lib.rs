@@ -20,6 +20,14 @@ mod benchmark_chart_data;
 pub use benchmark_chart_data::{
     BenchmarkSeries, ChartDataError, ChartPoint, benchmark_tick_step, format_benchmark_millis,
 };
+mod benchmark_records;
+pub use benchmark_records::{
+    BenchmarkRecordConfig, BenchmarkRecordError, BenchmarkRecordFileIo,
+    BenchmarkRecordReportPolicy, BenchmarkRecordSet, RecordCounter, RecordCounters, RecordProblem,
+    RecordProblemConfig, RecordProblemStatistic, RecordRanking, RecordScore, RecordSelection,
+    RecordSingleRun, RecordSolver, RecordSolverConfig, RecordStatistic, RecordSubRun,
+    RecordSystemMetadata, RecordedNearbySelection,
+};
 mod inner_termination_config;
 mod live_range_view;
 mod local_phase_plan;
@@ -1916,4 +1924,25 @@ pub use employee_schedule_resource::{
 
 pub use employee_schedule_resource::{
     EmployeeScheduleValidation, EmployeeShiftEndBeforeStartIssue,
+};
+
+mod solver_version;
+pub use solver_version::{
+    COMMUNITY_EDITION, DEVELOPMENT_SNAPSHOT, VersionMetadata, VersionMetadataError,
+    VersionReporter, strip_release_candidate,
+};
+
+mod access_token;
+pub use access_token::{
+    AccessTokenDecrypter, AccessTokenDecryption, AccessTokenError, AccessTokenProblem,
+    AccessTokenProvider, AccessTokenResolution, AccessTokenSecret, AccessTokenServer,
+    AccessTokenSettings, AccessTokenSeverity, AccessTokenWarning, DEFAULT_ACCESS_TOKEN_SERVER_ID,
+    MAVEN_ENCRYPTION_GUIDE_URL, is_access_token_encrypted,
+};
+
+mod maps_client;
+pub use maps_client::{
+    EnrichedMapsModel, MapsClient, MapsClientError, MapsLocationsModel, MapsMatrixFrame,
+    MapsRequest, MapsRequestKind, MapsResponse, MapsSolutionEvent, MapsTransport,
+    MapsTransportError, MapsWaypointRoute,
 };

@@ -62086,6 +62086,841 @@
       "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
       "local_test": "millisecond_formatting",
       "modifications": "All6 null/0/second/minute/hour/day en-US label cases preserved. Native pure Option<u64> formatter has explicit en-US grouping and no process-locale dependency, replacing Freemarker mock number model and cs-CZ ambient Java locale. Negative elapsed times/JVM formatting API not claimed."
+    },
+    {
+      "id": "SolverVersionUtilsTest.stripReleaseCandidate_stripsTrailingRcSuffix",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "stripReleaseCandidate_stripsTrailingRcSuffix",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "strip_release_candidate_strips_trailing_rc_suffix",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.stripReleaseCandidate_leavesNonRcVersionsUnchanged",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "stripReleaseCandidate_leavesNonRcVersionsUnchanged",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "strip_release_candidate_leaves_non_rc_versions_unchanged",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.stripReleaseCandidate_handlesNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "stripReleaseCandidate_handlesNull",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "strip_release_candidate_handles_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.banner_fallsBackToManifestWhenResourceMissing",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "banner_fallsBackToManifestWhenResourceMissing",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "banner_falls_back_to_manifest_when_resource_missing",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.banner_prefersRealGitPropertiesOverAbsentManifestVersion",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "banner_prefersRealGitPropertiesOverAbsentManifestVersion",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "banner_prefers_real_git_properties_over_absent_manifest_version",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.bareVersion_prefersRealGitPropertiesOverAbsentManifestVersion",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "bareVersion_prefersRealGitPropertiesOverAbsentManifestVersion",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "bare_version_prefers_real_git_properties_over_absent_manifest_version",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.communityBannerWithGitRef_withRef",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "communityBannerWithGitRef_withRef",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "community_banner_with_git_ref_with_ref",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.communityBannerWithGitRef_withoutRef",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "communityBannerWithGitRef_withoutRef",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "community_banner_with_git_ref_without_ref",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.gitRefOf_corePropertiesIsNullOrValidSha",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "gitRefOf_corePropertiesIsNullOrValidSha",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "git_ref_of_core_properties_is_null_or_valid_sha",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "SolverVersionUtilsTest.identifySolverVersionWithGitRef_matchesCommunityPattern",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "identifySolverVersionWithGitRef_matchesCommunityPattern",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "identify_solver_version_with_git_ref_matches_community_pattern",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source assertions and parameters retained through actual native version metadata resolution/formatting. An executed named-resource loader and explicit fallback metadata replace JVM classloader/manifests; actual Cargo package version replaces the source Maven-generated version resource. Package revision is absent unless independently registered, preserving source optional-ref contract. Native TimeTuck Community Edition product identity replaces Timefold product prefix; no Enterprise discovery/artifact/feature or Maven/Java properties wire format implemented. Two originals verify precedence, loader calls, non-null fallback, registered revisions, package metadata and invalid inputs."
+    },
+    {
+      "id": "AccessTokenProviderTest.environmentTokenTakesPrecedenceOverTheSettings",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "environmentTokenTakesPrecedenceOverTheSettings",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "environment_token_takes_precedence_over_the_settings",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.blankEnvironmentTokenFallsBackToTheSettings",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "blankEnvironmentTokenFallsBackToTheSettings",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "blank_environment_token_falls_back_to_the_settings",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.tokenIsReadFromTheConfiguredServerId",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "tokenIsReadFromTheConfiguredServerId",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "token_is_read_from_the_configured_server_id",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.unencryptedTokenInTheSettingsIsUsedButReported",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "unencryptedTokenInTheSettingsIsUsedButReported",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "unencrypted_token_in_the_settings_is_used_but_reported",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.serverWithoutPasswordProvidesNoToken",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "serverWithoutPasswordProvidesNoToken",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "server_without_password_provides_no_token",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.noTokenAtAllResolvesToNull",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "noTokenAtAllResolvesToNull",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "no_token_at_all_resolves_to_null",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.failedDecryptionFailsWithTheEncryptedTokenKeptOut",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "failedDecryptionFailsWithTheEncryptedTokenKeptOut",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "failed_decryption_fails_with_the_encrypted_token_kept_out",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.decryptionWarningsAreReportedWithoutFailing",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "decryptionWarningsAreReportedWithoutFailing",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "decryption_warnings_are_reported_without_failing",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.escapedBracesAreNotMistakenForCipherText",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "escapedBracesAreNotMistakenForCipherText",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "escaped_braces_are_not_mistaken_for_cipher_text",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim. Plaintext-only no-op native decrypter matches public Maven escaping behavior; encrypted-master setup not simulated and no cryptography claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.encryptedTokenWithoutADecrypterFails",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "encryptedTokenWithoutADecrypterFails",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "encrypted_token_without_a_decrypter_fails",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.aBlankServerIdReadsTheDefaultEntry",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "aBlankServerIdReadsTheDefaultEntry",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "a_blank_server_id_reads_the_default_entry",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim. All3parameters None,empty,three spaces execute."
+    },
+    {
+      "id": "AccessTokenProviderTest.aPaddedServerIdReadsTheEntryItNames",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "aPaddedServerIdReadsTheEntryItNames",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "a_padded_server_id_reads_the_entry_it_names",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.whitespaceAroundAnEncryptedTokenDoesNotHideIt",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "whitespaceAroundAnEncryptedTokenDoesNotHideIt",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "whitespace_around_an_encrypted_token_does_not_hide_it",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.readingTheTokenLeavesTheSettingsAlone",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "readingTheTokenLeavesTheSettingsAlone",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "reading_the_token_leaves_the_settings_alone",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.unencryptedTokenWithoutADecrypterIsStillUsable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "unencryptedTokenWithoutADecrypterIsStillUsable",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "unencrypted_token_without_a_decrypter_is_still_usable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.decrypterThatLeavesTheTokenEncryptedFails",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "decrypterThatLeavesTheTokenEncryptedFails",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "decrypter_that_leaves_the_token_encrypted_fails",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim."
+    },
+    {
+      "id": "AccessTokenProviderTest.cipherTextIsRecognizedTheSameWayMavenDoes",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "cipherTextIsRecognizedTheSameWayMavenDoes",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "cipher_text_is_recognized_the_same_way_maven_does",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim. Full5461alphabet strings length0..6 compared against actual public Plexus2.0 API booleans; general linear brace grammar, no lookup-table implementation."
+    },
+    {
+      "id": "AccessTokenProviderTest.aValueHoldingALineTerminatorIsNeverReadAsCipherText",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "aValueHoldingALineTerminatorIsNeverReadAsCipherText",
+      "local_path": "crates/solver/tests/access_token_cases.rs",
+      "local_test": "a_value_holding_a_line_terminator_is_never_read_as_cipher_text",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "All source token/server-id/error/warning/settings assertions preserved through explicit native settings/environment snapshots and legitimate caller stub decrypter callbacks. Structured warnings retain WARN category; AccessTokenError replaces MojoExecutionException. Native public Maven guide URL substitutes the source guide constant; no plugin ABI claim. Decrypter receives a private clone, settings are unchanged and known stored/decrypted secrets are redacted from diagnostics/Debug. No built-in crypto or settings-security master decryption claim. All3provider values reject; actual public Maven false,false,true reference retained, including deliberate leading-newline difference."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.testRemoteConnectionWithMapServer",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "testRemoteConnectionWithMapServer",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "test_remote_connection_with_map_server",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.testRemoteConnectionWithMapServerWithNamedLocations",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "testRemoteConnectionWithMapServerWithNamedLocations",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "test_remote_connection_with_map_server_with_named_locations",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.testRemoteConnectionWithMapServerWithUnknownNamedLocation",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "testRemoteConnectionWithMapServerWithUnknownNamedLocation",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "test_remote_connection_with_map_server_with_unknown_named_location",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.testDistanceMatrixWithUpdates",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "testDistanceMatrixWithUpdates",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "test_distance_matrix_with_updates",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.testOneLocationShouldReturnEmptyDistanceMatrix",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "testOneLocationShouldReturnEmptyDistanceMatrix",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "test_one_location_should_return_empty_distance_matrix",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.distanceMatrixWithUpdateToClientCacheRetrievesFromCache",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "distanceMatrixWithUpdateToClientCacheRetrievesFromCache",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "distance_matrix_with_update_to_client_cache_retrieves_from_cache",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.testDistanceMatrixWithLocationsOutOfMap",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "testDistanceMatrixWithLocationsOutOfMap",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "test_distance_matrix_with_locations_out_of_map",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTest.updatePathFallsBackToCachedMapLocationWhenHeaderIsMissing",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTest.java",
+      "upstream_test": "updatePathFallsBackToCachedMapLocationWhenHeaderIsMissing",
+      "local_path": "crates/solver/tests/maps_enricher_cases.rs",
+      "local_test": "update_path_falls_back_to_cached_map_location_when_header_is_missing",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTrafficTest.regularModelUsesSingleMatrix",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTrafficTest.java",
+      "upstream_test": "regularModelUsesSingleMatrix",
+      "local_path": "crates/solver/tests/maps_traffic_cases.rs",
+      "local_test": "regular_model_uses_single_matrix",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTrafficTest.regularModelWithTrafficEnabledFetchesAllTimeframes",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTrafficTest.java",
+      "upstream_test": "regularModelWithTrafficEnabledFetchesAllTimeframes",
+      "local_path": "crates/solver/tests/maps_traffic_cases.rs",
+      "local_test": "regular_model_with_traffic_enabled_fetches_all_timeframes",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTrafficTest.singleBucketResultUsesScalarMatrices",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTrafficTest.java",
+      "upstream_test": "singleBucketResultUsesScalarMatrices",
+      "local_path": "crates/solver/tests/maps_traffic_cases.rs",
+      "local_test": "single_bucket_result_uses_scalar_matrices",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTrafficTest.acceptsLocationsAwareSolverModel",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTrafficTest.java",
+      "upstream_test": "acceptsLocationsAwareSolverModel",
+      "local_path": "crates/solver/tests/maps_traffic_cases.rs",
+      "local_test": "accepts_locations_aware_solver_model",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TravelTimeMatrixEnricherTrafficTest.wrapsNonTimefoldExceptionFromMapService",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTrafficTest.java",
+      "upstream_test": "wrapsNonTimefoldExceptionFromMapService",
+      "local_path": "crates/solver/tests/maps_traffic_cases.rs",
+      "local_test": "wraps_non_timefold_exception_from_map_service",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "WaypointsServiceImplTest.testRemoteConnectionWithMapServer",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/WaypointsServiceImplTest.java",
+      "upstream_test": "testRemoteConnectionWithMapServer",
+      "local_path": "crates/solver/tests/maps_waypoint_cases.rs",
+      "local_test": "test_remote_connection_with_map_server",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "WaypointsServiceImplTest.testOneLocationShouldReturnEmptyWaypoints",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/WaypointsServiceImplTest.java",
+      "upstream_test": "testOneLocationShouldReturnEmptyWaypoints",
+      "local_path": "crates/solver/tests/maps_waypoint_cases.rs",
+      "local_test": "test_one_location_should_return_empty_waypoints",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "WaypointsServiceImplTest.testRemoteConnectionWithMapServerCalculateOnChangeOnly",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/WaypointsServiceImplTest.java",
+      "upstream_test": "testRemoteConnectionWithMapServerCalculateOnChangeOnly",
+      "local_path": "crates/solver/tests/maps_waypoint_cases.rs",
+      "local_test": "test_remote_connection_with_map_server_calculate_on_change_only",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "WaypointsServiceImplTest.testRemoteConnectionWithMapServerCalculateOnChangeOnlyFiltered",
+      "status": "implemented",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/impl/WaypointsServiceImplTest.java",
+      "upstream_test": "testRemoteConnectionWithMapServerCalculateOnChangeOnlyFiltered",
+      "local_path": "crates/solver/tests/maps_waypoint_cases.rs",
+      "local_test": "test_remote_connection_with_map_server_calculate_on_change_only_filtered",
+      "modifications": "Retain complete source method assertions, exact coordinates/names/costs/out-of-map metadata, all request-mode counts, scalar/time-aware/fallback lookups, or full init/best/final and filtered waypoint cache sequence/counters. Caller-provided typed MapsTransport executes actual Full/Update/Timeframes/Waypoints requests and returns computed or explicitly configured source-stub matrix data. Named cache forwards actual hashes/old locations; Gone triggers real full fallback, NotModified preserves cached matrices, update merges actual edge blocks and missing header falls back to cached resolved map. Native immutable enriched bundle queries replace attaching matrices to Java Location objects; Arc input allocations retained/rebound to current model. Daypart uses existing fixed-offset buckets with exact2024UTC8/16 instants; single returned frame is actual scalar path. Any downcast replaces Java model-interface acceptance. Result errors preserve required wrapping message without Java exception-class parity. Typed caller transport replaces HTTP/CDI/Wiremock/chunk serialization, no external HTTP behavior claim. Source zero distance for out-of-map endpoints is explicit native maps-client convention, distinct from geographic_travel unreachable sentinel. Traffic optional third1000.0 is forwarded opaque sourceOption3 metadata; Java option field meaning is not inferred."
+    },
+    {
+      "id": "PlannerBenchmarkConfigTest.xmlConfigFileRemainsSameAfterReadWrite",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/PlannerBenchmarkConfigTest.java",
+      "upstream_test": "xmlConfigFileRemainsSameAfterReadWrite",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "xml_config_file_remains_same_after_read_write",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "PlannerBenchmarkConfigTest.readAndValidateInvalidBenchmarkConfig_failsIndicatingTheIssue",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/PlannerBenchmarkConfigTest.java",
+      "upstream_test": "readAndValidateInvalidBenchmarkConfig_failsIndicatingTheIssue",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "read_and_validate_invalid_benchmark_config_fails_indicating_the_issue",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "PlannerBenchmarkConfigTest.assignCustomSolutionIO",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/config/PlannerBenchmarkConfigTest.java",
+      "upstream_test": "assignCustomSolutionIO",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "assign_custom_solution_io",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "BenchmarkReportFactoryTest.buildWithSolverRankingTypeAndSolverRankingComparatorClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/BenchmarkReportFactoryTest.java",
+      "upstream_test": "buildWithSolverRankingTypeAndSolverRankingComparatorClass",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "build_with_solver_ranking_type_and_solver_ranking_comparator_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "BenchmarkReportFactoryTest.buildWithSolverRankingTypeAndSolverRankingWeightFactoryClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/BenchmarkReportFactoryTest.java",
+      "upstream_test": "buildWithSolverRankingTypeAndSolverRankingWeightFactoryClass",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "build_with_solver_ranking_type_and_solver_ranking_weight_factory_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "BenchmarkReportFactoryTest.buildWithSolverRankingComparatorClassAndSolverRankingWeightFactoryClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/report/BenchmarkReportFactoryTest.java",
+      "upstream_test": "buildWithSolverRankingComparatorClassAndSolverRankingWeightFactoryClass",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "build_with_solver_ranking_comparator_class_and_solver_ranking_weight_factory_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "PlannerBenchmarkResultTest.createMergedResult",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/PlannerBenchmarkResultTest.java",
+      "upstream_test": "createMergedResult",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "create_merged_result",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "PlannerBenchmarkResultTest.xmlReportRemainsSameAfterReadWrite",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/PlannerBenchmarkResultTest.java",
+      "upstream_test": "xmlReportRemainsSameAfterReadWrite",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "xml_report_remains_same_after_read_write",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "PlannerBenchmarkResultXmlTest.shouldDeserializeXml",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/util/PlannerBenchmarkResultXmlTest.java",
+      "upstream_test": "shouldDeserializeXml",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "should_deserialize_xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
+    },
+    {
+      "id": "PlannerBenchmarkResultXmlTest.shouldSerializeBackToIdenticalXml",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/util/PlannerBenchmarkResultXmlTest.java",
+      "upstream_test": "shouldSerializeBackToIdenticalXml",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "local_test": "should_serialize_back_to_identical_xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Complete source assertions adapted to typed native benchmark configuration/results/report policies. Both namespace parameter fixtures retained; result serialization compares ignoring whitespace exactly as source. Reflective classes are symbolic declarations resolved through actual native file/solver callbacks; configuration errors retain native schema cause. Merge uses Arc solver identity and owned independent snapshots with validated run/problem links. Historical statistics and nearby selectors are validated declarations, not claims of JVM execution/collectors; explicit native factories execute solvers, including parsed positive lateAcceptanceSize. Native incomplete-observation ranking remains conservative; no Java reflection/ABI or nearby distance execution parity claimed."
     }
   ],
   "fixtures": [
@@ -88996,6 +89831,261 @@
       "upstream_test": "NUMBER_FORMAT/templateNumberModel/setExpectedLocale",
       "local_path": "crates/solver/tests/benchmark_chart_data_cases.rs",
       "modifications": "Option<u64> sourcevalues replace TemplateNumberModel#getAsNumber; pure explicit en-US formatter avoids ambient-locale dependence. All source translated strings retained; no JVM global locale mutated."
+    },
+    {
+      "id": "solver-version-missing-resource-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/SolverVersionUtilsTest.java",
+      "upstream_test": "NONEXISTENT_GIT_PROPERTIES and manifest-fallback setup",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves nonexistent resource name; absent loader/fallback metadata explicitly replaces source test class without Implementation-Version. Actual Cargo package metadata supplies the generated-resource assertions. Native helper missing() executes the metadata loader rather than assuming a rendered banner."
+    },
+    {
+      "id": "round140-access-token-access_token_fixture.rs",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "settingsWithServer; plainDecrypter; provider; StubDecryptionResult",
+      "local_path": "crates/solver/tests/fixtures/access_token_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "TEST TOKEN/server/settings/env/stub decrypter adaptation; structured WARN checks replace InMemoryMojoLog. No encrypted-master/filesystem/Java plugin simulation."
+    },
+    {
+      "id": "round140-access-token-access_token_cipher_recognition.json",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "everyValueUpTo; cipherTextIsRecognizedTheSameWayMavenDoes; aValueHoldingALineTerminatorIsNeverReadAsCipherText",
+      "local_path": "crates/solver/tests/fixtures/access_token_cipher_recognition.json",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Generated5461decoration booleans plus3line reference booleans from public PlexusCipher2.0 API. Artifact/generator/class hashes and policy retained in work/round140-access-token-recognition-evidence.json. No JVM needed in Rust tests, no decrypted-token table/crypto-method credit."
+    },
+    {
+      "id": "round140-access-token-AccessTokenCipherRecognition.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/AccessTokenProviderTest.java",
+      "upstream_test": "everyValueUpTo; public PlexusCipher recognition",
+      "local_path": "work/AccessTokenCipherRecognition.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Original opaque public-API observer adapts complete TEST input generator. No Timefold production imports or implementation/private field/bytecode body inspection. Only recognition booleans observed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round140-maps-sample-model",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/util/SampleModel.java",
+      "upstream_test": "constructors/getLocations/getLocationSetName",
+      "local_path": "crates/solver/tests/fixtures/maps_client_fixture.rs",
+      "modifications": "Owned model name and Arc locations retain source fixtures; source null score/weights and unrelated user-model fields are not adapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round140-maps-paired-extractor",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/util/DummyWaypointsExtractor.java",
+      "upstream_test": "extractBaseWaypoints",
+      "local_path": "crates/solver/tests/fixtures/maps_client_fixture.rs",
+      "modifications": "Retain sequential pairs with id_0/id_1, single/empty id group, ignored trailing odd point for pair size>0. Fixtures feed actual event-owned routing cache and transport, not expected output scripts."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round140-maps-traffic-stub",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/api/TravelTimeMatrixEnricherTrafficTest.java",
+      "upstream_test": "matrixOf/StubMapService/FailingMapService/StubLocationsModel",
+      "local_path": "crates/solver/tests/maps_traffic_cases.rs",
+      "modifications": "Preserve literal paired75/750 and morning100/1000 afternoon500/1200 matrices, empty night slots, counters/last locations and boom failure. Native typed requests and response fixtures preserve actual service invocation semantics; no production implementation read."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round140-maps-distance-harness",
+      "upstream_path": "service/maps/service-test/src/main/java/ai/timefold/solver/service/maps/service/test/impl/HaversineDistanceResponseTransformer.java",
+      "upstream_test": "transform/parseStringToLocationList/RESOLVED_MAP_LOCATION",
+      "local_path": "crates/solver/tests/fixtures/maps_client_fixture.rs",
+      "modifications": "This is the TEST harness transformer used by source methods, not solver/service production. Retain global us-georgia header and -90/-90 out-of-map coordinate, real spherical calculations and full directed edge results. Native typed matrix blocks replace serialized four rectangular chunks, without wire parity claims."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round140-maps-update-harness",
+      "upstream_path": "service/maps/service-test/src/main/java/ai/timefold/solver/service/maps/service/test/impl/DistanceGetUpdateResponseTransformer.java",
+      "upstream_test": "transform/UPDATE_OLD_LOCATIONS/UPDATE_NEW_LOCATIONS/buildUpdateResponse",
+      "local_path": "crates/solver/tests/fixtures/maps_client_fixture.rs",
+      "modifications": "Retain with-updates name, old0/0+1/1/new2/2 points, actual cache/update route and deliberately absent map header. Generic server state deletion represents unavailable named-set Gone fallback instead of fixture-name branches; genuine computed edge updates replace source serialized old-by-new chunk."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round140-maps-waypoint-harness",
+      "upstream_path": "service/maps/service-test/src/main/java/ai/timefold/solver/service/maps/service/test/impl/HaversineWaypointsResponseTransformer.java",
+      "upstream_test": "transform",
+      "local_path": "crates/solver/tests/fixtures/maps_client_fixture.rs",
+      "modifications": "TEST harness echoed geographic waypoint route/order replaces HTTP parser/provider using actual native typed request/reply. Native caller transport cache has per-route event revisions; source metadata IDs are explicit dataset IDs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round140-maps-remote-profile",
+      "upstream_path": "service/maps/service-client/src/test/java/ai/timefold/solver/service/maps/service/client/util/RemoteMapServiceConfigurationProfile.java",
+      "upstream_test": "getConfigOverrides",
+      "local_path": "crates/solver/tests/maps_traffic_cases.rs",
+      "modifications": "Caller-supplied transport is the native equivalent of an injected remote-provider route. No Quarkus configuration/CDI/URL/HTTP implementation is claimed."
+    },
+    {
+      "id": "benchmark-records-testBenchmarkConfigWithoutNamespace.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/config/testBenchmarkConfigWithoutNamespace.xml",
+      "upstream_test": "XML fixture resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_records/testBenchmarkConfigWithoutNamespace.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Copied complete TEST XML resource unchanged. Parsed into validated typed native fields and owned links, then rebuilt; no whole-document opaque passthrough."
+    },
+    {
+      "id": "benchmark-records-testBenchmarkConfigWithNamespace.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/config/testBenchmarkConfigWithNamespace.xml",
+      "upstream_test": "XML fixture resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_records/testBenchmarkConfigWithNamespace.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Copied complete TEST XML resource unchanged. Parsed into validated typed native fields and owned links, then rebuilt; no whole-document opaque passthrough."
+    },
+    {
+      "id": "benchmark-records-testPlannerBenchmarkResult.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/resources/ai/timefold/solver/benchmark/impl/result/testPlannerBenchmarkResult.xml",
+      "upstream_test": "XML fixture resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_records/testPlannerBenchmarkResult.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Copied complete TEST XML resource unchanged. Parsed into validated typed native fields and owned links, then rebuilt; no whole-document opaque passthrough."
+    },
+    {
+      "id": "benchmark-records-dummyPlannerBenchmarkResult.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/resources/dummyPlannerBenchmarkResult.xml",
+      "upstream_test": "XML fixture resource",
+      "local_path": "crates/solver/tests/fixtures/benchmark_records/dummyPlannerBenchmarkResult.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Copied complete TEST XML resource unchanged. Parsed into validated typed native fields and owned links, then rebuilt; no whole-document opaque passthrough."
+    },
+    {
+      "id": "benchmark-records-merge-helpers",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/PlannerBenchmarkResultTest.java",
+      "upstream_test": "createSingleBenchmarkResult/createSubSingleBenchmarkResult",
+      "local_path": "crates/solver/tests/fixtures/benchmark_records_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Adapted complete source graph, solver identity, scores, subruns and seeds to owned native records/Arc identities."
+    },
+    {
+      "id": "benchmark-records-rigid-file-io",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/util/RigidTestdataSolutionFileIO.java",
+      "upstream_test": "getInputFileExtension/read/write",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "Actual typed read callback creates source three-entity/two-value model; extension txt and no-op write retained, with additional real runtime read/write controls."
+    },
+    {
+      "id": "benchmark-records-result-io",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/util/TestableBenchmarkResultIO.java",
+      "upstream_test": "write/read",
+      "local_path": "crates/solver/tests/benchmark_records_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "TEST IO helper intent adapted to actual native typed parser/serializer, preserving original whitespace-insensitive whole resource comparisons."
+    },
+    {
+      "id": "benchmark-records-config-dummy-classes",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "tools/benchmark/src/test/java/ai/timefold/solver/benchmark/impl/result/PlannerBenchmarkResultTest.java",
+      "upstream_test": "DummyEasyScoreCalculator/DummyDistanceNearbyMeter",
+      "local_path": "crates/solver/tests/fixtures/benchmark_records/testPlannerBenchmarkResult.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/benchmark_records/NOTICE.txt"
+      ],
+      "modifications": "TEST symbolic class declarations retained and validated; native explicit factory bindings replace reflection. Abstract TEST classes are never instantiated and nearby declarations do not claim execution."
     }
   ]
 }

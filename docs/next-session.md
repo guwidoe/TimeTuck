@@ -16,7 +16,77 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round139
+## Latest verified checkpoint — round140
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in
+95.237s: 7,890 Rust tests and 290 doctests. Compatibility
+4,184/4,855 (86.179%), 103 pending, 568 excluded, zero failed/unverified.
+Thirty-two Rust jobs ran; 1,212 unchanged Rust jobs and all 46 Python jobs reused
+matching actual runner-a evidence. Prebuild 183.897s; worker total 279.645s.
+Rust digest 1e4473a62ce1f1bdf9dd6c43ce692f5213251e135c0a9129f0c5fb61c4264f19.
+Report digest 84ddbd0e07af47ab33a346252bff16916d503ec333510ee79cde9f2001350c72.
+runner-a source 31439e2f2ad29f2d76346baf8054daf30d2fb9d6e8986eebc9b14a4788b4f215.
+Archive `work/round140-runner-a-results.tar.gz` SHA256 b1ba37fb0ac7cbc16d6cc0612fdd3c3dad9320d47734afc2c7f04391a1710171.
+Evidence `work/parallel-round140-evidence.json`; postcommit receipt
+`work/round140-postcommit-evidence.json`. Backend report freshness inspected;
+no UI/data contract changed and no browser verification repeated.
+
+Fifty-five complete methods close 18 access-token contracts, 17 maps contracts,
+ten Community version contracts and ten benchmark records/config/report contracts.
+Seventeen originals and nineteen attributed TEST fixtures were added. Exact IDs
+are in `work/round140-added-source-ids.json`; frozen source and lane evidence are
+preserved in `work/parallel-round140-freeze.json` and `work/round140-agent-evidence`.
+All three managed worktrees are archived and lane jobs are terminal.
+
+Token resolution uses explicit immutable environment/settings snapshots, private
+caller decrypter requests, structured warnings/errors and redacted secret Debug.
+Native recognition matches all 5461 public Plexus API observations and all source
+line-terminator cases, with no runtime lookup table or JVM dependency. Three real
+Maven cryptography cases remain pending; no portable crypto backend is claimed.
+Public API observer code/classes/artifact hashes and generated fixture are saved.
+
+Maps enrichment performs actual typed transport calls, cache updates, Gone-to-full
+fallback, NotModified retention, traffic frames and event-owned filtered waypoint
+routes. Source out-of-map endpoints yield zero, separately from the geographic
+bundle's unreachable sentinel. Six originals check atomic publication, retries,
+missing frames, endpoint/Arc identity, caps and stale-edge removal after Gone.
+A real full-fallback merge bug was fixed. An accidental test-file overwrite was
+recovered from its preserved source archive before the successful final run;
+failures and prior manifests remain available. No HTTP/Jackson infrastructure claim.
+
+Native version diagnostics execute named resource resolution before explicit
+fallback metadata, using real Cargo package version and TimeTuck product identity.
+Optional revisions are validated registrations; no fabricated build SHA, JVM
+manifest/classloader discovery or Enterprise lookup is supplied. Enterprise banner
+methods remain pending.
+
+Benchmark records are rebuilt from typed config/results, actual scores/counters,
+linked run IDs, statistics and model/file factory bindings. Full namespace/plain
+config and both full historical result XML fixtures retain all source comparisons.
+Originals mutate/query/merge/rank records and execute actual file callbacks and
+native benchmark solves. Historical nearby/statistic declarations are validated
+data, with no Java reflection or nearby execution parity claim. Shared SolverXml
+accepts and validates lateAcceptanceSize and the TEST nearby declarations. The
+actual size3 late-acceptance binding accepts two moves versus hill climbing's one,
+both retaining score1. Existing 17 XML source and six originals pass alongside
+new 10 source/five originals. Failed parser/control/style logs remain preserved.
+Two original ranking expectations were corrected to established incomplete-first
+native policy, independently checking completeness [2,2,1] and totals.
+
+Root replaced broad benchmark re-exports with explicit exports before freezing,
+preventing unrelated test/performance input invalidation. This changes no runtime
+behavior and the final gate covers the actual exports. Three fresh round139 paired
+measurement jobs retain their unchanged input hashes and original run dates;
+no measurements were rekeyed or relabeled. Other older measurements stay stale.
+Five hard k-opt execution/nonsequential repair contracts still remain pending.
+
+runner-c WSL was authoritatively offline in current Tailscale status (last seen
+2026-10-13T16:40:32.1Z). runner-c probes failed before dispatch; runner-a/local supplied
+actual lane and merged verification. No live or uncollected runner-c job exists here.
+Continue using all available machines when runner-c returns, without restarting a
+live job solely because its observation timed out.
+
+## Previous verified checkpoint — round139
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in
 90.786s: 7,818 Rust tests and 290 doctests. Compatibility

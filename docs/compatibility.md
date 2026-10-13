@@ -9617,3 +9617,31 @@ settings. Runtime selection never reads golden samples. Native gaps retain run
 endpoints and discontinuities, and insufficient budgets reject. Exact BigInt tick
 rounding avoids floating underflow; elapsed formatting is explicitly en-US. No
 chart image, frontend, private default or renderer ABI parity is claimed.
+
+Ten Community-facing version methods now use an executable named-resource loader
+and explicit fallback metadata. Actual Cargo package version replaces the
+source Maven-generated resource; package revision is absent unless independently
+registered. Native product identity is TimeTuck Community Edition. All release
+candidate strings, absent-manifest fallback assertions, optional revisions and
+Community banner patterns execute. Two originals check actual loader precedence,
+call counts, non-null fallback, package metadata and revision validation. No JVM
+classloader/manifest discovery, Java properties wire format or Enterprise lookup
+is implemented. The four Enterprise banner methods remain pending.
+
+Seventeen maps-client methods now use optional typed request/response transport: eight regular enrichment, five traffic enrichment and four event-driven waypoint cache methods. Named matrix updates carry cached hashes and old locations, Gone falls back to a full request, NotModified reuses or rebinds actual cached matrices, edge updates join existing data, and absent resolved-map headers preserve cache context. Three fixed-offset dayparts and scalar replies support all source lookup/fallback assertions; empty/missing frames report errors. Init/best/final route publication invalidates per-route caches; filtered requests preserve source full invocation sequences. Caller transport replaces HTTP/CDI/Wiremock and serialized chunk protocols explicitly, with no external HTTP/wire ABI claim. Validated returned bundles preserve current location Arc identity instead of mutating Java Location fields. The source explicitly requires ZERO for out-of-map endpoints, so this maps-client convention differs from native geographic_travel unreachable(-1/None). Original controls cover malformed response atomicity, fresh allocation rebinds, failed/retryable waypoint transport and endpoint validation, missing night frames, header context, bounds and computed current edge merges. Native traffic third-option1000.0 is opaque forwarded metadata, without inventing its Java property meaning.
+
+Eighteen access-token contracts use immutable settings/environment snapshots,
+private caller decryption requests and owned secret-safe diagnostics. Recognition
+matches all 5461 public Plexus API observations and source line terminators,
+without a runtime lookup table or JVM dependency. Three real Maven cryptography
+methods remain pending; native resolution supplies no portable crypto backend.
+
+Ten benchmark records/config/report methods preserve full namespace/plain config
+fixtures, both complete historical result XML fixtures, all statistics and merged
+solver/problem identities. Typed values, counters and references rebuild XML;
+originals mutate, query, merge and rank actual data and execute model/file/native
+solver bindings. Shared SolverXml now validates positive late-acceptance sizes
+and the TEST nearby declarations. Explicit native callbacks consume the size in
+real LateAcceptance execution. Historical statistics/nearby declarations do not
+claim Java reflection or nearby execution parity. Incomplete historical results
+retain the established native completeness-first ranking policy.

@@ -83,7 +83,7 @@ impl SolverXmlElement {
 // Supported configuration vocabulary is declared independently from Community
 // TEST documents. Parsing declarations is separate from executing their options.
 const ROOT_FIELDS: &str = "environmentMode randomSeed moveThreadCount solutionClass entityClass scoreDirectorFactory nearbyDistanceMeterClass enablePreviewFeature termination constructionHeuristic localSearch customPhase exhaustiveSearch partitionedSearch";
-const NESTED_FIELDS: &str = "easyScoreCalculatorClass constraintProviderClass incrementalScoreCalculatorClass initializingScoreTrend constraintStreamImplType constraintStreamProfilingEnabled easyScoreCalculatorCustomProperties incrementalScoreCalculatorCustomProperties constraintProviderCustomProperties property constructionHeuristicType queuedEntityPlacer queuedValuePlacer pooledEntityPlacer entitySelector valueSelector entityClass downcastEntityClass cacheType selectionOrder filterClass sorterManner comparatorClass comparatorFactoryClass id mimicSelectorRef variableNameIncludes variableNameInclude cartesianProductMoveSelector changeMoveSelector swapMoveSelector unionMoveSelector pillarChangeMoveSelector pillarSwapMoveSelector subPillarType pillarSelector minimumSubPillarSize maximumSubPillarSize moveIteratorFactory moveIteratorFactoryClass moveIteratorFactoryCustomProperties moveListFactory moveListFactoryClass moveListFactoryCustomProperties fixedProbabilityWeight selectedCountLimit customPhaseCommandClass exhaustiveSearchType nodeExplorationType localSearchType termination terminationCompositionStyle spentLimit secondsSpentLimit minutesSpentLimit millisecondsSpentLimit unimprovedSpentLimit unimprovedSecondsSpentLimit unimprovedStepCountLimit stepCountLimit bestScoreLimit acceptor acceptorType entityTabuSize entityTabuRatio valueTabuSize stepCountingHillClimbingSize stepCountingHillClimbingType simulatedAnnealingStartingTemperature forager pickEarlyType acceptedCountLimit finalistPodiumType breakTieRandomly solutionPartitionerClass solutionPartitionerCustomProperties constructionHeuristic localSearch environmentMode";
+const NESTED_FIELDS: &str = "easyScoreCalculatorClass constraintProviderClass incrementalScoreCalculatorClass initializingScoreTrend constraintStreamImplType constraintStreamProfilingEnabled easyScoreCalculatorCustomProperties incrementalScoreCalculatorCustomProperties constraintProviderCustomProperties property constructionHeuristicType queuedEntityPlacer queuedValuePlacer pooledEntityPlacer entitySelector valueSelector entityClass downcastEntityClass cacheType selectionOrder filterClass sorterManner comparatorClass comparatorFactoryClass id mimicSelectorRef variableNameIncludes variableNameInclude cartesianProductMoveSelector changeMoveSelector swapMoveSelector unionMoveSelector pillarChangeMoveSelector pillarSwapMoveSelector subPillarType pillarSelector minimumSubPillarSize maximumSubPillarSize moveIteratorFactory moveIteratorFactoryClass moveIteratorFactoryCustomProperties moveListFactory moveListFactoryClass moveListFactoryCustomProperties fixedProbabilityWeight selectedCountLimit customPhaseCommandClass exhaustiveSearchType nodeExplorationType localSearchType termination terminationCompositionStyle spentLimit secondsSpentLimit minutesSpentLimit millisecondsSpentLimit unimprovedSpentLimit unimprovedSecondsSpentLimit unimprovedStepCountLimit stepCountLimit bestScoreLimit acceptor acceptorType entityTabuSize entityTabuRatio valueTabuSize lateAcceptanceSize stepCountingHillClimbingSize stepCountingHillClimbingType simulatedAnnealingStartingTemperature forager pickEarlyType acceptedCountLimit finalistPodiumType breakTieRandomly solutionPartitionerClass solutionPartitionerCustomProperties constructionHeuristic localSearch environmentMode nearbySelection originEntitySelector secondaryEntitySelector nearbyDistanceMeterClass parabolicDistributionSizeMaximum";
 fn schema(node: &str, reason: impl Into<String>) -> SolverXmlCause {
     SolverXmlCause::Schema(SolverXmlSchemaError {
         node: node.into(),
@@ -155,6 +155,43 @@ fn element(
             name,
             "mixed text and configuration elements are not supported",
         ));
+    }
+    if matches!(
+        name,
+        "lateAcceptanceSize" | "parabolicDistributionSizeMaximum"
+    ) {
+        let parent = node.parent_element().unwrap().tag_name().name();
+        let expected = if name == "lateAcceptanceSize" {
+            "acceptor"
+        } else {
+            "nearbySelection"
+        };
+        if parent != expected || text.trim().parse::<usize>().ok().is_none_or(|n| n == 0) {
+            return Err(schema(
+                name,
+                format!("requires positive size under {expected}"),
+            ));
+        }
+    }
+    if name == "nearbySelection" {
+        let meter = children
+            .iter()
+            .find(|c| c.name == "nearbyDistanceMeterClass")
+            .is_some_and(|c| !c.text.trim().is_empty());
+        let origin = children
+            .iter()
+            .find(|c| c.name == "originEntitySelector")
+            .is_some_and(|c| {
+                c.attributes
+                    .iter()
+                    .any(|(k, v)| k == "mimicSelectorRef" && !v.trim().is_empty())
+            });
+        if !meter || !origin {
+            return Err(schema(
+                name,
+                "requires nearbyDistanceMeterClass and originEntitySelector mimicSelectorRef",
+            ));
+        }
     }
     if name.ends_with("Class") && text.trim().is_empty() {
         return Err(schema(name, "component registration key is empty"));

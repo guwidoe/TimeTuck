@@ -999,3 +999,22 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   methods and both offset-date-time `ValidatorTest` methods from pinned Community
   TESTs. Record/schema/string fixture details and native limitations are recorded
   in `compat/provenance.json`; production mapper sources were not used.
+
+`crates/solver/tests/solver_version_cases.rs` adapts the ten Community-facing
+`SolverVersionUtilsTest` methods and their missing-resource setup (Apache-2.0).
+Native Cargo metadata/resource registrations replace JVM/Maven build discovery;
+product identity is TimeTuck. Enterprise banner cases remain pending.
+
+- `crates/solver/tests/access_token_cases.rs`, `access_token_fixture.rs` and
+  `access_token_cipher_recognition.json` adapt eighteen full
+  `AccessTokenProviderTest` methods and their TEST-only helpers. The original
+  `work/AccessTokenCipherRecognition.java` observer uses only public Plexus
+  recognition APIs. No production provider was used; three crypto methods remain
+  pending. The artifact/generator/fixture provenance is retained in the ledger.
+
+- `crates/solver/tests/benchmark_records_cases.rs`, its private merge helper and
+  four complete XML resources in `fixtures/benchmark_records/` adapt pinned
+  Community benchmark configuration/report/result TESTs and TEST IO helpers.
+  Apache-2.0 notices and exact identities are recorded in `compat/provenance.json`.
+  Native typed records, callback execution and separate controls are original;
+  historical declarations do not claim Java reflection or nearby execution parity.

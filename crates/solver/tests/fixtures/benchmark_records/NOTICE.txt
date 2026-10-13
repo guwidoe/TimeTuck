@@ -1,0 +1,6 @@
+Benchmark records TEST fixtures and adapted tests originate from Timefold Solver
+Community, commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Copyright Timefold BV and contributors. Licensed under Apache License 2.0;
+see compat/licenses/timefold-Apache-2.0.txt and compat/provenance.json.
+Native implementations and separately identified regression controls are original.
+No Timefold production or Enterprise sources were used.
