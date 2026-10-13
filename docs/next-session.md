@@ -16,7 +16,59 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round111
+## Latest verified checkpoint — round112
+
+ProblemScale.fixed_point_log supplies the pinned default precision 1,000,000,
+nearest-integer rounding with ties toward positive infinity, saturated i64 bounds
+and NaN zero. Existing explicit scaled_log keeps its native rounding contract.
+Both ProblemSizeStatistics source assertions for 100/250 retain reference outputs
+2,000,000/2,397,940. All 11 methods in ProblemSizeStatisticsTest now pass. An original
+regression additionally covers half ties/nonfinite values/integral doubles above
+2^52 and preserves the explicit precision method's existing negative-half behavior.
+Opaque TEST-visible public API observations establish defaults/results without
+production source/private-field/bytecode inspection. Probe/artifact hash/date/JDK
+retained in work/round112-scale-api-evidence.json and actual stdout
+work/round112-scale-api.log. Execution probe checksum is unchanged; committed
+probe differs only by added Apache TEST attribution comments. One source case/
+one probe fixture recorded. Pin unchanged; full goal incomplete.
+
+16 focused statistics cases passed. Clippy passed in 35.13s; affected compilation
+3m 17s. Frozen bash scripts/check.sh passed
+384.123s: 7,438 Rust tests and 290 doctests. 991 Rust jobs ran; 112 Rust and
+46 Python jobs reused successful records. Compatibility: 3,919/4,855 (80.721%),
+368 pending, 568 excluded,
+zero failed/unverified. Rust digest a301f91e76f65bcd8963b8625fab6b84c58eb104d968536c9d179f51e3d02097.
+Report digest 70583c676ea4d991f4339432f70f3df47a5a5a940d2f592722781ab231ade650.
+Archive work/round112-local-results.tar.gz SHA256:ee59aba6106ed71d7dfebbbf81bff33049bc58562bf3f911b6953c909ce6eac0.
+Evidence work/parallel-round112-evidence.json; freeze
+work/parallel-round112-freeze.json; postcommit proof
+work/round112-postcommit-evidence.json. Prebuild80611/gate84924 terminal0;
+do not repeat successful unchanged checks. Actual job keys/log hashes/dates retained.
+
+Prior runner-a dispatch 48485 is terminal 1 (SSH auth/connection timeout before
+build); no result claimed. work/round111-remote-terminal.json/log preserve it.
+Its earlier authentication request is no longer needed for this batch. Fresh
+paired Java/Rust k-opt measurement ran locally after correctness, with no
+concurrent builds/tests. Actual date 2026-10-13T02:08:50.481824+00:00; 128 validations passed.
+Quality/counts and differing strategies still accompany timings; no equal-work
+throughput/general-speed or causal cross-machine improvement claim. Actual local
+CPU/JDK/Rust/platform, source inputs and binary/report identities preserved in
+work/round112-performance-evidence.json, original log and archive
+work/round112-performance-results.tar.gz SHA256:3e71c228451bb483fb44d9a1a195acedb2eb2bb31d25016cc0ef12faf36d028d.
+K-opt metrics are current; older list metrics remain stale. Backend report/data
+freshness checked; no UI changes or repeated browser tests. runner-c last observed offline.
+
+Continue full objective and close remaining compatibility gaps. Six unsupported
+ScalingSequencedSet mutation methods remain: iteratorRemoveThrowsException,
+retainAllThrowsException,removeAllThrowsException,reversedIsReadOnly,
+reversedIteratorRemoveThrowsException,addFirstAndAddLastThrowException. Inspect
+TEST contracts/current native sequenced_set before adapting; do not claim a Rust
+compile-time restriction satisfies runtime-failure assertions without a faithful
+native callable counterpart. Seven k-opt seam/iterator methods still remain;
+saved probes already answered. No new agents/assignments. Keep performance,
+selective verification and occasional Conventional commits.
+
+## Previous verified checkpoint — round111
 
 EnvironmentModeTest.corruptedUndoShadowVariable is fully adapted across all seven
 modes. Retain two initialized entity/value identities, actual owned valueClone

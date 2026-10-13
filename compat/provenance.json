@@ -58916,6 +58916,21 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve all seven mode outcomes, two initialized entity/value identities with matching clones/inverse collections, the actual clone supplier refusing v1 updates after initialization, equality-count easy score, tracked actual-v2/expected-v1 valueClone diagnostic, full/step undo diagnostic, and every successful mode final inverse membership assertion. Native owned IDs/fields and calculator forward/inverse callbacks replace Java annotations/listeners; actual ready calculator fields are inspected, not rebuilt for assertions. Native assembled default neighborhood/acceptance and logical score-evaluation ceiling10 (initial/trials/selected replay, excluding diagnostic scorer invocations) replace implicit Java phase choices/calculation accounting; no Java trace or API equivalence is claimed. Fresh independent easy scoring reads current shadows; nonintrusive selected replay is rescored with reserved budget."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ProblemSizeStatisticsTest.getApproximateProblemScaleLogAsFixedPointLong",
+      "status": "implemented",
+      "upstream_test": "getApproximateProblemScaleLogAsFixedPointLong",
+      "local_path": "crates/solver/tests/named_statistics_cases.rs",
+      "local_test": "get_approximate_problem_scale_log_as_fixed_point_long",
+      "modifications": "Preserve both 100/250 log10-constructor comparisons against scaled approximate log at the pinned default precision. Native ProblemScale.fixed_point_log and explicit precision1,000,000 replace the Java statistics container; opaque TEST-visible public API observations establish exact reference outputs2,000,000/2,397,940. No production implementation inspection or Java ABI claim."
     }
   ],
   "fixtures": [
@@ -83293,6 +83308,19 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Preserve two entity/value identities, actual value/valueClone fields, the clone supplier refusing updates to v1 after initialization, inverse membership notifications in both directions, and equality-count easy score. Native integer IDs, owned Rust fields and calculator callbacks replace Java objects/annotations; fresh easy scoring reads actual shadows without running suppliers. No Java API or search-trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/api/solver/ProblemSizeStatisticsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "problem-scale-fixed-point-public-api-probe",
+      "upstream_test": "getProblemSizeStatisticsFromCountLong/getProblemSizeStatisticsFromDoubleLog/getApproximateProblemScaleLogAsFixedPointLong",
+      "local_path": "compat/oracle/ProblemScaleApiProbe.java",
+      "modifications": "Adapt TEST constructors and publicly callable statistics/MathUtils operations into an opaque API probe. Print default precision, both exact source comparisons and original rounding/saturation boundary observations. Do not inspect production source, private fields or bytecode."
     }
   ]
 }

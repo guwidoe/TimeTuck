@@ -288,6 +288,8 @@ pub struct ProblemScale {
     logarithm: f64,
 }
 impl ProblemScale {
+    /// Fixed-point precision of the pinned Community problem-scale statistic.
+    pub const FIXED_POINT_PRECISION: u64 = 1_000_000;
     pub fn from_log10(logarithm: f64) -> Self {
         Self { logarithm }
     }
@@ -302,10 +304,23 @@ impl ProblemScale {
     pub fn log10(self) -> f64 {
         self.logarithm
     }
-    /// Explicit native precision; rounds and saturates at i64 bounds. This does
-    /// not claim the JVM's unspecified default fixed-point precision.
+    /// Explicit native precision; ties away from zero and saturated i64 bounds.
+    /// fixed_point_log supplies the pinned statistic's default precision/rule.
     pub fn scaled_log(self, precision: u64) -> i64 {
         (self.logarithm * precision as f64).round() as i64
+    }
+    /// Default fixed-point statistic: nearest integer, ties toward positive
+    /// infinity, saturated i64 bounds and zero for NaN. Explicit scaled_log
+    /// retains its existing native rounding contract.
+    pub fn fixed_point_log(self) -> i64 {
+        let scaled = self.logarithm * Self::FIXED_POINT_PRECISION as f64;
+        let lower = scaled.floor();
+        // Adding 0.5 directly loses integral values above f64's fractional range.
+        (if scaled - lower >= 0.5 {
+            lower + 1.0
+        } else {
+            lower
+        }) as i64
     }
     pub fn formatted(self) -> String {
         if !self.logarithm.is_finite() {

@@ -8961,3 +8961,11 @@ scores selected replay, with its extra evaluation reserved/counted. The native
 implicit Java search choices/traces are not compared. Three original regressions
 cover actual non-Clone projection scoring, independent scorer corruption, all-model
 replay budgets/live score termination and real completed-step check boundaries.
+
+The fixed-point ProblemSizeStatistics method now preserves both source assertions
+for counts 100/250 at the pinned default precision 1,000,000. Opaque TEST-visible
+API observations establish reference results 2,000,000/2,397,940, positive-direction
+half ties, NaN zero and i64 saturation. Native ProblemScale.fixed_point_log adds
+the default statistic while explicit scaled_log keeps its existing rounding rule.
+An original boundary regression also preserves integral doubles above 2^52. No
+production source, private fields or bytecode was inspected.

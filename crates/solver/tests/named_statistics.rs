@@ -2,6 +2,29 @@
 use num_bigint::BigUint;
 use timetuck::*;
 #[test]
+fn fixed_point_statistic_preserves_rounding_and_saturation_boundaries() {
+    for (log, expected) in [
+        (0.0000004, 0),
+        (0.0000005, 1),
+        (0.0000006, 1),
+        (-0.0000005, 0),
+        (f64::NAN, 0),
+        (f64::NEG_INFINITY, i64::MIN),
+        (f64::INFINITY, i64::MAX),
+    ] {
+        assert_eq!(ProblemScale::from_log10(log).fixed_point_log(), expected);
+    }
+    for scaled in [4_503_599_627_370_497_f64, -4_503_599_627_370_497_f64] {
+        let log = scaled / ProblemScale::FIXED_POINT_PRECISION as f64;
+        let actual_scaled = log * ProblemScale::FIXED_POINT_PRECISION as f64;
+        assert_eq!(
+            ProblemScale::from_log10(log).fixed_point_log(),
+            actual_scaled as i64
+        );
+    }
+    assert_eq!(ProblemScale::from_log10(-0.5).scaled_log(1), -1);
+}
+#[test]
 fn mixed_entities_are_counted_once_and_each_native_slot_is_accounted_for() {
     let p = MixedProblem::new(
         FiniteProblem::new(vec![

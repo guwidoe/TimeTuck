@@ -208,3 +208,17 @@ fn format_approximate_problem_scale() {
     }
     assert_eq!(ProblemScale::from_log10(0.0).formatted(), "1");
 }
+#[test]
+fn get_approximate_problem_scale_log_as_fixed_point_long() {
+    // Both source assertions; pinned public API observations establish the
+    // default precision and independent reference results (see provenance).
+    assert_eq!(ProblemScale::FIXED_POINT_PRECISION, 1_000_000);
+    for (count, expected) in [(100_u64, 2_000_000), (250, 2_397_940)] {
+        let statistics = ProblemScale::from_log10((count as f64).log10());
+        assert_eq!(statistics.fixed_point_log(), expected);
+        assert_eq!(
+            statistics.fixed_point_log(),
+            statistics.scaled_log(ProblemScale::FIXED_POINT_PRECISION)
+        );
+    }
+}
