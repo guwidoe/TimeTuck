@@ -147,6 +147,8 @@ impl<'a, L: 'a, R: 'a> JoinCondition<'a, L, R> {
 /// An empty conjunction matches every pair.
 ///
 /// Applying to a graph indexes all equalities together and the first inequality;
+/// definitions without equality use standalone ordered indexes instead of an
+/// empty equality partition. Empty definitions use an unpartitioned Cartesian join.
 /// remaining inequalities are independent pair filters, never lexicographic tuple
 /// comparisons. Normalized definitions with identical projection handles share
 /// nodes for the same ordered parent ports in the same builder. Different builders
@@ -213,6 +215,15 @@ impl<'a, L: 'a, R: 'a> JoinConditions<'a, L, R> {
     }
     pub fn conditions(&self) -> &[JoinCondition<'a, L, R>] {
         &self.0
+    }
+    /// Whether the pair join built by `apply` uses shared equality partitions.
+    /// Normalization moves any equality to the prefix, so this is independent
+    /// of declared order. Comparison-only and empty definitions use standalone
+    /// indexes. This query never invokes key projections or pair predicates.
+    pub fn uses_equality_partitions(&self) -> bool {
+        self.0
+            .iter()
+            .any(|c| c.comparison() == JoinComparison::Equal)
     }
     pub fn same_instance(&self, other: &Self) -> bool {
         Rc::ptr_eq(&self.0, &other.0)
@@ -288,29 +299,39 @@ impl<'a, L: Clone + 'static, R: Clone + 'static> JoinConditions<'a, L, R> {
             .map_or(JoinComparison::Equal, |c| c.comparison());
         let lc = normalized.clone();
         let rc = normalized.clone();
-        let joined = b.join_partitioned(
-            left,
-            right,
-            comparison,
-            move |row| {
-                (
-                    lc.0[..equal_count]
-                        .iter()
-                        .map(|c| (c.left)(row))
-                        .collect::<Vec<_>>(),
-                    lc.0.get(equal_count).map(|c| (c.left)(row)),
-                )
-            },
-            move |row| {
-                (
-                    rc.0[..equal_count]
-                        .iter()
-                        .map(|c| (c.right)(row))
-                        .collect::<Vec<_>>(),
-                    rc.0.get(equal_count).map(|c| (c.right)(row)),
-                )
-            },
-        )?;
+        let joined = if !normalized.uses_equality_partitions() {
+            b.join_compare(
+                left,
+                right,
+                comparison,
+                move |row| lc.0.first().map(|c| (c.left)(row)),
+                move |row| rc.0.first().map(|c| (c.right)(row)),
+            )?
+        } else {
+            b.join_partitioned(
+                left,
+                right,
+                comparison,
+                move |row| {
+                    (
+                        lc.0[..equal_count]
+                            .iter()
+                            .map(|c| (c.left)(row))
+                            .collect::<Vec<_>>(),
+                        lc.0.get(equal_count).map(|c| (c.left)(row)),
+                    )
+                },
+                move |row| {
+                    (
+                        rc.0[..equal_count]
+                            .iter()
+                            .map(|c| (c.right)(row))
+                            .collect::<Vec<_>>(),
+                        rc.0.get(equal_count).map(|c| (c.right)(row)),
+                    )
+                },
+            )?
+        };
         let out = if indexed_count < normalized.0.len() {
             b.filter(&joined, move |(l, r)| {
                 normalized.0[indexed_count..]

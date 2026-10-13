@@ -94,6 +94,18 @@ installation, panic recovery and source-based structural activity. Native fused-
 versus-separate timings have their own source/binary/date scope; they establish
 no Java performance equivalence or Java node/API parity.
 
+All nineteen ComparisonIndexerTest methods now have complete adaptations.
+JoinConditions exposes pair-join eligibility based on the normalized equality
+prefix and uses the same decision for construction. Comparison-only and empty
+conjunctions use standalone left/right indexes; equality prefixes keep shared
+partitions. The four source factory assertions retain age comparisons and gender
+equality. Native normalization also supports trailing declared equalities.
+Residual conditions remain independent pair predicates, and empty conditions
+retain Cartesian occurrence semantics. Original controls cover metadata queries
+without projection calls, contradictory comparisons, sharing and rollback;
+existing heterogeneous conjunction controls exercise updates and panic recovery.
+This establishes native behavior, not Java factory/node/API layout parity.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,

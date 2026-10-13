@@ -16,7 +16,66 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round117
+## Latest verified checkpoint — round118
+
+JoinConditions.uses_equality_partitions reports the actual pair-join construction
+choice without calling projections. Equality-first normalization preserves trailing
+declared equalities. Comparison-only and empty conjunctions now build standalone
+left/right ordered JoinNode indexes; equality prefixes retain PartitionedJoinNode.
+The first inequality stays indexed and residual comparisons stay independent
+pair filters. Empty definitions still produce the Cartesian product; contradictory
+less/greater definitions still produce zero. Projection identity, normalized
+sharing and ordered parents are unchanged. This query is scoped to pair-join
+apply, not collection/existence variants. Complete factory adaptation preserves
+all four age/gender eligibility assertions; all 19 ComparisonIndexerTest methods
+now pass. Two originals cover zero-callback query/normalization, empty/conflicting
+conditions, sharing, immediate/batch/pruned/unpruned application and rollback.
+Existing heterogeneous relation/panic/self-join controls passed. One complete
+source method recorded; pin unchanged; full objective remains incomplete.
+
+12 focused cases passed. Clippy passed in 32.53s. Affected compilation took 2m 28s; prebuild selected
+1,002 affected targets and reused 113 unchanged targets. Frozen bash scripts/check.sh passed in
+361.958s: 7,470 Rust tests and 290 doctests.
+Rust jobs: {'RUN': 1002, 'REUSE': 113}; Python jobs: {'REUSE': 46}.
+Compatibility: 3,935/4,855 (81.050%), 352 pending,
+568 excluded, zero failed/unverified. Rust digest d5a16d91e25eedb9b282856745e2b09f7bca342ac18a953ddb0c4abc86bd3d88.
+Report digest 336de26e97d07bf4c319eee9f03d8010322a8a490cc43e20bd40933b92d55d60.
+Archive work/round118-local-results.tar.gz SHA256:2797b126a61c6d4d881602a99f705a20397efcd83684acc1b8f3b6e3eeeb4bb9.
+Evidence work/parallel-round118-evidence.json; freeze
+work/parallel-round118-freeze.json; postcommit proof
+work/round118-postcommit-evidence.json. Prebuild89045/gate 87985 terminal0;
+do not repeat successful unchanged checks. Actual keys/log hashes/dates remain.
+Backend report/data freshness inspected; no UI changes/repeated browser checks.
+
+Original native before/after comparison against commit 724c91a69d6fb282e6415e4fbe904e2927fdfb88:
+work/round118-native-performance.json and -raw.json; saved baseline/current
+binaries work/round118-join-routing-baseline and -current. Actual date
+2026-10-13T04:32:55.143010+00:00; source/binary/driver hashes retained. Identical
+native driver/lockfile/release configuration: 8/64 rows per side, graph setup,
+initial facts and 600 alternating replacements/retractions. Empty Cartesian,
+one comparison, residual comparison and equality-partition controls. Three
+alternating forks, two warmups, five samples. Independently validated final
+full-pair scores, checksums and update score-evaluation counts agree. Current/
+baseline time ratios (8 rows/64 rows): empty 0.830/0.924; ordered 0.862/0.974;
+residual comparison 1.011/0.954; equality control 0.921/1.022. Scoped ordered/
+Cartesian improvements, tiny residual +1.1% and large unchanged-route control
++2.2% retained; no whole-solver/Java/causal control-speed claim. Measured after
+focused correctness; broad gate followed on the same frozen Rust state.
+Round117 fused-pipeline and earlier partition measurements retain their actual
+source/date scope. Paired Java k-opt retains date2026-10-13T02:08:50.481824+00:00,
+visibly stale, with no retag or refresh. No live remote jobs; previous diagnostic
+65218/53624 terminal255. Old SSH authentication URL is expired. Builds/checks
+and new native comparison ran locally; no result relabeled as remote.
+
+Continue actual compatibility gaps. UnindexedJoin predicate-twice test remains
+pending; do not add redundant callback work just to manufacture its count.
+Seven k-opt seam/iterator methods remain pending; saved probes already answered.
+Other gaps include random selector traces, tuple/index lifecycle, shadow
+dependencies and exact phase behavior. No new agents/assignments. Keep performance
+important, shrink backlog, selective reuse and occasional Conventional commits.
+Full goal remains active and incomplete.
+
+## Previous verified checkpoint — round117
 
 Native FilterMapNode and StreamGraphBuilder.filter_map fuse zero-or-one projection
 through one physical graph node, preserving input identity. Only accepted IDs
