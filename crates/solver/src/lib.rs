@@ -12,6 +12,9 @@
 //! assert_eq!("0hard/-1000000soft".parse(), Ok(feasible));
 //! ```
 
+mod entry_permutation;
+mod pillar_swap_selection;
+pub use pillar_swap_selection::{PillarSwapSelection, PillarSwapSelectionError};
 mod inner_termination_config;
 mod live_range_view;
 mod local_phase_plan;
@@ -1852,4 +1855,15 @@ mod exact_mixed_phase;
 pub use exact_mixed_phase::{
     ExactMixedModelError, ExactMixedPhaseOutcome, ExactMixedPhasePlan, ExactMixedPhaseResult,
     run_exact_mixed_phase,
+};
+
+mod typed_member_accessor;
+pub use typed_member_accessor::{
+    MemberAnnotation, TypedAccessorKind, TypedParameterAccessor, TypedPropertyAccessor,
+};
+
+mod model_mutability_access;
+pub use model_mutability_access::{
+    BoundModelMutabilityAccess, ModelMutabilityAccess, ModelMutabilityAccessError,
+    PlanningModelRole, ReadOnlyModelShape,
 };

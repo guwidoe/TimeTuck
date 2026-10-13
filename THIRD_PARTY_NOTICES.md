@@ -960,3 +960,10 @@ recorded in `compat/provenance.json`. The tracker and native regressions are ori
   forward/reverse `PlannerAssert` helpers. Complete mappings and helper attribution
   are in `compat/provenance.json`. Implementations and separate wrapper/cursor
   regressions are original work.
+
+- `crates/solver/tests/model_mutability_cases.rs` adapts immutable model rejection
+  assertions from `EntityDescriptorTest.testImmutableClass`,
+  `SolutionDescriptorTest.testImmutableClass` (record solution and enum entity),
+  and `SolverConfigTest.solutionIsARecord` / `entityIsARecord`. Native schema
+  roles and explicit read-only shape declarations adapt their TEST-only domain
+  fixtures; details are recorded in `compat/provenance.json`.

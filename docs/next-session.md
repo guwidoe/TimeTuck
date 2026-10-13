@@ -16,7 +16,36 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round135
+## Latest verified checkpoint — round136
+
+The frozen final `bash scripts/check.sh` passed once on runner-a in 349.273s:
+7,739 Rust tests and 290 doctests. Compatibility 4,079/4,855 (84.016%),
+208 pending, 568 excluded, zero failed/unverified. Twelve complete methods,
+22 TEST helper fixtures and eight originals added. The shared random module
+addition invalidated 1,103 Rust jobs; 112 Rust jobs and all 46 Python jobs reused
+matching runner-a evidence. Prebuild 981.951s, Clippy 51.36s, worker 1331.788s.
+Rust digest 0973f56179af7911e2fe29a8f581b2fde8639d2f22734ddd7f550f9ec6c87274.
+Report digest da9a1be4d695b5afbda631acaa7e94bff9b5de59f91e9a3019d74279657663e7.
+runner-a source 667e0fa19bbbaf5cdeea0ce4e67009de9e87fd2e7bbff5fa4975e17cede59567.
+Archive `work/round136-runner-a-results.tar.gz` SHA256 bcfaa8f110cec602ee2f224f5cee5d23fa0df8db5bb6298166256e78f2023046.
+Evidence `work/parallel-round136-evidence.json`, freeze
+`work/parallel-round136-freeze.json`, IDs `work/round136-added-source-ids.json`.
+All three round136 worktrees archived; focused evidence retained in
+`work/round136-agent-evidence`. runner-c old snapshot Clippy unused-unit failure
+is preserved; final corrected original is covered by this successful gate.
+Explicit callback capabilities replace Java mutable-class/reflection discovery;
+current identities, inherited borrowed getters, fair live-entry traversal, wide
+random bounds and actual pillar move policy use are exercised. No Java ABI/RNG
+or speed claim. Existing benchmarks remain stale; no duplicate browser check.
+
+Round137 has eight more complete methods ready in `work/round137-agent-evidence`:
+five native factory selections/cache precedence, two executable clone plans and
+one real problem-change alias fixture. All lanes passed focused tests/Clippy.
+They started from exact frozen136 overlay recorded in `work/round137-base-overlay.json`
+(Git base cb2ffa5); merge only their own delta beyond that overlay. Root final
+merged round137 gate and commit are outstanding. No new agents needed.
+
+## Previous verified checkpoint — round135
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in 347.705s:
 7,719 Rust tests and 290 doctests. Shared exact-phase and reachable-swap changes

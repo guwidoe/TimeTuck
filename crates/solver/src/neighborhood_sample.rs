@@ -79,6 +79,12 @@ impl SampleRandom {
     pub fn new(seed: u64) -> Self {
         Self(crate::random::SplitMix64::new(seed))
     }
+    /// Uniform draw from a nonempty u128 range, using rejection sampling rather
+    /// than narrowing bounds. Advances this same caller-owned generator; useful
+    /// for candidate spaces larger than native addressable arrays.
+    pub fn wide_index(&mut self, bound: std::num::NonZeroU128) -> u128 {
+        self.0.below_wide(bound.get())
+    }
     /// Draw uniformly from 0..bound. The nonzero type prevents empty ranges.
     pub fn index(&mut self, bound: std::num::NonZeroUsize) -> usize {
         self.0.below(bound.get() as u64) as usize

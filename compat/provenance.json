@@ -61153,6 +61153,186 @@
       "local_path": "crates/solver/tests/exact_mixed_phase_cases.rs",
       "local_test": "verify_exhaustive_search_steps",
       "modifications": "Preserve both complete declared configurations: BRUTE_FORCE/null and BRANCH_AND_BOUND/DEPTH_FIRST, unsorted entity/value order,37totalphase steps, every171/183 observable calculator/restoration state and actual returnedbest12/21[4][5,6] withfullyinitialized score-5. Expected arrays use the round134 fixture verified exactly against source params; no expected states enter runtime. Native grouped Cartesian basic moves, list-owner layers, true score-cache preimages, independent root arenas/identities in one list frontier, pruning and actual mixed inverse transactions generate the traces. Explicit native plan list_roots2 maps the two observed null-root entries as a legitimate caller multi-root policy; no Java factory rule for deriving root multiplicity is claimed. A single shared remaining budget governs both stages. Final actual working-score validation/publication calls preserve source final two calculator observations separately from returned best. Native integer IDs preserve fixture value identity; live MixedConstraintNetwork provides actual structural/ordinary scoring. Selected basic witness remains fixed during list stage; cross-component global optimality requires a valid staged objective and valid caller bounds. No Java reflection, RNG, shadow/listener/object ABI or production implementation claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ElementAwareLinkedListTest.randomizedIterator",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareLinkedListTest.java",
+      "upstream_test": "randomizedIterator",
+      "local_path": "crates/solver/tests/permutation_selection_cases.rs",
+      "local_test": "randomized_iterator",
+      "modifications": "Preserves empty peek/exhaustion (native None replaces NoSuchElementException), singleton, both two-element permutations, all six three-element permutations, and both orders after removing actual B handle. Live borrowed handles plus existing sparse swap-table UniqueIndices provide fair permutations. Semantic native draws replace Java traces; singleton trailing zero draws omitted; native two draws [1]/[0] replace source[0,0]/[1,0]. Three draws omit finalzero and source[0,0]/[0,1] map native[0,1]/[0,0]; other pairs unchanged. No Java RNG parity or expected-output consumption in runtime."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "RandomUtilsTest.testNextLong",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/random/RandomUtilsTest.java",
+      "upstream_test": "testNextLong",
+      "local_path": "crates/solver/tests/permutation_selection_cases.rs",
+      "local_test": "test_next_long",
+      "modifications": "Full source no-throw smoke uses seed37 and bound10+i32MAX through real caller-owned SampleRandom.wide_index and existing native u128 rejection generator. No Java numeric trace assertion exists; no Java PRNG parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "PillarSwapMoveSelectorConfigTest.withMethodCallsProperlyChain",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/heuristic/selector/move/generic/PillarSwapMoveSelectorConfigTest.java",
+      "upstream_test": "withMethodCallsProperlyChain",
+      "local_path": "crates/solver/tests/permutation_selection_cases.rs",
+      "local_test": "with_method_calls_properly_chain",
+      "modifications": "Complete retained primary minimum5, fixed probability1.0, nonabsent primary/secondary and secondary maximum10 assertions use validated native PillarSelectionPolicy chain. Optional assembly consumes these through live actual PillarMoveProvider swaps and bounded native WeightedSelection; original controls establish zero weight and candidate ceiling behavior. No Java configuration ABI promised."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReflectionFieldMemberAccessorTest.fieldAnnotatedEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/ReflectionFieldMemberAccessorTest.java",
+      "upstream_test": "fieldAnnotatedEntity",
+      "local_path": "crates/solver/tests/typed_accessor_cases.rs",
+      "local_test": "field_annotated_entity",
+      "modifications": "Preserve all source name/type/annotation/parameter metadata assertions, v1/v2/entity fixture identities, actual getter/setter or current range updates and missing-parameter/getter-function diagnostics. Arc::ptr_eq proves same value allocation for scalar getter/setter; inherited members call actual composed BaseEntity methods using distinct fresh source fixtures and references to ExtendedSolution or its actual BaseSolution parent. Explicit native annotation/name metadata and actual PlanningType callback types replace Java reflection/classes; Arc payload type corresponds to scalar class, nullable typed Vec handles correspond to List. Option preserves nullable uninitialized entity range/value. Property bindings execute existing RegisteredMember callbacks; borrowed parameter callbacks accept the real current solution, no snapshot/clone proxy. Results replace Java exceptions; no JVM/reflection automatic-discovery parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReflectionBeanPropertyMemberAccessorTest.methodAnnotatedEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/ReflectionBeanPropertyMemberAccessorTest.java",
+      "upstream_test": "methodAnnotatedEntity",
+      "local_path": "crates/solver/tests/typed_accessor_cases.rs",
+      "local_test": "bean_method_annotated_entity",
+      "modifications": "Preserve all source name/type/annotation/parameter metadata assertions, v1/v2/entity fixture identities, actual getter/setter or current range updates and missing-parameter/getter-function diagnostics. Arc::ptr_eq proves same value allocation for scalar getter/setter; inherited members call actual composed BaseEntity methods using distinct fresh source fixtures and references to ExtendedSolution or its actual BaseSolution parent. Explicit native annotation/name metadata and actual PlanningType callback types replace Java reflection/classes; Arc payload type corresponds to scalar class, nullable typed Vec handles correspond to List. Option preserves nullable uninitialized entity range/value. Property bindings execute existing RegisteredMember callbacks; borrowed parameter callbacks accept the real current solution, no snapshot/clone proxy. Results replace Java exceptions; no JVM/reflection automatic-discovery parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReflectionMethodExtendedMemberAccessorTest.methodAnnotatedEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/ReflectionMethodExtendedMemberAccessorTest.java",
+      "upstream_test": "methodAnnotatedEntity",
+      "local_path": "crates/solver/tests/typed_accessor_cases.rs",
+      "local_test": "extended_method_annotated_entity",
+      "modifications": "Preserve all source name/type/annotation/parameter metadata assertions, v1/v2/entity fixture identities, actual getter/setter or current range updates and missing-parameter/getter-function diagnostics. Arc::ptr_eq proves same value allocation for scalar getter/setter; inherited members call actual composed BaseEntity methods using distinct fresh source fixtures and references to ExtendedSolution or its actual BaseSolution parent. Explicit native annotation/name metadata and actual PlanningType callback types replace Java reflection/classes; Arc payload type corresponds to scalar class, nullable typed Vec handles correspond to List. Option preserves nullable uninitialized entity range/value. Property bindings execute existing RegisteredMember callbacks; borrowed parameter callbacks accept the real current solution, no snapshot/clone proxy. Results replace Java exceptions; no JVM/reflection automatic-discovery parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReflectionMethodExtendedMemberAccessorTest.methodAnnotatedEntityAndInheritance",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/ReflectionMethodExtendedMemberAccessorTest.java",
+      "upstream_test": "methodAnnotatedEntityAndInheritance",
+      "local_path": "crates/solver/tests/typed_accessor_cases.rs",
+      "local_test": "method_annotated_entity_and_inheritance",
+      "modifications": "Preserve all source name/type/annotation/parameter metadata assertions, v1/v2/entity fixture identities, actual getter/setter or current range updates and missing-parameter/getter-function diagnostics. Arc::ptr_eq proves same value allocation for scalar getter/setter; inherited members call actual composed BaseEntity methods using distinct fresh source fixtures and references to ExtendedSolution or its actual BaseSolution parent. Explicit native annotation/name metadata and actual PlanningType callback types replace Java reflection/classes; Arc payload type corresponds to scalar class, nullable typed Vec handles correspond to List. Option preserves nullable uninitialized entity range/value. Property bindings execute existing RegisteredMember callbacks; borrowed parameter callbacks accept the real current solution, no snapshot/clone proxy. Results replace Java exceptions; no JVM/reflection automatic-discovery parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ReflectionMethodExtendedMemberAccessorTest.forbiddenEntityReadWithoutParameter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/ReflectionMethodExtendedMemberAccessorTest.java",
+      "upstream_test": "forbiddenEntityReadWithoutParameter",
+      "local_path": "crates/solver/tests/typed_accessor_cases.rs",
+      "local_test": "forbidden_entity_read_without_parameter",
+      "modifications": "Preserve all source name/type/annotation/parameter metadata assertions, v1/v2/entity fixture identities, actual getter/setter or current range updates and missing-parameter/getter-function diagnostics. Arc::ptr_eq proves same value allocation for scalar getter/setter; inherited members call actual composed BaseEntity methods using distinct fresh source fixtures and references to ExtendedSolution or its actual BaseSolution parent. Explicit native annotation/name metadata and actual PlanningType callback types replace Java reflection/classes; Arc payload type corresponds to scalar class, nullable typed Vec handles correspond to List. Option preserves nullable uninitialized entity range/value. Property bindings execute existing RegisteredMember callbacks; borrowed parameter callbacks accept the real current solution, no snapshot/clone proxy. Results replace Java exceptions; no JVM/reflection automatic-discovery parity claimed."
+    },
+    {
+      "id": "EntityDescriptorTest.testImmutableClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityDescriptorTest.java",
+      "upstream_test": "testImmutableClass",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "local_test": "entity_descriptor_test_immutable_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves every source diagnostic assertion, including both record and enum branches. Explicit typed native model names and read-only Record/Enum shape declarations replace Java reflection; actual access capabilities validate against composed schema roles before callbacks. Source enum branch rejects TestdataEnumEntity inside mutable TestdataEnumSolution. No Java class/record discovery, factory ABI, or reflection parity claimed. Mutable capabilities execute real native model reads and write back director working state in original regressions."
+    },
+    {
+      "id": "SolutionDescriptorTest.testImmutableClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "testImmutableClass",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "local_test": "solution_descriptor_test_immutable_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves every source diagnostic assertion, including both record and enum branches. Explicit typed native model names and read-only Record/Enum shape declarations replace Java reflection; actual access capabilities validate against composed schema roles before callbacks. Source enum branch rejects TestdataEnumEntity inside mutable TestdataEnumSolution. No Java class/record discovery, factory ABI, or reflection parity claimed. Mutable capabilities execute real native model reads and write back director working state in original regressions."
+    },
+    {
+      "id": "SolverConfigTest.solutionIsARecord",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "solutionIsARecord",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "local_test": "solver_config_solution_is_a_record",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves every source diagnostic assertion, including both record and enum branches. Explicit typed native model names and read-only Record/Enum shape declarations replace Java reflection; actual access capabilities validate against composed schema roles before callbacks. Source enum branch rejects TestdataEnumEntity inside mutable TestdataEnumSolution. No Java class/record discovery, factory ABI, or reflection parity claimed. Mutable capabilities execute real native model reads and write back director working state in original regressions."
+    },
+    {
+      "id": "SolverConfigTest.entityIsARecord",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "entityIsARecord",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "local_test": "solver_config_entity_is_a_record",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserves every source diagnostic assertion, including both record and enum branches. Explicit typed native model names and read-only Record/Enum shape declarations replace Java reflection; actual access capabilities validate against composed schema roles before callbacks. Source enum branch rejects TestdataEnumEntity inside mutable TestdataEnumSolution. No Java class/record discovery, factory ABI, or reflection parity claimed. Mutable capabilities execute real native model reads and write back director working state in original regressions."
     }
   ],
   "fixtures": [
@@ -87196,6 +87376,292 @@
       "upstream_test": "addWorkingSolution",
       "local_path": "crates/solver/tests/exact_mixed_phase_cases.rs",
       "modifications": "Preserve nested TEST WorkingSolutionTracker field order, nullable basic dash markers and list brackets/comma notation. Compare every real calculator call against all171/183 source-verified expected states. Final best snapshot is separately checked against actual preserved round134 pinned observations, which already have their own provenance."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "entry-permutation-order-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/util/ElementAwareLinkedListTest.java",
+      "upstream_test": "assertOrder",
+      "local_path": "crates/solver/tests/permutation_selection_cases.rs",
+      "modifications": "Native callback bounded indices generate all source output permutations and exhaust; no expected values enter runtime. Native None represents source iterator exception at empty."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "entry-permutation-semantic-draw-fixture",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testutil/TestRandom.java",
+      "upstream_test": "TestRandom(int...)",
+      "local_path": "crates/solver/tests/permutation_selection_cases.rs",
+      "modifications": "Controlled integer draw fixture replaced by checked FnMut u128 indices feeding existing native UniqueIndices. Swap-table semantic draw table explicit in source adaptation; singleton consumes no draw. No Java cache/PRNG trace parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-field-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/reflect/field/TestdataFieldAnnotatedEntity.java",
+      "upstream_test": "value/constructors/getValue/setValue",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-bean-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "getValue/setValue/constructor",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-values",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "constructor",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-parameter-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/TestdataEntityProvidingWithParameterEntity.java",
+      "upstream_test": "constructors/getValueRange/setValueRange",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-parameter-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/TestdataEntityProvidingWithParameterSolution.java",
+      "upstream_test": "constructor",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-inherited-base-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingOnlyBaseAnnotatedBaseEntity.java",
+      "upstream_test": "getValueList/getOtherValueList/constructor",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-inherited-child-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingOnlyBaseAnnotatedChildEntity.java",
+      "upstream_test": "constructor/inherited getters",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-inherited-base-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingOnlyBaseAnnotatedSolution.java",
+      "upstream_test": "valueList/getValueList/setValueList/constructor",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-inherited-extended-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingEntityProvidingOnlyBaseAnnotatedExtendedSolution.java",
+      "upstream_test": "constructor/extends",
+      "local_path": "crates/solver/tests/fixtures/typed_accessor_fixture.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "round136-inherited-assertion-helper",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/ReflectionMethodExtendedMemberAccessorTest.java",
+      "upstream_test": "assertMemberWithInheritance",
+      "local_path": "crates/solver/tests/typed_accessor_cases.rs",
+      "modifications": "Adapt only accessor-used fields, named stable values and concrete getter/setter/range bodies. Arc handles preserve value identity; nullable parameter-entity fields use Option; explicit typed composition and borrowed parent projections replace Java inheritance/reflection. Each inherited helper invocation retains fresh v1/v2/entity/extended-solution fixtures and current valueList updates. Native annotations/type/name declarations are explicit; unused score, descriptor/generator and extra-object fields are not claimed."
+    },
+    {
+      "id": "round136-mutability-impl-domain-entity-descriptor-EntityDescriptorTest.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/entity/descriptor/EntityDescriptorTest.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-impl-domain-solution-descriptor-SolutionDescriptorTest.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-config-solver-SolverConfigTest.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/solver/SolverConfigTest.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-testdomain-immutable-TestdataSolution.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/immutable/TestdataSolution.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-testdomain-immutable-record-TestdataRecordSolution.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/immutable/record/TestdataRecordSolution.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-testdomain-immutable-record-TestdataRecordEntity.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/immutable/record/TestdataRecordEntity.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-testdomain-immutable-record-TestdataRecordValue.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/immutable/record/TestdataRecordValue.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-testdomain-immutable-enumeration-TestdataEnumSolution.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/immutable/enumeration/TestdataEnumSolution.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-testdomain-immutable-enumeration-TestdataEnumEntity.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/immutable/enumeration/TestdataEnumEntity.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
+    },
+    {
+      "id": "round136-mutability-testdomain-immutable-enumeration-TestdataEnumValue.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/immutable/enumeration/TestdataEnumValue.java",
+      "upstream_test": "immutable model fixtures",
+      "local_path": "crates/solver/tests/model_mutability_cases.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Adapts model names and immutable solution/entity role relationships from TEST helpers; record/enum are explicit native read-only capability labels. Typed schema declares entity and score members rather than Java annotations. The enum fixture solution remains mutable; the enum entity is rejected. Helper identity/value content is not claimed as a Java reflection implementation."
     }
   ]
 }

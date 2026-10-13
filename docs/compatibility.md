@@ -9520,3 +9520,23 @@ cover varied roots/groups/domains/owners, budgets, valid bounds, bad plans/cache
 and final calculator corruption. The chosen basic witness remains fixed during
 list search: joint optimality requires a valid staged objective. Existing ordinary
 mixed solving and uncached single-root defaults retain their native behavior.
+
+Five reflection accessor TEST methods now use explicit typed property/borrowed-parameter accessors: field and bean names, value payload types, declared planning/range annotations, same-Arc scalar reads/writes, nullable parameter entity ranges, both real composed inherited getters and their distinct solution parameter types, current changed ranges, and exact missing-parameter/getter-function diagnostics. Property callbacks execute RegisteredMember bindings; parameter callbacks borrow the current solution or its actual parent subobject. Native metadata is explicitly registered, with no reflection, Java annotation discovery, bytecode generation or classloader claim. Related MemberAccessorFactory methods remain pending. Original controls prove equal-but-distinct handle writes, actual getter-function execution, rejected getter naming before callbacks, zero callbacks for missing parameter, and unchanged parent address across current data updates.
+
+
+Optional ModelMutabilityAccess binds actual typed read/write callbacks to the composed
+solution schema. Working solutions and entities require write capability; planning
+values may remain immutable. Four complete immutable-model source methods retain
+record rejection and the distinct enum-entity branch. Native foreign-shape labels
+are explicit declarations; no Java class detection is claimed. Originals validate
+roles before callbacks and execute native construction, a director move and actual
+assignment/score publication through the validated bindings.
+
+EntryList can traverse current live handles fairly without replacing or cloning
+payloads. Three complete selection utility/configuration methods preserve all six
+three-entry permutations, empty/singleton/two-entry and post-removal assertions,
+seeded wide-bound sampling and chained primary/secondary pillar limits plus weight.
+Native semantic bounded draws replace Java mock draw traces. Originals exhaust
+all permutations through six entries, retain identity across duplicate payloads and
+removals, check bounds beyond u64, and consume real pillar moves with validated
+weights/candidate ceilings. No Java RNG or speed equivalence is claimed.
