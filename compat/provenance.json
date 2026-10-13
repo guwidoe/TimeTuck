@@ -59306,6 +59306,21 @@
       "upstream_test": "invalidInverseRelation",
       "local_test": "invalid_inverse_relation",
       "modifications": "Preserve entity v1 assigned value c1, duration zero, genuinely null inverse collection and empty facts. Direct native checked inverse refresh asserts every source diagnostic fragment using actual assignment identity and bound value/entityList metadata. Full ShadowSolutionManager update uses the same validator as preflight and returns typed Adapter(NullInverseCollection) before readers/publication/scoring; this replaces the Java NullPointerException category without Java API or exception-class parity. Both source error outcomes are preserved; null is not repaired into an empty Vec."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/VariableSupportTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_dependency_event_cases.rs",
+      "id": "VariableSupportTest.shadowVariableListGraphEvents",
+      "status": "implemented",
+      "upstream_test": "shadowVariableListGraphEvents",
+      "local_test": "shadow_variable_list_graph_events",
+      "modifications": "Preserve full three-owner/six-visit fixture, groups A and B with first-member representatives, all initial ready/start/finish and predecessor edges, at-most initial add count and zero removals. Explicit native before_dependencies_changed calls map previous/owner fact notifications to their affected dynamic targets: actual applied edges are detached once before fact mutation; raw row and predecessor/owner setters add nothing. Pending currentness fails; notified flush adds exactly A1-finish to C-ready with no removals and restores currentness. Native node handles and opt-in committed event records replace Java reflective descriptor notifications and Mockito spies. C combines local stages in one node as in the source graph, with no Java node/ABI or automatic reflection dispatch claim."
     }
   ],
   "fixtures": [
@@ -83735,6 +83750,19 @@
       "id": "invalid-basic-inverse-null-fixture",
       "upstream_test": "invalidInverseRelation/setup",
       "modifications": "Adapt the source method inline entity/value/solution fixture into typed Entity/Value IDs and World fields. Preserve c1/v1 identities, Duration.ZERO, actual Option::None collection and empty facts; native registered schemas/registry represent the assignment and inverse metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/variable/VariableSupportTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/shadow_dependency_event_cases.rs",
+      "id": "variable-support-concurrent-six-visit-fixture",
+      "upstream_test": "shadowVariableListGraphEvents/setup",
+      "modifications": "Adapt inline owners 1/2/3, visits a1/a2/b1/b2/b3/c, rows [a1,b1,c]/[a2,b2]/[b3], concurrent groups [a1,a2]/[b1,b2,b3], actual predecessor and owner shadow fields into native World. Group representatives share a real start node; singleton C combines local stages. Actual dependency resolvers read the mutable predecessor fields, not scripted edge results."
     }
   ]
 }

@@ -193,6 +193,30 @@ impl<K: Ord + Clone, V: Eq> DependencyCache<K, V> {
     pub fn topology(&self) -> &DependencyTopology<K> {
         &self.plan.topology
     }
+    // A session's before-change boundary may detach dependencies while keeping
+    // old values inaccessible until its pending refresh. No supplier runs here.
+    pub(crate) fn detach_edges(
+        &mut self,
+        removals: &[(K, K)],
+    ) -> Result<Vec<K>, DependencyError<K>> {
+        let mut topology = self.plan.topology.clone();
+        let update = topology.update_indexed(removals, &[])?;
+        let mut dirty: BTreeSet<K> = update.cycle_toggled.into_iter().collect();
+        dirty.extend(
+            update
+                .changed_nodes
+                .iter()
+                .map(|&i| topology.keys()[i].clone()),
+        );
+        if !update.changed_nodes.is_empty() {
+            self.plan = Arc::new(self.plan.updated(
+                topology,
+                &update.changed_nodes,
+                update.reordered,
+            ));
+        }
+        Ok(dirty.into_iter().collect())
+    }
     // Rebuild membership without discarding surviving cached values. New nodes,
     // changed incoming edges and changed cycle membership become roots; unchanged
     // components keep their values and never run suppliers just for reindexing.

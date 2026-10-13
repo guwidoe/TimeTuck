@@ -16,7 +16,60 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. No new subagents or
 assignments; all previous agents have finished.
 
-## Latest verified checkpoint — round121
+## Latest verified checkpoint — round122
+
+ShadowSession.before_dependencies_changed detaches resolved incoming edges from
+the actual DependencyCache topology before external facts mutate, without running
+readers/suppliers. Entire target selections validate before mutation; duplicates
+remove once. Manual/fixed targets are rejected. Cache values become unreadable
+until pending work flushes; cycle membership changes invalidate affected nodes.
+update_notified_with_dependency_events reports committed edge changes; failed
+refreshes preserve detached pending state. Ordinary refreshes avoid reporting
+allocations. Node equality includes actual session identity.
+
+Complete VariableSupportTest.shadowVariableListGraphEvents adaptation preserves
+three owners, six visits, both concurrent groups/representatives, every initial
+edge/count assertion, exact eager removals and deferred single addition, raw
+setter silence and pending/restored currentness. Native callers map fact changes
+to registered affected targets; no reflective Java dispatch or ABI claim. One
+source method and fixture recorded. Two originals cover atomic foreign/manual
+rejection, duplicates, callback failure/retry, idle flush, checkpoint restoration
+and cyclic graph recovery. Earlier entity-batch tests use expect_err now that
+native handles have Debug; their asserted behavior is unchanged.
+
+11 focused cases passed. Final Clippy passed; actual earlier build/lint failure
+logs retained. Frozen bash scripts/check.sh passed in
+369.896s: 7,493 Rust tests and 290 doctests.
+Rust jobs: {'RUN': 1017, 'REUSE': 109}; Python jobs: {'REUSE': 46}.
+Compatibility: 3,945/4,855 (81.256%), 342 pending,
+568 excluded, zero failed/unverified. Rust digest cb80ac7bfbdeab6118eff459795d3234b1e7dd878851cc09e17aeffc9473ced2.
+Report digest 1935a0463b72015ac209421491ff2bee717bf529a56b52d65448ce46235128ae.
+Archive work/round122-local-results.tar.gz SHA256:e02a1ac7b6a1e5690a8b035d3ef20b7a973ebf04069d6d19e313c4689be33c1d.
+Evidence work/parallel-round122-evidence.json; freeze
+work/parallel-round122-freeze.json; postcommit proof
+work/round122-postcommit-evidence.json. Reuse successful unchanged evidence.
+Backend data/freshness inspected; no UI changes or repeated browser checks.
+
+No benchmark refresh: graph detachment and event reporting are optional APIs;
+ordinary scheduling and sampling paths are unchanged. Preserve prior native
+measurements' actual source/binary/driver/date, including round119 sampling
+2026-10-13T04:59:18.200098+00:00 and its regressions up to 5.1%. Paired Java
+k-opt remains dated 2026-10-13T02:08:50.481824+00:00 and visibly stale. No retags.
+runner-a's SSH authentication connection22683 timed out (terminal255); its URL
+is no longer live. runner-c60562 also timed out (terminal255). Preserve
+work/round122-remote-terminal.json. No live remote jobs.
+Full correctness ran locally.
+
+Continue remaining real solver gaps. RecordedUndoMoveTest expects actual basic
+change actions executed in reverse; don't substitute a test-only list of labels.
+CompositeAcceptorTest.phaseLifecycle requires child solving/phase/step events
+across two phases and three steps; inspect native profile/search hooks before
+implementing. Native typed suppliers do not establish Java discovery signature
+errors. Seven k-opt seam/iterator gaps remain; saved probes already answered.
+Keep performance important, shrink backlog, commit occasionally. No new agents.
+Pin unchanged; full goal remains active and incomplete.
+
+## Previous verified checkpoint — round121
 
 BasicStateSupply now validates nullable external inverse collections and stages
 checked imports before publishing changes. Diagnostics use live assignment and

@@ -104,8 +104,7 @@ fn empty_selection_preserves_pending_work_and_failed_callbacks_retry() {
     assert_eq!(
         session
             .update_entities(&2, &[])
-            .err()
-            .expect("empty entity array must fail"),
+            .expect_err("empty entity array must fail"),
         ShadowSessionError::EmptyEntityArray
     );
     assert_eq!(calls.get(), before);

@@ -9,7 +9,9 @@ use std::{
 };
 
 mod callback_error;
+mod dependency_events;
 mod entities;
+pub use dependency_events::{ShadowDependencyEdge, ShadowDependencyUpdate};
 mod keyed_index;
 mod selection;
 pub use callback_error::{ShadowCallbackError, ShadowCallbackStage};
@@ -72,11 +74,17 @@ impl From<DependencyError<usize>> for ShadowSessionError {
         Self::Dependency(e)
     }
 }
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ShadowNodeRef {
     index: usize,
     identity: Rc<()>,
 }
+impl PartialEq for ShadowNodeRef {
+    fn eq(&self, other: &Self) -> bool {
+        self.index == other.index && Rc::ptr_eq(&self.identity, &other.identity)
+    }
+}
+impl Eq for ShadowNodeRef {}
 pub struct ShadowNode<T> {
     node: ShadowNodeRef,
     marker: PhantomData<fn() -> T>,

@@ -8,8 +8,7 @@ fn empty_entities() {
     let mut session = ShadowSessionBuilder::<usize, ()>::new(&schema).build();
     let error = session
         .update_entities(&(), &[])
-        .err()
-        .expect("empty entity array must fail");
+        .expect_err("empty entity array must fail");
     assert_eq!(error, ShadowSessionError::EmptyEntityArray);
     assert!(
         error

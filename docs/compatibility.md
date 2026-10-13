@@ -143,6 +143,17 @@ Native typed null-collection errors replace Java exception classes. Existing
 non-null refresh_changed behavior remains unchanged; generic missing-shadow
 checks were not substituted for inverse-field validation.
 
+VariableSupportTest.shadowVariableListGraphEvents now preserves all graph-event
+assertions on its complete three-owner/six-visit fixture. Native before-change
+notifications identify the dynamic targets affected by application facts and
+detach their resolved incoming edges from the actual cache topology before fact
+mutation. Duplicate notifications remove each edge once; suppliers do not run.
+Notified refresh resolves replacements from the final world and reports committed
+additions/removals. Failed refreshes keep the detached graph pending and cached
+values unreadable. Manual/fixed edges cannot be detached with this API. Native
+handles replace reflective descriptor dispatch; automatic Java discovery is not
+claimed. Ordinary refreshes incur no event reporting allocations.
+
 ## Why the existing suite needs an adapter
 
 The upstream suite is Java/JUnit and exercises Java objects, internal types,
