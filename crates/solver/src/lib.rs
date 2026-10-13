@@ -13,7 +13,9 @@
 //! ```
 
 mod score_level;
+mod sublist_selection_config;
 pub use score_level::ScoreLevel;
+pub use sublist_selection_config::{SubListSelectionBuildError, SubListSelectionConfig};
 pub mod score;
 pub use score::{
     AdditiveScore, HardMediumSoftScore, HardSoftScore, ParseScoreError, Score, SimpleScore,
@@ -1757,3 +1759,15 @@ pub use selection_identity::{
 
 mod schema_sublist_factory;
 pub use schema_sublist_factory::{SchemaSubListFactory, SchemaSubListSource};
+
+mod easy_score_factory;
+pub use easy_score_factory::{
+    CalculatorProperties, CalculatorPropertyError, EasyScoreCalculator, EasyScoreFactory,
+    EasyScoreSession,
+};
+
+mod shared_pillar_sampler;
+pub use shared_pillar_sampler::{SharedSamplerSubPillarSwaps, StatefulPillarSampler};
+
+mod primed_move_union;
+pub use primed_move_union::{AvailableMoveCursor, IteratorMoveCursor, PrimedMoveUnion};

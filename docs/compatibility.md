@@ -9280,3 +9280,49 @@ The complete noReachableEntities method retains both exact receiver ranges/initi
 rows, seed0, availability and shared identity assertion. Native deterministic
 controls validate actual moves/fallbacks, replay, no mutation and cursor guards.
 No new measured performance or speed claim; old benchmark evidence remains stale.
+
+## Stateful shared pillar sampling
+
+`StatefulPillarSampler` owns one pending sample and its traversal cursor. Begin
+resets unfinished work; finish transfers the complete owned sample, including
+already-observed members. `SharedSamplerSubPillarSwaps` uses actual shared handles,
+finishes the left sample before resetting the right, and delegates subset/window
+selection to existing native pillar policies. Each opening regroups current
+assignment/pins and reseeds one working random stream. Distinct right groups use
+binary-search exclusion and direct rank selection rather than per-draw scans.
+Current group metadata and one pending sample per distinct sampler bound memory;
+no candidate or combination catalogs are built. Ordinary providers are unchanged.
+
+The complete shared-versus-separate source method preserves10entities, two5-member
+pillars,2..4rules, common reseeding and200actual executable moves with full sequence
+equality. Reset/completion counts additionally prove real shared object lifecycle.
+Three original controls exercise partial-reset/full-sample ownership, independent
+1/3rules, committed facts/pins and20,000-member repeated sampling with only2..4
+pending rows. No Java random trace, reflective metadata or thread-sharing claim.
+
+Round130 additionally provides typed easy-calculator factories that retain the
+exact caller schema, invoke an explicit Rust property builder for each independently
+owned calculator, and keep each working solution separate. Three complete source
+methods preserve the empty-solution -10 score with structural zero, string/int
+custom properties, and all three supplied-schema identities. Native schema markers
+represent caller identity only; Java weight/pin inference and reflective setters
+are not claimed. Basic sessions adapt actual full-assignment scoring into the
+existing ConstraintNetwork/ScoreDirector and configured solving. The adapter clones
+an assignment view per full invocation and does not claim incremental performance.
+
+Span-specific SubListSelectionConfig now validates explicit minimum/maximum bounds
+and general selection overrides before typed replay registry lookup. The full
+remaining SubListSelectorFactory property-error method preserves maximum10,
+someSelectorId and the diagnostic. Ordinary configured sources use existing lazy
+span selection; an original control records/replays actual bounds and executes
+and rolls back the published span. Explicit default bounds are still overrides.
+
+The remaining UniformRandomUnionMoveIterator availability method is now fully
+adapted: every enabled child is primed exactly once, and only the drawn child is
+polled again after its move. AvailableMoveCursor separates observation/drawing;
+IteratorMoveCursor bridges real iterators with one-item lookahead. The opt-in
+ProviderUnion.with_primed_polling path feeds actual seeded solver scans. Existing
+lazy defaults remain unchanged. Prefetch timing is explicit, disabled weights
+do not poll, exhausted cursors retire, and a caught post-draw callback panic fuses
+the scan. Originals cover finite traversal/replay, cached polling/panic behavior
+and real six-step optimization. No Java RNG trace or speed improvement claim.

@@ -30,6 +30,7 @@ pub struct ProviderUnion<'p, P, A, M> {
     children: Vec<WeightedMoveProvider<'p, P, A, M>>,
     order: UnionOrder,
     unweighted: bool,
+    primed_polling: bool,
 }
 impl<'p, P, A, M> ProviderUnion<'p, P, A, M> {
     /// Empty lists are rejected. A nonempty list with all weights zero is valid
@@ -46,6 +47,7 @@ impl<'p, P, A, M> ProviderUnion<'p, P, A, M> {
             children,
             order,
             unweighted: false,
+            primed_polling: false,
         })
     }
     /// Compose children with unit selection weights and retain their explicit
@@ -60,6 +62,16 @@ impl<'p, P, A, M> ProviderUnion<'p, P, A, M> {
         result.unweighted = true;
         Ok(result)
     }
+    /// Opt in to availability polling: opening a scan primes every enabled child,
+    /// then each draw refills only its selected child before returning the move.
+    /// Iterator lookahead buffers candidates without scoring them. Child factories
+    /// therefore run before the first draw, and callback panics fuse that scan.
+    /// Existing lazy factory behavior is retained unless this method is called.
+    pub fn with_primed_polling(mut self) -> Self {
+        self.primed_polling = true;
+        self
+    }
+
     /// Read-only provider identity and weights, in construction order.
     pub fn providers(&self) -> impl Iterator<Item = (&dyn MoveProvider<P, A, M>, u32)> {
         self.children
@@ -111,6 +123,10 @@ impl<P, A, M> MoveProvider<P, A, M> for ProviderUnion<'_, P, A, M> {
                 .flatten();
                 (lazy, *weight)
             });
-        Box::new(MoveUnion::new(children, order))
+        if self.primed_polling {
+            Box::new(crate::PrimedMoveUnion::from_iterators(children, order))
+        } else {
+            Box::new(MoveUnion::new(children, order))
+        }
     }
 }

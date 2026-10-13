@@ -16,7 +16,68 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round129
+## Latest verified checkpoint — round130
+
+The frozen merged `bash scripts/check.sh` passed once on runner-c in 57.231s:
+7,614 Rust tests and 290 doctests. Per-job reuse ran 19 affected Rust targets,
+reused 1,150 unchanged Rust targets and 46 Python jobs. Prebuild 101.334s;
+merged Clippy 34.58s; full worker 158.809s. Compatibility 4,008/4,855 (82.554%),
+279 pending, 568 excluded, zero failed/unverified. Six complete methods and seven
+fixture records added; ten original regressions earn no source-method credit.
+Rust digest 5a9227329e96b266dafd1d58b1031fda6c3f6dc8eb2adcc8ee3bb572a1755c09.
+Report digest b23af2e0ec99dce9b5018fc83d02fdb133930ec29dedee29431b1eaaaf85d37e.
+Archive `work/round130-runner-c-results.tar.gz` SHA256: 078c43b61bebb0fd66f75354e0103e57d4f3cb9c278b2a2cabf7e4ec37a789b0.
+Remote source snapshot a1049309c2f0618eb93017b931423ff247db791b21296aaf39bc2383c4a8c3f2.
+Evidence `work/parallel-round130-evidence.json`, freeze `work/parallel-round130-freeze.json`,
+new source IDs `work/round130-added-source-ids.json` and focused evidence under
+`work/round130-agent-evidence`. Actual prior runner-c records were checksum validated;
+output relocation preserved original keys, log hashes and dates. Collector generated
+report using actual merged output and inspected backend freshness. No repeated UI
+verification or benchmark refresh. Existing measurements remain visibly stale.
+
+Three GPT-6.1 Sol lanes: runner-c easy factory five focused cases/Clippy; runner-a shared
+sampling 23 focused cases/Clippy; local union polling 23 focused cases/Clippy.
+Root sublist replay config three focused cases passed on runner-c. All handles terminal.
+The first easy compile failure is preserved; fixed type annotation and final trait
+bound were verified. Other successful intermediate logs/manifests are preserved.
+
+EasyScoreFactory retains the exact caller PlanningSchema and invokes a typed
+property builder for each independently owned calculator/working solution. Full
+adaptations preserve -10 on empty fully assigned scoring, string1/int7 properties,
+and all three caller schema identities. Basic full-assignment adapter feeds actual
+ConstraintNetwork/ScoreDirector and configured solving; each invocation clones an
+assignment view. No incremental speed, reflective setter, Java weight/pin inference
+or domain discovery claim. Native schema markers represent identity only.
+
+StatefulPillarSampler reset/begin/cursor/finish holds only one owned sample. Shared
+left/right handles finish the left sample before resetting for the right. The full
+source case compares 200 moves and observes 400 shared resets/completions versus
+200 each separate. Real current-fact/pin/range checks and independent rules use
+existing native pillar policy draws. Partner exclusion uses binary search plus
+rank skipping, avoiding full group scans per draw; no measured speed claim.
+
+AvailableMoveCursor separates availability from drawing. PrimedMoveUnion primes
+all enabled children once then polls only the drawn child after consumption.
+ProviderUnion.with_primed_polling is explicitly opt-in; existing lazy default
+remains. Iterator bridge prefetches at most one candidate per child without scoring;
+callback panic fuses the scan. Finite traversal and real six-step optimization are
+covered. The exact source availability method earns one method credit.
+
+SubListSelectionConfig validates all explicit span bounds and selection overrides
+before replay registry lookup; maximum10/someSelectorId/error text preserved in
+the complete property-error method. Real bounded spans record/replay and execute/
+rollback through existing lazy selection. Seven hard k-opt seam methods remain
+pending; do not repeat the refuted probes or substitute fixture-specific outputs.
+
+Commit only after gate and staged diff review. Preserve ignored evidence before
+archiving easy-factory-round130, sampler-sharing-round130 and union-polling-round130
+managed worktrees; confirm archive results. Stop temporary runner-c wake session60667
+with exact payload matching, collecting cleanup result70239. Full goal remains
+active and incomplete; pinned upstream unchanged. Keep performance important and
+shrink actual pending behavior. All three machines/at most three GPT-6.1 Sol agents
+remain authorized. Reuse unchanged successful verification; no turn/commit reruns.
+
+## Previous verified checkpoint — round129
 
 Frozen merged bash scripts/check.sh passed once on runner-c in235.964s:
 7,598Rust tests and290doctests. Shared parent-file dependency invalidation required
