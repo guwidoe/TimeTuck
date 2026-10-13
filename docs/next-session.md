@@ -18,7 +18,7 @@ assignments; all previous agents have finished.
 
 ## Latest verified checkpoint — round113
 
-All 36 ScalingSequencedSetTest methods now pass. Six remaining runtime unsupported
+All 37 ScalingSequencedSetTest methods now pass (36 adapted Rust test functions). Six remaining runtime unsupported
 mutation cases preserve source setup, actual forward/reverse cursor advance,
 exception-to-typed-error mapping and retainAll()/removeAll() diagnostic identity.
 Callable UnsupportedSequencedSetOperation results distinguish unsupported
