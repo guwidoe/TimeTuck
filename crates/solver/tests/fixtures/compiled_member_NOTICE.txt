@@ -1,0 +1,6 @@
+Compiled member accessor TEST adaptations and selected fixture behavior originate
+from Timefold Solver Community commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Copyright Timefold BV and contributors; licensed under Apache License 2.0.
+See compat/licenses/timefold-Apache-2.0.txt and compat/provenance.json.
+Native executable binding factory and separately identified originals are independent.
+No Timefold production implementation, bytecode or Enterprise sources were read.

@@ -9695,3 +9695,58 @@ fixture supplies those exact bytes through a tracked text literal; its decoded S
 matches the original ZIP. This is a test-loader adaptation for the development
 dependency scanner's binary-as-UTF8 limitation, not a replacement package. Both
 prebuild failures occurred before check.sh and are preserved.
+
+Five constructor methods use actual compiled function-pointer bindings. No-input
+construction produces fresh values; typed argument/context bindings require real
+inputs before execution. Explicit borrowed enclosing context replaces JVM inner
+and local class discovery. Lazy owner descriptions appear only on failures.
+No Java reflection or automatic constructor-discovery parity is claimed.
+
+The optional `ListKOptLivePlan` binds native physical reconnections to validated
+cut endpoint values and row shapes, while reading interior payloads at execution.
+It delegates real atomic moves to the existing physical-cycle machinery and
+preserves caller-selected target lengths. Eight varied route sizes, both
+orientations, an independent retained-edge certificate, undo and invalid endpoint,
+shape and pin controls cover this capability. It does not infer Community virtual
+seams, implicit partitions or nonsequential repair; all five associated pending
+methods remain pending. The round142 temporal oracle rerun restores lost round141
+raw evidence and confirms the controlled interior swap affects the same prepared
+Community move. Public read logs alone do not establish the transport algorithm;
+notifications were not directly instrumented, and supply/listener effects remain
+part of the observation.
+
+Twenty ConfigureMojo contracts execute native typed transport and real
+configuration output. Actual aboutme response arrays drive namespace selection,
+legacy accountIds/migrated namespaces, scope denial, registry properties and
+sorted ambiguity diagnostics. Token/URL checks precede requests; dry-run still
+reads authenticated configuration and produces an owned non-pushing build plan.
+Executable NativeImageBuilder callbacks consume the current plan and produce
+nonempty owned package bytes; actual emitted native/portable package kind drives
+suffix output. GeneratedPlatformConfiguration writes real property/package files
+to a caller-owned directory. These are native output contracts, not Maven/JVM,
+Quarkus runtime or container image binary ABI parity.
+
+TEST-only Enterprise dependency stubs are explicitly replaced by executable
+native builder bindings. Missing-binding failures report only the actual native builder requirement;
+no edition, license or Enterprise artifact detection is implemented. Real indexed project ancestry traverses all
+parents and rejects cycles/invalid references. Both Community-edition rejection methods and the dedicated Enterprise-positive
+ConfigureMojo method stay pending. Originals verify dynamic builder/file content,
+request authorization redaction and URL normalization, dry-run behavior, malformed
+responses, errors before builder callbacks, and retryable actual builder failure.
+
+Twelve Gizmo member implementor/factory TEST methods additionally use a native
+compiled-function binding factory. Callable types determine parameter count,
+unit/value return and setter eligibility before execution/cache publication;
+explicit names/annotations form an executable typed schema. The heterogeneous
+factory reuses actual callable bindings and distinct code-plan identities.
+Nullable values retain Rc identity; base projections reread live inherited
+solution data. An independent control consumes parameterized ranges and accessor
+setters through real native solver runs with changing domains.
+
+The native implementation note says “Compiled Rust function binding”; it makes
+no speed claim. Factory-local cached code-plan identity replaces generated Java
+class equality; Rust compilation supplies executable functions, not a JVM/JIT
+backend. Process-local function addresses distinguish bindings but do not prove
+machine-code equality or portable identity. Rust type identities retain nullable
+and generic ownership wrappers. Java reflection/classloader ABI remains outside
+scope; existing registered-callback member APIs retain their own backend labels.

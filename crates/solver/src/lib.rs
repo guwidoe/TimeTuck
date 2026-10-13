@@ -1966,3 +1966,22 @@ pub use benchmark_runtime::{
     BenchmarkStatisticChart, BenchmarkStatisticPoint, BenchmarkStatisticRun,
     benchmark_solve_with_best_csv, benchmark_statistic_charts,
 };
+
+mod config_instance_factory;
+pub use config_instance_factory::{ConfigInstanceError, ConfigInstanceFactory};
+
+mod list_k_opt_live;
+pub use list_k_opt_live::ListKOptLivePlan;
+
+mod platform_configuration;
+pub use platform_configuration::{
+    ConfigureOptions, ConfigureProject, ConfigureRequest, ConfigureTransport,
+    GeneratedPlatformConfiguration, NativeImageArtifact, NativeImageBuilder, NativeImageFormat,
+    NativeImagePlan, PlatformConfigurationError, PlatformConfigurator,
+};
+
+mod compiled_member_factory;
+pub use compiled_member_factory::{
+    CompiledMemberAccessor, CompiledMemberAnnotation, CompiledMemberBody, CompiledMemberCodeType,
+    CompiledMemberFactory, CompiledMemberKind, CompiledMemberRegistration, CompiledMemberRole,
+};

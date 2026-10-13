@@ -63536,6 +63536,593 @@
       "local_path": "crates/solver/tests/benchmark_runtime_cases.rs",
       "local_test": "xml_read_benchmark_result_aggregated",
       "modifications": "All source assertions retained. Inherited methods exercise all twelve concrete TEST fixture types, full values/counts/labels; typed native point CSV hibernation releases resident data after successful write and reads fresh objects; structured typed XML replaces JAXB ABI. Linux process RSS/physical memory replace JVM heap metrics, preserving positive actual measurements. Charts derive real retained successful-run line/bar data with native adaptive downsampling/file output; no frontend/chart renderer parity. Aggregator validates full copied TEST XML, links, outcomes and computes actual summaries. Benchmark run executes actual native three-entity/two-value always-penalize model, real warmup/measured schedule,100ms unimproved policy plus explicit10step ceiling and seed37. One warmup run replaces source minimum1ms; LS metrics/lifecycle/retained-best callbacks produce CSV header and actual score/initialized rows; source timing/RNG trace parity not claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConfigUtilsTest.newInstanceStaticInnerClass",
+      "status": "implemented",
+      "upstream_test": "newInstanceStaticInnerClass",
+      "local_path": "crates/solver/tests/config_instance_cases.rs",
+      "local_test": "new_instance_static_inner_class",
+      "modifications": "Retain complete source assertions using actual compiled Rust constructor bindings. Typed argument and borrowed enclosing-context constructors replace Java reflection/inner/local class discovery; missing required inputs reject before callbacks. Rust local types require context only when that executable binding actually consumes context. Lazy owner description preserves diagnostic assertions. No JVM constructor discovery or classloading claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConfigUtilsTest.newInstanceStaticInnerClassWithArgsConstructor",
+      "status": "implemented",
+      "upstream_test": "newInstanceStaticInnerClassWithArgsConstructor",
+      "local_path": "crates/solver/tests/config_instance_cases.rs",
+      "local_test": "new_instance_static_inner_class_with_args_constructor",
+      "modifications": "Retain complete source assertions using actual compiled Rust constructor bindings. Typed argument and borrowed enclosing-context constructors replace Java reflection/inner/local class discovery; missing required inputs reject before callbacks. Rust local types require context only when that executable binding actually consumes context. Lazy owner description preserves diagnostic assertions. No JVM constructor discovery or classloading claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConfigUtilsTest.newInstanceNonStaticInnerClass",
+      "status": "implemented",
+      "upstream_test": "newInstanceNonStaticInnerClass",
+      "local_path": "crates/solver/tests/config_instance_cases.rs",
+      "local_test": "new_instance_non_static_inner_class",
+      "modifications": "Retain complete source assertions using actual compiled Rust constructor bindings. Typed argument and borrowed enclosing-context constructors replace Java reflection/inner/local class discovery; missing required inputs reject before callbacks. Rust local types require context only when that executable binding actually consumes context. Lazy owner description preserves diagnostic assertions. No JVM constructor discovery or classloading claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConfigUtilsTest.newInstanceLocalClass",
+      "status": "implemented",
+      "upstream_test": "newInstanceLocalClass",
+      "local_path": "crates/solver/tests/config_instance_cases.rs",
+      "local_test": "new_instance_local_class",
+      "modifications": "Retain complete source assertions using actual compiled Rust constructor bindings. Typed argument and borrowed enclosing-context constructors replace Java reflection/inner/local class discovery; missing required inputs reject before callbacks. Rust local types require context only when that executable binding actually consumes context. Lazy owner description preserves diagnostic assertions. No JVM constructor discovery or classloading claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "ConfigUtilsTest.newInstanceOwnerDescription",
+      "status": "implemented",
+      "upstream_test": "newInstanceOwnerDescription",
+      "local_path": "crates/solver/tests/config_instance_cases.rs",
+      "local_test": "new_instance_owner_description",
+      "modifications": "Retain complete source assertions using actual compiled Rust constructor bindings. Typed argument and borrowed enclosing-context constructors replace Java reflection/inner/local class discovery; missing required inputs reject before callbacks. Rust local types require context only when that executable binding actually consumes context. Lazy owner description preserves diagnostic assertions. No JVM constructor discovery or classloading claim."
+    },
+    {
+      "id": "ConfigureMojoTest.testSkipByParameter",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testSkipByParameter",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_skip_by_parameter",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureSuccessfully",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureSuccessfully",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_successfully",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureSuccessfullyWhenPlatformReportsNamespaces",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureSuccessfullyWhenPlatformReportsNamespaces",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_successfully_when_platform_reports_namespaces",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureSuccessfullyWithTrailingSlashInPlatformUrl",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureSuccessfullyWithTrailingSlashInPlatformUrl",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_successfully_with_trailing_slash_in_platform_url",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureFailsWithBlankPlatformUrl",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureFailsWithBlankPlatformUrl",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_fails_with_blank_platform_url",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureSuccessfullyNativeSupported",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureSuccessfullyNativeSupported",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_successfully_native_supported",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureNotAuthorized",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureNotAuthorized",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_not_authorized",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureMissingAccessToken",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureMissingAccessToken",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_missing_access_token",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureNeedsAnAccessTokenEvenOnADryRun",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureNeedsAnAccessTokenEvenOnADryRun",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_needs_an_access_token_even_on_a_dry_run",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureNotAuthorizedForNamespace",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureNotAuthorizedForNamespace",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_not_authorized_for_namespace",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureNotAuthorizedForNamespaceWhenTokenHasNoNamespace",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureNotAuthorizedForNamespaceWhenTokenHasNoNamespace",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_not_authorized_for_namespace_when_token_has_no_namespace",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureFailsWhenTokenHasNoNamespace",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureFailsWhenTokenHasNoNamespace",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_fails_when_token_has_no_namespace",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureFailsWhenPlatformReportsNoNamespaceField",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureFailsWhenPlatformReportsNoNamespaceField",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_fails_when_platform_reports_no_namespace_field",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureFailsWhenNamespaceIsAmbiguous",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureFailsWhenNamespaceIsAmbiguous",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_fails_when_namespace_is_ambiguous",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureUsesConfiguredNamespaceWhenSeveralAreAvailable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureUsesConfiguredNamespaceWhenSeveralAreAvailable",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_uses_configured_namespace_when_several_are_available",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureWrongScopes",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureWrongScopes",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_wrong_scopes",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureFailsWhenServiceParentIsMissing",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureFailsWhenServiceParentIsMissing",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_fails_when_service_parent_is_missing",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureFailsWhenServiceParentIsNotAnAncestor",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureFailsWhenServiceParentIsNotAnAncestor",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_fails_when_service_parent_is_not_an_ancestor",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureAcceptsServiceParentAsIndirectAncestor",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureAcceptsServiceParentAsIndirectAncestor",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_accepts_service_parent_as_indirect_ancestor",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "id": "ConfigureMojoTest.testConfigureSkipsEnterpriseCheckWhenDeployNotRequested",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "testConfigureSkipsEnterpriseCheckWhenDeployNotRequested",
+      "local_path": "crates/solver/tests/platform_configuration_cases.rs",
+      "local_test": "test_configure_skips_enterprise_check_when_deploy_not_requested",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "Full source assertions, literal responses/tokens/property names, namespace errors, request counts and log behavior execute. Native typed caller transport replaces Wiremock/HTTP; actual owned builder artifact and property files replace Maven generated-resources injection and Java Properties. TEST-only setEnterpriseModel/setArtifacts stubs are adapted to executable NativeImageBuilder callbacks, not Enterprise flags or licensing checks. Real indexed parent graph replaces Maven declared/resolved ancestry; native/portable emitted package kind replaces nativeSupported capability boolean. Both Community-edition rejection methods and the dedicated Enterprise-positive method remain pending; no Enterprise production/artifacts inspected."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testGeneratedMemberAccessorForMethod",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testGeneratedMemberAccessorForMethod",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_generated_member_accessor_for_method",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testGeneratedMemberAccessorForMethodWithoutSetter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testGeneratedMemberAccessorForMethodWithoutSetter",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_generated_member_accessor_for_method_without_setter",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testGeneratedMemberAccessorForField",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testGeneratedMemberAccessorForField",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_generated_member_accessor_for_field",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testGeneratedMemberAccessorForPrimitiveField",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testGeneratedMemberAccessorForPrimitiveField",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_generated_member_accessor_for_primitive_field",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testGeneratedMemberAccessorSameClass",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testGeneratedMemberAccessorSameClass",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_generated_member_accessor_same_class",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testGeneratedMemberAccessorReturnVoid",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testGeneratedMemberAccessorReturnVoid",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_generated_member_accessor_return_void",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testGeneratedMemberAccessorForBooleanMethod",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testGeneratedMemberAccessorForBooleanMethod",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_generated_member_accessor_for_boolean_method",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testMethodAnnotatedEntity",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testMethodAnnotatedEntity",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_method_annotated_entity",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testMethodAnnotatedEntityAndInheritance",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testMethodAnnotatedEntityAndInheritance",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_method_annotated_entity_and_inheritance",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.invalidEntityReadMethodWithParameter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "invalidEntityReadMethodWithParameter",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "invalid_entity_read_method_with_parameter",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorImplementorTest.testForbiddenEntityReadWithoutParameter",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "testForbiddenEntityReadWithoutParameter",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_forbidden_entity_read_without_parameter",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "GizmoMemberAccessorFactoryTest.testReturnedMemberAccessor",
+      "status": "implemented",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorFactoryTest.java",
+      "upstream_test": "testReturnedMemberAccessor",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "local_test": "test_returned_member_accessor",
+      "modifications": "Complete source getter/setter, nullable clearing, unit effects, boolean, annotation, owner/result/generic/parameter type and error assertions retained. Real Rust compiled function-pointer registrations derive callable signature and execute actual model operations; typed validated factory caches outputs by schema and actual binding addresses. Rust Compiled Rust function binding note replaces the Java generated-bytecode literal without speed claim. Factory-local Rc code-plan identity replaces Java generated-class/classloader equality, with actual cached callable reuse and original different-code/annotation/isolation controls; no JVM/JIT bytecode generation, Java reflection or ABI parity. Nullable TestdataValue maps Option<Rc<Value>>, lists Vec<Rc<Value>>, unit maps (), preserving canonical value handles and actual Rust generic TypeIds. Inheritance uses live typed base projections; both complete solution parameter cases reread through the same accessor after changes. Process-local function addresses are binding keys, not machine-code equality or portable identifiers."
     }
   ],
   "fixtures": [
@@ -91101,6 +91688,243 @@
         "crates/solver/tests/fixtures/platform_deployment/NOTICE.txt"
       ],
       "modifications": "Exact TEST ZIP bytes reversibly encoded as lowercase hexadecimal for a text literal loader; Rust decodes the original bytes before deployment. Original ZIP retained separately. This avoids binary resource parsing in the development dependency scanner; no replacement archive or data changes."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "config-instance-constructor-fixture",
+      "upstream_test": "constructor helper classes",
+      "local_path": "crates/solver/tests/fixtures/config_instance_fixture.rs",
+      "modifications": "Typed compiled constructor functions replace Java constructor reflection. Explicit borrowed owner models enclosing context; primitive constructor input retained."
+    },
+    {
+      "id": "round142-configure-stubs",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java",
+      "upstream_test": "setUp/setEnterpriseModel/setServiceParent/setArtifacts/parent/readBuildProperties",
+      "local_path": "crates/solver/tests/fixtures/platform_configuration_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "TEST-only fixtures translated to native explicit request queue, dummy AccessTokenSecret, actual builder callback and owned file reader. All aboutme scopes/namespace/registry literals and exact model ancestry preserved. Native executable binding replaces Enterprise artifact stubs without claiming Enterprise behavior. Native output package is caller-generated content, not JVM/container-image ABI."
+    },
+    {
+      "id": "round142-configure-pom",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/resources/project-to-test/pom.xml",
+      "upstream_test": "project-to-test TEST configuration",
+      "local_path": "crates/solver/tests/fixtures/platform_configuration_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "TEST-only fixtures translated to native explicit request queue, dummy AccessTokenSecret, actual builder callback and owned file reader. All aboutme scopes/namespace/registry literals and exact model ancestry preserved. Native executable binding replaces Enterprise artifact stubs without claiming Enterprise behavior. Native output package is caller-generated content, not JVM/container-image ABI."
+    },
+    {
+      "id": "round142-configure-token",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/TestAccessTokenProvider.java",
+      "upstream_test": "TestAccessTokenProvider",
+      "local_path": "crates/solver/tests/fixtures/platform_configuration_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "TEST-only fixtures translated to native explicit request queue, dummy AccessTokenSecret, actual builder callback and owned file reader. All aboutme scopes/namespace/registry literals and exact model ancestry preserved. Native executable binding replaces Enterprise artifact stubs without claiming Enterprise behavior. Native output package is caller-generated content, not JVM/container-image ABI."
+    },
+    {
+      "id": "round142-configure-log",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/utils/InMemoryMojoLog.java",
+      "upstream_test": "InMemoryMojoLog",
+      "local_path": "crates/solver/tests/fixtures/platform_configuration_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/platform_configuration/NOTICE.txt"
+      ],
+      "modifications": "TEST-only fixtures translated to native explicit request queue, dummy AccessTokenSecret, actual builder callback and owned file reader. All aboutme scopes/namespace/registry literals and exact model ancestry preserved. Native executable binding replaces Enterprise artifact stubs without claiming Enterprise behavior. Native output package is caller-generated content, not JVM/container-image ABI."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataValue",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataObject",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-GizmoTestdataEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/gizmo/GizmoTestdataEntity.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataEntityProvidingWithParameterEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/TestdataEntityProvidingWithParameterEntity.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataEntityProvidingWithParameterSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/TestdataEntityProvidingWithParameterSolution.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataInvalidCountEntityProvidingWithParameterEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/invalid/TestdataInvalidCountEntityProvidingWithParameterEntity.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataEntityProvidingOnlyBaseAnnotatedBaseEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingOnlyBaseAnnotatedBaseEntity.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataEntityProvidingOnlyBaseAnnotatedChildEntity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingOnlyBaseAnnotatedChildEntity.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataEntityProvidingOnlyBaseAnnotatedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingOnlyBaseAnnotatedSolution.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-TestdataEntityProvidingEntityProvidingOnlyBaseAnnotatedExtendedSolution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/valuerange/entityproviding/parameter/inheritance/TestdataEntityProvidingEntityProvidingOnlyBaseAnnotatedExtendedSolution.java",
+      "upstream_test": "TEST model selected accessor constructors/getters/setters/annotations",
+      "local_path": "crates/solver/tests/fixtures/compiled_member_fixture.rs",
+      "modifications": "Adapt selected TEST instance behavior to real native typed entities, values, nullable Rc handles and solution/base projections. Retain value/ID/pin/range metadata and methods used by complete TEST assertions. Java unrelated descriptor builders, object-code fields not observed by these methods, static reflection and genericField are not modeled. Invalid two-parameter method is an actual compiled ReadTwo signature rejected by native policy, with no fake parameter-count flag."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/compiled_member_NOTICE.txt"
+      ],
+      "id": "compiled-member-inheritance-assertions",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/gizmo/GizmoMemberAccessorImplementorTest.java",
+      "upstream_test": "assertMemberWithInheritance",
+      "local_path": "crates/solver/tests/compiled_member_cases.rs",
+      "modifications": "Retain every helper assertion and both extended/base parameter types, real initial list and same-accessor reread after solution mutation. Native typed ChildEntity/base projections replace reflection/inheritance discovery; annotations are explicit source declarations."
     }
   ]
 }

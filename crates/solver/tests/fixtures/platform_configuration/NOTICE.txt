@@ -1,0 +1,10 @@
+Adapted Timefold Community ConfigureMojoTest TEST methods/helpers/stubs and test
+POM settings, Apache License 2.0. Copyright Timefold contributors.
+Pinned commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Source service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/
+ConfigureMojoTest.java, TestAccessTokenProvider.java, utils/InMemoryMojoLog.java,
+and src/test/resources/project-to-test/pom.xml.
+Native executed builder/owned output and indexed ancestry replace test-only
+Enterprise artifact-stub eligibility, Maven session injection and Properties I/O.
+No Enterprise implementation/artifact inspected, license/profile detection or JVM
+image packaging claimed. See compat/provenance.json for exact modifications.

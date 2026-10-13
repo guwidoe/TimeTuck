@@ -16,7 +16,69 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
 builds/tests across local, runner-a and runner-c, as most recently authorized.
 
-## Latest verified checkpoint — round141
+## Latest verified checkpoint — round142
+
+The frozen merged `bash scripts/check.sh` passed once on runner-a in
+94.450s: 7,990 Rust tests and 290 doctests.
+Compatibility 4,260/4,855 (87.745%),
+27 pending, 568 excluded, zero failed/unverified.
+Changed Rust jobs: {'RUN': 8, 'REUSE': 1251}; Python jobs: {'REUSE': 46}.
+Prebuild 162.774s. Rust digest 7bbbde9b913e6a9f9e141587a44730f4a00da1b03ec1c8b1da8f6b27f5995499.
+Report digest 222ecf7b50cba26596c000f89c52109914a4ea13b9d34418d8cf160be1373033. runner-a snapshot c7f61b3f8af6de2e2a1a565f534da31baf8c565d1c853b7a30a9a09ce27c244b.
+Archive `work/round142-runner-a-results.tar.gz`, SHA256 7c7976e2dee435c31a4a7cf7c6dcd099b4cddec679436227e385381aa46735e8.
+Receipts `work/parallel-round142-evidence.json` and
+`work/parallel-round142-freeze.json`; source IDs
+`work/round142-added-source-ids.json`. Backend report/freshness inspected;
+UI/data contract unchanged, no browser check repeated.
+
+Thirty-seven complete methods close twenty native configuration, twelve compiled
+member factory and five executable constructor contracts. Twelve original controls
+and seventeen attributed TEST fixtures added. All lane outputs and raw evidence
+are preserved with hash receipts in `work/round142-agent-evidence`; archival occurs
+only after that preservation. Native implementation remains incomplete.
+
+Constructor bindings execute compiled no-input, typed argument and enclosing-context
+functions. Required inputs validate before callbacks; lazy owner diagnostics evaluate
+only on failure. Originals verify fresh owned construction, current context, wrong-type
+silence and callback counts. Explicit native context replaces JVM inner/local class
+reflection; synthetic-member filtering stays pending. Eight final focused tests and
+Clippy passed. Initial large-error Clippy failure preserved; diagnostics are now boxed
+only on failure, and final tests/Clippy verify that implementation.
+
+Configuration parses actual authenticated aboutme response arrays, namespace/scopes,
+registry and ancestry graphs. Actual builder callbacks consume current plans and
+produce nonempty owned artifacts; generated property/package files execute. Twenty
+source methods and four originals pass. Two Community-edition rejection source methods
+were initially credited via copied source diagnostics; review rejected that substitution.
+Both methods and dedicated Enterprise-positive method remain pending. Missing-builder
+errors describe only the real native requirement. Superseded first proof is preserved,
+with corrected final focused/Clippy proof. No Enterprise detection, Maven/JVM/container
+binary ABI, external platform requests or invented licensing flags are implemented.
+
+Compiled typed callable signatures validate parameter count, unit return and setters
+before execution/cache publication. Factory cache identity includes real types, schema
+and function addresses; actual getters/setters preserve ownership and reread inherited
+solution data. Twelve source methods and three originals pass; controls change domains
+and execute actual solver runs. Native compiled-binding labels/cache identities replace
+Java bytecode/generated-class contracts, with no speed/reflection/classloader ABI claim.
+Root replaced a broad re-export with explicit exports before freezing. The final merged
+gate covers actual exports; unrelated benchmark inputs remain unchanged.
+
+Optional physical-only ListKOptLivePlan validates cut endpoints, row shape and pins,
+then reads current interior values and produces real atomic moves/undo. Two original
+controls vary eight shapes and two orientations and independently check retained edges;
+changed endpoints, shapes, pins and invalid partitions reject. No shared kernel change
+or source method credit. All five virtual-seam/nonsequential/rebase methods remain
+pending. One bounded exact temporal probe rerun recovers the missing round141 raw proof;
+actual class outputs, logs and twenty-three runtime artifact hashes are now preserved.
+It confirms the controlled live-interior effect, not a general reconnection/repair recipe.
+
+Fresh round139 paired solver/k-opt/list measurement input digests remain unchanged;
+original dates retained, no old results rekeyed. Older unrelated measurements remain
+stale. runner-c status remains offline and its SSH probe timed out before dispatch. Local
+and runner-a supplied actual lane/combined checks; no live/uncollected runner-c job exists.
+
+## Previous verified checkpoint — round141
 
 The frozen merged `bash scripts/check.sh` passed once on runner-a in
 93.272s: 7,941 Rust tests and 290 doctests. Compatibility
@@ -71,8 +133,9 @@ The read trace cannot establish absence of prebuilt payload capture or attribute
 all reads to execution versus notification/undo. The controlled temporal experiment
 swaps interior values7/8 after move preparation, refreshes shadows/director, and
 executes the same move. Actual ownership follows the changed live positions.
-Preserve exact changes, supplies and caveats in
-`work/round141-agent-evidence/kopt-execution/round141-kopt-handoff.json`.
+The round141 raw probe logs and handoff were not actually preserved before
+archival; only attributed probe sources survived. Treat the historical summary
+as unverified observation until a fresh bounded run supplies raw evidence.
 It does not establish a generic reconnection/repair recipe. All five hard k-opt
 methods remain pending; do not repeat refuted topology/orientation/seam probes.
 
