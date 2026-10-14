@@ -45,3 +45,37 @@ trip, then compare the default solve with exhaustive optimum. Repeated file runs
 start fresh. Invalid XML, phase shapes and thresholds preserve existing output on
 both backends. These controls establish application execution, not elapsed-time
 trace parity or additional upstream-method credit.
+
+The example also accepts local files directly. All three file flags are required;
+`--backend` defaults to `dense`, and `--solver-xml` optionally supplies custom XML.
+Paths with spaces must be quoted. Output is saved JSON plus a concise stdout score,
+backend and evaluation summary. Diagnostics use stderr: success is exit 0,
+application/file/configuration failure is exit 1, and invalid arguments are exit 2.
+`--help`/`-h` overrides other arguments; `--version` prints the native package
+version. Duplicate, unknown and incomplete flags fail before file writes. No
+interactive prompts or environment configuration are used. Existing output may be
+replaced after a successful solve; source-file aliases reject before solving,
+including canonical symlink aliases and Unix hard links. Invalid input or controls
+preserve existing output. A root XML zero-time stop can end before score
+initialization; the application reports failure and preserves output rather than
+writing an unscored document. The manager zero-deadline case described above uses
+a separate native time-override route. File replacement uses the existing
+temporary-file writer.
+
+```sh
+cargo run --example owned_roster_workflow
+cargo run --example owned_roster_workflow -- --help
+cargo run --example owned_roster_workflow -- --version
+cargo run --example owned_roster_workflow -- --input input.json --config configuration.json --output solved.json
+cargo run --example owned_roster_workflow -- --input input.json --config configuration.json --output stream-solved.json --backend stream
+cargo run --example owned_roster_workflow -- --input "roster input.json" --config configuration.json --output solved.json --solver-xml solver.xml
+```
+
+An original representative qualification uses 16 employees and 128 initially
+unassigned shifts over eight periods. Each period has overlapping shifts and four
+skill groups. Assigning each shift to its qualified preferred employee supplies an
+independently scored zero-hard/zero-soft certificate. Both backends must reach this
+certificate through the actual file/owned-manager workflow, retain input bytes and
+reread the saved output under a 10,000-evaluation cap, 30-second cooperative time
+cap and 16-step local ceiling. This case establishes a bounded application quality
+criterion, not general optimality or a Java/Rust speed comparison.

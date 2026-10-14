@@ -10167,3 +10167,36 @@ source-method credit. Coverage remains4390/4855,12pending,453excluded,zero faile
 unverified. Three primary benchmark inputs remain unchanged; actual round180
 dates/samples are retained. Other old metrics stay visibly stale. Full original
 scope and performance/application qualification remain unfinished.
+
+
+## Usable roster application and performance qualification (round193)
+
+The owned roster executable accepts supplied input/config/output documents,
+optional solver XML and backend selection, retaining its sample mode. Lossless OS
+paths, usage/error exits and source-alias guards execute through the actual file
+workflow. Four original checks and14 actual binary invocations passed. A planted
+16employee/128shift certificate is independently scored and reached on bothbackends
+at0hard/0soft with2,049evaluations each under explicit native budgets; input bytes
+are retained and saved output reread. RootXML zero time can stop before scoring;
+the application rejects/preservesoutput instead of inventing a score. One final
+frozen gate passed8,294Rust tests+290doctests, reusing1,319Rust/46Python jobs and
+running2 changed Rust jobs. No shared solver or new upstream-method credit.
+
+Ten stale benchmark sections now have actual fresh warmup3/sample5/fork3 data,
+with alternating fresh runtime processes, source guards and independent checks.
+Together with three unchanged actual primary measurements, all13 performance
+sections are current. Each Java/Rust comparison ran on its recorded same host;
+local and runner-a environment differences prevent cross-host causal inference.
+Original dates/raw samples are preserved, including slower Rust checked-sum and
+sorted-set results and unequal repair quality. Coverage remains4390/4855,
+12pending,453excluded,zero failed/unverified. All thirteen relevant input hashes
+remain unchanged by this example-only integration; no redundant benchmark repeat.
+
+Fresh list-repair validation found64valid cases,Java64optimal/Rust56optimal.
+Current-source read-only analysis attributes all8 misses to seeded finite-budget
+sampling failing to select one movable value, with independent legal single-edit
+witnesses achieving the reported optima. This is a concrete heuristic quality
+improvement opportunity; it does not demonstrate a scoring or pinning bug. A new
+coverage policy must preserve generic eligibility, bounds and existing default
+behavior. Remaining raw/JVM assertions and final original-scope qualification
+remain honest; this checkpoint is not completion.

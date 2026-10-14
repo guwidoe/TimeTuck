@@ -17,7 +17,83 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round190
+## Latest verified checkpoint — round193
+
+The owned roster executable is now usable with supplied JSON/configuration files,
+Dense(default)/Stream selection and optional solver XML. It preserves the zero-arg
+demo, provides help/version and exit0/1/2, keeps OS paths lossless, and rejects
+unknown/duplicate/missing flags before writes. CLI source/output canonical and Unix
+hard-link aliases reject. Four owned example/test/doc paths changed; no shared
+kernel/support/Cargo/pin/provenance changes. create-cli skill used with known file
+workflow conventions; no user decision/approval was needed. One original test
+misassumed XML rootPT0S would publish a partial score; existing app correctly
+rejects unscored output, unlike its distinct native manager override route. Failure
+source/log retained, expectation corrected; no fake score or shared-kernel repair.
+
+Agent4 focused tests,affected strict Clippy and14 actual binary invocations passed
+locally, including demo,help/version,usage2,executionfail1,files,XML and aliases.
+Actual16employee/128shift certificate qualification on bothbackends returned
+independently checked0hard/0soft with2,049evaluations each, retaininginput/rereading
+output under10,000eval/30s/16local-step caps. Only this bounded fixture establishes
+its optimum; no roster speed/generaloptimality claim. All immutable fail/success
+sources,wholeRustCargo guards/logs/receipts and exact4paths validated under
+work/round193-agent-evidence/roster-cli. Managed tree archived; all jobs terminal.
+
+One frozen runner-a bash scripts/check.sh passed8,294Rust tests+290doctests.
+2 Rust jobs ran;1,319Rust and46Python reused unchanged genuine successes.
+Prebuild163.775s,gate80.537s,worker244.849s. Evidence
+work/parallel-round193-{freeze,evidence}.json; archive
+work/round193-runner-a-results.tar.gz SHA256
+78caad1aef0e7adaf9cbcf298c86a3eb7334c00d119da3461e6bdb393a7d474b.
+Rust digestfb1131633b51e394861e0e6c6b5cd9e44fe455611fd8b55715dc228208da3c6f;
+report digest452cc38ad412932f7f5f48fff74100e94f6beeb570daf32a2c42132cbb846506.
+Coverage4390/4855(90.422%),12pending,453excluded,zero failed/unverified.
+Original tests/qualification add no upstream-method credit. Report/freshness HTTP
+checked at127.0.0.1:8765; no UI/rendering change or browser repeat.
+
+Ten deliberately stale benchmark sections refreshed at frozen34c84bc. Local:
+score arithmetic,concurrent,sequence,aggregate,pillar; runner-a:heuristics,
+construction,basic repair,list repair,streams. All workloads use3fresh forks,
+5samples,3warmups with alternatingruntimeorder; everyoutput checked by existing
+independent references/quality rules. Oldreports/records/rawdata and immutable
+source proofs retained. Genuine slower checked-sum/sorted-set results retained.
+Local independent case counts: concurrent64,sequence64,aggregate96,pillar128;
+score checksums match. runner-a validity/quality: heuristics352valid/352equal,
+construction201/201,repair64valid/52equal(Java35optimal/Rust33),listrepair64/56
+(Java64optimal/Rust56),stream128/128(Java/Rust115optimal). No unequal quality/work
+was hidden. Evidence work/round191-support-performance-evidence.json and
+round191-runner-a-performance-results; collection work/round191-performance-collection.json.
+Actual same-host comparisons have separate recorded CPU/JDK environments; no
+cross-host causal claim. runner-a lacked Java; official SHA-verified portable
+OpenJDK25.0.2 installed only in its userbuildcache, setup receipt retained under
+work/round191-runner-a-jdk-setup.log. Native benchmark path symlink points to its
+canonical target; source guards matched. runner-c parked throughout.
+
+All13 dashboard benchmark sections are nowcurrent:10new plus3unchanged actual
+round180 primary measurements with originaldates. Exact13 measurement inputs
+remain unchanged after CLI integration (work/round193-performance-inputs.json).
+Remote cache records stay remote evidence, not relabeled local results. No
+extra benchmark after unrelated CLI changes. Base34c84bc; postcommit receipt
+work/round193-postcommit-evidence.json. Goal active/incomplete; turn progress.
+
+Next meaningful native improvement: the fresh list-repair comparison exposes8
+small five-value half-mode quality misses. Read-only current-source analysis proves
+seed20261225 never selects registry3 across8attempts; all8 are finite-budget
+coverage starvation, not a score/tie/pin bug. Independently rescored legal one-edit
+witnesses close all8 optima (5relocations,3optional omissions). Evidence
+work/round191-list-repair-gap-analysis.json SHA256
+49647945f75373ad550f49536f43876246d47ac440e03da7b4efdcb3b2e54b1f.
+Consider an explicit generic seeded coverage-cycle sampling policy in ruin_engine,
+keeping legacy independent sampling/defaulttrace,groupbounds,per-pool eligibility,
+pins,finite work/cancellation and optional omission semantics. No hardcodedcases,
+scriptedmoves or unbounded exhaustivefallback. Shared repair changes require broad
+regression; remeasure only genuinely changed inputs/claims, retain others.
+Audit:12pending includes9JVM/framework/edition methods,2raw nonsequential endpoint
+buffer comparisons,and1unsupported retainAll shape. No verified missing search
+algorithm from those12; do not harvest credits with constant errors/paddedbuffers
+or redefine the original objective. Full final scope/quality qualification remains.
+
+## Previous verified checkpoint — round190
 
 Full XML controls now compile bestScoreLimit and true bestScoreFeasible into the
 existing native ScoreGoalProgressConfig/session. Default recursive splits0.5 use

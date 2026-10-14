@@ -1,8 +1,9 @@
 //! Original complete configuration/file/manager scheduling workflow.
+mod owned_roster_cli;
 mod owned_roster_support;
 use owned_roster_support::*;
 use timetuck::SolutionFileIo;
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn demo() -> Result<(), Box<dyn std::error::Error>> {
     let dir = std::env::temp_dir().join(format!(
         "timetuck-roster-{}-{}",
         std::process::id(),
@@ -34,4 +35,36 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         dir.display()
     );
     Ok(())
+}
+
+fn main() -> std::process::ExitCode {
+    use owned_roster_cli::Invocation;
+    let invocation = match owned_roster_cli::parse(std::env::args_os().skip(1)) {
+        Ok(invocation) => invocation,
+        Err(error) => {
+            eprintln!("{error}");
+            return std::process::ExitCode::from(2);
+        }
+    };
+    let result = match invocation {
+        Invocation::Help => {
+            print!("{}", owned_roster_cli::HELP);
+            return std::process::ExitCode::SUCCESS;
+        }
+        Invocation::Version => {
+            println!("owned_roster_workflow {}", env!("CARGO_PKG_VERSION"));
+            return std::process::ExitCode::SUCCESS;
+        }
+        Invocation::Demo => demo().map_err(|e| e.to_string()),
+        Invocation::Files(files) => {
+            owned_roster_cli::execute(&files).map(|summary| println!("{summary}"))
+        }
+    };
+    match result {
+        Ok(()) => std::process::ExitCode::SUCCESS,
+        Err(error) => {
+            eprintln!("{error}");
+            std::process::ExitCode::from(1)
+        }
+    }
 }
