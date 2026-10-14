@@ -42,7 +42,6 @@ pub struct DiminishedRuntimeBinding {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DiminishedRuntimeError {
     RatioMustBePositiveFinite,
-    RatioNotRepresentable,
     Policy(DiminishedReturnsError),
 }
 impl fmt::Display for DiminishedRuntimeError {
@@ -51,40 +50,11 @@ impl fmt::Display for DiminishedRuntimeError {
             Self::RatioMustBePositiveFinite => {
                 f.write_str("runtime improvement ratio must be positive and finite")
             }
-            Self::RatioNotRepresentable => f.write_str(
-                "runtime improvement ratio requires a numerator or denominator beyond u64",
-            ),
             Self::Policy(error) => error.fmt(f),
         }
     }
 }
 impl Error for DiminishedRuntimeError {}
-/// Exact rational value of the supplied IEEE754 number; no decimal rounding or
-/// silent approximation. Reject values outside the native u64 fraction envelope.
-fn rational(value: f64) -> Result<(u64, u64), DiminishedRuntimeError> {
-    if !value.is_finite() || value <= 0.0 {
-        return Err(DiminishedRuntimeError::RatioMustBePositiveFinite);
-    }
-    let bits = value.to_bits();
-    let exponent = ((bits >> 52) & 0x7ff) as i32;
-    let mut mantissa = bits & ((1u64 << 52) - 1);
-    let mut power = if exponent == 0 {
-        -1074
-    } else {
-        mantissa |= 1u64 << 52;
-        exponent - 1023 - 52
-    };
-    let zeros = mantissa.trailing_zeros();
-    mantissa >>= zeros;
-    power += zeros as i32;
-    let range = DiminishedRuntimeError::RatioNotRepresentable;
-    if power >= 0 {
-        let factor = 1u64.checked_shl(power as u32).ok_or(range)?;
-        Ok((mantissa.checked_mul(factor).ok_or(range)?, 1))
-    } else {
-        Ok((mantissa, 1u64.checked_shl((-power) as u32).ok_or(range)?))
-    }
-}
 impl RuntimeSolverProperties {
     fn resolve(self) -> Result<DiminishedRuntimeBinding, DiminishedRuntimeError> {
         let off = DiminishedRuntimeBinding {
@@ -105,17 +75,17 @@ impl RuntimeSolverProperties {
             return Ok(off);
         }
         let defaults = default_diminished_returns_config();
-        let (n, d) = raw
-            .minimum_improvement_ratio
-            .map(rational)
-            .transpose()?
-            .unwrap_or(defaults.ratio());
-        let config = DiminishedReturnsConfig::new(
-            raw.sliding_window_duration.unwrap_or(defaults.window()),
-            n,
-            d,
-        )
-        .map_err(DiminishedRuntimeError::Policy)?;
+        let window = raw.sliding_window_duration.unwrap_or(defaults.window());
+        let config = match raw.minimum_improvement_ratio {
+            Some(ratio) => DiminishedReturnsConfig::from_f64(window, ratio),
+            None => DiminishedReturnsConfig::new(window, 1, 10_000),
+        }
+        .map_err(|error| match error {
+            DiminishedReturnsError::RatioMustBePositiveFinite => {
+                DiminishedRuntimeError::RatioMustBePositiveFinite
+            }
+            error => DiminishedRuntimeError::Policy(error),
+        })?;
         Ok(DiminishedRuntimeBinding {
             termination: RuntimeSolverTermination {
                 diminished_returns: Some(DiminishedReturnsDeclaration {

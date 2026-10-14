@@ -57,11 +57,23 @@ fn durations_limits_and_explicit_policies_are_preserved_transactionally() {
     let raw = resolve(&[
         (
             "timefold.model.termination.diminished-returns.minimum-improvement-ratio",
-            "1e300",
+            "1e400",
         ),
         ("timefold.model.termination.spent-limit", "1s"),
-    ])
-    .unwrap();
+    ]);
+    assert!(raw.is_err());
+    let raw = RuntimePropertyPlan {
+        spent_limit: Some(Duration::from_secs(1)),
+        solver: RuntimeSolverProperties {
+            termination: Some(RuntimeTerminationProperties {
+                diminished_returns: Some(RuntimeDiminishedReturns {
+                    minimum_improvement_ratio: Some(f64::INFINITY),
+                    ..Default::default()
+                }),
+            }),
+        },
+        ..Default::default()
+    };
     assert!(raw.bind_mixed(&mut mixed).is_err());
     assert_eq!(mixed, before);
     let before = p.clone();

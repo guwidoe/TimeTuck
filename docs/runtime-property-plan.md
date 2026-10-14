@@ -22,8 +22,7 @@ ISO durations delegate to the existing JsonDuration parser/to_std and its suppor
 profile. Native short syntax is unsigned integer followed by ms,s,m,h,d with no
 whitespace or fractions; arithmetic and standard Duration conversion are checked.
 Enabled accepts only true/false. Ratio is parsed to f64 and must be positive finite;
-existing binding additionally requires its exact binary rational to fit native u64
-fractions. Zero time limits are allowed; diminished window must be positive. Even
+binding preserves its exact IEEE754 value over the full finite range. Zero time limits are allowed; diminished window must be positive. Even
 explicitly disabled supplied declarations are parsed/validated. Missing properties
 remain absent; unknown keys do not mutate the plan. Diagnostics are live resolver
 callbacks, not JUL/SmallRye/Quarkus log integration.
@@ -34,8 +33,9 @@ stream scoring for basic and mixed models, untouched list ownership, policy/limi
 preservation and malformed/overflow no-write failures. No production implementation,
 Enterprise source, private runtime definition or bytecode was read.
 
-Known ratio limit: an explicit decimal `0.0001` parses to an IEEE binary fraction
-whose denominator is2^66, beyond the existing native u64 fraction envelope, and
-binding rejects it without mutation. An absent ratio uses the native exact1/10000
-default and succeeds. These paths are intentionally distinguished; this adapter
-does not claim complete Timefold decimal-ratio compatibility.
+Explicit `0.0001`, all positive finite normal values and subnormal values now bind
+without approximation. The native default remains the exact decimal fraction
+1/10000; an explicit f64 is its exact binary fraction and can differ at a threshold.
+`DiminishedReturnsConfig::ratio()` now returns arbitrary-precision integer
+components. Compact copyable configuration retains the ordinary integer-fraction
+path; extended ratios use an exact power of two in the existing rate comparison.

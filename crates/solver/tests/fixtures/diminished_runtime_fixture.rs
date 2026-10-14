@@ -51,7 +51,7 @@ pub fn assert_present(
     assert_eq!(
         actual.ratio(),
         if ratio.is_some() {
-            (123, 1)
+            (123.into(), 1.into())
         } else {
             default_diminished_returns_config().ratio()
         }

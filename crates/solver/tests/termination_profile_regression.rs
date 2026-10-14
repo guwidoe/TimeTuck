@@ -157,7 +157,7 @@ fn binding_overlays_only_specified_fields_and_mixed_tuning() {
         assert_eq!(local.search.max_steps, 12);
         let policy = local.search.diminished_returns.unwrap();
         assert_eq!(policy.window(), Duration::from_secs(30));
-        assert_eq!(policy.ratio(), (1, 100));
+        assert_eq!(policy.ratio(), (1.into(), 100.into()));
         assert!(matches!(plan.phases[1], MixedSolverPhase::Exact(_)));
     });
     let default = TerminationProfile::default();
@@ -189,7 +189,10 @@ fn fallback_is_atomic_and_exact_tuning_validates_before_binding() {
     assert!(TerminationProfile::new(None, None, None, None, Some(Duration::ZERO), None).is_err());
     let p = TerminationProfile::new(None, None, None, None, Some(Duration::from_nanos(1)), None)
         .unwrap();
-    assert_eq!(p.diminished_returns().unwrap().ratio(), (1, 10000));
+    assert_eq!(
+        p.diminished_returns().unwrap().ratio(),
+        (1.into(), 10000.into())
+    );
     assert_eq!(
         p.diminished_returns().unwrap().window(),
         Duration::from_nanos(1)

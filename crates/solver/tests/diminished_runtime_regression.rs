@@ -16,7 +16,7 @@ fn properties(raw: RuntimeDiminishedReturns) -> RuntimeSolverProperties {
 #[test]
 fn exact_positive_binary_ratios_and_invalid_inputs_are_staged_before_mutation() {
     for (raw, expected) in [
-        (123.0, (123, 1)),
+        (123.0, (123u64, 1u64)),
         (0.125, (1, 8)),
         (0.1, (3602879701896397, 36028797018963968)),
         (2f64.powi(63), (1u64 << 63, 1)),
@@ -28,20 +28,13 @@ fn exact_positive_binary_ratios_and_invalid_inputs_are_staged_before_mutation() 
         })
         .bind(&mut p)
         .unwrap();
-        assert_eq!(b.resolved.unwrap().ratio(), expected);
+        assert_eq!(
+            b.resolved.unwrap().ratio(),
+            (expected.0.into(), expected.1.into())
+        );
         assert_eq!(b.applied_local_phases, 1);
     }
-    for raw in [
-        0.0,
-        -0.0,
-        -1.0,
-        f64::NAN,
-        f64::INFINITY,
-        f64::NEG_INFINITY,
-        2f64.powi(64),
-        f64::from_bits(1),
-        1e300,
-    ] {
+    for raw in [0.0, -0.0, -1.0, f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
         let mut p = SolverSequence::<SimpleScore>::default();
         let before = p.clone();
         assert!(
@@ -224,7 +217,7 @@ fn runtime_defaults_windows_and_ratios_stop_actual_dense_and_stream_local_phases
         }
         if let Some(ratio) = raw.minimum_improvement_ratio {
             assert_eq!(ratio, 123.0);
-            assert_eq!(receipt.resolved.unwrap().ratio(), (123, 1));
+            assert_eq!(receipt.resolved.unwrap().ratio(), (123.into(), 1.into()));
         }
         let mut score = ConstraintNetwork::new(1);
         let t = ticks.clone();

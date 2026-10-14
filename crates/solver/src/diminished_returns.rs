@@ -6,6 +6,7 @@ use std::{error::Error, fmt, time::Duration};
 pub enum DiminishedReturnsError {
     ZeroWindow,
     ZeroRatio,
+    RatioMustBePositiveFinite,
     UnsupportedScoreArithmetic,
     NoScoreLevels,
 }
@@ -15,6 +16,9 @@ impl fmt::Display for DiminishedReturnsError {
             Self::ZeroWindow => "diminished-returns window must be positive",
             Self::ZeroRatio => {
                 "diminished-returns ratio numerator and denominator must be positive"
+            }
+            Self::RatioMustBePositiveFinite => {
+                "diminished-returns ratio must be positive and finite"
             }
             Self::UnsupportedScoreArithmetic => {
                 "diminished returns requires exact decimal score levels"
@@ -32,6 +36,9 @@ pub struct DiminishedReturnsConfig {
     window: Duration,
     numerator: u64,
     denominator: u64,
+    // A compact exact power of two extends IEEE754 ratios without allocating
+    // configuration or changing the ordinary integer-fraction fast path.
+    binary_power: i16,
 }
 impl DiminishedReturnsConfig {
     pub fn new(
@@ -49,13 +56,56 @@ impl DiminishedReturnsConfig {
             window,
             numerator,
             denominator,
+            binary_power: 0,
         })
+    }
+    /// Preserve the exact value of a positive finite IEEE754 ratio, including
+    /// subnormal numbers. This performs no decimal rounding or approximation.
+    pub fn from_f64(window: Duration, ratio: f64) -> Result<Self, DiminishedReturnsError> {
+        if !ratio.is_finite() || ratio <= 0.0 {
+            return Err(DiminishedReturnsError::RatioMustBePositiveFinite);
+        }
+        let bits = ratio.to_bits();
+        let exponent = ((bits >> 52) & 0x7ff) as i16;
+        let mut numerator = bits & ((1u64 << 52) - 1);
+        let mut power = if exponent == 0 {
+            -1074
+        } else {
+            numerator |= 1u64 << 52;
+            exponent - 1023 - 52
+        };
+        let zeros = numerator.trailing_zeros();
+        numerator >>= zeros;
+        power += zeros as i16;
+        // Keep existing representable ratios identical to `new`, including Eq.
+        let fraction = if power >= 0 {
+            1u64.checked_shl(power as u32)
+                .and_then(|factor| numerator.checked_mul(factor))
+                .map(|n| (n, 1))
+        } else {
+            1u64.checked_shl((-power) as u32).map(|d| (numerator, d))
+        };
+        let (n, d) = fraction.unwrap_or((numerator, 1));
+        let mut config = Self::new(window, n, d)?;
+        if fraction.is_none() {
+            config.binary_power = power;
+        }
+        Ok(config)
     }
     pub fn window(self) -> Duration {
         self.window
     }
-    pub fn ratio(self) -> (u64, u64) {
-        (self.numerator, self.denominator)
+    /// Exact ratio. Arbitrary-precision components cover the full finite f64
+    /// range; ordinary integer constructor fractions retain their supplied form.
+    pub fn ratio(self) -> (BigInt, BigInt) {
+        let mut n = BigInt::from(self.numerator);
+        let mut d = BigInt::from(self.denominator);
+        if self.binary_power > 0 {
+            n <<= self.binary_power as usize;
+        } else if self.binary_power < 0 {
+            d <<= (-self.binary_power) as usize;
+        }
+        (n, d)
     }
 }
 /// A validated, phase-local diminished-return leaf for composed termination.
@@ -294,14 +344,16 @@ impl<S: Score> DiminishedReturns<S> {
         let scale = |value: &Decimal, factor: BigInt| {
             Decimal::new(value.coefficient() * factor, value.scale())
         };
-        let current = scale(
-            &gain,
-            BigInt::from(period.as_nanos()) * self.config.denominator,
-        );
-        let required = scale(
-            reference,
-            BigInt::from(self.config.window.as_nanos()) * self.config.numerator,
-        );
+        let mut current_factor = BigInt::from(period.as_nanos()) * self.config.denominator;
+        let mut required_factor =
+            BigInt::from(self.config.window.as_nanos()) * self.config.numerator;
+        if self.config.binary_power < 0 {
+            current_factor <<= (-self.config.binary_power) as usize;
+        } else if self.config.binary_power > 0 {
+            required_factor <<= self.config.binary_power as usize;
+        }
+        let current = scale(&gain, current_factor);
+        let required = scale(reference, required_factor);
         self.terminated = current.numeric_cmp(&required).is_lt();
         active.rate_dirty = false;
         self.terminated

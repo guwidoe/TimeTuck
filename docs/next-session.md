@@ -17,7 +17,50 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round158
+## Latest verified checkpoint — round159
+
+Closed the native diminished-return ratio envelope gap: explicit0.0001 and every
+positive finite IEEE754 value now bind exactly, including subnormals and f64::MAX.
+Copyable configuration retains ordinary u64 constructor fractions and stores an
+exact power of two for extended binary ratios. Ratio inspection now returns
+BigInt components; ordinary integer defaults remain exact1/10000. Equality of
+rates continues, a strictly smaller rate stops; original threshold checks cover
+both extremes with arbitrary-precision decimal scores. Exponent-envelope controls
+cover8,187 values; real controlled-clock standard/mixed dense/stream solves consume
+explicit0.0001 and smallest-subnormal settings. Invalid/nonfinite values reject
+before mutation. Attribution records retain the same adapted numeric assertions.
+No added source methods; compatibility remains4,324/4,855 (89.063%),12 pending,
+519 excluded. This remains test compatibility, not project completion.
+
+One frozen runner-a `bash scripts/check.sh` passed:8,120 Rust tests and290 doctests.
+Four focused jobs ran in prebuild and their exact records were reused by the gate;
+the gate ran1,150 Rust jobs and reused140 Rust/46 Python jobs. Prebuild/Clippy and
+focused checks took955.578s; final gate373.651s; complete remote job1329.745s.
+Shared termination changes required broad regression; do not repeat unchanged
+checks. Actual source guards, aggregate checksum, report and backend freshness
+passed. Freeze/evidence:work/parallel-round159-{freeze,evidence}.json.
+Collected archive work/round159-runner-a-results.tar.gz SHA256
+35947725fc66b4fb970641c9d14b1d378a85b08cda73193f4fe8e5effa6acf65.
+Rust digest 69cbb3df4d079ebcb8814a97f036f2f8256e8a7871c3eb83088abee713a42163;
+report digest a9005c0109706d0eb595c1c7525c892b1553fa7939ac47bc856c79fc324f8bf5.
+
+
+Three actual local paired performance refreshes passed,444.778s including builds:
+10 exact-search workloads,128/128 k-opt cases (114equal) and320/320 list cases
+(319equal;optimalJava265/Rust266). Original round146 measurements are preserved at
+work/round159-previous-performance. Both runtimes slowed relative to the historical
+run; this is not a controlled before/after speed claim. New measurement input
+keys/timestamps are genuine; unrelated old cards retain their actual stale status.
+Backend report/freshness inspected; no UI/data-contract changes, no browser rerun.
+The initial Clippy failure from a test integer losing its u64 inference is fixed;
+original frozen manifest/log/diagnostics remain under work/round159-failed-attempt1.
+No tests were restarted due to observation timeouts. Genuine round158 runner-a
+records seed reuse on unchanged job inputs/environment only; not relabeled local.
+runner-c remains parked at user direction, original session74844 outcome unresolved.
+No new agent assignments. Goal active/incomplete. Baseacbfb4245110a82d473a803f34e2a2cc549d41f0;
+postcommit receipt work/round159-postcommit-evidence.json.
+
+## Previous verified checkpoint — round158
 
 Integrated native text-property plans, real named solver factories/managers, exact
 XSI schema hints and the runnable configured_routes example. Compatibility is

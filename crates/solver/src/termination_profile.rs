@@ -239,7 +239,7 @@ impl TerminationProfile {
             return None;
         }
         let defaults = default_diminished_returns_config();
-        let (n, d) = self.ratio.unwrap_or(defaults.ratio());
+        let (n, d) = self.ratio.unwrap_or((1, 10_000));
         Some(
             DiminishedReturnsConfig::new(self.window.unwrap_or(defaults.window()), n, d)
                 .expect("validated profile"),

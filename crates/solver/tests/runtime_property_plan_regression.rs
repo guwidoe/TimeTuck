@@ -91,6 +91,22 @@ fn parsed_properties_drive_dense_and_stream_local_phases() {
         ),
         (
             RuntimeDiminishedReturns {
+                minimum_improvement_ratio: Some(0.0001),
+                ..Default::default()
+            },
+            11,
+            true,
+        ),
+        (
+            RuntimeDiminishedReturns {
+                minimum_improvement_ratio: Some(f64::from_bits(1)),
+                ..Default::default()
+            },
+            11,
+            true,
+        ),
+        (
+            RuntimeDiminishedReturns {
                 enabled: Some(false),
                 ..Default::default()
             },
@@ -115,8 +131,10 @@ fn parsed_properties_drive_dense_and_stream_local_phases() {
             assert_eq!(receipt.resolved.unwrap().window(), window);
         }
         if let Some(ratio) = raw.minimum_improvement_ratio {
-            assert_eq!(ratio, 123.0);
-            assert_eq!(receipt.resolved.unwrap().ratio(), (123, 1));
+            assert_eq!(
+                receipt.resolved.unwrap(),
+                DiminishedReturnsConfig::from_f64(Duration::from_secs(30), ratio).unwrap()
+            );
         }
         let mut score = ConstraintNetwork::new(1);
         let t = ticks.clone();
@@ -180,7 +198,12 @@ fn parsed_mixed_properties_drive_both_backends_without_touching_lists() {
         FiniteProblem::new(vec![Variable::new((0..100).collect()).with_initial(0)]).unwrap(),
         ListProblem::new(vec![7, 8], vec![ListEntity::new(vec![8, 7])]).unwrap(),
     );
-    for enabled in [true, false] {
+    for (enabled, ratio) in [
+        (true, None),
+        (false, None),
+        (true, Some(0.0001)),
+        (true, Some(f64::from_bits(1))),
+    ] {
         let ticks = Arc::new(AtomicU64::new(0));
         let source = ticks.clone();
         let clock = SolverClock::new(move || Duration::from_secs(source.load(Ordering::SeqCst)));
@@ -196,6 +219,7 @@ fn parsed_mixed_properties_drive_both_backends_without_touching_lists() {
         };
         let binding = properties(RuntimeDiminishedReturns {
             enabled: Some(enabled),
+            minimum_improvement_ratio: ratio,
             ..Default::default()
         })
         .bind_mixed(&mut plan)
