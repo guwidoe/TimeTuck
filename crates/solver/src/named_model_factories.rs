@@ -43,6 +43,7 @@ impl<S: 'static> NamedModelScoring<S> {
 pub struct NamedSolverConfiguration<S: 'static = SimpleScore> {
     pub model: Option<String>,
     pub scoring: Option<String>,
+    pub entity_types: Option<Vec<PlanningType>>,
     pub sequence: SolverSequence<'static, S>,
     pub environment: EnvironmentProfile,
 }
@@ -51,6 +52,7 @@ impl<S: 'static> Default for NamedSolverConfiguration<S> {
         Self {
             model: None,
             scoring: None,
+            entity_types: None,
             sequence: SolverSequence::default(),
             environment: EnvironmentProfile::default(),
         }
@@ -107,6 +109,11 @@ pub enum NamedModelFactoryError {
         model: String,
         registered: PlanningType,
         recipe: PlanningType,
+    },
+    EntityTypes {
+        model: String,
+        registered: Vec<PlanningType>,
+        declared: Vec<PlanningType>,
     },
     DuplicateSolver(String),
     MissingModel {
@@ -255,6 +262,16 @@ impl<S: 'static> NamedModelFactoryRegistry<S> {
         self.global_scorings.insert(recipe.key.clone(), recipe);
         Ok(())
     }
+    pub fn prepare_configured(
+        &self,
+        requests: impl IntoIterator<Item = (String, crate::ConfiguredSolverRequest<S>)>,
+    ) -> Result<NamedSolverFactoryBank, NamedModelFactoryError> {
+        self.prepare(
+            requests
+                .into_iter()
+                .map(|(name, request)| (name, request.configuration)),
+        )
+    }
     /// All membership, ambiguity, unused, schema and common configuration checks
     /// finish before the first factory builder. Successful factories publish only
     /// after every builder succeeds. Builders validate their own scoring/model
@@ -304,6 +321,20 @@ impl<S: 'static> NamedModelFactoryRegistry<S> {
                 })?;
             if m.schema.genuine_entities().next().is_none() {
                 return Err(NamedModelFactoryError::MissingEntities(model.clone()));
+            }
+            if let Some(declared) = &c.entity_types {
+                let registered: Vec<_> = m
+                    .schema
+                    .entities()
+                    .map(|entity| entity.entity_type())
+                    .collect();
+                if *declared != registered {
+                    return Err(NamedModelFactoryError::EntityTypes {
+                        model: model.clone(),
+                        registered,
+                        declared: declared.clone(),
+                    });
+                }
             }
             let recipes = if m.scorings.is_empty() {
                 &self.global_scorings

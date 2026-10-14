@@ -2073,3 +2073,24 @@ pub use xml_termination::{
     XmlDiminishedReturns, XmlPhaseTermination, XmlTerminationError, XmlTerminationPlan,
     XmlTerminationSettings, XmlTerminationTime,
 };
+
+mod validation_catalog;
+pub use validation_catalog::{
+    ValidatedModelOutput, ValidatedModelRunError, ValidatedModelRunner, ValidationTypeCatalog,
+    ValidationTypeDescription,
+};
+
+mod basic_solution_codec;
+mod solution_file_io;
+pub use basic_solution_codec::{
+    BasicSolutionDocument, BasicSolutionJsonCodec, BasicSolutionXmlCodec, PersistedEntity,
+    PersistedValue,
+};
+pub use solution_file_io::{SolutionCodec, SolutionFileError, SolutionFileIo};
+
+mod configured_factories;
+pub use configured_factories::{
+    ConfiguredFactoryError, ConfiguredSolverRequest, NativeSolverConfigurationSource,
+};
+
+pub use xml_termination::XmlTerminationComposition;

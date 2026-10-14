@@ -1,0 +1,11 @@
+Adapted Timefold Solver Community TEST material, Apache License 2.0.
+Pinned commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762
+Sources: persistence/jackson and persistence/jaxb src/test/java:
+JacksonSolutionFileIOTest.readAndWrite/setup and JaxbSolutionFileIOTest.readAndWrite/setup;
+JacksonTestdataEntity/Object/Solution/Value and JaxbTestdataEntity/Object/Solution/Value.
+See compat/provenance.json and compat/licenses/timefold-Apache-2.0.txt.
+Native independently designed owned graph codecs preserve ordered collections,
+nullable references, scores and actual canonical Arc identity through real files.
+No production implementation was inspected/copied. The versioned native wire
+format is deliberate; no Java serializer, annotation or Jackson/JAXB wire claim.
+Original solver integration/error controls earn no additional source method credit.

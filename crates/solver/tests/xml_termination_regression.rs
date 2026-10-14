@@ -92,7 +92,7 @@ fn invalid_declarations_and_inapplicable_phase_bindings_reject_before_run() {
         "<diminishedReturns><slidingWindowDuration>PT0S</slidingWindowDuration></diminishedReturns>",
         "<diminishedReturns><minimumImprovementRatio>NaN</minimumImprovementRatio></diminishedReturns>",
         "<diminishedReturns><minimumImprovementRatio>0</minimumImprovementRatio></diminishedReturns>",
-        "<terminationCompositionStyle>AND</terminationCompositionStyle>",
+        "<terminationCompositionStyle>and</terminationCompositionStyle>",
     ] {
         let raw = SolverXmlConfiguration::parse(&format!(
             "<solver><termination>{inner}</termination></solver>"

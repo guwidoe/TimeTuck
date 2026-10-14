@@ -49,9 +49,14 @@ sequence. Explicit construction stagnation/diminished policies are rejected.
 Score targets apply at solver and local-search scopes. Their raw text is retained
 until binding, where the native score type implements `FromStr`; all declared
 targets are parsed before any run callback. Absent targets preserve caller limits.
-Explicit construction score targets reject. Other phase kinds currently support only spent time. Unsupported executable
-termination fields (including custom classes, AND composition)
-reject rather than being silently ignored. The symbolic parser/read-write API can
+The sequence-only profile rejects construction score targets and supports only
+spent time on other nonlocal phases. Its AND declarations also reject. The
+additive scoped extension APIs support AND/OR expressions and construction,
+exhaustive, custom and native ruin/recreate score targets; callers install the
+supplied phase bindings during execution. See
+[XML termination composition](xml-termination-composition.md) for scope,
+precedence and remaining unsupported combinations. Custom termination classes
+and other unsupported executable fields reject rather than being ignored. The symbolic parser/read-write API can
 still retain independently supported declarations. The legacy
 `native_spent_limit()` getter now uses the same time-group parser for aliases
 while retaining its limited scope: unrelated termination fields are ignored by

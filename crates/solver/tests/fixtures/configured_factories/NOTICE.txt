@@ -1,0 +1,6 @@
+Adapted from Timefold Solver Community TEST sources, Apache License 2.0.
+Pinned commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762
+Copyright Timefold AI and contributors.
+Complete selected operational methods and unchanged XML resources are recorded in compat/provenance.json.
+Typed owned native factory configuration replaces Spring scans, contexts and injection.
+No Timefold production implementation or Enterprise artifact was copied.

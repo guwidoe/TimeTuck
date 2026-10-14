@@ -1125,3 +1125,10 @@ Round161 named_validation_cases.rs and fixtures/named_validation_fixture.rs adap
   Fixture attribution only; the original native XML runtime tests add no method credit.
 
 Round160 planning_hierarchy_cases.rs and fixtures/planning_hierarchy_fixture.rs adapt eleven complete pinned Community entity/solution inheritance TEST methods and attributed helpers/XML under Apache-2.0. Exact provenance and fixtures/planning_hierarchy/NOTICE.txt retain attribution. Executable typed composition and Rust traits replace Java annotation scans; unsupported JVM-specific negatives remain excluded.
+
+The validation catalog deployment TEST adaptations and helper data are attributed
+in compat/provenance.json and crates/solver/tests/fixtures/validation_catalog/NOTICE.txt.
+
+Round165 solution_persistence_cases.rs and fixtures/solution_persistence_fixture.rs adapt two complete pinned Community Jackson/JAXB SolutionFileIOTest.readAndWrite methods and TEST domain helpers under Apache-2.0. Exact attribution appears in compat/provenance.json and fixtures/solution_persistence/NOTICE.txt. Native owned graph codecs and actual file operations replace JVM mapper/JAXB integration; no production implementation was inspected or copied. Native schema does not claim Jackson/JAXB wire compatibility.
+
+Round166 configured_factories_cases.rs and fixtures/configured_factories_fixture.rs adapt twelve complete pinned Community Spring TEST methods, including all nine terminationProperties rows. Four XML TEST resources in fixtures/configured_factories are copied unchanged under Apache-2.0. Existing attributed domain/provider and validation helpers are reused. Exact provenance and NOTICE are retained; independent native factories/managers replace framework loading. Original regressions earn no additional method credit.

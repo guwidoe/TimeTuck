@@ -17,7 +17,53 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round164
+## Latest verified checkpoint — round169
+
+Integrated native owned JSON/XML solution-file codecs, configured typed factories,
+XML AND/OR and phase score-target execution, and validation catalogs/execution gates.
+18 complete new Community methods (2 file persistence,12 configuration,4 validation)
+bring compatibility to4,376/4,855 (90.134%),12 pending,467 excluded,zero failed or
+unverified.22 originals add actual owned manager/prepared Dense/Stream solves,
+canonical Arc references, file boundaries, typed preflight and54 composed-termination
+model/backend scenarios. Existing provenance record content/order is unchanged;
+18 cases and20 fixture records appended. Pin/Cargo/shared solver kernels unchanged.
+
+One frozen runner-a `bash scripts/check.sh` passed:8,213 Rust tests and290 doctests.
+41 Rust jobs ran;1,263 Rust and46 Python jobs reused genuine unchanged round164
+records. Prebuild/Clippy287.231s,final gate146.242s,whole worker434.034s. No verification
+keys or old measurement dates were rewritten. Freeze/evidence:
+work/parallel-round169-{freeze,evidence}.json; archive work/round169-runner-a-results.tar.gz
+SHA2565350dc77c5bdc83f3f687e6fa8f415a018d197c9ad880057d189a69d404c9874.
+Rust digest7096516444ebfbf67487bb2e4563a1421e269d29c2bff048986024b9c0ca8e85;
+report digest2efc8b4bc840e388b97a3101bff80ea34e38d6cf9bdd6449057c553f1444d30f.
+All18 newly adapted methods passed; source guards/log hashes/report freshness verified.
+All3 actual round159 performance inputs remain unchanged/current with original dates;
+no new speed gain or benchmark refresh. Backend report only; no UI/contract changes.
+
+Boundaries: persistence formats are native, not generic JVM/Jackson/JAXB wire support;
+codec callbacks control their own effects/allocation and filesystem rename follows
+host rules without directory-fsync durability. XML extension closures must install
+supplied phase bindings; caller hard caps remain independent. Solver AND with
+phase-local diminished returns and nested XML composition remain unsupported. Owned
+configured factories reject borrowed solve-wide step expressions and nonlocal phase
+controls outside their sequence-only profile. Validation uses real explicit Rust type
+registration/callbacks, not CDI/class scanning. These are documented compatibility
+limits, not source credit from mocks/flags/padded metadata or original tests.
+
+Three authorized Sol tasks completed. Their original agent handles disappeared during
+a continuation; unfinished files were preserved and resumed in the same managed trees.
+No compiler was restarted while live. Collected frozen sources/receipts/success and
+failure logs are under work/round169-agent-evidence/{persistence,configured-factories,
+xml-composition}. Initial composition failure source was not retained; this limitation
+is disclosed, while final sources/guards/logs are preserved. Configuration SSH timeout
+and duplicate-module lint failure are preserved. Worktrees queued for archive after
+collection; no new assignments. runner-c untouched/parked. runner-a recovered and completed
+verification. Dashboard server started at user request, session75135, all3 HTTP routes
+returned200 at8765. Goal active/incomplete. Basee18ef90a606afc0e3712a13455fa178111aa0ea2;
+postcommit receipt work/round169-postcommit-evidence.json. Reuse unchanged checks;
+do not repeat this gate or benchmarks merely for a new turn/commit.
+
+## Previous verified checkpoint — round164
 
 Integrated executable inherited planning bindings, a global typed scoring catalog
 with atomic XML selection, full native XML time/diminished/score-target binding,

@@ -65682,6 +65682,294 @@
         "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
       ],
       "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "ValidationIssueTypesTest.validate",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ValidationIssueTypesTest.java",
+      "upstream_test": "validate",
+      "local_path": "crates/solver/tests/validation_catalog_cases.rs",
+      "local_test": "validate",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/validation_catalog/NOTICE.txt"
+      ],
+      "modifications": "Complete issue count/code/severity/payload id, catalog metadata, actual descriptor-file readback and duplicate-code rejection assertions retained. Typed Rust validator execution and actual TypeId registration replace CDI generation/deployment scanning; native Result duplicate diagnosis names types instead of classes and fails before replacing registrations. Explicit temporary descriptor destination replaces Maven target path. No Quarkus/CDI/classloading or Java ABI claim. Duplicate deployment extension failure is adapted as real fail-fast typed registration; source sentinel method is not executed as a false success."
+    },
+    {
+      "id": "ValidationIssueTypesTest.validationIssueTypeCatalogBeanGenerated",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ValidationIssueTypesTest.java",
+      "upstream_test": "validationIssueTypeCatalogBeanGenerated",
+      "local_path": "crates/solver/tests/validation_catalog_cases.rs",
+      "local_test": "validation_issue_type_catalog_registered",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/validation_catalog/NOTICE.txt"
+      ],
+      "modifications": "Complete issue count/code/severity/payload id, catalog metadata, actual descriptor-file readback and duplicate-code rejection assertions retained. Typed Rust validator execution and actual TypeId registration replace CDI generation/deployment scanning; native Result duplicate diagnosis names types instead of classes and fails before replacing registrations. Explicit temporary descriptor destination replaces Maven target path. No Quarkus/CDI/classloading or Java ABI claim. Duplicate deployment extension failure is adapted as real fail-fast typed registration; source sentinel method is not executed as a false success."
+    },
+    {
+      "id": "ValidationIssueTypesTest.validationIssueTypesWrittenInDescriptor",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ValidationIssueTypesTest.java",
+      "upstream_test": "validationIssueTypesWrittenInDescriptor",
+      "local_path": "crates/solver/tests/validation_catalog_cases.rs",
+      "local_test": "validation_issue_types_written_in_descriptor",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/validation_catalog/NOTICE.txt"
+      ],
+      "modifications": "Complete issue count/code/severity/payload id, catalog metadata, actual descriptor-file readback and duplicate-code rejection assertions retained. Typed Rust validator execution and actual TypeId registration replace CDI generation/deployment scanning; native Result duplicate diagnosis names types instead of classes and fails before replacing registrations. Explicit temporary descriptor destination replaces Maven target path. No Quarkus/CDI/classloading or Java ABI claim. Duplicate deployment extension failure is adapted as real fail-fast typed registration; source sentinel method is not executed as a false success."
+    },
+    {
+      "id": "DuplicateValidationIssueTypesTest.validationIssueTypesDuplicateDetected",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/DuplicateValidationIssueTypesTest.java",
+      "upstream_test": "validationIssueTypesDuplicateDetected",
+      "local_path": "crates/solver/tests/validation_catalog_cases.rs",
+      "local_test": "validation_issue_types_duplicate_detected",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/validation_catalog/NOTICE.txt"
+      ],
+      "modifications": "Complete issue count/code/severity/payload id, catalog metadata, actual descriptor-file readback and duplicate-code rejection assertions retained. Typed Rust validator execution and actual TypeId registration replace CDI generation/deployment scanning; native Result duplicate diagnosis names types instead of classes and fails before replacing registrations. Explicit temporary descriptor destination replaces Maven target path. No Quarkus/CDI/classloading or Java ABI claim. Duplicate deployment extension failure is adapted as real fail-fast typed registration; source sentinel method is not executed as a false success."
+    },
+    {
+      "id": "JacksonSolutionFileIOTest.readAndWrite",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/impl/domain/solution/JacksonSolutionFileIOTest.java",
+      "upstream_test": "readAndWrite",
+      "local_path": "crates/solver/tests/solution_persistence_cases.rs",
+      "local_test": "jackson_read_and_write",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete write/read assertions: a distinct solution allocation; solution s1; ordered values v1/v2 and entities e1/e2/e3; e2 value code v1 and actual canonical Arc pointer identity with first decoded value; exact SimpleScore -321. Native typed owned graph and executable JSON/XML codecs replace Java mapper/JAXB constructor/reflection APIs. Temporary directories isolate actual file operations. Native versioned document schema is deliberate; no Jackson/JAXB wire or JVM serializer/annotation registration compatibility is claimed. Override the initial broad persistence exclusion for this method only. Extra null/ownership and actual Dense/Stream solve/write/reread controls are original and earn no method credit."
+    },
+    {
+      "id": "JaxbSolutionFileIOTest.readAndWrite",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jaxb/src/test/java/ai/timefold/solver/jaxb/impl/domain/solution/JaxbSolutionFileIOTest.java",
+      "upstream_test": "readAndWrite",
+      "local_path": "crates/solver/tests/solution_persistence_cases.rs",
+      "local_test": "jaxb_read_and_write",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete write/read assertions: a distinct solution allocation; solution s1; ordered values v1/v2 and entities e1/e2/e3; e2 value code v1 and actual canonical Arc pointer identity with first decoded value; exact SimpleScore -123. Native typed owned graph and executable JSON/XML codecs replace Java mapper/JAXB constructor/reflection APIs. Temporary directories isolate actual file operations. Native versioned document schema is deliberate; no Jackson/JAXB wire or JVM serializer/annotation registration compatibility is claimed. Override the initial broad persistence exclusion for this method only. Extra null/ownership and actual Dense/Stream solve/write/reread controls are original and earn no method credit."
+    },
+    {
+      "id": "TimefoldSolverSingleSolverAutoConfigurationTest.solverConfigXml_none",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSingleSolverAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_none",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "single_solver_config_xml_none",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverSingleSolverAutoConfigurationTest.solve",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSingleSolverAutoConfigurationTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "single_solve",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverSingleSolverAutoConfigurationTest.solveWithParallelSolverCount",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSingleSolverAutoConfigurationTest.java",
+      "upstream_test": "solveWithParallelSolverCount",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "single_solve_with_parallel_solver_count",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverSingleSolverAutoConfigurationTest.solveWithTimeOverride",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSingleSolverAutoConfigurationTest.java",
+      "upstream_test": "solveWithTimeOverride",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "single_solve_with_time_override",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.solverConfigXml_default",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_default",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "xml_solver_config_xml_default",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.solverConfigXml_property",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_property",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "xml_solver_config_xml_property",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.solverConfigXml_solverPropertyPrecedence",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_solverPropertyPrecedence",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "xml_solver_config_xml_solver_property_precedence",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.solverConfigXml_property_noGlobalTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_property_noGlobalTermination",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "xml_solver_config_xml_property_no_global_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.terminationProperties",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "terminationProperties",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "xml_termination_properties",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.multipleEasyScoreConstraintsXml_property",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "multipleEasyScoreConstraintsXml_property",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "multiple_multiple_easy_score_constraints_xml_property",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.multipleConstraintProviderConstraintsXml_property",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "multipleConstraintProviderConstraintsXml_property",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "multiple_multiple_constraint_provider_constraints_xml_property",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.multipleIncrementalScoreConstraintsXml_property",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "multipleIncrementalScoreConstraintsXml_property",
+      "local_path": "crates/solver/tests/configured_factories_cases.rs",
+      "local_test": "multiple_multiple_incremental_score_constraints_xml_property",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
     }
   ],
   "fixtures": [
@@ -94998,6 +95286,283 @@
         "compat/licenses/timefold-Apache-2.0.txt"
       ],
       "modifications": "Additive1millisecond/2second/3minute/4hour/5day window fixture adapted into native XML projection assertions within original integration tests. No new method credit; existing source cases unchanged. XML string construction replaces Java setters, native resolved Duration/policy replaces Java class reflection. Actual controlled-clock solve fixtures and invalid/boundary cases are independently constructed."
+    },
+    {
+      "id": "validation-catalog-TestdataModelValidator-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/validation/TestdataModelValidator.java",
+      "local_path": "crates/solver/tests/fixtures/validation_catalog_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/validation_catalog/NOTICE.txt"
+      ],
+      "modifications": "Adapted TEST issue code/severity/metadata/payload data and distinct issue identities; explicit typed registration and callback replace annotations/inheritance/CDI. Originals construct independent live validation and solving controls."
+    },
+    {
+      "id": "validation-catalog-TestIssue-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/validationduplicates/TestIssue.java",
+      "local_path": "crates/solver/tests/fixtures/validation_catalog_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/validation_catalog/NOTICE.txt"
+      ],
+      "modifications": "Adapted TEST issue code/severity/metadata/payload data and distinct issue identities; explicit typed registration and callback replace annotations/inheritance/CDI. Originals construct independent live validation and solving controls."
+    },
+    {
+      "id": "validation-catalog-DuplicateTestIssue-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/validationduplicates/DuplicateTestIssue.java",
+      "local_path": "crates/solver/tests/fixtures/validation_catalog_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/validation_catalog/NOTICE.txt"
+      ],
+      "modifications": "Adapted TEST issue code/severity/metadata/payload data and distinct issue identities; explicit typed registration and callback replace annotations/inheritance/CDI. Originals construct independent live validation and solving controls."
+    },
+    {
+      "id": "solution-persistence-jackson-setup-and-graph-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/impl/domain/solution/JacksonSolutionFileIOTest.java",
+      "upstream_test": "setup/readAndWrite fixture",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Adapt solutionTest directory setup and the complete s1/v1/v2/e1/e2/e3 graph fixture with -321 score; isolated temporary directory and Arc identity replace Java File/class allocations. Full assertions reside in shared source_roundtrip helper. Solver/backends, malformed input and bounds controls are independent originals."
+    },
+    {
+      "id": "solution-persistence-jackson-entity-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/testdomain/JacksonTestdataEntity.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "solution-persistence-jackson-object-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/testdomain/JacksonTestdataObject.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "solution-persistence-jackson-solution-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/testdomain/JacksonTestdataSolution.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "solution-persistence-jackson-value-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/testdomain/JacksonTestdataValue.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "solution-persistence-jaxb-setup-and-graph-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jaxb/src/test/java/ai/timefold/solver/jaxb/impl/domain/solution/JaxbSolutionFileIOTest.java",
+      "upstream_test": "setup/readAndWrite fixture",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Adapt solutionTest directory setup and the complete s1/v1/v2/e1/e2/e3 graph fixture with -123 score; isolated temporary directory and Arc identity replace Java File/class allocations. Full assertions reside in shared source_roundtrip helper. Solver/backends, malformed input and bounds controls are independent originals."
+    },
+    {
+      "id": "solution-persistence-jaxb-entity-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jaxb/src/test/java/ai/timefold/solver/jaxb/testdomain/JaxbTestdataEntity.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "solution-persistence-jaxb-object-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jaxb/src/test/java/ai/timefold/solver/jaxb/testdomain/JaxbTestdataObject.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "solution-persistence-jaxb-solution-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jaxb/src/test/java/ai/timefold/solver/jaxb/testdomain/JaxbTestdataSolution.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "solution-persistence-jaxb-value-test-helper",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jaxb/src/test/java/ai/timefold/solver/jaxb/testdomain/JaxbTestdataValue.java",
+      "upstream_test": "TEST helper",
+      "local_path": "crates/solver/tests/fixtures/solution_persistence_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/solution_persistence/NOTICE.txt"
+      ],
+      "modifications": "Use TEST-specified codes, ordered value/entity collections, nullable value reference and optional SimpleScore in fixture construction. Native independently designed owned document/Arc values replace Java classes, annotation/classloading/serializer adapters and descriptor helpers. Only the TEST fixture graph contract is adapted; descriptor helper behavior and production implementation are not read or translated."
+    },
+    {
+      "id": "configured-factories-xml-solverConfig.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/solverConfig.xml",
+      "upstream_test": "resource used by configured operational methods",
+      "local_path": "crates/solver/tests/fixtures/configured_factories/solverConfig.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged; parsed as owned explicitly registered XML, without classpath lookup or external schema resolution."
+    },
+    {
+      "id": "configured-factories-xml-customSpringBootSolverConfig.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/customSpringBootSolverConfig.xml",
+      "upstream_test": "resource used by configured operational methods",
+      "local_path": "crates/solver/tests/fixtures/configured_factories/customSpringBootSolverConfig.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged; parsed as owned explicitly registered XML, without classpath lookup or external schema resolution."
+    },
+    {
+      "id": "configured-factories-xml-solverConfigWithoutGlobalTermination.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/solverConfigWithoutGlobalTermination.xml",
+      "upstream_test": "resource used by configured operational methods",
+      "local_path": "crates/solver/tests/fixtures/configured_factories/solverConfigWithoutGlobalTermination.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged; parsed as owned explicitly registered XML, without classpath lookup or external schema resolution."
+    },
+    {
+      "id": "configured-factories-xml-solverConfigWithPhases.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/solverConfigWithPhases.xml",
+      "upstream_test": "resource used by configured operational methods",
+      "local_path": "crates/solver/tests/fixtures/configured_factories/solverConfigWithPhases.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged; parsed as owned explicitly registered XML, without classpath lookup or external schema resolution."
+    },
+    {
+      "id": "configured-factories-test-setup-TimefoldSolverSingleSolverAutoConfigurationTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSingleSolverAutoConfigurationTest.java",
+      "upstream_test": "selected complete methods: setup, property literals, entity/value keys, timing and nested termination assertions",
+      "local_path": "crates/solver/tests/fixtures/configured_factories_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Uses existing attributed named_models_fixture.rs and named_validation_fixture.rs helpers; owned resource registrations replace Java loader/context setup. Exact resource/property/domain/scoring keys and 2/30-second override and negative scope assertions retained; no production implementation read."
+    },
+    {
+      "id": "configured-factories-test-setup-TimefoldSolverWithSolverConfigXmlAutoConfigurationTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "selected complete methods: setup, property literals, entity/value keys, timing and nested termination assertions",
+      "local_path": "crates/solver/tests/fixtures/configured_factories_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Uses existing attributed named_models_fixture.rs and named_validation_fixture.rs helpers; owned resource registrations replace Java loader/context setup. Exact resource/property/domain/scoring keys and 2/30-second override and negative scope assertions retained; no production implementation read."
+    },
+    {
+      "id": "configured-factories-test-setup-TimefoldSolverMultipleSolverAutoConfigurationTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "selected complete methods: setup, property literals, entity/value keys, timing and nested termination assertions",
+      "local_path": "crates/solver/tests/fixtures/configured_factories_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
+      ],
+      "modifications": "Uses existing attributed named_models_fixture.rs and named_validation_fixture.rs helpers; owned resource registrations replace Java loader/context setup. Exact resource/property/domain/scoring keys and 2/30-second override and negative scope assertions retained; no production implementation read."
     }
   ]
 }

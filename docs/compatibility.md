@@ -9954,3 +9954,58 @@ Round163 adds the optional native same-model conversion boundary: five complete 
 Round161:18 complete named/unspecified solver registration-validation methods now have native adaptations (7 unspecified,11 multiple). Optional global typed scoring catalog and XML registered-key selection feed actual existing factories; original jobs validate real execution and selected null callback errors. Required model/scoring/solver diagnostic identities and absence/ambiguity/unused conditions are preserved; native wording replaces Spring cause/annotation/classpath phrases truthfully. Existing5 operational cases remain unchanged. See docs/named-model-validation.md for boundaries; infrastructure/immutableJava/classloader cases remain excluded. No pin/exclusion/Cargo/kernel change.
 
 Round160 adds executable inherited member/solution bindings through actual typed projections, callable getters/setters, live ranges, prepared directors and owned manager solves. Eleven full operational/duplicate-variable Community inheritance methods retain their scores, resource selection and rejection assertions; six originals additionally check multi-level composition, both scoring backends and all mutable projection counts before any write. Pure paired projections must address the same storage with stable membership; same-length wrong storage and setter-panic rollback are explicitly unsupported. JVM scan/single-level restriction negatives remain excluded.
+
+Round168 adds four complete native adaptations for deployment validation catalogs: actual validator execution, issue metadata registration and descriptor-file readback, and fail-fast duplicate issue codes. Explicit Rust types and executable callbacks replace CDI/scanning. Originals validate live model/configuration before actual dense/stream solving, retain warnings and independently rescore results. No Quarkus or Java loading claim; see docs/validation-catalog.md.
+
+
+## Owned solution file persistence
+
+`SolutionFileIo` executes an explicit caller codec for real file reads/writes.
+Its default 16 MiB byte limit bounds reads and encoded output; encoding and graph
+validation complete before the destination is touched. Successful writes use a
+uniquely created sibling temporary file, file synchronization and rename; failed
+writes remove the temporary file. Rename replacement follows the host filesystem;
+directory synchronization and crash durability are not claimed.
+
+`BasicSolutionDocument` stores ordered native values/entities and optional typed
+scores. JSON/XML codecs preserve a distinct decoded solution, nullable entity
+values, exact score structure and canonical shared `Arc` references. Stable value
+codes identify references; duplicate value/entity codes, unknown references and
+noncanonical outgoing pointers reject. Score envelopes validate native score
+family/dimensions. Native finite-problem projection and checked assignment commit
+connect decoded documents to actual owned solver-manager jobs.
+
+Both complete Community `JacksonSolutionFileIOTest.readAndWrite` and
+`JaxbSolutionFileIOTest.readAndWrite` methods retain every original assertion,
+including ordered s1/v1/v2/e1/e2/e3 graphs, -321/-123 scores and actual pointer
+identity. These two methods supersede the initial broad persistence exclusion
+individually; TEST setup/domain helper provenance and notices are recorded.
+Original controls exercise decoded input through prepared Dense/Stream directors,
+write/reread solved output and independently rescore it. Bounds, malformed graphs,
+structural/nullable scores, XML escaping and failed publication are tested.
+
+The versioned JSON/XML schemas are native formats. Generic Java/Jackson/JAXB
+serializer registration, reflection/annotations, arbitrary Java object graphs,
+wire interchange, bean descriptors and framework transport remain unsupported.
+No kernel or performance algorithm changed; no benchmark refresh is required.
+
+Round166 adds twelve complete Community configured-factory TEST methods (four single-solver, five XML methods including all nine terminationProperties rows, three multiple-scoring XML ambiguities). Owned resource selection resolves specific, global and default declarations into actual typed factory/manager configuration. Entity XML keys resolve to real PlanningType identities and whole-set schema preflight runs before every builder. Six original regressions execute independent Dense/Stream jobs, real effective time overrides, ownership, exact scoring, phase precedence, static expression preservation and atomic rejected input controls. No framework/classloader/bean/profile flags are claimed; unsupported whole-solve borrowed step expressions reject in this owned profile. Existing scoped XmlTerminationPlan::with_sequence remains available. See docs/configured-factories.md.
+
+Round167 adds native XML AND/OR execution through scoped
+`XmlTerminationPlan::with_sequence_extensions` and its mixed counterpart. Caller
+closures install the lent phase bindings in actual SolverExtensions; root
+expressions are already attached to the lent sequence. Original controlled-clock
+cases execute basic/list/mixed dense/stream solves, distinguish AND from OR,
+combine local diminished returns, and retain independent scores. Construction
+score targets stop at a complete retained placement before optional scanning;
+exhaustive, custom and native ruin/recreate score targets stop only their phase.
+Caller caps, cancellation and existing nonoverlapping bindings keep their scope.
+Solver AND with phase-local diminished returns and construction stagnation reject
+before execution. Sequence-only scalar projection retains its original API and
+precise unsupported-control errors. The new `ruinRecreate` XML name is explicitly
+native; partitionedSearch is not reinterpreted. Arbitrary nested XML composition
+and solver/phase mixed rate histories remain outside scope. One earlier original
+invalid-style case now uses lowercase `and`, since uppercase AND is supported.
+All added cases are original and earn zero additional source-method credit; no
+upstream pin, provenance, exclusion, Cargo or shared kernel changes. See
+[the native composition contract](xml-termination-composition.md).

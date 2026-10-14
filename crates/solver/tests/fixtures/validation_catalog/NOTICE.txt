@@ -1,0 +1,8 @@
+Adapted tests and helper data from Timefold Solver Community v2.7.0.
+Upstream commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762
+Copyright Timefold BV and contributors.
+Licensed under the Apache License, Version 2.0.
+See upstream/timefold-solver/LICENSE.txt.
+
+Sources: service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/{ValidationIssueTypesTest.java,DuplicateValidationIssueTypesTest.java,testdata/validation/TestdataModelValidator.java,testdata/validationduplicates/TestIssue.java,testdata/validationduplicates/DuplicateTestIssue.java}.
+Rust explicit type registration replaces JVM deployment scanning and generated CDI beans; a supplied file path replaces target-directory conventions.
