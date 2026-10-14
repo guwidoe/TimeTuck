@@ -439,6 +439,15 @@ pub use range_collector::{
 
 mod load_balance_collector;
 pub use load_balance_collector::{LoadBalance, LoadBalanceCollector};
+mod load_balance_json;
+pub use load_balance_json::{
+    LoadBalanceJsonError, ReducedLoadBalance, load_balance_from_json, load_balance_to_json,
+};
+mod sequence_json;
+pub use sequence_json::{
+    ReducedChainBreaksUnavailable, ReducedChainSequence, ReducedSequence, ReducedSequenceBreak,
+    ReducedSequenceChain, SequenceJsonCodec, SequenceJsonError,
+};
 
 mod period_collector;
 pub use period_collector::{CalendarPeriod, PeriodOverflow, PeriodSumCollector};

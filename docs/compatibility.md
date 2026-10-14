@@ -10437,3 +10437,26 @@ original controls add no upstream-method credit. New report data loaded in an
 actual browser with current verification and rendered repair benchmarks. This
 does not establish full project completion; JSON persistence drafts remain
 unintegrated and uncredited at this checkpoint.
+
+
+Reduced load-balance and sequence JSON snapshots execute two complete pinned
+Community cases, with eleven helper/fixture provenance entries. Exact numeric
+tokens avoid floating-point loss. All six sequence wire documents retain
+item/reference traversal and decoded shared identities; reduced views explicitly
+reject unavailable loads/topology. No general Jackson graph/reflection parity.
+The existing filesystem graph roundtrip already covers the duplicate Quarkus
+wrapper; no extra module or credit was added. This corrects the prior audit.
+
+Pooled scoring retains bounded immutable active-dependency slices instead of
+filtering/allocating per trial. Checked scoring and actual work counts remain
+intact. Same-host cached repair medians improve 8.8–21.9% against preserved round211;
+uncached medians increase 1.1–3.6%. No speed-neutrality or universal speed claim.
+Fresh repair, solver and list-repair reports retain real source keys/dates and
+full/uncached native references; older measurements remain visibly stale.
+
+Final combined check: 8364 Rust tests and 290 doctests pass, with unchanged jobs
+reused. Two original precision-feature expectation failures were corrected with
+exact value/scoring and scale-boundary assertions; failed logs remain preserved.
+Coverage is 4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified.
+This does not establish project completion. See the round215 handoff and
+work/parallel-round215-evidence.json for checks, source identity and limitations.

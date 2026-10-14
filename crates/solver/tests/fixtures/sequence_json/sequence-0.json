@@ -1,0 +1,20 @@
+{
+  "first" : true,
+  "items" : [ {
+    "id" : "sequence1Item1",
+    "index" : 0
+  }, {
+    "id" : "sequence1Item2",
+    "index" : 1
+  } ],
+  "last": false,
+  "next_break" : {
+    "first" : true,
+    "last" : false,
+    "next_sequence_start" : {
+      "id" : "sequence2Item1",
+      "index" : 3
+    },
+    "previous_sequence_end" : "sequence1Item2"
+  }
+}

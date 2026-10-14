@@ -66451,6 +66451,37 @@
       "upstream_test": "solve",
       "local_test": "quarkus_two_entity_shadow_variable_solve",
       "modifications": "Exact v1/v2 domain, two initially null entities/four genuine variables, both referenced ranges and source nonnull/nonnegative-score assertions. Real owned native binding/factory/manager solve on basic and stream backends. Per-entity named supplier updateValue1AndValue2 retains literal plus delimiter and both dependencies, before all eligible self/cross equality-join filters and -1 per matching ordered pair. Explicit schema registration replaces Quarkus/annotation scanning; no Java CDI parity. Original objective controls add no upstream-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/LoadBalanceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "LoadBalanceRoundTripTest.roundTrip",
+      "status": "implemented",
+      "upstream_test": "roundTrip",
+      "upstream_line": 33,
+      "local_path": "crates/solver/tests/load_balance_json_cases.rs",
+      "local_test": "load_balance_round_trip",
+      "modifications": "Native adaptation preserves exact seven captures A,B,C,A,A,B,A through real LoadBalanceCollector unit contributions, actual 4/2/1 loads, exact numeric JSON unfairness2.16025, decoded unfairness equality and rejected loads access. Exact Decimal/serde_json arbitrary_precision numeric tokens replace Jackson BigDecimal; ReducedLoadBalance is a distinct typed native readback view and loads returns typed LoadsUnavailable instead of Java UnsupportedOperationException. No object identity field is serialized by this source fixture. No Jackson module/bootstrap or Java API/ABI equivalence. No Quarkus duplicate credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "SequenceRoundTripTest.roundTrip",
+      "status": "implemented",
+      "upstream_test": "roundTrip",
+      "local_path": "crates/solver/tests/sequence_json_cases.rs",
+      "local_test": "round_trip",
+      "modifications": "Preserve exact six source Item IDs and indices0,1/3,4,5/7 and every one of six complete expected JSON wire documents. Actual public native SequenceCollector constructs all sequence/break topology, flags and neighbors; native codec traverses that topology without expected snapshot constants. Explicit generic item/id adapters and document-local identity table replace Jackson PropertyGenerator/Item scope. Decoded reduced chain sequences count and unsupported breaks access, standalone sequence item count/count/first-last/neighbor presence and both break flags/non-null endpoints all retained. Typed native unavailable-access error replaces UnsupportedOperationException; endpoint Arc payload equality strengthens nonnull checks, and original controls verify shared Arc reference identity. Separate reduced-chain sequence type does not invent neighbor/metric data missing from chain JSON. Source serialized documents preserve field/item/neighbor traversal and reference strings; i64 native index widens Java int only on these exact integral test values. no Quarkus wrapper aliases, Jackson/Java interface/reflection or general graph parity claim."
     }
   ],
   "fixtures": [
@@ -97318,6 +97349,149 @@
       "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/shadowvariable/TestdataQuarkusShadowVariableConstraintProvider.java",
       "upstream_test": "TEST genuine fields, referenced ranges, supplier dependencies and provider objective used by solve",
       "modifications": "Adaptation of used TEST helper specification only. Native typed owned rows, named supplier registration and ShadowSession dependency graph replace Java annotations; supplier null propagation and value1+literal plus+value2 retained. Shared v1/v2 referenced domain used by all four genuine variables; complete-entity eligibility and all ordered self/cross pairs retained. No production code used and no helper-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/LoadBalanceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "load-balance-json-round211-item-and-roundtrip-helper",
+      "upstream_test": "Item TEST record and assertRoundTrip(ObjectMapper,LoadBalance,String) TEST helper",
+      "local_path": "crates/solver/tests/load_balance_json_cases.rs",
+      "modifications": "String keys A/B/C represent the source Item.id values; identity-capture sequence preserves multiplicity. Compare serialized numeric JSON and decode through actual native adapter, preserving both assertSoftly outcomes. No upstream production inspected or translated."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-item",
+      "upstream_test": "nested Item record and JsonIdentityInfo property-id declaration",
+      "local_path": "crates/solver/tests/sequence_json_cases.rs",
+      "modifications": "Own native id/index item record and explicit immutable JSON adapter replace private Java record annotation. Arc payloads and string IDs preserve item reference sharing without Java class registry/reflection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-chain-helper",
+      "upstream_test": "assertSequenceChainRoundTrip",
+      "local_path": "crates/solver/tests/sequence_json_cases.rs",
+      "modifications": "Preserve wire comparison ignoring whitespace, reduced sequences count and unavailable chain.breaks. Do not reconstruct absent break metadata."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-sequence-helper",
+      "upstream_test": "assertSequenceRoundTrip",
+      "local_path": "crates/solver/tests/sequence_json_cases.rs",
+      "modifications": "Preserve each of three wire documents plus item-count/count/first-last and exact prior/next break presence branches. Added alias/payload checks are original and earn no method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-break-helper",
+      "upstream_test": "assertBreakRoundTrip",
+      "local_path": "crates/solver/tests/sequence_json_cases.rs",
+      "modifications": "Preserve both wire documents and first-last flags; actual required Arc endpoint payloads strengthen original nonnull endpoint assertions."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-expected-chain",
+      "upstream_test": "roundTrip expectedSerialization assertSequenceChainRoundTrip(sequenceChain)",
+      "local_path": "crates/solver/tests/fixtures/sequence_json/chain.json",
+      "modifications": "Exact source TEST expectedSerialization text block extracted into standalone JSON fixture; only surrounding Java text-block indentation/newline normalized. No payload/key/value/order/ref edits. These expected documents are assertions only, never implementation input."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-expected-sequence-0",
+      "upstream_test": "roundTrip expectedSerialization assertSequenceRoundTrip(sequences[0])",
+      "local_path": "crates/solver/tests/fixtures/sequence_json/sequence-0.json",
+      "modifications": "Exact source TEST expectedSerialization text block extracted into standalone JSON fixture; only surrounding Java text-block indentation/newline normalized. No payload/key/value/order/ref edits. These expected documents are assertions only, never implementation input."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-expected-sequence-1",
+      "upstream_test": "roundTrip expectedSerialization assertSequenceRoundTrip(sequences[1])",
+      "local_path": "crates/solver/tests/fixtures/sequence_json/sequence-1.json",
+      "modifications": "Exact source TEST expectedSerialization text block extracted into standalone JSON fixture; only surrounding Java text-block indentation/newline normalized. No payload/key/value/order/ref edits. These expected documents are assertions only, never implementation input."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-expected-sequence-2",
+      "upstream_test": "roundTrip expectedSerialization assertSequenceRoundTrip(sequences[2])",
+      "local_path": "crates/solver/tests/fixtures/sequence_json/sequence-2.json",
+      "modifications": "Exact source TEST expectedSerialization text block extracted into standalone JSON fixture; only surrounding Java text-block indentation/newline normalized. No payload/key/value/order/ref edits. These expected documents are assertions only, never implementation input."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-expected-break-0",
+      "upstream_test": "roundTrip expectedSerialization assertBreakRoundTrip(breaks[0])",
+      "local_path": "crates/solver/tests/fixtures/sequence_json/break-0.json",
+      "modifications": "Exact source TEST expectedSerialization text block extracted into standalone JSON fixture; only surrounding Java text-block indentation/newline normalized. No payload/key/value/order/ref edits. These expected documents are assertions only, never implementation input."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "persistence/jackson/src/test/java/ai/timefold/solver/jackson/api/score/stream/common/SequenceRoundTripTest.java",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "sequence-json-round211-expected-break-1",
+      "upstream_test": "roundTrip expectedSerialization assertBreakRoundTrip(breaks[1])",
+      "local_path": "crates/solver/tests/fixtures/sequence_json/break-1.json",
+      "modifications": "Exact source TEST expectedSerialization text block extracted into standalone JSON fixture; only surrounding Java text-block indentation/newline normalized. No payload/key/value/order/ref edits. These expected documents are assertions only, never implementation input."
     }
   ]
 }

@@ -1,0 +1,32 @@
+{
+  "first" : false,
+  "items" : [ {
+    "id" : "sequence2Item1",
+    "index" : 3
+  }, {
+    "id" : "sequence2Item2",
+    "index" : 4
+  }, {
+    "id" : "sequence2Item3",
+    "index" : 5
+  } ],
+  "last": false,
+  "next_break" : {
+    "first" : false,
+    "last" : true,
+    "next_sequence_start" : {
+      "id" : "sequence3Item1",
+      "index" : 7
+    },
+    "previous_sequence_end" : "sequence2Item3"
+  },
+  "previous_break" : {
+    "first" : true,
+    "last" : false,
+    "next_sequence_start" : "sequence2Item1",
+    "previous_sequence_end" : {
+      "id" : "sequence1Item2",
+      "index" : 1
+    }
+  }
+}

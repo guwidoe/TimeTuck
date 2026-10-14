@@ -1,0 +1,12 @@
+{
+  "first" : true,
+  "last" : false,
+  "next_sequence_start" : {
+    "id" : "sequence2Item1",
+    "index" : 3
+  },
+  "previous_sequence_end" : {
+    "id" : "sequence1Item2",
+    "index" : 1
+  }
+}

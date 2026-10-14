@@ -17,6 +17,65 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round215
+
+Added reduced load-balance and sequence JSON snapshots from real native
+collectors: exact decimal unfairness, all six complete sequence wire documents,
+and document-local shared Arc item references. Missing loads/topology remain
+explicitly unavailable. No general Jackson graph, forward-reference or Java
+reflection parity. Two complete source cases and eleven TEST helper/fixture
+provenance entries; five integration tests. serde_json arbitrary_precision
+preserves exact numeric tokens. Original model-config controls now verify long
+decimal roundtrip/scoring and the i32 scale boundary. The two initial failed
+round211 gate logs remain preserved; all eight corrected controls passed focused
+before the combined gate. No separate successful round211 gate was repeated.
+
+Pooled scoring now precomputes ordered active dependency slices for cache-indexed
+variables only, bounded by planned contribution capacity. Trials borrow them
+instead of allocating/filtering repeatedly. Cleanup retains immutable plans;
+unindexed candidates use ordinary apply. Checked scoring, logical budgets/order,
+ties and actual callback counts are unchanged. Explicit opt-in contract includes
+altered score-operation/equality traces. One original private regression verifies
+bounds, disabled weights and cleanup; no upstream credit for cache controls.
+
+Same-host preserved round211→214 cached medians: half32 1.03242→0.94129ms,
+half96 12.06336→9.92008ms, whole32 3.33476→2.76146ms,
+whole96 43.97118→34.34967ms (8.8–21.9% less time). All 64 quality checks and timed
+outputs preserve assignments, scores, logical work, eight repairs and supported
+callback counts. Uncached medians increased 1.1–3.6%; no neutrality claim. Earlier
+round209's 4–8% cost was experiment-specific. The rejected round212 source-layout restoration
+failed to help; do not apply it. Profile round213 identified repeated filtering/allocation;
+no checked arithmetic change or extra inlining hint was justified.
+
+Fresh final-source primary whole96: Rust 34.598, Java 30.068ms;
+distinct reconstruction policies and 149001/6169 logical evaluations. Repair,
+solver and list-repair reports are fresh with actual dates/keys and full/uncached
+native references. Other measurements remain visibly stale. No Java physical
+callback count, universal speed or project-completion percentage is inferred.
+
+Final check.sh: 8364 Rust tests and 290 doctests passed; Rust
+RUN 1200/REUSE 141, Python RUN 0/REUSE 46.
+Prebuild 741.808s; gate 499.415s. Source frozen throughout.
+Coverage 4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified.
+Report/HTTP freshness checked; unchanged UI reuses actual round209 Chrome evidence.
+All combined round215 check/benchmark jobs terminal; runner-c explicitly parked.
+An isolated round216 test-build split draft remains under work/ only. Goal active/incomplete.
+
+Correction to prior round205 audit and superseding round209 draft plan: the exact
+s1/v1/v2/e1/e2/e3/score-321 filesystem JSON roundtrip already exists, preserving
+all seven assertions and decoded shared identity. The Quarkus method body is
+identical to the credited persistence case. Do NOT integrate or credit duplicate
+work/round211-solution-json/. Proof: work/round211-solution-duplicate-rejection.json.
+
+Evidence: work/parallel-round215-evidence.json,
+work/round215-performance-collection.json,
+work/round214-active-dependencies/evidence.json and SUMMARY.md.
+Rust 3df9075a0b7b196422e02e5b624b315c3a59a8dd7dc04e2828e38fd5f27a19db;
+report 8793b1ebefb3257aba1f38bef4bd307d5a0553dcf3811144ea193adce19d2d66.
+Continue from concrete unresolved contracts or measured hotspots. Reuse unchanged
+successful evidence; do not repeat the completed exclusion audit, duplicate
+persistence draft or rejected source-layout experiments.
+
 ## Latest verified checkpoint — round209
 
 Added explicit `ConstraintNetwork::with_pooled_contribution_cache(cap)` for
@@ -74,7 +133,9 @@ All current and next-draft agents and runner-a jobs terminal; runner-c remains p
 
 Next implementation is already drafted and independently smoke-tested under
 work/round211-load-balance/, work/round211-sequence-json/ and
-work/round211-solution-json/. Integrate all three as one coherent next batch,
+work/round211-solution-json/. Superseded by round215: integrate only the two unique collector codecs; the
+solution-file draft duplicates existing coverage. The original plan was to
+integrate all three as one coherent next batch,
 including exact test/fixture provenance and serde_json arbitrary_precision, then
 verify actual integrated targets and one final check.sh. Mini-crate checks are
 not repository compatibility evidence. No credits have been applied yet.

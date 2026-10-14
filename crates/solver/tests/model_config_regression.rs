@@ -410,20 +410,30 @@ fn ambiguous_or_invalid_weight_selections_and_semantic_inputs_stop_before_solver
 }
 
 #[test]
-fn numeric_precision_is_rejected_instead_of_silently_changing_decimal_weight() {
+fn decimal_precision_is_preserved_and_invalid_scale_is_rejected() {
     let binding = schema_binding();
-    for token in [
-        "0.10000000000000000001",
-        "12345678901234567890123456789",
-        "1e2147483648",
+    assert!(
+        binding
+            .decode(r#"{"bigDecimalConstraintWeight":1e2147483649}"#)
+            .is_err()
+    );
+    let boundary = binding
+        .decode(r#"{"bigDecimalConstraintWeight":1e2147483648}"#)
+        .unwrap();
+    assert_eq!(
+        boundary.big_decimal_constraint_weight,
+        Decimal::new(BigInt::from(1), i32::MIN)
+    );
+    for (token, expected) in [
+        ("0.125", "0.25"),
+        ("1.25", "2.5"),
+        ("1e-20", "2e-20"),
+        ("0.10000000000000000001", "0.20000000000000000002"),
+        (
+            "12345678901234567890123456789",
+            "24691357802469135780246913578",
+        ),
     ] {
-        assert!(
-            binding
-                .decode(&format!(r#"{{"bigDecimalConstraintWeight":{token}}}"#))
-                .is_err()
-        );
-    }
-    for (token, expected) in [("0.125", "0.25"), ("1.25", "2.5"), ("1e-20", "2e-20")] {
         let record = binding
             .decode(&format!(r#"{{"bigDecimalConstraintWeight":{token}}}"#))
             .unwrap();
@@ -455,5 +465,6 @@ fn numeric_precision_is_rejected_instead_of_silently_changing_decimal_weight() {
         big_decimal_constraint_weight: Decimal::new(10000000000000000001u64.into(), 20),
         ..Default::default()
     };
-    assert!(binding.encode(&record).is_err());
+    let encoded = binding.encode(&record).unwrap();
+    assert_eq!(binding.decode(&encoded).unwrap(), record);
 }

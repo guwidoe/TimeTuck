@@ -1,0 +1,33 @@
+{
+  "sequences" : [ {
+    "first" : true,
+    "items" : [ {
+      "id" : "sequence1Item1",
+      "index" : 0
+    }, {
+      "id" : "sequence1Item2",
+      "index" : 1
+    } ],
+    "last" : false
+  }, {
+    "first" : false,
+    "items" : [ {
+      "id" : "sequence2Item1",
+      "index" : 3
+    }, {
+      "id" : "sequence2Item2",
+      "index" : 4
+    }, {
+      "id" : "sequence2Item3",
+      "index" : 5
+    } ],
+    "last" : false
+  }, {
+    "first" : false,
+    "items" : [ {
+      "id" : "sequence3Item1",
+      "index" : 7
+    } ],
+    "last" : true
+  } ]
+}

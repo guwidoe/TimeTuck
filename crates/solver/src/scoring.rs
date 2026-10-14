@@ -137,8 +137,9 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
     /// Callbacks must be pure functions of declared immutable scoped inputs.
     /// Domain values and their clones must preserve their scoring meaning;
     /// occurrence keys cannot track a Clone that changes non-Eq scoring payloads.
-    /// Reuse changes callback invocation and score Clone traces, including when
-    /// an invocation-count-dependent panic could occur. Cached contributions are
+    /// Reuse changes callback invocation, score Clone, score-operation and
+    /// equality traces, including when invocation-count-dependent panics occur.
+    /// Effective weight comparisons move to phase creation. Cached contributions are
     /// rebased through ordinary checked arithmetic on every logical candidate;
     /// budgets/order/ties are unchanged. Work counts actual fresh callbacks.
     ///
@@ -812,8 +813,16 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                     .iter()
                     .enumerate()
                     .map(|(i, variable)| {
-                        (variable.domain().len(), self.network.dependents[i].len())
+                        (
+                            variable.domain().len(),
+                            self.network.dependents[i].as_slice(),
+                        )
                     }),
+                |i| {
+                    self.weights
+                        .get(i, self.network.constraints[i].weight.as_ref())
+                        .is_none_or(|weight| *weight != S::ZERO)
+                },
             )
         })
     }
@@ -1116,23 +1125,22 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                 return Ok((candidate, fresh_evaluations));
             }
         };
+        if !cache.is_indexed(variable, occurrence) {
+            let candidate = self.apply(movement)?;
+            let fresh_evaluations = candidate.constraint_evaluations();
+            return Ok((candidate, fresh_evaluations));
+        }
         let transaction = self
             .problem
             .apply_validated(&mut self.assignment, movement)?;
         let dependents = &self.network.dependents[variable];
-        // Preserve complete zero-weight filtering before any callback. Slots
-        // remain aligned with the original dependency slice, not filtered IDs.
-        let mut affected = Vec::with_capacity(dependents.len());
-        affected.extend(dependents.iter().enumerate().filter_map(|(slot, &i)| {
-            self.weights
-                .get(i, self.network.constraints[i].weight.as_ref())
-                .is_none_or(|weight| *weight != S::ZERO)
-                .then_some((slot, i))
-        }));
+        // The immutable phase plan filtered every effective weight before
+        // any trial callback. Borrow it separately from the mutable row slots.
         let mut row = cache.candidate(variable, occurrence, dependents.len());
+        let affected = row.active;
         let mut updates = Vec::with_capacity(affected.len());
         let mut fresh_evaluations = 0;
-        for (slot, i) in affected {
+        for &(slot, i) in affected {
             let score = if let Some(score) = row.get(slot, i) {
                 score
             } else {

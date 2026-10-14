@@ -10,6 +10,7 @@ type Row<S> = Vec<Option<Contribution<S>>>;
 struct VariableRows {
     offset: usize,
     cached_occurrences: usize,
+    active: Vec<(usize, usize)>,
 }
 
 /// Rows are indexed by exact variable/domain occurrence, not value equality.
@@ -27,16 +28,18 @@ pub(crate) struct PooledContributionCache<S> {
 }
 
 impl<S> PooledContributionCache<S> {
-    pub(crate) fn new(
+    pub(crate) fn new<'a>(
         max_contributions: usize,
         constraint_count: usize,
-        variables: impl IntoIterator<Item = (usize, usize)>,
+        variables: impl IntoIterator<Item = (usize, &'a [usize])>,
+        mut is_active: impl FnMut(usize) -> bool,
     ) -> Self {
         let mut planned_slots = 0;
         let mut rows = Vec::new();
         let variables = variables
             .into_iter()
-            .map(|(domain_len, dependent_count)| {
+            .map(|(domain_len, dependents)| {
+                let dependent_count = dependents.len();
                 let cached_occurrences = if dependent_count == 0 {
                     0
                 } else {
@@ -47,9 +50,22 @@ impl<S> PooledContributionCache<S> {
                 // by the cap; no total-domain product is allocated or computed.
                 planned_slots += cached_occurrences * dependent_count;
                 rows.resize_with(offset + cached_occurrences, || None);
+                // Every indexed variable reserves at least one whole row, so
+                // total immutable list entries cannot exceed planned_slots.
+                let active = if cached_occurrences == 0 {
+                    Vec::new()
+                } else {
+                    dependents
+                        .iter()
+                        .copied()
+                        .enumerate()
+                        .filter(|&(_, constraint)| is_active(constraint))
+                        .collect()
+                };
                 VariableRows {
                     offset,
                     cached_occurrences,
+                    active,
                 }
             })
             .collect();
@@ -72,6 +88,12 @@ impl<S> PooledContributionCache<S> {
         }
         self.admitted = 0;
         self.generations.fill(0);
+    }
+
+    pub(crate) fn is_indexed(&self, variable: usize, occurrence: usize) -> bool {
+        self.variables
+            .get(variable)
+            .is_some_and(|range| occurrence < range.cached_occurrences)
     }
 
     pub(crate) fn candidate(
@@ -106,6 +128,10 @@ impl<S> PooledContributionCache<S> {
         CandidateContributions {
             generations: &self.generations,
             slots,
+            active: self
+                .variables
+                .get(variable)
+                .map_or(&[], |range| range.active.as_slice()),
         }
     }
 
@@ -131,6 +157,7 @@ impl<S> PooledContributionCache<S> {
 }
 
 pub(crate) struct CandidateContributions<'a, S> {
+    pub(crate) active: &'a [(usize, usize)],
     generations: &'a [u64],
     slots: Option<&'a mut [Option<Contribution<S>>]>,
 }
@@ -183,7 +210,7 @@ mod tests {
 
     #[test]
     fn slots_are_bounded_and_input_generations_cannot_wrap_into_old_entries() {
-        let mut cache = PooledContributionCache::new(2, 3, [(2, 1)]);
+        let mut cache = PooledContributionCache::new(2, 3, [(2, &[0][..])], |_| true);
         {
             let mut row = cache.candidate(0, 0, 2);
             row.put(0, 0, &10);
@@ -204,7 +231,12 @@ mod tests {
 
     #[test]
     fn occurrence_table_skips_oversized_and_empty_dependencies_with_bounded_indices() {
-        let mut cache = PooledContributionCache::new(3, 5, [(usize::MAX, 4), (9, 0), (9, 1)]);
+        let mut cache = PooledContributionCache::new(
+            3,
+            5,
+            [(usize::MAX, &[0, 1, 2, 3][..]), (9, &[][..]), (9, &[0][..])],
+            |_| true,
+        );
         assert_eq!(cache.rows.len(), 3);
         assert_eq!(cache.variables[0].cached_occurrences, 0);
         assert_eq!(cache.variables[1].cached_occurrences, 0);
@@ -224,8 +256,40 @@ mod tests {
     }
 
     #[test]
+    fn active_plan_is_bounded_filters_once_and_survives_row_clear() {
+        let mut compared = Vec::new();
+        let mut cache = PooledContributionCache::<i64>::new(
+            6,
+            5,
+            [(2, &[0, 1, 2][..]), (10, &[3, 4][..]), (100, &[][..])],
+            |constraint| {
+                compared.push(constraint);
+                constraint != 1
+            },
+        );
+        assert_eq!(compared, [0, 1, 2]);
+        assert_eq!(
+            cache
+                .variables
+                .iter()
+                .map(|v| v.active.len())
+                .sum::<usize>(),
+            2
+        );
+        assert!(cache.is_indexed(0, 1));
+        assert!(!cache.is_indexed(1, 0));
+        assert_eq!(cache.candidate(0, 0, 3).active, &[(0, 0), (2, 2)]);
+        cache.candidate(0, 0, 3).put(0, 0, &7);
+        cache.clear();
+        let row = cache.candidate(0, 1, 3);
+        assert_eq!(row.active, &[(0, 0), (2, 2)]);
+        assert_eq!(row.get(0, 0), None);
+        assert_eq!(compared, [0, 1, 2]);
+    }
+
+    #[test]
     fn failed_or_unwound_pass_discards_all_partially_refreshed_entries() {
-        let mut cache = PooledContributionCache::new(4, 1, [(1, 1)]);
+        let mut cache = PooledContributionCache::new(4, 1, [(1, &[0][..])], |_| true);
         for panic in [false, true] {
             let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
                 let mut pass = cache.pass();
@@ -255,7 +319,7 @@ mod tests {
         }
         let panic = Rc::new(Cell::new(false));
         let score = Score(panic.clone());
-        let mut cache = PooledContributionCache::new(4, 1, [(1, 1)]);
+        let mut cache = PooledContributionCache::new(4, 1, [(1, &[0][..])], |_| true);
         {
             let mut pass = cache.pass();
             pass.cache().candidate(0, 0, 1).put(0, 0, &score);
