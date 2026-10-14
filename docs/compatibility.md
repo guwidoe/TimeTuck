@@ -10061,3 +10061,22 @@ must install the supplied phase bindings. This uses the existing basic/list sequ
 profile; nested XML composition and solver AND with phase-local diminished returns
 remain unsupported. Native template/job caps do not replace XML children. These four
 original tests earn zero source-method credit. See [owned XML factories](xml-solver-factory.md).
+
+Original nested XML termination controls now execute arbitrary AND/OR configuration
+trees through the existing scoped basic/list/mixed solver routes, using both Dense
+and Stream directors and independent final score checks. A repeated-child XML
+shape is specified by the pinned Community SolverConfigTest resource; composition
+and scopes follow public documentation. Empty child nodes contribute no condition.
+Recursive factory preflight rejects invalid deep score and phase declarations
+before execution. These original controls earn zero additional upstream-method
+credit. Solver-level diminished returns beneath any AND ancestor remains explicitly
+unsupported because its inherited phase-local rate policy differs from solve-wide
+counters. Multiple inherited solver rate policies also reject.
+
+Round176 adds an original complete scheduling workflow using owned input/output
+files, typed configuration and weight binding, live planning projections, XML
+factory jobs and real Dense/Stream solving. Five application controls independently
+rescore output, prove small-instance optima by enumeration, consume actual warm-start
+step caps, reuse a factory with changed employee/interval facts, preserve existing
+output on invalid input and round-trip partial deadline scores. No source-method
+credit or general optimality/performance claim. See [the owned roster workflow](owned-roster-workflow.md).

@@ -35,9 +35,9 @@ phases. Explicit phase tuning takes precedence over inherited root tuning and
 caller native policies remain independent. Solver-level AND with diminished
 returns rejects because a phase-local rate policy cannot be combined with
 solve-wide counters as one expression. A nonlocal phase diminished policy and
-construction stagnation declarations reject. Arbitrary nested XML termination
-configuration, significant-improvement thresholds and native score-goal gradients
-remain outside this projection.
+construction stagnation declarations reject. Significant-improvement thresholds and native score-goal gradients remain outside
+this projection. Arbitrary nested XML termination configurations execute on the
+extension route; each node preserves its AND/OR grouping.
 
 The sequence-only `with_sequence`/`with_mixed_sequence` methods keep their existing
 scalar projection and `FromStr` type bounds. They reject explicit AND and phase
@@ -45,3 +45,25 @@ conditions requiring the extension route. Their existing configured-factory
 bindings remain compatible. The extension closure prevents temporary expression
 references from escaping without leaking storage or changing the shared solver
 kernels.
+
+## Nested configurations
+
+Repeated `termination` children are independent owned configurations, as in the
+pinned Community test resource
+`core/src/test/resources/ai/timefold/solver/core/config/solver/testSolverConfigWithoutNamespace.xml`
+(local-search AND containing an OR child). Public composition semantics are described
+in [Timefold optimization overview](https://docs.timefold.ai/timefold-solver/latest/optimization-algorithms/overview#termination).
+The resource establishes syntax; no production annotations or implementation were
+consulted. These native controls earn zero additional upstream-method credit.
+
+Each node combines its own scalar leaves and nonempty nested children. Empty
+configurations contribute no condition, even when explicitly AND. Owned parsed
+values compile to borrowed expressions recursively inside the execution closure.
+The tree retains grouping without self-references, unsafe code or leaked storage.
+Phase nodes may contain nested diminished-return conditions. Solver diminished
+returns remains inherited local-search tuning; an AND ancestor of such a leaf
+rejects because its rate scope differs from solver counters. Multiple inherited
+solver policies also reject rather than silently selecting one. Scalar-only
+sequence projection rejects nested configurations and directs callers to the
+extension route. Factory construction recursively preflights every declaration
+before publishing its executor.

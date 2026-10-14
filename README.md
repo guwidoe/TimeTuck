@@ -151,6 +151,11 @@ Run `cargo run --example configured_routes` to resolve owned text properties,
 apply shared time limits and diminished-return settings, and solve a coupled
 depot/route model through both scoring backends. Its namespace is an explicit
 native configuration profile; it does not load a Java framework.
+Run `cargo run --example owned_roster_workflow` for a complete file/configuration/manager
+scheduling workflow through both backends. It creates native input and solved JSON
+files plus a configuration schema; see [the application workflow](docs/owned-roster-workflow.md).
+Owned XML factory jobs also support nested AND/OR termination trees;
+[the composition contract](docs/xml-termination-composition.md) describes scope and limits.
 Construction and multi-phase solving support cooperative elapsed-time limits; a
 shared solve timer includes stream graph preparation. A shared unimproved-time
 limit excludes construction and the first search initialization, then spans later

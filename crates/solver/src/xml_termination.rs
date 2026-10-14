@@ -54,6 +54,8 @@ pub enum XmlTerminationComposition {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct XmlTerminationSettings {
     pub composition: Option<XmlTerminationComposition>,
+    /// Owned child configurations; grouping is preserved during scoped execution.
+    pub terminations: Vec<XmlTerminationSettings>,
     pub spent: XmlTerminationTime,
     pub unimproved: XmlTerminationTime,
     pub best_score_limit: Option<String>,
@@ -155,6 +157,7 @@ impl XmlTerminationSettings {
                 "stepCountLimit",
                 "unimprovedStepCountLimit",
                 "diminishedReturns",
+                "termination",
             ],
         )?;
         let diminished = n
@@ -205,6 +208,12 @@ impl XmlTerminationSettings {
             })
             .transpose()?;
         let settings = Self {
+            terminations: n
+                .children
+                .iter()
+                .filter(|c| c.name == "termination")
+                .map(Self::from_element)
+                .collect::<Result<_, _>>()?,
             spent: Self::spent_declaration(n)?,
             unimproved: time(
                 n,
@@ -233,6 +242,9 @@ impl XmlTerminationSettings {
         Ok(settings)
     }
     fn validate(&self) -> Result<(), XmlTerminationError> {
+        for child in &self.terminations {
+            child.validate()?;
+        }
         self.spent.resolve()?;
         self.unimproved.resolve()?;
         if let Some(raw) = &self.diminished_returns {
@@ -305,6 +317,7 @@ impl XmlTerminationSettings {
         self.spent.resolve()
     }
     fn reject_phase_and(&self) -> Result<(), XmlTerminationError> {
+        self.reject_nested_projection()?;
         if self.composition == Some(XmlTerminationComposition::And) {
             return Err(error(
                 "phase AND requires with_sequence_extensions or with_mixed_sequence_extensions",
@@ -373,6 +386,7 @@ impl XmlTerminationSettings {
         mut limits: SolverLimits<'_, S>,
         run: impl FnOnce(SolverLimits<'_, S>) -> R,
     ) -> Result<R, XmlTerminationError> {
+        self.reject_nested_projection()?;
         if self.composition == Some(XmlTerminationComposition::And) {
             return Err(error(
                 "solver AND requires with_sequence_extensions or with_mixed_sequence_extensions",
@@ -633,12 +647,12 @@ impl XmlTerminationPlan {
                 ));
             }
         }
-        let mut statics = Vec::new();
         let mut selected = Vec::new();
         for (i, phase) in self.phases.iter().enumerate() {
             let Some(raw) = &phase.settings else { continue };
-            let row = raw.static_leaves::<S>(kinds[i] == "constructionHeuristic")?;
-            if row.is_empty() && raw.diminished_returns.is_none() {
+            let tree =
+                raw.compile::<S>(kinds[i] == "constructionHeuristic", Some(kinds[i]), false)?;
+            if tree.is_empty() {
                 continue;
             }
             if existing.iter().any(|b| b.phase() == i) {
@@ -646,59 +660,14 @@ impl XmlTerminationPlan {
                     "XML termination conflicts with an existing phase binding",
                 ));
             }
-            let construction = kinds[i] == "constructionHeuristic";
-            if construction
-                && (raw.unimproved.resolve()?.is_some() || raw.unimproved_steps.is_some())
-            {
-                return Err(error("construction cannot use search stagnation"));
-            }
-            if raw.diminished_returns.is_some() && kinds[i] != "localSearch" {
-                return Err(error("diminishedReturns requires a localSearch phase"));
-            }
-            statics.push(row);
-            selected.push((i, raw));
+            selected.push((i, tree));
         }
-        let mut leaves = Vec::new();
-        for ((_, raw), row) in selected.iter().zip(&statics) {
-            let mut items = row
-                .iter()
-                .map(|c| StatefulSearchTermination::Condition(StatefulSearchLimit::Static(c)))
-                .collect::<Vec<_>>();
-            if let Some(dim) = &raw.diminished_returns {
-                let config = PhaseDiminishedReturnsConfig::new(dim.resolve()?, &S::ZERO)
-                    .map_err(|e| error(e.to_string()))?;
-                items.push(StatefulSearchTermination::Condition(
-                    StatefulSearchLimit::DiminishedReturns(config),
-                ));
-            }
-            leaves.push(items);
-        }
-        let expressions = selected
-            .iter()
-            .zip(&leaves)
-            .map(|((_, raw), row)| {
-                if raw.composition == Some(XmlTerminationComposition::And) {
-                    StatefulSearchTermination::All(row)
-                } else {
-                    StatefulSearchTermination::Any(row)
-                }
-            })
-            .collect::<Vec<_>>();
-        let mut bindings = existing
-            .iter()
-            .map(|b| PhaseTerminationBinding {
-                phase: b.phase,
-                search: b.search,
-                scored: b.scored,
-                stateful: b.stateful,
-            })
-            .collect::<Vec<_>>();
-        for ((i, _), expr) in selected.iter().zip(&expressions) {
-            bindings.push(PhaseTerminationBinding::stateful(*i, expr));
-        }
-        Ok(run(&bindings))
+        let mut callback = Some(run);
+        Ok(with_bindings(&selected, existing, &mut |bindings| {
+            callback.take().unwrap()(bindings)
+        }))
     }
-    fn with_composed_limits<S: Clone + std::str::FromStr, R>(
+    fn with_composed_limits<S: AdditiveScore + std::str::FromStr, R>(
         &self,
         limits: SolverLimits<'_, S>,
         run: impl FnOnce(SolverLimits<'_, S>) -> R,
@@ -706,32 +675,24 @@ impl XmlTerminationPlan {
         let Some(raw) = &self.solver else {
             return Ok(run(limits));
         };
-        if raw.composition == Some(XmlTerminationComposition::And)
-            && raw.diminished_returns.is_some()
-        {
-            return Err(error(
-                "solver AND cannot combine phase-local diminishedReturns with solver counters",
-            ));
-        }
-        let leaves = raw.static_leaves::<S>(false)?;
-        if leaves.is_empty() {
+        let tree = raw.compile::<S>(false, None, false)?;
+        if tree.is_empty() {
             return Ok(run(limits));
         }
-        let xml = if raw.composition == Some(XmlTerminationComposition::And) {
-            ScoredSearchTermination::All(&leaves)
-        } else {
-            ScoredSearchTermination::Any(&leaves)
-        };
-        let combined = limits
-            .scored_termination
-            .map(|old| [old.clone(), xml.clone()]);
-        let expression = combined
-            .as_ref()
-            .map_or(xml, |children| ScoredSearchTermination::Any(children));
-        Ok(run(SolverLimits {
-            scored_termination: Some(&expression),
-            ..limits
-        }))
+        let mut callback = Some(run);
+        tree.with_scored(&mut |xml| {
+            let combined = limits
+                .scored_termination
+                .map(|old| [old.clone(), xml.clone()]);
+            let expression = combined.as_ref().map_or_else(
+                || xml.clone(),
+                |children| ScoredSearchTermination::Any(children),
+            );
+            Ok(callback.take().unwrap()(SolverLimits {
+                scored_termination: Some(&expression),
+                ..limits.clone()
+            }))
+        })
     }
 
     /// Apply solve-wide XML AND/OR and borrow phase expressions for a solve.
@@ -753,20 +714,18 @@ impl XmlTerminationPlan {
         self.check(sequence.phases.iter().map(kind))?;
         let kinds = sequence.phases.iter().map(kind).collect::<Vec<_>>();
         if let Some(root) = &self.solver {
-            if root.composition == Some(XmlTerminationComposition::And)
-                && root.diminished_returns.is_some()
-            {
+            if root.has_solver_and_diminished(false) {
                 return Err(error(
                     "solver AND cannot combine phase-local diminishedReturns with solver counters",
                 ));
             }
-            if let Some(dim) = &root.diminished_returns {
+            if let Some(dim) = root.inherited_diminished()? {
                 for (i, phase) in sequence.phases.iter_mut().enumerate() {
                     if self
                         .phases
                         .get(i)
                         .and_then(|p| p.settings.as_ref())
-                        .is_some_and(|r| r.diminished_returns.is_some())
+                        .is_some_and(XmlTerminationSettings::has_diminished)
                     {
                         continue;
                     }
@@ -800,20 +759,18 @@ impl XmlTerminationPlan {
         self.check(sequence.phases.iter().map(mixed_kind))?;
         let kinds = sequence.phases.iter().map(mixed_kind).collect::<Vec<_>>();
         if let Some(root) = &self.solver {
-            if root.composition == Some(XmlTerminationComposition::And)
-                && root.diminished_returns.is_some()
-            {
+            if root.has_solver_and_diminished(false) {
                 return Err(error(
                     "solver AND cannot combine phase-local diminishedReturns with solver counters",
                 ));
             }
-            if let Some(dim) = &root.diminished_returns {
+            if let Some(dim) = root.inherited_diminished()? {
                 for (i, phase) in sequence.phases.iter_mut().enumerate() {
                     if self
                         .phases
                         .get(i)
                         .and_then(|p| p.settings.as_ref())
-                        .is_some_and(|r| r.diminished_returns.is_some())
+                        .is_some_and(XmlTerminationSettings::has_diminished)
                     {
                         continue;
                     }
@@ -835,4 +792,203 @@ impl XmlTerminationPlan {
             })
         })?
     }
+}
+
+impl XmlTerminationSettings {
+    fn reject_nested_projection(&self) -> Result<(), XmlTerminationError> {
+        if !self.terminations.is_empty() {
+            return Err(error(
+                "nested termination requires with_sequence_extensions or with_mixed_sequence_extensions",
+            ));
+        }
+        Ok(())
+    }
+    fn has_diminished(&self) -> bool {
+        self.diminished_returns.is_some() || self.terminations.iter().any(Self::has_diminished)
+    }
+    fn has_solver_and_diminished(&self, parent_and: bool) -> bool {
+        let and = parent_and || self.composition == Some(XmlTerminationComposition::And);
+        (and && self.diminished_returns.is_some())
+            || self
+                .terminations
+                .iter()
+                .any(|c| c.has_solver_and_diminished(and))
+    }
+    fn inherited_diminished(&self) -> Result<Option<&XmlDiminishedReturns>, XmlTerminationError> {
+        let mut found = self.diminished_returns.as_ref();
+        for child in &self.terminations {
+            if let Some(dim) = child.inherited_diminished()? {
+                if found.is_some() {
+                    return Err(error(
+                        "multiple solver diminishedReturns policies cannot be inherited into one phase",
+                    ));
+                }
+                found = Some(dim);
+            }
+        }
+        Ok(found)
+    }
+    fn compile<S: AdditiveScore + std::str::FromStr>(
+        &self,
+        construction: bool,
+        phase: Option<&str>,
+        parent_and: bool,
+    ) -> Result<OwnedTermination<S>, XmlTerminationError> {
+        let and = self.composition == Some(XmlTerminationComposition::And);
+        if phase.is_none() && self.has_solver_and_diminished(parent_and) {
+            return Err(error(
+                "solver AND cannot combine phase-local diminishedReturns with solver counters",
+            ));
+        }
+        if construction && (self.unimproved.resolve()?.is_some() || self.unimproved_steps.is_some())
+        {
+            return Err(error("construction cannot use search stagnation"));
+        }
+        if self.diminished_returns.is_some() && phase.is_some_and(|p| p != "localSearch") {
+            return Err(error("diminishedReturns requires a localSearch phase"));
+        }
+        let leaves = self
+            .static_leaves::<S>(construction)?
+            .into_iter()
+            .map(|leaf| match leaf {
+                ScoredSearchTermination::Condition(c) => c,
+                _ => unreachable!(),
+            })
+            .collect();
+        let diminished = if phase.is_some() {
+            self.diminished_returns
+                .as_ref()
+                .map(|raw| {
+                    PhaseDiminishedReturnsConfig::new(raw.resolve()?, &S::ZERO)
+                        .map_err(|e| error(e.to_string()))
+                })
+                .transpose()?
+        } else {
+            None
+        };
+        let children = self
+            .terminations
+            .iter()
+            .map(|c| c.compile(construction, phase, parent_and || and))
+            .collect::<Result<_, _>>()?;
+        Ok(OwnedTermination {
+            and,
+            leaves,
+            diminished,
+            children,
+        })
+    }
+}
+
+// Owned nodes contain values only. Each borrowed expression exists inside its
+// callback's stack scope, including every sibling's recursively borrowed storage.
+struct OwnedTermination<S> {
+    and: bool,
+    leaves: Vec<ScoredSearchLimit<S>>,
+    diminished: Option<PhaseDiminishedReturnsConfig<S>>,
+    children: Vec<Self>,
+}
+impl<S: Clone> OwnedTermination<S> {
+    fn is_empty(&self) -> bool {
+        self.leaves.is_empty()
+            && self.diminished.is_none()
+            && self.children.iter().all(Self::is_empty)
+    }
+    fn with_scored<R>(&self, run: &mut dyn FnMut(&ScoredSearchTermination<'_, S>) -> R) -> R {
+        let leaves = self
+            .leaves
+            .iter()
+            .cloned()
+            .map(ScoredSearchTermination::Condition)
+            .collect::<Vec<_>>();
+        scored_children(&self.children, &leaves, &mut |row| {
+            let expression = if self.and {
+                ScoredSearchTermination::All(row)
+            } else {
+                ScoredSearchTermination::Any(row)
+            };
+            run(&expression)
+        })
+    }
+    fn with_stateful<R>(&self, run: &mut dyn FnMut(&StatefulSearchTermination<'_, S>) -> R) -> R {
+        let statics = self
+            .leaves
+            .iter()
+            .cloned()
+            .map(ScoredSearchTermination::Condition)
+            .collect::<Vec<_>>();
+        let mut leaves = statics
+            .iter()
+            .map(|leaf| StatefulSearchTermination::Condition(StatefulSearchLimit::Static(leaf)))
+            .collect::<Vec<_>>();
+        if let Some(dim) = &self.diminished {
+            leaves.push(StatefulSearchTermination::Condition(
+                StatefulSearchLimit::DiminishedReturns(dim.clone()),
+            ));
+        }
+        stateful_children(&self.children, &leaves, &mut |row| {
+            let expression = if self.and {
+                StatefulSearchTermination::All(row)
+            } else {
+                StatefulSearchTermination::Any(row)
+            };
+            run(&expression)
+        })
+    }
+}
+fn scored_children<S: Clone, R>(
+    children: &[OwnedTermination<S>],
+    row: &[ScoredSearchTermination<'_, S>],
+    run: &mut dyn FnMut(&[ScoredSearchTermination<'_, S>]) -> R,
+) -> R {
+    let Some((first, rest)) = children.split_first() else {
+        return run(row);
+    };
+    if first.is_empty() {
+        return scored_children(rest, row, run);
+    }
+    first.with_scored(&mut |child| {
+        let mut next = row.to_vec();
+        next.push(child.clone());
+        scored_children(rest, &next, run)
+    })
+}
+fn stateful_children<S: Clone, R>(
+    children: &[OwnedTermination<S>],
+    row: &[StatefulSearchTermination<'_, S>],
+    run: &mut dyn FnMut(&[StatefulSearchTermination<'_, S>]) -> R,
+) -> R {
+    let Some((first, rest)) = children.split_first() else {
+        return run(row);
+    };
+    if first.is_empty() {
+        return stateful_children(rest, row, run);
+    }
+    first.with_stateful(&mut |child| {
+        let mut next = row.to_vec();
+        next.push(child.clone());
+        stateful_children(rest, &next, run)
+    })
+}
+fn with_bindings<S: Clone, R>(
+    trees: &[(usize, OwnedTermination<S>)],
+    bindings: &[PhaseTerminationBinding<'_, S>],
+    run: &mut dyn FnMut(&[PhaseTerminationBinding<'_, S>]) -> R,
+) -> R {
+    let Some(((i, first), rest)) = trees.split_first() else {
+        return run(bindings);
+    };
+    first.with_stateful(&mut |expression| {
+        let mut next = bindings
+            .iter()
+            .map(|b| PhaseTerminationBinding {
+                phase: b.phase,
+                search: b.search,
+                scored: b.scored,
+                stateful: b.stateful,
+            })
+            .collect::<Vec<_>>();
+        next.push(PhaseTerminationBinding::stateful(*i, expression));
+        with_bindings(rest, &next, run)
+    })
 }

@@ -17,7 +17,64 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round174
+## Latest verified checkpoint — round177
+
+Nested XML termination now owns recursive child declarations and executes real
+solver/phase AND/OR grouping through safely scoped borrowed trees. Basic/list/mixed
+Dense/Stream controls distinguish grouped results, preserve caps/cancellation and
+existing nonoverlapping bindings, and reject deep invalid declarations before any
+executor. Empty children contribute no condition. Scalar-only projection rejects
+nested trees explicitly. XmlSolverFactory's existing constructor preflight now
+checks complete recursive trees; no factory or shared search/scoring kernel change.
+
+The owned_roster_workflow application joins actual JSON input/output, typed model
+configuration/weight binding, live entity projections, owned XML factory/manager
+jobs and independent score validation. Its actual executable passed locally on
+final merged sources:both backends score0hard/-6soft in54 evaluations and wrote
+rereadable output documents. Five original application controls prove small-instance
+optima by exhaustive enumeration, consume warm-start XML caps, use current per-job
+staff/interval facts, preserve output on bad inputs and round-trip partial scores.
+Seven original nested XML tests plus these five earn zero upstream-method credit.
+Coverage remains4,390/4,855 (90.422%),12 pending,453 excluded,zero failed/unverified;
+provenance/pin/Cargo unchanged. README links the runnable workflow and composition
+contracts. Small optimum evidence is not a general quality or performance guarantee.
+
+One frozen runner-a bash scripts/check.sh passed:8,262 Rust tests and290 doctests.
+17 Rust jobs ran;1,297 Rust and46 Python jobs reused genuine unchanged round174
+records. Prebuild/Clippy204.226s,gate110.635s,worker315.375s. Root focused5 application
+checks/Clippy passed locally; agent7 nested checks/Clippy and19 unchanged XML checks
+passed/reused on runner-a. All3 actual round159 performance inputs remain unchanged
+and current with original dates; no benchmark refresh or new speed claim. Report
+and backend freshness at127.0.0.1:8765 verified; no UI/contract change or browser rerun.
+
+Evidence work/parallel-round177-{freeze,evidence}.json; archive
+work/round177-runner-a-results.tar.gz SHA256
+2dd8a3171a2d656ec04cdfa9bbc8811081b0f355ac9597f3f547077ecc516b1c.
+Rust digest1dce6f1099c94e3b8c012a172b6874a6ea2108eaf6c56ded38771ce8937a531a;
+report digestf29e049cb55a66abf4c117211c580857dae8c2651b7fa29f227c990f81fca3f7.
+Agent4 changed paths and all5 exact success/failure source/log/manifest archives
+are collected at work/round177-agent-evidence/nested-xml; managed tree archived.
+No new assignments. Root initial no-run compile source snapshot is preserved at
+work/root-round176-attempt1-source, but no separate log was captured for that first
+compile (tool diagnostics only). Later false minimum-work assertion failure and a
+missed replacement/repeat are preserved at work/root-round176-failed-attempt2/3;
+actual solver behavior was correct. Final root focus and executable receipts are
+work/root-round176-{focus,example-run}-result.json. runner-a check passed before
+collection required renewed authentication; user authenticated the live collector,
+which finished using temporary multiplex options. No host SSH policy or credential
+changed. runner-c parked/untouched. Local and runner-a both used.
+
+Next: solver-level AND with descendant phase-local diminished returns and multiple
+inherited rate histories remain unsupported, then representative final correctness
+and performance qualification. Native nonsequential repair/provider functionality
+already passed rounds146/150; its two pending methods concern unexplained surplus
+Java buffer fields. Do not repeat those experiments or pad metadata for credit.
+The main semantic gap was nested XML, now closed; do not mistake pending JVM/raw
+buffer assertions for unimplemented native repair. Base72bfa938e58a47b57f4874a52c760ada1e8c6e3b;
+postcommit receipt work/round177-postcommit-evidence.json. Goal active/incomplete,
+this turn progress. Reuse unchanged evidence; no gate rerun for a new turn/commit.
+
+## Previous verified checkpoint — round174
 
 Integrated executable typed model configuration, immutable graph-derived constraint
 services with real shared factory/provider identities, owned model solve sessions,
