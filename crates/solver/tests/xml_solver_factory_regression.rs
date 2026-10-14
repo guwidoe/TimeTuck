@@ -229,7 +229,7 @@ fn invalid_xml_bindings_reject_factory_publication_without_executor_calls() {
     for xml in [
         "<termination><bestScoreLimit>bad</bestScoreLimit></termination>",
         "<constructionHeuristic/>",
-        "<termination><terminationCompositionStyle>AND</terminationCompositionStyle><diminishedReturns/></termination>",
+        "<termination><terminationCompositionStyle>AND</terminationCompositionStyle><diminishedReturns/><termination><bestScoreLimit>bad</bestScoreLimit></termination></termination>",
     ] {
         let result: Result<XmlSolverFactory<FiniteProblem<i32>, (), String>, _> =
             XmlSolverFactory::new(template(1), plan(xml), |_, _, _, _| {

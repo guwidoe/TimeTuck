@@ -17,7 +17,75 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round177
+## Latest verified checkpoint — round180
+
+Executable XML now consumes score-calculation and move-count limits and native
+best-score feasibility. False feasibility contributes no condition. Original
+controls prove actual basic/list/mixed Dense/Stream work counts and retained
+scores in both scopes, grouping, independent caps, invalid inputs and every
+basic/mixed scalar phase profile. No source-method credit or provenance/pin change.
+
+Root AND and multiple descendant diminished-return policies now execute with
+independent inherited phase trees, explicit phase safeguards and prior native
+bindings. Universal phase leaves use phase counters; solve projection omits
+phase-only rates but retains nonempty composite identities. Empty configurations
+remain absent. The shared composed-rate hook arms grace at the first actual step,
+after setup; it samples only unarmed rate sessions and keeps the None path guarded.
+Direct primitive APIs are unchanged. StatefulTerminationSession manual callers
+now signal start_step; complete-score observations alone do not arm phase rates.
+Pinned TESTs plus preserved opaque public Community probes establish semantics.
+Native cold identity stopping can return no score where Java initializes once;
+no trace parity or source-method credit. Factory docs no longer claim these
+combinations unsupported. Scalar-only tuning precedence/restrictions remain.
+
+One frozen runner-a bash scripts/check.sh passed:8,272 Rust tests and290 doctests.
+1,177 Rust jobs ran;139 Rust and46 Python reused genuine round177 records.
+Prebuild/Clippy1,029.305s,gate404.088s,worker1,433.913s. This shared-kernel increment
+required broad compilation; no unchanged full gate repeated. Root3 focused budget
+checks/Clippy and agent42 affected tests/Clippy passed before integration. Root
+failures (missing symbolic schema vocabulary, malformed-input expectation, then
+clone-on-Copy warning) are preserved in work/root-round179-failed-attempt1/2/3;
+final focus receipt work/root-round179-focus-result.json. Agent all5 failed
+attempts plus final success, exact9 changed sources/docs and six full immutable
+source archives are checksum-validated under work/round180-agent-evidence/xml-rate-scope.
+Raw probe sources/logs and three complete TEST specs are included. Earlier Java
+probe classes were overwritten, disclosed; their exact sources/logs remain.
+Agent managed tree archived after proof collection. No live agent builds remain.
+
+All3 primary measurement keys changed; deliberately refreshed once on final
+merged code locally while runner-a checked another physical host. Actual10 exact
+workloads passed independent optima; k-opt128 passed/114 equal/Javaoptimal114/
+Rust128; list320 passed/319 equal/Javaoptimal265/Rust266. Alternating3 forks,
+5 samples,3 warmups; elapsed304.349s includes builds. Actual dates2026-10-14
+12:55:06/12:56:03/12:57:57UTC. work/round180-performance-evidence.json guards
+source/input hashes; previous round159 reports preserved in work/round180-previous-performance.
+Unequal quality/work remains visible; no causal speed gain over159 claimed.
+Other measurements remain honestly stale where relevant keys changed.
+
+Evidence work/parallel-round180-{freeze,evidence}.json; archive
+work/round180-runner-a-results.tar.gz SHA256
+df9514f9ef1893aec87258f0939192330f6c7bdabab631fed6494266c771fb38.
+Rust digest6b2e4dd6fb383add10160c7d5ef5fa7616050a20354fa1248aad204c3d34c979;
+report digest5535b3c219f4477d32879572b936aaa1212fe10f1ed8684900823146c5ab530c.
+Source4390/4855(90.422%),12 pending,453 excluded,zero failed/unverified.
+Backend report/freshness checked at127.0.0.1:8765; no UI change/browser rerun.
+Compatibility/handoff prose updated after checks; Rust inputs unchanged.
+runner-c parked/untouched; established runner-a multiplex transport worked without
+another authentication request or host policy change. Local/runner-a both used.
+
+Next concrete gap: executable XML unimprovedScoreDifferenceThreshold. Native
+SignificantImprovementConfig/session exists. Pinned TerminationFactoryTest lines151/186
+specify pairing with unimproved time and rejecting a threshold without a window.
+Root histories need the existing SolverExtensions.stateful_termination scope;
+the current two-argument XML executor only supplies phase bindings, so extend the
+binding API explicitly rather than silently accepting unused root controls.
+Then finish representative correctness/performance qualification and scope audit.
+Native nonsequential repair already works; do not repeat spare-buffer experiments
+or pad metadata for pending-method credit. Goal active/incomplete; turn progress.
+Base07a10959225be46cc35520cdc76faa581c045d6c; postcommit receipt
+work/round180-postcommit-evidence.json. Reuse matching results, not commit/turn dates.
+
+## Previous verified checkpoint — round177
 
 Nested XML termination now owns recursive child declarations and executes real
 solver/phase AND/OR grouping through safely scoped borrowed trees. Basic/list/mixed

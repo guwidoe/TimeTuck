@@ -772,6 +772,14 @@ impl<S: Score> crate::time_limit::SearchControl<S> for SolveControl<'_, S> {
         }
     }
     fn step_started(&mut self) {
+        if self
+            .phase_condition
+            .as_ref()
+            .is_some_and(|phase| phase.needs_first_step())
+        {
+            self.sample();
+            self.phase_condition.as_mut().unwrap().start_step(self.last);
+        }
         self.lifecycle.start_step();
     }
     fn step_ended(&mut self, completed: bool) {

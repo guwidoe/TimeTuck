@@ -10080,3 +10080,23 @@ rescore output, prove small-instance optima by enumeration, consume actual warm-
 step caps, reuse a factory with changed employee/interval facts, preserve existing
 output on invalid input and round-trip partial deadline scores. No source-method
 credit or general optimality/performance claim. See [the owned roster workflow](owned-roster-workflow.md).
+
+
+Round180 extends executable XML with score-calculation and move-count limits plus
+best-score feasibility. These are real native work/complete-best conditions;
+false feasibility adds no condition. Basic/list/mixed Dense/Stream controls exercise
+both scopes, AND/OR/nested grouping, independent caps, invalid declarations and
+every scalar phase profile. Original controls earn zero upstream-method credit.
+
+The extension route now accepts root AND and multiple descendant diminished-return
+policies. Each local-search phase evaluates the inherited root tree with its own
+universal counters and independent rate histories; explicit phase expressions
+and prior native bindings remain independent safeguards. Solve projection omits
+phase-only leaves while preserving real composite identities. Completely empty
+configurations remain absent. Composed grace starts at the first actual step,
+after preparation; direct primitive policy APIs are unchanged. Pinned TESTs and
+opaque public Community probes establish scope; native cold early termination
+can return no score where Java initializes once. This supersedes earlier rounds'
+unsupported-rate combinations without claiming trace parity. See the updated
+XML composition/factory contracts. Significant-improvement thresholds remain
+outside executable XML projection, despite existing native support.

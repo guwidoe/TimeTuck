@@ -29,7 +29,7 @@ pub enum StatefulSearchLimit<'a, S = crate::SimpleScore> {
 /// continues through later preparation and construction, but construction scores
 /// do not update its anchor. Phase bindings create fresh independent histories.
 /// DiminishedReturns is restricted to local-search phase bindings. It arms at
-/// the first status poll after a complete search-best observation, excluding setup.
+/// the first actual step after setup and a complete search-best observation.
 /// Only strict best improvements update its score; worsening samples are ignored.
 /// Each window is polled regardless of the expression outcome and latches expiry.
 /// Static subtrees retain the usual solve/phase counter and complete-score scope.
@@ -141,6 +141,7 @@ pub struct StatefulTerminationSession<'a, S = crate::SimpleScore> {
     rates: Vec<crate::DiminishedReturns<S>>,
     rate_best: Option<S>,
     started: bool,
+    first_step: Option<Duration>,
     last: Duration,
 }
 impl<'a, S: Score> StatefulTerminationSession<'a, S> {
@@ -180,6 +181,7 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
             rates,
             rate_best: None,
             started: false,
+            first_step: None,
             last: Duration::ZERO,
         }
     }
@@ -203,6 +205,23 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
         self.last = self.last.max(elapsed);
         self.started = true;
     }
+    pub(crate) fn needs_first_step(&self) -> bool {
+        !self.rates.is_empty() && self.first_step.is_none()
+    }
+    /// Arm phase rate windows at the actual first step, after initialization.
+    /// Repeated steps do not restart grace; all rate occurrences keep their own histories.
+    pub fn start_step(&mut self, elapsed: Duration) {
+        self.last = self.last.max(elapsed);
+        if !self.started || self.first_step.is_some() {
+            return;
+        }
+        self.first_step = Some(self.last);
+        if let Some(best) = &self.rate_best {
+            for rate in &mut self.rates {
+                rate.start(self.last, best.clone());
+            }
+        }
+    }
     /// Call only for complete retained search results. Structurally flawed scores
     /// are ignored; accepted worsening states never reset a threshold anchor.
     pub fn observe_best(&mut self, elapsed: Duration, score: &S) {
@@ -213,7 +232,11 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
         if !self.rates.is_empty() && self.rate_best.as_ref().is_none_or(|best| score > best) {
             self.rate_best = Some(score.clone());
             for rate in &mut self.rates {
-                rate.step(self.last, score);
+                if self.first_step.is_some() && !rate.grace_started() {
+                    rate.start(self.last, score.clone());
+                } else {
+                    rate.step(self.last, score);
+                }
             }
         }
         for history in &mut self.histories {
@@ -238,12 +261,11 @@ impl<'a, S: Score> StatefulTerminationSession<'a, S> {
             StatefulSearchLimit::Static(condition) => condition.status(progress, best),
             StatefulSearchLimit::DiminishedReturns(_) => {
                 let rate = rates.next().expect("one rate per occurrence");
-                let reached = self.rate_best.as_ref().is_some_and(|best| {
-                    if !rate.grace_started() {
-                        rate.start(self.last, best.clone());
-                    }
-                    rate.is_terminated(self.last, best)
-                });
+                let reached = self.first_step.is_some()
+                    && self
+                        .rate_best
+                        .as_ref()
+                        .is_some_and(|best| rate.is_terminated(self.last, best));
                 Some(TerminationState {
                     reached,
                     progress: reached.then_some(1.0),

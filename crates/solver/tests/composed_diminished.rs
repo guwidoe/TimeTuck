@@ -47,6 +47,7 @@ fn session_matches_existing_policy_and_reset_discards_grace_and_expiry() {
         }
     );
     session.start_search(ms(2000));
+    session.start_step(ms(2000));
     session.observe_best(ms(2000), &SimpleScore::ZERO);
     let mut direct =
         DiminishedReturns::<SimpleScore>::new(DiminishedReturnsConfig::new(ms(10), 1, 2).unwrap())
@@ -75,6 +76,7 @@ fn session_matches_existing_policy_and_reset_discards_grace_and_expiry() {
             .reached
     );
     session.start_search(ms(50_000));
+    session.start_step(ms(50_000));
     session.observe_best(ms(50_000), &SimpleScore::new(100));
     assert!(!session.status(progress(50_000, 0), None).unwrap().reached);
     assert!(!session.status(progress(10, 0), None).unwrap().reached); // backwards readings clamp
@@ -92,6 +94,7 @@ fn every_independent_window_is_sampled_while_an_earlier_and_leaf_is_false() {
     let expression = StatefulSearchTermination::All(&children);
     let mut s = StatefulTerminationSession::new(&expression);
     s.start_search(ms(0));
+    s.start_step(ms(0));
     s.observe_best(ms(0), &SimpleScore::ZERO);
     assert!(!s.status(progress(0, 0), None).unwrap().reached);
     assert!(!s.status(progress(10, 4), None).unwrap().reached); // longer window not expired
@@ -100,6 +103,7 @@ fn every_independent_window_is_sampled_while_an_earlier_and_leaf_is_false() {
     let any = StatefulSearchTermination::Any(&children[1..]);
     let mut s = StatefulTerminationSession::new(&any);
     s.start_search(ms(0));
+    s.start_step(ms(0));
     s.observe_best(ms(0), &SimpleScore::ZERO);
     assert!(!s.status(progress(0, 0), None).unwrap().reached);
     assert!(s.status(progress(10, 0), None).unwrap().reached);
@@ -115,6 +119,7 @@ fn higher_level_progress_resets_grace_and_worsening_or_partial_scores_do_not() {
     ));
     let mut s = StatefulTerminationSession::new(&expression);
     s.start_search(ms(0));
+    s.start_step(ms(0));
     s.observe_best(ms(0), &HardSoftScore::new(-1, 0));
     assert!(!s.status(progress(0, 0), None).unwrap().reached);
     s.observe_best(ms(8), &HardSoftScore::new(0, 2));
@@ -262,6 +267,7 @@ fn expression_cooling_uses_supported_step_progress_alongside_the_rate_leaf() {
     let condition = StatefulSearchTermination::All(&children);
     let mut state = StatefulTerminationSession::new(&condition);
     state.start_search(ms(0));
+    state.start_step(ms(0));
     state.observe_best(ms(0), &SimpleScore::ZERO);
     assert_eq!(
         state.status(progress(0, 0), None).unwrap().progress,
@@ -366,6 +372,7 @@ fn no_complete_search_best_means_no_grace_and_score_only_types_are_supported() {
     ));
     let mut session = StatefulTerminationSession::new(&condition);
     session.start_search(ms(0));
+    session.start_step(ms(0));
     assert_eq!(
         session.status(progress(100, 0), Some(&prototype)).unwrap(),
         TerminationState {
@@ -379,6 +386,7 @@ fn no_complete_search_best_means_no_grace_and_score_only_types_are_supported() {
     let condition = rate(10);
     let mut session = StatefulTerminationSession::new(&condition);
     session.start_search(ms(0));
+    session.start_step(ms(0));
     session.observe_best(ms(0), &SimpleScore::new(100).with_structural(-1));
     assert!(!session.status(progress(100, 0), None).unwrap().reached);
     session.observe_best(ms(100), &SimpleScore::ZERO);

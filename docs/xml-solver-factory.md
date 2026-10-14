@@ -14,7 +14,9 @@ through `factory().configuration()` and the additional XML declarations through
 `termination_plan()`. This is the scoped extension profile, separate from the
 scalar precedence profile of `NativeSolverConfigurationSource`.
 
-The constructor consumes the existing basic/list sequence profile. Unsupported
-combinations retain the XML binder's errors, including solve-wide AND with
-phase-local diminished returns. No XML class loading or JVM configuration ABI is
+The constructor consumes the existing basic/list sequence profile. Nested AND/OR
+trees, XML work/feasibility limits, and independently inherited phase-local rate
+trees execute through the scoped binder. Invalid descendants and unsupported
+phase controls reject before publication. The [composition contract](xml-termination-composition.md)
+describes solve/phase projection and independent safeguards. No XML class loading or JVM configuration ABI is
 claimed. Original manager integration tests receive no upstream-method credit.

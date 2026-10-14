@@ -541,7 +541,7 @@ fn deep_invalid_declarations_reject_before_factory_or_execution_callbacks() {
 }
 
 #[test]
-fn nested_solver_diminished_under_and_and_scalar_projection_reject_explicitly() {
+fn nested_solver_diminished_scope_binding_and_scalar_projection_rejection() {
     for body in [
         "<termination><terminationCompositionStyle>AND</terminationCompositionStyle><termination><diminishedReturns/></termination></termination>",
         "<termination><termination><terminationCompositionStyle>AND</terminationCompositionStyle><termination><diminishedReturns/></termination></termination></termination>",
@@ -552,10 +552,8 @@ fn nested_solver_diminished_under_and_and_scalar_projection_reject_explicitly() 
             phases: vec![SolverPhase::LocalSearch(local())],
             ..Default::default()
         };
-        assert!(
-            xml.with_sequence_extensions(seq, &[], |_, _| panic!("unsupported scope must reject"))
-                .is_err()
-        );
+        xml.with_sequence_extensions(seq, &[], |_, bindings| assert_eq!(bindings.len(), 1))
+            .unwrap();
     }
     let xml = project(
         "<termination><termination><stepCountLimit>2</stepCountLimit></termination></termination>",

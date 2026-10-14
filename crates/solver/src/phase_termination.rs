@@ -137,6 +137,16 @@ impl<'a, S: Score> PhaseControl<'a, S> {
             session.start_search(now.saturating_sub(self.origin));
         }
     }
+    pub(crate) fn needs_first_step(&self) -> bool {
+        self.stateful
+            .as_ref()
+            .is_some_and(crate::StatefulTerminationSession::needs_first_step)
+    }
+    pub(crate) fn start_step(&mut self, now: Duration) {
+        if let Some(session) = &mut self.stateful {
+            session.start_step(now.saturating_sub(self.origin));
+        }
+    }
     pub(crate) fn observe_history(&mut self, now: Duration, score: &S) {
         if let Some(session) = &mut self.stateful {
             session.observe_best(now.saturating_sub(self.origin), score);
