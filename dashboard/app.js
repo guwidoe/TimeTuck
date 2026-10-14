@@ -109,6 +109,7 @@ function render() {
     renderDetail();
     renderBenchmarks();
     renderBenchmarks("solver");
+    renderBenchmarks("mixed");
     renderBenchmarks("construction");
     renderBenchmarks("repair");
     renderBenchmarks("list_repair");
@@ -225,7 +226,7 @@ function renderTests() {
 }
 function renderBenchmarks(kind = "score") {
     const solver = kind !== "score";
-    const heuristic = kind === "heuristic" || kind === "list" || kind === "kopt" || kind === "stream" || kind === "construction" || kind === "repair" || kind === "list_repair";
+    const heuristic = kind === "heuristic" || kind === "list" || kind === "kopt" || kind === "stream" || kind === "construction" || kind === "repair" || kind === "list_repair" || kind === "mixed";
     const prefix = solver ? `${kind}-` : "";
     const target = (id) => document.getElementById(prefix + id);
     const unit = solver ? "ms" : "ns";
@@ -291,7 +292,18 @@ function renderBenchmarks(kind = "score") {
                 ? `Known optimum: ${w.optimal_score[0]}hard/${w.optimal_score[1]}soft.`
                 : "Optimum unknown for this workload.";
             b.append(node("p", "range", `${w.equal_scores ? "Equal final scores" : "Different final scores"}. Rust ${feasible("rust") ? "feasible" : "infeasible"}; Java ${feasible("java") ? "feasible" : "infeasible"}. ${optimum}`));
-            b.append(node("p", "range", `${kind === "stream" ? "Terminal weighting calls" : "Score calls"} · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
+            if (kind === "mixed") {
+                if (Array.isArray(w.reference_score) && !Array.isArray(w.optimal_score)) {
+                    b.append(node("p", "range", `Feasible reference: ${w.reference_score[0]}hard/${w.reference_score[1]}soft. Optimality is not established.`));
+                }
+                if (Array.isArray(w.quality_floor)) {
+                    b.append(node("p", "range", `Required quality floor: ${w.quality_floor[0]}hard/${w.quality_floor[1]}soft.`));
+                }
+                b.append(node("p", "range", `Work · Rust ${n(w.rust.evaluations.min)}–${n(w.rust.evaluations.max)} logical evaluations · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)} scoring calls.`));
+                b.append(node("p", "range", `Limits · ${n(w.case.steps)} steps and ${n(w.case.evaluations)} evaluations per solve. Different move policies and work.`));
+            } else {
+                b.append(node("p", "range", `${kind === "stream" ? "Terminal weighting calls" : "Score calls"} · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
+            }
         }
         if (kind === "repair") {
             b.append(node("p", "range", `Ruined group: ${n(w.ruined_count)} variables. Repairs · Rust ${n(w.rust.repairs.min)}–${n(w.rust.repairs.max)} · Java ${n(w.java.repairs.min)}–${n(w.java.repairs.max)}. Sampling and scoring work differ.`));
@@ -309,6 +321,9 @@ function renderBenchmarks(kind = "score") {
     }
     if (kind === "repair" && !missing) {
         target("benchmark-caption").textContent = `${p.config.steps} verified repairs per solve · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups. Measured ${timestamp(p.generated_at)}. Independent assignment, score and quality checks; different PRNGs and reconstruction orders.`;
+    }
+    if (kind === "mixed" && !missing) {
+        target("benchmark-caption").textContent = `Warm-start mixed search with per-case limits · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} solves; ${p.config.warmup} warmup batches. Measured ${timestamp(p.generated_at)}. Every solve checked independently; Java samples shared between native-backend comparisons.`;
     }
     if (kind === "list_repair" && !missing) {
         target("benchmark-caption").textContent = `${p.config.steps} verified repairs per solve · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups. Measured ${timestamp(p.generated_at)}. Required and optional lists; group ranges start at one. Independent score and optimum checks.`;
@@ -509,6 +524,7 @@ async function reload() {
         } else {
             renderBenchmarks();
             renderBenchmarks("solver");
+            renderBenchmarks("mixed");
             renderBenchmarks("construction");
             renderBenchmarks("repair");
             renderBenchmarks("list_repair");

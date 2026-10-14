@@ -17,6 +17,73 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round219
+
+Added an original mixed-planning benchmark and dashboard section: coupled depot
+choices and ordered customer routes, native Dense/Stream and pinned Community
+public-API Java search, capacity penalties, whole-owner/prefix pins and finite
+limits. Complete feasible warm starts; no construction or equal-work claim.
+Every repeated solve validates assignments, pins, score and quality outside timing;
+Python independently validates every returned sample/checksum. Small four-customer
+optimum (0,-12) is exhaustively certified and strict improvement is required.
+The 24-customer reference (0,-72) is feasible, not certified optimal; its remaining
+quality gap is visible. Native joint moves differ from Java union moves. Native
+logical evaluations and actual callbacks remain separate from measured Java
+EasyScoreCalculator calls; Java logical work is unknown. Java samples are actually
+measured once per case and explicitly shared by both backend comparisons.
+
+Qualified fresh same-host measurements, ms per solve (timing scopes/policies differ):
+
+- mixed-small · dense: Rust 0.128ms, Java 3.691ms; scores [0, -12]/[0, -12]; native logical evaluations 231–231, Java physical scoring calls 481–481.
+- mixed-small · stream: Rust 0.654ms, Java 3.691ms; scores [0, -12]/[0, -12]; native logical evaluations 231–231, Java physical scoring calls 481–481.
+- mixed-clustered-pins · dense: Rust 18.027ms, Java 13.409ms; scores [0, -338]/[0, -338]; native logical evaluations 36074–36074, Java physical scoring calls 11017–11017.
+- mixed-clustered-pins · stream: Rust 162.060ms, Java 13.409ms; scores [0, -338]/[0, -338]; native logical evaluations 36074–36074, Java physical scoring calls 11017–11017.
+
+Initial219 remote timings were quarantined after the captured repair binary
+matched rejected218 exactly: Cargo reused a shared-target artifact despite the
+new snapshot path and correct source manifest. Source hashes and rewritten .d
+paths alone did not establish executable identity. The final qualified refresh
+first cleaned the solver package in release mode, retaining dependency artifacts,
+and rebuilt the actual frozen source. This new concern justified repeating only
+the affected measurements; local broad tests were separate and not repeated.
+Future source-variant switches must isolate the target or explicitly invalidate
+the affected package before builds; never trust a new source manifest alone.
+
+All four primary reports (repair, exact solver, list repair, mixed) deliberately
+refreshed on exclusive runner-a with real dates/keys, 3 warmups, 5 samples, 3 forks;
+mixed uses 3 solves per sample. Prior215 raw reports remain preserved. Other
+measurements remain visibly stale. No production solver, dependency, provenance
+or upstream pin change, and no source-method credit. Coverage remains
+4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified.
+
+One final check.sh passed 8367 Rust tests and 290
+doctests. Rust RUN 1346 / REUSE 0;
+Python RUN 47 / REUSE 0. Central measurement-registry
+change invalidated dependent job keys once; no old successful result was rekeyed.
+Prebuild 112.670s; gate 525.339s. Formatting,
+strict Clippy and Python contract checks passed. Desktop/mobile browser inspection
+verified four rendered rows, quality/limits/work text, freshness and no overflow.
+UI detector returned no findings. Backend data and HTTP freshness verified.
+
+Round218's one isolated empty-buffer-reuse experiment was rejected: cached
+medians worsened in three of four workloads (+1.86%, +2.07%, -1.29%, +1.65%).
+Its 25 focused tests/64 quality checks passed, but no consistent speed gain;
+never integrate its candidate.patch. Fresh profile points at selection and
+required checked adjustment; no unchecked math or extra inlining justified.
+Evidence: work/round218-cached-repair/SUMMARY.md and profile-evidence.json.
+
+Batch evidence: work/parallel-round219-evidence.json,
+work/round219-qualified-performance-collection.json, work/round219-browser-evidence.json;
+focused adapter evidence work/round217-mixed-performance/focused-evidence.json.
+Rust 82b0ba31a27659de98b5b0b612ccdda4ea6a26d4f0e303587f615547888da6a2;
+report 7487d4732062e297b09b69f32e6ff0c8f8668ccf250eaf9e5f263a0328b55578.
+Goal active/incomplete; runner-c parked. All jobs terminal at commit. Continue from
+the measured larger mixed Stream cost shown above and remaining
+quality/compatibility gaps. Actual219 baseline binaries/source receipt are in
+work/round219-qualified-performance-binaries/receipt.json; use a focused profile
+before changing shared code. Reuse unchanged evidence and do not
+repeat exclusion audits, duplicate persistence work or rejected218 optimization.
+
 ## Latest verified checkpoint — round216
 
 Split the large solver integration binary into four independently compiled

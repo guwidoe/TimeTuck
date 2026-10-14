@@ -10470,3 +10470,20 @@ One final check passes 8364 Rust tests and 290 doctests: 13 changed target jobs 
 Current round215 benchmark dates/keys are preserved without rerunning measurements;
 older measurements remain stale. Coverage remains 4409/4855 (90.814%), 11 pending,
 435 excluded, 0 failed/unverified. Evidence: work/parallel-round216-evidence.json.
+
+
+Original mixed-planning performance qualification now covers coupled depot/basic
+and customer/list warm-start search with finite limits and whole/prefix pins in
+both native scoring backends and public Community Java search. Small optimum is
+independently exhaustive; larger feasible reference is explicitly not optimal.
+Every repeated solve and returned observation is independently checked for
+complete ownership, pins, score and quality floor. Timings have distinct setup,
+move-policy and work scopes. Native logical evaluations/callbacks and actual Java
+scoring calls are reported separately; Java logical work is unknown. A single
+measured Java sample group per case is shared between backend rows, explicitly.
+This adds no upstream method credit, cold construction, equal-work or general
+mixed scalability claim. The dashboard shows actual quality and remaining gap.
+Four primary reports were deliberately refreshed, preserving old raw dates/keys;
+unrelated measurements stay stale. One final gate passes 8367 Rust tests and
+290 doctests. Coverage remains 4409/4855, 11 pending, 435 excluded. Evidence:
+work/parallel-round219-evidence.json and round219-browser-evidence.json.

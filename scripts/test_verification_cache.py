@@ -475,6 +475,31 @@ class InputTests(unittest.TestCase):
         (self.root / 'crates/solver/src/score.rs').write_text('changed')
         self.assertNotEqual(score, measurement_digest('performance', self.root))
 
+    def test_mixed_measurement_changes_do_not_invalidate_other_benchmarks(self):
+        entries = {
+            'scripts/benchmark_mixed.py': 'from mixed_helper import validate\n',
+            'scripts/mixed_helper.py': 'def validate(): return True\n',
+            'crates/solver/examples/mixed_solver_benchmark.rs': 'use timetuck::search::Search;',
+            'compat/oracle/MixedSolverBenchmark.java': 'class MixedSolverBenchmark {}',
+        }
+        for name, text in entries.items():
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(text)
+        score = measurement_digest('performance', self.root)
+        kopt = measurement_digest('kopt-performance', self.root)
+        mixed = measurement_digest('mixed-performance', self.root)
+        for name in entries:
+            with self.subTest(input=name):
+                path = self.root / name
+                marker = '#' if path.suffix == '.py' else '//'
+                path.write_text(path.read_text() + f'\n{marker} changed mixed input\n')
+                changed = measurement_digest('mixed-performance', self.root)
+                self.assertNotEqual(mixed, changed)
+                mixed = changed
+                self.assertEqual(score, measurement_digest('performance', self.root))
+                self.assertEqual(kopt, measurement_digest('kopt-performance', self.root))
+
     def test_unrelated_facade_exports_spare_existing_tests_and_benchmarks(self):
         facade = self.root / 'crates/solver/src/lib.rs'
         facade.write_text('pub mod score; pub mod search; pub use score::{Score};')

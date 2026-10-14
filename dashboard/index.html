@@ -532,6 +532,30 @@
                 </section>
                 <section
                     class="performance"
+                    aria-labelledby="mixed-performance-heading"
+                >
+                    <div class="section-heading">
+                        <div>
+                            <h2 id="mixed-performance-heading">Mixed planning vs. the original</h2>
+                            <p>Joint depot choices and customer routes, scored independently.</p>
+                        </div>
+                        <span class="tag">Warm-start local search</span>
+                    </div>
+                    <div id="mixed-benchmark-state" class="message" hidden></div>
+                    <div class="benchmark-legend">
+                        <span><i class="dot rust"></i>TimeTuck · Rust release</span>
+                        <span><i class="dot java"></i>Timefold · warmed JVM</span>
+                        <span>Lower time is better</span>
+                    </div>
+                    <p class="benchmark-note">Compare final quality first. Dense and Stream comparisons share the measured Java reference; move selection and work differ.</p>
+                    <div id="mixed-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
+                    <div class="benchmark-footer">
+                        <p id="mixed-benchmark-caption"></p>
+                        <p>Complete warm starts with finite search limits. Larger workloads use a feasible reference score, with no optimality claim.</p>
+                    </div>
+                </section>
+                <section
+                    class="performance"
                     aria-labelledby="performance-heading"
                 >
                     <div class="section-heading">
@@ -648,6 +672,9 @@
                         <h3>Exact-search benchmark conditions</h3>
                         <p id="solver-benchmark-method"></p>
                         <pre id="solver-environment"></pre>
+                        <h3>Mixed-planning benchmark conditions</h3>
+                        <p id="mixed-benchmark-method"></p>
+                        <pre id="mixed-environment"></pre>
                         <h3>Score benchmark conditions</h3>
                         <p id="benchmark-method"></p>
                         <pre id="environment"></pre>

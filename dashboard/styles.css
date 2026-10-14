@@ -656,8 +656,10 @@ footer a {
     color: var(--muted);
 }
 .solver-benchmark-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-#pillar-benchmarks .timing { grid-template-columns: 40px minmax(0, 1fr) 90px; }
-#pillar-benchmarks .timing b { white-space: nowrap; }
+#pillar-benchmarks .timing,
+#mixed-benchmarks .timing { grid-template-columns: 40px minmax(0, 1fr) 90px; }
+#pillar-benchmarks .timing b,
+#mixed-benchmarks .timing b { white-space: nowrap; }
 
 @media (min-width: 1600px) {
     .masthead,

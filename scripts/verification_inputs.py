@@ -17,6 +17,7 @@ MEASUREMENTS = {
     'list-differential': ('differential_lists', 'list_move_oracle', 'ListMoveOracle'),
     'stream-differential': ('differential_streams', '', ''),
     'solver-performance': ('benchmark_solver', 'solver_benchmark', 'SolverBenchmark'),
+    'mixed-performance': ('benchmark_mixed', 'mixed_solver_benchmark', 'MixedSolverBenchmark'),
     'heuristic-performance': ('benchmark_heuristics', 'heuristic_benchmark', 'HeuristicBenchmark'),
     'construction-performance': ('benchmark_construction', 'construction_benchmark', 'ConstructionBenchmark'),
     'repair-performance': ('benchmark_repair', 'repair_benchmark', 'RepairBenchmark'),
