@@ -17,6 +17,99 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round201
+
+Shared basic, list and mixed scoring now borrow callback arguments from stack
+arrays for scopes of zero through four facts; larger scopes retain Vec storage.
+One private safe helper preserves declared order, repeated scopes, optional
+values and borrowed identities. Weighted arithmetic, zero-weight callback skips,
+structural guards and rollback are unchanged. List/mixed explanations share the
+helper. No public API, unsafe code or dependency added. Four original director
+regressions cover stack/fallback boundaries, actual list positions/neighbors,
+trial undo/commit, overflow, structural errors and panic recovery. One owned-fact
+unit test verifies projection order and destruction on normal return/unwind.
+Focused tests and strict affected Clippy passed; original tests earn no source credit.
+
+One complete Spring integration-test solve adaptation combines entity-owned
+[1,2] ranges and solution-provided [0] ranges for three entities. Both native
+backends solve through actual owned factories and publish score0/IDs0,1,2;
+JSON encode/decode preserves all nine source assertions. Named solution-aware
+shadow suppliers and actual provider union/rebinding have additional controls.
+Two focused tests passed. Provenance adds one method and five test helpers/config
+entries. The helpers under the dedicated integration-test application's src/main
+are test fixtures, explicitly attributed; no solver/framework production read.
+No HTTP/Spring/Jackson parity claim. Initial compile missed two qualified
+explanation helper call sites; fixed before all final verification.
+
+runner-a frozen final Rust gate passed: 8,323 Rust tests + 290 doctests.
+Prebuild999.278s; bash scripts/check.sh400.881s. RUN1,193/REUSE139 Rust jobs;
+REUSE46 Python jobs. Shared kernel changes required the broad regression.
+An initial cache-loader failure occurred before Rust checks because copied cache
+records referenced absent raw measurements; unusable copied records were removed,
+with original evidence preserved. After the successful gate, benchmark reference
+validation stopped on an unshipped documentation file. The corrected reference
+checks the verified whole Rust/Cargo/fixture digest before/after its actual build.
+Only benchmarks were retried; the successful gate was not repeated.
+
+Fresh runner-a measurements (Rust1.92/JDK25.0.2, sequential execution on the same
+physical host) cover repair, list repair and basic exhaustive search. Three fresh
+forks, three warmups and five samples; all raw outputs retained. Repair incremental
+versus fresh native full scoring versus Java EasyScoring medians, in ms/solve:
+
+| Workload | Native incremental | Native full | Java |
+| --- | ---: | ---: | ---: |
+| Half group,32 variables | 1.318 | 1.914 | 5.665 |
+| Half group,96 variables | 19.511 | 63.302 | 19.563 |
+| Whole group,32 variables | 4.550 | 6.372 | 7.227 |
+| Whole group,96 variables | 73.942 | 228.225 | 27.383 |
+
+Native full/incremental assignments, scores and logical work match throughout;
+64 quality cases valid, native47/Java35 optima,36 equal scores. Java and native
+reconstruction differ; logical evaluations do not count physical callbacks.
+Java remains faster on the largest whole-group case. List repair64/64 quality
+cases agree and all reach optimum; larger timing fixtures show native better
+scores in half-group cases and equal optimum in whole-group cases. Preserve these
+quality differences alongside timings. Basic search10 workloads independently
+validate their optimum. These figures are not universal speed claims.
+
+A separate paired before/after kernel comparison rebuilds the immutable round200
+Rust source on runner-a and captures its actual binary before the new build.
+Four fresh forks/runtime, alternating order, three warmups/five samples; 64 small
+quality pairs plus every timing output have identical assignments/scores/logical
+work/repairs. Both binaries use incremental scoring, coverage-cycle and pooled
+reconstruction for eight repairs. Medians before -> after (ms): half32 1.643 ->
+1.307; half96 29.771 ->20.100; whole32 5.800 ->4.522; whole96 105.421 ->75.851.
+Runtime reductions20.5–32.5%; results apply to these four workloads only.
+Evidence: work/round201-runner-a-performance-results/work/round201-kernel-comparison.json.
+
+Read-only inheritance audit found six framework wrappers with native behavior
+already covered by exact credited core cases. They earn no additional credit:
+reporting enforces one upstream method per local test. Do not weaken this guard
+or invent aliases to inflate counts. Two AddVar wrappers actually start with
+both variables assigned (generateSolution(3,2,true)); existing native fixtures
+start unassigned. Qualify these initialized-input gaps next. Audit:
+work/round201-inheritance-reuse-audit.json/.md. Pending JVM/lifecycle seams and
+excluded wrappers are not necessarily missing algorithms; completion remains
+unproven and goal stays active. runner-c stays parked; all three agents are terminal.
+
+Dashboard4396/4855=90.546%,12pending447excluded,0failed/unverified. JSON and HTTP
+freshness checked; no UI/data-contract changes, so no repeated browser check.
+Six performance sections current, seven stale; old timestamps/hashes preserved.
+The newly refreshed sections are repair, list repair and basic solver search.
+Immutable broad-gate remote source312c2100725e9177672899ad9ded476388244cd390f380da26d76125bd5edcf4;
+benchmark-only source79a87598382ab3ae6f13c9e91a1cef810db913218101d6b56a1c841de1c7b102.
+Both have identical final Rust digest
+f7ccf9def5e84a2a260495021b348ae1272e45a15603e7353fd40339d034d6c5.
+Report digest f8d2f414ba03fbfad513b160b25a88bcc1cf48c9a6c51e2866ad8d5156467023.
+Correctness archive work/round201-runner-a-results.tar.gz SHA256
+25ef3761f62cc0bef19dc36a6277b487b7f8495a703d58a95a4c60570db43ef3.
+Performance archive work/round201-runner-a-performance-results.tar.gz SHA256
+9394f5ed5c0afc1d4b184bc6396406032612b47b0dc5155a2b5dc2ff45684312.
+Collection receipts work/parallel-round201-evidence.json and
+work/round201-performance-collection.json retain exact commands, raw dates,
+source hashes and the passed-gate/failed-benchmark-guard distinction. No old
+log or measurement rekeyed. No source checks repeated for this handoff-only edit.
+
 ## Latest verified checkpoint — round200
 
 Repair benchmark and bounded phased example now accept optional native scoring

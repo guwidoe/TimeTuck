@@ -279,25 +279,26 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
         if weight.is_some_and(|w| *w == S::ZERO) {
             return Ok(S::ZERO);
         }
-        let arguments: Vec<_> = constraint
-            .scope
-            .iter()
-            .map(|&i| assignment.values()[i].as_ref())
-            .collect();
-        let score = (constraint.evaluate)(&arguments, weight.unwrap_or(&S::ZERO), self.arithmetic)
-            .map_err(|error| match error {
-                crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
-                    ScoringError::DecimalWeightArithmetic {
-                        constraint: index,
-                        error,
-                    }
+        let score = crate::scoped_facts::with_facts(
+            &constraint.scope,
+            |&i| assignment.values()[i].as_ref(),
+            |arguments| {
+                (constraint.evaluate)(arguments, weight.unwrap_or(&S::ZERO), self.arithmetic)
+            },
+        )
+        .map_err(|error| match error {
+            crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                ScoringError::DecimalWeightArithmetic {
+                    constraint: index,
+                    error,
                 }
-                crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
-                    ScoringError::ScoreOverflow {
-                        constraint: Some(index),
-                    }
+            }
+            crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                ScoringError::ScoreOverflow {
+                    constraint: Some(index),
                 }
-            })?;
+            }
+        })?;
         if score.structural() != 0 {
             return Err(ScoringError::StructuralContribution { constraint: index });
         }

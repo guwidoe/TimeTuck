@@ -379,12 +379,13 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         queries == threshold
     }
 
-    fn facts<'f>(
+    fn with_facts<'f, R>(
         constraint: &Constraint<'_, V, S>,
         problem: &'f ListProblem<V>,
         assignment: &'f ListAssignment<V>,
         locations: Option<&ValueLocations>,
-    ) -> Vec<ListFact<'f, V>> {
+        evaluate: impl FnOnce(&[ListFact<'f, V>]) -> R,
+    ) -> R {
         let from_position = |position: ListPosition| {
             let row = &assignment.lists()[position.entity];
             ListElement {
@@ -396,40 +397,51 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         // Dispatch once per constraint. Full snapshots retain direct indexing
         // inside the fact loop; sparse evidence alone needs binary lookup.
         match locations {
-            Some(ValueLocations::Full(positions)) => {
-                Self::facts_using(constraint, problem, assignment, |i| {
-                    positions[i].map(from_position)
-                })
-            }
-            Some(changed @ ValueLocations::Changed(_)) => {
-                Self::facts_using(constraint, problem, assignment, |i| match changed.get(i) {
+            Some(ValueLocations::Full(positions)) => Self::with_facts_using(
+                constraint,
+                problem,
+                assignment,
+                |i| positions[i].map(from_position),
+                evaluate,
+            ),
+            Some(changed @ ValueLocations::Changed(_)) => Self::with_facts_using(
+                constraint,
+                problem,
+                assignment,
+                |i| match changed.get(i) {
                     Some(position) => position.map(from_position),
                     None => assignment.element(&problem.values()[i]),
-                })
-            }
-            None => Self::facts_using(constraint, problem, assignment, |i| {
-                assignment.element(&problem.values()[i])
-            }),
+                },
+                evaluate,
+            ),
+            None => Self::with_facts_using(
+                constraint,
+                problem,
+                assignment,
+                |i| assignment.element(&problem.values()[i]),
+                evaluate,
+            ),
         }
     }
 
-    fn facts_using<'f>(
+    fn with_facts_using<'f, R>(
         constraint: &Constraint<'_, V, S>,
         problem: &'f ListProblem<V>,
         assignment: &'f ListAssignment<V>,
         mut locate: impl FnMut(usize) -> Option<ListElement<'f, V>>,
-    ) -> Vec<ListFact<'f, V>> {
-        constraint
-            .scope
-            .iter()
-            .map(|scope| match *scope {
+        evaluate: impl FnOnce(&[ListFact<'f, V>]) -> R,
+    ) -> R {
+        crate::scoped_facts::with_facts(
+            &constraint.scope,
+            |scope| match *scope {
                 ListScope::Entity(i) => ListFact::Entity(&assignment.lists()[i]),
                 ListScope::Value(i) => ListFact::Value {
                     value: &problem.values()[i],
                     element: locate(i),
                 },
-            })
-            .collect()
+            },
+            evaluate,
+        )
     }
 
     fn contribution(
@@ -459,21 +471,22 @@ impl<'a, V: Eq + Clone, S: AdditiveScore> ListConstraintNetwork<'a, V, S> {
         if weight.is_some_and(|w| *w == S::ZERO) {
             return Ok(S::ZERO);
         }
-        let facts = Self::facts(constraint, problem, assignment, locations);
-        let score = (constraint.evaluate)(&facts, weight.unwrap_or(&S::ZERO), self.arithmetic)
-            .map_err(|error| match error {
-                crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
-                    ListScoringError::DecimalWeightArithmetic {
-                        constraint: index,
-                        error,
-                    }
+        let score = Self::with_facts(constraint, problem, assignment, locations, |facts| {
+            (constraint.evaluate)(facts, weight.unwrap_or(&S::ZERO), self.arithmetic)
+        })
+        .map_err(|error| match error {
+            crate::scoring_arithmetic::WeightArithmeticError::Decimal(error) => {
+                ListScoringError::DecimalWeightArithmetic {
+                    constraint: index,
+                    error,
                 }
-                crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
-                    ListScoringError::ScoreOverflow {
-                        constraint: Some(index),
-                    }
+            }
+            crate::scoring_arithmetic::WeightArithmeticError::Overflow => {
+                ListScoringError::ScoreOverflow {
+                    constraint: Some(index),
                 }
-            })?;
+            }
+        })?;
         if score.structural() != 0 {
             return Err(ListScoringError::StructuralContribution { constraint: index });
         }
@@ -623,13 +636,13 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ListScoreDirector<'p, 'c, V, S> {
             {
                 None
             } else {
-                let facts = ListConstraintNetwork::facts(
+                Some(ListConstraintNetwork::with_facts(
                     constraint,
                     self.problem,
                     &self.assignment,
                     locations.as_ref(),
-                );
-                Some(explain(&constraint.name, &constraint.scope, &facts, score))
+                    |facts| explain(&constraint.name, &constraint.scope, facts, score),
+                ))
             };
             matches
                 .add_constraint(crate::score_explanation::scoped_contribution(

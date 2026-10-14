@@ -54,6 +54,7 @@ pub use moves::{AppliedMove, Assignment, Move, MoveError, PriorValue};
 pub use search::{ScoredAssignment, SearchResult, Termination, exhaustive_search};
 
 mod affected_constraints;
+mod scoped_facts;
 pub mod scoring;
 pub use scoring::{ConstraintNetwork, ScoreDirector, ScoredMove, ScoringError};
 

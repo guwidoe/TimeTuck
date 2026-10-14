@@ -66269,6 +66269,21 @@
       "upstream_test": "testBothClassesAnnotated",
       "local_test": "both_classes_annotated_configured_xml_no_raw_list",
       "modifications": "Preserve exact generateSolution(3,2) fixture:3base and3subvalue facts; three distinct2-child collections, interleaved entity codes0..5; null base/child singletons;12genuine fields; no raw-list collection; source external best-score-limit0 and exact score12/non-null successful result. Native inherited entity getter/setter bindings and inherited solution collection projections bind real owned objects and actual finite models. Original source XML keys select an actual registered owned factory and job on both Dense and Stream. Both source provider constraints independently reward eligible inherited base values, while all genuine child fields must be assigned for forEach eligibility. After solve, committed objects independently rescore12 and preserve exact IDs/counts/live range memberships. Finite1000shared evaluations,12construction steps,32local steps and deterministic Original move order. Explicit Rust native projection/registration replaces Java annotations, superclass assignability, erased Object lists, class scanning and CDI; empty override map uses unchanged native constraint weights. No Java API/framework/loading parity claim; no scripted assignments, moves or result."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_entity_range_solve.rs",
+      "id": "TimefoldSolverTestResourceIntegrationTest.testSolve",
+      "status": "implemented",
+      "upstream_path": "spring-integration/spring-boot-integration-test/src/test/java/ai/timefold/solver/spring/boot/it/TimefoldSolverTestResourceIntegrationTest.java",
+      "upstream_test": "testSolve",
+      "local_test": "entity_ranges_plus_solution_parameter_range_solve",
+      "modifications": "Preserve exact3entities IDs0/1/2, each entity-local range[1,2], shared solution-param range[0], actual score0 and all9source JSON path assertions:score string0, entityList/valueList arrays, ordered entity IDs0/1/2 and assigned value IDs0/1/2. Real native SolutionEntityRangeAccessors reads both referenced providers from actual entity/solution and forms union; native owned factory/jobs solve with both Dense and Stream under finite1000shared evaluations,3construction steps,16local steps and deterministic Original move order. Native bound owner/field slot metadata publishes returned assignment into actual owned entities; no expected IDs used to construct outputs. Native named solution-aware supplier/session evaluates source shadow values10/-1 from value dependencies and publishes actual fields. Native JSON DTO encodes/decodes actual solved owned fields before all original assertions. HTTP client/POST/exchange/port and Spring/Jackson serialization replaced by native solve plus serde_json output; source has no HTTP status/header assertion. No HTTP server, framework loading, Java API, Jackson transport or DI parity claim. Extra native checks independently rescore output, retain unchanged input/local ranges and confirm both final shadows."
     }
   ],
   "fixtures": [
@@ -96707,6 +96722,71 @@
       "upstream_path": "quarkus-integration/quarkus/deployment/src/test/resources/ai/timefold/solver/quarkus/inheritance/bothClassAnnotatedConfig.xml",
       "upstream_test": "TEST-only resource",
       "modifications": "Preserve entire source XML configuration including solution/entity/provider keys and exact schema hint. Add Apache-2.0 attribution comment. Native configuration parser and explicit signature registry select real owned factory; no reflection or remote schema fetching."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_entity_range_solve.rs",
+      "id": "framework-entity-range-round201-entity",
+      "upstream_path": "spring-integration/spring-boot-integration-test/src/main/java/ai/timefold/solver/spring/boot/it/domain/IntegrationTestEntity.java",
+      "upstream_test": "getValueList/getValueRangeWithParameter, declared value and two suppliers",
+      "modifications": "Dedicated integration-test application domain helper referenced by source TEST; src/main placement is application fixture, not solver/framework production. Preserve entity-owned provider values, solution-aware provider values, String ID/current value, both named suppliers (nonnull typed real solution10 and no-param-1), value-source dependencies, and owned publication. Explicit native schema/accessors replace annotations/getters/reflection. Parameterized callback receives actual solution; optional-null Java parameter representation is outside native signature and no absence case occurs in source."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_entity_range_solve.rs",
+      "id": "framework-entity-range-round201-solution",
+      "upstream_path": "spring-integration/spring-boot-integration-test/src/main/java/ai/timefold/solver/spring/boot/it/domain/IntegrationTestSolution.java",
+      "upstream_test": "entityList/valueList/score/getDummyShadowValue",
+      "modifications": "Dedicated test-application helper: native owned entities, shared values and optional score preserve source fields; dummy method returns10, used by actual named supplier. JSON DTO retains entityList/valueList/score shapes; no generated-Jackson or Spring accessor parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_entity_range_solve.rs",
+      "id": "framework-entity-range-round201-value",
+      "upstream_path": "spring-integration/spring-boot-integration-test/src/main/java/ai/timefold/solver/spring/boot/it/domain/IntegrationTestValue.java",
+      "upstream_test": "record IntegrationTestValue(String id)",
+      "modifications": "Dedicated test-application record adapted to immutable native owned Value ID with Rust Eq/Clone. Native union uses exact record-ID equality; JSON object id encoded from real Value payload."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_entity_range_solve.rs",
+      "id": "framework-entity-range-round201-provider",
+      "upstream_path": "spring-integration/spring-boot-integration-test/src/main/java/ai/timefold/solver/spring/boot/it/solver/IntegrationTestConstraintProvider.java",
+      "upstream_test": "defineConstraints",
+      "modifications": "Dedicated test-application objective: assigned entity mismatch between entity ID and actual value ID penalizes1. Dense true per-entity scoped constraints and Stream actual row callbacks preserve forEach unassigned exclusion; structural initialization handled separately by native model. No scripted objective or output."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_entity_range_solve.rs",
+      "id": "framework-entity-range-round201-properties",
+      "upstream_path": "spring-integration/spring-boot-integration-test/src/main/resources/application.properties",
+      "upstream_test": "timefold.solver.termination.best-score-limit=0",
+      "modifications": "Dedicated integration-test application configuration: preserve source goal0 in actual native factory shared best-score limit. No Spring property-loader parity."
     }
   ]
 }

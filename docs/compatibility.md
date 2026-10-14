@@ -10298,3 +10298,26 @@ candidate selection or Java's EasyScoreCalculator. The benchmark explicitly
 collects a fresh native full-scoring baseline alongside incremental and Java
 measurements; it rejects native result or logical-work differences. These original
 performance fixtures add no upstream-method credit or general speed claim.
+
+Shared basic, list and mixed scoring now construct callback arguments on the
+stack for scopes of zero through four facts, retaining heap storage for larger
+scopes. Repeated scopes, declared order, borrowed identities, list positions and
+neighbors remain intact. Zero weights still skip callbacks; weighted arithmetic,
+structural contribution validation and transaction rollback retain their existing
+contracts. List and mixed explanations use the same scoped borrowing helper.
+The optimization adds no unsafe code or public API change. Original regressions
+cover all three directors, stack/fallback boundaries, missing values, commit/undo,
+overflow, structural errors and panic recovery; an owned-fact unit test checks
+ordered projection and destruction on return and unwind. Originals earn no
+source-method credit. Broad regression and fresh affected measurements qualify
+this shared implementation increment, without a universal performance claim.
+
+One additional Spring integration-test solve method now has a complete native
+adaptation: three entities each reference an entity range [1, 2] and shared
+solution range [0]. Actual referenced-provider union, both native scoring
+backends, owned solution publication and named solution-aware shadows produce
+the exact source score and assigned IDs. Native JSON encode/decode retains all
+nine source assertions; the source has no status/header assertion. Dedicated
+integration-test application helpers are attributed despite their src/main
+placement. HTTP transport, Spring injection and Jackson parity remain outside
+the native planning target; no expected assignment constructs the result.
