@@ -17,6 +17,57 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round206
+
+Retained two profile-led private inlining hints: basic contribution evaluation
+and shared scoped-fact projection. No scoring/search policy, callbacks, public
+API, fixtures or provenance changed. Baseline user-CPU samples identified the
+contribution boundary (41.59% self); after its removal the fact helper remained
+out of line (22.47%). Profiles and all 100 outputs per profile are preserved in
+work/round205-profile-* and work/round205-after-profile-*; sampling is not timing.
+
+Same-host three-binary comparison (baseline, first hint, both) passed 64 small
+quality triplets and 240 timed outputs with identical assignments/scores/logical
+work/eight repairs. Four forks/runtime, three warmups, five samples; rotated and
+reversed order. Baseline→both medians(ms): half32 1.320→1.229; half96 20.100→17.828;
+whole32 4.544→4.231; whole96 76.798→65.320. Original before binary/build receipt and
+both candidate measurements retained. Fresh primary whole96 Rust 67.817 versus
+Java 31.866 ms still shows a gap; different reconstruction work 149,001/6,169 is explicit.
+Fresh solver, repair and list-repair reports qualify only their stated workloads.
+
+Final runner-a check.sh passed 8,341 Rust tests + 290 doctests: RUN 1,199 / REUSE 139 Rust targets,
+REUSE 46 Python jobs. Prebuild 1,056.480 s; gate 408.681 s. An intermediate round205
+prebuild was deliberately aborted before regression tests to combine the second
+hint and correct a PATH mismatch that invalidated unrelated results. Failed
+initial missing-input benchmark import and its resumed comparison are retained;
+no rebuild, completed tests or successful gate were repeated for that import.
+Final worker 47366 terminal (exit 0); runner-c parked; all agents terminal. Dashboard JSON and
+HTTP freshness checked without repeating browser checks; no UI/contract change.
+Coverage 4,407/4,855 = 90.772%; 11 pending, 437 excluded, 0 failed/unverified; no new method
+credits. Older unrelated measurements keep their actual dates/stale statuses.
+
+Evidence: work/parallel-round206-evidence.json and work/round206-performance-collection.json.
+Frozen source: 52636e4c7101559731370700655754e6ce68983e9cdb28f7425a791fba5b6377;
+Rust: 48979595844e2ffa495d0922f4418223ec49f8ae2b1e590da07cfba5d73a80a4;
+Report: d34d6097ede141416b420251ccd7ba492f58210e03a618375e6b04c00bba7b65.
+Check archive SHA: c726b30981c0dcb26d9145d4daae883632cc837a2915defa39c3b076cbab0f6f;
+performance archive SHA: d7e09ca3e550e222e62001979d429179f57e4f077dae062ebc30ac4d85c0a798.
+
+All 437 exclusions reconcile with prior body evidence and 156 unchanged TEST file
+hashes (work/round205-exclusion-audit.json/.md). No new native algorithm gap was
+established; real unqualified persistence DTO contracts stay explicit, with no
+aliases/credits or scope expansion. Goal remains incomplete and active.
+
+Next concrete performance implementation: work/round206-next-optimization.md.
+Opt-in bounded Dense/basic/pooled per-constraint candidate-contribution reuse;
+default callback traces unchanged. Advance dependency generations on every
+committed scoped write, even zero score delta; rebase through current checked
+total/structural state. Handle overrides, restores, Eq-equal payloads, failures,
+panics, capacity and interrupted candidate scans. Preserve logical visits/budgets;
+count actual callbacks honestly. Exact insertion points and decisive test cases
+are already investigated; do not repeat that audit or the completed gate merely
+because of a new turn/commit. This cache is not implemented or measured yet.
+
 ## Latest verified checkpoint — round204
 
 Closed five complete native solve cases: exact JSON input/full ordered output,

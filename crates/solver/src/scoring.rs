@@ -269,6 +269,7 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
     fn contribution(&self, index: usize, assignment: &Assignment<V>) -> Result<S, ScoringError> {
         self.contribution_weighted(index, assignment, self.constraints[index].weight.as_ref())
     }
+    #[inline(always)]
     fn contribution_weighted(
         &self,
         index: usize,

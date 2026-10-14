@@ -1,6 +1,6 @@
 //! Borrowed callback arguments for small scopes without heap allocation.
 
-#[inline]
+#[inline(always)]
 pub(crate) fn with_facts<A, T, R>(
     scopes: &[A],
     mut project: impl FnMut(&A) -> T,

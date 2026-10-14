@@ -10382,3 +10382,25 @@ assertions are retained. All self and cross ordered pairs participate in the
 source join and shadow-equality filter. Independent controls distinguish four,
 two and zero penalties, plus partial-entity eligibility. No package discovery or
 Java injection behavior is claimed.
+
+
+Private basic contribution evaluation and the shared scoped-fact helper now force
+inlining. Actual user-CPU profiles identified both out-of-line result boundaries;
+no callbacks, validation, arithmetic, candidate visits or search policies were
+removed. An isolated same-host three-binary comparison preserves the original
+baseline, contribution-only variant and combined variant. Across four repair
+workloads, baseline-to-combined medians are 1.320→1.229, 20.100→17.828,
+4.544→4.231 and 76.798→65.320 ms (half32/half96/whole32/whole96). All 64 small
+cases and 240 timed outputs retain their assignments, scores, logical work and
+eight repairs. These are workload-specific gains, not a universal speed claim.
+
+Fresh repair, solver and list-repair comparisons retain their actual source keys,
+dates and samples. The primary whole96 repair remains slower than Java:
+67.817 versus 31.866 ms, with 149,001 versus 6,169 logical evaluations and distinct
+reconstruction policies. One final shared-solver check passes 8,341 Rust tests
+and 290 doctests; 139 unchanged Rust targets and 46 Python jobs reuse prior
+successful evidence. Source-method coverage remains 4,407/4,855, with 11 pending
+and 437 excluded methods. Reconciliation of all current exclusions with the
+unchanged prior TEST-body audit found no new native algorithm gap; serializer
+snapshot contracts remain unqualified initial-scope boundaries. Full project
+completion is not established.
