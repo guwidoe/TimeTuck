@@ -1,0 +1,9 @@
+These Rust TEST models, providers and complete operational cases adapt Timefold
+Community TEST sources at commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Copyright Timefold contributors. Licensed under Apache License 2.0.
+See compat/licenses/timefold-Apache-2.0.txt and compat/provenance.json for full
+paths, test identities and modifications. Native typed binding, trait storage,
+scoring-catalog registration and prepared Dense/Stream callbacks replace Java
+annotations, package discovery and framework injection; these are not claims of
+framework support or Java API/ABI compatibility. No production implementation was
+copied or translated.

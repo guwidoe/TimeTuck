@@ -1,0 +1,18 @@
+Model configuration TEST adaptations
+
+Copyright applicable to the Timefold Solver Community TEST sources.
+Licensed under the Apache License, Version 2.0; see
+compat/licenses/timefold-Apache-2.0.txt and THIRD_PARTY_NOTICES.md.
+
+Pinned upstream: 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Sources: service/quarkus/deployment/src/test/java/ai/timefold/solver/service/
+quarkus/deployment/ModelConfigDescriptorDefaultTest.java,
+ModelConfigDescriptorSchemaTest.java, ModelConfigDescriptorConstraintReferenceTest.java,
+and testdata/modelconfig{default,schema,reference}/TestdataModelConfigOverrides.java,
+modelconfigdefault/ObjectParameter.java, and the noConflicts name/ordered conflict
+recipe from modelconfigdefault/schema/reference TEST constraint providers.
+
+All metadata assertion rows and configuration helper defaults/fields are adapted
+to explicit executable Rust bindings; no framework scanning is claimed. Original
+runtime controls use native limits and scoring. Production and Enterprise code
+were not read, copied or translated.

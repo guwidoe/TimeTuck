@@ -2094,3 +2094,24 @@ pub use configured_factories::{
 };
 
 pub use xml_termination::XmlTerminationComposition;
+
+mod xml_solver_factory;
+pub use xml_solver_factory::{XmlSolverFactory, XmlSolverFactoryBuildError, XmlSolverRunError};
+
+mod model_config_binding;
+pub use model_config_binding::{
+    ModelConfigBinding, ModelConfigBindingError, ModelConfigDataFormat, ModelConfigDescriptor,
+    ModelConfigMemberOptions, ModelConfigParameter, ModelConfigParameterKind,
+    ModelConfigSchemaType, ModelConfigValue, ModelConfigValueShape,
+};
+
+mod constraint_services;
+pub use constraint_services::{
+    CompiledConstraintGraph, ConstraintMetaDefinition, ConstraintMetaModel,
+    ConstraintServiceAnalysis, ConstraintServiceError, ConstraintSolutionManager,
+    ConstraintVerifier, ReadOnlyConstraintProvider, ScoreFactoryResource,
+    SharedConstraintSolverFactory, SharedConstraintSolverManager,
+};
+
+mod model_solver_session;
+pub use model_solver_session::{ModelSessionError, ModelSolverSession};

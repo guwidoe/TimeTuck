@@ -65970,6 +65970,230 @@
         "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
       ],
       "modifications": "Full operational assertions retained with real owned resources, typed schemas, selected native scoring recipes and actual configured solver managers. Nine terminationProperties property combinations retain raw absence/unset/window/ratio/disabled-phase assertions. Source class keys identify actual registered Rust types; typed Result errors and truthful registered-scoring ambiguity replace Spring cause/classpath/interface wording. Existing attributed domain/provider fixtures implement the same full ordered-pair objective; time override gradients read effective real job limits with the source negative-score scope projection. No framework scanning, bean injection, profiling, JVM class ordering or API/ABI claim."
+    },
+    {
+      "id": "ModelConfigDescriptorDefaultTest.detectModelConfigOverrides",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelConfigDescriptorDefaultTest.java",
+      "upstream_test": "detectModelConfigOverrides",
+      "local_path": "crates/solver/tests/model_config_cases.rs",
+      "local_test": "detect_default_model_config_overrides",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Preserves all ordered 10 parameter assertion rows and root/count assertions present in the source after generating, writing and reading the actual native descriptor. Typed getter/setter/JSON codecs generate structural schema; explicit Rust registration/weight roles replace Quarkus class scanning/annotations. Generated schema writing/readback adds original evidence, with no additional method credit. No production implementation or Enterprise source read; no JVM/framework parity claimed."
+    },
+    {
+      "id": "ModelConfigDescriptorSchemaTest.detectModelConfigOverrides",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelConfigDescriptorSchemaTest.java",
+      "upstream_test": "detectModelConfigOverrides",
+      "local_path": "crates/solver/tests/model_config_cases.rs",
+      "local_test": "detect_schema_model_config_overrides",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Preserves all ordered 6 parameter assertion rows and root/count assertions present in the source after generating, writing and reading the actual native descriptor. Typed getter/setter/JSON codecs generate structural schema; explicit Rust registration/weight roles replace Quarkus class scanning/annotations. Generated schema writing/readback adds original evidence, with no additional method credit. No production implementation or Enterprise source read; no JVM/framework parity claimed."
+    },
+    {
+      "id": "ModelConfigDescriptorConstraintReferenceTest.detectModelConfigOverrides",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/ModelConfigDescriptorConstraintReferenceTest.java",
+      "upstream_test": "detectModelConfigOverrides",
+      "local_path": "crates/solver/tests/model_config_cases.rs",
+      "local_test": "detect_constraint_reference_model_config_overrides",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Preserves all ordered 3 parameter assertion rows and root/count assertions present in the source after generating, writing and reading the actual native descriptor. Typed getter/setter/JSON codecs generate structural schema; explicit Rust registration/weight roles replace Quarkus class scanning/annotations. Generated schema writing/readback adds original evidence, with no additional method credit. No production implementation or Enterprise source read; no JVM/framework parity claimed."
+    },
+    {
+      "id": "TimefoldSolverConstraintAutoConfigurationTest.constraintMetaModel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverConstraintAutoConfigurationTest.java",
+      "upstream_test": "constraintMetaModel",
+      "local_path": "crates/solver/tests/constraint_services_cases.rs",
+      "local_test": "constraint_meta_model",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete non-null metamodel assertion through an actual graph-derived immutable native metamodel, with exact TEST provider constraint. Explicit native provider construction replaces Spring bean/classloader setup; no framework integration claim."
+    },
+    {
+      "id": "TimefoldSolverConstraintAutoConfigurationTest.constraintVerifier",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverConstraintAutoConfigurationTest.java",
+      "upstream_test": "constraintVerifier",
+      "local_path": "crates/solver/tests/constraint_services_cases.rs",
+      "local_test": "constraint_verifier",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Preserve both complete givenSolution assertions: two values v1/v2 and two entities assigned v1/v1 score -2, then v1/v2 score 0. Real same-resource verifier initializes an independent stream director and scores all ordered distinct-entity equal-value pairs at unit penalty. Explicit native handles replace Spring context/classloader setup."
+    },
+    {
+      "id": "TimefoldSolverConstraintAutoConfigurationTest.constraintVerifierBavet",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverConstraintAutoConfigurationTest.java",
+      "upstream_test": "constraintVerifierBavet",
+      "local_path": "crates/solver/tests/constraint_services_cases.rs",
+      "local_test": "constraint_verifier_bavet",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Preserve both complete -2/0 givenSolution assertions and original two-value/two-entity edits. Parse unchanged TEST XML resource and use its provider key to select the actual native graph recipe. Explicit mapping and stream scoring replace Spring classpath/context and Bavet runtime; no JVM loading claim."
+    },
+    {
+      "id": "TimefoldSolverConstraintAutoConfigurationTest.readOnlyConcreteProviderClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverConstraintAutoConfigurationTest.java",
+      "upstream_test": "readOnlyConcreteProviderClass",
+      "local_path": "crates/solver/tests/constraint_services_cases.rs",
+      "local_test": "read_only_concrete_provider_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete no-exception factory-construction assertion with a real immutable operation on an explicitly selected concrete native trait provider using the TEST abstract/concrete ordered-pair unit-factor objective. Retain and inspect the actual provider Arc. Native traits replace Java abstract classes; automatic scanning and Spring context are excluded."
+    },
+    {
+      "id": "TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.singletonSolverFactory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "singletonSolverFactory",
+      "local_path": "crates/solver/tests/constraint_services_cases.rs",
+      "local_test": "singleton_solver_factory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Preserve non-null factory/manager and both complete identity assertions: actual scoring-resource Arc shared with native solution operations; actual canonical factory Arc retained by the native manager whose jobs consume that factory runtime. No label or metadata flag stands in for identity. Explicit construction replaces Spring injection."
+    },
+    {
+      "id": "TimefoldProcessorConstraintMetaModelTest.singletonSolverFactory",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorConstraintMetaModelTest.java",
+      "upstream_test": "singletonSolverFactory",
+      "local_path": "crates/solver/tests/constraint_services_cases.rs",
+      "local_test": "quarkus_singleton_solver_factory",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nonempty constraints assertion using actual weighted terminals from the TEST Quarkus ordered-pair provider objective. The metamodel belongs to the real native scoring recipe. Explicit native graph compilation replaces CDI/ShrinkWrap injection; no Quarkus compatibility claim."
+    },
+    {
+      "id": "TimefoldProcessorFailedSolveTest.twoFailedSolvesLeaveTheSolverManagerUsable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorFailedSolveTest.java",
+      "upstream_test": "twoFailedSolvesLeaveTheSolverManagerUsable",
+      "local_path": "crates/solver/tests/model_sessions_cases.rs",
+      "local_test": "two_failed_solves_leave_the_solver_manager_usable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Retains two failing two-entity jobs, assigned fail predicate, exact cause message, both NOT_SOLVING assertions and third same-manager two-entity v1/v2 successful scored output. Native score predicate panics replace IllegalStateException with typed SolverJobError::Panicked and its real cause message; actual prepared Dense/Stream factory resources drop during unwinding. Both real prepared Dense and Stream score directors execute; originals add no source-method credit."
+    },
+    {
+      "id": "TimefoldProcessorSolveTest.solve",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorSolveTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/model_sessions_cases.rs",
+      "local_test": "normal_solve",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Retains both values v1/v2 and two unassigned entities, actual ordered duplicate-pair penalty, successful output and nonnegative score. Native owned manager and live bindings replace injection. Both real prepared Dense and Stream score directors execute; originals add no source-method credit."
+    },
+    {
+      "id": "TimefoldProcessorExtendedSolutionSolveTest.solve",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorExtendedSolutionSolveTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/model_sessions_cases.rs",
+      "local_test": "extended_solution_solve",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Retains complete two-value/two-entity input, actual duplicate-pair penalty, successful nonnegative score and exact Extra Data. Native inherited solution storage preserves real parent model and additional payload. Both real prepared Dense and Stream score directors execute; originals add no source-method credit."
+    },
+    {
+      "id": "TimefoldProcessorInterfaceEntityTest.buildSolver",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorInterfaceEntityTest.java",
+      "upstream_test": "buildSolver",
+      "local_path": "crates/solver/tests/model_sessions_cases.rs",
+      "local_test": "interface_entity_build_solver",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Retains two interface entities, all three integer values 0/1/2, source minimize-value constraint, output existence, full collection count and distinct identity of every output entity. Real boxed Rust trait getter/setter/clone operations replace Java interfaces/reflection; owned native factory/manager executes the solver. Both real prepared Dense and Stream score directors execute; originals add no source-method credit."
+    },
+    {
+      "id": "TimefoldProcessorMultipleConstraintProviderTest.readOnlyConcreteProviderClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorMultipleConstraintProviderTest.java",
+      "upstream_test": "readOnlyConcreteProviderClass",
+      "local_path": "crates/solver/tests/model_sessions_cases.rs",
+      "local_test": "read_only_concrete_provider_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Retains generateSolution(3,2) exact generated value labels, full entity count and no-exception solve. An abstract native provider trait and concrete implementation are real executable scoring callbacks; only the concrete constructor enters the actual typed scoring catalog, with source ordered duplicate-pair penalty and match factor one. No abstract-class discovery or framework claim. Both real prepared Dense and Stream score directors execute; originals add no source-method credit."
     }
   ],
   "fixtures": [
@@ -95563,6 +95787,552 @@
         "crates/solver/tests/fixtures/configured_factories/NOTICE.txt"
       ],
       "modifications": "Uses existing attributed named_models_fixture.rs and named_validation_fixture.rs helpers; owned resource registrations replace Java loader/context setup. Exact resource/property/domain/scoring keys and 2/30-second override and negative scope assertions retained; no production implementation read."
+    },
+    {
+      "id": "model-config-overrides-modelconfigdefault",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/modelconfigdefault/TestdataModelConfigOverrides.java",
+      "upstream_test": "all declared instance fields, ordered getters, default literals and schema/constraint-reference annotations",
+      "local_path": "crates/solver/tests/fixtures/model_config_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Adapts all ordered fields, DEFAULT_WEIGHT_ONE=1, Duration.ZERO, empty primitive/string/object arrays/lists, null string/object and schema/reference metadata where declared. Native exact Decimal.ZERO replaces BigDecimal.ZERO; Vec storage replaces variable-length Java arrays/lists. Native getter/setter callbacks bind actual fields. Explicit roles replace inferred Java metadata. No Java serialization or scanning claimed."
+    },
+    {
+      "id": "model-config-overrides-modelconfigschema",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/modelconfigschema/TestdataModelConfigOverrides.java",
+      "upstream_test": "all declared instance fields, ordered getters, default literals and schema/constraint-reference annotations",
+      "local_path": "crates/solver/tests/fixtures/model_config_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Adapts all ordered fields, DEFAULT_WEIGHT_ONE=1, Duration.ZERO, empty primitive/string/object arrays/lists, null string/object and schema/reference metadata where declared. Native exact Decimal.ZERO replaces BigDecimal.ZERO; Vec storage replaces variable-length Java arrays/lists. Native getter/setter callbacks bind actual fields. Explicit roles replace inferred Java metadata. No Java serialization or scanning claimed."
+    },
+    {
+      "id": "model-config-overrides-modelconfigreference",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/modelconfigreference/TestdataModelConfigOverrides.java",
+      "upstream_test": "all declared instance fields, ordered getters, default literals and schema/constraint-reference annotations",
+      "local_path": "crates/solver/tests/fixtures/model_config_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Adapts all ordered fields, DEFAULT_WEIGHT_ONE=1, Duration.ZERO, empty primitive/string/object arrays/lists, null string/object and schema/reference metadata where declared. Native exact Decimal.ZERO replaces BigDecimal.ZERO; Vec storage replaces variable-length Java arrays/lists. Native getter/setter callbacks bind actual fields. Explicit roles replace inferred Java metadata. No Java serialization or scanning claimed."
+    },
+    {
+      "id": "model-config-object-parameter",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/modelconfigdefault/ObjectParameter.java",
+      "upstream_test": "ObjectParameter(long id, String value) TEST record",
+      "local_path": "crates/solver/tests/fixtures/model_config_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Native typed ObjectParameter with both fields and executable strict JSON object codec; registered field schemas are generated. Original invalid-object controls add no method credit."
+    },
+    {
+      "id": "model-config-conflict-provider-modelconfigdefault",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/modelconfigdefault/TestdataConstraintProvider.java",
+      "upstream_test": "NO_CONFLICTS_CONSTRAINT_NAME/WEIGHT and defineConstraints ordered equal-value self-join excluding identical entities",
+      "local_path": "crates/solver/tests/model_config_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Retains noConflicts name and ordered unequal-identity equal-value conflict recipe in actual dense/stream graphs, with native per-solve weight overrides. Independent runtime step/duration/domain input controls are original and earn no upstream method credit; no Java stream/ABI parity claimed."
+    },
+    {
+      "id": "model-config-conflict-provider-modelconfigschema",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/modelconfigschema/TestdataConstraintProvider.java",
+      "upstream_test": "NO_CONFLICTS_CONSTRAINT_NAME/WEIGHT and defineConstraints ordered equal-value self-join excluding identical entities",
+      "local_path": "crates/solver/tests/model_config_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Retains noConflicts name and ordered unequal-identity equal-value conflict recipe in actual dense/stream graphs, with native per-solve weight overrides. Independent runtime step/duration/domain input controls are original and earn no upstream method credit; no Java stream/ABI parity claimed."
+    },
+    {
+      "id": "model-config-conflict-provider-modelconfigreference",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/testdata/modelconfigreference/TestdataConstraintProvider.java",
+      "upstream_test": "NO_CONFLICTS_CONSTRAINT_NAME/WEIGHT and defineConstraints ordered equal-value self-join excluding identical entities",
+      "local_path": "crates/solver/tests/model_config_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_config/NOTICE.txt"
+      ],
+      "modifications": "Retains noConflicts name and ordered unequal-identity equal-value conflict recipe in actual dense/stream graphs, with native per-solve weight overrides. Independent runtime step/duration/domain input controls are original and earn no upstream method credit; no Java stream/ABI parity claimed."
+    },
+    {
+      "id": "constraint-services-test-helper-1-TimefoldSolverConstraintAutoConfigurationTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverConstraintAutoConfigurationTest.java",
+      "upstream_test": "selected complete methods; context setup, two-value/two-entity edit and exact score literals",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-2-TimefoldSolverWithSolverConfigXmlAutoConfigurationTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverWithSolverConfigXmlAutoConfigurationTest.java",
+      "upstream_test": "singletonSolverFactory complete identity assertions and context setup",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-3-TimefoldProcessorConstraintMetaModelTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorConstraintMetaModelTest.java",
+      "upstream_test": "singletonSolverFactory complete nonempty assertion and archive registrations",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-4-TestdataSpringConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/constraints/TestdataSpringConstraintProvider.java",
+      "upstream_test": "defineConstraints: ordered equal-value join, different entities, unit penalty and exact name",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-5-TestdataSpringEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/domain/TestdataSpringEntity.java",
+      "upstream_test": "String optional value and mutable entity accessor shape",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-6-TestdataSpringSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/domain/TestdataSpringSolution.java",
+      "upstream_test": "value/entity collections and saved optional SimpleScore shape",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-7-NormalSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/NormalSpringTestConfiguration.java",
+      "upstream_test": "explicit normal-domain context registration",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-8-MultipleConstraintSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/multiple/MultipleConstraintSpringTestConfiguration.java",
+      "upstream_test": "explicit concrete provider context registration",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-9-TestdataAbstractMultipleConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/multiple/constraintprovider/constraints/TestdataAbstractMultipleConstraintProvider.java",
+      "upstream_test": "abstract defineConstraints ordered-pair recipe and unit penalty",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-10-TestdataMultipleConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/multiple/constraintprovider/constraints/TestdataMultipleConstraintProvider.java",
+      "upstream_test": "concrete defineConstraints override with explicit match factor one",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-11-TestdataQuarkusConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/normal/TestdataQuarkusConstraintProvider.java",
+      "upstream_test": "defineConstraints ordered-pair recipe, unit penalty and exact name",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-12-TestdataQuarkusEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/normal/TestdataQuarkusEntity.java",
+      "upstream_test": "String optional value and entity accessor shape",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-helper-13-TestdataQuarkusSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/normal/TestdataQuarkusSolution.java",
+      "upstream_test": "value/entity collections and optional score accessor shape",
+      "local_path": "crates/solver/tests/fixtures/constraint_services_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Native String values, Option assignments and real immutable typed provider operations replace Java entity/solution/classes/context scaffolding. Exact ordered join, assigned-row filtering, unequal entity indices, unit penalty, constraint name and -2/0 value-edit objective retained. Concrete Rust traits replace abstract/concrete class declarations; no scans/CDI/classloading or production implementation port."
+    },
+    {
+      "id": "constraint-services-test-resource-bavetSolverConfig.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/bavetSolverConfig.xml",
+      "upstream_test": "constraintVerifierBavet TEST resource",
+      "local_path": "crates/solver/tests/fixtures/constraint_services/bavetSolverConfig.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/constraint_services/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged. Native parser and explicit provider mapping select the real scoring recipe; no Java classpath lookup or XML loader support claim."
+    },
+    {
+      "id": "model-sessions-helper-TestdataQuarkusEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/normal/TestdataQuarkusEntity.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataQuarkusSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/normal/TestdataQuarkusSolution.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataQuarkusConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/normal/TestdataQuarkusConstraintProvider.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataQuarkusFailingConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/failing/TestdataQuarkusFailingConstraintProvider.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataExtendedQuarkusSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/inheritance/solution/TestdataExtendedQuarkusSolution.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataInterfaceEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/interfaceentity/TestdataInterfaceEntity.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataInterfaceEntityImplementation",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/interfaceentity/TestdataInterfaceEntityImplementation.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataInterfaceEntitySolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/interfaceentity/TestdataInterfaceEntitySolution.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataInterfaceEntityConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/interfaceentity/TestdataInterfaceEntityConstraintProvider.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataMultipleConstraintSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/multiple/constraintprovider/TestdataMultipleConstraintSolution.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataMultipleConstraintEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/multiple/constraintprovider/TestdataMultipleConstraintEntity.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataAbstractMultipleConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/multiple/constraintprovider/TestdataAbstractMultipleConstraintProvider.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-helper-TestdataMultipleConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/multiple/constraintprovider/TestdataMultipleConstraintProvider.java",
+      "upstream_test": "TEST helper used by complete model-session operational methods",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Adapts actual value/entity/score storage, executable getter/setter/clone or source constraint/generator/failure literals into native live model bindings and real prepared Dense/Stream scoring callbacks. Common structurally identical string models share native storage; interface uses actual boxed trait objects and extended solution inherits real parent storage. Exact fixture counts/values are retained in complete cases; no production/framework implementation accessed."
+    },
+    {
+      "id": "model-sessions-setup-TimefoldProcessorFailedSolveTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorFailedSolveTest.java",
+      "upstream_test": "twoFailedSolvesLeaveTheSolverManagerUsable setup, complete fixture and assertion literals",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Preserves best-score limit zero, all original fixture counts, range values, source failure message and extra payload where applicable. Native session/factory/model registrations replace framework setup; framework-only singleton methods are not adapted or credited."
+    },
+    {
+      "id": "model-sessions-setup-TimefoldProcessorSolveTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorSolveTest.java",
+      "upstream_test": "solve setup, complete fixture and assertion literals",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Preserves best-score limit zero, all original fixture counts, range values, source failure message and extra payload where applicable. Native session/factory/model registrations replace framework setup; framework-only singleton methods are not adapted or credited."
+    },
+    {
+      "id": "model-sessions-setup-TimefoldProcessorExtendedSolutionSolveTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorExtendedSolutionSolveTest.java",
+      "upstream_test": "solve setup, complete fixture and assertion literals",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Preserves best-score limit zero, all original fixture counts, range values, source failure message and extra payload where applicable. Native session/factory/model registrations replace framework setup; framework-only singleton methods are not adapted or credited."
+    },
+    {
+      "id": "model-sessions-setup-TimefoldProcessorInterfaceEntityTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorInterfaceEntityTest.java",
+      "upstream_test": "buildSolver setup, complete fixture and assertion literals",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Preserves best-score limit zero, all original fixture counts, range values, source failure message and extra payload where applicable. Native session/factory/model registrations replace framework setup; framework-only singleton methods are not adapted or credited."
+    },
+    {
+      "id": "model-sessions-setup-TimefoldProcessorMultipleConstraintProviderTest",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorMultipleConstraintProviderTest.java",
+      "upstream_test": "readOnlyConcreteProviderClass setup, complete fixture and assertion literals",
+      "local_path": "crates/solver/tests/fixtures/model_sessions_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
+      ],
+      "modifications": "Preserves best-score limit zero, all original fixture counts, range values, source failure message and extra payload where applicable. Native session/factory/model registrations replace framework setup; framework-only singleton methods are not adapted or credited."
     }
   ]
 }

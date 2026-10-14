@@ -10009,3 +10009,55 @@ invalid-style case now uses lowercase `and`, since uppercase AND is supported.
 All added cases are original and earn zero additional source-method credit; no
 upstream pin, provenance, exclusion, Cargo or shared kernel changes. See
 [the native composition contract](xml-termination-composition.md).
+
+Three complete Community ModelConfigDescriptor metadata methods now preserve every ordered default/schema/reference assertion after generated descriptor file writing and readback. Actual typed member codecs provide structural schemas, renamed JSON bindings and atomic input preflight; default/helper values, arrays, objects, duration and numeric weights are exercised. Explicit Rust member roles/registrations replace Quarkus scanning and annotations. Original controls execute dense/stream solves with changing step/duration configuration and referenced weights, plus exact decimal scoring. These originals earn no method credit. The native JSON backend rejects precision-losing numbers and does not preserve BigDecimal scale identity. Duplicate JSON keys use last-value semantics; callback-panic rollback, JVM/framework integration and generic schema validation are not claimed. See docs/model-config-binding.md.
+
+The native constraint services resource compiles an explicitly registered immutable
+provider into real stream graphs. Its metamodel comes from the graph's actual
+weighted terminals; fresh graphs validate the same names and weights before loading
+planning rows. Factory, manager, solution operations and verifier expose their actual
+shared Arc handles. Independent mutable directors execute each job/update/verification.
+Solution updates delegate atomic publication and refresh policy to SolutionManager.
+Analysis exposes actual named totals and the same immutable metamodel identity.
+
+Six Community Spring/Quarkus service assertions have complete native adaptations:
+metamodel availability/nonempty contents, ordered-pair verifier scores -2 then 0,
+concrete provider construction, and canonical solver/scoring factory identity. The
+TEST provider's ordered join excludes self and unassigned entities and penalizes
+one per ordered pair; it was not changed to unique unordered pairs. The unchanged
+TEST XML resource selects an explicitly registered native provider. Eight original
+controls add real Dense/Stream jobs, exact callback resource identity, value changes,
+independent rescores, policy publication, declaration drift, lifetime and invalid
+preparation checks. Dense test solving evaluates the canonical graph recipe through
+a dense director; these cases make no dense-versus-stream performance claim.
+
+Scope: finite basic planning with weighted graph terminals; unweighted terminals
+are rejected. No Spring/CDI injection, class scanning, classloaders, JVM native image
+or automatic node-sharing support is claimed. The native provider API calls a real
+immutable borrowing operation; caller implementations remain responsible for recipe
+immutability and independent graph state. Checking names/weights detects declaration
+drift, not arbitrary predicate/captured-state changes. Typed graph explanation APIs
+remain responsible for match justifications and indictments.
+
+Round172 adds five complete native operational model-session/lifecycle methods:
+failed solves followed by successful reuse, ordinary/extended solution solves,
+interface-entity object cloning, and concrete inherited constraint-provider use.
+Actual source constraints and fixture counts run through prepared Dense/Stream
+scoring with executable entity/solution bindings and owned managers. Original
+controls independently rescore varied live models, verify retained input identity
+and resource drops, and cancel queued/active scoring jobs before successful reuse.
+Native typed errors/predicate panics replace Java exceptions; cloning and binding
+projection contracts are explicit. Singleton injection, package/class scanning,
+Spring multimodule discovery and REST-only methods remain excluded. Only these
+five methods supersede their blanket exclusion; no kernel, pin, Cargo, Java ABI,
+Enterprise or performance claim changes. See docs/model-solver-sessions.md.
+
+Round173 adds owned XML factory execution through `XmlSolverFactory`: constructor
+preflight rejects invalid supported declarations before callbacks, while each real
+manager job compiles independent scoped expressions from the retained owned plan.
+Original basic/list Dense/Stream jobs distinguish AND/OR, consume phase bindings,
+survive wrapper drops, and retain independent native job deadline caps. The executor
+must install the supplied phase bindings. This uses the existing basic/list sequence
+profile; nested XML composition and solver AND with phase-local diminished returns
+remain unsupported. Native template/job caps do not replace XML children. These four
+original tests earn zero source-method credit. See [owned XML factories](xml-solver-factory.md).

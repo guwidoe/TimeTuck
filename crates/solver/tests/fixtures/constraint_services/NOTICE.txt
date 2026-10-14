@@ -1,0 +1,14 @@
+Constraint services TEST adaptations
+Timefold Solver Community v2.7.0, commit 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+Copyright Timefold BV and the Timefold Solver contributors.
+Licensed under Apache License 2.0; see compat/licenses/timefold-Apache-2.0.txt.
+
+constraint_services_cases.rs and constraint_services_fixture.rs adapt the selected
+complete Community Spring/Quarkus TEST methods and their TEST domain/provider
+helpers, not production implementation. The ordered-pair join, distinct entity
+filter, unit penalty, constraint name, two values and score -2/0 are retained.
+The native trait recipe replaces Java abstract/concrete provider registration.
+Explicit Rust construction replaces classpath scanning, bean injection and native
+image behavior. No JVM/CDI/classloader compatibility is claimed.
+bavetSolverConfig.xml is copied unchanged from the Community Spring TEST resource.
+Original constraint_services_regression.rs tests earn no upstream method credit.

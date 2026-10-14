@@ -17,7 +17,58 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round169
+## Latest verified checkpoint — round174
+
+Integrated executable typed model configuration, immutable graph-derived constraint
+services with real shared factory/provider identities, owned model solve sessions,
+and owned XML factory execution. Fourteen complete Community methods (3 model
+configuration,6 constraint services,5 model sessions) bring coverage to4,390/4,855
+(90.422%),12 pending,453 excluded,zero failed/unverified. Twenty-three originals
+exercise actual Dense/Stream solves, independent model storage/scoring, same-manager
+failure recovery, live configuration/weights and fresh per-job XML AND/OR/phase
+expressions. Existing provenance content/order remains unchanged;14 cases and39
+fixture records appended. Pin/Cargo/shared solver kernels unchanged.
+
+One frozen runner-a bash scripts/check.sh passed:8,250 Rust tests and290 doctests.
+91 Rust jobs ran;1,220 Rust and46 Python jobs reused genuine unchanged round169
+records. Prebuild/Clippy364.935s,gate160.931s,worker526.656s. Root focused four XML
+factory tests and affected Clippy passed locally before integration. No unchanged
+benchmark or browser rerun. All3 actual round159 performance inputs remain unchanged
+and current with their original dates; no new speed gain claimed. Dashboard report
+and backend freshness verified at127.0.0.1:8765; detached server remains running.
+
+Evidence work/parallel-round174-{freeze,evidence}.json; archive
+work/round174-runner-a-results.tar.gz SHA256
+4887074175f45a50a8ab2d0a0476168e62d43d8d0673a9e3b6146699c4c6addc.
+Rust digest5805138190f66feef1598df295e24cb15edd6cf479beaa1378781eae7cbbc739;
+report digest11028877d100fa31ba85c35735ba2665480ad2e4df827286cc8e30796131602f.
+All14 new methods passed; current source/log/archive guards verified. Agent proof,
+full TEST specifications, success/failure sources and receipts are collected under
+work/round174-agent-evidence/{model-config,constraint-services,model-sessions};
+root first compile failure is in work/root-round173-failed-attempt1. Sessions' exact
+unchanged failed repeat is preserved/disclosed; no success evidence was rekeyed.
+All three agents completed and their managed worktrees are archived after proof
+collection. No new assignments. runner-c parked/untouched; runner-a/local worked.
+
+Limits: explicit Rust registrations replace framework scanning/loading. Configuration
+input errors preflight before constructors/setters; custom codec/setter side effects
+and panics have no rollback. JSON decimals reject precision loss; scale identity is
+not promised. Session model Clone must create independent mutable storage; binding
+projection contracts remain required. Shared resource metadata is actual weighted
+terminal metadata, not automatic node sharing. XML factory callbacks install lent
+phase bindings; template/job caps remain independent of XML children. Nested XML
+composition and solver AND with phase-local diminished returns remain unsupported.
+
+Next: genuine nonsequential k-opt selector/repair gaps, then remaining native XML
+composition and representative final correctness/performance qualification. Inspect
+work/round174-next-implementation.json: full TEST endpoint/partner assertions matter;
+never add unused padded metadata merely for source-method credit. Remaining pending
+JVM/Enterprise/scanning methods are not automatically native implementation tasks.
+Base dd719da103e7da37af8cc8fdbbbc37f73d31ddf1. Postcommit receipt
+work/round174-postcommit-evidence.json. Goal active/incomplete; this turn is progress.
+Reuse unchanged evidence; do not repeat this gate merely for a new turn or commit.
+
+## Previous verified checkpoint — round169
 
 Integrated native owned JSON/XML solution-file codecs, configured typed factories,
 XML AND/OR and phase score-target execution, and validation catalogs/execution gates.

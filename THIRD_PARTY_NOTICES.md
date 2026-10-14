@@ -1132,3 +1132,16 @@ in compat/provenance.json and crates/solver/tests/fixtures/validation_catalog/NO
 Round165 solution_persistence_cases.rs and fixtures/solution_persistence_fixture.rs adapt two complete pinned Community Jackson/JAXB SolutionFileIOTest.readAndWrite methods and TEST domain helpers under Apache-2.0. Exact attribution appears in compat/provenance.json and fixtures/solution_persistence/NOTICE.txt. Native owned graph codecs and actual file operations replace JVM mapper/JAXB integration; no production implementation was inspected or copied. Native schema does not claim Jackson/JAXB wire compatibility.
 
 Round166 configured_factories_cases.rs and fixtures/configured_factories_fixture.rs adapt twelve complete pinned Community Spring TEST methods, including all nine terminationProperties rows. Four XML TEST resources in fixtures/configured_factories are copied unchanged under Apache-2.0. Existing attributed domain/provider and validation helpers are reused. Exact provenance and NOTICE are retained; independent native factories/managers replace framework loading. Original regressions earn no additional method credit.
+
+Round170 model_config_cases.rs and fixtures/model_config_fixture.rs adapt all three complete pinned Community ModelConfigDescriptor metadata TEST methods, including ordered 10/6/3 rows and helper fields/defaults, under Apache-2.0. Exact provenance and fixtures/model_config/NOTICE.txt retain attribution. Native typed member codecs and generated descriptor/schema replace framework scanning. Original runtime controls consume actual configuration and weights; no additional method credit or JVM deployment compatibility is claimed.
+
+Round171 constraint_services_cases.rs and fixtures/constraint_services_fixture.rs
+adapt six complete pinned Community Spring/Quarkus TEST methods and TEST domain,
+provider and setup helpers under Apache-2.0. The ordered-pair objective and exact
+-2/0 verifier assertions are preserved. fixtures/constraint_services/bavetSolverConfig.xml
+is copied unchanged. Exact source attribution and modifications appear in
+compat/provenance.json and fixtures/constraint_services/NOTICE.txt. Explicit native
+provider construction and shared Arc services replace Java framework registration;
+no Timefold production implementation or Enterprise source was used.
+
+Round172 model_sessions_cases.rs and fixtures/model_sessions_fixture.rs adapt five complete pinned Community operational solve/lifecycle TEST methods and their normal, failing, extended, interface and concrete-provider TEST helpers under Apache-2.0. Exact provenance and fixtures/model_sessions/NOTICE.txt retain attribution. Executable native planning bindings, actual prepared Dense/Stream score factories and owned managers replace Java/framework loading. Native predicate panics preserve the failure message through the manager; unsupported framework-only assertions remain excluded.
