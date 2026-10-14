@@ -17,7 +17,57 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round183
+## Latest verified checkpoint — round186
+
+The actual owned roster application now uses XmlSolverFactory::new_with_controls
+and installs both phase bindings and solver stateful controls on Dense/Stream.
+factory_with_plan accepts an explicit plan; run_files_with_xml reads an actual XML
+file through the owned file workflow. SolvedRoster exposes actual termination.
+Default JSON/configuration/schema and generated XML remain supported. Two original
+checks prove a root significant-improvement history stops a poor complete warm
+start, independently rescore and reread its output, repeat fresh jobs, and compare
+the default solve with the small exhaustive optimum. Invalid custom XML, phase
+shapes and thresholds preserve existing output. No source-method credit.
+
+One final frozen runner-a bash scripts/check.sh passed:8,282 Rust tests,290 doctests.
+Only2 Rust jobs ran;1,316 Rust and46 Python jobs reused unchanged authentic records.
+Prebuild/Clippy171.348s,gate84.580s,worker256.492s. Agent's7 focused tests,affected
+strict Clippy and real example passed locally; both example backends score
+0hard/-6soft with54 evaluations. No failures. Exact3 owned paths,whole Rust/Cargo
+before/after manifests,immutable tested sources and receipts validated/copied to
+work/round186-agent-evidence/roster-controls. Managed worktree archived after
+collection; all jobs terminal. runner-a transport worked; runner-c remains parked.
+
+Evidence work/parallel-round186-{freeze,evidence}.json; archive
+work/round186-runner-a-results.tar.gz SHA256
+874e8c03f8e3a8c3c7c79900a5c8882bf64eb632eed4e0e03156056c4e188d9f.
+Rust digest030d1d2a0592117a4fdf35904b5dec1f4319ca6923e9ee74b126b206c9b0bf0e;
+report digestaa9c0e31f4fd8470b25ed8e7b2bca8850e6c5f5e88a17a9c1b1c6fd426f71403.
+Coverage4390/4855(90.422%),12pending,453excluded,zero failed/unverified.
+All3 actual round180 primary performance inputs remain unchanged/current; original
+measurement dates/samples retained without repeats. Backend report and freshness
+checked at127.0.0.1:8765; no UI change/browser repeat. Base4f6365e; postcommit
+receipt work/round186-postcommit-evidence.json. Turn progress; goal incomplete.
+
+Next concrete gap: XML bestScoreLimit/bestScoreFeasible currently stop correctly,
+but their weighted progress is not bound into full controls/annealing. Existing
+native ScoreGoalProgressConfig/session already implements this; prefer wiring
+that primitive without kernel changes. Original opaque public-method probes in
+work/round186-score-goal-probe passed with pinned Community artifacts (checksums
+saved): defaults split each remaining share by0.5. Two-level target reaches0.5
+when hard reaches zero;3-level reaches0.5/0.75/1;5-level reaches0.5/0.75/0.875/
+0.9375/1. Feasibility uses only hard levels (one:1;two:0.5/1). These observations
+are not native XML verification or method credit. Full raw logs/receipts retained.
+TEST APIs used:TerminationFactoryTest,BestScoreTerminationTest,
+BestScoreFeasibleTerminationTest and score-definition TEST constructors. No
+production inspected. Next validate generic shapes/preflight, grouping and
+initialized baseline capture through existing native goals on actual solver runs.
+Legacy projection contracts must stay explicit. Do not redo default-weight probes.
+Complete representative qualification and original-scope audit before claiming
+finished; the dashboard percentage alone is not completion. Raw/JVM pending
+assertions remain honest; do not pad nonsequential spare buffers.
+
+## Previous verified checkpoint — round183
 
 Executable XML now supports unimprovedScoreDifferenceThreshold, using the existing
 native SignificantImprovementConfig/session. Same-node unimproved time is required;

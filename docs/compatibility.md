@@ -10117,3 +10117,27 @@ original controls execute actual basic/list/mixed Dense/Stream solving, owned
 manager jobs, fresh histories, grouping, independent caps, invalid-input recovery
 and preflight rejection. No additional source-method credit; pin and provenance
 unchanged. This supersedes prior rounds' unsupported-threshold projection.
+
+
+## Owned roster complete XML controls (round186)
+
+The existing owned roster application executes custom XML files through
+XmlSolverFactory::new_with_controls, installing both phase and solver stateful
+controls on Dense/Stream. Explicit plan/file helpers retain the JSON configuration
+format and default workflow; actual termination is returned. Original integration
+checks exercise solver-wide significant-improvement histories on complete warm
+starts, independent rescoring, file round trips, fresh repeated jobs and invalid
+configuration preserving output. All seven application checks and the actual
+example passed locally; one final frozen runner-a gate passed8,282 Rust tests and
+290 doctests, reusing1,316 unchanged Rust jobs and46 Python jobs and running only2
+changed Rust jobs. No new upstream-method credit or performance claim. The three
+primary round180 benchmark input keys remain unchanged; dates and samples are
+retained. Coverage remains4390/4855,12pending,453excluded,zero failed/unverified.
+
+XML score-target/feasibility weighted progress remains a concrete integration gap
+although native goal progress and XML stopping already work. Original opaque
+public-method observations of the pinned Community artifact confirm recursive0.5
+split defaults across2/3/5 target levels and1/2 feasible levels. These probes earn
+no compatibility credit and do not establish native XML integration. Full source,
+artifact checksums and raw receipts are retained in work/round186-score-goal-probe;
+no production implementation was inspected.

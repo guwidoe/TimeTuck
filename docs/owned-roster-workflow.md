@@ -29,3 +29,19 @@ input/configuration preserves an existing output file, and a zero deadline retur
 an independently checked partial score which survives codec round trip. Larger
 rosters do not inherit an optimality guarantee from those small exhaustive checks.
 These are original controls and earn zero upstream-method credit.
+
+`factory_with_plan(configuration, backend, plan)` accepts an explicit owned native
+XML termination plan. `run_files_with_xml(input, configuration, solver_xml, output,
+backend)` reads a complete solver XML file and executes that plan through the same
+file workflow. The default factory and `run_files` retain their generated XML and
+configuration format. Both backends install the fresh phase bindings and solver-wide
+stateful expression compiled by `XmlSolverFactory::new_with_controls` for each job.
+`SolvedRoster.termination` reports the actual solver termination.
+
+Original custom XML controls use a zero unimproved window and a large significant
+improvement threshold on a deliberately poor complete warm start. They check root
+condition termination, bounded work, independently scored output and codec round
+trip, then compare the default solve with exhaustive optimum. Repeated file runs
+start fresh. Invalid XML, phase shapes and thresholds preserve existing output on
+both backends. These controls establish application execution, not elapsed-time
+trace parity or additional upstream-method credit.

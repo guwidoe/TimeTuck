@@ -248,3 +248,70 @@ fn warm_start_xml_step_caps_change_work_and_return_quality_on_both_backends() {
         assert!(scores[1] > scores[0]);
     }
 }
+#[test]
+fn custom_xml_root_history_stops_real_warm_roster_and_round_trips() {
+    for backend in [Backend::Dense, Backend::Stream] {
+        let dir = Directory::new();
+        let input = dir.0.join("input.json");
+        let config = dir.0.join("config.json");
+        let xml = dir.0.join("solver.xml");
+        let output = dir.0.join("output.json");
+        let settings = Configuration::default();
+        let mut original = sample();
+        for shift in &mut original.shifts {
+            shift.employee = Some(2);
+        }
+        let io = SolutionFileIo::new(RosterCodec);
+        io.write(&original, &input).unwrap();
+        let input_bytes = std::fs::read(&input).unwrap();
+        std::fs::write(&config, configuration_binding().encode(&settings).unwrap()).unwrap();
+        std::fs::write(&xml, "<solver><termination><unimprovedMillisecondsSpentLimit>0</unimprovedMillisecondsSpentLimit><unimprovedScoreDifferenceThreshold>100hard/100soft</unimprovedScoreDifferenceThreshold></termination><constructionHeuristic/><localSearch/></solver>").unwrap();
+        for _ in 0..2 {
+            let limited = run_files_with_xml(&input, &config, &xml, &output, backend).unwrap();
+            assert_eq!(limited.termination, SolverTermination::Condition);
+            assert!(limited.work.completed_steps <= 1);
+            assert!(limited.work.evaluations < 100);
+            assert!(limited.roster.score.unwrap() < optimum(&original, &settings));
+            assert_eq!(
+                limited.roster.score,
+                Some(independent_score(&limited.roster, &settings))
+            );
+            assert!(limited.roster.shifts.iter().all(|s| s.employee.is_some()));
+            let readback: Roster = io.read(&output).unwrap();
+            assert_eq!(readback, limited.roster);
+            assert_eq!(std::fs::read(&input).unwrap(), input_bytes);
+        }
+        let uncapped = run_files(&input, &config, &output, backend).unwrap();
+        assert_eq!(uncapped.roster.score, Some(optimum(&original, &settings)));
+        assert!(uncapped.work.completed_steps > 1);
+    }
+}
+#[test]
+fn invalid_custom_xml_preserves_existing_output_on_both_backends() {
+    for backend in [Backend::Dense, Backend::Stream] {
+        let dir = Directory::new();
+        let input = dir.0.join("input.json");
+        let config = dir.0.join("config.json");
+        let xml = dir.0.join("solver.xml");
+        let output = dir.0.join("output.json");
+        SolutionFileIo::new(RosterCodec)
+            .write(&sample(), &input)
+            .unwrap();
+        std::fs::write(&config, "{}").unwrap();
+        std::fs::write(&output, b"existing result").unwrap();
+        for invalid in [
+            "<solver>",
+            "<solver><localSearch/></solver>",
+            "<solver><constructionHeuristic/><localSearch/><localSearch/></solver>",
+            "<solver><termination><unimprovedMillisecondsSpentLimit>0</unimprovedMillisecondsSpentLimit><unimprovedScoreDifferenceThreshold>bad</unimprovedScoreDifferenceThreshold></termination><constructionHeuristic/><localSearch/></solver>",
+            "<solver><termination><unimprovedScoreDifferenceThreshold>1hard/1soft</unimprovedScoreDifferenceThreshold></termination><constructionHeuristic/><localSearch/></solver>",
+        ] {
+            std::fs::write(&xml, invalid).unwrap();
+            assert!(
+                run_files_with_xml(&input, &config, &xml, &output, backend).is_err(),
+                "{invalid}"
+            );
+            assert_eq!(std::fs::read(&output).unwrap(), b"existing result");
+        }
+    }
+}

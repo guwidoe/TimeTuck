@@ -355,14 +355,12 @@ pub struct SolvedRoster {
     pub roster: Roster,
     pub work: SolverWork,
     pub phases: Vec<PhaseReport<HardSoftScore>>,
+    pub termination: SolverTermination,
 }
 pub fn factory(
     config: Configuration,
     backend: Backend,
 ) -> AppResult<XmlSolverFactory<Arc<Roster>, SolvedRoster, String, HardSoftScore>> {
-    if !(1..=5000).contains(&config.steps) || config.preference_weight < 0 {
-        return Err("steps must be1..5000 and preference_weight nonnegative".into());
-    }
     let xml = format!(
         "<solver><termination><spentLimit>PT15S</spentLimit><bestScoreLimit>0hard/0soft</bestScoreLimit></termination><constructionHeuristic/><localSearch><termination><stepCountLimit>{}</stepCountLimit></termination></localSearch></solver>",
         config.steps
@@ -371,6 +369,17 @@ pub fn factory(
         .map_err(|e| e.to_string())?
         .native_termination_plan()
         .map_err(|e| e.to_string())?;
+    factory_with_plan(config, backend, plan)
+}
+/// Use an explicit owned XML plan while retaining the application's native safeguards.
+pub fn factory_with_plan(
+    config: Configuration,
+    backend: Backend,
+    plan: XmlTerminationPlan,
+) -> AppResult<XmlSolverFactory<Arc<Roster>, SolvedRoster, String, HardSoftScore>> {
+    if !(1..=5000).contains(&config.steps) || config.preference_weight < 0 {
+        return Err("steps must be1..5000 and preference_weight nonnegative".into());
+    }
     let template = SolverSequence {
         phases: vec![
             SolverPhase::Construction(ConstructionConfig::default()),
@@ -384,10 +393,10 @@ pub fn factory(
         ..Default::default()
     };
     let binding = binding();
-    XmlSolverFactory::new(
+    XmlSolverFactory::new_with_controls(
         template,
         plan,
-        move |input: Arc<Roster>, sequence, phase_bindings, progress| {
+        move |input: Arc<Roster>, sequence, phase_bindings, stateful, progress| {
             validate(&input)?;
             let mut working = input.as_ref().clone();
             let problem = binding.open(&working).map_err(|e| e.to_string())?;
@@ -398,6 +407,7 @@ pub fn factory(
                     sequence,
                     SolverExtensions {
                         phase_terminations: phase_bindings,
+                        stateful_termination: stateful,
                         ..Default::default()
                     },
                 )
@@ -408,6 +418,7 @@ pub fn factory(
                     sequence,
                     SolverExtensions {
                         phase_terminations: phase_bindings,
+                        stateful_termination: stateful,
                         ..Default::default()
                     },
                 )
@@ -425,6 +436,7 @@ pub fn factory(
                 roster: working,
                 work: result.work,
                 phases: result.phases,
+                termination: result.termination,
             })
         },
     )
@@ -437,13 +449,40 @@ pub fn run_files(
     output: &Path,
     backend: Backend,
 ) -> AppResult<SolvedRoster> {
+    run_files_with_plan(input, configuration, output, backend, None)
+}
+/// Read a complete custom solver XML document before publishing any output.
+pub fn run_files_with_xml(
+    input: &Path,
+    configuration: &Path,
+    solver_xml: &Path,
+    output: &Path,
+    backend: Backend,
+) -> AppResult<SolvedRoster> {
+    let xml = std::fs::read_to_string(solver_xml).map_err(|e| e.to_string())?;
+    let plan = SolverXmlConfiguration::parse(&xml)
+        .map_err(|e| e.to_string())?
+        .native_termination_plan()
+        .map_err(|e| e.to_string())?;
+    run_files_with_plan(input, configuration, output, backend, Some(plan))
+}
+fn run_files_with_plan(
+    input: &Path,
+    configuration: &Path,
+    output: &Path,
+    backend: Backend,
+    plan: Option<XmlTerminationPlan>,
+) -> AppResult<SolvedRoster> {
     let config = configuration_binding()
         .decode(&std::fs::read_to_string(configuration).map_err(|e| e.to_string())?)
         .map_err(|e| e.to_string())?;
     let io = SolutionFileIo::new(RosterCodec);
     let retained = Arc::new(io.read(input).map_err(|e| e.to_string())?);
     let before = retained.as_ref().clone();
-    let factory = factory(config, backend)?;
+    let factory = match plan {
+        Some(plan) => factory_with_plan(config, backend, plan)?,
+        None => factory(config, backend)?,
+    };
     let mut manager = factory.build_manager(1).map_err(|e| e.to_string())?;
     let job = manager
         .job_builder(1)
