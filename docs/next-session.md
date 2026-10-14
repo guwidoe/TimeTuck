@@ -17,6 +17,66 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round198
+
+Added runnable `basic_repair_profile` example and `docs/basic-repair-profile.md`.
+Actual SolverSequence first uses Independent/Sequential, then CoverageCycle/Pooled,
+with finite phase/shared evaluation budgets, eight repairs per phase, actual
+retained-best handoff and no scripted assignments/exact fallback. Real Dense/Stream
+qualification across64original graph cases reaches48optima,21improved/43equal/
+zero regressed versus the8repair baseline. Actual debug binary separately validates
+all64outputs and rejects5invalid usage/count cases. This is a16repair profile,
+not equal work or a general optimality/speed claim. Qualified executable preserved
+atwork/bin/basic_repair_profile-debug before managed-tree archive.
+
+Single-policy matrix retains all64legacy scores: Independent/Sequential33optimal;
+CoverageCycle/Sequential36(5improved,59equal,0regressed); Independent/Pooled46
+(21/40/3); CoverageCycle/Pooled47(22/40/2). The two CP adverse cases are half-case4
+and whole-case24, improving soft score while violating one hard edge; phased
+profile retains the baseline's hard-feasible best in both. Independent exhaustive
+Rust oracle verifies all stored Python optima; logical outcomes/work/caps match
+backends. Physical stream callback work is higher and separately asserted. Total
+640actual solves in2original tests, strict affectedClippy passed. Two initial
+failed physical-work assertions retained; corrected expectations, no kernel fix.
+Parent executable build1.600s, qualification0.386s; immutable wholeRust/Cargo/fixture
+guards stable. Evidencework/round197-agent-evidence/basic-quality, including phased
+receipts/archives and parent build/qualification; binaryproof
+work/round197-profile-binary-qualification.json. Tree initially defaulted to older
+remote head; safely fast-forwarded443149e before any run. All owned2paths and
+parent2example overlays validated. No core/Cargo/pin/provenance changes.
+
+Basic benchmark exposes native sampling/reconstruction options; defaults unchanged.
+Actual runner-a comparison of Java default versus native CoverageCycle/Pooled:
+64valid,47native/35Java optimal,36equal scores.3forks×5samples,3warmups,8repairs;
+source fc170969e4a52a77a1ac99e2328827108c7027dbe5fafd9f2dccace70da9c8ac.
+Important slower result retained:96variable whole-group native232.45ms versus
+Java28.53ms,149001 versus6169scorecalls; half-group native64.52ms versus18.98ms.
+32variable native2.03/6.50ms versusJava6.38/6.98ms. Different reconstruction/scoring
+work; no general speedup or universal quality improvement. Actual benchmark50.881s;
+work/round197-performance-collection.json, extracted rawreports/logs/remote records;
+archiveSHA bb60a509c8350b7b2362e72e84e3499f8822130e8f9b648cb49c44eb5742e37a.
+Native phased16repair result is separate qualification, not this8repair timing.
+
+One frozen runner-a bash scripts/check.sh passed8303Rust tests+290doctests;
+3Rust jobs ran,1322Rust/45Python successful matching inputs reused,1Python ran.
+Prebuild162.099s,gate81.465s,worker244.087s. Shared library unchanged; all jobs
+terminal, no restarts. runner-c parked; runner-a SSH/multiplex worked. Frozen source
+0aeb6a03f3a20acad8cb0b011960251c416177a0e3d5a547c9378d93a9237ad0;
+Rustdigest 91e5b3c77e0bf800d78781c237a67f1d0703119a812ba7f640907f63fb728532;
+reportdigest 9cd647f6c6e75e12c6eb4ca122e5aa74ffcb2976544ac387b6423978dff2400b.
+Archivework/round198-runner-a-results.tar.gz SHA
+370b1b585e81b6f4249ed3a347ddd59c9a874af69d681af0a176e55feb47ec8a.
+Evidencework/parallel-round198-{freeze,evidence}.json; postcommit receipt198.
+Dashboard/report/freshness checked; no UI changes/browser repeat. Coverage remains
+4390/4855(90.422%),12pending,453excluded,zero failed/unverified.5actual performance
+sections current (newbasic,newlist,3unchanged),8changed-input sections remain stale.
+
+Goal active/incomplete. Next audit the remaining12pending and453excluded methods
+against the original native Community scope to identify any actual missing planning
+behavior and completion requirements. Do not manufacture credits or reclassify
+without source assertions/scope evidence; retain the existing191pending audit.
+Use the measured pooled cost when prioritizing performance work; no blanket reruns.
+
 ## Latest verified checkpoint — round196
 
 Implementation commit `8ffcadb` adds opt-in `RuinSampling::CoverageCycle`: seeded

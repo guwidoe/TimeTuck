@@ -7,15 +7,27 @@ use std::{
     time::Instant,
 };
 use timetuck::{
-    Acceptance, ConstraintNetwork, RuinRecreateConfig, RuinRecreateTermination,
-    ruin_recreate_search_from,
+    Acceptance, ConstraintNetwork, ConstructionPlacement, RuinRecreateConfig,
+    RuinRecreateTermination, RuinSampling, ruin_recreate_search_from,
 };
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if args.len() != 5 {
-        return Err("expected group steps warmup samples".into());
+    if !(5..=7).contains(&args.len()) {
+        return Err(
+            "group steps warmup samples [independent|coverage-cycle [sequential|cheapest]]".into(),
+        );
     }
+    let ruin_sampling = match args.get(5).map(String::as_str) {
+        None | Some("independent") => RuinSampling::Independent,
+        Some("coverage-cycle") => RuinSampling::CoverageCycle,
+        _ => return Err("unknown repair sampling policy".into()),
+    };
+    let placement = match args.get(6).map(String::as_str) {
+        None | Some("sequential") => ConstructionPlacement::Sequential,
+        Some("cheapest") => ConstructionPlacement::Pooled,
+        _ => return Err("unknown reconstruction placement".into()),
+    };
     let group: usize = args[1].parse()?;
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
@@ -43,9 +55,20 @@ fn main() -> Result<(), Box<dyn Error>> {
             (0..case.problem.variables().len()).collect(),
             |v| case.score_by(|i| v[i].copied()),
         )?;
+        let placements = match placement {
+            ConstructionPlacement::Sequential => group as u64,
+            ConstructionPlacement::Pooled => {
+                (group as u64)
+                    .checked_add(1)
+                    .and_then(|n| n.checked_mul(group as u64))
+                    .ok_or("placement count overflow")?
+                    / 2
+            }
+            _ => unreachable!("only sequential and cheapest are accepted"),
+        };
         let budget = steps
             .checked_mul(
-                (group as u64)
+                placements
                     .checked_mul(case.weights[0].len() as u64)
                     .and_then(|v| v.checked_add(1))
                     .ok_or("budget overflow")?,
@@ -54,6 +77,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             .ok_or("budget overflow")?;
         let config = RuinRecreateConfig {
             seed: 20261222,
+            ruin_sampling,
+            placement,
             minimum_ruined: group,
             maximum_ruined: group,
             max_attempts: steps,

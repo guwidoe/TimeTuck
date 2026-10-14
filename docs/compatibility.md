@@ -10220,3 +10220,34 @@ finite fixture qualification, not a general optimality or Java trace claim.
 The fixture derives from original Python-generated benchmark inputs and adds no
 upstream-method credit. Original weighted-pool integration additionally covers
 basic/list/mixed models, both backends, pins, replay, caps and cancellation.
+
+
+## Basic repair policy and phased profile qualification
+
+Original graph-coloring fixtures exercise 64 half/whole group cases with seed
+20261222 and eight repairs per standalone solve. Independent/Sequential retains
+all prior scores and 33 optima. CoverageCycle/Sequential reaches 36 optima with
+five improved scores and no regressions. Independent/Pooled reaches 46 optima
+(21 improvements, three regressions); CoverageCycle/Pooled reaches 47
+(22 improvements, two regressions). Every stored optimum is independently
+exhaustively checked, and actual Dense/Stream assignments, logical work, budgets
+and termination agree. Physical constraint callback work differs and is recorded.
+These original cases add no upstream-method credit.
+
+The runnable `basic_repair_profile` example uses an actual SolverSequence:
+Independent/Sequential first, then CoverageCycle/Pooled, carrying the retained
+best through the phase boundary. With eight repairs per phase it reaches 48/64
+optima, improves 21 scores, preserves 43, and regresses none of these fixtures.
+This is a distinct sixteen-repair configuration, with finite phase/shared score
+budgets, actual handoff observations and monotone root best updates. Both native
+backends agree; the executable's 64 outputs are independently validated. The
+result establishes bounded fixture quality, not general optimality or speed.
+
+`benchmark_repair.py` now exposes native `--ruin-sampling` and
+`--construction-placement` choices. Defaults remain independent/sequential;
+cheapest maps to ConstructionPlacement::Pooled. The Java public selector and
+reconstruction defaults stay as reported. Fresh CoverageCycle/Pooled comparison
+has 47 native and 35 Java optima, all 64 outputs valid. More candidate work matters:
+the 96-variable whole-group workload takes Rust 232.45 ms versus Java 28.53 ms,
+with 149,001 versus 6,169 score calls. This slower result and both adverse native
+single-policy cases remain in the evidence; no universal improvement is claimed.
