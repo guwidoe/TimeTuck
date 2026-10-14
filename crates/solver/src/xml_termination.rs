@@ -755,10 +755,14 @@ impl XmlTerminationPlan {
         existing: Option<&StatefulSearchTermination<'_, S>>,
         run: impl FnOnce(SolverLimits<'_, S>, Option<&StatefulSearchTermination<'_, S>>) -> R,
     ) -> Result<R, XmlTerminationError> {
-        let Some(raw) = self.solver.as_ref().filter(|raw| raw.has_significant()) else {
+        let Some(raw) = self
+            .solver
+            .as_ref()
+            .filter(|raw| raw.has_significant() || raw.has_score_goal())
+        else {
             return self.with_composed_limits(limits, |limits| run(limits, existing));
         };
-        let tree = raw.compile::<S>(false, None, false)?;
+        let tree = raw.compile::<S>(false, None, true)?;
         let mut callback = Some(run);
         Ok(tree.with_stateful(&mut |xml| {
             let combined = existing.map(|prior| [prior.clone(), xml.clone()]);
@@ -770,7 +774,9 @@ impl XmlTerminationPlan {
         }))
     }
 
-    /// Borrow all XML controls, including solve-wide score-difference histories.
+    /// Borrow all XML controls, including solve-wide histories and weighted score
+    /// goals. Score goals capture an initialized baseline for this invocation;
+    /// each level receives half the remaining progress share by default.
     /// Install both the supplied phase slice and solver expression in
     /// `SolverExtensions` before solving. Existing solver histories are combined
     /// independently through OR. Native caps, static limits and cancellation retain
@@ -790,7 +796,7 @@ impl XmlTerminationPlan {
         self.validate()?;
         self.check(sequence.phases.iter().map(kind))?;
         let kinds = sequence.phases.iter().map(kind).collect::<Vec<_>>();
-        self.with_phase_bindings(&kinds, existing_phases, |bindings| {
+        self.with_phase_bindings(&kinds, existing_phases, true, |bindings| {
             self.with_solver_controls(sequence.limits, existing_solver, |limits, solver| {
                 run(
                     SolverSequence {
@@ -819,7 +825,7 @@ impl XmlTerminationPlan {
         self.validate()?;
         self.check(sequence.phases.iter().map(mixed_kind))?;
         let kinds = sequence.phases.iter().map(mixed_kind).collect::<Vec<_>>();
-        self.with_phase_bindings(&kinds, existing_phases, |bindings| {
+        self.with_phase_bindings(&kinds, existing_phases, true, |bindings| {
             self.with_solver_controls(sequence.limits, existing_solver, |limits, solver| {
                 run(
                     MixedSolverSequence {
@@ -837,6 +843,7 @@ impl XmlTerminationPlan {
         &self,
         kinds: &[&str],
         existing: &[PhaseTerminationBinding<'_, S>],
+        weighted_goals: bool,
         run: impl FnOnce(&[PhaseTerminationBinding<'_, S>]) -> R,
     ) -> Result<R, XmlTerminationError> {
         self.validate()?;
@@ -858,7 +865,7 @@ impl XmlTerminationPlan {
                     raw.compile::<S>(
                         *phase_kind == "constructionHeuristic",
                         Some(phase_kind),
-                        false,
+                        weighted_goals,
                     )
                 })
                 .transpose()?;
@@ -873,7 +880,7 @@ impl XmlTerminationPlan {
                 self.solver
                     .as_ref()
                     .filter(|root| root.has_diminished())
-                    .map(|root| root.compile::<S>(false, Some(phase_kind), false))
+                    .map(|root| root.compile::<S>(false, Some(phase_kind), weighted_goals))
                     .transpose()?
             } else {
                 None
@@ -891,6 +898,7 @@ impl XmlTerminationPlan {
                         leaves: Vec::new(),
                         diminished: None,
                         significant: None,
+                        goals: Vec::new(),
                         source_present: true,
                         scope_identity: false,
                         children,
@@ -955,7 +963,7 @@ impl XmlTerminationPlan {
         self.validate()?;
         self.check(sequence.phases.iter().map(kind))?;
         let kinds = sequence.phases.iter().map(kind).collect::<Vec<_>>();
-        self.with_phase_bindings(&kinds, existing, |bindings| {
+        self.with_phase_bindings(&kinds, existing, false, |bindings| {
             self.with_composed_limits(sequence.limits, |limits| {
                 run(
                     SolverSequence {
@@ -978,7 +986,7 @@ impl XmlTerminationPlan {
         self.validate()?;
         self.check(sequence.phases.iter().map(mixed_kind))?;
         let kinds = sequence.phases.iter().map(mixed_kind).collect::<Vec<_>>();
-        self.with_phase_bindings(&kinds, existing, |bindings| {
+        self.with_phase_bindings(&kinds, existing, false, |bindings| {
             self.with_composed_limits(sequence.limits, |limits| {
                 run(
                     MixedSolverSequence {
@@ -1013,11 +1021,16 @@ impl XmlTerminationSettings {
     fn has_diminished(&self) -> bool {
         self.diminished_returns.is_some() || self.terminations.iter().any(Self::has_diminished)
     }
+    fn has_score_goal(&self) -> bool {
+        self.best_score_limit.is_some()
+            || self.best_score_feasible == Some(true)
+            || self.terminations.iter().any(Self::has_score_goal)
+    }
     fn compile<S: AdditiveScore + std::str::FromStr>(
         &self,
         construction: bool,
         phase: Option<&str>,
-        _parent_and: bool,
+        weighted_goals: bool,
     ) -> Result<OwnedTermination<S>, XmlTerminationError> {
         let and = self.composition == Some(XmlTerminationComposition::And);
         if construction && (self.unimproved.resolve()?.is_some() || self.unimproved_steps.is_some())
@@ -1027,14 +1040,38 @@ impl XmlTerminationSettings {
         if self.diminished_returns.is_some() && phase.is_some_and(|p| p != "localSearch") {
             return Err(error("diminishedReturns requires a localSearch phase"));
         }
-        let leaves: Vec<ScoredSearchLimit<S>> = self
+        let mut goals = Vec::new();
+        let mut leaves = Vec::new();
+        for leaf in self
             .static_leaves::<S>(construction)?
             .into_iter()
             .map(|leaf| match leaf {
                 ScoredSearchTermination::Condition(c) => c,
                 _ => unreachable!(),
             })
-            .collect();
+        {
+            match leaf {
+                ScoredSearchLimit::BestScore(score) if weighted_goals => {
+                    let splits = vec![0.5; score.ordinary_levels().count().saturating_sub(1)];
+                    goals.push(
+                        ScoreGoalProgressConfig::target(score, splits)
+                            .map_err(|e| error(e.to_string()))?,
+                    );
+                }
+                ScoredSearchLimit::Feasible if weighted_goals => {
+                    if S::HARD_LEVEL_COUNT == 0 {
+                        return Err(error(
+                            "bestScoreFeasible requires a score type with at least one hard level",
+                        ));
+                    }
+                    goals.push(
+                        ScoreGoalProgressConfig::feasibility(vec![0.5; S::HARD_LEVEL_COUNT - 1])
+                            .map_err(|e| error(e.to_string()))?,
+                    );
+                }
+                static_leaf => leaves.push(static_leaf),
+            }
+        }
         let diminished = if phase.is_some() {
             self.diminished_returns
                 .as_ref()
@@ -1054,9 +1091,10 @@ impl XmlTerminationSettings {
         let children: Vec<OwnedTermination<S>> = self
             .terminations
             .iter()
-            .map(|c| c.compile(construction, phase, false))
+            .map(|c| c.compile(construction, phase, weighted_goals))
             .collect::<Result<_, _>>()?;
         let source_count = leaves.len()
+            + goals.len()
             + usize::from(significant.is_some())
             + usize::from(self.diminished_returns.is_some())
             + children.iter().filter(|child| child.source_present).count();
@@ -1067,6 +1105,7 @@ impl XmlTerminationSettings {
             leaves,
             diminished,
             significant,
+            goals,
             children,
         })
     }
@@ -1081,6 +1120,7 @@ struct OwnedTermination<S> {
     leaves: Vec<ScoredSearchLimit<S>>,
     diminished: Option<PhaseDiminishedReturnsConfig<S>>,
     significant: Option<SignificantImprovementConfig<S>>,
+    goals: Vec<ScoreGoalProgressConfig<S>>,
     children: Vec<Self>,
 }
 impl<S: Clone> OwnedTermination<S> {
@@ -1089,6 +1129,7 @@ impl<S: Clone> OwnedTermination<S> {
             && self.leaves.is_empty()
             && self.diminished.is_none()
             && self.significant.is_none()
+            && self.goals.is_empty()
             && self.children.iter().all(Self::is_empty)
     }
     fn with_scored<R>(&self, run: &mut dyn FnMut(&ScoredSearchTermination<'_, S>) -> R) -> R {
@@ -1128,6 +1169,9 @@ impl<S: Clone> OwnedTermination<S> {
                 StatefulSearchLimit::SignificantImprovement(config.clone()),
             ));
         }
+        leaves.extend(self.goals.iter().cloned().map(|goal| {
+            StatefulSearchTermination::Condition(StatefulSearchLimit::ScoreGoal(goal))
+        }));
         stateful_children(&self.children, &leaves, &mut |row| {
             let expression = if self.and {
                 StatefulSearchTermination::All(row)

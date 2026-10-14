@@ -17,7 +17,59 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round186
+## Latest verified checkpoint — round190
+
+Full XML controls now compile bestScoreLimit and true bestScoreFeasible into the
+existing native ScoreGoalProgressConfig/session. Default recursive splits0.5 use
+actual typed score levels; feasibility uses hard levels and rejects no-hard score
+types in this full profile. Goals validate before callbacks, capture initialized
+retained baselines, and supply progress to termination-driven simulated annealing.
+Root goals keep the whole AND/OR tree in solver state, retaining native caps/static
+limits and prior histories independently. Phase goals reset. Legacy scalar and
+two-output profiles retain static score stopping. Only xml_termination.rs changed
+in production; no shared kernel/Cargo/pin/provenance changes. Public XML/factory
+contracts updated. Reuse round186 opaque default-weight observations, no re-probe.
+
+Eight originals add zero source-method credit. Parent4 test96 actualbasic/list/
+mixed Dense/Stream solve/phase goal/count-cap combinations,22 integer/multilevel/
+decimal progress rows,recursive preflight,false no-condition and nested AND/OR
+with independent prior goals. Agent4 test36 real owned manager jobs; initialized
+root progress.45 rejects a seeded worsening trial which fresh job/phase/control
+baselines accept. A/B/A jobs detect state leakage; retained outputs independently
+expected/rescored. Parent's first gate had one original assertion expecting no
+preinit estimate; the enclosing XML OR correctly reports0. Only that assertion
+changed; no solver repair was needed. Frozen failure sources/log/cache retained
+work/round189-runner-a-failed-results.tar.gz and round189-failure-receipt.json.
+Agent preserved2 test-only typing/setup failures and1 baseline-design correction;
+final4 passed plus strict affected Clippy. All attempt/Clippy RustCargo guards and
+exact owned source/parent overlay validated; evidence work/round189-agent-evidence/
+xml-goal-factory, bundleSHA c0f58e53d22cd17b4307596ea9b6223210330c64c4a8d78b4dd3d11977f975be.
+Managed tree archived after collection; all local/remote jobs terminal.
+
+Final frozen runner-a bash scripts/check.sh passed8,290 Rust tests+290doctests.
+1 Rust job ran;1,319 Rust and46Python reused genuine matching successes, including
+successful round189 jobs. Initial round189 prebuild203.953s,gate84.891s failed;
+final round190 prebuild175.818s,gate107.850s,worker284.214s. No correctness result
+from failed test was reused. runner-a multiplex worked; runner-c remains parked.
+Evidence work/parallel-round190-{freeze,evidence}.json; archive
+work/round190-runner-a-results.tar.gz SHA256
+0b85a38d8159795586d2e2027429fbfeda16d9ceef670c4eb419891a3ae352ea.
+Rust digest6ab119811d0a8219588f57987f84f103b86b5106453580d7373ccb461d762eec;
+report digest0f0f76e81a6cb6aa30ce1e4efe94b59e30b6d978534b12d78c34a85fab6259f2.
+Coverage4390/4855(90.422%),12pending,453excluded,zero failed/unverified.
+Three actual round180 primary benchmark inputs remain unchanged/current, retaining
+original dates/samples; other old measurements remain stale. No benchmark repeat
+or measured speedup claim. Report/freshness checked at127.0.0.1:8765; no UI change
+or browser repeat. Base103371c; postcommit work/round190-postcommit-evidence.json.
+
+Next: inspect original-scope completion requirements, distinguish real native
+behavior gaps from remaining JVM/raw-layout assertions without claiming partial
+method credit, and finish representative performance/application qualification.
+Most nonprimary performance sections are stale and need deliberate qualification
+before completion. Do not redo weight probes or native nonsequential repair;
+do not pad spare buffers. The goal remains active/incomplete; this turn progress.
+
+## Previous verified checkpoint — round186
 
 The actual owned roster application now uses XmlSolverFactory::new_with_controls
 and installs both phase bindings and solver stateful controls on Dense/Stream.

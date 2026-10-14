@@ -10141,3 +10141,29 @@ split defaults across2/3/5 target levels and1/2 feasible levels. These probes ea
 no compatibility credit and do not establish native XML integration. Full source,
 artifact checksums and raw receipts are retained in work/round186-score-goal-probe;
 no production implementation was inspected.
+
+
+## Executable XML score-goal progress (round190)
+
+The full three-output controls and owned new_with_controls factory bind typed
+bestScoreLimit and true bestScoreFeasible to the existing native initialized
+score-goal runtime. Recursive default split0.5, full target shape/structural
+validation, hard-only feasibility and initialized solve/phase baselines supply
+weighted progress to simulated annealing. Root goals retain whole AND/OR grouping
+across handoffs; phase goals reset, and native caps/static limits/prior histories
+remain independent. No shared kernel changed. Legacy scalar/two-output profiles
+retain static score stopping. This closes the round186 weighted-progress binding
+gap for typed native targets, with no Java trace or XML class-loading claim.
+
+Eight original tests cover96 actual basic/list/mixed Dense/Stream scope/goal/cap
+runs,22 multilevel/decimal score-progress rows,preflight/grouping and36 real owned
+manager jobs. Seeded worsening-move acceptance distinguishes retained root versus
+fresh job/phase baselines; every output is validated and rescored/independently
+expected. The first parent gate failed only an original preinitialization estimate
+assertion (XML OR group yields0); corrected source passed8,290 Rust tests and290
+doctests. The final gate ran1 changed Rust job,reused1,319 Rust and46Python matching
+successes; failure sources and all worker receipts remain preserved. Zero additional
+source-method credit. Coverage remains4390/4855,12pending,453excluded,zero failed/
+unverified. Three primary benchmark inputs remain unchanged; actual round180
+dates/samples are retained. Other old metrics stay visibly stale. Full original
+scope and performance/application qualification remain unfinished.

@@ -37,8 +37,8 @@ counters, elapsed time and retained score; rate occurrences have independent
 histories. Explicit phase expressions and caller native policies remain independent
 OR safeguards, so a slower explicit phase rate does not suppress an earlier root
 rate stop. The scalar-only projection retains its earlier tuning precedence. A nonlocal phase diminished policy and
-construction stagnation declarations reject. Native score-goal gradients remain
-outside this projection. Arbitrary nested XML termination configurations execute on the
+construction stagnation declarations reject. Weighted score-goal gradients require the three-output controls API; the
+two-output extension profile retains static score stopping. Arbitrary nested XML termination configurations execute on the
 extension route; each node preserves its AND/OR grouping.
 
 The sequence-only `with_sequence`/`with_mixed_sequence` methods keep their existing
@@ -142,3 +142,21 @@ retain the native strict-expiry boundary. Pinned TerminationFactoryTest's two
 score-difference methods establish pairing/condition types; complete pinned
 UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest cases establish
 threshold/window behavior. These new integration cases earn no method credit.
+
+
+## Weighted score-goal controls
+
+The full controls APIs compile typed targets and feasibility into the existing
+native initialized score-goal sessions, including goals in nested nodes and
+explicit nonlocal phases. Default split weights are0.5 at each level, following
+original public-method observations of the pinned Community artifact; feasibility
+uses hard levels only. Exact comparisons decide stopping independently of floating
+progress. A target's shape/structural validity and the presence of feasible hard
+levels are validated before callbacks. Absent/false goals create no session.
+
+When a root contains a goal, its complete applicable solve-scope tree uses stateful
+expression storage so no AND/OR group is split. Existing solver stateful controls
+combine independently through OR; existing static limits and caps retain their
+scope. Phase goals capture fresh initialized baselines; root goals retain theirs
+across handoffs. The legacy extension/scalar profiles continue to offer static
+score stopping. No Java lifecycle or search-trace parity is implied.

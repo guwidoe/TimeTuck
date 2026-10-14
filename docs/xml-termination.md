@@ -97,3 +97,21 @@ thresholds require the new three-output controls API (or the owned factory's
 new_with_controls constructor); phase-only thresholds also work through the
 two-output extension API. Scalar projection rejects this field. The composition
 contract above describes exact comparison, grouping and solve/phase histories.
+
+
+The three-output `with_sequence_controls`/`with_mixed_sequence_controls` APIs also
+compile typed `bestScoreLimit` and true `bestScoreFeasible` declarations into
+`ScoreGoalProgressConfig`. They provide weighted progress to termination-driven
+simulated annealing as well as exact stopping. Each score level receives half the
+remaining share: a three-level target has weights1/2,1/4,1/4. Feasibility uses only
+hard levels and requires at least one hard level in this full profile; false still
+contributes no condition. Target score shape and structural validity are checked
+before the execution callback. Native score text must parse as the supplied Rust
+score type.
+
+These goal sessions capture the invocation's first initialized retained score.
+Root baselines survive phase handoffs; explicit phase baselines start fresh. A root
+containing goals is evaluated as one stateful AND/OR tree, with prior solver state
+and native caps retaining their independent scope. The two-output extension and
+scalar APIs retain their existing static score-stop profile and do not supply
+weighted score-goal progress.

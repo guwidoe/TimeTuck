@@ -33,3 +33,13 @@ thresholds which require solve-wide state. Both constructors recursively validat
 all declarations before any executor call, including deferred threshold score
 texts and missing unimproved windows. Input/scoring failures remain ordinary job
 errors; a subsequent job can use the same manager.
+
+
+`new_with_controls` additionally compiles best-score and feasibility goals into
+initialized weighted-progress sessions. Install both outputs to allow
+termination-driven simulated annealing to cool from those goals. Default recursive
+splits are0.5; feasibility considers hard levels only and requires a score type
+with at least one hard level. Each job captures its own initialized baseline, with
+root state surviving its phase handoffs and phase state resetting. Target shape
+and structural validity preflight before publication. The original `new` keeps
+its static score-stop profile.
