@@ -10487,3 +10487,20 @@ Four primary reports were deliberately refreshed, preserving old raw dates/keys;
 unrelated measurements stay stale. One final gate passes 8367 Rust tests and
 290 doctests. Coverage remains 4409/4855, 11 pending, 435 excluded. Evidence:
 work/parallel-round219-evidence.json and round219-browser-evidence.json.
+
+
+Bounded fixed-slot storage now backs mixed planning sources with at most 256
+contiguous integer identities; ordinary/larger/nonplanning sources keep their
+persistent maps. Shared Arc payload/key identity, complete source/shadow rows,
+readable SnapshotMap snapshots, actual callback/Clone counts, nested edits,
+failed transactions, diagnostics and retained best restoration are exercised by
+four original integration and two private regressions (no source-method credit).
+Snapshots/inspection have bounded O(rows) cost in this path. Same-host paired
+Stream medians use 10.89%/23.00% less time for small/larger workloads with identical
+assignments, scores, logical work, terminal callbacks, steps and termination.
+Only mixed performance was deliberately refreshed using the actual verified
+candidate artifact; older measurements retain honest freshness/dates. The larger
+quality gap and distinct Java work policies remain visible. One final gate passes
+8373 Rust tests and 290 doctests; source coverage remains 4409/4855, 11 pending,
+435 excluded. Evidence: work/parallel-round222-evidence.json and
+work/round222-mixed-performance-collection.json.

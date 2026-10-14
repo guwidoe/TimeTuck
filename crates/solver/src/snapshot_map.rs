@@ -284,6 +284,46 @@ impl<K, V> SnapshotMap<K, V> {
             journal: None,
         }
     }
+    // Private storage adapters retain the exact original key/payload owners.
+    // Ordered traversal and construction perform no user Clone or Ord calls.
+    pub(crate) fn shared_entries(&self) -> Vec<(Arc<K>, Arc<V>)> {
+        fn visit<K, V>(node: &Link<K, V>, out: &mut Vec<(Arc<K>, Arc<V>)>) {
+            if let Some(node) = node {
+                visit(&node.left, out);
+                out.push((node.key.clone(), node.value.clone()));
+                visit(&node.right, out);
+            }
+        }
+        let mut rows = Vec::with_capacity(self.len());
+        visit(&self.root, &mut rows);
+        rows
+    }
+    pub(crate) fn from_shared_sorted(rows: Vec<(Arc<K>, Arc<V>)>) -> Self {
+        fn build<K, V>(
+            rows: &mut impl Iterator<Item = (Arc<K>, Arc<V>)>,
+            len: usize,
+        ) -> Link<K, V> {
+            if len == 0 {
+                return None;
+            }
+            let left = build(rows, len / 2);
+            let (key, value) = rows.next().expect("exact shared row count");
+            let right = build(rows, len - len / 2 - 1);
+            Some(Arc::new(Node {
+                key,
+                value,
+                height: 1 + height(&left).max(height(&right)),
+                left,
+                right,
+                size: len,
+            }))
+        }
+        let len = rows.len();
+        Self {
+            root: build(&mut rows.into_iter(), len),
+            journal: None,
+        }
+    }
     pub(crate) fn clear(&mut self) {
         self.preserve_journal();
         self.root = None;

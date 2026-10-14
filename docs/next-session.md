@@ -17,6 +17,60 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round222
+
+Mixed directors now bind their three planning sources to private fixed slots for
+at most 256 contiguous integer identities. Larger/arbitrary sources and external
+facts retain persistent maps. Arc slots, nested move undo and lazy SnapshotMap
+inspection preserve original key/payload identity, complete/unassigned rows,
+callbacks, Clone behavior, checked scores, ordering, budgets and rollback. Unknown
+IDs return a graph error. Full checkpoints/inspection have bounded O(rows) cost;
+no public API or general speed claim. Four original integration tests and two
+private units earn no upstream credit. All 22 focused cases and affected Clippy pass.
+
+Same-host balanced comparison with preserved actual219 binary 6f6f15... and freshly
+built candidate 09fa238a...: Stream small 0.651011→0.580110ms (-10.89% time), larger
+163.093989→125.581434ms (-23.00%); gains in all four forks. Every output assignment,
+score, logical evaluation, callback, step and termination matches. Larger remains
+36,074 logical evaluations / 99,837 callbacks / 6 steps, score (0, -338), NoAcceptedMove; feasible
+reference (0, -72) remains better, with no optimum/equal-work Java claim. Dense
+medians differ 1.2–1.7%, not a general improvement claim.
+
+Only mixed primary deliberately refreshed from the same verified binary/library;
+no rebuild. Actual fresh ms per solve:
+
+- mixed-small · dense: native 0.129ms; Java 4.531ms; final scores [0, -12]/[0, -12].
+- mixed-small · stream: native 0.578ms; Java 4.531ms; final scores [0, -12]/[0, -12].
+- mixed-clustered-pins · dense: native 17.708ms; Java 13.583ms; final scores [0, -338]/[0, -338].
+- mixed-clustered-pins · stream: native 125.999ms; Java 13.583ms; final scores [0, -338]/[0, -338].
+
+Current measurement jobs: mixed-performance. Others retain original dates/hashes and
+honest stale status. Data/HTTP freshness checked; unchanged UI reuses round219 browser
+evidence. A test-only Arc/non-Send lint allowance preserves identical production
+text and mixed measurement key; no timing was repeated/rekeyed for it. Initial
+failed prebuild and owned test API-spelling failure logs remain preserved.
+
+One final check.sh: 8373 Rust + 290 doctests;
+Rust RUN 1266 / REUSE 81, Python
+RUN 0 / REUSE 47. Prebuild 433.149s,
+gate 554.599s. Coverage 4409/4855 (90.814%), 11 pending, 435 excluded,
+0 failed/unverified. No provenance, upstream pin or dependency change.
+
+Evidence: work/parallel-round222-evidence.json;
+work/round222-fixed-sources/collection.json,verdict.json,agent-tests-evidence.json,
+unit-lint-repair-proof.json; work/round222-mixed-performance-collection.json.
+Actual before/candidate binaries: work/round222-fixed-sources/results/.
+Current artifact/source receipt: work/round222-mixed-performance/results/work/round222-mixed-performance/.
+Profile: work/round220-mixed-profile/evidence.json. Tree detachment in round221 was rejected
+(no gain), fully reverted; do not apply its rejected-root.patch or repeat it.
+Rust c2c22a01a4487cea8ab7f7b6378ca948bf5cc5c448d9cf31620bacb2e3289ab7; report 783882c70edbac0d1ac1fb1d00536983407d1849180f30ba8ec4626e15f8cd99.
+
+Goal active/incomplete; verification jobs terminal, runner-c parked, dashboard localhost8765.
+Continue concrete compatibility/quality gaps and measured graph costs. Reuse
+unchanged evidence and the saved round222 baseline. Source-variant switches require
+isolated targets/package invalidation to avoid round219's stale shared artifacts. Do
+not repeat exclusion audits, duplicate persistence work or rejected experiments.
+
 ## Latest verified checkpoint — round219
 
 Added an original mixed-planning benchmark and dashboard section: coupled depot

@@ -33,6 +33,7 @@ mod dependency_batch;
 mod dynamic_dependency;
 mod facts;
 mod filter_map;
+mod fixed_source;
 pub use facts::FactTransaction;
 mod activity;
 mod indexed_batch;
@@ -259,8 +260,11 @@ trait Node<S: AdditiveScore> {
         None
     }
     // Only validated source handles and source_events replay reach this entry.
-    fn apply_source(&mut self, _event: &Event) {
+    fn apply_source(&mut self, _event: &Event) -> Result<(), GraphError> {
         unreachable!("validated source node")
+    }
+    fn bind_fixed_planning_source(&self, _count: usize) -> Option<Box<dyn Node<S>>> {
+        None
     }
     fn initialize_sorted_source(&mut self, _events: &[(usize, Event)]) -> bool {
         false
@@ -339,8 +343,28 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
         Ok(out)
     }
 
-    fn apply_source(&mut self, event: &Event) {
+    fn apply_source(&mut self, event: &Event) -> Result<(), GraphError> {
         self.update(event);
+        Ok(())
+    }
+    fn bind_fixed_planning_source(&self, count: usize) -> Option<Box<dyn Node<S>>> {
+        if std::any::TypeId::of::<I>() != std::any::TypeId::of::<usize>()
+            || count > fixed_source::MAX_ROWS
+            || self.0.len() != count
+        {
+            return None;
+        }
+        let mut rows = Vec::with_capacity(count);
+        for (index, (key, value)) in self.0.shared_entries().into_iter().enumerate() {
+            let key = (&key as &dyn Any)
+                .downcast_ref::<std::sync::Arc<usize>>()?
+                .clone();
+            if *key != index {
+                return None;
+            }
+            rows.push((key, value));
+        }
+        Some(Box::new(fixed_source::FixedSourceNode::new(rows)))
     }
 
     fn initialize_sorted_source(&mut self, events: &[(usize, Event)]) -> bool {
@@ -2233,6 +2257,19 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             .iter()
             .map(|(name, &id)| (name.as_str(), self.nodes[id].score()))
     }
+    // Only called after the mixed director commits its complete initial rows.
+    // Ineligible sources retain the ordinary persistent map without any changes.
+    pub(crate) fn bind_fixed_planning_source<I: Ord + 'static, T: 'static>(
+        &mut self,
+        source: &StreamSource<I, T>,
+        count: usize,
+    ) -> Result<(), GraphError> {
+        self.validate(source)?;
+        if let Some(node) = self.nodes[source.0.node].bind_fixed_planning_source(count) {
+            self.nodes[source.0.node] = node;
+        }
+        Ok(())
+    }
     pub fn source_rows<I: Ord + 'static, T: 'static>(
         &self,
         source: &StreamSource<I, T>,
@@ -2493,7 +2530,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             self.checkpoint(source);
             self.score_evaluations += u128::from(self.graph.nodes[source].evaluates_score(&event));
             let old = self.graph.nodes[source].score();
-            self.graph.nodes[source].apply_source(&event);
+            self.graph.nodes[source].apply_source(&event)?;
             let new = self.graph.nodes[source].score();
             if old != new {
                 workspace.changes.push((old, new));
