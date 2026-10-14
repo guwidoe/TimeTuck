@@ -17,6 +17,38 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round216
+
+Split the large solver integration binary into four independently compiled
+Cargo targets: solver (24 tests), solver_exact (25), solver_events (14),
+solver_phases (23). All 86 test bodies, assertions, seeds, limits and qualified
+names remain unchanged. Ten support modules stay shared source; the existing
+fixture gains item-scoped dead-code allowances for the different target subsets.
+No production, Cargo, upstream, provenance or benchmark inputs changed.
+
+One final check.sh passed 8364 Rust tests and 290 doctests. RUN 13 / REUSE 1331
+Rust targets: four split roots plus nine consumers of the fixture annotations.
+All 46 Python jobs and the 290 doctests reused successful matching evidence.
+Prebuild 177.707s; gate 110.413s. This test-only batch's
+build time is not an equal-work comparison with the preceding broad solver build.
+The four targets compiled concurrently; no general solver speed claim from this split.
+
+Coverage remains 4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified.
+All three current round215 benchmark reports retain their actual measurement
+dates/keys; no benchmark was rerun or relabeled. Other measurements remain stale.
+Report and HTTP freshness checked; unchanged UI reuses round209 browser evidence.
+Actual round215 implementation/performance and limits remain in the checkpoint below
+(commit 6f1098f). Goal active/incomplete; no implementation draft or worker remains
+in flight. runner-c explicitly parked; no new agents needed for this test-only split.
+
+Evidence: work/parallel-round216-evidence.json, work/round216-input-proof.json,
+work/round216-solver-test-split/mapping.json and clippy-evidence.json.
+Rust 88a91380ea7ba8c2a7cfc7e912bd629ba5367aebe4f95f96a5de429ff725d4e1;
+report d117d595572ddb80acf2796d9316ca9849caaeca54985083bafe75cef126eded.
+Continue from concrete unresolved contracts or measured hotspots, retaining the
+round215 compatibility limits. Reuse unchanged evidence; do not repeat completed
+exclusion audits, duplicate persistence work, or rejected source-layout experiments.
+
 ## Latest verified checkpoint — round215
 
 Added reduced load-balance and sequence JSON snapshots from real native
@@ -59,7 +91,7 @@ Prebuild 741.808s; gate 499.415s. Source frozen throughout.
 Coverage 4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified.
 Report/HTTP freshness checked; unchanged UI reuses actual round209 Chrome evidence.
 All combined round215 check/benchmark jobs terminal; runner-c explicitly parked.
-An isolated round216 test-build split draft remains under work/ only. Goal active/incomplete.
+That isolated round216 draft was subsequently integrated and verified above. Goal active/incomplete.
 
 Correction to prior round205 audit and superseding round209 draft plan: the exact
 s1/v1/v2/e1/e2/e3/score-321 filesystem JSON roundtrip already exists, preserving

@@ -2,6 +2,7 @@ use std::cell::Cell;
 use timetuck::*;
 
 #[derive(Debug, PartialEq)]
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 struct Outcome {
     values: Vec<Option<usize>>,
     score: Option<SimpleScore>,
@@ -11,6 +12,7 @@ struct Outcome {
     reason: SolverTermination,
 }
 #[derive(Debug, PartialEq)]
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 enum Failure {
     Bound(usize),
     Empty,
@@ -20,6 +22,7 @@ enum Failure {
     Phase(usize),
     Repair(usize),
 }
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 fn plan() -> SolverConfig<'static> {
     SolverConfig {
         local_search: vec![
@@ -32,6 +35,7 @@ fn plan() -> SolverConfig<'static> {
         ..Default::default()
     }
 }
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 fn run(
     mode: usize,
     initialized: bool,
@@ -50,6 +54,7 @@ fn run(
         SimpleScore::new,
     )
 }
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 fn run_scored<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
     c: impl Into<SolverSequence<'a>>,
@@ -62,6 +67,7 @@ fn run_scored<'a>(
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 struct Update {
     values: Vec<Option<usize>>,
     score: SimpleScore,
@@ -69,6 +75,7 @@ struct Update {
     phase: usize,
     kind: SolverPhaseKind,
 }
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 fn run_scored_observed<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
     c: impl Into<SolverSequence<'a>>,
@@ -91,6 +98,7 @@ fn run_scored_observed<'a>(
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 struct Initialized {
     values: Vec<Option<usize>>,
     score: Option<SimpleScore>,
@@ -98,6 +106,7 @@ struct Initialized {
     initialization: SolverInitialization,
 }
 #[allow(clippy::too_many_arguments)] // Shared six-model event fixture.
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 fn run_scored_events<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
     c: impl Into<SolverSequence<'a>>,
@@ -121,6 +130,7 @@ fn run_scored_events<'a>(
     )
 }
 #[allow(clippy::too_many_arguments)] // Shared six-model event fixture.
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 fn run_scored_events_initial<'a>(
     scenario: (usize, bool, MixedConstructionOrder),
     c: impl Into<SolverSequence<'a>>,
@@ -386,6 +396,7 @@ fn run_scored_events_initial<'a>(
         values
     )
 }
+#[allow(dead_code)] // Shared fixture helpers are used by different solver test targets.
 fn execute(mode: usize, c: SolverConfig<'_>) -> Outcome {
     let factories = Cell::new(0);
     let callbacks = Cell::new(0);

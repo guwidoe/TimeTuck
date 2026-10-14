@@ -1051,36 +1051,6 @@ fn shared_steps_keep_cancellation_validation_and_time_precedence() {
     }
 }
 
-#[path = "support/solver_exact_cases.rs"]
-mod exact_cases;
-
-#[path = "support/solver_step_counting_cases.rs"]
-mod step_counting_cases;
-
-#[path = "support/solver_great_deluge_cases.rs"]
-mod great_deluge_cases;
-
-#[path = "support/solver_manager_integration.rs"]
-mod manager_integration;
-
-#[path = "support/solver_observer_cases.rs"]
-mod observer_cases;
-
-#[path = "support/solver_construction_cases.rs"]
-mod construction_cases;
-
-#[path = "support/solver_initialization_cases.rs"]
-mod initialization_cases;
-
-#[path = "support/solver_sequence_cases.rs"]
-mod sequence_cases;
-
-#[path = "support/solver_incomplete_handoff_cases.rs"]
-mod incomplete_handoff_cases;
-
-#[path = "support/solver_bounded_cases.rs"]
-mod bounded_cases;
-
 #[test]
 fn borrowed_step_conditions_restart_in_each_local_phase_in_all_backends() {
     let children = [

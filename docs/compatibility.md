@@ -10460,3 +10460,13 @@ exact value/scoring and scale-boundary assertions; failed logs remain preserved.
 Coverage is 4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified.
 This does not establish project completion. See the round215 handoff and
 work/parallel-round215-evidence.json for checks, source identity and limitations.
+
+
+The large solver integration target is split into four independently compiled
+binaries, retaining all 86 original test bodies and shared support modules.
+Production code, compatibility mappings and measured inputs remain unchanged.
+One final check passes 8364 Rust tests and 290 doctests: 13 changed target jobs run,
+1331 unchanged Rust jobs, all 46 Python jobs and doctests reuse matching evidence.
+Current round215 benchmark dates/keys are preserved without rerunning measurements;
+older measurements remain stale. Coverage remains 4409/4855 (90.814%), 11 pending,
+435 excluded, 0 failed/unverified. Evidence: work/parallel-round216-evidence.json.
