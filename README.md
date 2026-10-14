@@ -147,6 +147,10 @@ Run `cargo run --release --example stream_list_routes` for stream-scored ordered
 construction and local search.
 Mixed stream construction and local search are also verified by `mixed_routes`,
 using joined depot/route facts and independent final-score checks.
+Run `cargo run --example configured_routes` to resolve owned text properties,
+apply shared time limits and diminished-return settings, and solve a coupled
+depot/route model through both scoring backends. Its namespace is an explicit
+native configuration profile; it does not load a Java framework.
 Construction and multi-phase solving support cooperative elapsed-time limits; a
 shared solve timer includes stream graph preparation. A shared unimproved-time
 limit excludes construction and the first search initialization, then spans later

@@ -127,6 +127,14 @@ fn element(
     }
     let mut attributes = Vec::new();
     for a in node.attributes() {
+        // External schema hints are not execution declarations. The native
+        // schema validator never dereferences them; the executable tree omits
+        // them while source-backed serialization may preserve the raw hint.
+        if a.namespace() == Some("http://www.w3.org/2001/XMLSchema-instance")
+            && matches!(a.name(), "schemaLocation" | "noNamespaceSchemaLocation")
+        {
+            continue;
+        }
         if a.namespace().is_some()
             || !matches!(
                 a.name(),

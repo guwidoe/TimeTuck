@@ -2045,3 +2045,14 @@ pub use diminished_runtime_binding::{
     RuntimeDiminishedReturns, RuntimeSolverProperties, RuntimeSolverTermination,
     RuntimeTerminationProperties,
 };
+
+mod runtime_property_plan;
+pub use runtime_property_plan::{
+    RuntimePropertyPlan, RuntimePropertyPlanError, parse_runtime_property_duration,
+};
+
+mod named_model_factories;
+pub use named_model_factories::{
+    NamedModelFactoryError, NamedModelFactoryRegistry, NamedModelScoring, NamedSolverConfiguration,
+    NamedSolverFactoryBank,
+};

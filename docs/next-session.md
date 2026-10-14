@@ -14,9 +14,61 @@ original, skipped or empty tests earn no upstream-method credit. Crates remain
 unpublished. Conventional Commits, never amend/rebase/push. The current user direction is to finish integrating completed work, then close
 compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
-builds/tests across local, runner-a and runner-c, as most recently authorized.
+builds/tests across available machines. The latest user instruction is to leave
+runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round154
+## Latest verified checkpoint — round158
+
+Integrated native text-property plans, real named solver factories/managers, exact
+XSI schema hints and the runnable configured_routes example. Compatibility is
+4,324/4,855 (89.063%), 12 pending, 519 excluded, zero failed or unverified.
+Five complete operational Community multiple-solver methods now pass; this is test
+compatibility, not project completion. Six original property-plan checks and six
+named-model/XML controls exercise actual standard/mixed solves, dense/stream
+prepared directors, typed selection, atomic publication, time overrides,
+cancellation and rejected invalid inputs. Copied XML TEST resources are unchanged.
+No Spring/Quarkus framework loading or JVM compatibility is claimed.
+
+One frozen runner-a `bash scripts/check.sh` passed: 8,118 Rust tests and 290 doctests.
+Only 40 Rust jobs ran; 1,249 Rust jobs and all 46 Python jobs reused genuine matching
+round146 runner-a records. Prebuild/Clippy took 191.762s, gate 100.173s;
+whole remote job 295.272s. Actual configured_routes execution passed separately:
+both backends returned independently rescored 0hard/-4soft in 141 evaluations.
+Source guards, aggregate checksum, all five source methods and backend dashboard
+freshness passed. No UI/data-contract changes, so no browser rerun.
+Receipts: `work/parallel-round158-{freeze,evidence}.json`,
+`work/round158-added-source-ids.json`, `work/round158-runner-a-results.tar.gz`.
+Archive SHA256 ac4f33a7e9be356e44d511827ec1322c0158e73922b2f283f4910866eb5df362.
+Rust digest 562a2ad359cde5515d95e4892eab58add71a3bbc8860a53c2927e40a93347914;
+report digest 739a4709bb506cfcce64a1d140aaf04ab525129f2cde5d83f5b719eaf5b51bb1.
+Do not repeat unchanged checks or rekey remote records into the local cache.
+All three round146 performance inputs remain unchanged/current, retaining their
+original measurement dates and scope; no benchmark rerun.
+
+The round157 sublist swap cache experiment was rejected in full. Although targeted
+range-filtered enumeration improved up to 6.143x, unrestricted indexed dense
+solving fell to 0.696x and one-shot controls also regressed. No kernel changes or
+performance gains shipped. Full sources, failures and all 40 raw observations
+are preserved under `work/round158-agent-evidence/rejected-sublist-performance/`.
+Accepted agent deliveries/proofs are under sibling runtime-plan and named-models
+folders. All three agents finished; managed trees are queued for archive.
+No more assignments were started during integration.
+
+Historical round146 runner-a evidence has now been collected and validated against
+its frozen historical source; no rerun or overwrite of current evidence.
+See `work/parallel-round146-historical-evidence.json`. Its collected actual cache
+was reused on matching per-job inputs/environment only.
+runner-c is parked at the user's direction. Original native build session74844 outcome
+remains unresolved; no further probing, restart, wake or authentication request.
+See `work/round158-runner-c-parked.json`. runner-a completed the final batch instead.
+Explicit decimal ratio0.0001 still exceeds the existing IEEE-exact u64 denominator
+envelope; absence uses the supported exact1/10000 default. Documented, no full
+ratio-grammar claim. Both k-opt metadata methods remain pending; rejected spare
+arena/cache proposals earn no compatibility credit. Goal active and incomplete.
+Base6928fcea0f0e9ed6b4b8644b1ea74be38d0ef7ca; postcommit receipt
+`work/round158-postcommit-evidence.json`.
+
+## Previous verified checkpoint — round154
 
 Integrated owned legacy-property resolution and actual diminished-return runtime
 binding. Compatibility is 4,319/4,855 (88.96%), 12 pending, 524 excluded,
@@ -6287,7 +6339,8 @@ important without replacing backlog work with additional optimization sweeps.
 No new subagents or follow-up assignments. Public API/ABI parity with Java remains
 out of scope; avoid counting partial mock/internals substitutes as full methods.
 
-Verification stays on runner-c. CARGO_HOME points to the unchanged round29 vendor setup,
+Historical verification used runner-c; current verification uses runner-a while runner-c is
+parked by user instruction. CARGO_HOME points to the unchanged vendor setup,
 so environment keys remain stable. Remote cache log filenames are relocated after
 checksum validation; original input keys, output hashes and timestamps remain.
 run_job independently checks each new input/environment key before reuse. Remote
@@ -6302,10 +6355,10 @@ construction-order API also remains deferred in the termination worktree.
 Do not repeat completed factory/reflection/undo-count/temporary-flaw/ring-buffer/
 exact Java k-opt descriptor audits. Native cancellation extension remains deferred.
 
-Local20threads/32GB/Rust1.92stable; integration builds moved to runner-c with six jobs.
+Local20threads/32GB/Rust1.92stable; current integration builds use runner-a with six jobs.
 No local timing during parent builds. runner-a developer@runner-a.internal,8threads/48GB/glibc2.44;
-coordinate exclusive timing. runner-c developer@runner-c.internal,16threads/16GB, now reachable
-(hostnameNB-FH1MY); available for integration verification. TimeTuck builds finished; all agents stopped.
+coordinate exclusive timing. runner-c developer@runner-c.internal,16threads/16GB
+(hostnameNB-FH1MY); parked at the user’s direction, outcome unresolved. TimeTuck builds finished; all agents stopped.
 SSH BatchMode=yes,ConnectTimeout=10,StrictHostKeyChecking=yes.
 
 `work/remote_worker.py` uses immutable manifests/vendor sources. Injected root Cargo

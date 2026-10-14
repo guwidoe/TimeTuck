@@ -65058,6 +65058,86 @@
         "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
       ],
       "modifications": "Preserve complete nested diminished-config present/absent assertions, raw unset fields, 30-minute Duration and ratio123.0 values. Owned optional typed runtime properties replace mocked Quarkus interfaces/reflection; Java phase-null termination helper becomes absence of newly injected local termination and full unchanged construction/local phase equality. Resolved configuration binds actual existing native defaults into standard/mixed local phases; defaults remain separate from raw observations. No framework, CDI or JVM ABI claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.solve",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/named_model_cases.rs",
+      "local_test": "solve_named_models",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested operational assertions: both solver1/solver2 actual named factories/managers/jobs, two unset entities with v1/v2 shared range, real nonnegative solutions where asserted, global10s/20s time gradients0.5/0.25 or default30s overridden2s at1s gradient0.5. Typed explicit registry replaces Spring bean lookup/classloader/scanning; TEST XML resources use existing validated native parser and consumed global/phase time declarations. Source initialized HardSoft[-1,-1] scope retained and its negative ordinary projection checked against actual job SimpleScore goal before observing actual effective job time limits. Native time-component API used; no general Java termination priority, framework or ABI claim. Actual PreparedScoreFactory/directors and SolverFactory execute the selected model/scoring; no output recipe."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.solveWithTimeOverride",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "solveWithTimeOverride",
+      "local_path": "crates/solver/tests/named_model_cases.rs",
+      "local_test": "solve_with_time_override",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested operational assertions: both solver1/solver2 actual named factories/managers/jobs, two unset entities with v1/v2 shared range, real nonnegative solutions where asserted, global10s/20s time gradients0.5/0.25 or default30s overridden2s at1s gradient0.5. Typed explicit registry replaces Spring bean lookup/classloader/scanning; TEST XML resources use existing validated native parser and consumed global/phase time declarations. Source initialized HardSoft[-1,-1] scope retained and its negative ordinary projection checked against actual job SimpleScore goal before observing actual effective job time limits. Native time-component API used; no general Java termination priority, framework or ABI claim. Actual PreparedScoreFactory/directors and SolverFactory execute the selected model/scoring; no output recipe."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.solverConfigXml_none",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_none",
+      "local_path": "crates/solver/tests/named_model_cases.rs",
+      "local_test": "solver_config_xml_none",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested operational assertions: both solver1/solver2 actual named factories/managers/jobs, two unset entities with v1/v2 shared range, real nonnegative solutions where asserted, global10s/20s time gradients0.5/0.25 or default30s overridden2s at1s gradient0.5. Typed explicit registry replaces Spring bean lookup/classloader/scanning; TEST XML resources use existing validated native parser and consumed global/phase time declarations. Source initialized HardSoft[-1,-1] scope retained and its negative ordinary projection checked against actual job SimpleScore goal before observing actual effective job time limits. Native time-component API used; no general Java termination priority, framework or ABI claim. Actual PreparedScoreFactory/directors and SolverFactory execute the selected model/scoring; no output recipe."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.solverConfigXml_property",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_property",
+      "local_path": "crates/solver/tests/named_model_cases.rs",
+      "local_test": "solver_config_xml_property",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested operational assertions: both solver1/solver2 actual named factories/managers/jobs, two unset entities with v1/v2 shared range, real nonnegative solutions where asserted, global10s/20s time gradients0.5/0.25 or default30s overridden2s at1s gradient0.5. Typed explicit registry replaces Spring bean lookup/classloader/scanning; TEST XML resources use existing validated native parser and consumed global/phase time declarations. Source initialized HardSoft[-1,-1] scope retained and its negative ordinary projection checked against actual job SimpleScore goal before observing actual effective job time limits. Native time-component API used; no general Java termination priority, framework or ABI claim. Actual PreparedScoreFactory/directors and SolverFactory execute the selected model/scoring; no output recipe."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.solverConfigXml_property_noGlobalTermination",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "solverConfigXml_property_noGlobalTermination",
+      "local_path": "crates/solver/tests/named_model_cases.rs",
+      "local_test": "solver_config_xml_property_no_global_termination",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Preserve complete nested operational assertions: both solver1/solver2 actual named factories/managers/jobs, two unset entities with v1/v2 shared range, real nonnegative solutions where asserted, global10s/20s time gradients0.5/0.25 or default30s overridden2s at1s gradient0.5. Typed explicit registry replaces Spring bean lookup/classloader/scanning; TEST XML resources use existing validated native parser and consumed global/phase time declarations. Source initialized HardSoft[-1,-1] scope retained and its negative ordinary projection checked against actual job SimpleScore goal before observing actual effective job time limits. Native time-component API used; no general Java termination priority, framework or ABI claim. Actual PreparedScoreFactory/directors and SolverFactory execute the selected model/scoring; no output recipe."
     }
   ],
   "fixtures": [
@@ -93145,6 +93225,118 @@
         "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
       ],
       "modifications": "Preserve nested optional declaration setup, both full assertion helpers, literal30-minute window/123.0 ratio, empty phase-list and explicit construction+local fixture. Rust owned Option and typed phases replace mocks/reflection/null containers; actual raw and resolved native configuration both observed. Original runtime tests additionally execute the bound policies; not source fixture output scripting."
+    },
+    {
+      "id": "runtime-property-plan-recorder-input-controls",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldRecorderDiminishedReturnsTest.java",
+      "upstream_test": "onlySlidingWindowSet/onlyMinimumImprovementRatioSet input literals",
+      "local_path": "crates/solver/tests/runtime_property_plan_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/diminished_runtime/NOTICE.txt"
+      ],
+      "modifications": "Reuse only thirty-minute window and123.0 ratio inputs in original live property-string/native solver execution controls adapted from existing independent runtime regression. Varied fake clocks, real moves, scoring/backends/time limits are native controls; no additional source method credit and no production implementation read."
+    },
+    {
+      "id": "named-models-TestdataSpringEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/domain/TestdataSpringEntity.java",
+      "upstream_test": "TEST helper declarations",
+      "local_path": "crates/solver/tests/fixtures/named_models_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Adapt full relevant TEST domain/provider helper semantics: required String value variable with initially unset value and shared value range reference. Native working inputs, director recipes and real independent factory jobs replace Java object access/framework registration. No production implementation inspected."
+    },
+    {
+      "id": "named-models-TestdataSpringSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/domain/TestdataSpringSolution.java",
+      "upstream_test": "TEST helper declarations",
+      "local_path": "crates/solver/tests/fixtures/named_models_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Adapt full relevant TEST domain/provider helper semantics: owned value/entity collections and SimpleScore domain; explicit typed native schema/ranges replace annotations. Native working inputs, director recipes and real independent factory jobs replace Java object access/framework registration. No production implementation inspected."
+    },
+    {
+      "id": "named-models-TestdataSpringConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/constraints/TestdataSpringConstraintProvider.java",
+      "upstream_test": "TEST helper declarations",
+      "local_path": "crates/solver/tests/fixtures/named_models_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Adapt full relevant TEST domain/provider helper semantics: all ordered equal-value pairs of distinct entity identity penalize one; indexed stream graph and independent scoped dense evaluation implement the same rule. Native working inputs, director recipes and real independent factory jobs replace Java object access/framework registration. No production implementation inspected."
+    },
+    {
+      "id": "named-models-multiple-solver-inputs-and-scope",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "solve/solveWithTimeOverride/solverConfigXml_none/solverConfigXml_property input and custom scope literals",
+      "local_path": "crates/solver/tests/fixtures/named_models_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Preserve solver1/solver2 names, problem ID1, two entities/two v1-v2 values, initialized HardSoft[-1,-1] pairs, elapsed5s/1s and actualconfigured limits10s/20s/30s\u21922s. Native scope adapter checks negative score below actual goal and reads actual effective job limits; source framework configuration classes are replaced by operational explicit registrations, not copied."
+    },
+    {
+      "id": "named-models-customSolver1Config.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/customSolver1Config.xml",
+      "upstream_test": "TEST XML resource",
+      "local_path": "crates/solver/tests/fixtures/named_models/customSolver1Config.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged TEST resource; existing native SolverXmlConfiguration validates syntax/schema, fixture adapter binds supplied global/phase secondsSpentLimit to real native factory configuration. Resource lookup is explicit TEST fixture mapping, no classloader claim or runtime expected-result lookup."
+    },
+    {
+      "id": "named-models-customSolver2Config.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/customSolver2Config.xml",
+      "upstream_test": "TEST XML resource",
+      "local_path": "crates/solver/tests/fixtures/named_models/customSolver2Config.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged TEST resource; existing native SolverXmlConfiguration validates syntax/schema, fixture adapter binds supplied global/phase secondsSpentLimit to real native factory configuration. Resource lookup is explicit TEST fixture mapping, no classloader claim or runtime expected-result lookup."
+    },
+    {
+      "id": "named-models-solverConfigWithoutGlobalTermination.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/solverConfigWithoutGlobalTermination.xml",
+      "upstream_test": "TEST XML resource",
+      "local_path": "crates/solver/tests/fixtures/named_models/solverConfigWithoutGlobalTermination.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_models/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged TEST resource; existing native SolverXmlConfiguration validates syntax/schema, fixture adapter binds supplied global/phase secondsSpentLimit to real native factory configuration. Resource lookup is explicit TEST fixture mapping, no classloader claim or runtime expected-result lookup."
     }
   ]
 }

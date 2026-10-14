@@ -1,0 +1,9 @@
+Adapted/copied Timefold Solver Community TEST material, Apache License 2.0.
+Pinned commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762
+Sources: spring-integration/spring-boot-autoconfigure/src/test/
+TimefoldSolverMultipleSolverAutoConfigurationTest; TEST basic domain Entity,
+Solution and ConstraintProvider helpers; customSolver1Config.xml,
+customSolver2Config.xml and solverConfigWithoutGlobalTermination.xml.
+See compat/provenance.json and compat/licenses/timefold-Apache-2.0.txt.
+Native explicit registrations and independent prepared scoring/factory runtime
+replace framework objects; no Spring/JVM implementation or ABI claim.
