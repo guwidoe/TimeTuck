@@ -39,6 +39,16 @@ pub struct IdentityOrderedSet<T> {
     last: Option<usize>,
 }
 
+/// Runtime rejection of bulk retention on an identity-ordered collection.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct UnsupportedIdentityRetention;
+impl fmt::Display for UnsupportedIdentityRetention {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str("retain_all is unsupported for IdentityOrderedSet")
+    }
+}
+impl std::error::Error for UnsupportedIdentityRetention {}
+
 /// A snapshot placed in the caller's reusable buffer, or allocated when too small.
 ///
 /// A borrowed result contains the entire supplied buffer. Its first slot after
@@ -148,6 +158,17 @@ impl<T> IdentityOrderedSet<T> {
             changed |= self.remove(object);
         }
         changed
+    }
+    /// Rejects bulk retention without traversing the supplied iterator or
+    /// changing members. Individual removals and `remove_all` remain available.
+    pub fn retain_all<'a>(
+        &mut self,
+        _objects: impl IntoIterator<Item = &'a Arc<T>>,
+    ) -> Result<bool, UnsupportedIdentityRetention>
+    where
+        T: 'a,
+    {
+        Err(UnsupportedIdentityRetention)
     }
     /// Releases members while keeping the allocated capacity for reuse.
     pub fn clear(&mut self) {

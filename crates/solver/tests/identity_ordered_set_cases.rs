@@ -1,7 +1,7 @@
 // Adapted from Community LinkedIdentityHashSetTest, Apache-2.0.
 // See compat/provenance.json and THIRD_PARTY_NOTICES.md.
 use std::sync::Arc;
-use timetuck::{IdentityOrderedSet, IdentitySnapshot};
+use timetuck::{IdentityOrderedSet, IdentitySnapshot, UnsupportedIdentityRetention};
 
 fn same<T>(actual: &[Arc<T>], expected: &[&Arc<T>]) {
     assert_eq!(actual.len(), expected.len());
@@ -100,6 +100,13 @@ fn remove_all() {
     assert!(set.remove_all([&b, &a]));
     assert!(!set.remove_all([&b, &a]));
     same(&set.snapshot(), &[&c]);
+}
+#[test]
+fn retain_all() {
+    let (a, b, c) = (Arc::new(()), Arc::new(()), Arc::new(()));
+    let mut set = IdentityOrderedSet::new();
+    set.extend([a.clone(), b.clone(), c.clone()]);
+    assert_eq!(set.retain_all([&a, &b]), Err(UnsupportedIdentityRetention));
 }
 #[test]
 fn clear() {

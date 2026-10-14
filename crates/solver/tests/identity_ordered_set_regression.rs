@@ -180,3 +180,40 @@ fn clones_share_objects_but_have_independent_membership_and_can_move_threads() {
     assert!(!original.extend([]));
     assert!(!original.remove_all([]));
 }
+
+#[test]
+fn rejected_retention_does_not_read_candidates_or_change_identity_order() {
+    struct NoTraits;
+    let (a, b, c) = (Arc::new(NoTraits), Arc::new(NoTraits), Arc::new(NoTraits));
+    let mut set: IdentityOrderedSet<_> = [a.clone(), b.clone(), c.clone()].into_iter().collect();
+    let before = [
+        Arc::strong_count(&a),
+        Arc::strong_count(&b),
+        Arc::strong_count(&c),
+    ];
+    let candidates = std::iter::from_fn(|| -> Option<&Arc<NoTraits>> {
+        panic!("unsupported retention must not inspect candidates")
+    });
+    assert!(set.retain_all(candidates).is_err());
+    assert_eq!(set.len(), 3);
+    for (actual, expected) in set.iter().zip([&a, &b, &c]) {
+        assert!(Arc::ptr_eq(actual, expected));
+    }
+    assert_eq!(
+        before,
+        [
+            Arc::strong_count(&a),
+            Arc::strong_count(&b),
+            Arc::strong_count(&c)
+        ]
+    );
+    assert!(set.retain_all([]).is_err());
+    assert!(set.remove(&b));
+    assert!(set.insert(b.clone()));
+    for (actual, expected) in set.iter().zip([&a, &c, &b]) {
+        assert!(Arc::ptr_eq(actual, expected));
+    }
+    let mut empty = IdentityOrderedSet::<NoTraits>::new();
+    assert!(empty.retain_all([&a]).is_err());
+    assert!(empty.is_empty());
+}

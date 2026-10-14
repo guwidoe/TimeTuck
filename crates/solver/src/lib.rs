@@ -1449,7 +1449,9 @@ mod timed_score_ring;
 pub use timed_score_ring::{TimedScoreRing, TimedScoreRingError, TimedScoreRingState};
 
 mod identity_ordered_set;
-pub use identity_ordered_set::{IdentityOrderedIter, IdentityOrderedSet, IdentitySnapshot};
+pub use identity_ordered_set::{
+    IdentityOrderedIter, IdentityOrderedSet, IdentitySnapshot, UnsupportedIdentityRetention,
+};
 
 mod solution_facts;
 mod solution_variable_ranges;

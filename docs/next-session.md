@@ -17,6 +17,53 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round202
+
+Closed six complete source cases: two initialized AddVar inheritance solves,
+heterogeneous kitchen-sink singleton initialization, live getter/setter solve,
+constructor-selected payload preservation, and identity-set retainAll rejection.
+All five solve cases execute actual owned factory/manager jobs through both
+scoring backends. Exact inputs, objectives and all source assertions retained;
+explicit composition/traits/accessors/construction replace JVM framework discovery.
+Nine new TEST helper entries attributed; existing hierarchy fixtures reused
+unchanged. Six equivalent inherited wrappers and PlanningId receive no duplicate
+credit. All three agents terminal; runner-c parked.
+
+IdentityOrderedSet exposes typed UnsupportedIdentityRetention through callable
+retain_all without inspecting its candidate iterator or changing members. The
+new original control checks identities/order/reference counts and continued
+individual removals/reinsertion. No solver scoring/search behavior changes.
+Focused tests/strict affected Clippy passed. Member fixture's first compile
+exposed Sequence-vs-Config and returned-payload Sync mismatches; corrected only
+its owned test helper/counter, preserving initial failure/source in work/.
+
+One frozen runner-a scripts/check.sh passed 8,331 Rust tests + 290 doctests:
+RUN6/REUSE1329 Rust targets, REUSE46 Python jobs. Prebuild178.070s,gate104.886s.
+No benchmark rerun: all thirteen measurement input keys unchanged from round201;
+six sections current, seven previously stale, original dates/hashes preserved.
+No UI/data-contract changes; dashboard JSON and HTTP freshness checked.
+Final coverage4402/4855=90.669%,11pending442excluded,0failed/unverified.
+The full rewrite remains incomplete; these counts are test-method coverage.
+
+The frozen gate included all final Rust sources. Two member source mappings and
+six helper records were added after its successful collection because proposed
+helpers initially lacked IDs. Only compat/provenance.json changed; the original
+freeze/report digest and raw results remain immutable. Final attribution reuses
+actual passed member tests with unchanged whole Rust digest; no tests repeated
+for the metadata-only addition. Qualification proof explicitly records both
+report states: work/round202-final-qualification.json. Gate evidence/archive:
+work/parallel-round202-evidence.json and work/round202-runner-a-results.tar.gz,
+SHA2564349156950c343e76f80eb12aef0b1c2ffaf87e8773de1a6f6da9ca9d9876a2b.
+Rust digest a829a77f6ff0f35b8b1ff2977ac3e9c142a32e0901be8819bc2b38ac130dd98d;
+final report digest494c1dc74d70dab9435ccad36ae9ce580284ca3adb62d3a22ebc165108b11bd6.
+
+Continue inspecting live native assertions in remaining excluded wrappers; do
+not invent aliases or weaken the one-method-per-local-test rule. Source notes
+in work/round201-remaining-planning-methods.json and round202 member audit help
+avoid repeated work. Largest whole-group repair remains slower than Java in
+round201 measurements (73.942vs27.383ms); performance remains a priority. The
+private raw-buffer KOpt cases and JVM/edition seams stay honestly pending.
+
 ## Latest verified checkpoint — round201
 
 Shared basic, list and mixed scoring now borrow callback arguments from stack

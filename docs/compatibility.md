@@ -7176,7 +7176,7 @@ Native IdentityOrderedSet owns Arc members without requiring payload equality,
 hashing or cloning; borrowed iteration does not increment reference counts.
 Insertion/removal use a pointer index with reusable linked slots. Payload mutation
 retains identity, and reinsertion appends at the end. The unsupported retainAll
-method remains pending. Original churn/reference, mutable-payload, ownership,
+method is now separately adapted through typed runtime rejection. Original churn/reference, mutable-payload, ownership,
 buffer and mixed-direction iteration checks earn no source-method credit.
 
 All six SolverSolutionInheritanceTest methods now have complete adaptations.
@@ -10321,3 +10321,37 @@ nine source assertions; the source has no status/header assertion. Dedicated
 integration-test application helpers are attributed despite their src/main
 placement. HTTP transport, Spring injection and Jackson parity remain outside
 the native planning target; no expected assignment constructs the result.
+
+
+Two additional inherited-model source cases now start with both genuine fields
+already initialized to their source domain entries. Actual class-composed and
+trait-backed bindings preserve three values per field and two entity IDs; owned
+factory jobs through both scoring backends retain the source score4 assertions.
+These executions qualify the initialized inputs separately from the previously
+adapted unassigned inputs. Six other audited wrapper behaviors already have
+exact credited native cases and receive no duplicate source-method credit.
+
+The heterogeneous kitchen-sink source case now opens an actual owned singleton
+and empty entity collection with separate tagged integer/string domains. Both
+backends initialize the two mandatory fields through real native setters, even
+with the source's empty business objective; the structural score requires both
+fields before the goal can be met. A real named supplier publishes the string
+shadow. All three source assertions are retained. This does not establish JVM
+annotation discovery, injection, generated accessors or multi-entity alignment.
+
+IdentityOrderedSet now exposes callable bulk-retention rejection through the
+UnsupportedIdentityRetention error. The complete retainAll source case preserves
+three distinct allocations and the unsupported-operation assertion. Original
+controls verify no iterator traversal, unchanged identities/order/reference
+counts, empty inputs and continued individual removals/reinsertion. This adds no
+payload equality requirement or new solver scoring behavior.
+
+
+The getter/setter solve fixture now checks access through actual native executable
+member descriptors inside owned factory jobs. Counters on returned entities are
+observed before supplementary reads; the exact two-entity/two-value directed
+collision objective reaches the source nonnegative score. A separate constructor
+fixture preserves three entity IDs, constructor-selected payload2 rather than
+private-empty-constructor payload1, actual member publication and exact score0.
+Both backends execute these cases. Explicit native construction bridges replace
+private-constructor discovery; Java reflection and Quarkus injection are unclaimed.
