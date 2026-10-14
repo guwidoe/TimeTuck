@@ -10355,3 +10355,30 @@ fixture preserves three entity IDs, constructor-selected payload2 rather than
 private-empty-constructor payload1, actual member publication and exact score0.
 Both backends execute these cases. Explicit native construction bridges replace
 private-constructor discovery; Java reflection and Quarkus injection are unclaimed.
+
+
+Four additional dedicated integration-test application methods now retain exact
+native DTO input/output contracts. A two-value/two-entity JSON body is decoded,
+solved through real owned bindings and encoded with the source's complete ordered
+output. A separate local/shared range union runs actual named length and
+solution-parameter shadow suppliers; its duplicate penalty and length reward
+produce the exact hard/soft score. The time-override case uses the real ten-second
+job configuration and formats its five-second time-gradient component. Another
+fixture binds separate field/method domains and the source's directional equality
+penalty. All four execute both scoring backends with finite budgets. Original
+controls exercise duplicate/partial scores and escaped JSON strings. Source
+assertions are preserved without HTTP, Jackson or runtime-reflection parity.
+Dedicated test-app helpers/resources under src/main are explicitly attributed;
+no solver/framework production source is used. Two audited multimodule wrappers
+already have exact native factory cases; package discovery earns no duplicate
+credits or new alias tests.
+
+
+The two-entity supplier solve case additionally preserves four initially absent
+variables over the shared v1/v2 domain. Its per-entity named concatenation supplier
+includes the literal plus separator and both variable dependencies. Actual owned
+factory solves use both scoring backends; source nonnull and nonnegative-score
+assertions are retained. All self and cross ordered pairs participate in the
+source join and shadow-equality filter. Independent controls distinguish four,
+two and zero penalties, plus partial-entity eligibility. No package discovery or
+Java injection behavior is claimed.

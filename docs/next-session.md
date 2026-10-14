@@ -17,6 +17,65 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round204
+
+Closed five complete native solve cases: exact JSON input/full ordered output,
+local/shared ranges and actual named shadow scoring, effective10s job override/
+controlled gradient, separate field/method ranges, and TWO-entity concatenation
+shadow/self-cross scoring. All solve cases execute actual owned Dense/Stream
+factory jobs. Four null genuine fields/v1v2 ranges and value1+'+'+value2 are
+preserved in the last case; all ordered self/cross pairs participate. Original
+controls distinguish -4/-2/0/-1/0 and partial eligibility. Five source mappings,
+19TESThelper/resource entries. No HTTP/Jackson/DI/reflection parity. Multimodule
+wrappers retain exact existing evidence without aliases/duplicate credits.
+
+New original basic trial regressions (3tests/no sourcecredit) remain useful for
+callback/argument order, repeated/no-net writes, late failure rollback and ties.
+Two-entity draft preflight passed2tests+strictClippy after fixing a real schema/
+World solution-type mismatch; initial failed source/log preserved. Integrated
+actual-target tests now passed in the final gate. All agents/worker handles
+terminal; runner-c parked. No tracked solver library or Cargo changes remain.
+
+Performance candidate was REJECTED after actual same-host measurement. It removed
+an allocation but gave no material runtime gain. Paired before/after medians(ms):
+half32 1.328/1.626;half96 21.738/21.765;whole32 4.687/4.772;
+whole96 81.615/82.355. Smallhalf32 regressed22.4%; other cases0.1–1.8% slower.
+All64quality pairs and timing outputs preserved assignments/scores/logical work/
+repairs. Original candidate source/successful8339Rust+290doctest gate, raw
+benchmarks and actual baseline rebuild/binary retained under work/round203-*.
+Candidate prebuild1019.029s,gate401.826s,RUN1198/REUSE139Rust,REUSE46Python.
+Original candidate worker30303 terminal0. No optimization or speedup committed.
+
+Scoring source restored exactly from HEAD8f713e3. All610library/Cargo inputs match
+verified round202 baseline byte-for-byte: work/round204-library-reuse-proof.json.
+Original baseline repair/listrepair/solver reports restored unchanged; candidate
+reports separately preserved. No dates/source keys/logs rewritten. Measured
+code unchanged:6sections current,7previously stale. No benchmark rerun for this
+final test-only state; old raw dates remain explicit. Largest baseline whole-group
+repair remains slower than Java (73.942vs27.383ms from round201); performance
+still important and improvement not established by the rejected attempt.
+
+One final frozen runner-a check.sh passed8341Rust+290doctests:
+RUN3/REUSE1335Rust targets,REUSE46Python jobs. Prebuild168.312s,gate81.747s.
+No broad candidate gate repeated after restoring baseline. Final current
+coverage4407/4855=90.772%,11pending437excluded,0failed/unverified. Source scope
+and full-project completion remain unproven; goal stays active. JSON and HTTP
+freshness checked, no UI/data-contract changes and no repeated browser check.
+Final worker67757 terminal0, immutable source
+2c68e66398e652367d6a7b1b17b74531859f28e62b40871535260b166699170d.
+Final evidence work/parallel-round204-evidence.json, archive
+work/round204-runner-a-results.tar.gz SHA256
+b8ff44e7636dea0faf694ce64aca7f7a901dc6fd82f531812ab75a06d6ca3e4a.
+Rust digestb79b1381a4a61335c22cbd184fbf6a71675714058c03d62ba065ec8501c23c91;
+report digestf3b397d10acc03b6d9f561888e62d979f56c19abf579055323ecd18107998c2d.
+Rejected candidate archives: round203-runner-a-results.tar.gz SHA
+3dd7a6fe032487a5d4ca00e71960bcc25a588f1f82c8022afb51825ccecf2a85;
+round203-runner-a-performance-results.tar.gz SHA
+946aa1daa62a3a95b926db90cda6e2ec23db1e24a243de5d8ed0f531f2d2aeb5.
+No Rust checks repeated for this handoff/commit alone. Continue from remaining
+actual native gaps; do not revisit exact qualified/equivalent fixtures merely
+for additional credits or repeat measurements on unchanged code.
+
 ## Latest verified checkpoint — round202
 
 Closed six complete source cases: two initialized AddVar inheritance solves,

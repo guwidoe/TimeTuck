@@ -66376,6 +66376,81 @@
       "upstream_test": "canConstructBeansWithPrivateConstructors",
       "local_test": "can_construct_beans_with_private_constructors",
       "modifications": "Preserve complete method assertions and TEST fixture: three entities IDs1/2/3, values1/2/3, private-provider unique-pair equal-value penalty, actual job1 final score0 and constructor-selected someField2. Owned module construction bridge calls private provider constructor inside its owner; typed getter/setter descriptor projects/publishes actual entities through bounded Dense/Stream solver factory jobs. Public solution construction selects payload2; private empty construction selects1 and is separately observed as an original control. Solver publication preserves the provided constructor-selected payload2, entityIDs and independently verified distinct assigned values. Native pub some_field has no immutable/final-field API parity claim; it is never modified by this solve route. Explicit native factory construction replaces JVM reflective/private-constructor accessibility and Quarkus injection, which are not claimed. Native callbacks/snapshots retain original unique-pair objective and source target0; no scripted assignment. Finite256evaluation/128move/128construction/16localstep caps and5second cooperative/10second wait bounds retained."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "Quarkus-jackson-it.TimefoldTestResourceTest.solveWithSolverFactory",
+      "status": "implemented",
+      "upstream_path": "quarkus-integration/quarkus-jackson/integration-test/src/test/java/ai/timefold/solver/quarkus/jackson/it/TimefoldTestResourceTest.java",
+      "upstream_test": "solveWithSolverFactory",
+      "local_test": "jackson_resource_input_and_complete_output_body",
+      "modifications": "Exact source incoming JSON valueListv1/v2+twoempty entityobjects decoded into actual native owned solution before solve. Both Dense/Stream owned jobs use real String member/range bindings and full ordered unequal-entity duplicate join penalty. Returned fields committed through actual native setters; actual DTO encoded/decoded and complete source response body including declaration order, ordered assignmentsv1/v2 and Simple score0 preserved. serde_json handles string escaping; no literal expected result inserted into solved output. HTTP/CDI/Jackson/Quarkus/Java API compatibility is outside scope. Source request/header/endpoint calls are wrappers; all asserted body content is preserved using actual native solved data. Finite1000shared evaluations,2or4construction steps,16or32local steps and deterministic Original order; source best-score goals retained, no scripted moves/assignedoutputs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "Quarkus-shadow-it.TimefoldTestResourceTest.solveWithSolverFactory",
+      "status": "implemented",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/test/java/ai/timefold/solver/quarkus/it/TimefoldTestResourceTest.java",
+      "upstream_test": "solveWithSolverFactory",
+      "local_test": "quarkus_resource_live_shadow_score",
+      "modifications": "Exact TEST-app generateProblem has2entities eachlocal rangeccc and shareda/bb. Actual solution-aware referenced providers form unions; actual typed named length and param/no-param suppliers update from real candidate assignment. Both source duplicate hard penalty and length soft reward preserved. Actual Dense/Stream owned jobs and final native DTO encode/decode retain full source scorebody0hard/5soft. Helpers param10/no-param-1 and length results additionally checked. HTTP/CDI/Jackson/Quarkus/Java API compatibility is outside scope. Source request/header/endpoint calls are wrappers; all asserted body content is preserved using actual native solved data. Finite1000shared evaluations,2or4construction steps,16or32local steps and deterministic Original order; source best-score goals retained, no scripted moves/assignedoutputs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "Quarkus-shadow-it.TimefoldTestResourceTest.solveWithTimeOverride",
+      "status": "implemented",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/test/java/ai/timefold/solver/quarkus/it/TimefoldTestResourceTest.java",
+      "upstream_test": "solveWithTimeOverride",
+      "local_test": "quarkus_resource_actual_time_override_and_formatted_gradient",
+      "modifications": "Same exact TEST-app shadow/range/objective fixture, actual native configured owned job with10s override replacing factory30s default, bothbackends source score0hard/5soft. Native configured effective limit calculates controlled5s elapsed time gradient0.50, equivalent to TEST helper fixed5000ms scope with score stops suppressed, yielding full formatted body0hard/5soft,0.50. Defaults remain30s. This is controlled progress evidence, not measured5s elapsed or Java lifecycle/whole-solve clock parity. Post-completion Java terminateEarly replaced by ordinary native manager shutdown. HTTP/CDI/Jackson/Quarkus/Java API compatibility is outside scope. Source request/header/endpoint calls are wrappers; all asserted body content is preserved using actual native solved data. Finite1000shared evaluations,2or4construction steps,16or32local steps and deterministic Original order; source best-score goals retained, no scripted moves/assignedoutputs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "Quarkus-reflection-it.TimefoldTestResourceTest.solveWithSolverFactory",
+      "status": "implemented",
+      "upstream_path": "quarkus-integration/quarkus/reflection-integration-test/src/test/java/ai/timefold/solver/quarkus/it/reflection/TimefoldTestResourceTest.java",
+      "upstream_test": "solveWithSolverFactory",
+      "local_test": "reflection_resource_separate_field_and_method_ranges",
+      "modifications": "Exact2entity fixture with required field/method variables, separate shared fieldsa/bb/ccc and methodsa/bb/ccc/ddd ranges. Actual native bindings/slot metadata preserve fields and values. Source ordered join penalizes equal method values with differing field values; every fullyassigned entity rewards actual method length. Bothbackends owned solves+DTOencode/decode retain full source scorebody0hard/6soft, independently rescore returned concrete fields and verify memberships. Typed native accessors replace reflection without claimingJava field/method discovery. HTTP/CDI/Jackson/Quarkus/Java API compatibility is outside scope. Source request/header/endpoint calls are wrappers; all asserted body content is preserved using actual native solved data. Finite1000shared evaluations,2or4construction steps,16or32local steps and deterministic Original order; source best-score goals retained, no scripted moves/assignedoutputs."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/framework_cross_shadow.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "TimefoldProcessorShadowVariableSolveTest.solve",
+      "status": "implemented",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorShadowVariableSolveTest.java",
+      "upstream_test": "solve",
+      "local_test": "quarkus_two_entity_shadow_variable_solve",
+      "modifications": "Exact v1/v2 domain, two initially null entities/four genuine variables, both referenced ranges and source nonnull/nonnegative-score assertions. Real owned native binding/factory/manager solve on basic and stream backends. Per-entity named supplier updateValue1AndValue2 retains literal plus delimiter and both dependencies, before all eligible self/cross equality-join filters and -1 per matching ordered pair. Explicit schema registration replaces Quarkus/annotation scanning; no Java CDI parity. Original objective controls add no upstream-method credit."
     }
   ],
   "fixtures": [
@@ -96996,6 +97071,253 @@
         "THIRD_PARTY_NOTICES.md",
         "compat/licenses/timefold-Apache-2.0.txt"
       ]
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-jackson-TimefoldTestResource",
+      "upstream_path": "quarkus-integration/quarkus-jackson/integration-test/src/main/java/ai/timefold/solver/quarkus/jackson/it/TimefoldTestResource.java",
+      "upstream_test": "solveWithSolverFactory owned job entry",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-jackson-testdata-TestdataJacksonPlanningEntity",
+      "upstream_path": "quarkus-integration/quarkus-jackson/integration-test/src/main/java/ai/timefold/solver/quarkus/jackson/it/testdata/TestdataJacksonPlanningEntity.java",
+      "upstream_test": "declared value getter/setter",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-jackson-testdata-TestdataJacksonPlanningSolution",
+      "upstream_path": "quarkus-integration/quarkus-jackson/integration-test/src/main/java/ai/timefold/solver/quarkus/jackson/it/testdata/TestdataJacksonPlanningSolution.java",
+      "upstream_test": "value/entity/score fields",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-jackson-testdata-TestdataJacksonPlanningConstraintProvider",
+      "upstream_path": "quarkus-integration/quarkus-jackson/integration-test/src/main/java/ai/timefold/solver/quarkus/jackson/it/testdata/TestdataJacksonPlanningConstraintProvider.java",
+      "upstream_test": "defineConstraints ordered duplicate joins",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-jackson-application-properties",
+      "upstream_path": "quarkus-integration/quarkus-jackson/integration-test/src/main/resources/application.properties",
+      "upstream_test": "TEST-app termination defaults",
+      "modifications": "Preserve source goal0/0hard5soft/0hard6soft in actual native configured factory; shadow defaultspentlimit30s preserved. REFLECTION setting and Jackson reflection-free serializer workaround are framework mechanics outside native scope."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-shadow-TimefoldTestResource",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/main/java/ai/timefold/solver/quarkus/it/TimefoldTestResource.java",
+      "upstream_test": "generateProblem; solveWithSolverFactory; solveWithOverriddenTime controlled gradient and formatting",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-shadow-domain-TestdataStringLengthShadowEntity",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/main/java/ai/timefold/solver/quarkus/it/domain/TestdataStringLengthShadowEntity.java",
+      "upstream_test": "length and parameter suppliers; variable accessors",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-shadow-domain-TestdataStringLengthShadowEntityInterface",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/main/java/ai/timefold/solver/quarkus/it/domain/TestdataStringLengthShadowEntityInterface.java",
+      "upstream_test": "inherited genuine member and two local/solution-aware providers",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-shadow-domain-TestdataStringLengthShadowSolution",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/main/java/ai/timefold/solver/quarkus/it/domain/TestdataStringLengthShadowSolution.java",
+      "upstream_test": "ranges/entities/score; duplicate constraint overridehard1; dummy shadow value10",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-shadow-solver-TestdataStringLengthConstraintProvider",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/main/java/ai/timefold/solver/quarkus/it/solver/TestdataStringLengthConstraintProvider.java",
+      "upstream_test": "defineConstraints hardduplicate/softlength",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-shadow-application-properties",
+      "upstream_path": "quarkus-integration/quarkus/integration-test/src/main/resources/application.properties",
+      "upstream_test": "TEST-app termination defaults",
+      "modifications": "Preserve source goal0/0hard5soft/0hard6soft in actual native configured factory; shadow defaultspentlimit30s preserved. REFLECTION setting and Jackson reflection-free serializer workaround are framework mechanics outside native scope."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-reflection-TimefoldTestResource",
+      "upstream_path": "quarkus-integration/quarkus/reflection-integration-test/src/main/java/ai/timefold/solver/quarkus/it/reflection/TimefoldTestResource.java",
+      "upstream_test": "solveWithSolverFactory fixture/job/score output",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-reflection-domain-TestdataReflectionEntity",
+      "upstream_path": "quarkus-integration/quarkus/reflection-integration-test/src/main/java/ai/timefold/solver/quarkus/it/reflection/domain/TestdataReflectionEntity.java",
+      "upstream_test": "genuine field+method variable fields",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-reflection-domain-TestdataReflectionSolution",
+      "upstream_path": "quarkus-integration/quarkus/reflection-integration-test/src/main/java/ai/timefold/solver/quarkus/it/reflection/domain/TestdataReflectionSolution.java",
+      "upstream_test": "separate field/method ranges; score and entity list",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-reflection-solver-TestdataStringLengthConstraintProvider",
+      "upstream_path": "quarkus-integration/quarkus/reflection-integration-test/src/main/java/ai/timefold/solver/quarkus/it/reflection/solver/TestdataStringLengthConstraintProvider.java",
+      "upstream_test": "defineConstraints method equality+field inequality penalty and methodlength reward",
+      "modifications": "Dedicated integration-test application fixture directly referenced by source TEST/resource. Its src/main location is an application TESThelper, not solver/framework production. Native explicit owned structs/provider/member bindings, actual shadow sessions and source-derived constraints retain the used fixture behavior described by associated complete source cases. HTTP annotations, class/interface reflection and unused accessor boilerplate are not claimed; stable native slots replace Java entity references."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_json_solve.rs",
+      "id": "framework-json-round203-reflection-application-properties",
+      "upstream_path": "quarkus-integration/quarkus/reflection-integration-test/src/main/resources/application.properties",
+      "upstream_test": "TEST-app termination defaults",
+      "modifications": "Preserve source goal0/0hard5soft/0hard6soft in actual native configured factory; shadow defaultspentlimit30s preserved. REFLECTION setting and Jackson reflection-free serializer workaround are framework mechanics outside native scope."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/framework_cross_shadow.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "framework-cross-shadow-round204-1-TestdataQuarkusShadowVariableEntity",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/shadowvariable/TestdataQuarkusShadowVariableEntity.java",
+      "upstream_test": "TEST genuine fields, referenced ranges, supplier dependencies and provider objective used by solve",
+      "modifications": "Adaptation of used TEST helper specification only. Native typed owned rows, named supplier registration and ShadowSession dependency graph replace Java annotations; supplier null propagation and value1+literal plus+value2 retained. Shared v1/v2 referenced domain used by all four genuine variables; complete-entity eligibility and all ordered self/cross pairs retained. No production code used and no helper-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/framework_cross_shadow.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "framework-cross-shadow-round204-2-TestdataQuarkusShadowVariableSolution",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/shadowvariable/TestdataQuarkusShadowVariableSolution.java",
+      "upstream_test": "TEST genuine fields, referenced ranges, supplier dependencies and provider objective used by solve",
+      "modifications": "Adaptation of used TEST helper specification only. Native typed owned rows, named supplier registration and ShadowSession dependency graph replace Java annotations; supplier null propagation and value1+literal plus+value2 retained. Shared v1/v2 referenced domain used by all four genuine variables; complete-entity eligibility and all ordered self/cross pairs retained. No production code used and no helper-method credit."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "local_path": "crates/solver/tests/framework_cross_shadow.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "id": "framework-cross-shadow-round204-3-TestdataQuarkusShadowVariableConstraintProvider",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/shadowvariable/TestdataQuarkusShadowVariableConstraintProvider.java",
+      "upstream_test": "TEST genuine fields, referenced ranges, supplier dependencies and provider objective used by solve",
+      "modifications": "Adaptation of used TEST helper specification only. Native typed owned rows, named supplier registration and ShadowSession dependency graph replace Java annotations; supplier null propagation and value1+literal plus+value2 retained. Shared v1/v2 referenced domain used by all four genuine variables; complete-entity eligibility and all ordered self/cross pairs retained. No production code used and no helper-method credit."
     }
   ]
 }
