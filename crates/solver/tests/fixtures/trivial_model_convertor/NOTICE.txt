@@ -1,0 +1,5 @@
+Adapted Timefold Solver Community TEST cases and helper setup.
+Copyright Timefold contributors. Licensed under Apache License 2.0.
+Pinned commit: 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/defaults/AbstractTrivialModelConvertorTest.java
+See compat/provenance.json and compat/licenses/timefold-Apache-2.0.txt.

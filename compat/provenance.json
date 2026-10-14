@@ -65138,6 +65138,550 @@
         "crates/solver/tests/fixtures/named_models/NOTICE.txt"
       ],
       "modifications": "Preserve complete nested operational assertions: both solver1/solver2 actual named factories/managers/jobs, two unset entities with v1/v2 shared range, real nonnegative solutions where asserted, global10s/20s time gradients0.5/0.25 or default30s overridden2s at1s gradient0.5. Typed explicit registry replaces Spring bean lookup/classloader/scanning; TEST XML resources use existing validated native parser and consumed global/phase time declarations. Source initialized HardSoft[-1,-1] scope retained and its negative ordinary projection checked against actual job SimpleScore goal before observing actual effective job time limits. Native time-component API used; no general Java termination priority, framework or ABI claim. Actual PreparedScoreFactory/directors and SolverFactory execute the selected model/scoring; no output recipe."
+    },
+    {
+      "id": "AbstractTrivialModelConvertorTest.toSolverModelRejectsNullArguments",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/defaults/AbstractTrivialModelConvertorTest.java",
+      "upstream_test": "toSolverModelRejectsNullArguments",
+      "local_path": "crates/solver/tests/trivial_model_convertor_cases.rs",
+      "local_test": "to_solver_model_rejects_null_arguments",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/trivial_model_convertor/NOTICE.txt"
+      ],
+      "modifications": "Preserve all missing/null argument boundaries and exact modelInput/modelConfig/lastModelOutput/solverModel/modelOutput messages, same-instance output replacement and same-instance input for empty previous output. Owned Arc handles and raw optional request arguments replace Java interfaces/null/Optional; the required previous declaration remains separate from a declared empty history. Native same-M type parameters enforce actual model identity. Original controls additionally execute existing managers with dense/stream scoring, real step settings, actual prior solved assignments and nonpublishing failures. No previous-output semantics beyond the tested empty case, framework/JVM or serialization claim."
+    },
+    {
+      "id": "AbstractTrivialModelConvertorTest.toModelOutputRejectsNullSolverModel",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/defaults/AbstractTrivialModelConvertorTest.java",
+      "upstream_test": "toModelOutputRejectsNullSolverModel",
+      "local_path": "crates/solver/tests/trivial_model_convertor_cases.rs",
+      "local_test": "to_model_output_rejects_null_solver_model",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/trivial_model_convertor/NOTICE.txt"
+      ],
+      "modifications": "Preserve all missing/null argument boundaries and exact modelInput/modelConfig/lastModelOutput/solverModel/modelOutput messages, same-instance output replacement and same-instance input for empty previous output. Owned Arc handles and raw optional request arguments replace Java interfaces/null/Optional; the required previous declaration remains separate from a declared empty history. Native same-M type parameters enforce actual model identity. Original controls additionally execute existing managers with dense/stream scoring, real step settings, actual prior solved assignments and nonpublishing failures. No previous-output semantics beyond the tested empty case, framework/JVM or serialization claim."
+    },
+    {
+      "id": "AbstractTrivialModelConvertorTest.applyOutputToInputRejectsNullArguments",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/defaults/AbstractTrivialModelConvertorTest.java",
+      "upstream_test": "applyOutputToInputRejectsNullArguments",
+      "local_path": "crates/solver/tests/trivial_model_convertor_cases.rs",
+      "local_test": "apply_output_to_input_rejects_null_arguments",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/trivial_model_convertor/NOTICE.txt"
+      ],
+      "modifications": "Preserve all missing/null argument boundaries and exact modelInput/modelConfig/lastModelOutput/solverModel/modelOutput messages, same-instance output replacement and same-instance input for empty previous output. Owned Arc handles and raw optional request arguments replace Java interfaces/null/Optional; the required previous declaration remains separate from a declared empty history. Native same-M type parameters enforce actual model identity. Original controls additionally execute existing managers with dense/stream scoring, real step settings, actual prior solved assignments and nonpublishing failures. No previous-output semantics beyond the tested empty case, framework/JVM or serialization claim."
+    },
+    {
+      "id": "AbstractTrivialModelConvertorTest.applyOutputToInputReturnsModelOutputWhenTypesMatch",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/defaults/AbstractTrivialModelConvertorTest.java",
+      "upstream_test": "applyOutputToInputReturnsModelOutputWhenTypesMatch",
+      "local_path": "crates/solver/tests/trivial_model_convertor_cases.rs",
+      "local_test": "apply_output_to_input_returns_model_output_when_types_match",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/trivial_model_convertor/NOTICE.txt"
+      ],
+      "modifications": "Preserve all missing/null argument boundaries and exact modelInput/modelConfig/lastModelOutput/solverModel/modelOutput messages, same-instance output replacement and same-instance input for empty previous output. Owned Arc handles and raw optional request arguments replace Java interfaces/null/Optional; the required previous declaration remains separate from a declared empty history. Native same-M type parameters enforce actual model identity. Original controls additionally execute existing managers with dense/stream scoring, real step settings, actual prior solved assignments and nonpublishing failures. No previous-output semantics beyond the tested empty case, framework/JVM or serialization claim."
+    },
+    {
+      "id": "AbstractTrivialModelConvertorTest.toSolverModelUsesEmptyOptionalWhenNoPreviousOutput",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/defaults/AbstractTrivialModelConvertorTest.java",
+      "upstream_test": "toSolverModelUsesEmptyOptionalWhenNoPreviousOutput",
+      "local_path": "crates/solver/tests/trivial_model_convertor_cases.rs",
+      "local_test": "to_solver_model_uses_empty_optional_when_no_previous_output",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/trivial_model_convertor/NOTICE.txt"
+      ],
+      "modifications": "Preserve all missing/null argument boundaries and exact modelInput/modelConfig/lastModelOutput/solverModel/modelOutput messages, same-instance output replacement and same-instance input for empty previous output. Owned Arc handles and raw optional request arguments replace Java interfaces/null/Optional; the required previous declaration remains separate from a declared empty history. Native same-M type parameters enforce actual model identity. Original controls additionally execute existing managers with dense/stream scoring, real step settings, actual prior solved assignments and nonpublishing failures. No previous-output semantics beyond the tested empty case, framework/JVM or serialization claim."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testBothClassesAnnotated",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotated",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_both_classes_annotated",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testBothClassesAnnotatedAndBaseIsInterface",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedAndBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_both_classes_annotated_base_interface",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testOnlyBaseClassAnnotated",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testOnlyBaseClassAnnotated",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_only_base_class_annotated",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testOnlyBaseClassAnnotatedBaseIsInterface",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testOnlyBaseClassAnnotatedBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_only_base_class_annotated_base_interface",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testBothClassesAnnotatedAddNewVariable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedAddNewVariable",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_add_new_variable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testBothClassesAnnotatedAddNewVariableBaseIsInterface",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedAddNewVariableBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_add_new_variable_base_interface",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testBothClassesAnnotatedReplaceVariable",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedReplaceVariable",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_replace_variable",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverEntityInheritanceTest.testBothClassesAnnotatedReplaceVariableBaseIsInterface",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverEntityInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedReplaceVariableBaseIsInterface",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "entity_replace_variable_base_interface",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverSolutionInheritanceTest.testBothClassesAnnotatedBaseAbstract",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSolutionInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedBaseAbstract",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "solution_both_classes_annotated_base_abstract",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverSolutionInheritanceTest.testOnlyBaseClassAnnotated",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSolutionInheritanceTest.java",
+      "upstream_test": "testOnlyBaseClassAnnotated",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "solution_only_base_class_annotated",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverSolutionInheritanceTest.testBothClassesAnnotatedConfiguredXml",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSolutionInheritanceTest.java",
+      "upstream_test": "testBothClassesAnnotatedConfiguredXml",
+      "local_path": "crates/solver/tests/planning_hierarchy_cases.rs",
+      "local_test": "solution_both_classes_annotated_configured_xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Preserve the complete source score/no-failure or genuine-variable redefinition assertions. Callable typed inherited storage/trait bindings and explicit native registration replace annotations/scans; real owned manager jobs construct prepared score directors, run construction, validate assignment ranges and commit via setters. All source generator cardinalities and required fields retained, with fixture codes replacing TestdataValue objects and concrete typed lists replacing raw/Object fixture collections. Solutions retain inherited score storage. XML case copies and resolves the whole TEST XML signature via an actual factory builder and consumes bestScoreLimit. No Java/Spring ABI, annotation scan or stochastic trace parity claim. Eleven JVM annotation/classpath/single-level/mixed inheritance negatives remain excluded."
+    },
+    {
+      "id": "TimefoldSolverUnspecifiedAutoConfigurationTest.noSolutionClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverUnspecifiedAutoConfigurationTest.java",
+      "upstream_test": "noSolutionClass",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "unspecified_no_solution_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverUnspecifiedAutoConfigurationTest.multipleSolutionClasses",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverUnspecifiedAutoConfigurationTest.java",
+      "upstream_test": "multipleSolutionClasses",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "unspecified_multiple_solution_classes",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverUnspecifiedAutoConfigurationTest.noEntityClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverUnspecifiedAutoConfigurationTest.java",
+      "upstream_test": "noEntityClass",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "unspecified_no_entity_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverUnspecifiedAutoConfigurationTest.noConstraintClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverUnspecifiedAutoConfigurationTest.java",
+      "upstream_test": "noConstraintClass",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "unspecified_no_constraint_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverUnspecifiedAutoConfigurationTest.multipleEasyScoreConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverUnspecifiedAutoConfigurationTest.java",
+      "upstream_test": "multipleEasyScoreConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "unspecified_multiple_easy_score_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverUnspecifiedAutoConfigurationTest.multipleConstraintProviderConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverUnspecifiedAutoConfigurationTest.java",
+      "upstream_test": "multipleConstraintProviderConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "unspecified_multiple_constraint_provider_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverUnspecifiedAutoConfigurationTest.multipleIncrementalScoreConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverUnspecifiedAutoConfigurationTest.java",
+      "upstream_test": "multipleIncrementalScoreConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "unspecified_multiple_incremental_score_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.noSolutionClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "noSolutionClass",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_no_solution_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.multipleSolutionClasses",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "multipleSolutionClasses",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_multiple_solution_classes",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.noEntityClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "noEntityClass",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_no_entity_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.noConstraintClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "noConstraintClass",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_no_constraint_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.multipleEasyScoreConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "multipleEasyScoreConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_multiple_easy_score_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.multipleConstraintProviderConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "multipleConstraintProviderConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_multiple_constraint_provider_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.multipleIncrementalScoreConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "multipleIncrementalScoreConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_multiple_incremental_score_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.unusedEasyScoreConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "unusedEasyScoreConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_unused_easy_score_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.unusedConstraintProviderConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "unusedConstraintProviderConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_unused_constraint_provider_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.unusedIncrementalScoreConstraints",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "unusedIncrementalScoreConstraints",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_unused_incremental_score_constraints",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
+    },
+    {
+      "id": "TimefoldSolverMultipleSolverAutoConfigurationTest.unusedSolutionClass",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverMultipleSolverAutoConfigurationTest.java",
+      "upstream_test": "unusedSolutionClass",
+      "local_path": "crates/solver/tests/named_validation_cases.rs",
+      "local_test": "multiple_unused_solution_class",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Complete missing/ambiguous/unused registration and diagnostic identity assertions retained, with exact solver/model/scoring names and full request counts. Native typed schemas, callback input identities and executable factories replace classpath discovery; typed Result errors replace Spring cause wrappers, and truthful native registry diagnostic wording replaces Java annotation/interface text. Actual TEST XML selections are parsed and consumed where specified. Preflight errors occur before real builder callbacks. No Java reflection, erased Object API, framework/classloader or Gizmo support claim."
     }
   ],
   "fixtures": [
@@ -93337,6 +93881,1123 @@
         "crates/solver/tests/fixtures/named_models/NOTICE.txt"
       ],
       "modifications": "Copied unchanged TEST resource; existing native SolverXmlConfiguration validates syntax/schema, fixture adapter binds supplied global/phase secondsSpentLimit to real native factory configuration. Resource lookup is explicit TEST fixture mapping, no classloader claim or runtime expected-result lookup."
+    },
+    {
+      "id": "trivial-model-convertor-test-setup",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "service/quarkus/deployment/src/test/java/ai/timefold/solver/service/quarkus/deployment/defaults/AbstractTrivialModelConvertorTest.java",
+      "upstream_test": "setUp and TestdataModel helper",
+      "local_path": "crates/solver/tests/fixtures/trivial_model_convertor_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/trivial_model_convertor/NOTICE.txt"
+      ],
+      "modifications": "Retain empty model-config setup and model helper with absent score/constraint-weight overrides. Arc ownership and same real Rust model type replace Java input/output/solver interface markers; native conversion behavior is independently implemented from TEST assertions only."
+    },
+    {
+      "id": "planning-hierarchy-round160-0-TestdataEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-1-TestdataObject",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-2-TestdataValue",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-3-TestAddVarConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestAddVarConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-4-TestdataAddVarBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestdataAddVarBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-5-TestdataAddVarChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestdataAddVarChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-6-TestdataAddVarSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/addvar/TestdataAddVarSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-7-TestChildNotAnnotatedConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestChildNotAnnotatedConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-8-TestdataChildNotAnnotatedBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestdataChildNotAnnotatedBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-9-TestdataChildNotAnnotatedChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestdataChildNotAnnotatedChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-10-TestdataChildNotAnnotatedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childnot/TestdataChildNotAnnotatedSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-11-TestBothAnnotatedConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childtoo/TestBothAnnotatedConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-12-TestdataBothAnnotatedChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childtoo/TestdataBothAnnotatedChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-13-TestdataBothAnnotatedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/childtoo/TestdataBothAnnotatedSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-14-TestdataReplaceVarBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/replacevar/TestdataReplaceVarBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-15-TestdataReplaceVarChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/replacevar/TestdataReplaceVarChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-16-TestdataReplaceVarSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/classes/replacevar/TestdataReplaceVarSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-17-TestAddVarInterfaceConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestAddVarInterfaceConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-18-TestdataAddVarInterfaceBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestdataAddVarInterfaceBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-19-TestdataAddVarInterfaceChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestdataAddVarInterfaceChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-20-TestdataAddVarInterfaceSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/addvar/TestdataAddVarInterfaceSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-21-TestChildNotAnnotatedInterfaceConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestChildNotAnnotatedInterfaceConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-22-TestdataChildNotAnnotatedInterfaceBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestdataChildNotAnnotatedInterfaceBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-23-TestdataChildNotAnnotatedInterfaceChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestdataChildNotAnnotatedInterfaceChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-24-TestdataChildNotAnnotatedInterfaceSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childnot/TestdataChildNotAnnotatedInterfaceSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-25-TestBothAnnotatedInterfaceConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestBothAnnotatedInterfaceConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-26-TestdataBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestdataBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-27-TestdataBothAnnotatedInterfaceChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestdataBothAnnotatedInterfaceChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-28-TestdataBothAnnotatedInterfaceSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/childtoo/TestdataBothAnnotatedInterfaceSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-29-TestdataReplaceVarInterfaceBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/replacevar/TestdataReplaceVarInterfaceBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-30-TestdataReplaceVarInterfaceChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/replacevar/TestdataReplaceVarInterfaceChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-31-TestdataReplaceVarInterfaceSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/entity/single/baseannotated/interfaces/replacevar/TestdataReplaceVarInterfaceSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-32-TestdataOnlyBaseAnnotatedBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-33-TestdataOnlyBaseAnnotatedChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-34-TestdataOnlyBaseAnnotatedConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-35-TestdataOnlyBaseAnnotatedExtendedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedExtendedSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-36-TestdataOnlyBaseAnnotatedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childnot/TestdataOnlyBaseAnnotatedSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-37-TestdataBothAnnotatedChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-38-TestdataBothAnnotatedConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-39-TestdataBothAnnotatedExtendedConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedExtendedConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-40-TestdataBothAnnotatedExtendedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedExtendedSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-41-TestdataBothAnnotatedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-42-TestdataBothAnnotatedAbstractBaseEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractBaseEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-43-TestdataBothAnnotatedAbstractChildEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractChildEntity.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-44-TestdataBothAnnotatedAbstractConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-45-TestdataBothAnnotatedAbstractExtendedConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractExtendedConstraintProvider.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-46-TestdataBothAnnotatedAbstractExtendedSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractExtendedSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-47-TestdataBothAnnotatedAbstractSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtooabstract/TestdataBothAnnotatedAbstractSolution.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-50-AddVarInterfaceSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/AddVarInterfaceSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-51-AddVarSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/AddVarSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-52-BothAnnotatedInterfaceSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/BothAnnotatedInterfaceSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-53-BothAnnotatedSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/BothAnnotatedSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-59-OnlyBaseAnnotatedInterfaceSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/OnlyBaseAnnotatedInterfaceSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-60-OnlyBaseAnnotatedSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/OnlyBaseAnnotatedSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-63-ReplaceVarInterfaceSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/ReplaceVarInterfaceSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-64-ReplaceVarSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/entity/ReplaceVarSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-65-BothAnnotatedAbstractSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/solution/BothAnnotatedAbstractSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-66-BothAnnotatedSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/solution/BothAnnotatedSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-68-OnlyBaseAnnotatedSpringTestConfiguration",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/inheritance/solution/OnlyBaseAnnotatedSpringTestConfiguration.java",
+      "upstream_test": "used generator, callable genuine members, value ranges, collection composition and reward constraints",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Adapt the used TEST generator and genuine members/ranges/constraint scopes. Contained parent storage and actual trait getter/setters replace Java inheritance and interfaces. Explicit native layout registration replaces Spring scans. String value codes preserve distinct fixture values; numeric IDs remain distinct, including interleaved inherited solution collection IDs. Scores are written into owned inherited fields after actual solves. Unused descriptor utilities, constructors and generator overloads are not translated; no helper-method credit."
+    },
+    {
+      "id": "planning-hierarchy-round160-71-bothClassAnnotatedConfig",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/inheritance/bothClassAnnotatedConfig.xml",
+      "upstream_test": "bothClassAnnotatedConfig.xml TEST resource",
+      "local_path": "crates/solver/tests/fixtures/planning_hierarchy/bothClassAnnotatedConfig.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/planning_hierarchy/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged TEST XML resource; exact native XML signature registry binds the owned typed factory and best-score limit."
+    },
+    {
+      "id": "named-validation-dummy/MultipleSolutionsSpringTestConfiguration.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/MultipleSolutionsSpringTestConfiguration.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/NoSolutionSpringTestConfiguration.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/NoSolutionSpringTestConfiguration.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/NoEntitySpringTestConfiguration.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/NoEntitySpringTestConfiguration.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-basic/NoConstraintsSpringTestConfiguration.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/NoConstraintsSpringTestConfiguration.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/MultipleEasyScoreConstraintSpringTestConfiguration.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/MultipleEasyScoreConstraintSpringTestConfiguration.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/MultipleIncrementalScoreConstraintSpringTestConfiguration.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/MultipleIncrementalScoreConstraintSpringTestConfiguration.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/MultipleConstraintProviderSpringTestConfiguration.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/MultipleConstraintProviderSpringTestConfiguration.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/basic/constraints/easy/DummySpringEasyScore.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/basic/constraints/easy/DummySpringEasyScore.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/list/constraints/easy/DummySpringListEasyScore.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/list/constraints/easy/DummySpringListEasyScore.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/basic/constraints/incremental/DummySpringIncrementalScore.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/basic/constraints/incremental/DummySpringIncrementalScore.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-dummy/list/constraints/incremental/DummySpringListIncrementalScore.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/dummy/list/constraints/incremental/DummySpringListIncrementalScore.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-basic/constraints/TestdataSpringConstraintProvider.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/basic/constraints/TestdataSpringConstraintProvider.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-declarative/constraints/TestdataSpringSupplierVariableConstraintProvider.java",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/declarative/constraints/TestdataSpringSupplierVariableConstraintProvider.java",
+      "upstream_test": "TEST registration/helper fixture",
+      "local_path": "crates/solver/tests/fixtures/named_validation_fixture.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Preserve TEST registration inventory, class-key identities and dummy null score outcome where used. Native actual input types/builders replace package scanning/erased generic Object; preflight source methods do not execute provider bodies. Supplemental other-model objective is original native behavior, not a translation of declarative/Gizmo implementation. Existing unchanged named_models_fixture.rs supplies actual basic domain/provider execution with its existing attribution."
+    },
+    {
+      "id": "named-validation-normalSolverConfig.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/normalSolverConfig.xml",
+      "upstream_test": "unusedSolutionClass/unused scoring XML property fixtures",
+      "local_path": "crates/solver/tests/fixtures/named_validation/normalSolverConfig.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged TEST resource; actual parser reads registered model/scoring keys, with no class loading/external resource resolution."
+    },
+    {
+      "id": "named-validation-easyScoreSolverConfig.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/easyScoreSolverConfig.xml",
+      "upstream_test": "unusedSolutionClass/unused scoring XML property fixtures",
+      "local_path": "crates/solver/tests/fixtures/named_validation/easyScoreSolverConfig.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged TEST resource; actual parser reads registered model/scoring keys, with no class loading/external resource resolution."
+    },
+    {
+      "id": "named-validation-incrementalScoreSolverConfig.xml",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/resources/ai/timefold/solver/spring/boot/autoconfigure/incrementalScoreSolverConfig.xml",
+      "upstream_test": "unusedSolutionClass/unused scoring XML property fixtures",
+      "local_path": "crates/solver/tests/fixtures/named_validation/incrementalScoreSolverConfig.xml",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt",
+        "crates/solver/tests/fixtures/named_validation/NOTICE.txt"
+      ],
+      "modifications": "Copied unchanged TEST resource; actual parser reads registered model/scoring keys, with no class loading/external resource resolution."
+    },
+    {
+      "id": "xml-termination-spentLimitWithoutJavaTime-numeric-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "spentLimitWithoutJavaTime",
+      "local_path": "crates/solver/tests/xml_termination_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Additive5millisecond/4second/3minute/2hour/1day fixture and93784005millisecond expected duration adapted into native XML projection assertions within original integration tests. No new method credit; existing source cases unchanged. XML string construction replaces Java setters, native resolved Duration/policy replaces Java class reflection. Actual controlled-clock solve fixtures and invalid/boundary cases are independently constructed."
+    },
+    {
+      "id": "xml-termination-diminishedReturns_default-numeric-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "diminishedReturns_default",
+      "local_path": "crates/solver/tests/xml_termination_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Thirty-second window and default0.0001 ratio declaration adapted into native XML projection assertions within original integration tests. No new method credit; existing source cases unchanged. XML string construction replaces Java setters, native resolved Duration/policy replaces Java class reflection. Actual controlled-clock solve fixtures and invalid/boundary cases are independently constructed."
+    },
+    {
+      "id": "xml-termination-diminishedReturns_custom-numeric-fixture",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/impl/solver/termination/TerminationFactoryTest.java",
+      "upstream_test": "diminishedReturns_custom",
+      "local_path": "crates/solver/tests/xml_termination_regression.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Additive1millisecond/2second/3minute/4hour/5day window fixture adapted into native XML projection assertions within original integration tests. No new method credit; existing source cases unchanged. XML string construction replaces Java setters, native resolved Duration/policy replaces Java class reflection. Actual controlled-clock solve fixtures and invalid/boundary cases are independently constructed."
     }
   ]
 }

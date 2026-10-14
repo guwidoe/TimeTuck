@@ -1,7 +1,7 @@
 //! Whole-set selection over explicit typed model schemas and real solver factories.
 use crate::{
     EnvironmentProfile, PlanningSchema, PlanningType, SimpleScore, SolverFactory, SolverPhase,
-    SolverSequence,
+    SolverSequence, SolverXmlConfiguration,
 };
 use std::{
     any::Any,
@@ -54,6 +54,43 @@ impl<S: 'static> Default for NamedSolverConfiguration<S> {
             sequence: SolverSequence::default(),
             environment: EnvironmentProfile::default(),
         }
+    }
+}
+impl<S: 'static> NamedSolverConfiguration<S> {
+    /// Read explicit registered model/scoring keys from declarative XML. This
+    /// does not load Java classes or interpret unrelated solver declarations.
+    pub fn apply_xml_selection(
+        &mut self,
+        xml: &SolverXmlConfiguration,
+    ) -> Result<(), NamedModelFactoryError> {
+        let root = xml.root();
+        let model = root.value("solutionClass").map(str::to_owned);
+        let scores: Vec<_> = root
+            .child("scoreDirectorFactory")
+            .into_iter()
+            .flat_map(|director| {
+                [
+                    "easyScoreCalculatorClass",
+                    "constraintProviderClass",
+                    "incrementalScoreCalculatorClass",
+                ]
+                .into_iter()
+                .filter_map(move |key| director.value(key))
+            })
+            .collect();
+        if scores.len() > 1 {
+            return Err(NamedModelFactoryError::Configuration {
+                solver: "XML selection".into(),
+                reason: "multiple scoring selection declarations".into(),
+            });
+        }
+        if let Some(model) = model {
+            self.model = Some(model);
+        }
+        if let Some(score) = scores.first() {
+            self.scoring = Some((*score).to_owned());
+        }
+        Ok(())
     }
 }
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -146,11 +183,13 @@ struct Model<S: 'static> {
 /// once, catching accidental unused registrations before any builder callback.
 pub struct NamedModelFactoryRegistry<S: 'static = SimpleScore> {
     models: BTreeMap<String, Model<S>>,
+    global_scorings: BTreeMap<String, NamedModelScoring<S>>,
 }
 impl<S: 'static> Default for NamedModelFactoryRegistry<S> {
     fn default() -> Self {
         Self {
             models: BTreeMap::new(),
+            global_scorings: BTreeMap::new(),
         }
     }
 }
@@ -197,6 +236,25 @@ impl<S: 'static> NamedModelFactoryRegistry<S> {
         );
         Ok(())
     }
+    /// Optional discovered heterogeneous scoring catalog. Actual input types and
+    /// executable builders are retained. Model-owned recipes take precedence;
+    /// catalog ambiguity is resolved before selected recipe type validation.
+    pub fn register_global_scoring(
+        &mut self,
+        recipe: NamedModelScoring<S>,
+    ) -> Result<(), NamedModelFactoryError> {
+        if recipe.key.is_empty() {
+            return Err(NamedModelFactoryError::EmptyName("scoring"));
+        }
+        if self.global_scorings.contains_key(&recipe.key) {
+            return Err(NamedModelFactoryError::DuplicateScoring {
+                model: "global".into(),
+                scoring: recipe.key,
+            });
+        }
+        self.global_scorings.insert(recipe.key.clone(), recipe);
+        Ok(())
+    }
     /// All membership, ambiguity, unused, schema and common configuration checks
     /// finish before the first factory builder. Successful factories publish only
     /// after every builder succeeds. Builders validate their own scoring/model
@@ -231,6 +289,7 @@ impl<S: 'static> NamedModelFactoryRegistry<S> {
         }
         let mut selected = BTreeMap::new();
         let mut used = BTreeMap::<String, BTreeSet<String>>::new();
+        let mut global_used = BTreeSet::new();
         for (solver, c) in &requests {
             let model = c
                 .model
@@ -246,14 +305,19 @@ impl<S: 'static> NamedModelFactoryRegistry<S> {
             if m.schema.genuine_entities().next().is_none() {
                 return Err(NamedModelFactoryError::MissingEntities(model.clone()));
             }
-            if m.scorings.is_empty() {
+            let recipes = if m.scorings.is_empty() {
+                &self.global_scorings
+            } else {
+                &m.scorings
+            };
+            if recipes.is_empty() {
                 return Err(NamedModelFactoryError::MissingScoring {
                     solver: solver.clone(),
                     model: model.clone(),
                     scoring: c.scoring.clone(),
                 });
             }
-            if c.scoring.is_none() && m.scorings.len() > 1 {
+            if c.scoring.is_none() && recipes.len() > 1 {
                 let solvers = requests
                     .iter()
                     .filter(|(_, r)| {
@@ -266,19 +330,30 @@ impl<S: 'static> NamedModelFactoryRegistry<S> {
                 return Err(NamedModelFactoryError::AmbiguousScoring {
                     model: model.clone(),
                     solvers,
-                    scorings: m.scorings.keys().cloned().collect(),
+                    scorings: recipes.keys().cloned().collect(),
                 });
             }
             let scoring = c
                 .scoring
                 .as_ref()
-                .unwrap_or_else(|| m.scorings.keys().next().unwrap());
-            if !m.scorings.contains_key(scoring) {
+                .unwrap_or_else(|| recipes.keys().next().unwrap());
+            if !recipes.contains_key(scoring) {
                 return Err(NamedModelFactoryError::MissingScoring {
                     solver: solver.clone(),
                     model: model.clone(),
                     scoring: Some(scoring.clone()),
                 });
+            }
+            let recipe = &recipes[scoring];
+            if recipe.model_type != m.schema.solution_type() {
+                return Err(NamedModelFactoryError::ModelType {
+                    model: model.clone(),
+                    registered: m.schema.solution_type(),
+                    recipe: recipe.model_type,
+                });
+            }
+            if m.scorings.is_empty() {
+                global_used.insert(scoring.clone());
             }
             validate_configuration(solver, c)?;
             selected.insert(solver.clone(), (model.clone(), scoring.clone()));
@@ -309,12 +384,29 @@ impl<S: 'static> NamedModelFactoryRegistry<S> {
                 });
             }
         }
+        let global_unused: Vec<_> = self
+            .global_scorings
+            .keys()
+            .filter(|key| !global_used.contains(*key))
+            .cloned()
+            .collect();
+        if !global_unused.is_empty() {
+            return Err(NamedModelFactoryError::UnusedScoring {
+                model: "global".into(),
+                scorings: global_unused,
+            });
+        }
         let mut factories = BTreeMap::new();
         for (name, c) in requests {
             let (model, scoring) = &selected[&name];
             let m = &self.models[model];
+            let recipes = if m.scorings.is_empty() {
+                &self.global_scorings
+            } else {
+                &m.scorings
+            };
             let factory =
-                (m.scorings[scoring].build)(c.sequence, c.environment).map_err(|reason| {
+                (recipes[scoring].build)(c.sequence, c.environment).map_err(|reason| {
                     NamedModelFactoryError::Build {
                         solver: name.clone(),
                         reason,

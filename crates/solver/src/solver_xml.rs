@@ -83,7 +83,7 @@ impl SolverXmlElement {
 // Supported configuration vocabulary is declared independently from Community
 // TEST documents. Parsing declarations is separate from executing their options.
 const ROOT_FIELDS: &str = "environmentMode randomSeed moveThreadCount solutionClass entityClass scoreDirectorFactory nearbyDistanceMeterClass enablePreviewFeature termination constructionHeuristic localSearch customPhase exhaustiveSearch partitionedSearch";
-const NESTED_FIELDS: &str = "easyScoreCalculatorClass constraintProviderClass incrementalScoreCalculatorClass initializingScoreTrend constraintStreamImplType constraintStreamProfilingEnabled easyScoreCalculatorCustomProperties incrementalScoreCalculatorCustomProperties constraintProviderCustomProperties property constructionHeuristicType queuedEntityPlacer queuedValuePlacer pooledEntityPlacer entitySelector valueSelector entityClass downcastEntityClass cacheType selectionOrder filterClass sorterManner comparatorClass comparatorFactoryClass id mimicSelectorRef variableNameIncludes variableNameInclude cartesianProductMoveSelector changeMoveSelector swapMoveSelector unionMoveSelector pillarChangeMoveSelector pillarSwapMoveSelector subPillarType pillarSelector minimumSubPillarSize maximumSubPillarSize moveIteratorFactory moveIteratorFactoryClass moveIteratorFactoryCustomProperties moveListFactory moveListFactoryClass moveListFactoryCustomProperties fixedProbabilityWeight selectedCountLimit customPhaseCommandClass exhaustiveSearchType nodeExplorationType localSearchType termination terminationCompositionStyle spentLimit secondsSpentLimit minutesSpentLimit millisecondsSpentLimit unimprovedSpentLimit unimprovedSecondsSpentLimit unimprovedStepCountLimit stepCountLimit bestScoreLimit acceptor acceptorType entityTabuSize entityTabuRatio valueTabuSize lateAcceptanceSize stepCountingHillClimbingSize stepCountingHillClimbingType simulatedAnnealingStartingTemperature forager pickEarlyType acceptedCountLimit finalistPodiumType breakTieRandomly solutionPartitionerClass solutionPartitionerCustomProperties constructionHeuristic localSearch environmentMode nearbySelection originEntitySelector secondaryEntitySelector nearbyDistanceMeterClass parabolicDistributionSizeMaximum";
+const NESTED_FIELDS: &str = "easyScoreCalculatorClass constraintProviderClass incrementalScoreCalculatorClass initializingScoreTrend constraintStreamImplType constraintStreamProfilingEnabled easyScoreCalculatorCustomProperties incrementalScoreCalculatorCustomProperties constraintProviderCustomProperties property constructionHeuristicType queuedEntityPlacer queuedValuePlacer pooledEntityPlacer entitySelector valueSelector entityClass downcastEntityClass cacheType selectionOrder filterClass sorterManner comparatorClass comparatorFactoryClass id mimicSelectorRef variableNameIncludes variableNameInclude cartesianProductMoveSelector changeMoveSelector swapMoveSelector unionMoveSelector pillarChangeMoveSelector pillarSwapMoveSelector subPillarType pillarSelector minimumSubPillarSize maximumSubPillarSize moveIteratorFactory moveIteratorFactoryClass moveIteratorFactoryCustomProperties moveListFactory moveListFactoryClass moveListFactoryCustomProperties fixedProbabilityWeight selectedCountLimit customPhaseCommandClass exhaustiveSearchType nodeExplorationType localSearchType termination terminationCompositionStyle spentLimit secondsSpentLimit minutesSpentLimit millisecondsSpentLimit unimprovedSpentLimit unimprovedSecondsSpentLimit unimprovedMillisecondsSpentLimit unimprovedMinutesSpentLimit unimprovedHoursSpentLimit unimprovedDaysSpentLimit hoursSpentLimit daysSpentLimit diminishedReturns slidingWindowDuration slidingWindowMilliseconds slidingWindowSeconds slidingWindowMinutes slidingWindowHours slidingWindowDays minimumImprovementRatio unimprovedStepCountLimit stepCountLimit bestScoreLimit acceptor acceptorType entityTabuSize entityTabuRatio valueTabuSize lateAcceptanceSize stepCountingHillClimbingSize stepCountingHillClimbingType simulatedAnnealingStartingTemperature forager pickEarlyType acceptedCountLimit finalistPodiumType breakTieRandomly solutionPartitionerClass solutionPartitionerCustomProperties constructionHeuristic localSearch environmentMode nearbySelection originEntitySelector secondaryEntitySelector nearbyDistanceMeterClass parabolicDistributionSizeMaximum";
 fn schema(node: &str, reason: impl Into<String>) -> SolverXmlCause {
     SolverXmlCause::Schema(SolverXmlSchemaError {
         node: node.into(),
@@ -124,6 +124,24 @@ fn element(
                 "element is not allowed in this configuration location",
             ));
         }
+    }
+    if (name.ends_with("SpentLimit") || matches!(name, "spentLimit" | "unimprovedSpentLimit"))
+        && node.parent_element().unwrap().tag_name().name() != "termination"
+    {
+        return Err(schema(name, "spent setting belongs under termination"));
+    }
+    if name == "diminishedReturns"
+        && node.parent_element().unwrap().tag_name().name() != "termination"
+    {
+        return Err(schema(name, "diminishedReturns belongs under termination"));
+    }
+    if (name.starts_with("slidingWindow") || name == "minimumImprovementRatio")
+        && node.parent_element().unwrap().tag_name().name() != "diminishedReturns"
+    {
+        return Err(schema(
+            name,
+            "diminished-return setting belongs under diminishedReturns",
+        ));
     }
     let mut attributes = Vec::new();
     for a in node.attributes() {

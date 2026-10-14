@@ -17,7 +17,56 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round159
+## Latest verified checkpoint — round164
+
+Integrated executable inherited planning bindings, a global typed scoring catalog
+with atomic XML selection, full native XML time/diminished/score-target binding,
+and owned same-model conversion with actual solver callbacks. Compatibility is
+4,358/4,855 (89.763%),12 pending,485 excluded,zero failed/unverified.34 complete
+new Community methods:11 inheritance,18 named-model validation,5 conversion.
+Nineteen originals add actual manager/prepared-director, Dense/Stream, warm-start,
+preflight, phase-handoff and ownership controls. The XML controls include46 real
+basic/list/mixed solves with scoped time/diminished/score targets. Original cases
+and partial/framework-only behavior earn no source-method credit. Pin unchanged.
+
+Root review fixed mutable projection count checking before ANY setter, with a
+later shorter/longer collection proving zero writes. Read/write projections must
+be pure and reference the same storage with stable membership; same-length wrong
+storage and setter-panic rollback remain unsupported. XML bestScoreLimit now
+parses through native FromStr before callbacks and affects solve/local targets;
+AND/custom/nonlocal score controls remain explicitly rejected gaps. JVM scans,
+annotations/classloading/serialization are not claimed. The global catalog stores
+real callback input TypeIds and executable constructors, never infers types from
+names. Conversion preserves actual Arc identities and forwards actual config/prior
+output to caller-selected native solve policy; no untested Java warm-start claim.
+
+One frozen runner-a `bash scripts/check.sh` passed:8,173 Rust tests and290 doctests.
+37Rust jobs ran;1,260Rust and46Python jobs reused matching genuine round159 records.
+Prebuild/Clippy204.031s,gate98.610s;whole remote job463.847s including stale native
+dev-artifact cleanup. No source/log/verification keys were rewritten. Artifact
+cleanup followed an agent's wrong-source diagnostic; dev package rebuilt fresh,
+with all agent handles terminal and source bytes guarded. Actual source/log guards,
+all34method results, current report and backend freshness verified; no UI/data
+contract changes, so no browser rerun. Three actual round159 performance inputs
+remain unchanged/current, with original dates/scope; no benchmark refresh or gains.
+
+Evidence work/parallel-round164-{freeze,evidence}.json, added IDs
+work/round164-added-source-ids.json; remote archive work/round164-runner-a-results.tar.gz
+SHA2569291f3ace0fb1598c347838e8a5302729ace0004ef35e27603f073d529fb805f.
+Rust digest291e65e7016199e9a3e9f8bba90fcf6e9a4a68ea0ffd5bb151ba96efb3727203;
+report digest6b583c24b8c8dd946b89600b2cc8c6f667dda872b02294aeaedd74b3ae730946.
+Frozen sources/helpers/manifests/successes and initial/review failures are preserved
+under work/round164-agent-evidence/{planning-hierarchy,named-validation,xml-termination}.
+Root conversion first compile failure and corrected focused proof are also retained.
+All previous provenance records retain original order/content;34cases/80fixture
+records were appended. Three existing authorized Sol agents completed; managed
+worktrees queued for archive after collection. No new agents created. runner-c stays
+parked at user direction; original session74844 outcome remains unresolved, no
+probes/wake/auth/builds. Goal active/incomplete. Base264077247f12548ab8d96112c3de5213cdb0b1af;
+postcommit receipt work/round164-postcommit-evidence.json. Do not repeat unchanged
+checks or resume rejected performance proposals merely for a new turn/commit.
+
+## Previous verified checkpoint — round159
 
 Closed the native diminished-return ratio envelope gap: explicit0.0001 and every
 positive finite IEEE754 value now bind exactly, including subnormals and f64::MAX.

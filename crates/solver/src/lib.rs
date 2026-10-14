@@ -2056,3 +2056,20 @@ pub use named_model_factories::{
     NamedModelFactoryError, NamedModelFactoryRegistry, NamedModelScoring, NamedSolverConfiguration,
     NamedSolverFactoryBank,
 };
+
+mod trivial_model_convertor;
+pub use trivial_model_convertor::{
+    ConvertedModelOutput, ConvertingSolveError, ModelConversionError, ModelConversionRequest,
+    PreparedModelConversion, PreviousModelOutput, TrivialModelConvertor,
+};
+
+mod planning_hierarchy;
+pub use planning_hierarchy::{
+    PlanningEntityBinding, PlanningHierarchyError, PlanningSolutionBinding,
+};
+
+mod xml_termination;
+pub use xml_termination::{
+    XmlDiminishedReturns, XmlPhaseTermination, XmlTerminationError, XmlTerminationPlan,
+    XmlTerminationSettings, XmlTerminationTime,
+};

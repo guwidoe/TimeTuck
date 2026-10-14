@@ -1114,3 +1114,14 @@ Round152 diminished_runtime_cases.rs and fixtures/diminished_runtime_fixture.rs 
 Round155 runtime_property_plan_regression.rs reuses the30-minute window/123.0 ratio input literals from pinned Community TimefoldRecorderDiminishedReturnsTest under Apache-2.0; fixture-only provenance recorded, no added method credit.
 
 Round156 named_model_cases.rs and fixtures/named_models_fixture.rs adapt five complete operational Community TimefoldSolverMultipleSolverAutoConfigurationTest methods, TEST basic entity/solution/constraint-provider helpers, and original input/scope literals under Apache-2.0. Three XML TEST resources in fixtures/named_models are copied unchanged. Exact attribution appears in compat/provenance.json and fixtures/named_models/NOTICE.txt. Native typed registrations, prepared score directors and solver managers replace Spring scans/beans; no framework/JVM compatibility is claimed.
+
+Round163 trivial_model_convertor_cases.rs and fixtures/trivial_model_convertor_fixture.rs adapt all five complete pinned Community AbstractTrivialModelConvertorTest methods and helper setup under Apache-2.0. Exact attribution appears in compat/provenance.json and fixtures/trivial_model_convertor/NOTICE.txt. Owned handles and raw optional boundary declarations replace Java null/Optional/interfaces; real native solver callbacks consume the validated context. No Quarkus/JVM/HTTP integration is claimed.
+
+Round161 named_validation_cases.rs and fixtures/named_validation_fixture.rs adapt pinned Community named/unspecified solver validation TESTs/helpers; three unchanged TEST XML resources reside under fixtures/named_validation. Apache-2.0 attribution and exact native modifications are recorded; no Spring/Gizmo implementation was read or copied.
+
+- `crates/solver/tests/xml_termination_regression.rs` adapts numeric/default fixtures
+  from pinned Community `TerminationFactoryTest.spentLimitWithoutJavaTime`,
+  `.diminishedReturns_default` and `.diminishedReturns_custom`. Apache-2.0.
+  Fixture attribution only; the original native XML runtime tests add no method credit.
+
+Round160 planning_hierarchy_cases.rs and fixtures/planning_hierarchy_fixture.rs adapt eleven complete pinned Community entity/solution inheritance TEST methods and attributed helpers/XML under Apache-2.0. Exact provenance and fixtures/planning_hierarchy/NOTICE.txt retain attribution. Executable typed composition and Rust traits replace Java annotation scans; unsupported JVM-specific negatives remain excluded.

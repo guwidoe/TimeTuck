@@ -1,0 +1,12 @@
+Community Timefold Solver inheritance TESTs and TEST helpers, Apache-2.0.
+Pinned source: 8b815bc6b5f3eb81feedc94dea0885a93b267762.
+The native fixture adapts entity/single/baseannotated class and interface
+childtoo/childnot/addvar/replacevar helpers, solution/baseannotated
+childtoo/childtooabstract/childnot helpers and their Spring TEST configuration
+selection. TestdataEntity/Object/Value supply field/value-code semantics.
+BothClassAnnotatedConfig.xml is copied unchanged from the Spring TEST resources.
+The full source TEST identities and per-helper paths are recorded in provenance.
+Explicit Rust callable composition/traits/registrations replace Java annotation
+scanning and inheritance. No JVM/Spring API or binary compatibility is claimed.
+Copyright notices/license: compat/licenses/timefold-Apache-2.0.txt and
+THIRD_PARTY_NOTICES.md. Runtime implementations are independent native code.

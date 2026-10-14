@@ -1,0 +1,4 @@
+Adapted pinned Timefold Solver Community TEST validation cases/helpers and unchanged TEST XML fixtures.
+Copyright Timefold contributors; Apache License2.0.
+Pinned commit 8b815bc6b5f3eb81feedc94dea0885a93b267762
+See compat/provenance.json and compat/licenses/timefold-Apache-2.0.txt.

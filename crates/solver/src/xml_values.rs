@@ -384,9 +384,13 @@ impl SolverXmlConfiguration {
     pub fn native_spent_limit(&self) -> Result<Option<Duration>, XmlValueError> {
         self.root()
             .child("termination")
-            .and_then(|n| n.value("spentLimit"))
-            .map(|s| s.parse::<XmlDuration>()?.to_std())
+            .map(|n| {
+                crate::XmlTerminationSettings::spent_declaration(n)
+                    .and_then(|raw| raw.resolve())
+                    .map_err(|e| XmlValueError(e.to_string()))
+            })
             .transpose()
+            .map(Option::flatten)
     }
 }
 fn xml_error(node: &str, reason: impl Into<String>) -> SolverXmlError {
