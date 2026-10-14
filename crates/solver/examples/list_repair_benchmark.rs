@@ -83,11 +83,16 @@ impl Case {
 }
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if args.len() != 5 && args.len() != 6 {
-        return Err("group steps warmup samples [minimum]".into());
+    if !(5..=7).contains(&args.len()) {
+        return Err("group steps warmup samples [minimum [independent|coverage-cycle]]".into());
     }
     let group: usize = args[1].parse()?;
-    let minimum: usize = if args.len() == 6 { args[5].parse()? } else { 1 };
+    let minimum: usize = if args.len() >= 6 { args[5].parse()? } else { 1 };
+    let ruin_sampling = match args.get(6).map(String::as_str) {
+        None | Some("independent") => RuinSampling::Independent,
+        Some("coverage-cycle") => RuinSampling::CoverageCycle,
+        _ => return Err("unknown repair sampling policy".into()),
+    };
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
     let samples: usize = args[4].parse()?;
@@ -123,6 +128,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         let initial_score = case.score(initial.lists().iter().map(Vec::as_slice));
         let config = RuinRecreateConfig {
             seed: 20261225,
+            ruin_sampling,
             minimum_ruined: minimum,
             maximum_ruined: group,
             max_attempts: steps,

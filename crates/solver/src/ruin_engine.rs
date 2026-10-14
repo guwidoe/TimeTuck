@@ -210,6 +210,12 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
     let mut movable = eligible_candidates(&current.0);
     let mut eligible = movable.clone();
     let mut random = crate::random::SplitMix64::new(config.seed);
+    let mut coverage = (config.ruin_sampling == RuinSampling::CoverageCycle).then(|| {
+        vec![
+            crate::repair_sampling::CoverageDeck::default();
+            1 + config.repair_pools.map_or(0, <[RepairPool<'_>]>::len)
+        ]
+    });
     'search: loop {
         let now_eligible = eligible_candidates(&current.0);
         if now_eligible != eligible {
@@ -383,8 +389,20 @@ pub(crate) fn run<P: RepairModel, S: AdditiveScore>(
             let low = config.minimum_ruined.min(movable.len());
             let high = config.maximum_ruined.min(movable.len());
             let count = low + random.below((high - low + 1) as u64) as usize;
-            random.shuffle(movable);
-            let repair = problem.repair(&current.0, &movable[..count])?;
+            let selected;
+            let selected = if let Some(decks) = &mut coverage {
+                let pool = if family == 2 {
+                    0
+                } else {
+                    1 + family - pool_start
+                };
+                selected = decks[pool].sample(movable, count, &mut random);
+                selected.as_slice()
+            } else {
+                random.shuffle(movable);
+                &movable[..count]
+            };
+            let repair = problem.repair(&current.0, selected)?;
             result.attempts += 1;
             let candidate = crate::score_evaluations::reconstructing(&mut shared, |monitor| {
                 rebuild(

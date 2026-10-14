@@ -119,6 +119,8 @@ def main():
     parser.add_argument('--warmup', type=int, default=5)
     parser.add_argument('--samples', type=int, default=7)
     parser.add_argument('--forks', type=int, default=3)
+    parser.add_argument('--ruin-sampling', choices=['independent', 'coverage-cycle'], default='independent',
+                        help='Native repair sampling policy; Java retains its public random selector')
     args = parser.parse_args()
     if min(args.steps, args.samples, args.forks) < 1 or args.warmup < 0 or args.steps >= 2147483647 or args.warmup+args.samples > 2147483647:
         parser.error('Invalid run counts')
@@ -130,7 +132,10 @@ def main():
                     rust=[str(ROOT/'target/release/examples/list_repair_benchmark')])
     def run(runtime, c, group, minimum, warmup, samples, optimal, require_all=True):
         validate_scope(c)
-        r = subprocess.run([*commands[runtime], str(group), str(args.steps), str(warmup), str(samples), str(minimum)],
+        command = [*commands[runtime], str(group), str(args.steps), str(warmup), str(samples), str(minimum)]
+        if runtime == 'rust':
+            command.append(args.ruin_sampling)
+        r = subprocess.run(command,
                            input=encode(c)+'\n', capture_output=True, text=True, timeout=180)
         if r.returncode: raise RuntimeError(f'{runtime} {c["id"]}: {r.stderr}')
         lines = r.stdout.splitlines()
@@ -161,7 +166,8 @@ def main():
                     order = ['java', 'rust'] if (mode_index+int(optional)+fork) % 2 == 0 else ['rust', 'java']
                     for runtime in order:
                         measurements[runtime].extend(run(runtime, c, group_limit(c, mode), 1, args.warmup, args.samples, (0, 0)))
-                entry = dict(name=f'{"Optional" if optional else "Required"} list · {mode} maximum · {size} values',
+                policy_label = ' · Rust coverage cycle' if args.ruin_sampling == 'coverage-cycle' else ''
+                entry = dict(name=f'{"Optional" if optional else "Required"} list · {mode} maximum · {size} values{policy_label}',
                              algorithm=f'{"optional" if optional else "required"}-{mode}', case=c, minimum_ruined=1,
                              maximum_ruined=group_limit(c, mode), unit='ms / solve', optimal_score=[0, 0], planted=planted, samples=measurements)
                 for runtime, rows in measurements.items():
@@ -178,8 +184,8 @@ def main():
                   config={**vars(args), 'seed': SEED, 'iterations': 1, 'algorithms': sorted({r['algorithm'] for r in checks})},
                   validation={**summary, 'by_algorithm': {m: quality_summary([r for r in checks if r['algorithm'] == m]) for m in sorted({r['algorithm'] for r in checks})}, 'cases': checks},
                   boundary_probes=probes, workloads=workloads,
-                  environment=dict(platform=platform.platform(), rust=version(['rustc', '--version']), java=version(['java', '-version'])),
-                  methodology='Original homogeneous required/optional lists without pins or restricted receivers. Hard score is zero; soft score penalizes owner costs, squared capacity excess, ascending neighboring value IDs and missing values. Initial ascending list at owner zero attains the worst possible score. Long step-counting threshold (steps+1) keeps every completed candidate acceptable. Both configurations request groups from one to half/all of the registered value count; actual sampled values, eligibility, PRNG and reconstruction orders differ. Each measured solve must finish exactly the requested repairs; public Java MOVE_EVALUATION_COUNT and native attempts/complete reconstructions are checked. Fixed-minimum optional behavior is retained separately in untimed boundary probes and does not qualify as equal-work timing. Both runtimes use full scoring. Timing includes per-solve solver/state setup, initialization, repair and final validity/score validation; excludes process startup, input parsing, model/network/factory creation, registry setup, final metric reads and output formatting. Java metrics remain active during timing. Alternating runtime order, fresh-process forks, warmups and raw samples retained. Every output independently checked for uniqueness, valid IDs, required completeness, optional omissions, recomputed score, initial non-regression and optimum bound. Small cases enumerate owners/omissions and every permutation; timing cases have a planted zero optimum with nonnegative costs. Equality and optimum attainment are separate from validity. No identical trace, equal scoring work, mixed-model, weighted-union or incremental-stream performance claim. Original fixtures earn no upstream-method credit; shared-host ranges include allocation and GC effects.')
+                  environment=dict(cpu=next((line.split(':',1)[1].strip() for line in open('/proc/cpuinfo') if line.startswith('model name')), 'unknown'), platform=platform.platform(), rust=version(['rustc', '--version']), java=version(['java', '-version'])),
+                  methodology=f'Native repair sampling: {args.ruin_sampling}; Java retains its public independent random selector. Coverage-cycle is an explicit native policy, not a Java seeded-trace claim. '+ 'Original homogeneous required/optional lists without pins or restricted receivers. Hard score is zero; soft score penalizes owner costs, squared capacity excess, ascending neighboring value IDs and missing values. Initial ascending list at owner zero attains the worst possible score. Long step-counting threshold (steps+1) keeps every completed candidate acceptable. Both configurations request groups from one to half/all of the registered value count; actual sampled values, eligibility, PRNG and reconstruction orders differ. Each measured solve must finish exactly the requested repairs; public Java MOVE_EVALUATION_COUNT and native attempts/complete reconstructions are checked. Fixed-minimum optional behavior is retained separately in untimed boundary probes and does not qualify as equal-work timing. Both runtimes use full scoring. Timing includes per-solve solver/state setup, initialization, repair and final validity/score validation; excludes process startup, input parsing, model/network/factory creation, registry setup, final metric reads and output formatting. Java metrics remain active during timing. Alternating runtime order, fresh-process forks, warmups and raw samples retained. Every output independently checked for uniqueness, valid IDs, required completeness, optional omissions, recomputed score, initial non-regression and optimum bound. Small cases enumerate owners/omissions and every permutation; timing cases have a planted zero optimum with nonnegative costs. Equality and optimum attainment are separate from validity. No identical trace, equal scoring work, mixed-model, weighted-union or incremental-stream performance claim. Original fixtures earn no upstream-method credit; shared-host ranges include allocation and GC effects.')
     (ROOT/'work/list-repair-performance.json').write_text(json.dumps(report, indent=2)+'\n')
 
 

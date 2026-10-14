@@ -67,6 +67,20 @@ impl RepairMoveWeights {
     }
 }
 
+/// Sampling policy for identities removed during reconstruction.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum RuinSampling {
+    /// Independently shuffle on each attempt, preserving the legacy seeded trace.
+    #[default]
+    Independent,
+    /// Consume a seeded shuffled deck for each repair pool before reshuffling.
+    /// Each group is unique, including groups crossing a cycle boundary. Changes
+    /// to a pool's ordered eligible population reset that pool's deck on its next
+    /// selection. Coverage is bounded only while that population stays unchanged;
+    /// budgets, fine moves and pool weights can stop or delay further selections.
+    CoverageCycle,
+}
+
 /// Limits include initialization, reconstruction and enabled fine moves. Each repair samples
 /// movable basic slots or list values without replacement, then reconstructs in
 /// model order. Basic unsampled values are frozen; list semantics are documented
@@ -77,6 +91,7 @@ pub struct RuinRecreateConfig<'a, S = SimpleScore> {
     pub seed: u64,
     pub minimum_ruined: usize,
     pub maximum_ruined: usize,
+    pub ruin_sampling: RuinSampling,
     /// Optional allowed repair identities. Basic models use variable indices;
     /// list models use registry indices; mixed models use basic indices followed
     /// by list registry indices offset by the number of basic variables.
@@ -130,6 +145,7 @@ impl<S> Default for RuinRecreateConfig<'_, S> {
             seed: 0,
             minimum_ruined: 5,
             maximum_ruined: 20,
+            ruin_sampling: RuinSampling::Independent,
             ruin_candidates: None,
             repair_pools: None,
             max_attempts: 100,

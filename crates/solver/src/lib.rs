@@ -495,12 +495,13 @@ pub use significant_improvement::{
 
 mod value_construction_queue;
 
+mod repair_sampling;
 mod ruin_engine;
 mod ruin_recreate;
 pub use ruin_recreate::{
     ListRuinRecreateResult, RepairMoveWeights, RepairNeighborhood, RepairPool, RuinRecreateConfig,
     RuinRecreateError, RuinRecreateOutcome, RuinRecreateResult, RuinRecreateTermination,
-    ruin_recreate_search_from, ruin_recreate_search_from_with_observer,
+    RuinSampling, ruin_recreate_search_from, ruin_recreate_search_from_with_observer,
     ruin_recreate_stream_search_from, ruin_recreate_stream_search_from_with_observer,
 };
 

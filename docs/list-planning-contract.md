@@ -1391,3 +1391,28 @@ entity/value/destination lifecycle counts. Five original controls compare every
 rank across restricted catalogs and pins, bound rejection work, check empty/panic
 behavior, ownership refresh and seeded continuity, and drive actual scored search
 through a configured provider with balanced child events.
+
+
+## Coverage-cycle repair sampling
+
+`RuinRecreateConfig::ruin_sampling` defaults to `RuinSampling::Independent`,
+retaining the existing per-attempt count draw and shuffle. Explicit
+`RuinSampling::CoverageCycle` keeps a seeded shuffled deck for the default repair
+family and a separate deck for each weighted repair pool. Each selected group
+contains unique currently eligible identities. Groups may cross deck boundaries;
+identities already selected in that group are deferred within the next deck.
+The concatenated draw stream covers each stable eligible population once per
+complete cycle. Configured minimum/maximum group bounds still clamp to population
+size. A changed ordered eligible population resets only that pool on its next
+selection. Pinned values and restricted ruin identities remain ineligible.
+
+Coverage is conditional on a stable population and enough selected repair work:
+weighted fine moves, cancellation, time and evaluation budgets can delay or end
+it. This policy does not promise identical Java random traces or optimality.
+It applies to basic, list and mixed repair with either native scoring backend;
+construction order and acceptance rules remain configured separately.
+
+The original list-repair benchmark accepts `--ruin-sampling coverage-cycle` for
+Rust, leaving the Java public random selector unchanged. Its report names the
+native policy and retains independent validity, score, optimum and work checks.
+Default benchmark sampling remains `independent`.

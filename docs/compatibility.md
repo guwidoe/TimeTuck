@@ -10200,3 +10200,23 @@ improvement opportunity; it does not demonstrate a scoring or pinning bug. A new
 coverage policy must preserve generic eligibility, bounds and existing default
 behavior. Remaining raw/JVM assertions and final original-scope qualification
 remain honest; this checkpoint is not completion.
+
+
+## Explicit coverage-cycle repair sampling
+
+Native repair adds opt-in `RuinSampling::CoverageCycle` for basic, list and mixed
+models, with independent seeded decks per weighted repair pool. Each stable
+eligible population is consumed once per cycle; group boundaries never duplicate
+an identity, and changed populations reset that pool. Minimum/maximum limits,
+pins, receiver eligibility, acceptance and resource controls retain their existing
+contracts. The default `Independent` policy retains its count/shuffle trace.
+
+The original 64 list-repair fixtures retain every previously recorded default
+score (56 optima). Coverage-cycle reaches all 64 independently enumerated optima,
+fixing the eight finite-budget starvation cases, with actual Dense/Stream
+assignments, scores, counters and termination agreeing. Both policies use seed
+20261225, eight repair attempts and identical count bounds/acceptance. This is
+finite fixture qualification, not a general optimality or Java trace claim.
+The fixture derives from original Python-generated benchmark inputs and adds no
+upstream-method credit. Original weighted-pool integration additionally covers
+basic/list/mixed models, both backends, pins, replay, caps and cancellation.
