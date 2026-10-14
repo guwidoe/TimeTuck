@@ -17,6 +17,62 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round196
+
+Implementation commit `8ffcadb` adds opt-in `RuinSampling::CoverageCycle`: seeded
+coverage decks per default/weighted repair pool, unique groups across cycle
+boundaries, and resets when ordered eligibility changes. Default Independent
+retains its count/shuffle path. Shared basic/list/mixed search retains pins,
+receiver restrictions, acceptance and finite resource controls. Coverage requires
+stable eligibility and enough selected repair work; no general optimality or Java
+random-trace claim.
+
+Local agent: 3 sampler property tests, 41 legacy regressions, 3 actual both-backend
+basic/list/mixed weighted-pool controls, strict affected Clippy. Parent original
+64-case quality regression retains every default score (56 optimal); CoverageCycle
+reaches all 64 independently enumerated optima and fixes all 8 previous misses.
+Dense/Stream assignments, scores, counters and termination agree; final metadata,
+completeness, validity and full scores checked. Original fixtures add no upstream
+method credit. Wrong package selector and parent ListSnapshot typing failure
+preserved; strengthened quality3 assertions passed. Source/archive guards matched.
+Historical after.json is quality2; final guard pair is quality3-before.json and
+final-after-revalidated.json. Receipt SHA
+`e68e8034c275a0a640e4899a77c9c56d4037ceaa601ba65dcfb2081de3f5b0cd`.
+Evidence `work/round196-agent-evidence/repair-coverage`; managed tree archived.
+
+Actual runner-a Java/default-random versus Rust/CoverageCycle comparison: 64 valid,
+equal, optimal small cases for both; all 8 larger Rust workloads attain planted
+zero optima (previously 6). Java's 4 half-group workloads remain suboptimal.
+Rust medians 0.62–4.04 ms; Java 12.62–27.01 ms, with different scoring work/traces.
+Three forks, five samples, three warmups, eight attempts; same actual i5-1135G7 /
+OpenJDK25.0.2 / Rust1.92.0 host. No causal sampler-overhead/general speedup claim.
+Prior report/raw samples retained. First read-only collection named a nonexistent
+cache log; corrected collection, no benchmark rerun. Actual source
+`e6c2992cf3b3e23714859dc47fe82a0a7cde84aca93e0aec118c0a4f94317d0d`,
+measurement `c23b2e70a95d7e729e9dbbff7e70def239581e7a46563dd07aea6f1dc8708597`;
+archive SHA `2d9ff65fd269eb6f5bf6cdfa4d6a0dfd143a8ed2b163cec964bcd290a2f92713`.
+Evidence `work/round196-performance-collection.json` and extracted results.
+
+One final frozen runner-a `bash scripts/check.sh` passed 8,301 Rust tests and 290
+doctests: 1,184 Rust jobs ran, 139 Rust and 45 Python jobs reused matching genuine
+successes, one Python job ran. Prebuild 988.556s; gate 406.717s; worker 1395.804s.
+Shared configuration caused broad recompilation; all jobs terminal, no restarts.
+runner-c remained parked; runner-a SSH/auth/multiplex worked. Frozen source
+`8e382e6b1868436219b2a22bb3502c608638a922e4121d0a2b91c748b94e081d`;
+Rust digest `fb9f2cd5c467071af025e7afd21e918eaf27f4b55c1bb35df250d9f46a89a3f5`;
+report digest `0eb2673a8d37c163ea40f977a781259f598b5c919567c6b5d35efbdfc3e77acb`.
+Archive `work/round196-runner-a-results.tar.gz` SHA
+`ff6e9c6adee91afd15d5d208f47cf1a76a887b3b3965f7f15ec3837b08119565`.
+Freeze/evidence `work/parallel-round196-{freeze,evidence}.json`.
+
+Dashboard report and HTTP freshness verified. Coverage 4390/4855 (90.422%),
+12 pending, 453 excluded, zero failed/unverified. Fresh coverage-cycle list-repair
+and 3 unchanged performance sections are current; other 9 changed-input sections
+remain stale, retaining actual old dates. No UI changes/browser repeat. Full goal
+remains active/incomplete; pending gap/scope audit from round193 still applies.
+Next useful qualification: test the generic new policy against the original basic
+repair quality misses; preserve the default and refresh only necessary evidence.
+
 ## Latest verified checkpoint — round193
 
 The owned roster executable is now usable with supplied JSON/configuration files,
