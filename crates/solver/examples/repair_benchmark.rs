@@ -16,7 +16,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if !(5..=8).contains(&args.len()) {
         return Err(
-            "group steps warmup samples [independent|coverage-cycle [sequential|cheapest [full|incremental]]]".into(),
+            "group steps warmup samples [independent|coverage-cycle [sequential|cheapest [full|incremental|incremental-cached]]]".into(),
         );
     }
     let ruin_sampling = match args.get(5).map(String::as_str) {
@@ -30,6 +30,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         _ => return Err("unknown reconstruction placement".into()),
     };
     let scoring_model = repair_scoring::ScoringModel::parse(args.get(7).map(String::as_str))?;
+    let callback_counts =
+        std::env::var("TIMETUCK_REPAIR_CALLBACK_COUNTS").is_ok_and(|value| value == "1");
     let group: usize = args[1].parse()?;
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
@@ -124,6 +126,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                     result.evaluations,
                     result.attempts
                 );
+                if callback_counts {
+                    eprintln!("{}\t{}", case.id, result.constraint_evaluations);
+                }
             }
         }
     }

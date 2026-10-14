@@ -17,6 +17,78 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round209
+
+Added explicit `ConstraintNetwork::with_pooled_contribution_cache(cap)` for
+required-basic Dense/Pooled construction. Default and cap-zero callback traces
+remain uncached. Contributions are keyed by exact variable/domain occurrence
+and dependency generations; every committed scoped write invalidates dependents,
+even if its current score stays equal. Each trial rebases through current checked
+arithmetic and structural state. Fixed weights and immutable declared scopes are
+required; pure callbacks and scoring-preserving value/score clones are explicit
+opt-in contracts. The cache is local to one construction phase. Slot and occurrence
+indices are bounded; unsupported models/placements/indices/capacity fall back.
+Failure/panic guards discard all pending contributions. Physical callback counts
+exclude disabled weights; logical candidate visits/budgets/order/ties stay intact.
+
+Original regressions cover zero-delta invalidation, scopes with repetitions and
+reversed/self edges, current-total overflow, interruption/budget prefixes, callback
+traces, disabled/live weight changes, phase isolation, malformed keys and panic
+cleanup. Existing repair regressions now compare full, incremental and cached
+scoring across all actual fixtures and two-phase histories. These originals earn
+no upstream-method credit and need no new upstream provenance entries.
+
+Actual same-host round209 comparison retains round206 binary and build receipt,
+all 64 small quality triplets and 240 timed outputs. Assignments, scores, logical
+work and eight repairs agree. Before→cached medians(ms): half32 1.240→1.071;
+half96 17.416→12.160; whole32 4.199→3.435; whole96 62.185→44.556 (14–30% less time).
+Actual uncached→cached callback counts: 44,286→7,678; 998,543→61,823;
+166,974→16,222; 3,917,367→131,511. No Java callback count is inferred.
+Known tradeoff: the new uncached path measures 4–8% slower than round206.
+Do not claim speed neutrality. Profiling removed repeated vector growth and
+candidate-key hashing. A further ordinary-apply inlining hint was tested and
+rejected because it did not restore default speed; source restored byte-for-byte
+to the measured round209 snapshot before the final gate. All earlier candidate raw
+results, profiles, disassemblies and rejected round210 source are retained in work/.
+
+Fresh primary whole96 repair: Rust 43.118 versus Java 27.471 ms, with distinct
+native coverage-cycle/pooled and public Java reconstruction work. Fresh full and
+uncached native references are retained sample-by-sample, with actual native
+constraint_calls; no public Java physical callback count is invented. Fresh
+solver and list-repair reports also passed. Unrelated older dates/keys remain
+visibly stale; no universal speed, equal-work or completion claim.
+
+One final local check.sh passed 8,358 Rust tests and 290 doctests, RUN 1,204 /
+REUSE 135 Rust targets and RUN 2 / REUSE 44 Python jobs. Prebuild 826.020s;
+gate 517.690s. Frozen source unchanged throughout. Current coverage 4,407/4,855
+(90.772%), 11 pending, 437 excluded, 0 failed/unverified. Actual source/report and
+HTTP freshness checked; Linux Chrome loaded the new report with no warning,
+repair content rendered and no NaN. No frontend code or design changed.
+
+Evidence: work/round209-performance-collection.json,
+work/round209-candidate-results/work/round209-kernel-comparison.json,
+work/round209-selector-inspection.json and work/parallel-round209-evidence.json.
+Measured immutable source 5526e42aa164b7160ec20a6d385610c6f89feb0fa4fc7ebd996ca2aff84d1bff;
+Rust c982ecd86c37d6afdb7fbd023b5a95f07f04df21ab5fc8d42f2c08702341f95c.
+All current and next-draft agents and runner-a jobs terminal; runner-c remains parked.
+
+Next implementation is already drafted and independently smoke-tested under
+work/round211-load-balance/, work/round211-sequence-json/ and
+work/round211-solution-json/. Integrate all three as one coherent next batch,
+including exact test/fixture provenance and serde_json arbitrary_precision, then
+verify actual integrated targets and one final check.sh. Mini-crate checks are
+not repository compatibility evidence. No credits have been applied yet.
+Next prebuild may use 20 jobs: the 12-job local build used 9 GB of 31 GB with no swap
+pressure; avoid restarting an in-flight build just to change concurrency.
+
+Continue the full goal. Do not repeat successful checks just for a new turn or
+commit. Reuse exact per-job evidence. The 437 exclusions and 11 pending seams
+were already reconciled against actual TEST bodies; no new native algorithm gap
+was established. Remaining unqualified native DTO/snapshot contracts and the
+measured uncached iterator/evaluator overhead are concrete limitations. Review
+existing audit evidence before selecting another implementation; do not invent
+method credit or repeat the completed exclusion audit for progress optics.
+
 ## Latest verified checkpoint — round206
 
 Retained two profile-led private inlining hints: basic contribution evaluation
@@ -66,7 +138,8 @@ total/structural state. Handle overrides, restores, Eq-equal payloads, failures,
 panics, capacity and interrupted candidate scans. Preserve logical visits/budgets;
 count actual callbacks honestly. Exact insertion points and decisive test cases
 are already investigated; do not repeat that audit or the completed gate merely
-because of a new turn/commit. This cache is not implemented or measured yet.
+because of a new turn/commit. This was the next task at checkpoint206; implementation and measurements now
+appear in checkpoint209 above.
 
 ## Latest verified checkpoint — round204
 

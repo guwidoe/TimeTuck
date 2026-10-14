@@ -376,6 +376,9 @@ pub(crate) fn construction_impl_with_clock_monitored<
     let mut indices_in_order = 0..problem.variables().len();
     let mut value_queue = (config.placement == ConstructionPlacement::ValueQueue)
         .then(|| crate::value_construction_queue::ValueConstructionQueue::new(problem));
+    let mut pooled_cache = (config.placement == ConstructionPlacement::Pooled)
+        .then(|| director.pooled_contribution_cache())
+        .flatten();
     loop {
         // Sequential and pooled construction install at most one item per pass.
         let index = if value_queue.is_some() {
@@ -437,13 +440,19 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 problem.variables()[index]
                     .domain()
                     .iter()
-                    .filter(move |value| queued_value.is_none_or(|queued| *value == queued))
-                    .map(move |value| Move::Change {
-                        variable: index,
-                        value: Some(value.clone()),
+                    .enumerate()
+                    .filter(move |(_, value)| queued_value.is_none_or(|queued| *value == queued))
+                    .map(move |(occurrence, value)| {
+                        (
+                            Move::Change {
+                                variable: index,
+                                value: Some(value.clone()),
+                            },
+                            occurrence,
+                        )
                     })
             })
-            .chain(no_change.then(|| Move::Composite(vec![])));
+            .chain(no_change.then(|| (Move::Composite(vec![]), 0)));
         let budget = crate::count_limit::CandidateBudget::new(
             config.max_evaluations,
             config.max_move_evaluations,
@@ -453,24 +462,38 @@ pub(crate) fn construction_impl_with_clock_monitored<
         if let Some(shared) = &mut shared {
             shared.step_started();
         }
-        let selection = director.select_best(
-            moves.take_while(|_| scan.proceed(&mut time, &mut shared)),
-            budget.remaining,
-            false,
-            |movement, score| {
-                crate::score_evaluations::record(&score_counter);
-                crate::move_metrics::record(&move_counter, movement);
-                if config.optional == OptionalConstruction::EvaluateUnassigned {
-                    return true;
-                }
-                let Move::Change { variable, .. } = movement else {
-                    unreachable!("construction change")
-                };
-                !problem.variables()[*variable].allows_unassigned() || score >= previous
-            },
-            scan.policy(previous.clone()),
-            config.assert_scores,
-        )?;
+        let moves = moves.take_while(|_| scan.proceed(&mut time, &mut shared));
+        let accepts = |movement: &Move<V>, score: S| {
+            crate::score_evaluations::record(&score_counter);
+            crate::move_metrics::record(&move_counter, movement);
+            if config.optional == OptionalConstruction::EvaluateUnassigned {
+                return true;
+            }
+            let Move::Change { variable, .. } = movement else {
+                unreachable!("construction change")
+            };
+            !problem.variables()[*variable].allows_unassigned() || score >= previous
+        };
+        let selection = if let Some(cache) = &mut pooled_cache {
+            director.select_best_pooled(
+                moves,
+                cache,
+                budget.remaining,
+                false,
+                accepts,
+                scan.policy(previous.clone()),
+                config.assert_scores,
+            )
+        } else {
+            director.select_best(
+                moves.map(|(movement, _)| movement),
+                budget.remaining,
+                false,
+                accepts,
+                scan.policy(previous.clone()),
+                config.assert_scores,
+            )
+        }?;
         for _ in 0..selection.replay_evaluations {
             crate::score_evaluations::record(&score_counter);
         }

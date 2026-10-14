@@ -117,6 +117,7 @@ pub struct ConstraintNetwork<'a, V, S> {
     arithmetic: crate::ScoringArithmetic,
     constraints: Vec<Constraint<'a, V, S>>,
     dependents: Vec<Vec<usize>>,
+    pooled_cache_limit: usize,
 }
 impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
     pub fn new(variable_count: usize) -> Self {
@@ -124,10 +125,30 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
             arithmetic: crate::ScoringArithmetic::default(),
             constraints: Vec::new(),
             dependents: vec![Vec::new(); variable_count],
+            pooled_cache_limit: 0,
         }
     }
     pub fn variable_count(&self) -> usize {
         self.dependents.len()
+    }
+    /// Opt into phase-local contribution reuse for required basic Dense pooled
+    /// construction. Zero disables it; the default executes every callback.
+    ///
+    /// Callbacks must be pure functions of declared immutable scoped inputs.
+    /// Domain values and their clones must preserve their scoring meaning;
+    /// occurrence keys cannot track a Clone that changes non-Eq scoring payloads.
+    /// Reuse changes callback invocation and score Clone traces, including when
+    /// an invocation-count-dependent panic could occur. Cached contributions are
+    /// rebased through ordinary checked arithmetic on every logical candidate;
+    /// budgets/order/ties are unchanged. Work counts actual fresh callbacks.
+    ///
+    /// The cap bounds stored contribution slots (including disabled slots), not
+    /// bytes in arbitrary owned score payloads. Admission is whole-row; a row
+    /// that does not fit uses ordinary scoring. Optional models, other placement
+    /// policies and scoring backends keep their existing uncached routes.
+    pub fn with_pooled_contribution_cache(mut self, max_contributions: usize) -> Self {
+        self.pooled_cache_limit = max_contributions;
+        self
     }
     /// Choose checked (default) or wrapping scoring before creating a director.
     pub fn with_arithmetic(mut self, arithmetic: crate::ScoringArithmetic) -> Self {
@@ -568,6 +589,18 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                     .map(|w| (c.name.as_str(), w))
             })
     }
+    pub(crate) fn active_constraint_count(&self) -> usize {
+        self.network
+            .constraints
+            .iter()
+            .enumerate()
+            .filter(|(i, constraint)| {
+                self.weights
+                    .get(*i, constraint.weight.as_ref())
+                    .is_none_or(|weight| *weight != S::ZERO)
+            })
+            .count()
+    }
     /// Atomically override weights on this director's current assignment.
     /// Omitted names retain their effective weights; the borrowed network and
     /// other directors are unchanged. Unchanged weights and zero disables run no
@@ -746,6 +779,103 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         moves: impl IntoIterator<Item = Move<V>>,
         max_evaluations: u64,
         forager: impl Into<crate::ForagerConfig<S>>,
+        accepts: impl FnMut(&Move<V>, S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
+        assert_scores: bool,
+    ) -> Result<Selection<V>, ScoringError> {
+        self.select_best_impl(
+            moves.into_iter().map(|movement| (movement, None)),
+            None,
+            max_evaluations,
+            forager,
+            accepts,
+            quit_early,
+            assert_scores,
+        )
+    }
+
+    pub(crate) fn pooled_contribution_cache(
+        &self,
+    ) -> Option<crate::pooled_contributions::PooledContributionCache<S>> {
+        (self.network.pooled_cache_limit > 0
+            && self
+                .problem
+                .variables()
+                .iter()
+                .all(|v| !v.allows_unassigned()))
+        .then(|| {
+            crate::pooled_contributions::PooledContributionCache::new(
+                self.network.pooled_cache_limit,
+                self.network.constraint_count(),
+                self.problem
+                    .variables()
+                    .iter()
+                    .enumerate()
+                    .map(|(i, variable)| {
+                        (variable.domain().len(), self.network.dependents[i].len())
+                    }),
+            )
+        })
+    }
+
+    /// The construction generator supplies the exact domain occurrence before
+    /// cloning. Eq alone cannot identify distinct equal-payload representatives.
+    /// The cache belongs exclusively to this director's one construction phase;
+    /// no public mutation, restoration or weight override interleaves its calls.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn select_best_pooled(
+        &mut self,
+        moves: impl IntoIterator<Item = (Move<V>, usize)>,
+        cache: &mut crate::pooled_contributions::PooledContributionCache<S>,
+        max_evaluations: u64,
+        forager: impl Into<crate::ForagerConfig<S>>,
+        accepts: impl FnMut(&Move<V>, S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
+        assert_scores: bool,
+    ) -> Result<Selection<V>, ScoringError> {
+        if self.network.pooled_cache_limit == 0
+            || cache.constraint_count() != self.network.constraint_count()
+            || self
+                .problem
+                .variables()
+                .iter()
+                .any(|v| v.allows_unassigned())
+        {
+            cache.clear();
+            return self.select_best(
+                moves.into_iter().map(|(movement, _)| movement),
+                max_evaluations,
+                forager,
+                accepts,
+                quit_early,
+                assert_scores,
+            );
+        }
+        let mut pass = cache.pass();
+        let result = self.select_best_impl(
+            moves
+                .into_iter()
+                .map(|(movement, occurrence)| (movement, Some(occurrence))),
+            Some(pass.cache()),
+            max_evaluations,
+            forager,
+            accepts,
+            quit_early,
+            assert_scores,
+        );
+        if result.is_ok() {
+            pass.finish();
+        }
+        result
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn select_best_impl(
+        &mut self,
+        moves: impl IntoIterator<Item = (Move<V>, Option<usize>)>,
+        mut cache: Option<&mut crate::pooled_contributions::PooledContributionCache<S>>,
+        max_evaluations: u64,
+        forager: impl Into<crate::ForagerConfig<S>>,
         mut accepts: impl FnMut(&Move<V>, S) -> bool,
         quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
@@ -762,14 +892,23 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
         let network = self.network;
         let weights = self.weights.clone();
         let problem = self.problem;
-        for movement in moves {
+        for (movement, occurrence) in moves {
             if result.evaluations == max_evaluations {
                 result.evaluation_limit = true;
                 break;
             }
-            let candidate = self.apply(&movement)?;
+            let (candidate, fresh_evaluations) = match (occurrence, cache.as_deref_mut()) {
+                (Some(occurrence), Some(cache)) => {
+                    self.apply_pooled(&movement, occurrence, cache)?
+                }
+                _ => {
+                    let candidate = self.apply(&movement)?;
+                    let fresh_evaluations = candidate.constraint_evaluations();
+                    (candidate, fresh_evaluations)
+                }
+            };
             result.evaluations += 1;
-            result.constraint_evaluations += candidate.constraint_evaluations() as u128;
+            result.constraint_evaluations += fresh_evaluations as u128;
             if assert_scores {
                 let mut cached = candidate.contributions.to_vec();
                 for (index, score) in &candidate.updates {
@@ -827,6 +966,11 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                 self.contributions[i] = contribution;
             }
             self.score = selected.score;
+            if let Some(cache) = cache {
+                for variable in selected.movement.touched_variables() {
+                    cache.invalidate(&network.dependents[variable]);
+                }
+            }
             result.selected = Some(selected.movement);
             result.selected_accepted = selected.accepted;
         }
@@ -944,6 +1088,101 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                 .as_deref_mut()
                 .map(std::cell::RefCell::get_mut),
         })
+    }
+
+    fn apply_pooled(
+        &mut self,
+        movement: &Move<V>,
+        occurrence: usize,
+        cache: &mut crate::pooled_contributions::PooledContributionCache<S>,
+    ) -> Result<(ScoredMove<'_, V, S>, usize), ScoringError> {
+        // Malformed/out-of-range keys use ordinary scoring. The private caller
+        // must still supply the exact occurrence for Eq-equal domain payloads.
+        let variable = match movement {
+            Move::Change {
+                variable,
+                value: Some(value),
+            } if self.problem.variables().get(*variable).is_some_and(|v| {
+                v.domain()
+                    .get(occurrence)
+                    .is_some_and(|domain_value| domain_value == value)
+            }) =>
+            {
+                *variable
+            }
+            _ => {
+                let candidate = self.apply(movement)?;
+                let fresh_evaluations = candidate.constraint_evaluations();
+                return Ok((candidate, fresh_evaluations));
+            }
+        };
+        let transaction = self
+            .problem
+            .apply_validated(&mut self.assignment, movement)?;
+        let dependents = &self.network.dependents[variable];
+        // Preserve complete zero-weight filtering before any callback. Slots
+        // remain aligned with the original dependency slice, not filtered IDs.
+        let mut affected = Vec::with_capacity(dependents.len());
+        affected.extend(dependents.iter().enumerate().filter_map(|(slot, &i)| {
+            self.weights
+                .get(i, self.network.constraints[i].weight.as_ref())
+                .is_none_or(|weight| *weight != S::ZERO)
+                .then_some((slot, i))
+        }));
+        let mut row = cache.candidate(variable, occurrence, dependents.len());
+        let mut updates = Vec::with_capacity(affected.len());
+        let mut fresh_evaluations = 0;
+        for (slot, i) in affected {
+            let score = if let Some(score) = row.get(slot, i) {
+                score
+            } else {
+                let score = self.network.contribution_weighted(
+                    i,
+                    &transaction,
+                    self.weights
+                        .get(i, self.network.constraints[i].weight.as_ref()),
+                )?;
+                fresh_evaluations += 1;
+                row.put(slot, i, &score);
+                score
+            };
+            updates.push((i, score));
+        }
+        // A current total can overflow even if every cached local contribution
+        // is still valid. Never reuse a prior full score or unchecked delta.
+        let score = self
+            .network
+            .arithmetic
+            .adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, new)| (&self.contributions[*i], new)),
+            )
+            .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
+        let candidate_score = match basic_structural_delta(
+            self.problem,
+            &transaction,
+            transaction.prior_values(),
+            self.problem.variables().len(),
+        ) {
+            Some(delta) => score.with_structural(self.score.structural() + delta),
+            None => with_structure(score, self.problem, &transaction),
+        };
+        Ok((
+            ScoredMove {
+                transaction,
+                updates,
+                candidate_score,
+                cached_score: &mut self.score,
+                contributions: &mut self.contributions,
+                retained_changes: self
+                    .retained_changes
+                    .as_deref_mut()
+                    .map(std::cell::RefCell::get_mut),
+            },
+            fresh_evaluations,
+        ))
     }
 }
 
@@ -1067,6 +1306,123 @@ mod selection_tests {
             assert_eq!(director.score(), SimpleScore::ZERO);
             director.assert_consistent().unwrap();
         }
+    }
+}
+
+#[cfg(test)]
+mod pooled_selection_tests {
+    use super::*;
+    use crate::{ForagerConfig, SimpleScore, Variable};
+    use std::{
+        cell::Cell,
+        panic::{AssertUnwindSafe, catch_unwind},
+    };
+
+    struct NoCommit;
+    impl crate::construction::SelectionPolicy<SimpleScore> for NoCommit {
+        fn should_pick(&self, _: SimpleScore) -> bool {
+            false
+        }
+        fn can_commit(&self, _: bool) -> bool {
+            false
+        }
+    }
+
+    #[test]
+    fn malformed_occurrence_falls_back_and_late_acceptance_panic_clears_cache() {
+        let problem = FiniteProblem::new(vec![Variable::new(vec![0i64, 1])]).unwrap();
+        let calls = Cell::new(0);
+        let mut network = ConstraintNetwork::new(1).with_pooled_contribution_cache(8);
+        network
+            .add_constraint("value", vec![0], |v| {
+                calls.set(calls.get() + 1);
+                SimpleScore::new(v[0].copied().unwrap_or(0))
+            })
+            .unwrap();
+        let mut director =
+            ScoreDirector::new(&problem, &network, problem.initial_assignment()).unwrap();
+        let mut cache = director.pooled_contribution_cache().unwrap();
+        let movement = |value| Move::Change {
+            variable: 0,
+            value: Some(value),
+        };
+        let first = director
+            .select_best_pooled(
+                [(movement(0), 0)],
+                &mut cache,
+                1,
+                ForagerConfig::default(),
+                |_, _| true,
+                NoCommit,
+                false,
+            )
+            .unwrap();
+        assert_eq!(first.constraint_evaluations, 1);
+        let malformed = director
+            .select_best_pooled(
+                [(movement(1), 0)],
+                &mut cache,
+                1,
+                ForagerConfig::default(),
+                |_, score| {
+                    assert_eq!(score, SimpleScore::new(1));
+                    true
+                },
+                NoCommit,
+                false,
+            )
+            .unwrap();
+        assert_eq!(malformed.constraint_evaluations, 1);
+        let hit = director
+            .select_best_pooled(
+                [(movement(0), 0)],
+                &mut cache,
+                1,
+                ForagerConfig::default(),
+                |_, _| true,
+                NoCommit,
+                false,
+            )
+            .unwrap();
+        assert_eq!(hit.constraint_evaluations, 0);
+        let before = calls.get();
+        assert!(
+            catch_unwind(AssertUnwindSafe(|| {
+                let _ = director.select_best_pooled(
+                    [(movement(0), 0)],
+                    &mut cache,
+                    1,
+                    ForagerConfig::default(),
+                    |_, _| panic!("late acceptance panic"),
+                    NoCommit,
+                    false,
+                );
+            }))
+            .is_err()
+        );
+        assert_eq!(
+            calls.get(),
+            before,
+            "the panicking acceptance follows a cache hit"
+        );
+        assert_eq!(director.assignment().values(), &[None]);
+        assert_eq!(director.score(), SimpleScore::ZERO.with_structural(-1));
+        let retried = director
+            .select_best_pooled(
+                [(movement(0), 0)],
+                &mut cache,
+                1,
+                ForagerConfig::default(),
+                |_, _| true,
+                NoCommit,
+                false,
+            )
+            .unwrap();
+        assert_eq!(
+            retried.constraint_evaluations, 1,
+            "late failure invalidates the whole pass"
+        );
+        director.assert_consistent().unwrap();
     }
 }
 

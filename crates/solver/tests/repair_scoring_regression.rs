@@ -132,7 +132,12 @@ fn real_two_phase_profile_preserves_handoff_updates_quality_and_logical_work() {
                 SolverPhase::RuinRecreate(second),
             ],
         };
-        let results = [ScoringModel::Full, ScoringModel::Incremental].map(|model| {
+        let results = [
+            ScoringModel::Full,
+            ScoringModel::Incremental,
+            ScoringModel::IncrementalCached,
+        ]
+        .map(|model| {
             let network = network(&case, model).unwrap();
             let mut updates = Vec::new();
             let result = solve_with_observer(&case.problem, &network, plan.clone(), |update| {
@@ -171,22 +176,35 @@ fn real_two_phase_profile_preserves_handoff_updates_quality_and_logical_work() {
             }
             (result, updates)
         });
-        assert_eq!(results[0].0.assignment, results[1].0.assignment);
-        assert_eq!(results[0].0.score, results[1].0.score);
-        assert_eq!(results[0].0.termination, results[1].0.termination);
-        assert_eq!(results[0].1, results[1].1);
         let logical_work = |mut work: SolverWork| {
             work.constraint_evaluations = 0;
             work
         };
-        assert_eq!(
-            logical_work(results[0].0.work),
-            logical_work(results[1].0.work)
-        );
-        for (full, incremental) in results[0].0.phases.iter().zip(&results[1].0.phases) {
-            assert_eq!(full.score, incremental.score);
-            assert_eq!(logical_work(full.work), logical_work(incremental.work));
+        for (result, updates) in &results[1..] {
+            assert_eq!(results[0].0.assignment, result.assignment);
+            assert_eq!(results[0].0.score, result.score);
+            assert_eq!(results[0].0.termination, result.termination);
+            assert_eq!(&results[0].1, updates);
+            assert_eq!(logical_work(results[0].0.work), logical_work(result.work));
+            for (full, alternate) in results[0].0.phases.iter().zip(&result.phases) {
+                let mut full = full.clone();
+                let mut alternate = alternate.clone();
+                full.work = logical_work(full.work);
+                alternate.work = logical_work(alternate.work);
+                assert_eq!(full, alternate);
+            }
         }
+        assert_eq!(
+            results[1].0.phases[0].work.constraint_evaluations,
+            results[2].0.phases[0].work.constraint_evaluations
+        );
+        assert!(
+            results[2].0.phases[1].work.constraint_evaluations
+                <= results[1].0.phases[1].work.constraint_evaluations
+        );
+        assert!(
+            results[2].0.work.constraint_evaluations <= results[1].0.work.constraint_evaluations
+        );
         let score = results[0].0.score.unwrap();
         quality[0] += usize::from(score == score_pair(&row["optimum"]));
         let comparison = match score.cmp(&score_pair(&row["legacy_score"])) {
@@ -225,8 +243,10 @@ fn both_models_preserve_all_64_fixture_searches_for_all_four_policies() {
         };
         let full = network(&case, ScoringModel::Full).unwrap();
         let incremental = network(&case, ScoringModel::Incremental).unwrap();
+        let cached = network(&case, ScoringModel::IncrementalCached).unwrap();
         assert_eq!(full.constraint_count(), 1);
         assert_eq!(incremental.constraint_count(), case.edges.len() + size);
+        assert_eq!(cached.constraint_count(), incremental.constraint_count());
         for (index, &(sampling, placement)) in policies.iter().enumerate() {
             let placements = match placement {
                 ConstructionPlacement::Sequential => group,
@@ -250,7 +270,7 @@ fn both_models_preserve_all_64_fixture_searches_for_all_four_policies() {
                 },
                 ..Default::default()
             };
-            let results = [&full, &incremental].map(|network| {
+            let results = [&full, &incremental, &cached].map(|network| {
                 ruin_recreate_search_from(
                     &case.problem,
                     network,
@@ -259,8 +279,18 @@ fn both_models_preserve_all_64_fixture_searches_for_all_four_policies() {
                 )
                 .unwrap()
             });
-            assert_eq!(results[0].best, results[1].best, "{} {index}", case.id);
-            assert_eq!(logical(&results[0]), logical(&results[1]));
+            for result in &results[1..] {
+                assert_eq!(results[0].best, result.best, "{} {index}", case.id);
+                assert_eq!(logical(&results[0]), logical(result));
+            }
+            if placement == ConstructionPlacement::Sequential {
+                assert_eq!(
+                    results[2].constraint_evaluations,
+                    results[1].constraint_evaluations
+                );
+            } else {
+                assert!(results[2].constraint_evaluations <= results[1].constraint_evaluations);
+            }
             assert_eq!(
                 results[0].constraint_evaluations,
                 u128::from(results[0].evaluations)
@@ -311,7 +341,11 @@ fn duplicate_reversed_self_edges_and_unassigned_zero_survive_moves_and_undo() {
         true,
     )
     .unwrap();
-    let models = [ScoringModel::Full, ScoringModel::Incremental];
+    let models = [
+        ScoringModel::Full,
+        ScoringModel::Incremental,
+        ScoringModel::IncrementalCached,
+    ];
     let networks = models.map(|model| network(&case, model).unwrap());
     // All64 partial states: None and each of three colors independently per slot.
     for mut encoded in 0..64 {
@@ -371,6 +405,10 @@ fn scoring_model_defaults_and_explicit_modes_are_backward_compatible() {
     assert_eq!(
         ScoringModel::parse(Some("incremental")),
         Ok(ScoringModel::Incremental)
+    );
+    assert_eq!(
+        ScoringModel::parse(Some("incremental-cached")),
+        Ok(ScoringModel::IncrementalCached)
     );
     assert!(ScoringModel::parse(Some("unknown")).is_err());
 }

@@ -12,7 +12,9 @@ use timetuck::*;
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
     if !(5..=6).contains(&args.len()) {
-        return Err("group attempts-per-phase warmup samples [full|incremental]".into());
+        return Err(
+            "group attempts-per-phase warmup samples [full|incremental|incremental-cached]".into(),
+        );
     }
     let scoring = repair_scoring::ScoringModel::parse(args.get(5).map(String::as_str))?;
     let group: usize = args[1].parse()?;

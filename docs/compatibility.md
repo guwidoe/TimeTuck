@@ -10404,3 +10404,36 @@ and 437 excluded methods. Reconciliation of all current exclusions with the
 unchanged prior TEST-body audit found no new native algorithm gap; serializer
 snapshot contracts remain unqualified initial-scope boundaries. Full project
 completion is not established.
+
+
+Pooled required-basic Dense construction now supports an explicit bounded
+contribution cache for pure callbacks with immutable declared scopes. Exact domain
+occurrences and dependency generations identify entries; every committed scoped
+write invalidates them, including equal-score writes. Trials retain current
+checked total/structural arithmetic, candidate order, budgets and tie behavior.
+Optional models and other placements/backends use ordinary scoring. Typed errors
+and panics clear pending entries. Default/cap-zero callback traces stay uncached;
+physical callback metrics count actual work, with disabled weights skipped.
+
+Same-host round206 versus cached round209 repair medians improve 14–30% across
+half32/half96/whole32/whole96, with all 64 quality triplets and 240 timed outputs
+preserving assignments, scores, logical work and eight repairs. Uncached round209
+currently measures 4–8% slower than round206; opt-in gains do not establish speed
+neutrality. Actual callbacks fall 44,286→7,678; 998,543→61,823; 166,974→16,222;
+3,917,367→131,511. An additional inlining hint failed to restore uncached speed
+and was rejected before the final gate. No universal solver speed claim.
+
+Fresh whole96 primary repair measures 43.118 ms Rust versus 27.471 ms Java, both at
+the known optimal score but 149,001 versus 6,169 logical evaluations and different
+reconstruction/sampling policies. Fresh full and uncached native references
+retain every output and actual callback counters; no Java physical callback
+count is inferred. Fresh solver/list-repair measurements retain their real dates
+and source keys. Older unrelated measurements remain visibly stale.
+
+One final coherent check passes 8,358 Rust tests and 290 doctests with unchanged
+per-job results reused: 135 Rust targets and 44 Python jobs. Coverage remains
+4,407/4,855 (90.772%), 11 pending, 437 excluded, 0 failed/unverified. The cache and its
+original controls add no upstream-method credit. New report data loaded in an
+actual browser with current verification and rendered repair benchmarks. This
+does not establish full project completion; JSON persistence drafts remain
+unintegrated and uncredited at this checkpoint.
