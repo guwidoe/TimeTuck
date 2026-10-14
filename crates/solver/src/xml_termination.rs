@@ -59,6 +59,8 @@ pub struct XmlTerminationSettings {
     pub spent: XmlTerminationTime,
     pub unimproved: XmlTerminationTime,
     pub best_score_limit: Option<String>,
+    /// Minimum accumulated retained-best improvement within the unimproved window.
+    pub unimproved_score_difference_threshold: Option<String>,
     pub best_score_feasible: Option<bool>,
     pub score_calculation_count: Option<u64>,
     pub move_count: Option<u64>,
@@ -166,6 +168,7 @@ impl XmlTerminationSettings {
                 "unimprovedDaysSpentLimit",
                 "terminationCompositionStyle",
                 "bestScoreLimit",
+                "unimprovedScoreDifferenceThreshold",
                 "bestScoreFeasible",
                 "scoreCalculationCountLimit",
                 "moveCountLimit",
@@ -249,6 +252,8 @@ impl XmlTerminationSettings {
                 })
                 .transpose()?,
             best_score_limit: scalar(n, "bestScoreLimit")?.map(str::to_owned),
+            unimproved_score_difference_threshold: scalar(n, "unimprovedScoreDifferenceThreshold")?
+                .map(str::to_owned),
             best_score_feasible: boolean(n, "bestScoreFeasible")?,
             score_calculation_count: number(n, "scoreCalculationCountLimit")?,
             move_count: number(n, "moveCountLimit")?,
@@ -264,7 +269,12 @@ impl XmlTerminationSettings {
             child.validate()?;
         }
         self.spent.resolve()?;
-        self.unimproved.resolve()?;
+        let unimproved = self.unimproved.resolve()?;
+        if self.unimproved_score_difference_threshold.is_some() && unimproved.is_none() {
+            return Err(error(
+                "unimprovedScoreDifferenceThreshold can only be used if an unimproved*SpentLimit is supplied in the same configuration",
+            ));
+        }
         if let Some(raw) = &self.diminished_returns {
             raw.resolve()?;
         }
@@ -525,7 +535,9 @@ impl XmlTerminationSettings {
         if let Some(t) = self.spent.resolve()? {
             push(SearchLimit::Time(t));
         }
-        if let Some(t) = self.unimproved.resolve()? {
+        if self.unimproved_score_difference_threshold.is_none()
+            && let Some(t) = self.unimproved.resolve()?
+        {
             push(SearchLimit::UnimprovedTime(t));
         }
         if let Some(n) = self.steps {
@@ -737,6 +749,90 @@ impl XmlTerminationPlan {
 }
 
 impl XmlTerminationPlan {
+    fn with_solver_controls<S: AdditiveScore + std::str::FromStr, R>(
+        &self,
+        limits: SolverLimits<'_, S>,
+        existing: Option<&StatefulSearchTermination<'_, S>>,
+        run: impl FnOnce(SolverLimits<'_, S>, Option<&StatefulSearchTermination<'_, S>>) -> R,
+    ) -> Result<R, XmlTerminationError> {
+        let Some(raw) = self.solver.as_ref().filter(|raw| raw.has_significant()) else {
+            return self.with_composed_limits(limits, |limits| run(limits, existing));
+        };
+        let tree = raw.compile::<S>(false, None, false)?;
+        let mut callback = Some(run);
+        Ok(tree.with_stateful(&mut |xml| {
+            let combined = existing.map(|prior| [prior.clone(), xml.clone()]);
+            let expression = combined.as_ref().map_or_else(
+                || xml.clone(),
+                |children| StatefulSearchTermination::Any(children),
+            );
+            callback.take().unwrap()(limits.clone(), Some(&expression))
+        }))
+    }
+
+    /// Borrow all XML controls, including solve-wide score-difference histories.
+    /// Install both the supplied phase slice and solver expression in
+    /// `SolverExtensions` before solving. Existing solver histories are combined
+    /// independently through OR. Native caps, static limits and cancellation retain
+    /// their scope. Every XML AND/OR subtree stays intact, including mixed static
+    /// and stateful leaves. Histories belong to the subsequent solve invocation.
+    pub fn with_sequence_controls<S: AdditiveScore + std::str::FromStr, R>(
+        &self,
+        sequence: SolverSequence<'_, S>,
+        existing_phases: &[PhaseTerminationBinding<'_, S>],
+        existing_solver: Option<&StatefulSearchTermination<'_, S>>,
+        run: impl FnOnce(
+            SolverSequence<'_, S>,
+            &[PhaseTerminationBinding<'_, S>],
+            Option<&StatefulSearchTermination<'_, S>>,
+        ) -> R,
+    ) -> Result<R, XmlTerminationError> {
+        self.validate()?;
+        self.check(sequence.phases.iter().map(kind))?;
+        let kinds = sequence.phases.iter().map(kind).collect::<Vec<_>>();
+        self.with_phase_bindings(&kinds, existing_phases, |bindings| {
+            self.with_solver_controls(sequence.limits, existing_solver, |limits, solver| {
+                run(
+                    SolverSequence {
+                        phases: sequence.phases,
+                        limits,
+                    },
+                    bindings,
+                    solver,
+                )
+            })
+        })?
+    }
+
+    /// Mixed-model counterpart of [`Self::with_sequence_controls`].
+    pub fn with_mixed_sequence_controls<S: AdditiveScore + std::str::FromStr, R>(
+        &self,
+        sequence: MixedSolverSequence<'_, S>,
+        existing_phases: &[PhaseTerminationBinding<'_, S>],
+        existing_solver: Option<&StatefulSearchTermination<'_, S>>,
+        run: impl FnOnce(
+            MixedSolverSequence<'_, S>,
+            &[PhaseTerminationBinding<'_, S>],
+            Option<&StatefulSearchTermination<'_, S>>,
+        ) -> R,
+    ) -> Result<R, XmlTerminationError> {
+        self.validate()?;
+        self.check(sequence.phases.iter().map(mixed_kind))?;
+        let kinds = sequence.phases.iter().map(mixed_kind).collect::<Vec<_>>();
+        self.with_phase_bindings(&kinds, existing_phases, |bindings| {
+            self.with_solver_controls(sequence.limits, existing_solver, |limits, solver| {
+                run(
+                    MixedSolverSequence {
+                        phases: sequence.phases,
+                        limits,
+                    },
+                    bindings,
+                    solver,
+                )
+            })
+        })?
+    }
+
     fn with_phase_bindings<S: AdditiveScore + std::str::FromStr, R>(
         &self,
         kinds: &[&str],
@@ -794,6 +890,7 @@ impl XmlTerminationPlan {
                         and: false,
                         leaves: Vec::new(),
                         diminished: None,
+                        significant: None,
                         source_present: true,
                         scope_identity: false,
                         children,
@@ -814,6 +911,11 @@ impl XmlTerminationPlan {
         let Some(raw) = &self.solver else {
             return Ok(run(limits));
         };
+        if raw.has_significant() {
+            return Err(error(
+                "solver score-difference thresholds require with_sequence_controls or with_mixed_sequence_controls",
+            ));
+        }
         let tree = raw.compile::<S>(false, None, false)?;
         if tree.is_empty() {
             return Ok(run(limits));
@@ -892,12 +994,21 @@ impl XmlTerminationPlan {
 
 impl XmlTerminationSettings {
     fn reject_nested_projection(&self) -> Result<(), XmlTerminationError> {
+        if self.has_significant() {
+            return Err(error(
+                "score-difference thresholds require the scoped XML controls API",
+            ));
+        }
         if !self.terminations.is_empty() {
             return Err(error(
                 "nested termination requires with_sequence_extensions or with_mixed_sequence_extensions",
             ));
         }
         Ok(())
+    }
+    fn has_significant(&self) -> bool {
+        self.unimproved_score_difference_threshold.is_some()
+            || self.terminations.iter().any(Self::has_significant)
     }
     fn has_diminished(&self) -> bool {
         self.diminished_returns.is_some() || self.terminations.iter().any(Self::has_diminished)
@@ -935,12 +1046,18 @@ impl XmlTerminationSettings {
         } else {
             None
         };
+        let significant = self.unimproved_score_difference_threshold.as_deref().map(|raw| {
+            let minimum = raw.parse::<S>().map_err(|_| error("unimprovedScoreDifferenceThreshold: invalid score for the native sequence score type"))?;
+            let window = self.unimproved.resolve()?.ok_or_else(|| error("unimprovedScoreDifferenceThreshold requires an unimproved time window"))?;
+            SignificantImprovementConfig::new(window, minimum).map_err(|e| error(e.to_string()))
+        }).transpose()?;
         let children: Vec<OwnedTermination<S>> = self
             .terminations
             .iter()
             .map(|c| c.compile(construction, phase, false))
             .collect::<Result<_, _>>()?;
         let source_count = leaves.len()
+            + usize::from(significant.is_some())
             + usize::from(self.diminished_returns.is_some())
             + children.iter().filter(|child| child.source_present).count();
         Ok(OwnedTermination {
@@ -949,6 +1066,7 @@ impl XmlTerminationSettings {
             and,
             leaves,
             diminished,
+            significant,
             children,
         })
     }
@@ -962,6 +1080,7 @@ struct OwnedTermination<S> {
     scope_identity: bool,
     leaves: Vec<ScoredSearchLimit<S>>,
     diminished: Option<PhaseDiminishedReturnsConfig<S>>,
+    significant: Option<SignificantImprovementConfig<S>>,
     children: Vec<Self>,
 }
 impl<S: Clone> OwnedTermination<S> {
@@ -969,6 +1088,7 @@ impl<S: Clone> OwnedTermination<S> {
         !self.scope_identity
             && self.leaves.is_empty()
             && self.diminished.is_none()
+            && self.significant.is_none()
             && self.children.iter().all(Self::is_empty)
     }
     fn with_scored<R>(&self, run: &mut dyn FnMut(&ScoredSearchTermination<'_, S>) -> R) -> R {
@@ -1001,6 +1121,11 @@ impl<S: Clone> OwnedTermination<S> {
         if let Some(dim) = &self.diminished {
             leaves.push(StatefulSearchTermination::Condition(
                 StatefulSearchLimit::DiminishedReturns(dim.clone()),
+            ));
+        }
+        if let Some(config) = &self.significant {
+            leaves.push(StatefulSearchTermination::Condition(
+                StatefulSearchLimit::SignificantImprovement(config.clone()),
             ));
         }
         stateful_children(&self.children, &leaves, &mut |row| {

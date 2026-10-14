@@ -1,7 +1,8 @@
 //! Owned XML declarations compiled within each reusable factory job.
 use crate::{
     AdditiveScore, ConfiguredSolverManager, PhaseTerminationBinding, SolverFactory,
-    SolverFactoryError, SolverProgress, SolverSequence, XmlTerminationError, XmlTerminationPlan,
+    SolverFactoryError, SolverProgress, SolverSequence, StatefulSearchTermination,
+    XmlTerminationError, XmlTerminationPlan,
 };
 use std::{error::Error, fmt, io, str::FromStr, sync::Arc};
 
@@ -98,6 +99,37 @@ where
             captured
                 .with_sequence_extensions(effective, &[], |sequence, bindings| {
                     execute(input, sequence, bindings, progress)
+                })
+                .map_err(XmlSolverRunError::Binding)?
+                .map_err(XmlSolverRunError::Solve)
+        })
+        .map_err(XmlSolverFactoryBuildError::Factory)?;
+        Ok(Self { plan, factory })
+    }
+    /// Compiles fresh solve-wide and phase-local controls for each owned job.
+    /// The executor must install both lent outputs in `SolverExtensions`.
+    pub fn new_with_controls(
+        template: SolverSequence<'static, S>,
+        plan: XmlTerminationPlan,
+        execute: impl for<'a, 'b, 'c> Fn(
+            P,
+            SolverSequence<'a, S>,
+            &[PhaseTerminationBinding<'b, S>],
+            Option<&StatefulSearchTermination<'c, S>>,
+            SolverProgress<R>,
+        ) -> Result<R, E>
+        + Send
+        + Sync
+        + 'static,
+    ) -> Result<Self, XmlSolverFactoryBuildError> {
+        plan.with_sequence_controls(template.clone(), &[], None, |_, _, _| ())
+            .map_err(XmlSolverFactoryBuildError::Binding)?;
+        let plan = Arc::new(plan);
+        let captured = plan.clone();
+        let factory = SolverFactory::new(template, move |input, effective, progress| {
+            captured
+                .with_sequence_controls(effective, &[], None, |sequence, bindings, stateful| {
+                    execute(input, sequence, bindings, stateful, progress)
                 })
                 .map_err(XmlSolverRunError::Binding)?
                 .map_err(XmlSolverRunError::Solve)

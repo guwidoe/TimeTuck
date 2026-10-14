@@ -20,7 +20,8 @@ let result = termination.with_sequence(sequence, |sequence| {
 The projection consumes `spentLimit` and `unimprovedSpentLimit` ISO durations,
 additive milliseconds/seconds/minutes/hours/days aliases, step-count and
 unimproved-step-count limits, `bestScoreLimit`, `bestScoreFeasible`,
-`scoreCalculationCountLimit`, `moveCountLimit`, and nested `diminishedReturns`. That container
+`scoreCalculationCountLimit`, `moveCountLimit`, `unimprovedScoreDifferenceThreshold`,
+and nested `diminishedReturns`. That container
 supports `slidingWindowDuration`, additive sliding-window units, and
 `minimumImprovementRatio`. The names and container shape follow the pinned
 Community TEST configuration API and the [public termination examples](https://docs.timefold.ai/timefold-solver/latest/optimization-algorithms/overview).
@@ -90,3 +91,9 @@ caller caps. Feasibility requires a structurally complete retained best score;
 nonlocal feasibility requires the extension route. Original controls cover real
 basic/list/mixed Dense/Stream work counts, grouping, independent caps, malformed
 values, and every basic/mixed scalar phase profile. They earn no method credit.
+
+Accumulated score-difference thresholds execute through scoped controls. Root
+thresholds require the new three-output controls API (or the owned factory's
+new_with_controls constructor); phase-only thresholds also work through the
+two-output extension API. Scalar projection rejects this field. The composition
+contract above describes exact comparison, grouping and solve/phase histories.

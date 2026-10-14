@@ -37,8 +37,8 @@ counters, elapsed time and retained score; rate occurrences have independent
 histories. Explicit phase expressions and caller native policies remain independent
 OR safeguards, so a slower explicit phase rate does not suppress an earlier root
 rate stop. The scalar-only projection retains its earlier tuning precedence. A nonlocal phase diminished policy and
-construction stagnation declarations reject. Significant-improvement thresholds and native score-goal gradients remain outside
-this projection. Arbitrary nested XML termination configurations execute on the
+construction stagnation declarations reject. Native score-goal gradients remain
+outside this projection. Arbitrary nested XML termination configurations execute on the
 extension route; each node preserves its AND/OR grouping.
 
 The sequence-only `with_sequence`/`with_mixed_sequence` methods keep their existing
@@ -102,3 +102,43 @@ These elapsed observations establish scope and precedence, not timing performanc
 or exact Java/Rust trace parity. The raw original probe and its logs are retained
 in the round178 scope evidence bundle. All new controls earn zero source-method
 credit; existing complete adapted methods and provenance remain unchanged.
+
+
+## Accumulated improvement thresholds
+
+`unimprovedScoreDifferenceThreshold` requires an unimproved time declaration in
+the same configuration node. The actual native score type parses its text, and
+SignificantImprovementConfig rejects structural flaws or unsupported arithmetic.
+The threshold replaces that node's ordinary unimproved-time leaf: every small
+improvement does not independently postpone expiry. Comparison is exact and
+lexicographic across score levels, and accumulated qualifying improvement moves
+the retained-best anchor. Expiry is strictly after the window; improvements at
+the deadline can still qualify. Ties do not reset the anchor.
+
+For root thresholds use `with_sequence_controls` or `with_mixed_sequence_controls`.
+These callbacks receive the sequence, phase bindings and an optional solver-wide
+stateful expression. Install both outputs in SolverExtensions. Root histories
+survive phase handoffs; explicit phase histories start fresh. Caller static/hard
+limits remain independent, and an existing solver stateful expression is combined
+through OR. XML mixed static/stateful AND/OR subtrees are never split into
+independent stop conditions. Without root thresholds this API preserves the
+existing scalar expression path and forwards the caller's history unchanged.
+
+```rust,ignore
+plan.with_sequence_controls(sequence, &[], None, |sequence, phases, solver| {
+    solve_with_extensions(&problem, &network, sequence, SolverExtensions {
+        phase_terminations: phases,
+        stateful_termination: solver,
+        ..Default::default()
+    })
+})??;
+```
+
+The two-output extension API supports phase thresholds and rejects root
+thresholds explicitly. Scalar projection rejects thresholds rather than ignoring
+their history. Construction stagnation remains unsupported. Missing windows,
+invalid score texts and invalid edited plans reject before execution. Zero windows
+retain the native strict-expiry boundary. Pinned TerminationFactoryTest's two
+score-difference methods establish pairing/condition types; complete pinned
+UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest cases establish
+threshold/window behavior. These new integration cases earn no method credit.

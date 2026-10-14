@@ -17,7 +17,68 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round180
+## Latest verified checkpoint — round183
+
+Executable XML now supports unimprovedScoreDifferenceThreshold, using the existing
+native SignificantImprovementConfig/session. Same-node unimproved time is required;
+ordinary unimproved-time leaves are replaced, not added independently. Exact
+accumulated multilevel improvement, strict expiry, nested AND/OR and native caps
+execute through new with_sequence_controls/with_mixed_sequence_controls. They
+lend sequence, phase bindings and optional solver stateful expression; callers
+install both outputs. Root histories survive phase handoffs; phase histories reset.
+Existing native solver histories combine through OR. No shared kernel/Cargo changes.
+Legacy two-output binding supports phase thresholds, rejects root thresholds;
+scalar projection rejects all thresholds. Unsupported/edited plans preflight
+before callbacks. XmlSolverFactory::new_with_controls provides the full owned
+execution route, compiling fresh borrowed controls for every job. Old new retains
+its supported profile. Updated XML contracts explain the explicit choice.
+
+Eight original tests (4 root integration,4 owned factory) earn zero source-method
+credit. Root includes120 XML/scope/model/backend cases plus independent caps,
+12 cross-phase outcomes, prior solver/scored goals, invalid/zero-window controls.
+Owned jobs check fresh histories, actual phase handoffs, AND/OR, phase windows,
+native deadlines, bad-job recovery and recursive preflight in Dense/Stream.
+All produced scores independently rescored. Pinned TerminationFactoryTest and
+complete UnimprovedTimeMillisSpentScoreDifferenceThresholdTerminationTest specify
+pairing and behavior; no production consulted or new upstream adaptations claimed.
+
+One frozen runner-a bash scripts/check.sh passed:8,280 Rust tests and290 doctests.
+48 Rust jobs ran;1,270 Rust and46 Python reused unchanged genuine results.
+Prebuild/Clippy235.331s,gate109.621s,worker345.501s. Actual unchanged root focused4
+result was seeded as genuine runner-a cache with original key/date/log checksum;
+only output paths relocated. Agent8 factory checks/affected Clippy passed locally.
+Root4/affected Clippy passed on runner-a in47.867s, matching scoped source guards.
+Initial accidental cargo -V dispatch read compiler version only (0.042s), provided
+no test evidence, and was retained separately; actual focused-check1 executed tests.
+No Root test failures. Agent two test/setup failures and final success snapshots,
+all full Rust/Cargo manifests and log/receipts validated under
+work/round183-agent-evidence/xml-threshold-factory. Exact3 owned paths and2 parent
+parser overlay hashes matched merged source. Managed tree archived after collection;
+all build handles terminal. No runner-c probes/builds/auth; user parked it. Established
+runner-a multiplex transport worked without new auth or host-policy changes.
+
+Evidence work/parallel-round183-{freeze,evidence}.json; archive
+work/round183-runner-a-results.tar.gz SHA256
+0d956f8a8391023a3f36a122338fe97fcb367a2d4857603d777c52b5dd2abec1.
+Rust digest723b287341fe979805982290aef98e3c67cdee225cdc4bc56a800dd29115d487;
+report digest305288dca124be3786779042724faaeeb6bca414b8641883a86c752cb0266046.
+Focused raw evidence work/root-round181-focus-evidence; cache provenance
+work/round183-focused-cache-seed.json. Coverage4390/4855(90.422%),12 pending,
+453 excluded,zero failed/unverified. Original tests add no upstream credit.
+All3 actual round180 primary performance keys remain unchanged/current, retaining
+12:55/12:56/12:57UTC dates and original samples. No benchmark repeat or speed claim.
+Backend report/freshness checked at127.0.0.1:8765; no UI change/browser repetition.
+Compatibility/handoff docs updated after checks; Rust/report inputs unchanged.
+
+Next: migrate the existing owned roster workflow to new_with_controls so its
+actual XML application consumes root histories; the library/manager path now works.
+Review remaining XML score-goal forms and finish representative correctness,
+performance and original-scope qualification. Pending raw/JVM assertions remain
+honest; native nonsequential repair already works, do not pad spare buffers or
+repeat exhausted experiments. Goal active/incomplete; turn progress. Base4a7f42c;
+postcommit receipt work/round183-postcommit-evidence.json. Reuse unchanged evidence.
+
+## Previous verified checkpoint — round180
 
 Executable XML now consumes score-calculation and move-count limits and native
 best-score feasibility. False feasibility contributes no condition. Original

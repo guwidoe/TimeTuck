@@ -20,3 +20,16 @@ trees execute through the scoped binder. Invalid descendants and unsupported
 phase controls reject before publication. The [composition contract](xml-termination-composition.md)
 describes solve/phase projection and independent safeguards. No XML class loading or JVM configuration ABI is
 claimed. Original manager integration tests receive no upstream-method credit.
+
+`new_with_controls` also lends a solve-wide `StatefulSearchTermination` to the
+executor. Install that output in `SolverExtensions.stateful_termination` together
+with the phase bindings. Root significant-improvement thresholds retain one
+history across phase handoffs; each manager job starts fresh histories. The whole
+root tree is evaluated in that scope, preserving AND/OR grouping. Native caps and
+cancellation still apply independently. Phase thresholds use fresh phase histories.
+
+The original `new` constructor retains its two-output executor and rejects root
+thresholds which require solve-wide state. Both constructors recursively validate
+all declarations before any executor call, including deferred threshold score
+texts and missing unimproved windows. Input/scoring failures remain ordinary job
+errors; a subsequent job can use the same manager.

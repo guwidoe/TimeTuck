@@ -10100,3 +10100,20 @@ can return no score where Java initializes once. This supersedes earlier rounds'
 unsupported-rate combinations without claiming trace parity. See the updated
 XML composition/factory contracts. Significant-improvement thresholds remain
 outside executable XML projection, despite existing native support.
+
+
+Round183 connects executable XML unimprovedScoreDifferenceThreshold to native
+SignificantImprovementConfig/session histories. The same node must supply an
+unimproved window. Thresholds replace ordinary stagnation leaves and retain
+exact accumulated multilevel comparison and strict expiry. The new standard/mixed
+with_sequence_controls APIs lend phase controls and a solver-wide expression;
+root histories survive handoffs, phase histories reset, and caller histories/caps
+remain independent. Static/stateful AND/OR grouping stays intact.
+
+XmlSolverFactory::new_with_controls recursively preflights and compiles fresh
+controls per owned job. Legacy two-output binding rejects root thresholds rather
+than accepting unused histories; phase thresholds work through that profile. Eight
+original controls execute actual basic/list/mixed Dense/Stream solving, owned
+manager jobs, fresh histories, grouping, independent caps, invalid-input recovery
+and preflight rejection. No additional source-method credit; pin and provenance
+unchanged. This supersedes prior rounds' unsupported-threshold projection.
