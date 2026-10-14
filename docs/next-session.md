@@ -17,7 +17,50 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round198
+## Latest verified checkpoint — round199
+
+Read-only scope audits mapped all453excluded identities to167actual Community
+TEST files;26methods contain executable planning assertions. Blanket framework
+path exclusions cannot certify their native behavior. Remaining12pending methods
+are9JVM/framework/edition seams,2private KOpt descriptor-array comparisons and1
+unsupported-operation assertion; no new optimizer algorithm gap was demonstrated.
+Audits preserved atwork/round199-{excluded-behavior,native-completion}-audit.*.
+
+Three GPT-6.1 Sol agents qualified exact native list-shadow, grouped cascade and
+supplier solves in3new framework_*_solve targets. All4source solve methods retain
+complete source fixtures/helper objectives, score-1/-3/0/nonnegative assertions,
+nonnull successful results and applicable solution/entity clone assertions.
+Actual Dense/Stream solves use finite limits and real dependency/cascade machinery.
+Original controls check24complete list layouts/reference/cycle recovery, balanced
+cascade improvement and supplier partial exclusion/null failure.7focused tests
+and strict affected Clippy passed; initial compile/lint failures retained.
+4cases+14TEST helper fixtures added to provenance. No shared solver/Cargo/pin/
+exclusion-rule changes or JVM injection/framework parity claims.
+
+One frozen runner-a bash scripts/check.sh verified8310Rust tests+290doctests;
+RUN3Rust,REUSE1325Rust+46Python. Prebuild165.275s,gate84.186s,worker250.070s.
+Local focused handles and remote gate/collection are terminal; runner-c remains parked.
+Source080d45a6c175070617c00f2b6963aa491fe8a31ab2429f4ef03ed7ae3245a471;
+Rustdigest d5229043768c55cbaa4ef22b61014eedb2404d4bab0d924ac49b7e7c0f3aaa3e;
+reportdigest92be48d85a45a5b82072fc5b926f172538c38b4d91866d31dd2a5fbf9e347265.
+Archivework/round199-runner-a-results.tar.gz SHA
+859fcdaf41d00dff507676ed69fe4854639aea9ca3f503e5c6ad2494621b8409.
+Evidencework/parallel-round199-{freeze,evidence}.json and agentproposals/logs.
+Dashboard JSON+HTTP freshness checked without repeating unchanged UI checks.
+Coverage4394/4855(90.505%),12pending,449excluded,zero failed/unverified.
+Five existing performance sections remain current,eight remain honestly stale;
+no benchmark rerun or rekeying for unchanged solver/benchmark inputs.
+
+Objective remains incomplete. Assess the other excluded live planning assertions
+(including exact three-collection inheritance score12) before declaring native
+functional scope complete. Prior native policies/differential discrepancies remain
+explicit limitations. Strongest measured performance concern is pooled basic
+reconstruction:96variable whole-group232.45ms versusJava28.53ms and149001versus
+6169scorecalls. Investigate repeated candidate scoring without changing validity,
+ordering, bounds, default scores or retained-best handoff. Reuse this batch's
+successful checks when inputs match; do not repeat exhausted raw KOpt/JVM probes.
+
+## Previous verified checkpoint — round198
 
 Added runnable `basic_repair_profile` example and `docs/basic-repair-profile.md`.
 Actual SolverSequence first uses Independent/Sequential, then CoverageCycle/Pooled,

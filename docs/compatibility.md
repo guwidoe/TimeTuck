@@ -10251,3 +10251,30 @@ has 47 native and 35 Java optima, all 64 outputs valid. More candidate work matt
 the 96-variable whole-group workload takes Rust 232.45 ms versus Java 28.53 ms,
 with 149,001 versus 6,169 score calls. This slower result and both adverse native
 single-policy cases remain in the evidence; no universal improvement is claimed.
+
+## Planning assertions inside framework tests
+
+Four additional Community solve methods now have complete native adaptations:
+the Quarkus declarative list-shadow and grouped cascading tests, plus the Quarkus
+and Spring two-variable supplier tests. Actual Dense and Stream solves preserve
+the source fixtures and score assertions (-1, -3, and 0/nonnegative respectively).
+The list and supplier cases also preserve the source's distinct solution/entity
+identity assertions through owned Rust output. Dynamic list dependencies, cycle
+flags, grouped field updates and supplier execution before join/filter scoring
+are exercised through native shadow machinery, with finite deterministic limits.
+All adapted helpers are recorded in the provenance ledger.
+
+Original controls additionally check all 24 complete three-value list layouts
+against an independent dependency reference, cycle recovery, grouped-cascade
+improvement from a balanced warm start, and supplier partial-assignment exclusion
+and null failure. These controls add no source-method credit. The adaptations
+establish planning behavior; JVM injection and framework bootstrap remain outside
+the target. Exclusion rules, upstream pin and solver implementation are unchanged.
+
+The remaining 12 pending methods concern JVM/framework/edition seams, private
+KOpt descriptor arrays and an unsupported-operation assertion; they do not by
+themselves demonstrate another missing search algorithm. Framework exclusions
+still include other executable planning assertions requiring qualification.
+Existing connected-range identity/empty-interval and integer overflow differences
+remain documented limits on blanket equivalence. Performance qualification also
+remains incomplete; this increment does not establish project completion.

@@ -66194,6 +66194,66 @@
         "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
       ],
       "modifications": "Retains generateSolution(3,2) exact generated value labels, full entity count and no-exception solve. An abstract native provider trait and concrete implementation are real executable scoring callbacks; only the concrete constructor enters the actual typed scoring catalog, with source ordered duplicate-pair penalty and match factor one. No abstract-class discovery or framework claim. Both real prepared Dense and Stream score directors execute; originals add no source-method credit."
+    },
+    {
+      "id": "TimefoldProcessorDuplicateCascadingShadowVariableSolveTest.solve",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorDuplicateCascadingShadowVariableSolveTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/framework_cascade_solve.rs",
+      "local_test": "duplicate_cascading_shadow_variable_solve_native_qualification",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve both complete solve assertions: successful nonnull final solution from actual native SolverManager job1 and exact returned SimpleScore -3. Preserve complete TEST fixture v1..v4, two initially empty entities, previous-element dependencies, jointly updated chainLength/chainProduct callback (head0/1, successor+1/*2), and both named source penalties (>2 length, <4 product). Native typed list models, ListCascadeCache and one grouped list_cascade_stream replace annotations/Java fields. Run real bounded deterministic construction/local-search with Dense/Stream, configured best-score target -3,512 total evaluations,256 move evaluations,128 construction evaluations,16 local steps,5-second cooperative safety limit and10-second manager wait. Independent position-based rescoring, identities, links, fields, consistency and backend agreement strengthen assertions. Quarkus injection/archive setup and GeneratedClassBuildItem duplicate-class detection have no native DI/build parity claim. Original balanced warm-start test adds no upstream method credit."
+    },
+    {
+      "id": "TimefoldProcessorSupplierShadowSolutionSimpleSolveTest.solve",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorSupplierShadowSolutionSimpleSolveTest.java",
+      "upstream_test": "solve",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "local_test": "quarkus_supplier_shadow_solution_simple_solve",
+      "license": "Apache-2.0",
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim.",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "TimefoldSolverSingleSolverAutoConfigurationTest.solveSupplierVariables",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/TimefoldSolverSingleSolverAutoConfigurationTest.java",
+      "upstream_test": "solveSupplierVariables",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "local_test": "spring_single_solver_solve_supplier_variables",
+      "license": "Apache-2.0",
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim.",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_list_shadow_solve.rs",
+      "id": "TimefoldProcessorDeclarativeShadowSolutionListSolveTest.solve",
+      "status": "implemented",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/TimefoldProcessorDeclarativeShadowSolutionListSolveTest.java",
+      "upstream_test": "solve",
+      "local_test": "declarative_shadow_solution_list_solve",
+      "modifications": "Preserve full two-empty-owner/three-value fixture including value3 dependencies on1and2, nonnull successful native solve, distinct cloned solution, exact score-1, and exact unusual output owner0 versus input owner1 identity assertion. Also assert same-index owner cloning, unchanged input, complete unique assignments and independent shadow/score rescoring. Actual Dense and Stream construction/local search with source best-score target-1, explicit deterministic Original move order, three construction steps,32local steps and1000shared score evaluations. Rust owned Clone and explicit stable-reference dependency binding replace Java solution/entity cloning, supplier reflection and CDI/Gizmo; successful typed result replaces nullable Java return. No JVM/framework/injection/API parity claimed."
     }
   ],
   "fixtures": [
@@ -96333,6 +96393,188 @@
         "crates/solver/tests/fixtures/model_sessions/NOTICE.txt"
       ],
       "modifications": "Preserves best-score limit zero, all original fixture counts, range values, source failure message and extra payload where applicable. Native session/factory/model registrations replace framework setup; framework-only singleton methods are not adapted or credited."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/cascade/TestdataQuarkusDuplicateCascadingEntity.java",
+      "upstream_test": "TEST fixture class",
+      "local_path": "crates/solver/tests/framework_cascade_solve.rs",
+      "license": "Apache-2.0",
+      "modifications": "Adapted fixture into typed native model, grouped Calculation tuple/update_calculation_value and named native score constraints; no Java annotation/classloader/build compatibility.",
+      "id": "framework-cascade-round199-TestdataQuarkusDuplicateCascadingEntity",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/cascade/TestdataQuarkusDuplicateCascadingValue.java",
+      "upstream_test": "TEST fixture class",
+      "local_path": "crates/solver/tests/framework_cascade_solve.rs",
+      "license": "Apache-2.0",
+      "modifications": "Adapted fixture into typed native model, grouped Calculation tuple/update_calculation_value and named native score constraints; no Java annotation/classloader/build compatibility.",
+      "id": "framework-cascade-round199-TestdataQuarkusDuplicateCascadingValue",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/cascade/TestdataQuarkusDuplicateCascadingSolution.java",
+      "upstream_test": "TEST fixture class",
+      "local_path": "crates/solver/tests/framework_cascade_solve.rs",
+      "license": "Apache-2.0",
+      "modifications": "Adapted fixture into typed native model, grouped Calculation tuple/update_calculation_value and named native score constraints; no Java annotation/classloader/build compatibility.",
+      "id": "framework-cascade-round199-TestdataQuarkusDuplicateCascadingSolution",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/cascade/TestdataQuarkusDuplicateCascadingConstraintProvider.java",
+      "upstream_test": "TEST fixture class",
+      "local_path": "crates/solver/tests/framework_cascade_solve.rs",
+      "license": "Apache-2.0",
+      "modifications": "Adapted fixture into typed native model, grouped Calculation tuple/update_calculation_value and named native score constraints; no Java annotation/classloader/build compatibility.",
+      "id": "framework-cascade-round199-TestdataQuarkusDuplicateCascadingConstraintProvider",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ]
+    },
+    {
+      "id": "framework-supplier-round199-TestdataQuarkusSupplierVariableSimpleEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/simple/TestdataQuarkusSupplierVariableSimpleEntity.java",
+      "upstream_test": "TEST fixture entity, solution, or constraint provider",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim."
+    },
+    {
+      "id": "framework-supplier-round199-TestdataQuarkusSupplierVariableSimpleSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/simple/TestdataQuarkusSupplierVariableSimpleSolution.java",
+      "upstream_test": "TEST fixture entity, solution, or constraint provider",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim."
+    },
+    {
+      "id": "framework-supplier-round199-TestdataQuarkusSupplierVariableSimpleConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/simple/TestdataQuarkusSupplierVariableSimpleConstraintProvider.java",
+      "upstream_test": "TEST fixture entity, solution, or constraint provider",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim."
+    },
+    {
+      "id": "framework-supplier-round199-TestdataSpringSupplierVariableEntity",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/declarative/domain/TestdataSpringSupplierVariableEntity.java",
+      "upstream_test": "TEST fixture entity, solution, or constraint provider",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim."
+    },
+    {
+      "id": "framework-supplier-round199-TestdataSpringSupplierVariableSolution",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/declarative/domain/TestdataSpringSupplierVariableSolution.java",
+      "upstream_test": "TEST fixture entity, solution, or constraint provider",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim."
+    },
+    {
+      "id": "framework-supplier-round199-TestdataSpringSupplierVariableConstraintProvider",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "spring-integration/spring-boot-autoconfigure/src/test/java/ai/timefold/solver/spring/boot/autoconfigure/declarative/constraints/TestdataSpringSupplierVariableConstraintProvider.java",
+      "upstream_test": "TEST fixture entity, solution, or constraint provider",
+      "local_path": "crates/solver/tests/framework_supplier_solve.rs",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Native owned SolverFactory/manager job replaces JVM Quarkus/Spring injection and bootstrap. Both Dense and Stream solve two genuine a/b variables with finite construction/local-search/evaluation caps and zero best-score target. ShadowSession dependency edges derive null-until-complete concatenation before scoring. Stream complete-entity exclusion, value1/value2 self equality join, null-failing derived filter and negative-one match objective preserve helper semantics. Returned independently owned solution/entity Arc allocations project actual retained native assignment, preserving all source result score/non-null/identity assertions. No JVM framework parity or random trace claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_list_shadow_solve.rs",
+      "id": "framework-list-shadow-round199-Entity",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/list/TestdataQuarkusDeclarativeShadowVariableListEntity.java",
+      "upstream_test": "declared list field, empty-list constructors, owner names",
+      "modifications": "Map named a/b owners and genuine list to native owned Vec<usize> stable value identities; actual search writes returned lists into cloned owners."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_list_shadow_solve.rs",
+      "id": "framework-list-shadow-round199-Value",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/list/TestdataQuarkusDeclarativeShadowVariableListValue.java",
+      "upstream_test": "startTimeSupplier, previous/dependencies/startTime/inconsistent declarations and constructors",
+      "modifications": "Map value identities1/2/3 to indices0/1/2. Preserve head start0 and previous/dependency max+1 supplier, fixed dependency links and structural predecessor changes. Native ShadowSession dynamic bindings include both previous.startTime and dependencies[].startTime, preserve cycle flags and publish actual derived fields into cloned values. Typed bindings replace annotations/method discovery."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_list_shadow_solve.rs",
+      "id": "framework-list-shadow-round199-Solution",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/list/TestdataQuarkusDeclarativeShadowVariableListSolution.java",
+      "upstream_test": "valueList/entityList/score declarations and getters/setters",
+      "modifications": "Native owned solution preserves value/entity registries and optional score. Borrow input, deep-clone owned vectors before actual solve, publish returned assignment and derived fields into clone; no Java getter/class metadata parity."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_list_shadow_solve.rs",
+      "id": "framework-list-shadow-round199-ConstraintProvider",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/list/TestdataQuarkusDeclarativeShadowVariableListConstraintProvider.java",
+      "upstream_test": "defineConstraints",
+      "modifications": "Preserve assigned-and-consistent startTime penalty and1000per-inconsistent-value penalty over all values, including unassigned. Native dense whole-owner scope and stream collect/map_shadows scoring evaluate actual session outputs; stream private transient duplicate-owner rows normalize to unique membership, validated final layout untouched."
     }
   ]
 }
