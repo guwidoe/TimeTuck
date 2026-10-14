@@ -1,4 +1,5 @@
 //! Original bounded two-phase graph repair profile; no upstream method credit.
+mod repair_scoring;
 mod solver_support;
 use std::{
     error::Error,
@@ -10,9 +11,10 @@ use timetuck::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if args.len() != 5 {
-        return Err("group attempts-per-phase warmup samples".into());
+    if !(5..=6).contains(&args.len()) {
+        return Err("group attempts-per-phase warmup samples [full|incremental]".into());
     }
+    let scoring = repair_scoring::ScoringModel::parse(args.get(5).map(String::as_str))?;
     let group: usize = args[1].parse()?;
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
@@ -34,12 +36,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         {
             return Err("requires unpinned all-zero worst initial assignment".into());
         }
-        let mut network = ConstraintNetwork::new(case.problem.variables().len());
-        network.add_constraint(
-            "full-score",
-            (0..case.problem.variables().len()).collect(),
-            |v| case.score_by(|i| v[i].copied()),
-        )?;
+        let network = repair_scoring::network(&case, scoring)?;
         let domain = case.weights[0].len() as u64;
         let count = group as u64;
         let pooled = count

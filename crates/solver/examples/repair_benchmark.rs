@@ -1,4 +1,5 @@
 //! Original bounded repair quality/timing adapter; sampling differs from Java.
+mod repair_scoring;
 mod solver_support;
 use std::{
     error::Error,
@@ -7,15 +8,15 @@ use std::{
     time::Instant,
 };
 use timetuck::{
-    Acceptance, ConstraintNetwork, ConstructionPlacement, RuinRecreateConfig,
-    RuinRecreateTermination, RuinSampling, ruin_recreate_search_from,
+    Acceptance, ConstructionPlacement, RuinRecreateConfig, RuinRecreateTermination, RuinSampling,
+    ruin_recreate_search_from,
 };
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = std::env::args().collect();
-    if !(5..=7).contains(&args.len()) {
+    if !(5..=8).contains(&args.len()) {
         return Err(
-            "group steps warmup samples [independent|coverage-cycle [sequential|cheapest]]".into(),
+            "group steps warmup samples [independent|coverage-cycle [sequential|cheapest [full|incremental]]]".into(),
         );
     }
     let ruin_sampling = match args.get(5).map(String::as_str) {
@@ -28,6 +29,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         Some("cheapest") => ConstructionPlacement::Pooled,
         _ => return Err("unknown reconstruction placement".into()),
     };
+    let scoring_model = repair_scoring::ScoringModel::parse(args.get(7).map(String::as_str))?;
     let group: usize = args[1].parse()?;
     let steps: u64 = args[2].parse()?;
     let warmup: usize = args[3].parse()?;
@@ -49,12 +51,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         {
             return Err("requires unpinned all-zero worst initial assignment".into());
         }
-        let mut network = ConstraintNetwork::new(case.problem.variables().len());
-        network.add_constraint(
-            "full-score",
-            (0..case.problem.variables().len()).collect(),
-            |v| case.score_by(|i| v[i].copied()),
-        )?;
+        let network = repair_scoring::network(&case, scoring_model)?;
         let placements = match placement {
             ConstructionPlacement::Sequential => group as u64,
             ConstructionPlacement::Pooled => {

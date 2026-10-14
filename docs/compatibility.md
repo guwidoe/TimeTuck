@@ -10278,3 +10278,23 @@ still include other executable planning assertions requiring qualification.
 Existing connected-range identity/empty-interval and integer overflow differences
 remain documented limits on blanket equivalence. Performance qualification also
 remains incomplete; this increment does not establish project completion.
+
+One additional Quarkus inheritance solve method now preserves its exact
+three-collection, two-entity-per-collection fixture and score 12. Native inherited
+entity/solution bindings and XML-selected owned factories execute both Dense and
+Stream solves. The two genuine fields determine child eligibility; the source's
+two constraints independently reward the inherited base field. All helper and XML
+attribution is recorded; JVM scanning and injection parity remain unclaimed.
+
+The original repair examples additionally expose opt-in incremental Dense scoring:
+one scoped constraint per edge occurrence and per variable weight, preserving
+duplicate/reversed/self edges and temporarily unassigned zero contributions.
+Full scoring remains the default. Across 640 actual repair/phase solves, the two
+representations retain assignments, scores, logical work and best updates,
+including all single-policy quality regressions and the phased 48/64 result.
+Original transaction controls independently check 64 partial states and affected
+callback execution. This changes native workload representation, not solver
+candidate selection or Java's EasyScoreCalculator. The benchmark explicitly
+collects a fresh native full-scoring baseline alongside incremental and Java
+measurements; it rejects native result or logical-work differences. These original
+performance fixtures add no upstream-method credit or general speed claim.

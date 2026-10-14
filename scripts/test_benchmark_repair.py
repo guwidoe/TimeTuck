@@ -1,7 +1,7 @@
 """Original repair measurement regressions: validity, work and quality stay separate."""
 import itertools
 import unittest
-from benchmark_repair import generate_cases, workload, group_size, validate_scope, parse_result, quality_summary
+from benchmark_repair import generate_cases, workload, group_size, validate_scope, parse_result, quality_summary, validate_scoring_equivalence
 from differential_solver import score, optimum
 
 
@@ -17,6 +17,14 @@ class RepairBenchmarkTests(unittest.TestCase):
         self.assertEqual(quality_summary(rows), dict(total=1, passed=1, equal_scores=0, optimal=dict(java=0, rust=1)))
         self.assertEqual(best['repairs'], 8)
         self.assertEqual(poor['score_calls'], 30)
+
+    def test_incremental_baseline_must_preserve_result_and_logical_work(self):
+        result = parse_result(self.case, 'check\t100\t0\t-1\t0,1\t50\t8', 8, (0, -1))
+        validate_scoring_equivalence(result, dict(result, elapsed_ns=999))
+        for key, value in [('score', [-1, 0]), ('values', [1, 0]),
+                           ('score_calls', 49), ('repairs', 7)]:
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, key):
+                validate_scoring_equivalence(result, dict(result, **{key: value}))
 
     def test_protocol_rejects_wrong_work_identity_score_and_assignment(self):
         valid = 'check\t100\t0\t-1\t0,1\t50\t8'

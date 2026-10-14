@@ -17,7 +17,62 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest verified checkpoint — round199
+## Latest verified checkpoint — round200
+
+Repair benchmark and bounded phased example now accept optional native scoring
+model full(default) or incremental. New private repair_scoring helper registers
+one true scoped constraint per edge occurrence/variable weight; duplicate,
+reversed and self edges retain exact penalties, temporary unassigned values zero.
+Shared solver/Cargo/solver_support/pin/exclusion rules unchanged.640actual solves
+retain all4policy assignments/scores/logical work and phased48optima/21improved/
+43equal/zero regressed best updates across models;64partial states independently
+check scores/transactions/affected callbacks.4focused tests+strict affectedClippy
+passed. Parent128actual phased CLI runs match both models on64cases/48optima;
+binaryproofwork/round200-profile-binary-qualification.json, no debug timing claim.
+
+Exact no-raw-list Quarkus inheritance solve also qualified:3collections×2children,
+3base/3subvalue facts, inherited native fields/solution bindings, XML-selected
+owned factories, both backends, successful final score12. Both source assertions
+and source helper objective preserved;1case+9TESThelper/resource ledger entries.
+2focused tests+strictClippy passed. No framework/DI/Java API parity claim.
+
+One frozen runner-a bash scripts/check.sh verified8316Rust tests+290doctests;
+RUN4Rust,REUSE1326Rust;RUN1Python,REUSE45Python. Prebuild164.019s,gate81.730s.
+Only after gate terminal, actual same-source/same-host paired full/incremental
+native scoring and JavaEasy full scoring benchmark ran97.320s,3forks×5samples,
+3warmups,balanced runtime order. All64valid;native47optimal/Java35,36equal scores.
+Native baseline/inc assignments,scores,logical evaluations and repairs identical
+on all quality/timing outputs. All4larger planted cases reach0hard/0soft:
+half32 inc1.690/full2.062/Java5.612ms;half96 29.363/64.144/19.849;
+whole32 5.793/6.660/9.766;whole96 108.415/233.133/29.269.
+Largest native representation improvement2.150×/~53%lower median,still slower
+than Java. Same149001native logical evaluations;Java6169;physical callback units
+differ. This is scoped-model optimization,not fewer candidates/equal architecture
+or general speedup. Raw full baseline samples are retained,old report preserved.
+
+Combined worker345.601s,alllocal/remote/browser handles terminal;runner-c parked.
+Source30a38d2d832f397e445ce9517abc182911824162eeba519eb198da9b2273b3e1;
+Rustdigest15e207bd17eed6b7d355d10f3335a3090fad43bb2dac9ef29eec565df48e2d22;
+reportdigestbf82f851e90328bb47473b69e02d9900383045f0d31045a5caa518aa2c50441f;
+repairmeasurement15345b76b83a28f9d0e3099fa3373bae414ec809e25ec13a3b1f8ec960b8c468.
+Archivework/round200-runner-a-results.tar.gz SHA
+15af7e52a157145f6cc4aaf41259ba65cc606b787bc8c8bf1ac2c670eb9d002c.
+Evidencework/parallel-round200-{freeze,evidence}.json,agentreceipts/logs,
+actualbrowserJSON+freshHTTPreceipt.Chrome renders4395methods and all4incremental
+workload labels without uncaught errors;noUI source change.
+Coverage4395/4855(90.525%),12pending,448excluded,zero failed/unverified.
+5performance sections genuinely current,8remain stale with original dates.
+
+Objective incomplete. Next measured kernel opportunity:scoring.rs
+contribution_weighted creates a heap Vec of references per constraint callback;
+small unary/binary scopes can use stack arguments while preserving order,length,
+identity,zero-weight skipping,error mapping and transaction/panic behavior.
+Changed shared scoring requires broad regression and deliberate affected paired
+benchmark refresh. Continue remaining excluded native solve qualification;do not
+repeat rawKOpt/JVM probes or reclassify known native arithmetic/range differences
+as agreement. Reuse this successful batch wherever relevant inputs match.
+
+## Previous verified checkpoint — round199
 
 Read-only scope audits mapped all453excluded identities to167actual Community
 TEST files;26methods contain executable planning assertions. Blanket framework

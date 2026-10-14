@@ -66254,6 +66254,21 @@
       "upstream_test": "solve",
       "local_test": "declarative_shadow_solution_list_solve",
       "modifications": "Preserve full two-empty-owner/three-value fixture including value3 dependencies on1and2, nonnull successful native solve, distinct cloned solution, exact score-1, and exact unusual output owner0 versus input owner1 identity assertion. Also assert same-index owner cloning, unchanged input, complete unique assignments and independent shadow/score rescoring. Actual Dense and Stream construction/local search with source best-score target-1, explicit deterministic Original move order, three construction steps,32local steps and1000shared score evaluations. Rust owned Clone and explicit stable-reference dependency binding replace Java solution/entity cloning, supplier reflection and CDI/Gizmo; successful typed result replaces nullable Java return. No JVM/framework/injection/API parity claimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "TimefoldProcessorBothClassesAnnotatedConfiguredXmlTest.testBothClassesAnnotated",
+      "status": "implemented",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/inheritance/solution/TimefoldProcessorBothClassesAnnotatedConfiguredXmlTest.java",
+      "upstream_test": "testBothClassesAnnotated",
+      "local_test": "both_classes_annotated_configured_xml_no_raw_list",
+      "modifications": "Preserve exact generateSolution(3,2) fixture:3base and3subvalue facts; three distinct2-child collections, interleaved entity codes0..5; null base/child singletons;12genuine fields; no raw-list collection; source external best-score-limit0 and exact score12/non-null successful result. Native inherited entity getter/setter bindings and inherited solution collection projections bind real owned objects and actual finite models. Original source XML keys select an actual registered owned factory and job on both Dense and Stream. Both source provider constraints independently reward eligible inherited base values, while all genuine child fields must be assigned for forEach eligibility. After solve, committed objects independently rescore12 and preserve exact IDs/counts/live range memberships. Finite1000shared evaluations,12construction steps,32local steps and deterministic Original move order. Explicit Rust native projection/registration replaces Java annotations, superclass assignability, erased Object lists, class scanning and CDI; empty override map uses unchanged native constraint weights. No Java API/framework/loading parity claim; no scripted assignments, moves or result."
     }
   ],
   "fixtures": [
@@ -96575,6 +96590,123 @@
       "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/declarative/list/TestdataQuarkusDeclarativeShadowVariableListConstraintProvider.java",
       "upstream_test": "defineConstraints",
       "modifications": "Preserve assigned-and-consistent startTime penalty and1000per-inconsistent-value penalty over all values, including unassigned. Native dense whole-owner scope and stream collect/map_shadows scoring evaluate actual session outputs; stream private transient duplicate-owner rows normalize to unique membership, validated final layout untouched."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-extended-solution",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/java/ai/timefold/solver/quarkus/testdomain/inheritance/solution/TestdataBothAnnotatedNoRawListExtendedSolution.java",
+      "upstream_test": "generateSolution; declared inherited/child/object collections and optional singleton entities",
+      "modifications": "Adapt exact generator values/codes/counts and no-raw-list shape into own typed nested Solution. Two absent singletons adapt to empty Option slices in native binding; Object collection holds concrete known child type. Retain empty overrides behavior through unchanged weights. Do not adapt descriptor-builder API or claim Java reflection."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-base-solution",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedSolution.java",
+      "upstream_test": "valueList/subValueList/entityList/score and inherited declarations",
+      "modifications": "Own BaseSolution holds two distinct range registries, inherited child entity collection and actual returned score. Callable inherited solution projections reach real base storage; empty overrides use ordinary unchanged weights."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-child-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedChildEntity.java",
+      "upstream_test": "subValue/getSubValue/setSubValue",
+      "modifications": "Nested ChildEntity inherits callable base member binding through native projection, adds genuine subValue with separate subValueRange, opens and commits both actual fields."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-base-provider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedConstraintProvider.java",
+      "upstream_test": "defineConstraints",
+      "modifications": "Native Constraint rewards each initialized inherited base value; child eligibility requires both genuine fields. Dense scoped predicate and stream collected field rows read actual assignments."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-extended-provider",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/inheritance/solution/baseannotated/childtoo/TestdataBothAnnotatedExtendedConstraintProvider.java",
+      "upstream_test": "defineConstraints",
+      "modifications": "Retain inherited Constraint plus separate Constraint2 for known concrete child entities, each gives1pereligible child. No reward for subValue itself; eligibility depends on it. Independent native constraints expose real score2perchild."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-base-entity",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataEntity.java",
+      "upstream_test": "code/value declaration, constructor, getValue/setValue",
+      "modifications": "Native BaseEntity owns code and optional String value. Native inherited typed getter/setter references real parent storage; descriptor APIs and unrelated updateValue helper are unused/unadapted."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-value",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataValue.java",
+      "upstream_test": "String code constructor",
+      "modifications": "Native owned String values preserve exact Generated Value/Generated Subvalue labels and distinct registries. No Java identity/ABI claim."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/framework_inheritance_solve.rs",
+      "id": "framework-inheritance-round200-object",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/testdomain/TestdataObject.java",
+      "upstream_test": "String code field/constructor/getCode",
+      "modifications": "Native owned String entity codes preserve exact source generated interleaving0..5. PlanningId annotations and CodeAssertable interface are replaced by explicit native identity/assertions; unused setter/toString behavior unclaimed."
+    },
+    {
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "local_path": "crates/solver/tests/fixtures/framework_inheritance_no_raw_config.xml",
+      "id": "framework-inheritance-round200-xml",
+      "upstream_path": "quarkus-integration/quarkus/deployment/src/test/resources/ai/timefold/solver/quarkus/inheritance/bothClassAnnotatedConfig.xml",
+      "upstream_test": "TEST-only resource",
+      "modifications": "Preserve entire source XML configuration including solution/entity/provider keys and exact schema hint. Add Apache-2.0 attribution comment. Native configuration parser and explicit signature registry select real owned factory; no reflection or remote schema fetching."
     }
   ]
 }
