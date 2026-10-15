@@ -532,15 +532,18 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             )?;
         }
         let locations = self.problem.value_locations(&next);
-        for (i, value) in self.problem.values().iter().enumerate() {
-            updates.push(
-                &self.sources.values,
-                TupleChange::put(
-                    i,
-                    ListValueRow::from_known_position(i, value, &next, locations[i]),
-                ),
-            )?;
+        let mut value_updates = self.problem.values().iter().enumerate().map(|(i, value)| {
+            (
+                i,
+                ListValueRow::from_known_position(i, value, &next, locations[i]),
+            )
+        });
+        if !graph.try_apply_owned_unobserved(&self.sources.values, &mut value_updates)? {
+            for (i, row) in value_updates.by_ref() {
+                updates.push(&self.sources.values, TupleChange::put(i, row))?;
+            }
         }
+        drop(value_updates);
         graph.apply_updates(updates)?;
         let score = with_structure(graph.score()?, self.problem, &next);
         Ok(crate::StreamAssignmentChange::new(
@@ -646,15 +649,14 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                 TupleChange::put(entity, (entity, assignment.lists()[entity].clone())),
             )?;
         }
-        for (i, position) in self
+        let mut value_updates = self
             .problem
             .changed_value_positions(&assignment, &touched, |entity| {
                 assignment.original_list(entity).unwrap()
             })
-        {
-            updates.push(
-                &self.sources.values,
-                TupleChange::put(
+            .into_iter()
+            .map(|(i, position)| {
+                (
                     i,
                     ListValueRow::from_known_position(
                         i,
@@ -662,9 +664,14 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
                         &assignment,
                         position,
                     ),
-                ),
-            )?;
+                )
+            });
+        if !graph.try_apply_owned_unobserved(&self.sources.values, &mut value_updates)? {
+            for (i, row) in value_updates.by_ref() {
+                updates.push(&self.sources.values, TupleChange::put(i, row))?;
+            }
         }
+        drop(value_updates);
         graph.apply_updates(updates)?;
         let score = graph.score()?.with_structural(structural);
         Ok(ListStreamScoredMove {

@@ -43,6 +43,15 @@ impl<T> FixedSourceNode<T> {
             journal.push((index, old));
         }
     }
+    pub(super) fn put_owned(&mut self, index: usize, value: T) -> Result<(), GraphError> {
+        if index >= self.values.len() {
+            return Err(GraphError::Dependency(
+                "bound planning source ID outside its validated universe".into(),
+            ));
+        }
+        self.replace(index, Some(Arc::new(value)));
+        Ok(())
+    }
     fn update(&mut self, event: &Event) -> Result<(), GraphError>
     where
         T: Clone + 'static,
@@ -72,6 +81,9 @@ impl<T> FixedSourceNode<T> {
     }
 }
 impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
+    fn fixed_source_mut(&mut self) -> Option<&mut dyn Any> {
+        Some(self)
+    }
     fn apply_batch(
         &mut self,
         inputs: &[(bool, Event)],
@@ -203,6 +215,36 @@ mod tests {
             self.0.set(self.0.get() + 1);
             Self(self.0.clone(), self.1)
         }
+    }
+    #[test]
+    #[allow(clippy::arc_with_non_send_sync)]
+    fn owned_rows_inspection_and_rollback_do_not_require_payload_clone() {
+        struct CloneBomb(usize);
+        impl Clone for CloneBomb {
+            fn clone(&self) -> Self {
+                panic!("unexpected payload clone")
+            }
+        }
+        let original = Arc::new(CloneBomb(10));
+        let mut node = FixedSourceNode::new(vec![(Arc::new(0), original.clone())]);
+        let held = node.rows().clone();
+        let saved = <FixedSourceNode<CloneBomb> as Node<SimpleScore>>::checkpoint(&node);
+        let undo = <FixedSourceNode<CloneBomb> as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        node.put_owned(0, CloneBomb(20)).unwrap();
+        let changed = node.rows().clone();
+        assert_eq!(changed[&0].0, 20);
+        assert_eq!(held[&0].0, 10);
+        assert!(matches!(
+            node.put_owned(1, CloneBomb(99)),
+            Err(GraphError::Dependency(_))
+        ));
+        assert!(std::ptr::eq(&node.rows()[&0], &changed[&0]));
+        <FixedSourceNode<CloneBomb> as Node<SimpleScore>>::restore(&mut node, undo);
+        assert!(std::ptr::eq(&node.rows()[&0], original.as_ref()));
+        node.put_owned(0, CloneBomb(30)).unwrap();
+        <FixedSourceNode<CloneBomb> as Node<SimpleScore>>::restore(&mut node, saved);
+        assert!(std::ptr::eq(&node.rows()[&0], original.as_ref()));
+        assert_eq!(changed[&0].0, 20);
     }
     #[test]
     fn upgrade_retains_keys_payloads_and_checks_the_entire_universe() {

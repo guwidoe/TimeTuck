@@ -539,15 +539,24 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             )?;
         }
         let locations = self.problem.lists().value_locations(next.lists());
-        for (i, value) in self.problem.lists().values().iter().enumerate() {
-            updates.push(
-                &self.sources.lists.values,
-                TupleChange::put(
-                    i,
-                    ListValueRow::from_known_position(i, value, next.lists(), locations[i]),
-                ),
-            )?;
+        let mut value_updates =
+            self.problem
+                .lists()
+                .values()
+                .iter()
+                .enumerate()
+                .map(|(i, value)| {
+                    (
+                        i,
+                        ListValueRow::from_known_position(i, value, next.lists(), locations[i]),
+                    )
+                });
+        if !graph.try_apply_owned_unobserved(&self.sources.lists.values, &mut value_updates)? {
+            for (i, row) in value_updates.by_ref() {
+                updates.push(&self.sources.lists.values, TupleChange::put(i, row))?;
+            }
         }
+        drop(value_updates);
         graph.apply_updates(updates)?;
         let score = with_structure(graph.score()?, self.problem, &next)?;
         Ok(crate::StreamAssignmentChange::new(
@@ -681,16 +690,15 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                 TupleChange::put(i, (i, assignment.lists().lists()[i].clone())),
             )?;
         }
-        for (i, position) in
-            self.problem
-                .lists()
-                .changed_value_positions(assignment.lists(), &touched, |entity| {
-                    assignment.original_list(entity).unwrap()
-                })
-        {
-            updates.push(
-                &self.sources.lists.values,
-                TupleChange::put(
+        let mut value_updates = self
+            .problem
+            .lists()
+            .changed_value_positions(assignment.lists(), &touched, |entity| {
+                assignment.original_list(entity).unwrap()
+            })
+            .into_iter()
+            .map(|(i, position)| {
+                (
                     i,
                     ListValueRow::from_known_position(
                         i,
@@ -698,9 +706,14 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
                         assignment.lists(),
                         position,
                     ),
-                ),
-            )?;
+                )
+            });
+        if !graph.try_apply_owned_unobserved(&self.sources.lists.values, &mut value_updates)? {
+            for (i, row) in value_updates.by_ref() {
+                updates.push(&self.sources.lists.values, TupleChange::put(i, row))?;
+            }
         }
+        drop(value_updates);
         graph.apply_updates(updates)?;
         let score = graph.score()?.with_structural(structural);
         Ok(MixedStreamScoredMove {

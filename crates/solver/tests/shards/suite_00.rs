@@ -98,6 +98,8 @@ pub mod move_inspection;
 pub mod nearby_move_config_regression;
 #[path = "../nullable_solution_weights_regression.rs"]
 pub mod nullable_solution_weights_regression;
+#[path = "../owned_unobserved_source_regression.rs"]
+pub mod owned_unobserved_source_regression;
 #[path = "../period_collector_regression.rs"]
 pub mod period_collector_regression;
 #[path = "../planning_schema.rs"]

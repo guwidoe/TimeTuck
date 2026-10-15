@@ -17,7 +17,71 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained256 unconnected source propagation
+## Latest qualification — retained257 owned unobserved planning rows
+
+List/mixed directors transfer owned list-value rows directly into disconnected
+bound fixed sources. This removes erased event allocation and redundant payload
+Clone while retaining the existing Arc slots, journals, full ListValueRow metadata,
+lazy no-Clone inspection and saved-state identity. Source ownership, no outgoing
+edges and concrete storage are checked before consuming the iterator. Connected,
+large/unbound sources retain their original batch path; initialization and public
+GraphTransaction.apply/StreamBatch are unchanged. Remaining actual clone/panic
+sites still restore atomic assignment/graph state. Unobserved payload Clone/Drop
+timing/counts intentionally differ; no exact trace claim or public API change.
+
+Warm mixed-stream whole-process allocation requests fall15.50%: 2,415,850 to
+2,041,450, exact repeatable counts in two balanced captures on identical actual
+binaries. Other five workload counts, including cold mixed streams, are unchanged.
+These are malloc/calloc/realloc requests including startup/validation, not bytes,
+live/peak memory or Java allocation counts; instrumented times are not CPU evidence.
+
+Same actual binaries, four balanced pinned forks: runner-a warm streams -5.95%
+in4/4 (101.700 to95.650ms), local -0.76% in3/4 amid substantial variation. runner-a
+controls dense warm -2.52% in3/4, cold stream -1.82% in2/4, basic changes -3.47%
+in4/4, swaps flat (+0.035%), cold dense +0.46% in4/4. Local controls dense warm
++2.26% in4/4, swaps +3.14%, basic changes +1.22%; all measurements retained.
+Exact routes, scores and work match. Retain warm allocation/targeted CPU benefit,
+not a general speedup claim. No new tuning variants or cherry-picked subsets.
+
+One private ownership CloneBomb control and two original public regression
+functions add no upstream-method credit. Focused52private+24public tests and2
+baseline controls, Clippy and release passed. Final bash scripts/check.sh passed
+on runner-a in 487.65s: 8,423 Rust +290 doctests,
+fmt/Clippy/required Python checks. Exact immutable upload mirrored into the same
+locked stable checkout; native digest asserted before/after. Actual matching Rust
+log/metadata collected unchanged; genuine existing per-job reuse only, no root
+cache transplant or old result rekeying. Native digest `6ed11da1339e10a69d5dc18f8c56758e6393ddfddd01613470703442582523a8`.
+
+Three correctness comparisons and affected mixed/stream performance refreshed;
+prior non-timing outputs/configs and known21concurrent Java errors unchanged.
+Fresh larger warm mixed-stream median Rust103.843ms versus
+Java17.251ms, cold Rust37.756ms versus
+Java22.428ms, equal quality. These are actual canonical
+medians, not paired native trend estimates. Other13 raw reports untouched and
+visibly stale when their inputs differ. Dashboard 5/18 current comparisons,
+index83.617% under existing weights/Java parity target; raw inventory
+4409/4855,11pending435excluded unchanged. Backend report/HTTP/model freshness
+verified; unchanged dashboard UI evidence254 reused. Server20631 on8765.
+
+All257 build/test/timing/qualification jobs are terminal; existing Sol257 prototype
+is integrated. The same Sol supplied a separate258 component-first search probe,
+using existing MixedSolverSequence APIs, original per-case budgets, graph shape
+and quality checks. Parent found/fixed its overly strict small-case CLI guard;
+first draft/results preserved. Final functional results/probe status live under
+work/round258-component-refinement/, with total/per-phase work exposed. Larger
+warm fixture reached identical routes/score -338 with36,074 to8,658 evaluations
+and99,837 to19,000 stream callbacks; no strategy CPU/Java parity claim yet.
+Probe is not a tracked/core/canonical policy change; consider actual controlled
+timing and broader quality evidence next. No new agents; runner-c remains parked.
+Evidence: work/round257-owned-source/, work/round257-qualification/collection.json,
+work/round257-performance/receipt.json, work/parallel-round257-evidence.json.
+Retained257 is the next actual baseline. Goal incomplete: Java parity still fails
+on important larger workloads; continue concrete compatibility/quality gaps and
+performance improvements, reuse unchanged evidence and commit coherent batches.
+Do not revive rejected propagation/storage/event-cache variants or relabel Java
+quirks as passes. No new provenance/pin/API or upstream-method credit changes.
+
+## Previous qualification — retained256 unconnected source propagation
 
 Private propagation skips downstream workspace/score bookkeeping only when a
 validated source has no outgoing edges. Source payload updates, checkpointing,

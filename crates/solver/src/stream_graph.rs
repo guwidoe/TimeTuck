@@ -265,6 +265,9 @@ trait Node<S: AdditiveScore> {
     fn apply_source(&mut self, _event: &Event) -> Result<(), GraphError> {
         unreachable!("validated source node")
     }
+    fn fixed_source_mut(&mut self) -> Option<&mut dyn Any> {
+        None
+    }
     fn bind_fixed_planning_source(&self, _count: usize) -> Option<Box<dyn Node<S>>> {
         None
     }
@@ -2590,6 +2593,41 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         }
         self.failed = false;
         Ok(())
+    }
+    // Only bound, disconnected planning sources qualify. Rejected iterators
+    // remain untouched so callers can retain their ordinary event/batch path.
+    pub(crate) fn try_apply_owned_unobserved<T: Clone + 'static>(
+        &mut self,
+        source: &StreamSource<usize, T>,
+        updates: &mut impl Iterator<Item = (usize, T)>,
+    ) -> Result<bool, GraphError> {
+        self.valid()?;
+        self.failed = true;
+        self.graph.validate(source)?;
+        let id = source.0.node;
+        if !self.graph.edges[id].is_empty()
+            || self.graph.nodes[id]
+                .fixed_source_mut()
+                .and_then(|node| node.downcast_mut::<fixed_source::FixedSourceNode<T>>())
+                .is_none()
+        {
+            self.failed = false;
+            return Ok(false);
+        }
+        if let Some((index, value)) = updates.next() {
+            self.checkpoint(id);
+            let node = self.graph.nodes[id]
+                .fixed_source_mut()
+                .unwrap()
+                .downcast_mut::<fixed_source::FixedSourceNode<T>>()
+                .unwrap();
+            node.put_owned(index, value)?;
+            for (index, value) in updates {
+                node.put_owned(index, value)?;
+            }
+        }
+        self.failed = false;
+        Ok(true)
     }
     fn propagate(&mut self, source: usize, event: Event) -> Result<(), GraphError> {
         // Validated sources only retain facts; all scoring nodes are downstream.

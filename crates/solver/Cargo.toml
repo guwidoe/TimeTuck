@@ -3821,6 +3821,11 @@ path = "tests/owned_scores.rs"
 test = false
 
 [[test]]
+name = "owned_unobserved_source_regression"
+path = "tests/owned_unobserved_source_regression.rs"
+test = false
+
+[[test]]
 name = "pair_selection_source_regression"
 path = "tests/pair_selection_source_regression.rs"
 test = false
