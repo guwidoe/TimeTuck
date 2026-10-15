@@ -681,6 +681,16 @@ includes input preparation, construction and search; warm timing retains its
 existing scope. Search policies differ, so ratios do not imply equal work or
 general scalability. These original workloads earn no upstream-method credit.
 
+The native benchmark defaults to an explicit component-first search followed by
+joint refinement under shared per-case limits; the original joint-only profile
+remains selectable. Cold component-refinement scoring computes missing customers
+as the fixed registered count minus the sum of route lengths, folding that term
+into per-owner route constraints and charging the constant once to owner zero.
+The objective is unchanged for partial and complete assignments. Complete value
+source rows and shadow metadata remain retained; constraint grouping, explanations
+and physical callback counts differ from the original per-value penalties. The
+report records the selected profile and penalty formulation for both backends.
+
 ## Selective verification during development
 
 `bash scripts/check.sh` reuses successful jobs with matching inputs. Rust tests

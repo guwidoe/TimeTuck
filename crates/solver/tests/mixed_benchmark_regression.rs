@@ -242,7 +242,7 @@ fn component_refinement_keeps_quality_and_shared_caps_across_phase_handoffs() {
 }
 
 #[test]
-fn cold_filtered_value_impacts_match_independent_math_at_partial_and_final_caps() {
+fn cold_customer_penalties_match_independent_math_at_partial_and_final_caps() {
     fn independent(case: &Case, assignment: &MixedAssignment<usize, usize>) -> HardSoftScore {
         let routes = assignment.lists().lists();
         let missing_depots = assignment

@@ -17,7 +17,70 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained259 filtered cold customer penalties
+## Latest qualification — retained260 route-count cold penalties
+
+The component-refinement cold Dense/Stream declarations now compute missing
+customers as registered count minus summed route lengths, incorporating it into
+existing per-owner route constraints. Charge the constant once to owner zero,
+including when its depot is unassigned. Validated unique ownership makes this
+identical to counting unassigned customers for partial and complete assignments.
+The original Java reference scorer already uses this arithmetic. Original joint
+run/run_cold control and warm declarations remain unchanged. Full value source
+rows/shadow metadata stay retained; cold constraint grouping/explanations,
+graph/network shape and physical callback counts differ. Native library source
+and API are unchanged. Configuration/methodology disclose both cold backends.
+
+64 actual partial/final controls (seven cold budgets, two fixtures, both backends
+and both declarations plus warm controls) preserve independent score math,
+structural penalties, ownership/pins, completeness, logical work/phase caps and
+assignments. Existing independent regression renamed for its general customer
+penalty contract; no new test count or upstream-method credit. Final actual Root
+benchmark observations additionally match all previous logical outputs/work
+excluding physical callbacks and elapsed time; Java non-time signatures unchanged.
+
+Same binary/library, all 8 workloads/four balanced pinned forks: larger cold Dense
+56.92%/Stream 31.39% faster locally; Dense 59.17%/Stream 29.54% on runner-a, all 4 forks
+each. Small cold also improves; warm controls vary including slower medians and
+outliers, no warm/general speed claim. Larger cold Dense callbacks 97,968 to 17,466,
+Stream 22,941 to 22,926; same 7,845 evaluations/routes/score -60. These paired native
+measurements do not establish Java parity or an engine-only speedup.
+
+Rejected reference-operator candidate preserved 64 logical results but larger cold
+Stream 30.33% slower in 4/4 local forks; no integration/remote/full gate. A marker
+projection candidate reduced local cold Stream time 15.3% but was not integrated;
+route-count formulation removes the extra value constraint entirely. All raw
+workload observations retained. No claim comparing candidates across distinct
+binaries/timing conditions. Actual retained259 cold profile (941 samples, none
+lost) justified investigating filter payload retention: propagation 54.09% inclusive,
+filter 3.83% self, allocator/free overhead visible. That profile predates260 and
+must not be relabelled current; initial diagnostic path error earned no evidence.
+
+Final required bash scripts/check.sh passed on runner-a in 88.75s:
+8,425 Rust +290 doctest successful evidence. Actual jobs: fmt, clippy, test-suite_11, example-mixed_solver_benchmark, test_benchmark_mixed;
+142 matching jobs genuinely reused. Source-bound actual Rust logs/metadata
+and original cached doctest log/record collected unchanged, no root cache
+transplant or old result rekeying. Native digest
+`b257a2ca341b6622475f3d765a5ca62ce8782a747225c0e9c1ed2d0ced396a4b`. Root release build 31.86s. Only mixed-performance
+inputs changed/refreshed; all 17 other raw reports/keys/dates untouched.
+
+Fresh shared-host larger warm Stream 39.200ms vs Java 25.099ms;
+cold Stream 37.765ms/Dense 8.047ms vs Java 36.839ms.
+All 8 equal quality. These fresh times are not paired native trend estimates;
+keep actual shared-host variation visible. Java parity target remains multiplier1.
+Dashboard index 84.633%, 5/18 current; inventory 4409/4855, 11 pending, 435 excluded
+unchanged. Backend report/HTTP/model freshness verified; consumed rendering
+contract/JS/CSS unchanged, 254 browser evidence reused. Server 20631 on 8765.
+
+All 260 jobs terminal, no new agents/runner-c probes. Evidence:
+work/round260-route-cardinality/, work/round260-registered-reference/ (including
+profile/), work/round260-unassigned-markers/, work/parallel-round260-evidence.json.
+Goal incomplete. The mixed family is now limited by warm Stream. Existing250
+warm profile measured245's different search strategy; a current warm capture
+would answer a new attribution question if targeting that gap. Do not repeat
+cold profiles/qualifications, revive rejected operators/storage/event caches or
+relabel remaining Java quirks as passes. No pin/provenance/upstream credit change.
+
+## Previous qualification — retained259 filtered cold customer penalties
 
 The existing component-refinement cold Stream constraint now filters unassigned
 customer rows before a constant -1 penalty. Assigned rows no longer reach the

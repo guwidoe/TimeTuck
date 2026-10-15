@@ -441,19 +441,12 @@ pub fn run_component_refinement(
                     &joined,
                     |((owner, depot), (_, route))| {
                         if cold {
-                            partial_route_score(case, *depot, route, *owner)
+                            cold_route_cardinality_score(case, *depot, route, *owner)
                         } else {
                             case.route_score(depot.unwrap(), route, *owner)
                         }
                     },
                 )?;
-                if cold {
-                    let unassigned = graph
-                        .filter(source.lists.values.port(), |value| value.position.is_none())?;
-                    graph.score("unassigned customers", &unassigned, |_| {
-                        HardSoftScore::new(-1, 0)
-                    })?;
-                }
                 Ok((graph.build(), source))
             },
             plan,
@@ -472,28 +465,31 @@ pub fn run_component_refinement(
                         unreachable!()
                     };
                     if cold {
-                        partial_route_score(case, depot.copied(), route, owner)
+                        cold_route_cardinality_score(case, depot.copied(), route, owner)
                     } else {
                         case.route_score(*depot.unwrap(), route, owner)
                     }
                 },
             )?;
         }
-        if cold {
-            for value in 0..case.points.len() {
-                network.add_constraint(
-                    format!("unassigned customer {value}"),
-                    vec![MixedScope::ListValue(value)],
-                    |facts| {
-                        let MixedFact::ListValue { element, .. } = &facts[0] else {
-                            unreachable!()
-                        };
-                        HardSoftScore::new(-i64::from(element.is_none()), 0)
-                    },
-                )?;
-            }
-        }
         solve_mixed(&problem, &network, plan)?
     };
     Ok(result)
+}
+
+// The registered customer set is fixed and assignments forbid duplicates.
+// Missing customers = registered count - sum of route lengths. Charge the
+// constant once to owner0, including when that owner's depot is unassigned.
+fn cold_route_cardinality_score(
+    case: &Case,
+    depot: Option<usize>,
+    route: &[usize],
+    owner: usize,
+) -> HardSoftScore {
+    let base = partial_route_score(case, depot, route, owner);
+    let registered = if owner == 0 { case.points.len() } else { 0 };
+    HardSoftScore::new(
+        base.hard() - registered as i64 + route.len() as i64,
+        base.soft(),
+    )
 }

@@ -20,8 +20,8 @@ about every problem size, search trace or finite-budget optimum.
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
 The latest integrated checkpoint has **8,425 passing Rust tests and 290 doctests**,
-source digest `8cd2a947af64e9e75e75b8ef13f473239571c6a012614521f2db7488ff840b82`. The required final `bash scripts/check.sh` passed
-on runner-a in 91.71 seconds, running the affected checks and genuinely reusing
+source digest `b257a2ca341b6622475f3d765a5ca62ce8782a747225c0e9c1ed2d0ced396a4b`. The required final `bash scripts/check.sh` passed
+on runner-a in 88.75 seconds, running the affected checks and genuinely reusing
 142 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
@@ -58,13 +58,13 @@ reuse matching earlier evidence; only the affected mixed benchmark was refreshed
 in this batch. Known discrepancies/errors remain unchanged. No old measurement
 was rekeyed.
 
-Fresh larger mixed measurements: warm Stream **23.481 ms vs Java
-17.032 ms**, Dense 5.650 ms; all score [0,-338].
-Cold Stream 33.118 ms vs Java 20.566 ms,
-all score [0,-60]. The larger reference [0,-72] is a feasible certificate, not
-an optimum. The user-confirmed target is Java median-time parity or better at
-equal-or-better solution quality. These bounded shared-host measurements use
-different work/policies; the Stream gap remains visible.
+Fresh larger mixed measurements: warm Stream **39.200 ms vs Java
+25.099 ms**, all score [0,-338]. Cold Stream 37.765 ms and
+Dense 8.047 ms vs Java 36.839 ms, all score [0,-60].
+The larger reference [0,-72] is a feasible certificate, not an optimum. The target
+is Java median-time parity or better at equal-or-better solution quality. These
+bounded shared-host timings use different work/policies and vary with load. The
+remaining warm Stream gap now limits the mixed benchmark family's progress.
 
 The dashboard's configurable progress index is **84.6%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
@@ -74,15 +74,16 @@ hiding gaps. Stale measurements retain their last-demonstrated contribution with
 visible freshness debt; 100% requires every target and current evidence. See
 [the calculation](dashboard.md#project-completion-index).
 
-The latest retained change filters unassigned customer rows before their constant
-cold Stream penalty using an existing operator. It preserves score semantics,
-assignments, logical work and budgets; graph shape and physical callbacks differ.
-Balanced native comparisons show the larger cold Stream 22.45% faster locally and
-21.55% on runner-a in all four forks each; other workload controls and variation
-remain in the evidence. Fifty-six partial/final native controls and one original
-Rust regression independently check arithmetic, pins, completeness and phase
-budgets. This is a constraint declaration improvement, not general Java parity.
+The latest retained change computes missing customers from the fixed registry
+size minus summed route lengths within the existing cold route constraints.
+Partial/final objectives, assignments and logical work remain unchanged; cold
+constraint grouping/explanations and physical callbacks differ. Balanced native
+comparisons show larger cold Stream 31.39% faster locally and 29.54% on runner-a;
+Dense 56.92%/59.17%, all four forks each. All workload controls/outliers remain in
+the evidence; no warm/general engine speed claim. Sixty-four original partial/final
+controls and the existing independent Rust regression check scores, pins,
+completeness and budgets. The Java reference already uses the same count formula.
 
-Evidence: work/round259-cold-filter/verdict.json, partial-proof.json,
+Evidence: work/round260-route-cardinality/verdict.json, functional-proof.json,
 collection.json and performance-receipt.json. Historical optimization results and
 retained tradeoffs remain in [next-session.md](next-session.md). Goal incomplete.
