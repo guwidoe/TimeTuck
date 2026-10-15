@@ -17,7 +17,38 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest experiment — rejected246 ready bitset; retained245 unchanged
+## Latest experiment — rejected247 resident inputs; retained245 unchanged
+
+An isolated candidate borrowed input Vecs in place through an RAII guard instead
+of moving the Vec header out/back for every node visit. The guard cleared inputs
+at the original release point, including before enclosing round locals during
+unwinding. Two original controls proved resident slice identity, unchanged Rc
+ownership, release-before-route, buffer reuse and panic Drop order for both queues.
+Focused checks, public batching regressions, Clippy and release build passed.
+Candidate-only tests do not increase retained counts.
+
+Reject: large swap time was 4.61% higher, change time 1.94% higher and mixed stream
+1.62% higher overall; three of four forks were slower in each. Exact non-timing
+outputs/work matched. No refinement, integration, full gate, canonical measurement
+or browser repeat. Native/report inputs remain qualified245 below: 8,409 Rust and
+290 doctests, 4,409/4,855 methods, four current/14 stale measurement jobs. Reuse
+that evidence and the fresh246 profile; do not profile the unchanged binary again.
+
+Inspection confirmed boxed checkpoint tokens. An inline-token design also needs
+snapshot, diagnostic, commit and rollback integration. The next
+experiment is direct erased output construction in FixedLinks::apply_batch,
+replacing its intermediate typed Vec plus final erase. Preserve all predicate,
+projection, output-ID/endpoint Clone and partial-output Drop order, including
+panic/rollback. This is unimplemented, with no gain or feasibility claim.
+See work/round247-resident-inputs/next-target.md for anchors/limits. Do not revive
+resident-input, bitset, event-cache or bounded-terminal trials.
+
+Evidence: work/parallel-round247-evidence.json and work/round247-resident-inputs/.
+Frozen source and actual artifacts were rechecked after comparison. All247 jobs
+terminal; no SSH attempts, runner-c parked, one existing Sol agent supplied two private
+tests, no new agents. Goal active/incomplete.
+
+## Historical experiment — rejected246 ready bitset; retained245 unchanged
 
 An isolated candidate used a 64-bit ready-rank set for graphs of up to 64 nodes,
 retaining the heap above 64. Event buffers and ordering stayed unchanged. Two

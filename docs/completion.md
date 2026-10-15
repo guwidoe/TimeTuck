@@ -57,6 +57,13 @@ validation cases have valid, equal-score outcomes. These bounded shared-host
 measurements include setup and result validation; they do not prove general Java
 parity, identical execution traces or universal speed requirements.
 
+A resident borrowed-input dispatch experiment was also rejected. It preserved
+focused ownership/unwind checks but measured large swaps 4.61% slower, changes
+1.94% slower and mixed stream 1.62% slower overall. Three of four paired runs were
+slower for each. Retained sources, counts and canonical measurements are unchanged;
+actual candidate evidence is under `work/round247-resident-inputs/`. Its two new
+private tests are excluded from retained counts.
+
 A subsequent small-graph ready-bitset scheduler was rejected without changing
 this checkpoint. Large swaps measured 2.36% slower overall, mixed timing was flat,
 and change timing was inconclusive. Two passing candidate-only tests are excluded
