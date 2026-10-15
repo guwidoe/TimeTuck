@@ -17,7 +17,63 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained235
+## Latest qualification — retained237 test layout; native remains235
+
+Grouped1278 original integration files into16 stable filename-hash shards plus
+six standalone targets: ordered_destination_regression, owned_roster_cli_regression,
+platform_configuration_{cases,regression}, solution_persistence_{cases,regression}.
+The first two need crate-root lookups (the second through an example helper);
+the other pairs must isolate PID/module-counter fixture paths. Every original
+file/assertion/fixture/provenance path stays unchanged. Public wrapper modules
+preserve helper reachability; only generated harnesses allow clippy::duplicate_mod
+because fixture types/statics deliberately remain separate. No production lint
+or solver/config behavior change. Explicit original Cargo targets still work;
+bounded_group_planning_regression listed all3 methods without rerunning them.
+
+Read docs/test-layout.md. Add/remove an original test with
+python3 scripts/rust_test_layout.py --write, then commit the generated Cargo block
+and wrappers. Exact validation rejects missing/new/unregistered files and wrapper
+edits. No silent skips. Stable partition avoids moving existing files on addition.
+Runner compiles affected targets together (-j4 default; CARGO_BUILD_JOBS override)
+then executes/caches them independently.95 total jobs replace1351;22 integration
+executables replace1278. No ad-hoc prebuild helper needed before check.sh anymore.
+
+Native Cargo settings exclude only test-target declarations/autotests from build
+input projections. Each Rust test key additionally hashes its own declaration;
+source/fixture closure still covers its actual shard. Whole Rust/report source
+stamps retain the raw manifest. New unit checks prove unrelated target edits
+preserve other test, benchmark and doctest keys; dependency changes invalidate.
+An edited fixture invalidates its owning shard, so focused CLI use remains useful.
+
+Final scripts/check.sh succeeded in373.62s (includes89s affected-binary prebuild
+and26.21s Clippy). Prior235 gate536.62s had a different compilation state, so this
+is an observed checkpoint comparison, not a controlled total-build speedup.
+8391 Rust +290 doctests pass, fmt/Clippy/Python checks pass. Compare actual raw
+executions: all8391 unique identities/states exactly match prior235, including
+six example tests; all8385 report-parser identities match too. All4855 upstream
+method records and family summaries exactly unchanged. No new method credit,
+exclusion, provenance or pin changes. Warm actual unforced runner reused all95
+jobs in22.17s with subprocesses/record deletion forbidden; no functions rerun,
+cache records/date changes or authoritative-log rewriting. Evidence:
+work/parallel-round237-evidence.json and work/round237-test-shards/.
+
+Rust digest2bfba028025a6e544fd9e6e61d04b8cd8c53472d5c6122cc7f281280b5176ea5;
+report digestb2332d442dbf1240461504beb170293e43357ba913f156c4f5fdae7d60616e76.
+Coverage4409/4855 (90.814%),11pending435excluded,0failed/unverified. Old performance
+and differential reports keep exact bytes/keys/dates; all18 are visibly stale
+following the one-time fingerprint schema change. Do not relabel or refresh every
+benchmark for this test-only batch. Future unrelated test additions no longer
+invalidate native measurements.235 native performance evidence remains historical.
+
+Dashboard server restarted to load new fingerprint implementation; PID in
+work/round237-test-shards/dashboard-server-pid.json. Data/HTTP freshness verified
+on127.0.0.1:8765; no UI change or browser rerun. runner-c parked, no runner-a connection.
+All agents idle. Return to native compatibility/performance work next; do not redo
+layout audits or full checks for a commit/context reset. Goal incomplete; remaining
+11 methods/final Java-quirk policy unchanged. Earlier compile/lint failures remain
+archived; they earned no credit.236 tiny probe is superseded by this actual layout.
+
+## Qualification — retained235 (historical native checkpoint)
 
 Retained235 gives batched grouping private sparse input slots for a protected
 planning universe of at most 256 usize IDs. Explicit identity metadata follows

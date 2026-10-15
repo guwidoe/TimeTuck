@@ -14,6 +14,7 @@ import subprocess
 import sys
 
 from verification_inputs import measurement_digest, report_digest, rust_digest
+from rust_test_layout import shard_origins
 
 ROOT = Path(__file__).resolve().parents[1]
 ANNOTATION = re.compile(r'@(?:org\.junit\.jupiter\.(?:api|params)\.)?(Test|ParameterizedTest|RepeatedTest|TestFactory|TestTemplate)\b')
@@ -137,16 +138,23 @@ def read_test_run(test_output, verified_source):
     output = log_path.read_text()
     results = {}
     current = None
+    origins = shard_origins(ROOT)
     for line in output.splitlines():
         if 'Running ' in line: current = None
         if re.search(r'Running unittests src/lib\.rs \(.*[/]timetuck-[0-9a-f]+\)', line):
             current = 'crates/solver/src/lib.rs'
-        target = re.search(r'Running tests/(\w+)\.rs', line)
-        if target: current = f'crates/solver/tests/{target[1]}.rs'
+        target = re.search(r'Running (tests/(?:shards/)?\w+\.rs)', line)
+        if target: current = f'crates/solver/{target[1]}'
         state = re.match(r'test ([\w:]+) \.\.\. (ok|FAILED|ignored)', line)
         if state and current:
-            results[(current, state[1])] = {'ok':'passed', 'FAILED':'failed', 'ignored':'unverified'}[state[2]]
-    runs = [{'command': ['cargo', 'test', '--workspace', '--all-targets', '--locked'], 'exit_code': test_exit, 'output': output}]
+            path, name = current, state[1]
+            if current in origins:
+                module, separator, name = name.partition('::')
+                if not separator or module not in origins[current]:
+                    raise ValueError(f'Unknown test identity in {current}: {state[1]}')
+                path = origins[current][module]
+            results[(path, name)] = {'ok':'passed', 'FAILED':'failed', 'ignored':'unverified'}[state[2]]
+    runs = [{'command': ['python3', 'scripts/run_rust_tests.py'], 'exit_code': test_exit, 'output': output}]
     return results, runs
 
 

@@ -5,6 +5,7 @@ from functools import lru_cache
 import json
 from pathlib import Path
 import re
+import tomllib
 from types import MappingProxyType
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -111,6 +112,29 @@ def files(pattern, root=ROOT):
 FACADE_INPUT = '@rust-facade:'
 LIBRARY_INPUT = '@rust-library:'
 DOCTEST_INPUT = '@rust-doctest:'
+CARGO_BUILD_INPUT = '@cargo-build:'
+TEST_TARGET_INPUT = '@rust-test-target:'
+
+
+@lru_cache(maxsize=16)
+def build_manifest_content(source):
+    """Exclude only integration-target selection from native library builds."""
+    data = tomllib.loads(source)
+    data.pop('test', None)
+    if 'package' in data:
+        data['package'].pop('autotests', None)
+    return json.dumps(data, sort_keys=True)
+
+
+def test_target_content(entry, root):
+    manifest = root / 'crates/solver/Cargo.toml'
+    if not manifest.is_file():
+        return 'missing'
+    data = tomllib.loads(manifest.read_text())
+    targets = [t for t in data.get('test', [])
+               if 'crates/solver/' + t.get('path', f'tests/{t["name"]}.rs') == entry]
+    return json.dumps({'autotests': data.get('package', {}).get('autotests', True),
+                       'targets': targets}, sort_keys=True)
 
 
 def facade_content(source, symbols):
@@ -152,7 +176,14 @@ def digest(paths, root=ROOT, extra=None):
     h = hashlib.sha256(json.dumps(extra, sort_keys=True).encode())
     for name in sorted(set(paths)):
         h.update(name.encode() + b'\0')
-        if name.startswith(FACADE_INPUT):
+        if name.startswith(CARGO_BUILD_INPUT):
+            path = root / name[len(CARGO_BUILD_INPUT):]
+            data = build_manifest_content(path.read_text()).encode() if path.is_file() else b'missing'
+            h.update(hashlib.sha256(data).digest())
+        elif name.startswith(TEST_TARGET_INPUT):
+            data = test_target_content(name[len(TEST_TARGET_INPUT):], root).encode()
+            h.update(hashlib.sha256(data).digest())
+        elif name.startswith(FACADE_INPUT):
             path = root / 'crates/solver/src/lib.rs'
             data = facade_content(path.read_text(), set(json.loads(name[len(FACADE_INPUT):]))).encode() if path.is_file() else b'missing'
             h.update(hashlib.sha256(data).digest())
@@ -189,6 +220,15 @@ def cargo_inputs(root=ROOT):
     return ({'Cargo.toml', 'Cargo.lock', 'rust-toolchain', 'rust-toolchain.toml'} |
             files('crates/**/Cargo.toml', root) | files('crates/**/build.rs', root) |
             files('.cargo/*', root))
+
+
+def build_cargo_inputs(root=ROOT):
+    paths = cargo_inputs(root)
+    manifest = 'crates/solver/Cargo.toml'
+    if manifest in paths:
+        paths.remove(manifest)
+        paths.add(CARGO_BUILD_INPUT + manifest)
+    return paths
 
 
 def library_inputs(root=ROOT):
@@ -455,7 +495,7 @@ def selected_library_inputs(entries, root=ROOT):
     modules = {p for p in selected if p.startswith('crates/solver/src/')}
     referenced.update(Path(p).stem for p in modules)
     projected = FACADE_INPUT + json.dumps(sorted(referenced), separators=(',', ':'))
-    return cargo_inputs(root) | {projected} | {LIBRARY_INPUT + p if p.endswith('.rs') else p for p in modules}
+    return build_cargo_inputs(root) | {projected} | {LIBRARY_INPUT + p if p.endswith('.rs') else p for p in modules}
 
 
 @lru_cache(maxsize=2048)
@@ -500,15 +540,16 @@ def rust_entry_inputs(entry, root=ROOT, *, include_test_items=True):
 def doctest_inputs(root=ROOT):
     # Rustdoc does not enable cfg(test), but documentation itself must stay hashed.
     paths = rust_entry_inputs('crates/solver/src/lib.rs', root, include_test_items=False)
-    return cargo_inputs(root) | {DOCTEST_INPUT + p if p.endswith('.rs') else p for p in paths}
+    return build_cargo_inputs(root) | {DOCTEST_INPUT + p if p.endswith('.rs') else p for p in paths}
 
 
 def rust_test_inputs(entry=None, root=ROOT):
     entries = rust_entry_inputs(entry, root) if entry else files('crates/*/tests/**/*', root) | files('crates/*/examples/**/*', root)
+    target = {TEST_TARGET_INPUT + entry} if entry and entry.startswith('crates/solver/tests/') else set()
     return ((selected_library_inputs(entries, root) if entry else library_inputs(root)) |
-            {'scripts/run_rust_tests.py', 'scripts/verification_cache.py',
+            {'scripts/run_rust_tests.py', 'scripts/rust_test_layout.py', 'scripts/verification_cache.py',
                                    'scripts/verification_inputs.py'} |
-            entries)
+            entries | target)
 
 
 def measurement_inputs(job, root=ROOT):

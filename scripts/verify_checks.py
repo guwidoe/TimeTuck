@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Selective local verification; --force bypasses all successful-result caches."""
 import argparse
+import os
 import subprocess
 from verification_cache import run_job
 from verification_inputs import ROOT, cargo_inputs, files, doctest_inputs, python_inputs
@@ -14,7 +15,8 @@ def main():
         return cargo_inputs() | files('crates/**/*.rs') | {'scripts/verification_cache.py', 'scripts/verification_inputs.py', 'scripts/verify_checks.py'}
     jobs = [
         ('fmt', ['cargo', 'fmt', '--all', '--', '--check'], all_rust),
-        ('clippy', ['cargo', 'clippy', '--workspace', '--all-targets', '--locked', '--', '-D', 'warnings'],
+        ('clippy', ['cargo', 'clippy', '--workspace', '--all-targets', '--locked',
+                    '-j', os.environ.get('CARGO_BUILD_JOBS', '4'), '--', '-D', 'warnings'],
          lambda: all_rust() | files('crates/*/tests/fixtures/**/*')),
     ]
     for name, command, inputs in jobs:

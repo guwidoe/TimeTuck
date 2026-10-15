@@ -1,4 +1,5 @@
 [package]
+autotests = false
 name = "timetuck"
 version.workspace = true
 edition.workspace = true
@@ -19,3 +20,6453 @@ sha2 = "=0.10.9"
 base64 = "=0.22.1"
 zeroize = "=1.8.2"
 getrandom = "=0.2.16"
+
+# Generated test layout: python3 scripts/rust_test_layout.py --write
+
+[[test]]
+name = "suite_00"
+path = "tests/shards/suite_00.rs"
+
+[[test]]
+name = "suite_01"
+path = "tests/shards/suite_01.rs"
+
+[[test]]
+name = "suite_02"
+path = "tests/shards/suite_02.rs"
+
+[[test]]
+name = "suite_03"
+path = "tests/shards/suite_03.rs"
+
+[[test]]
+name = "suite_04"
+path = "tests/shards/suite_04.rs"
+
+[[test]]
+name = "suite_05"
+path = "tests/shards/suite_05.rs"
+
+[[test]]
+name = "suite_06"
+path = "tests/shards/suite_06.rs"
+
+[[test]]
+name = "suite_07"
+path = "tests/shards/suite_07.rs"
+
+[[test]]
+name = "suite_08"
+path = "tests/shards/suite_08.rs"
+
+[[test]]
+name = "suite_09"
+path = "tests/shards/suite_09.rs"
+
+[[test]]
+name = "suite_10"
+path = "tests/shards/suite_10.rs"
+
+[[test]]
+name = "suite_11"
+path = "tests/shards/suite_11.rs"
+
+[[test]]
+name = "suite_12"
+path = "tests/shards/suite_12.rs"
+
+[[test]]
+name = "suite_13"
+path = "tests/shards/suite_13.rs"
+
+[[test]]
+name = "suite_14"
+path = "tests/shards/suite_14.rs"
+
+[[test]]
+name = "suite_15"
+path = "tests/shards/suite_15.rs"
+
+[[test]]
+name = "acceptor_profile_cases"
+path = "tests/acceptor_profile_cases.rs"
+test = false
+
+[[test]]
+name = "acceptor_profile_regression"
+path = "tests/acceptor_profile_regression.rs"
+test = false
+
+[[test]]
+name = "access_token_cases"
+path = "tests/access_token_cases.rs"
+test = false
+
+[[test]]
+name = "access_token_regression"
+path = "tests/access_token_regression.rs"
+test = false
+
+[[test]]
+name = "accessor_shadow_cases"
+path = "tests/accessor_shadow_cases.rs"
+test = false
+
+[[test]]
+name = "activity_components_regression"
+path = "tests/activity_components_regression.rs"
+test = false
+
+[[test]]
+name = "advanced_grouping_cases"
+path = "tests/advanced_grouping_cases.rs"
+test = false
+
+[[test]]
+name = "affected_constraint_union"
+path = "tests/affected_constraint_union.rs"
+test = false
+
+[[test]]
+name = "affected_shadow_entities_cases"
+path = "tests/affected_shadow_entities_cases.rs"
+test = false
+
+[[test]]
+name = "aligned_dependencies"
+path = "tests/aligned_dependencies.rs"
+test = false
+
+[[test]]
+name = "annealing_search"
+path = "tests/annealing_search.rs"
+test = false
+
+[[test]]
+name = "arity_existence_cases"
+path = "tests/arity_existence_cases.rs"
+test = false
+
+[[test]]
+name = "arity_join_cases"
+path = "tests/arity_join_cases.rs"
+test = false
+
+[[test]]
+name = "assembled_factory_cases"
+path = "tests/assembled_factory_cases.rs"
+test = false
+
+[[test]]
+name = "assembled_factory_regression"
+path = "tests/assembled_factory_regression.rs"
+test = false
+
+[[test]]
+name = "assembled_lifecycle_cases"
+path = "tests/assembled_lifecycle_cases.rs"
+test = false
+
+[[test]]
+name = "assembled_lifecycle_regression"
+path = "tests/assembled_lifecycle_regression.rs"
+test = false
+
+[[test]]
+name = "assembled_problem_change_regression"
+path = "tests/assembled_problem_change_regression.rs"
+test = false
+
+[[test]]
+name = "assembled_seed_regression"
+path = "tests/assembled_seed_regression.rs"
+test = false
+
+[[test]]
+name = "assignment_controls_regression"
+path = "tests/assignment_controls_regression.rs"
+test = false
+
+[[test]]
+name = "assignment_provider_cases"
+path = "tests/assignment_provider_cases.rs"
+test = false
+
+[[test]]
+name = "assignment_scale"
+path = "tests/assignment_scale.rs"
+test = false
+
+[[test]]
+name = "assignment_selection_cases"
+path = "tests/assignment_selection_cases.rs"
+test = false
+
+[[test]]
+name = "assignment_selection_regression"
+path = "tests/assignment_selection_regression.rs"
+test = false
+
+[[test]]
+name = "automatic_phase_check_regression"
+path = "tests/automatic_phase_check_regression.rs"
+test = false
+
+[[test]]
+name = "average_collector_cases"
+path = "tests/average_collector_cases.rs"
+test = false
+
+[[test]]
+name = "average_collector_regression"
+path = "tests/average_collector_regression.rs"
+test = false
+
+[[test]]
+name = "basic_change_doability_cases"
+path = "tests/basic_change_doability_cases.rs"
+test = false
+
+[[test]]
+name = "basic_clone_plan_cases"
+path = "tests/basic_clone_plan_cases.rs"
+test = false
+
+[[test]]
+name = "basic_clone_plan_regression"
+path = "tests/basic_clone_plan_regression.rs"
+test = false
+
+[[test]]
+name = "basic_configured_families"
+path = "tests/basic_configured_families.rs"
+test = false
+
+[[test]]
+name = "basic_entity_stream_cases"
+path = "tests/basic_entity_stream_cases.rs"
+test = false
+
+[[test]]
+name = "basic_entity_stream_regression"
+path = "tests/basic_entity_stream_regression.rs"
+test = false
+
+[[test]]
+name = "basic_group_move_metadata_cases"
+path = "tests/basic_group_move_metadata_cases.rs"
+test = false
+
+[[test]]
+name = "basic_group_move_metadata_regression"
+path = "tests/basic_group_move_metadata_regression.rs"
+test = false
+
+[[test]]
+name = "basic_incremental_validation_regression"
+path = "tests/basic_incremental_validation_regression.rs"
+test = false
+
+[[test]]
+name = "basic_inverse_stream"
+path = "tests/basic_inverse_stream.rs"
+test = false
+
+[[test]]
+name = "basic_move_builder_regression"
+path = "tests/basic_move_builder_regression.rs"
+test = false
+
+[[test]]
+name = "basic_move_check_regression"
+path = "tests/basic_move_check_regression.rs"
+test = false
+
+[[test]]
+name = "basic_move_inspection_cases"
+path = "tests/basic_move_inspection_cases.rs"
+test = false
+
+[[test]]
+name = "basic_move_inspection_regression"
+path = "tests/basic_move_inspection_regression.rs"
+test = false
+
+[[test]]
+name = "basic_moves"
+path = "tests/basic_moves.rs"
+test = false
+
+[[test]]
+name = "basic_reference_cases"
+path = "tests/basic_reference_cases.rs"
+test = false
+
+[[test]]
+name = "basic_repair_quality_regression"
+path = "tests/basic_repair_quality_regression.rs"
+test = false
+
+[[test]]
+name = "basic_ruin_plan_regression"
+path = "tests/basic_ruin_plan_regression.rs"
+test = false
+
+[[test]]
+name = "basic_ruin_selection_cases"
+path = "tests/basic_ruin_selection_cases.rs"
+test = false
+
+[[test]]
+name = "basic_ruin_selection_regression"
+path = "tests/basic_ruin_selection_regression.rs"
+test = false
+
+[[test]]
+name = "basic_scoped_trial_regression"
+path = "tests/basic_scoped_trial_regression.rs"
+test = false
+
+[[test]]
+name = "basic_source_storage_regression"
+path = "tests/basic_source_storage_regression.rs"
+test = false
+
+[[test]]
+name = "basic_state_supply"
+path = "tests/basic_state_supply.rs"
+test = false
+
+[[test]]
+name = "basic_state_supply_cases"
+path = "tests/basic_state_supply_cases.rs"
+test = false
+
+[[test]]
+name = "basic_stream_null_cases"
+path = "tests/basic_stream_null_cases.rs"
+test = false
+
+[[test]]
+name = "batched_existence_cases"
+path = "tests/batched_existence_cases.rs"
+test = false
+
+[[test]]
+name = "batched_existence_regression"
+path = "tests/batched_existence_regression.rs"
+test = false
+
+[[test]]
+name = "batched_group_regression"
+path = "tests/batched_group_regression.rs"
+test = false
+
+[[test]]
+name = "batched_join_cases"
+path = "tests/batched_join_cases.rs"
+test = false
+
+[[test]]
+name = "batched_join_regression"
+path = "tests/batched_join_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_archive_cases"
+path = "tests/benchmark_archive_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_archive_regression"
+path = "tests/benchmark_archive_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_chart_data_cases"
+path = "tests/benchmark_chart_data_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_chart_data_regression"
+path = "tests/benchmark_chart_data_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_config_cases"
+path = "tests/benchmark_config_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_config_regression"
+path = "tests/benchmark_config_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_ranking_cases"
+path = "tests/benchmark_ranking_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_ranking_regression"
+path = "tests/benchmark_ranking_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_records_cases"
+path = "tests/benchmark_records_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_records_regression"
+path = "tests/benchmark_records_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_results_cases"
+path = "tests/benchmark_results_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_results_regression"
+path = "tests/benchmark_results_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_runner_regression"
+path = "tests/benchmark_runner_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_runtime_cases"
+path = "tests/benchmark_runtime_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_runtime_regression"
+path = "tests/benchmark_runtime_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_session_cases"
+path = "tests/benchmark_session_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_session_regression"
+path = "tests/benchmark_session_regression.rs"
+test = false
+
+[[test]]
+name = "benchmark_xml_cases"
+path = "tests/benchmark_xml_cases.rs"
+test = false
+
+[[test]]
+name = "benchmark_xml_regression"
+path = "tests/benchmark_xml_regression.rs"
+test = false
+
+[[test]]
+name = "bendable_decimal_regression"
+path = "tests/bendable_decimal_regression.rs"
+test = false
+
+[[test]]
+name = "bendable_decimal_score"
+path = "tests/bendable_decimal_score.rs"
+test = false
+
+[[test]]
+name = "bendable_regression"
+path = "tests/bendable_regression.rs"
+test = false
+
+[[test]]
+name = "bendable_score"
+path = "tests/bendable_score.rs"
+test = false
+
+[[test]]
+name = "best_delivery_slot_cases"
+path = "tests/best_delivery_slot_cases.rs"
+test = false
+
+[[test]]
+name = "best_delivery_slot_regression"
+path = "tests/best_delivery_slot_regression.rs"
+test = false
+
+[[test]]
+name = "best_metric_order_cases"
+path = "tests/best_metric_order_cases.rs"
+test = false
+
+[[test]]
+name = "best_metric_order_regression"
+path = "tests/best_metric_order_regression.rs"
+test = false
+
+[[test]]
+name = "best_recaller_cases"
+path = "tests/best_recaller_cases.rs"
+test = false
+
+[[test]]
+name = "best_solution_tracker_regression"
+path = "tests/best_solution_tracker_regression.rs"
+test = false
+
+[[test]]
+name = "bi_existence_filter_cases"
+path = "tests/bi_existence_filter_cases.rs"
+test = false
+
+[[test]]
+name = "big_number_collector_cases"
+path = "tests/big_number_collector_cases.rs"
+test = false
+
+[[test]]
+name = "big_number_collector_regression"
+path = "tests/big_number_collector_regression.rs"
+test = false
+
+[[test]]
+name = "bounded_completion"
+path = "tests/bounded_completion.rs"
+test = false
+
+[[test]]
+name = "bounded_expansion_steps"
+path = "tests/bounded_expansion_steps.rs"
+test = false
+
+[[test]]
+name = "bounded_group_planning_regression"
+path = "tests/bounded_group_planning_regression.rs"
+test = false
+
+[[test]]
+name = "branch_and_bound"
+path = "tests/branch_and_bound.rs"
+test = false
+
+[[test]]
+name = "branch_order"
+path = "tests/branch_order.rs"
+test = false
+
+[[test]]
+name = "branch_order_routes"
+path = "tests/branch_order_routes.rs"
+test = false
+
+[[test]]
+name = "branch_restoration_cases"
+path = "tests/branch_restoration_cases.rs"
+test = false
+
+[[test]]
+name = "branch_restoration_regression"
+path = "tests/branch_restoration_regression.rs"
+test = false
+
+[[test]]
+name = "brute_force_phase_cases"
+path = "tests/brute_force_phase_cases.rs"
+test = false
+
+[[test]]
+name = "builtin_move_identity_cases"
+path = "tests/builtin_move_identity_cases.rs"
+test = false
+
+[[test]]
+name = "cached_move_provider_regression"
+path = "tests/cached_move_provider_regression.rs"
+test = false
+
+[[test]]
+name = "cached_projection"
+path = "tests/cached_projection.rs"
+test = false
+
+[[test]]
+name = "calculator_constraint_metrics"
+path = "tests/calculator_constraint_metrics.rs"
+test = false
+
+[[test]]
+name = "calculator_dynamic_semantics_cases"
+path = "tests/calculator_dynamic_semantics_cases.rs"
+test = false
+
+[[test]]
+name = "calculator_explanation_regression"
+path = "tests/calculator_explanation_regression.rs"
+test = false
+
+[[test]]
+name = "calculator_fallible_score_regression"
+path = "tests/calculator_fallible_score_regression.rs"
+test = false
+
+[[test]]
+name = "calculator_list_semantics_cases"
+path = "tests/calculator_list_semantics_cases.rs"
+test = false
+
+[[test]]
+name = "calculator_payload_transitions"
+path = "tests/calculator_payload_transitions.rs"
+test = false
+
+[[test]]
+name = "calculator_problem_edits_cases"
+path = "tests/calculator_problem_edits_cases.rs"
+test = false
+
+[[test]]
+name = "calculator_search_regression"
+path = "tests/calculator_search_regression.rs"
+test = false
+
+[[test]]
+name = "calculator_solver_regression"
+path = "tests/calculator_solver_regression.rs"
+test = false
+
+[[test]]
+name = "calculator_undo_diagnostics_regression"
+path = "tests/calculator_undo_diagnostics_regression.rs"
+test = false
+
+[[test]]
+name = "calculator_what_if"
+path = "tests/calculator_what_if.rs"
+test = false
+
+[[test]]
+name = "cancellation"
+path = "tests/cancellation.rs"
+test = false
+
+[[test]]
+name = "cancellation_termination_cases"
+path = "tests/cancellation_termination_cases.rs"
+test = false
+
+[[test]]
+name = "candidate_index_regression"
+path = "tests/candidate_index_regression.rs"
+test = false
+
+[[test]]
+name = "candidate_pair_cases"
+path = "tests/candidate_pair_cases.rs"
+test = false
+
+[[test]]
+name = "candidate_pair_regression"
+path = "tests/candidate_pair_regression.rs"
+test = false
+
+[[test]]
+name = "canonical_flat_map_regression"
+path = "tests/canonical_flat_map_regression.rs"
+test = false
+
+[[test]]
+name = "cascade_callback_binding_cases"
+path = "tests/cascade_callback_binding_cases.rs"
+test = false
+
+[[test]]
+name = "cascade_move_cases"
+path = "tests/cascade_move_cases.rs"
+test = false
+
+[[test]]
+name = "change_product_regression"
+path = "tests/change_product_regression.rs"
+test = false
+
+[[test]]
+name = "change_product_search"
+path = "tests/change_product_search.rs"
+test = false
+
+[[test]]
+name = "changed_value_positions"
+path = "tests/changed_value_positions.rs"
+test = false
+
+[[test]]
+name = "checked_move_tester_cases"
+path = "tests/checked_move_tester_cases.rs"
+test = false
+
+[[test]]
+name = "checked_move_tester_regression"
+path = "tests/checked_move_tester_regression.rs"
+test = false
+
+[[test]]
+name = "checked_scoring_regression"
+path = "tests/checked_scoring_regression.rs"
+test = false
+
+[[test]]
+name = "coalesced_stream_regression"
+path = "tests/coalesced_stream_regression.rs"
+test = false
+
+[[test]]
+name = "collecting_stream_cases"
+path = "tests/collecting_stream_cases.rs"
+test = false
+
+[[test]]
+name = "collecting_stream_regression"
+path = "tests/collecting_stream_regression.rs"
+test = false
+
+[[test]]
+name = "collection_follower"
+path = "tests/collection_follower.rs"
+test = false
+
+[[test]]
+name = "collector_session_regression"
+path = "tests/collector_session_regression.rs"
+test = false
+
+[[test]]
+name = "combinatorics_cases"
+path = "tests/combinatorics_cases.rs"
+test = false
+
+[[test]]
+name = "common_values_cases"
+path = "tests/common_values_cases.rs"
+test = false
+
+[[test]]
+name = "common_values_regression"
+path = "tests/common_values_regression.rs"
+test = false
+
+[[test]]
+name = "compact_change_undo"
+path = "tests/compact_change_undo.rs"
+test = false
+
+[[test]]
+name = "compact_pair_join"
+path = "tests/compact_pair_join.rs"
+test = false
+
+[[test]]
+name = "compact_swap_undo"
+path = "tests/compact_swap_undo.rs"
+test = false
+
+[[test]]
+name = "comparator_sorting_cases"
+path = "tests/comparator_sorting_cases.rs"
+test = false
+
+[[test]]
+name = "comparison_candidate_cases"
+path = "tests/comparison_candidate_cases.rs"
+test = false
+
+[[test]]
+name = "comparison_candidate_regression"
+path = "tests/comparison_candidate_regression.rs"
+test = false
+
+[[test]]
+name = "comparison_storage_cases"
+path = "tests/comparison_storage_cases.rs"
+test = false
+
+[[test]]
+name = "comparison_storage_regression"
+path = "tests/comparison_storage_regression.rs"
+test = false
+
+[[test]]
+name = "compiled_member_cases"
+path = "tests/compiled_member_cases.rs"
+test = false
+
+[[test]]
+name = "compiled_member_regression"
+path = "tests/compiled_member_regression.rs"
+test = false
+
+[[test]]
+name = "complement_stream_cases"
+path = "tests/complement_stream_cases.rs"
+test = false
+
+[[test]]
+name = "complement_stream_regression"
+path = "tests/complement_stream_regression.rs"
+test = false
+
+[[test]]
+name = "complete_clone_cases"
+path = "tests/complete_clone_cases.rs"
+test = false
+
+[[test]]
+name = "completion_phase_cases"
+path = "tests/completion_phase_cases.rs"
+test = false
+
+[[test]]
+name = "completion_search_regression"
+path = "tests/completion_search_regression.rs"
+test = false
+
+[[test]]
+name = "composed_collector_cases"
+path = "tests/composed_collector_cases.rs"
+test = false
+
+[[test]]
+name = "composed_diminished"
+path = "tests/composed_diminished.rs"
+test = false
+
+[[test]]
+name = "composed_diminished_routes"
+path = "tests/composed_diminished_routes.rs"
+test = false
+
+[[test]]
+name = "composite_acceptance_cases"
+path = "tests/composite_acceptance_cases.rs"
+test = false
+
+[[test]]
+name = "composite_acceptance_regression"
+path = "tests/composite_acceptance_regression.rs"
+test = false
+
+[[test]]
+name = "composite_acceptor_lifecycle_cases"
+path = "tests/composite_acceptor_lifecycle_cases.rs"
+test = false
+
+[[test]]
+name = "composite_move_builder_cases"
+path = "tests/composite_move_builder_cases.rs"
+test = false
+
+[[test]]
+name = "composite_move_cases"
+path = "tests/composite_move_cases.rs"
+test = false
+
+[[test]]
+name = "composite_termination"
+path = "tests/composite_termination.rs"
+test = false
+
+[[test]]
+name = "composite_termination_cases"
+path = "tests/composite_termination_cases.rs"
+test = false
+
+[[test]]
+name = "compound_existence_regression"
+path = "tests/compound_existence_regression.rs"
+test = false
+
+[[test]]
+name = "compound_join_cases"
+path = "tests/compound_join_cases.rs"
+test = false
+
+[[test]]
+name = "compound_join_regression"
+path = "tests/compound_join_regression.rs"
+test = false
+
+[[test]]
+name = "compound_join_routing_cases"
+path = "tests/compound_join_routing_cases.rs"
+test = false
+
+[[test]]
+name = "compound_join_routing_regression"
+path = "tests/compound_join_routing_regression.rs"
+test = false
+
+[[test]]
+name = "compound_membership_cases"
+path = "tests/compound_membership_cases.rs"
+test = false
+
+[[test]]
+name = "compound_membership_regression"
+path = "tests/compound_membership_regression.rs"
+test = false
+
+[[test]]
+name = "concat_cursor"
+path = "tests/concat_cursor.rs"
+test = false
+
+[[test]]
+name = "concat_stream_cases"
+path = "tests/concat_stream_cases.rs"
+test = false
+
+[[test]]
+name = "concat_stream_regression"
+path = "tests/concat_stream_regression.rs"
+test = false
+
+[[test]]
+name = "concurrent_cached_search"
+path = "tests/concurrent_cached_search.rs"
+test = false
+
+[[test]]
+name = "concurrent_cases"
+path = "tests/concurrent_cases.rs"
+test = false
+
+[[test]]
+name = "concurrent_regression"
+path = "tests/concurrent_regression.rs"
+test = false
+
+[[test]]
+name = "conditional_collector_cases"
+path = "tests/conditional_collector_cases.rs"
+test = false
+
+[[test]]
+name = "conditional_collector_regression"
+path = "tests/conditional_collector_regression.rs"
+test = false
+
+[[test]]
+name = "config_instance_cases"
+path = "tests/config_instance_cases.rs"
+test = false
+
+[[test]]
+name = "config_instance_regression"
+path = "tests/config_instance_regression.rs"
+test = false
+
+[[test]]
+name = "config_property_cases"
+path = "tests/config_property_cases.rs"
+test = false
+
+[[test]]
+name = "config_property_regression"
+path = "tests/config_property_regression.rs"
+test = false
+
+[[test]]
+name = "configured_factories_cases"
+path = "tests/configured_factories_cases.rs"
+test = false
+
+[[test]]
+name = "configured_factories_regression"
+path = "tests/configured_factories_regression.rs"
+test = false
+
+[[test]]
+name = "configured_move_provider_regression"
+path = "tests/configured_move_provider_regression.rs"
+test = false
+
+[[test]]
+name = "configured_selection_factory_cases"
+path = "tests/configured_selection_factory_cases.rs"
+test = false
+
+[[test]]
+name = "configured_selection_regression"
+path = "tests/configured_selection_regression.rs"
+test = false
+
+[[test]]
+name = "constraint_assertion_cases"
+path = "tests/constraint_assertion_cases.rs"
+test = false
+
+[[test]]
+name = "constraint_assertion_regression"
+path = "tests/constraint_assertion_regression.rs"
+test = false
+
+[[test]]
+name = "constraint_catalog_cases"
+path = "tests/constraint_catalog_cases.rs"
+test = false
+
+[[test]]
+name = "constraint_catalog_regression"
+path = "tests/constraint_catalog_regression.rs"
+test = false
+
+[[test]]
+name = "constraint_declaration_cases"
+path = "tests/constraint_declaration_cases.rs"
+test = false
+
+[[test]]
+name = "constraint_declaration_regression"
+path = "tests/constraint_declaration_regression.rs"
+test = false
+
+[[test]]
+name = "constraint_match_total_cases"
+path = "tests/constraint_match_total_cases.rs"
+test = false
+
+[[test]]
+name = "constraint_occurrence_cases"
+path = "tests/constraint_occurrence_cases.rs"
+test = false
+
+[[test]]
+name = "constraint_occurrence_regression"
+path = "tests/constraint_occurrence_regression.rs"
+test = false
+
+[[test]]
+name = "constraint_services_cases"
+path = "tests/constraint_services_cases.rs"
+test = false
+
+[[test]]
+name = "constraint_services_regression"
+path = "tests/constraint_services_regression.rs"
+test = false
+
+[[test]]
+name = "constraint_weight_cases"
+path = "tests/constraint_weight_cases.rs"
+test = false
+
+[[test]]
+name = "constraint_weight_regression"
+path = "tests/constraint_weight_regression.rs"
+test = false
+
+[[test]]
+name = "construction"
+path = "tests/construction.rs"
+test = false
+
+[[test]]
+name = "construction_cancellation"
+path = "tests/construction_cancellation.rs"
+test = false
+
+[[test]]
+name = "construction_factory_cases"
+path = "tests/construction_factory_cases.rs"
+test = false
+
+[[test]]
+name = "construction_factory_regression"
+path = "tests/construction_factory_regression.rs"
+test = false
+
+[[test]]
+name = "construction_forager"
+path = "tests/construction_forager.rs"
+test = false
+
+[[test]]
+name = "construction_limits_regression"
+path = "tests/construction_limits_regression.rs"
+test = false
+
+[[test]]
+name = "construction_optional_cases"
+path = "tests/construction_optional_cases.rs"
+test = false
+
+[[test]]
+name = "construction_phase_cases"
+path = "tests/construction_phase_cases.rs"
+test = false
+
+[[test]]
+name = "construction_provider_plans"
+path = "tests/construction_provider_plans.rs"
+test = false
+
+[[test]]
+name = "construction_resume"
+path = "tests/construction_resume.rs"
+test = false
+
+[[test]]
+name = "construction_sorting_cases"
+path = "tests/construction_sorting_cases.rs"
+test = false
+
+[[test]]
+name = "consumer_support_cases"
+path = "tests/consumer_support_cases.rs"
+test = false
+
+[[test]]
+name = "correlated_list_change_sources"
+path = "tests/correlated_list_change_sources.rs"
+test = false
+
+[[test]]
+name = "correlated_list_swap_sources"
+path = "tests/correlated_list_swap_sources.rs"
+test = false
+
+[[test]]
+name = "correlated_sublist_destinations"
+path = "tests/correlated_sublist_destinations.rs"
+test = false
+
+[[test]]
+name = "count_limit_cases"
+path = "tests/count_limit_cases.rs"
+test = false
+
+[[test]]
+name = "custom_basic_clone_cases"
+path = "tests/custom_basic_clone_cases.rs"
+test = false
+
+[[test]]
+name = "custom_basic_clone_regression"
+path = "tests/custom_basic_clone_regression.rs"
+test = false
+
+[[test]]
+name = "custom_commands"
+path = "tests/custom_commands.rs"
+test = false
+
+[[test]]
+name = "custom_conditional"
+path = "tests/custom_conditional.rs"
+test = false
+
+[[test]]
+name = "custom_conditional_routes"
+path = "tests/custom_conditional_routes.rs"
+test = false
+
+[[test]]
+name = "custom_inspection_regression"
+path = "tests/custom_inspection_regression.rs"
+test = false
+
+[[test]]
+name = "custom_phase_deadline_cases"
+path = "tests/custom_phase_deadline_cases.rs"
+test = false
+
+[[test]]
+name = "custom_sequences"
+path = "tests/custom_sequences.rs"
+test = false
+
+[[test]]
+name = "custom_sequences_routes"
+path = "tests/custom_sequences_routes.rs"
+test = false
+
+[[test]]
+name = "custom_structure_cases"
+path = "tests/custom_structure_cases.rs"
+test = false
+
+[[test]]
+name = "custom_structure_regression"
+path = "tests/custom_structure_regression.rs"
+test = false
+
+[[test]]
+name = "custom_structure_routes"
+path = "tests/custom_structure_routes.rs"
+test = false
+
+[[test]]
+name = "dataset_bucket_bias_cases"
+path = "tests/dataset_bucket_bias_cases.rs"
+test = false
+
+[[test]]
+name = "dataset_enumeration_cases"
+path = "tests/dataset_enumeration_cases.rs"
+test = false
+
+[[test]]
+name = "dataset_enumeration_regression"
+path = "tests/dataset_enumeration_regression.rs"
+test = false
+
+[[test]]
+name = "daypart_cases"
+path = "tests/daypart_cases.rs"
+test = false
+
+[[test]]
+name = "decimal_arithmetic_utility_cases"
+path = "tests/decimal_arithmetic_utility_cases.rs"
+test = false
+
+[[test]]
+name = "decimal_arithmetic_utility_regression"
+path = "tests/decimal_arithmetic_utility_regression.rs"
+test = false
+
+[[test]]
+name = "decimal_score_regression"
+path = "tests/decimal_score_regression.rs"
+test = false
+
+[[test]]
+name = "decimal_weight_cases"
+path = "tests/decimal_weight_cases.rs"
+test = false
+
+[[test]]
+name = "decimal_weight_regression"
+path = "tests/decimal_weight_regression.rs"
+test = false
+
+[[test]]
+name = "deep_field_clone_cases"
+path = "tests/deep_field_clone_cases.rs"
+test = false
+
+[[test]]
+name = "deep_join_update_cases"
+path = "tests/deep_join_update_cases.rs"
+test = false
+
+[[test]]
+name = "default_neighborhood_cases"
+path = "tests/default_neighborhood_cases.rs"
+test = false
+
+[[test]]
+name = "default_neighborhood_regression"
+path = "tests/default_neighborhood_regression.rs"
+test = false
+
+[[test]]
+name = "deferred_cascade_cases"
+path = "tests/deferred_cascade_cases.rs"
+test = false
+
+[[test]]
+name = "deferred_cascade_regression"
+path = "tests/deferred_cascade_regression.rs"
+test = false
+
+[[test]]
+name = "dependency_batch_regression"
+path = "tests/dependency_batch_regression.rs"
+test = false
+
+[[test]]
+name = "dependency_cache"
+path = "tests/dependency_cache.rs"
+test = false
+
+[[test]]
+name = "dependency_consumer_regression"
+path = "tests/dependency_consumer_regression.rs"
+test = false
+
+[[test]]
+name = "dependency_graph"
+path = "tests/dependency_graph.rs"
+test = false
+
+[[test]]
+name = "dependency_queue_cases"
+path = "tests/dependency_queue_cases.rs"
+test = false
+
+[[test]]
+name = "dependency_queue_regression"
+path = "tests/dependency_queue_regression.rs"
+test = false
+
+[[test]]
+name = "dependency_rewire_regression"
+path = "tests/dependency_rewire_regression.rs"
+test = false
+
+[[test]]
+name = "dependency_schedule_cases"
+path = "tests/dependency_schedule_cases.rs"
+test = false
+
+[[test]]
+name = "dependency_stream"
+path = "tests/dependency_stream.rs"
+test = false
+
+[[test]]
+name = "dependent_change_source_cases"
+path = "tests/dependent_change_source_cases.rs"
+test = false
+
+[[test]]
+name = "dependent_selection_cases"
+path = "tests/dependent_selection_cases.rs"
+test = false
+
+[[test]]
+name = "dependent_selection_regression"
+path = "tests/dependent_selection_regression.rs"
+test = false
+
+[[test]]
+name = "descriptor_mutation_cases"
+path = "tests/descriptor_mutation_cases.rs"
+test = false
+
+[[test]]
+name = "descriptor_mutation_regression"
+path = "tests/descriptor_mutation_regression.rs"
+test = false
+
+[[test]]
+name = "destination_cursor_cases"
+path = "tests/destination_cursor_cases.rs"
+test = false
+
+[[test]]
+name = "destination_cursor_regression"
+path = "tests/destination_cursor_regression.rs"
+test = false
+
+[[test]]
+name = "destination_index_regression"
+path = "tests/destination_index_regression.rs"
+test = false
+
+[[test]]
+name = "destination_range_cases"
+path = "tests/destination_range_cases.rs"
+test = false
+
+[[test]]
+name = "destination_union_cases"
+path = "tests/destination_union_cases.rs"
+test = false
+
+[[test]]
+name = "destination_union_regression"
+path = "tests/destination_union_regression.rs"
+test = false
+
+[[test]]
+name = "diminished_binary_ratio_regression"
+path = "tests/diminished_binary_ratio_regression.rs"
+test = false
+
+[[test]]
+name = "diminished_defaults_cases"
+path = "tests/diminished_defaults_cases.rs"
+test = false
+
+[[test]]
+name = "diminished_defaults_regression"
+path = "tests/diminished_defaults_regression.rs"
+test = false
+
+[[test]]
+name = "diminished_rate_reuse"
+path = "tests/diminished_rate_reuse.rs"
+test = false
+
+[[test]]
+name = "diminished_returns_cases"
+path = "tests/diminished_returns_cases.rs"
+test = false
+
+[[test]]
+name = "diminished_returns_regression"
+path = "tests/diminished_returns_regression.rs"
+test = false
+
+[[test]]
+name = "diminished_runtime_cases"
+path = "tests/diminished_runtime_cases.rs"
+test = false
+
+[[test]]
+name = "diminished_runtime_regression"
+path = "tests/diminished_runtime_regression.rs"
+test = false
+
+[[test]]
+name = "directed_two_opt_cases"
+path = "tests/directed_two_opt_cases.rs"
+test = false
+
+[[test]]
+name = "directed_two_opt_provider"
+path = "tests/directed_two_opt_provider.rs"
+test = false
+
+[[test]]
+name = "directed_two_opt_regression"
+path = "tests/directed_two_opt_regression.rs"
+test = false
+
+[[test]]
+name = "distance_matrix_cases"
+path = "tests/distance_matrix_cases.rs"
+test = false
+
+[[test]]
+name = "distinct_stream_cases"
+path = "tests/distinct_stream_cases.rs"
+test = false
+
+[[test]]
+name = "distinct_stream_regression"
+path = "tests/distinct_stream_regression.rs"
+test = false
+
+[[test]]
+name = "diversified_history_updates"
+path = "tests/diversified_history_updates.rs"
+test = false
+
+[[test]]
+name = "diversified_late_regression"
+path = "tests/diversified_late_regression.rs"
+test = false
+
+[[test]]
+name = "domain_getter_cases"
+path = "tests/domain_getter_cases.rs"
+test = false
+
+[[test]]
+name = "domain_getter_regression"
+path = "tests/domain_getter_regression.rs"
+test = false
+
+[[test]]
+name = "duration_collector_cases"
+path = "tests/duration_collector_cases.rs"
+test = false
+
+[[test]]
+name = "duration_collector_regression"
+path = "tests/duration_collector_regression.rs"
+test = false
+
+[[test]]
+name = "dynamic_dependency_regression"
+path = "tests/dynamic_dependency_regression.rs"
+test = false
+
+[[test]]
+name = "dynamic_follower_cases"
+path = "tests/dynamic_follower_cases.rs"
+test = false
+
+[[test]]
+name = "dynamic_shadow_arena_regression"
+path = "tests/dynamic_shadow_arena_regression.rs"
+test = false
+
+[[test]]
+name = "dynamic_shadow_stream_regression"
+path = "tests/dynamic_shadow_stream_regression.rs"
+test = false
+
+[[test]]
+name = "easy_score_factory_cases"
+path = "tests/easy_score_factory_cases.rs"
+test = false
+
+[[test]]
+name = "easy_score_factory_regression"
+path = "tests/easy_score_factory_regression.rs"
+test = false
+
+[[test]]
+name = "elapsed_time_cases"
+path = "tests/elapsed_time_cases.rs"
+test = false
+
+[[test]]
+name = "eligible_swap_cases"
+path = "tests/eligible_swap_cases.rs"
+test = false
+
+[[test]]
+name = "eligible_swap_regression"
+path = "tests/eligible_swap_regression.rs"
+test = false
+
+[[test]]
+name = "employee_model_patch_cases"
+path = "tests/employee_model_patch_cases.rs"
+test = false
+
+[[test]]
+name = "employee_openapi_cases"
+path = "tests/employee_openapi_cases.rs"
+test = false
+
+[[test]]
+name = "employee_resource_cases"
+path = "tests/employee_resource_cases.rs"
+test = false
+
+[[test]]
+name = "employee_resource_regression"
+path = "tests/employee_resource_regression.rs"
+test = false
+
+[[test]]
+name = "employee_watching_cases"
+path = "tests/employee_watching_cases.rs"
+test = false
+
+[[test]]
+name = "employee_watching_regression"
+path = "tests/employee_watching_regression.rs"
+test = false
+
+[[test]]
+name = "empty_filtered_map_activity_cases"
+path = "tests/empty_filtered_map_activity_cases.rs"
+test = false
+
+[[test]]
+name = "empty_value_range_cases"
+path = "tests/empty_value_range_cases.rs"
+test = false
+
+[[test]]
+name = "entity_construction_regression"
+path = "tests/entity_construction_regression.rs"
+test = false
+
+[[test]]
+name = "entity_container_clone_cases"
+path = "tests/entity_container_clone_cases.rs"
+test = false
+
+[[test]]
+name = "entity_range_move_cases"
+path = "tests/entity_range_move_cases.rs"
+test = false
+
+[[test]]
+name = "entity_range_registry"
+path = "tests/entity_range_registry.rs"
+test = false
+
+[[test]]
+name = "entity_range_search_cases"
+path = "tests/entity_range_search_cases.rs"
+test = false
+
+[[test]]
+name = "entity_sublist_sampling_regression"
+path = "tests/entity_sublist_sampling_regression.rs"
+test = false
+
+[[test]]
+name = "entity_sublist_sequence_fixtures"
+path = "tests/entity_sublist_sequence_fixtures.rs"
+test = false
+
+[[test]]
+name = "entity_swap_cases"
+path = "tests/entity_swap_cases.rs"
+test = false
+
+[[test]]
+name = "entity_swap_partner_cases"
+path = "tests/entity_swap_partner_cases.rs"
+test = false
+
+[[test]]
+name = "entity_swap_regression"
+path = "tests/entity_swap_regression.rs"
+test = false
+
+[[test]]
+name = "entity_swap_source_cases"
+path = "tests/entity_swap_source_cases.rs"
+test = false
+
+[[test]]
+name = "entity_tabu"
+path = "tests/entity_tabu.rs"
+test = false
+
+[[test]]
+name = "entity_value_range_cases"
+path = "tests/entity_value_range_cases.rs"
+test = false
+
+[[test]]
+name = "entry_link_slots_regression"
+path = "tests/entry_link_slots_regression.rs"
+test = false
+
+[[test]]
+name = "entry_list_cases"
+path = "tests/entry_list_cases.rs"
+test = false
+
+[[test]]
+name = "entry_list_regression"
+path = "tests/entry_list_regression.rs"
+test = false
+
+[[test]]
+name = "entry_neighbors_cases"
+path = "tests/entry_neighbors_cases.rs"
+test = false
+
+[[test]]
+name = "entry_neighbors_regression"
+path = "tests/entry_neighbors_regression.rs"
+test = false
+
+[[test]]
+name = "environment_corruption_cases"
+path = "tests/environment_corruption_cases.rs"
+test = false
+
+[[test]]
+name = "environment_determinism_cases"
+path = "tests/environment_determinism_cases.rs"
+test = false
+
+[[test]]
+name = "environment_phase_checks"
+path = "tests/environment_phase_checks.rs"
+test = false
+
+[[test]]
+name = "environment_profile_cases"
+path = "tests/environment_profile_cases.rs"
+test = false
+
+[[test]]
+name = "environment_profile_regression"
+path = "tests/environment_profile_regression.rs"
+test = false
+
+[[test]]
+name = "environment_undo_shadow_cases"
+path = "tests/environment_undo_shadow_cases.rs"
+test = false
+
+[[test]]
+name = "equal_candidate_index_cases"
+path = "tests/equal_candidate_index_cases.rs"
+test = false
+
+[[test]]
+name = "equality_existence_cases"
+path = "tests/equality_existence_cases.rs"
+test = false
+
+[[test]]
+name = "equality_existence_regression"
+path = "tests/equality_existence_regression.rs"
+test = false
+
+[[test]]
+name = "exact_basic_phase_cases"
+path = "tests/exact_basic_phase_cases.rs"
+test = false
+
+[[test]]
+name = "exact_basic_phase_regression"
+path = "tests/exact_basic_phase_regression.rs"
+test = false
+
+[[test]]
+name = "exact_cancellation"
+path = "tests/exact_cancellation.rs"
+test = false
+
+[[test]]
+name = "exact_list_phase_cases"
+path = "tests/exact_list_phase_cases.rs"
+test = false
+
+[[test]]
+name = "exact_list_phase_regression"
+path = "tests/exact_list_phase_regression.rs"
+test = false
+
+[[test]]
+name = "exact_mixed_phase_cases"
+path = "tests/exact_mixed_phase_cases.rs"
+test = false
+
+[[test]]
+name = "exact_mixed_phase_regression"
+path = "tests/exact_mixed_phase_regression.rs"
+test = false
+
+[[test]]
+name = "exact_observer_regression"
+path = "tests/exact_observer_regression.rs"
+test = false
+
+[[test]]
+name = "exact_parent_reuse"
+path = "tests/exact_parent_reuse.rs"
+test = false
+
+[[test]]
+name = "exact_range_cases"
+path = "tests/exact_range_cases.rs"
+test = false
+
+[[test]]
+name = "exact_range_regression"
+path = "tests/exact_range_regression.rs"
+test = false
+
+[[test]]
+name = "exact_time_limit"
+path = "tests/exact_time_limit.rs"
+test = false
+
+[[test]]
+name = "executable_member_cases"
+path = "tests/executable_member_cases.rs"
+test = false
+
+[[test]]
+name = "executable_member_regression"
+path = "tests/executable_member_regression.rs"
+test = false
+
+[[test]]
+name = "exhaustive_search"
+path = "tests/exhaustive_search.rs"
+test = false
+
+[[test]]
+name = "existence_link_delta"
+path = "tests/existence_link_delta.rs"
+test = false
+
+[[test]]
+name = "existence_stream_cases"
+path = "tests/existence_stream_cases.rs"
+test = false
+
+[[test]]
+name = "existence_stream_regression"
+path = "tests/existence_stream_regression.rs"
+test = false
+
+[[test]]
+name = "expand_stream_cases"
+path = "tests/expand_stream_cases.rs"
+test = false
+
+[[test]]
+name = "explanation_diff_regression"
+path = "tests/explanation_diff_regression.rs"
+test = false
+
+[[test]]
+name = "extended_clone_cases"
+path = "tests/extended_clone_cases.rs"
+test = false
+
+[[test]]
+name = "external_inverse_regression"
+path = "tests/external_inverse_regression.rs"
+test = false
+
+[[test]]
+name = "extrema_collector_cases"
+path = "tests/extrema_collector_cases.rs"
+test = false
+
+[[test]]
+name = "extrema_collector_regression"
+path = "tests/extrema_collector_regression.rs"
+test = false
+
+[[test]]
+name = "factory_assertion_context_regression"
+path = "tests/factory_assertion_context_regression.rs"
+test = false
+
+[[test]]
+name = "factory_run_cases"
+path = "tests/factory_run_cases.rs"
+test = false
+
+[[test]]
+name = "factory_run_regression"
+path = "tests/factory_run_regression.rs"
+test = false
+
+[[test]]
+name = "fading_tabu_cases"
+path = "tests/fading_tabu_cases.rs"
+test = false
+
+[[test]]
+name = "fading_tabu_regression"
+path = "tests/fading_tabu_regression.rs"
+test = false
+
+[[test]]
+name = "fallible_move_provider"
+path = "tests/fallible_move_provider.rs"
+test = false
+
+[[test]]
+name = "fallible_shadows"
+path = "tests/fallible_shadows.rs"
+test = false
+
+[[test]]
+name = "field_binding_cases"
+path = "tests/field_binding_cases.rs"
+test = false
+
+[[test]]
+name = "field_binding_regression"
+path = "tests/field_binding_regression.rs"
+test = false
+
+[[test]]
+name = "field_provider_constructor_cases"
+path = "tests/field_provider_constructor_cases.rs"
+test = false
+
+[[test]]
+name = "field_provider_constructor_regression"
+path = "tests/field_provider_constructor_regression.rs"
+test = false
+
+[[test]]
+name = "filter_map_regression"
+path = "tests/filter_map_regression.rs"
+test = false
+
+[[test]]
+name = "filter_termination_cases"
+path = "tests/filter_termination_cases.rs"
+test = false
+
+[[test]]
+name = "filter_termination_regression"
+path = "tests/filter_termination_regression.rs"
+test = false
+
+[[test]]
+name = "filtered_activity_cases"
+path = "tests/filtered_activity_cases.rs"
+test = false
+
+[[test]]
+name = "filtered_indexed_join_regression"
+path = "tests/filtered_indexed_join_regression.rs"
+test = false
+
+[[test]]
+name = "filtered_pair_bias_cases"
+path = "tests/filtered_pair_bias_cases.rs"
+test = false
+
+[[test]]
+name = "filtered_pair_sampling_regression"
+path = "tests/filtered_pair_sampling_regression.rs"
+test = false
+
+[[test]]
+name = "finishing_collector_regression"
+path = "tests/finishing_collector_regression.rs"
+test = false
+
+[[test]]
+name = "fixed_links_regression"
+path = "tests/fixed_links_regression.rs"
+test = false
+
+[[test]]
+name = "fixed_score_regression"
+path = "tests/fixed_score_regression.rs"
+test = false
+
+[[test]]
+name = "fixed_shadow_cycle_cases"
+path = "tests/fixed_shadow_cycle_cases.rs"
+test = false
+
+[[test]]
+name = "flat_map_stream_cases"
+path = "tests/flat_map_stream_cases.rs"
+test = false
+
+[[test]]
+name = "flat_map_stream_regression"
+path = "tests/flat_map_stream_regression.rs"
+test = false
+
+[[test]]
+name = "flawed_move_cases"
+path = "tests/flawed_move_cases.rs"
+test = false
+
+[[test]]
+name = "follower_set_cases"
+path = "tests/follower_set_cases.rs"
+test = false
+
+[[test]]
+name = "follower_shadow_cases"
+path = "tests/follower_shadow_cases.rs"
+test = false
+
+[[test]]
+name = "forager_cases"
+path = "tests/forager_cases.rs"
+test = false
+
+[[test]]
+name = "forager_regression"
+path = "tests/forager_regression.rs"
+test = false
+
+[[test]]
+name = "framework_cascade_solve"
+path = "tests/framework_cascade_solve.rs"
+test = false
+
+[[test]]
+name = "framework_cross_shadow"
+path = "tests/framework_cross_shadow.rs"
+test = false
+
+[[test]]
+name = "framework_entity_range_solve"
+path = "tests/framework_entity_range_solve.rs"
+test = false
+
+[[test]]
+name = "framework_inheritance_solve"
+path = "tests/framework_inheritance_solve.rs"
+test = false
+
+[[test]]
+name = "framework_initialized_inheritance"
+path = "tests/framework_initialized_inheritance.rs"
+test = false
+
+[[test]]
+name = "framework_json_solve"
+path = "tests/framework_json_solve.rs"
+test = false
+
+[[test]]
+name = "framework_kitchen_sink_solve"
+path = "tests/framework_kitchen_sink_solve.rs"
+test = false
+
+[[test]]
+name = "framework_list_shadow_solve"
+path = "tests/framework_list_shadow_solve.rs"
+test = false
+
+[[test]]
+name = "framework_member_solve"
+path = "tests/framework_member_solve.rs"
+test = false
+
+[[test]]
+name = "framework_supplier_solve"
+path = "tests/framework_supplier_solve.rs"
+test = false
+
+[[test]]
+name = "frontier_reclamation"
+path = "tests/frontier_reclamation.rs"
+test = false
+
+[[test]]
+name = "frozen_solver_cases"
+path = "tests/frozen_solver_cases.rs"
+test = false
+
+[[test]]
+name = "frozen_solver_regression"
+path = "tests/frozen_solver_regression.rs"
+test = false
+
+[[test]]
+name = "gather_borrowed_regression"
+path = "tests/gather_borrowed_regression.rs"
+test = false
+
+[[test]]
+name = "gather_dependency_neighborhoods"
+path = "tests/gather_dependency_neighborhoods.rs"
+test = false
+
+[[test]]
+name = "gather_neighborhood"
+path = "tests/gather_neighborhood.rs"
+test = false
+
+[[test]]
+name = "gather_sampling_regression"
+path = "tests/gather_sampling_regression.rs"
+test = false
+
+[[test]]
+name = "gather_sampling_search"
+path = "tests/gather_sampling_search.rs"
+test = false
+
+[[test]]
+name = "generated_exact_scoring"
+path = "tests/generated_exact_scoring.rs"
+test = false
+
+[[test]]
+name = "geographic_routing_regression"
+path = "tests/geographic_routing_regression.rs"
+test = false
+
+[[test]]
+name = "geographic_travel_cases"
+path = "tests/geographic_travel_cases.rs"
+test = false
+
+[[test]]
+name = "geographic_travel_regression"
+path = "tests/geographic_travel_regression.rs"
+test = false
+
+[[test]]
+name = "goal_progress"
+path = "tests/goal_progress.rs"
+test = false
+
+[[test]]
+name = "goal_progress_controls"
+path = "tests/goal_progress_controls.rs"
+test = false
+
+[[test]]
+name = "goal_progress_routes"
+path = "tests/goal_progress_routes.rs"
+test = false
+
+[[test]]
+name = "graph_batched_existence_regression"
+path = "tests/graph_batched_existence_regression.rs"
+test = false
+
+[[test]]
+name = "graph_batching_regression"
+path = "tests/graph_batching_regression.rs"
+test = false
+
+[[test]]
+name = "great_circle_cases"
+path = "tests/great_circle_cases.rs"
+test = false
+
+[[test]]
+name = "great_deluge"
+path = "tests/great_deluge.rs"
+test = false
+
+[[test]]
+name = "great_deluge_regression"
+path = "tests/great_deluge_regression.rs"
+test = false
+
+[[test]]
+name = "group_move_rebase_cases"
+path = "tests/group_move_rebase_cases.rs"
+test = false
+
+[[test]]
+name = "grouped_mixed_exact_cases"
+path = "tests/grouped_mixed_exact_cases.rs"
+test = false
+
+[[test]]
+name = "grouped_mixed_exact_regression"
+path = "tests/grouped_mixed_exact_regression.rs"
+test = false
+
+[[test]]
+name = "grouped_multiway_cases"
+path = "tests/grouped_multiway_cases.rs"
+test = false
+
+[[test]]
+name = "grouped_pillar_source_cases"
+path = "tests/grouped_pillar_source_cases.rs"
+test = false
+
+[[test]]
+name = "grouped_selection_regression"
+path = "tests/grouped_selection_regression.rs"
+test = false
+
+[[test]]
+name = "grouped_tuple_cases"
+path = "tests/grouped_tuple_cases.rs"
+test = false
+
+[[test]]
+name = "hard_medium_soft_decimal_score"
+path = "tests/hard_medium_soft_decimal_score.rs"
+test = false
+
+[[test]]
+name = "hard_medium_soft_score"
+path = "tests/hard_medium_soft_score.rs"
+test = false
+
+[[test]]
+name = "hard_soft_decimal_score"
+path = "tests/hard_soft_decimal_score.rs"
+test = false
+
+[[test]]
+name = "hard_soft_score"
+path = "tests/hard_soft_score.rs"
+test = false
+
+[[test]]
+name = "hill_climbing_acceptor"
+path = "tests/hill_climbing_acceptor.rs"
+test = false
+
+[[test]]
+name = "hybrid_repair"
+path = "tests/hybrid_repair.rs"
+test = false
+
+[[test]]
+name = "identity_ordered_set_cases"
+path = "tests/identity_ordered_set_cases.rs"
+test = false
+
+[[test]]
+name = "identity_ordered_set_regression"
+path = "tests/identity_ordered_set_regression.rs"
+test = false
+
+[[test]]
+name = "immutable_lookup_matrix_cases"
+path = "tests/immutable_lookup_matrix_cases.rs"
+test = false
+
+[[test]]
+name = "inconsistent_shadow_cases"
+path = "tests/inconsistent_shadow_cases.rs"
+test = false
+
+[[test]]
+name = "inconsistent_shadow_regression"
+path = "tests/inconsistent_shadow_regression.rs"
+test = false
+
+[[test]]
+name = "incremental_calculator_cases"
+path = "tests/incremental_calculator_cases.rs"
+test = false
+
+[[test]]
+name = "incremental_calculator_regression"
+path = "tests/incremental_calculator_regression.rs"
+test = false
+
+[[test]]
+name = "incremental_explanation"
+path = "tests/incremental_explanation.rs"
+test = false
+
+[[test]]
+name = "incremental_scoring"
+path = "tests/incremental_scoring.rs"
+test = false
+
+[[test]]
+name = "incremental_stream_cases"
+path = "tests/incremental_stream_cases.rs"
+test = false
+
+[[test]]
+name = "incremental_stream_regression"
+path = "tests/incremental_stream_regression.rs"
+test = false
+
+[[test]]
+name = "indexed_basic_model"
+path = "tests/indexed_basic_model.rs"
+test = false
+
+[[test]]
+name = "indexed_grouped_selection"
+path = "tests/indexed_grouped_selection.rs"
+test = false
+
+[[test]]
+name = "indexed_int_array_cases"
+path = "tests/indexed_int_array_cases.rs"
+test = false
+
+[[test]]
+name = "indexed_join_batch_regression"
+path = "tests/indexed_join_batch_regression.rs"
+test = false
+
+[[test]]
+name = "indexed_list_model"
+path = "tests/indexed_list_model.rs"
+test = false
+
+[[test]]
+name = "indexed_list_repair"
+path = "tests/indexed_list_repair.rs"
+test = false
+
+[[test]]
+name = "indexed_list_validation"
+path = "tests/indexed_list_validation.rs"
+test = false
+
+[[test]]
+name = "indexed_pillar_grouping"
+path = "tests/indexed_pillar_grouping.rs"
+test = false
+
+[[test]]
+name = "indexed_retirement"
+path = "tests/indexed_retirement.rs"
+test = false
+
+[[test]]
+name = "indexed_union_regression"
+path = "tests/indexed_union_regression.rs"
+test = false
+
+[[test]]
+name = "initial_activity_regression"
+path = "tests/initial_activity_regression.rs"
+test = false
+
+[[test]]
+name = "initialized_solution_cases"
+path = "tests/initialized_solution_cases.rs"
+test = false
+
+[[test]]
+name = "initialized_solution_regression"
+path = "tests/initialized_solution_regression.rs"
+test = false
+
+[[test]]
+name = "injected_clock_community"
+path = "tests/injected_clock_community.rs"
+test = false
+
+[[test]]
+name = "injected_clock_controls"
+path = "tests/injected_clock_controls.rs"
+test = false
+
+[[test]]
+name = "injected_clock_routes"
+path = "tests/injected_clock_routes.rs"
+test = false
+
+[[test]]
+name = "inline_int_collector_regression"
+path = "tests/inline_int_collector_regression.rs"
+test = false
+
+[[test]]
+name = "inner_termination_config_cases"
+path = "tests/inner_termination_config_cases.rs"
+test = false
+
+[[test]]
+name = "inner_termination_config_regression"
+path = "tests/inner_termination_config_regression.rs"
+test = false
+
+[[test]]
+name = "input_order_exploration"
+path = "tests/input_order_exploration.rs"
+test = false
+
+[[test]]
+name = "interleave_refill_regression"
+path = "tests/interleave_refill_regression.rs"
+test = false
+
+[[test]]
+name = "invalid_inverse_publication_cases"
+path = "tests/invalid_inverse_publication_cases.rs"
+test = false
+
+[[test]]
+name = "inverse_move_cases"
+path = "tests/inverse_move_cases.rs"
+test = false
+
+[[test]]
+name = "iterator_bias_cases"
+path = "tests/iterator_bias_cases.rs"
+test = false
+
+[[test]]
+name = "job_builder"
+path = "tests/job_builder.rs"
+test = false
+
+[[test]]
+name = "job_statistics"
+path = "tests/job_statistics.rs"
+test = false
+
+[[test]]
+name = "join_journal_regression"
+path = "tests/join_journal_regression.rs"
+test = false
+
+[[test]]
+name = "join_membership_reuse_regression"
+path = "tests/join_membership_reuse_regression.rs"
+test = false
+
+[[test]]
+name = "join_replacement_regression"
+path = "tests/join_replacement_regression.rs"
+test = false
+
+[[test]]
+name = "joint_branch_and_bound"
+path = "tests/joint_branch_and_bound.rs"
+test = false
+
+[[test]]
+name = "json_patch"
+path = "tests/json_patch.rs"
+test = false
+
+[[test]]
+name = "k_opt_repartition_scratch"
+path = "tests/k_opt_repartition_scratch.rs"
+test = false
+
+[[test]]
+name = "k_opt_topology_regression"
+path = "tests/k_opt_topology_regression.rs"
+test = false
+
+[[test]]
+name = "k_opt_utils_cases"
+path = "tests/k_opt_utils_cases.rs"
+test = false
+
+[[test]]
+name = "keyed_selection_regression"
+path = "tests/keyed_selection_regression.rs"
+test = false
+
+[[test]]
+name = "kopt_endpoint_regression"
+path = "tests/kopt_endpoint_regression.rs"
+test = false
+
+[[test]]
+name = "kopt_lifecycle_cases"
+path = "tests/kopt_lifecycle_cases.rs"
+test = false
+
+[[test]]
+name = "kopt_live_regression"
+path = "tests/kopt_live_regression.rs"
+test = false
+
+[[test]]
+name = "kopt_local_cycle_execution_regression"
+path = "tests/kopt_local_cycle_execution_regression.rs"
+test = false
+
+[[test]]
+name = "kopt_partition_rebase_cases"
+path = "tests/kopt_partition_rebase_cases.rs"
+test = false
+
+[[test]]
+name = "kopt_partition_rebase_regression"
+path = "tests/kopt_partition_rebase_regression.rs"
+test = false
+
+[[test]]
+name = "kopt_ranked_regression"
+path = "tests/kopt_ranked_regression.rs"
+test = false
+
+[[test]]
+name = "kopt_repartition_ranked_regression"
+path = "tests/kopt_repartition_ranked_regression.rs"
+test = false
+
+[[test]]
+name = "kopt_subtour_repair_regression"
+path = "tests/kopt_subtour_repair_regression.rs"
+test = false
+
+[[test]]
+name = "late_acceptance"
+path = "tests/late_acceptance.rs"
+test = false
+
+[[test]]
+name = "late_best_index_cases"
+path = "tests/late_best_index_cases.rs"
+test = false
+
+[[test]]
+name = "late_best_index_regression"
+path = "tests/late_best_index_regression.rs"
+test = false
+
+[[test]]
+name = "late_level_cases"
+path = "tests/late_level_cases.rs"
+test = false
+
+[[test]]
+name = "late_medium_regression"
+path = "tests/late_medium_regression.rs"
+test = false
+
+[[test]]
+name = "late_search"
+path = "tests/late_search.rs"
+test = false
+
+[[test]]
+name = "lazy_concat_cases"
+path = "tests/lazy_concat_cases.rs"
+test = false
+
+[[test]]
+name = "lazy_concat_regression"
+path = "tests/lazy_concat_regression.rs"
+test = false
+
+[[test]]
+name = "lazy_dataset_permutation"
+path = "tests/lazy_dataset_permutation.rs"
+test = false
+
+[[test]]
+name = "lazy_union_regression"
+path = "tests/lazy_union_regression.rs"
+test = false
+
+[[test]]
+name = "linked_cancellation"
+path = "tests/linked_cancellation.rs"
+test = false
+
+[[test]]
+name = "linked_candidate_index_cases"
+path = "tests/linked_candidate_index_cases.rs"
+test = false
+
+[[test]]
+name = "linked_candidate_index_regression"
+path = "tests/linked_candidate_index_regression.rs"
+test = false
+
+[[test]]
+name = "list_action_rebase_cases"
+path = "tests/list_action_rebase_cases.rs"
+test = false
+
+[[test]]
+name = "list_arrival_validation"
+path = "tests/list_arrival_validation.rs"
+test = false
+
+[[test]]
+name = "list_assigned_join_cases"
+path = "tests/list_assigned_join_cases.rs"
+test = false
+
+[[test]]
+name = "list_assigned_membership_regression"
+path = "tests/list_assigned_membership_regression.rs"
+test = false
+
+[[test]]
+name = "list_assignment_lifecycle_cases"
+path = "tests/list_assignment_lifecycle_cases.rs"
+test = false
+
+[[test]]
+name = "list_cascade_cases"
+path = "tests/list_cascade_cases.rs"
+test = false
+
+[[test]]
+name = "list_cascade_regression"
+path = "tests/list_cascade_regression.rs"
+test = false
+
+[[test]]
+name = "list_cascade_stream"
+path = "tests/list_cascade_stream.rs"
+test = false
+
+[[test]]
+name = "list_change_replay_cases"
+path = "tests/list_change_replay_cases.rs"
+test = false
+
+[[test]]
+name = "list_clone_plan_cases"
+path = "tests/list_clone_plan_cases.rs"
+test = false
+
+[[test]]
+name = "list_clone_plan_regression"
+path = "tests/list_clone_plan_regression.rs"
+test = false
+
+[[test]]
+name = "list_collector_cases"
+path = "tests/list_collector_cases.rs"
+test = false
+
+[[test]]
+name = "list_collector_regression"
+path = "tests/list_collector_regression.rs"
+test = false
+
+[[test]]
+name = "list_configuration_cases"
+path = "tests/list_configuration_cases.rs"
+test = false
+
+[[test]]
+name = "list_declarative_manager_regression"
+path = "tests/list_declarative_manager_regression.rs"
+test = false
+
+[[test]]
+name = "list_dense_scoring_regression"
+path = "tests/list_dense_scoring_regression.rs"
+test = false
+
+[[test]]
+name = "list_dependencies"
+path = "tests/list_dependencies.rs"
+test = false
+
+[[test]]
+name = "list_dependency_order"
+path = "tests/list_dependency_order.rs"
+test = false
+
+[[test]]
+name = "list_dependency_solver_cases"
+path = "tests/list_dependency_solver_cases.rs"
+test = false
+
+[[test]]
+name = "list_element_cases"
+path = "tests/list_element_cases.rs"
+test = false
+
+[[test]]
+name = "list_element_regression"
+path = "tests/list_element_regression.rs"
+test = false
+
+[[test]]
+name = "list_execution_notification_cases"
+path = "tests/list_execution_notification_cases.rs"
+test = false
+
+[[test]]
+name = "list_gather_cases"
+path = "tests/list_gather_cases.rs"
+test = false
+
+[[test]]
+name = "list_gather_regression"
+path = "tests/list_gather_regression.rs"
+test = false
+
+[[test]]
+name = "list_heuristics_regression"
+path = "tests/list_heuristics_regression.rs"
+test = false
+
+[[test]]
+name = "list_incremental_validation_regression"
+path = "tests/list_incremental_validation_regression.rs"
+test = false
+
+[[test]]
+name = "list_k_opt_cases"
+path = "tests/list_k_opt_cases.rs"
+test = false
+
+[[test]]
+name = "list_k_opt_regression"
+path = "tests/list_k_opt_regression.rs"
+test = false
+
+[[test]]
+name = "list_k_opt_repartition"
+path = "tests/list_k_opt_repartition.rs"
+test = false
+
+[[test]]
+name = "list_k_opt_repartition_cases"
+path = "tests/list_k_opt_repartition_cases.rs"
+test = false
+
+[[test]]
+name = "list_k_opt_sampling"
+path = "tests/list_k_opt_sampling.rs"
+test = false
+
+[[test]]
+name = "list_lifecycle"
+path = "tests/list_lifecycle.rs"
+test = false
+
+[[test]]
+name = "list_lifecycle_cases"
+path = "tests/list_lifecycle_cases.rs"
+test = false
+
+[[test]]
+name = "list_mass_assignment_cases"
+path = "tests/list_mass_assignment_cases.rs"
+test = false
+
+[[test]]
+name = "list_mass_assignment_regression"
+path = "tests/list_mass_assignment_regression.rs"
+test = false
+
+[[test]]
+name = "list_mass_plan_cases"
+path = "tests/list_mass_plan_cases.rs"
+test = false
+
+[[test]]
+name = "list_mass_plan_regression"
+path = "tests/list_mass_plan_regression.rs"
+test = false
+
+[[test]]
+name = "list_mixed_calculator_regression"
+path = "tests/list_mixed_calculator_regression.rs"
+test = false
+
+[[test]]
+name = "list_model_shadow_cases"
+path = "tests/list_model_shadow_cases.rs"
+test = false
+
+[[test]]
+name = "list_move_builder_cases"
+path = "tests/list_move_builder_cases.rs"
+test = false
+
+[[test]]
+name = "list_move_builder_regression"
+path = "tests/list_move_builder_regression.rs"
+test = false
+
+[[test]]
+name = "list_move_check_regression"
+path = "tests/list_move_check_regression.rs"
+test = false
+
+[[test]]
+name = "list_move_description_cases"
+path = "tests/list_move_description_cases.rs"
+test = false
+
+[[test]]
+name = "list_move_description_regression"
+path = "tests/list_move_description_regression.rs"
+test = false
+
+[[test]]
+name = "list_move_details_cases"
+path = "tests/list_move_details_cases.rs"
+test = false
+
+[[test]]
+name = "list_move_doability_cases"
+path = "tests/list_move_doability_cases.rs"
+test = false
+
+[[test]]
+name = "list_move_rebase_cases"
+path = "tests/list_move_rebase_cases.rs"
+test = false
+
+[[test]]
+name = "list_moves"
+path = "tests/list_moves.rs"
+test = false
+
+[[test]]
+name = "list_neighborhoods"
+path = "tests/list_neighborhoods.rs"
+test = false
+
+[[test]]
+name = "list_notification_scope"
+path = "tests/list_notification_scope.rs"
+test = false
+
+[[test]]
+name = "list_optional_pin_solver_cases"
+path = "tests/list_optional_pin_solver_cases.rs"
+test = false
+
+[[test]]
+name = "list_owner_solution_cases"
+path = "tests/list_owner_solution_cases.rs"
+test = false
+
+[[test]]
+name = "list_path_reconnection"
+path = "tests/list_path_reconnection.rs"
+test = false
+
+[[test]]
+name = "list_provider_borrowed_validation"
+path = "tests/list_provider_borrowed_validation.rs"
+test = false
+
+[[test]]
+name = "list_range_value_cases"
+path = "tests/list_range_value_cases.rs"
+test = false
+
+[[test]]
+name = "list_range_value_regression"
+path = "tests/list_range_value_regression.rs"
+test = false
+
+[[test]]
+name = "list_ranges_regression"
+path = "tests/list_ranges_regression.rs"
+test = false
+
+[[test]]
+name = "list_rebase_regression"
+path = "tests/list_rebase_regression.rs"
+test = false
+
+[[test]]
+name = "list_reconciliation"
+path = "tests/list_reconciliation.rs"
+test = false
+
+[[test]]
+name = "list_recording"
+path = "tests/list_recording.rs"
+test = false
+
+[[test]]
+name = "list_recording_cases"
+path = "tests/list_recording_cases.rs"
+test = false
+
+[[test]]
+name = "list_regression"
+path = "tests/list_regression.rs"
+test = false
+
+[[test]]
+name = "list_ruin_plan_cases"
+path = "tests/list_ruin_plan_cases.rs"
+test = false
+
+[[test]]
+name = "list_ruin_plan_regression"
+path = "tests/list_ruin_plan_regression.rs"
+test = false
+
+[[test]]
+name = "list_ruin_recreate_cases"
+path = "tests/list_ruin_recreate_cases.rs"
+test = false
+
+[[test]]
+name = "list_ruin_recreate_regression"
+path = "tests/list_ruin_recreate_regression.rs"
+test = false
+
+[[test]]
+name = "list_ruin_selection_cases"
+path = "tests/list_ruin_selection_cases.rs"
+test = false
+
+[[test]]
+name = "list_ruin_selection_regression"
+path = "tests/list_ruin_selection_regression.rs"
+test = false
+
+[[test]]
+name = "list_scan_regression"
+path = "tests/list_scan_regression.rs"
+test = false
+
+[[test]]
+name = "list_scoring"
+path = "tests/list_scoring.rs"
+test = false
+
+[[test]]
+name = "list_selector_eligibility_regression"
+path = "tests/list_selector_eligibility_regression.rs"
+test = false
+
+[[test]]
+name = "list_shadow_history_cases"
+path = "tests/list_shadow_history_cases.rs"
+test = false
+
+[[test]]
+name = "list_shadow_membership"
+path = "tests/list_shadow_membership.rs"
+test = false
+
+[[test]]
+name = "list_shadow_publication"
+path = "tests/list_shadow_publication.rs"
+test = false
+
+[[test]]
+name = "list_shadow_session"
+path = "tests/list_shadow_session.rs"
+test = false
+
+[[test]]
+name = "list_shadow_session_cases"
+path = "tests/list_shadow_session_cases.rs"
+test = false
+
+[[test]]
+name = "list_solution_manager_cases"
+path = "tests/list_solution_manager_cases.rs"
+test = false
+
+[[test]]
+name = "list_solver_protocol"
+path = "tests/list_solver_protocol.rs"
+test = false
+
+[[test]]
+name = "list_span_ownership_regression"
+path = "tests/list_span_ownership_regression.rs"
+test = false
+
+[[test]]
+name = "list_state_supply"
+path = "tests/list_state_supply.rs"
+test = false
+
+[[test]]
+name = "list_state_supply_cases"
+path = "tests/list_state_supply_cases.rs"
+test = false
+
+[[test]]
+name = "list_stream_cases"
+path = "tests/list_stream_cases.rs"
+test = false
+
+[[test]]
+name = "list_stream_changed_positions_regression"
+path = "tests/list_stream_changed_positions_regression.rs"
+test = false
+
+[[test]]
+name = "list_stream_null_cases"
+path = "tests/list_stream_null_cases.rs"
+test = false
+
+[[test]]
+name = "list_stream_regression"
+path = "tests/list_stream_regression.rs"
+test = false
+
+[[test]]
+name = "list_swap_fallback_cases"
+path = "tests/list_swap_fallback_cases.rs"
+test = false
+
+[[test]]
+name = "list_swap_fallback_regression"
+path = "tests/list_swap_fallback_regression.rs"
+test = false
+
+[[test]]
+name = "list_undo_journal_regression"
+path = "tests/list_undo_journal_regression.rs"
+test = false
+
+[[test]]
+name = "list_value_change_cases"
+path = "tests/list_value_change_cases.rs"
+test = false
+
+[[test]]
+name = "list_value_change_regression"
+path = "tests/list_value_change_regression.rs"
+test = false
+
+[[test]]
+name = "list_value_metadata_cases"
+path = "tests/list_value_metadata_cases.rs"
+test = false
+
+[[test]]
+name = "list_value_source_lookup"
+path = "tests/list_value_source_lookup.rs"
+test = false
+
+[[test]]
+name = "list_value_swap_cases"
+path = "tests/list_value_swap_cases.rs"
+test = false
+
+[[test]]
+name = "list_value_swap_regression"
+path = "tests/list_value_swap_regression.rs"
+test = false
+
+[[test]]
+name = "live_assembled_change_cases"
+path = "tests/live_assembled_change_cases.rs"
+test = false
+
+[[test]]
+name = "live_assembled_solver_regression"
+path = "tests/live_assembled_solver_regression.rs"
+test = false
+
+[[test]]
+name = "live_change_executor_regression"
+path = "tests/live_change_executor_regression.rs"
+test = false
+
+[[test]]
+name = "live_changes"
+path = "tests/live_changes.rs"
+test = false
+
+[[test]]
+name = "live_event_regression"
+path = "tests/live_event_regression.rs"
+test = false
+
+[[test]]
+name = "live_finish_regression"
+path = "tests/live_finish_regression.rs"
+test = false
+
+[[test]]
+name = "live_list_change_source_cases"
+path = "tests/live_list_change_source_cases.rs"
+test = false
+
+[[test]]
+name = "live_list_change_sources"
+path = "tests/live_list_change_sources.rs"
+test = false
+
+[[test]]
+name = "live_list_reconciliation"
+path = "tests/live_list_reconciliation.rs"
+test = false
+
+[[test]]
+name = "live_list_swap_provider"
+path = "tests/live_list_swap_provider.rs"
+test = false
+
+[[test]]
+name = "live_list_swap_source_cases"
+path = "tests/live_list_swap_source_cases.rs"
+test = false
+
+[[test]]
+name = "live_list_swap_sources"
+path = "tests/live_list_swap_sources.rs"
+test = false
+
+[[test]]
+name = "live_problem_reconciliation_cases"
+path = "tests/live_problem_reconciliation_cases.rs"
+test = false
+
+[[test]]
+name = "live_progress_regression"
+path = "tests/live_progress_regression.rs"
+test = false
+
+[[test]]
+name = "live_range_view_cases"
+path = "tests/live_range_view_cases.rs"
+test = false
+
+[[test]]
+name = "live_range_view_regression"
+path = "tests/live_range_view_regression.rs"
+test = false
+
+[[test]]
+name = "live_restart_publication"
+path = "tests/live_restart_publication.rs"
+test = false
+
+[[test]]
+name = "live_scoped_weights"
+path = "tests/live_scoped_weights.rs"
+test = false
+
+[[test]]
+name = "live_selection_sample_cases"
+path = "tests/live_selection_sample_cases.rs"
+test = false
+
+[[test]]
+name = "live_selection_sample_regression"
+path = "tests/live_selection_sample_regression.rs"
+test = false
+
+[[test]]
+name = "live_state_changes"
+path = "tests/live_state_changes.rs"
+test = false
+
+[[test]]
+name = "live_stream_weights"
+path = "tests/live_stream_weights.rs"
+test = false
+
+[[test]]
+name = "load_balance_cases"
+path = "tests/load_balance_cases.rs"
+test = false
+
+[[test]]
+name = "load_balance_json_cases"
+path = "tests/load_balance_json_cases.rs"
+test = false
+
+[[test]]
+name = "load_balance_regression"
+path = "tests/load_balance_regression.rs"
+test = false
+
+[[test]]
+name = "local_phase_plan_cases"
+path = "tests/local_phase_plan_cases.rs"
+test = false
+
+[[test]]
+name = "local_phase_plan_regression"
+path = "tests/local_phase_plan_regression.rs"
+test = false
+
+[[test]]
+name = "local_search"
+path = "tests/local_search.rs"
+test = false
+
+[[test]]
+name = "local_search_phase_cases"
+path = "tests/local_search_phase_cases.rs"
+test = false
+
+[[test]]
+name = "location_accumulator_cases"
+path = "tests/location_accumulator_cases.rs"
+test = false
+
+[[test]]
+name = "lookup_view_cases"
+path = "tests/lookup_view_cases.rs"
+test = false
+
+[[test]]
+name = "lookup_view_regression"
+path = "tests/lookup_view_regression.rs"
+test = false
+
+[[test]]
+name = "managed_range_cases"
+path = "tests/managed_range_cases.rs"
+test = false
+
+[[test]]
+name = "managed_ranges"
+path = "tests/managed_ranges.rs"
+test = false
+
+[[test]]
+name = "managed_statistics"
+path = "tests/managed_statistics.rs"
+test = false
+
+[[test]]
+name = "managed_statistics_cases"
+path = "tests/managed_statistics_cases.rs"
+test = false
+
+[[test]]
+name = "manager_preflight_regression"
+path = "tests/manager_preflight_regression.rs"
+test = false
+
+[[test]]
+name = "map_collector_cases"
+path = "tests/map_collector_cases.rs"
+test = false
+
+[[test]]
+name = "map_collector_regression"
+path = "tests/map_collector_regression.rs"
+test = false
+
+[[test]]
+name = "maps_client_regression"
+path = "tests/maps_client_regression.rs"
+test = false
+
+[[test]]
+name = "maps_enricher_cases"
+path = "tests/maps_enricher_cases.rs"
+test = false
+
+[[test]]
+name = "maps_traffic_cases"
+path = "tests/maps_traffic_cases.rs"
+test = false
+
+[[test]]
+name = "maps_waypoint_cases"
+path = "tests/maps_waypoint_cases.rs"
+test = false
+
+[[test]]
+name = "mass_assignment_cases"
+path = "tests/mass_assignment_cases.rs"
+test = false
+
+[[test]]
+name = "mass_assignment_regression"
+path = "tests/mass_assignment_regression.rs"
+test = false
+
+[[test]]
+name = "mass_change_cases"
+path = "tests/mass_change_cases.rs"
+test = false
+
+[[test]]
+name = "mass_change_metadata_cases"
+path = "tests/mass_change_metadata_cases.rs"
+test = false
+
+[[test]]
+name = "mass_change_metadata_regression"
+path = "tests/mass_change_metadata_regression.rs"
+test = false
+
+[[test]]
+name = "mass_change_regression"
+path = "tests/mass_change_regression.rs"
+test = false
+
+[[test]]
+name = "mass_list_cases"
+path = "tests/mass_list_cases.rs"
+test = false
+
+[[test]]
+name = "mass_list_regression"
+path = "tests/mass_list_regression.rs"
+test = false
+
+[[test]]
+name = "member_factory_cases"
+path = "tests/member_factory_cases.rs"
+test = false
+
+[[test]]
+name = "member_factory_regression"
+path = "tests/member_factory_regression.rs"
+test = false
+
+[[test]]
+name = "member_validator_cases"
+path = "tests/member_validator_cases.rs"
+test = false
+
+[[test]]
+name = "member_validator_regression"
+path = "tests/member_validator_regression.rs"
+test = false
+
+[[test]]
+name = "membership_candidate_index_cases"
+path = "tests/membership_candidate_index_cases.rs"
+test = false
+
+[[test]]
+name = "membership_candidate_index_regression"
+path = "tests/membership_candidate_index_regression.rs"
+test = false
+
+[[test]]
+name = "membership_existence_regression"
+path = "tests/membership_existence_regression.rs"
+test = false
+
+[[test]]
+name = "membership_join_cases"
+path = "tests/membership_join_cases.rs"
+test = false
+
+[[test]]
+name = "membership_join_regression"
+path = "tests/membership_join_regression.rs"
+test = false
+
+[[test]]
+name = "mixed_benchmark_regression"
+path = "tests/mixed_benchmark_regression.rs"
+test = false
+
+[[test]]
+name = "mixed_construction"
+path = "tests/mixed_construction.rs"
+test = false
+
+[[test]]
+name = "mixed_construction_provider"
+path = "tests/mixed_construction_provider.rs"
+test = false
+
+[[test]]
+name = "mixed_dense_scoring_regression"
+path = "tests/mixed_dense_scoring_regression.rs"
+test = false
+
+[[test]]
+name = "mixed_families"
+path = "tests/mixed_families.rs"
+test = false
+
+[[test]]
+name = "mixed_join_storage_regression"
+path = "tests/mixed_join_storage_regression.rs"
+test = false
+
+[[test]]
+name = "mixed_local_search"
+path = "tests/mixed_local_search.rs"
+test = false
+
+[[test]]
+name = "mixed_move_check_regression"
+path = "tests/mixed_move_check_regression.rs"
+test = false
+
+[[test]]
+name = "mixed_pillar_schemas"
+path = "tests/mixed_pillar_schemas.rs"
+test = false
+
+[[test]]
+name = "mixed_planning"
+path = "tests/mixed_planning.rs"
+test = false
+
+[[test]]
+name = "mixed_ruin_recreate"
+path = "tests/mixed_ruin_recreate.rs"
+test = false
+
+[[test]]
+name = "mixed_scoring"
+path = "tests/mixed_scoring.rs"
+test = false
+
+[[test]]
+name = "mixed_selector_solver_cases"
+path = "tests/mixed_selector_solver_cases.rs"
+test = false
+
+[[test]]
+name = "mixed_solver_shadow_cases"
+path = "tests/mixed_solver_shadow_cases.rs"
+test = false
+
+[[test]]
+name = "mixed_source_storage_regression"
+path = "tests/mixed_source_storage_regression.rs"
+test = false
+
+[[test]]
+name = "mixed_stream_scoring"
+path = "tests/mixed_stream_scoring.rs"
+test = false
+
+[[test]]
+name = "mixed_transaction_journal"
+path = "tests/mixed_transaction_journal.rs"
+test = false
+
+[[test]]
+name = "model_config_cases"
+path = "tests/model_config_cases.rs"
+test = false
+
+[[test]]
+name = "model_config_regression"
+path = "tests/model_config_regression.rs"
+test = false
+
+[[test]]
+name = "model_mutability_cases"
+path = "tests/model_mutability_cases.rs"
+test = false
+
+[[test]]
+name = "model_mutability_regression"
+path = "tests/model_mutability_regression.rs"
+test = false
+
+[[test]]
+name = "model_sessions_cases"
+path = "tests/model_sessions_cases.rs"
+test = false
+
+[[test]]
+name = "model_sessions_regression"
+path = "tests/model_sessions_regression.rs"
+test = false
+
+[[test]]
+name = "move_director_remaining_cases"
+path = "tests/move_director_remaining_cases.rs"
+test = false
+
+[[test]]
+name = "move_director_remaining_regression"
+path = "tests/move_director_remaining_regression.rs"
+test = false
+
+[[test]]
+name = "move_draft_regression"
+path = "tests/move_draft_regression.rs"
+test = false
+
+[[test]]
+name = "move_inspection"
+path = "tests/move_inspection.rs"
+test = false
+
+[[test]]
+name = "move_metrics"
+path = "tests/move_metrics.rs"
+test = false
+
+[[test]]
+name = "move_metrics_cases"
+path = "tests/move_metrics_cases.rs"
+test = false
+
+[[test]]
+name = "move_product_fixtures"
+path = "tests/move_product_fixtures.rs"
+test = false
+
+[[test]]
+name = "move_provider_cases"
+path = "tests/move_provider_cases.rs"
+test = false
+
+[[test]]
+name = "move_provider_errors"
+path = "tests/move_provider_errors.rs"
+test = false
+
+[[test]]
+name = "move_provider_regression"
+path = "tests/move_provider_regression.rs"
+test = false
+
+[[test]]
+name = "move_rebase_cases"
+path = "tests/move_rebase_cases.rs"
+test = false
+
+[[test]]
+name = "move_rebase_regression"
+path = "tests/move_rebase_regression.rs"
+test = false
+
+[[test]]
+name = "move_selector_eligibility_regression"
+path = "tests/move_selector_eligibility_regression.rs"
+test = false
+
+[[test]]
+name = "move_sessions"
+path = "tests/move_sessions.rs"
+test = false
+
+[[test]]
+name = "move_tabu_cases"
+path = "tests/move_tabu_cases.rs"
+test = false
+
+[[test]]
+name = "move_tabu_regression"
+path = "tests/move_tabu_regression.rs"
+test = false
+
+[[test]]
+name = "move_tester_cases"
+path = "tests/move_tester_cases.rs"
+test = false
+
+[[test]]
+name = "move_union_cases"
+path = "tests/move_union_cases.rs"
+test = false
+
+[[test]]
+name = "move_union_regression"
+path = "tests/move_union_regression.rs"
+test = false
+
+[[test]]
+name = "move_value_cases"
+path = "tests/move_value_cases.rs"
+test = false
+
+[[test]]
+name = "multi_entity_solver_cases"
+path = "tests/multi_entity_solver_cases.rs"
+test = false
+
+[[test]]
+name = "multivariate_swap_provider_cases"
+path = "tests/multivariate_swap_provider_cases.rs"
+test = false
+
+[[test]]
+name = "named_model_cases"
+path = "tests/named_model_cases.rs"
+test = false
+
+[[test]]
+name = "named_model_regression"
+path = "tests/named_model_regression.rs"
+test = false
+
+[[test]]
+name = "named_statistics"
+path = "tests/named_statistics.rs"
+test = false
+
+[[test]]
+name = "named_statistics_cases"
+path = "tests/named_statistics_cases.rs"
+test = false
+
+[[test]]
+name = "named_validation_cases"
+path = "tests/named_validation_cases.rs"
+test = false
+
+[[test]]
+name = "named_validation_regression"
+path = "tests/named_validation_regression.rs"
+test = false
+
+[[test]]
+name = "native_constraint_metrics"
+path = "tests/native_constraint_metrics.rs"
+test = false
+
+[[test]]
+name = "nearby_move_config_cases"
+path = "tests/nearby_move_config_cases.rs"
+test = false
+
+[[test]]
+name = "nearby_move_config_regression"
+path = "tests/nearby_move_config_regression.rs"
+test = false
+
+[[test]]
+name = "nearby_provider_regression"
+path = "tests/nearby_provider_regression.rs"
+test = false
+
+[[test]]
+name = "neighborhood_boundaries"
+path = "tests/neighborhood_boundaries.rs"
+test = false
+
+[[test]]
+name = "neighborhood_collector_cases"
+path = "tests/neighborhood_collector_cases.rs"
+test = false
+
+[[test]]
+name = "neighborhood_dataset_cases"
+path = "tests/neighborhood_dataset_cases.rs"
+test = false
+
+[[test]]
+name = "neighborhood_dataset_regression"
+path = "tests/neighborhood_dataset_regression.rs"
+test = false
+
+[[test]]
+name = "neighborhood_integration_cases"
+path = "tests/neighborhood_integration_cases.rs"
+test = false
+
+[[test]]
+name = "neighborhood_phase_cases"
+path = "tests/neighborhood_phase_cases.rs"
+test = false
+
+[[test]]
+name = "neighborhood_phase_regression"
+path = "tests/neighborhood_phase_regression.rs"
+test = false
+
+[[test]]
+name = "neighborhood_sample_cases"
+path = "tests/neighborhood_sample_cases.rs"
+test = false
+
+[[test]]
+name = "neighborhood_sample_regression"
+path = "tests/neighborhood_sample_regression.rs"
+test = false
+
+[[test]]
+name = "neighborhood_tester_cases"
+path = "tests/neighborhood_tester_cases.rs"
+test = false
+
+[[test]]
+name = "neighborhood_tester_regression"
+path = "tests/neighborhood_tester_regression.rs"
+test = false
+
+[[test]]
+name = "neighborhoods"
+path = "tests/neighborhoods.rs"
+test = false
+
+[[test]]
+name = "node_order_cases"
+path = "tests/node_order_cases.rs"
+test = false
+
+[[test]]
+name = "notified_shadow_stream"
+path = "tests/notified_shadow_stream.rs"
+test = false
+
+[[test]]
+name = "nullable_solution_weights_cases"
+path = "tests/nullable_solution_weights_cases.rs"
+test = false
+
+[[test]]
+name = "nullable_solution_weights_regression"
+path = "tests/nullable_solution_weights_regression.rs"
+test = false
+
+[[test]]
+name = "numeric_counter_cases"
+path = "tests/numeric_counter_cases.rs"
+test = false
+
+[[test]]
+name = "numeric_counter_regression"
+path = "tests/numeric_counter_regression.rs"
+test = false
+
+[[test]]
+name = "numeric_decimal_cases"
+path = "tests/numeric_decimal_cases.rs"
+test = false
+
+[[test]]
+name = "numeric_decimal_regression"
+path = "tests/numeric_decimal_regression.rs"
+test = false
+
+[[test]]
+name = "numeric_score_levels"
+path = "tests/numeric_score_levels.rs"
+test = false
+
+[[test]]
+name = "object_clone_container_regression"
+path = "tests/object_clone_container_regression.rs"
+test = false
+
+[[test]]
+name = "object_clone_dynamic_regression"
+path = "tests/object_clone_dynamic_regression.rs"
+test = false
+
+[[test]]
+name = "object_clone_field_regression"
+path = "tests/object_clone_field_regression.rs"
+test = false
+
+[[test]]
+name = "object_clone_plan_cases"
+path = "tests/object_clone_plan_cases.rs"
+test = false
+
+[[test]]
+name = "object_clone_plan_regression"
+path = "tests/object_clone_plan_regression.rs"
+test = false
+
+[[test]]
+name = "object_ordered_set_regression"
+path = "tests/object_ordered_set_regression.rs"
+test = false
+
+[[test]]
+name = "observed_composite_acceptor_regression"
+path = "tests/observed_composite_acceptor_regression.rs"
+test = false
+
+[[test]]
+name = "observed_list_move_cases"
+path = "tests/observed_list_move_cases.rs"
+test = false
+
+[[test]]
+name = "observed_list_moves"
+path = "tests/observed_list_moves.rs"
+test = false
+
+[[test]]
+name = "optional_list_union_solver_cases"
+path = "tests/optional_list_union_solver_cases.rs"
+test = false
+
+[[test]]
+name = "oracle_protocol"
+path = "tests/oracle_protocol.rs"
+test = false
+
+[[test]]
+name = "ordered_destination_cases"
+path = "tests/ordered_destination_cases.rs"
+test = false
+
+[[test]]
+name = "ordered_destination_regression"
+path = "tests/ordered_destination_regression.rs"
+
+[[test]]
+name = "ordered_existence_regression"
+path = "tests/ordered_existence_regression.rs"
+test = false
+
+[[test]]
+name = "ordered_join_cases"
+path = "tests/ordered_join_cases.rs"
+test = false
+
+[[test]]
+name = "ordered_join_regression"
+path = "tests/ordered_join_regression.rs"
+test = false
+
+[[test]]
+name = "ordered_other_existence"
+path = "tests/ordered_other_existence.rs"
+test = false
+
+[[test]]
+name = "ordered_selection_cases"
+path = "tests/ordered_selection_cases.rs"
+test = false
+
+[[test]]
+name = "ordered_selection_regression"
+path = "tests/ordered_selection_regression.rs"
+test = false
+
+[[test]]
+name = "oscillation_cases"
+path = "tests/oscillation_cases.rs"
+test = false
+
+[[test]]
+name = "oscillation_regression"
+path = "tests/oscillation_regression.rs"
+test = false
+
+[[test]]
+name = "overlap_join_cases"
+path = "tests/overlap_join_cases.rs"
+test = false
+
+[[test]]
+name = "overlap_join_regression"
+path = "tests/overlap_join_regression.rs"
+test = false
+
+[[test]]
+name = "owned_cancellation"
+path = "tests/owned_cancellation.rs"
+test = false
+
+[[test]]
+name = "owned_list_selection_providers"
+path = "tests/owned_list_selection_providers.rs"
+test = false
+
+[[test]]
+name = "owned_roster_cli_regression"
+path = "tests/owned_roster_cli_regression.rs"
+
+[[test]]
+name = "owned_roster_workflow_regression"
+path = "tests/owned_roster_workflow_regression.rs"
+test = false
+
+[[test]]
+name = "owned_scores"
+path = "tests/owned_scores.rs"
+test = false
+
+[[test]]
+name = "pair_selection_source_regression"
+path = "tests/pair_selection_source_regression.rs"
+test = false
+
+[[test]]
+name = "partitioned_join_batch"
+path = "tests/partitioned_join_batch.rs"
+test = false
+
+[[test]]
+name = "partitioned_join_cases"
+path = "tests/partitioned_join_cases.rs"
+test = false
+
+[[test]]
+name = "partitioned_join_regression"
+path = "tests/partitioned_join_regression.rs"
+test = false
+
+[[test]]
+name = "pending_list_change_cases"
+path = "tests/pending_list_change_cases.rs"
+test = false
+
+[[test]]
+name = "period_collector_cases"
+path = "tests/period_collector_cases.rs"
+test = false
+
+[[test]]
+name = "period_collector_regression"
+path = "tests/period_collector_regression.rs"
+test = false
+
+[[test]]
+name = "permutation_selection_cases"
+path = "tests/permutation_selection_cases.rs"
+test = false
+
+[[test]]
+name = "permutation_selection_regression"
+path = "tests/permutation_selection_regression.rs"
+test = false
+
+[[test]]
+name = "phase_best_buffer_regression"
+path = "tests/phase_best_buffer_regression.rs"
+test = false
+
+[[test]]
+name = "phase_composed_controls"
+path = "tests/phase_composed_controls.rs"
+test = false
+
+[[test]]
+name = "phase_composed_limits"
+path = "tests/phase_composed_limits.rs"
+test = false
+
+[[test]]
+name = "phase_corruption_cases"
+path = "tests/phase_corruption_cases.rs"
+test = false
+
+[[test]]
+name = "phase_corruption_regression"
+path = "tests/phase_corruption_regression.rs"
+test = false
+
+[[test]]
+name = "phase_metadata_cases"
+path = "tests/phase_metadata_cases.rs"
+test = false
+
+[[test]]
+name = "phase_metadata_regression"
+path = "tests/phase_metadata_regression.rs"
+test = false
+
+[[test]]
+name = "phase_observers"
+path = "tests/phase_observers.rs"
+test = false
+
+[[test]]
+name = "phase_optimistic_bounds"
+path = "tests/phase_optimistic_bounds.rs"
+test = false
+
+[[test]]
+name = "phase_score_check_regression"
+path = "tests/phase_score_check_regression.rs"
+test = false
+
+[[test]]
+name = "phase_termination_cases"
+path = "tests/phase_termination_cases.rs"
+test = false
+
+[[test]]
+name = "phase_termination_regression"
+path = "tests/phase_termination_regression.rs"
+test = false
+
+[[test]]
+name = "pillar"
+path = "tests/pillar.rs"
+test = false
+
+[[test]]
+name = "pillar_cases"
+path = "tests/pillar_cases.rs"
+test = false
+
+[[test]]
+name = "pillar_change_source_cases"
+path = "tests/pillar_change_source_cases.rs"
+test = false
+
+[[test]]
+name = "pillar_provider_regression"
+path = "tests/pillar_provider_regression.rs"
+test = false
+
+[[test]]
+name = "pillar_sampling_regression"
+path = "tests/pillar_sampling_regression.rs"
+test = false
+
+[[test]]
+name = "pillar_schema"
+path = "tests/pillar_schema.rs"
+test = false
+
+[[test]]
+name = "pillar_schema_cases"
+path = "tests/pillar_schema_cases.rs"
+test = false
+
+[[test]]
+name = "pillar_selection_policy_cases"
+path = "tests/pillar_selection_policy_cases.rs"
+test = false
+
+[[test]]
+name = "pillar_selection_policy_regression"
+path = "tests/pillar_selection_policy_regression.rs"
+test = false
+
+[[test]]
+name = "pinned_start_diagnostics"
+path = "tests/pinned_start_diagnostics.rs"
+test = false
+
+[[test]]
+name = "placement_queue_cases"
+path = "tests/placement_queue_cases.rs"
+test = false
+
+[[test]]
+name = "placement_queue_provider_regression"
+path = "tests/placement_queue_provider_regression.rs"
+test = false
+
+[[test]]
+name = "placement_queue_regression"
+path = "tests/placement_queue_regression.rs"
+test = false
+
+[[test]]
+name = "placer_copy_cases"
+path = "tests/placer_copy_cases.rs"
+test = false
+
+[[test]]
+name = "placer_copy_regression"
+path = "tests/placer_copy_regression.rs"
+test = false
+
+[[test]]
+name = "planning_boundaries"
+path = "tests/planning_boundaries.rs"
+test = false
+
+[[test]]
+name = "planning_composition_cases"
+path = "tests/planning_composition_cases.rs"
+test = false
+
+[[test]]
+name = "planning_composition_regression"
+path = "tests/planning_composition_regression.rs"
+test = false
+
+[[test]]
+name = "planning_hierarchy_cases"
+path = "tests/planning_hierarchy_cases.rs"
+test = false
+
+[[test]]
+name = "planning_hierarchy_regression"
+path = "tests/planning_hierarchy_regression.rs"
+test = false
+
+[[test]]
+name = "planning_model_access_cases"
+path = "tests/planning_model_access_cases.rs"
+test = false
+
+[[test]]
+name = "planning_model_access_regression"
+path = "tests/planning_model_access_regression.rs"
+test = false
+
+[[test]]
+name = "planning_schema"
+path = "tests/planning_schema.rs"
+test = false
+
+[[test]]
+name = "planning_schema_cases"
+path = "tests/planning_schema_cases.rs"
+test = false
+
+[[test]]
+name = "platform_configuration_cases"
+path = "tests/platform_configuration_cases.rs"
+
+[[test]]
+name = "platform_configuration_regression"
+path = "tests/platform_configuration_regression.rs"
+
+[[test]]
+name = "platform_deploy_cases"
+path = "tests/platform_deploy_cases.rs"
+test = false
+
+[[test]]
+name = "platform_deployment_regression"
+path = "tests/platform_deployment_regression.rs"
+test = false
+
+[[test]]
+name = "platform_permissions_cases"
+path = "tests/platform_permissions_cases.rs"
+test = false
+
+[[test]]
+name = "platform_undeploy_cases"
+path = "tests/platform_undeploy_cases.rs"
+test = false
+
+[[test]]
+name = "pooled_construction"
+path = "tests/pooled_construction.rs"
+test = false
+
+[[test]]
+name = "pooled_contribution_cache_regression"
+path = "tests/pooled_contribution_cache_regression.rs"
+test = false
+
+[[test]]
+name = "precompute_filter_cases"
+path = "tests/precompute_filter_cases.rs"
+test = false
+
+[[test]]
+name = "precompute_operator_cases"
+path = "tests/precompute_operator_cases.rs"
+test = false
+
+[[test]]
+name = "precompute_regression"
+path = "tests/precompute_regression.rs"
+test = false
+
+[[test]]
+name = "primed_union_cases"
+path = "tests/primed_union_cases.rs"
+test = false
+
+[[test]]
+name = "primed_union_regression"
+path = "tests/primed_union_regression.rs"
+test = false
+
+[[test]]
+name = "problem_alias_cases"
+path = "tests/problem_alias_cases.rs"
+test = false
+
+[[test]]
+name = "problem_build_cases"
+path = "tests/problem_build_cases.rs"
+test = false
+
+[[test]]
+name = "problem_build_regression"
+path = "tests/problem_build_regression.rs"
+test = false
+
+[[test]]
+name = "problem_change_barrage_cases"
+path = "tests/problem_change_barrage_cases.rs"
+test = false
+
+[[test]]
+name = "problem_change_batch_cases"
+path = "tests/problem_change_batch_cases.rs"
+test = false
+
+[[test]]
+name = "problem_change_batch_regression"
+path = "tests/problem_change_batch_regression.rs"
+test = false
+
+[[test]]
+name = "problem_reconciliation"
+path = "tests/problem_reconciliation.rs"
+test = false
+
+[[test]]
+name = "projected_join_regression"
+path = "tests/projected_join_regression.rs"
+test = false
+
+[[test]]
+name = "property_fallback_cases"
+path = "tests/property_fallback_cases.rs"
+test = false
+
+[[test]]
+name = "property_fallback_regression"
+path = "tests/property_fallback_regression.rs"
+test = false
+
+[[test]]
+name = "provider_construction_regression"
+path = "tests/provider_construction_regression.rs"
+test = false
+
+[[test]]
+name = "provider_group_cases"
+path = "tests/provider_group_cases.rs"
+test = false
+
+[[test]]
+name = "provider_group_regression"
+path = "tests/provider_group_regression.rs"
+test = false
+
+[[test]]
+name = "provider_lifecycle_regression"
+path = "tests/provider_lifecycle_regression.rs"
+test = false
+
+[[test]]
+name = "provider_plans"
+path = "tests/provider_plans.rs"
+test = false
+
+[[test]]
+name = "provider_structure_cases"
+path = "tests/provider_structure_cases.rs"
+test = false
+
+[[test]]
+name = "provider_wrapper_regression"
+path = "tests/provider_wrapper_regression.rs"
+test = false
+
+[[test]]
+name = "pruning_frontier_cases"
+path = "tests/pruning_frontier_cases.rs"
+test = false
+
+[[test]]
+name = "pruning_frontier_regression"
+path = "tests/pruning_frontier_regression.rs"
+test = false
+
+[[test]]
+name = "queued_list_solver_case"
+path = "tests/queued_list_solver_case.rs"
+test = false
+
+[[test]]
+name = "queued_move_provider"
+path = "tests/queued_move_provider.rs"
+test = false
+
+[[test]]
+name = "random_access_leaf_cases"
+path = "tests/random_access_leaf_cases.rs"
+test = false
+
+[[test]]
+name = "random_cursor_policy_cases"
+path = "tests/random_cursor_policy_cases.rs"
+test = false
+
+[[test]]
+name = "random_cursor_policy_regression"
+path = "tests/random_cursor_policy_regression.rs"
+test = false
+
+[[test]]
+name = "range_candidate_index_cases"
+path = "tests/range_candidate_index_cases.rs"
+test = false
+
+[[test]]
+name = "range_collector_cases"
+path = "tests/range_collector_cases.rs"
+test = false
+
+[[test]]
+name = "range_collector_regression"
+path = "tests/range_collector_regression.rs"
+test = false
+
+[[test]]
+name = "range_diagnostics_regression"
+path = "tests/range_diagnostics_regression.rs"
+test = false
+
+[[test]]
+name = "range_order_capability_cases"
+path = "tests/range_order_capability_cases.rs"
+test = false
+
+[[test]]
+name = "range_order_capability_regression"
+path = "tests/range_order_capability_regression.rs"
+test = false
+
+[[test]]
+name = "range_tree_cases"
+path = "tests/range_tree_cases.rs"
+test = false
+
+[[test]]
+name = "reachability_cache_cases"
+path = "tests/reachability_cache_cases.rs"
+test = false
+
+[[test]]
+name = "reachability_cache_regression"
+path = "tests/reachability_cache_regression.rs"
+test = false
+
+[[test]]
+name = "reachable_entity_swap_regression"
+path = "tests/reachable_entity_swap_regression.rs"
+test = false
+
+[[test]]
+name = "reachable_values_cases"
+path = "tests/reachable_values_cases.rs"
+test = false
+
+[[test]]
+name = "reachable_values_regression"
+path = "tests/reachable_values_regression.rs"
+test = false
+
+[[test]]
+name = "reconstruction_builder_cases"
+path = "tests/reconstruction_builder_cases.rs"
+test = false
+
+[[test]]
+name = "reconstruction_builder_regression"
+path = "tests/reconstruction_builder_regression.rs"
+test = false
+
+[[test]]
+name = "reconstruction_move_quotas"
+path = "tests/reconstruction_move_quotas.rs"
+test = false
+
+[[test]]
+name = "recorded_basic_undo_cases"
+path = "tests/recorded_basic_undo_cases.rs"
+test = false
+
+[[test]]
+name = "recorded_basic_undo_regression"
+path = "tests/recorded_basic_undo_regression.rs"
+test = false
+
+[[test]]
+name = "recursive_clone_cases"
+path = "tests/recursive_clone_cases.rs"
+test = false
+
+[[test]]
+name = "recursive_clone_regression"
+path = "tests/recursive_clone_regression.rs"
+test = false
+
+[[test]]
+name = "reference_stream"
+path = "tests/reference_stream.rs"
+test = false
+
+[[test]]
+name = "referenced_shadow_entities_cases"
+path = "tests/referenced_shadow_entities_cases.rs"
+test = false
+
+[[test]]
+name = "referenced_shadow_entities_regression"
+path = "tests/referenced_shadow_entities_regression.rs"
+test = false
+
+[[test]]
+name = "remaining_stream_cases"
+path = "tests/remaining_stream_cases.rs"
+test = false
+
+[[test]]
+name = "repair_coverage_quality_regression"
+path = "tests/repair_coverage_quality_regression.rs"
+test = false
+
+[[test]]
+name = "repair_coverage_regression"
+path = "tests/repair_coverage_regression.rs"
+test = false
+
+[[test]]
+name = "repair_neighborhoods"
+path = "tests/repair_neighborhoods.rs"
+test = false
+
+[[test]]
+name = "repair_scopes"
+path = "tests/repair_scopes.rs"
+test = false
+
+[[test]]
+name = "repair_scoring_regression"
+path = "tests/repair_scoring_regression.rs"
+test = false
+
+[[test]]
+name = "repaired_kopt_provider_regression"
+path = "tests/repaired_kopt_provider_regression.rs"
+test = false
+
+[[test]]
+name = "repeating_sublist_source_cases"
+path = "tests/repeating_sublist_source_cases.rs"
+test = false
+
+[[test]]
+name = "repeating_sublist_sources"
+path = "tests/repeating_sublist_sources.rs"
+test = false
+
+[[test]]
+name = "replayed_list_change_regression"
+path = "tests/replayed_list_change_regression.rs"
+test = false
+
+[[test]]
+name = "replayed_list_swap_cases"
+path = "tests/replayed_list_swap_cases.rs"
+test = false
+
+[[test]]
+name = "replayed_list_swap_regression"
+path = "tests/replayed_list_swap_regression.rs"
+test = false
+
+[[test]]
+name = "required_pin_policy_cases"
+path = "tests/required_pin_policy_cases.rs"
+test = false
+
+[[test]]
+name = "required_pin_policy_regression"
+path = "tests/required_pin_policy_regression.rs"
+test = false
+
+[[test]]
+name = "reserved_partition_cases"
+path = "tests/reserved_partition_cases.rs"
+test = false
+
+[[test]]
+name = "reserved_partition_regression"
+path = "tests/reserved_partition_regression.rs"
+test = false
+
+[[test]]
+name = "retained_calculator"
+path = "tests/retained_calculator.rs"
+test = false
+
+[[test]]
+name = "retained_facts"
+path = "tests/retained_facts.rs"
+test = false
+
+[[test]]
+name = "retained_list_index_cases"
+path = "tests/retained_list_index_cases.rs"
+test = false
+
+[[test]]
+name = "retained_list_index_regression"
+path = "tests/retained_list_index_regression.rs"
+test = false
+
+[[test]]
+name = "retained_local_snapshot"
+path = "tests/retained_local_snapshot.rs"
+test = false
+
+[[test]]
+name = "retained_scoped"
+path = "tests/retained_scoped.rs"
+test = false
+
+[[test]]
+name = "retained_solver"
+path = "tests/retained_solver.rs"
+test = false
+
+[[test]]
+name = "retained_stream_phases"
+path = "tests/retained_stream_phases.rs"
+test = false
+
+[[test]]
+name = "retiring_sampling_cases"
+path = "tests/retiring_sampling_cases.rs"
+test = false
+
+[[test]]
+name = "retiring_sampling_regression"
+path = "tests/retiring_sampling_regression.rs"
+test = false
+
+[[test]]
+name = "reverse_list_shadows"
+path = "tests/reverse_list_shadows.rs"
+test = false
+
+[[test]]
+name = "revision_selection_cases"
+path = "tests/revision_selection_cases.rs"
+test = false
+
+[[test]]
+name = "revision_selection_regression"
+path = "tests/revision_selection_regression.rs"
+test = false
+
+[[test]]
+name = "routing_matrix_regression"
+path = "tests/routing_matrix_regression.rs"
+test = false
+
+[[test]]
+name = "routing_model_patch_cases"
+path = "tests/routing_model_patch_cases.rs"
+test = false
+
+[[test]]
+name = "ruin_dependency_regression"
+path = "tests/ruin_dependency_regression.rs"
+test = false
+
+[[test]]
+name = "ruin_recreate_cases"
+path = "tests/ruin_recreate_cases.rs"
+test = false
+
+[[test]]
+name = "ruin_recreate_controls"
+path = "tests/ruin_recreate_controls.rs"
+test = false
+
+[[test]]
+name = "ruin_recreate_regression"
+path = "tests/ruin_recreate_regression.rs"
+test = false
+
+[[test]]
+name = "runtime_property_plan_regression"
+path = "tests/runtime_property_plan_regression.rs"
+test = false
+
+[[test]]
+name = "runtime_property_plan_validation"
+path = "tests/runtime_property_plan_validation.rs"
+test = false
+
+[[test]]
+name = "runtime_range_cases"
+path = "tests/runtime_range_cases.rs"
+test = false
+
+[[test]]
+name = "runtime_range_regression"
+path = "tests/runtime_range_regression.rs"
+test = false
+
+[[test]]
+name = "sampled_sublist_provider_regression"
+path = "tests/sampled_sublist_provider_regression.rs"
+test = false
+
+[[test]]
+name = "sampled_swap_cache_regression"
+path = "tests/sampled_swap_cache_regression.rs"
+test = false
+
+[[test]]
+name = "sampled_value_swap_provider"
+path = "tests/sampled_value_swap_provider.rs"
+test = false
+
+[[test]]
+name = "sampling_iterator_bias_cases"
+path = "tests/sampling_iterator_bias_cases.rs"
+test = false
+
+[[test]]
+name = "scaling_map_cases"
+path = "tests/scaling_map_cases.rs"
+test = false
+
+[[test]]
+name = "scaling_map_regression"
+path = "tests/scaling_map_regression.rs"
+test = false
+
+[[test]]
+name = "schema_list_config_cases"
+path = "tests/schema_list_config_cases.rs"
+test = false
+
+[[test]]
+name = "schema_list_factory_cases"
+path = "tests/schema_list_factory_cases.rs"
+test = false
+
+[[test]]
+name = "schema_move_factory_cases"
+path = "tests/schema_move_factory_cases.rs"
+test = false
+
+[[test]]
+name = "schema_move_selection_regression"
+path = "tests/schema_move_selection_regression.rs"
+test = false
+
+[[test]]
+name = "schema_ruin_cases"
+path = "tests/schema_ruin_cases.rs"
+test = false
+
+[[test]]
+name = "schema_ruin_regression"
+path = "tests/schema_ruin_regression.rs"
+test = false
+
+[[test]]
+name = "schema_sublist_factory_cases"
+path = "tests/schema_sublist_factory_cases.rs"
+test = false
+
+[[test]]
+name = "schema_sublist_factory_regression"
+path = "tests/schema_sublist_factory_regression.rs"
+test = false
+
+[[test]]
+name = "schema_sublist_regression"
+path = "tests/schema_sublist_regression.rs"
+test = false
+
+[[test]]
+name = "schema_transition_cases"
+path = "tests/schema_transition_cases.rs"
+test = false
+
+[[test]]
+name = "schema_transition_regression"
+path = "tests/schema_transition_regression.rs"
+test = false
+
+[[test]]
+name = "scoped_callback_arguments_regression"
+path = "tests/scoped_callback_arguments_regression.rs"
+test = false
+
+[[test]]
+name = "scoped_explanation_regression"
+path = "tests/scoped_explanation_regression.rs"
+test = false
+
+[[test]]
+name = "scoped_pillar_provider"
+path = "tests/scoped_pillar_provider.rs"
+test = false
+
+[[test]]
+name = "scoped_significant_improvement_cases"
+path = "tests/scoped_significant_improvement_cases.rs"
+test = false
+
+[[test]]
+name = "scoped_significant_improvement_regression"
+path = "tests/scoped_significant_improvement_regression.rs"
+test = false
+
+[[test]]
+name = "scoped_weight_cases"
+path = "tests/scoped_weight_cases.rs"
+test = false
+
+[[test]]
+name = "scoped_weight_regression"
+path = "tests/scoped_weight_regression.rs"
+test = false
+
+[[test]]
+name = "score_assertion_cases"
+path = "tests/score_assertion_cases.rs"
+test = false
+
+[[test]]
+name = "score_assertion_regression"
+path = "tests/score_assertion_regression.rs"
+test = false
+
+[[test]]
+name = "score_boundaries"
+path = "tests/score_boundaries.rs"
+test = false
+
+[[test]]
+name = "score_consistency"
+path = "tests/score_consistency.rs"
+test = false
+
+[[test]]
+name = "score_definition_cases"
+path = "tests/score_definition_cases.rs"
+test = false
+
+[[test]]
+name = "score_definition_regression"
+path = "tests/score_definition_regression.rs"
+test = false
+
+[[test]]
+name = "score_explanation_cases"
+path = "tests/score_explanation_cases.rs"
+test = false
+
+[[test]]
+name = "score_explanation_regression"
+path = "tests/score_explanation_regression.rs"
+test = false
+
+[[test]]
+name = "score_history_cases"
+path = "tests/score_history_cases.rs"
+test = false
+
+[[test]]
+name = "score_history_regression"
+path = "tests/score_history_regression.rs"
+test = false
+
+[[test]]
+name = "score_inliner_overflow_cases"
+path = "tests/score_inliner_overflow_cases.rs"
+test = false
+
+[[test]]
+name = "score_json"
+path = "tests/score_json.rs"
+test = false
+
+[[test]]
+name = "score_json_cases"
+path = "tests/score_json_cases.rs"
+test = false
+
+[[test]]
+name = "score_progress_cases"
+path = "tests/score_progress_cases.rs"
+test = false
+
+[[test]]
+name = "score_progress_regression"
+path = "tests/score_progress_regression.rs"
+test = false
+
+[[test]]
+name = "score_trend_cases"
+path = "tests/score_trend_cases.rs"
+test = false
+
+[[test]]
+name = "score_trend_regression"
+path = "tests/score_trend_regression.rs"
+test = false
+
+[[test]]
+name = "score_work_termination"
+path = "tests/score_work_termination.rs"
+test = false
+
+[[test]]
+name = "scored_termination"
+path = "tests/scored_termination.rs"
+test = false
+
+[[test]]
+name = "scored_termination_profile_regression"
+path = "tests/scored_termination_profile_regression.rs"
+test = false
+
+[[test]]
+name = "scoring_context_cases"
+path = "tests/scoring_context_cases.rs"
+test = false
+
+[[test]]
+name = "scoring_context_regression"
+path = "tests/scoring_context_regression.rs"
+test = false
+
+[[test]]
+name = "scoring_factory_bank_cases"
+path = "tests/scoring_factory_bank_cases.rs"
+test = false
+
+[[test]]
+name = "scoring_factory_bank_regression"
+path = "tests/scoring_factory_bank_regression.rs"
+test = false
+
+[[test]]
+name = "sdk_time_cases"
+path = "tests/sdk_time_cases.rs"
+test = false
+
+[[test]]
+name = "sdk_time_regression"
+path = "tests/sdk_time_regression.rs"
+test = false
+
+[[test]]
+name = "search_termination"
+path = "tests/search_termination.rs"
+test = false
+
+[[test]]
+name = "seeded_range_list_change_cases"
+path = "tests/seeded_range_list_change_cases.rs"
+test = false
+
+[[test]]
+name = "seeded_range_list_change_regression"
+path = "tests/seeded_range_list_change_regression.rs"
+test = false
+
+[[test]]
+name = "segmented_access_cases"
+path = "tests/segmented_access_cases.rs"
+test = false
+
+[[test]]
+name = "segmented_access_regression"
+path = "tests/segmented_access_regression.rs"
+test = false
+
+[[test]]
+name = "segmented_slice_cases"
+path = "tests/segmented_slice_cases.rs"
+test = false
+
+[[test]]
+name = "segmented_slice_regression"
+path = "tests/segmented_slice_regression.rs"
+test = false
+
+[[test]]
+name = "selection_cache_cases"
+path = "tests/selection_cache_cases.rs"
+test = false
+
+[[test]]
+name = "selection_cache_regression"
+path = "tests/selection_cache_regression.rs"
+test = false
+
+[[test]]
+name = "selection_cursor_regression"
+path = "tests/selection_cursor_regression.rs"
+test = false
+
+[[test]]
+name = "selection_filter_cases"
+path = "tests/selection_filter_cases.rs"
+test = false
+
+[[test]]
+name = "selection_filter_regression"
+path = "tests/selection_filter_regression.rs"
+test = false
+
+[[test]]
+name = "selection_identity_cases"
+path = "tests/selection_identity_cases.rs"
+test = false
+
+[[test]]
+name = "selection_identity_regression"
+path = "tests/selection_identity_regression.rs"
+test = false
+
+[[test]]
+name = "selection_product_cases"
+path = "tests/selection_product_cases.rs"
+test = false
+
+[[test]]
+name = "selection_product_regression"
+path = "tests/selection_product_regression.rs"
+test = false
+
+[[test]]
+name = "selection_replay_cases"
+path = "tests/selection_replay_cases.rs"
+test = false
+
+[[test]]
+name = "selection_replay_regression"
+path = "tests/selection_replay_regression.rs"
+test = false
+
+[[test]]
+name = "selection_union_cases"
+path = "tests/selection_union_cases.rs"
+test = false
+
+[[test]]
+name = "selection_union_regression"
+path = "tests/selection_union_regression.rs"
+test = false
+
+[[test]]
+name = "selection_wiring_cases"
+path = "tests/selection_wiring_cases.rs"
+test = false
+
+[[test]]
+name = "selection_wiring_regression"
+path = "tests/selection_wiring_regression.rs"
+test = false
+
+[[test]]
+name = "selector_composite_doability_cases"
+path = "tests/selector_composite_doability_cases.rs"
+test = false
+
+[[test]]
+name = "selector_no_change_cases"
+path = "tests/selector_no_change_cases.rs"
+test = false
+
+[[test]]
+name = "selector_solver_cases"
+path = "tests/selector_solver_cases.rs"
+test = false
+
+[[test]]
+name = "selector_sublist_swap_cases"
+path = "tests/selector_sublist_swap_cases.rs"
+test = false
+
+[[test]]
+name = "sequence_collector_cases"
+path = "tests/sequence_collector_cases.rs"
+test = false
+
+[[test]]
+name = "sequence_collector_regression"
+path = "tests/sequence_collector_regression.rs"
+test = false
+
+[[test]]
+name = "sequence_json_cases"
+path = "tests/sequence_json_cases.rs"
+test = false
+
+[[test]]
+name = "sequence_tree_cases"
+path = "tests/sequence_tree_cases.rs"
+test = false
+
+[[test]]
+name = "sequenced_set_cases"
+path = "tests/sequenced_set_cases.rs"
+test = false
+
+[[test]]
+name = "sequenced_set_regression"
+path = "tests/sequenced_set_regression.rs"
+test = false
+
+[[test]]
+name = "sequential_kopt_cases"
+path = "tests/sequential_kopt_cases.rs"
+test = false
+
+[[test]]
+name = "sequential_kopt_regression"
+path = "tests/sequential_kopt_regression.rs"
+test = false
+
+[[test]]
+name = "service_model_descriptor_cases"
+path = "tests/service_model_descriptor_cases.rs"
+test = false
+
+[[test]]
+name = "service_model_descriptor_regression"
+path = "tests/service_model_descriptor_regression.rs"
+test = false
+
+[[test]]
+name = "service_validation_cases"
+path = "tests/service_validation_cases.rs"
+test = false
+
+[[test]]
+name = "service_validation_regression"
+path = "tests/service_validation_regression.rs"
+test = false
+
+[[test]]
+name = "set_sum_collector_cases"
+path = "tests/set_sum_collector_cases.rs"
+test = false
+
+[[test]]
+name = "set_value_range_cases"
+path = "tests/set_value_range_cases.rs"
+test = false
+
+[[test]]
+name = "set_value_range_regression"
+path = "tests/set_value_range_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_binding_catalog_regression"
+path = "tests/shadow_binding_catalog_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_binding_delta"
+path = "tests/shadow_binding_delta.rs"
+test = false
+
+[[test]]
+name = "shadow_calculator_notifier_regression"
+path = "tests/shadow_calculator_notifier_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_calculator_regression"
+path = "tests/shadow_calculator_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_callback_binding_regression"
+path = "tests/shadow_callback_binding_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_dependency_event_cases"
+path = "tests/shadow_dependency_event_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_dependency_event_regression"
+path = "tests/shadow_dependency_event_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_diagnostics_regression"
+path = "tests/shadow_diagnostics_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_entity_batch_cases"
+path = "tests/shadow_entity_batch_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_entity_batch_regression"
+path = "tests/shadow_entity_batch_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_entity_regression"
+path = "tests/shadow_entity_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_entity_selection_cases"
+path = "tests/shadow_entity_selection_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_entity_selection_regression"
+path = "tests/shadow_entity_selection_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_fixed_dependencies"
+path = "tests/shadow_fixed_dependencies.rs"
+test = false
+
+[[test]]
+name = "shadow_indexed_construction"
+path = "tests/shadow_indexed_construction.rs"
+test = false
+
+[[test]]
+name = "shadow_input_lookup_regression"
+path = "tests/shadow_input_lookup_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_keyed_index"
+path = "tests/shadow_keyed_index.rs"
+test = false
+
+[[test]]
+name = "shadow_native_binding_regression"
+path = "tests/shadow_native_binding_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_notified_regression"
+path = "tests/shadow_notified_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_notifier_undo_cases"
+path = "tests/shadow_notifier_undo_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_session"
+path = "tests/shadow_session.rs"
+test = false
+
+[[test]]
+name = "shadow_session_cases"
+path = "tests/shadow_session_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_solution_manager_cases"
+path = "tests/shadow_solution_manager_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_solution_manager_regression"
+path = "tests/shadow_solution_manager_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_source_binding_cases"
+path = "tests/shadow_source_binding_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_source_bindings"
+path = "tests/shadow_source_bindings.rs"
+test = false
+
+[[test]]
+name = "shadow_source_diagnostics_regression"
+path = "tests/shadow_source_diagnostics_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_sparse_refresh_regression"
+path = "tests/shadow_sparse_refresh_regression.rs"
+test = false
+
+[[test]]
+name = "shadow_stream"
+path = "tests/shadow_stream.rs"
+test = false
+
+[[test]]
+name = "shadow_structure_cases"
+path = "tests/shadow_structure_cases.rs"
+test = false
+
+[[test]]
+name = "shadow_structure_regression"
+path = "tests/shadow_structure_regression.rs"
+test = false
+
+[[test]]
+name = "shared_aggregation_cases"
+path = "tests/shared_aggregation_cases.rs"
+test = false
+
+[[test]]
+name = "shared_aggregation_regression"
+path = "tests/shared_aggregation_regression.rs"
+test = false
+
+[[test]]
+name = "shared_existence_scope_cases"
+path = "tests/shared_existence_scope_cases.rs"
+test = false
+
+[[test]]
+name = "shared_existence_scope_regression"
+path = "tests/shared_existence_scope_regression.rs"
+test = false
+
+[[test]]
+name = "shared_partition_cases"
+path = "tests/shared_partition_cases.rs"
+test = false
+
+[[test]]
+name = "shared_partition_regression"
+path = "tests/shared_partition_regression.rs"
+test = false
+
+[[test]]
+name = "shared_pillar_sampler_cases"
+path = "tests/shared_pillar_sampler_cases.rs"
+test = false
+
+[[test]]
+name = "shared_pillar_sampler_regression"
+path = "tests/shared_pillar_sampler_regression.rs"
+test = false
+
+[[test]]
+name = "shared_pillar_source_cases"
+path = "tests/shared_pillar_source_cases.rs"
+test = false
+
+[[test]]
+name = "shared_precompute_cases"
+path = "tests/shared_precompute_cases.rs"
+test = false
+
+[[test]]
+name = "shared_reference_stream"
+path = "tests/shared_reference_stream.rs"
+test = false
+
+[[test]]
+name = "shared_relation_cases"
+path = "tests/shared_relation_cases.rs"
+test = false
+
+[[test]]
+name = "shared_relation_regression"
+path = "tests/shared_relation_regression.rs"
+test = false
+
+[[test]]
+name = "shared_selection_regression"
+path = "tests/shared_selection_regression.rs"
+test = false
+
+[[test]]
+name = "shared_set_cases"
+path = "tests/shared_set_cases.rs"
+test = false
+
+[[test]]
+name = "shared_set_regression"
+path = "tests/shared_set_regression.rs"
+test = false
+
+[[test]]
+name = "shared_transform_cases"
+path = "tests/shared_transform_cases.rs"
+test = false
+
+[[test]]
+name = "shared_transform_regression"
+path = "tests/shared_transform_regression.rs"
+test = false
+
+[[test]]
+name = "shuffled_move_regression"
+path = "tests/shuffled_move_regression.rs"
+test = false
+
+[[test]]
+name = "signed_index_cases"
+path = "tests/signed_index_cases.rs"
+test = false
+
+[[test]]
+name = "signed_index_regression"
+path = "tests/signed_index_regression.rs"
+test = false
+
+[[test]]
+name = "significant_improvement_cases"
+path = "tests/significant_improvement_cases.rs"
+test = false
+
+[[test]]
+name = "significant_improvement_regression"
+path = "tests/significant_improvement_regression.rs"
+test = false
+
+[[test]]
+name = "simple_decimal_score"
+path = "tests/simple_decimal_score.rs"
+test = false
+
+[[test]]
+name = "simple_score"
+path = "tests/simple_score.rs"
+test = false
+
+[[test]]
+name = "simulated_annealing"
+path = "tests/simulated_annealing.rs"
+test = false
+
+[[test]]
+name = "slot_reservation_cases"
+path = "tests/slot_reservation_cases.rs"
+test = false
+
+[[test]]
+name = "slot_reservation_regression"
+path = "tests/slot_reservation_regression.rs"
+test = false
+
+[[test]]
+name = "snapshot_access"
+path = "tests/snapshot_access.rs"
+test = false
+
+[[test]]
+name = "snapshot_access_cases"
+path = "tests/snapshot_access_cases.rs"
+test = false
+
+[[test]]
+name = "solution_composition_cases"
+path = "tests/solution_composition_cases.rs"
+test = false
+
+[[test]]
+name = "solution_composition_regression"
+path = "tests/solution_composition_regression.rs"
+test = false
+
+[[test]]
+name = "solution_entity_range_regression"
+path = "tests/solution_entity_range_regression.rs"
+test = false
+
+[[test]]
+name = "solution_fact_cases"
+path = "tests/solution_fact_cases.rs"
+test = false
+
+[[test]]
+name = "solution_fact_regression"
+path = "tests/solution_fact_regression.rs"
+test = false
+
+[[test]]
+name = "solution_manager_regression"
+path = "tests/solution_manager_regression.rs"
+test = false
+
+[[test]]
+name = "solution_parameter_range_cases"
+path = "tests/solution_parameter_range_cases.rs"
+test = false
+
+[[test]]
+name = "solution_persistence_cases"
+path = "tests/solution_persistence_cases.rs"
+
+[[test]]
+name = "solution_persistence_regression"
+path = "tests/solution_persistence_regression.rs"
+
+[[test]]
+name = "solution_property_value_cases"
+path = "tests/solution_property_value_cases.rs"
+test = false
+
+[[test]]
+name = "solution_registry_cases"
+path = "tests/solution_registry_cases.rs"
+test = false
+
+[[test]]
+name = "solution_registry_regression"
+path = "tests/solution_registry_regression.rs"
+test = false
+
+[[test]]
+name = "solution_score_access_cases"
+path = "tests/solution_score_access_cases.rs"
+test = false
+
+[[test]]
+name = "solution_score_access_regression"
+path = "tests/solution_score_access_regression.rs"
+test = false
+
+[[test]]
+name = "solution_stream_source_cases"
+path = "tests/solution_stream_source_cases.rs"
+test = false
+
+[[test]]
+name = "solution_stream_source_regression"
+path = "tests/solution_stream_source_regression.rs"
+test = false
+
+[[test]]
+name = "solution_tracker"
+path = "tests/solution_tracker.rs"
+test = false
+
+[[test]]
+name = "solution_tracker_cases"
+path = "tests/solution_tracker_cases.rs"
+test = false
+
+[[test]]
+name = "solve_provider_lifecycle"
+path = "tests/solve_provider_lifecycle.rs"
+test = false
+
+[[test]]
+name = "solver"
+path = "tests/solver.rs"
+test = false
+
+[[test]]
+name = "solver_callbacks_regression"
+path = "tests/solver_callbacks_regression.rs"
+test = false
+
+[[test]]
+name = "solver_custom"
+path = "tests/solver_custom.rs"
+test = false
+
+[[test]]
+name = "solver_events"
+path = "tests/solver_events.rs"
+test = false
+
+[[test]]
+name = "solver_exact"
+path = "tests/solver_exact.rs"
+test = false
+
+[[test]]
+name = "solver_factory"
+path = "tests/solver_factory.rs"
+test = false
+
+[[test]]
+name = "solver_factory_facade_cases"
+path = "tests/solver_factory_facade_cases.rs"
+test = false
+
+[[test]]
+name = "solver_failure_observer"
+path = "tests/solver_failure_observer.rs"
+test = false
+
+[[test]]
+name = "solver_incremental_corruption_cases"
+path = "tests/solver_incremental_corruption_cases.rs"
+test = false
+
+[[test]]
+name = "solver_initialization_delivery"
+path = "tests/solver_initialization_delivery.rs"
+test = false
+
+[[test]]
+name = "solver_lifecycle"
+path = "tests/solver_lifecycle.rs"
+test = false
+
+[[test]]
+name = "solver_lifecycle_cases"
+path = "tests/solver_lifecycle_cases.rs"
+test = false
+
+[[test]]
+name = "solver_manager_cases"
+path = "tests/solver_manager_cases.rs"
+test = false
+
+[[test]]
+name = "solver_manager_regression"
+path = "tests/solver_manager_regression.rs"
+test = false
+
+[[test]]
+name = "solver_meter_view_cases"
+path = "tests/solver_meter_view_cases.rs"
+test = false
+
+[[test]]
+name = "solver_meter_view_regression"
+path = "tests/solver_meter_view_regression.rs"
+test = false
+
+[[test]]
+name = "solver_metrics"
+path = "tests/solver_metrics.rs"
+test = false
+
+[[test]]
+name = "solver_metrics_cases"
+path = "tests/solver_metrics_cases.rs"
+test = false
+
+[[test]]
+name = "solver_neighborhood_cases"
+path = "tests/solver_neighborhood_cases.rs"
+test = false
+
+[[test]]
+name = "solver_phase_delivery_cases"
+path = "tests/solver_phase_delivery_cases.rs"
+test = false
+
+[[test]]
+name = "solver_phases"
+path = "tests/solver_phases.rs"
+test = false
+
+[[test]]
+name = "solver_preflight_cases"
+path = "tests/solver_preflight_cases.rs"
+test = false
+
+[[test]]
+name = "solver_preflight_regression"
+path = "tests/solver_preflight_regression.rs"
+test = false
+
+[[test]]
+name = "solver_progress_regression"
+path = "tests/solver_progress_regression.rs"
+test = false
+
+[[test]]
+name = "solver_repair"
+path = "tests/solver_repair.rs"
+test = false
+
+[[test]]
+name = "solver_resume_cases"
+path = "tests/solver_resume_cases.rs"
+test = false
+
+[[test]]
+name = "solver_resume_regression"
+path = "tests/solver_resume_regression.rs"
+test = false
+
+[[test]]
+name = "solver_score_corruption_cases"
+path = "tests/solver_score_corruption_cases.rs"
+test = false
+
+[[test]]
+name = "solver_score_trend"
+path = "tests/solver_score_trend.rs"
+test = false
+
+[[test]]
+name = "solver_submission_regression"
+path = "tests/solver_submission_regression.rs"
+test = false
+
+[[test]]
+name = "solver_time_settings_cases"
+path = "tests/solver_time_settings_cases.rs"
+test = false
+
+[[test]]
+name = "solver_time_settings_regression"
+path = "tests/solver_time_settings_regression.rs"
+test = false
+
+[[test]]
+name = "solver_version_cases"
+path = "tests/solver_version_cases.rs"
+test = false
+
+[[test]]
+name = "solver_version_regression"
+path = "tests/solver_version_regression.rs"
+test = false
+
+[[test]]
+name = "solver_xml_cases"
+path = "tests/solver_xml_cases.rs"
+test = false
+
+[[test]]
+name = "solver_xml_regression"
+path = "tests/solver_xml_regression.rs"
+test = false
+
+[[test]]
+name = "sorted_construction"
+path = "tests/sorted_construction.rs"
+test = false
+
+[[test]]
+name = "sorted_construction_cases"
+path = "tests/sorted_construction_cases.rs"
+test = false
+
+[[test]]
+name = "sorted_solver_cases"
+path = "tests/sorted_solver_cases.rs"
+test = false
+
+[[test]]
+name = "source_accessor_cases"
+path = "tests/source_accessor_cases.rs"
+test = false
+
+[[test]]
+name = "source_accessor_regression"
+path = "tests/source_accessor_regression.rs"
+test = false
+
+[[test]]
+name = "source_activity_cases"
+path = "tests/source_activity_cases.rs"
+test = false
+
+[[test]]
+name = "source_path"
+path = "tests/source_path.rs"
+test = false
+
+[[test]]
+name = "source_path_cases"
+path = "tests/source_path_cases.rs"
+test = false
+
+[[test]]
+name = "source_variable_identity_cases"
+path = "tests/source_variable_identity_cases.rs"
+test = false
+
+[[test]]
+name = "sparse_best_snapshot"
+path = "tests/sparse_best_snapshot.rs"
+test = false
+
+[[test]]
+name = "sparse_destination_regression"
+path = "tests/sparse_destination_regression.rs"
+test = false
+
+[[test]]
+name = "sparse_list_scopes"
+path = "tests/sparse_list_scopes.rs"
+test = false
+
+[[test]]
+name = "sparse_phase_best"
+path = "tests/sparse_phase_best.rs"
+test = false
+
+[[test]]
+name = "sparse_stream_exact"
+path = "tests/sparse_stream_exact.rs"
+test = false
+
+[[test]]
+name = "sparse_swap_regression"
+path = "tests/sparse_swap_regression.rs"
+test = false
+
+[[test]]
+name = "sparse_winner_capture"
+path = "tests/sparse_winner_capture.rs"
+test = false
+
+[[test]]
+name = "stable_flat_map_cases"
+path = "tests/stable_flat_map_cases.rs"
+test = false
+
+[[test]]
+name = "stable_flat_map_regression"
+path = "tests/stable_flat_map_regression.rs"
+test = false
+
+[[test]]
+name = "stale_shadow_solver_cases"
+path = "tests/stale_shadow_solver_cases.rs"
+test = false
+
+[[test]]
+name = "stateful_termination"
+path = "tests/stateful_termination.rs"
+test = false
+
+[[test]]
+name = "stateful_termination_controls"
+path = "tests/stateful_termination_controls.rs"
+test = false
+
+[[test]]
+name = "stateful_termination_routes"
+path = "tests/stateful_termination_routes.rs"
+test = false
+
+[[test]]
+name = "step_counting_hill_climbing"
+path = "tests/step_counting_hill_climbing.rs"
+test = false
+
+[[test]]
+name = "step_counting_regression"
+path = "tests/step_counting_regression.rs"
+test = false
+
+[[test]]
+name = "step_diagnostics_regression"
+path = "tests/step_diagnostics_regression.rs"
+test = false
+
+[[test]]
+name = "step_score_metrics"
+path = "tests/step_score_metrics.rs"
+test = false
+
+[[test]]
+name = "step_score_metrics_cases"
+path = "tests/step_score_metrics_cases.rs"
+test = false
+
+[[test]]
+name = "step_sorted_construction"
+path = "tests/step_sorted_construction.rs"
+test = false
+
+[[test]]
+name = "step_termination_cases"
+path = "tests/step_termination_cases.rs"
+test = false
+
+[[test]]
+name = "stream_activity_cases"
+path = "tests/stream_activity_cases.rs"
+test = false
+
+[[test]]
+name = "stream_activity_regression"
+path = "tests/stream_activity_regression.rs"
+test = false
+
+[[test]]
+name = "stream_assignment_replacement"
+path = "tests/stream_assignment_replacement.rs"
+test = false
+
+[[test]]
+name = "stream_collectors"
+path = "tests/stream_collectors.rs"
+test = false
+
+[[test]]
+name = "stream_composition_cases"
+path = "tests/stream_composition_cases.rs"
+test = false
+
+[[test]]
+name = "stream_consistency_regression"
+path = "tests/stream_consistency_regression.rs"
+test = false
+
+[[test]]
+name = "stream_dataset_cases"
+path = "tests/stream_dataset_cases.rs"
+test = false
+
+[[test]]
+name = "stream_dataset_regression"
+path = "tests/stream_dataset_regression.rs"
+test = false
+
+[[test]]
+name = "stream_graph_cases"
+path = "tests/stream_graph_cases.rs"
+test = false
+
+[[test]]
+name = "stream_graph_regression"
+path = "tests/stream_graph_regression.rs"
+test = false
+
+[[test]]
+name = "stream_list_positions"
+path = "tests/stream_list_positions.rs"
+test = false
+
+[[test]]
+name = "stream_projection_cases"
+path = "tests/stream_projection_cases.rs"
+test = false
+
+[[test]]
+name = "stream_regression"
+path = "tests/stream_regression.rs"
+test = false
+
+[[test]]
+name = "stream_scoring_regression"
+path = "tests/stream_scoring_regression.rs"
+test = false
+
+[[test]]
+name = "stream_search"
+path = "tests/stream_search.rs"
+test = false
+
+[[test]]
+name = "stream_snapshots"
+path = "tests/stream_snapshots.rs"
+test = false
+
+[[test]]
+name = "stream_sparse_winners"
+path = "tests/stream_sparse_winners.rs"
+test = false
+
+[[test]]
+name = "stream_structural_cache"
+path = "tests/stream_structural_cache.rs"
+test = false
+
+[[test]]
+name = "stream_traversal_cases"
+path = "tests/stream_traversal_cases.rs"
+test = false
+
+[[test]]
+name = "stream_traversal_regression"
+path = "tests/stream_traversal_regression.rs"
+test = false
+
+[[test]]
+name = "streaming_selection_regression"
+path = "tests/streaming_selection_regression.rs"
+test = false
+
+[[test]]
+name = "strict_solution_manager_cases"
+path = "tests/strict_solution_manager_cases.rs"
+test = false
+
+[[test]]
+name = "structural_trial_deltas"
+path = "tests/structural_trial_deltas.rs"
+test = false
+
+[[test]]
+name = "subgroup_pillar_source_cases"
+path = "tests/subgroup_pillar_source_cases.rs"
+test = false
+
+[[test]]
+name = "subgroup_rank_regression"
+path = "tests/subgroup_rank_regression.rs"
+test = false
+
+[[test]]
+name = "subgroup_selection_regression"
+path = "tests/subgroup_selection_regression.rs"
+test = false
+
+[[test]]
+name = "sublist_change_cases"
+path = "tests/sublist_change_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_change_regression"
+path = "tests/sublist_change_regression.rs"
+test = false
+
+[[test]]
+name = "sublist_controls_regression"
+path = "tests/sublist_controls_regression.rs"
+test = false
+
+[[test]]
+name = "sublist_provider_cases"
+path = "tests/sublist_provider_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_rank"
+path = "tests/sublist_rank.rs"
+test = false
+
+[[test]]
+name = "sublist_rank_cases"
+path = "tests/sublist_rank_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_replay_config_cases"
+path = "tests/sublist_replay_config_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_replay_config_regression"
+path = "tests/sublist_replay_config_regression.rs"
+test = false
+
+[[test]]
+name = "sublist_sampling_bias_cases"
+path = "tests/sublist_sampling_bias_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_sampling_cases"
+path = "tests/sublist_sampling_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_sampling_regression"
+path = "tests/sublist_sampling_regression.rs"
+test = false
+
+[[test]]
+name = "sublist_source_cases"
+path = "tests/sublist_source_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_source_regression"
+path = "tests/sublist_source_regression.rs"
+test = false
+
+[[test]]
+name = "sublist_swap_cases"
+path = "tests/sublist_swap_cases.rs"
+test = false
+
+[[test]]
+name = "sublist_swap_regression"
+path = "tests/sublist_swap_regression.rs"
+test = false
+
+[[test]]
+name = "subpillar"
+path = "tests/subpillar.rs"
+test = false
+
+[[test]]
+name = "subpillar_cases"
+path = "tests/subpillar_cases.rs"
+test = false
+
+[[test]]
+name = "sum_collector_regression"
+path = "tests/sum_collector_regression.rs"
+test = false
+
+[[test]]
+name = "tabu_search"
+path = "tests/tabu_search.rs"
+test = false
+
+[[test]]
+name = "tabu_size_cases"
+path = "tests/tabu_size_cases.rs"
+test = false
+
+[[test]]
+name = "tabu_size_regression"
+path = "tests/tabu_size_regression.rs"
+test = false
+
+[[test]]
+name = "temporal_range_boundary_cases"
+path = "tests/temporal_range_boundary_cases.rs"
+test = false
+
+[[test]]
+name = "temporal_range_boundary_regression"
+path = "tests/temporal_range_boundary_regression.rs"
+test = false
+
+[[test]]
+name = "temporal_range_cases"
+path = "tests/temporal_range_cases.rs"
+test = false
+
+[[test]]
+name = "temporal_range_regression"
+path = "tests/temporal_range_regression.rs"
+test = false
+
+[[test]]
+name = "temporary_move_cases"
+path = "tests/temporary_move_cases.rs"
+test = false
+
+[[test]]
+name = "temporary_moves"
+path = "tests/temporary_moves.rs"
+test = false
+
+[[test]]
+name = "termination_annealing"
+path = "tests/termination_annealing.rs"
+test = false
+
+[[test]]
+name = "termination_annealing_routes"
+path = "tests/termination_annealing_routes.rs"
+test = false
+
+[[test]]
+name = "termination_factory_profile_cases"
+path = "tests/termination_factory_profile_cases.rs"
+test = false
+
+[[test]]
+name = "termination_profile_cases"
+path = "tests/termination_profile_cases.rs"
+test = false
+
+[[test]]
+name = "termination_profile_regression"
+path = "tests/termination_profile_regression.rs"
+test = false
+
+[[test]]
+name = "termination_resolver_cases"
+path = "tests/termination_resolver_cases.rs"
+test = false
+
+[[test]]
+name = "termination_resolver_regression"
+path = "tests/termination_resolver_regression.rs"
+test = false
+
+[[test]]
+name = "termination_time_config_cases"
+path = "tests/termination_time_config_cases.rs"
+test = false
+
+[[test]]
+name = "termination_time_config_regression"
+path = "tests/termination_time_config_regression.rs"
+test = false
+
+[[test]]
+name = "thread_factory"
+path = "tests/thread_factory.rs"
+test = false
+
+[[test]]
+name = "thread_interruption_regression"
+path = "tests/thread_interruption_regression.rs"
+test = false
+
+[[test]]
+name = "time_annealing"
+path = "tests/time_annealing.rs"
+test = false
+
+[[test]]
+name = "time_annealing_routes"
+path = "tests/time_annealing_routes.rs"
+test = false
+
+[[test]]
+name = "timed_clock_regression"
+path = "tests/timed_clock_regression.rs"
+test = false
+
+[[test]]
+name = "timed_score_ring_cases"
+path = "tests/timed_score_ring_cases.rs"
+test = false
+
+[[test]]
+name = "timed_score_ring_regression"
+path = "tests/timed_score_ring_regression.rs"
+test = false
+
+[[test]]
+name = "timeframe_matrix_cases"
+path = "tests/timeframe_matrix_cases.rs"
+test = false
+
+[[test]]
+name = "token_crypto_cases"
+path = "tests/token_crypto_cases.rs"
+test = false
+
+[[test]]
+name = "token_crypto_regression"
+path = "tests/token_crypto_regression.rs"
+test = false
+
+[[test]]
+name = "topology_cases"
+path = "tests/topology_cases.rs"
+test = false
+
+[[test]]
+name = "topology_regression"
+path = "tests/topology_regression.rs"
+test = false
+
+[[test]]
+name = "triangular_number_cases"
+path = "tests/triangular_number_cases.rs"
+test = false
+
+[[test]]
+name = "triangular_number_regression"
+path = "tests/triangular_number_regression.rs"
+test = false
+
+[[test]]
+name = "trivial_model_convertor_cases"
+path = "tests/trivial_model_convertor_cases.rs"
+test = false
+
+[[test]]
+name = "trivial_model_convertor_regression"
+path = "tests/trivial_model_convertor_regression.rs"
+test = false
+
+[[test]]
+name = "tuple_collector_cases"
+path = "tests/tuple_collector_cases.rs"
+test = false
+
+[[test]]
+name = "tuple_collector_regression"
+path = "tests/tuple_collector_regression.rs"
+test = false
+
+[[test]]
+name = "tuple_link_slots_cases"
+path = "tests/tuple_link_slots_cases.rs"
+test = false
+
+[[test]]
+name = "tuple_score_explanation_cases"
+path = "tests/tuple_score_explanation_cases.rs"
+test = false
+
+[[test]]
+name = "two_opt_provider_cases"
+path = "tests/two_opt_provider_cases.rs"
+test = false
+
+[[test]]
+name = "two_opt_regression"
+path = "tests/two_opt_regression.rs"
+test = false
+
+[[test]]
+name = "type_specificity_cases"
+path = "tests/type_specificity_cases.rs"
+test = false
+
+[[test]]
+name = "type_specificity_regression"
+path = "tests/type_specificity_regression.rs"
+test = false
+
+[[test]]
+name = "typed_accessor_cases"
+path = "tests/typed_accessor_cases.rs"
+test = false
+
+[[test]]
+name = "typed_accessor_regression"
+path = "tests/typed_accessor_regression.rs"
+test = false
+
+[[test]]
+name = "undo_assertion_regression"
+path = "tests/undo_assertion_regression.rs"
+test = false
+
+[[test]]
+name = "unimproved_profile_regression"
+path = "tests/unimproved_profile_regression.rs"
+test = false
+
+[[test]]
+name = "unimproved_time_lifecycle_cases"
+path = "tests/unimproved_time_lifecycle_cases.rs"
+test = false
+
+[[test]]
+name = "unique_pair_cases"
+path = "tests/unique_pair_cases.rs"
+test = false
+
+[[test]]
+name = "unique_pair_regression"
+path = "tests/unique_pair_regression.rs"
+test = false
+
+[[test]]
+name = "unique_sampling_cases"
+path = "tests/unique_sampling_cases.rs"
+test = false
+
+[[test]]
+name = "unique_sampling_regression"
+path = "tests/unique_sampling_regression.rs"
+test = false
+
+[[test]]
+name = "unique_swap_regression"
+path = "tests/unique_swap_regression.rs"
+test = false
+
+[[test]]
+name = "validation_catalog_cases"
+path = "tests/validation_catalog_cases.rs"
+test = false
+
+[[test]]
+name = "validation_catalog_regression"
+path = "tests/validation_catalog_regression.rs"
+test = false
+
+[[test]]
+name = "value_capture_regression"
+path = "tests/value_capture_regression.rs"
+test = false
+
+[[test]]
+name = "value_exchange_cases"
+path = "tests/value_exchange_cases.rs"
+test = false
+
+[[test]]
+name = "value_exchange_regression"
+path = "tests/value_exchange_regression.rs"
+test = false
+
+[[test]]
+name = "value_ordering"
+path = "tests/value_ordering.rs"
+test = false
+
+[[test]]
+name = "value_owned_list_manager_cases"
+path = "tests/value_owned_list_manager_cases.rs"
+test = false
+
+[[test]]
+name = "value_queue_construction"
+path = "tests/value_queue_construction.rs"
+test = false
+
+[[test]]
+name = "value_range_cases"
+path = "tests/value_range_cases.rs"
+test = false
+
+[[test]]
+name = "value_range_regression"
+path = "tests/value_range_regression.rs"
+test = false
+
+[[test]]
+name = "value_range_solver_cases"
+path = "tests/value_range_solver_cases.rs"
+test = false
+
+[[test]]
+name = "value_seeded_sublist_regression"
+path = "tests/value_seeded_sublist_regression.rs"
+test = false
+
+[[test]]
+name = "value_sublist_source_cases"
+path = "tests/value_sublist_source_cases.rs"
+test = false
+
+[[test]]
+name = "value_sublist_source_regression"
+path = "tests/value_sublist_source_regression.rs"
+test = false
+
+[[test]]
+name = "value_tabu_cases"
+path = "tests/value_tabu_cases.rs"
+test = false
+
+[[test]]
+name = "value_tabu_regression"
+path = "tests/value_tabu_regression.rs"
+test = false
+
+[[test]]
+name = "variable_initialization_cases"
+path = "tests/variable_initialization_cases.rs"
+test = false
+
+[[test]]
+name = "variable_initialization_regression"
+path = "tests/variable_initialization_regression.rs"
+test = false
+
+[[test]]
+name = "variable_neighborhood_descent"
+path = "tests/variable_neighborhood_descent.rs"
+test = false
+
+[[test]]
+name = "variable_state"
+path = "tests/variable_state.rs"
+test = false
+
+[[test]]
+name = "variable_state_cases"
+path = "tests/variable_state_cases.rs"
+test = false
+
+[[test]]
+name = "variable_tracker_cases"
+path = "tests/variable_tracker_cases.rs"
+test = false
+
+[[test]]
+name = "verification_consistency_cases"
+path = "tests/verification_consistency_cases.rs"
+test = false
+
+[[test]]
+name = "verification_consistency_regression"
+path = "tests/verification_consistency_regression.rs"
+test = false
+
+[[test]]
+name = "verification_list_shadow_cases"
+path = "tests/verification_list_shadow_cases.rs"
+test = false
+
+[[test]]
+name = "version_module_banner_cases"
+path = "tests/version_module_banner_cases.rs"
+test = false
+
+[[test]]
+name = "version_module_banner_regression"
+path = "tests/version_module_banner_regression.rs"
+test = false
+
+[[test]]
+name = "virtual_seam_cases"
+path = "tests/virtual_seam_cases.rs"
+test = false
+
+[[test]]
+name = "virtual_seam_provider_regression"
+path = "tests/virtual_seam_provider_regression.rs"
+test = false
+
+[[test]]
+name = "virtual_seam_regression"
+path = "tests/virtual_seam_regression.rs"
+test = false
+
+[[test]]
+name = "weighted_kopt_sampling"
+path = "tests/weighted_kopt_sampling.rs"
+test = false
+
+[[test]]
+name = "weighted_selection_cases"
+path = "tests/weighted_selection_cases.rs"
+test = false
+
+[[test]]
+name = "weighted_selection_regression"
+path = "tests/weighted_selection_regression.rs"
+test = false
+
+[[test]]
+name = "work_termination"
+path = "tests/work_termination.rs"
+test = false
+
+[[test]]
+name = "worker_facade_cases"
+path = "tests/worker_facade_cases.rs"
+test = false
+
+[[test]]
+name = "worker_facade_regression"
+path = "tests/worker_facade_regression.rs"
+test = false
+
+[[test]]
+name = "working_basic_model_stream"
+path = "tests/working_basic_model_stream.rs"
+test = false
+
+[[test]]
+name = "working_basic_stream_regression"
+path = "tests/working_basic_stream_regression.rs"
+test = false
+
+[[test]]
+name = "working_list_model_stream"
+path = "tests/working_list_model_stream.rs"
+test = false
+
+[[test]]
+name = "working_lookup_cases"
+path = "tests/working_lookup_cases.rs"
+test = false
+
+[[test]]
+name = "working_mixed_model_stream"
+path = "tests/working_mixed_model_stream.rs"
+test = false
+
+[[test]]
+name = "working_object_lookup"
+path = "tests/working_object_lookup.rs"
+test = false
+
+[[test]]
+name = "xml_budget_regression"
+path = "tests/xml_budget_regression.rs"
+test = false
+
+[[test]]
+name = "xml_composition_regression"
+path = "tests/xml_composition_regression.rs"
+test = false
+
+[[test]]
+name = "xml_goal_execution_regression"
+path = "tests/xml_goal_execution_regression.rs"
+test = false
+
+[[test]]
+name = "xml_goal_factory_regression"
+path = "tests/xml_goal_factory_regression.rs"
+test = false
+
+[[test]]
+name = "xml_nested_regression"
+path = "tests/xml_nested_regression.rs"
+test = false
+
+[[test]]
+name = "xml_rate_scope_regression"
+path = "tests/xml_rate_scope_regression.rs"
+test = false
+
+[[test]]
+name = "xml_solver_factory_regression"
+path = "tests/xml_solver_factory_regression.rs"
+test = false
+
+[[test]]
+name = "xml_termination_regression"
+path = "tests/xml_termination_regression.rs"
+test = false
+
+[[test]]
+name = "xml_threshold_factory_regression"
+path = "tests/xml_threshold_factory_regression.rs"
+test = false
+
+[[test]]
+name = "xml_threshold_regression"
+path = "tests/xml_threshold_regression.rs"
+test = false
+
+[[test]]
+name = "xml_value_cases"
+path = "tests/xml_value_cases.rs"
+test = false
+
+[[test]]
+name = "xml_value_regression"
+path = "tests/xml_value_regression.rs"
+test = false
+
+[[test]]
+name = "xsd_profile_cases"
+path = "tests/xsd_profile_cases.rs"
+test = false
+
+[[test]]
+name = "xsd_profile_regression"
+path = "tests/xsd_profile_regression.rs"
+test = false
+
+[[test]]
+name = "zipped_list_selection_cases"
+path = "tests/zipped_list_selection_cases.rs"
+test = false
+
+[[test]]
+name = "zipped_selection_regression"
+path = "tests/zipped_selection_regression.rs"
+test = false

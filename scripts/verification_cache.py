@@ -49,13 +49,17 @@ def save_record(record, key, outputs):
     temporary.replace(record)
 
 
+def job_key(command, inputs, *, kind='rust', root=ROOT, extra=None):
+    return digest(inputs(), root, extra={'command': command, 'environment': environment(kind), 'extra': extra})
+
+
 def run_job(name, command, inputs, *, kind='rust', force=False, root=ROOT, extra=None):
     """Run or reuse one command; callable inputs detect additions/removals too."""
     work = root / 'work/verification'
     work.mkdir(parents=True, exist_ok=True)
     log, record = work / f'{name}.log', work / f'{name}.json'
     def key():
-        return digest(inputs(), root, extra={'command': command, 'environment': environment(kind), 'extra': extra})
+        return job_key(command, inputs, kind=kind, root=root, extra=extra)
     before = key()
     if not force and cache_hit(record, before, [log]):
         print(f'REUSE {name}', flush=True)

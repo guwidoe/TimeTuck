@@ -4,8 +4,11 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
+import subprocess
 from verification_inputs import ROOT, rust_digest, rust_test_inputs
-from verification_cache import run_job
+from verification_cache import cache_hit, job_key, run_job
+from rust_test_layout import integration_targets
 
 
 def main():
@@ -15,11 +18,31 @@ def main():
     before = rust_digest()
     logs, code = [], 0
     targets = [('lib', 'crates/solver/src/lib.rs', ['--lib'])]
-    targets += [(f'test-{p.stem}', str(p.relative_to(ROOT)), ['--test', p.stem])
-                for p in sorted((ROOT / 'crates/solver/tests').glob('*.rs'))]
+    targets += [(f'test-{name}', entry, ['--test', name])
+                for name, entry in integration_targets(ROOT)]
     targets += [(f'example-{p.stem}', str(p.relative_to(ROOT)), ['--example', p.stem])
                 for p in sorted((ROOT / 'crates/solver/examples').glob('*.rs'))]
+    # Compile affected executables together so Cargo can use its jobserver.
+    # Execution still gets independent source keys and real per-target logs.
+    pending = []
+    work = ROOT / 'work/verification'
+    work.mkdir(parents=True, exist_ok=True)
     for name, entry, selection in targets:
+        command = ['cargo', 'test', '-p', 'timetuck', '--locked', *selection, '--', '--color=never']
+        log, record = work / f'{name}.log', work / f'{name}.json'
+        key = job_key(command, lambda entry=entry: rust_test_inputs(entry))
+        if args.force or not cache_hit(record, key, [log]):
+            record.unlink(missing_ok=True)
+            pending += selection
+    if pending:
+        command = ['cargo', 'test', '-p', 'timetuck', '--locked', '--no-run',
+                   '-j', os.environ.get('CARGO_BUILD_JOBS', '4'), *pending]
+        print('BUILD affected Rust executables together', flush=True)
+        compiled = subprocess.run(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        logs.append(compiled.stdout)
+        print(compiled.stdout, end='', flush=True)
+        code = compiled.returncode
+    for name, entry, selection in targets if code == 0 else []:
         command = ['cargo', 'test', '-p', 'timetuck', '--locked', *selection, '--', '--color=never']
         status, log = run_job(name, command, lambda entry=entry: rust_test_inputs(entry), force=args.force)
         logs.append(log.read_text())

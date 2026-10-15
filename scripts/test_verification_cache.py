@@ -40,6 +40,29 @@ class InputTests(unittest.TestCase):
     def key(self, entry):
         return digest(rust_test_inputs(entry, self.root), self.root)
 
+    def test_cargo_test_layout_is_selective_but_production_settings_still_invalidate(self):
+        manifest = self.root / 'crates/solver/Cargo.toml'
+        base = '[package]\nname = "timetuck"\nversion = "0.1.0"\nautotests = false\n'
+        a = '\n[[test]]\nname = "a"\npath = "tests/a.rs"\n'
+        b = '\n[[test]]\nname = "b"\npath = "tests/b.rs"\n'
+        manifest.write_text(base + a + b)
+        first = 'crates/solver/tests/a.rs'
+        second = 'crates/solver/tests/b.rs'
+        snapshot = lambda: (self.key(first), self.key(second), measurement_digest('performance', self.root),
+                            digest(doctest_inputs(self.root), self.root))
+        before = snapshot()
+        manifest.write_text(base + a + b + 'test = false\n')
+        after = snapshot()
+        self.assertEqual(before[0], after[0])
+        self.assertNotEqual(before[1], after[1])
+        self.assertEqual(before[2:], after[2:])
+        manifest.write_text(base + a + 'harness = false\n' + b + 'test = false\n')
+        self.assertNotEqual(after[0], snapshot()[0])
+        self.assertEqual(after[1:], snapshot()[1:])
+        previous = snapshot()
+        manifest.write_text(manifest.read_text() + '\n[dependencies]\nserde_json = "1"\n')
+        self.assertTrue(all(x != y for x, y in zip(previous, snapshot())))
+
     def test_test_fixture_edit_only_invalidates_its_target(self):
         a, b = 'crates/solver/tests/a.rs', 'crates/solver/tests/b.rs'
         before = self.key(a), self.key(b)
