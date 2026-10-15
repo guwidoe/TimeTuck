@@ -97,6 +97,78 @@ impl BatchPendingQueue for BTreeMap<usize, BatchInputs> {
         }
     }
 }
+// Single-change rounds usually have only a few distinct pending ranks. Keep
+// those ranks sorted inline; wider fan-out promotes once to the ordinary tree.
+// Slots own their input vectors in rank order, including during unwinding.
+#[derive(Default)]
+struct SmallBatchQueue {
+    entries: [Option<(usize, BatchInputs)>; 4],
+    len: usize,
+    spill: Option<BTreeMap<usize, BatchInputs>>,
+}
+impl BatchPendingQueue for SmallBatchQueue {
+    fn push(&mut self, id: usize, input: (bool, Event)) {
+        if let Some(spill) = &mut self.spill {
+            BatchPendingQueue::push(spill, id, input);
+            return;
+        }
+        let position =
+            self.entries[..self.len].partition_point(|entry| entry.as_ref().unwrap().0 < id);
+        if position < self.len && self.entries[position].as_ref().unwrap().0 == id {
+            self.entries[position].as_mut().unwrap().1.push(input);
+        } else if self.len < self.entries.len() {
+            for index in (position..self.len).rev() {
+                self.entries[index + 1] = self.entries[index].take();
+            }
+            self.entries[position] = Some((id, Vec::new()));
+            self.len += 1;
+            self.entries[position].as_mut().unwrap().1.push(input);
+        } else {
+            let mut spill = BTreeMap::new();
+            for entry in &mut self.entries {
+                let (rank, inputs) = entry.take().unwrap();
+                spill.insert(rank, inputs);
+            }
+            self.len = 0;
+            BatchPendingQueue::push(&mut spill, id, input);
+            self.spill = Some(spill);
+        }
+    }
+    fn pop(&mut self) -> Option<(usize, BatchInputs)> {
+        if let Some(spill) = &mut self.spill {
+            return spill.pop_first();
+        }
+        if self.len == 0 {
+            return None;
+        }
+        let first = self.entries[0].take();
+        for index in 1..self.len {
+            self.entries[index - 1] = self.entries[index].take();
+        }
+        self.len -= 1;
+        first
+    }
+    fn discard(&mut self, nodes: &[usize]) {
+        if let Some(spill) = &mut self.spill {
+            BatchPendingQueue::discard(spill, nodes);
+            return;
+        }
+        // Remove/drop each requested rank immediately in caller order, as the
+        // tree queue does. Remaining payloads keep their within-rank FIFO order.
+        for id in nodes {
+            let position =
+                self.entries[..self.len].partition_point(|entry| entry.as_ref().unwrap().0 < *id);
+            if position < self.len && self.entries[position].as_ref().unwrap().0 == *id {
+                let removed = self.entries[position].take();
+                for index in position + 1..self.len {
+                    self.entries[index - 1] = self.entries[index].take();
+                }
+                self.len -= 1;
+                drop(removed);
+            }
+        }
+    }
+}
 // Node IDs are topological ranks. Keep event buffers between batches and queue
 // only nonempty ranks; sparse propagation never scans all nodes to find work.
 #[derive(Default)]
@@ -223,7 +295,11 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         // Reusable routing storage pays off for multi-change rounds. Keep the
         // compact local queue for single changes, which do less routing work.
         if batch.events.len() <= 1 {
-            return self.apply_prepared_batch(batch, &mut BTreeMap::new(), &mut BTreeMap::new());
+            return self.apply_prepared_batch(
+                batch,
+                &mut SmallBatchQueue::default(),
+                &mut SmallBatchQueue::default(),
+            );
         }
         let mut workspace = std::mem::take(&mut self.graph.batch_workspace);
         workspace.prepare(self.graph.nodes.len());
@@ -571,3 +647,134 @@ mod workspace_tests {
 
 #[cfg(test)]
 mod initial_binding_tests;
+
+#[cfg(test)]
+mod small_queue_tests {
+    use super::*;
+    use std::{
+        cell::{Cell, RefCell},
+        panic::{AssertUnwindSafe, catch_unwind},
+    };
+
+    #[test]
+    fn inline_boundary_spill_fifo_and_reentry_match_tree() {
+        for width in [0, 1, 4, 5, 12] {
+            let mut small = SmallBatchQueue::default();
+            let mut tree = BTreeMap::new();
+            for id in (0..width).rev() {
+                for serial in 0..2 {
+                    let event: Event = Rc::new((id, serial));
+                    small.push(id * 7, (serial == 1, event.clone()));
+                    BatchPendingQueue::push(&mut tree, id * 7, (serial == 1, event));
+                }
+            }
+            assert_eq!(small.spill.is_some(), width > 4);
+            small.discard(&[7, 777]);
+            BatchPendingQueue::discard(&mut tree, &[7, 777]);
+            loop {
+                let expected = tree.pop_first();
+                let actual = small.pop();
+                assert_eq!(actual.as_ref().map(|x| x.0), expected.as_ref().map(|x| x.0));
+                let (Some((_, actual)), Some((_, expected))) = (actual, expected) else {
+                    break;
+                };
+                assert_eq!(actual.len(), expected.len());
+                for ((right, event), (expected_right, expected_event)) in
+                    actual.iter().zip(&expected)
+                {
+                    assert_eq!(right, expected_right);
+                    assert!(Rc::ptr_eq(event, expected_event));
+                    assert_eq!(Rc::strong_count(event), 2);
+                }
+            }
+            let event: Event = Rc::new(42usize);
+            let weak = Rc::downgrade(&event);
+            small.push(3, (false, event));
+            drop(small.pop());
+            assert!(weak.upgrade().is_none());
+            assert!(small.pop().is_none());
+        }
+    }
+
+    struct Tracked(usize, Rc<RefCell<Vec<usize>>>);
+    impl Drop for Tracked {
+        fn drop(&mut self) {
+            self.1.borrow_mut().push(self.0);
+        }
+    }
+    fn dropped<Q: BatchPendingQueue + Default>(width: usize, unwind: bool) -> Vec<usize> {
+        let log = Rc::new(RefCell::new(Vec::new()));
+        let result = catch_unwind(AssertUnwindSafe(|| {
+            let mut queue = Q::default();
+            for id in (0..width).rev() {
+                for serial in 0..2 {
+                    queue.push(id, (false, Rc::new(Tracked(id * 10 + serial, log.clone()))));
+                }
+            }
+            // Deliberately unsorted: discard order is the caller's order.
+            queue.discard(&[3, 1, 99]);
+            drop(queue.pop());
+            if unwind {
+                panic!("injected queue unwind");
+            }
+        }));
+        assert_eq!(result.is_err(), unwind);
+        Rc::try_unwrap(log).unwrap().into_inner()
+    }
+    #[test]
+    fn discard_and_unwind_preserve_tree_payload_drop_order() {
+        for width in [4, 5, 9] {
+            for unwind in [false, true] {
+                let expected = dropped::<BTreeMap<usize, BatchInputs>>(width, unwind);
+                assert_eq!(dropped::<SmallBatchQueue>(width, unwind), expected);
+            }
+        }
+    }
+
+    #[test]
+    fn single_source_spill_replay_and_callback_panic_restore_graph() {
+        for fanout in [2, 5] {
+            let fail = Cell::new(false);
+            let mut builder = StreamGraphBuilder::<crate::SimpleScore>::new();
+            let source = builder.source::<usize, i64>();
+            for index in 0..fanout {
+                builder
+                    .score(format!("score-{index}"), source.port(), |value| {
+                        assert!(!fail.get(), "injected scoring panic");
+                        crate::SimpleScore::new(*value)
+                    })
+                    .unwrap();
+            }
+            let mut graph = builder.build();
+            let batch = |value| {
+                let mut batch = StreamBatch::new();
+                batch.push(&source, TupleChange::put(0, value)).unwrap();
+                batch
+            };
+            {
+                let mut tx = graph.transaction();
+                tx.apply_batch(batch(3)).unwrap();
+                tx.commit().unwrap();
+            }
+            graph.assert_consistent().unwrap();
+            fail.set(true);
+            assert!(
+                catch_unwind(AssertUnwindSafe(|| {
+                    let mut tx = graph.transaction();
+                    tx.apply_batch(batch(8)).unwrap();
+                }))
+                .is_err()
+            );
+            fail.set(false);
+            assert_eq!(graph.score(), crate::SimpleScore::new(3 * fanout));
+            graph.assert_consistent().unwrap();
+            {
+                let mut tx = graph.transaction();
+                tx.apply_batch(batch(4)).unwrap();
+                assert_eq!(tx.score().unwrap(), crate::SimpleScore::new(4 * fanout));
+            }
+            graph.assert_consistent().unwrap();
+            assert_eq!(graph.score(), crate::SimpleScore::new(3 * fanout));
+        }
+    }
+}

@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,439 passing Rust tests and 290 doctests**,
-source digest `ba18d0fb0a8b66693d8075717e98d4d86c80548012c123b569e56f7b1264148c`. The required final `bash scripts/check.sh` passed
-on runner-a in 697.87 seconds, running the affected checks and genuinely reusing
-63 unchanged jobs. Source-bound output and checksum metadata were collected
+The latest integrated checkpoint has **8,444 passing Rust tests and 290 doctests**,
+source digest `b10ab794afa384e349c7e76a4b374858372cc2e477e24b6ddebbf1f71eb3a074`. The required final `bash scripts/check.sh` passed
+on runner-a in 717.85 seconds, running the affected checks and genuinely reusing
+52 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
 
@@ -53,13 +53,11 @@ See the [stream contracts](constraint-stream-contract.md) and
 Java agreement. Completion still needs evidence for every original-scope
 requirement and resolution of the remaining relevant behavior differences.
 
-All 18 comparison reports retain their original input keys/dates and are now
-visibly stale. The latest shared API/error addition changes 14 measurement input
-keys, including four formerly current jobs. No old result was rekeyed and no
-comparison jobs were refreshed for this explicit capability addition; separate
-private API controls executed.
-Last measured behavior/performance progress remains visible, while evidence
-currentness earns zero until a deliberate refresh.
+Aggregate and stream performance comparisons were deliberately refreshed on the
+final source, using original fixtures, validation, budgets and measurement settings.
+Both reports are current; the other 16 retain their original input keys/dates and
+remain visibly stale. No old result was rekeyed. Last measured progress stays
+visible, while currentness separately records the remaining evidence debt.
 
 Last measured larger mixed workloads (261; now stale): warm Stream **28.520 ms vs Java
 22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
@@ -68,7 +66,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **82.2%**: feature families 40%,
+The dashboard's configurable progress index is **83.7%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -94,7 +92,21 @@ consistency. Whole-solve private controls preserve assignments, quality and actu
 callbacks. Larger mixed timings show no useful gain; canonical profiles remain
 unchanged. No general speed or whole-graph memory claim is established.
 
-Evidence: work/round263-score-only/collection.json, verdict.json and paired/results.json;
+The latest checked-sum implementation avoids internal snapshot copies and extrema
+summaries while retaining capture frequencies and external persistent snapshots.
+Controlled native sum timings fall 73.6% locally and 71.1–73.3% on runner-a, across
+four balanced forks. A four-rank inline queue for single-source batches reduces
+large change-solve timings by 5.57–7.68% locally; multi-change routing is unchanged,
+and swap controls include slower observations. Original inputs, quality and physical
+callbacks remain intact. These native comparisons establish no general speedup.
+Fresh Java comparisons still show gaps: sum512 is 0.676µs versus Java 0.358µs;
+set64 is 3.833µs versus 1.435µs; large hill/swap is 584.335ms versus 334.888ms at
+equal scores. Java parity remains the target, with multiplier 1.
+
+Evidence: work/round264-parity/collection.json, gate-receipt.json,
+aggregate-paired/results.json, aggregate-remote-results.json,
+final-stream-paired/results.json and both performance receipts;
+work/round263-score-only/collection.json, verdict.json and paired/results.json;
 work/round261-touched-scan/verdict.json, collection.json,
 performance-receipt.json and java-diagnostic-difference.json;
 work/round262-community-version/collection.json and gate-receipt.json. Historical results

@@ -17,7 +17,62 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 263 opt-in contribution-only scoring
+## Latest qualification — 264 checked sums and small batch queues
+
+Checked sums now retain primitive capture frequencies, checked count and total;
+updates avoid an internal snapshot clone and unrelated extrema summaries. Finish
+reads the scalar total. External persistent snapshots, duplicates/zero, missing
+capture precedence and overflow rollback remain intact. Successful remove/replace
+avoids a second membership lookup; failed arithmetic checks membership before
+returning an error. Public operations/bounds stay unchanged; private Debug shape
+changes. Two original large-tree/overflow regressions add no method credit.
+
+Single-source batch routing holds up to four pending topological ranks inline,
+then spills once to the existing ordered tree. Within-rank FIFO, immediate discard
+order, payload ownership/drop order, activity and rollback stay intact. Multi-change
+heap routing is unchanged. Three original queue/graph regressions exercise the
+four/five boundary, shared ownership, unwind, fanout and callback-panic recovery.
+The source-only selection probe used vec![input], changing buffer capacity despite
+its README claim. Root restored prior Vec::new().push growth before final build;
+probe evidence is historical and final Root was separately measured.
+
+Controlled native sum updates are 73.6% lower locally and 71.1–73.3% lower on
+runner-a, all four balanced forks, with exact observations/checksums. Set/map
+controls vary, including slower controls; no gain attributed to them. Sum paired
+artifacts predate queue integration: their actual source binding is retained;
+aggregate job inputs do not include batching.rs. Actual final Root stream pairing
+shows large hill/change 7.68% and tabu/change 5.57% lower in all four forks.
+Swap controls vary (large hill/swap 1.19% slower); their multi-change queue is
+unchanged. No general or Java speed claim follows from native comparisons.
+
+Final bash scripts/check.sh passed once on runner-a: 8,444 Rust tests +290
+doctests, 95 jobs run/52 genuinely reused; worker 717.85s (wrapper 724.68s).
+Native digest b10ab794afa384e349c7e76a4b374858372cc2e477e24b6ddebbf1f71eb3a074.
+Actual source-bound worker logs/metadata collected unchanged. Local final release
+build 93s. No duplicate broad gate or cache transplant. Original fixtures,
+benchmarks, profiles, accounting and budgets remain unchanged. Inventory remains
+4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified.
+
+Only aggregate/stream performance were deliberately refreshed against pinned Java
+with original validation and measurement settings. All 96 aggregate controls and
+128 stream controls pass; all 8 stream timing workloads retain equal scores.
+Sum512: Rust 0.676µs vs Java 0.358µs; sorted-set64 is the aggregate bottleneck
+(3.833µs vs1.435µs). Large hill/swap is the stream bottleneck (584.335ms vs334.888ms).
+Java parity remains unmet. Other 16 raw reports retain original keys/dates and
+remain stale. Dashboard index 83.706%, 2/18 current, Java multiplier 1; this is a
+tracked-target index, not percent of engineering effort. HTTP/data/freshness
+verified; unchanged rendering reuses254 browser evidence. Server 20631:8765;
+runner-c remains parked. Goal incomplete.
+
+Evidence: work/round264-parity/{collection,gate-receipt}.json,
+aggregate-paired/results.json, aggregate-remote-results.json,
+final-stream-paired/results.json, both performance-receipt.json files;
+work/parallel-round264-evidence.json. Earlier rejected/initial measurements retained.
+Next source-only candidate work/round265-set/ removes redundant nested set replace
+snapshots. UNBUILT/UNTESTED, not integrated; inspect/qualify as a separate batch.
+All current agents finished. Do not repeat the successful264 gate for docs/commit.
+
+## Previous qualification — 263 opt-in contribution-only scoring
 
 Explicit `score_only`, `score_only_weighted` and `score_only_weighted_decimal`
 builders retain occurrence IDs/contributions without terminal tuple payloads.

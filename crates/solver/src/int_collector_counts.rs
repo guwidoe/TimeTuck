@@ -44,6 +44,14 @@ impl Default for IntCollectorCounts {
     }
 }
 impl IntCollectorCounts {
+    pub(crate) fn contains(&self, value: i64) -> bool {
+        match self {
+            Self::Inline { entries, len } => entries[..*len]
+                .binary_search_by_key(&value, |e| e.0)
+                .is_ok(),
+            Self::Tree(tree) => tree.contains_key(&value),
+        }
+    }
     pub(crate) fn increment(&mut self, value: i64) {
         match self {
             Self::Inline { entries, len } => {

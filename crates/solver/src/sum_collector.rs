@@ -1,5 +1,5 @@
 //! Checked signed integer summation from captured occurrences.
-use crate::{IntCollector, ReversibleCollector};
+use crate::{ReversibleCollector, int_collector_counts::IntCollectorCounts};
 use std::{error::Error, fmt};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SumOverflow;
@@ -31,36 +31,60 @@ impl Error for SumOverflow {}
 /// # Ok::<(),SumOverflow>(())
 /// ```
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
-pub struct SumCollector(IntCollector);
+pub struct SumCollector {
+    values: IntCollectorCounts,
+    count: usize,
+    sum: i64,
+}
 impl SumCollector {
     pub fn try_insert(&mut self, value: i64) -> Result<(), SumOverflow> {
-        self.0.summary().sum.checked_add(value).ok_or(SumOverflow)?;
-        let mut next = self.0.clone();
-        next.insert(value);
-        self.0 = next;
+        let sum = self.sum.checked_add(value).ok_or(SumOverflow)?;
+        let count = self.count.checked_add(1).expect("collector count overflow");
+        // All recoverable failures precede mutation. Counts have primitive keys
+        // and values, so no user comparison, clone or destructor can panic here.
+        self.values.increment(value);
+        self.count = count;
+        self.sum = sum;
         Ok(())
     }
     pub fn try_remove(&mut self, value: i64) -> Result<bool, SumOverflow> {
-        let mut next = self.0.clone();
-        if !next.remove(value) {
+        let Some(sum) = self.sum.checked_sub(value) else {
+            return if self.values.contains(value) {
+                Err(SumOverflow)
+            } else {
+                Ok(false)
+            };
+        };
+        if !self.values.remove(value) {
             return Ok(false);
         }
-        self.0.summary().sum.checked_sub(value).ok_or(SumOverflow)?;
-        self.0 = next;
+        self.count -= 1;
+        self.sum = sum;
         Ok(true)
     }
     pub fn try_replace(&mut self, old: i64, new: i64) -> Result<bool, SumOverflow> {
-        let mut next = self.0.clone();
-        if !next.remove(old) {
+        if old == new {
+            return Ok(self.values.contains(old));
+        }
+        let Some(sum) = new
+            .checked_sub(old)
+            .and_then(|delta| self.sum.checked_add(delta))
+        else {
+            return if self.values.contains(old) {
+                Err(SumOverflow)
+            } else {
+                Ok(false)
+            };
+        };
+        if !self.values.remove(old) {
             return Ok(false);
         }
-        let delta = new.checked_sub(old).ok_or(SumOverflow)?;
-        self.0.summary().sum.checked_add(delta).ok_or(SumOverflow)?;
-        next.insert(new);
-        self.0 = next;
+        self.values.increment(new);
+        self.sum = sum;
         Ok(true)
     }
 }
+
 impl ReversibleCollector<i64> for SumCollector {
     type Output = i64;
     fn insert(&mut self, v: &i64) {
@@ -74,6 +98,6 @@ impl ReversibleCollector<i64> for SumCollector {
             .expect("sum replacement overflow")
     }
     fn finish(&self) -> i64 {
-        self.0.summary().sum
+        self.sum
     }
 }

@@ -1650,8 +1650,17 @@ occurrence because the difference overflows. SumOverflow from try_insert/remove/
 replace preserves state; trait methods panic for normal graph rollback. Missing
 remove/replace returns false. Captured zero/duplicate values retain multiplicity,
 clone shares persistent roots, and finish reads the maintained total. Count overflow
-remains the underlying collector's checked panic. Keep all insertion prefixes
+uses the sum collector's checked panic. Keep all insertion prefixes
 representable when requiring independent reconstruction to succeed.
+
+The implementation keeps private primitive frequencies, checked count and total;
+finish reads only the total, without constructing extrema summaries. Arithmetic
+preflight precedes primitive mutations. Missing captures still return false even
+when arithmetic would overflow; equal replacement tests membership without edits.
+External clones share persistent roots, and later mutations preserve old snapshots.
+This removes redundant internal snapshots without changing the public operations
+or bounds. Private derived Debug field shape changes; no stable text format is
+promised.
 
 Public black-box probes, not implementation inspection, establish these arithmetic
 rules. The bounded ordinary collector source methods now use SumCollector for sum
@@ -1995,6 +2004,14 @@ nodes in topological order. It preserves the transaction failure/drop contract.
 Activity pruning observes final source emptiness and rebuilds operator caches at
 most once per batch when the activity plan changes. Source/ID order determines
 routing; this API does not preserve intermediate input values or callback order.
+
+For zero/one-source-change batches, pending work uses four sorted inline rank
+slots, promoting once to the ordered tree when a fifth distinct rank is pending.
+Events retain within-rank FIFO and shared payload identity. Discards drop requested
+ranks immediately in caller order; normal/unwind drops preserve ascending remaining
+rank order. Buffers retain the previous Vec growth policy. Multi-change batches
+continue using retained heap routing; source coalescing, activity and rollback
+semantics are unchanged. This is a private scheduling optimization.
 
 StreamGraphBuilder.join_batched adds an equality-indexed filtered join whose two
 inputs settle together. Each affected final candidate pair is evaluated once and

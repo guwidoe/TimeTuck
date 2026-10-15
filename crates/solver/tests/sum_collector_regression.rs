@@ -211,3 +211,67 @@ fn checked_sum_scores_match_independent_search_and_construction() {
     assert_eq!(actual.assignment, expected.assignment);
     assert_eq!(actual.score, expected.score);
 }
+
+// Original large-tree persistence and overflow controls.
+
+#[test]
+fn large_capture_snapshots_survive_replace_remove_and_reinsert() {
+    let mut collector = SumCollector::default();
+    for value in -256..256 {
+        collector.try_insert(value).unwrap();
+    }
+    // Zero remains a captured occurrence although it does not change the sum.
+    collector.try_insert(0).unwrap();
+    let initial = collector.clone();
+    let mut expected = -256;
+    for value in -256..256 {
+        let before = collector.clone();
+        assert_eq!(collector.try_replace(value, value + 1024), Ok(true));
+        expected += 1024;
+        assert_eq!(before.finish(), expected - 1024);
+        assert_eq!(collector.finish(), expected);
+        if value != 0 {
+            assert_eq!(collector.try_remove(value), Ok(false));
+        }
+        assert_eq!(initial.finish(), -256);
+    }
+    for value in 768..1280 {
+        assert_eq!(collector.try_remove(value), Ok(true));
+        expected -= value;
+        assert_eq!(collector.finish(), expected);
+    }
+    assert_eq!(collector.try_remove(0), Ok(true));
+    assert_eq!(collector.try_remove(0), Ok(false));
+    assert_eq!(collector.finish(), 0);
+    for value in -256..256 {
+        collector.try_insert(value).unwrap();
+    }
+    collector.try_insert(0).unwrap();
+    assert_eq!(collector, initial);
+}
+
+#[test]
+fn tree_overflow_missing_and_equal_replacements_preserve_captures() {
+    let mut collector = SumCollector::default();
+    for value in [-3, -2, -1, 0, 1, 2, 3, i64::MAX] {
+        collector.try_insert(value).unwrap();
+    }
+    let initial = collector.clone();
+    assert_eq!(collector.try_insert(1), Err(SumOverflow));
+    assert_eq!(collector.try_remove(-1), Err(SumOverflow));
+    assert_eq!(collector.try_replace(0, 1), Err(SumOverflow));
+    assert_eq!(collector.try_replace(-1, i64::MAX), Err(SumOverflow));
+    assert_eq!(collector.try_replace(i64::MIN, i64::MAX), Ok(false));
+    assert_eq!(collector.try_remove(-99), Ok(false));
+    assert_eq!(collector.try_remove(99), Ok(false));
+    assert_eq!(collector.try_replace(99, 100), Ok(false));
+    assert_eq!(collector.try_replace(0, 0), Ok(true));
+    assert_eq!(collector.try_replace(99, 99), Ok(false));
+    assert_eq!(collector, initial);
+    assert_eq!(collector.try_remove(i64::MAX), Ok(true));
+    for value in [-3, -2, -1, 0, 1, 2, 3] {
+        assert_eq!(collector.try_remove(value), Ok(true));
+    }
+    assert_eq!(collector.finish(), 0);
+    assert_eq!(initial.finish(), i64::MAX);
+}
