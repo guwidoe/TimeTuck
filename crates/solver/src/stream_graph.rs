@@ -2592,6 +2592,14 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         Ok(())
     }
     fn propagate(&mut self, source: usize, event: Event) -> Result<(), GraphError> {
+        // Validated sources only retain facts; all scoring nodes are downstream.
+        // An unconnected source cannot change any contribution. Preserve its
+        // checkpoint, payload Clone/Drop and error behavior without a workspace
+        // round trip, node-score probes or an empty total-score adjustment.
+        if self.graph.edges[source].is_empty() {
+            self.checkpoint(source);
+            return self.graph.nodes[source].apply_source(&event);
+        }
         // Taking the buffers leaves an empty slot for nested diagnostics. On an
         // unwind this local owner immediately drops pending events and deltas;
         // transaction checkpoints retain sole ownership of graph rollback.

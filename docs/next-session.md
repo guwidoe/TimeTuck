@@ -17,7 +17,59 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained255 construction destination order
+## Latest qualification — retained256 unconnected source propagation
+
+Private propagation skips downstream workspace/score bookkeeping only when a
+validated source has no outgoing edges. Source payload updates, checkpointing,
+clone/drop behavior, errors and rollback remain; connected propagation is
+byte-identical to255. Two original controls cover ordinary unused sources,
+clone/scoring panic rollback, retained row identity and bound planning search in
+checked/wrapping arithmetic. No public API, fixture, pin or upstream-method credit
+changes. Custom score identity-arithmetic hook invocation counts may be fewer;
+no exact user-defined score-hook trace equivalence is claimed.
+
+Same-artifact paired measurements on runner-a: warm mixed streams -5.93% in all
+four forks (104.577 to98.380ms); basic stream changes +1.73% in all four (39.361
+to40.042ms). Cold streams +0.49% and swaps -0.87% are roughly flat. Local warm
+streams -0.68% in2/4 and swaps +4.36% in3/4 amid large variation; all samples from
+both hosts are retained. Exact routes, scores and work match. Retain the targeted
+warm benefit with its explicit basic-change tradeoff; no general speedup claim.
+The earlier all-source zero-delta variant was rejected (-5.91% cold but +4.25%
+warm) and archived under variant1/, never integrated or given a broad gate.
+
+Final bash scripts/check.sh passed on runner-a in 890.41s:
+8,420 Rust +290 doctests, fmt/Clippy/required Python checks. Local focused
+51 private+29 public tests and2 baseline controls passed; release artifacts remain
+unchanged through measurement. Three correctness comparisons and affected
+mixed/stream performance refreshed; all prior non-timing signatures and known
+21 concurrent Java errors unchanged. Other13 raw comparison files untouched.
+Native digest `50c9c3327de6cdbec0076c912f1518a779eb1246e2549b9f7a107ce74b242520`.
+
+runner-a compiled the exact immutable upload in a locked stable checkout, with
+vendoring configuration outside the source and6 Cargo jobs within available RAM.
+Actual source manifest/native digest checked before/after; actual matching Rust
+log/metadata collected unchanged, no result rekeying or root cache transplant.
+This first stable-path build does not establish future build-time savings. Keep
+using this checkout for genuine compiler/per-job cache reuse on later batches.
+Source binding: work/round256-source-propagation/source-binding.json.
+
+Fresh canonical larger warm mixed-stream solve: Rust120.754ms versus Java18.617ms,
+equal quality; cold mixed streams43.430ms versus20.806ms. These are measured
+medians, not paired native speedup estimates. Stream validation128/128 equal.
+Dashboard has 5/18 current comparison jobs; index 83.636% under the existing
+weights and user-approved Java parity/equal-or-better-quality target. Coverage
+4409/4855,11pending435excluded unchanged. Backend data/HTTP/model freshness checked;
+unchanged dashboard UI evidence from254 reused. Server20631 remains on8765.
+
+All256 verification jobs are terminal. Evidence: work/round256-source-propagation/,
+work/round256-qualification/collection.json, work/round256-performance/receipt.json,
+work/parallel-round256-evidence.json. Retained256 is the actual baseline. One
+existing Sol agent completed isolated257 owned unobserved list-value row prototype;
+UNBUILT and unqualified, no root integration or improvement claim. Its base is256;
+prepare runtime fixtures/compiled state and qualify actual bounded ownership work
+before considering integration. No runner-c probes or new agents. Goal incomplete.
+
+## Previous qualification — retained255 construction destination order
 
 Added opt-in `ListConstructionOrder::EntityThenValue`: eligible entity starts,
 then anchors after assigned values in registry order. Native default remains

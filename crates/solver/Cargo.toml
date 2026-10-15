@@ -5612,6 +5612,11 @@ path = "tests/source_variable_identity_cases.rs"
 test = false
 
 [[test]]
+name = "source_zero_delta_regression"
+path = "tests/source_zero_delta_regression.rs"
+test = false
+
+[[test]]
 name = "sparse_best_snapshot"
 path = "tests/sparse_best_snapshot.rs"
 test = false

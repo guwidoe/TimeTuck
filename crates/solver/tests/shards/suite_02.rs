@@ -164,6 +164,8 @@ pub mod solver_resume_cases;
 pub mod solver_score_trend;
 #[path = "../source_accessor_regression.rs"]
 pub mod source_accessor_regression;
+#[path = "../source_zero_delta_regression.rs"]
+pub mod source_zero_delta_regression;
 #[path = "../sublist_sampling_regression.rs"]
 pub mod sublist_sampling_regression;
 #[path = "../temporal_range_cases.rs"]
