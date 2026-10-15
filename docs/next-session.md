@@ -17,6 +17,51 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round225
+
+Reduced shared list/mixed stream changed-position and batch allocation overhead:
+bounded touched-row reserves, imperative Eq-only registry scan, and lazy frozen
+original-row lookup reuse for at most eight touched rows. Equality/callback order,
+first lazy Clone, payload/event delivery, removed/unassigned rows and undo remain
+unchanged. Indexed branch and benchmark configuration unchanged. Two original
+sparse/ten-row callback-panic/nested-rollback regressions earn no upstream credit.
+
+Actual current-artifact profile motivated the changes. Balanced four-fork paired
+comparison with preserved qualified223 executable: Stream larger warm
+125.664→111.771 ms (-11.06% time), cold 38.228→35.523 ms (-7.08%). All four Stream
+cases improve in every fork; exact assignments, scores, work, callbacks and
+termination match. Dense changes are not a general speed claim.
+Only mixed primary deliberately refreshed, reusing the same actual candidate
+without rebuilding: larger Stream warm 111.261 vs Java 13.538 ms; cold 35.275 vs
+Java 16.907. Same quality and work, distinct native/Java policies; larger optimum
+remains unproved. All eight native/Java output/work signatures match prior224.
+
+One final check.sh passes 8378 Rust + 290 doctests. Rust RUN 1207 / REUSE 141;
+Python RUN 0 / REUSE 47. Prebuild 425.023s;
+gate 491.826s. Coverage 4409/4855 (90.814%), 11 pending,
+435 excluded, 0 failed/unverified. Five comparisons current; thirteen older
+changed-input jobs visibly stale with actual dates/keys. Data/HTTP freshness
+verified; unchanged UI reuses round223 desktop/mobile rendering. No blanket refresh.
+
+Evidence: work/parallel-round225-evidence.json;
+work/round225-mixed-profile/evidence.json;
+work/round225-changed-positions/{collection,verdict}.json;
+work/round225-changed-positions-collection.json. Actual baseline/candidate and
+receipt: work/round225-changed-positions/results/work/round225-changed-positions/.
+Candidate binary 4926628d589ad0f3b0f4a1e49a47a7fe2fb94790f474b02dd9f8782178f347f4;
+rlib 71e33382dc4c1a751df1cecb134678c37981d7163bbb03a4559d88bb69330e42.
+Remote source a1ea21c77ada7db8457dce66ee8585b1aa32c2e1728919a280be49c767eb554b.
+A test-only type annotation was repaired locally after the snapshot; native and
+measurement inputs match. Initial compile/collection-metadata errors preserved;
+actual measurements never rerun or relabeled to fix those harness issues.
+Rust 7a32c1fc1319bf36880122e3d2539b00bcd8c579478612fa77dc047b602992db; report d48b58d30281b9764c313bc888ba1970a240716ada98f42f8b39f1f6f7287181.
+
+Goal active/incomplete, jobs terminal, runner-c parked. Reuse unchanged evidence;
+no repeated scope/exclusion audits, private Java buffer padding, duplicate
+serializers or rejected218/221 experiments. Larger mixed Stream remains slower
+than Java; target measured shared graph costs while retaining quality and rollback.
+Preserve pending source assertions and known differential limits honestly.
+
 ## Latest verified checkpoint — round224
 
 Completed a deliberate current-source qualification refresh: all 18 comparison

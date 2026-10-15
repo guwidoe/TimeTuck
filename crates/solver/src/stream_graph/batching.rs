@@ -15,6 +15,12 @@ impl StreamBatch {
     pub fn new() -> Self {
         Self::default()
     }
+    pub(crate) fn with_capacity(capacity: usize) -> Self {
+        Self {
+            owner: None,
+            events: Vec::with_capacity(capacity),
+        }
+    }
     pub fn push<I: Ord + Clone + 'static, T: Clone + 'static>(
         &mut self,
         source: &StreamSource<I, T>,

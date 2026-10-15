@@ -226,23 +226,49 @@ impl<V: Eq + Clone> ListProblem<V> {
             }
             changes.into_iter().collect()
         } else {
-            self.values
-                .iter()
-                .enumerate()
-                .filter_map(|(id, value)| {
-                    let position = touched.iter().find_map(|&entity| {
-                        assignment.lists()[entity]
-                            .iter()
-                            .position(|v| v == value)
-                            .map(|index| ListPosition { entity, index })
-                    });
-                    (position.is_some()
-                        || touched
-                            .iter()
-                            .any(|&entity| original(entity).contains(value)))
-                    .then_some((id, position))
-                })
-                .collect()
+            if touched.is_empty() {
+                return Vec::new();
+            }
+            // Reserve from the observed edit footprint, never the whole sparse
+            // registry. Removed values can exceed this estimate; Vec may grow.
+            let current_len = touched.iter().fold(0usize, |len, &entity| {
+                len.saturating_add(assignment.lists()[entity].len())
+            });
+            let capacity = self.values.len().min(current_len.saturating_mul(2));
+            let mut changes = Vec::with_capacity(capacity);
+            // Original rows are frozen ListUndo lookups. Compact undo may clone
+            // them on its FIRST request: keep that request at the same equality
+            // short circuit, then cache only the returned immutable slice. Large
+            // touched sets retain uncached lookup without an extra allocation.
+            let mut originals: [Option<&'a [V]>; 8] = [None; 8];
+            for (id, value) in self.values.iter().enumerate() {
+                let mut position = None;
+                for &entity in touched {
+                    if let Some(index) = assignment.lists()[entity].iter().position(|v| v == value)
+                    {
+                        position = Some(ListPosition { entity, index });
+                        break;
+                    }
+                }
+                let mut changed = position.is_some();
+                if !changed {
+                    for (slot, &entity) in touched.iter().enumerate() {
+                        let row = if touched.len() <= originals.len() {
+                            *originals[slot].get_or_insert_with(|| original(entity))
+                        } else {
+                            original(entity)
+                        };
+                        if row.contains(value) {
+                            changed = true;
+                            break;
+                        }
+                    }
+                }
+                if changed {
+                    changes.push((id, position));
+                }
+            }
+            changes
         }
     }
 }

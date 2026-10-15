@@ -631,7 +631,15 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             with_structure(S::ZERO, self.problem, &assignment).structural()
         };
         let mut graph = self.graph.transaction();
-        let mut updates = StreamBatch::new();
+        let current_values = touched.iter().fold(0usize, |len, &entity| {
+            len.saturating_add(assignment.lists()[entity].len())
+        });
+        let value_capacity = self
+            .problem
+            .values()
+            .len()
+            .min(current_values.saturating_mul(2));
+        let mut updates = StreamBatch::with_capacity(touched.len().saturating_add(value_capacity));
         for &entity in &touched {
             updates.push(
                 &self.sources.entities,

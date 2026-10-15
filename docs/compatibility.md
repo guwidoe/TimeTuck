@@ -10504,3 +10504,14 @@ quality gap and distinct Java work policies remain visible. One final gate passe
 8373 Rust tests and 290 doctests; source coverage remains 4409/4855, 11 pending,
 435 excluded. Evidence: work/parallel-round222-evidence.json and
 work/round222-mixed-performance-collection.json.
+
+Shared list/mixed stream scoring now reserves update buffers from the touched
+row footprint and lazily reuses frozen original-list lookups during Eq-only
+changed-position discovery. Equality/order, lazy Clone timing, removed rows,
+callbacks and rollback remain covered; the indexed branch and benchmark settings
+are unchanged. Original regressions earn no upstream credit. A balanced actual
+prior vs candidate executable comparison measures 11.06%/7.08% less larger Stream
+warm/cold time, with exact output/work equality. No general speed or equal-work
+Java claim. Only mixed performance was refreshed; older measurements retain
+honest freshness. Evidence: work/round225-changed-positions/{collection,verdict}.json
+and work/round225-changed-positions-collection.json.

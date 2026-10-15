@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,376 passing tests and 290 doctests**, source
-digest `0faa1cb000f2aca1ab8a463b8f30e163d79124e9d5c3ce11e95c67c3a591c807`.
-The most recent Rust change ran two affected targets and reused 1,345 matching
+The retained Rust checkpoint has **8,378 passing tests and 290 doctests**, source
+digest `7a32c1fc1319bf36880122e3d2539b00bcd8c579478612fa77dc047b602992db`.
+The most recent Rust change ran 1,207 affected targets and reused 141 matching
 targets. Documentation/report refreshes do not require rerunning unchanged tests.
 The generated report remains the authority for later counts and freshness.
 
@@ -44,15 +44,22 @@ retain actual Java runtime errors separately from successful-result agreement.
 See the [collector and dependency contracts](constraint-stream-contract.md).
 Passing independent Python references does not establish Java agreement.
 
-All **18 comparison jobs** have current input hashes at this checkpoint: four
-differential jobs and fourteen performance jobs. This was a deliberate refresh
-of changed-input evidence; successful unchanged Rust checks were retained. Old
-raw reports keep their original timestamps and source keys.
+Five of the **18 comparison jobs** have current input hashes after the latest
+list/mixed scoring optimization. Mixed performance was deliberately refreshed;
+the thirteen other changed-input jobs retain their actual older timestamps and
+source keys and are visibly stale. The preceding checkpoint had qualified all
+eighteen jobs. Successful unchanged Rust checks are retained.
 
 The measured larger mixed Stream cases remain performance priorities: roughly
-9.1 times Java's observed warm-start time and 2.3 times its cold-start time.
+8.2 times Java's observed warm-start time and 2.1 times its cold-start time.
 Move policies, setup and work differ, so these are bounded runtime observations,
 not equal-work comparisons or universal speed requirements.
+
+A balanced comparison against the preserved prior native executable measures
+11.06% less warm-start time and 7.08% less cold-start time for the larger Stream
+case. All four Stream cases improve in each of four forks, retaining identical
+assignments, scores, logical work, callbacks and termination. Benchmark models,
+scoring backends and move configuration remain unchanged.
 
 The pending source assertions and explicit Java behavior differences above remain
 open compatibility limits. Broad equivalence cannot be inferred from current

@@ -652,14 +652,29 @@ impl<'p, 'a, B: Eq + Clone + 'static, L: Eq + Clone + 'static, S: AdditiveScore 
             None => with_structure(S::ZERO, self.problem, &assignment)?.structural(),
         };
         let mut graph = self.graph.transaction();
-        let mut updates = StreamBatch::new();
-        for i in movement.basic.touched_variables() {
+        let basic_touched = movement.basic.touched_variables();
+        let touched = movement.lists.touched_entities();
+        let current_values = touched.iter().fold(0usize, |len, &entity| {
+            len.saturating_add(assignment.lists().lists()[entity].len())
+        });
+        let value_capacity = self
+            .problem
+            .lists()
+            .values()
+            .len()
+            .min(current_values.saturating_mul(2));
+        let mut updates = StreamBatch::with_capacity(
+            basic_touched
+                .len()
+                .saturating_add(touched.len())
+                .saturating_add(value_capacity),
+        );
+        for i in basic_touched {
             updates.push(
                 &self.sources.basic,
                 TupleChange::put(i, (i, assignment.basic().values()[i].clone())),
             )?;
         }
-        let touched = movement.lists.touched_entities();
         for &i in &touched {
             updates.push(
                 &self.sources.lists.entities,
