@@ -1083,6 +1083,11 @@ path = "tests/construction_cancellation.rs"
 test = false
 
 [[test]]
+name = "construction_destination_order_regression"
+path = "tests/construction_destination_order_regression.rs"
+test = false
+
+[[test]]
 name = "construction_factory_cases"
 path = "tests/construction_factory_cases.rs"
 test = false

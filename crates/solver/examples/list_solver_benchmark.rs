@@ -57,6 +57,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                     &network,
                     ConstructionConfig {
                         max_evaluations: scan_bound + 1,
+                        // The Community FIRST_FIT adapter enumerates list starts,
+                        // then anchors in value-registry order.
+                        list_order: ListConstructionOrder::EntityThenValue,
                         ..Default::default()
                     },
                 )?;

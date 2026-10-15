@@ -17,6 +17,52 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest qualification — retained255 construction destination order
+
+Added opt-in `ListConstructionOrder::EntityThenValue`: eligible entity starts,
+then anchors after assigned values in registry order. Native default remains
+`EntityThenIndex`. Shared list/mixed paths cover scoped, stream and calculator
+scoring, sequential/pooled/value-queue placement and both mixed component orders.
+Basic-only and provider-supplied move order stay unchanged. Three original controls
+cover tied winners, budgets/discard/early picking, optional no-change candidates, pins/ranges
+and old defaults; no upstream-method credit. Four old exhaustive config literals
+only add their explicit default field.
+
+Fresh pinned Community public scoring callbacks falsified an initial random-tie
+hypothesis before any build. That unbuilt trial was discarded and archived. The
+observed destination order reproduced full Java layouts independently in Python;
+the actual release binary now matches both 16/32-customer Java routes, scores and
+callback counts. The 32-customer score improves from -1080 to -1062 at the same 625
+callbacks. Benchmark selects this explicit policy and records the configuration
+change; fixtures, seeds, limits and sample counts remain unchanged. No general
+trace, quality or speedup claim. Upstream production code was not read or translated.
+
+Final `bash scripts/check.sh` passed on runner-a in 924.91s:
+8,418 Rust +290 doctests, fmt/Clippy/required Python checks. Vendoring config
+lived outside the source from the first command; matching Rust digest asserted
+before execution. Actual matching Rust log/metadata collected unchanged, no root
+cache transplant. Native digest `b775ba662502068d7da977e20a30ce83f5b9a117137854f655c3a0680b7c38a2`.
+Local focused 48 tests/Clippy and release passed; three correctness jobs passed
+with existing divergences/Java errors unchanged. runner-c parked; one existing Sol
+agent, no new agents. Other successful inputs were reused.
+
+Fresh list performance: 320/320 valid, 317 equal-score small cases; Rust matches or
+beats Java quality/time on all 12 timing workloads. Construction 16: Rust
+0.118ms vs Java 11.285ms; construction 32:
+0.509ms vs 19.221ms, both equal quality.
+These are current measured medians, not speedup trends against old native reports.
+4/18 jobs current; other raw measurements unchanged and visibly stale when inputs differ.
+Dashboard index 82.942% under existing weights/Java parity target;
+coverage 4409/4855, 11 pending, 435 excluded unchanged. Backend data/HTTP/freshness
+verified; unchanged dashboard UI evidence from254 reused.
+
+All round255 verification jobs are terminal. Evidence: work/round255-construction-ties/,
+work/round255-qualification/collection.json, work/round255-performance/receipt.json,
+work/parallel-round255-evidence.json. Retained255 is the next actual baseline.
+Goal remains incomplete: continue concrete compatibility/quality gaps, preserve
+performance, selective evidence reuse and occasional commits. Do not revive the
+falsified seeded-tie trial or relabel the remaining Java quirks as passes.
+
 ## Dashboard completion index — round254
 
 User asked for a more accurate completion indicator and explicitly selected Java
@@ -28,7 +74,7 @@ fast small cases masking remaining gaps. Stale evidence retains demonstrated
 contributions, visibly labelled; all current successful evidence is required for
 completion. No ETA/effort or universal equivalence claim.
 
-Current index 81.355%; components features 99.752%, behavior 77.236%, performance 77.430%, evidence 27.778%.
+At round254 completion, index 81.355%; components features 99.752%, behavior 77.236%, performance 77.430%, evidence 27.778%.
 Raw inventory stays4409/4855,11pending435excluded. Native253 source, Rust log,
 benchmark report files and all measurement input keys are unchanged; no Rust
 suite or benchmark rerun. Model/policy freshness uses a separate completion_digest.
@@ -45,7 +91,7 @@ Evidence: work/round254-dashboard/evidence.json. Server PID20631 on8765.
 The feature is a reporting change, not native compatibility progress. Keep goal
 active/incomplete and continue concrete compatibility work from retained253.
 
-## Latest qualification — retained253 inline map iteration
+## Previous qualification — retained253 inline map iteration
 
 SnapshotMap::Iter stores its first four borrowed traversal nodes inline and spills
 only deeper paths to Vec. Range/update behavior, public API, dependencies, pin,

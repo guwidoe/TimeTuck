@@ -223,8 +223,14 @@ constructor assertions remain pending. Fixture records separately attribute
 initial list states and range metadata.
 
 `greedy_list_construction` retains every initial value and pin, then inserts
-missing required values in range order. It scans legal entity/index positions
-against the same base state and keeps the first highest score. The four shared
+missing required values in registry order. By default it scans legal entity/index
+positions against the same base state and keeps the first highest score. Set
+`ConstructionConfig.list_order` to `ListConstructionOrder::EntityThenValue` to
+visit eligible entity starts first, then positions after assigned values in
+registry order. Starts respect pinned-prefix boundaries; anchors exclude pinned
+values and receiver ranges still apply. This option also covers the list portion
+of mixed construction, including pooled and value-queue placement. Basic-only
+construction and caller-supplied provider move order are unaffected. The four shared
 `ConstructionPickEarly` policies compare ordinary score levels, ignoring the
 required-unassigned structural count. Optional missing values stay unassigned.
 A model with a missing required value that no mutable list accepts returns

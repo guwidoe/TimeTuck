@@ -17,6 +17,7 @@ fn problem() -> MixedProblem<i32, i32> {
 fn settings(order: MixedConstructionOrder, budget: u64) -> MixedConstructionConfig<'static> {
     MixedConstructionConfig {
         construction: ConstructionConfig {
+            list_order: timetuck::ListConstructionOrder::EntityThenIndex,
             interruption: ConstructionInterruption::KeepBestPrefix,
             placement: ConstructionPlacement::Sequential,
             max_steps: None,

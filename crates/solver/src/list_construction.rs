@@ -191,12 +191,17 @@ pub(crate) fn construction_impl_with_clock_monitored<
                 .into_iter()
                 .flat_map(|id| {
                     let value = &problem.values()[id];
-                    value_insertions(problem, &snapshot, 0..problem.entities().len(), id).map(
-                        move |destination| ListMove::Assign {
-                            value: value.clone(),
-                            destination,
-                        },
+                    crate::list_neighborhood::construction_insertions(
+                        problem,
+                        &snapshot,
+                        value_insertions(problem, &snapshot, 0..problem.entities().len(), id),
+                        value,
+                        config.list_order,
                     )
+                    .map(move |destination| ListMove::Assign {
+                        value: value.clone(),
+                        destination,
+                    })
                 })
                 .chain(
                     (problem.allows_unassigned()

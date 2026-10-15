@@ -90,8 +90,8 @@ pub use forager::{FinalistRanking, ForagerConfig, InvalidFinalistIndex, MoveFora
 pub mod construction;
 pub use construction::{
     ConstructionConfig, ConstructionInterruption, ConstructionPickEarly, ConstructionPlacement,
-    ConstructionResult, ConstructionTermination, OptionalConstruction, greedy_construction,
-    greedy_construction_from,
+    ConstructionResult, ConstructionTermination, ListConstructionOrder, OptionalConstruction,
+    greedy_construction, greedy_construction_from,
 };
 
 pub mod move_acceptance;

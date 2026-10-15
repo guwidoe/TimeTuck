@@ -26,6 +26,8 @@ pub mod constraint_assertion_cases;
 pub mod constraint_declaration_cases;
 #[path = "../constraint_services_cases.rs"]
 pub mod constraint_services_cases;
+#[path = "../construction_destination_order_regression.rs"]
+pub mod construction_destination_order_regression;
 #[path = "../construction_factory_cases.rs"]
 pub mod construction_factory_cases;
 #[path = "../custom_phase_deadline_cases.rs"]

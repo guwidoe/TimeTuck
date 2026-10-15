@@ -298,12 +298,18 @@ pub(crate) fn construction_impl_with_clock_monitored<
                                 .values()
                                 .iter()
                                 .any(|v| snapshot.lists().location(v).is_none())));
-                let mut moves = pooled_moves(problem, &snapshot, settings.order, config.optional)
-                    .chain(no_change.then(|| MixedMove {
-                        basic: Move::Composite(vec![]),
-                        lists: ListMove::Composite(vec![]),
-                    }))
-                    .peekable();
+                let mut moves = pooled_moves(
+                    problem,
+                    &snapshot,
+                    settings.order,
+                    config.optional,
+                    config.list_order,
+                )
+                .chain(no_change.then(|| MixedMove {
+                    basic: Move::Composite(vec![]),
+                    lists: ListMove::Composite(vec![]),
+                }))
+                .peekable();
                 if moves.peek().is_none() {
                     break 'phases;
                 }
@@ -401,24 +407,30 @@ pub(crate) fn construction_impl_with_clock_monitored<
                             break 'phases;
                         }
                         let snapshot = director.assignment().clone();
-                        let moves = insertions(lists, snapshot.lists(), 0..lists.entities().len())
-                            .filter(|position| lists.accepts(position.entity, value))
-                            .map(|destination| MixedMove {
-                                basic: Move::Composite(vec![]),
-                                lists: ListMove::Assign {
-                                    value: value.clone(),
-                                    destination,
-                                },
-                            })
-                            .chain(
-                                (lists.allows_unassigned()
-                                    && config.optional
-                                        == crate::OptionalConstruction::EvaluateUnassigned)
-                                    .then(|| MixedMove {
-                                        basic: Move::Composite(vec![]),
-                                        lists: ListMove::Composite(vec![]),
-                                    }),
-                            );
+                        let moves = crate::list_neighborhood::construction_insertions(
+                            lists,
+                            snapshot.lists(),
+                            insertions(lists, snapshot.lists(), 0..lists.entities().len())
+                                .filter(|position| lists.accepts(position.entity, value)),
+                            value,
+                            config.list_order,
+                        )
+                        .map(|destination| MixedMove {
+                            basic: Move::Composite(vec![]),
+                            lists: ListMove::Assign {
+                                value: value.clone(),
+                                destination,
+                            },
+                        })
+                        .chain(
+                            (lists.allows_unassigned()
+                                && config.optional
+                                    == crate::OptionalConstruction::EvaluateUnassigned)
+                                .then(|| MixedMove {
+                                    basic: Move::Composite(vec![]),
+                                    lists: ListMove::Composite(vec![]),
+                                }),
+                        );
                         if let Some(shared) = &mut shared {
                             shared.step_started();
                         }
@@ -523,6 +535,7 @@ fn pooled_moves<'a, B: Eq + Clone, L: Eq + Clone>(
     snapshot: &'a MixedAssignment<B, L>,
     order: MixedConstructionOrder,
     optional: crate::OptionalConstruction,
+    list_order: crate::ListConstructionOrder,
 ) -> Box<dyn Iterator<Item = MixedMove<B, L>> + 'a> {
     let basics = problem
         .basic()
@@ -552,15 +565,21 @@ fn pooled_moves<'a, B: Eq + Clone, L: Eq + Clone>(
                 && (!lists.allows_unassigned() || optional != crate::OptionalConstruction::Preserve)
         })
         .flat_map(move |value| {
-            insertions(lists, snapshot.lists(), 0..lists.entities().len())
-                .filter(move |p| lists.accepts(p.entity, value))
-                .map(move |destination| MixedMove {
-                    basic: Move::Composite(vec![]),
-                    lists: ListMove::Assign {
-                        value: value.clone(),
-                        destination,
-                    },
-                })
+            crate::list_neighborhood::construction_insertions(
+                lists,
+                snapshot.lists(),
+                insertions(lists, snapshot.lists(), 0..lists.entities().len())
+                    .filter(move |p| lists.accepts(p.entity, value)),
+                value,
+                list_order,
+            )
+            .map(move |destination| MixedMove {
+                basic: Move::Composite(vec![]),
+                lists: ListMove::Assign {
+                    value: value.clone(),
+                    destination,
+                },
+            })
         });
     match order {
         MixedConstructionOrder::BasicThenLists => Box::new(basics.chain(list_moves)),

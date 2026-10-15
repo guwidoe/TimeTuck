@@ -64,6 +64,35 @@ pub(crate) fn value_insertions<'a, V: Eq + Clone>(
         })
 }
 
+// The physical branch is constructed and polled exactly as before. Only the
+// explicit registry-anchor policy allocates/validates a destination selector.
+pub(crate) fn construction_insertions<'a, V: Eq + Clone>(
+    p: &'a ListProblem<V>,
+    a: &'a ListAssignment<V>,
+    physical: impl Iterator<Item = ListPosition> + 'a,
+    value: &'a V,
+    order: crate::ListConstructionOrder,
+) -> impl Iterator<Item = ListPosition> + 'a {
+    let anchored = if order == crate::ListConstructionOrder::EntityThenValue {
+        let entities: Vec<_> = (0..p.entities().len()).collect();
+        Some(
+            crate::ListDestinationSelector::new(p, a, &entities, p.values(), false)
+                .expect("validated construction snapshot")
+                .for_values(std::slice::from_ref(value))
+                .expect("registered construction value"),
+        )
+    } else {
+        None
+    };
+    (order == crate::ListConstructionOrder::EntityThenIndex)
+        .then_some(physical)
+        .into_iter()
+        .flatten()
+        .chain(anchored.into_iter().flat_map(|positions| {
+            (0..positions.len()).filter_map(move |index| positions.get(index).flatten())
+        }))
+}
+
 pub(crate) fn assigns<'a, V: Eq + Clone, I: Iterator<Item = usize> + Clone + 'a>(
     p: &'a ListProblem<V>,
     a: &'a ListAssignment<V>,

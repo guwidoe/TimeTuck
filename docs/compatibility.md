@@ -7,6 +7,18 @@ Initial reference: Timefold Solver Community 2.7.0, exact commit recorded in
 behavior implemented in native Rust. Java API, binary compatibility, reflection,
 framework integration, and all Enterprise functionality are outside the initial scope.
 
+Native list/mixed construction offers explicit entity-start/registry-anchor
+ordering through `ConstructionConfig.list_order`, retaining physical entity/index
+order as the native default. Original tied-choice, budget, pin/range and backend
+controls add no upstream-method credit. Public scoring callbacks in the pinned
+Community runtime established the destination order; no upstream production was
+read or translated for this change. Selecting the policy in the original list
+benchmark reproduces both Java routes and callback counts on its 16/32-customer
+construction workloads, closing the measured 32-customer quality difference
+(-1080 to Java's -1062, 625 callbacks). This does not establish general trace,
+quality or configuration equivalence. The benchmark records the explicit policy
+change; other solving modes and input fixtures retain their existing settings.
+
 Two adapted termination methods additionally preserve all step-count and
 unimproved-step-count threshold/progress assertions. Native search uses these
 counters across basic, list and mixed models with both scoring backends. Optional

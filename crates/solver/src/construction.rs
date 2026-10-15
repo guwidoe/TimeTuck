@@ -108,6 +108,17 @@ pub enum ConstructionPlacement {
     ValueQueue,
 }
 
+/// Destination encounter order for list construction. Basic construction and
+/// explicitly supplied provider moves retain their existing order.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum ListConstructionOrder {
+    /// Visit each entity's physical insertion slots in ascending index order.
+    #[default]
+    EntityThenIndex,
+    /// Visit eligible entity starts, then positions after assigned registry values.
+    EntityThenValue,
+}
+
 /// Shared controls for basic, list and mixed construction in both scoring
 /// backends. By default cancellation retains the best evaluated candidate of the
 /// current scan, including incomplete progress. Initialization and diagnostics
@@ -142,6 +153,8 @@ pub enum ConstructionPlacement {
 /// ```
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ConstructionConfig<'a> {
+    /// List destination order; defaults to the original physical slot order.
+    pub list_order: ListConstructionOrder,
     /// Sequential by default; optionally compare a pool or cycle through values.
     pub placement: ConstructionPlacement,
     /// KeepBestPrefix by default; optionally discard an interrupted scan.
@@ -178,6 +191,7 @@ pub struct ConstructionConfig<'a> {
 impl Default for ConstructionConfig<'_> {
     fn default() -> Self {
         Self {
+            list_order: ListConstructionOrder::EntityThenIndex,
             placement: ConstructionPlacement::Sequential,
             interruption: ConstructionInterruption::KeepBestPrefix,
             cancellation: None,
