@@ -293,6 +293,10 @@ function renderBenchmarks(kind = "score") {
                 : "Optimum unknown for this workload.";
             b.append(node("p", "range", `${w.equal_scores ? "Equal final scores" : "Different final scores"}. Rust ${feasible("rust") ? "feasible" : "infeasible"}; Java ${feasible("java") ? "feasible" : "infeasible"}. ${optimum}`));
             if (kind === "mixed") {
+                const cold = w.start_mode === "cold";
+                b.append(node("p", "range", cold
+                    ? "Cold start · missing depot choices and customer placements are constructed before local search; existing pins remain."
+                    : "Warm start · local search begins from a complete feasible assignment."));
                 if (Array.isArray(w.reference_score) && !Array.isArray(w.optimal_score)) {
                     b.append(node("p", "range", `Feasible reference: ${w.reference_score[0]}hard/${w.reference_score[1]}soft. Optimality is not established.`));
                 }
@@ -300,7 +304,10 @@ function renderBenchmarks(kind = "score") {
                     b.append(node("p", "range", `Required quality floor: ${w.quality_floor[0]}hard/${w.quality_floor[1]}soft.`));
                 }
                 b.append(node("p", "range", `Work · Rust ${n(w.rust.evaluations.min)}–${n(w.rust.evaluations.max)} logical evaluations · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)} scoring calls.`));
-                b.append(node("p", "range", `Limits · ${n(w.case.steps)} steps and ${n(w.case.evaluations)} evaluations per solve. Different move policies and work.`));
+                if (cold && w.rust.construction_steps) {
+                    b.append(node("p", "range", `Construction · ${n(w.rust.construction_steps.min)}–${n(w.rust.construction_steps.max)} placements per solve; included in Rust evaluation work, separate from local-search steps.`));
+                }
+                b.append(node("p", "range", `Limits · ${n(w.case.steps)} local-search steps and ${n(w.case.evaluations)} evaluations per solve${cold ? " across construction and search" : ""}. Different move policies and work.`));
             } else {
                 b.append(node("p", "range", `${kind === "stream" ? "Terminal weighting calls" : "Score calls"} · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} · Java ${n(w.java.score_calls.min)}–${n(w.java.score_calls.max)}`));
             }
@@ -323,7 +330,7 @@ function renderBenchmarks(kind = "score") {
         target("benchmark-caption").textContent = `${p.config.steps} verified repairs per solve · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups. Measured ${timestamp(p.generated_at)}. Independent assignment, score and quality checks; different PRNGs and reconstruction orders.`;
     }
     if (kind === "mixed" && !missing) {
-        target("benchmark-caption").textContent = `Warm-start mixed search with per-case limits · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} solves; ${p.config.warmup} warmup batches. Measured ${timestamp(p.generated_at)}. Every solve checked independently; Java samples shared between native-backend comparisons.`;
+        target("benchmark-caption").textContent = `Mixed ${p.config.start_modes?.includes("cold") ? "warm/cold" : "warm-start"} search with per-case limits · ${p.config.forks} fresh processes × ${p.config.samples} samples × ${n(p.config.iterations)} solves; ${p.config.warmup} warmup batches. Measured ${timestamp(p.generated_at)}. Every solve checked independently; Java samples shared between native-backend comparisons.`;
     }
     if (kind === "list_repair" && !missing) {
         target("benchmark-caption").textContent = `${p.config.steps} verified repairs per solve · ${p.config.forks} fresh processes × ${p.config.samples} measured solves; ${p.config.warmup} warmups. Measured ${timestamp(p.generated_at)}. Required and optional lists; group ranges start at one. Independent score and optimum checks.`;

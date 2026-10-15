@@ -151,6 +151,12 @@ Run `cargo run --example configured_routes` to resolve owned text properties,
 apply shared time limits and diminished-return settings, and solve a coupled
 depot/route model through both scoring backends. Its namespace is an explicit
 native configuration profile; it does not load a Java framework.
+`python3 scripts/benchmark_mixed.py` compares warm-start local search and cold
+construction plus search against Community on coupled depot/route workloads.
+Both native backends must construct complete valid solutions, preserve pins and
+meet independently checked quality targets. The dashboard distinguishes the
+starting states, construction work and search limits; larger-case optimality and
+equal search work are not established.
 Run `cargo run --example owned_roster_workflow` for a complete file/configuration/manager
 scheduling workflow through both backends. It creates native input and solved JSON
 files plus a configuration schema; see [the application workflow](docs/owned-roster-workflow.md).

@@ -14,6 +14,7 @@ pub struct Case {
     pub prefixes: Vec<usize>,
     pub steps: u64,
     pub evaluations: u64,
+    pub quality_floor: Option<HardSoftScore>,
     pub problem: MixedProblem<usize, usize>,
 }
 fn numbers(s: &str) -> Result<Vec<usize>, Box<dyn Error>> {
@@ -36,14 +37,21 @@ fn parse_points(s: &str) -> Result<Vec<[i64; 2]>, Box<dyn Error>> {
 impl Case {
     pub fn parse(line: &str) -> Result<Self, Box<dyn Error>> {
         let f: Vec<_> = line.split('\t').collect();
-        if f.len() != 10
+        if ![10, 11].contains(&f.len())
             || f[0].is_empty()
             || !f[0]
                 .bytes()
                 .all(|v| v.is_ascii_alphanumeric() || v == b'-' || v == b'_')
         {
-            return Err("ten fields required".into());
+            return Err("ten fields plus optional quality floor required".into());
         }
+        let quality_floor = f
+            .get(10)
+            .map(|text| -> Result<_, Box<dyn Error>> {
+                let (hard, soft) = text.split_once(':').ok_or("quality floor hard:soft")?;
+                Ok(HardSoftScore::new(hard.parse()?, soft.parse()?))
+            })
+            .transpose()?;
         let points = parse_points(f[1])?;
         let depots = parse_points(f[2])?;
         let capacities = numbers(f[3])?;
@@ -124,6 +132,7 @@ impl Case {
             prefixes,
             steps,
             evaluations,
+            quality_floor,
             problem,
         };
         if case.score(&case.problem.initial_assignment()).hard() != 0 {
@@ -165,6 +174,7 @@ impl Case {
             || self.score(a) != s
             || s < self.score(&self.problem.initial_assignment())
             || s.hard() != 0
+            || self.quality_floor.is_some_and(|floor| s < floor)
         {
             return Err("result completeness, score or quality".into());
         }
@@ -234,6 +244,142 @@ pub fn run(
             )?;
         }
         mixed_local_search_from(&case.problem, &network, initial, config)?
+    };
+    Ok(result)
+}
+
+/// Discard mutable warm-start choices, retaining only whole/prefix pins.
+pub fn cold_problem(case: &Case) -> Result<MixedProblem<usize, usize>, Box<dyn Error>> {
+    let basic = FiniteProblem::new(
+        (0..case.capacities.len())
+            .map(|i| {
+                let variable = Variable::new((0..case.depots.len()).collect());
+                if case.pins[i] {
+                    variable
+                        .with_initial(case.initial_depots[i])
+                        .with_pinned(true)
+                } else {
+                    variable
+                }
+            })
+            .collect(),
+    )?;
+    let lists = ListProblem::new(
+        (0..case.points.len()).collect(),
+        (0..case.capacities.len())
+            .map(|i| {
+                let kept = if case.pins[i] {
+                    case.initial_routes[i].len()
+                } else {
+                    case.prefixes[i]
+                };
+                ListEntity::new(case.initial_routes[i][..kept].to_vec())
+                    .with_pinned(case.pins[i])
+                    .with_pinned_prefix(case.prefixes[i])
+            })
+            .collect(),
+    )?;
+    Ok(MixedProblem::new(basic, lists))
+}
+
+fn partial_route_score(
+    case: &Case,
+    depot: Option<usize>,
+    route: &[usize],
+    owner: usize,
+) -> HardSoftScore {
+    depot.map_or_else(
+        || {
+            HardSoftScore::new(
+                -1 - route.len().saturating_sub(case.capacities[owner]) as i64,
+                0,
+            )
+        },
+        |depot| case.route_score(depot, route, owner),
+    )
+}
+
+/// Construct both variable kinds and improve them under one solve-wide budget.
+pub fn run_cold(
+    case: &Case,
+    stream: bool,
+) -> Result<SolverResult<MixedAssignment<usize, usize>, HardSoftScore>, Box<dyn Error>> {
+    let problem = cold_problem(case)?;
+    let plan = MixedSolverSequence {
+        limits: SolverLimits {
+            max_evaluations: case.evaluations,
+            ..Default::default()
+        },
+        phases: vec![
+            MixedSolverPhase::Construction(MixedConstructionConfig::default()),
+            MixedSolverPhase::LocalSearch(MixedLocalSearchConfig {
+                search: LocalSearchConfig {
+                    max_steps: case.steps,
+                    max_evaluations: case.evaluations,
+                    selection: MoveSelection::BestAccepted,
+                    move_order: MoveOrder::Original,
+                    ..Default::default()
+                },
+                joint_moves: true,
+            }),
+        ],
+    };
+    let result = if stream {
+        solve_mixed_stream(
+            &problem,
+            || {
+                let mut graph = StreamGraphBuilder::new();
+                let source = MixedStreamSources::new(&mut graph);
+                let joined = graph.join_equal(
+                    source.basic.port(),
+                    source.lists.entities.port(),
+                    |(id, _)| *id,
+                    |(id, _)| *id,
+                )?;
+                graph.score(
+                    "coupled depot routes",
+                    &joined,
+                    |((owner, depot), (_, route))| partial_route_score(case, *depot, route, *owner),
+                )?;
+                graph.score(
+                    "unassigned customers",
+                    source.lists.values.port(),
+                    |value| HardSoftScore::new(-i64::from(value.position.is_none()), 0),
+                )?;
+                Ok((graph.build(), source))
+            },
+            plan,
+        )?
+    } else {
+        let owners = case.capacities.len();
+        let mut network = MixedConstraintNetwork::new(owners, owners, case.points.len());
+        for owner in 0..owners {
+            network.add_constraint(
+                format!("route {owner}"),
+                vec![MixedScope::Basic(owner), MixedScope::ListEntity(owner)],
+                move |facts| {
+                    let (MixedFact::Basic(depot), MixedFact::ListEntity(route)) =
+                        (&facts[0], &facts[1])
+                    else {
+                        unreachable!()
+                    };
+                    partial_route_score(case, depot.copied(), route, owner)
+                },
+            )?;
+        }
+        for value in 0..case.points.len() {
+            network.add_constraint(
+                format!("unassigned customer {value}"),
+                vec![MixedScope::ListValue(value)],
+                |facts| {
+                    let MixedFact::ListValue { element, .. } = &facts[0] else {
+                        unreachable!()
+                    };
+                    HardSoftScore::new(-i64::from(element.is_none()), 0)
+                },
+            )?;
+        }
+        solve_mixed(&problem, &network, plan)?
     };
     Ok(result)
 }

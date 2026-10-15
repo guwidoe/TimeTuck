@@ -17,6 +17,54 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round223
+
+Added original mixed cold-start qualification to the existing comparison runner
+and dashboard: clear mutable depot choices and route suffixes, keep whole/prefix
+pins, construct then search with finite shared evaluation limits. Both binaries
+enforce supplied quality floors after every repeat, including warmups; Python
+independently checks every sample, ownership/pins/score/checksum and native phase
+work. Small reaches exhaustive optimum (0,-12); larger reaches (0,-60), better
+than feasible certificate (0,-72), without proving larger optimality. Cold inputs
+are genuinely partial; their hard/soft objective and kept rows remain recorded.
+
+Fresh same-host cold ms/solve: small Dense 0.196, Stream 0.721, Java 5.308;
+larger Dense 9.720, Stream 38.475, Java 16.849. Larger native uses 7,379 logical
+evaluations, 18 construction placements and zero accepted local steps. Native
+logical work and Java physical scoring calls remain distinct; setup, construction
+policies and joint moves differ. Original four warm rows retain exact outputs,
+work and termination against saved222; their new timings are actual refreshes.
+All older reports keep original dates/keys and honest stale status.
+
+No production library, dependency, pin or provenance change and no method credit.
+Three original Rust regressions cover small optimum/backend work parity, real
+24-customer pinned certificate, and one-evaluation partial construction. Thirteen
+Python contract checks cover reset, floors, protocol and phase metrics.
+One final check.sh passes 8376 Rust tests and 290 matching reused doctests:
+RUN 2 / REUSE 1345 Rust targets; RUN 1 / REUSE 46 Python jobs.
+Prebuild 114.512s; gate 121.962s. Coverage 4409/4855 (90.814%), 11 pending,
+435 excluded, 0 failed/unverified. Desktop/mobile browser renders eight rows,
+clear warm/cold labels, separate construction work and no horizontal overflow.
+Detector returned no findings. Initial browser harness scrollbar/scroll timing
+assumptions were repaired without UI churn; old logs remain.
+
+runner-a fresh release build passed once; smoke initially had a harness classpath
+error, then resume lacked CARGO_TARGET_DIR. Both terminal before primary timing;
+logs preserved. Final smoke/primary reuse the same verified binary 433d3b50...,
+with actual library/binary hashes unchanged before/after. No second build.
+Artifacts: work/round223-mixed-performance/results/work/round223-mixed-performance/.
+Evidence: work/parallel-round223-evidence.json,
+work/round223-mixed-performance-collection.json, work/round223-browser-evidence.json.
+Rust 0faa1cb000f2aca1ab8a463b8f30e163d79124e9d5c3ce11e95c67c3a591c807; report ed2e04b88324f1f91acf7d426f3a7b992a1390bed1b3afa0fd716df77249833d.
+
+Goal active/incomplete; runner-c parked; all worker/check/browser jobs terminal.
+No native algorithm gap established by the bounded owned-model/phase audits;
+do not repeat exclusions, profiling guards, duplicate serializers or raw kopt
+layout work. Roster representative qualification and now mixed cold/warm
+qualification exist. Remaining completion work is original-scope proof and
+deliberate representative refresh of older changed-input evidence, preserving
+known differential policy discrepancies. Do not claim completion from 90.814%.
+
 ## Latest verified checkpoint — round222
 
 Mixed directors now bind their three planning sources to private fixed slots for

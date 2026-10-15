@@ -14,6 +14,7 @@ python3 scripts/benchmark_repair.py
 python3 scripts/differential_lists.py
 python3 scripts/benchmark_lists.py
 python3 scripts/benchmark_list_repair.py
+python3 scripts/benchmark_mixed.py
 python3 scripts/benchmark_kopt.py
 python3 scripts/differential_streams.py
 python3 scripts/benchmark_streams.py
@@ -626,10 +627,25 @@ Three fresh processes per runtime, five warmups and seven samples per process,
 with alternating runtime order and all raw samples. Shared-host ranges include
 allocation and GC effects. Original benchmark fixtures add no adapted-method credit.
 
+## Mixed construction and search comparisons
+
+The mixed-planning section measures two warm-start and two cold-start workloads
+with both Dense and Stream scoring against one shared Java sample group per case.
+Cold runs clear mutable depot choices and route suffixes, preserve whole/prefix
+pins, then construct and improve a solution under finite limits. Every repeated
+solve must reach the independently enumerated small optimum or match/improve the
+larger feasible certificate; the latter is not a proof of optimality. The report
+retains the actual partial input, per-phase native evaluations and separate
+construction placements. Partial input scores record hard/soft objective levels,
+not an initialized complete solution. Java logical phase work is unobserved. Cold timing
+includes input preparation, construction and search; warm timing retains its
+existing scope. Search policies differ, so ratios do not imply equal work or
+general scalability. These original workloads earn no upstream-method credit.
+
 ## Selective verification during development
 
 `bash scripts/check.sh` reuses successful jobs with matching inputs. Rust tests
-are cached per target, Python checks per test file, and each of the 17 comparison
+are cached per target, Python checks per test file, and each of the 18 comparison
 runners has its own key. Native dependencies are selected by a module-level source
 scan of imports, referenced public symbols and out-of-line implementations; local
 modules and literal include fixtures are tracked. A target hashes only the crate

@@ -539,7 +539,7 @@
                             <h2 id="mixed-performance-heading">Mixed planning vs. the original</h2>
                             <p>Joint depot choices and customer routes, scored independently.</p>
                         </div>
-                        <span class="tag">Warm-start local search</span>
+                        <span class="tag">Construction and local search</span>
                     </div>
                     <div id="mixed-benchmark-state" class="message" hidden></div>
                     <div class="benchmark-legend">
@@ -551,7 +551,7 @@
                     <div id="mixed-benchmarks" class="benchmark-grid solver-benchmark-grid"></div>
                     <div class="benchmark-footer">
                         <p id="mixed-benchmark-caption"></p>
-                        <p>Complete warm starts with finite search limits. Larger workloads use a feasible reference score, with no optimality claim.</p>
+                        <p>Warm starts and cold construction use finite search limits. Cold runs must reach the small optimum or the larger feasible reference; larger optimality remains unknown.</p>
                     </div>
                 </section>
                 <section

@@ -1,4 +1,4 @@
-// Original bounded mixed warm-start benchmark; pinned Community public APIs only.
+// Original bounded mixed warm/cold-start benchmark; pinned Community public APIs only.
 import java.io.*;
 import java.util.*;
 import ai.timefold.solver.core.api.domain.entity.*;
@@ -8,6 +8,9 @@ import ai.timefold.solver.core.api.domain.variable.*;
 import ai.timefold.solver.core.api.score.HardSoftScore;
 import ai.timefold.solver.core.api.score.calculator.EasyScoreCalculator;
 import ai.timefold.solver.core.api.solver.SolverFactory;
+import ai.timefold.solver.core.config.constructionheuristic.ConstructionHeuristicPhaseConfig;
+import ai.timefold.solver.core.config.constructionheuristic.placer.QueuedEntityPlacerConfig;
+import ai.timefold.solver.core.config.constructionheuristic.placer.QueuedValuePlacerConfig;
 import ai.timefold.solver.core.config.heuristic.selector.common.SelectionOrder;
 import ai.timefold.solver.core.config.heuristic.selector.entity.EntitySelectorConfig;
 import ai.timefold.solver.core.config.heuristic.selector.value.ValueSelectorConfig;
@@ -48,13 +51,15 @@ public final class MixedSolverBenchmark {
         public HardSoftScore calculateScore(Problem p) { calls++;return score(p); }
     }
     static HardSoftScore score(Problem p) {
-        long hard=0,distance=0;
+        long hard=0,distance=0;int assigned=0;
         for(var v:p.vehicles) {
-            hard-=Math.max(0,v.route.size()-v.capacity);
+            assigned+=v.route.size();hard-=Math.max(0,v.route.size()-v.capacity);
+            if(v.depot==null){hard--;continue;}
             var home=p.locations.get(v.depot);int x=home[0],y=home[1];
             for(var c:v.route) {distance+=Math.abs((long)x-c.x)+Math.abs((long)y-c.y);x=c.x;y=c.y;}
             distance+=Math.abs((long)x-home[0])+Math.abs((long)y-home[1]);
         }
+        hard-=p.customers.size()-assigned;
         return HardSoftScore.of(hard,-distance);
     }
     static int[] point(String text) {
@@ -62,7 +67,8 @@ public final class MixedSolverBenchmark {
         int x=Integer.parseInt(f[0]),y=Integer.parseInt(f[1]);if(Math.abs((long)x)>100000||Math.abs((long)y)>100000)throw new IllegalArgumentException("coordinate bound");return new int[]{x,y};
     }
     static Problem parse(String[] f) {
-        if(f.length!=10||!f[0].matches("[A-Za-z0-9_-]+"))throw new IllegalArgumentException("ten fields");
+        if((f.length!=10&&f.length!=11)||!f[0].matches("[A-Za-z0-9_-]+"))throw new IllegalArgumentException("ten or eleven fields");
+        if(f.length==11)qualityFloor(f[10]);
         var p=new Problem();for(var text:f[1].split(",",-1)){var xy=point(text);var c=new Customer();c.id=p.customers.size();c.x=xy[0];c.y=xy[1];p.customers.add(c);}
         for(var text:f[2].split(",",-1)){p.depots.add(p.depots.size());p.locations.add(point(text));}
         var caps=f[3].split(",",-1);var depots=f[4].split(",",-1);var routes=f[5].split(";",-1);var prefixes=f[7].split(",",-1);
@@ -76,10 +82,18 @@ public final class MixedSolverBenchmark {
         }
         validate(p,p,false);if(score(p).hardScore()!=0)throw new IllegalArgumentException("feasible warm start required");return p;
     }
+    static HardSoftScore qualityFloor(String text) {
+        var parts=text.split(":",-1);
+        if(parts.length!=2||!parts[0].matches("-?[0-9]+")||!parts[1].matches("-?[0-9]+"))throw new IllegalArgumentException("quality floor hard:soft");
+        return HardSoftScore.of(Long.parseLong(parts[0]),Long.parseLong(parts[1]));
+    }
     static Problem copy(Problem original) {
         var p=new Problem();p.depots.addAll(original.depots);p.locations.addAll(original.locations);
         for(var c:original.customers){var n=new Customer();n.id=c.id;n.x=c.x;n.y=c.y;p.customers.add(n);}
         for(var v:original.vehicles){var n=new Vehicle();n.id=v.id;n.capacity=v.capacity;n.depot=v.depot;n.pinned=v.pinned;n.prefix=v.prefix;for(var c:v.route)n.route.add(p.customers.get(c.id));p.vehicles.add(n);}return p;
+    }
+    static void prepareCold(Problem p) {
+        for(var v:p.vehicles)if(!v.pinned){v.depot=null;v.route.subList(v.prefix,v.route.size()).clear();}
     }
     static void validate(Problem p,Problem original,boolean shadows) {
         var seen=new HashSet<Integer>();
@@ -93,7 +107,7 @@ public final class MixedSolverBenchmark {
         if(shadows&&(!score(p).equals(p.score)||p.score.hardScore()!=0||p.score.compareTo(score(original))<0))throw new IllegalStateException("score/quality");
     }
     static List<Integer> ids(List<Customer> route){return route.stream().map(c->c.id).toList();}
-    static SolverFactory<Problem> factory(int steps,long evaluations) {
+    static SolverFactory<Problem> factory(int steps,long evaluations,boolean cold) {
         var change=new ChangeMoveSelectorConfig().withEntitySelectorConfig(new EntitySelectorConfig().withEntityClass(Vehicle.class))
             .withValueSelectorConfig(new ValueSelectorConfig().withVariableName("depot").withSelectionOrder(SelectionOrder.ORIGINAL));
         change.setSelectionOrder(SelectionOrder.ORIGINAL);
@@ -103,18 +117,30 @@ public final class MixedSolverBenchmark {
             .withAcceptorConfig(new LocalSearchAcceptorConfig().withAcceptorTypeList(List.of(AcceptorType.HILL_CLIMBING)))
             .withForagerConfig(new LocalSearchForagerConfig().withAcceptedCountLimit(Integer.MAX_VALUE).withPickEarlyType(LocalSearchPickEarlyType.NEVER).withBreakTieRandomly(false))
             .withTerminationConfig(new TerminationConfig().withStepCountLimit(steps).withScoreCalculationCountLimit(evaluations));
-        return SolverFactory.create(new SolverConfig().withSolutionClass(Problem.class).withEntityClasses(Vehicle.class,Customer.class)
-            .withEasyScoreCalculatorClass(Calculator.class).withEnvironmentMode(EnvironmentMode.NO_ASSERT).withRandomSeed(20261017L).withPhases(phase));
+        var config=new SolverConfig().withSolutionClass(Problem.class).withEntityClasses(Vehicle.class,Customer.class)
+            .withEasyScoreCalculatorClass(Calculator.class).withEnvironmentMode(EnvironmentMode.NO_ASSERT).withRandomSeed(20261017L).withPhases(phase);
+        if(cold) {
+            // Community DefaultSolverTest#solveMixedModelCustomMove uses these two placers.
+            // The entity placer initializes basic variables; the value placer initializes route.
+            var basics=new ConstructionHeuristicPhaseConfig().withEntityPlacerConfig(new QueuedEntityPlacerConfig()
+                .withEntitySelectorConfig(new EntitySelectorConfig().withEntityClass(Vehicle.class).withSelectionOrder(SelectionOrder.ORIGINAL)));
+            var lists=new ConstructionHeuristicPhaseConfig().withEntityPlacerConfig(new QueuedValuePlacerConfig()
+                .withEntityClass(Vehicle.class).withValueSelectorConfig(new ValueSelectorConfig().withVariableName("route").withSelectionOrder(SelectionOrder.ORIGINAL)));
+            config.withPhases(basics,lists,phase)
+                .withTerminationConfig(new TerminationConfig().withScoreCalculationCountLimit(evaluations));
+        }
+        return SolverFactory.create(config);
     }
     public static void main(String[] args)throws Exception {
-        if(args.length!=3)throw new IllegalArgumentException("iterations warmup samples");
+        if(args.length!=3&&(args.length!=4||!args[3].equals("cold")))throw new IllegalArgumentException("iterations warmup samples [cold]");
+        boolean cold=args.length==4;
         int iterations=Integer.parseInt(args[0]),warmup=Integer.parseInt(args[1]),samples=Integer.parseInt(args[2]);
         if(iterations<1||iterations>1000||warmup<0||warmup>100||samples<1||samples>1000)throw new IllegalArgumentException("run bounds");
-        try(var input=new BufferedReader(new InputStreamReader(System.in))){var f=input.readLine().split("\t",-1);var original=parse(f);int steps=Integer.parseInt(f[8]);long evaluations=Long.parseLong(f[9]);
-            if(steps<1||steps>128||evaluations<1||evaluations>2000000)throw new IllegalArgumentException("limits");var factory=factory(steps,evaluations);
+        try(var input=new BufferedReader(new InputStreamReader(System.in))){var f=input.readLine().split("\t",-1);if(f.length!=(cold?11:10))throw new IllegalArgumentException("input fields must match warm/cold mode");var original=parse(f);var floor=cold?qualityFloor(f[10]):null;int steps=Integer.parseInt(f[8]);long evaluations=Long.parseLong(f[9]);
+            if(steps<1||steps>128||evaluations<1||evaluations>2000000)throw new IllegalArgumentException("limits");var factory=factory(steps,evaluations,cold);
             for(int sample=0;sample<warmup+samples;sample++){long elapsed=0,hard=0,soft=0,calls=0;Problem last=null;
-                for(int i=0;i<iterations;i++){var problem=copy(original);Calculator.calls=0;long started=System.nanoTime();var result=factory.buildSolver().solve(problem);elapsed+=System.nanoTime()-started;calls+=Calculator.calls;
-                    validate(result,original,true);hard+=result.score.hardScore();soft+=result.score.softScore();last=result;}
+                for(int i=0;i<iterations;i++){var problem=cold?null:copy(original);Calculator.calls=0;long started=System.nanoTime();if(cold){problem=copy(original);prepareCold(problem);}var result=factory.buildSolver().solve(problem);elapsed+=System.nanoTime()-started;calls+=Calculator.calls;
+                    validate(result,original,true);if(cold&&result.score.compareTo(floor)<0)throw new IllegalStateException("cold quality floor");hard+=result.score.hardScore();soft+=result.score.softScore();last=result;}
                 if(sample>=warmup){var depots=last.vehicles.stream().map(v->v.depot).toList();var routes=last.vehicles.stream().map(v->ids(v.route)).toList();
                     System.out.println("{\"id\":\""+f[0]+"\",\"elapsed_ns\":"+elapsed+",\"score\":["+hard+","+soft+"],\"depots\":"+depots+",\"routes\":"+routes+",\"evaluations\":null,\"steps\":null,\"score_calls\":"+calls+",\"termination\":\"public limits or exhausted neighborhood; detailed reason not exposed\"}");}
             }
