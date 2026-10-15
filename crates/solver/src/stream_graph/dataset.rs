@@ -55,7 +55,7 @@ impl<I: Ord + Clone + 'static, T: Clone + PartialEq + 'static, S: AdditiveScore>
         } else {
             self.0.remove(&change.id);
         }
-        Ok(Vec::new())
+        Ok(Outputs::new())
     }
 }
 impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {

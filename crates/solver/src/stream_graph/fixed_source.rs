@@ -76,7 +76,7 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         self.latest.clear();
         self.latest.extend(
             inputs
@@ -187,7 +187,7 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
     }
     fn apply(&mut self, _: bool, event: &Event, _: NodeArithmetic) -> Result<Outputs, GraphError> {
         self.update(event)?;
-        Ok(vec![event.clone()])
+        Ok(Outputs::one(event.clone()))
     }
 }
 

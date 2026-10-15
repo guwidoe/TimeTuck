@@ -74,7 +74,7 @@ impl<I: Ord + Clone + 'static, K: Eq, W: 'static, U: 'static, S: AdditiveScore> 
             states.remove(&change.id);
             TupleChange::retract(change.id.clone())
         } else {
-            return Ok(vec![]);
+            return Ok(Outputs::new());
         };
         let output = erase([output]);
         self.states = states;

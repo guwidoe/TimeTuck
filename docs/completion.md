@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,409 passing tests and 290 doctests**, source
-digest `8eedef86e478e230a5a0afe13c9fd82f4a14facbd286866cb8ac47b521adc962`.
-Its final `scripts/check.sh` passed in 386.73 seconds. The current layout uses
+The retained Rust checkpoint has **8,412 passing tests and 290 doctests**, source
+digest `7d32df921b753abfa5d1c880aec720453bff517af5a7eb93871748316db528cf`.
+Its final `scripts/check.sh` passed in 747.70 seconds. The current layout uses
 22 integration executables and 95 verification jobs, preserving original test
 files and source attribution. Successful checks are reused when their relevant
 inputs are unchanged; documentation-only updates do not rerun the solver suite.
@@ -59,23 +59,33 @@ stream correctness comparisons, plus stream and mixed performance. Thirteen olde
 retain their actual timestamps and keys and are
 visibly stale. They have not been relabeled as current.
 
-Mixed performance was deliberately refreshed on unchanged retained 245 artifacts:
+Mixed performance was deliberately refreshed on qualified 252 release artifacts:
 all eight rows validate and every non-timing native/Java observation matches the
-previous report. Larger warm stream is 118.162 ms vs Java 16.395 ms, dense 17.315 ms;
-all score [0,-338]. Larger cold stream is 33.737 ms vs Java 18.484 ms, dense 9.013 ms;
+previous report. Larger warm stream is 113.945 ms vs Java 13.177 ms, dense 18.155 ms;
+all score [0,-338]. Larger cold stream is 35.161 ms vs Java 17.361 ms, dense 9.457 ms;
 all score [0,-60]. The larger reference [0,-72] is a feasible certificate, not an
-optimum. Work/policies differ. Evidence: work/round250-performance/collection.json.
+optimum. Work/policies differ. Evidence: work/round252-qualification/collection.json.
 Two inline checkpoint experiments were rejected without native changes; their
 candidate controls earn no retained credit. A distinct mixed CPU profile identifies
 ordinary propagation and value-position discovery as targets, with overlapping
 sampling attribution only. Evidence: work/round249-inline-checkpoints/verdict.json
 and work/round250-mixed-profile/REPORT.md.
 
-The current large stream workload measures hill-climbing swaps at 475.434 ms
-against Java's 285.759 ms, and tabu swaps at 498.166 against 304.284 ms. All 128
+The current large stream workload measures hill-climbing swaps at 475.375 ms
+against Java's 284.635 ms, and tabu swaps at 469.123 against 301.919 ms. All 128
 validation cases have valid, equal-score outcomes. These bounded shared-host
 measurements include setup and result validation; they do not prove general Java
 parity, identical execution traces or universal speed requirements.
+
+The latest retained change stores ordinary empty/single graph outputs directly,
+with Vec storage for multiple outputs and unchanged Vec batch routing. Four
+balanced comparisons against the preceding actual binary show mixed warm/cold
+time 4.94%/3.56% lower, every fork improving. Basic changes are flat; swaps are
+1.44% slower overall, three of four forks slower. Six captured whole-process
+allocation-request counts are unchanged. These targeted gains and tradeoff do
+not establish general speed or allocation improvements. Three original ownership
+and panic controls earn no upstream credit. Evidence:
+`work/round252-small-outputs/verdict.json` and `source-proof.json` in that directory.
 
 A resident borrowed-input dispatch experiment was also rejected. It preserved
 focused ownership/unwind checks but measured large swaps 4.61% slower, changes

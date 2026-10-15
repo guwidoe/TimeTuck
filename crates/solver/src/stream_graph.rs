@@ -81,7 +81,9 @@ use std::{
 };
 
 type Event = Rc<dyn Any>;
-type Outputs = Vec<Event>;
+mod outputs;
+use outputs::Outputs;
+type BatchOutputs = Vec<Event>;
 type GroupMapping<'a, T, K> = dyn Fn(&T) -> (K, i64) + 'a;
 pub type JoinedStreamPort<I, J, L, R> = StreamPort<(I, J), (L, R)>;
 /// A keyed list result, with its group key in both identity and payload.
@@ -233,7 +235,7 @@ trait Node<S: AdditiveScore> {
         &mut self,
         inputs: &[(bool, Event)],
         arithmetic: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         let mut out = Vec::new();
         for (side, event) in inputs {
             out.extend(self.apply(*side, event, arithmetic)?);
@@ -313,7 +315,9 @@ trait Node<S: AdditiveScore> {
 fn typed<I: 'static, T: 'static>(event: &Event) -> &TupleChange<I, T> {
     event.downcast_ref().expect("builder enforces event types")
 }
-fn erase<I: 'static, T: 'static>(changes: impl IntoIterator<Item = TupleChange<I, T>>) -> Outputs {
+fn erase<I: 'static, T: 'static, C: FromIterator<Event>>(
+    changes: impl IntoIterator<Item = TupleChange<I, T>>,
+) -> C {
     changes
         .into_iter()
         .map(|change| Rc::new(change) as Event)
@@ -337,7 +341,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         let mut latest = BTreeMap::new();
         for (_, event) in inputs {
             latest.insert(typed::<I, T>(event).id.clone(), event.clone());
@@ -428,7 +432,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
         _arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
         self.update(event);
-        Ok(vec![event.clone()])
+        Ok(Outputs::one(event.clone()))
     }
 }
 
@@ -461,7 +465,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         // Keep ordinary per-event filter semantics without constructing a
         // separate one-element output vector for each accepted input.
         Ok(erase(inputs.iter().filter_map(|(_, event)| {
@@ -525,7 +529,7 @@ impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for M
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         Ok(erase(inputs.iter().map(|(_, event)| {
             let change = typed::<I, T>(event);
             TupleChange {
@@ -583,7 +587,7 @@ impl<I: Ord + Clone + 'static, C: Clone + 'static, T: 'static, U: 'static, S: Ad
             states.remove(&change.id);
             TupleChange::retract(change.id.clone())
         } else {
-            return Ok(vec![]);
+            return Ok(Outputs::new());
         };
         let output = erase([output]);
         self.states = states;
@@ -1176,7 +1180,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             self.matches.remove(&change.id);
         }
         self.total = total;
-        Ok(Vec::new())
+        Ok(Outputs::new())
     }
 }
 
@@ -2686,11 +2690,11 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             if old != new {
                 changes.push((old, new));
             }
-            for output in outputs {
+            outputs.for_each(|output| {
                 for &next in &self.graph.edges[id] {
                     pending.push_back((next, output.clone()));
                 }
-            }
+            });
         }
         Ok(())
     }

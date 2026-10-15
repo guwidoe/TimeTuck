@@ -40,7 +40,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, K: Ord + Clone + 'static, S: 
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         let mut latest = BTreeMap::new();
         for (_, event) in inputs {
             let change = typed::<I, T>(event);

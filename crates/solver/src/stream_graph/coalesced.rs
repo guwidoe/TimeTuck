@@ -24,18 +24,18 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S>
         let change = typed::<I, T>(event);
         if change.value.is_some() {
             self.visible.insert(change.id.clone(), ());
-            Ok(vec![event.clone()])
+            Ok(Outputs::one(event.clone()))
         } else if self.visible.remove(&change.id) {
-            Ok(vec![event.clone()])
+            Ok(Outputs::one(event.clone()))
         } else {
-            Ok(Vec::new())
+            Ok(Outputs::new())
         }
     }
     fn apply_batch(
         &mut self,
         inputs: &[(bool, Event)],
         arithmetic: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         let mut final_updates = BTreeMap::new();
         for (_, event) in inputs {
             final_updates.insert(typed::<I, T>(event).id.clone(), event.clone());

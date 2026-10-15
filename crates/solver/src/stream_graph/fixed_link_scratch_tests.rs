@@ -79,7 +79,7 @@ fn inputs(
         })
         .collect()
 }
-fn apply(node: &mut Links, rows: &[(bool, Event)]) -> Outputs {
+fn apply(node: &mut Links, rows: &[(bool, Event)]) -> BatchOutputs {
     <Links as Node<SimpleScore>>::apply_batch(
         node,
         rows,
@@ -90,7 +90,7 @@ fn apply(node: &mut Links, rows: &[(bool, Event)]) -> Outputs {
     )
     .unwrap()
 }
-fn values(outputs: &Outputs) -> Vec<(String, Option<i64>)> {
+fn values(outputs: &[Event]) -> Vec<(String, Option<i64>)> {
     outputs
         .iter()
         .map(|event| {

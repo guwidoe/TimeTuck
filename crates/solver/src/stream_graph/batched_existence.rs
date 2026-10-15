@@ -30,13 +30,13 @@ impl<
         event: &Event,
         a: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        <Self as Node<S>>::apply_batch(self, &[(right, event.clone())], a)
+        <Self as Node<S>>::apply_batch(self, &[(right, event.clone())], a).map(Outputs::from)
     }
     fn apply_batch(
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         for (right, event) in inputs {
             if *right {
                 self.0.enqueue_right(typed::<J, R>(event).clone());

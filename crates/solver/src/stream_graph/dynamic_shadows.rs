@@ -137,7 +137,7 @@ impl<I: Ord + Clone + 'static, M: Eq + 'static, K: Eq, W: 'static, U: 'static, S
         let change = typed::<I, W>(event);
         let Some(world) = &change.value else {
             if !self.states.contains_key(&change.id) {
-                return Ok(vec![]);
+                return Ok(Outputs::new());
             }
             let output = erase([TupleChange::<I, U>::retract(change.id.clone())]);
             self.states.remove(&change.id);

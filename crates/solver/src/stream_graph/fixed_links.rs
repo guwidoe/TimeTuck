@@ -172,12 +172,13 @@ impl<
         arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
         <Self as Node<S>>::apply_batch(self, &[(right, event.clone())], arithmetic)
+            .map(Outputs::from)
     }
     fn apply_batch(
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         latest_slots::<I, L>(
             inputs,
             false,

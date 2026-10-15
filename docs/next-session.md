@@ -17,7 +17,53 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest evidence — refreshed250 mixed comparison; retained245 unchanged
+## Latest qualification — retained252 ordinary graph outputs
+
+Ordinary nodes now return Empty/One/Many erased outputs. Empty and single events
+are held directly; multiple events retain Vec storage. Owned/borrowed iteration
+and forward destruction preserve event identity and lifetime. Ordinary routing
+dispatches once before visiting outputs. Batch output types and routing retain
+their Vec path; erasure selects its collection from the caller. Three original
+controls cover variants, non-Clone payload ownership, partial iteration, weak
+owners and producer/consumer panic cleanup against an independent Vec oracle.
+Private batch-test signatures were adapted. No public API, dependency, upstream
+pin, provenance or method-credit change.
+
+Four balanced paired runs against actual245 show mixed warm time 4.94% lower and
+cold time 3.56% lower, every fork improving for both. Basic changes are flat;
+swaps are 1.44% slower overall, three of four forks slower. Keep this tradeoff
+visible. All six whole-process allocation-request counts are unchanged in two
+captures each; do not claim an allocation reduction. The earlier global output
+representation was revised because it slowed basic changes/swaps by 7.09%/3.55%.
+The separate 251 last-edge owner-transfer candidate was rejected, never integrated.
+
+Final scripts/check.sh passes in 747.70s: 8,412 Rust tests +290 doctests, fmt,
+Clippy and required Python checks. The initial gate stopped on a test-helper
+let-and-return lint before running the Rust suite. Root fixes only that cfg(test)
+helper; frozen release source/artifacts retain the exact pre-lint manifest.
+Production content and all five per-job keys remain identical, so the three
+completed correctness comparisons and paired binaries were reused without
+rekeying reports. See test-lint-fix.json and source-proof.json for both full
+digests and the explicit one-file test-only delta.
+
+Mixed and stream performance were freshly measured after builds/tests ended.
+Every non-timing sample matches its previous report; stream validation remains
+128 valid/equal-score cases, and known Java differences/errors remain unchanged.
+Five comparisons current, 13 stale; no unrelated measurements refreshed. Data/HTTP
+freshness verified, unchanged UI evidence reused. Coverage remains 4,409/4,855,
+11 pending and 435 excluded. Root Rust digest:
+`7d32df921b753abfa5d1c880aec720453bff517af5a7eb93871748316db528cf`.
+
+Evidence: work/parallel-round252-evidence.json, work/round252-small-outputs/,
+work/round252-qualification/collection.json and work/round252-performance/receipt.json.
+All 251/252 jobs terminal; runner-c parked. One bounded runner-a SSH probe required
+reauthentication and timed out; no remote build claimed. One existing Sol agent
+implemented the collection/controls; no new agents. Use qualified 252 as the next
+baseline. Investigate ordinary typed-event construction/list-position work while
+preserving generic callback/ownership behavior; no more representation variants
+or immediate profile repeat. Goal active/incomplete.
+
+## Historical evidence — refreshed250 mixed comparison; retained245 unchanged
 
 Both 249 inline checkpoint variants were rejected. The broad enum-return variant
 slowed swaps 5.63% overall, three of four forks. Cached fixed-node dispatch kept

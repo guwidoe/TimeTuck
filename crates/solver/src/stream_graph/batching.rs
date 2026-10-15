@@ -183,7 +183,12 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             Ok(())
         }
     }
-    fn route_batch(&self, node: usize, outputs: Outputs, pending: &mut impl BatchPendingQueue) {
+    fn route_batch(
+        &self,
+        node: usize,
+        outputs: BatchOutputs,
+        pending: &mut impl BatchPendingQueue,
+    ) {
         for output in outputs {
             for edge in &self.graph.edges[node] {
                 pending.push(edge.node, (edge.right, output.clone()));

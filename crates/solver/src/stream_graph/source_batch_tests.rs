@@ -57,10 +57,13 @@ fn batch(
         })
         .collect()
 }
-fn apply(node: &mut FixedSourceNode<Row>, inputs: &[(bool, Event)]) -> Result<Outputs, GraphError> {
+fn apply(
+    node: &mut FixedSourceNode<Row>,
+    inputs: &[(bool, Event)],
+) -> Result<BatchOutputs, GraphError> {
     <FixedSourceNode<Row> as Node<SimpleScore>>::apply_batch(node, inputs, arithmetic())
 }
-fn output_values(output: &Outputs) -> Vec<(usize, Option<i64>)> {
+fn output_values(output: &[Event]) -> Vec<(usize, Option<i64>)> {
     output
         .iter()
         .map(|event| {

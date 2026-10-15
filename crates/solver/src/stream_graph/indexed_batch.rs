@@ -44,7 +44,7 @@ impl<
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         Ok(erase(
             self.0.apply_batch(
                 inputs

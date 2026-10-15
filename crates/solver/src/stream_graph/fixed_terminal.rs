@@ -181,7 +181,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         self.rows.set(slot, row);
         self.total = total;
         self.materialized.take();
-        Ok(Vec::new())
+        Ok(Outputs::new())
     }
 }
 impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {

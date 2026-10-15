@@ -31,7 +31,7 @@ impl<
         &mut self,
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
-    ) -> Result<Outputs, GraphError> {
+    ) -> Result<BatchOutputs, GraphError> {
         self.0
             .apply_batch(inputs.iter().map(|(_, event)| typed::<K, T>(event).clone()))
             .map(erase)
