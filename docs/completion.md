@@ -54,10 +54,22 @@ retain actual Java runtime errors separately from successful-result agreement.
 See the [collector and dependency contracts](constraint-stream-contract.md).
 Passing independent Python references does not establish Java agreement.
 
-Four of the **18 comparison jobs** have current input hashes: solver, list and
-stream correctness comparisons, plus stream performance. Fourteen older jobs,
-including mixed performance, retain their actual timestamps and keys and are
+Five of the **18 comparison jobs** have current input hashes: solver, list and
+stream correctness comparisons, plus stream and mixed performance. Thirteen older jobs
+retain their actual timestamps and keys and are
 visibly stale. They have not been relabeled as current.
+
+Mixed performance was deliberately refreshed on unchanged retained 245 artifacts:
+all eight rows validate and every non-timing native/Java observation matches the
+previous report. Larger warm stream is 118.162 ms vs Java 16.395 ms, dense 17.315 ms;
+all score [0,-338]. Larger cold stream is 33.737 ms vs Java 18.484 ms, dense 9.013 ms;
+all score [0,-60]. The larger reference [0,-72] is a feasible certificate, not an
+optimum. Work/policies differ. Evidence: work/round250-performance/collection.json.
+Two inline checkpoint experiments were rejected without native changes; their
+candidate controls earn no retained credit. A distinct mixed CPU profile identifies
+ordinary propagation and value-position discovery as targets, with overlapping
+sampling attribution only. Evidence: work/round249-inline-checkpoints/verdict.json
+and work/round250-mixed-profile/REPORT.md.
 
 The current large stream workload measures hill-climbing swaps at 475.434 ms
 against Java's 285.759 ms, and tabu swaps at 498.166 against 304.284 ms. All 128

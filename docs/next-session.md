@@ -17,7 +17,41 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest experiment — rejected248 direct link outputs; retained245 unchanged
+## Latest evidence — refreshed250 mixed comparison; retained245 unchanged
+
+Both 249 inline checkpoint variants were rejected. The broad enum-return variant
+slowed swaps 5.63% overall, three of four forks. Cached fixed-node dispatch kept
+generic checkpoint calls unchanged, but its swap 2.70%/change 0.92% lower medians
+each had only two of four forks improving; mixed 1.67% lower had three slower forks.
+Both passed 50 focused graph tests, three public suites, Clippy and release builds.
+Two original candidate controls cover actual token variants, generic fallback,
+diagnostics, capture/install, ownership and nested panic rollback. No integration,
+retained test credit, full gate or further token variant. Evidence:249 verdicts.
+
+Deliberately refreshed mixed performance using actual qualified245 artifacts and
+unchanged configuration. All eight rows validate; every native/Java non-timing
+observation matches the previous report. Larger warm stream 118.162 ms vs Java 16.395 ms,
+dense 17.315 ms; all score [0,-338]. Larger cold stream 33.737 ms vs Java 18.484 ms, dense 9.013 ms;
+all score [0,-60]. Work/policies differ; the larger reference [0,-72] is feasible,
+not optimal. Five comparison jobs are now current, 13 stale; 17 other reports are
+unchanged. Data/HTTP freshness verified; unchanged UI evidence reused.
+
+A distinct mixed warm-start profile of actual 245 has 2,829 samples, zero lost and 15
+outputs exactly matching fresh250 work/results. Self: ordinary propagate 12.30%,
+changed value positions 9.33%; inclusive propagation 48.46%, transaction Drop 17.64%.
+Attribution overlaps, not timing proof. Next investigate ordinary propagation
+routing/output construction, preserving event boundaries and callback/Clone/Drop
+order. Retain 225 original-row caching and generic Eq behavior. Reuse 246 basic-stream
+profile; do not repeat rejected allocation/dispatch variants or benchmark changes
+that hide costs. No new implementation yet.
+
+Evidence: work/parallel-round250-evidence.json, work/round249-inline-checkpoints/,
+work/round250-performance/collection.json and work/round250-mixed-profile/REPORT.md.
+All 249/250 jobs terminal; runner-c parked, no SSH attempts, existing Sol agent supplied
+two controls, no new agents. Reuse 245 final gate: 8,409 Rust +290 doctests. Coverage
+remains 4,409/4,855, 11 pending and 435 excluded. Goal active/incomplete.
+
+## Historical experiment — rejected248 direct link outputs; retained245 unchanged
 
 FixedLinks constructed erased Rc events directly in the affected-link loop,
 avoiding the intermediate typed Vec and final erase pass. Two original controls
