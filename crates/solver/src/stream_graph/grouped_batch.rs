@@ -5,6 +5,11 @@ struct BatchedGroup<'a, I, T, K>(Group<'a, I, T, K>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, K: Ord + Clone + 'static, S: AdditiveScore>
     Node<S> for BatchedGroup<'_, I, T, K>
 {
+    fn bind_fixed_input(&mut self, right: bool, count: usize) {
+        if !right {
+            self.0.node.bind_fixed_inputs(count);
+        }
+    }
     fn prefers_batch(&self) -> bool {
         true
     }

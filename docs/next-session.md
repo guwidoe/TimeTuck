@@ -17,65 +17,72 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — rounds232–234
+## Latest qualification — retained235
 
-Retained233 reuses the existing private bounded planning-source storage in basic
-StreamScoreDirector construction and fresh context graphs. Complete contiguous
-sources through 256 variables use indexed slots/nested undo; larger and ordinary
-fact sources keep their maps. Full source checkpoints copy at most 256 shared
-pointers; inspection lazily materializes an ordered map without user payload
-cloning. Four original public regressions cover cutoff/fallback, optional rows,
-trials/nested rollback/snapshots, protected facts, callback and Clone panic/retry.
-No upstream method credit, provenance/pin change or public API addition.
+Retained235 gives batched grouping private sparse input slots for a protected
+planning universe of at most 256 usize IDs. Explicit identity metadata follows
+ordinary map/filter nodes; joins, groups, concatenation and expansion stop it.
+This also lets eligible ordinary join sides bind through map/filter; their
+complete contiguous-ID requirement stays unchanged. Ordinary facts, arbitrary
+IDs, standalone grouping and larger inputs retain maps. Generic public method
+bounds and group mapping/preparation/publication ordering stay unchanged.
 
-Focused checks passed: seven private and 27 public tests, plus library Clippy.
-Actual frozen233 release source/artifacts were measured against unchanged227/231
-executables. Two pinned balanced comparisons observed 5.58% and 5.88% lower large
-hill/swap medians. Change results were inconsistent; Dense control medians also
-fell 3.40%/2.67%, so do not attribute the whole difference to the storage change.
-Whole-process allocation requests fell only 0.15–0.53%; these are not byte/peak
-memory counts. Exact native outputs/work match in both captures. No general or
-Java speedup claim. Receipts/raws: work/round233-basic-source/.
+Snapshots copy at most 256 Arc slots without payload cloning. Nested move undo
+restores owners without user comparisons; journal memory grows with writes until
+the enclosing trial ends. Two private and three original public regressions cover
+sparse membership/cutoffs, namespace stops, mutable facts, nested/saved rollback,
+representative identity and every observed comparison failure/retry. Focused
+26 tests and Clippy passed. No upstream credit, pin or provenance change.
 
-Final integrated gate passed: 8386 Rust tests + 290 doctests, fmt, all-target
-Clippy and matching cached Python checks. One final scripts/check.sh invocation;
-prebuild393.67s, gate481.78s. Reused141 unchanged targets;1209 affected targets
-compiled before execution. Do not repeat for commit/turn/context changes.
-Rust digest cf0f97531456f08ac12659f0d8d8e40aab8e3816d1d3bac4b7501762e767bb10;
-report digest def1045b31e1ebb6ac178bf893877a844e77a1a18ee967c1356ec6c44bf1fc1a.
+Four balanced pinned release forks compare actual retained233 and candidate235
+executables: large change medians54.984→50.557ms (8.05% lower), large swaps
+751.909→655.781ms (12.78% lower), both improving in every fork with exact native
+outputs/work. Dense control flat (+0.04%); Mixed Stream noisy. Allocation requests
+fell only0.14–0.51%, not a large memory reduction or byte/peak measure. No general
+or Java speedup claim. Source/artifact hashes checked before/after. Evidence:
+work/round235-bounded-group/{artifact-receipt,verdict,allocation-counts}.json and
+paired/results.json. Frozen actual source/artifacts: its source/ directory.
 
-Fresh solver/list/stream comparisons passed128/512/128 top-level cases and retain
-all prior nested counts, including the same21 actual Java concurrent errors.
-Fresh stream performance (same prior CLI policy) passes128/128 equal-score
-validation cases. Large changes55.60–58.92ms Rust versus23.29–24.87ms Java;
-large swaps741.10–757.06ms versus309.69–309.86ms. These are shared-host readings,
-not a before/after causal comparison. Compilation/tests finished before timing.
-Actual source233 library SHA643e7271cece621ac0ea7de2ec9bf8dafe8a34ab85baec454e9d0dfd268cda00;
-stream executable SHAedfb4495e813ecc9cb4d08693855f093368d3f739062c0f2faa70098ded34ab1.
-Four unchanged and four refreshed canonical jobs are current; ten other affected
-measurements stay visibly stale. No old result rekeying. Coverage4409/4855,
-11pending435excluded,0failed/unverified. Backend data/HTTP freshness verified;
-unchanged UI evidence reused. Evidence: work/parallel-round233-evidence.json and
-work/round233-{qualification,performance}/. Frozen source/artifacts:
-work/round233-basic-source/source/.
+One final integrated scripts/check.sh passed: 8391 Rust +290 doctests, fmt,
+all-target Clippy and unchanged cached Python checks. Prebuild464.77s (1270
+compiled targets/81 unchanged reused); gate536.62s. Do not repeat for commits or
+context resets. Rust digest5785a0e62a2f36b32db68e12528d1199dd8ef6e28b2d64eff2de9350b8db7c0a;
+report digest1198d0c597f69fef0c55c08a9b1701f586b7d5d25b73d7f2b368f9a0cc27e03a.
 
-Rejected232 terminal metadata: focused checks passed but large swaps were slower
-in all four forks; root never received it. Fresh profile232 instead identifies
-the batched update/group/rollback paths (7022samples,0lost, exact958163callbacks).
-It is attribution only, not latency evidence. Review234 found no defensible small
-group allocation patch without recycling rejected preparation/coalescing changes
-or changing generic callback/Clone/Ord ordering. No native edits/builds/tests from
-that review. Do not repeat it, the rejected metadata patch or old scope audits.
-Any future bounded group-membership design needs explicit ID-bound propagation
-through filter/map and snapshot/panic semantics; it is not implemented or proven.
+Fresh solver/list/stream differential jobs pass128/512/128 top-level cases,
+retaining prior nested counts and the same21 actual Java concurrent errors;
+errors are not Java agreement. Fresh stream performance passes128 equal-score
+validation cases. Large change medians50.85–51.43ms Rust versus22.50–26.95 Java;
+large swap694.36–733.93ms versus331.71–339.20. These shared-host canonical readings
+are separate from the paired before/after experiment. Timing began after tests
+and compilation finished. Actual library SHAabfdec234caadab9891439d8f4a42bfaa280bd4e893a6f56c93862c9c7146402;
+stream SHA8f8e661373adae3925e6cd5c0c56b766b9b840408805a277eafc68e7b104e199.
+Two unchanged and four refreshed jobs current; twelve other affected comparisons
+visibly stale. No old result rekeying. Coverage4409/4855 (90.814%),11pending,
+435excluded,0failed/unverified. Backend data/HTTP freshness verified; unchanged
+UI evidence reused. Receipt: work/parallel-round235-evidence.json and
+work/round235-{qualification,performance}/. Dashboard remains on127.0.0.1:8765.
 
-Corrected stale compatibility prose: six unimproved-time and three coupled
-random-selector methods were already complete, not pending. Real remaining11
-cases are nine JVM/framework/edition seams and two private KOpt array views;
-do not revive old RNG/timer TODOs or pad arrays for method credit. Goal remains
-incomplete; final Java-quirk policy question is still unanswered. runner-c parked.
-runner-a's prior results connection is closed; this batch completed locally.
-All agents idle; no candidate edits or live authentication request remains.
+Tiny Cargo-only experiment236 shows explicit original test targets marked
+test=false remain individually runnable while default test/Clippy builds only
+shards. No real suite/layout/source changes or new broad suite run. A future
+small shard implementation needs runner selection/log attribution; keep the
+crate::provider target and colliding PID/local-counter fixture consumers separate.
+Read work/round236-test-layout/REPORT.md, commands.json and inventory.json; no real
+compile-time benefit or exhaustive isolation proof yet. This is a concrete
+possible reduction for the1351-target build gate, not implemented tooling.
+
+Rejected232 terminal metadata, review234 no-patch and rejected226/228 buffers
+remain rejected; do not recycle them or old small-vector group preparation.
+Profile232 remains attribution only. Six unimproved-time and three coupled random
+selector methods are already complete. Real remaining11 cases are nine JVM/
+framework/edition seams and two private KOpt array views; do not revive old RNG/
+timer TODOs, pad arrays or reclassify for credit. Goal incomplete; final Java-quirk
+policy question still unanswered. runner-c parked. All agents idle.
+
+Both235 runner-a SSH attempts ended255/port22 timeout; no remote transfer/build
+occurred. Later authentication reply found no live control socket. Do not reuse
+expired links or claim current remote access. This batch completed locally.
 
 ## Latest qualification — round231 (historical)
 

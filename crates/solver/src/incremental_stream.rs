@@ -28,6 +28,7 @@
 //! ```
 
 mod group_batch;
+mod group_inputs;
 mod join_batch;
 mod partitioned;
 pub use partitioned::{
@@ -461,7 +462,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
 /// Moving an input between keys touches only the old/new groups. An empty group
 /// emits a retraction; a replacement within the same key emits one final summary.
 pub struct GroupNode<I, K> {
-    inputs: SnapshotMap<I, (K, i64)>,
+    inputs: group_inputs::GroupInputs<I, (K, i64)>,
     groups: SnapshotMap<K, IntCollector>,
     poisoned: bool,
 }
@@ -494,7 +495,10 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         K: 'static,
     {
         let (inputs, groups) = *checkpoint
-            .downcast::<(SnapshotMap<I, (K, i64)>, SnapshotMap<K, IntCollector>)>()
+            .downcast::<(
+                group_inputs::GroupInputs<I, (K, i64)>,
+                SnapshotMap<K, IntCollector>,
+            )>()
             .expect("group checkpoint type");
         self.inputs.install_snapshot(inputs);
         self.groups.install_snapshot(groups);
@@ -503,7 +507,7 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
 
     pub fn new() -> Self {
         Self {
-            inputs: SnapshotMap::new(),
+            inputs: group_inputs::GroupInputs::new(),
             groups: SnapshotMap::new(),
             poisoned: false,
         }

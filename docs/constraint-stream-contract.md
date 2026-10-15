@@ -308,9 +308,10 @@ node's persistent map roots and scalar state, including indexes, summaries and s
 Sources, filters, terminal matches, datasets and indexed batched joins use
 reversible row journals as described below; their saved candidate snapshots still
 share roots.
-Further updates reuse that checkpoint. Sources, filter inputs, both join indexes
-and their ID buckets, group inputs/collectors and terminal match records all use
-shared AVL trees. Each graph terminal stores its payload and cached contribution
+Further updates reuse that checkpoint. Generic sources, filter inputs, both join
+indexes and their ID buckets, group inputs/collectors and terminal match records
+use shared AVL trees. Bounded planning storage is described below. Each graph
+terminal stores its payload and cached contribution
 in one map, plus a scalar total; its checkpoint retains both. Standalone ScoreNode
 continues to store contributions without payloads. Integer collector multiplicities
 use the same storage. Cloning a map shares its root without cloning keys, values or rows;
@@ -321,11 +322,12 @@ and metadata updates invoke no user comparisons or key/value clones. Existing-ke
 replacement retains the original key object and allocates only the new value plus
 any shared path nodes.
 
-An ordinary join directly receiving a protected mixed planning source can use
+An ordinary join receiving a protected basic or mixed planning source can use
 private indexed row slots when the source and join side both contain exactly the
 contiguous `usize` IDs `0..count`, with at most 256 rows. Each side qualifies
-independently. Binding does not follow map/filter transformations, and ordinary
-facts, larger inputs and batched joins retain map storage. Join membership indexes
+independently. Private identity metadata follows ordinary map/filter operators;
+joins, grouping, concatenation and expansion stop it at their changed output
+namespace. Ordinary facts, larger inputs and batched joins retain map storage. Join membership indexes
 still use maps; key projections, payload clones and emitted tuple order retain
 their existing behavior. Trial frames retain the first original Arc per changed
 slot, merge originals on nested commit and release intermediate replacements.
@@ -2058,6 +2060,29 @@ final group state once per round. Direct transaction `apply` and ordinary
 `group_collect` retain immediate behavior. Generic user-defined collectors retain
 their existing per-event semantics. The batched benchmark uses this boundary in
 place of ordinary grouping followed by a separate coalescing node.
+
+After initial planning binding, this batched group boundary may store its input
+occurrences in private slots for a checked universe of at most 256 `usize` IDs.
+Filtered inputs may be sparse and become present later. Bounds pass only through
+explicit identity-preserving map/filter operators; group output keys start a new
+namespace, even when their type is also `usize`. Arbitrary mutable fact IDs and
+larger/unbound inputs retain the original maps. Group keys, collectors and the
+mapping/preparation/publication order keep their existing semantics.
+
+Trial journals move old payload owners into ordered undo records; nested commits
+merge those records. Journal storage grows with writes until the enclosing trial
+ends. Full checkpoints copy at most 256 shared pointers and preserve outer undo
+when restored. Neither snapshots nor rollback clone user payloads or compare
+group keys. This trades bounded checkpoint work for cheaper occurrence lookup
+and restoration. Standalone grouping retains generic map storage.
+
+A local four-fork comparison of actual release executables observed 8.05% lower
+large hill/change and 12.78% lower hill/swap medians, with matching assignments,
+scores and callback counts in every sample. Both improved in all four forks;
+the Dense control was essentially flat, while Mixed Stream varied. Whole-process
+allocation requests fell only 0.14–0.51%, not a large memory reduction. These
+shared-host readings do not establish a general speedup or Java parity. Evidence:
+`work/round235-bounded-group/{paired/results,allocation-counts}.json`.
 
 
 ## Compact filtered indexed joins

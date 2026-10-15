@@ -267,6 +267,11 @@ trait Node<S: AdditiveScore> {
         None
     }
     fn bind_fixed_input(&mut self, _right: bool, _count: usize) {}
+    // Opt in only for unary operators that preserve occurrence identity.
+    // Payload changes and filtering do not change the validated ID universe.
+    fn preserves_input_ids(&self) -> bool {
+        false
+    }
     fn initialize_sorted_source(&mut self, _events: &[(usize, Event)]) -> bool {
         false
     }
@@ -428,6 +433,9 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
 
 struct Filter<'a, I, T>(FilterNode<'a, I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for Filter<'_, I, T> {
+    fn preserves_input_ids(&self) -> bool {
+        true
+    }
     fn clear(&mut self) {
         self.0.clear();
     }
@@ -488,6 +496,9 @@ struct Map<'a, I, T, U> {
     marker: PhantomData<fn() -> I>,
 }
 impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for Map<'_, I, T, U> {
+    fn preserves_input_ids(&self) -> bool {
+        true
+    }
     fn clear(&mut self) {}
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new(())
@@ -2279,11 +2290,22 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         self.validate(source)?;
         if let Some(node) = self.nodes[source.0.node].bind_fixed_planning_source(count) {
             self.nodes[source.0.node] = node;
-            // These inputs are direct, protected planning sources with a checked
-            // immutable ID universe. Do not infer bounds through transformations
-            // or bind ordinary facts, where later IDs may be arbitrary.
-            for edge in &self.edges[source.0.node] {
-                self.nodes[edge.node].bind_fixed_input(edge.right, count);
+            // Follow only explicit identity-preserving unary operators. A join,
+            // group, concatenation or expansion changes the occurrence namespace
+            // and stops propagation, even when its output ID type is also usize.
+            // Ordinary fact sources never enter this path.
+            let mut pending = VecDeque::from([source.0.node]);
+            let mut forwarded = vec![false; self.nodes.len()];
+            forwarded[source.0.node] = true;
+            while let Some(parent) = pending.pop_front() {
+                for edge in &self.edges[parent] {
+                    let node = &mut self.nodes[edge.node];
+                    node.bind_fixed_input(edge.right, count);
+                    if !edge.right && node.preserves_input_ids() && !forwarded[edge.node] {
+                        forwarded[edge.node] = true;
+                        pending.push_back(edge.node);
+                    }
+                }
             }
         }
         Ok(())

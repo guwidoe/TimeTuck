@@ -119,3 +119,11 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
         }
     }
 }
+
+// Only the private graph binding path supplies the checked planning universe.
+// Generic standalone GroupNode methods retain their existing lifetime bounds.
+impl<I: Ord + Clone + 'static, K: Ord + Clone> GroupNode<I, K> {
+    pub(crate) fn bind_fixed_inputs(&mut self, count: usize) -> bool {
+        self.inputs.bind_fixed(count)
+    }
+}
