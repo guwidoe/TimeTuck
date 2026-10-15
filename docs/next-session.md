@@ -17,6 +17,35 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest experiment — rejected243 event cache; retained242 unchanged
+
+A bounded safe-Rust cache reused empty erased-event owners only. Five private
+candidate tests covered last-owner destruction, held borrows, reentrant/panicking
+Drop, weak/extra owners, caps and TLS teardown. Focused tests and Clippy passed;
+these candidate-only tests earn no retained count or upstream-method credit.
+Both variants remain isolated under `work/round243-event-pool/source` and its
+`dynamic-value/` archive. The final variant slows large changes by 8.86% and swaps
+by 15.45%, with all four paired forks slower in both cases; mixed stream is 3.79%
+slower in three of four forks. Two whole-process captures per case show requests
+883,423→729,090 for changes, 9,730,733→7,234,027 for swaps, and 2,515,687→1,941,629
+for mixed stream; dense remains 503,654. Reject both variants: fewer requests do
+not establish lower CPU time. No source integration, final gate, canonical job or
+browser repeat; reuse qualified242 evidence below. Native counts (8,404 +290) and
+coverage/measurement freshness remain unchanged. Frozen source/artifact receipts,
+source-proof.json and verdict.json preserve the rejected trial.
+
+One fresh diagnostic CPU profile uses the actual retained242 binary. All 15
+outputs exactly match canonical work/results; 4,666 samples, zero lost.
+FixedLinks apply_batch accounts for 7.33% self/16.20% inclusive; fixed terminal
+6.09% self/7.80% inclusive; batch queue push 4.37% self; batch routing 5.92%
+inclusive. Attribution overlaps and is workload-specific, not speed evidence.
+See `work/round243-retained-profile/REPORT.md` and receipt.json. Next target
+measured relationship/scoring/routing CPU work. Do not revive event caches or
+bounded-terminal trials. All243 jobs are terminal. No live SSH connection remains;
+the historical authentication reply does not recover an expired session. No SSH
+attempts; runner-c parked; no new agents. Evidence: `work/parallel-round243-evidence.json`.
+Goal active/incomplete.
+
 ## Latest qualification — retained242 source batch allocation reduction
 
 Source batches publish updates directly, avoiding per-update temporary output

@@ -75,6 +75,15 @@ slower. These observations do not establish a general speedup. The previous241
 fixed-link timing gains and mixed tradeoff remain recorded in the handoff.
 Evidence is preserved under `work/round242-source-batch/`.
 
+A subsequent erased-event cache experiment was rejected without changing the
+retained solver. Its final version removed 25.66% of whole-process swap allocation
+requests, but slowed large swaps 15.45% and changes 8.86%, with all four paired
+runs slower for both. Candidate-only passing tests are excluded from the counts
+above. Frozen sources, actual artifacts and observations remain under
+`work/round243-event-pool/`. A fresh CPU attribution capture of the retained242
+binary is in `work/round243-retained-profile/`; this is diagnostic evidence and
+has not refreshed or relabeled any canonical benchmark.
+
 The preceding bounded-terminal experiment remains unintegrated. Its final variant
 reduced mixed allocation requests by only 22 out of 2,515,687 (0.000875%) and
 slowed large-change searches by 8.24% in all four paired runs. Its modest mixed
