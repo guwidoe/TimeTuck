@@ -17,6 +17,45 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round226
+
+No implementation retained: a bounded ordinary-join row journal candidate passed
+focused public regressions, two private boundary/nesting units and Clippy, but
+failed to show a reliable timing gain. One local fresh isolated release build;
+balanced warm/cold comparison, then one CPU2-pinned confirmation reusing the same
+actual artifacts after noisy Dense controls. Larger cold Stream worsened in both;
+controls varied substantially on the local hybrid i7-13700H/WSL CPU. No speed claim.
+Candidate source, public test draft, binaries and both raw runs are preserved under
+work/round226-join-journal/. Do not reintegrate rejected-candidate.patch or repeat
+this experiment locally. No canonical benchmark refreshed or old result rekeyed.
+
+One actual local current-baseline profile completed: 10,500 samples, zero lost,
+60 independently validated larger Stream solves with exact round225 work and
+assignments. Postchecked preserved binary SHA 4926628d...; no before/after hash or
+process-loader claim. Propagation 11.50% self/50.41% inclusive; changed positions
+7.82% self; Join 16.17% and Terminal 7.32% inclusive include SnapshotMap/Arc work.
+Default Node::score is only 0.53% self: metadata calls survive, but do not attribute
+all propagation cost to them or claim an unmeasured large gain. Actual reports:
+work/round226-local-profile/{REPORT.md,evidence.json}.
+
+runner-a profile did not execute: authentication expired, then the unintended
+collection authentication request was cancelled. All handles terminal; no further
+SSH/auth requests. runner-c parked. Local work
+continued. For a future necessary remote session, reuse a persistent control
+master across long local gates rather than opening disposable profile connections.
+Do not change server security policy or revive the expired authentication links.
+
+All production/test changes reverted exactly to verified commit `9592d08`. Reuse
+8378 Rust + 290 doctest successes, 5 current comparison jobs and actual round225 dates/
+keys; no check.sh, browser or blanket benchmark repeat. Compatibility stays
+4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified. Evidence:
+work/parallel-round226-evidence.json and work/round226-join-journal/verdict.json.
+Rust 7a32c1fc1319bf36880122e3d2539b00bcd8c579478612fa77dc047b602992db; report d48b58d30281b9764c313bc888ba1970a240716ada98f42f8b39f1f6f7287181.
+Goal active/incomplete. Next measured target is derived join/terminal state
+maintenance; any new design must preserve callbacks, snapshots, undo and bounded
+retention, and gain evidence before integration. No repeat scope/exclusion audits,
+duplicate persistence, private Java buffer padding or rejected218/221/226 patches.
+
 ## Latest verified checkpoint — round225
 
 Reduced shared list/mixed stream changed-position and batch allocation overhead:
