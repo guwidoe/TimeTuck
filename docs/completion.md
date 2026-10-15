@@ -19,16 +19,12 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,415 passing Rust tests and 290 doctests**,
-source digest `effcc3e56aa6341264984a176ee9cf039f13a11a136a6bf0a03c72735dac6f4b`. The final `bash scripts/check.sh` passed
-on runner-a in 271.34 seconds. The first worker check also passed in
-841.00 seconds, but its metadata import correctly refused
-the worker-local vendoring fingerprint. Equivalent dependency configuration was
-moved to an isolated Cargo home, and checks actually rerun with compiled artifacts
-reused. The first result was archived, not relabeled. Actual Rust output and checksum metadata were
-collected unchanged, verified against the matching local source, and used for the
-report. No duplicate local full gate or transplanted verification-cache keys.
-The report remains the authority for later counts and freshness.
+The latest integrated checkpoint has **8,425 passing Rust tests and 290 doctests**,
+source digest `8cd2a947af64e9e75e75b8ef13f473239571c6a012614521f2db7488ff840b82`. The required final `bash scripts/check.sh` passed
+on runner-a in 91.71 seconds, running the affected checks and genuinely reusing
+142 unchanged jobs. Source-bound output and checksum metadata were collected
+unchanged; no duplicate local full check or rewritten evidence keys. The live
+report remains the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -57,33 +53,36 @@ requirement and resolution of the remaining relevant behavior differences.
 
 Five of the 18 comparison jobs have current input hashes: solver/list/stream
 correctness and mixed/stream performance. Thirteen older jobs keep their actual
-timestamps and input keys and remain visibly stale. Three affected correctness
-comparisons were freshly rerun; known discrepancies/errors are unchanged. No old
-measurement was rekeyed and no unrelated benchmark was refreshed.
+timestamps and input keys and remain visibly stale. Correctness comparisons
+reuse matching earlier evidence; only the affected mixed benchmark was refreshed
+in this batch. Known discrepancies/errors remain unchanged. No old measurement
+was rekeyed.
 
-Fresh larger mixed measurements: warm stream **119.380 ms vs Java
-15.749 ms**, dense 20.480 ms; all score [0,-338].
-Cold stream 37.317 ms vs Java 18.677 ms,
-dense 9.925 ms; all score [0,-60]. The larger reference [0,-72]
-is a feasible certificate, not an optimum. Work counts and policies differ; these
-are bounded shared-host measurements, not equal-work comparisons or universal speed
-claims. The stream gap remains substantial. Large basic hill/tabu swaps measure
-570.692/568.845 ms vs Java
-323.507/329.332 ms. All 128 stream validation
-cases have valid, equal-score outcomes and unchanged non-timing signatures.
+Fresh larger mixed measurements: warm Stream **23.481 ms vs Java
+17.032 ms**, Dense 5.650 ms; all score [0,-338].
+Cold Stream 33.118 ms vs Java 20.566 ms,
+all score [0,-60]. The larger reference [0,-72] is a feasible certificate, not
+an optimum. The user-confirmed target is Java median-time parity or better at
+equal-or-better solution quality. These bounded shared-host measurements use
+different work/policies; the Stream gap remains visible.
 
-The latest change stores the first four borrowed map-traversal nodes inline,
-with Vec overflow for deeper paths. Range queries and map updates are unchanged.
-Two captures of each actual artifact on six workloads show whole-process allocation
-requests falling **3.97% for warm mixed streams and 3.60% for cold mixed streams**;
-basic stream and dense counts are unchanged. These count malloc/calloc/realloc
-requests, not bytes or live/peak memory. A noisy local timing comparison was
-checked once on runner-a with the same actual binaries: warm stream is flat, cold
-stream 0.62% lower, basic change 1.07% lower, and basic swap inconclusive. No general
-throughput speedup is claimed. Three original traversal/ownership controls earn no
-upstream credit.
+The dashboard's configurable progress index is **84.6%**: feature families 40%,
+behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
+tracked targets, not estimated engineering effort or remaining time. Family
+balancing and weakest-workload scoring prevent numerous easy/fast cases from
+hiding gaps. Stale measurements retain their last-demonstrated contribution with
+visible freshness debt; 100% requires every target and current evidence. See
+[the calculation](dashboard.md#project-completion-index).
 
-Evidence: work/round253-map-iteration/verdict.json and source-proof.json,
-work/round253-qualification/collection.json, work/round253-performance/receipt.json.
-Historical optimization results and retained tradeoffs remain in
-[next-session.md](next-session.md). Goal remains incomplete.
+The latest retained change filters unassigned customer rows before their constant
+cold Stream penalty using an existing operator. It preserves score semantics,
+assignments, logical work and budgets; graph shape and physical callbacks differ.
+Balanced native comparisons show the larger cold Stream 22.45% faster locally and
+21.55% on runner-a in all four forks each; other workload controls and variation
+remain in the evidence. Fifty-six partial/final native controls and one original
+Rust regression independently check arithmetic, pins, completeness and phase
+budgets. This is a constraint declaration improvement, not general Java parity.
+
+Evidence: work/round259-cold-filter/verdict.json, partial-proof.json,
+collection.json and performance-receipt.json. Historical optimization results and
+retained tradeoffs remain in [next-session.md](next-session.md). Goal incomplete.

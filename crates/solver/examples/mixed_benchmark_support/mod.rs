@@ -448,11 +448,11 @@ pub fn run_component_refinement(
                     },
                 )?;
                 if cold {
-                    graph.score(
-                        "unassigned customers",
-                        source.lists.values.port(),
-                        |value| HardSoftScore::new(-i64::from(value.position.is_none()), 0),
-                    )?;
+                    let unassigned = graph
+                        .filter(source.lists.values.port(), |value| value.position.is_none())?;
+                    graph.score("unassigned customers", &unassigned, |_| {
+                        HardSoftScore::new(-1, 0)
+                    })?;
                 }
                 Ok((graph.build(), source))
             },

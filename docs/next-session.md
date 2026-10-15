@@ -17,7 +17,58 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained258 component-first mixed profile
+## Latest qualification — retained259 filtered cold customer penalties
+
+The existing component-refinement cold Stream constraint now filters unassigned
+customer rows before a constant -1 penalty. Assigned rows no longer reach the
+penalty callback. This uses the existing filter operator: native library source,
+source rows, objective, assignments, logical evaluations/steps/phase limits and
+original run/run_cold joint control are unchanged. Warm/Dense declarations remain
+unchanged. Cold graph shape, terminal matches and physical callback counts differ;
+this is a constraint declaration improvement, not a general solver engine speedup.
+Benchmark configuration/methodology explicitly disclose the declaration.
+
+56 actual partial/final runs (two fixtures, seven budgets, both backends and both
+declarations) match independently computed missing-depot/customer, capacity and
+Manhattan tour scores, structural penalties, ownership/pins, completeness and
+phase work/caps. Logical outputs agree after excluding physical callback counts.
+One appended original Rust regression independently checks the same arithmetic,
+partial/final caps and full-budget quality; earns no upstream-method credit.
+
+Same binary/library, four balanced pinned timing forks, all 8 warm/cold/backend
+workloads retained. Larger cold Stream is 22.45% faster locally and 21.55% on
+runner-a, all four forks on each. Same routes/score -60 and 7,845 evaluations;
+physical callbacks 103,428 to 22,941. Small cold Stream local flat/runner-a 4.07%
+faster. Unchanged warm/Dense controls vary (including slower medians); no speed
+claim for them, winning-subset selection or Java parity claim from native timings.
+
+Required final bash scripts/check.sh passed on runner-a in 91.71s:
+8,425 Rust +290 doctest successful evidence. Actual jobs: fmt, clippy, test-suite_11, example-mixed_solver_benchmark, test_benchmark_mixed;
+142 matching jobs genuinely reused in the locked stable checkout.
+Actual source-bound Rust logs/metadata and cached doctest record/log collected
+unchanged with original keys/timestamps/checksums. Native digest
+`8cd2a947af64e9e75e75b8ef13f473239571c6a012614521f2db7488ff840b82`. Root release build 21.13s; no
+root verification-cache transplant. Only mixed-performance inputs changed and
+were freshly measured; all 17 other raw comparison files/keys/dates untouched.
+
+Fresh larger warm medians: Dense 5.650ms, Stream 23.481ms vs
+Java 17.032ms. Cold Stream 33.118ms vs Java 20.566ms,
+all 8 equal quality. These fresh shared-host Java comparisons are not paired
+native trend estimates. The confirmed user performance target is Java median-time
+parity at equal-or-better solution quality (multiplier1), already configured.
+Dashboard progress index 84.591%, 5/18 comparisons current; inventory
+4409/4855, 11 pending, 435 excluded unchanged. This is not effort remaining or ETA.
+Backend report/HTTP/model freshness verified; consumed rendering contract/JS/CSS
+unchanged, 254 browser evidence reused. Server 20631 on 8765.
+
+All 259 jobs terminal; existing Sol supplied the independent test, no new agents
+or runner-c probes. Evidence: work/round259-cold-filter/ and
+work/parallel-round259-evidence.json. Goal remains incomplete. Next work should
+close an actual remaining behavior gap or the measured Stream parity gap; do not
+repeat broad audits, revive rejected storage/event-cache variants or relabel
+remaining Java quirks as passes. No pin/provenance/API or upstream credit change.
+
+## Previous qualification — retained258 component-first mixed profile
 
 The mixed performance driver explicitly selects component-only local search until
 stall, then joint refinement using existing MixedSolverSequence APIs. Cold starts

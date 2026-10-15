@@ -240,3 +240,96 @@ fn component_refinement_keeps_quality_and_shared_caps_across_phase_handoffs() {
         assert_eq!(cold.work.completed_steps, 0);
     }
 }
+
+#[test]
+fn cold_filtered_value_impacts_match_independent_math_at_partial_and_final_caps() {
+    fn independent(case: &Case, assignment: &MixedAssignment<usize, usize>) -> HardSoftScore {
+        let routes = assignment.lists().lists();
+        let missing_depots = assignment
+            .basic()
+            .values()
+            .iter()
+            .filter(|v| v.is_none())
+            .count();
+        let assigned_customers: usize = routes.iter().map(Vec::len).sum();
+        let missing = missing_depots + case.points.len() - assigned_customers;
+        let mut hard = -(missing as i64);
+        let mut soft = 0;
+        for (owner, route) in routes.iter().enumerate() {
+            hard -= route.len().saturating_sub(case.capacities[owner]) as i64;
+            if let Some(depot) = assignment.basic().values()[owner] {
+                // A closed tour has one edge between every adjacent pair in
+                // [home, customer..., home]; absent depots have no tour edges.
+                let home = case.depots[depot];
+                let mut points = vec![home];
+                points.extend(route.iter().map(|&id| case.points[id]));
+                points.push(home);
+                soft -= points
+                    .windows(2)
+                    .map(|pair| {
+                        pair[0]
+                            .iter()
+                            .zip(pair[1])
+                            .map(|(a, b)| (a - b).abs())
+                            .sum::<i64>()
+                    })
+                    .sum::<i64>();
+            }
+        }
+        HardSoftScore::new(hard, soft).with_structural(-(missing as i64))
+    }
+    let small = Case::parse(&format!("{SMALL}\t0:-12")).unwrap();
+    let mut large = clustered_case();
+    large.quality_floor = Some(HardSoftScore::new(0, -72));
+    for original in [small, large] {
+        let full_budget = original.evaluations;
+        for cap in [1, 2, 7, 32, 256, 2048, full_budget] {
+            let mut case = original.clone();
+            case.evaluations = cap;
+            let cold = cold_problem(&case).unwrap();
+            for stream in [false, true] {
+                let result = support::run_component_refinement(&case, stream, true).unwrap();
+                cold.validate(&result.assignment).unwrap();
+                assert_eq!(
+                    result.score,
+                    Some(independent(&case, &result.assignment)),
+                    "{} cap={cap} stream={stream}",
+                    case.id
+                );
+                assert_eq!(result.complete, cold.is_complete(&result.assignment));
+                assert!(result.work.evaluations <= cap);
+                assert!(result.work.completed_steps <= original.steps);
+                assert_eq!(
+                    result.work.evaluations,
+                    result
+                        .phases
+                        .iter()
+                        .map(|p| p.work.evaluations)
+                        .sum::<u64>()
+                );
+                assert_eq!(
+                    result.work.completed_steps,
+                    result
+                        .phases
+                        .iter()
+                        .map(|p| p.work.completed_steps)
+                        .sum::<u64>()
+                );
+                assert_eq!(
+                    result.work.construction_steps,
+                    result
+                        .phases
+                        .iter()
+                        .map(|p| p.work.construction_steps)
+                        .sum::<u64>()
+                );
+                if cap == full_budget {
+                    assert!(result.complete);
+                    case.validate(&result.assignment, result.score.unwrap())
+                        .unwrap();
+                    assert!(result.score.unwrap() >= original.quality_floor.unwrap());
+                }
+            }
+        }
+    }
+}
