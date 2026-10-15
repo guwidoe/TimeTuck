@@ -1974,6 +1974,25 @@ per-event behavior and checked arithmetic, including possible intermediate error
 Accepted pair IDs are stored, so dense joins can still use quadratic memory;
 input payloads live in side indexes and accepted output payloads live downstream.
 
+Ordinary filters and maps collect their batch outputs directly into one vector.
+Each input event still runs in encounter order, including repeated IDs and
+retractions; predicate, mapping, ID/payload cloning and panic behavior retain
+ordinary per-event semantics. This avoids a temporary output vector per event
+without coalescing callbacks or enabling automatic batching for ordinary graphs.
+Three original regressions compare callback/clone/drop traces with singleton
+delivery and exercise rollback and retry after later-event callback failures.
+
+The retained239 comparison observed 5.74% lower large hill/swap time across four
+balanced pinned forks, with every fork improving. Two repeatable whole-process
+allocation captures observed 8.30% fewer allocation requests for large swaps and
+4.93% fewer for large changes. These count malloc/calloc/realloc requests, not
+bytes or live/peak memory. A mixed workload with no changed unary operators had
+identical allocation counts but was 3.50% slower initially and 4.58% slower in a
+longer same-artifact confirmation; this regression is retained as an explicit
+tradeoff, not dismissed as noise. There is no general speedup or Java-parity claim.
+Raw artifacts, work-signature checks and comparisons are under
+`work/round239-unary-batch/`.
+
 Basic, list and mixed stream score directors automatically submit complete initial
 and move updates as batches when a batched join reaches a scoring constraint or
 captured dataset. Graphs without an observed batched join retain ordered immediate

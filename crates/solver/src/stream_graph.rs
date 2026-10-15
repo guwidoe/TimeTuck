@@ -456,6 +456,17 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
+    fn apply_batch(
+        &mut self,
+        inputs: &[(bool, Event)],
+        _: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
+        // Keep ordinary per-event filter semantics without constructing a
+        // separate one-element output vector for each accepted input.
+        Ok(erase(inputs.iter().filter_map(|(_, event)| {
+            self.0.apply(typed::<I, T>(event).clone())
+        })))
+    }
     fn apply(
         &mut self,
         _: bool,
@@ -509,6 +520,19 @@ impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for M
         Box::new(())
     }
     fn restore(&mut self, _: Box<dyn Any>) {}
+    fn apply_batch(
+        &mut self,
+        inputs: &[(bool, Event)],
+        _: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
+        Ok(erase(inputs.iter().map(|(_, event)| {
+            let change = typed::<I, T>(event);
+            TupleChange {
+                id: change.id.clone(),
+                value: change.value.as_ref().map(|v| (self.mapping)(v)),
+            }
+        })))
+    }
     fn apply(
         &mut self,
         _: bool,
@@ -2723,3 +2747,6 @@ mod propagation_workspace_tests;
 
 #[cfg(test)]
 mod source_forwarding_tests;
+
+#[cfg(test)]
+mod unary_batch_tests;

@@ -17,7 +17,51 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained238 bounded planning-filter inputs
+## Latest qualification — retained239 unary batch outputs
+
+Ordinary Filter/Map batch collection now avoids per-event temporary output vectors.
+Events still run in encounter order, with repeated IDs/retractions, unchanged
+predicate/mapping/Clone/Drop order and ordinary intermediate failures. It neither
+coalesces callbacks nor enables automatic batching for ordinary graphs. Three
+original private regressions compare singleton traces/output/cleanup, including
+later callback/ID-Clone panics and actual graph rollback/retry with held snapshots.
+No public API, dependency, source pin, provenance or upstream-method credit change.
+
+Four balanced pinned release forks vs actual238 binaries observed large swaps
+589.925→556.047ms (5.74% lower), all4improve5.04–9.88%. Large changes1.90% lower
+but noisy. Two repeatable independent whole-process allocation captures show
+4.93% fewer requests for changes/8.30% fewer swaps, with exact output/work signatures.
+These count malloc/calloc/realloc requests, not bytes or live/peak memory. Mixed
+requests are identical and the fixture has no changed unary nodes, but measured
+runtime is3.50% slower initially and4.58% slower in a longer same-artifact
+confirmation/all4forks slower. This is a retained performance tradeoff: do not
+dismiss it as noise or claim a general speedup/Java parity.
+
+Final integrated bash scripts/check.sh passed once in501.81s:8399 Rust
+and290doctests, fmt/Clippy/Python checks passed with matching evidence reused.
+Rust 40f67a34ffeebcf806f568f8caf8c2ce67cf8ef2a7f310a836e19feaf11878f9;
+report d734f26c9a3b8027ff11de7717086d48931268bfb987e2e237f651ba0e249000.
+Three canonical correctness jobs freshly qualified exact native inputs; known
+nested Java divergences/runtime errors remain visible and unchanged. Only affected
+stream performance deliberately refreshed after all builds/tests finished;
+128/128 valid equal-score cases and exact work signatures unchanged. No benchmark
+blanket refresh, old cache rekey or root cache transplantation. Four measurement
+jobs current,14others visibly stale with original keys/dates. Coverage unchanged
+4409/4855(90.814%),11pending435excluded,0failed/unverified. Dashboard data/HTTP
+freshness verified at127.0.0.1:8765; unchanged UI evidence reused.
+
+Evidence:work/parallel-round239-evidence.json,work/round239-unary-batch/,
+work/round239-qualification/{receipt,collection}.json,work/round239-performance/receipt.json.
+Fresh239 profile of actual238binary is attribution only, not timing evidence;
+work/round239-stream-profile/. Source frozen, exact artifacts checked before/after.
+Reuse successful checks until relevant inputs change. runner-a session43434 closed
+255/port22 timeout; authentication link expired, no remote transfer/build. Do not
+repeat this qualification remotely. runner-c parked. All agents idle. Goal incomplete;
+continue native compatibility/performance work without repeated scope audits or
+revisiting rejected patches. Agent fixed-link bitset suggestion is unimplemented,
+unmeasured and not automatically a next step; work/round239-review.md.
+
+## Historical qualification — retained238 bounded planning-filter inputs
 
 Complete protected planning filter input caches now reuse existing key-preserving
 slots for usize IDs 0..count through256. Rejected rows remain cached. Initially
