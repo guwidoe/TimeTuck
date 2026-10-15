@@ -85,3 +85,14 @@ fn identify_solver_version_with_git_ref_matches_community_pattern() {
             .is_empty()
     );
 }
+
+// Adapted Community TimefoldSolverEnterpriseServiceTest#solverVersion,
+// Apache-2.0. Native package diagnostics replace the JVM service utility.
+#[test]
+fn community_service_identifies_community_edition() {
+    assert!(
+        VersionReporter::package()
+            .identify()
+            .contains("Community Edition")
+    );
+}

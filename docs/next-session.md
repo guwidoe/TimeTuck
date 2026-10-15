@@ -17,7 +17,41 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained261 sparse Eq-only value discovery
+## Latest qualification — 262 Community edition identity
+
+One complete Community `TimefoldSolverEnterpriseServiceTest.solverVersion`
+method now has a dedicated executed adaptation preserving its literal
+`Community Edition` assertion. Existing `VersionReporter::package().identify()`
+reports actual Cargo metadata and native branding; no runtime/API change,
+JVM loading, Enterprise feature or identical Java version-number claim.
+The initial mapping reused an existing Rust test and the report rejected the
+duplicate mapping. That test was restored unchanged, the dedicated adaptation
+added, and affected final-source checks rerun. Initial source/logs remain in
+work/round262-community-version/first-mapping-rejected/; no guard was weakened.
+
+Final `bash scripts/check.sh` passed on runner-a in 63.36 seconds: fmt, clippy and
+test-suite_15 executed, 144 matching jobs genuinely reused. Successful evidence:
+8,427 Rust tests +290 doctests. Actual source-bound logs/metadata and the original
+cached doctest record/log collected unchanged, with no result rekey or cache
+transplant. Native digest
+`a315d5996fa11b75571f881eb88318faae95a6ecc389be8d5ff5bc339b61c17a`.
+Inventory 4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified.
+Eight JVM/loading/framework seams and two private k-opt assertions remain.
+
+Runtime source and all 18 comparison input keys/raw reports remain unchanged;
+no solves or benchmarks rerun. Four jobs remain current. Dashboard index
+84.413%, Java parity target multiplier 1, backend report/HTTP/freshness verified.
+Unchanged rendering contract/JS/CSS reuse the 254 browser evidence. Server 20631
+on 8765; runner-c remains parked. Evidence: work/round262-community-version/ and
+work/parallel-round262-evidence.json. Goal incomplete.
+
+One authorized Sol agent is preparing an isolated, UNBUILT opt-in score-only
+terminal prototype under work/round263-score-only/candidate/. It retains score
+contributions without match payloads and must report match inspection unavailable.
+No Root integration, build, benchmark or performance claim yet; tracked defaults
+remain unchanged. Review and qualify separately before integrating.
+
+## Previous qualification — retained261 sparse Eq-only value discovery
 
 Native changed-value discovery scans touched current/original rows when the
 registry has at least 16 values and current touched rows contain at most half its

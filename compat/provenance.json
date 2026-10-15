@@ -66482,6 +66482,21 @@
       "local_path": "crates/solver/tests/sequence_json_cases.rs",
       "local_test": "round_trip",
       "modifications": "Preserve exact six source Item IDs and indices0,1/3,4,5/7 and every one of six complete expected JSON wire documents. Actual public native SequenceCollector constructs all sequence/break topology, flags and neighbors; native codec traverses that topology without expected snapshot constants. Explicit generic item/id adapters and document-local identity table replace Jackson PropertyGenerator/Item scope. Decoded reduced chain sequences count and unsupported breaks access, standalone sequence item count/count/first-last/neighbor presence and both break flags/non-null endpoints all retained. Typed native unavailable-access error replaces UnsupportedOperationException; endpoint Arc payload equality strengthens nonnull checks, and original controls verify shared Arc reference identity. Separate reduced-chain sequence type does not invent neighbor/metric data missing from chain JSON. Source serialized documents preserve field/item/neighbor traversal and reference strings; i64 native index widens Java int only on these exact integral test values. no Quarkus wrapper aliases, Jackson/Java interface/reflection or general graph parity claim."
+    },
+    {
+      "id": "TimefoldSolverEnterpriseServiceTest.solverVersion",
+      "status": "implemented",
+      "upstream_commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+      "upstream_path": "core/src/test/java/ai/timefold/solver/core/enterprise/TimefoldSolverEnterpriseServiceTest.java",
+      "upstream_test": "solverVersion",
+      "local_path": "crates/solver/tests/solver_version_cases.rs",
+      "local_test": "community_service_identifies_community_edition",
+      "license": "Apache-2.0",
+      "notice_paths": [
+        "THIRD_PARTY_NOTICES.md",
+        "compat/licenses/timefold-Apache-2.0.txt"
+      ],
+      "modifications": "Preserve the entire Community-test assertion that the reported solver identity contains the literal Community Edition. Existing native VersionReporter::package().identify() supplies actual Cargo version metadata and native TimeTuck branding, replacing the JVM service utility. The dedicated adaptation keeps the original literal assertion; existing native version tests independently check package metadata, prefix and nonempty version. No new runtime API, JVM classloading, Enterprise discovery/artifact/feature, Java ABI or identical Timefold version-number claim."
     }
   ],
   "fixtures": [

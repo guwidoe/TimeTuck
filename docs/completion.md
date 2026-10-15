@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,426 passing Rust tests and 290 doctests**,
-source digest `84e80bdf2b8c9818684433588c0a51dcd69c54e324f5e18aa22e13b755cb2537`. The required final `bash scripts/check.sh` passed
-on runner-a in 452.78 seconds, running the affected checks and genuinely reusing
-63 unchanged jobs. Source-bound output and checksum metadata were collected
+The latest integrated checkpoint has **8,427 passing Rust tests and 290 doctests**,
+source digest `a315d5996fa11b75571f881eb88318faae95a6ecc389be8d5ff5bc339b61c17a`. The required final `bash scripts/check.sh` passed
+on runner-a in 63.36 seconds, running the affected checks and genuinely reusing
+144 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
 
@@ -32,15 +32,17 @@ cold construction reaches the independently enumerated small optimum and beats
 the larger feasible certificate while preserving pins. These results establish
 bounded application behavior, rather than universal optimality or performance.
 
-The inventory has **4,409/4,855 passing adapted methods (90.814%), 11 pending,
+The inventory has **4,410/4,855 passing adapted methods (90.834%), 10 pending,
 435 excluded and zero failed/unverified**. The percentage counts statically
 discovered annotated source methods, not all JUnit runtime invocations or overall
-project completion. Even clearing all 11 pending methods would give only 91.04%
+project completion. Even clearing all 10 pending methods would give only 91.04%
 with the existing exclusions; exclusions remain visible in the denominator.
-The 11 pending methods include nine JVM/loading/framework seams and two exact
-private k-opt endpoint/partner-array assertions. They are not evidence of eleven
+The 10 pending methods include eight JVM/loading/framework seams and two exact
+private k-opt endpoint/partner-array assertions. They are not evidence of ten
 missing native algorithms, and native implementation does not make those original
-assertions pass. No reclassification or extra source-method credit in this batch.
+assertions pass. One complete Community version-identity method now preserves
+its literal edition assertion using existing native Cargo package diagnostics.
+This adds no runtime feature, JVM loading or Enterprise functionality.
 
 Known differential limits remain in connected-range duplicate/empty-interval
 semantics, sequence-distance arithmetic, large-number load balancing and other
@@ -56,7 +58,9 @@ correctness and mixed performance. Fourteen timing reports retain their original
 input keys/dates and remain visibly stale. The three affected correctness jobs
 and mixed benchmark were deliberately refreshed. Native results and known
 comparison counts match prior evidence; one existing Java NPE gained diagnostic
-detail but remains an error. No old execution result was rekeyed.
+detail but remains an error. The latest version-identity test change leaves all
+18 raw reports and measurement inputs unchanged; no solves or benchmarks were
+rerun. No old execution result was rekeyed.
 
 Fresh larger mixed measurements: warm Stream **28.520 ms vs Java
 22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
@@ -83,5 +87,6 @@ claims. Smaller mixed workloads remain roughly flat with some slower controls.
 Sparse, nested and callback-panic regressions include 32 registered Eq-only values.
 
 Evidence: work/round261-touched-scan/verdict.json, collection.json,
-performance-receipt.json and java-diagnostic-difference.json. Historical results
+performance-receipt.json and java-diagnostic-difference.json;
+work/round262-community-version/collection.json and gate-receipt.json. Historical results
 and retained tradeoffs remain in [next-session.md](next-session.md). Goal incomplete.

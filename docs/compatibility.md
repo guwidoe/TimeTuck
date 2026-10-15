@@ -7,6 +7,11 @@ Initial reference: Timefold Solver Community 2.7.0, exact commit recorded in
 behavior implemented in native Rust. Java API, binary compatibility, reflection,
 framework integration, and all Enterprise functionality are outside the initial scope.
 
+The complete Community `TimefoldSolverEnterpriseServiceTest.solverVersion`
+adaptation preserves its literal `Community Edition` assertion using existing
+native Cargo package diagnostics. It adds no runtime API and establishes no JVM
+classloading, Enterprise discovery or identical Java version-number behavior.
+
 Native list/mixed construction offers explicit entity-start/registry-anchor
 ordering through `ConstructionConfig.list_order`, retaining physical entity/index
 order as the native default. Original tied-choice, budget, pin/range and backend
