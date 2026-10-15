@@ -433,6 +433,11 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
 
 struct Filter<'a, I, T>(FilterNode<'a, I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for Filter<'_, I, T> {
+    fn bind_fixed_input(&mut self, right: bool, count: usize) {
+        if !right {
+            self.0.bind_fixed_inputs(count);
+        }
+    }
     fn preserves_input_ids(&self) -> bool {
         true
     }

@@ -27,6 +27,7 @@
 //! assert_eq!(score.score(), SimpleScore::ZERO);
 //! ```
 
+mod filter_bound;
 mod group_batch;
 mod group_inputs;
 mod join_batch;
@@ -79,13 +80,14 @@ fn healthy(poisoned: bool) {
 /// the predicate, and an update evaluates only the changed row.
 pub struct FilterNode<'a, I, T> {
     rows: SnapshotMap<I, (bool, T)>,
+    fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (bool, T)>>>,
     predicate: Box<dyn Fn(&T) -> bool + 'a>,
     poisoned: bool,
 }
 
 impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
     pub(crate) fn clear(&mut self) {
-        self.rows.clear();
+        self.clear_rows();
         self.poisoned = false;
     }
 
@@ -95,7 +97,7 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
         T: 'static,
     {
         healthy(self.poisoned);
-        Box::new(self.rows.clone())
+        self.checkpoint_rows()
     }
 
     pub(crate) fn begin_checkpoint(&mut self) -> Box<dyn Any>
@@ -104,27 +106,28 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
         T: 'static,
     {
         healthy(self.poisoned);
-        self.rows.begin_checkpoint()
+        self.begin_rows()
     }
     pub(crate) fn commit_checkpoint(&mut self, saved: Box<dyn Any>)
     where
         I: 'static,
         T: 'static,
     {
-        self.rows.commit_checkpoint(saved);
+        self.commit_rows(saved);
     }
     pub(crate) fn restore(&mut self, checkpoint: Box<dyn Any>)
     where
         I: 'static,
         T: 'static,
     {
-        self.rows.restore_checkpoint(checkpoint);
+        self.restore_rows(checkpoint);
         self.poisoned = false;
     }
 
     pub fn new(predicate: impl Fn(&T) -> bool + 'a) -> Self {
         Self {
             rows: SnapshotMap::new(),
+            fixed_rows: None,
             predicate: Box::new(predicate),
             poisoned: false,
         }
@@ -136,18 +139,14 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
 
     pub fn rows(&self) -> impl Iterator<Item = (&I, &T)> {
         healthy(self.poisoned);
-        self.rows
-            .iter()
+        self.row_iter()
             .filter_map(|(id, (accepted, row))| accepted.then_some((id, row)))
     }
 
     pub fn apply(&mut self, change: TupleChange<I, T>) -> Option<TupleChange<I, T>> {
         healthy(self.poisoned);
         let new = change.value.map(|row| ((self.predicate)(&row), row));
-        let was_accepted = self
-            .rows
-            .get(&change.id)
-            .is_some_and(|(accepted, _)| *accepted);
+        let was_accepted = self.row(&change.id).is_some_and(|(accepted, _)| *accepted);
         let output = match &new {
             Some((true, row)) => Some(TupleChange::put(change.id.clone(), row.clone())),
             _ if was_accepted => Some(TupleChange::retract(change.id.clone())),
@@ -156,10 +155,10 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
         self.poisoned = true;
         match new {
             Some(row) => {
-                self.rows.insert(change.id, row);
+                self.insert_row(change.id, row);
             }
             None => {
-                self.rows.remove(&change.id);
+                self.remove_row(&change.id);
             }
         }
         self.poisoned = false;

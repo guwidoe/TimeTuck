@@ -14,6 +14,8 @@ pub mod benchmark_runtime_cases;
 pub mod bendable_decimal_score;
 #[path = "../best_metric_order_regression.rs"]
 pub mod best_metric_order_regression;
+#[path = "../bounded_filter_planning_regression.rs"]
+pub mod bounded_filter_planning_regression;
 #[path = "../concurrent_regression.rs"]
 pub mod concurrent_regression;
 #[path = "../configured_selection_factory_cases.rs"]

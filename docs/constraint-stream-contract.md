@@ -306,9 +306,9 @@ can inspect results between its writes, commit all writes or undo them together.
 Before the first update to each affected node, the transaction normally saves that
 node's persistent map roots and scalar state, including indexes, summaries and scores.
 Sources, filters, terminal matches, datasets and indexed batched joins use
-reversible row journals as described below; their saved candidate snapshots still
-share roots.
-Further updates reuse that checkpoint. Generic sources, filter inputs, both join
+reversible row journals as described below. Generic saved candidate snapshots
+share roots; bounded planning nodes instead copy the limited slots described below.
+Further updates reuse that checkpoint. Generic sources and filter inputs, both join
 indexes and their ID buckets, group inputs/collectors and terminal match records
 use shared AVL trees. Bounded planning storage is described below. Each graph
 terminal stores its payload and cached contribution
@@ -337,10 +337,36 @@ merge are bounded linear scans of touched slots, not constant-time
 operations. Restoring a saved candidate inside an outer trial preserves that
 trial's originals. This private representation adds no public ID restriction.
 
+An ordinary graph filter can use the same private row slots when its initial
+input cache contains every protected planning ID `0..count`, with at most 256
+rows. Rejected rows still belong to that cache: their predicate result is retained.
+An initially sparse downstream filter keeps its map and can later accept unseen
+IDs. Ordinary facts, larger inputs and standalone `FilterNode` instances also keep
+maps. Bounds follow only the existing identity-preserving map/filter path and stop
+at operators that change the occurrence namespace.
+
+Binding preserves the original key/payload owners and iteration order. Updates
+keep the existing predicate and output-clone order; retraction and rollback do not
+rerun predicates. Full snapshots copy at most 256 shared key and payload handles;
+trial frames retain first-touched originals and merge nested commits. Restoring
+full snapshots inside an outer trial preserves its undo. Full snapshot payloads
+are boxed separately so frequent journal tokens do not allocate the larger full
+snapshot representation. This is a checkpoint-cost tradeoff, not constant-time
+snapshotting or a general memory-reduction claim.
+
+A four-fork pinned release comparison observed a 10.48% lower large hill/swap
+median, improving 7.01–15.02% in every fork with exact assignments, scores and
+measured callback counts. The Dense control also fell 3.55%, so the entire timing
+difference cannot be attributed to this change. Large changes improved overall
+but one fork was slower; Mixed Stream varied. These results do not establish a
+general speedup or Java parity. Actual binaries, inputs and source hashes are in
+`work/round238-bound-filter/{artifact-receipt,paired/results}.json`.
+
 Dropping restores owned roots and scalar state with no predicate, key, scoring,
 cloning or comparison callbacks. Commit keeps current roots with no callback
-replay. Checkpoint/candidate-state storage scales with affected nodes rather than
-all cached rows. Updating a tree entry takes logarithmic path work; joins still
+replay. Generic root checkpoint/candidate-state storage scales with affected nodes
+rather than all cached rows; bounded slot snapshots have the costs described above.
+Updating a tree entry takes logarithmic path work; joins still
 emit every affected match, and source changes still clone payloads during tuple
 propagation. Model validation, assignment snapshots and structural counting retain
 their existing costs. No constant-time move or runtime-speedup claim follows.

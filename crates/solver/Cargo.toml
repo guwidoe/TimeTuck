@@ -543,6 +543,11 @@ path = "tests/bounded_expansion_steps.rs"
 test = false
 
 [[test]]
+name = "bounded_filter_planning_regression"
+path = "tests/bounded_filter_planning_regression.rs"
+test = false
+
+[[test]]
 name = "bounded_group_planning_regression"
 path = "tests/bounded_group_planning_regression.rs"
 test = false

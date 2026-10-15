@@ -17,7 +17,53 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained237 test layout; native remains235
+## Latest qualification — retained238 bounded planning-filter inputs
+
+Complete protected planning filter input caches now reuse existing key-preserving
+slots for usize IDs 0..count through256. Rejected rows remain cached. Initially
+sparse downstream filters, ordinary facts, custom IDs and larger inputs retain
+maps; existing bounds stop at occurrence-namespace changes. Binding preserves
+key/payload owners and callback order. Full snapshots copy bounded shared handles;
+first-touch journals preserve nested commit/rollback and full restores inside an
+outer trial. Full snapshot payloads are boxed separately to keep hot frame tokens
+small. No public API, dependency, provenance, pin or upstream-method credit change.
+Two private and three original public regressions cover complete/sparse/large
+universes, unseen downstream IDs, arbitrary facts/group keys, nested edits,
+assignment replacement, retained views and predicate/post-predicate clone panics.
+
+Four balanced pinned release forks against qualified235 binaries observed large
+hill/swap median702.880→629.216ms (10.48% lower); all4forks improve7.01–15.02%.
+Dense control also3.55% lower, so do not attribute the whole difference to code.
+Large changes5.19% lower overall with one slower fork; Mixed Stream is noisy.
+No general speedup, memory-reduction or Java-parity claim. Actual artifacts/source
+and exact assignments/scores/work comparisons: work/round238-bound-filter/.
+
+Final integrated bash scripts/check.sh passed once in605.81s:8396 Rust tests and
+290doctests, fmt/Clippy and reused matching Python checks. Rust digest
+2e03fa5370355039defc9dcd80e9c8da1c9959e5e8abfc11f462e30ca10db847;
+report8b5b1a599296e55c9d65fc8f7e0ac8ea1c946e330461aafe02050fdd3243ebdf.
+Three canonical correctness jobs freshly passed on those exact native inputs;
+known nested Java divergences/runtime errors remain explicit and unchanged.
+Only affected stream performance was deliberately refreshed after all builds/tests
+finished:128/128 valid equal-score cases, exact work signatures unchanged. Large
+96-variable stream workloads remain slower than Java:change47.509–52.339ms vs
+23.427–27.969ms;swap590.468–621.076ms vs301.642–303.920ms. These current shared-host
+measurements are not a controlled before/after comparison.
+
+Dashboard data/HTTP freshness verified at127.0.0.1:8765 without another UI run.
+Coverage remains4409/4855 (90.814%),11pending435excluded,0failed/unverified.
+Four measurement jobs current;14others visibly stale, original keys/dates untouched.
+No benchmark blanket refresh or old cache rekey/transplant. Evidence:
+work/parallel-round238-evidence.json, work/round238-qualification/{receipt,collection}.json,
+work/round238-performance/receipt.json and work/round238-bound-filter/gate-receipt.json.
+Reuse this successful qualification until relevant inputs change. runner-c remains
+parked. runner-a handle1549 closed255/port22 timeout; that auth link expired and no
+remote transfer/build occurred. User authentication reply does not revive a closed
+connection. Final qualification completed locally; do not repeat remotely. All
+agents idle. Goal remains incomplete; continue native compatibility/performance
+work without repeated scope audits or revisiting rejected patches.
+
+## Historical qualification — retained237 test layout; native remains235
 
 Grouped1278 original integration files into16 stable filename-hash shards plus
 six standalone targets: ordered_destination_regression, owned_roster_cli_regression,
