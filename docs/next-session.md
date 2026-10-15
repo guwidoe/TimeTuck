@@ -17,7 +17,61 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained252 ordinary graph outputs
+## Latest qualification — retained253 inline map iteration
+
+SnapshotMap::Iter stores its first four borrowed traversal nodes inline and spills
+only deeper paths to Vec. Range/update behavior, public API, dependencies, pin,
+provenance and source-method credit are unchanged. Three original controls cover
+inline/spill boundaries and refill, exact-size/fused/partial traversal, persistent
+ordering after edits, borrowed non-Clone identity, comparison panic switches and
+owner destruction. Safe Rust throughout.
+
+Whole-process allocation requests fall 3.97% for mixed warm streams and 3.60% for
+cold streams, exact repeatable captures twice for six workloads; basic and dense
+counts are unchanged. Counts are requests, not bytes/live memory. Four local
+balanced timing forks were noisy (warm -5.70%, cold +0.81%, swap +2.97%). One
+second-host comparison on runner-a used identical actual binaries and workloads:
+warm flat (+0.007%), cold -0.62%/all4, basic change -1.07%/all4, basic swap -0.66%
+but only 2/4. Retain allocation reduction without claiming general speedup. Both
+hosts' full results are preserved; no selective winning subsets or extra variants.
+
+After user authentication runner-a persistent SSH worked. The final integrated
+bash scripts/check.sh passed there in 271.34s: 8,415 Rust +290 doctests,
+fmt, Clippy and required Python checks. Matching local/remote source digest:
+`effcc3e56aa6341264984a176ee9cf039f13a11a136a6bf0a03c72735dac6f4b`.
+The first worker check passed in 841.00s, but collection
+rejected the extra project-local vendoring fingerprint. Only that config differed.
+Equivalent configuration moved to an isolated Cargo home; actual checks were rerun
+with compiled artifacts reused and original mismatched metadata archived. Actual
+matching Rust log/metadata were then collected unchanged and validated.
+Root verification-cache records were not transplanted. Future remote gates must
+keep vendoring configuration in an isolated Cargo home from the start.
+No duplicate local full gate. Local prebuild and three correctness jobs completed while runner-a ran broad
+checks. Timing on the physically separate local host followed its own builds/tests.
+runner-c parked, no probes. One existing Sol agent wrote three controls; no new agents.
+
+Mixed/stream performance freshly measured with unchanged CLI/artifact configuration,
+128/128 stream validation, exact prior non-timing signatures and existing Java
+limits unchanged. Five jobs current, 13 stale. Larger warm stream/dense/Java:
+119.380/20.480/15.749ms;
+cold 37.317/9.925/18.677ms.
+Equal scores; different work, no throughput trend inferred across refreshes.
+Dashboard data/HTTP freshness checked; unchanged UI evidence reused. Coverage stays
+4409/4855,11pending435excluded,0failed/unverified. Report digest:
+`97b185c275a5f408041e8fc48bda9b9df87b6ff6c7fddf965122fe07f674d3c5`.
+
+All round253 jobs terminal. Evidence: work/parallel-round253-evidence.json,
+work/round253-map-iteration/, work/round253-qualification/collection.json,
+work/round253-performance/receipt.json. Qualified253 is next actual baseline.
+The user asked how close completion is: feature breadth is advanced, but the method
+percentage has a 91.04% ceiling with existing exclusions and is not a completion
+estimate. Remaining relevant compatibility differences, performance gaps and final
+current evidence still matter. Close concrete compatibility work next while keeping
+performance important; do not launch another broad audit or representation variant.
+The previous final Java-quirk policy question is unanswered; do not duplicate it,
+infer consent or claim completion. Goal active/incomplete.
+
+## Historical qualification — retained252 ordinary graph outputs
 
 Ordinary nodes now return Empty/One/Many erased outputs. Empty and single events
 are held directly; multiple events retain Vec storage. Owned/borrowed iteration

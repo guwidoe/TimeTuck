@@ -19,21 +19,16 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,412 passing tests and 290 doctests**, source
-digest `7d32df921b753abfa5d1c880aec720453bff517af5a7eb93871748316db528cf`.
-Its final `scripts/check.sh` passed in 747.70 seconds. The current layout uses
-22 integration executables and 95 verification jobs, preserving original test
-files and source attribution. Successful checks are reused when their relevant
-inputs are unchanged; documentation-only updates do not rerun the solver suite.
-The generated report remains the authority for later counts and freshness.
-
-Direct erased fixed-link output construction was tested separately and rejected:
-changes were 8.80% slower in all four paired forks, swaps 3.96% slower overall
-(three of four), despite mixed stream being 6.46% faster (three of four). The
-unchanged dense control was 5.74% slower. Two candidate ownership/panic controls
-passed but are not retained coverage. The retained checkpoint above and canonical
-reports are unchanged; no repeated full gate or measurement refresh. Evidence:
-`work/round248-link-outputs/verdict.json` and `work/parallel-round248-evidence.json`.
+The latest integrated checkpoint has **8,415 passing Rust tests and 290 doctests**,
+source digest `effcc3e56aa6341264984a176ee9cf039f13a11a136a6bf0a03c72735dac6f4b`. The final `bash scripts/check.sh` passed
+on runner-a in 271.34 seconds. The first worker check also passed in
+841.00 seconds, but its metadata import correctly refused
+the worker-local vendoring fingerprint. Equivalent dependency configuration was
+moved to an isolated Cargo home, and checks actually rerun with compiled artifacts
+reused. The first result was archived, not relabeled. Actual Rust output and checksum metadata were
+collected unchanged, verified against the matching local source, and used for the
+report. No duplicate local full gate or transplanted verification-cache keys.
+The report remains the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -41,124 +36,54 @@ cold construction reaches the independently enumerated small optimum and beats
 the larger feasible certificate while preserving pins. These results establish
 bounded application behavior, rather than universal optimality or performance.
 
-Completion is still unproven. The inventory retains **11 pending methods and
-435 exclusions**, with 4,409/4,855 methods passing (90.814%). Pending identities
-include Java loading/edition seams and exact private k-opt buffer assertions.
-Implemented native algorithms do not turn those source assertions into passes.
-Excluded frameworks remain visible in the denominator.
+The inventory has **4,409/4,855 passing adapted methods (90.814%), 11 pending,
+435 excluded and zero failed/unverified**. The percentage counts statically
+discovered annotated source methods, not all JUnit runtime invocations or overall
+project completion. Even clearing all 11 pending methods would give only 91.04%
+with the existing exclusions; exclusions remain visible in the denominator.
+The 11 pending methods include nine JVM/loading/framework seams and two exact
+private k-opt endpoint/partner-array assertions. They are not evidence of eleven
+missing native algorithms, and native implementation does not make those original
+assertions pass. No reclassification or extra source-method credit in this batch.
 
-Known differential limits also remain: connected-range duplicate/empty-interval
-semantics, widened sequence-distance arithmetic and large-number load-balancing
-arithmetic differ from Java in recorded cases. Shared cyclic-supplier comparisons
-retain actual Java runtime errors separately from successful-result agreement.
-See the [collector and dependency contracts](constraint-stream-contract.md).
-Passing independent Python references does not establish Java agreement.
+Known differential limits remain in connected-range duplicate/empty-interval
+semantics, sequence-distance arithmetic, large-number load balancing and other
+recorded identity/ranking policies. Shared cyclic-supplier comparisons retain
+21 actual Java runtime errors separately from successful-result agreement.
+See the [stream contracts](constraint-stream-contract.md) and
+[compatibility evidence](compatibility.md). Native-reference passes do not prove
+Java agreement. Completion still needs evidence for every original-scope
+requirement and resolution of the remaining relevant behavior differences.
 
-Five of the **18 comparison jobs** have current input hashes: solver, list and
-stream correctness comparisons, plus stream and mixed performance. Thirteen older jobs
-retain their actual timestamps and keys and are
-visibly stale. They have not been relabeled as current.
+Five of the 18 comparison jobs have current input hashes: solver/list/stream
+correctness and mixed/stream performance. Thirteen older jobs keep their actual
+timestamps and input keys and remain visibly stale. Three affected correctness
+comparisons were freshly rerun; known discrepancies/errors are unchanged. No old
+measurement was rekeyed and no unrelated benchmark was refreshed.
 
-Mixed performance was deliberately refreshed on qualified 252 release artifacts:
-all eight rows validate and every non-timing native/Java observation matches the
-previous report. Larger warm stream is 113.945 ms vs Java 13.177 ms, dense 18.155 ms;
-all score [0,-338]. Larger cold stream is 35.161 ms vs Java 17.361 ms, dense 9.457 ms;
-all score [0,-60]. The larger reference [0,-72] is a feasible certificate, not an
-optimum. Work/policies differ. Evidence: work/round252-qualification/collection.json.
-Two inline checkpoint experiments were rejected without native changes; their
-candidate controls earn no retained credit. A distinct mixed CPU profile identifies
-ordinary propagation and value-position discovery as targets, with overlapping
-sampling attribution only. Evidence: work/round249-inline-checkpoints/verdict.json
-and work/round250-mixed-profile/REPORT.md.
+Fresh larger mixed measurements: warm stream **119.380 ms vs Java
+15.749 ms**, dense 20.480 ms; all score [0,-338].
+Cold stream 37.317 ms vs Java 18.677 ms,
+dense 9.925 ms; all score [0,-60]. The larger reference [0,-72]
+is a feasible certificate, not an optimum. Work counts and policies differ; these
+are bounded shared-host measurements, not equal-work comparisons or universal speed
+claims. The stream gap remains substantial. Large basic hill/tabu swaps measure
+570.692/568.845 ms vs Java
+323.507/329.332 ms. All 128 stream validation
+cases have valid, equal-score outcomes and unchanged non-timing signatures.
 
-The current large stream workload measures hill-climbing swaps at 475.375 ms
-against Java's 284.635 ms, and tabu swaps at 469.123 against 301.919 ms. All 128
-validation cases have valid, equal-score outcomes. These bounded shared-host
-measurements include setup and result validation; they do not prove general Java
-parity, identical execution traces or universal speed requirements.
+The latest change stores the first four borrowed map-traversal nodes inline,
+with Vec overflow for deeper paths. Range queries and map updates are unchanged.
+Two captures of each actual artifact on six workloads show whole-process allocation
+requests falling **3.97% for warm mixed streams and 3.60% for cold mixed streams**;
+basic stream and dense counts are unchanged. These count malloc/calloc/realloc
+requests, not bytes or live/peak memory. A noisy local timing comparison was
+checked once on runner-a with the same actual binaries: warm stream is flat, cold
+stream 0.62% lower, basic change 1.07% lower, and basic swap inconclusive. No general
+throughput speedup is claimed. Three original traversal/ownership controls earn no
+upstream credit.
 
-The latest retained change stores ordinary empty/single graph outputs directly,
-with Vec storage for multiple outputs and unchanged Vec batch routing. Four
-balanced comparisons against the preceding actual binary show mixed warm/cold
-time 4.94%/3.56% lower, every fork improving. Basic changes are flat; swaps are
-1.44% slower overall, three of four forks slower. Six captured whole-process
-allocation-request counts are unchanged. These targeted gains and tradeoff do
-not establish general speed or allocation improvements. Three original ownership
-and panic controls earn no upstream credit. Evidence:
-`work/round252-small-outputs/verdict.json` and `source-proof.json` in that directory.
-
-A resident borrowed-input dispatch experiment was also rejected. It preserved
-focused ownership/unwind checks but measured large swaps 4.61% slower, changes
-1.94% slower and mixed stream 1.62% slower overall. Three of four paired runs were
-slower for each. Retained sources, counts and canonical measurements are unchanged;
-actual candidate evidence is under `work/round247-resident-inputs/`. Its two new
-private tests are excluded from retained counts.
-
-A subsequent small-graph ready-bitset scheduler was rejected without changing
-this checkpoint. Large swaps measured 2.36% slower overall, mixed timing was flat,
-and change timing was inconclusive. Two passing candidate-only tests are excluded
-from retained counts. Frozen source and actual artifact observations remain in
-`work/round246-ready-ranks/`. A fresh diagnostic profile of retained245 is in
-`work/round246-retained-profile/`; it has not refreshed or relabeled canonical
-measurements.
-
-The latest retained change caches primitive endpoint IDs during fixed-link batch
-coalescing and directly indexes validated contiguous endpoint slots. Sparse and
-custom IDs retain their fallbacks. Four balanced paired runs against the preceding
-actual binary show large swap time 3.99% lower overall, with all four forks improving.
-Change time is 2.31% lower and mixed stream 3.24% lower overall, but slower outliers
-leave those gains inconclusive. The dense control also varies. This does not prove
-a universal speedup. Exact artifacts, original tests and observations are in
-`work/round245-link-index/`.
-
-The preceding terminal-scoring change replaces per-update tree searches with
-validated direct indexing for contiguous primitive planning and relationship IDs. It still checks
-the complete relationship ID, including endpoints; sparse and custom IDs preserve
-the original tree behavior. Four balanced paired runs against the preceding actual
-binary show large change time 3.88% lower and swap time 6.05% lower overall, with
-every fork improving for both. Mixed stream is 3.21% slower initially and 3.0% slower
-in one longer confirmation; the unchanged dense control also drifts slower.
-These targeted gains and mixed tradeoff do not establish a universal speedup.
-Exact artifacts, tests and observations are in `work/round244-fixed-index/`.
-
-The preceding source-batch change coalesces bounded planning-source batches using
-cached integer IDs and input positions, and publishes source outputs directly.
-Generic source key ownership and Clone/Drop behavior remain unchanged. Two
-repeatable whole-process captures show 3.17% fewer allocation requests for changes
-and 5.06% fewer for swaps (518,500 fewer requests per swap benchmark process).
-Across this and the preceding fixed-link change, swap requests fall from 11,458,845
-to 9,730,733, or 15.08%. Mixed allocation counts are unchanged. These are intercepted
-malloc/calloc/realloc counts including setup and validation, not allocated bytes
-or live/peak memory. Scratch buffers retain their largest batch capacity without
-retaining payloads.
-
-For that source-batch change, throughput improvement is unproven. Its four balanced
-runs pinned to CPU 2 show change time 0.34% lower and swap time 1.33% lower overall, with slower outliers in
-both cases. Mixed stream time is 1.35% slower overall and dense control 1.55%
-slower. These observations do not establish a general speedup. The previous241
-fixed-link timing gains and mixed tradeoff remain recorded in the handoff.
-Evidence is preserved under `work/round242-source-batch/`.
-
-A subsequent erased-event cache experiment was rejected without changing the
-retained solver. Its final version removed 25.66% of whole-process swap allocation
-requests, but slowed large swaps 15.45% and changes 8.86%, with all four paired
-runs slower for both. Candidate-only passing tests are excluded from the counts
-above. Frozen sources, actual artifacts and observations remain under
-`work/round243-event-pool/`. A fresh CPU attribution capture of the retained242
-binary is in `work/round243-retained-profile/`; this is diagnostic evidence and
-has not refreshed or relabeled any canonical benchmark.
-
-The preceding bounded-terminal experiment remains unintegrated. Its final variant
-reduced mixed allocation requests by only 22 out of 2,515,687 (0.000875%) and
-slowed large-change searches by 8.24% in all four paired runs. Its modest mixed
-improvement did not justify that regression and the added implementation
-complexity. All candidate variants and focused checks remain under
-`work/round240-bounded-terminals/`. It was rejected without changing native
-sources; the subsequent scratch-buffer change and qualification above form the
-current retained checkpoint.
-
-The pending source assertions and explicit Java behavior differences above remain
-open compatibility limits. Broad equivalence cannot be inferred from current
-hashes, the percentage, green representative cases or the absence of a newly
-discovered algorithm gap. A final completion claim still needs direct evidence
-for every remaining original-scope requirement.
+Evidence: work/round253-map-iteration/verdict.json and source-proof.json,
+work/round253-qualification/collection.json, work/round253-performance/receipt.json.
+Historical optimization results and retained tradeoffs remain in
+[next-session.md](next-session.md). Goal remains incomplete.

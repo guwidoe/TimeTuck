@@ -351,7 +351,7 @@ impl<K, V> SnapshotMap<K, V> {
     }
     pub fn iter(&self) -> Iter<'_, K, V> {
         let mut it = Iter {
-            stack: Vec::new(),
+            stack: TraversalStack::new(),
             remaining: self.len(),
         };
         it.push_left(self.root.as_deref());
@@ -515,9 +515,46 @@ impl<'a, K: Ord, V> Iterator for Range<'a, K, V> {
 }
 impl<K: Ord, V> std::iter::FusedIterator for Range<'_, K, V> {}
 
+const INLINE_ITER_DEPTH: usize = 4;
+
+// Shallow traversals keep borrowed nodes on the stack. Deeper paths spill
+// without changing traversal order or imposing bounds on the keys and values.
+struct TraversalStack<'a, K, V> {
+    inline: [Option<&'a Node<K, V>>; INLINE_ITER_DEPTH],
+    len: usize,
+    overflow: Vec<&'a Node<K, V>>,
+}
+impl<'a, K, V> TraversalStack<'a, K, V> {
+    fn new() -> Self {
+        Self {
+            inline: [None; INLINE_ITER_DEPTH],
+            len: 0,
+            overflow: Vec::new(),
+        }
+    }
+    fn push(&mut self, node: &'a Node<K, V>) {
+        if self.len < INLINE_ITER_DEPTH {
+            self.inline[self.len] = Some(node);
+            self.len += 1;
+        } else {
+            self.overflow.push(node);
+        }
+    }
+    fn pop(&mut self) -> Option<&'a Node<K, V>> {
+        if let Some(node) = self.overflow.pop() {
+            Some(node)
+        } else if self.len > 0 {
+            self.len -= 1;
+            self.inline[self.len].take()
+        } else {
+            None
+        }
+    }
+}
+
 /// Ascending iterator over a borrowed snapshot; uses logarithmic traversal space.
 pub struct Iter<'a, K, V> {
-    stack: Vec<&'a Node<K, V>>,
+    stack: TraversalStack<'a, K, V>,
     remaining: usize,
 }
 impl<'a, K, V> Iter<'a, K, V> {
@@ -549,6 +586,9 @@ impl<'a, K, V> IntoIterator for &'a SnapshotMap<K, V> {
         self.iter()
     }
 }
+
+#[cfg(test)]
+mod iteration_stack_tests;
 
 #[cfg(test)]
 mod tests {
