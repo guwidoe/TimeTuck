@@ -1447,6 +1447,21 @@ with maximum counts, and integer lengths can overflow. Inputs and full differenc
 are retained. All original shared-identity cases were kept after adding the distinct
 cohort to isolate the cause. There are no Java runtime-error cases in this run.
 
+A separate fresh qualification covers 1,892 distinct-identity histories and
+16,660 states. Native results match the independent snapshot policy throughout;
+Java differs in 1,444 observations, exclusively in the overlap flag. Twelve
+family/current-item combinations produce different Java flags depending on their
+history. For example, adding `[0,3]` and `[1,1]` reports overlap; adding then removing
+`[2,2]` leaves the same two items and overlap bounds of one, but clears that flag.
+An independent flag based only on current component endpoints cannot reproduce
+both results. The current native policy remains unchanged. The inspected
+connected-range guide section states neither an empty-interval exclusion nor
+this history rule.
+The [recorded witnesses](../compat/observations/connected-range-history.json)
+preserve both runtimes' actual outputs and their artifact identities. This
+qualification adds no upstream-method credit and does not refresh the older
+197-case report or the complete stream comparison job.
+
 ## Load balancing
 
 `LoadBalanceCollector<K>` consumes captured `(key, load: i64, initial_load: i64)`

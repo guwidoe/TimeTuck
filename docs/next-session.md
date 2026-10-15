@@ -17,6 +17,38 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest qualification — rounds228–229
+
+No implementation retained. Both output-buffer candidates passed focused checks,
+but the first saves no join allocations (Rust already collects that Vec in place).
+Typed-buffer reuse removes 3.97% larger warm and 3.60% cold allocation requests,
+but measured Stream time is +0.52% warm / +1.76% cold while Dense controls improve.
+Reject both; no reliable runtime gain justifies their complexity. Complete source,
+actual binaries, raw four-fork pinned runs, allocation captures and verdicts remain
+under work/round228-output-buffer/ and work/round228-typed-output-buffer/.
+Do not reintegrate their patches or repeat these experiments. Canonical reports unchanged.
+
+Fresh connected-range qualification rejected the proposed empty-point flag fix:
+1892 cases, 16660 states, zero Java errors. Native actual qualified227 library
+matches independent snapshot checks everywhere; Java differs in 1444 observations,
+only overlap flags. Twelve family/current-item states have history-dependent Java
+results. Adding [0,3],[1,1] gives true; adding/removing [2,2] then gives false with
+identical contents/count/bounds. A pure component predicate cannot match both.
+Do not implement the proposed max>1 OR interior-empty rule. No documented empty-
+interval exclusion was established. Tracked exact witnesses/artifact identities:
+compat/observations/connected-range-history.json; complete raw receipts in
+work/round229-range-empty/{REPORT.md,receipt.json,native-receipt.json}.
+
+Production/tests restored exactly to verified227: reuse 8382 Rust +290 doctests,
+three current comparisons, actual dates/keys. No check.sh, primary or browser repeat.
+Coverage unchanged4409/4855(90.814%),11pending435excluded; no source credit.
+Evidence work/parallel-round228-229-evidence.json. Current native policy unchanged;
+user was asked whether final completion must include observed Java quirks. Answer
+pending: do not infer approval from preselection or claim completion. Continue
+independent work while awaiting that material compatibility decision. No repeated
+scope/exclusion audits, private Java buffer padding or rejected patches. runner-c parked.
+Rust f148dd4363e772f228d5f65dc8302454aa2d48bd87fbb3a38c4893a947c294bf; report adc9e05bcfd1a848af574bfe8cc077374ca4b84f3345a8ab58c11bcf3401fbf5.
+
 ## Latest verified checkpoint — round227
 
 Ordinary joins directly receiving eligible protected mixed planning sources now

@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "origin": "Original public-API observations; no upstream-method credit",
+  "upstream": {
+    "repository": "https://github.com/TimefoldAI/timefold-solver.git",
+    "edition": "Community",
+    "tag": "v2.7.0",
+    "commit": "8b815bc6b5f3eb81feedc94dea0885a93b267762",
+    "path": "upstream/timefold-solver",
+    "license": "Apache-2.0"
+  },
+  "community_core_sha256": "80aa953d86f19dc86ce2b4f6da16338cd01a3617d9c5f96ed53ef3dfa5dc7141",
+  "java_driver_sha256": "31604fed9d443a41e8475c662ceb041e697e3db80084f69ce5bc0209f34fb298",
+  "native_driver_sha256": "99b06befeac907206667001f2f07d25abbc04ff49c5084b5d5582696dbec31eb",
+  "native_source_digest": "f148dd4363e772f228d5f65dc8302454aa2d48bd87fbb3a38c4893a947c294bf",
+  "native_library_sha256": "430fff03f81fb05174764781dfc802dc362201d21f112ccac6b4a57e10d03d45",
+  "java_version": "openjdk version \"25.0.4.1\" 2026-08-18\nOpenJDK Runtime Environment (build 25.0.4.1+1-1-24.04.4-Ubuntu)\nOpenJDK 64-Bit Server VM (build 25.0.4.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)",
+  "rust_version": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "qualification": {
+    "cases": 1892,
+    "observations": 16660,
+    "native_independent_reference_passed": 1892,
+    "java_errors": 0,
+    "java_native_differing_observations": 1444,
+    "differences_only_overlap_flags": true,
+    "flag_difference_counts": {
+      "(False, True, 1)": 1444
+    },
+    "java_history_dependent_family_active_states": 12
+  },
+  "witnesses": [
+    {
+      "kind": "insertion_order",
+      "observations": [
+        {
+          "case_id": "q12-seam",
+          "state": 3,
+          "intervals": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "operations_to_state": [
+            [
+              "c",
+              0,
+              0
+            ],
+            [
+              "c",
+              1,
+              1
+            ],
+            [
+              "c",
+              2,
+              2
+            ]
+          ],
+          "java_raw": "q12-seam\t3\t0,2,2,3,1,1,1:0,2,1\t-",
+          "native_raw": "q12-seam\t3\t0,2,2,3,1,1,0:0,2,1\t-",
+          "java": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 2,
+                "length": 2,
+                "count": 3,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": true,
+                "items": [
+                  0,
+                  1,
+                  2
+                ]
+              }
+            ],
+            "gaps": []
+          },
+          "native": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 2,
+                "length": 2,
+                "count": 3,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": false,
+                "items": [
+                  0,
+                  1,
+                  2
+                ]
+              }
+            ],
+            "gaps": []
+          }
+        },
+        {
+          "case_id": "q18-seam",
+          "state": 3,
+          "intervals": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "operations_to_state": [
+            [
+              "c",
+              0,
+              0
+            ],
+            [
+              "c",
+              2,
+              2
+            ],
+            [
+              "c",
+              1,
+              1
+            ]
+          ],
+          "java_raw": "q18-seam\t3\t0,2,2,3,1,1,0:0,2,1\t-",
+          "native_raw": "q18-seam\t3\t0,2,2,3,1,1,0:0,2,1\t-",
+          "java": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 2,
+                "length": 2,
+                "count": 3,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": false,
+                "items": [
+                  0,
+                  1,
+                  2
+                ]
+              }
+            ],
+            "gaps": []
+          },
+          "native": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 2,
+                "length": 2,
+                "count": 3,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": false,
+                "items": [
+                  0,
+                  1,
+                  2
+                ]
+              }
+            ],
+            "gaps": []
+          }
+        }
+      ]
+    },
+    {
+      "kind": "removal_history",
+      "observations": [
+        {
+          "case_id": "q1856-two-interiors",
+          "state": 2,
+          "intervals": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ]
+          ],
+          "operations_to_state": [
+            [
+              "c",
+              0,
+              0
+            ],
+            [
+              "c",
+              1,
+              1
+            ]
+          ],
+          "java_raw": "q1856-two-interiors\t2\t0,3,3,2,1,1,1:0,1\t-",
+          "native_raw": "q1856-two-interiors\t2\t0,3,3,2,1,1,0:0,1\t-",
+          "java": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 3,
+                "length": 3,
+                "count": 2,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": true,
+                "items": [
+                  0,
+                  1
+                ]
+              }
+            ],
+            "gaps": []
+          },
+          "native": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 3,
+                "length": 3,
+                "count": 2,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": false,
+                "items": [
+                  0,
+                  1
+                ]
+              }
+            ],
+            "gaps": []
+          }
+        },
+        {
+          "case_id": "q1860-two-interiors",
+          "state": 4,
+          "intervals": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ]
+          ],
+          "operations_to_state": [
+            [
+              "c",
+              0,
+              0
+            ],
+            [
+              "c",
+              1,
+              1
+            ],
+            [
+              "c",
+              2,
+              2
+            ],
+            [
+              "c",
+              2,
+              -1
+            ]
+          ],
+          "java_raw": "q1860-two-interiors\t4\t0,3,3,2,1,1,0:0,1\t-",
+          "native_raw": "q1860-two-interiors\t4\t0,3,3,2,1,1,0:0,1\t-",
+          "java": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 3,
+                "length": 3,
+                "count": 2,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": false,
+                "items": [
+                  0,
+                  1
+                ]
+              }
+            ],
+            "gaps": []
+          },
+          "native": {
+            "ranges": [
+              {
+                "start": 0,
+                "end": 3,
+                "length": 3,
+                "count": 2,
+                "minimum": 1,
+                "maximum": 1,
+                "overlap": false,
+                "items": [
+                  0,
+                  1
+                ]
+              }
+            ],
+            "gaps": []
+          }
+        }
+      ]
+    }
+  ],
+  "policy": "Retain explicit native snapshot-consistent half-open-overlap policy. These observations do not claim Java agreement, undefined Java behavior, source credit or changed native functionality.",
+  "raw_evidence": {
+    "java_receipt_sha256": "dc9814dae223deba0c5d6de5c38fa8f34b9cdcc6d1d16db51dd1724723e74615",
+    "native_receipt_sha256": "8ad0b4f9da7c9f0a496ad49b686fff4014590c4ef3a9db873ed21f35c4764f0b"
+  }
+}
