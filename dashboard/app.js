@@ -14,7 +14,9 @@ let report,
     limit = 40,
     loading = false,
     lastStamp,
-    fresh = true;
+    fresh = true,
+    completionFresh = true,
+    completionLive = false;
 const n = (value) => format.format(value);
 const pct = (value) => (value == null ? "—" : `${value.toFixed(2)}%`);
 // Derive display precision from counts, avoiding double rounding of report.percent.
@@ -106,6 +108,7 @@ function render() {
             return b;
         }),
     );
+    renderCompletion();
     renderDetail();
     renderBenchmarks();
     renderBenchmarks("solver");
@@ -129,6 +132,85 @@ function render() {
     $("content").hidden = false;
     restoreFocus(focused);
 }
+function renderCompletion() {
+    const model = report.completion;
+    const track = $("completion-track"), rows = $("completion-components");
+    const breakdown = $("completion-breakdown"), blockers = $("completion-blockers");
+    track.replaceChildren(); rows.replaceChildren(); breakdown.replaceChildren(); blockers.replaceChildren();
+    if (!model || !Array.isArray(model.components)) {
+        $("completion-percent").textContent = "—";
+        $("completion-status").textContent = "Completion data is not available in this report.";
+        $("completion-freshness").textContent = "Regenerate the report to calculate progress. Missing evidence is never treated as complete.";
+        $("completion-calculation").hidden = true;
+        track.setAttribute("aria-label", "Completion data unavailable");
+        return;
+    }
+    $("completion-calculation").hidden = false;
+    const percent = Number.isFinite(model.index_percent) ? model.index_percent : 0;
+    const ready = model.ready && fresh && completionFresh && completionLive;
+    $("completion-percent").textContent = `${(ready ? 100 : Math.min(percent, 99.9)).toFixed(1)}%`;
+    $("completion-status").textContent = ready ? "All tracked targets met with current evidence" : "Targets remain before completion";
+    if (!fresh || !completionFresh || !completionLive) $("completion-status").textContent = "Last measured progress · verification needed";
+    track.setAttribute("aria-label", `Weighted completion index ${percent.toFixed(1)} percent. Not an estimate of remaining effort.`);
+    const labels = {features: "Feature coverage", behavior: "Behavioral agreement", performance: model.target.java_time_multiplier === 1 ? "Java performance parity" : "Java performance target", evidence: "Current verification"};
+    const descriptions = {
+        features: "Passing adaptations within scope, balanced by feature area.",
+        behavior: "Weakest observed agreement in each comparison family.",
+        performance: "Weakest workload in each family, with equal or better quality.",
+        evidence: "Current comparison reports; successful Rust verification required.",
+    };
+    const jobLabels = {
+        differential: "Score arithmetic", solver_differential: "Basic & mixed solving",
+        list_differential: "List moves & metadata", stream_differential: "Constraint stream behavior",
+        performance: "Score arithmetic", solver_performance: "Exact search",
+        mixed_performance: "Mixed planning", heuristic_performance: "Heuristic search",
+        construction_performance: "Construction", repair_performance: "Basic repair",
+        list_repair_performance: "List repair", list_performance: "List planning",
+        kopt_performance: "K-opt", stream_performance: "Constraint streams",
+        concurrent_performance: "Concurrent shadows", sequence_performance: "Sequence collectors",
+        aggregate_performance: "Aggregate collectors", pillar_performance: "Pillar moves",
+    };
+    const formula = [];
+    for (const c of model.components) {
+        const value = Number.isFinite(c.percent) ? Math.max(0, Math.min(100, c.percent)) : 0;
+        const label = labels[c.id] || c.label;
+        const slot = node("span", `completion-slot completion-${c.id}`);
+        slot.style.flex = String(c.weight);
+        const fill = node("span", "completion-fill"); fill.style.width = `${value}%`; slot.append(fill);
+        slot.title = `${label}: ${value.toFixed(1)}%, ${c.weight}% of the index`;
+        track.append(slot);
+        const row = node("div", `completion-row completion-${c.id}`);
+        const title = node("div", "completion-label"); title.append(node("strong", "", label), node("span", "", c.id === "performance" ? `Rust ≤ ${model.target.java_time_multiplier}× Java time, with equal or better quality.` : descriptions[c.id] || c.detail));
+        const meter = node("div", "completion-meter");
+        meter.setAttribute("role", "progressbar"); meter.setAttribute("aria-label", label);
+        meter.setAttribute("aria-valuemin", "0"); meter.setAttribute("aria-valuemax", "100"); meter.setAttribute("aria-valuenow", String(value));
+        const bar = node("span"); bar.style.width = `${value}%`; meter.append(bar);
+        const number = node("div", "completion-row-value"); number.append(node("strong", "", `${value.toFixed(1)}%`), node("span", "", `${c.weight}% weight`));
+        row.append(title, meter, number); rows.append(row);
+        formula.push(`${label} ${c.weight}%`);
+        const group = node("section", "completion-group"); group.append(node("h3", "", label));
+        group.append(node("p", "", c.detail));
+        const list = node("ul");
+        for (const item of c.items || []) {
+            const entry = node("li");
+            const name = node("span", "", jobLabels[item.name] || item.name);
+            const status = item.status === "met" ? "Target met" : item.status === "unknown" ? "Evidence missing" : "Below target";
+            const last = item.freshness === "stale" ? " · previous evidence" : item.freshness === "unknown" ? " · freshness unknown" : "";
+            const amount = Number.isFinite(item.percent) ? `${item.percent.toFixed(1)}%` : "—";
+            entry.append(name, node("span", item.status === "met" ? "completion-met" : "completion-open", `${amount} · ${status}${last}`));
+            if (item.detail) entry.append(node("small", "", item.detail));
+            list.append(entry);
+        }
+        group.append(list); breakdown.append(group);
+    }
+    $("completion-formula").textContent = `Index weights: ${formula.join(" · ")}. The weights are explicit project settings, not estimates of task duration.`;
+    $("completion-target").textContent = `Performance target: Rust median time ≤ ${model.target.java_time_multiplier}× Java, with the same or better solution quality and successful workload checks. Comparisons measure the configured solves, not identical execution work.`;
+    $("completion-freshness").textContent = `${model.current_jobs} / ${model.total_jobs} comparison reports current${completionLive ? "" : " · live status unavailable"} · index includes previous evidence · report ${timestamp(report.generated_at)}`;
+    for (const text of model.blockers || []) blockers.append(node("li", "", text));
+    if (!fresh) blockers.prepend(node("li", "", "Source changes need verification before the last measured progress can be considered current."));
+    if (!completionFresh) blockers.prepend(node("li", "", "The saved index uses an older completion model or target."));
+}
+
 function trackedFocus() {
     return {
         family: document.activeElement?.dataset.family,
@@ -508,12 +590,16 @@ async function reload() {
                 "Unrecognized report format. Regenerate the report with the current scripts.",
             );
         fresh = true;
+        completionFresh = true;
+        completionLive = false;
         try {
             const state = await fetch("api/freshness", { cache: "no-store" });
-            if (state.ok)
-                fresh =
-                    (await state.json()).verification_digest ===
-                    data.verification_digest;
+            if (state.ok) {
+                const snapshot = await state.json();
+                completionLive = typeof snapshot.completion_digest === "string" && typeof snapshot.verification_digest === "string";
+                fresh = snapshot.verification_digest === data.verification_digest;
+                completionFresh = snapshot.completion_digest === data.completion?.model_digest;
+            }
         } catch {
             /* Static hosting still shows the generation timestamp. */
         }
@@ -529,6 +615,7 @@ async function reload() {
             render();
             lastStamp = report.generated_at;
         } else {
+            renderCompletion();
             renderBenchmarks();
             renderBenchmarks("solver");
             renderBenchmarks("mixed");
@@ -552,6 +639,8 @@ async function reload() {
             warnings.push(
                 "Source files changed since verification. Coverage shown is the last saved result. Run bash scripts/check.sh to refresh it.",
             );
+        if (!completionFresh)
+            warnings.push("The completion model changed. Regenerate the report to update its progress estimate.");
         if (!report.verification?.successful)
             warnings.push(
                 "The last Rust verification was incomplete or failed. Only observed passing adaptations count toward coverage; inspect the full report for failures.",

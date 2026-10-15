@@ -33,6 +33,45 @@ The browser reloads saved results every 15 seconds. It never runs tests itself.
 `bash scripts/check.sh` regenerates coverage when the pinned submodule is present.
 The separate Java oracle and benchmarks require JDK 21 and Maven Central access.
 
+## Project completion index
+
+The top panel is a configurable progress index, separate from raw upstream-method
+coverage. Its default weights in `compat/completion.json` are feature coverage 40%,
+behavior checks 20%, performance 30% and current evidence 10%. These are explicit
+project settings, not measured estimates of implementation effort or time.
+
+- Features: average the passing/in-scope ratio of each feature family. Explicit
+  exclusions stay outside this component's scope, while the original Community
+  coverage section retains its unchanged full denominator and exclusion counts.
+- Behavior: four fixed comparison families, each scored by its weakest top-level
+  or first-level `passed/total` check. Native-reference passes never replace Java
+  comparison passes; Java errors and unsupported cases remain in the denominator.
+- Performance: fourteen fixed benchmark families, each scored by its weakest
+  comparable workload. Credit is `min(1, Java median × target / Rust median)`
+  only with valid timing samples and equal-or-better solution quality or checked
+  update results. Faster cases cannot compensate for a slower case, and timings
+  without comparable quality evidence earn no credit. The user-selected default
+  target is Java parity (`java_time_multiplier:1`). Comparisons retain their
+  original policies/work counts and do not imply equal execution work.
+- Evidence: current comparison reports/18, gated by successful Rust verification
+  and clear failed/unverified adaptation status. Missing or invalid evidence does
+  not count as complete.
+
+The weighted sum is labelled a measured progress index. Stale measurements retain
+last-demonstrated contributions and remain explicitly labelled previous evidence;
+the current-evidence component and visible freshness counts track that debt. 100%
+and the completion status require every tracked component/target and current
+successful verification. The browser also requires a matching live source/model
+fingerprint before showing completion. The index is not a guarantee of universal
+Timefold equivalence, a fraction of remaining engineering work or an ETA.
+
+The expandable calculation shows each family, its limiting check/workload, the
+weights and remaining blockers. Policy and model source have a separate
+`completion_digest` exposed by `/api/freshness`; changing them warns until the
+report is regenerated, without invalidating native execution or benchmark keys.
+After editing the policy, regenerate with
+`python3 scripts/compat_report.py --test-output work/rust-tests.log`.
+
 ## Reading the numbers
 
 The percentage is **passing adapted upstream methods / statically discovered

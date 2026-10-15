@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "weights": {
+    "features": 40,
+    "behavior": 20,
+    "performance": 30,
+    "evidence": 10
+  },
+  "java_time_multiplier": 1
+}

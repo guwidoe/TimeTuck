@@ -17,6 +17,34 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Dashboard completion index — round254
+
+User asked for a more accurate completion indicator and explicitly selected Java
+median-time parity with equal-or-better quality as the performance target. Added a
+separate measured progress index with configurable weights in compat/completion.json:
+features40/behavior20/performance30/current evidence10. Family-balanced coverage,
+worst-check behavior and worst-workload performance prevent large easy suites or
+fast small cases masking remaining gaps. Stale evidence retains demonstrated
+contributions, visibly labelled; all current successful evidence is required for
+completion. No ETA/effort or universal equivalence claim.
+
+Current index 81.355%; components features 99.752%, behavior 77.236%, performance 77.430%, evidence 27.778%.
+Raw inventory stays4409/4855,11pending435excluded. Native253 source, Rust log,
+benchmark report files and all measurement input keys are unchanged; no Rust
+suite or benchmark rerun. Model/policy freshness uses a separate completion_digest.
+Dashboard server restarted for the new endpoint contract; PID recorded in
+work/round254-dashboard/server.json. Pure model and report tests, Node syntax and
+bounded desktop/mobile browser evidence are in work/round254-dashboard/.
+One existing Sol wrote the isolated model+8tests; no new agents or remote probes.
+Eight model tests and eight existing report tests pass. Desktop1440/mobile390
+browser checks cover rendering, expanded details, ARIA/focus, no overflow/errors,
+missing data and source/live-freshness states. Two visual rounds corrected one
+missing existing palette token; all four contribution bars now render. Final
+unknown-vs-stale copy uses distinct labels; no extra visual polish round.
+Evidence: work/round254-dashboard/evidence.json. Server PID20631 on8765.
+The feature is a reporting change, not native compatibility progress. Keep goal
+active/incomplete and continue concrete compatibility work from retained253.
+
 ## Latest qualification — retained253 inline map iteration
 
 SnapshotMap::Iter stores its first four borrowed traversal nodes inline and spills

@@ -12,8 +12,8 @@
             rel="icon"
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
-        <link rel="stylesheet" href="styles.css?v=17ec84240fbe" />
-        <script src="app.js?v=027c93248173" defer></script>
+        <link rel="stylesheet" href="styles.css?v=06e9e1f7cdd5" />
+        <script src="app.js?v=1122d9b38bf8" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -48,6 +48,34 @@
             </div>
             <div id="message" class="message" role="alert" hidden></div>
             <div id="content" hidden>
+                <section class="completion-overview" aria-labelledby="completion-heading">
+                    <div class="completion-header">
+                        <div>
+                            <h2 id="completion-heading">Project completion</h2>
+                            <p id="completion-status">Loading the completion model…</p>
+                        </div>
+                        <div class="completion-value">
+                            <strong id="completion-percent">—</strong>
+                            <span>measured progress index</span>
+                        </div>
+                    </div>
+                    <div id="completion-track" class="completion-track" role="img" aria-label="Completion contributions"></div>
+                    <div id="completion-components" class="completion-components"></div>
+                    <p id="completion-freshness" class="completion-freshness"></p>
+                    <p class="completion-limit">An index of tracked targets, not a time estimate. Stale evidence cannot establish completion.</p>
+                    <details id="completion-calculation" class="completion-calculation">
+                        <summary>Targets, remaining gaps &amp; calculation</summary>
+                        <div class="completion-explanation">
+                            <p>This index combines demonstrated feature coverage, behavioral agreement, performance and current evidence. It is not a percentage of remaining engineering effort or a finish-date estimate.</p>
+                            <p id="completion-target"></p>
+                            <p>Each feature area has equal influence within feature coverage. For behavior and performance, the weakest measured check in each family determines that family’s progress. Faster cases cannot offset a slower case, and performance credit stops at the target. Stale results retain their last measured contribution; they cannot establish completion.</p>
+                            <p id="completion-formula"></p>
+                            <p>100% requires all tracked targets and current successful verification. These bounded checks do not establish universal Timefold equivalence.</p>
+                            <ul id="completion-blockers" class="completion-blockers"></ul>
+                            <div id="completion-breakdown" class="completion-breakdown"></div>
+                        </div>
+                    </details>
+                </section>
                 <section class="overview" aria-labelledby="coverage-heading">
                     <div class="overview-heading">
                         <div>

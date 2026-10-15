@@ -22,6 +22,11 @@ A development dashboard inside this Rust repository. Generated verification
 reports are its source of truth. The user explicitly prefers a visual overview;
 individual test details remain accessible.
 
+The completion view combines feature coverage, behavior checks, measured Java
+performance parity and verification freshness using explicit project weights.
+It shows remaining targets and distinguishes last-demonstrated evidence from
+current verification; it does not estimate remaining engineering effort or time.
+
 ## Capabilities and Constraints
 
 Never equate source-file counts with tests or adapted methods with all JUnit

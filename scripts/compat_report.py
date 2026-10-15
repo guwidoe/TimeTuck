@@ -15,6 +15,7 @@ import sys
 
 from verification_inputs import measurement_digest, report_digest, rust_digest
 from rust_test_layout import shard_origins
+from completion_progress import build_completion, model_digest
 
 ROOT = Path(__file__).resolve().parents[1]
 ANNOTATION = re.compile(r'@(?:org\.junit\.jupiter\.(?:api|params)\.)?(Test|ParameterizedTest|RepeatedTest|TestFactory|TestTemplate)\b')
@@ -26,6 +27,14 @@ METHOD = re.compile(r'\b(?:void|[A-Za-z_$][\w.$]*(?:\s*<[^;{}]+>)?(?:\[\])?)\s+(
 
 def verification_digest():
     return report_digest(ROOT)
+
+
+def completion_policy():
+    return json.loads((ROOT / 'compat/completion.json').read_text())
+
+
+def completion_digest():
+    return model_digest(completion_policy())
 
 
 def declarations(text):
@@ -222,7 +231,7 @@ def build_report(execute=True, test_output=None):
     digest = verified_source
     if verification_digest() != verified_source:
         raise ValueError('Sources changed during verification; rerun to produce a consistent report.')
-    return {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
+    report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
             'reference': ref, 'source_digest': digest, 'verification_digest': verified_source,
             'inventory': {'source_files': len(files), 'annotations': dict(Counter(m['annotation'] for m in methods)),
                           'unit': 'statically discovered annotated test methods',
@@ -248,6 +257,8 @@ def build_report(execute=True, test_output=None):
             'sequence_performance': load_measurement('sequence-performance'),
             'aggregate_performance': load_measurement('aggregate-performance'),
             'pillar_performance': load_measurement('pillar-performance')}
+    report['completion'] = build_completion(report, completion_policy())
+    return report
 
 
 def main():
