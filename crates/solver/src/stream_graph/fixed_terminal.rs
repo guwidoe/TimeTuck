@@ -5,11 +5,52 @@ use std::cell::OnceCell;
 struct FixedTerminal<'a, I, T, S> {
     ids: Vec<I>,
     positions: BTreeMap<I, usize>,
+    // Validated integer ordinals only; generic/custom ordering keeps the tree.
+    direct_ordinals: bool,
     rows: Slots<(T, S)>,
     materialized: OnceCell<SnapshotMap<I, (T, S)>>,
     evaluate: TerminalEvaluation<'a, T, S>,
     total: S,
     name: String,
+}
+// Primitive planning IDs and fixed relationship IDs can expose a zero-based
+// ordinal. Type identity excludes user-defined Ord/Eq/Clone implementations.
+// Relationship endpoints still participate in the full-ID validation below.
+fn numeric_ordinal<I: 'static>(id: &I) -> Option<usize> {
+    let id = id as &dyn Any;
+    if let Some(id) = id.downcast_ref::<usize>() {
+        Some(*id)
+    } else {
+        id.downcast_ref::<((usize, usize), usize)>()
+            .map(|id| id.0.0)
+    }
+}
+fn supports_numeric_ordinal<I: 'static>() -> bool {
+    std::any::TypeId::of::<I>() == std::any::TypeId::of::<usize>()
+        || std::any::TypeId::of::<I>() == std::any::TypeId::of::<((usize, usize), usize)>()
+}
+fn contiguous_ordinals<I: 'static>(ids: &[I]) -> bool {
+    supports_numeric_ordinal::<I>()
+        && !ids.is_empty()
+        && ids
+            .iter()
+            .enumerate()
+            .all(|(slot, id)| numeric_ordinal(id) == Some(slot))
+}
+impl<I: Ord + 'static, T, S> FixedTerminal<'_, I, T, S> {
+    fn position(&self, id: &I) -> Option<usize> {
+        if supports_numeric_ordinal::<I>() && self.direct_ordinals {
+            let slot = numeric_ordinal(id)?;
+            // Keep the complete relationship identity: an in-range relationship
+            // ordinal with different endpoints remains an unknown occurrence.
+            self.ids
+                .get(slot)
+                .filter(|stored| *stored == id)
+                .map(|_| slot)
+        } else {
+            self.positions.get(id).copied()
+        }
+    }
 }
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
     for FixedTerminal<'_, I, T, S>
@@ -108,7 +149,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
-        let &slot = self.positions.get(&change.id).ok_or_else(|| {
+        let slot = self.position(&change.id).ok_or_else(|| {
             GraphError::Dependency(format!(
                 "occurrence ID outside fixed universe of constraint {}",
                 self.name
@@ -235,6 +276,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
                 "duplicate fixed occurrence ID".into(),
             ));
         }
+        let direct_ordinals = contiguous_ordinals(&ids);
         let positions = ids
             .iter()
             .cloned()
@@ -245,6 +287,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             rows: Slots::new(ids.len()),
             ids,
             positions,
+            direct_ordinals,
             materialized: OnceCell::new(),
             evaluate,
             total: S::ZERO,
@@ -255,3 +298,6 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         Ok(StreamConstraint(out))
     }
 }
+
+#[cfg(test)]
+mod index_tests;

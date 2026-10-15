@@ -17,7 +17,48 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest experiment — rejected243 event cache; retained242 unchanged
+## Latest qualification — retained244 direct fixed-terminal ID lookup
+
+Fixed terminal scoring validates contiguous primitive planning IDs (`usize`)
+and fixed relationship IDs (`((usize, usize), usize)`) once at registration.
+Updates index the canonical ID vector directly, validating the complete
+relationship ID, including endpoints, before scoring. Sparse, empty and custom
+IDs retain the original BTreeMap lookup and comparison/Clone behavior. The tree
+is still constructed as before. Three original private tests cover activation
+at 1/256/257 rows, sparse/empty/MAX fallback, endpoint validation, rollback/held
+matches and exact custom-ID comparison traces. No API/dependency/pin/provenance
+or upstream-method credit change.
+
+Four balanced CPU2 release comparisons against actual retained242 show large
+change time 3.88% lower and swap time 6.05% lower; all four forks improve for both.
+Initial mixed stream is 3.21% slower in three of four forks; one longer comparison
+of the same artifacts is 3.0% slower in three of four. The unchanged dense control
+is 3.01% slower initially and 4.99% slower in all four longer forks. Retain targeted
+gains with this explicit mixed tradeoff. Drift does not erase observations; no
+universal speedup or allocation reduction is claimed.
+
+Final integrated `bash scripts/check.sh` passed once in 175.34 seconds: 8,407 Rust
+and 290 doctests, fmt/Clippy/Python passed; matching jobs reused.
+Rust: `850b0823a30e72c54205712f4c7fdab52dcfbc9401f32eb3cb54cd556bf091eb`.
+Report: `f21106747e30106d672a4851e51c0b1495f7801aa81adb1b49e722ee21445d8f`.
+Three canonical correctness jobs freshly qualified; known Java differences/errors
+unchanged. Five pinned concurrent Java test fixtures were materialized with a
+verified hash/license receipt before execution. Only stream performance refreshed
+after all builds/checks ended: 128/128 valid/equal-score, exact non-timing signatures
+unchanged. Large hill swaps: 494.080 ms versus Java 294.572; tabu: 509.250 versus
+289.261. Four comparison jobs current; 14 older jobs stale with original keys/dates.
+Backend data/HTTP freshness verified; unchanged UI evidence reused. Coverage stays
+4,409/4,855 (90.814%), 11 pending, 435 excluded, zero failed/unverified.
+
+Evidence: `work/parallel-round244-evidence.json`, `work/round244-fixed-index/`,
+`work/round244-qualification/` and `work/round244-performance/`. Frozen source,
+actual libraries/binaries and manifest were rechecked after qualification.
+All244 jobs terminal. One existing Sol agent supplied three private tests; no new
+agents or SSH attempts. runner-c remains parked. Goal active/incomplete. Continue
+measured native work and reuse matching checks; rejected243 cache/240 terminals
+stay rejected.
+
+## Historical experiment — rejected243 event cache; retained242 unchanged
 
 A bounded safe-Rust cache reused empty erased-event owners only. Five private
 candidate tests covered last-owner destruction, held borrows, reentrant/panicking
@@ -46,7 +87,7 @@ the historical authentication reply does not recover an expired session. No SSH
 attempts; runner-c parked; no new agents. Evidence: `work/parallel-round243-evidence.json`.
 Goal active/incomplete.
 
-## Latest qualification — retained242 source batch allocation reduction
+## Historical qualification — retained242 source batch allocation reduction
 
 Source batches publish updates directly, avoiding per-update temporary output
 vectors. Bounded planning sources coalesce with reusable integer (ID, input-position)

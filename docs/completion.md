@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,404 passing tests and 290 doctests**, source
-digest `f72e1eaa62d0439a95da6adde9a12bf2ba44d59ef39b8c28f46eca75d81465aa`.
-Its final `scripts/check.sh` passed in 528.39 seconds. The current layout uses
+The retained Rust checkpoint has **8,407 passing tests and 290 doctests**, source
+digest `850b0823a30e72c54205712f4c7fdab52dcfbc9401f32eb3cb54cd556bf091eb`.
+Its final `scripts/check.sh` passed in 175.34 seconds. The current layout uses
 22 integration executables and 95 verification jobs, preserving original test
 files and source attribution. Successful checks are reused when their relevant
 inputs are unchanged; documentation-only updates do not rerun the solver suite.
@@ -51,13 +51,23 @@ stream correctness comparisons, plus stream performance. Fourteen older jobs,
 including mixed performance, retain their actual timestamps and keys and are
 visibly stale. They have not been relabeled as current.
 
-The current large stream workload measures hill-climbing swaps at 523.495 ms
-against Java's 290.691 ms, and tabu swaps at 537.071 against 289.340 ms. All 128
+The current large stream workload measures hill-climbing swaps at 494.080 ms
+against Java's 294.572 ms, and tabu swaps at 509.250 against 289.261 ms. All 128
 validation cases have valid, equal-score outcomes. These bounded shared-host
 measurements include setup and result validation; they do not prove general Java
 parity, identical execution traces or universal speed requirements.
 
-The latest retained native change coalesces bounded planning-source batches using
+The latest retained change replaces per-update tree searches with validated direct
+indexing for contiguous primitive planning and relationship IDs. It still checks
+the complete relationship ID, including endpoints; sparse and custom IDs preserve
+the original tree behavior. Four balanced paired runs against the preceding actual
+binary show large change time 3.88% lower and swap time 6.05% lower overall, with
+every fork improving for both. Mixed stream is 3.21% slower initially and 3.0% slower
+in one longer confirmation; the unchanged dense control also drifts slower.
+These targeted gains and mixed tradeoff do not establish a universal speedup.
+Exact artifacts, tests and observations are in `work/round244-fixed-index/`.
+
+The preceding source-batch change coalesces bounded planning-source batches using
 cached integer IDs and input positions, and publishes source outputs directly.
 Generic source key ownership and Clone/Drop behavior remain unchanged. Two
 repeatable whole-process captures show 3.17% fewer allocation requests for changes
@@ -68,8 +78,8 @@ malloc/calloc/realloc counts including setup and validation, not allocated bytes
 or live/peak memory. Scratch buffers retain their largest batch capacity without
 retaining payloads.
 
-Throughput improvement is unproven. The four balanced runs pinned to CPU 2 show
-change time 0.34% lower and swap time 1.33% lower overall, with slower outliers in
+For that source-batch change, throughput improvement is unproven. Its four balanced
+runs pinned to CPU 2 show change time 0.34% lower and swap time 1.33% lower overall, with slower outliers in
 both cases. Mixed stream time is 1.35% slower overall and dense control 1.55%
 slower. These observations do not establish a general speedup. The previous241
 fixed-link timing gains and mixed tradeoff remain recorded in the handoff.
