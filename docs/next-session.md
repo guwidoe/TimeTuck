@@ -17,7 +17,71 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained260 route-count cold penalties
+## Latest qualification — retained261 sparse Eq-only value discovery
+
+Native changed-value discovery scans touched current/original rows when the
+registry has at least 16 values and current touched rows contain at most half its
+values. Resolve current positions, include removed values, sort/deduplicate by
+registry index; preserve full row/neighbor payloads and source callback order.
+Temporary storage follows the edit footprint. Indexed, dense and small paths
+remain unchanged. No Hash/Ord bound, constructor, API or benchmark-profile change.
+Internal Eq/frozen-original lookup schedules may differ; no hook-trace claim.
+One original regression expands existing sparse/nested/panic checks to 32 Eq-only
+registered values, including ten touched rows; no upstream-method credit.
+
+Current260 warm component-refinement profile: 1,940 samples, none lost, all 30
+outputs match actual canonical observations. Changed positions 11.65% self/12.16%
+inclusive, unobserved owned updates 10.15% inclusive, propagation 34.02% inclusive.
+This new attribution question replaces neither old250 warm245 nor260 cold259
+captures and must not later be relabelled as a new-source profile.
+
+All 8 mixed controls/four balanced forks: exact assignments, scores, logical work,
+physical callbacks and terminations match actual retained260 executable. Larger
+warm Stream local 0.98% lower/runner-a 0.30% higher (flat); small warm Stream local
+4.51% slower/remote flat, cold varies. This does not close warm Java parity.
+Retain for larger registries: 512-value temporary swaps local 45.18%/35.19% faster
+with unobserved/observed value rows; runner-a 48.03%/34.58%, all 4 forks each.
+128-value cases also improve. All source rows, full score, checksum/callbacks and
+rollback independently checked; only hot apply/score/drop timed, setup/full
+inspection excluded. No Java, whole-solve or general speed claim. Old scale-client
+library is an actual retained257 artifact with production source byte-identical
+to260, using separate build paths; same client source/compiler/flags. Actual260
+binary used for mixed comparisons. Initial private client import/AddAssign errors
+archived and earned no evidence; corrected clients actually built/executed.
+
+Required final bash scripts/check.sh passed on runner-a in 452.78s:
+8,426 Rust +290 doctest successful evidence, 84 jobs run/63 genuinely reused.
+Broad shared-core regression executed once on final native source; actual source-bound Rust log/metadata and newly run doctest record/log collected unchanged.
+Native digest `84e80bdf2b8c9818684433588c0a51dcd69c54e324f5e18aa22e13b755cb2537`.
+Root release build 149s. No root cache transplant, old result rekey or new agents.
+
+Three affected Java/native correctness comparisons freshly rerun: solver 82.68s,
+list 16.90s, stream 123.49s. Native results, counts and known discrepancies unchanged.
+One existing Java NPE at concurrent-087/state0 gained helpful diagnostic text;
+class/witness/classification unchanged, 21 Java errors still counted. Raw messages
+retained; initial overly strict text-drift collector failure archived, only that
+specific observed diagnostic expansion accepted in-memory, no native rerun.
+Mixed timing freshly refreshed; other 14 raw reports retain dates/keys unchanged.
+Shared-source changes alter 14 current input hashes; older timing evidence remains
+stale until a deliberate refresh. Receipt's copied17-report prose corrected with
+original preserved, execution/source/timing fields unchanged.
+
+Fresh larger warm Stream 28.520ms vs Java 22.606ms;
+cold Stream 27.043ms vs Java 21.812ms, all 8 equal quality.
+These shared-host fresh times are not paired native trend estimates. Dashboard
+index 84.404%, 4/18 current; reduced currentness is visible evidence debt,
+not lost method coverage. Inventory 4409/4855, 11 pending, 435 excluded unchanged.
+Backend report/HTTP/model freshness verified; rendering contract/JS/CSS unchanged,
+254 browser evidence reused. Server 20631 on 8765. Java parity target multiplier1.
+
+All 261 jobs terminal, runner-c parked. Evidence: work/round261-touched-scan/,
+work/round261-warm-profile/, work/parallel-round261-evidence.json. Goal incomplete.
+Keep the larger-registry benefit and small-workload tradeoffs visible. Do not
+repeat these profiles/qualifications or sweep lookup thresholds. Remaining work
+includes warm Stream parity, relevant behavior-policy gaps and a deliberate
+broader timing refresh when justified; no source-method padding or relabelling.
+
+## Previous qualification — retained260 route-count cold penalties
 
 The component-refinement cold Dense/Stream declarations now compute missing
 customers as registered count minus summed route lengths, incorporating it into

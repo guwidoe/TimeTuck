@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,425 passing Rust tests and 290 doctests**,
-source digest `b257a2ca341b6622475f3d765a5ca62ce8782a747225c0e9c1ed2d0ced396a4b`. The required final `bash scripts/check.sh` passed
-on runner-a in 88.75 seconds, running the affected checks and genuinely reusing
-142 unchanged jobs. Source-bound output and checksum metadata were collected
+The latest integrated checkpoint has **8,426 passing Rust tests and 290 doctests**,
+source digest `84e80bdf2b8c9818684433588c0a51dcd69c54e324f5e18aa22e13b755cb2537`. The required final `bash scripts/check.sh` passed
+on runner-a in 452.78 seconds, running the affected checks and genuinely reusing
+63 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
 
@@ -51,22 +51,21 @@ See the [stream contracts](constraint-stream-contract.md) and
 Java agreement. Completion still needs evidence for every original-scope
 requirement and resolution of the remaining relevant behavior differences.
 
-Five of the 18 comparison jobs have current input hashes: solver/list/stream
-correctness and mixed/stream performance. Thirteen older jobs keep their actual
-timestamps and input keys and remain visibly stale. Correctness comparisons
-reuse matching earlier evidence; only the affected mixed benchmark was refreshed
-in this batch. Known discrepancies/errors remain unchanged. No old measurement
-was rekeyed.
+Four of the 18 comparison jobs have current input hashes: solver/list/stream
+correctness and mixed performance. Fourteen timing reports retain their original
+input keys/dates and remain visibly stale. The three affected correctness jobs
+and mixed benchmark were deliberately refreshed. Native results and known
+comparison counts match prior evidence; one existing Java NPE gained diagnostic
+detail but remains an error. No old execution result was rekeyed.
 
-Fresh larger mixed measurements: warm Stream **39.200 ms vs Java
-25.099 ms**, all score [0,-338]. Cold Stream 37.765 ms and
-Dense 8.047 ms vs Java 36.839 ms, all score [0,-60].
-The larger reference [0,-72] is a feasible certificate, not an optimum. The target
-is Java median-time parity or better at equal-or-better solution quality. These
-bounded shared-host timings use different work/policies and vary with load. The
-remaining warm Stream gap now limits the mixed benchmark family's progress.
+Fresh larger mixed measurements: warm Stream **28.520 ms vs Java
+22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
+21.812 ms, all score [0,-60]. The larger reference [0,-72] is a
+feasible certificate, not an optimum. The target remains Java median-time parity
+or better at equal-or-better quality. These shared-host times vary with load;
+controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **84.6%**: feature families 40%,
+The dashboard's configurable progress index is **84.4%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -74,16 +73,15 @@ hiding gaps. Stale measurements retain their last-demonstrated contribution with
 visible freshness debt; 100% requires every target and current evidence. See
 [the calculation](dashboard.md#project-completion-index).
 
-The latest retained change computes missing customers from the fixed registry
-size minus summed route lengths within the existing cold route constraints.
-Partial/final objectives, assignments and logical work remain unchanged; cold
-constraint grouping/explanations and physical callbacks differ. Balanced native
-comparisons show larger cold Stream 31.39% faster locally and 29.54% on runner-a;
-Dense 56.92%/59.17%, all four forks each. All workload controls/outliers remain in
-the evidence; no warm/general engine speed claim. Sixty-four original partial/final
-controls and the existing independent Rust regression check scores, pins,
-completeness and budgets. The Java reference already uses the same count formula.
+The latest retained native change scans touched rows to discover sparse Eq-only
+value updates, preserving full metadata and registry-ordered source callbacks.
+It adds no Hash/Ord bounds or benchmark-profile changes. Controlled 512-value
+temporary updates improve 35–45% locally and 35–48% on runner-a, depending on whether
+value rows are observed, in all four forks. These timings include hot updates and
+rollback, exclude setup/full diagnostics, and are not Java or whole-solve speed
+claims. Smaller mixed workloads remain roughly flat with some slower controls.
+Sparse, nested and callback-panic regressions include 32 registered Eq-only values.
 
-Evidence: work/round260-route-cardinality/verdict.json, functional-proof.json,
-collection.json and performance-receipt.json. Historical optimization results and
-retained tradeoffs remain in [next-session.md](next-session.md). Goal incomplete.
+Evidence: work/round261-touched-scan/verdict.json, collection.json,
+performance-receipt.json and java-diagnostic-difference.json. Historical results
+and retained tradeoffs remain in [next-session.md](next-session.md). Goal incomplete.

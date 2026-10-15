@@ -618,6 +618,17 @@ equal value IDs. Every registered value remains present even when unassigned;
 constraints explicitly filter `position.is_some()` to select assigned values.
 Other graph sources can be preloaded with immutable facts.
 
+Native Eq-only changed-value discovery uses a touched-row scan for registries of
+at least 16 values when current touched rows contain at most half the registry.
+It resolves current positions, includes removed values and restores registry
+order before delivering source updates. Dense/small and indexed paths retain
+their existing behavior. Temporary storage follows the edit footprint; no Hash
+or Ord bound, new model constructor or reduced metadata contract is introduced.
+Internal equality comparisons and frozen-original lookup schedules may differ;
+identity must remain stable as required by the model. Ordinary panic rollback
+still covers the assignment and graph. This is not a promise about Eq/Clone hook
+traces or a general solver speed guarantee.
+
 `ListStreamScoreDirector` owns the assignment and graph. Initialization validates
 the model, ownership and emptiness of both sources before callbacks. Applying a
 move first validates the final composite through the native list transaction.

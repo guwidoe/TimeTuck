@@ -68,10 +68,11 @@ fn check(
     assert_eq!(graph.score(), SimpleScore::new(expected_score));
 }
 
-#[test]
-fn sparse_registry_removed_only_updates_preserve_snapshots_and_nested_rollback() {
+fn sparse_registry_case(extra_values: usize) {
+    let mut values = vec![Value(900), Value(7), Value(301), Value(55), Value(2)];
+    values.extend((0..extra_values).map(|i| Value(50_000 + i as i64)));
     let problem = ListProblem::new(
-        vec![Value(900), Value(7), Value(301), Value(55), Value(2)],
+        values,
         vec![
             ListEntity::new(vec![Value(301), Value(900)]),
             ListEntity::new(vec![Value(2)]),
@@ -149,9 +150,10 @@ fn sparse_registry_removed_only_updates_preserve_snapshots_and_nested_rollback()
     assert_eq!(before[&2].next, Some(Value(900)));
 }
 
-#[test]
-fn more_than_eight_touched_rows_restore_every_shadow_after_callback_unwind() {
-    let values: Vec<_> = (0..12).map(|i| Value(100 + i * 17)).collect();
+fn many_touched_rows_case(extra_values: i64) {
+    let values: Vec<_> = (0..12 + extra_values)
+        .map(|i| Value(100 + i * 17))
+        .collect();
     let problem = ListProblem::new(
         values.clone(),
         values[..10]
@@ -213,4 +215,18 @@ fn more_than_eight_touched_rows_restore_every_shadow_after_callback_unwind() {
     assert!(snapshot[&9].position.is_some());
     assert!(snapshot[&10].position.is_none());
     director.assert_consistent().unwrap();
+}
+
+#[test]
+fn sparse_registry_removed_only_updates_preserve_snapshots_and_nested_rollback() {
+    sparse_registry_case(0);
+}
+#[test]
+fn more_than_eight_touched_rows_restore_every_shadow_after_callback_unwind() {
+    many_touched_rows_case(0);
+}
+#[test]
+fn sparse_touched_scans_preserve_source_order_metadata_and_panic_rollback() {
+    sparse_registry_case(27);
+    many_touched_rows_case(20);
 }

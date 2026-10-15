@@ -236,6 +236,38 @@ impl<V: Eq + Clone> ListProblem<V> {
             });
             let capacity = self.values.len().min(current_len.saturating_mul(2));
             let mut changes = Vec::with_capacity(capacity);
+            // Sparse edits should traverse their rows, not revisit those rows
+            // for every registry entry. Keep the existing dense/small path;
+            // temporary storage remains proportional to the edit footprint.
+            if self.values.len() >= 16 && current_len <= self.values.len() / 2 {
+                for &entity in touched {
+                    for (index, value) in assignment.lists()[entity].iter().enumerate() {
+                        changes.push((
+                            self.value_index(value).expect("validated registry"),
+                            Some(ListPosition { entity, index }),
+                        ));
+                    }
+                }
+                changes.sort_unstable_by_key(|(id, _)| *id);
+                changes.dedup_by_key(|(id, _)| *id);
+                for &entity in touched {
+                    if changes.len() == self.values.len() {
+                        break;
+                    }
+                    for value in original(entity) {
+                        if !touched
+                            .iter()
+                            .any(|&current| assignment.lists()[current].contains(value))
+                        {
+                            let id = self.value_index(value).expect("validated registry");
+                            if let Err(slot) = changes.binary_search_by_key(&id, |(id, _)| *id) {
+                                changes.insert(slot, (id, None));
+                            }
+                        }
+                    }
+                }
+                return changes;
+            }
             // Original rows are frozen ListUndo lookups. Compact undo may clone
             // them on its FIRST request: keep that request at the same equality
             // short circuit, then cache only the returned immutable slice. Large
