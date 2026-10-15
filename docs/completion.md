@@ -27,6 +27,14 @@ files and source attribution. Successful checks are reused when their relevant
 inputs are unchanged; documentation-only updates do not rerun the solver suite.
 The generated report remains the authority for later counts and freshness.
 
+Direct erased fixed-link output construction was tested separately and rejected:
+changes were 8.80% slower in all four paired forks, swaps 3.96% slower overall
+(three of four), despite mixed stream being 6.46% faster (three of four). The
+unchanged dense control was 5.74% slower. Two candidate ownership/panic controls
+passed but are not retained coverage. The retained checkpoint above and canonical
+reports are unchanged; no repeated full gate or measurement refresh. Evidence:
+`work/round248-link-outputs/verdict.json` and `work/parallel-round248-evidence.json`.
+
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
 cold construction reaches the independently enumerated small optimum and beats

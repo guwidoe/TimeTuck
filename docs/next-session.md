@@ -17,7 +17,33 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest experiment — rejected247 resident inputs; retained245 unchanged
+## Latest experiment — rejected248 direct link outputs; retained245 unchanged
+
+FixedLinks constructed erased Rc events directly in the affected-link loop,
+avoiding the intermediate typed Vec and final erase pass. Two original controls
+passed for callback/ID/endpoint Clone order, non-Clone payload ownership, partial
+output destruction and rollback after later projection/Clone panics. Focused
+checks, Clippy and release build passed. Candidate-only tests earn no retained credit.
+
+Reject: changes were 8.80% slower in all four paired forks and swaps 3.96% slower
+overall, three of four forks slower. Mixed stream was 6.46% faster overall, three
+of four improving; unchanged dense control was 5.74% slower. Preserve all results;
+no further variant or confirmation. Source/artifacts were rechecked after timing.
+No integration, full gate, canonical measurements or browser repeat. Reuse245:
+8,409 Rust +290 doctests, 4,409/4,855 methods, four current/14 stale measurements.
+
+Next test inline transaction tokens for fixed planning sources and fixed links,
+keeping full snapshots and generic nodes boxed. Preserve reverse release order,
+nested journals, panic rollback, capture/restore and diagnostic score comparisons.
+GraphTransaction and TransactionWorkspace need the same token representation;
+larger journal slots may offset saved allocations. No implementation or gain claim
+yet. Reuse fresh246 retained245 profile instead of profiling unchanged code again.
+
+Evidence: work/parallel-round248-evidence.json and work/round248-link-outputs/.
+All248 jobs terminal. runner-c parked, no SSH attempts, existing Sol agent supplied two
+original private controls, no new agents. Goal active/incomplete.
+
+## Historical experiment — rejected247 resident inputs; retained245 unchanged
 
 An isolated candidate borrowed input Vecs in place through an RAII guard instead
 of moving the Vec header out/back for every node visit. The guard cleared inputs
