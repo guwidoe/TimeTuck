@@ -383,3 +383,117 @@ pub fn run_cold(
     };
     Ok(result)
 }
+
+/// Explicit component-first search followed by joint refinement under shared budgets.
+pub fn run_component_refinement(
+    case: &Case,
+    stream: bool,
+    cold: bool,
+) -> Result<SolverResult<MixedAssignment<usize, usize>, HardSoftScore>, Box<dyn Error>> {
+    let problem = if cold {
+        cold_problem(case)?
+    } else {
+        case.problem.clone()
+    };
+    let global_steps = SearchTermination::Condition(SearchLimit::Steps(case.steps));
+    let phase = |joint_moves| {
+        MixedSolverPhase::LocalSearch(MixedLocalSearchConfig {
+            search: LocalSearchConfig {
+                max_steps: case.steps,
+                max_evaluations: case.evaluations,
+                selection: MoveSelection::BestAccepted,
+                move_order: MoveOrder::Original,
+                ..Default::default()
+            },
+            joint_moves,
+        })
+    };
+    let mut phases = Vec::new();
+    if cold {
+        phases.push(MixedSolverPhase::Construction(
+            MixedConstructionConfig::default(),
+        ));
+    }
+    phases.push(phase(false));
+    phases.push(phase(true));
+    let plan = MixedSolverSequence {
+        limits: SolverLimits {
+            max_evaluations: case.evaluations,
+            termination: Some(&global_steps),
+            ..Default::default()
+        },
+        phases,
+    };
+    let result = if stream {
+        solve_mixed_stream(
+            &problem,
+            || {
+                let mut graph = StreamGraphBuilder::new();
+                let source = MixedStreamSources::new(&mut graph);
+                let joined = graph.join_equal(
+                    source.basic.port(),
+                    source.lists.entities.port(),
+                    |(id, _)| *id,
+                    |(id, _)| *id,
+                )?;
+                graph.score(
+                    "coupled depot routes",
+                    &joined,
+                    |((owner, depot), (_, route))| {
+                        if cold {
+                            partial_route_score(case, *depot, route, *owner)
+                        } else {
+                            case.route_score(depot.unwrap(), route, *owner)
+                        }
+                    },
+                )?;
+                if cold {
+                    graph.score(
+                        "unassigned customers",
+                        source.lists.values.port(),
+                        |value| HardSoftScore::new(-i64::from(value.position.is_none()), 0),
+                    )?;
+                }
+                Ok((graph.build(), source))
+            },
+            plan,
+        )?
+    } else {
+        let owners = case.capacities.len();
+        let mut network = MixedConstraintNetwork::new(owners, owners, case.points.len());
+        for owner in 0..owners {
+            network.add_constraint(
+                format!("route {owner}"),
+                vec![MixedScope::Basic(owner), MixedScope::ListEntity(owner)],
+                move |facts| {
+                    let (MixedFact::Basic(depot), MixedFact::ListEntity(route)) =
+                        (&facts[0], &facts[1])
+                    else {
+                        unreachable!()
+                    };
+                    if cold {
+                        partial_route_score(case, depot.copied(), route, owner)
+                    } else {
+                        case.route_score(*depot.unwrap(), route, owner)
+                    }
+                },
+            )?;
+        }
+        if cold {
+            for value in 0..case.points.len() {
+                network.add_constraint(
+                    format!("unassigned customer {value}"),
+                    vec![MixedScope::ListValue(value)],
+                    |facts| {
+                        let MixedFact::ListValue { element, .. } = &facts[0] else {
+                            unreachable!()
+                        };
+                        HardSoftScore::new(-i64::from(element.is_none()), 0)
+                    },
+                )?;
+            }
+        }
+        solve_mixed(&problem, &network, plan)?
+    };
+    Ok(result)
+}

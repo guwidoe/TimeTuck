@@ -126,7 +126,7 @@ class MixedBenchmarkContractTest(unittest.TestCase):
     def test_cold_native_phase_totals_placements_completeness_and_shared_budget(self):
         self.assertEqual(m.cold_placements(self.cold_small),6)
         self.assertEqual(m.cold_placements(self.cold_large),18)
-        for change in [lambda r:r.__setitem__('complete',False),
+        for change in [lambda r:r.__setitem__('complete',False),lambda r:r.__setitem__('construction_steps',0),
                        lambda r:r.__setitem__('construction_steps',6),
                        lambda r:r.__setitem__('construction_steps',True),
                        lambda r:r.__setitem__('phase_evaluations',[12,1]),
@@ -148,5 +148,47 @@ class MixedBenchmarkContractTest(unittest.TestCase):
             fields=m.encode(case).split('\t')
             self.assertEqual(len(fields),11)
             self.assertEqual(fields[-1],floor)
+
+    def refinement_row(self,case=None):
+        case=case or self.small;row=self.row(case)
+        cold=case['start_mode']=='cold'
+        row.update(search_profile='component-refinement',complete=True,
+                   phase_evaluations=[row['construction_steps'],1,1] if cold else [2,2],
+                   phase_steps=[0,1,0] if cold else [1,1],
+                   phase_construction_steps=[row['construction_steps'],0,0] if cold else [0,0],
+                   phase_terminations=(['Construction(Completed)'] if cold else [])+['LocalSearch(NoAcceptedMove)']*2)
+        return row
+    def test_refinement_metadata_keeps_actual_summed_work_and_budgets(self):
+        for case in [self.small,self.cold_small]:
+            row=self.refinement_row(case)
+            self.assertEqual(m.parse_result(case,json.dumps(row),'stream',2,'component-refinement')['per_solve_score'],case['reference_score'])
+            with self.assertRaises(ValueError):m.parse_result(case,json.dumps(row),'stream',2,'joint')
+        row=self.refinement_row();row.update(phase_evaluations=[4],phase_steps=[2],phase_construction_steps=[0],phase_terminations=['LocalSearch(StepLimit)'])
+        m.parse_result(self.small,json.dumps(row),'dense',2,'component-refinement')
+    def test_refinement_rejects_missing_forged_or_inconsistent_phase_work(self):
+        changes=[lambda r:r.pop('search_profile'),lambda r:r.__setitem__('complete',False),
+                 lambda r:r.__setitem__('phase_evaluations',[2,3]),lambda r:r.__setitem__('phase_evaluations',[True,3]),
+                 lambda r:r.__setitem__('phase_steps',[2,2]),lambda r:r.__setitem__('phase_construction_steps',[1,0]),
+                 lambda r:r.__setitem__('phase_terminations',['LocalSearch(StepLimit)','LocalSearch(NoAcceptedMove)'])]
+        for change in changes:
+            row=self.refinement_row();change(row)
+            with self.assertRaises(ValueError):m.parse_result(self.small,json.dumps(row),'dense',2,'component-refinement')
+        row=self.row(runtime='java');row['search_profile']='component-refinement'
+        with self.assertRaises(ValueError):m.parse_result(self.small,json.dumps(row),'java',2,'component-refinement')
+    def test_refinement_cli_is_native_only_and_java_sample_sharing_is_retained(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        commands=[]
+        def execute(command,**kwargs):
+            commands.append(command);java='MixedSolverBenchmark' in command
+            if java:
+                self.assertNotIn('component-refinement',command);row=self.row(runtime='java')
+            else:
+                self.assertEqual(command[-1],'component-refinement');row=self.refinement_row()
+            return SimpleNamespace(returncode=0,stderr='',stdout=json.dumps(row)+'\n')
+        args=SimpleNamespace(iterations=2,warmup=0,samples=1,forks=1,native_search_profile='component-refinement')
+        with patch.object(m.subprocess,'run',side_effect=execute):rows=m.measure_case(self.small,args,'classpath',0)
+        self.assertEqual(len(commands),3);self.assertEqual(rows[0]['samples']['java'],rows[1]['samples']['java'])
+        self.assertTrue(all(x['native_search_profile']=='component-refinement' for x in rows))
 
 if __name__=='__main__':unittest.main()

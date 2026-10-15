@@ -205,3 +205,38 @@ fn cold_construction_obeys_the_shared_budget_and_returns_actual_partial_work() {
         );
     }
 }
+
+#[test]
+fn component_refinement_keeps_quality_and_shared_caps_across_phase_handoffs() {
+    for stream in [false, true] {
+        let mut case = Case::parse(SMALL).unwrap();
+        let result = support::run_component_refinement(&case, stream, false).unwrap();
+        let score = result.score.unwrap();
+        case.validate(&result.assignment, score).unwrap();
+        assert_eq!(score, HardSoftScore::new(0, -12));
+        assert_eq!(result.phases.len(), 2);
+        assert_eq!(
+            result.phases[0].termination,
+            PhaseTermination::LocalSearch(LocalSearchTermination::NoAcceptedMove)
+        );
+        assert!(
+            result.work.completed_steps <= case.steps
+                && result.work.evaluations <= case.evaluations
+        );
+        case.steps = 1;
+        let capped = support::run_component_refinement(&case, stream, false).unwrap();
+        assert!(capped.complete);
+        assert_eq!(capped.work.completed_steps, 1);
+        assert_eq!(capped.phases.len(), 1);
+        assert_eq!(capped.termination, SolverTermination::Condition);
+        case.steps = 16;
+        case.evaluations = 1;
+        let capped = support::run_component_refinement(&case, stream, false).unwrap();
+        assert!(capped.work.evaluations <= 1 && capped.phases.len() <= 1);
+        assert_eq!(capped.work.completed_steps, 0);
+        let cold = support::run_component_refinement(&case, stream, true).unwrap();
+        assert!(!cold.complete);
+        assert!(cold.work.evaluations <= 1 && cold.phases.len() <= 1);
+        assert_eq!(cold.work.completed_steps, 0);
+    }
+}

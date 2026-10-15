@@ -109,7 +109,8 @@ def workloads():
 def cold_placements(case):
     return sum(d is None for d in case['cold_initial_depots'])+len(case['points'])-sum(map(len,case['cold_initial_routes']))
 
-def parse_result(case, line, runtime, iterations):
+def parse_result(case, line, runtime, iterations, search_profile='joint'):
+    if search_profile not in ['joint','component-refinement']:raise ValueError('Unknown search profile')
     row=json.loads(line)
     if row['id']!=case['id'] or type(row['elapsed_ns'])!=int or row['elapsed_ns']<=0: raise ValueError('Identity/time')
     actual=validate_assignment(case,row['depots'],row['routes'])
@@ -119,7 +120,23 @@ def parse_result(case, line, runtime, iterations):
     if case['reference_kind']=='independent_exhaustive_optimum' and actual>tuple(case['reference_score']): raise ValueError('Exceeds independent optimum')
     if type(row['score_calls'])!=int or row['score_calls']<iterations: raise ValueError('Actual callback count')
     cold=case['start_mode']=='cold'
-    if not cold and any(k in row for k in ['construction_steps','phase_evaluations','complete']):
+    refinement=runtime!='java' and search_profile=='component-refinement'
+    if refinement:
+        if row.get('search_profile')!='component-refinement':raise ValueError('Native search profile')
+        if row.get('complete') is not True:raise ValueError('Refinement incomplete result')
+        phases=row.get('phase_evaluations');steps=row.get('phase_steps');terms=row.get('phase_terminations');placements=row.get('phase_construction_steps')
+        maximum=3 if cold else 2
+        if not isinstance(phases,list) or not 1<=len(phases)<=maximum or any(type(v)!=int or v<=0 for v in phases) or sum(phases)!=row['evaluations']:raise ValueError('Refinement phase evaluations')
+        if not isinstance(steps,list) or len(steps)!=len(phases) or any(type(v)!=int or v<0 for v in steps) or sum(steps)!=row['steps']:raise ValueError('Refinement phase steps')
+        if not isinstance(placements,list) or len(placements)!=len(phases) or any(type(v)!=int or v<0 for v in placements) or sum(placements)!=(row.get('construction_steps') if cold else 0):raise ValueError('Refinement phase construction steps')
+        if not isinstance(terms,list) or len(terms)!=len(phases) or any(type(v)!=str for v in terms):raise ValueError('Refinement phase terminations')
+        if not cold and 'construction_steps' in row:raise ValueError('Warm construction steps')
+        if cold and (placements[0]!=row.get('construction_steps') or steps[0]!=0 or any(placements[1:]) or not terms[0].startswith('Construction(')):raise ValueError('Refinement construction phase')
+        if any(not term.startswith('LocalSearch(') for term in terms[1 if cold else 0:]):raise ValueError('Refinement search phase')
+        first=1 if cold else 0
+        if len(phases)>first+1 and terms[first]!='LocalSearch(NoAcceptedMove)':raise ValueError('Joint refinement before component stall')
+    elif any(k in row for k in ['search_profile','phase_steps','phase_construction_steps','phase_terminations']):raise ValueError('Unexpected strategy metadata')
+    if not cold and not refinement and any(k in row for k in ['construction_steps','phase_evaluations','complete']):
         raise ValueError('Warm output shape changed')
     if runtime=='java':
         if cold and any(row.get(k) is not None for k in ['construction_steps','phase_evaluations']):
@@ -133,7 +150,7 @@ def parse_result(case, line, runtime, iterations):
             if row.get('complete') is not True:raise ValueError('Cold incomplete result')
             construction=row.get('construction_steps');phases=row.get('phase_evaluations')
             if type(construction)!=int or construction!=iterations*placement_count:raise ValueError('Cold construction steps')
-            if not isinstance(phases,list) or len(phases)!=2 or any(type(v)!=int or v<=0 for v in phases) or sum(phases)!=row['evaluations']:
+            if not refinement and (not isinstance(phases,list) or len(phases)!=2 or any(type(v)!=int or v<=0 for v in phases) or sum(phases)!=row['evaluations']):
                 raise ValueError('Cold phase evaluations')
     row['per_solve_score']=list(actual)
     return row
@@ -144,6 +161,9 @@ def measure_case(case,args,classpath,index):
         **{backend:[str(ROOT/'target/release/examples/mixed_solver_benchmark'),*common,backend] for backend in ['dense','stream']}}
     if case['start_mode']=='cold':
         for command in commands.values():command.append('cold')
+    profile=getattr(args,'native_search_profile','joint')
+    if profile=='component-refinement':
+        for backend in ['dense','stream']:commands[backend].append('component-refinement')
     measured={runtime:[] for runtime in commands}
     for fork in range(args.forks):
         order=['java','dense','stream'];offset=(index+fork)%3;order=order[offset:]+order[:offset]
@@ -152,12 +172,12 @@ def measure_case(case,args,classpath,index):
             if run.returncode: raise RuntimeError(f'{runtime}: {run.stderr}')
             lines=run.stdout.splitlines()
             if len(lines)!=args.samples: raise RuntimeError('Unexpected sample count')
-            measured[runtime].extend(parse_result(case,line,runtime,args.iterations) for line in lines)
+            measured[runtime].extend(parse_result(case,line,runtime,args.iterations,profile) for line in lines)
     entries=[]
     for backend in ['dense','stream']:
         observations={'java':measured['java'],'rust':measured[backend]}
         samples={runtime:[row['elapsed_ns']/args.iterations/1e6 for row in rows] for runtime,rows in observations.items()}
-        entry={'name':case['id']+' · '+backend,'algorithm':('mixed cold construction + hill climbing' if case['start_mode']=='cold' else 'mixed warm-start hill climbing'),'start_mode':case['start_mode'],'native_backend':backend,'unit':'ms / solve','samples':samples,'case':deepcopy(case),
+        entry={'name':case['id']+' · '+backend,'algorithm':('mixed cold construction + hill climbing' if case['start_mode']=='cold' else 'mixed warm-start hill climbing'),'start_mode':case['start_mode'],'native_backend':backend,'native_search_profile':profile,'unit':'ms / solve','samples':samples,'case':deepcopy(case),
             'java_sample_group':case['id'],'java_samples_shared_between_native_rows':True,
             'equal_scores':{tuple(row['per_solve_score']) for row in observations['java']}=={tuple(row['per_solve_score']) for row in observations['rust']},
             'quality_floor':case['quality_floor'],'reference_kind':case['reference_kind'],'reference_score':case['reference_score'],
@@ -178,6 +198,7 @@ def measure_case(case,args,classpath,index):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for name,default in [('iterations',3),('warmup',3),('samples',5),('forks',3)]:parser.add_argument('--'+name,type=int,default=default)
+    parser.add_argument('--native-search-profile',choices=['joint','component-refinement'],default='component-refinement',help='Native component search followed by joint refinement, or original joint search at every step')
     args=parser.parse_args()
     if min(args.iterations,args.samples,args.forks)<1 or args.warmup<0:parser.error('Positive counts; warmup may be zero')
     classpath,artifacts=prepare_solver_java()
@@ -187,9 +208,9 @@ def main():
     for index,case in enumerate(workloads()):results.extend(measure_case(case,args,classpath,index))
     if measurement_digest('mixed-performance')!=digest:raise RuntimeError('Benchmark inputs changed')
     cpu=next((line.split(':',1)[1].strip() for line in open('/proc/cpuinfo') if line.startswith('model name')),'unknown')
-    report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,'reference':REF,'artifacts':artifacts,'config':{**vars(args),'seed':SEED,'seed_scope':'Java seed; native Original order is deterministic without random draws','max_steps':24,'max_evaluations':40000,'start_modes':['warm','cold'],'native_joint_moves':True,'java_joint_moves':False},
+    report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,'reference':REF,'artifacts':artifacts,'config':{**vars(args),'seed':SEED,'seed_scope':'Java seed; native Original order is deterministic without random draws','max_steps':24,'max_evaluations':40000,'start_modes':['warm','cold'],'native_joint_moves':True,'java_joint_moves':False,'native_phase_policy':('component search until stalled, then joint refinement; shared per-case step/evaluation bounds' if args.native_search_profile=='component-refinement' else 'joint candidates at every local-search step')},
         'workloads':results,'environment':{'cpu':cpu,'platform':platform.platform(),'rust':version(['rustc','--version']),'java':version(['java','-version'])},
-        'methodology':'Original coupled depot/basic and customer/list Manhattan tours with capacity penalties, complete feasible warm starts and cold starts derived by clearing unpinned depots/routes while preserving prefixes and whole-owner pins. Encoded complete inputs specify pins and warm references; cold initial_score independently includes missing-depot/customer penalties and retained-route distances. Small optimum independently exhaustively certified; larger reference is an independently scored feasible certificate, NOT an optimum. Warm quality floors retain the original feasible input; cold small must reach its independent optimum and cold larger must reach its feasible certificate or better. Every repeated solve validates its output after timing; Python checks every observed checksum/assignment/pin/score and quality floor. Warm small unpinned case must strictly improve. Cold construction plus local search share the native evaluation budget; evaluations include both phases; steps count completed local-search steps only, with construction_steps reported separately and the configured local-search step limit. Native Dense/Stream use Original-order BestAccepted basic/list plus joint moves with finite score/candidate/step ceilings; Java uses deterministic ORIGINAL union of basic changes, list relocation and swaps with public step/score-call termination, no joint-move or trace equivalence. Native actual evaluations/steps/callbacks and Java measured physical EasyScoreCalculator calls are different work metrics; Java logical steps/evaluations are unknown, never inferred. Timings include per-solve scoring/solver setup and search, exclude process startup, parsing, Java factory preparation and postsolve diagnostics. Native cold-model creation, graph/network setup, construction and local search are timed together; warm timing is unchanged. Java cold input reset/copy, construction and local search are included in timing; Java warm input object copy remains outside timing. Cold protocol carries the required quality floor so both binaries validate every repeated solve, including earlier iterations, before accepting a sample. Runtime order rotates Java/Dense/Stream by fork; a single measured Java sample group per case is reused in both native rows, not counted as independent extra runs. Quality and work must accompany speed ratios; these bounded warm/cold workloads establish no general mixed-solver scalability, memory or equal-work claim.'}
+        'methodology':'Original coupled depot/basic and customer/list Manhattan tours with capacity penalties, complete feasible warm starts and cold starts derived by clearing unpinned depots/routes while preserving prefixes and whole-owner pins. Encoded complete inputs specify pins and warm references; cold initial_score independently includes missing-depot/customer penalties and retained-route distances. Small optimum independently exhaustively certified; larger reference is an independently scored feasible certificate, NOT an optimum. Warm quality floors retain the original feasible input; cold small must reach its independent optimum and cold larger must reach its feasible certificate or better. Every repeated solve validates its output after timing; Python checks every observed checksum/assignment/pin/score and quality floor. Warm small unpinned case must strictly improve. Cold construction plus local search share the native evaluation budget; evaluations include both phases; steps count completed local-search steps only, with construction_steps reported separately and the configured local-search step limit. Native Dense/Stream use the explicitly recorded native_search_profile: component-refinement runs component-only Original-order BestAccepted until stall, then joint refinement; joint retains the original all-joint-at-every-step control. Both search phases share the original per-case step/evaluation caps; cold construction shares the evaluation cap and its placements remain separate. Additional phase initialization consumes budget. Warm graph/network shape stays unchanged. The strategy changes candidate work, tie paths and potentially quality; it is not an implementation-only or equal-work speedup. All configured warm/cold/backend workloads, including slower cold/small cases, remain in the report. Native profiles use finite score/candidate/step ceilings; Java uses deterministic ORIGINAL union of basic changes, list relocation and swaps with public step/score-call termination, no joint-move or trace equivalence. Native actual evaluations/steps/callbacks and Java measured physical EasyScoreCalculator calls are different work metrics; Java logical steps/evaluations are unknown, never inferred. Timings include per-solve scoring/solver setup and search, exclude process startup, parsing, Java factory preparation and postsolve diagnostics. Native cold-model creation, graph/network setup, construction and local search are timed together; warm timing is unchanged. Java cold input reset/copy, construction and local search are included in timing; Java warm input object copy remains outside timing. Cold protocol carries the required quality floor so both binaries validate every repeated solve, including earlier iterations, before accepting a sample. Runtime order rotates Java/Dense/Stream by fork; a single measured Java sample group per case is reused in both native rows, not counted as independent extra runs. Quality and work must accompany speed ratios; these bounded warm/cold workloads establish no general mixed-solver scalability, memory or equal-work claim.'}
     (ROOT/'work/mixed-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
 if __name__=='__main__':raise SystemExit(run_measurement('mixed-performance',main))

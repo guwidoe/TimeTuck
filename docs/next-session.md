@@ -17,7 +17,74 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained257 owned unobserved planning rows
+## Latest qualification — retained258 component-first mixed profile
+
+The mixed performance driver explicitly selects component-only local search until
+stall, then joint refinement using existing MixedSolverSequence APIs. Cold starts
+prepend the original construction phase. Both searches share original per-case
+step/evaluation limits, including every phase initialization; construction steps
+remain separate. StrictImprovement/First/Original ordering and original graph/
+network shape stay intact. This is a search strategy/configuration change, not an
+engine-only speedup or a universal quality/trace equivalence claim. Native library
+source is byte-for-byte unchanged. Original run/run_cold and default Rust CLI path
+remain unchanged; optional component-refinement selects the new benchmark profile.
+Python benchmark default/profile metadata/methodology make the choice explicit.
+
+One-binary/library balanced paired measurements, all8 workloads/four forks: local
+larger warm dense4.04x/stream4.77x faster, runner-a3.70x/4.40x, all four forks.
+Same larger warm routes/score -338; evaluations36,074 to8,658, stream callbacks
+99,837 to19,000. Keep losses: runner-a warm small dense19.3%/stream8.0% slower,
+cold large dense18.0%/stream7.5% slower; local cold large dense12.6% slower,
+stream roughly flat. All raw samples retained; no winning subsets or universal
+speedup claim. Different strategy/work, identical original fixtures and budgets.
+
+All576 additional original small-grid route/depot/whole-pin/prefix variants reach
+independently computed optima with both backends/strategies (2,304 native solves).
+Initial quality-harness diagnostic compared backend-specific physical callbacks;
+corrected analysis of unchanged saved outputs proves logical agreement. Top-level
+callback counts were removed by that initial comparator; quality proof excludes
+physical callback counts. Initial failure/raw data retained; no native solve rerun.
+This is small-grid evidence, not Java runtime or general quality dominance.
+
+Sixteen actual candidate protocol controls pass: original output/work matches the
+qualified control and new profile matches paired-study outputs/work. Sixteen
+Python contracts check actual phase sums, profile selection, Java work remaining
+unknown, quality/pins and rejection of invalid metadata. One new original Rust
+regression exercises full profile quality, shared step cap before joint entry and
+warm/cold evaluation caps. It earns no upstream-method credit. Initial Clippy
+caught helper unused in the embedded regression module; meaningful control added,
+failed source/logs archived. Empty first focused test filter earned no credit;
+exact named control subsequently executed and passed.
+
+Final required bash scripts/check.sh passed on runner-a in 96.91s,
+with8,424 Rust +290 doctest successful evidence. Actual jobs run: fmt, clippy, test-suite_11, example-mixed_solver_benchmark, test_benchmark_mixed.
+142 matching jobs reused. Cached doctest log/record collected unchanged
+with original timestamp/key/checksum; no old evidence rekeyed. Stable locked
+checkout/source binding and actual Rust metadata preserved. Native digest
+`130f14403d3f4fdf5c2e85ba9a45067d93135e289fb13a43b9826b1b03e7d208`. No root cache transplant, new agents or runner-c probes.
+
+Only mixed-performance input hash changed; that report freshly measured. Other17
+raw comparison files/keys/dates unchanged. Fresh configured larger warm medians:
+dense Rust5.501ms vs Java20.404ms,
+stream Rust24.840ms vs Java20.404ms;
+cold stream Rust42.733ms vs Java20.499ms.
+All8 timing workloads equal Java quality. No old/native trend inferred from these
+fresh Java measurements. Dashboard index84.289%, 5/18 current comparisons,
+coverage4409/4855,11pending435excluded unchanged. Backend report/HTTP/model
+freshness verified; consumed rendering contract/JS/CSS unchanged,254 browser
+verification reused. Server20631 on8765. Goal remains incomplete.
+
+All258 jobs are terminal; existing Sol candidate integrated, no new agents or
+pending implementation. Evidence: work/round258-component-refinement/ and
+work/parallel-round258-evidence.json. Next concrete performance gap is cold stream
+scoring. Investigate filtering the existing cold unassigned-value stream before
+its constant -1 penalty, rather than evaluating zero-impact assigned rows. Keep
+source rows/quality/budgets and the original control, prove partial-state scores
+and measure the full workload set. This is unbuilt; do not claim an improvement.
+Do not revive rejected propagation/storage/event-cache variants or relabel
+remaining Java quirks as passes. No pin/provenance/API or upstream credit change.
+
+## Previous qualification — retained257 owned unobserved planning rows
 
 List/mixed directors transfer owned list-value rows directly into disconnected
 bound fixed sources. This removes erased event allocation and redundant payload
