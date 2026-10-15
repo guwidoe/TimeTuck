@@ -17,6 +17,39 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest qualification — round230
+
+Fresh canonical solver/list/stream comparisons completed locally from unchanged
+qualified227 source/library. One 28-example release prebuild took 63.41s and kept
+library SHA430fff03f81fb05174764781dfc802dc362201d21f112ccac6b4a57e10d03d45.
+Solver took 31.18s, list 11.24s, stream 43.58s; all exited0 with source, driver,
+binary and library hash checks before/after. Pinned Community artifacts unchanged.
+Top-level cases: solver128/128; list512/512 (1795 moves); streams128/128 (2899
+states). Additional cohorts preserve separate agreement/reference/error counts.
+All count summaries match previous runs. Great Deluge1/276 and oscillation325/4824
+differences remain. List membership:425/514 agreement,514 native references,
+40 Java errors,16 differences,33 unsupported. Ranges:65/197 agreement,197 native
+references; load balance97/101 agreement; sequence1 overflow boundary; concurrent
+107/128 agreement,128 native references,21 actual Java errors. Those same21 case/
+state errors remain visible and earn no agreement credit. No new failures, native
+changes or source-method credit; this does not establish full compatibility.
+
+Reports retain actual dates, keys and checksums. Source execution records are
+preserved, not transplanted into root cache. Dashboard now has six current jobs:
+scores, score performance, mixed performance, solver, list and stream. Twelve
+performance jobs remain stale. Coverage remains4409/4855,11 pending,435 excluded.
+Reuse exact8382 Rust+290 doctests from227; no check.sh or benchmark repeat.
+Backend data/HTTP freshness verified; unchanged UI evidence reused. Evidence:
+work/round230-qualification/{receipt,collection,comparison-summaries}.json and
+work/parallel-round230-evidence.json. Actual artifacts/source remain under
+work/round227-join-storage/source/. Rust/report keys remain f148dd.../adc9e05....
+
+Next independent work is deliberate qualification of stale performance jobs:
+build artifacts once from retained source and preserve machine/runtime/policy
+scope. No repeated scope audits or rejected patches. The final Java-quirk policy
+question remains unanswered; goal incomplete. runner-c parked. The earlier runner-a
+connection had closed; fresh live authentication was requested, no remote run.
+
 ## Latest qualification — rounds228–229
 
 No implementation retained. Both output-buffer candidates passed focused checks,
