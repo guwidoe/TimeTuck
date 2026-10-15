@@ -292,9 +292,28 @@ Source changes use stable tuple IDs. A source put replaces its prior value; a
 retraction removes it. Maps retain identity, join IDs are ordered ID pairs, and
 group IDs are keys. Group payloads contain both key and `IntSummary`. Empty keyed
 groups disappear. Sources start empty; no input facts are discovered implicitly.
-`constraint_matches` exposes each terminal's exact typed tuples and ordinary
+`constraint_matches` exposes each tracked terminal's exact typed tuples and ordinary
 scores. Constraint totals are named and sorted; the graph total excludes planning
 structure. Nonzero structural contributions are rejected.
+
+The explicit `score_only`, `score_only_weighted` and
+`score_only_weighted_decimal` builders instead retain each occurrence's ID and
+contribution score without its tuple payload. Full input source and upstream
+operator rows remain retained. Ordinary `score` and weighted builders retain
+their existing payload/inspection behavior. Score-only totals, occurrence-count
+metrics (including zero contributions), rollback, saved candidates, consistency
+diagnostics and live weight/activity replay remain available. Scoring callbacks
+still execute and are counted for each delivered put, including replacements;
+retractions use retained contributions. Existing scheduling, batch coalescing,
+disabled branches and diagnostic/replay callback rules apply.
+
+`constraint_matches` and tuple-based explanations for score-only handles return
+`GraphError::ConstraintMatchesUnavailable` with the constraint name, including
+empty/disabled constraints. The terminal omits payload Clone/storage/Drop
+operations, so their user-defined side effects and panics differ when opting in;
+source/upstream cloning remains unchanged. The new public error variant must be
+handled by external exhaustive matches. This capability alone establishes no
+speed or memory reduction for a whole graph or solve.
 
 A transaction owns an exclusive graph borrow and drains each input change through
 an iterative FIFO queue before returning. Node output order is preserved through
@@ -310,7 +329,7 @@ reversible row journals as described below. Generic saved candidate snapshots
 share roots; bounded planning nodes instead copy the limited slots described below.
 Further updates reuse that checkpoint. Generic sources and filter inputs, both join
 indexes and their ID buckets, group inputs/collectors and terminal match records
-use shared AVL trees. Bounded planning storage is described below. Each graph
+use shared AVL trees. Bounded planning storage is described below. Each tracked graph
 terminal stores its payload and cached contribution
 in one map, plus a scalar total; its checkpoint retains both. Standalone ScoreNode
 continues to store contributions without payloads. Integer collector multiplicities

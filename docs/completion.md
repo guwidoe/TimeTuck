@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,427 passing Rust tests and 290 doctests**,
-source digest `a315d5996fa11b75571f881eb88318faae95a6ecc389be8d5ff5bc339b61c17a`. The required final `bash scripts/check.sh` passed
-on runner-a in 63.36 seconds, running the affected checks and genuinely reusing
-144 unchanged jobs. Source-bound output and checksum metadata were collected
+The latest integrated checkpoint has **8,439 passing Rust tests and 290 doctests**,
+source digest `ba18d0fb0a8b66693d8075717e98d4d86c80548012c123b569e56f7b1264148c`. The required final `bash scripts/check.sh` passed
+on runner-a in 697.87 seconds, running the affected checks and genuinely reusing
+63 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
 
@@ -53,23 +53,22 @@ See the [stream contracts](constraint-stream-contract.md) and
 Java agreement. Completion still needs evidence for every original-scope
 requirement and resolution of the remaining relevant behavior differences.
 
-Four of the 18 comparison jobs have current input hashes: solver/list/stream
-correctness and mixed performance. Fourteen timing reports retain their original
-input keys/dates and remain visibly stale. The three affected correctness jobs
-and mixed benchmark were deliberately refreshed. Native results and known
-comparison counts match prior evidence; one existing Java NPE gained diagnostic
-detail but remains an error. The latest version-identity test change leaves all
-18 raw reports and measurement inputs unchanged; no solves or benchmarks were
-rerun. No old execution result was rekeyed.
+All 18 comparison reports retain their original input keys/dates and are now
+visibly stale. The latest shared API/error addition changes 14 measurement input
+keys, including four formerly current jobs. No old result was rekeyed and no
+comparison jobs were refreshed for this explicit capability addition; separate
+private API controls executed.
+Last measured behavior/performance progress remains visible, while evidence
+currentness earns zero until a deliberate refresh.
 
-Fresh larger mixed measurements: warm Stream **28.520 ms vs Java
+Last measured larger mixed workloads (261; now stale): warm Stream **28.520 ms vs Java
 22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
 21.812 ms, all score [0,-60]. The larger reference [0,-72] is a
 feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **84.4%**: feature families 40%,
+The dashboard's configurable progress index is **82.2%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -77,7 +76,7 @@ hiding gaps. Stale measurements retain their last-demonstrated contribution with
 visible freshness debt; 100% requires every target and current evidence. See
 [the calculation](dashboard.md#project-completion-index).
 
-The latest retained native change scans touched rows to discover sparse Eq-only
+The retained 261 optimization scans touched rows to discover sparse Eq-only
 value updates, preserving full metadata and registry-ordered source callbacks.
 It adds no Hash/Ord bounds or benchmark-profile changes. Controlled 512-value
 temporary updates improve 35–45% locally and 35–48% on runner-a, depending on whether
@@ -86,7 +85,17 @@ rollback, exclude setup/full diagnostics, and are not Java or whole-solve speed
 claims. Smaller mixed workloads remain roughly flat with some slower controls.
 Sparse, nested and callback-panic regressions include 32 registered Eq-only values.
 
-Evidence: work/round261-touched-scan/verdict.json, collection.json,
+The explicit contribution-only scoring APIs retain IDs and cached contributions
+without terminal tuple payloads. Match inspection/explanations return a named
+unavailable error; tracked defaults and full upstream source rows remain intact.
+Twelve original tests cover replacement/retraction, transactional failure and
+rollback, saved candidates, exact weights/replay, occurrence metrics and per-ID
+consistency. Whole-solve private controls preserve assignments, quality and actual
+callbacks. Larger mixed timings show no useful gain; canonical profiles remain
+unchanged. No general speed or whole-graph memory claim is established.
+
+Evidence: work/round263-score-only/collection.json, verdict.json and paired/results.json;
+work/round261-touched-scan/verdict.json, collection.json,
 performance-receipt.json and java-diagnostic-difference.json;
 work/round262-community-version/collection.json and gate-receipt.json. Historical results
 and retained tradeoffs remain in [next-session.md](next-session.md). Goal incomplete.

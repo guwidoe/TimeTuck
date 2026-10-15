@@ -40,6 +40,7 @@ mod indexed_batch;
 mod initial_activity;
 mod ordered_existence;
 mod partitioned_batch;
+mod score_only;
 mod stable_flat_map;
 mod weights;
 use activity::ActivityRule;
@@ -104,6 +105,8 @@ pub type ConcatenatedStreamPort<L, R, T> = StreamPort<ConcatId<L, R>, T>;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum GraphError {
     ForeignPort,
+    /// This constraint explicitly retains contribution scores without tuple payloads.
+    ConstraintMatchesUnavailable(String),
     ProtectedPlanningSource,
     DuplicateConstraint(String),
     UnknownConstraintWeights {
@@ -150,6 +153,10 @@ impl fmt::Display for GraphError {
             Self::ProtectedPlanningSource => {
                 f.write_str("planning sources cannot be changed by a fact transaction")
             }
+            Self::ConstraintMatchesUnavailable(name) => write!(
+                f,
+                "constraint {name:?} uses score-only retention; match payloads are unavailable"
+            ),
             Self::ForeignPort => f.write_str("stream port belongs to another graph"),
             Self::DuplicateConstraint(name) => write!(f, "duplicate stream constraint: {name}"),
             Self::StructuralContribution(name) => {
@@ -2386,7 +2393,13 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         }
         Ok(self.nodes[constraint.0.node]
             .matches()
-            .expect("constraint handle")
+            .ok_or_else(|| {
+                GraphError::ConstraintMatchesUnavailable(
+                    self.constraint_name(constraint)
+                        .expect("registered constraint handle")
+                        .to_owned(),
+                )
+            })?
             .downcast_ref()
             .expect("constraint match type"))
     }

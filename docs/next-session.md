@@ -17,7 +17,57 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 262 Community edition identity
+## Latest qualification — 263 opt-in contribution-only scoring
+
+Explicit `score_only`, `score_only_weighted` and `score_only_weighted_decimal`
+builders retain occurrence IDs/contributions without terminal tuple payloads.
+Full source/upstream rows remain retained. Existing tracked terminal layout,
+callbacks and default builders remain unchanged. Match inspection/explanations
+return named `ConstraintMatchesUnavailable`, including empty/disabled constraints;
+external exhaustive GraphError matches must handle the added variant. Opting in
+omits terminal payload Clone/storage/Drop operations; their side effects differ.
+Totals, zero-score occurrence metrics, weights/activity replay, transactional
+rollback, saved candidates and per-ID consistency checks remain available.
+
+Twelve original regressions pass; no upstream-method credit. First focused run
+passed 11, with one manually erased test event using default i32 instead of usize.
+Corrected only that fixture ID and reran 12. First private client build searched
+release/ instead of release/deps; corrected harness search path, no library
+rebuild or production change. Initial failed source/logs preserved.
+
+Same actual fresh release library/compiler/flags, private tracked vs score-only
+mixed clients, all 8 warm/cold/backend controls and four balanced pinned forks:
+assignments, scores, logical work, physical callbacks and terminations identical.
+Larger warm/cold Stream timings do not establish a useful gain. Small cold Stream
+11.64% lower in all four forks locally; other controls vary, including unchanged
+Dense code, so no Java, general, two-host or memory-size claim. Canonical examples,
+benchmark profiles/config/fixtures and all 18 raw reports remain unchanged. Do not
+adopt this prototype client declaration as the benchmark default or repeat a sweep.
+Only terminal absence of payload retention is established, not whole-graph memory.
+
+Final `bash scripts/check.sh` passed on runner-a in 697.87s:
+8,439 Rust tests +290 doctests; 84 jobs run/63 genuinely reused.
+Source digest `ba18d0fb0a8b66693d8075717e98d4d86c80548012c123b569e56f7b1264148c`.
+Actual source-bound Rust and doctest records/logs collected unchanged. Local
+release build 108s. No cache transplant, result rekey or duplicate final local gate.
+Inventory 4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified.
+
+The shared API/error addition changes 14 measurement input keys. All18 original
+raw files/dates/keys retained without rerunning solves/benchmarks for reporting;
+all 18 now visibly stale, including four formerly current jobs. Dashboard index
+82.191% drops only with currentness debt; last measured behavior/performance
+contributions retained. Java parity multiplier 1. Backend report/HTTP/freshness
+verified; unchanged rendering reuses 254 browser evidence. Deliberately refresh
+measurements when evaluating real profile/core performance changes or final readiness,
+not just because a commit/turn occurred. Server 20631:8765; runner-c parked.
+
+Evidence: work/round263-score-only/, work/parallel-round263-evidence.json.
+Agent candidate/README/hash files remain frozen historical UNBUILT source records;
+parent qualification lives in collection/verdict/receipts. The one Sol agent is
+finished; no active agent work. Goal incomplete. Continue remaining compatibility
+and relevant behavior gaps; large warm Stream Java parity remains unresolved.
+
+## Previous qualification — 262 Community edition identity
 
 One complete Community `TimefoldSolverEnterpriseServiceTest.solverVersion`
 method now has a dedicated executed adaptation preserving its literal
