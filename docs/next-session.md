@@ -17,6 +17,43 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest qualification — round231
+
+All 18 canonical comparison jobs are current on unchanged retained227 source.
+Deliberately refreshed the 12 stale performance jobs; reused round230 correctness,
+the other three current measurements and the exact 8382 Rust + 290 doctest gate.
+No native edits, pin/provenance changes, method credit or broad check.sh repeat.
+One 12-example release prebuild took 23.11s; serial measurement jobs took 542.57s.
+All exited 0. Same prior CLI policies/counts, Community artifacts and problem inputs;
+all retained native/Java output/work signatures match prior runs. Every validation
+case passes validity checks; quality differences remain separate from timing.
+Actual library 430fff03... and every benchmark binary match before/after hashes.
+
+Fresh local shared WSL/i7-13700H/Java 25 measurements cover 98 timed workloads:
+87 have lower Rust medians, which is not an equal-work or general speed claim.
+Larger stream change: 59.993–61.244 ms Rust versus 25.740–25.876 ms Java. Larger
+stream swaps: 835.565/884.780 ms versus 327.959/337.744 ms, equal final scores.
+Checked-sum transactions are also slower (512 captures: 2.668 us versus 0.464 us),
+but the stream cases have the larger absolute cost. Different engines, work and
+quality policies remain documented; no cross-machine/native-change speed claim.
+
+Canonical reports preserve actual dates/keys; source execution cache records are
+archived without root key transplantation. Dashboard data/HTTP freshness verified;
+unchanged browser evidence reused. Coverage remains 4409/4855, 11 pending,
+435 excluded; Rust/report keys remain f148dd.../adc9e05.... Complete receipts,
+raw samples and summaries: work/round231-performance/{receipt,collection,summaries}.json;
+work/parallel-round231-evidence.json. Actual qualified source and executables:
+work/round227-join-storage/source/ (now also contains all benchmark examples).
+Do not repeat this qualification merely for a new commit, turn or context reset.
+
+Next concrete implementation hypothesis is cached terminal metadata in private
+Edge to avoid default zero-score/evaluation vtable calls during propagation.
+Read work/round231-performance/NEXT.md: isolated candidate only, exact zero
+comparison/drop/callback/FIFO behavior, actual qualified baseline, bounded paired
+measurement before retention. This is unproven; no speed benefit claimed. Do not
+revive rejected226/228 patches or repeat scope audits. Goal incomplete; final
+Java-quirk policy question unanswered. runner-c parked; live runner-a auth still pending.
+
 ## Latest qualification — round230
 
 Fresh canonical solver/list/stream comparisons completed locally from unchanged
