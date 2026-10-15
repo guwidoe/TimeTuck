@@ -1,0 +1,143 @@
+//! Private bounded row storage for directly bound mixed planning inputs only.
+//! Keys and payloads retain their original Arc identity. Each full snapshot copies
+//! at most 256 Arc slots; trial frames retain only the first original per slot.
+//! Nested commits merge originals, so repeated writes do not retain intermediates.
+//! Generic/unbounded inputs and mutable join membership indexes remain maps.
+//! Undo lookup/merge is linear in first-touched slots (at most256 per frame),
+//! avoiding an additional marks array or unbounded retention of intermediates.
+use std::sync::Arc;
+
+type Undo<V> = Vec<(usize, Option<Arc<V>>)>;
+pub(super) struct FixedRows<I, V> {
+    keys: Vec<Arc<I>>,
+    values: Vec<Option<Arc<V>>>,
+    index: fn(&I) -> usize,
+    frames: Vec<Undo<V>>,
+    spare: Vec<Undo<V>>,
+}
+impl<I, V> Clone for FixedRows<I, V> {
+    fn clone(&self) -> Self {
+        Self {
+            keys: self.keys.clone(),
+            values: self.values.clone(),
+            index: self.index,
+            frames: Vec::new(),
+            spare: Vec::new(),
+        }
+    }
+}
+impl<I, V> FixedRows<I, V> {
+    pub(super) fn new(rows: Vec<(Arc<I>, Arc<V>)>, index: fn(&I) -> usize) -> Self {
+        let (keys, values) = rows.into_iter().map(|(k, v)| (k, Some(v))).unzip();
+        Self {
+            keys,
+            values,
+            index,
+            frames: Vec::new(),
+            spare: Vec::new(),
+        }
+    }
+    pub(super) fn get(&self, id: &I) -> Option<&V> {
+        self.values.get((self.index)(id)).and_then(Option::as_deref)
+    }
+    pub(super) fn iter(&self) -> impl Iterator<Item = (&I, &V)> {
+        self.keys
+            .iter()
+            .zip(&self.values)
+            .filter_map(|(k, v)| v.as_deref().map(|v| (k.as_ref(), v)))
+    }
+    fn replace(&mut self, index: usize, value: Option<Arc<V>>) {
+        let old = std::mem::replace(&mut self.values[index], value);
+        if let Some(frame) = self.frames.last_mut()
+            && !frame.iter().any(|(id, _)| *id == index)
+        {
+            frame.push((index, old));
+        }
+    }
+    pub(super) fn insert(&mut self, id: I, value: V) {
+        let index = (self.index)(&id);
+        assert!(index < self.values.len(), "validated bound join row ID");
+        // Match map replacement: discard the incoming representative before
+        // replacing the stored payload; the original key owner stays retained.
+        drop(id);
+        self.replace(index, Some(Arc::new(value)));
+    }
+    pub(super) fn remove(&mut self, id: &I) {
+        let index = (self.index)(id);
+        if index < self.values.len() {
+            self.replace(index, None);
+        }
+    }
+    pub(super) fn clear(&mut self) {
+        for index in 0..self.values.len() {
+            self.replace(index, None);
+        }
+    }
+    pub(super) fn begin(&mut self) -> usize {
+        let token = self.frames.len();
+        self.frames.push(self.spare.pop().unwrap_or_default());
+        token
+    }
+    pub(super) fn rollback(&mut self, token: usize) {
+        assert_eq!(self.frames.len(), token + 1, "bound join journal order");
+        let mut frame = self.frames.pop().unwrap();
+        for (index, value) in frame.drain(..).rev() {
+            self.values[index] = value;
+        }
+        self.spare.push(frame);
+    }
+    pub(super) fn commit(&mut self, token: usize) {
+        assert_eq!(self.frames.len(), token + 1, "bound join journal order");
+        let mut frame = self.frames.pop().unwrap();
+        if let Some(parent) = self.frames.last_mut() {
+            for (index, value) in frame.drain(..) {
+                if !parent.iter().any(|(id, _)| *id == index) {
+                    parent.push((index, value));
+                }
+            }
+        }
+        frame.clear();
+        self.spare.push(frame);
+    }
+    pub(super) fn install(&mut self, saved: Self) {
+        assert_eq!(self.values.len(), saved.values.len(), "bound join universe");
+        for (index, value) in saved.values.into_iter().enumerate() {
+            self.replace(index, value);
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn first_originals_merge_nested_frames_without_retaining_intermediates() {
+        let key = Arc::new(0usize);
+        let original = Arc::new(Arc::new(0));
+        let mut rows = FixedRows::new(vec![(key.clone(), original.clone())], |id| *id);
+        let outer = rows.begin();
+        rows.insert(0, Arc::new(1));
+        let middle = Arc::downgrade(rows.get(&0).unwrap());
+        let inner = rows.begin();
+        rows.insert(0, Arc::new(2));
+        rows.commit(inner);
+        assert!(middle.upgrade().is_none());
+        assert_eq!(rows.frames[0].len(), 1);
+        let saved = rows.clone();
+        rows.clear();
+        rows.insert(0, Arc::new(3));
+        rows.install(saved.clone());
+        assert_eq!(**rows.get(&0).unwrap(), 2);
+        rows.rollback(outer);
+        assert!(std::ptr::eq(rows.get(&0).unwrap(), original.as_ref()));
+        assert!(std::ptr::eq(rows.iter().next().unwrap().0, key.as_ref()));
+        assert_eq!(**saved.get(&0).unwrap(), 2);
+        // A child first-touch must become the parent's original on commit.
+        let outer = rows.begin();
+        let inner = rows.begin();
+        rows.remove(&0);
+        rows.commit(inner);
+        rows.rollback(outer);
+        assert!(std::ptr::eq(rows.get(&0).unwrap(), original.as_ref()));
+    }
+}

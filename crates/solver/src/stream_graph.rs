@@ -266,6 +266,7 @@ trait Node<S: AdditiveScore> {
     fn bind_fixed_planning_source(&self, _count: usize) -> Option<Box<dyn Node<S>>> {
         None
     }
+    fn bind_fixed_input(&mut self, _right: bool, _count: usize) {}
     fn initialize_sorted_source(&mut self, _events: &[(usize, Event)]) -> bool {
         false
     }
@@ -615,14 +616,25 @@ impl<
     S: AdditiveScore,
 > Node<S> for Join<'_, I, J, L, R, K>
 {
+    fn bind_fixed_input(&mut self, right: bool, count: usize) {
+        self.0.bind_fixed_input(right, count);
+    }
     fn clear(&mut self) {
         self.0.clear();
     }
     fn checkpoint(&self) -> Box<dyn Any> {
         self.0.checkpoint()
     }
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        self.0
+            .begin_bound_checkpoint()
+            .unwrap_or_else(|| self.0.checkpoint())
+    }
+    fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
+        self.0.commit_bound_checkpoint(saved);
+    }
     fn restore(&mut self, c: Box<dyn Any>) {
-        self.0.restore(c);
+        self.0.restore_bound_checkpoint(c);
     }
     fn apply(
         &mut self,
@@ -2267,6 +2279,12 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         self.validate(source)?;
         if let Some(node) = self.nodes[source.0.node].bind_fixed_planning_source(count) {
             self.nodes[source.0.node] = node;
+            // These inputs are direct, protected planning sources with a checked
+            // immutable ID universe. Do not infer bounds through transformations
+            // or bind ordinary facts, where later IDs may be arbitrary.
+            for edge in &self.edges[source.0.node] {
+                self.nodes[edge.node].bind_fixed_input(edge.right, count);
+            }
         }
         Ok(())
     }

@@ -321,6 +321,20 @@ and metadata updates invoke no user comparisons or key/value clones. Existing-ke
 replacement retains the original key object and allocates only the new value plus
 any shared path nodes.
 
+An ordinary join directly receiving a protected mixed planning source can use
+private indexed row slots when the source and join side both contain exactly the
+contiguous `usize` IDs `0..count`, with at most 256 rows. Each side qualifies
+independently. Binding does not follow map/filter transformations, and ordinary
+facts, larger inputs and batched joins retain map storage. Join membership indexes
+still use maps; key projections, payload clones and emitted tuple order retain
+their existing behavior. Trial frames retain the first original Arc per changed
+slot, merge originals on nested commit and release intermediate replacements.
+Full candidate snapshots copy at most 256 row slots and their key handles per
+eligible side, sharing the underlying keys and payloads. Undo lookup and nested
+merge are bounded linear scans of touched slots, not constant-time
+operations. Restoring a saved candidate inside an outer trial preserves that
+trial's originals. This private representation adds no public ID restriction.
+
 Dropping restores owned roots and scalar state with no predicate, key, scoring,
 cloning or comparison callbacks. Commit keeps current roots with no callback
 replay. Checkpoint/candidate-state storage scales with affected nodes rather than

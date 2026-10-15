@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,378 passing tests and 290 doctests**, source
-digest `7a32c1fc1319bf36880122e3d2539b00bcd8c579478612fa77dc047b602992db`.
-The most recent Rust change ran 1,207 affected targets and reused 141 matching
+The retained Rust checkpoint has **8,382 passing tests and 290 doctests**, source
+digest `f148dd4363e772f228d5f65dc8302454aa2d48bd87fbb3a38c4893a947c294bf`.
+The most recent Rust change ran 1,258 affected targets and reused 91 matching
 targets. Documentation/report refreshes do not require rerunning unchanged tests.
 The generated report remains the authority for later counts and freshness.
 
@@ -44,22 +44,26 @@ retain actual Java runtime errors separately from successful-result agreement.
 See the [collector and dependency contracts](constraint-stream-contract.md).
 Passing independent Python references does not establish Java agreement.
 
-Five of the **18 comparison jobs** have current input hashes after the latest
-list/mixed scoring optimization. Mixed performance was deliberately refreshed;
-the thirteen other changed-input jobs retain their actual older timestamps and
-source keys and are visibly stale. The preceding checkpoint had qualified all
-eighteen jobs. Successful unchanged Rust checks are retained.
+Three of the **18 comparison jobs** have current input hashes after the latest
+join storage optimization. Mixed performance was deliberately refreshed; the
+fifteen other changed-input jobs retain their actual older timestamps and source
+keys and are visibly stale. Successful unchanged Rust checks are retained.
 
-The measured larger mixed Stream cases remain performance priorities: roughly
-8.2 times Java's observed warm-start time and 2.1 times its cold-start time.
-Move policies, setup and work differ, so these are bounded runtime observations,
-not equal-work comparisons or universal speed requirements.
+The latest local mixed primary measures larger Stream warm-start time of 114.838 ms
+against Java's 14.479 ms, and cold-start time of 40.566 against 21.108 ms. The actual
+local WSL CPU and Java runtime are recorded. Move policies, setup and work differ;
+these bounded observations establish no equal-work or universal speed requirement.
 
-A balanced comparison against the preserved prior native executable measures
-11.06% less warm-start time and 7.08% less cold-start time for the larger Stream
-case. All four Stream cases improve in each of four forks, retaining identical
-assignments, scores, logical work, callbacks and termination. Benchmark models,
-scoring backends and move configuration remain unchanged.
+The latest native change reduces larger Stream whole-process intercepted glibc
+allocation requests by 5.94% warm and 5.11% cold across two independently validated
+captures per artifact. Dense request counts are unchanged. These are allocation-
+function call counts, including parsing/setup, not live/peak memory or Java counts.
+A balanced longer CPU2-pinned comparison measures 5.73% less larger warm-start
+time, improving in all four forks. Cold timing and its Dense control are noisy;
+no reliable isolated cold speedup is claimed. Exact assignments, scores, work,
+callbacks and termination remain unchanged. Benchmark models, scoring backends
+and move configuration are unchanged. Raw evidence is preserved under
+work/round227-join-storage/.
 
 The pending source assertions and explicit Java behavior differences above remain
 open compatibility limits. Broad equivalence cannot be inferred from current

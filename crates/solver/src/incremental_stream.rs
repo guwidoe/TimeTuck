@@ -201,6 +201,7 @@ impl JoinComparison {
 #[derive(Clone)]
 struct JoinSide<I, T, K> {
     rows: SnapshotMap<I, (K, T)>,
+    fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (K, T)>>>,
     index: SnapshotMap<K, SnapshotMap<I, ()>>,
     poisoned: bool,
 }
@@ -209,6 +210,7 @@ impl<I, T, K> JoinSide<I, T, K> {
     fn new() -> Self {
         Self {
             rows: SnapshotMap::new(),
+            fixed_rows: None,
             index: SnapshotMap::new(),
             poisoned: false,
         }
@@ -218,6 +220,38 @@ impl<I, T, K> JoinSide<I, T, K> {
 type JoinChanges<I, J, T, U> = Vec<TupleChange<(I, J), (T, U)>>;
 
 impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
+    fn row(&self, id: &I) -> Option<&(K, T)> {
+        match &self.fixed_rows {
+            Some(rows) => rows.get(id),
+            None => self.rows.get(id),
+        }
+    }
+    fn row_iter(&self) -> impl Iterator<Item = (&I, &(K, T))> {
+        self.fixed_rows
+            .iter()
+            .flat_map(|rows| rows.iter())
+            .chain(self.rows.iter())
+    }
+    fn insert_row(&mut self, id: I, value: (K, T)) {
+        match &mut self.fixed_rows {
+            Some(rows) => rows.insert(id, value),
+            None => self.rows.insert(id, value),
+        }
+    }
+    fn remove_row(&mut self, id: &I) {
+        match &mut self.fixed_rows {
+            Some(rows) => rows.remove(id),
+            None => {
+                self.rows.remove(id);
+            }
+        }
+    }
+    fn clear_rows(&mut self) {
+        match &mut self.fixed_rows {
+            Some(rows) => rows.clear(),
+            None => self.rows.clear(),
+        }
+    }
     fn matching_ids<'b>(
         &'b self,
         key: &'b K,
@@ -250,12 +284,11 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         healthy(self.poisoned || other.poisoned);
         let new = change.value.map(|row| (key(&row), row));
         let same_key = self
-            .rows
-            .get(&change.id)
+            .row(&change.id)
             .zip(new.as_ref())
             .is_some_and(|((old, _), (new, _))| old == new);
         let mut output = Vec::new();
-        if !same_key && let Some((old_key, _)) = self.rows.get(&change.id) {
+        if !same_key && let Some((old_key, _)) = self.row(&change.id) {
             for id in other.matching_ids(old_key, comparison) {
                 output.push(TupleChange::retract((change.id.clone(), id.clone())));
             }
@@ -264,10 +297,7 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
             for id in other.matching_ids(new_key, comparison) {
                 output.push(TupleChange::put(
                     (change.id.clone(), id.clone()),
-                    (
-                        row.clone(),
-                        other.rows.get(id).expect("indexed row").1.clone(),
-                    ),
+                    (row.clone(), other.row(id).expect("indexed row").1.clone()),
                 ));
             }
         }
@@ -280,11 +310,16 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         if same_key {
             // Membership and pair identities are unchanged. Downstream nodes
             // retract their captured old payload when receiving the replacement.
-            self.rows.insert(id, new.expect("same-key replacement"));
+            self.insert_row(id, new.expect("same-key replacement"));
             self.poisoned = false;
             return;
         }
-        if let Some((old_key, _)) = self.rows.get(&id) {
+        // Borrow row storage separately from the mutable membership index.
+        let old = match &self.fixed_rows {
+            Some(rows) => rows.get(&id),
+            None => self.rows.get(&id),
+        };
+        if let Some((old_key, _)) = old {
             let mut ids = self.index.get(old_key).expect("indexed key").clone();
             ids.remove(&id);
             if ids.is_empty() {
@@ -293,12 +328,12 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
                 self.index.insert(old_key.clone(), ids);
             }
         }
-        self.rows.remove(&id);
+        self.remove_row(&id);
         if let Some((new_key, row)) = new {
             let mut ids = self.index.get(&new_key).cloned().unwrap_or_default();
             ids.insert(id.clone(), ());
             self.index.insert(new_key.clone(), ids);
-            self.rows.insert(id, (new_key, row));
+            self.insert_row(id, (new_key, row));
         }
         self.poisoned = false;
     }
@@ -323,10 +358,10 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     JoinNode<'a, I, J, L, R, K>
 {
     pub(crate) fn clear(&mut self) {
-        self.left.rows.clear();
+        self.left.clear_rows();
         self.left.index.clear();
         self.left.poisoned = false;
-        self.right.rows.clear();
+        self.right.clear_rows();
         self.right.index.clear();
         self.right.poisoned = false;
     }
@@ -354,12 +389,8 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
         let (left, right) = *checkpoint
             .downcast::<(JoinSide<I, L, K>, JoinSide<J, R, K>)>()
             .expect("join checkpoint type");
-        self.left.rows.install_snapshot(left.rows);
-        self.left.index = left.index;
-        self.left.poisoned = left.poisoned;
-        self.right.rows.install_snapshot(right.rows);
-        self.right.index = right.index;
-        self.right.poisoned = right.poisoned;
+        self.left.restore_side(left);
+        self.right.restore_side(right);
     }
 
     pub fn new(left_key: impl Fn(&L) -> K + 'a, right_key: impl Fn(&R) -> K + 'a) -> Self {
@@ -412,15 +443,14 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     pub fn matches(&self) -> impl Iterator<Item = ((&I, &J), (&L, &R))> {
         healthy(self.is_poisoned());
         self.left
-            .rows
-            .iter()
+            .row_iter()
             .flat_map(move |(left_id, (key, left))| {
                 self.right
                     .matching_ids(key, self.comparison)
                     .map(move |right_id| {
                         (
                             (left_id, right_id),
-                            (left, &self.right.rows.get(right_id).expect("indexed row").1),
+                            (left, &self.right.row(right_id).expect("indexed row").1),
                         )
                     })
             })
@@ -601,4 +631,6 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
 
 pub mod batched_join;
 
+mod join_bound;
+mod join_fixed_rows;
 mod join_journal;

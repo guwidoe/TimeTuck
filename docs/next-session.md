@@ -17,6 +17,42 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round227
+
+Ordinary joins directly receiving eligible protected mixed planning sources now
+use private indexed row slots (contiguous usize IDs, at most 256 rows). Each side
+qualifies independently; transformations, facts, larger inputs and batched joins
+retain maps. Membership indexes remain maps. First-original undo coalesces writes,
+merges nested commits and supports full saved candidates without retaining every
+intermediate payload. Three original public regressions plus one private undo unit
+add no upstream-method credit. Contracts and callback order remain unchanged.
+
+Two independent allocation captures per case/artifact show 5.94% fewer whole-native-
+process malloc/calloc/realloc requests for larger warm Stream, 5.11% fewer for cold;
+Dense counts identical. This is not live/peak memory or Java allocation evidence.
+One balanced comparison plus one longer CPU2-pinned confirmation reuse the same
+actual binaries. Pinned larger warm 125.848→118.636 ms (-5.73%), all four forks
+improve; cold timings/control vary, so no reliable isolated cold speedup claim.
+Every output independently validated; exact assignments, scores, callbacks, work
+and termination preserved. Candidate SHA a8669cdf36fe5ef46236e462ff3b6505d19790840871ca3c42a95ec8ea03cb72.
+
+Only mixed primary refreshed, on local i7-13700H/WSL with its actual Java version:
+larger Stream warm 114.838 vs Java 14.479 ms, cold 40.566 vs Java 21.108. Runtime
+policies/work differ; no equal-work or general quality/speed claim. All eight
+native/Java output/work signatures match prior225. Same candidate reused without
+rebuilding. Evidence: work/round227-join-storage/{verdict,allocation-counts,collection}.json,
+source/work/{experiment,experiment-pinned,primary}/, and work/parallel-round227-evidence.json.
+
+One final check.sh passes 8382 Rust + 290 doctests.
+Rust RUN 1258 / REUSE 91; Python RUN 0 /
+REUSE 47. Prebuild 433.703s; gate 508.811s.
+Coverage remains 4409/4855 (90.814%), 11 pending, 435 excluded, 0 failed/unverified.
+Three comparisons current; fifteen retain actual older dates/keys and stale status.
+Data/HTTP freshness verified; unchanged UI reuses round223 browser evidence.
+runner-a authentication expired before execution; builds and checks completed locally. runner-c
+parked. Goal incomplete; reuse exact checks, no repeated scope audits or rejected patches.
+Rust f148dd4363e772f228d5f65dc8302454aa2d48bd87fbb3a38c4893a947c294bf; report adc9e05bcfd1a848af574bfe8cc077374ca4b84f3345a8ab58c11bcf3401fbf5.
+
 ## Latest verified checkpoint — round226
 
 No implementation retained: a bounded ordinary-join row journal candidate passed
