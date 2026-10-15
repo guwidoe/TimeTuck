@@ -79,6 +79,8 @@ Connected-range checks retain 197 cases: all native results match independent Py
 overlap flags and integer overflow. All 64 distinct-identity positive-length cases agree.
 See `docs/constraint-stream-contract.md`.
 There is no full-suite or whole-solver compatibility claim yet. This project is not affiliated with or endorsed by Timefold.
+The [completion evidence](docs/completion.md) connects the original native scope
+to executable behavior and records the remaining compatibility limits.
 
 Use `solve`, `solve_list` or `solve_mixed` to construct and improve a model with
 shared evaluation budgets and cancellation. `ruin_recreate_search_from` and its stream

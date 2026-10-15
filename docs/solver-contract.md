@@ -98,10 +98,11 @@ and shared-goal checks. Later improvement phases do not start once expiry is obs
 
 Local-search stagnation timing remains available per phase. SolverLimits also
 supports shared max_unimproved_time and max_unimproved_steps, described below.
-Live problem changes, daemon operation, solver-manager services, concurrent phases
-and cross-phase cache reuse remain unfinished. Standalone exact search keeps its
-existing configuration and result types (see planning-contract.md). Exact orchestration
-is specified below.
+Live problem changes, daemon jobs and solver-manager services are described below.
+Retained directors reuse stream scoring state across supported phases; repair
+factories retain their separately documented preparation behavior. Phases execute
+in order, while manager jobs may execute concurrently. Standalone exact search
+keeps its configuration and result types (see planning-contract.md).
 
 ## Results and errors
 

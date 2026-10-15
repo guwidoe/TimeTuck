@@ -1,12 +1,13 @@
 # Finite planning and exact search
 
-The native planning API is an independent implementation. Its first scope is
-finite basic variables. Scoped incremental scoring and bounded local search are
+The native planning API independently implements finite basic variables.
+Scoped incremental scoring and bounded local search are
 described in `incremental-search-contract.md`, along with greedy score-aware
 construction. Ordered-list variables, built-in derived shadows and exact list search are described
 in `list-planning-contract.md`. Mixed basic/list models and exact joint search are
 described in `mixed-planning-contract.md`; streams in `constraint-stream-contract.md`.
-Custom shadows remain pending.
+Typed custom shadows use `ShadowSession` and `DependencyCache`; list cascades and
+dependency propagation are described in the list and constraint-stream contracts.
 
 ## Model and moves
 
@@ -68,8 +69,9 @@ contract; it says nothing about hard feasibility.
 
 Search is iterative with linear auxiliary storage, but its runtime is exponential
 in the number of variables. `search_space_size()` returns `None` on `u128` overflow;
-a smaller evaluation budget still permits bounded exploration. There is no
-branch-and-bound pruning or heuristic performance claim.
+a smaller evaluation budget still permits bounded exploration. This exhaustive
+enumerator does not prune. Separate branch-and-bound entry points are described
+below; neither algorithm implies a general heuristic performance guarantee.
 
 Run the original example with:
 
@@ -96,8 +98,9 @@ variable. The inactive required field has a singleton range and fixed value zero
 the inactive optional field has an empty range and fixed null value. Thus each
 native complete assignment has exactly one corresponding complete Java assignment,
 without adding constraints or changing scores. This accommodates mixed optionality
-within the public exhaustive-phase configuration. It is an oracle representation,
-not an implemented native multi-variable entity feature or a trace-equivalence claim.
+within the public exhaustive-phase configuration. The fixture represents one native
+variable per Java entity; native multi-column entity schemas are described below.
+It does not establish Java search-trace equivalence.
 
 Development protocol lines keep the six original tab-separated fields for the
 existing homogeneous adapters. Extended lines append three fields: semicolon-joined

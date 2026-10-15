@@ -36,8 +36,9 @@ graph to finite basic-variable moves, as described below.
   score type's arithmetic. Negative contributions penalize, positive ones reward.
   The empty score is zero. Nonzero structural contributions return an error with
   the offending row index before arithmetic can discard them. Structural state
-  remains the planning model's responsibility. Rows themselves provide the match
-  tuples; named justifications/indictments are not yet implemented.
+  remains the planning model's responsibility. Snapshot rows provide match tuples;
+  retained graph and scoped directors additionally expose named justifications and
+  indictments as described in the solver contract.
 
 Streams own their row storage. Borrowed facts must remain valid and callbacks must
 be deterministic throughout a scoring session. Interior mutation of captured
@@ -198,9 +199,10 @@ Use snapshot pipelines in those callbacks, or the separate transactional
 `StreamScoreDirector` for persistent graph state.
 
 Fifteen adapted flatten/flattenLast methods across four arities preserve exact
-ordinary scores and match multisets through removal. Uni and bi
-flattenLastWithDuplicates remain pending; Java equal-object representative choice
-is not claimed. Six original regressions check 2,000 graph edits (seed 20261109),
+ordinary scores and match multisets through removal. The explicit canonical
+expansion operator described below retains first equivalence-key representatives
+for duplicate outputs; ordinary flat-map keeps its existing identity behavior.
+Six original regressions check 2,000 graph edits (seed 20261109),
 nested expansions, duplicate/nullable outputs, changing lengths/order, failed
 mapping/iterator/scoring callbacks, structural-score errors, rollback/rebuild,
 foreign ports and construction/search with independent objective checks.
@@ -410,8 +412,9 @@ Java object identity and notification plumbing. Per-match scores, exact match
 sets and applicable collector counts are checked. Fixture/helper adaptations are
 recorded separately. Two more adapted methods preserve named mirrored joins and
 two-key equality self-joins with automatic routing, checking every tuple, score
-and constraint name before and after updates. Descriptor, custom justification
-and indictment APIs remain pending.
+and constraint name before and after updates. Native custom justifications and
+indictments are specified in the solver contract; Java reflection/API layout is
+outside the native scope.
 
 Twelve original regression methods additionally check:
 

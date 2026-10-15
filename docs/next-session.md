@@ -17,6 +17,57 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest verified checkpoint — round224
+
+Completed a deliberate current-source qualification refresh: all 18 comparison
+jobs are current (4 differential, 14 performance). 17 changed-input jobs executed;
+matching round223 mixed measurements retain their real timestamp/artifact. All original
+raw reports retain prior dates/keys. No Rust implementation, dependency, pin,
+provenance or compatibility credit changes. Reuse 8,376 Rust + 290 doctest successes;
+no check.sh or browser rerun for documentation/data-only changes. Report/HTTP live
+freshness matches current source; coverage 4,409/4,855 (90.814%), 11 pending, 435 excluded,
+0 failed/unverified. Unchanged round223 desktop/mobile rendering remains valid.
+
+Local fresh release library + 30 selected adapters built once (126.134s); four actual
+differential jobs passed, with artifacts immutable across runs. 9,959 integer and
+8,170 decimal comparisons agree; solver 128, list moves 512 and base streams 128 pass.
+All nested family checks execute. Explicit existing differences remain identical:
+range 132 / fairness 4 / sequence boundary 1; concurrent 21 actual Java errors, no comparable
+state divergences. Independent Python success is never Java agreement credit.
+
+runner-a retained the actual qualified round223 library, rebuilding only selected example
+entrypoints (4 core + 9 other), then ran 13 timing jobs exclusively (3 warmups / 5 samples /
+3 forks; documented defaults for iterations/steps). Actual before/after library and
+binary identities remain captured. Core validity/quality: repair 64/64 valid with
+native 47 / Java 35 optima; list solving 320/320 valid with native 266 / Java 263 optima;
+list repair 64/64 valid and both 64 optima. Policies/work differ; no equal-work claim.
+Every timing/quality observation is actual; slower results remain visible.
+
+Added docs/completion.md connecting original native Community scope to executed
+behavior and explicit limits, with README link. Fixed stale intro prose claiming
+shadows, explanations, branch-and-bound, daemon/services and retained phase reuse were
+absent. Three bounded read-only scope audits found no concrete missing mandatory
+native algorithm; this is evidence, not proof of universal Timefold equivalence.
+11 pending raw/JVM seams and explicit native arithmetic/identity policies remain
+visible. No new wrapper adaptations, duplicate persistence or ledger reshuffling.
+
+Evidence: work/parallel-round224-evidence.json;
+work/round224-differential/receipt.json;
+work/round224-core-performance-collection.json;
+work/round224-other-performance-collection.json;
+work/round224-{core,application,stream}-scope.md;
+work/round224-reference-invariants.json. Actual binaries in corresponding
+performance results folders; current mixed baseline 433d3b50... remains preserved
+under round223. Rust 0faa1cb000f2aca1ab8a463b8f30e163d79124e9d5c3ce11e95c67c3a591c807; report ed2e04b88324f1f91acf7d426f3a7b992a1390bed1b3afa0fd716df77249833d.
+
+Goal active/incomplete; all jobs terminal; runner-c parked. Do not repeat these scope
+audits or blanket-refresh current measurements. The concrete performance priority
+is larger mixed Stream (warm 125.807 ms vs Java 13.859; cold 38.475 vs 16.849), with
+different work/policies. Profile the actual current artifact before shared changes,
+retain quality/callback/budget/rollback invariants, and benchmark only affected
+claims. Preserve pending assertions/known divergences honestly; no private-buffer
+padding, profiling-guard removal or duplicate serializer work for coverage.
+
 ## Latest verified checkpoint — round223
 
 Added original mixed cold-start qualification to the existing comparison runner
