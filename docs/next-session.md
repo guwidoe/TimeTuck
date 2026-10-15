@@ -17,7 +17,53 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest experiment — rejected240; retained native checkpoint239
+## Latest qualification — retained241 fixed relationship batch scratch
+
+FixedLinks now reuses integer-only latest-change and affected-link buffers across
+batches/trials, replacing fresh reference/mapped/incident Vecs. Stable ID sorting,
+last-update coalescing, callback/output order, endpoint Clone order and logical
+snapshot/undo state are preserved. Scratch retains high-water capacity, not user
+payloads. Two original private controls cover arbitrary String IDs, unknowns,
+retractions, empty/smaller batches, pointer reuse and callback/Clone panic rollback
+with exact retry traces. No public API/dependency/pin/provenance/method credit change.
+
+Four balanced CPU2 release forks vs actual239:changes5.55% lower/all4,
+swaps5.07% lower/all4 (first3 improve2.38–3.81%;last17.40%, so no universal claim).
+Two repeatable whole-process glibc captures:changes998735→912323requests(−8.65%),
+swaps11458845→10249233(−10.56%);mixed dense503654/stream2515687 unchanged.
+Counts include setup/validation, not bytes/live/peak or isolated solver loops.
+Mixed stream4.07% slower initially/3of4;longer same-artifact confirmation0.94%
+slower/all4. Retain explicitly as a tradeoff, alongside earlier239mixed regression.
+Single diagnostic allocation capture of actual239 before this change identified
+FixedLinks scratch as9.97%of5464sampled requests; source anchors/disassembly and
+sampling limits in work/round241-allocation-attribution/REPORT.md. Older CPU
+profile captured239 used actual238, not239.
+
+Final integrated bash scripts/check.sh passed ONCE in428.63s:
+8401Rust+290doctests,fmt/Clippy/Python passed; matching checks reused.
+Rust 4e076252b98ba010a4ed86a298743b018d37a45cb8a20e24811b36bee80155fa;
+report b73456ad49a18c07c6abfb3495e21ac1a5e3628df53d675adc9aa1cb44654a23.
+Three canonical correctness jobs freshly qualified. Failed first stream job lacked
+five pinned Java test fixture files in the isolated workspace;copied unchanged
+src/test fixtures with receipt, reran ONLY failed stream job. Successful solver/list
+jobs reused; known Java divergences/runtime errors unchanged. No Rust fix/repeatgate.
+Only affected stream performance deliberately refreshed AFTER checks/builds ended:
+128/128valid/equal-score,exact work unchanged. Large hill swaps543.985ms vsJava286.599;
+tabu552.405vs288.401. Coverage4409/4855(90.814%),11pending435excluded unchanged;
+4current/14stale measurement jobs. Older keys/dates untouched. Backend report/HTTP
+freshness verified; UI unchanged/evidence reused.
+
+Evidence:work/parallel-round241-evidence.json,work/round241-fixed-link-scratch/,
+work/round241-qualification/{receipt,fixture-receipt,collection}.json,
+work/round241-performance/receipt.json. Actual source/artifact manifest checked;
+manifest SHA a82bf540ff7c6d3694fe3e8c9bbd6e84c0d57c65473651f2c1046d8cefb26eb0.
+All local jobs terminal. runner-a probe required new Tailscale check then timed out255;
+no remote transfer/build/results to collect and no live authentication connection.
+runner-c parked, no probes/wake/auth requests. Existing agent contributed compact private
+tests/diagnostic only; no new agent spawned. Goal incomplete. Continue native gaps
+and measured performance work; reuse this qualification until relevant inputs change.
+
+## Historical experiment — rejected240; predecessor239
 
 No Root Rust/config/test/provenance changes. Three bounded ordinary-terminal
 variants were implemented privately, each passing3private+3original public focused
@@ -44,11 +90,12 @@ Updated docs/completion.md to actual239evidence, preserving all remaining limits
 runner-c parked,noSSHattempts,newagents or active jobs. Goal incomplete; 239turn was
 progress and240changes next action via a rejected measured hypothesis. Next
 performance hypothesis should address measured allocation volume, rather than
-another small terminal lookup replacement. Existing actual239CPU profile can
-attribute callers without another profile run; do not attribute all allocator
+another small terminal lookup replacement. The CPU profile captured239 uses
+actual238; its callers can be inspected without another profile run. Do not
+attribute all allocator
 samples to tuple events without evidence. Receipt:work/parallel-round240-evidence.json.
 
-## Latest qualification — retained239 unary batch outputs
+## Historical qualification — retained239 unary batch outputs
 
 Ordinary Filter/Map batch collection now avoids per-event temporary output vectors.
 Events still run in encounter order, with repeated IDs/retractions, unchanged

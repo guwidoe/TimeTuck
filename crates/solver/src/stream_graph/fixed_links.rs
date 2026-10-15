@@ -16,6 +16,11 @@ struct FixedLinks<'a, E, I, J, L, R, U> {
     right_links: Vec<Vec<usize>>,
     left: Slots<L>,
     right: Slots<R>,
+    // Batch scratch holds only input ordinals and immutable relationship slots.
+    // Retain capacities across trials; snapshots need only logical row state.
+    left_changes: Vec<(usize, usize)>,
+    right_changes: Vec<(usize, usize)>,
+    affected: Vec<usize>,
     predicate: Box<Predicate<'a, E, L, R>>,
     projection: Box<Projection<'a, E, L, R, U>>,
 }
@@ -23,34 +28,52 @@ struct LinkCheckpoint {
     left: usize,
     right: usize,
 }
-fn latest<I: Ord + 'static, T: 'static>(
+fn latest_slots<I: Ord + 'static, T: 'static>(
     inputs: &[(bool, Event)],
     side: bool,
-) -> Vec<&TupleChange<I, T>> {
-    let mut changes: Vec<_> = inputs
-        .iter()
-        .filter(|(s, _)| *s == side)
-        .map(|(_, e)| typed::<I, T>(e))
-        .collect();
-    changes.sort_by(|a, b| a.id.cmp(&b.id));
+    slots: &BTreeMap<I, usize>,
+    changes: &mut Vec<(usize, usize)>,
+) {
+    changes.clear();
+    changes.extend(
+        inputs
+            .iter()
+            .enumerate()
+            .filter_map(|(index, (s, _))| (*s == side).then_some((0, index))),
+    );
+    changes.sort_by(|a, b| {
+        typed::<I, T>(&inputs[a.1].1)
+            .id
+            .cmp(&typed::<I, T>(&inputs[b.1].1).id)
+    });
     changes.dedup_by(|later, earlier| {
-        if later.id == earlier.id {
+        if typed::<I, T>(&inputs[later.1].1).id == typed::<I, T>(&inputs[earlier.1].1).id {
             std::mem::swap(later, earlier);
             true
         } else {
             false
         }
     });
-    changes
+    changes.retain_mut(|(slot, index)| {
+        if let Some(&found) = slots.get(&typed::<I, T>(&inputs[*index].1).id) {
+            *slot = found;
+            true
+        } else {
+            false
+        }
+    });
 }
-fn after<'a, T>(
-    changes: &[(usize, Option<&'a T>)],
+fn after<'a, I: 'static, T: 'static>(
+    changes: &[(usize, usize)],
+    inputs: &'a [(bool, Event)],
     slot: usize,
     old: Option<&'a T>,
 ) -> Option<&'a T> {
     changes
         .binary_search_by_key(&slot, |c| c.0)
-        .map_or(old, |i| changes[i].1)
+        .map_or(old, |i| {
+            typed::<I, T>(&inputs[changes[i].1].1).value.as_ref()
+        })
 }
 impl<
     E: Ord + Clone + 'static,
@@ -113,31 +136,25 @@ impl<
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        let left: Vec<_> = latest::<I, L>(inputs, false)
-            .into_iter()
-            .filter_map(|c| self.by_left.get(&c.id).map(|&i| (i, c.value.as_ref())))
-            .collect();
-        let right: Vec<_> = latest::<J, R>(inputs, true)
-            .into_iter()
-            .filter_map(|c| self.by_right.get(&c.id).map(|&i| (i, c.value.as_ref())))
-            .collect();
-        let mut affected = Vec::new();
-        for &(i, _) in &left {
-            affected.extend_from_slice(&self.left_links[i]);
+        latest_slots::<I, L>(inputs, false, &self.by_left, &mut self.left_changes);
+        latest_slots::<J, R>(inputs, true, &self.by_right, &mut self.right_changes);
+        self.affected.clear();
+        for &(i, _) in &self.left_changes {
+            self.affected.extend_from_slice(&self.left_links[i]);
         }
-        for &(j, _) in &right {
-            affected.extend_from_slice(&self.right_links[j]);
+        for &(j, _) in &self.right_changes {
+            self.affected.extend_from_slice(&self.right_links[j]);
         }
-        affected.sort_unstable();
-        affected.dedup();
-        let mut out = Vec::with_capacity(affected.len());
-        for index in affected {
+        self.affected.sort_unstable();
+        self.affected.dedup();
+        let mut out = Vec::with_capacity(self.affected.len());
+        for &index in &self.affected {
             let edge = &self.links[index].0.0;
             let (i, j) = self.endpoints[index];
             let old_l = self.left.get(i);
             let old_r = self.right.get(j);
-            let value = after(&left, i, old_l)
-                .zip(after(&right, j, old_r))
+            let value = after::<I, L>(&self.left_changes, inputs, i, old_l)
+                .zip(after::<J, R>(&self.right_changes, inputs, j, old_r))
                 .and_then(|(l, r)| {
                     (self.predicate)(edge, l, r).then(|| (self.projection)(edge, l, r))
                 });
@@ -154,11 +171,13 @@ impl<
         }
         // Callbacks and output-ID cloning finish before installation. The graph's
         // row journals restore partial installation if an input clone panics.
-        for (index, value) in left {
-            self.left.set(index, value.cloned());
+        for &(index, input) in &self.left_changes {
+            self.left
+                .set(index, typed::<I, L>(&inputs[input].1).value.clone());
         }
-        for (index, value) in right {
-            self.right.set(index, value.cloned());
+        for &(index, input) in &self.right_changes {
+            self.right
+                .set(index, typed::<J, R>(&inputs[input].1).value.clone());
         }
         Ok(erase(out))
     }
@@ -229,6 +248,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(FixedLinks {
             left: Slots::new(by_left.len()),
             right: Slots::new(by_right.len()),
+            left_changes: Vec::new(),
+            right_changes: Vec::new(),
+            affected: Vec::new(),
             links,
             endpoints,
             by_left,
@@ -304,3 +326,7 @@ mod cases {
         }
     }
 }
+
+#[cfg(test)]
+#[path = "fixed_link_scratch_tests.rs"]
+mod scratch_tests;
