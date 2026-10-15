@@ -17,7 +17,57 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained241 fixed relationship batch scratch
+## Latest qualification — retained242 source batch allocation reduction
+
+Source batches publish updates directly, avoiding per-update temporary output
+vectors. Bounded planning sources coalesce with reusable integer (ID, input-position)
+buffers instead of a fresh tree. Sorting cached integers preserves last-write and
+ascending-ID behavior without event downcasts inside comparisons. Generic sources
+retain the original tree key Clone/Ord/Drop behavior. Scratch retains high-water
+capacity, never user payloads. Three original private tests cover duplicate and
+retracted updates, exact generic key/payload Clone/Drop traces, output event
+identity, empty/smaller batches, invalid IDs, Clone panic rollback and held snapshots.
+No API/dependency/pin/provenance/upstream-method credit change.
+
+Retained for repeatable whole-process glibc request reductions: changes
+912323→883423 (3.17% fewer), swaps10249233→9730733 (5.06% fewer;518500 fewer).
+Mixed dense503654/stream2515687 requests unchanged. Counts include setup/validation;
+not bytes/live/peak memory or isolated loop allocations. Two captures per artifact
+and case match exactly. Relative to actual239, cumulative swap requests now fall
+11458845→9730733 (15.08%); the actual241 intermediate counts match both batches.
+
+No throughput improvement established. Cached-ID paired changes0.34% lower and
+swaps1.33% lower overall, each3of4 forks improve with slower outliers. Mixed stream
+1.35% slower/3of4;dense1.55% slower/2of4. Preserve observations, no general speedup.
+Earlier ordinal-only candidate had noisy changes2.33% slower/swaps4.47% lower;
+archived as an exact changed-source overlay on bea30dc plus actual binaries/library,
+manifests and paired outputs in work/round242-source-batch/ordinal-only/. It was
+superseded, never integrated. Do not revive its timing as final242 evidence.
+
+Final integrated bash scripts/check.sh passed ONCE in 528.39s:
+8404 Rust +290 doctests, fmt/Clippy/Python passed; matching checks reused.
+Rust f72e1eaa62d0439a95da6adde9a12bf2ba44d59ef39b8c28f46eca75d81465aa;
+report fac93780931a4550570fcda7dde67fe4a7661801284f5ad521e9a7484e1ced4b.
+Three canonical correctness jobs freshly qualified, known nested Java divergences
+and runtime errors unchanged. Five pinned concurrent Java src/test fixtures were
+materialized before the run with hashes/license receipt; no missing-fixture retry.
+Only affected stream performance refreshed AFTER checks/builds ended:128/128valid,
+equal-score and exact work signatures unchanged. Large hill swaps523.495ms vsJava
+290.691;tabu537.071vs289.340. Four comparison jobs current,14 older jobs visibly stale
+with original keys/dates. Backend data/HTTP freshness verified; unchanged UI reused.
+Coverage4409/4855(90.814%),11pending435excluded,0failed/unverified unchanged.
+
+Evidence:work/parallel-round242-evidence.json,work/round242-source-batch/,
+work/round242-qualification/{receipt,fixture-receipt,collection}.json,
+work/round242-performance/receipt.json. Frozen manifest SHA 2ca5b3493150939157a5287eafd0f4af8966d7c0790db59f12736ee6ac2b2a38.
+Test-only Arc lint annotation was checked before final benchmarks; production
+fingerprint/artifacts unchanged and focused tests rerun. Initial focused receipts
+remain under initial-focused/. All local jobs terminal. No SSH attempts this turn;
+runner-a's previous authentication connection expired, runner-c remains parked. Existing
+agent contributed compact private tests; no new agents. Goal incomplete. Continue
+native gaps/performance; reuse qualified checks until relevant inputs change.
+
+## Historical qualification — retained241 fixed relationship batch scratch
 
 FixedLinks now reuses integer-only latest-change and affected-link buffers across
 batches/trials, replacing fresh reference/mapped/incident Vecs. Stable ID sorting,

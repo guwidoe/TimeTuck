@@ -336,15 +336,16 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
     fn apply_batch(
         &mut self,
         inputs: &[(bool, Event)],
-        arithmetic: NodeArithmetic,
+        _: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
         let mut latest = BTreeMap::new();
         for (_, event) in inputs {
             latest.insert(typed::<I, T>(event).id.clone(), event.clone());
         }
-        let mut out = Vec::new();
+        let mut out = Vec::with_capacity(latest.len());
         for event in latest.into_values() {
-            out.extend(<Self as Node<S>>::apply(self, false, &event, arithmetic)?);
+            self.update(&event);
+            out.push(event);
         }
         Ok(out)
     }

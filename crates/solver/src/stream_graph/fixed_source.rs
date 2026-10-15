@@ -21,6 +21,8 @@ pub(super) struct FixedSourceNode<T> {
     rows: OnceCell<SnapshotMap<usize, T>>,
     journals: Vec<Undo<T>>,
     spare: Vec<Undo<T>>,
+    // Reusable batch positions only; no event or user payload ownership.
+    latest: Vec<(usize, usize)>,
 }
 impl<T> FixedSourceNode<T> {
     pub(super) fn new(rows: Vec<(Arc<usize>, Arc<T>)>) -> Self {
@@ -31,6 +33,7 @@ impl<T> FixedSourceNode<T> {
             rows: OnceCell::new(),
             journals: Vec::new(),
             spare: Vec::new(),
+            latest: Vec::new(),
         }
     }
     fn replace(&mut self, index: usize, value: Option<Arc<T>>) {
@@ -72,15 +75,31 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
     fn apply_batch(
         &mut self,
         inputs: &[(bool, Event)],
-        arithmetic: NodeArithmetic,
+        _: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        let mut latest = BTreeMap::new();
-        for (_, event) in inputs {
-            latest.insert(typed::<usize, T>(event).id, event.clone());
-        }
-        let mut out = Vec::new();
-        for event in latest.into_values() {
-            out.extend(<Self as Node<S>>::apply(self, false, &event, arithmetic)?);
+        self.latest.clear();
+        self.latest.extend(
+            inputs
+                .iter()
+                .enumerate()
+                .map(|(index, (_, event))| (typed::<usize, T>(event).id, index)),
+        );
+        // The input position breaks ID ties, preserving the last write without
+        // downcasting events in the sorting or deduplication comparisons.
+        self.latest.sort_unstable();
+        self.latest.dedup_by(|later, earlier| {
+            if later.0 == earlier.0 {
+                std::mem::swap(later, earlier);
+                true
+            } else {
+                false
+            }
+        });
+        let mut out = Vec::with_capacity(self.latest.len());
+        for position in 0..self.latest.len() {
+            let event = &inputs[self.latest[position].1].1;
+            self.update(event)?;
+            out.push(event.clone());
         }
         Ok(out)
     }
@@ -270,3 +289,7 @@ mod tests {
         assert_eq!(clones.get(), 1);
     }
 }
+
+#[cfg(test)]
+#[path = "source_batch_tests.rs"]
+mod batch_tests;

@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,401 passing tests and 290 doctests**, source
-digest `4e076252b98ba010a4ed86a298743b018d37a45cb8a20e24811b36bee80155fa`.
-Its final `scripts/check.sh` passed in 428.63 seconds. The current layout uses
+The retained Rust checkpoint has **8,404 passing tests and 290 doctests**, source
+digest `f72e1eaa62d0439a95da6adde9a12bf2ba44d59ef39b8c28f46eca75d81465aa`.
+Its final `scripts/check.sh` passed in 528.39 seconds. The current layout uses
 22 integration executables and 95 verification jobs, preserving original test
 files and source attribution. Successful checks are reused when their relevant
 inputs are unchanged; documentation-only updates do not rerun the solver suite.
@@ -51,27 +51,29 @@ stream correctness comparisons, plus stream performance. Fourteen older jobs,
 including mixed performance, retain their actual timestamps and keys and are
 visibly stale. They have not been relabeled as current.
 
-The current large stream workload measures hill-climbing swaps at 543.985 ms
-against Java's 286.599 ms, and tabu swaps at 552.405 against 288.401 ms. All 128
+The current large stream workload measures hill-climbing swaps at 523.495 ms
+against Java's 290.691 ms, and tabu swaps at 537.071 against 289.340 ms. All 128
 validation cases have valid, equal-score outcomes. These bounded shared-host
 measurements include setup and result validation; they do not prove general Java
 parity, identical execution traces or universal speed requirements.
 
-The latest retained native change reuses integer-only scratch buffers for fixed
-relationship batches. Four balanced runs pinned to CPU 2 observed 5.55% less large
-hill/change time and 5.07% less hill/swap time, with all four improving. Two
-repeatable whole-process captures show 8.65% fewer allocation requests for changes
-and 10.56% fewer for swaps (1,209,612 fewer requests in the swap benchmark process).
-These are intercepted malloc/calloc/realloc counts, including startup and
-validation, not allocated bytes or live/peak memory. Buffers retain capacity from
-the largest batch without retaining payloads.
+The latest retained native change coalesces bounded planning-source batches using
+cached integer IDs and input positions, and publishes source outputs directly.
+Generic source key ownership and Clone/Drop behavior remain unchanged. Two
+repeatable whole-process captures show 3.17% fewer allocation requests for changes
+and 5.06% fewer for swaps (518,500 fewer requests per swap benchmark process).
+Across this and the preceding fixed-link change, swap requests fall from 11,458,845
+to 9,730,733, or 15.08%. Mixed allocation counts are unchanged. These are intercepted
+malloc/calloc/realloc counts including setup and validation, not allocated bytes
+or live/peak memory. Scratch buffers retain their largest batch capacity without
+retaining payloads.
 
-Mixed allocation counts were unchanged. Mixed runtime was 4.07% slower initially
-and 0.94% slower in a longer confirmation; the latter's four forks all slowed.
-This is an explicit retained tradeoff, and does not erase the earlier unary239
-mixed regression recorded in the handoff. No general speedup is claimed. Evidence
-is preserved under `work/round241-fixed-link-scratch/`; the preceding diagnostic
-allocation sample is in `work/round241-allocation-attribution/`.
+Throughput improvement is unproven. The four balanced runs pinned to CPU 2 show
+change time 0.34% lower and swap time 1.33% lower overall, with slower outliers in
+both cases. Mixed stream time is 1.35% slower overall and dense control 1.55%
+slower. These observations do not establish a general speedup. The previous241
+fixed-link timing gains and mixed tradeoff remain recorded in the handoff.
+Evidence is preserved under `work/round242-source-batch/`.
 
 The preceding bounded-terminal experiment remains unintegrated. Its final variant
 reduced mixed allocation requests by only 22 out of 2,515,687 (0.000875%) and
