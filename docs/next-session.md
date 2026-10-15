@@ -52,7 +52,8 @@ Read work/round231-performance/NEXT.md: isolated candidate only, exact zero
 comparison/drop/callback/FIFO behavior, actual qualified baseline, bounded paired
 measurement before retention. This is unproven; no speed benefit claimed. Do not
 revive rejected226/228 patches or repeat scope audits. Goal incomplete; final
-Java-quirk policy question unanswered. runner-c parked; live runner-a auth still pending.
+Java-quirk policy question unanswered. runner-c parked. runner-a connection230 ended
+with SSH255 timeout; no live SSH/auth request remains. Do not reuse its old link.
 
 ## Latest qualification — round230
 
