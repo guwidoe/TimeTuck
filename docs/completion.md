@@ -19,10 +19,12 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,382 passing tests and 290 doctests**, source
-digest `f148dd4363e772f228d5f65dc8302454aa2d48bd87fbb3a38c4893a947c294bf`.
-The most recent Rust change ran 1,258 affected targets and reused 91 matching
-targets. Documentation/report refreshes do not require rerunning unchanged tests.
+The retained Rust checkpoint has **8,399 passing tests and 290 doctests**, source
+digest `40f67a34ffeebcf806f568f8caf8c2ce67cf8ef2a7f310a836e19feaf11878f9`.
+Its final `scripts/check.sh` passed in 501.81 seconds. The current layout uses
+22 integration executables and 95 verification jobs, preserving original test
+files and source attribution. Successful checks are reused when their relevant
+inputs are unchanged; documentation-only updates do not rerun the solver suite.
 The generated report remains the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
@@ -44,26 +46,34 @@ retain actual Java runtime errors separately from successful-result agreement.
 See the [collector and dependency contracts](constraint-stream-contract.md).
 Passing independent Python references does not establish Java agreement.
 
-Three of the **18 comparison jobs** have current input hashes after the latest
-join storage optimization. Mixed performance was deliberately refreshed; the
-fifteen other changed-input jobs retain their actual older timestamps and source
-keys and are visibly stale. Successful unchanged Rust checks are retained.
+Four of the **18 comparison jobs** have current input hashes: solver, list and
+stream correctness comparisons, plus stream performance. Fourteen older jobs,
+including mixed performance, retain their actual timestamps and keys and are
+visibly stale. They have not been relabeled as current.
 
-The latest local mixed primary measures larger Stream warm-start time of 114.838 ms
-against Java's 14.479 ms, and cold-start time of 40.566 against 21.108 ms. The actual
-local WSL CPU and Java runtime are recorded. Move policies, setup and work differ;
-these bounded observations establish no equal-work or universal speed requirement.
+The current large stream workload measures hill-climbing swaps at 553.441 ms
+against Java's 298.033 ms, and tabu swaps at 566.766 against 312.691 ms. All 128
+validation cases have valid, equal-score outcomes. These bounded shared-host
+measurements include setup and result validation; they do not prove general Java
+parity, identical execution traces or universal speed requirements.
 
-The latest native change reduces larger Stream whole-process intercepted glibc
-allocation requests by 5.94% warm and 5.11% cold across two independently validated
-captures per artifact. Dense request counts are unchanged. These are allocation-
-function call counts, including parsing/setup, not live/peak memory or Java counts.
-A balanced longer CPU2-pinned comparison measures 5.73% less larger warm-start
-time, improving in all four forks. Cold timing and its Dense control are noisy;
-no reliable isolated cold speedup is claimed. Exact assignments, scores, work,
-callbacks and termination remain unchanged. Benchmark models, scoring backends
-and move configuration are unchanged. Raw evidence is preserved under
-work/round227-join-storage/.
+The latest retained native change collects filter/map batch outputs directly.
+Four balanced runs pinned to CPU 2 observed 5.74% less large hill/swap time, with
+all four improving. Two repeatable whole-process captures show 8.30% fewer
+allocation requests for swaps and 4.93% fewer for changes. These are intercepted
+malloc/calloc/realloc call counts, including startup and validation, not allocated
+bytes or live/peak memory. Mixed allocation counts were unchanged, while mixed
+runtime was 3.50% slower initially and 4.58% slower in a longer confirmation.
+That regression remains an explicit retained tradeoff; no general speedup is
+claimed. Evidence is preserved under `work/round239-unary-batch/`.
+
+A later bounded-terminal experiment remains unintegrated. Its final variant
+reduced mixed allocation requests by only 22 out of 2,515,687 (0.000875%) and
+slowed large-change searches by 8.24% in all four paired runs. Its modest mixed
+improvement did not justify that regression and the added implementation
+complexity. All candidate variants and focused checks remain under
+`work/round240-bounded-terminals/`. The retained Rust source, successful checks,
+coverage and comparison timestamps remain unchanged after rejecting it.
 
 The pending source assertions and explicit Java behavior differences above remain
 open compatibility limits. Broad equivalence cannot be inferred from current

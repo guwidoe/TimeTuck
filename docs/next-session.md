@@ -17,6 +17,37 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest experiment — rejected240; retained native checkpoint239
+
+No Root Rust/config/test/provenance changes. Three bounded ordinary-terminal
+variants were implemented privately, each passing3private+3original public focused
+checks and Clippy. Protected single/Cartesian planning IDs, sparse match slots,
+shared-owner materialization, nested undo and specialized node conversion worked
+in the focused fixtures, but did not justify their performance tradeoffs.
+First inline wrapper:Mixed7.31% lower,largechange7.58% slower. Boxed wrapper:
+Mixed2.83% lower,changes1.87% slower,swaps3.15% slower/noisy. Specialized node
+keeps original generic Terminal hot body:Mixed3.19% lower,changes8.24% slower in
+ALL4forks,swaps2.00% lower/noisy. Two repeatable whole-process allocation captures
+show just22fewer mixed requests of2515687(0.000875%);other measured request counts
+are identical. Do not infer isolated solver-loop or setup counts from totals.
+Do not integrate any240variant or repeat it as a promising allocator fix.
+
+Actual sources/binaries/manifests/raw outputs preserved under
+work/round240-bounded-terminals/{inline-dense,boxed-dense,source,paired}/,
+allocation-counts.json,source-proof.json,rejected-candidate.patch and verdict.json.
+Prepared round240-qualification/round240-performance runners NEVER started;
+do not launch them on current Root or claim their expected8405tests as passed.
+Retain actual8399Rust+290docs,coverage4409/4855(90.814%),11pending435excluded,
+4current/14stale comparison jobs and exact239source/report hashes below. No full
+gate/primary benchmark/report refresh/UI repeat needed:all native inputs unchanged.
+Updated docs/completion.md to actual239evidence, preserving all remaining limits.
+runner-c parked,noSSHattempts,newagents or active jobs. Goal incomplete; 239turn was
+progress and240changes next action via a rejected measured hypothesis. Next
+performance hypothesis should address measured allocation volume, rather than
+another small terminal lookup replacement. Existing actual239CPU profile can
+attribute callers without another profile run; do not attribute all allocator
+samples to tuple events without evidence. Receipt:work/parallel-round240-evidence.json.
+
 ## Latest qualification — retained239 unary batch outputs
 
 Ordinary Filter/Map batch collection now avoids per-event temporary output vectors.
