@@ -12,6 +12,8 @@ struct FixedLinks<'a, E, I, J, L, R, U> {
     endpoints: Vec<(usize, usize)>,
     by_left: BTreeMap<I, usize>,
     by_right: BTreeMap<J, usize>,
+    direct_left: bool,
+    direct_right: bool,
     left_links: Vec<Vec<usize>>,
     right_links: Vec<Vec<usize>>,
     left: Slots<L>,
@@ -28,32 +30,72 @@ struct LinkCheckpoint {
     left: usize,
     right: usize,
 }
+// Only primitive integer identities can use their value as an ordinal. Keep
+// user-defined key comparison and ownership operations on the original path.
+fn contiguous_slots<I: 'static>(slots: &BTreeMap<I, usize>) -> bool {
+    std::any::TypeId::of::<I>() == std::any::TypeId::of::<usize>()
+        && !slots.is_empty()
+        && slots.iter().enumerate().all(|(ordinal, (id, &slot))| {
+            (id as &dyn Any).downcast_ref::<usize>() == Some(&ordinal) && slot == ordinal
+        })
+}
 fn latest_slots<I: Ord + 'static, T: 'static>(
     inputs: &[(bool, Event)],
     side: bool,
     slots: &BTreeMap<I, usize>,
+    direct: bool,
     changes: &mut Vec<(usize, usize)>,
 ) {
     changes.clear();
-    changes.extend(
-        inputs
-            .iter()
-            .enumerate()
-            .filter_map(|(index, (s, _))| (*s == side).then_some((0, index))),
-    );
-    changes.sort_by(|a, b| {
-        typed::<I, T>(&inputs[a.1].1)
-            .id
-            .cmp(&typed::<I, T>(&inputs[b.1].1).id)
-    });
-    changes.dedup_by(|later, earlier| {
-        if typed::<I, T>(&inputs[later.1].1).id == typed::<I, T>(&inputs[earlier.1].1).id {
-            std::mem::swap(later, earlier);
-            true
-        } else {
-            false
+    if std::any::TypeId::of::<I>() == std::any::TypeId::of::<usize>() {
+        // Cache primitive IDs once instead of downcasting events in sort/dedup
+        // comparisons. Input ordinals break ties and preserve the last update.
+        changes.extend(
+            inputs
+                .iter()
+                .enumerate()
+                .filter(|(_, (s, _))| *s == side)
+                .map(|(index, (_, event))| {
+                    let id = (&typed::<I, T>(event).id as &dyn Any)
+                        .downcast_ref::<usize>()
+                        .expect("primitive endpoint ID");
+                    (*id, index)
+                }),
+        );
+        changes.sort_unstable();
+        changes.dedup_by(|later, earlier| {
+            if later.0 == earlier.0 {
+                std::mem::swap(later, earlier);
+                true
+            } else {
+                false
+            }
+        });
+        if direct {
+            changes.retain(|(slot, _)| *slot < slots.len());
+            return;
         }
-    });
+    } else {
+        changes.extend(
+            inputs
+                .iter()
+                .enumerate()
+                .filter_map(|(index, (s, _))| (*s == side).then_some((0, index))),
+        );
+        changes.sort_by(|a, b| {
+            typed::<I, T>(&inputs[a.1].1)
+                .id
+                .cmp(&typed::<I, T>(&inputs[b.1].1).id)
+        });
+        changes.dedup_by(|later, earlier| {
+            if typed::<I, T>(&inputs[later.1].1).id == typed::<I, T>(&inputs[earlier.1].1).id {
+                std::mem::swap(later, earlier);
+                true
+            } else {
+                false
+            }
+        });
+    }
     changes.retain_mut(|(slot, index)| {
         if let Some(&found) = slots.get(&typed::<I, T>(&inputs[*index].1).id) {
             *slot = found;
@@ -136,8 +178,20 @@ impl<
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        latest_slots::<I, L>(inputs, false, &self.by_left, &mut self.left_changes);
-        latest_slots::<J, R>(inputs, true, &self.by_right, &mut self.right_changes);
+        latest_slots::<I, L>(
+            inputs,
+            false,
+            &self.by_left,
+            self.direct_left,
+            &mut self.left_changes,
+        );
+        latest_slots::<J, R>(
+            inputs,
+            true,
+            &self.by_right,
+            self.direct_right,
+            &mut self.right_changes,
+        );
         self.affected.clear();
         for &(i, _) in &self.left_changes {
             self.affected.extend_from_slice(&self.left_links[i]);
@@ -253,6 +307,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             affected: Vec::new(),
             links,
             endpoints,
+            direct_left: contiguous_slots(&by_left),
+            direct_right: contiguous_slots(&by_right),
             by_left,
             by_right,
             left_links,
@@ -330,3 +386,6 @@ mod cases {
 #[cfg(test)]
 #[path = "fixed_link_scratch_tests.rs"]
 mod scratch_tests;
+
+#[cfg(test)]
+mod index_tests;

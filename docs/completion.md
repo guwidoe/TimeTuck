@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The retained Rust checkpoint has **8,407 passing tests and 290 doctests**, source
-digest `850b0823a30e72c54205712f4c7fdab52dcfbc9401f32eb3cb54cd556bf091eb`.
-Its final `scripts/check.sh` passed in 175.34 seconds. The current layout uses
+The retained Rust checkpoint has **8,409 passing tests and 290 doctests**, source
+digest `8eedef86e478e230a5a0afe13c9fd82f4a14facbd286866cb8ac47b521adc962`.
+Its final `scripts/check.sh` passed in 386.73 seconds. The current layout uses
 22 integration executables and 95 verification jobs, preserving original test
 files and source attribution. Successful checks are reused when their relevant
 inputs are unchanged; documentation-only updates do not rerun the solver suite.
@@ -51,14 +51,23 @@ stream correctness comparisons, plus stream performance. Fourteen older jobs,
 including mixed performance, retain their actual timestamps and keys and are
 visibly stale. They have not been relabeled as current.
 
-The current large stream workload measures hill-climbing swaps at 494.080 ms
-against Java's 294.572 ms, and tabu swaps at 509.250 against 289.261 ms. All 128
+The current large stream workload measures hill-climbing swaps at 475.434 ms
+against Java's 285.759 ms, and tabu swaps at 498.166 against 304.284 ms. All 128
 validation cases have valid, equal-score outcomes. These bounded shared-host
 measurements include setup and result validation; they do not prove general Java
 parity, identical execution traces or universal speed requirements.
 
-The latest retained change replaces per-update tree searches with validated direct
-indexing for contiguous primitive planning and relationship IDs. It still checks
+The latest retained change caches primitive endpoint IDs during fixed-link batch
+coalescing and directly indexes validated contiguous endpoint slots. Sparse and
+custom IDs retain their fallbacks. Four balanced paired runs against the preceding
+actual binary show large swap time 3.99% lower overall, with all four forks improving.
+Change time is 2.31% lower and mixed stream 3.24% lower overall, but slower outliers
+leave those gains inconclusive. The dense control also varies. This does not prove
+a universal speedup. Exact artifacts, original tests and observations are in
+`work/round245-link-index/`.
+
+The preceding terminal-scoring change replaces per-update tree searches with
+validated direct indexing for contiguous primitive planning and relationship IDs. It still checks
 the complete relationship ID, including endpoints; sparse and custom IDs preserve
 the original tree behavior. Four balanced paired runs against the preceding actual
 binary show large change time 3.88% lower and swap time 6.05% lower overall, with

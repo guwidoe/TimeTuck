@@ -17,7 +17,51 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — retained244 direct fixed-terminal ID lookup
+## Latest qualification — retained245 endpoint ID caching and direct slots
+
+Fixed-link batching now reads each primitive usize endpoint ID once, then sorts
+cached (ID, input-position) pairs and retains the last input for each ID. When
+its immutable endpoint map is validated as 0..len with identity slot values,
+updates use that ordinal directly. Sparse primitive IDs still map through the
+original tree. Nonprimitive/custom IDs keep the original sort/comparison/lookup
+operations. Callback order, output identities, endpoint cloning and rollback
+remain unchanged. Two original private controls compare both sides with an
+independent last-winner oracle, including repeated/retracted/unknown/MAX IDs,
+empty/smaller batches, scratch reuse and non-Clone payloads. They also reject
+invalid direct maps and test activation at 1/256/257 endpoints. No API, dependency,
+pin, provenance or upstream-method credit change.
+
+Four balanced CPU2 release comparisons against actual retained244 show large
+swap time 3.99% lower overall, all four forks improving (0.25–6.13%). Changes
+are 2.31% lower and mixed stream 3.24% lower, each three of four forks improving;
+unchanged dense control is 3.43% lower in two of four. Keep slower outliers visible:
+change/mixed improvement is inconclusive; no universal speedup or allocation
+reduction is claimed. No additional timing confirmation was needed or run.
+
+Final integrated `bash scripts/check.sh` passed once in 386.73 seconds: 8,409 Rust
+and 290 doctests, fmt/Clippy/Python passed, matching checks reused.
+Rust: `8eedef86e478e230a5a0afe13c9fd82f4a14facbd286866cb8ac47b521adc962`.
+Report: `984bd0c0c2ee4212769715f9a23c8fec6cff40db572da510bae6da9e56d93d5f`.
+All three shared correctness input keys changed; those comparisons freshly passed,
+with known Java differences/errors unchanged. Five pinned concurrent Java test
+fixtures were present with verified hash/license receipt before execution. Only
+stream performance refreshed after builds/tests ended: 128/128 valid/equal-score,
+exact non-timing signatures unchanged. Large hill swaps: 475.434 ms versus Java
+285.759; tabu: 498.166 versus 304.284. Four measurement jobs current; 14 older jobs
+remain stale with original keys/dates. Backend report/HTTP freshness verified;
+unchanged UI evidence reused. Coverage remains 4,409/4,855 (90.814%), 11 pending,
+435 excluded, zero failed/unverified.
+
+Evidence: `work/parallel-round245-evidence.json`, `work/round245-link-index/`,
+`work/round245-qualification/` and `work/round245-performance/`. Frozen source and
+actual artifact manifests were rechecked after qualification. All245 jobs terminal;
+no SSH attempts, runner-c parked, one existing Sol agent supplied two tests, no new
+agents. Goal active/incomplete. Continue native compatibility/performance work;
+reuse matching checks. Small-graph rank scheduling is a possible next CPU target
+from prior attribution, not an implemented change. Rejected cache/terminal trials
+stay rejected.
+
+## Historical qualification — retained244 direct fixed-terminal ID lookup
 
 Fixed terminal scoring validates contiguous primitive planning IDs (`usize`)
 and fixed relationship IDs (`((usize, usize), usize)`) once at registration.

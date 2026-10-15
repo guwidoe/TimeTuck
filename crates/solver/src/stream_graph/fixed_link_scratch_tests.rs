@@ -33,6 +33,8 @@ fn node(trace: &Trace, failure: &Rc<Cell<u8>>) -> Links {
     right.set(0, Some(row(3)));
     right.set(1, Some(row(4)));
     FixedLinks {
+        direct_left: false,
+        direct_right: false,
         links: vec![
             (("e0".to_owned(), "a".to_owned()), "z".to_owned()),
             (("e1".to_owned(), "z".to_owned()), "a".to_owned()),
