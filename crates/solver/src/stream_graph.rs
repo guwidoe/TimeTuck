@@ -2269,7 +2269,7 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
             .iter()
             .map(|(name, &id)| (name.as_str(), self.nodes[id].score()))
     }
-    // Only called after the mixed director commits its complete initial rows.
+    // Only called after a director commits its complete planning rows.
     // Ineligible sources retain the ordinary persistent map without any changes.
     pub(crate) fn bind_fixed_planning_source<I: Ord + 'static, T: 'static>(
         &mut self,

@@ -17,7 +17,67 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — round231
+## Latest qualification — rounds232–234
+
+Retained233 reuses the existing private bounded planning-source storage in basic
+StreamScoreDirector construction and fresh context graphs. Complete contiguous
+sources through 256 variables use indexed slots/nested undo; larger and ordinary
+fact sources keep their maps. Full source checkpoints copy at most 256 shared
+pointers; inspection lazily materializes an ordered map without user payload
+cloning. Four original public regressions cover cutoff/fallback, optional rows,
+trials/nested rollback/snapshots, protected facts, callback and Clone panic/retry.
+No upstream method credit, provenance/pin change or public API addition.
+
+Focused checks passed: seven private and 27 public tests, plus library Clippy.
+Actual frozen233 release source/artifacts were measured against unchanged227/231
+executables. Two pinned balanced comparisons observed 5.58% and 5.88% lower large
+hill/swap medians. Change results were inconsistent; Dense control medians also
+fell 3.40%/2.67%, so do not attribute the whole difference to the storage change.
+Whole-process allocation requests fell only 0.15–0.53%; these are not byte/peak
+memory counts. Exact native outputs/work match in both captures. No general or
+Java speedup claim. Receipts/raws: work/round233-basic-source/.
+
+Final integrated gate passed: 8386 Rust tests + 290 doctests, fmt, all-target
+Clippy and matching cached Python checks. One final scripts/check.sh invocation;
+prebuild393.67s, gate481.78s. Reused141 unchanged targets;1209 affected targets
+compiled before execution. Do not repeat for commit/turn/context changes.
+Rust digest cf0f97531456f08ac12659f0d8d8e40aab8e3816d1d3bac4b7501762e767bb10;
+report digest def1045b31e1ebb6ac178bf893877a844e77a1a18ee967c1356ec6c44bf1fc1a.
+
+Fresh solver/list/stream comparisons passed128/512/128 top-level cases and retain
+all prior nested counts, including the same21 actual Java concurrent errors.
+Fresh stream performance (same prior CLI policy) passes128/128 equal-score
+validation cases. Large changes55.60–58.92ms Rust versus23.29–24.87ms Java;
+large swaps741.10–757.06ms versus309.69–309.86ms. These are shared-host readings,
+not a before/after causal comparison. Compilation/tests finished before timing.
+Actual source233 library SHA643e7271cece621ac0ea7de2ec9bf8dafe8a34ab85baec454e9d0dfd268cda00;
+stream executable SHAedfb4495e813ecc9cb4d08693855f093368d3f739062c0f2faa70098ded34ab1.
+Four unchanged and four refreshed canonical jobs are current; ten other affected
+measurements stay visibly stale. No old result rekeying. Coverage4409/4855,
+11pending435excluded,0failed/unverified. Backend data/HTTP freshness verified;
+unchanged UI evidence reused. Evidence: work/parallel-round233-evidence.json and
+work/round233-{qualification,performance}/. Frozen source/artifacts:
+work/round233-basic-source/source/.
+
+Rejected232 terminal metadata: focused checks passed but large swaps were slower
+in all four forks; root never received it. Fresh profile232 instead identifies
+the batched update/group/rollback paths (7022samples,0lost, exact958163callbacks).
+It is attribution only, not latency evidence. Review234 found no defensible small
+group allocation patch without recycling rejected preparation/coalescing changes
+or changing generic callback/Clone/Ord ordering. No native edits/builds/tests from
+that review. Do not repeat it, the rejected metadata patch or old scope audits.
+Any future bounded group-membership design needs explicit ID-bound propagation
+through filter/map and snapshot/panic semantics; it is not implemented or proven.
+
+Corrected stale compatibility prose: six unimproved-time and three coupled
+random-selector methods were already complete, not pending. Real remaining11
+cases are nine JVM/framework/edition seams and two private KOpt array views;
+do not revive old RNG/timer TODOs or pad arrays for method credit. Goal remains
+incomplete; final Java-quirk policy question is still unanswered. runner-c parked.
+runner-a's prior results connection is closed; this batch completed locally.
+All agents idle; no candidate edits or live authentication request remains.
+
+## Latest qualification — round231 (historical)
 
 All 18 canonical comparison jobs are current on unchanged retained227 source.
 Deliberately refreshed the 12 stale performance jobs; reused round230 correctness,

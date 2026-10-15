@@ -48,6 +48,7 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
             transaction.bind_planning_rows(updates)?;
             let initial_constraint_evaluations = transaction.score_evaluations();
             transaction.commit()?;
+            graph.bind_fixed_planning_source(&source, old.assignment.values().len())?;
             graph.finish_initial_facts();
             let assignment = std::mem::replace(&mut old.assignment, Assignment::new(Vec::new()));
             Ok(Self {

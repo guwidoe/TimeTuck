@@ -525,13 +525,27 @@ and its initially empty planning source. A private director interface shares the
 construction and local-search control flow, so acceptance, neighborhood order,
 best retention, fallback and limit precedence stay identical. The stream director
 saves candidate assignment/node state and installs a winner without callback
-replay. Its saved graph state now shares persistent map roots; updates copy only
-affected tree paths. The scoped director retains its sparse contribution cache.
-Assignment snapshots and model checks retain their existing linear work. Runtime
-performance comparisons of these stream operations remain pending. Both result
+replay. Ordinary saved graph state shares persistent map roots; updates copy only
+affected tree paths. Basic and mixed planning sources with at most 256 contiguous
+variable IDs instead reuse private indexed slots with nested undo journals.
+Larger sources retain the persistent map. Full source snapshots copy at most 256
+shared pointers, and ordered inspection lazily materializes a map without cloning
+user payloads. This trades bounded snapshot/inspection work for cheaper trial
+writes; context recreation applies the same selection after binding initial rows.
+The scoped director retains its sparse contribution cache. Assignment snapshots
+and model checks retain their existing linear work. Both result
 types count score evaluations; for streams,
 `constraint_evaluations` counts terminal scoring invocations, including temporary
 propagation results, and excludes graph preparation and diagnostic rebuilding.
+
+Two local comparisons of actual release executables observed 5.6% and 5.9% lower
+large hill/swap medians after reusing this storage in basic directors. Change-only
+results were inconsistent, and the Dense control also varied. These shared-host
+measurements do not establish a general speedup or Java parity. Whole-process
+allocation requests fell only 0.15–0.53%; they are not allocated-byte or peak-memory
+measurements. Exact final assignments, scores and callback counts matched.
+Evidence: `work/round233-basic-source/{paired,confirmation}/results.json` and
+`work/round233-basic-source/allocation-counts.json`.
 
 Stream diagnostics reset operator caches, replay owned source rows and compare
 terminal match IDs, contributions and totals before restoring the original graph.

@@ -1,4 +1,4 @@
-//! Bounded, private mixed-planning source storage. Ordinary sources and planning
+//! Bounded, private planning-source storage. Ordinary sources and planning
 //! sources above 256 rows retain SnapshotMap. Contiguous IDs are checked once
 //! after initial binding; later writes check their universe before mutation.
 //!

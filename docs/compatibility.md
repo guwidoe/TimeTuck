@@ -22,10 +22,14 @@ observation and floating comparison; no Java lifecycle equivalence is claimed.
 
 Two elapsed-time methods additionally preserve every millisecond threshold and
 progress assertion. Cooperative native phase timing is exercised with controlled
-clocks across all models/backends. This does not establish wall-clock trace parity,
-Java whole-solve time scope, preemption or unimproved-time compatibility. Native
-unimproved-time stopping additionally has six original controlled-clock regressions
-covering all model/backend paths; upstream lifecycle methods remain pending.
+clocks across all models/backends. Native unimproved-time stopping also has six
+complete Community lifecycle adaptations in `unimproved_time_lifecycle_cases.rs`,
+preserving timestamp threshold/progress assertions, construction inactivity and
+post-initialization timing. Explicit timer start/reset and chronological improvement
+notifications replace mocked solver/phase scopes. Six original controlled-clock
+regressions additionally cover all model/backend paths. This does not establish
+wall-clock trace parity, Java whole-solve time scope, scope-object or wall-clock-origin
+equivalence, or preemption.
 
 Eight additional ElementDestinationSelectorTest methods preserve random semantic
 destination choices with entity ranges, partial/full pinning and unassignment,
@@ -53,9 +57,13 @@ ReplayedListValueChangeSource: native seeded reproducibility, receiver ranges,
 pins, independent anchor filtering, unassignment/no-op metadata, bounded invalid
 cycles, lazy lifecycle delegation and real dense/stream list/mixed search. These
 original regressions earn no method credit. The three coupled range-dependent random
-ListChangeMoveSelectorTest methods remain pending: their exact Java seed-0 output
-traces have not been established by the native sampling policy. Expected move
-prefixes were not substituted with scripted outputs to claim compatibility.
+ListChangeMoveSelectorTest methods now have complete adaptations in
+`seeded_range_list_change_cases.rs`, preserving seed 0, all five exact source move-code
+observations, lookahead and never-ending metadata. One shared LCG48 stream drives
+category weights and range filtering; no desired moves or index scripts are supplied.
+A runtime-only Community probe additionally validates 144 longer moves from four seeds
+and three modes. These cases do not establish other native/Java RNG or default-selector
+trace equivalence.
 
 A complete DefaultSolverTest phase-reuse adaptation additionally observes the actual
 persistent list position table after construction and two local-search phases
