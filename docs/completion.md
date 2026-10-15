@@ -57,6 +57,14 @@ validation cases have valid, equal-score outcomes. These bounded shared-host
 measurements include setup and result validation; they do not prove general Java
 parity, identical execution traces or universal speed requirements.
 
+A subsequent small-graph ready-bitset scheduler was rejected without changing
+this checkpoint. Large swaps measured 2.36% slower overall, mixed timing was flat,
+and change timing was inconclusive. Two passing candidate-only tests are excluded
+from retained counts. Frozen source and actual artifact observations remain in
+`work/round246-ready-ranks/`. A fresh diagnostic profile of retained245 is in
+`work/round246-retained-profile/`; it has not refreshed or relabeled canonical
+measurements.
+
 The latest retained change caches primitive endpoint IDs during fixed-link batch
 coalescing and directly indexes validated contiguous endpoint slots. Sparse and
 custom IDs retain their fallbacks. Four balanced paired runs against the preceding

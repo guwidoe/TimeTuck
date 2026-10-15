@@ -17,6 +17,36 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest experiment — rejected246 ready bitset; retained245 unchanged
+
+An isolated candidate used a 64-bit ready-rank set for graphs of up to 64 nodes,
+retaining the heap above 64. Event buffers and ordering stayed unchanged. Two
+original controls covered 0/1/63/64/65/129-node modes, rank order against an
+independent ordered set, duplicate-rank event arrival, discard/clear Drop order,
+Rc/Weak ownership and buffer reuse against an independent tree queue. Focused
+checks, Clippy and release build passed. Candidate-only tests earn no retained credit.
+
+Reject: large swaps were 2.36% slower overall, with two of four forks slower;
+mixed timing was flat; changes were 1.02% lower with a slower outlier. The added
+complexity has no established throughput benefit. Hot push/pop methods were
+already inlined; no further variant was attempted. Frozen source, actual binaries,
+library, manifests and paired outputs remain in `work/round246-ready-ranks/`.
+Root source is unchanged, so no final gate, canonical job or browser repeat.
+Reuse qualified245 below: 8,409 Rust +290 doctests, 4,409/4,855 methods and four
+current/14 stale measurement jobs. The candidate's two tests are excluded.
+
+A fresh diagnostic profile uses actual retained245: 4,088 samples, zero lost,
+15 outputs exactly matching canonical work/results. Self attribution: fixed links
+6.82%, queue push 4.57%, memmove 3.82%, fixed terminal 2.01%, route 1.83%.
+Inclusive: transaction drop 19.72%, grouped batch 15.19%, route 6.95%. Attribution
+overlaps and is workload-specific, not speed evidence. See
+`work/round246-retained-profile/REPORT.md` and receipt.json. Next investigate
+resident queue input Vecs borrowed during dispatch. Preserve release-before-route
+and panic/rollback Drop order. This is unimplemented; do not revive bitset, cache
+or bounded-terminal trials. All246 jobs terminal, no SSH attempts, runner-c parked.
+One existing Sol agent supplied two private tests; no new agents. Evidence:
+`work/parallel-round246-evidence.json`. Goal active/incomplete.
+
 ## Latest qualification — retained245 endpoint ID caching and direct slots
 
 Fixed-link batching now reads each primitive usize endpoint ID once, then sorts
