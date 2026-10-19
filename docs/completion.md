@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,466 passing Rust tests and 290 doctests**,
-source digest `fadd962d4789a763f8a41647a9b92445702420a6d11304e01494ff983d75a3ed`. The required final `bash scripts/check.sh` passed
-on runner-a in 481.217 seconds, running the affected checks and genuinely reusing
+The latest integrated checkpoint has **8,478 passing Rust tests and 290 doctests**,
+source digest `289ad70a23833ffe5623fd445d91ffc1ae03ff5de3d5edfb6bfdda5e78aa0733`. The required final `bash scripts/check.sh` passed
+on runner-a in 300.072 seconds (including dispatch/collection), running the affected checks and genuinely reusing
 51 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
@@ -68,7 +68,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **83.8%**: feature families 40%,
+The dashboard's configurable progress index is **83.7%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -151,3 +151,11 @@ work/round261-touched-scan/verdict.json, collection.json,
 performance-receipt.json and java-diagnostic-difference.json;
 work/round262-community-version/collection.json and gate-receipt.json. Historical results
 and retained tradeoffs remain in [next-session.md](next-session.md). Goal incomplete.
+
+The 268 explicit batched filter-map fuses the canonical assigned-row projection
+while retaining source facts, cached acceptance and normal rollback/inspection.
+Controlled same-library runner-a large 96-variable hill/change and hill/swap timings are
+2.69%/3.10% lower in all four forks, with unchanged full output/callback signatures.
+Local large swaps improve 3.40%; local changes vary and have a 1.69% higher median.
+These are bounded native improvements. Fresh Java large hill/swap still measures
+571.280 ms Rust versus 342.414 ms Java, at equal score; parity is not established.

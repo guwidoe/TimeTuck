@@ -17,7 +17,60 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 267 transactional sum-only groups
+## Latest qualification — 268 explicit batched filter-map
+
+Added production `filter_map_batched`: one final put/retract per delivered input
+ID, with the first ID representative and last payload, projected in sorted order.
+Rejected facts retain cached acceptance; full facts stay upstream. Existing
+filter storage/journals serve eligible complete planning universes and map fallbacks.
+Inputs/outputs need no Clone bound. This explicit declaration permits different
+projection and own/downstream ID/key ownership schedules. Ordinary filter_map's
+binding flags and public native node are unchanged; its direct batch collector
+preserves the old per-event loop. Twelve original regressions cover independent
+state models, sparse membership, 0/2/256/257 capabilities, namespace stops,
+non-Clone/zero outputs, actual callbacks, nested/saved states and panic recovery.
+Original tests add no upstream-method credit. See the stream contract.
+
+Same-fresh-library separate Filter+Map versus fused clients preserve all 128 small
+controls and complete timed assignments/scores/physical callbacks. Four balanced
+pinned forks on both hosts. On runner-a the large 96-variable hill/change median is 2.69%
+lower and hill/swap 3.10% lower, every fork faster. Local hill/swap is 3.40% lower
+(3/4 faster forks); local hill/change is 1.69% higher with substantial variation.
+No general or tabu timing gain, Java parity or whole-graph memory claim. Retained
+canonical batched adapter explicitly selects the new operator; immediate mode,
+fixtures/moves/budgets and quality checks remain unchanged.
+
+Final `bash scripts/check.sh` on runner-a: **8,478 Rust  + 290 doctests**, 96
+jobs run/51 genuinely reused, worker source-bound result collected unchanged.
+Native digest `289ad70a23833ffe5623fd445d91ffc1ae03ff5de3d5edfb6bfdda5e78aa0733`. No duplicate local full gate or result rekey.
+Final release library/client build 88.41s; example-only adoption build 9.52s genuinely
+reuses that library. The initial remote clippy upload missed a fixture; corrected
+upload/all-target clippy passed before release, and the final gate passes as well.
+
+Only the affected stream Java/native report refreshed on final source with original
+50 steps, 3 warmups, 5 samples and 3 forks:128 equal controls, 8 equal-quality timing workloads.
+Large hill/swap Rust 571.280 ms / Java 342.414 ms; tabu/swap 573.660/399.816 ms.
+Java parity remains unmet. Cross-run timing differences are not gain evidence.
+The other 17 raw reports retain original keys/dates and stay stale. Index 83.731%,
+1/18 current; inventory 4410/4855, 10 pending, 435 excluded and zero failed/unverified unchanged.
+HTTP/data/freshness verified; unchanged rendering/consumed contract reuse 254 browser
+evidence. Java parity target 1. runner-c parked. Goal incomplete.
+
+A fresh final-source cpu-clock profile (1K+ samples, no lost samples) preserves 5
+exact outputs and points to fixed links, allocation and shared-state copying;
+it is sampling, not another speed claim. Next opt-in shared-input fixed-link
+adapter is source-only under work/round270-borrowed-fixed-links; never treat it as
+built/verified by this batch. Separate bounded Community probes in
+work/round269-list-metadata-gap confirm 33 empty compositions reject construction,
+and isolate getter/state differences on two existing repros in 20 fresh executions.
+They justify no native correction or additional agreement credit; 425/514 retained.
+
+Evidence: work/round268-qualification/{integration,build-receipt,final-build-receipt,
+gate-receipt,collection,verdict,profile-receipt}.json, pair-results.json,
+remote-pair-results.json, stream-performance-receipt.json. Frozen source-only
+work/round268-filter-map-batched remains historical; parent integration differs.
+
+## Previous qualification — 267 transactional sum-only groups
 
 New SumGroupNode and graph group_sum/group_sum_batched builders retain source-ID
 captures and private count/total without a second value-frequency index or full

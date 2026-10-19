@@ -24,11 +24,17 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
     }
     let mut b = StreamGraphBuilder::new();
     let source = b.source::<usize, (usize, Option<usize>)>();
-    let assigned = b.filter(source.port(), |(_, v)| v.is_some())?;
-    let jobs = b.map(&assigned, |&(id, v)| {
-        let value = v.unwrap();
-        (id, value, case.weights[id][value])
-    })?;
+    let jobs = if batched {
+        b.filter_map_batched(source.port(), |&(id, v)| {
+            v.map(|value| (id, value, case.weights[id][value]))
+        })?
+    } else {
+        let assigned = b.filter(source.port(), |(_, v)| v.is_some())?;
+        b.map(&assigned, |&(id, v)| {
+            let value = v.unwrap();
+            (id, value, case.weights[id][value])
+        })?
+    };
     let (identities, edges) = if batched {
         let linked = b.join_fixed_links_batched(
             &jobs,

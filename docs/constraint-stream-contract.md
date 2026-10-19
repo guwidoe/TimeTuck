@@ -2487,3 +2487,35 @@ own separate carriers and full saved snapshots keep their existing types. At mos
 one idle allocation survives; it contains no score, key, tuple or snapshot. This
 trades bounded retained allocation space for fewer repeated allocations, without
 a standalone speed or whole-graph memory-saving claim.
+
+## Explicit batched filter-map
+
+`StreamGraphBuilder::filter_map_batched` combines a zero-or-one projection with
+final-ID publication. A delivered batch retains the first ID representative and
+last payload per ID, visits final IDs in sorted order, and maps each surviving put
+once. Retractions do not run the projection. Every accepted final put publishes,
+including an equal or zero output; a rejected put retracts a previously accepted
+row. Direct transaction applies remain immediate. Inputs and outputs need no
+`Clone` bound. Stable IDs, deterministic projections and non-panicking destructors
+are required; external callback effects cannot be rolled back.
+
+The node retains acceptance for every known source fact, including rejected facts,
+in the existing native filter cache. It retains neither input nor output payloads;
+full facts remain upstream. Complete validated planning universes can reuse the
+existing filter slots and undo journals (usize IDs 0..count, count at most 256).
+Ordinary, incomplete, generic or larger input universes retain map storage. The
+explicit boundary forwards validated source identity to eligible downstream
+storage; group/join/expansion namespace changes still stop propagation. Captured
+acceptance, nested transactions, full saved states, activity and rebuild use the
+normal graph lifecycle without replaying projections during restoration.
+
+This new declaration allows different projection order/count and own/downstream
+ID or captured-key Clone/Drop schedules, including snapshot release order. It does
+not promise the physical trace of separate filter/map nodes or ordinary
+`filter_map`. Existing `filter_map` binding/publication flags and its public native
+node remain unchanged. Its direct batch collector preserves the old per-event
+loop, including repeated events, and has original ownership/panic comparisons.
+The new boundary has original regressions for independent source-state models,
+sparse membership, retained snapshots, failed callbacks, nested and saved trials,
+non-Clone intermediates, zero outputs and actual score callbacks. These original
+tests earn no additional upstream-method credit.
