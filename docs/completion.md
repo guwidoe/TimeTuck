@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,444 passing Rust tests and 290 doctests**,
-source digest `b10ab794afa384e349c7e76a4b374858372cc2e477e24b6ddebbf1f71eb3a074`. The required final `bash scripts/check.sh` passed
-on runner-a in 717.85 seconds, running the affected checks and genuinely reusing
+The latest integrated checkpoint has **8,445 passing Rust tests and 290 doctests**,
+source digest `54712a7d5922496edfda52a140fd0f9e1a85f897b26b961e3352931923b35b26`. The required final `bash scripts/check.sh` passed
+on runner-a in 393.029 seconds, running the affected checks and genuinely reusing
 52 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
@@ -53,11 +53,11 @@ See the [stream contracts](constraint-stream-contract.md) and
 Java agreement. Completion still needs evidence for every original-scope
 requirement and resolution of the remaining relevant behavior differences.
 
-Aggregate and stream performance comparisons were deliberately refreshed on the
-final source, using original fixtures, validation, budgets and measurement settings.
-Both reports are current; the other 16 retain their original input keys/dates and
-remain visibly stale. No old result was rekeyed. Last measured progress stays
-visible, while currentness separately records the remaining evidence debt.
+Only aggregate performance was deliberately refreshed on the final source, using
+original fixtures, validation, budgets and measurement settings. It is current;
+the other 17 retain their input keys/dates and remain visibly stale, including
+round264 stream timings. No old result was rekeyed. Last measured progress stays
+visible, while currentness separately records remaining evidence debt.
 
 Last measured larger mixed workloads (261; now stale): warm Stream **28.520 ms vs Java
 22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
@@ -99,11 +99,22 @@ four balanced forks. A four-rank inline queue for single-source batches reduces
 large change-solve timings by 5.57–7.68% locally; multi-change routing is unchanged,
 and swap controls include slower observations. Original inputs, quality and physical
 callbacks remain intact. These native comparisons establish no general speedup.
-Fresh Java comparisons still show gaps: sum512 is 0.676µs versus Java 0.358µs;
-set64 is 3.833µs versus 1.435µs; large hill/swap is 584.335ms versus 334.888ms at
-equal scores. Java parity remains the target, with multiplier 1.
+The round264 stream comparison, now stale, measured large hill/swap at 584.335ms
+versus Java 334.888ms with equal scores. Java parity remains the target, multiplier 1.
 
-Evidence: work/round264-parity/collection.json, gate-receipt.json,
+Sorted-set replacement now uses one staged snapshot, preserving multiplicities,
+representatives, exact comparison/clone sequence and failure rollback. All 96
+original aggregate controls and complete timed observations pass. On runner-a,
+64/512-capture updates improve 11.01%/5.58%, all four forks; unchanged map controls
+are flat. Local and sum controls vary; there is no general or whole-solve claim.
+Fresh current Java comparisons still show gaps: set64 Rust 7.671µs/Java 4.752µs,
+set512 25.733µs/15.925µs, sum512 1.976µs/1.520µs. Shared-host measurements vary;
+do not attribute cross-run Java ratio changes to this optimization.
+
+Evidence: work/round265-set-qualification/collection.json, gate-receipt.json,
+verdict.json, aggregate-paired/results.json, aggregate-remote-results.json and
+aggregate-performance-receipt.json;
+work/round264-parity/collection.json, gate-receipt.json,
 aggregate-paired/results.json, aggregate-remote-results.json,
 final-stream-paired/results.json and both performance receipts;
 work/round263-score-only/collection.json, verdict.json and paired/results.json;

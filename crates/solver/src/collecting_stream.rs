@@ -106,6 +106,34 @@ impl<V: Ord + Clone> ReversibleCollector<V> for SetCollector<V> {
         *self = next;
         true
     }
+    fn replace(&mut self, old: &V, new: &V) -> bool {
+        let mut next = self.clone();
+        let Some(&count) = next.counts.get(old) else {
+            return false;
+        };
+        // One staging snapshot covers both halves. Calling remove then insert
+        // would separately snapshot each half and copy the post-removal paths.
+        // Keep their ordering and clone operations, including equal old/new.
+        if count == 1 {
+            next.counts.remove(old);
+            next.keys.remove(old);
+        } else {
+            next.counts.insert(old.clone(), count - 1);
+        }
+        let count = next
+            .counts
+            .get(new)
+            .copied()
+            .unwrap_or(0)
+            .checked_add(1)
+            .expect("collector count overflow");
+        next.counts.insert(new.clone(), count);
+        if count == 1 {
+            next.keys.insert(new.clone(), ());
+        }
+        *self = next;
+        true
+    }
     fn finish(&self) -> Self::Output {
         self.keys.clone()
     }

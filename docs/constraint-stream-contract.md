@@ -597,6 +597,13 @@ Use stable fact IDs for set membership. `PairCollector<A,B>` collects independen
 mapped fields together and can be nested for more fields. Built-in collectors
 share persistent roots; custom collector cloning may cost more.
 
+Set replacement stages removal and insertion under one isolated collector
+snapshot, avoiding redundant nested snapshots and copies of newly modified paths.
+It preserves multiplicities, representatives, missing-old-before-new lookup and
+the former default sequence of ordering and payload clone operations, including
+equal replacement. Ordinary comparison/clone/count-overflow failures leave the
+prior collector and finished snapshots intact. Public types and bounds are unchanged.
+
 `CollectNode` captures each input's key and mapped value, retracts the old value
 on a key change, delegates same-key changes to `replace`, and emits changes for
 affected groups. It prepares candidate

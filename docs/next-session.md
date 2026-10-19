@@ -17,7 +17,56 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 264 checked sums and small batch queues
+## Latest qualification — 265 sorted-set replacement staging
+
+SetCollector.replace now stages removal/insertion once, avoiding redundant nested
+snapshots and copies of just-modified persistent paths. Captured multiplicities,
+existing/new/equal representatives, missing-before-new lookup, exact Ord/Clone
+sequence, output snapshots and ordinary panic rollback remain intact. No public
+API/bounds, benchmark/profile/budget/fixture or upstream provenance changes.
+One original regression compares the former default sequence across seven cases,
+injecting every comparison/clone panic and draining every occurrence; all eight
+focused collector regressions pass. It appends the existing test module.
+
+Actual distinct native before/after release binaries, same compiler/flags/build
+paths, all 96 original controls plus six workload controls/four balanced forks.
+runner-a sorted-set64/512 update-restore medians improve 11.01%/5.58%, all four forks;
+map controls flat, sum controls variable. Local results noisy; do not claim their
+larger apparent gains. No general, Java-parity, whole-solve or memory claim.
+The first comparison used identical executable hashes because copying the saved
+candidate preserved older source mtimes. It is preserved/rejected, not evidence
+of candidate performance. Changed source mtimes were refreshed and a real rebuild
+verified. Remote mirroring now refreshes timestamps only on content changes; do
+not transplant/rekey old cache records. Future overlays must allow actual rebuilds.
+
+Final bash scripts/check.sh passed once on runner-a: 8,445 Rust tests +290
+doctests; 95 jobs run/52 genuinely reused, worker 393.029s (wrapper 410.26s).
+Native digest 54712a7d5922496edfda52a140fd0f9e1a85f897b26b961e3352931923b35b26.
+Actual source-bound Rust/doctest outputs and checksum metadata collected unchanged.
+Dashboard index 83.675%, 1/18 current, Java multiplier 1. HTTP/data/freshness checked;
+unchanged rendering reuses 254 browser evidence. Server 8765 restarted in this checkout;
+use the latest qualification remote worker/mirror (changed-content mtimes refreshed).
+Only aggregate Java/native comparison refreshed with original settings; all 96
+validation cases and every timed observation pass. Actual current medians:
+set64 Rust 7.671µs/Java 4.752µs, set512 25.733µs/15.925µs, sum512 1.976µs/1.520µs.
+Shared-host runs vary; do not attribute cross-run Java ratio changes to this patch.
+Other 17 raw reports retain dates/keys and remain stale, including prior264 stream.
+Inventory unchanged 4410/4855 (90.834%), 10 pending, 435 excluded, 0 failed/unverified.
+
+Fresh current-library hill/swap96 profile: 13,780 samples, 0 lost, all 10 original
+score/assignment/958,163-callback signatures match. FixedLinks.apply_batch 7% self/
+13.27% inclusive; source-only candidate frozen under work/round266-stream-swap. All agents finished.
+The initial profile accidentally used the change/uniform helper fixture; exact
+signature guard caught it and those samples are preserved/rejected. Corrected run
+uses the actual canonical swap case. No comparison refresh or timing claim from
+sampling. Next candidate must remain UNBUILT/UNTESTED until separately qualified.
+
+Evidence: work/round265-set-qualification/{collection,gate-receipt,verdict}.json,
+aggregate-paired/results.json, aggregate-remote-results.json,
+aggregate-performance-receipt.json, profile-receipt.json;
+work/parallel-round265-evidence.json. runner-c parked. Goal incomplete.
+
+## Previous qualification — 264 checked sums and small batch queues
 
 Checked sums now retain primitive capture frequencies, checked count and total;
 updates avoid an internal snapshot clone and unrelated extrema summaries. Finish

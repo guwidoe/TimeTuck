@@ -398,3 +398,140 @@ fn global_collector_score_integrates_with_construction_and_search() {
     assert_eq!(r.score, SimpleScore::ZERO);
     assert_eq!(r.assignment.values(), &[Some(0), Some(0), Some(0)]);
 }
+
+// Original replacement staging failure/persistence checks.
+mod set_replace_staging {
+    use std::{
+        cell::RefCell,
+        cmp::Ordering,
+        panic::{AssertUnwindSafe, catch_unwind},
+        rc::Rc,
+    };
+    use timetuck::{ReversibleCollector, SetCollector};
+
+    #[derive(Default)]
+    struct Control {
+        events: Vec<&'static str>,
+        fail_at: Option<usize>,
+    }
+    struct Key(i32, Rc<RefCell<Control>>);
+    impl Key {
+        fn event(&self, event: &'static str) {
+            let mut control = self.1.borrow_mut();
+            control.events.push(event);
+            assert_ne!(
+                control.fail_at,
+                Some(control.events.len()),
+                "injected callback failure"
+            );
+        }
+    }
+    impl Clone for Key {
+        fn clone(&self) -> Self {
+            self.event("clone");
+            Self(self.0, self.1.clone())
+        }
+    }
+    impl PartialEq for Key {
+        fn eq(&self, other: &Self) -> bool {
+            self.0 == other.0
+        }
+    }
+    impl Eq for Key {}
+    impl PartialOrd for Key {
+        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            Some(self.cmp(other))
+        }
+    }
+    impl Ord for Key {
+        fn cmp(&self, other: &Self) -> Ordering {
+            self.event("compare");
+            self.0.cmp(&other.0)
+        }
+    }
+    fn baseline(collector: &mut SetCollector<Key>, old: &Key, new: &Key) -> bool {
+        let mut next = collector.clone();
+        if !next.remove(old) {
+            return false;
+        }
+        next.insert(new);
+        *collector = next;
+        true
+    }
+    fn fixture(control: &Rc<RefCell<Control>>) -> SetCollector<Key> {
+        let mut collector = SetCollector::default();
+        for value in (0..64).chain([32]) {
+            collector.insert(&Key(value, control.clone()));
+        }
+        control.borrow_mut().events.clear();
+        collector
+    }
+
+    #[test]
+    fn replacement_retains_callback_sequence_and_rolls_back_each_callback_panic() {
+        // Unique and duplicate old values; existing/new/equal destinations; absent old.
+        for (old, new) in [
+            (31, 100),
+            (32, 100),
+            (31, 33),
+            (32, 33),
+            (31, 31),
+            (32, 32),
+            (99, 100),
+        ] {
+            let control = Rc::new(RefCell::new(Control::default()));
+            let mut expected = fixture(&control);
+            let old_key = Key(old, control.clone());
+            let new_key = Key(new, control.clone());
+            let found = baseline(&mut expected, &old_key, &new_key);
+            let events = control.borrow().events.clone();
+            let expected_values = expected
+                .finish()
+                .keys()
+                .map(|key| key.0)
+                .collect::<Vec<_>>();
+            let mut actual = fixture(&control);
+            let saved = actual.finish();
+            assert_eq!(actual.replace(&old_key, &new_key), found);
+            assert_eq!(control.borrow().events, events);
+            assert_eq!(
+                actual.finish().keys().map(|key| key.0).collect::<Vec<_>>(),
+                expected_values
+            );
+            assert_eq!(
+                saved.keys().map(|key| key.0).collect::<Vec<_>>(),
+                (0..64).collect::<Vec<_>>()
+            );
+            // Drain all occurrences, checking multiplicities beyond distinct output.
+            for value in 0..=100 {
+                let key = Key(value, control.clone());
+                loop {
+                    let expected_removed = expected.remove(&key);
+                    assert_eq!(actual.remove(&key), expected_removed);
+                    if !expected_removed {
+                        break;
+                    }
+                }
+            }
+            assert!(actual.finish().is_empty());
+            for fail_at in 1..=events.len() {
+                let mut actual = fixture(&control);
+                let saved = actual.finish();
+                control.borrow_mut().fail_at = Some(fail_at);
+                assert!(
+                    catch_unwind(AssertUnwindSafe(|| actual.replace(&old_key, &new_key))).is_err()
+                );
+                control.borrow_mut().fail_at = None;
+                assert_eq!(
+                    actual.finish().keys().map(|key| key.0).collect::<Vec<_>>(),
+                    (0..64).collect::<Vec<_>>()
+                );
+                assert_eq!(saved.len(), 64);
+                for value in (0..64).chain([32]) {
+                    assert!(actual.remove(&Key(value, control.clone())));
+                }
+                assert!(actual.finish().is_empty());
+            }
+        }
+    }
+}
