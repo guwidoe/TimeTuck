@@ -209,7 +209,8 @@ pub mod incremental_stream;
 pub use incremental_stream::batched_join::{BatchedJoinNode, JoinEvaluation};
 pub use incremental_stream::{
     FilterNode, GroupNode, JoinComparison, JoinNode, JoinPartitionReservation, JoinPartitionSide,
-    JoinPartitionState, PartitionedJoinNode, ScoreNode, StructuralStreamContribution, TupleChange,
+    JoinPartitionState, PartitionedJoinNode, ScoreNode, StructuralStreamContribution, SumGroupNode,
+    TupleChange,
 };
 
 pub mod stream_graph;

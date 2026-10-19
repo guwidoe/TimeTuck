@@ -18,6 +18,7 @@ struct FixedLinks<'a, E, I, J, L, R, U> {
     right_links: Vec<Vec<usize>>,
     left: Slots<L>,
     right: Slots<R>,
+    checkpoint_box: CheckpointBox<LinkCheckpoint>,
     // Batch scratch holds only input ordinals and immutable relationship slots.
     // Retain capacities across trials; snapshots need only logical row state.
     left_changes: Vec<(usize, usize)>,
@@ -138,23 +139,25 @@ impl<
         Box::new((self.left.snapshot(), self.right.snapshot()))
     }
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
-        Box::new(LinkCheckpoint {
+        let checkpoint = LinkCheckpoint {
             left: self.left.begin(),
             right: self.right.begin(),
-        })
+        };
+        self.checkpoint_box.begin(checkpoint)
     }
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
-        let saved = saved
-            .downcast::<LinkCheckpoint>()
-            .expect("fixed-link checkpoint");
+        let (saved, empty) =
+            CheckpointBox::<LinkCheckpoint>::unpack(saved).expect("fixed-link checkpoint");
         self.left.commit(saved.left);
         self.right.commit(saved.right);
+        self.checkpoint_box.recycle(empty);
     }
     fn restore(&mut self, saved: Box<dyn Any>) {
-        match saved.downcast::<LinkCheckpoint>() {
-            Ok(saved) => {
+        match CheckpointBox::<LinkCheckpoint>::unpack(saved) {
+            Ok((saved, empty)) => {
                 self.left.rollback(saved.left);
                 self.right.rollback(saved.right);
+                self.checkpoint_box.recycle(empty);
             }
             Err(saved) => {
                 let (left, right) = *saved
@@ -324,6 +327,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(FixedLinks {
             left: Slots::new(by_left.len()),
             right: Slots::new(by_right.len()),
+            checkpoint_box: CheckpointBox::new(),
             left_changes: Vec::new(),
             right_changes: Vec::new(),
             affected: Vec::new(),

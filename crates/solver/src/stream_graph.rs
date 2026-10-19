@@ -29,6 +29,8 @@
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
 
+mod checkpoint_box;
+use checkpoint_box::CheckpointBox;
 mod dependency_batch;
 mod dynamic_dependency;
 mod facts;
@@ -42,6 +44,7 @@ mod ordered_existence;
 mod partitioned_batch;
 mod score_only;
 mod stable_flat_map;
+mod sum_group;
 mod weights;
 use activity::ActivityRule;
 pub use activity::{NodeActivity, StreamActivity};
@@ -1058,6 +1061,7 @@ struct Terminal<'a, I, T, S> {
     total: S,
     name: String,
     matches: SnapshotMap<I, (T, S)>,
+    checkpoint_box: CheckpointBox<TerminalJournal<S>>,
 }
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
     for Terminal<'_, I, T, S>
@@ -1092,7 +1096,8 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
         let journal_view;
-        let (old, total) = if let Some(saved) = checkpoint.downcast_ref::<TerminalJournal<S>>() {
+        let (old, total) = if let Some(saved) = CheckpointBox::<TerminalJournal<S>>::get(checkpoint)
+        {
             journal_view = self.matches.journal_snapshot(saved.rows);
             (&journal_view, &saved.total)
         } else {
@@ -1114,22 +1119,26 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
         // User-defined score cloning may panic; it must precede opening a frame.
         let total = self.total.clone();
-        Box::new(TerminalJournal {
+        let saved = TerminalJournal {
             rows: self.matches.begin_journal(),
             total,
-        })
+        };
+        self.checkpoint_box.begin(saved)
     }
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
-        let saved = saved
-            .downcast::<TerminalJournal<S>>()
-            .expect("terminal journal");
+        let (saved, empty) =
+            CheckpointBox::<TerminalJournal<S>>::unpack(saved).expect("terminal journal");
         self.matches.commit_journal(saved.rows);
+        // Release the cloned score before retaining only its empty carrier.
+        drop(saved);
+        self.checkpoint_box.recycle(empty);
     }
     fn restore(&mut self, c: Box<dyn Any>) {
-        match c.downcast::<TerminalJournal<S>>() {
-            Ok(saved) => {
+        match CheckpointBox::<TerminalJournal<S>>::unpack(c) {
+            Ok((saved, empty)) => {
                 self.matches.rollback_journal(saved.rows);
                 self.total = saved.total;
+                self.checkpoint_box.recycle(empty);
             }
             Err(c) => {
                 let (matches, total) = *c
@@ -2073,6 +2082,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             total: S::ZERO,
             name: name.clone(),
             matches: SnapshotMap::new(),
+            checkpoint_box: CheckpointBox::new(),
         });
         self.constraints.insert(name, out.node);
         self.connect(input.node, out.node, false);
@@ -2152,6 +2162,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             total: S::ZERO,
             name: name.clone(),
             matches: SnapshotMap::new(),
+            checkpoint_box: CheckpointBox::new(),
         });
         self.constraints.insert(name, out.node);
         self.connect(input.node, out.node, false);

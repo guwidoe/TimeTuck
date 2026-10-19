@@ -2420,3 +2420,70 @@ nested and outer rollback. This does not change solver phase orchestration or es
 upstream director identity/reuse compatibility. It avoids rebuilding the graph but
 still refreshes all planning rows; no throughput improvement is claimed without a
 workload measurement.
+
+
+## Explicit sum-only keyed groups
+
+`SumGroupNode<I,K>` captures every input ID's `(key,i64)` and keeps a private
+member count and total per group. Input lookup is authoritative for retractions;
+there is no independent per-value frequency index. Equal values and zero-valued
+captures retain separate membership. `input(id)` reads a capture; `groups()`
+inspects nonempty sums in key order. Clone shares immutable state and isolates
+later edits; clear removes rows while preserving a fixed planning binding.
+Existing IntCollector, IntSummary and full-summary group APIs remain unchanged.
+
+`SumGroupNode::new()` uses checked signed-i64 arithmetic; `wrapping()` explicitly
+uses modular arithmetic. Checked insertion adds the value, removal subtracts the
+captured value, and same-key replacement checks `new-old` before adding that
+difference to the total. Both intermediate overflows reject; changing keys removes
+then inserts. Missing-ID removal is a no-op. `try_apply` and `try_apply_batch`
+return SumOverflow without modification; their non-try counterparts panic on that
+error. Count overflow also panics before installation. No Java batched arithmetic
+ordering or post-error state equivalence is claimed.
+
+`apply` publishes one immediate update. A batch keeps the first representative
+and last value per input ID, processes final IDs in sorted order, and emits one
+final put/retraction per affected group in key order. Group key representatives
+survive temporary emptiness; new groups take the first final key in ID order.
+Nonempty equal or zero totals still emit puts; only the last member retracts.
+An absent-to-absent group emits nothing. Checked batch and reconstruction prefixes
+must fit i64 even when the final sum fits; a reachable live state may fail a
+sorted-source reconstruction if its prefixes overflow. A failed reconstruction
+restores the original graph. Wrapping sums do not have this prefix restriction.
+
+The graph builders `group_sum` and `group_sum_wrapping` publish each event;
+`group_sum_batched` and `group_sum_wrapping_batched` explicitly publish final
+batch groups. All return `StreamPort<K,(K,i64)>`. Mapping only runs for puts;
+at a batch boundary it runs once for each final surviving put in ID order.
+Direct transaction apply remains immediate, including on a batched builder.
+The new boundaries integrate with existing graph transactions, saved candidate
+snapshots, activity/rebuild, datasets and ordinary tracked score terminals. Full
+source rows and mapped input captures remain stored. Small checked planning ID
+universes may reuse private GroupInputs slots; larger/generic IDs retain maps.
+Group outputs start a new ID namespace and do not forward an input binding.
+
+Preparation and output-key cloning precede state installation. Reversible guards
+restore captures and sums on ordinary comparison, Clone and arithmetic panics;
+graph rollback also covers mapping, output erasure and downstream callback
+failures. Snapshot installation/rollback does not replay mapping or scoring.
+Stable immutable keys, deterministic callbacks and non-panicking destructors are
+required. External callback/Clone side effects are not rolled back. These explicit
+APIs introduce a smaller aggregate payload and different storage; they make no
+promise of the full-summary API's Clone/Drop trace. Adding these APIs preserves existing declarations. The canonical stream solve
+adapter now explicitly selects wrapping sum grouping because its constraint uses
+only the grouped total; its bounded inputs match both arithmetic modes. This
+changes the native declaration and terminal payload to `(key,i64)`, retaining
+source captures, nonzero filtering, match inspection and actual score callbacks.
+Full-summary production operators remain available and provide the retained
+comparison control. Fixtures, budgets, move order and validation stay unchanged.
+
+
+Journal checkpoints for fixed sources, fixed links and ordinary/fixed/contribution-only
+terminals may retain one empty carrier allocation per node. An active carrier owns
+its marker or cloned score; consuming it moves the marker/score out before the
+empty allocation is recycled. Score Clone still precedes opening the frame, and
+score Drop/assignment remains at the original commit/restore point. Nested markers
+own separate carriers and full saved snapshots keep their existing types. At most
+one idle allocation survives; it contains no score, key, tuple or snapshot. This
+trades bounded retained allocation space for fewer repeated allocations, without
+a standalone speed or whole-graph memory-saving claim.

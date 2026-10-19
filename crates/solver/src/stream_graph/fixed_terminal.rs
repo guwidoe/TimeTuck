@@ -11,6 +11,7 @@ struct FixedTerminal<'a, I, T, S> {
     materialized: OnceCell<SnapshotMap<I, (T, S)>>,
     evaluate: TerminalEvaluation<'a, T, S>,
     total: S,
+    checkpoint_box: CheckpointBox<TerminalJournal<S>>,
     name: String,
 }
 // Primitive planning IDs and fixed relationship IDs can expose a zero-based
@@ -83,22 +84,25 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
         let total = self.total.clone();
-        Box::new(TerminalJournal {
+        let saved = TerminalJournal {
             rows: self.rows.begin(),
             total,
-        })
+        };
+        self.checkpoint_box.begin(saved)
     }
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
-        let saved = saved
-            .downcast::<TerminalJournal<S>>()
-            .expect("fixed terminal journal");
+        let (saved, empty) =
+            CheckpointBox::<TerminalJournal<S>>::unpack(saved).expect("fixed terminal journal");
         self.rows.commit(saved.rows);
+        drop(saved);
+        self.checkpoint_box.recycle(empty);
     }
     fn restore(&mut self, saved: Box<dyn Any>) {
-        match saved.downcast::<TerminalJournal<S>>() {
-            Ok(saved) => {
+        match CheckpointBox::<TerminalJournal<S>>::unpack(saved) {
+            Ok((saved, empty)) => {
                 self.rows.rollback(saved.rows);
                 self.total = saved.total;
+                self.checkpoint_box.recycle(empty);
             }
             Err(saved) => {
                 let (rows, total) = *saved
@@ -112,7 +116,8 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
         let view;
-        let (old, total) = if let Some(saved) = checkpoint.downcast_ref::<TerminalJournal<S>>() {
+        let (old, total) = if let Some(saved) = CheckpointBox::<TerminalJournal<S>>::get(checkpoint)
+        {
             view = self.rows.entry_snapshot(saved.rows);
             (&view, &saved.total)
         } else {
@@ -291,6 +296,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             materialized: OnceCell::new(),
             evaluate,
             total: S::ZERO,
+            checkpoint_box: CheckpointBox::new(),
             name: name.clone(),
         });
         self.constraints.insert(name, out.node);

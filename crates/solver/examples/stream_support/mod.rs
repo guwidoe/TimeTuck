@@ -8,7 +8,7 @@ pub struct Network<'a> {
     pub graph: StreamGraph<'a, HardSoftScore>,
     pub source: PlanningStreamSource<usize>,
     pub conflicts: StreamConstraint<ConflictId, usize>,
-    pub preferences: StreamConstraint<usize, (usize, IntSummary)>,
+    pub preferences: StreamConstraint<usize, (usize, i64)>,
 }
 pub fn build(case: &Case) -> Result<Network<'_>, Box<dyn Error>> {
     build_with_batching(case, false)
@@ -59,13 +59,13 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
         b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?
     };
     let grouped = if batched {
-        b.group_collect_batched(&jobs, |&(_, v, w)| (v, w))?
+        b.group_sum_wrapping_batched(&jobs, |&(_, v, w)| (v, w))?
     } else {
-        b.group_collect(&jobs, |&(_, v, w)| (v, w))?
+        b.group_sum_wrapping(&jobs, |&(_, v, w)| (v, w))?
     };
-    let nonzero = b.filter(&grouped, |(_, s)| s.sum != 0)?;
+    let nonzero = b.filter(&grouped, |(_, s)| *s != 0)?;
     let preferences = b.score("preferences", &nonzero, |(_, s)| {
-        HardSoftScore::new(0, impact(s.sum))
+        HardSoftScore::new(0, impact(*s))
     })?;
     let mut graph = b.build();
     if let Some(edges) = edges {
@@ -88,7 +88,7 @@ pub fn emit(
     graph: &StreamGraph<'_, HardSoftScore>,
     assignment: &Assignment<usize>,
     conflicts: &StreamConstraint<ConflictId, usize>,
-    preferences: &StreamConstraint<usize, (usize, IntSummary)>,
+    preferences: &StreamConstraint<usize, (usize, i64)>,
 ) -> Result<(), Box<dyn Error>> {
     let mut edges = Vec::new();
     for (_, &(edge, s)) in graph.constraint_matches(conflicts)? {
@@ -100,10 +100,10 @@ pub fn emit(
     edges.sort_unstable();
     let mut groups = Vec::new();
     for (&key, ((_, summary), s)) in graph.constraint_matches(preferences)? {
-        if *s != HardSoftScore::new(0, impact(summary.sum)) {
+        if *s != HardSoftScore::new(0, impact(*summary)) {
             return Err("invalid group contribution".into());
         }
-        groups.push(format!("{key}:{}", summary.sum));
+        groups.push(format!("{key}:{}", *summary));
     }
     let score = graph.score();
     println!(

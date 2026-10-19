@@ -20,6 +20,7 @@ fn terminal<I: Ord + Clone + 'static>(
         materialized: OnceCell::new(),
         evaluate: TerminalEvaluation::Direct(Box::new(|v| SimpleScore::new(*v))),
         total: SimpleScore::ZERO,
+        checkpoint_box: CheckpointBox::new(),
         name: "index".to_owned(),
     }
 }

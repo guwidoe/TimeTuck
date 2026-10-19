@@ -30,6 +30,8 @@
 mod filter_bound;
 mod group_batch;
 mod group_inputs;
+mod sum_group;
+pub use sum_group::SumGroupNode;
 mod join_batch;
 mod partitioned;
 pub use partitioned::{

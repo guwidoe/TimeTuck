@@ -362,6 +362,7 @@ fn terminal_itself_never_clones_or_retains_payload_and_checkpoints_keep_only_sco
     let mut node = ScoreOnlyTerminal::<usize, Payload, SimpleScore> {
         evaluate: TerminalEvaluation::Direct(Box::new(|v| s(v.0.get() as i64))),
         total: s(0),
+        checkpoint_box: CheckpointBox::new(),
         name: "only".to_owned(),
         contributions: SnapshotMap::new(),
     };

@@ -4,6 +4,7 @@ use super::*;
 struct ScoreOnlyTerminal<'a, I, T, S> {
     evaluate: TerminalEvaluation<'a, T, S>,
     total: S,
+    checkpoint_box: CheckpointBox<TerminalJournal<S>>,
     name: String,
     contributions: SnapshotMap<I, S>,
 }
@@ -40,7 +41,8 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
         let journal_view;
-        let (old, total) = if let Some(saved) = checkpoint.downcast_ref::<TerminalJournal<S>>() {
+        let (old, total) = if let Some(saved) = CheckpointBox::<TerminalJournal<S>>::get(checkpoint)
+        {
             journal_view = self.contributions.journal_snapshot(saved.rows);
             (&journal_view, &saved.total)
         } else {
@@ -57,22 +59,25 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
         // User-defined score cloning may panic; it must precede opening a frame.
         let total = self.total.clone();
-        Box::new(TerminalJournal {
+        let saved = TerminalJournal {
             rows: self.contributions.begin_journal(),
             total,
-        })
+        };
+        self.checkpoint_box.begin(saved)
     }
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
-        let saved = saved
-            .downcast::<TerminalJournal<S>>()
-            .expect("terminal journal");
+        let (saved, empty) =
+            CheckpointBox::<TerminalJournal<S>>::unpack(saved).expect("terminal journal");
         self.contributions.commit_journal(saved.rows);
+        drop(saved);
+        self.checkpoint_box.recycle(empty);
     }
     fn restore(&mut self, c: Box<dyn Any>) {
-        match c.downcast::<TerminalJournal<S>>() {
-            Ok(saved) => {
+        match CheckpointBox::<TerminalJournal<S>>::unpack(c) {
+            Ok((saved, empty)) => {
                 self.contributions.rollback_journal(saved.rows);
                 self.total = saved.total;
+                self.checkpoint_box.recycle(empty);
             }
             Err(c) => {
                 let (contributions, total) = *c
@@ -220,6 +225,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(ScoreOnlyTerminal::<I, T, S> {
             evaluate,
             total: S::ZERO,
+            checkpoint_box: CheckpointBox::new(),
             name: name.clone(),
             contributions: SnapshotMap::new(),
         });

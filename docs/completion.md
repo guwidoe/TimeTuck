@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,446 passing Rust tests and 290 doctests**,
-source digest `e3ec934a911c97717b51e6568b7a82d1b0963080a93f6080dd5bf51bb4eff9b8`. The required final `bash scripts/check.sh` passed
-on runner-a in 290.08 seconds, running the affected checks and genuinely reusing
-63 unchanged jobs. Source-bound output and checksum metadata were collected
+The latest integrated checkpoint has **8,466 passing Rust tests and 290 doctests**,
+source digest `fadd962d4789a763f8a41647a9b92445702420a6d11304e01494ff983d75a3ed`. The required final `bash scripts/check.sh` passed
+on runner-a in 481.217 seconds, running the affected checks and genuinely reusing
+51 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
 
@@ -55,8 +55,9 @@ requirement and resolution of the remaining relevant behavior differences.
 
 Stream performance was deliberately refreshed on the final source using original
 fixtures, validation, budgets and settings. All 128 controls and eight timing
-workloads retain equal scores. Aggregate remains current from round265. The other
-16 measurements retain their input keys/dates and remain visibly stale. No old
+workloads retain equal scores. Shared library inputs changed, so the other
+17 measurements, including aggregate 265, retain their input keys/dates and remain
+visibly stale. No old
 result was rekeyed. Last measured progress stays visible, while currentness
 separately records remaining evidence debt.
 
@@ -67,7 +68,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **84.1%**: feature families 40%,
+The dashboard's configurable progress index is **83.8%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -100,16 +101,17 @@ four balanced forks. A four-rank inline queue for single-source batches reduces
 large change-solve timings by 5.57–7.68% locally; multi-change routing is unchanged,
 and swap controls include slower observations. Original inputs, quality and physical
 callbacks remain intact. These native comparisons establish no general speedup.
-The current round266 stream comparison measures large hill/swap at 802.513ms
-versus Java 475.796ms, and large tabu/swap at 1706.744ms versus 892.788ms,
-with equal scores. Java parity remains the target, multiplier 1.
+The current round267 stream comparison measures large hill/swap at
+616.103ms versus Java 386.106ms, and large tabu/swap at
+576.931ms versus 380.160ms, with equal scores.
+Java parity remains the target, multiplier 1.
 
 Sorted-set replacement now uses one staged snapshot, preserving multiplicities,
 representatives, exact comparison/clone sequence and failure rollback. All 96
 original aggregate controls and complete timed observations pass. On runner-a,
 64/512-capture updates improve 11.01%/5.58%, all four forks; unchanged map controls
 are flat. Local and sum controls vary; there is no general or whole-solve claim.
-Fresh current Java comparisons still show gaps: set64 Rust 7.671µs/Java 4.752µs,
+Last measured round265 Java comparisons, now stale, show gaps: set64 Rust 7.671µs/Java 4.752µs,
 set512 25.733µs/15.925µs, sum512 1.976µs/1.520µs. Shared-host measurements vary;
 do not attribute cross-run Java ratio changes to this optimization.
 
@@ -120,7 +122,22 @@ controlled large hill/swap confirmation improves 1.44% across all four forks;
 other timings are variable. This is a modest native gain, not general Java parity.
 No benchmark fixture, work, budget or validation is reduced.
 
-Evidence: work/round266-qualification/collection.json, gate-receipt.json,
+Explicit sum-only grouping now retains each source ID's captured key/value and
+private membership count/total. Checked and wrapping modes, final publication,
+zero membership, rollback, saved candidates and reconstruction are covered by 17
+original tests. The canonical adapter selects the production wrapping operator
+because its constraint needs only the total; original inputs, move limits,
+independent quality checks and physical score callbacks remain intact. Existing
+full-summary APIs stay available. Empty checkpoint carriers add bounded idle
+allocation space while releasing user values at their original points; three
+original ownership/nesting regressions cover the change. Native controlled results
+are recorded per workload and host; local controls include a slower private
+hill/change case, so no general or standalone checkpoint gain is claimed.
+
+Evidence: work/round267-qualification/collection.json, gate-receipt.json,
+verdict.json, build-receipt.json, pair-results.json, remote-pair-results.json
+and stream-performance-receipt.json;
+work/round266-qualification/collection.json, gate-receipt.json,
 verdict.json, stream-remote-results.json,
 stream-confirmation/stream-remote-results.json and stream-performance-receipt.json;
 work/round265-set-qualification/collection.json, gate-receipt.json,

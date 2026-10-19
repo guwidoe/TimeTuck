@@ -21,6 +21,7 @@ pub(super) struct FixedSourceNode<T> {
     rows: OnceCell<SnapshotMap<usize, T>>,
     journals: Vec<Undo<T>>,
     spare: Vec<Undo<T>>,
+    checkpoint_box: CheckpointBox<Token>,
     // Reusable batch positions only; no event or user payload ownership.
     latest: Vec<(usize, usize)>,
 }
@@ -33,6 +34,7 @@ impl<T> FixedSourceNode<T> {
             rows: OnceCell::new(),
             journals: Vec::new(),
             spare: Vec::new(),
+            checkpoint_box: CheckpointBox::new(),
             latest: Vec::new(),
         }
     }
@@ -144,12 +146,11 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
         let token = self.journals.len();
         self.journals.push(self.spare.pop().unwrap_or_default());
-        Box::new(Token(token))
+        self.checkpoint_box.begin(Token(token))
     }
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
-        let token = saved
-            .downcast::<Token>()
-            .expect("fixed source journal token");
+        let (token, empty) =
+            CheckpointBox::<Token>::unpack(saved).expect("fixed source journal token");
         assert_eq!(
             self.journals.len(),
             token.0 + 1,
@@ -165,10 +166,11 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
         }
         undo.clear();
         self.spare.push(undo);
+        self.checkpoint_box.recycle(empty);
     }
     fn restore(&mut self, saved: Box<dyn Any>) {
-        match saved.downcast::<Token>() {
-            Ok(token) => {
+        match CheckpointBox::<Token>::unpack(saved) {
+            Ok((token, empty)) => {
                 assert_eq!(
                     self.journals.len(),
                     token.0 + 1,
@@ -180,6 +182,7 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
                     self.values[index] = value;
                 }
                 self.spare.push(undo);
+                self.checkpoint_box.recycle(empty);
             }
             Err(saved) => {
                 let Saved(values) = *saved.downcast::<Saved<T>>().expect("fixed source snapshot");
@@ -246,6 +249,57 @@ mod tests {
         assert!(std::ptr::eq(&node.rows()[&0], original.as_ref()));
         assert_eq!(changed[&0].0, 20);
     }
+    #[test]
+    #[allow(clippy::arc_with_non_send_sync)]
+    fn reused_markers_preserve_nested_snapshot_install_and_payload_release() {
+        use std::cell::RefCell;
+        struct Owned(usize, Rc<RefCell<Vec<usize>>>);
+        impl Clone for Owned {
+            fn clone(&self) -> Self {
+                panic!("checkpoint must not clone a payload");
+            }
+        }
+        impl Drop for Owned {
+            fn drop(&mut self) {
+                self.1.borrow_mut().push(self.0);
+            }
+        }
+        type Source = FixedSourceNode<Owned>;
+        fn marker_address(saved: &dyn Any) -> *const Token {
+            CheckpointBox::<Token>::get(saved).unwrap()
+        }
+        let drops = Rc::new(RefCell::new(Vec::new()));
+        let mut node = Source::new(vec![(Arc::new(0), Arc::new(Owned(10, drops.clone())))]);
+        let saved = <Source as Node<SimpleScore>>::checkpoint(&node);
+        let outer = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        let address = marker_address(outer.as_ref());
+        node.put_owned(0, Owned(20, drops.clone())).unwrap();
+        let inner = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        assert_ne!(address, marker_address(inner.as_ref()));
+        node.put_owned(0, Owned(30, drops.clone())).unwrap();
+        <Source as Node<SimpleScore>>::commit_checkpoint(&mut node, inner);
+        assert!(drops.borrow().is_empty());
+        // Installing an owned snapshot while a journal is live must itself undo.
+        <Source as Node<SimpleScore>>::restore(&mut node, saved);
+        node.put_owned(0, Owned(40, drops.clone())).unwrap();
+        <Source as Node<SimpleScore>>::restore(&mut node, outer);
+        assert_eq!(node.values[0].as_ref().unwrap().0, 10);
+        assert_eq!(*drops.borrow(), [40, 30, 20]);
+        let next = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        assert_eq!(address, marker_address(next.as_ref()));
+        node.put_owned(0, Owned(50, drops.clone())).unwrap();
+        <Source as Node<SimpleScore>>::commit_checkpoint(&mut node, next);
+        assert_eq!(*drops.borrow(), [40, 30, 20, 10]);
+        let last = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        assert_eq!(address, marker_address(last.as_ref()));
+        <Source as Node<SimpleScore>>::clear(&mut node);
+        <Source as Node<SimpleScore>>::restore(&mut node, last);
+        assert_eq!(node.values[0].as_ref().unwrap().0, 50);
+        assert_eq!(*drops.borrow(), [40, 30, 20, 10]);
+        drop(node);
+        assert_eq!(*drops.borrow(), [40, 30, 20, 10, 50]);
+    }
+
     #[test]
     fn upgrade_retains_keys_payloads_and_checks_the_entire_universe() {
         let clones = Rc::new(Cell::new(0));

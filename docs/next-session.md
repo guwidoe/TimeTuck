@@ -17,7 +17,84 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 266 fixed-link endpoint positions
+## Latest qualification — 267 transactional sum-only groups
+
+New SumGroupNode and graph group_sum/group_sum_batched builders retain source-ID
+captures and private count/total without a second value-frequency index or full
+extrema summary. Checked arithmetic is the default; explicit wrapping variants
+preserve modular sums. Immediate/batched publication, zero membership, inspection,
+full snapshots, nested journals, saved winners, rebuild/activity and ordinary
+panic rollback are covered by 17 original regressions. Checked same-key replacement
+checks new-old and then total+difference; checked rebuild prefixes may overflow
+for a reachable state, with full recovery. See the stream contract. Existing full
+summary APIs and public bounds remain intact. No upstream-method credit.
+
+The canonical stream adapter explicitly uses the wrapping sum production API:
+its constraint only uses the total. Source facts/captures, nonzero filtering,
+match inspection, original fixtures/moves/budgets and actual terminal callbacks
+remain intact. Benchmark metadata names the new declaration. Full-summary
+operators remain production controls, rather than being silently weakened.
+
+FixedSource, FixedLinks and all three terminal kinds can reuse one empty
+checkpoint carrier. Active markers still own their journal values; commit/restore
+moves out or drops scores at the original points before returning an empty box.
+Full snapshots are unchanged; nested markers own distinct carriers. Three original
+regressions check ownership, Clone/Drop/panics and nesting. At most one idle box
+per affected node adds retained allocation space; no user value stays in it.
+
+Distinct actual release artifacts, same compiler/flags/build paths, preserve all
+128 original controls and complete timed assignments/scores/physical callbacks.
+Four balanced pinned forks on each host; combined canonical before/after controls
+and same-fresh-library full/sum declaration controls are recorded separately.
+runner-a observations (positive gain is written as lower elapsed time):
+
+| 96-variable workload | Combined median | Faster forks | Same-library sum declaration |
+| --- | --- | --- | --- |
+| Hill climbing · change | 1.92% lower | 4/4 | 0.72% lower |
+| Tabu · change | 2.44% lower | 4/4 | 2.66% lower |
+| Hill climbing · swap | 3.84% lower | 4/4 | 5.19% lower |
+| Tabu · swap | 2.91% lower | 4/4 | 3.90% lower |
+
+Local combined large hill/tabu swaps are 5.53%/7.44% lower, all four forks.
+Other local controls vary, including a 22.34% higher private hill/change median;
+do not generalize or infer a standalone checkpoint gain. Timings are host/workload
+specific. Initial pre-alias artifacts/source are preserved; a clippy return-type
+complexity lint was corrected with a private alias before the final release build.
+Final local release/client build 98.20s; no initial artifact relabeling.
+
+Final bash scripts/check.sh passed once on final source on runner-a: 8,466 Rust
++290 doctests, 96 jobs run/51 genuinely reused; worker 481.217s,
+wrapper 486.92s. Native digest fadd962d4789a763f8a41647a9b92445702420a6d11304e01494ff983d75a3ed.
+Actual source-bound logs/metadata collected unchanged; no duplicate local full
+gate or cache transplant. Inventory remains 4410/4855 (90.834%), 10 pending,
+435 excluded and zero failed/unverified. Original pin/provenance unchanged.
+
+Only stream Java/native comparison refreshed, with original counts/settings:
+128 equal-score controls and all 8 timing workloads equal quality. Large hill/swap
+Rust 616.103ms/Java 386.106ms; tabu/swap
+576.931/380.160ms. Java parity is still unmet.
+Cross-run host-load changes are not optimization evidence. All 17 other raw files
+retain keys/dates and remain stale, including aggregate 265 because shared public
+library inputs changed. Index 83.790%, 1/18 current, Java multiplier 1. This is a
+tracked-target index, not effort or ETA. HTTP/data/freshness verified; unchanged
+rendering and consumed data contract reuse 254 browser evidence. New config metadata
+is not consumed by the renderer. Server localhost:8765. runner-c parked.
+
+Next explicit filter_map_batched overlay is in preparation, source-only and unbuilt under
+work/round268-filter-map-batched/. Keep it separate from this qualification.
+An automatic-forwarding proposal under work/round268-filter-map/ is unsuitable
+for a strict ownership-trace claim: enabling downstream slots can change captured
+key snapshot Drop order. Its source-only counterexample/decision remains visible;
+the alternate new boundary must document its own projection/ownership policy.
+The Great Deluge source audit found no justified change to exact Ratio arithmetic;
+retained 275/276 agreement is unchanged, not freshly rerun or relabeled.
+Remaining behavior/compatibility gaps persist. Goal incomplete.
+
+Evidence: work/round267-qualification/{collection,gate-receipt,verdict,build-receipt}.json,
+pair-results.json, remote-pair-results.json, remote-raw-results.tar.gz,
+stream-performance-receipt.json; work/parallel-round267-evidence.json.
+
+## Previous qualification — 266 fixed-link endpoint positions
 
 FixedLinks.apply_batch caches current input positions in immutable endpoint slots,
 removing two repeated binary searches per affected relationship. Cleanup visits

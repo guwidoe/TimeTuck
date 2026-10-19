@@ -47,6 +47,7 @@ fn node(trace: &Trace, failure: &Rc<Cell<u8>>) -> Links {
         right_links: vec![vec![1, 2], vec![0]],
         left,
         right,
+        checkpoint_box: CheckpointBox::new(),
         left_changes: Vec::new(),
         right_changes: Vec::new(),
         affected: Vec::new(),
@@ -92,6 +93,9 @@ fn apply(node: &mut Links, rows: &[(bool, Event)]) -> BatchOutputs {
         },
     )
     .unwrap()
+}
+fn marker_address(saved: &dyn Any) -> *const LinkCheckpoint {
+    CheckpointBox::<LinkCheckpoint>::get(saved).unwrap()
 }
 fn values(outputs: &[Event]) -> Vec<(String, Option<i64>)> {
     outputs
@@ -179,7 +183,12 @@ fn panic_dirty_scratch_restores_then_retries_with_fresh_callback_clone_drop_trac
         let trace = Trace::default();
         let fail = Rc::new(Cell::new(0));
         let mut n = node(&trace, &fail);
+        // Recover from each user panic after recycling a completed marker too.
+        let warm = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+        let address = marker_address(warm.as_ref());
+        <Links as Node<SimpleScore>>::commit_checkpoint(&mut n, warm);
         let saved = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+        assert_eq!(address, marker_address(saved.as_ref()));
         let bad = inputs(
             &trace,
             &fail,
@@ -286,4 +295,44 @@ fn shorter_retry_clears_endpoint_positions_after_success_and_each_panic_stage() 
             [("e0".to_owned(), Some(14)), ("e2".to_owned(), Some(10))]
         );
     }
+}
+
+#[test]
+fn reused_link_markers_preserve_nested_commit_rollback_and_endpoint_drops() {
+    let trace = Trace::default();
+    let fail = Rc::new(Cell::new(0));
+    let mut n = node(&trace, &fail);
+    let row = |value| Row(value, trace.clone(), fail.clone());
+    let outer = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+    let address = marker_address(outer.as_ref());
+    n.left.set(0, Some(row(5)));
+    let inner = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+    let child_address = marker_address(inner.as_ref());
+    assert_ne!(address, child_address);
+    n.right.set(1, Some(row(6)));
+    <Links as Node<SimpleScore>>::commit_checkpoint(&mut n, inner);
+    assert!(trace.borrow().is_empty());
+    let retry = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+    assert_eq!(child_address, marker_address(retry.as_ref()));
+    n.left.set(0, Some(row(7)));
+    <Links as Node<SimpleScore>>::restore(&mut n, retry);
+    assert_eq!(*trace.borrow(), [("drop", 7, 0)]);
+    <Links as Node<SimpleScore>>::restore(&mut n, outer);
+    assert_eq!(
+        *trace.borrow(),
+        [("drop", 7, 0), ("drop", 5, 0), ("drop", 6, 0)]
+    );
+    assert_eq!(n.left.get(0).unwrap().0, 1);
+    assert_eq!(n.right.get(1).unwrap().0, 4);
+    let committed = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+    assert_eq!(address, marker_address(committed.as_ref()));
+    n.right.set(0, Some(row(8)));
+    <Links as Node<SimpleScore>>::commit_checkpoint(&mut n, committed);
+    assert_eq!(trace.borrow().last(), Some(&("drop", 3, 0)));
+    let clean = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+    assert_eq!(address, marker_address(clean.as_ref()));
+    <Links as Node<SimpleScore>>::clear(&mut n);
+    <Links as Node<SimpleScore>>::restore(&mut n, clean);
+    assert_eq!(n.right.get(0).unwrap().0, 8);
+    assert_eq!(trace.borrow().len(), 4);
 }
