@@ -296,6 +296,11 @@ trait Node<S: AdditiveScore> {
     fn evaluates_score(&self, _: &Event) -> bool {
         false
     }
+    // Opt-in actual callback accounting for terminals that evaluate inside a batch.
+    // The counter is physical work, independent of logical snapshots/rollback.
+    fn score_evaluation_counter(&self) -> Option<Rc<std::cell::Cell<u128>>> {
+        None
+    }
     fn scores_match(&self, _: &dyn Any) -> bool {
         true
     }
@@ -2246,7 +2251,13 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let activity_components = self
             .activity_pruning
             .then(|| Box::new(activity::ActivityComponents::new(&self.edges)));
+        let score_evaluation_counters = self
+            .nodes
+            .iter()
+            .map(|node| node.score_evaluation_counter())
+            .collect();
         let mut graph = StreamGraph {
+            score_evaluation_counters,
             initial_activity: self.initial_activity,
             pruned_edges,
             activity_components,
@@ -2298,6 +2309,7 @@ struct TransactionWorkspace {
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    score_evaluation_counters: Vec<Option<Rc<std::cell::Cell<u128>>>>,
     pruned_edges: Vec<weights::PrunedEdge>,
     transaction_workspaces: Vec<TransactionWorkspace>,
     batch_workspace: batching::BatchWorkspace,
@@ -2547,6 +2559,28 @@ pub struct GraphTransaction<'g, 'a, S: AdditiveScore> {
     committed: bool,
     score_evaluations: u128,
 }
+// Scoped to one dispatch: nested diagnostic transactions have their own local
+// totals. Drop also accounts for callbacks attempted before an Err or unwind.
+// No node scan occurs at the public O(1) score_evaluations getter.
+struct ScoreEvaluationDelta<'t> {
+    counter: Rc<std::cell::Cell<u128>>,
+    before: u128,
+    total: &'t mut u128,
+}
+impl<'t> ScoreEvaluationDelta<'t> {
+    fn new(counter: Option<&Rc<std::cell::Cell<u128>>>, total: &'t mut u128) -> Option<Self> {
+        counter.map(|counter| Self {
+            before: counter.get(),
+            counter: counter.clone(),
+            total,
+        })
+    }
+}
+impl Drop for ScoreEvaluationDelta<'_> {
+    fn drop(&mut self) {
+        *self.total += self.counter.get() - self.before;
+    }
+}
 pub(crate) struct GraphState<S> {
     active: Option<Vec<bool>>,
     nodes: Vec<(usize, Box<dyn Any>)>,
@@ -2755,7 +2789,13 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             self.checkpoint(id);
             self.score_evaluations += u128::from(self.graph.nodes[id].evaluates_score(&event));
             let old = self.graph.nodes[id].score();
-            let outputs = self.graph.nodes[id].apply(edge.right, &event, arithmetic)?;
+            let outputs = {
+                let _count = ScoreEvaluationDelta::new(
+                    self.graph.score_evaluation_counters[id].as_ref(),
+                    &mut self.score_evaluations,
+                );
+                self.graph.nodes[id].apply(edge.right, &event, arithmetic)
+            }?;
             let new = self.graph.nodes[id].score();
             if old != new {
                 changes.push((old, new));

@@ -2519,3 +2519,51 @@ The new boundary has original regressions for independent source-state models,
 sparse membership, retained snapshots, failed callbacks, nested and saved trials,
 non-Clone intermediates, zero outputs and actual score callbacks. These original
 tests earn no additional upstream-method credit.
+
+## Shared fixed-link inputs and fused tracked scoring
+
+`join_fixed_links_batched_shared` is an explicit counterpart of the ordinary
+fixed-link join. Its endpoint slots retain the complete immutable producer
+`TupleChange` through that event's existing `Rc`, including the input ID. Endpoint
+installation neither clones the payload nor allocates another row owner. Both
+endpoint payload types and projected outputs may be non-Clone. Ordinary source,
+output, journal and snapshot costs still apply. Retaining complete events can
+extend ID/payload lifetimes and increase retained memory. The existing join keeps
+its original payload Clone/allocation behavior; this new declaration allows
+different Clone/Drop counts and release schedules.
+
+`score_fixed_links_batched_shared` fuses fixed-link projection with fully retained
+scoring. Integer-weighted and exact decimal-weighted counterparts support named
+weight changes and disabling. The result is an ordinary inspectable constraint
+with complete `((relationship_id,left_id),right_id)` keys and `(payload,score)`
+matches. Endpoint payloads need no Clone bound; projected payloads implement Clone
+for lazy ordinary match inspection. Zero/equal accepted scores remain real matches.
+
+Both sides settle their final delivered event per ID. Each affected relationship
+is visited once in relationship-ID order. The fused declaration projects and
+scores each accepted pair immediately, without intermediate link events or queue
+routing. Retractions use captured accepted membership and do not re-evaluate the
+old predicate. Projection/scoring order and ownership schedules can therefore
+differ from separate operators. Callbacks must be pure, keys/content stable and
+destructors non-panicking. All full source facts remain upstream, including
+unlinked, filtered or disabled facts. Topology is immutable; duplicate relationship
+IDs, foreign ports and duplicate constraint names are rejected before registration.
+
+Endpoint caches settle under the graph checkpoint before fused callbacks, which
+then read typed shared rows directly. Match rows and totals are staged until
+projection, scoring and arithmetic preparation succeeds. A failed transaction is
+unreadable and restores endpoint/match state when dropped. Nested journals, full
+snapshots, saved winners, activity reconstruction and weight replay retain the
+normal graph contract. Ordinary updates use configured checked/wrapping arithmetic;
+replay validates completed constraint totals before publication. Structural,
+impact, terminal-total and graph-total failures remain errors. Inspection can
+clone IDs, payloads and scores, and preserves independent held snapshots.
+
+Fused scoring counts actual evaluate/factor attempts, including failed or panicking
+calls. Its physical counter is outside logical snapshots; a dispatch guard records
+the delta in the current transaction even on unwinding. Nested diagnostics retain
+separate transaction totals, and the existing metric getter stays constant-time.
+Legacy incoming-event accounting is unchanged. A private optional counter registry
+adds one slot per graph node and a branch at downstream dispatch; native comparisons
+must include the old executable to expose costs on unchanged declarations. No
+whole-graph memory or speed claim follows from sharing alone.

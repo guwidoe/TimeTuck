@@ -1,4 +1,5 @@
 //! Compiled immutable relationships between stable input identities.
+mod shared_inputs;
 use super::fixed_slots::{SlotSnapshot, Slots};
 use super::*;
 use std::collections::BTreeSet;

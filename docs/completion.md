@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,478 passing Rust tests and 290 doctests**,
-source digest `289ad70a23833ffe5623fd445d91ffc1ae03ff5de3d5edfb6bfdda5e78aa0733`. The required final `bash scripts/check.sh` passed
-on runner-a in 300.072 seconds (including dispatch/collection), running the affected checks and genuinely reusing
+The latest integrated checkpoint has **8,494 passing Rust tests and 290 doctests**,
+source digest `40b35ec681a0e312666fb1a8be1733abe265557419aab5e3806148a25fc143ff`. The required final `bash scripts/check.sh` passed
+on runner-a in 619.420 seconds (including dispatch/collection), running the affected checks and genuinely reusing
 51 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
@@ -68,7 +68,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **83.7%**: feature families 40%,
+The dashboard's configurable progress index is **83.9%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -101,9 +101,9 @@ four balanced forks. A four-rank inline queue for single-source batches reduces
 large change-solve timings by 5.57–7.68% locally; multi-change routing is unchanged,
 and swap controls include slower observations. Original inputs, quality and physical
 callbacks remain intact. These native comparisons establish no general speedup.
-The current round267 stream comparison measures large hill/swap at
-616.103ms versus Java 386.106ms, and large tabu/swap at
-576.931ms versus 380.160ms, with equal scores.
+The current round270 stream comparison measures large hill/swap at
+509.212ms versus Java 345.745ms, and large tabu/swap at
+508.314ms versus 369.939ms, with equal scores.
 Java parity remains the target, multiplier 1.
 
 Sorted-set replacement now uses one staged snapshot, preserving multiplicities,
@@ -134,7 +134,10 @@ original ownership/nesting regressions cover the change. Native controlled resul
 are recorded per workload and host; local controls include a slower private
 hill/change case, so no general or standalone checkpoint gain is claimed.
 
-Evidence: work/round267-qualification/collection.json, gate-receipt.json,
+Evidence: work/round270-qualification/collection.json, gate-receipt.json,
+verdict.json, build-receipt.json, pair-results.json, remote-pair-results.json,
+profile-receipt.json and stream-performance-receipt.json;
+work/round267-qualification/collection.json, gate-receipt.json,
 verdict.json, build-receipt.json, pair-results.json, remote-pair-results.json
 and stream-performance-receipt.json;
 work/round266-qualification/collection.json, gate-receipt.json,
@@ -157,5 +160,20 @@ while retaining source facts, cached acceptance and normal rollback/inspection.
 Controlled same-library runner-a large 96-variable hill/change and hill/swap timings are
 2.69%/3.10% lower in all four forks, with unchanged full output/callback signatures.
 Local large swaps improve 3.40%; local changes vary and have a 1.69% higher median.
-These are bounded native improvements. Fresh Java large hill/swap still measures
-571.280 ms Rust versus 342.414 ms Java, at equal score; parity is not established.
+These are bounded native improvements. Its then-current Java large hill/swap
+measured 571.280 ms Rust versus 342.414 ms Java at equal score; the newer
+round270 measurement is above. Cross-run timings do not isolate gains.
+
+
+Optional shared-input fixed-link scoring now combines relationship lookup,
+projection and tracked terminal evaluation, retaining source facts, complete match
+inspection, zero/equal contributions, checked arithmetic and transactional
+rollback. Its explicit callback/ownership contract differs from separate nodes;
+the older declarations remain available. Four shared-input and twelve fused
+original regressions cover state, arithmetic, replay, actual work and panic paths.
+The adopted fused declaration reduces controlled large hill/change and hill/swap
+elapsed times by 14.21%/8.70% on runner-a and 11.27%/9.78% locally, all four forks.
+Sharing alone makes runner-a swaps 5.24% slower; the unchanged declaration control
+is roughly flat there and variable locally. Full output and physical-callback
+signatures agree. No general, tabu timing, standalone sharing, memory or Java-parity
+gain is claimed. Only the affected stream comparison was refreshed.

@@ -35,34 +35,27 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
             (id, value, case.weights[id][value])
         })?
     };
-    let (identities, edges) = if batched {
-        let linked = b.join_fixed_links_batched(
+    let (conflicts, edges) = if batched {
+        let conflicts = b.score_fixed_links_batched_shared(
+            "conflicts",
             &jobs,
             &jobs,
             case.edges.iter().enumerate().map(|(e, &(i, j))| (e, i, j)),
             |_, a, b| a.1 == b.1,
             |&e, _, _| e,
+            |_| HardSoftScore::new(-1, 0),
         )?;
-        (linked, None)
+        (conflicts, None)
     } else {
         let edges = b.source::<usize, (usize, usize, usize)>();
         let a = b.join_equal(edges.port(), &jobs, |e| e.1, |j: &Job| j.0)?;
         let ab = b.join_equal(&a, &jobs, |(e, _)| e.2, |j: &Job| j.0)?;
-        let conflicts = b.filter(&ab, |((_, a), b)| a.1 == b.1)?;
-        (b.map(&conflicts, |((e, _), _)| e.0)?, Some(edges))
-    };
-    let conflicts = if batched {
-        b.score_fixed(
-            "conflicts",
-            &identities,
-            case.edges
-                .iter()
-                .enumerate()
-                .map(|(e, &(i, j))| ((e, i), j)),
-            |_| HardSoftScore::new(-1, 0),
-        )?
-    } else {
-        b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?
+        let matching = b.filter(&ab, |((_, a), b)| a.1 == b.1)?;
+        let identities = b.map(&matching, |((e, _), _)| e.0)?;
+        (
+            b.score("conflicts", &identities, |_| HardSoftScore::new(-1, 0))?,
+            Some(edges),
+        )
     };
     let grouped = if batched {
         b.group_sum_wrapping_batched(&jobs, |&(_, v, w)| (v, w))?

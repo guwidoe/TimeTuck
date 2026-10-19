@@ -23,6 +23,11 @@ impl<T> Slots<T> {
     pub(super) fn set(&mut self, index: usize, value: Option<T>) {
         self.replace(index, value.map(Rc::new));
     }
+    // Explicit shared-input adapters retain the producer's immutable row owner.
+    // Ordinary set above keeps its allocation and ownership behavior unchanged.
+    pub(super) fn set_shared(&mut self, index: usize, value: Option<Rc<T>>) {
+        self.replace(index, value);
+    }
     fn replace(&mut self, index: usize, value: Option<Rc<T>>) {
         let old = std::mem::replace(&mut self.values[index], value);
         if !self.frames.is_empty() {

@@ -17,7 +17,80 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 268 explicit batched filter-map
+## Latest qualification — 270 shared fixed-link scoring
+
+Added optional shared-input fixed-link joins and fully tracked fused scoring,
+including direct, weighted and exact-decimal builders. Endpoint caches retain the
+incoming typed Rc owners, without Clone bounds on either endpoint payload. Fused
+scoring keeps canonical match IDs, tuple/score inspection, source facts, zero/equal
+contributions, snapshots, nested rollback, saved winners and weight/activity replay.
+It removes intermediate relationship events and interleaves predicate, projection
+and scoring callbacks. These are explicit declarations with documented ownership
+and pure-callback contracts; existing fixed-link declarations remain available.
+Early endpoint installation is covered by actual graph checkpoints and failed
+transactions cannot inspect or commit it. Actual attempted score callbacks remain
+counted on error, panic and rollback through indexed per-node counters; getters
+remain constant time. Four shared-input and twelve fused original tests add no
+upstream-method credit. See the stream contract.
+
+One fresh production release library serves three private declaration controls;
+the actual qualified 268 executable is the fourth control. All 128 small controls
+and every timed assignment/score/physical-callback signature agree. Four balanced
+pinned forks on each host, original 96-variable hill/change and hill/swap cases:
+
+| Host | Combined change elapsed time | Combined swap elapsed time |
+| --- | --- | --- |
+| runner-a | 14.21% lower, 4/4 forks | 8.70% lower, 4/4 forks |
+| Local | 11.27% lower, 4/4 forks | 9.78% lower, 4/4 forks |
+
+Sharing alone is not universally faster: runner-a swaps are 5.24% slower with the
+shared join alone. Fused scoring reduces that shared-join control by 13.08%.
+The unchanged declaration control is roughly flat on runner-a; local swaps have a
+3.29% higher median, so do not claim blanket neutrality or attribute all control
+variation to one implementation detail. No general, tabu timing, standalone
+allocation or whole-graph memory gain is established. The canonical batched
+adapter explicitly selects the fused tracked declaration; immediate mode,
+fixtures/moves/budgets and quality checks remain unchanged.
+
+Final `bash scripts/check.sh` passed once on runner-a: **8,494 Rust +290 doctests**,
+96 jobs run/51 genuinely reused, worker 614.106s,
+dispatch/collection 619.420s. Native digest
+`40b35ec681a0e312666fb1a8be1733abe265557419aab5e3806148a25fc143ff`.
+Actual source-bound logs/metadata collected unchanged; no duplicate local full
+gate or result rekey. Release library/three-client build 93.808s; final example-only
+adoption 8.26s genuinely reuses that library. Focused tests and all-target clippy
+passed before release. No upstream pin/provenance/inventory changes.
+
+Only the affected stream Java/native comparison refreshed on final source with
+original 50 steps, 3 warmups, 5 samples and 3 forks: 128 equal controls and all eight
+timing workloads equal quality. Large hill/swap Rust 509.212 ms / Java 345.745 ms;
+tabu/swap 508.314/369.939 ms. Java parity remains unmet. Cross-run timing changes
+are not gain evidence. Other 17 raw reports retain keys/dates and stay stale.
+Index 83.902%, 1/18 current; inventory 4410/4855 (90.834%), 10 pending,
+435 excluded, zero failed/unverified unchanged. Java target multiplier 1.
+HTTP/data/freshness verified; unchanged rendering/consumed data contract reuse
+254 browser evidence. runner-c parked. Goal incomplete.
+
+A fresh final-source cpu-clock profile has 1K+ samples, no lost samples and five
+exact outputs. Sum-group dispatch (15.22% inclusive), fused links (12.93%) and
+transaction drop (21.92%) identify remaining work; percentages overlap and sampling
+does not establish speed gains. Next investigate group-state/journal allocation
+under the same source-fact, match, rollback and quality contracts. Do not rerun
+unchanged suites or all 17 historical comparisons merely to clear stale labels.
+
+Frozen source-only 270/271 bundles remain historical and unmodified. This actual
+parent integration refines early endpoint installation; its release/gate evidence
+is separate. The bounded read-only integration review found no actionable defect
+in checkpoint, poisoning, registry or callback accounting paths. Prior 269 public
+Community probes justify no native metadata change or extra agreement credit.
+
+Evidence: work/round270-qualification/{integration,build-receipt,final-build-receipt,
+gate-receipt,collection,verdict,profile-receipt}.json, pair-results.json,
+remote-pair-results.json, stream-performance-receipt.json;
+work/parallel-round270-evidence.json. Review:
+work/round271-fused-link-constraint/review/integration-review.md.
+
+## Previous qualification — 268 explicit batched filter-map
 
 Added production `filter_map_batched`: one final put/retract per delivered input
 ID, with the first ID representative and last payload, projected in sorted order.

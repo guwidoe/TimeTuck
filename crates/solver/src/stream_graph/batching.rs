@@ -358,7 +358,13 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 .filter(|(_, e)| self.graph.nodes[id].evaluates_score(e))
                 .count() as u128;
             let old = self.graph.nodes[id].score();
-            let outputs = self.graph.nodes[id].apply_batch(&inputs, arithmetic);
+            let outputs = {
+                let _count = ScoreEvaluationDelta::new(
+                    self.graph.score_evaluation_counters[id].as_ref(),
+                    &mut self.score_evaluations,
+                );
+                self.graph.nodes[id].apply_batch(&inputs, arithmetic)
+            };
             pending.recycle(id, inputs);
             let outputs = outputs?;
             let new = self.graph.nodes[id].score();
