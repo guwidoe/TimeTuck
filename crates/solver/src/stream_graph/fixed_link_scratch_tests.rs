@@ -50,6 +50,9 @@ fn node(trace: &Trace, failure: &Rc<Cell<u8>>) -> Links {
         left_changes: Vec::new(),
         right_changes: Vec::new(),
         affected: Vec::new(),
+        left_inputs: vec![usize::MAX; 2],
+        right_inputs: vec![usize::MAX; 2],
+        inputs_indexed: false,
         predicate: Box::new(move |_, a, b| {
             calls.borrow_mut().push(("predicate", a.0, b.0));
             assert!(!(fail.get() == 1 && a.0 == 9), "predicate");
@@ -213,5 +216,74 @@ fn panic_dirty_scratch_restores_then_retries_with_fresh_callback_clone_drop_trac
         assert_eq!(actual_values, values(&expected));
         drop(expected);
         assert_eq!(actual_trace, *fresh_trace.borrow());
+    }
+}
+
+#[test]
+fn shorter_retry_clears_endpoint_positions_after_success_and_each_panic_stage() {
+    for failure in [0, 1, 2, 3] {
+        let trace = Trace::default();
+        let fail = Rc::new(Cell::new(0));
+        let mut n = node(&trace, &fail);
+        let initial = inputs(
+            &trace,
+            &fail,
+            &[
+                (false, "z", Some(8)),
+                (true, "z", Some(7)),
+                (false, "a", Some(5)),
+                (true, "a", Some(6)),
+            ],
+        );
+        drop(apply(&mut n, &initial));
+        let saved = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
+        let bad = inputs(
+            &trace,
+            &fail,
+            &[
+                (true, "unknown", Some(99)),
+                (false, "z", Some(8)),
+                (false, "a", Some(9)),
+                (true, "z", Some(7)),
+            ],
+        );
+        fail.set(failure);
+        let attempted = catch_unwind(AssertUnwindSafe(|| apply(&mut n, &bad)));
+        assert_eq!(attempted.is_err(), failure != 0);
+        drop(attempted);
+        fail.set(0);
+        <Links as Node<SimpleScore>>::restore(&mut n, saved);
+        drop(bad);
+        // The failed round left input position 2 for left endpoint "a". The
+        // retry has one right-side event: stale lookup would panic or use its
+        // payload as the unchanged left row. Check exact callbacks/ownership too.
+        let retry = inputs(&trace, &fail, &[(true, "z", Some(10))]);
+        trace.borrow_mut().clear();
+        let output = apply(&mut n, &retry);
+        assert_eq!(values(&output), [("e0".to_owned(), Some(15))]);
+        assert_eq!(
+            *trace.borrow(),
+            [
+                ("predicate", 5, 10),
+                ("projection", 5, 10),
+                ("clone", 10, 0),
+                ("drop", 7, 0)
+            ]
+        );
+        drop(output);
+        assert_eq!(trace.borrow().last(), Some(&("drop", 15, 0)));
+        assert_eq!(n.left.get(0).unwrap().0, 5);
+        assert_eq!(n.left.get(1).unwrap().0, 8);
+        assert_eq!(n.right.get(0).unwrap().0, 6);
+        assert_eq!(n.right.get(1).unwrap().0, 10);
+        // Empty and unknown-only rounds also invalidate the previous lookup.
+        assert!(apply(&mut n, &[]).is_empty());
+        let unknown = inputs(&trace, &fail, &[(false, "unknown", Some(42))]);
+        assert!(apply(&mut n, &unknown).is_empty());
+        let next = inputs(&trace, &fail, &[(false, "a", Some(4))]);
+        assert_eq!(
+            values(&apply(&mut n, &next)),
+            [("e0".to_owned(), Some(14)), ("e2".to_owned(), Some(10))]
+        );
     }
 }

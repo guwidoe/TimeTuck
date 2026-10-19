@@ -23,6 +23,11 @@ struct FixedLinks<'a, E, I, J, L, R, U> {
     left_changes: Vec<(usize, usize)>,
     right_changes: Vec<(usize, usize)>,
     affected: Vec<usize>,
+    // Current input positions by immutable endpoint slot. Clear only the slots
+    // recorded by the preceding successful indexing pass before reusing changes.
+    left_inputs: Vec<usize>,
+    right_inputs: Vec<usize>,
+    inputs_indexed: bool,
     predicate: Box<Predicate<'a, E, L, R>>,
     projection: Box<Projection<'a, E, L, R, U>>,
 }
@@ -106,16 +111,15 @@ fn latest_slots<I: Ord + 'static, T: 'static>(
     });
 }
 fn after<'a, I: 'static, T: 'static>(
-    changes: &[(usize, usize)],
+    input: usize,
     inputs: &'a [(bool, Event)],
-    slot: usize,
     old: Option<&'a T>,
 ) -> Option<&'a T> {
-    changes
-        .binary_search_by_key(&slot, |c| c.0)
-        .map_or(old, |i| {
-            typed::<I, T>(&inputs[changes[i].1].1).value.as_ref()
-        })
+    if input == usize::MAX {
+        old
+    } else {
+        typed::<I, T>(&inputs[input].1).value.as_ref()
+    }
 }
 impl<
     E: Ord + Clone + 'static,
@@ -179,6 +183,18 @@ impl<
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
     ) -> Result<BatchOutputs, GraphError> {
+        // Invalidate positions before latest_slots can clear/rewrite its scratch
+        // or panic in user ordering. A failed indexing pass leaves both arrays
+        // empty; callback/input-clone failures retain valid cleanup slot lists.
+        if self.inputs_indexed {
+            for &(slot, _) in &self.left_changes {
+                self.left_inputs[slot] = usize::MAX;
+            }
+            for &(slot, _) in &self.right_changes {
+                self.right_inputs[slot] = usize::MAX;
+            }
+            self.inputs_indexed = false;
+        }
         latest_slots::<I, L>(
             inputs,
             false,
@@ -193,11 +209,16 @@ impl<
             self.direct_right,
             &mut self.right_changes,
         );
+        // Both changed-slot lists are now valid cleanup lists, including if
+        // affected-link scratch growth fails before every position is filled.
+        self.inputs_indexed = true;
         self.affected.clear();
-        for &(i, _) in &self.left_changes {
+        for &(i, input) in &self.left_changes {
+            self.left_inputs[i] = input;
             self.affected.extend_from_slice(&self.left_links[i]);
         }
-        for &(j, _) in &self.right_changes {
+        for &(j, input) in &self.right_changes {
+            self.right_inputs[j] = input;
             self.affected.extend_from_slice(&self.right_links[j]);
         }
         self.affected.sort_unstable();
@@ -208,8 +229,8 @@ impl<
             let (i, j) = self.endpoints[index];
             let old_l = self.left.get(i);
             let old_r = self.right.get(j);
-            let value = after::<I, L>(&self.left_changes, inputs, i, old_l)
-                .zip(after::<J, R>(&self.right_changes, inputs, j, old_r))
+            let value = after::<I, L>(self.left_inputs[i], inputs, old_l)
+                .zip(after::<J, R>(self.right_inputs[j], inputs, old_r))
                 .and_then(|(l, r)| {
                     (self.predicate)(edge, l, r).then(|| (self.projection)(edge, l, r))
                 });
@@ -306,6 +327,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             left_changes: Vec::new(),
             right_changes: Vec::new(),
             affected: Vec::new(),
+            left_inputs: vec![usize::MAX; by_left.len()],
+            right_inputs: vec![usize::MAX; by_right.len()],
+            inputs_indexed: false,
             links,
             endpoints,
             direct_left: contiguous_slots(&by_left),

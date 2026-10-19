@@ -2326,6 +2326,14 @@ incident links, coalescing changes to both endpoints before predicate/projection
 Relationship metadata is retained across graph rebuilds; changing relationships
 requires a new graph. Dynamic relationship facts still use ordinary joins.
 
+Batched endpoint lookup retains one input-position word per declared endpoint,
+plus two vector headers and a validity flag. Only positions from the preceding
+indexed round are cleared before collecting new changes. Ordering, projection or
+payload-clone panics cannot expose stale positions to a shorter retry. This is
+private scratch state: callback/Clone/Drop order, captured rows, output identity,
+snapshots, saved candidates and rollback contracts remain unchanged. The added
+endpoint space avoids repeated searches within the changed-input lists.
+
 The node retains O(links) immutable adjacency plus linked input rows, with no
 accepted-pair table or intermediate edge/job tuples. Pure callbacks may be rerun
 on old inputs to decide retractions. Existing graph journals, snapshots, saved

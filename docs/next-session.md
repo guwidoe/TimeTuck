@@ -17,7 +17,55 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 265 sorted-set replacement staging
+## Latest qualification — 266 fixed-link endpoint positions
+
+FixedLinks.apply_batch caches current input positions in immutable endpoint slots,
+removing two repeated binary searches per affected relationship. Cleanup visits
+only prior changed slots; successful/failed rounds, empty and shorter retries keep
+fresh positions. This adds one usize per endpoint, two Vec headers and a flag;
+it is a time/space tradeoff. Callback/Clone/Drop order, rows, outputs, snapshots,
+rollback, physical work, fixtures and benchmark settings remain unchanged.
+Six focused tests and one new original panic/retry regression pass. No additional
+upstream-method credit or public API/bounds changes.
+
+Actual distinct native release binaries, same compiler/flags/build paths, preserve
+all 128 original controls and timed assignment/score/callback signatures. The
+first runner-a large hill/swap comparison improves 2.21%, with one slightly slower
+fork. One longer target-only confirmation (nine samples, four balanced forks)
+improves 1.44%, all four forks; canonical measurement settings remain unchanged.
+Other controls mostly flat; local timings variable. No general, tabu timing,
+Java-parity or memory-saving claim. Retained gain is modest.
+
+Final bash scripts/check.sh passed once on runner-a: 8,446 Rust tests +290
+doctests, 84 jobs run/63 genuinely reused; worker 290.08s,
+wrapper 296.77s. Native digest e3ec934a911c97717b51e6568b7a82d1b0963080a93f6080dd5bf51bb4eff9b8.
+Actual source-bound Rust/doctest logs and metadata collected unchanged. No second
+local gate or result rekey. Original pin/provenance unchanged; inventory remains
+4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified.
+
+Only stream performance deliberately refreshed against pinned Java with original
+settings: all 128 controls and eight timed workloads retain equal scores. Large
+hill/swap Rust 802.513ms vs Java 475.796ms; large tabu/swap 1706.744/892.788ms.
+Shared-host load varies; do not attribute cross-run Java ratio changes to this
+patch. Java median parity at equal-or-better quality remains the target, multiplier1.
+The other 17 raw reports retain dates/keys; aggregate remains current from265,
+16 others stale. Dashboard index 84.123%, 2/18 current. HTTP/data/freshness
+verified; unchanged rendering reuses254 browser evidence. Server localhost:8765.
+
+Next-batch source-only overlays are frozen under work/round267-sum-capability/
+and work/round267-checkpoint-allocation/. They are UNBUILT/UNTESTED and not part
+of this qualification. The former adds explicit sum-only grouping; the latter
+recycles empty checkpoint carriers without retaining user values. Review exact
+base hashes and compose overlapping graph files before integration; qualify real
+compiled source and preserve original work/quality controls. Both agents finished.
+runner-c parked. Remaining compatibility/behavior gaps unchanged. Goal incomplete.
+
+Evidence: work/round266-qualification/{collection,gate-receipt,verdict}.json,
+stream-paired/results.json, stream-remote-results.json,
+stream-confirmation/stream-remote-results.json, stream-performance-receipt.json;
+work/parallel-round266-evidence.json.
+
+## Previous qualification — 265 sorted-set replacement staging
 
 SetCollector.replace now stages removal/insertion once, avoiding redundant nested
 snapshots and copies of just-modified persistent paths. Captured multiplicities,
