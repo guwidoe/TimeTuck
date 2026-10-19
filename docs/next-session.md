@@ -3093,7 +3093,7 @@ or authentication request. Computer-use guidance forbids automating auth dialogs
 ## Completed focused slices — rounds148/149, integrated in round150
 
 Round148 optional RepairedKOptProvider is frozen at c9cde056 in managed
-`/home/ralph/.codex/worktrees/repaired-provider-round148/TimeTuck`. Four originals
+`/home/developer/.codex/worktrees/repaired-provider-round148/TimeTuck`. Four originals
 and affected Clippy passed; no source credit/default/kernel changes. Parent review
 is done and13 source/helper/log/manifest files are preserved/hashchecked under
 `work/round148-agent-evidence/repaired-provider`. Native seeded live draws feed
@@ -3103,7 +3103,7 @@ Both scoring backends improve independently scored routes under explicit limits.
 Initial compile/two original-control failures remain preserved. No live148 jobs.
 
 Round149 service descriptor is implemented in managed
-`/home/ralph/.codex/worktrees/service-descriptor-round149/TimeTuck` at c9cde056.
+`/home/developer/.codex/worktrees/service-descriptor-round149/TimeTuck` at c9cde056.
 Its19 pure Community model-id/version/resource-path cases are currently covered
 by the broad service/quarkus exclusion; complete adapted assertions can earn
 credit via existing explicit provenance overrides after actual proof. Exclusion
@@ -3180,7 +3180,7 @@ four additional partner entries, whose meaning remains unproven. No invented
 aliases, capacity claim or constant tail. Final local56152 passed three originals
 plus six unchanged odd controls; Clippy93446 passed. Its source/commands/failed
 raw proofs await root preservation before archival. Current evidence in
-`/home/ralph/.codex/worktrees/kopt-repair-round145/TimeTuck/work/round145-kopt-repair-evidence.json`.
+`/home/developer/.codex/worktrees/kopt-repair-round145/TimeTuck/work/round145-kopt-repair-evidence.json`.
 
 The execution agent is running one separate bounded round146 public-API experiment
 on those additional entries. Fresh constructor/factory and observation-sensitive
@@ -7713,7 +7713,7 @@ existing clean diminished-returns checkout on codex/typed-stream-sources. No age
 or assignments were created. runner-c focused 10 source cases and three originals passed,
 as did focused strict Clippy. Feature branch commit 6b94f6a was cherry-picked as
 6983be0 after round58 postcommit proof completed. The secondary checkout remains
-clean at /home/ralph/.codex/worktrees/diminished-returns/TimeTuck; all work integrated.
+clean at /home/developer/.codex/worktrees/diminished-returns/TimeTuck; all work integrated.
 Focused runner-c logs/manifests copied unchanged into work/round59-focused-runner-c.
 
 Final frozen runner-a gate passed once: 6,944 Rust tests, 290 doctests;
@@ -7784,7 +7784,7 @@ retained completed families. Backend-only report refresh; no UI/benchmark repeat
 Prior performance measurements remain visibly stale. Objective active/incomplete.
 
 While this frozen gate ran, the primary agent reused the clean existing checkout
-/home/ralph/.codex/worktrees/diminished-returns/TimeTuck on the new branch
+/home/developer/.codex/worktrees/diminished-returns/TimeTuck on the new branch
 codex/typed-stream-sources; no agents or assignments were created. The next stream
 registry batch contains actual retained allocation/projection sources and ten complete
 unknown-class methods with proper arity/source/join prefixes. runner-c focused cases
