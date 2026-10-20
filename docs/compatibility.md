@@ -11189,3 +11189,22 @@ whole 96 26.238/27.762ms Rust/Java. Different sampling retains 64 valid/36 equal
 and 47 native/35 Java optima. Only repair report refreshed; other 17 raw reports unchanged.
 No new upstream-method credit, exclusion waiver or full-completion claim.
 See compat/observations/pooled-score-memo.json for source/artifact-bound evidence.
+
+## Approved connected-range completion policy
+
+On 2026-10-20 the user explicitly chose consistent native behavior over Java’s
+history-dependent range overlap flags. The snapshot-consistent native collector
+remains the completion target. Existing Java/native agreement and divergence
+counts stay unchanged; this decision earns no original-method or comparison
+passes. The source-bound witnesses and user decision are retained in
+[connected-range-history.json](../compat/observations/connected-range-history.json).
+
+## Approved list-metadata completion policy
+
+On 2026-10-20 the user explicitly chose stable native planning-value capture and
+rollback over Java’s post-move getter behavior. The native target remains the
+identities actually touched before each child executes, in stable first-touch
+order. The 16 differing successful Java sets, 40 getter errors and 33 unsupported
+empty compositions remain visible; none earn Java agreement or method credit.
+The [decision and complete comparison binding](../compat/observations/list-metadata-policy.json)
+are retained separately from the raw results.

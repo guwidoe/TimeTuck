@@ -498,6 +498,13 @@ empty-space semantics, callback overshoot and controlled-clock verification.
 
 ### Planning-value metadata comparison
 
+On 2026-10-20 the user explicitly chose “Keep stable native capture” for
+completion. The target remains values captured before each child executes,
+stable first-touch ordering and intact rollback. Java’s post-move getter
+membership differences, errors and unsupported empty compositions remain visible;
+none become Java agreement passes. The [decision and evidence](../compat/observations/list-metadata-policy.json)
+bind this policy to the complete retained comparison.
+
 The generated list comparison additionally exercises native
 `ListProblem::planning_values` against an independent Python replay and pinned
 Community public `Move.getPlanningValues()`. The same 512 original cases plus

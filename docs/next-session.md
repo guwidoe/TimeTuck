@@ -17,48 +17,53 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
 independent build/test work. Preserve live runs across observation timeouts.
 
-## Current state — 303 same-context pooled scores
+## Current state — 304 source qualification and policy decisions
 
-Explicitly cached required-basic Dense/Pooled selection can reuse a successful
-ordinary score only for an exact normalized base and unchanged active inputs.
-Fixed integer scores opt in through a default-false capability, Checked only.
-Real assignment validation, fresh structural state, complete saved updates and
-all budgets/ties/actual callback counts remain. Eight original regressions add
-no upstream-method credit. Native `91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941`.
+Native source is unchanged from qualified 303:
+`91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941`. Reuse **8,600 Rust tests +292 doctests** and the
+successful source-bound gate; no repeated broad gate or browser suite this batch.
 
-Qualified batch: **8,600 Rust tests +292 doctests**, 2 RUN /
-146 REUSE, 98.618s. The build-only precompile took 742.150s with eight workers;
-normal gate environment retains four. The initial 392.839s gate hit five existing 10 ms archive
-fixture deadlines under load; failed suite 02 passed unchanged on selective retry.
-Other successful Rust jobs were reused; initial failure evidence is retained.
-Source/artifacts/complete controls are bound in
-work/round303-qualification/ and compat/observations/pooled-score-memo.json.
-All four original repair workloads and three native representations retain four balanced forks.
-Whole 96 cached is 21.55% faster in all four forks; 64 cases in three native modes retain
-full results/physical calls. Uncached half 96 initially 8.74% slower; targeted eight-fork
-follow-up 1.99% slower, mixed forks. No general speed or memory saving claim.
+All **18/18 reports are current**. Four complete differential jobs ran locally;
+thirteen complete performance jobs ran on runner-a with both runtimes on its CPU.
+Repair's already current 303 report retains its exact bytes/date/key. All original
+settings, fixtures, full native controls, sampled outputs and quality criteria
+remain. No reduced cases, new credits, exclusions or relabeled older results.
 
-Actual same-CPU runner-a Java comparison: **4/4 repair workloads at time parity**,
-all timed scores `[0,0]` equal. Whole 96 **26.238 ms Rust /27.762 ms Java**, still
-149,001 logical evaluations, eight repairs, 131,511 actual callbacks. All 64 validation cases
-valid, 36 equal scores, 47 native/35 Java optima under documented sampling differences.
-Only repair refreshed; other 17 raw reports unchanged and relevant stale keys remain.
-Dashboard measured index is 86.276%, with 1/18 reports current and 17 stale.
-This is a tracked-target index, not remaining effort or an ETA.
-Dashboard UI/data contract unchanged; reuse actual 296 rendering plus current HTTP.
+**108/109 timed workloads meet the target; 13/14 complete performance sections.**
+The sole current miss is warm `mixed-clustered-pins · stream`: **12.931825 ms Rust
+/11.849886 ms Java**, ratio 1.091304, equal score `[0,-338]`. Other seven mixed
+rows meet the target. This is a new same-CPU measurement, not a controlled
+cross-run native regression claim. The next implementation target is this case;
+do not re-audit resolved range/list/JVM seams or blindly refresh all reports again.
 
-runner-c accepted the worker then went offline; SSH exited 255 and worker outcome remains
-unresolved. Preserve snapshot 1907025058c609b7804eb5b66b8e97cefcdd6d579d3e6bebc5f32011fb66bb6a,
-collect original receipts if it returns, do not restart blindly. runner-a release
-and Java jobs are terminal. Local broad gate covers the retained shared change.
-Both remote shared Cargo targets need genuine builds before other source claims;
-runner-a current repair artifact 3ccd28f7f19f897f793b4d0498b2fbb4b0f2f502b04f9294f72d89ab71bede2a.
-Do not transplant binaries/cache fingerprints or restore Rust mtimes.
+The actual measured mixed artifact is saved outside Cargo target:
+`work/round304-qualification/baseline-mixed_solver_benchmark`, SHA256
+`f1a2bfa29c575abb33e3f312809625f124efddc5b51f11558ab4099b37f3a2d8`.
+`mixed-baseline-artifact.json` binds it to runner-a's actual measurement/source.
+Use the existing original row/config/control outputs to profile/compare it;
+genuinely build changes, never transplant target artifacts/fingerprints or mtimes.
+runner-a queue and all local jobs are terminal. runner-c remains offline; its 303 worker
+outcome remains unresolved, preserve that snapshot and do not restart blindly.
 
-Goal remains incomplete. Inventory unchanged 4410/4855, 10 pending, 435 excluded;
-connected-range/history and other recorded behavior gaps remain unresolved.
-Next: close another relevant compatibility/performance gap using this qualified
-baseline; no repeat of 301/302 microtrials or unchanged behavior audits.
+User explicitly chose **consistent native range behavior** and **stable native
+list capture/rollback**, instead of Java's history flags/post-move getter behavior.
+Both approvals are recorded in compat/observations/. Strict agreements remain
+range 66/197 with 197 native passes; list metadata 425/514 with 514 native passes,
+16 differences, 40 Java errors, 33 unsupported; cyclic 107/128 and 21 Java errors.
+Native/reference success never becomes Java agreement. Preserve all raw cases.
+
+Dashboard strict measured index **95.541%**, source inventory
+4410/4855, 10 pending, 435 excluded, zero failed/unverified. This index is not effort,
+ETA or native completion. The ten pending remain eight JVM/API seams plus two private kopt
+array assertions; native physical kopt exists. A read-only scope trace found no
+new missing native algorithm. Goal remains incomplete: current timing target
+still misses one workload and final native readiness must stay distinct from the
+strict original comparison index. Design only for that future model supplement:
+work/round304-completion-model-design.md; both user policy approvals arrived
+subsequently. Do not turn accepted policies/errors into agreement passes.
+
+Evidence: compat/observations/current-source-qualification.json,
+work/round304-qualification/ and work/parallel-round304-evidence.json.
 
 ## Previous implementation — 299 coalesced checked-sum replacements
 
@@ -188,29 +193,29 @@ a bounded read-only review; no new agent was created. All qualification processe
 
 ## Remaining limits and retained evidence
 
-- Ten pending upstream methods are eight JVM/loading/framework seams and two
-  private k-opt descriptor-array assertions, not ten missing native algorithms.
-  Original methods/denominators stay visible; no reclassification for credit.
-- Connected-range agreement remains 66/197 under the explicit wrapping metric;
-  native/reference checks pass all 197. The 131 differences include Java history
-  bugs. `compat/observations/connected-range-history.json` retains the contradictory
-  histories; the user policy question remains unanswered. Do not infer a waiver.
-- List metadata retains 425/514 agreements: 16 differences, 40 Java errors and
-  33 unsupported empty cases. Prior public probes found no justified native fix;
-  retain their complete observations rather than repeating the same audit.
-- Cyclic-supplier checks retain 107/128 agreements and 21 actual Java errors.
-  Native-reference passes never count Java failures as successful agreement.
-- Great Deluge292 retains its original evidence (see live freshness): explicit binary64 276/276, 25/25 prefixes
-  and 184/184 additional probes; exact default stays 275/276.
-  Encounter-order ranking has 4824/4824 agreements; total-order controls retain
-  4499 agreements/325 differences. Load-balance binary64/wrapping policy has
-  101/101 last-observed agreements, exact-root control 100 and default 97; it is
-  stale now. Do not repeat unchanged successful investigations for a new turn.
-- Mixed296 is now stale; its last observation is **8/8** at measured Java parity and equal quality in all eight. Larger Stream warm 15.196/16.751 ms Rust/Java, cold 14.990/19.594 ms. Full same-graph Eq-only Dense/Stream and ordinary/v1 graph controls remain. No general/equal-work/memory claim.
-- Source restoration must write bytes or advance mtime; never copy old Rust
-  source mtimes or target fingerprints/binaries into a supposed new build.
-  Verify actual compiler artifacts before performance comparisons.
+- Ten pending upstream methods remain eight JVM/loading/framework seams and two
+  exact private k-opt descriptor-array assertions. Original identities and counts
+  stay visible; native physical k-opt execution does not make private arrays pass.
+- Connected ranges remain 66/197 Java agreement and 197 native-reference passes.
+  The user accepted consistent native behavior; history witnesses remain in
+  compat/observations/connected-range-history.json. This adds no Java passes.
+- List metadata remains 425/514 agreements, 16 differing sets, 40 Java errors and
+  33 unsupported empty compositions. The user accepted stable native capture and
+  rollback. See compat/observations/list-metadata-policy.json; no repeated audit
+  or reproduction of stale-coordinate getter failures is required.
+- Cyclic suppliers retain 107/128 agreements and 21 actual Java runtime errors.
+  Native independent reachability/recovery proof is separate; errors earn no
+  agreement credit. All current reports retain the complete unavailable cohort.
+- Current 304 solver comparisons retain binary64 Great Deluge 276/276, 25/25
+  prefixes and 184/184 additional probes, with exact-default 275/276. Encounter
+  ranking retains 4824/4824 and total-order controls 4499 agreements/325 differences.
+  Current load-balance selected policy is 101/101; exact-root control 100, default 97.
+  Do not repeat successful unchanged investigations for a new turn.
+- Current mixed performance is 7/8 at Java parity. Larger warm Stream is the sole
+  remaining measured timing miss; use its actual artifact and original controls
+  identified above. Larger optimum and identical Java search traces are not proved.
+- Restore source with fresh mtimes. Never transplant Cargo fingerprints/artifacts
+  or rewrite old measurement keys to claim a new build/qualification.
 
-
-Use docs/completion.md, docs/compatibility.md and native contracts for current scope,
-requirements and original evidence. Goal remains active and incomplete.
+Use docs/completion.md, docs/compatibility.md and native contracts for scope and
+original evidence. Goal remains active and incomplete.

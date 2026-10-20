@@ -1,0 +1,1271 @@
+{
+  "schema_version": 1,
+  "classification": "Actual unchanged-source qualification plus explicitly accepted native policies; no implementation/method credit",
+  "native_source": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+  "native_verification_reused": {
+    "path": "work/round303-qualification/gate-receipt.json",
+    "sha256": "f607190d75f052f44e2495dd41d30f1caee4b6f154039f3bcf9e588bf4faf5b6",
+    "rust_tests": 8600,
+    "doctests": 292,
+    "reason": "Rust inputs unchanged; source-bound successful checks reused"
+  },
+  "execution": {
+    "local": "Four complete differential report jobs with genuine current release builds and pinned Community runtime",
+    "runner-a": "Thirteen complete performance report jobs, same CPU for both runtimes, original settings/control data retained",
+    "runner-c": "Peer remains offline; round303worker outcome unresolved, not restarted or credited"
+  },
+  "jobs": [
+    {
+      "name": "differential",
+      "host": "runner-b",
+      "seconds": 189.01556398101093,
+      "command": [
+        "python3",
+        "scripts/differential_scores.py"
+      ],
+      "measurement_key": "ebd812daa899872c54ee1d3714f67f4d8fb351a1e9fa550faeedd6d544709b34",
+      "raw_sha256": "d0a3f19922063bd10ca8bf0cb2d721e1f68c24154f2ac57de93e6203a1482573",
+      "receipt": "work/round304-qualification/differential-receipt.json",
+      "receipt_sha256": "41d0f4aabb871484b67b95713ba929579b452ee89dbe5f97a604d1040ae085cc",
+      "reused": false
+    },
+    {
+      "name": "performance",
+      "host": "runner-a",
+      "seconds": 8.63813650899101,
+      "command": [
+        "python3",
+        "scripts/benchmark_scores.py",
+        "--iterations",
+        "5000000",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "9951c348b0fdd52a50126564aa9cd79df28ab289e78a4e891c9f1924e24f7fd0",
+      "raw_sha256": "ec85fe9111fcb4fb1d4cea0fb81e54288416b67788caca760f0ca7b40eb3a964",
+      "receipt": "work/round304-qualification/performance-receipt.json",
+      "receipt_sha256": "f9b24a1faf9390fd6aa07754d7d8e25a71f6bf2957100a06162257d88d482aef",
+      "reused": false
+    },
+    {
+      "name": "solver-differential",
+      "host": "runner-b",
+      "seconds": 319.9515708609979,
+      "command": [
+        "python3",
+        "scripts/differential_solver.py"
+      ],
+      "measurement_key": "a0693d9766228907891198eeb8d5e4f14ae8a2891e35fc40e197e7df43968078",
+      "raw_sha256": "a08c04d1588d12f683450aab54e5928d71e1a6f7d7fd0ac1eb785b3e8b78016a",
+      "receipt": "work/round304-qualification/solver-differential-receipt.json",
+      "receipt_sha256": "bc7c35a6018aa3894189437db80f11c65bc0de820c7b1065dad9041f96eaa0a0",
+      "reused": false
+    },
+    {
+      "name": "list-differential",
+      "host": "runner-b",
+      "seconds": 142.92021662999468,
+      "command": [
+        "python3",
+        "scripts/differential_lists.py"
+      ],
+      "measurement_key": "21549f8908a4139fa2108b4b222cbefa4b702c38cd7b4a9b9bb607be19b675fb",
+      "raw_sha256": "4a41fb96184914d620cf3af0aa654e45fc174e24d4a208d22c15bd3ae9e7b03d",
+      "receipt": "work/round304-qualification/list-differential-receipt.json",
+      "receipt_sha256": "712d12dfd71811a11a4ff6f151ab4900f61a54edc349595d05a55d6a810270df",
+      "reused": false
+    },
+    {
+      "name": "stream-differential",
+      "host": "runner-b",
+      "seconds": 332.0302356070024,
+      "command": [
+        "python3",
+        "scripts/differential_streams.py"
+      ],
+      "measurement_key": "b08952bff3bf1cf0ebb83384e846ebe2f0dbd251491faa67e9a49fc74bce8efd",
+      "raw_sha256": "fdf3aa2d1c12468ce964fc42b09aa19ba6a8a9d483780eab1c0688a756d82acc",
+      "receipt": "work/round304-qualification/stream-differential-receipt.json",
+      "receipt_sha256": "1c42d2d103c4f95d42bdfed8bbcee683be366c45d790303ab9a0997ae7946e9f",
+      "reused": false
+    },
+    {
+      "name": "solver-performance",
+      "host": "runner-a",
+      "seconds": 20.740024074999383,
+      "command": [
+        "python3",
+        "scripts/benchmark_solver.py",
+        "--iterations",
+        "5",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "6fe48082a107a6d66290a23f3cafe82d347df486bf00acbfd51c062ccfce980b",
+      "raw_sha256": "f29ce086d6154464c8242a30b1604a5091494ea7c4abdbeb2ac39f14323514ab",
+      "receipt": "work/round304-qualification/solver-performance-receipt.json",
+      "receipt_sha256": "870f9796cfffbc62bbf15fab2c66e08671a38efa99fa0e0629992237356584bc",
+      "reused": false
+    },
+    {
+      "name": "mixed-performance",
+      "host": "runner-a",
+      "seconds": 39.0205227349943,
+      "command": [
+        "python3",
+        "scripts/benchmark_mixed.py",
+        "--iterations",
+        "3",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3",
+        "--native-search-profile",
+        "component-refinement",
+        "--native-stream-graph-policy",
+        "owner-links-fused",
+        "--native-list-registry-policy",
+        "ordinal"
+      ],
+      "measurement_key": "f6a065afef143fe36021f1ff025395b0ce885bb7f11e5c4700e21d9f4fda3f86",
+      "raw_sha256": "e6024bc2d84ab7cca6dae430d1378ef27c22505f1a47a29d2d0d80db9e73fb18",
+      "receipt": "work/round304-qualification/mixed-performance-receipt.json",
+      "receipt_sha256": "89c7feda47f635348f3b1f26cdde1109e603a34051d7ac9fa32e34ae19cc3311",
+      "reused": false
+    },
+    {
+      "name": "heuristic-performance",
+      "host": "runner-a",
+      "seconds": 49.819168196991086,
+      "command": [
+        "python3",
+        "scripts/benchmark_heuristics.py",
+        "--steps",
+        "50",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "ae2c15bab879c727877cb9872cfa1e1852ab7e2b2d6d3bfbea28425adf48b67b",
+      "raw_sha256": "18207a7a1a7a6dfc3ad7634b542f31b7d237e77c6f6d7ee259b801bc6d93dbeb",
+      "receipt": "work/round304-qualification/heuristic-performance-receipt.json",
+      "receipt_sha256": "7bc63d4a9446d789bf7606109045ee581d95a15629f9aecf8635a5e8b58c65b6",
+      "reused": false
+    },
+    {
+      "name": "construction-performance",
+      "host": "runner-a",
+      "seconds": 23.793301452999003,
+      "command": [
+        "python3",
+        "scripts/benchmark_construction.py",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "56d4418c8c648cc51d998cf3b170de11ace8f66b91886c1507a9f3cfa67464af",
+      "raw_sha256": "73cc6808024a50176852dd9044139b07a7f8c743602406e99b3488610b5ba0ad",
+      "receipt": "work/round304-qualification/construction-performance-receipt.json",
+      "receipt_sha256": "70b6197a29fb8daa28fd7dee72a6d091af75f98163de8e55a395942fd96c7c6d",
+      "reused": false
+    },
+    {
+      "name": "repair-performance",
+      "host": "runner-a",
+      "seconds": 46.93064520500775,
+      "command": [
+        "python3",
+        "scripts/benchmark_repair.py",
+        "--steps",
+        "8",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3",
+        "--ruin-sampling",
+        "coverage-cycle",
+        "--construction-placement",
+        "cheapest",
+        "--native-scoring",
+        "incremental-cached"
+      ],
+      "measurement_key": "47c1ea3e91f7225a4939877e7aa395e29c67f309701585a489c0dc6bfdd38a06",
+      "raw_sha256": "38be8d0814789d8605ed754788560a01b980c234834188044f92f6004b84b35c",
+      "receipt": "work/round303-qualification/repair-performance-receipt.json",
+      "receipt_sha256": "7b9e146e5d0149287dcc224b57a897caac71500bb40f0bdf39013993ebf44a39",
+      "reused": true
+    },
+    {
+      "name": "list-repair-performance",
+      "host": "runner-a",
+      "seconds": 51.79092430300079,
+      "command": [
+        "python3",
+        "scripts/benchmark_list_repair.py",
+        "--steps",
+        "8",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3",
+        "--ruin-sampling",
+        "coverage-cycle"
+      ],
+      "measurement_key": "c9926d20accd0ff90196d9c697c9536a6439a0479f60677a1d5f888d96e372b9",
+      "raw_sha256": "9f7820fb893d4b26fb7fbd8a82e1c89d3fb3b1698b8a2e82031a46f7f516398f",
+      "receipt": "work/round304-qualification/list-repair-performance-receipt.json",
+      "receipt_sha256": "8aebb9c96eec1cc8199af9e08fef20f0b4c704c0324857a560f2e3cda1ad27de",
+      "reused": false
+    },
+    {
+      "name": "list-performance",
+      "host": "runner-a",
+      "seconds": 51.73931414699473,
+      "command": [
+        "python3",
+        "scripts/benchmark_lists.py",
+        "--steps",
+        "20",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "1c00a806033bfba9cda36bcb661b5eaf44a18f444c3167e067fa442172652dbf",
+      "raw_sha256": "cf7cd490819060ac9aebfa0fa2a96369445e9d65d783f4d3cf309a22fe648085",
+      "receipt": "work/round304-qualification/list-performance-receipt.json",
+      "receipt_sha256": "77150b044ff2639f39110acb79f6102aa0c8045eab232128f2434c147e28f21c",
+      "reused": false
+    },
+    {
+      "name": "kopt-performance",
+      "host": "runner-a",
+      "seconds": 24.900764149002498,
+      "command": [
+        "python3",
+        "scripts/benchmark_kopt.py",
+        "--steps",
+        "30",
+        "--evaluations",
+        "10000",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "4be8c7bfdbf45a9e70a4db7457a03e9661584c10c7be3a37dedb08ca59bf87b1",
+      "raw_sha256": "5d3e5464fdcae8cf57250743632fda25b8beba50a25c6558630874c0550a2250",
+      "receipt": "work/round304-qualification/kopt-performance-receipt.json",
+      "receipt_sha256": "45cb4b942531bf47ed9fd118f164553bbd741543c1a7dc76f43e0a575d3c40c9",
+      "reused": false
+    },
+    {
+      "name": "stream-performance",
+      "host": "runner-a",
+      "seconds": 67.3783402019908,
+      "command": [
+        "python3",
+        "scripts/benchmark_streams.py",
+        "--steps",
+        "50",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "30a13dd928271af7accef0cf1e2c0a8e55ace47819b46a98e8638777b59e8ad8",
+      "raw_sha256": "4cf48a7ee6df827409f451ddea774e1bf82d886a67ac41fcae9b8e50b9998fa2",
+      "receipt": "work/round304-qualification/stream-performance-receipt.json",
+      "receipt_sha256": "fe86c7506e5611070a1364afda4f280fbcdd9ba87627d54c794c484557ce3fc6",
+      "reused": false
+    },
+    {
+      "name": "concurrent-performance",
+      "host": "runner-a",
+      "seconds": 16.568244857000536,
+      "command": [
+        "python3",
+        "scripts/benchmark_concurrent.py",
+        "--iterations",
+        "200",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "806908e22b60cb96c6e8233a42024cb43cc7beb085078e4808c980f1f45c5af4",
+      "raw_sha256": "2d0fa7a1b2b8d0f1a265f92557004c535fd1e2495938d7a71d941fdce3dc8eb6",
+      "receipt": "work/round304-qualification/concurrent-performance-receipt.json",
+      "receipt_sha256": "5daf76b6db74c4ca16fe67671d85b72e70c2dd5a483a4296850ada8fb4bc9f66",
+      "reused": false
+    },
+    {
+      "name": "sequence-performance",
+      "host": "runner-a",
+      "seconds": 10.268304968005395,
+      "command": [
+        "python3",
+        "scripts/benchmark_sequences.py",
+        "--iterations",
+        "200",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "a9651828f8e1d2edb1bcaba047f40eac6440bab9f6502728fad182a57d612256",
+      "raw_sha256": "5574e20b5ff51543ca76e2f550b03cee4d35ae145f8c4963a07de0e2555f4cb1",
+      "receipt": "work/round304-qualification/sequence-performance-receipt.json",
+      "receipt_sha256": "3d96bcd7c73ef875b5f4bc9dc73a9fb5a420b1bc00879da899c487e19188aef5",
+      "reused": false
+    },
+    {
+      "name": "aggregate-performance",
+      "host": "runner-a",
+      "seconds": 5.579003877996001,
+      "command": [
+        "python3",
+        "scripts/benchmark_aggregates.py",
+        "--iterations",
+        "200",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "d73928d75c319273ee9c3581187fe7dc597b9fba83f30255ebbfd38c0e74c35f",
+      "raw_sha256": "3fa9ef102d344c874af1e1769cb4c87fe2ee41460c0d70d452c5b48ac8b1e880",
+      "receipt": "work/round304-qualification/aggregate-performance-receipt.json",
+      "receipt_sha256": "53587188f0dc9b97a3e3d3bef7c78d023aa205c8ae371171f260b80f7abd0fdf",
+      "reused": false
+    },
+    {
+      "name": "pillar-performance",
+      "host": "runner-a",
+      "seconds": 14.844487125010346,
+      "command": [
+        "python3",
+        "scripts/benchmark_pillars.py",
+        "--iterations",
+        "1000",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3"
+      ],
+      "measurement_key": "ff28ef1252a2d2658ad39dbaeff1a24d36e51cdbe6ea5a3ef05ed1c9313687a1",
+      "raw_sha256": "33f383379e895a40367d9fac4139cabe582f1ea137f4232308e3fc02d3d56860",
+      "receipt": "work/round304-qualification/pillar-performance-receipt.json",
+      "receipt_sha256": "698c6daf1ae2ad6cef3fa1d69971a19ef367e036f3ca44bafe69c2edb08381f9",
+      "reused": false
+    }
+  ],
+  "performance": {
+    "total_workloads": 109,
+    "time_and_quality_target_met": 108,
+    "complete_sections": 13,
+    "total_sections": 14,
+    "rows": [
+      {
+        "name": "performance",
+        "rows": [
+          {
+            "name": "simple",
+            "rust_median": 2.4084682,
+            "java_median": 5.7028016,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "hard_soft",
+            "rust_median": 7.9304014,
+            "java_median": 9.2795832,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "hard_medium_soft",
+            "rust_median": 8.482403,
+            "java_median": 8.6627862,
+            "time_parity": true,
+            "equal_scores": null
+          }
+        ]
+      },
+      {
+        "name": "solver-performance",
+        "rows": [
+          {
+            "name": "Brute force \u00b7 6 variables / 3 values",
+            "rust_median": 0.0158436,
+            "java_median": 2.4112676,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Brute force \u00b7 8 variables / 3 values",
+            "rust_median": 0.1919594,
+            "java_median": 4.875578,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 depth first \u00b7 6 variables / 3 values",
+            "rust_median": 0.011280799999999999,
+            "java_median": 1.3806836,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 depth first \u00b7 8 variables / 3 values",
+            "rust_median": 0.0401424,
+            "java_median": 2.1824312000000003,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 breadth first \u00b7 6 variables / 3 values",
+            "rust_median": 0.0673984,
+            "java_median": 2.0372928,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 breadth first \u00b7 8 variables / 3 values",
+            "rust_median": 0.9037106,
+            "java_median": 4.3261684,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 score first \u00b7 6 variables / 3 values",
+            "rust_median": 0.0119912,
+            "java_median": 1.2729494,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 score first \u00b7 8 variables / 3 values",
+            "rust_median": 0.083531,
+            "java_median": 2.4901422,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 optimistic bound first \u00b7 6 variables / 3 values",
+            "rust_median": 0.0129876,
+            "java_median": 1.5917716000000002,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Branch and bound \u00b7 optimistic bound first \u00b7 8 variables / 3 values",
+            "rust_median": 0.0911826,
+            "java_median": 2.2289832,
+            "time_parity": true,
+            "equal_scores": null
+          }
+        ]
+      },
+      {
+        "name": "mixed-performance",
+        "rows": [
+          {
+            "name": "mixed-small \u00b7 dense",
+            "rust_median": 0.166298,
+            "java_median": 4.279480333333333,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "mixed-small \u00b7 stream",
+            "rust_median": 0.346524,
+            "java_median": 4.279480333333333,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "mixed-clustered-pins \u00b7 dense",
+            "rust_median": 4.698942666666667,
+            "java_median": 11.849885666666665,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "mixed-clustered-pins \u00b7 stream",
+            "rust_median": 12.931824666666666,
+            "java_median": 11.849885666666665,
+            "time_parity": false,
+            "equal_scores": true
+          },
+          {
+            "name": "mixed-small-cold \u00b7 dense",
+            "rust_median": 0.16323033333333334,
+            "java_median": 5.732863333333333,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "mixed-small-cold \u00b7 stream",
+            "rust_median": 0.3476846666666667,
+            "java_median": 5.732863333333333,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "mixed-clustered-pins-cold \u00b7 dense",
+            "rust_median": 5.051204,
+            "java_median": 15.034807333333333,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "mixed-clustered-pins-cold \u00b7 stream",
+            "rust_median": 12.657059,
+            "java_median": 15.034807333333333,
+            "time_parity": true,
+            "equal_scores": true
+          }
+        ]
+      },
+      {
+        "name": "heuristic-performance",
+        "rows": [
+          {
+            "name": "Hill climbing \u00b7 32 variables",
+            "rust_median": 1.70213,
+            "java_median": 9.41314,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Hill climbing \u00b7 96 variables",
+            "rust_median": 8.72846,
+            "java_median": 15.379371,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Diversified late acceptance \u00b7 32 variables",
+            "rust_median": 1.794123,
+            "java_median": 9.475947,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Diversified late acceptance \u00b7 96 variables",
+            "rust_median": 8.782021,
+            "java_median": 15.349001,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Ratio tabu \u00b7 32 variables",
+            "rust_median": 1.841554,
+            "java_median": 10.137919,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Ratio tabu \u00b7 96 variables",
+            "rust_median": 8.982612,
+            "java_median": 16.788368,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Tabu \u00b7 32 variables",
+            "rust_median": 1.842384,
+            "java_median": 10.298191,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Tabu \u00b7 96 variables",
+            "rust_median": 8.995003,
+            "java_median": 15.994951,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Move tabu \u00b7 32 variables",
+            "rust_median": 1.680566,
+            "java_median": 10.143209,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Move tabu \u00b7 96 variables",
+            "rust_median": 8.644287,
+            "java_median": 16.248942,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Value tabu \u00b7 32 variables",
+            "rust_median": 1.738936,
+            "java_median": 9.034864,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Value tabu \u00b7 96 variables",
+            "rust_median": 8.766317,
+            "java_median": 15.475842,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Late acceptance + tabu \u00b7 32 variables",
+            "rust_median": 1.876487,
+            "java_median": 9.434363,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Late acceptance + tabu \u00b7 96 variables",
+            "rust_median": 9.187439,
+            "java_median": 17.612779,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Strategic oscillation \u00b7 last step \u00b7 32 variables",
+            "rust_median": 1.886209,
+            "java_median": 9.279576,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Strategic oscillation \u00b7 last step \u00b7 96 variables",
+            "rust_median": 9.09243,
+            "java_median": 17.411181,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Strategic oscillation \u00b7 best score \u00b7 32 variables",
+            "rust_median": 1.845937,
+            "java_median": 9.316322,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Strategic oscillation \u00b7 best score \u00b7 96 variables",
+            "rust_median": 9.008321,
+            "java_median": 18.976242,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Step counting \u00b7 32 variables",
+            "rust_median": 1.695553,
+            "java_median": 8.527578,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Step counting \u00b7 96 variables",
+            "rust_median": 8.65161,
+            "java_median": 17.279812,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Great Deluge \u00b7 32 variables",
+            "rust_median": 1.961599,
+            "java_median": 8.181757,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Great Deluge \u00b7 96 variables",
+            "rust_median": 9.070553,
+            "java_median": 15.294368,
+            "time_parity": true,
+            "equal_scores": true
+          }
+        ]
+      },
+      {
+        "name": "construction-performance",
+        "rows": [
+          {
+            "name": "Sequential \u00b7 32 variables",
+            "rust_median": 0.053445,
+            "java_median": 3.882036,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Sequential \u00b7 96 variables",
+            "rust_median": 0.592012,
+            "java_median": 5.219807,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Pooled cheapest insertion \u00b7 32 variables",
+            "rust_median": 0.711652,
+            "java_median": 5.613921,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Pooled cheapest insertion \u00b7 96 variables",
+            "rust_median": 22.243091,
+            "java_median": 39.305115,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Cycling value queue \u00b7 32 variables",
+            "rust_median": 0.225483,
+            "java_median": 3.619048,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Cycling value queue \u00b7 96 variables",
+            "rust_median": 6.460995,
+            "java_median": 15.608104,
+            "time_parity": true,
+            "equal_scores": true
+          }
+        ]
+      },
+      {
+        "name": "repair-performance",
+        "rows": [
+          {
+            "name": "Half-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+            "rust_median": 0.902893,
+            "java_median": 5.457962,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+            "rust_median": 7.793413,
+            "java_median": 18.460112,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Whole-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+            "rust_median": 2.659198,
+            "java_median": 6.691278,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Whole-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+            "rust_median": 26.237715,
+            "java_median": 27.761625,
+            "time_parity": true,
+            "equal_scores": true
+          }
+        ]
+      },
+      {
+        "name": "list-repair-performance",
+        "rows": [
+          {
+            "name": "Required list \u00b7 half maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+            "rust_median": 0.723661,
+            "java_median": 14.009851,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "Required list \u00b7 half maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+            "rust_median": 2.284023,
+            "java_median": 21.487991,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "Optional list \u00b7 half maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+            "rust_median": 0.624448,
+            "java_median": 12.388556,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "Optional list \u00b7 half maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+            "rust_median": 1.867898,
+            "java_median": 26.31922,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "Required list \u00b7 all maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+            "rust_median": 1.069628,
+            "java_median": 13.864397,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Required list \u00b7 all maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+            "rust_median": 4.072528,
+            "java_median": 21.350532,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Optional list \u00b7 all maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+            "rust_median": 0.910327,
+            "java_median": 14.11121,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Optional list \u00b7 all maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+            "rust_median": 3.31213,
+            "java_median": 18.923444,
+            "time_parity": true,
+            "equal_scores": true
+          }
+        ]
+      },
+      {
+        "name": "list-performance",
+        "rows": [
+          {
+            "name": "Construction \u00b7 16 customers",
+            "rust_median": 0.096744,
+            "java_median": 6.368254,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Construction \u00b7 32 customers",
+            "rust_median": 0.333171,
+            "java_median": 6.330873,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Hill climbing \u00b7 16 customers",
+            "rust_median": 2.182604,
+            "java_median": 16.648359,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Hill climbing \u00b7 32 customers",
+            "rust_median": 8.354606,
+            "java_median": 51.566366,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Two-opt \u00b7 16 customers",
+            "rust_median": 0.167725,
+            "java_median": 7.382827,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "Two-opt \u00b7 32 customers",
+            "rust_median": 0.494571,
+            "java_median": 7.731554,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "Value tabu \u00b7 relocation \u00b7 16 customers",
+            "rust_median": 2.374045,
+            "java_median": 16.350754,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Value tabu \u00b7 relocation \u00b7 32 customers",
+            "rust_median": 8.548229,
+            "java_median": 51.190024,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Value tabu \u00b7 relocation \u00b7 96 customers",
+            "rust_median": 88.684481,
+            "java_median": 340.130917,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Value tabu \u00b7 swaps \u00b7 16 customers",
+            "rust_median": 1.602086,
+            "java_median": 13.225612,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Value tabu \u00b7 swaps \u00b7 32 customers",
+            "rust_median": 6.391548,
+            "java_median": 27.532275,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Value tabu \u00b7 swaps \u00b7 96 customers",
+            "rust_median": 74.083074,
+            "java_median": 204.753926,
+            "time_parity": true,
+            "equal_scores": true
+          }
+        ]
+      },
+      {
+        "name": "kopt-performance",
+        "rows": [
+          {
+            "name": "K-opt 2\u20133 \u00b7 12 values \u00b7 window",
+            "rust_median": 2.917186,
+            "java_median": 8.006465,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "K-opt 2\u20133 \u00b7 16 values \u00b7 window",
+            "rust_median": 3.574048,
+            "java_median": 9.955059,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "K-opt 2\u20134 \u00b7 12 values \u00b7 window",
+            "rust_median": 7.176133,
+            "java_median": 8.578714,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "K-opt 2\u20134 \u00b7 16 values \u00b7 window",
+            "rust_median": 5.987848,
+            "java_median": 9.114478,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "K-opt 2\u20133 \u00b7 12 values \u00b7 sampled",
+            "rust_median": 0.963366,
+            "java_median": 8.015825,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "K-opt 2\u20133 \u00b7 16 values \u00b7 sampled",
+            "rust_median": 0.634338,
+            "java_median": 9.559621,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "K-opt 2\u20134 \u00b7 12 values \u00b7 sampled",
+            "rust_median": 1.863765,
+            "java_median": 9.420809,
+            "time_parity": true,
+            "equal_scores": false
+          },
+          {
+            "name": "K-opt 2\u20134 \u00b7 16 values \u00b7 sampled",
+            "rust_median": 1.074998,
+            "java_median": 8.923109,
+            "time_parity": true,
+            "equal_scores": false
+          }
+        ]
+      },
+      {
+        "name": "stream-performance",
+        "rows": [
+          {
+            "name": "Hill climbing \u00b7 change \u00b7 32 variables",
+            "rust_median": 8.086724,
+            "java_median": 14.201958,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Hill climbing \u00b7 change \u00b7 96 variables",
+            "rust_median": 21.636598,
+            "java_median": 24.513587,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Tabu \u00b7 change \u00b7 32 variables",
+            "rust_median": 8.380838,
+            "java_median": 14.283616,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Tabu \u00b7 change \u00b7 96 variables",
+            "rust_median": 21.683313,
+            "java_median": 30.072185,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Hill climbing \u00b7 swap \u00b7 32 variables",
+            "rust_median": 31.170524,
+            "java_median": 48.70987,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Hill climbing \u00b7 swap \u00b7 96 variables",
+            "rust_median": 281.037178,
+            "java_median": 341.226977,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Tabu \u00b7 swap \u00b7 32 variables",
+            "rust_median": 32.151141,
+            "java_median": 43.185989,
+            "time_parity": true,
+            "equal_scores": true
+          },
+          {
+            "name": "Tabu \u00b7 swap \u00b7 96 variables",
+            "rust_median": 288.679418,
+            "java_median": 350.957083,
+            "time_parity": true,
+            "equal_scores": true
+          }
+        ]
+      },
+      {
+        "name": "concurrent-performance",
+        "rows": [
+          {
+            "name": "Swap \u00b7 16 visits",
+            "rust_median": 0.031972895,
+            "java_median": 0.09252729999999999,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Swap \u00b7 64 visits",
+            "rust_median": 0.13313323,
+            "java_median": 0.221508355,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Relocate \u00b7 16 visits",
+            "rust_median": 0.022266949999999997,
+            "java_median": 0.05464918,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Relocate \u00b7 64 visits",
+            "rust_median": 0.072733855,
+            "java_median": 0.101486695,
+            "time_parity": true,
+            "equal_scores": null
+          }
+        ]
+      },
+      {
+        "name": "sequence-performance",
+        "rows": [
+          {
+            "name": "Dense \u00b7 64 items",
+            "rust_median": 0.006221225,
+            "java_median": 0.00962871,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Dense \u00b7 512 items",
+            "rust_median": 0.021944975000000002,
+            "java_median": 0.03528743,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Fragmented \u00b7 64 items",
+            "rust_median": 0.01298543,
+            "java_median": 0.040920575,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Fragmented \u00b7 512 items",
+            "rust_median": 0.07995027,
+            "java_median": 0.353821515,
+            "time_parity": true,
+            "equal_scores": null
+          }
+        ]
+      },
+      {
+        "name": "aggregate-performance",
+        "rows": [
+          {
+            "name": "Checked sum \u00b7 64 captures",
+            "rust_median": 2.9875e-05,
+            "java_median": 0.0005071450000000001,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Checked sum \u00b7 512 captures",
+            "rust_median": 3.2044999999999996e-05,
+            "java_median": 0.000504085,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Sorted set \u00b7 64 captures",
+            "rust_median": 0.000730675,
+            "java_median": 0.001476235,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Sorted set \u00b7 512 captures",
+            "rust_median": 0.0031926,
+            "java_median": 0.003985375,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Merged map \u00b7 64 captures",
+            "rust_median": 0.0026776850000000004,
+            "java_median": 0.006948805,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Merged map \u00b7 512 captures",
+            "rust_median": 0.005425315000000001,
+            "java_median": 0.007040365,
+            "time_parity": true,
+            "equal_scores": null
+          }
+        ]
+      },
+      {
+        "name": "pillar-performance",
+        "rows": [
+          {
+            "name": "Change \u00b7 16 entities",
+            "rust_median": 0.0011298159999999998,
+            "java_median": 0.004993946,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Change \u00b7 64 entities",
+            "rust_median": 0.0038255900000000002,
+            "java_median": 0.013062317,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Swap \u00b7 16 entities",
+            "rust_median": 0.001704704,
+            "java_median": 0.0066402530000000005,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Swap \u00b7 64 entities",
+            "rust_median": 0.005787185,
+            "java_median": 0.016981625,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Tuple Swap \u00b7 16 entities",
+            "rust_median": 0.003198751,
+            "java_median": 0.012176019,
+            "time_parity": true,
+            "equal_scores": null
+          },
+          {
+            "name": "Tuple Swap \u00b7 64 entities",
+            "rust_median": 0.0100819,
+            "java_median": 0.040806761999999996,
+            "time_parity": true,
+            "equal_scores": null
+          }
+        ]
+      }
+    ],
+    "remaining": [
+      {
+        "name": "mixed-clustered-pins \u00b7 stream",
+        "rust_median": 12.931824666666666,
+        "java_median": 11.849885666666665,
+        "time_parity": false,
+        "equal_scores": true
+      }
+    ]
+  },
+  "native_policy_decisions": {
+    "range": "compat/observations/connected-range-history.json",
+    "list_metadata": "compat/observations/list-metadata-policy.json",
+    "authority": "Two explicit user replies in this chat on2026-10-20; raw comparison counts/errors/unsupported unchanged"
+  },
+  "completion": {
+    "index": 95.54073711913784,
+    "current": 18,
+    "total": 18,
+    "java_time_multiplier": 1,
+    "strict_ready": false,
+    "goal_complete": false
+  },
+  "summary": {
+    "total": 4855,
+    "passed": 4410,
+    "failed": 0,
+    "pending": 10,
+    "excluded": 435,
+    "unverified": 0,
+    "percent": 90.834
+  },
+  "evidence": "work/round304-qualification/; work/parallel-round304-evidence.json",
+  "limits": "No new native code, upstream-method credit, exclusions or blanket Java-equivalence claim.17new authentic reports; qualified repair retains its exact bytes/source/date/key. Native scope audit found no newly missing algorithm, not proof of universal completeness. Strict comparison index unchanged; native-readiness supplement is design only. One current timing miss remains. Future source changes require relevant input checks, not relabeled prior results."
+}

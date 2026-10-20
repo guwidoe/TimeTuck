@@ -340,5 +340,12 @@
   "raw_evidence": {
     "java_receipt_sha256": "dc9814dae223deba0c5d6de5c38fa8f34b9cdcc6d1d16db51dd1724723e74615",
     "native_receipt_sha256": "8ad0b4f9da7c9f0a496ad49b686fff4014590c4ef3a9db873ed21f35c4764f0b"
+  },
+  "completion_policy_decision": {
+    "date": "2026-10-20",
+    "authority": "Explicit user reply in this project chat",
+    "answer": "Keep consistent native behavior",
+    "target": "Snapshot-consistent native half-open overlap flags, including empty intervals; do not imitate the observed Java insertion/removal-history bugs",
+    "accounting": "Accepted native completion policy only. Original Java/native agreement, divergence and unavailable-reference counts remain unchanged; no new test or agreement credit."
   }
 }

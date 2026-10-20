@@ -1544,6 +1544,12 @@ preserve both runtimes' actual outputs and their artifact identities. This
 qualification adds no upstream-method credit and does not refresh the older
 197-case report or the complete stream comparison job.
 
+On 2026-10-20 the user explicitly chose “Keep consistent native behavior” for
+completion. Snapshot-consistent overlap flags are therefore the native target;
+the observed Java history-dependent flags remain documented incompatibilities.
+This decision adds no Java agreement passes and does not alter the retained
+case counts, original-method inventory or historical execution evidence.
+
 ## Load balancing
 
 `LoadBalanceCollector<K>` consumes captured `(key, load: i64, initial_load: i64)`

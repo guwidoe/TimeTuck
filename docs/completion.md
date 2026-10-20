@@ -51,16 +51,22 @@ recorded identity/ranking policies. Shared cyclic-supplier comparisons retain
 21 actual Java runtime errors separately from successful-result agreement.
 See the [stream contracts](constraint-stream-contract.md) and
 [compatibility evidence](compatibility.md). Native-reference passes do not prove
-Java agreement. Completion still needs evidence for every original-scope
-requirement and resolution of the remaining relevant behavior differences.
+Java agreement. On 2026-10-20 the user chose consistent native range behavior
+rather than reproducing Java’s history-dependent overlap flags. That resolves
+the range completion-policy decision while retaining every actual comparison
+count. The user also chose stable native list capture and rollback over Java’s
+post-move getter behavior. Its 16 differing sets, 40 errors and 33 unsupported
+compositions remain visible. Completion still needs current evidence for every
+original-scope requirement; documented Java API differences do not prove native
+capability gaps.
 
-The last solver292 comparison (now stale) retains all 4,824 exact encounter-order
+The current 304 solver comparison retains all 4,824 exact encounter-order
 observations plus the original total-order controls (4,499 agreements and 325
 differences). Explicit binary64 Great Deluge now agrees in 276/276 original cases,
 25/25 boundary prefixes and 184/184 additional probes; exact-default controls stay
-275/276. These solver inputs are unchanged by the optional mixed graph declaration.
+275/276. All original controls remain visible in the refreshed report.
 
-The last stream comparison (289) is stale. Explicit signed-32-bit wrapping metrics
+The current 304 stream comparison retains explicit signed-32-bit wrapping metrics:
 retain 65/65 sequence agreements and 66/197 range agreements; all 197 native range
 cases pass independent modular calculations. The remaining 131 Java differences
 stay visible, including contradictory upstream histories. Exact-default controls
@@ -68,7 +74,25 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
-## Current implementation and measurements — 303
+## Current qualification — 304
+
+All 18 measurement reports now match the unchanged qualified native source above.
+Four complete differential jobs ran locally; 13 complete performance jobs ran on
+runner-a with both runtimes on the same CPU and original settings/quality/controls.
+The current repair report was reused unchanged. Of 109 timed workloads, 108 meet
+the configured time/quality target. Warm mixed Stream remains slower:
+**12.932 ms Rust /11.850 ms Java**, equal score `[0,-338]`; all other timed rows
+meet the target. 13/14 performance sections fully qualify. This measurement does
+not isolate a native regression against an older run on another machine.
+
+The strict comparison index is **95.541%**, 18/18 reports current.
+User-approved range/list native policies do not change its raw Java agreement,
+error or unsupported counts, or the original method inventory. This index is not
+remaining effort or a proof of native completion. The performance miss remains
+an implementation target; a separate native-readiness display is still only a
+design. See [current evidence](../compat/observations/current-source-qualification.json).
+
+## Previous implementation and measurements — 303
 
 Explicitly cached pooled construction now reuses successful ordinary scores only
 for the exact same base and unchanged scoped inputs. Every candidate still

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "boundary_id": "list-planning-value-metadata",
+  "completion_policy_decision": {
+    "date": "2026-10-20",
+    "authority": "Explicit user reply in this project chat",
+    "answer": "Keep stable native capture",
+    "target": "Capture the values actually touched before each child move executes, preserve stable first-touch order and atomic rollback; do not imitate stale-coordinate Java metadata getters or loss of rollback after their errors"
+  },
+  "accounting": "Native completion policy only; no new Java agreement, test or original-method credit. Preserve successful differing sets, Java errors, unsupported empty compositions and order-only differences.",
+  "comparison": {
+    "native_source": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+    "report_source_digest": "21549f8908a4139fa2108b4b222cbefa4b702c38cd7b4a9b9bb607be19b675fb",
+    "report_sha256": "4a41fb96184914d620cf3af0aa654e45fc174e24d4a208d22c15bd3ae9e7b03d",
+    "input_cases_sha256": "b24c145f4b4ef29d2c6e58e01c0766200980b2caaff089b3d21e47b10e326ad5",
+    "counts": {
+      "total": 514,
+      "passed": 425,
+      "native_reference_passed": 514,
+      "java_error_cases": 40,
+      "unsupported_cases": 33,
+      "divergent_cases": 16,
+      "duplicate_observations": 0,
+      "order_differences": 282
+    },
+    "full_report": "work/list-differential.json",
+    "case_inputs": "work/oracle/list-values-cases.json",
+    "execution_receipt": "work/round304-qualification/list-differential-receipt.json"
+  },
+  "evidence": {
+    "contract": "docs/list-planning-contract.md#planning-value-metadata-comparison",
+    "native_tests": [
+      "crates/solver/src/list/value_metadata_tests.rs",
+      "crates/solver/tests/list_value_metadata_cases.rs",
+      "crates/solver/tests/value_capture_regression.rs"
+    ],
+    "native_gate": "work/round303-qualification/gate-receipt.json",
+    "public_getter_probe": "work/round269-list-metadata-gap/stage-command-receipt.json",
+    "public_getter_probe_sha256": "00b9e8d632fb51c902c2fc26088df958722181b7f27db0c248d0e1be9869d72e",
+    "empty_composition_probe": "work/round269-list-metadata-gap/command-receipt.json",
+    "empty_composition_probe_sha256": "bd73bc50f545ee88f453e752d409730b3f6a35c36c2946fd9c29a4af54b94466"
+  }
+}
