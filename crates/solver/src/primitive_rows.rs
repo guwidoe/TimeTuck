@@ -4,6 +4,8 @@
 //! key/value owners are shared, never cloned by snapshots or journal restores.
 mod directory;
 pub(crate) mod membership;
+#[cfg(test)]
+mod page_box_tests;
 pub(crate) mod pool;
 use crate::SnapshotMap;
 use directory::Directory;
@@ -133,7 +135,7 @@ impl<K, V> PreparedPage<'_, K, V> {
                 .entry
                 .or_insert_with(|| unreachable!("prepared occupied page"));
             let old = std::mem::replace(
-                &mut Arc::make_mut(page).cells[self.pos.cell]
+                &mut page.as_mut().cells[self.pos.cell]
                     .as_mut()
                     .expect("prepared occupied cell")
                     .value,
@@ -149,8 +151,8 @@ impl<K, V> PreparedPage<'_, K, V> {
                 key: self.pools.key(key),
                 value: self.pools.value(value),
             };
-            let page = self.entry.or_insert_with(|| Arc::new(Page::empty()));
-            let page = Arc::make_mut(page);
+            let page = self.entry.or_insert_with(|| Box::new(Page::empty()));
+            let page = page.as_mut();
             page.cells[self.pos.cell] = Some(row);
             page.occupied |= 1 << self.pos.cell;
             *self.len += 1;
@@ -165,7 +167,7 @@ impl<K, V> PreparedPage<'_, K, V> {
         }
         self.cache.take();
         let mut entry = self.entry;
-        let page = Arc::make_mut(entry.get_mut().expect("prepared occupied page"));
+        let page = entry.get_mut().expect("prepared occupied page").as_mut();
         let old = page.cells[self.pos.cell].take();
         page.occupied &= !(1 << self.pos.cell);
         *self.len -= 1;
@@ -255,11 +257,11 @@ impl<K, V> Paged<K, V> {
         self.pages.get(&pos.page)?.cells[pos.cell].as_ref()
     }
     fn replace_value(&mut self, pos: Position, value: Arc<V>) -> Arc<V> {
-        let page = Arc::make_mut(
-            self.pages
-                .get_mut(&pos.page)
-                .expect("primitive replacement page"),
-        );
+        let page = self
+            .pages
+            .get_mut(&pos.page)
+            .expect("primitive replacement page")
+            .as_mut();
         std::mem::replace(
             &mut page.cells[pos.cell]
                 .as_mut()
@@ -274,9 +276,9 @@ impl<K, V> Paged<K, V> {
         } else {
             self.pages
                 .entry(pos.page)
-                .or_insert_with(|| Arc::new(Page::empty()))
+                .or_insert_with(|| Box::new(Page::empty()))
         };
-        let page = Arc::make_mut(page);
+        let page = page.as_mut();
         let next = value.is_some();
         let old = std::mem::replace(&mut page.cells[pos.cell], value);
         if next {
@@ -406,14 +408,6 @@ impl<K, V> Paged<K, V> {
         keys.sort_unstable();
         keys.dedup();
         for key in keys {
-            if self
-                .pages
-                .get(&key)
-                .zip(saved.pages.get(&key))
-                .is_some_and(|(a, b)| Arc::ptr_eq(a, b))
-            {
-                continue;
-            }
             for cell in 0..CELLS {
                 let pos = Position { page: key, cell };
                 let old = self.entry(pos);
@@ -449,9 +443,12 @@ impl<K, V> PrimitiveRows<K, V> {
             Storage::Paged(rows) => rows.len,
         }
     }
+    pub(crate) fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
     #[cfg(test)]
     pub(crate) fn is_empty_for_tests(&self) -> bool {
-        self.len() == 0
+        self.is_empty()
     }
     pub(crate) fn iter(&self) -> Iter<'_, K, V> {
         let inner = match &self.storage {
@@ -1096,7 +1093,11 @@ mod capture_tests {
         let Storage::Paged(paged) = &rows.storage else {
             unreachable!()
         };
-        let owners: Vec<_> = paged.pages.values().map(Arc::strong_count).collect();
+        let owners: Vec<_> = paged
+            .pages
+            .values()
+            .map(|page| page.as_ref() as *const _)
+            .collect();
         let capture = rows.capture_current(candidate);
         let RowsCapture::Delta(delta) = &capture else {
             panic!("expected sparse capture")
@@ -1109,7 +1110,7 @@ mod capture_tests {
             paged
                 .pages
                 .values()
-                .map(Arc::strong_count)
+                .map(|page| page.as_ref() as *const _)
                 .collect::<Vec<_>>(),
             owners
         );
@@ -1373,7 +1374,23 @@ mod entry_cursor_tests {
             let pages: Vec<_> = paged
                 .pages
                 .iter()
-                .map(|(key, page)| (key, Arc::strong_count(page)))
+                .map(|(key, page)| {
+                    (
+                        key,
+                        page.as_ref() as *const _,
+                        page.cells
+                            .iter()
+                            .map(|entry| {
+                                entry.as_ref().map(|entry| {
+                                    (
+                                        Arc::strong_count(&entry.key),
+                                        Arc::strong_count(&entry.value),
+                                    )
+                                })
+                            })
+                            .collect::<Vec<_>>(),
+                    )
+                })
                 .collect();
             assert!(
                 catch_unwind(AssertUnwindSafe(|| {
@@ -1392,7 +1409,17 @@ mod entry_cursor_tests {
                 paged
                     .pages
                     .iter()
-                    .map(|(key, page)| (key, Arc::strong_count(page)))
+                    .map(|(key, page)| (
+                        key,
+                        page.as_ref() as *const _,
+                        page.cells
+                            .iter()
+                            .map(|entry| entry.as_ref().map(|entry| (
+                                Arc::strong_count(&entry.key),
+                                Arc::strong_count(&entry.value)
+                            )))
+                            .collect::<Vec<_>>()
+                    ))
                     .collect::<Vec<_>>(),
                 pages
             );

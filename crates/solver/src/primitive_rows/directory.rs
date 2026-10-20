@@ -1,11 +1,10 @@
 //! Direct, sparse-grown hot page rows with an ordered arbitrary-key fallback.
 use super::{Page, PageKey};
-use std::{
-    collections::{BTreeMap, btree_map},
-    sync::Arc,
-};
+use std::collections::{BTreeMap, btree_map};
 
-type Owner<K, V> = Arc<Page<K, V>>;
+// Pages are private containers. Snapshots copy their canonical Arc row owners,
+// while ordinary journaled writes need no page ownership/refcount operation.
+type Owner<K, V> = Box<Page<K, V>>;
 type Row<K, V> = Vec<Option<Owner<K, V>>>;
 const ROWS: usize = 4096;
 const COLUMNS: usize = 64;

@@ -8,6 +8,14 @@ struct Checkpoint {
     left_poisoned: bool,
     right_poisoned: bool,
 }
+struct Capture<I, J, L, R, K> {
+    left: crate::primitive_rows::RowsCapture<I, (K, L)>,
+    right: crate::primitive_rows::RowsCapture<J, (K, R)>,
+    left_index: SnapshotMap<K, SnapshotMap<I, ()>>,
+    right_index: SnapshotMap<K, SnapshotMap<J, ()>>,
+    left_poisoned: bool,
+    right_poisoned: bool,
+}
 impl<
     I: Ord + Clone + 'static,
     J: Ord + Clone + 'static,
@@ -22,6 +30,11 @@ impl<
             && primitive::<K>()
             && !std::mem::needs_drop::<(L, R)>()
         {
+            // Default standalone/custom nodes retain the original tree. Only
+            // ordinary graph construction takes direct primitive row lookups;
+            // key buckets and their matching order remain unchanged.
+            self.left.rows.bind_primitive();
+            self.right.rows.bind_primitive();
             self.primitive_graph_journals = true;
         }
         self.primitive_graph_journals
@@ -55,6 +68,17 @@ impl<
         self.left.commit_index(saved.left_index);
         self.right.commit_index(saved.right_index);
     }
+    pub(super) fn capture_journal_checkpoint(&self, original: &dyn Any) -> Option<Box<dyn Any>> {
+        let saved = original.downcast_ref::<Checkpoint>()?;
+        Some(Box::new(Capture {
+            left: self.left.rows.capture_current(saved.left),
+            right: self.right.rows.capture_current(saved.right),
+            left_index: self.left.index.clone(),
+            right_index: self.right.index.clone(),
+            left_poisoned: self.left.poisoned,
+            right_poisoned: self.right.poisoned,
+        }))
+    }
     pub(crate) fn restore_checkpoint(&mut self, saved: Box<dyn Any>) {
         match saved.downcast::<Checkpoint>() {
             Ok(saved) => {
@@ -65,7 +89,17 @@ impl<
                 self.left.poisoned = saved.left_poisoned;
                 self.right.poisoned = saved.right_poisoned;
             }
-            Err(snapshot) => self.restore(snapshot),
+            Err(snapshot) => match snapshot.downcast::<Capture<I, J, L, R, K>>() {
+                Ok(saved) => {
+                    self.left.rows.install_capture(saved.left);
+                    self.right.rows.install_capture(saved.right);
+                    self.left.index.install_snapshot(saved.left_index);
+                    self.right.index.install_snapshot(saved.right_index);
+                    self.left.poisoned = saved.left_poisoned;
+                    self.right.poisoned = saved.right_poisoned;
+                }
+                Err(snapshot) => self.restore(snapshot),
+            },
         }
     }
 }
@@ -83,3 +117,6 @@ fn primitive<T: 'static>() -> bool {
         || kind == TypeId::of::<((usize, usize), (usize, usize))>()
         || kind == TypeId::of::<(usize, usize, usize, usize)>()
 }
+
+#[cfg(test)]
+mod primitive_rows_tests;

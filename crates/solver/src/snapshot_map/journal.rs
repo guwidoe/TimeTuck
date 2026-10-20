@@ -165,13 +165,6 @@ impl<K, V> SnapshotMap<K, V> {
         self.preserve_journal();
         self.root = snapshot.root;
     }
-    pub(crate) fn journal_transaction(&mut self) -> Transaction<'_, K, V> {
-        let token = self.begin_journal();
-        Transaction {
-            map: self,
-            token: Some(token),
-        }
-    }
 }
 // Full saved candidates keep their existing map type. Trial checkpoints carry
 // only a token, so they do not add an owner to the working root.
@@ -202,27 +195,6 @@ impl<K: 'static, V: 'static> SnapshotMap<K, V> {
                 .downcast_ref::<Self>()
                 .expect("map snapshot")
                 .clone()
-        }
-    }
-}
-pub(crate) struct Transaction<'a, K, V> {
-    map: &'a mut SnapshotMap<K, V>,
-    token: Option<usize>,
-}
-impl<K: Ord, V> Transaction<'_, K, V> {
-    pub(crate) fn insert(&mut self, key: K, value: V) {
-        self.map.insert(key, value);
-    }
-}
-impl<K, V> Transaction<'_, K, V> {
-    pub(crate) fn commit(mut self) {
-        self.map.commit_journal(self.token.take().unwrap());
-    }
-}
-impl<K, V> Drop for Transaction<'_, K, V> {
-    fn drop(&mut self) {
-        if let Some(token) = self.token.take() {
-            self.map.rollback_journal(token);
         }
     }
 }
@@ -459,7 +431,8 @@ mod tests {
             }
         }
         let fail = Rc::new(Cell::new(false));
-        let mut map = SnapshotMap::new();
+        // Join batches now use this guard; custom keys retain SnapshotMap storage.
+        let mut map = crate::primitive_rows::PrimitiveRows::new();
         for i in 0..32 {
             map.insert(Key(i, fail.clone()), i);
         }
@@ -476,6 +449,13 @@ mod tests {
         fail.set(false);
         assert_eq!(map.get(&Key(0, fail.clone())), Some(&0));
         assert_eq!(map.get(&Key(31, fail)), Some(&31));
-        assert!(map.journal.as_ref().unwrap().frames.is_empty());
+        assert!(
+            map.materialized()
+                .journal
+                .as_ref()
+                .unwrap()
+                .frames
+                .is_empty()
+        );
     }
 }

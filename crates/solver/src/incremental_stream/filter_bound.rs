@@ -228,7 +228,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
         }
         // Existing rows may be retained by full snapshots or journals. Never
         // change their rejection ownership policy through a later conversion.
-        let initially_empty = self.rows.len() == 0;
+        let initially_empty = self.rows.is_empty();
         let bound = self.rows.bind_primitive();
         self.elide_rejected |= bound && initially_empty;
         bound

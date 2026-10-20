@@ -5,7 +5,7 @@ use std::any::{Any, TypeId};
 
 enum SideSaved<I, V> {
     Fixed(usize),
-    Map(SnapshotMap<I, V>),
+    Map(crate::primitive_rows::PrimitiveRows<I, V>),
 }
 struct BoundCheckpoint<I, J, L, R, K> {
     left: SideSaved<I, (K, L)>,
@@ -17,7 +17,7 @@ struct BoundCheckpoint<I, J, L, R, K> {
 }
 enum CapturedRows<I, V> {
     Fixed(join_fixed_rows::Capture<V>),
-    Map(SnapshotMap<I, V>),
+    Map(crate::primitive_rows::PrimitiveRows<I, V>),
 }
 enum CapturedIndex<I, K> {
     Fixed(join_fixed_index::Capture<K>),
@@ -183,6 +183,11 @@ impl<
                 left: self.left.capture_side(&saved.left, saved.left_index),
                 right: self.right.capture_side(&saved.right, saved.right_index),
             });
+        }
+        if self.primitive_graph_journals
+            && let Some(captured) = self.capture_journal_checkpoint(original)
+        {
+            return captured;
         }
         self.checkpoint()
     }

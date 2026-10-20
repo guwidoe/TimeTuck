@@ -204,7 +204,7 @@ impl JoinComparison {
 
 #[derive(Clone)]
 struct JoinSide<I, T, K> {
-    rows: SnapshotMap<I, (K, T)>,
+    rows: crate::primitive_rows::PrimitiveRows<I, (K, T)>,
     fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (K, T)>>>,
     fixed_index: Option<Box<join_fixed_index::FixedIndex<I, K>>>,
     index: SnapshotMap<K, SnapshotMap<I, ()>>,
@@ -214,7 +214,7 @@ struct JoinSide<I, T, K> {
 impl<I, T, K> JoinSide<I, T, K> {
     fn new() -> Self {
         Self {
-            rows: SnapshotMap::new(),
+            rows: crate::primitive_rows::PrimitiveRows::new(),
             fixed_rows: None,
             fixed_index: None,
             index: SnapshotMap::new(),

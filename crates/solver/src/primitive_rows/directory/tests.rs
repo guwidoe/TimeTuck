@@ -4,10 +4,11 @@ use std::{
     cell::RefCell,
     panic::{AssertUnwindSafe, catch_unwind},
     rc::Rc,
+    sync::Arc,
 };
 
 fn page() -> Owner<usize, usize> {
-    Arc::new(Page::empty())
+    Box::new(Page::empty())
 }
 fn boundaries() -> Vec<PageKey> {
     vec![
@@ -197,7 +198,7 @@ fn hybrid_directory_releases_interleaved_page_payloads_in_legacy_sorted_order() 
             self.1.borrow_mut().push(self.0);
         }
     }
-    // Deliberately exercise Arc-backed page ownership with a single-thread Drop trace.
+    // Canonical row owners retain the same sorted single-thread Drop trace.
     #[allow(clippy::arc_with_non_send_sync)]
     fn owner(key: PageKey, trace: &Rc<RefCell<Vec<PageKey>>>) -> Owner<usize, Payload> {
         let mut page = Page::empty();
@@ -206,7 +207,7 @@ fn hybrid_directory_releases_interleaved_page_payloads_in_legacy_sorted_order() 
             value: Arc::new(Payload(key, trace.clone())),
         });
         page.occupied = 1;
-        Arc::new(page)
+        Box::new(page)
     }
     let keys = boundaries();
     let direct = Rc::new(RefCell::new(Vec::new()));

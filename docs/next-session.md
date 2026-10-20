@@ -20,77 +20,80 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-20
 
 Reach Java streams throughput on both frozen public RealWorld workloads. Goal
-remains active, **0/2** targets met. Keep scenarios, application model, runner,
-seeds 7/11/23, ten-second limits and solver settings unchanged. Application tests
-and timings retain zero upstream-method credit; original comparisons stay separate.
+remains active, **0/2** targets met. Keep fixtures, application model, runner,
+seeds7/11/23, ten-second limits and solver settings unchanged. Same-machine paired
+runtime order and independent score/assignment validation remain required.
+Additional application evidence earns zero upstream-method credit.
 
-The stream-allocation batch is integrated from immutable runner-a snapshot
-`90a38ed558e5886127eac64d4e8cebe3632352c3724669b3879c859c569f938b`.
-Native digest: `f1e13742d909919e0e19178b57f53d13d70710cd4603a29f43f7b9a824dbe5a8`.
-Production digest: `1fe851e15a1d55ba7a934942ab7d2b9a6818e648a05ca5293ed2d8a331c27ccc`.
-Actual `bash scripts/check.sh` passes: **8,754 recorded identities**, **8,760 Cargo
-executions**, **292 doctests**, formatting/all-target Clippy and **54 tooling jobs**.
-Actual preflight24.47s, all-target no-run prebuild at command jobs8 takes359.47s;
-normal jobs4 gate271.38s; default benchmark126.78s. All commands/time are retained,
-with no cache-key transplant. Genuine Cargo and verification reuse stay intact.
-Do not rerun unchanged verification. Observation:
-`compat/observations/real_world-stream-allocation.json`.
-Proofs: `work/real_world-goal/stream-allocation-next-final-results/`.
+The page/join-storage batch is integrated from actual frozen runner-a snapshot
+`37f08c68f2a98d1e772d8ae16ada294cecc0a5dedb2bf8b159d3ebd3d8a8af2b`.
+Native digest `61bbe7b1e8f2cb64c12e02ffbfcaa35d9e4513926632a94c8080bac92a0c3dd2`;
+production `2edd839489f33c796961355765f4f7d6ea3c7fa6f4b3a0525c0e34896ac4aaf4`.
+Actual `bash scripts/check.sh` passes: **8764 recorded identities**, **8770 Cargo
+invocations**, **292 doctests**, formatting/all-target Clippy and **54 tooling jobs**.
+Actual preflight24.31s, all-target no-run command-jobs8 prebuild307.87s,
+normal-jobs4 standard gate272.24s, unchanged default qualifier212.61s. Total821.10s
+includes all commands; genuine compiler/verification reuse, no job-key transplant.
+Do not repeat unchanged verification. Observation:
+`compat/observations/real_world-page-join-storage.json`; actual proofs under
+`work/real_world-goal/page-join-storage-next-final-results/`.
 
-Fresh same-machine qualifier: golfer **92,419 Rust /126,720 Java evaluations/s**
-(**0.729x**); sailing **33,056 /81,787** (**0.404x**). All12 raw assignments match
-their recorded checksums and independently validate. Sailing feasibility2/3 Rust
-and0/3 Java. Prior separate qualification:88,704/31,998 native evaluations/s.
-Four rotating three-second seed7 native baseline/trial controls on the SAME final
-production source improve4.685%/4.725%; this is a distinct diagnostic protocol.
-Exact final release SHA:
-`0727343b6c5f49002d27b681ed4834a569cb1b949313552ee674b18f1e9a59c2`.
+Fresh same-machine default qualifier: golfer **95,670 Rust /132,384 Java evaluations/s**
+(**0.723x**), sailing **35,020 /82,102** (**0.427x**). All12 raw assignment checksums
+match their recorded files and independently validate. Sailing feasible2/3 Rust,
+0/3 Java; quality remains separate. Prior separate qualifier92,419/33,056 native
+rates; those separate sessions are not an interleaved speedup comparison. Exact
+final artifact `308d93109452ecfc8a7161df5c46c879a6e9f706e336c7071538df019d2ee193`.
 
-Implementation: bounded GroupInputs NoDrop allocation pools, retained zeroed
-membership rows, empty membership checkpoint carriers, per-variant event downcasts.
-Eight new native controls retain zero upstream credit. Original inventory remains
-4412passed/0pending/443excluded; actual original comparison freshness stays visible.
+Changes: eligible ordinary join row pages/touched captures; private Box page
+containers avoid per-write reference counts. Full snapshots copy private page
+containers and share exact canonical key/value Arcs. Full/current/nested captures,
+canonical/Weak owners, custom Clone/Drop/panic and all join comparisons have ten
+new native controls; standalone/custom paths remain original tree state. Remove
+obsolete private map batch guard and retain its panic control on the replacement.
+Original inventory4412passed/0pending/443excluded, external application4 unchanged.
+
+The actual combined pilot has16 valid rotating3s seed7 controls, +2.927%golfer/
++6.696%sailing versus814d; pilot productionada93957 precedes final private-guard
+removal/len-is_empty cleanup. Do not present it as exact final-source or Java
+qualification. Isolated pageBox+5.216/+3.003; primitiveJoinRows+.885/+3.539.
+Cursor/probed/leveled/small-count trials were flat or mixed and remain unselected;
+actual raw results and failed original Clippy/CFG-test receipts are preserved.
+No broad gate was run for rejected candidates.
 
 ## Next measured performance candidates
 
-Existing agents were reused; no new agents created. runner-c remains parked. Keep
-all frozen prototype sources unchanged. Actual live handles and subsequent
-measurements are recorded in `work/real_world-goal/active-performance-state.json`;
-poll the specific handles instead of restarting work on an observation timeout.
+Only existing authorized agents reused; no new agents created. runner-c remains parked.
+Local and runner-a work in parallel. Preserve frozen sources and live runs across
+observation timeouts. Actual handles/results and pending sources are maintained in
+`work/real_world-goal/active-performance-state.json`.
 
-`join-propagation-next-prototype` (exact4601base) recycles erased join output
-vectors after FIFO scalar routing, cap64KiB. Actual16focused controls pass;
-genuine release125.82s, artifact8822721c... . Actual rotating controls finish
-with -1.94%golfer/+0.09%sailing: **unselected**.
-`terminal-prepared-next-prototype` locates eligible primitive terminal entries
-once while preserving evaluation/Clone/error phases. Actual3focused controls pass;
-genuine release127.54s, artifactbf3c45e1... . The same control session measures
--0.21%golfer/+2.14%sailing: modest sailing candidate, golfer effectively flat;
-consider only in a measured coherent combination. All24 outputs validate.
-Raw proofs: `next-join-terminal-controls-results/`. Neither is integrated.
+Both new candidates start from exact final61bbe7b1/2edd8394, not814d:
+`group-input-page-box-next-prototype` changes three GroupInputsPaged files; actual
+8focused tests pass60.30s, genuine local release123.85s artifact699e8bf8... .
+Private page Weak assertion explicitly becomes distinctBox/sharedcanonicalArc
+assertions; every payload Weak/pool/Clone/Drop check remains.
+`fixed-index-words-next-prototype` changes five files; actual10focused tests pass
+66.68s, genuine local release123.85s artifact93c52fd4... . Eligible fixed index
+buckets mutate/journal words and counts in place; canonical ID owners/iteration
+and custom/standalone legacy path remain. Nine new controls, independent review
+found no actionable issue. Full private snapshots copy words. This is distinct
+from rejected unbounded vector buckets and row-page lookup cache designs.
+Actual joint controls finish with all24 outputs valid against genuine current
+final artifact: group-input pages +1.767%golfer/+1.060%sailing, a modest candidate
+only for a measured larger batch; fixed words +1.482%golfer/+.410%sailing, effectively
+flat on sailing and unselected. Raw proofs:
+`next-input-page-fixed-word-controls-results/summary.json`. No broad gate/integration.
 
-`graph-score-delta-next-prototype` accumulates exact builtin integer deltas in
-fixed i128 levels, preserving deferred final overflow and original custom Vec
-phases. Actual5focused controls pass87.16s; genuine release123.48s, arteacfb045... .
-Actual16 valid rotating controls show+0.89%golfer/-0.41%sailing: **unselected**.
-Proofs: `next-score-delta-controls-results/`. No broad-gate/integration credit.
-
-`cursor-queue-fixed-next-prototype` is a root candidate using a Vec/read cursor
-with owner-free processed markers and bounded-prefix compaction for the narrow
-queue only. Read-only join-agent review found no ownership/FIFO/panic concern.
-First prototype's focused compile failed because one test still passed a ring
-queue; its exact source and actual failed receipt/log remain preserved. The fixed
-prototype changes that test constructor only. Actual local focused/release sequence
-continues, followed by `probed-dispatch-next-prototype` (one builtin scored-node
-virtual dispatch instead of four, custom legacy block preserved). Do not claim
-these pass/build/perform until their existing actual run completes.
-
-Wider events measured -1.30%golfer/+1.01%sailing despite14focused passes and16valid
-outputs: **not selected**. Hash membership and compact join buckets were flat or
-mixed and remain unselected. Earlier routing, owned-terminal/group and first-
-preimage designs stay unselected. Do not repeat their broad checks. Automatic
-director batching changes the frozen scalar callback/overflow contract; whole-
-assignment work outside candidate selection was<1% of the actual profile.
+An existing join agent is preparing `terminal-inline-values-next-prototype`, a
+separate eligible exact-Copy/builtin-score candidate. It replaces the previously
+flat owned-terminal arena/free handles/Rc<Key> machinery with direct private
+Boxpaged slots, inline values, optional promoted canonical value owner and moved
+value undo while leaving canonical key owners in place. Source not yet frozen or
+built; do not claim a pass or performance gain. New combined-pilot local profile
+is in `page-join-storage-next-results/profile-hotspots.txt`; pre-cleanup source,
+local diagnostic percentages only, independently valid output. No final-source
+or Java timing claim. Broader callback batching/model changes remain ruled out.
 
 ## Additional RealWorld application coverage — 2026-10-20
 
