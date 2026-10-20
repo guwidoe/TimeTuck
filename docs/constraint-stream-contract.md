@@ -597,8 +597,11 @@ Use stable fact IDs for set membership. `PairCollector<A,B>` collects independen
 mapped fields together and can be nested for more fields. Built-in collectors
 share persistent roots; custom collector cloning may cost more.
 
-Set replacement stages removal and insertion under one isolated collector
-snapshot, avoiding redundant nested snapshots and copies of newly modified paths.
+Set replacement, when the old value occurs more than once, prepares count changes
+and any new membership insertion before publishing either map. Exclusively borrowed paths keep the
+lookup topology stable until a value replacement followed by insertion commits;
+unique nodes can remain unique, while shared roots still copy on write. Removing
+the last occurrence and structural fallback keep isolated snapshot staging.
 It preserves multiplicities, representatives, missing-old-before-new lookup and
 the former default sequence of ordering and payload clone operations, including
 equal replacement. Ordinary comparison/clone/count-overflow failures leave the

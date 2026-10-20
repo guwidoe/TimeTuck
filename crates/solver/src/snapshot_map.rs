@@ -171,6 +171,98 @@ fn replace<K, V>(root: &mut Link<K, V>, path: &[Ordering], value: Arc<V>) {
     }
     node.value = value;
 }
+// An exclusive borrow keeps prepared paths valid until their comparison-free
+// commits. An initial value replacement preserves topology, so the second
+// insertion may be prepared against that same tree. No root snapshot is needed.
+pub(crate) struct PreparedInsert<'a, K, V> {
+    map: &'a mut SnapshotMap<K, V>,
+    path: Path,
+    key: Option<Arc<K>>,
+    value: Arc<V>,
+}
+pub(crate) struct PreparedInsertPair<'a, K, V> {
+    first: PreparedInsert<'a, K, V>,
+    path: Path,
+    key: Option<Arc<K>>,
+    value: Arc<V>,
+}
+fn value_at<'a, K, V>(root: &'a Link<K, V>, path: &Path) -> &'a Arc<V> {
+    let mut node = root.as_deref().expect("prepared existing entry");
+    for direction in path.as_slice() {
+        node = if *direction == Ordering::Less {
+            node.left.as_deref()
+        } else {
+            node.right.as_deref()
+        }
+        .expect("prepared existing path");
+    }
+    &node.value
+}
+fn commit_insert<K, V>(
+    map: &mut SnapshotMap<K, V>,
+    path: &Path,
+    key: Option<Arc<K>>,
+    value: Arc<V>,
+) {
+    if key.is_some() {
+        map.preserve_journal();
+        put(&mut map.root, path.as_slice(), key, value);
+    } else {
+        // Read at commit time: a second replacement at the same path must log
+        // the first replacement's value, not its pre-preparation value.
+        journal::record_replacement(&mut map.journal, path, value_at(&map.root, path));
+        replace(&mut map.root, path.as_slice(), value);
+    }
+}
+impl<K, V> PreparedInsert<'_, K, V> {
+    pub(crate) fn replaces_existing(&self) -> bool {
+        self.key.is_none()
+    }
+    pub(crate) fn commit(self) {
+        commit_insert(self.map, &self.path, self.key, self.value);
+    }
+    // Retain ordinary staging if a cloned key is unexpectedly a new key class.
+    // That insertion could change topology, so do not prepare a second path.
+    pub(crate) fn into_staged(self) -> SnapshotMap<K, V> {
+        let mut map = self.map.clone();
+        commit_insert(&mut map, &self.path, self.key, self.value);
+        map
+    }
+}
+impl<'a, K: Ord, V> PreparedInsert<'a, K, V> {
+    pub(crate) fn get_after_replace(&self, key: &K) -> Option<&V> {
+        assert!(self.replaces_existing(), "prepared value replacement");
+        let (path, found) = locate(&self.map.root, key);
+        if found.is_some() && path.as_slice() == self.path.as_slice() {
+            Some(&self.value)
+        } else {
+            found.map(Arc::as_ref)
+        }
+    }
+    pub(crate) fn then_insert(self, key: K, value: V) -> PreparedInsertPair<'a, K, V> {
+        assert!(self.replaces_existing(), "prepared value replacement");
+        let (path, found) = locate(&self.map.root, &key);
+        let key = if found.is_some() {
+            drop(key);
+            None
+        } else {
+            Some(Arc::new(key))
+        };
+        PreparedInsertPair {
+            first: self,
+            path,
+            key,
+            value: Arc::new(value),
+        }
+    }
+}
+impl<K, V> PreparedInsertPair<'_, K, V> {
+    pub(crate) fn commit(self) {
+        let first = self.first;
+        commit_insert(first.map, &first.path, first.key, first.value);
+        commit_insert(first.map, &self.path, self.key, self.value);
+    }
+}
 fn put<K, V>(root: &mut Link<K, V>, path: &[Ordering], key: Option<Arc<K>>, value: Arc<V>) {
     if let Some((&direction, tail)) = path.split_first() {
         let n = Arc::make_mut(root.as_mut().expect("prepared path"));
@@ -439,6 +531,21 @@ impl<K: Ord, V> SnapshotMap<K, V> {
     }
     pub fn contains_key(&self, key: &K) -> bool {
         self.get(key).is_some()
+    }
+    pub(crate) fn prepare_insert(&mut self, key: K, value: V) -> PreparedInsert<'_, K, V> {
+        let (path, found) = locate(&self.root, &key);
+        let key = if found.is_some() {
+            drop(key);
+            None
+        } else {
+            Some(Arc::new(key))
+        };
+        PreparedInsert {
+            map: self,
+            path,
+            key,
+            value: Arc::new(value),
+        }
     }
     pub(crate) fn insert(&mut self, key: K, value: V) {
         let (path, found) = locate(&self.root, &key);
@@ -922,5 +1029,83 @@ mod missing_rank_tests {
             Some(usize::MAX - 1)
         );
         assert_eq!(excluded.missing_key_at(usize::MAX - 1), None);
+    }
+}
+
+#[cfg(test)]
+mod prepared_insert_tests {
+    use super::*;
+    use std::collections::HashSet;
+
+    fn addresses<K, V>(root: &Link<K, V>, output: &mut HashSet<usize>) {
+        if let Some(node) = root {
+            output.insert(Arc::as_ptr(node) as usize);
+            addresses(&node.left, output);
+            addresses(&node.right, output);
+        }
+    }
+
+    #[test]
+    fn prepared_replacement_and_insertion_reuse_unique_nodes_and_keep_snapshots() {
+        let mut map = SnapshotMap::from_sorted((0..128).map(|key| (key, 2)));
+        let mut before = HashSet::new();
+        addresses(&map.root, &mut before);
+        let first = map.prepare_insert(64, 1);
+        assert_eq!(first.get_after_replace(&64), Some(&1));
+        assert_eq!(first.get_after_replace(&63), Some(&2));
+        assert_eq!(first.get_after_replace(&999), None);
+        first.then_insert(999, 1).commit();
+        let mut after = HashSet::new();
+        addresses(&map.root, &mut after);
+        assert!(before.is_subset(&after));
+        assert_eq!(after.len(), before.len() + 1);
+        assert_eq!(map.get(&64), Some(&1));
+        assert_eq!(map.get(&999), Some(&1));
+        let saved = map.clone();
+        // Dropping a completely prepared pair must leave the exact root intact.
+        drop(map.prepare_insert(64, 0).then_insert(1000, 1));
+        assert!(map.shares_root(&saved));
+        map.prepare_insert(64, 2).then_insert(1000, 1).commit();
+        assert_eq!(saved.get(&64), Some(&1));
+        assert_eq!(saved.get(&1000), None);
+        assert_eq!(map.get(&64), Some(&2));
+        assert_eq!(map.get(&1000), Some(&1));
+    }
+
+    #[test]
+    fn prepared_pairs_preserve_nested_journals_for_same_existing_and_new_keys() {
+        for destination in [12, 13, 999] {
+            for keep_inner in [false, true] {
+                let mut map = SnapshotMap::from_sorted((0..32).map(|key| (key, 2)));
+                let original = map
+                    .iter()
+                    .map(|(&k, &v)| (k, v))
+                    .collect::<BTreeMap<_, _>>();
+                let outer = map.begin_journal();
+                map.insert(12, 4);
+                let inner = map.begin_journal();
+                let first = map.prepare_insert(12, 3);
+                let count = first.get_after_replace(&destination).copied().unwrap_or(0) + 1;
+                first.then_insert(destination, count).commit();
+                let held = map.clone();
+                let expected = held
+                    .iter()
+                    .map(|(&k, &v)| (k, v))
+                    .collect::<BTreeMap<_, _>>();
+                assert_eq!(map.journal_snapshot(outer), original);
+                let inner_entry = map.journal_snapshot(inner);
+                assert_eq!(inner_entry.get(&12), Some(&4));
+                assert_eq!(inner_entry.get(&999), None);
+                if keep_inner {
+                    map.commit_journal(inner);
+                } else {
+                    map.rollback_journal(inner);
+                    assert_eq!(map, inner_entry);
+                }
+                map.rollback_journal(outer);
+                assert_eq!(map, original);
+                assert_eq!(held, expected);
+            }
+        }
     }
 }

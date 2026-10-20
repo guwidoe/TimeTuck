@@ -19,11 +19,12 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,515 passing Rust tests and 290 doctests**,
-source digest `32c92607b9cd799536c6c87f204876a6b2615dd98a41b4349af890d2973a787d`. The required final `bash scripts/check.sh` passed
-locally in 1200.704 seconds, executing all 147 jobs with no reused job results. Source-bound logs and metadata retain their actual input keys;
-no duplicate remote gate or rewritten evidence. The live report remains the
-authority for later counts and freshness.
+The latest integrated checkpoint has **8,517 passing Rust tests and 290 doctests**,
+source digest `4490378a75fd6ce7f75324e56eb75f9571001a9c13373a84854b8179f5df014b`. The required final
+`bash scripts/check.sh` passed locally in 854.261s, executing 95 jobs and
+reusing 52 genuinely unchanged results. Native/source/log checksums retain
+actual bindings; no duplicate gate, cache transplantation or rewritten evidence.
+The live report remains the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -52,22 +53,31 @@ See the [stream contracts](constraint-stream-contract.md) and
 Java agreement. Completion still needs evidence for every original-scope
 requirement and resolution of the remaining relevant behavior differences.
 
-The complete solver differential comparison retains its valid unchanged input key.
-Explicit encounter-order policies agree in all 4,824 observed ranking cases;
-original total-order controls retain 4499 agreements / 325 differences, all matching
-independent Python. Existing defaults and policy choices stay visible. Only stream
-performance was deliberately refreshed in 276, with all 128 controls and eight
-equal-quality workloads: larger cases (Rust/Java) hill/change 39.096/60.484 ms; tabu/change 31.011/47.486 ms;
-hill/swap 514.482/535.691 ms; tabu/swap 481.888/461.830 ms. The other 17 raw reports
-retain original bytes/dates/keys; 2/18 measurements are current, 16 remain stale.
-No old result was rekeyed. Stale contributions remain visible with freshness debt.
+The last solver differential demonstrates 4,824 exact observations for explicit
+encounter-order policies; original total-order controls retain 4499 agreements /
+325 differences, all matching independent Python. These results now remain stale
+under changed shared-core inputs. Existing defaults/policy choices stay visible.
+Only aggregate-performance was deliberately refreshed in 277, preserving 96 original
+controls and all six workload outputs. The other 17 raw reports retain original
+bytes/dates/keys; 1/18 measurement families current, 17 stale. No rekeyed old results.
 
-Fused scoring now journals each prepared match directly, removing one batch vector
-and its staging pass without skipping callbacks or full match observations. Final
-native controls match all 128 solve outputs and 2,899 complete match/rollback
-states. Native timing is mixed and establishes no stable general throughput gain.
-The separately measured snapshot iterator proposal was reverted after unhelpful
-results; its historical source/results are not final-source evidence.
+Set replacements for values with multiple occurrences prepare validated paths
+instead of sharing roots for staging. All callbacks finish before both maps
+publish; structural removals retain staging. Actual canonical four-fork comparisons
+show 27.87% lower pair time at 64 captures and 18.06% at 512, all forks improving,
+with update, restore and full observations unchanged. These are collector-case
+gains, with no overall solve or arbitrary-scale claim. The fresh Java comparison:
+
+| Captures | Rust µs / pair | Java µs / pair |
+| --- | ---: | ---: |
+| 64 | 2.510 | 1.521 |
+| 512 | 5.760 | 5.964 |
+
+The large set case meets measured Java parity; the small set and checked sums
+still miss the target. Two original private snapshot/journal regressions add no
+credit for upstream test methods. Fused scoring's earlier removed batch vector
+remains; its mixed native timings establish no stable general throughput gain.
+The rejected snapshot iterator proposal remains historical, not current evidence.
 
 Last measured larger mixed workloads (261; now stale): warm Stream **28.520 ms vs Java
 22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
@@ -76,7 +86,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **85.4%**: feature families 40%,
+The dashboard's configurable progress index is **84.5%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from

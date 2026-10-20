@@ -17,7 +17,63 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 276 journaled fused-score rows
+## Latest qualification — 277 prepared set occurrence replacement
+
+When replacing a value that has multiple occurrences, the set collector now
+prepares both count edits and any membership insertion before publishing either map. Exclusive guards retain
+validated paths; the first value replacement leaves the second path valid.
+Unique tree nodes stay unique, while held snapshots/collector clones still copy
+on write. Last-occurrence removal retains staged structural behavior. Existing
+representatives, exact Clone/Ord callback sequence, missing-old handling and all
+ordinary failure rollback stay intact. No unsafe code, new bounds or public API.
+
+Actual canonical Cargo artifacts, original six workloads, 200 iterations, three
+warmups/five samples, four balanced forks: sorted-set pair time is **27.87%
+lower at 64 captures and 18.06% lower at 512**, improving in every fork. Each pair
+includes update, restore and both full observations. Other workload medians are
+roughly flat, with mixed fork results. No overall solve or arbitrary-scale gain
+is claimed. All 96 original controls and every timed trial/restored/committed array
+and checksum match. The actual qualified 276 baseline executable is byte-identical
+to the earlier baseline-control executable, so its complete controls are reused
+by artifact/fixture identity without reexecution or changing original bindings.
+
+Two new original private regressions check unique node retention, discarded
+preparations, snapshots, same/different/new destination entries, nested journal
+commit/rollback and diagnostic views. The exact existing callback/panic matrix
+also passed in the isolated source screen. The isolated screen (20 tests,
+32 set controls, 26–28% preliminary gains) stays separate from actual canonical
+qualification. Source-only proposal: work/round277-set-prepare/manifest.json.
+
+One final `bash scripts/check.sh` passed locally: **8,517 Rust +290 doctests**,
+95 jobs executed/52 genuinely reused, 854.261s. Native digest
+`4490378a75fd6ce7f75324e56eb75f9571001a9c13373a84854b8179f5df014b`. Nested unit-test cache
+announcements are excluded from job accounting. No duplicate gate or rekeyed cache.
+
+Only aggregate-performance was refreshed with the original Java configuration and
+all six workloads, checking complete outputs:
+
+| Captures | Rust µs / pair | Java µs / pair |
+| --- | ---: | ---: |
+| 64 | 2.510 | 1.521 |
+| 512 | 5.760 | 5.964 |
+
+The large set case meets measured Java parity; the small set and checked sums
+still miss it. Shared-core input keys change for 16 jobs; the other 17 raw reports
+retain original bytes/dates/keys and stay stale. The frontend and report format are unchanged; the 275 desktop/mobile browser
+proof is reused, with current HTTP data and freshness checks.
+Completion index 84.549%, 1/18 current. Inventory remains 4410/4855 (90.834%),
+10 pending, 435 excluded, zero failed/unverified. No upstream-method credit; goal incomplete.
+
+Evidence: work/round277-qualification/{retention,gate-receipt,job-accounting,
+aggregate-performance-receipt,collection}.json. runner-c remains parked. runner-a's 277
+authentication connection ended with code 255 and a port 22 timeout; no remote
+277 run is
+claimed. Its expired link/handle must not be reused. Next source-only sum-search
+proposal is frozen under work/round278-sum-prepare/, with a prepared extraction in
+work/round278-sum-qualification/. Both remain unbuilt; inspect their manifests
+before integration. No performance claim for that future proposal.
+
+## Previous qualification — 276 journaled fused-score rows
 
 Fused fixed-link scoring installs each prepared match directly under the existing
 transaction journal, removing its temporary batch vector and second staging loop.

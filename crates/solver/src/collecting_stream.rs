@@ -107,19 +107,43 @@ impl<V: Ord + Clone> ReversibleCollector<V> for SetCollector<V> {
         true
     }
     fn replace(&mut self, old: &V, new: &V) -> bool {
-        let mut next = self.clone();
-        let Some(&count) = next.counts.get(old) else {
+        let Some(&count) = self.counts.get(old) else {
             return false;
         };
-        // One staging snapshot covers both halves. Calling remove then insert
-        // would separately snapshot each half and copy the post-removal paths.
-        // Keep their ordering and clone operations, including equal old/new.
-        if count == 1 {
+        let mut next = if count == 1 {
+            // Structural removal changes the lookup topology. Retain ordinary
+            // staging and its exact comparison/clone order for that case.
+            let mut next = self.clone();
             next.counts.remove(old);
             next.keys.remove(old);
+            next
         } else {
-            next.counts.insert(old.clone(), count - 1);
-        }
+            let prepared = self.counts.prepare_insert(old.clone(), count - 1);
+            if prepared.replaces_existing() {
+                let count = prepared
+                    .get_after_replace(new)
+                    .copied()
+                    .unwrap_or(0)
+                    .checked_add(1)
+                    .expect("collector count overflow");
+                let counts = prepared.then_insert(new.clone(), count);
+                // Finish every user callback before publishing either map.
+                let keys = if count == 1 {
+                    Some(self.keys.prepare_insert(new.clone(), ()))
+                } else {
+                    None
+                };
+                counts.commit();
+                if let Some(keys) = keys {
+                    keys.commit();
+                }
+                return true;
+            }
+            Self {
+                counts: prepared.into_staged(),
+                keys: self.keys.clone(),
+            }
+        };
         let count = next
             .counts
             .get(new)
