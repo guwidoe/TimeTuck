@@ -8,6 +8,10 @@
 use std::sync::Arc;
 
 type Undo<V> = Vec<(usize, Option<Arc<V>>)>;
+pub(super) struct Capture<V> {
+    count: usize,
+    values: Undo<V>,
+}
 pub(super) struct FixedRows<I, V> {
     keys: Vec<Arc<I>>,
     values: Vec<Option<Arc<V>>>,
@@ -78,6 +82,31 @@ impl<I, V> FixedRows<I, V> {
         self.frames.push(self.spare.pop().unwrap_or_default());
         token
     }
+    pub(super) fn capture_current(&self, token: usize) -> Capture<V> {
+        assert!(token < self.frames.len(), "active fixed row capture token");
+        let mut slots: Vec<_> = self.frames[token..]
+            .iter()
+            .flatten()
+            .map(|(slot, _)| *slot)
+            .collect();
+        slots.sort_unstable();
+        slots.dedup();
+        Capture {
+            count: self.values.len(),
+            values: slots
+                .into_iter()
+                .map(|slot| (slot, self.values[slot].clone()))
+                .collect(),
+        }
+    }
+    // The capture is relative to its journal's original base. Keys remain the
+    // fixed universe's exact owners, while ordinary replacements log rollback.
+    pub(super) fn install_capture(&mut self, saved: Capture<V>) {
+        assert_eq!(self.values.len(), saved.count, "fixed row capture universe");
+        for (slot, value) in saved.values {
+            self.replace(slot, value);
+        }
+    }
     pub(super) fn rollback(&mut self, token: usize) {
         assert_eq!(self.frames.len(), token + 1, "bound join journal order");
         let mut frame = self.frames.pop().unwrap();
@@ -139,5 +168,61 @@ mod tests {
         rows.commit(inner);
         rows.rollback(outer);
         assert!(std::ptr::eq(rows.get(&0).unwrap(), original.as_ref()));
+    }
+}
+
+#[cfg(test)]
+mod capture_tests {
+    use super::*;
+    #[test]
+    fn fixed_capture_saves_current_unique_touches_without_cloning_values_or_the_universe() {
+        struct NoClone(i64);
+        let keys: Vec<_> = (0..4).map(Arc::new).collect();
+        let original: Vec<_> = (0..4).map(|n| Arc::new(NoClone(n))).collect();
+        let mut rows = FixedRows::new(
+            keys.iter().cloned().zip(original.iter().cloned()).collect(),
+            |id| *id,
+        );
+        let outer = rows.begin();
+        rows.insert(0, NoClone(10));
+        rows.insert(0, NoClone(11));
+        rows.remove(&2);
+        let inner = rows.begin();
+        rows.insert(3, NoClone(13));
+        let saved = rows.capture_current(outer);
+        let nested = rows.capture_current(outer);
+        assert_eq!(saved.values.len(), 3);
+        assert_eq!(
+            Arc::strong_count(&keys[1]),
+            2,
+            "untouched key universe is not copied"
+        );
+        assert_eq!(
+            Arc::strong_count(&original[1]),
+            2,
+            "untouched payload owner is not copied"
+        );
+        let new = rows.get(&0).unwrap() as *const _;
+        rows.rollback(inner);
+        rows.rollback(outer);
+        let other = rows.begin();
+        rows.clear();
+        rows.rollback(other);
+        let outer = rows.begin();
+        rows.install_capture(nested);
+        assert_eq!(rows.get(&0).unwrap().0, 11);
+        assert!(rows.get(&2).is_none());
+        assert_eq!(rows.get(&3).unwrap().0, 13);
+        assert_eq!(rows.get(&0).unwrap() as *const _, new);
+        rows.rollback(outer);
+        assert!(std::ptr::eq(rows.get(&0).unwrap(), original[0].as_ref()));
+        assert!(std::ptr::eq(
+            rows.iter().next().unwrap().0,
+            keys[0].as_ref()
+        ));
+        rows.install_capture(saved);
+        assert_eq!(rows.get(&0).unwrap().0, 11);
+        assert!(rows.get(&2).is_none());
+        assert_eq!(rows.get(&3).unwrap().0, 13);
     }
 }

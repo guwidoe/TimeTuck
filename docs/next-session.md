@@ -21,53 +21,53 @@ independent build/test work. Preserve live runs across observation timeouts.
 
 Reach Java streams throughput on both frozen public RealWorld workloads. Goal
 remains active, **0/2** targets met. Keep scenarios, application model, runner,
-seeds7/11/23, ten-second limits and solver settings unchanged. Additional tests
-and timings retain zero upstream-method credit; do not change the original18
-comparison jobs/109-workload universe to count these results.
+seeds 7/11/23, ten-second limits and solver settings unchanged. Additional tests
+and timings retain zero upstream-method credit; the original 18 comparison jobs
+and 109-workload universe remain separate.
 
-Current stream storage batch adds checked ordinal/pair identity propagation,
-sparse pair input/filter caches, bounded join bitsets, group input journals and
-single-search updates. All **8,629 Rust tests +292 doctests**, Clippy, formatting
-and tooling checks pass on native source
-`bc3f5327636e50eb110cfd7861d989406778e0f70105b5df4e1f6f26bc818e36`.
-Original inventory remains4412 passed/0 pending/443 excluded. The new22 checks
-are additional native regressions, separate from four RealWorld application
-checks and all mapped upstream tests. Original source-affected comparisons stay
-stale; do not rekey old results. Some static native requirement attestations also
-need deliberate requalification; a passing Rust gate is not complete readiness.
+The candidate-storage batch is integrated and verified. It adds primitive
+numeric caches, unbounded expanded occurrence IDs and saved candidate captures
+containing touched rows/index buckets. Custom Drop payloads and generic/borrowed
+IDs retain their existing ownership paths. One completed standard gate records
+**8,670 passing native tests and 292 doctests**, with formatting, all-target Clippy
+and tooling checks. Seven archive-report fixture setup solves exceeded 10 ms during
+the initial run; the affected 522-test target passed a selective retry with no
+source or setting changes. All successful targets were reused. Raw failed logs
+remain in `work/real_world-goal/candidate-storage/failed-first-gate/`.
 
-Fresh qualified runner-a comparison: **33,636 Rust /130,279 Java evaluations/s**
-on Golfer and **6,813 /82,416** on Sailing. Native improvements over the baseline
-are **2.01x /1.30x**. All12 outputs independently validate. Sailing is feasible
-in2/3 native runs and0/3 Java streams runs; raw quality remains separate.
-`compat/observations/real_world-stream-storage.json` binds exact report/artifacts,
-source snapshot and gate. Raw collection: `work/real_world-goal/full/`; live
-application report: `work/real_world-performance.json`. Optional Java handwritten
-incremental was not refreshed. No UI assets changed; reuse rendering proof and
-inspect data/freshness only. runner-a works; runner-c SSH most recently timed out.
+Fresh qualified runner-a comparison: **58,060 Rust /128,525 Java evaluations/s**
+on Golfer and **13,176 /81,068** on Sailing. Native throughput is 1.73x/1.93x the
+previous qualified stream-storage results. All 12 outputs independently validate.
+Sailing is feasible in 2/3 native runs and 0/3 Java streams runs; quality remains a
+separate observation. Source input digest is
+`18a26556e562d356f24048ad6ff560144c5f068c14f23cdeb41c846245791da1`.
+Native test source is
+`d035384aa24b7c9b361829e46720be06b5984a3f5a7c868b680e32bd19797e8a`.
+The immutable release snapshot predates cfg(test) inference/lint fixes; its actual
+selected production input digest matches integrated sources exactly. Do not claim
+raw test-source equality. Observation:
+`compat/observations/real_world-candidate-storage.json`; raw collection, build
+and gate receipts: `work/real_world-goal/candidate-storage/`.
 
-Next implementation is isolated under `work/real_world-goal/dynamic-prototype/`:
-three existing GPT-6.1 Sol agents implemented a general primitive-key paged map,
-Group summary integration and NoDrop-gated Terminal integration. Their shared
-focused test run passed19 tests. Main source remains unchanged by this prototype.
-A short runner-a benchmark is being dispatched there via
-`work/real_world-dynamic/dispatch.py`; inspect its actual live handle/receipt before
-starting another run. PrimitiveRows has one known Clippy warning: the old map
-journal Transaction::remove became unused. Measure and review before integrating.
+The qualified application report is promoted to `work/real_world-performance.json`.
+Regenerate compatibility data and inspect HTTP data/freshness after report updates.
+No frontend assets changed; reuse rendering proof. Original source-affected
+comparisons stay stale and receive no rekeying. Upstream 4412 passed/0 pending/
+443 excluded is unchanged. No extra upstream-method credit is added.
 
-A separate isolated first-accepted live-commit experiment is at
-`work/real_world-goal/prototype/`, remote
-`/home/developer/.cache/timetuck-build/experiments/real_world-first-e10a9d6b22c61174`.
-Its four short runs validate but are unqualified and not integrated: about32k/s
-Golfer,7.9k/s Sailing. The prototype needs conservative selection/Drop/cancellation
-handling: prior rejected fallbacks, iterator destruction, cloning panic,
-can_commit rejection/panic, diagnostic/fallback paths, retained snapshots and
-outer rollback. Do not copy it unchanged. The measured current Sailing profile
-attributes7.4% to capture and18.5% to graph install; per-node capture of touched
-slots only may improve all forager modes without full snapshot round trips.
-Raw profiles are in `work/real_world-goal/`; genuine baseline/current release
-binaries are retained there. runner-a also retains the qualified release artifact
-by SHA in `~/.cache/timetuck-build/artifacts/` before prototype builds.
+Further optimization remains isolated. The dispatch prototype passes 482 library
+and four application tests, with rotating two-second native controls suggesting
+1.07x/1.14x gains; those are diagnostics, not qualified target measurements.
+The callback prototype retains concrete callback types inside private graph nodes
+for no-Drop captured environments, with original boxed wrappers retained otherwise.
+All three agents are finished/frozen. The actual runner-a worker is running;
+collect the existing handle from `work/real_world-goal/callbacks-continuation.json`.
+Keep main unchanged while measuring. Neither prototype is integrated or credited
+as target progress. runner-a works; the latest runner-c probe timed out.
+
+The separate first-accepted live-commit experiment in
+`work/real_world-goal/prototype/` remains unintegrated. Preserve conservative
+Drop/cancellation/forager semantics before considering that implementation.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

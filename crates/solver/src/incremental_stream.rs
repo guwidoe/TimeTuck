@@ -33,6 +33,8 @@ mod group_batch;
 #[cfg(test)]
 mod group_immediate_tests;
 mod group_inputs;
+#[cfg(test)]
+mod group_primitive_tests;
 mod sum_group;
 pub use sum_group::SumGroupNode;
 mod join_batch;
@@ -84,7 +86,7 @@ fn healthy(poisoned: bool) {
 /// Caches the predicate result for each input identity. Retraction never reruns
 /// the predicate, and an update evaluates only the changed row.
 pub struct FilterNode<'a, I, T> {
-    rows: SnapshotMap<I, (bool, T)>,
+    rows: crate::primitive_rows::PrimitiveRows<I, (bool, T)>,
     fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (bool, T)>>>,
     pair_rows: Option<Box<filter_pairs::PairRows<I, (bool, T)>>>,
     predicate: Box<dyn Fn(&T) -> bool + 'a>,
@@ -132,7 +134,7 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
 
     pub fn new(predicate: impl Fn(&T) -> bool + 'a) -> Self {
         Self {
-            rows: SnapshotMap::new(),
+            rows: crate::primitive_rows::PrimitiveRows::new(),
             fixed_rows: None,
             pair_rows: None,
             predicate: Box::new(predicate),
@@ -502,7 +504,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
 /// emits a retraction; a replacement within the same key emits one final summary.
 pub struct GroupNode<I, K> {
     inputs: group_inputs::GroupInputs<I, (K, i64)>,
-    groups: SnapshotMap<K, IntCollector>,
+    groups: crate::primitive_rows::PrimitiveRows<K, IntCollector>,
     poisoned: bool,
 }
 
@@ -536,7 +538,7 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         let (inputs, groups) = *checkpoint
             .downcast::<(
                 group_inputs::GroupInputs<I, (K, i64)>,
-                SnapshotMap<K, IntCollector>,
+                crate::primitive_rows::PrimitiveRows<K, IntCollector>,
             )>()
             .expect("group checkpoint type");
         self.inputs.install_snapshot(inputs);
@@ -547,9 +549,30 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
     pub fn new() -> Self {
         Self {
             inputs: group_inputs::GroupInputs::new(),
-            groups: SnapshotMap::new(),
+            groups: crate::primitive_rows::PrimitiveRows::new(),
             poisoned: false,
         }
+    }
+
+    // Group mappings choose their own key coordinates. Primitive key storage
+    // needs only exact type identity, independently of source occurrence bounds.
+    pub(crate) fn bind_primitive_group_keys(&mut self) -> bool
+    where
+        K: 'static,
+    {
+        self.groups.bind_primitive()
+    }
+
+    // Expanded occurrences have their own ID coordinates. Exact primitive ID
+    // storage remains valid without a declared Cartesian or ordinal universe.
+    pub(crate) fn bind_primitive_inputs(&mut self) -> bool
+    where
+        I: 'static,
+    {
+        if std::mem::needs_drop::<K>() {
+            return false;
+        }
+        self.inputs.bind_primitive()
     }
 
     pub(crate) fn bind_pair_inputs(&mut self, left: usize, right: usize) -> bool

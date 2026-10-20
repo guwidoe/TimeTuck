@@ -213,9 +213,6 @@ impl<K: Ord, V> Transaction<'_, K, V> {
     pub(crate) fn insert(&mut self, key: K, value: V) {
         self.map.insert(key, value);
     }
-    pub(crate) fn remove(&mut self, key: &K) -> bool {
-        self.map.remove(key)
-    }
 }
 impl<K, V> Transaction<'_, K, V> {
     pub(crate) fn commit(mut self) {

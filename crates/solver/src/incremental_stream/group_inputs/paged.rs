@@ -1,9 +1,15 @@
 //! Sparse fixed pair identities: snapshot pages share captured payload owners.
 use super::*;
+use crate::SnapshotMap;
 const PAGE_SIZE: usize = 64;
 const MAX_SLOTS: usize = 1_000_000;
 type Page<V> = [Option<Arc<V>>; PAGE_SIZE];
 
+pub(in crate::incremental_stream) struct Capture<V> {
+    left: usize,
+    right: usize,
+    rows: Undo<V>,
+}
 pub(in crate::incremental_stream) struct Paged<I, V> {
     pages: Vec<Option<Arc<Page<V>>>>,
     left: usize,
@@ -87,6 +93,47 @@ impl<I, V> Paged<I, V> {
             self.set(index, value);
         }
         self.spare.push(undo);
+    }
+    pub(super) fn capture_current(&self, token: usize) -> Capture<V> {
+        assert!(token < self.frames.len(), "active group pair journal token");
+        let count = self.left * self.right;
+        let mut indices: Vec<_> = self.frames[token..]
+            .iter()
+            .flat_map(|frame| frame.iter().map(|(index, _)| *index))
+            .filter(|index| *index < count)
+            .collect();
+        indices.sort_unstable();
+        indices.dedup();
+        Capture {
+            left: self.left,
+            right: self.right,
+            rows: indices
+                .into_iter()
+                .map(|index| {
+                    let value = self.pages[index / PAGE_SIZE]
+                        .as_ref()
+                        .and_then(|page| page[index % PAGE_SIZE].clone());
+                    (index, value)
+                })
+                .collect(),
+        }
+    }
+    pub(super) fn install_capture(&mut self, capture: Capture<V>) {
+        assert_eq!(
+            (self.left, self.right),
+            (capture.left, capture.right),
+            "group pair capture universe"
+        );
+        assert!(
+            capture
+                .rows
+                .iter()
+                .all(|(index, _)| *index < self.left * self.right),
+            "group pair capture index"
+        );
+        for (index, value) in capture.rows {
+            self.replace(index, value);
+        }
     }
     pub(super) fn install(&mut self, saved: Self) {
         assert_eq!(
@@ -226,5 +273,61 @@ mod tests {
             original.get(&(320, 572)).unwrap()
         ));
         assert!(rows.get(&(572, 0)).is_none());
+    }
+}
+
+#[cfg(test)]
+mod capture_tests {
+    use super::*;
+    struct NoClone(usize);
+    #[test]
+    fn sparse_pair_capture_owns_only_touched_cells_and_restores_last_partial_page() {
+        let mut rows = GroupInputs::new();
+        rows.insert((0usize, 0usize), NoClone(1));
+        rows.insert((572, 572), NoClone(2));
+        assert!(rows.bind_pair(573, 573));
+        let outer = rows.begin_journal();
+        rows.remove(&(0, 0));
+        rows.insert((1, 571), NoClone(3));
+        let saved = rows.clone();
+        rows.insert((572, 572), NoClone(4));
+        // Full installation logs padding of the final page; delta capture must
+        // retain only valid Cartesian cells from that otherwise harmless undo.
+        rows.install_snapshot(saved);
+        let capture = rows.capture_current(outer);
+        let super::super::Capture::Paged(capture) = capture else {
+            unreachable!()
+        };
+        assert!(capture.rows.len() < PAGE_SIZE);
+        assert!(capture.rows.iter().any(|(index, _)| *index == 0));
+        assert!(
+            capture
+                .rows
+                .iter()
+                .any(|(index, _)| *index == 573 * 573 - 1)
+        );
+        assert!(capture.rows.iter().all(|(index, _)| *index < 573 * 573));
+        rows.rollback_journal(outer);
+        let install = rows.begin_journal();
+        rows.install_capture(super::super::Capture::Paged(capture));
+        assert!(rows.get(&(0, 0)).is_none());
+        assert_eq!(rows.get(&(1, 571)).unwrap().0, 3);
+        assert_eq!(rows.get(&(572, 572)).unwrap().0, 2);
+        rows.rollback_journal(install);
+        assert_eq!(rows.get(&(0, 0)).unwrap().0, 1);
+        assert!(rows.get(&(1, 571)).is_none());
+        assert_eq!(rows.get(&(572, 572)).unwrap().0, 2);
+        let bad = Capture {
+            left: 572,
+            right: 573,
+            rows: vec![(0, Some(Arc::new(NoClone(9))))],
+        };
+        assert!(
+            std::panic::catch_unwind(std::panic::AssertUnwindSafe(
+                || rows.install_capture(super::super::Capture::Paged(bad))
+            ))
+            .is_err()
+        );
+        assert_eq!(rows.get(&(0, 0)).unwrap().0, 1);
     }
 }

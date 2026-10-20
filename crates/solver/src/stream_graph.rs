@@ -30,6 +30,8 @@
 //! ```
 
 mod bound_universes;
+#[cfg(test)]
+mod candidate_capture_tests;
 mod checkpoint_box;
 use checkpoint_box::CheckpointBox;
 mod dependency_batch;
@@ -266,6 +268,12 @@ trait Node<S: AdditiveScore> {
     }
 
     fn checkpoint(&self) -> Box<dyn Any>;
+    // Candidate captures are installed only over the transaction's entry state.
+    // Nodes with slot journals can retain current touched entries without
+    // sharing their entire working cache. Full checkpoints remain independent.
+    fn capture_checkpoint(&self, _original: &dyn Any) -> Box<dyn Any> {
+        self.checkpoint()
+    }
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
         self.checkpoint()
     }
@@ -463,6 +471,9 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
 
 struct Filter<'a, I, T>(FilterNode<'a, I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for Filter<'_, I, T> {
+    fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        self.0.capture_checkpoint(original)
+    }
     fn bind_fixed_pair_input(&mut self, right: bool, left: usize, right_count: usize) {
         if !right {
             self.0.bind_fixed_pairs(left, right_count);
@@ -691,6 +702,9 @@ impl<
     S: AdditiveScore,
 > Node<S> for Join<'_, I, J, L, R, K>
 {
+    fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        self.0.capture_checkpoint(original)
+    }
     fn joins_input_ids(&self) -> bool {
         true
     }
@@ -967,6 +981,9 @@ struct Group<'a, I, T, K> {
 impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: AdditiveScore> Node<S>
     for Group<'_, I, T, K>
 {
+    fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        self.node.capture_checkpoint(original)
+    }
     fn clear(&mut self) {
         self.node.clear();
     }
@@ -1094,15 +1111,29 @@ impl<T, S> TerminalEvaluation<'_, T, S> {
         }
     }
 }
+fn terminal_rows<I: 'static, T, S>() -> crate::primitive_rows::PrimitiveRows<I, (T, S)> {
+    let mut rows = crate::primitive_rows::PrimitiveRows::new();
+    // Primitive IDs have no user identity operations. Retain the ordinary map
+    // for rows or scores with destruction effects, including custom scores.
+    if !std::mem::needs_drop::<(T, S)>() {
+        rows.bind_primitive();
+    }
+    rows
+}
+
 struct TerminalJournal<S> {
     rows: usize,
+    total: S,
+}
+struct TerminalCapture<I, T, S> {
+    rows: crate::primitive_rows::RowsCapture<I, (T, S)>,
     total: S,
 }
 struct Terminal<'a, I, T, S> {
     evaluate: TerminalEvaluation<'a, T, S>,
     total: S,
     name: String,
-    matches: SnapshotMap<I, (T, S)>,
+    matches: crate::primitive_rows::PrimitiveRows<I, (T, S)>,
     checkpoint_box: CheckpointBox<TerminalJournal<S>>,
 }
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
@@ -1144,7 +1175,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             (&journal_view, &saved.total)
         } else {
             let (old, total) = checkpoint
-                .downcast_ref::<(SnapshotMap<I, (T, S)>, S)>()
+                .downcast_ref::<(crate::primitive_rows::PrimitiveRows<I, (T, S)>, S)>()
                 .expect("terminal checkpoint type");
             (old, total)
         };
@@ -1157,6 +1188,15 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
     }
     fn checkpoint(&self) -> Box<dyn Any> {
         Box::new((self.matches.clone(), self.total.clone()))
+    }
+    fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        let Some(saved) = CheckpointBox::<TerminalJournal<S>>::get(original) else {
+            return self.checkpoint();
+        };
+        Box::new(TerminalCapture {
+            rows: self.matches.capture_current(saved.rows),
+            total: self.total.clone(),
+        })
     }
     fn begin_checkpoint(&mut self) -> Box<dyn Any> {
         // User-defined score cloning may panic; it must precede opening a frame.
@@ -1176,6 +1216,14 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         self.checkpoint_box.recycle(empty);
     }
     fn restore(&mut self, c: Box<dyn Any>) {
+        let c = match c.downcast::<TerminalCapture<I, T, S>>() {
+            Ok(saved) => {
+                self.matches.install_capture(saved.rows);
+                self.total = saved.total;
+                return;
+            }
+            Err(c) => c,
+        };
         match CheckpointBox::<TerminalJournal<S>>::unpack(c) {
             Ok((saved, empty)) => {
                 self.matches.rollback_journal(saved.rows);
@@ -1184,7 +1232,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             }
             Err(c) => {
                 let (matches, total) = *c
-                    .downcast::<(SnapshotMap<I, (T, S)>, S)>()
+                    .downcast::<(crate::primitive_rows::PrimitiveRows<I, (T, S)>, S)>()
                     .expect("terminal checkpoint type");
                 self.matches.install_snapshot(matches);
                 self.total = total;
@@ -1198,7 +1246,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
         self.matches.len()
     }
     fn matches(&self) -> Option<&dyn Any> {
-        Some(&self.matches)
+        Some(self.matches.materialized())
     }
     fn score(&self) -> S {
         self.total.clone()
@@ -1323,7 +1371,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         predicate: impl Fn(&T) -> bool + 'a,
     ) -> Result<StreamPort<I, T>, GraphError> {
         self.validate(input)?;
-        let out = self.push(Filter(FilterNode::<I, T>::new(predicate)));
+        let mut node = FilterNode::<I, T>::new(predicate);
+        node.bind_primitive_inputs();
+        let out = self.push(Filter(node));
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -1964,8 +2014,11 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         mapping: impl Fn(&T) -> (K, i64) + 'a,
     ) -> Result<StreamPort<K, (K, IntSummary)>, GraphError> {
         self.validate(input)?;
+        let mut node = GroupNode::<I, K>::new();
+        node.bind_primitive_group_keys();
+        node.bind_primitive_inputs();
         let out = self.push(Group {
-            node: GroupNode::<I, K>::new(),
+            node,
             mapping: Box::new(mapping),
         });
         self.connect(input.node, out.node, false);
@@ -2123,7 +2176,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             evaluate: TerminalEvaluation::Direct(Box::new(evaluate)),
             total: S::ZERO,
             name: name.clone(),
-            matches: SnapshotMap::new(),
+            matches: terminal_rows::<I, T, S>(),
             checkpoint_box: CheckpointBox::new(),
         });
         self.constraints.insert(name, out.node);
@@ -2203,7 +2256,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             evaluate: TerminalEvaluation::Weighted { weight, impact },
             total: S::ZERO,
             name: name.clone(),
-            matches: SnapshotMap::new(),
+            matches: terminal_rows::<I, T, S>(),
             checkpoint_box: CheckpointBox::new(),
         });
         self.constraints.insert(name, out.node);
@@ -2630,7 +2683,12 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             nodes: self
                 .journal
                 .iter()
-                .map(|(id, _)| (*id, self.graph.nodes[*id].checkpoint()))
+                .map(|(id, original)| {
+                    (
+                        *id,
+                        self.graph.nodes[*id].capture_checkpoint(original.as_ref()),
+                    )
+                })
                 .collect(),
         })
     }
@@ -2897,3 +2955,6 @@ mod source_forwarding_tests;
 
 #[cfg(test)]
 mod unary_batch_tests;
+
+#[cfg(test)]
+mod terminal_primitive_tests;

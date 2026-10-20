@@ -1,7 +1,8 @@
 //! Reuse bounded key-preserving rows for complete planning-filter input caches.
-//! Sparse/unbound filters and ordinary facts keep their existing maps. Binding
-//! is private, occurs after initialization and never changes the ID universe.
+//! Unbounded primitive IDs may use sparse pages; generic/custom-Drop inputs
+//! retain tree maps. Fixed binding is private and never changes the ID universe.
 use super::*;
+use crate::primitive_rows::{DeltaRows, PrimitiveRows, RowsCapture};
 use filter_pairs::PairRows;
 use join_fixed_rows::FixedRows;
 use std::any::{Any, TypeId};
@@ -11,6 +12,11 @@ enum Saved<I, V> {
     Full(Box<FixedRows<I, V>>),
     PairFrame(usize),
     PairFull(Box<PairRows<I, V>>),
+    PairDelta(filter_pairs::Capture<I, V>),
+    FixedDelta(join_fixed_rows::Capture<V>),
+    RowsFrame(usize),
+    RowsFull(Box<PrimitiveRows<I, V>>),
+    RowsDelta(DeltaRows<I, V>),
 }
 
 impl<I: Ord + Clone, T: Clone> FilterNode<'_, I, T> {
@@ -94,8 +100,38 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
         }
         match &self.fixed_rows {
             Some(rows) => Box::new(Saved::Full(rows.clone())),
-            None => Box::new(self.rows.clone()),
+            None => Box::new(Saved::RowsFull(Box::new(self.rows.clone()))),
         }
+    }
+    pub(crate) fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        healthy(self.poisoned);
+        // A saved candidate must retain untouched custom payload owners too.
+        // Primitive payloads have no observable destruction schedule.
+        if std::mem::needs_drop::<T>() {
+            return self.checkpoint_rows();
+        }
+        if let Some(saved) = original.downcast_ref::<Saved<I, (bool, T)>>() {
+            match saved {
+                Saved::PairFrame(token) => {
+                    let rows = self.pair_rows.as_ref().expect("bound pair rows");
+                    return Box::new(Saved::PairDelta(rows.capture_current(*token)));
+                }
+                Saved::Frame(token) => {
+                    let rows = self.fixed_rows.as_ref().expect("bound fixed rows");
+                    return Box::new(Saved::<I, (bool, T)>::FixedDelta(
+                        rows.capture_current(*token),
+                    ));
+                }
+                Saved::RowsFrame(token) => {
+                    return match self.rows.capture_current(*token) {
+                        RowsCapture::Full(rows) => Box::new(Saved::RowsFull(Box::new(rows))),
+                        RowsCapture::Delta(delta) => Box::new(Saved::RowsDelta(delta)),
+                    };
+                }
+                _ => {}
+            }
+        }
+        self.checkpoint_rows()
     }
     pub(super) fn begin_rows(&mut self) -> Box<dyn Any> {
         if let Some(rows) = &mut self.pair_rows {
@@ -103,7 +139,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
         }
         match &mut self.fixed_rows {
             Some(rows) => Box::new(Saved::<I, (bool, T)>::Frame(rows.begin())),
-            None => self.rows.begin_checkpoint(),
+            None => Box::new(Saved::<I, (bool, T)>::RowsFrame(self.rows.begin_journal())),
         }
     }
     pub(super) fn commit_rows(&mut self, saved: Box<dyn Any>) {
@@ -125,7 +161,14 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
                     rows.commit(token);
                 }
             }
-            None => self.rows.commit_checkpoint(saved),
+            None => {
+                if let Saved::RowsFrame(token) = *saved
+                    .downcast::<Saved<I, (bool, T)>>()
+                    .expect("filter row checkpoint")
+                {
+                    self.rows.commit_journal(token);
+                }
+            }
         }
     }
     pub(super) fn restore_rows(&mut self, saved: Box<dyn Any>) {
@@ -136,6 +179,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
             {
                 Saved::PairFrame(token) => rows.rollback(token),
                 Saved::PairFull(old) => rows.install(*old),
+                Saved::PairDelta(delta) => rows.install_capture(delta),
                 _ => unreachable!("pair filter checkpoint kind"),
             }
             return;
@@ -147,16 +191,33 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
             {
                 Saved::Frame(token) => rows.rollback(token),
                 Saved::Full(old) => rows.install(*old),
+                Saved::FixedDelta(delta) => rows.install_capture(delta),
                 _ => unreachable!("bound filter checkpoint kind"),
             },
-            None => self.rows.restore_checkpoint(saved),
+            None => match *saved
+                .downcast::<Saved<I, (bool, T)>>()
+                .expect("filter row checkpoint")
+            {
+                Saved::RowsFrame(token) => self.rows.rollback_journal(token),
+                Saved::RowsFull(old) => self.rows.install_snapshot(*old),
+                Saved::RowsDelta(delta) => self.rows.install_capture(RowsCapture::Delta(delta)),
+                _ => unreachable!("filter row checkpoint kind"),
+            },
         }
+    }
+    /// Bind only exact primitive IDs with payloads whose destruction cannot be
+    /// observed. Generic keys and payloads with Drop retain ordinary map state.
+    pub(crate) fn bind_primitive_inputs(&mut self) -> bool {
+        if self.fixed_rows.is_some() || self.pair_rows.is_some() || std::mem::needs_drop::<T>() {
+            return false;
+        }
+        self.rows.bind_primitive()
     }
     pub(crate) fn bind_fixed_pairs(&mut self, left: usize, right: usize) -> bool {
         if self.fixed_rows.is_some() || self.pair_rows.is_some() {
             return false;
         }
-        let Some(rows) = PairRows::bind(&self.rows, left, right) else {
+        let Some(rows) = PairRows::bind(self.rows.materialized(), left, right) else {
             return false;
         };
         self.pair_rows = Some(Box::new(rows));
@@ -360,5 +421,265 @@ mod tests {
         assert_eq!(*node.rows().next().unwrap().1, 1);
         assert_eq!(calls.get(), before);
         assert!(!node.is_poisoned());
+    }
+}
+
+#[cfg(test)]
+mod capture_tests {
+    use super::*;
+    use std::{cell::Cell, fmt::Debug, rc::Rc};
+
+    #[test]
+    fn bound_filter_capture_retains_untouched_custom_payload_owners() {
+        let mut node = FilterNode::new(|_: &Rc<usize>| true);
+        let value = Rc::new(7usize);
+        let weak = Rc::downgrade(&value);
+        node.apply(TupleChange::put(0usize, value));
+        assert!(node.bind_fixed_inputs(1));
+        let original = node.begin_checkpoint();
+        let saved = node.capture_checkpoint(original.as_ref());
+        assert!(matches!(
+            saved.downcast_ref::<Saved<usize, (bool, Rc<usize>)>>(),
+            Some(Saved::Full(_))
+        ));
+        node.restore(original);
+        node.clear_rows();
+        assert!(weak.upgrade().is_some());
+        drop(saved);
+        assert!(weak.upgrade().is_none());
+    }
+
+    fn exercise<I: Ord + Clone + Debug + 'static>(ids: [I; 3], pair: bool) {
+        let calls = Rc::new(Cell::new(0));
+        let mut node = FilterNode::new(|value: &i64| {
+            calls.set(calls.get() + 1);
+            *value > 0
+        });
+        for (id, value) in ids.iter().zip([1, -2, 3]) {
+            node.apply(TupleChange::put(id.clone(), value));
+        }
+        if pair {
+            assert!(node.bind_fixed_pairs(3, 65));
+        } else {
+            assert!(node.bind_fixed_inputs(3));
+        }
+        let contents = |node: &FilterNode<'_, I, i64>| {
+            node.rows()
+                .map(|(id, value)| (id.clone(), *value))
+                .collect::<Vec<_>>()
+        };
+        let base = contents(&node);
+        let original = node.begin_checkpoint();
+        node.apply(TupleChange::put(ids[0].clone(), -10));
+        node.apply(TupleChange::retract(ids[2].clone()));
+        let inner = node.begin_checkpoint();
+        node.apply(TupleChange::put(ids[1].clone(), 20));
+        node.apply(TupleChange::put(ids[2].clone(), 30));
+        let want = contents(&node);
+        let saved = node.capture_checkpoint(original.as_ref());
+        let saved_nested = node.capture_checkpoint(original.as_ref());
+        node.commit_checkpoint(inner);
+        node.restore(original);
+        assert_eq!(contents(&node), base);
+        let full_base = node.checkpoint();
+        let other = node.begin_checkpoint();
+        node.apply(TupleChange::put(ids[0].clone(), 100));
+        node.apply(TupleChange::retract(ids[1].clone()));
+        node.restore(other);
+        node.restore(full_base);
+        let outer = node.begin_checkpoint();
+        let before = calls.get();
+        node.restore(saved_nested);
+        assert_eq!(contents(&node), want);
+        assert_eq!(
+            calls.get(),
+            before,
+            "capture installation never evaluates predicates"
+        );
+        node.restore(outer);
+        assert_eq!(contents(&node), base);
+        node.restore(saved);
+        assert_eq!(contents(&node), want);
+        assert_eq!(calls.get(), before);
+        assert!(!node.is_poisoned());
+    }
+    #[test]
+    fn pair_filter_capture_survives_full_saves_other_trials_and_nested_installs() {
+        exercise([(0usize, 1usize), (0, 63), (2, 64)], true);
+    }
+    #[test]
+    fn fixed_filter_capture_survives_full_saves_other_trials_and_nested_installs() {
+        exercise([0usize, 1, 2], false);
+    }
+    #[test]
+    fn ordinary_filter_capture_retains_full_snapshot_fallback() {
+        let calls = Cell::new(0);
+        let mut node = FilterNode::new(|value: &i64| {
+            calls.set(calls.get() + 1);
+            *value > 0
+        });
+        node.apply(TupleChange::put("a", 1));
+        let original = node.begin_checkpoint();
+        node.apply(TupleChange::put("b", 2));
+        let saved = node.capture_checkpoint(original.as_ref());
+        assert!(
+            matches!(saved.downcast_ref::<Saved<&'static str, (bool, i64)>>(), Some(Saved::RowsFull(rows)) if !rows.is_primitive())
+        );
+        node.restore(original);
+        let before = calls.get();
+        node.restore(saved);
+        assert_eq!(
+            node.rows().collect::<Vec<_>>(),
+            vec![(&"a", &1), (&"b", &2)]
+        );
+        assert_eq!(calls.get(), before);
+    }
+}
+
+#[cfg(test)]
+mod primitive_tests {
+    use super::*;
+    use std::{cell::Cell, rc::Rc};
+
+    #[test]
+    fn unbounded_primitive_filter_capture_preserves_rejections_sparse_keys_and_nested_restores() {
+        let calls = Cell::new(0);
+        let mut node = FilterNode::new(|value: &i64| {
+            calls.set(calls.get() + 1);
+            *value > 0
+        });
+        let a = ((usize::MAX, 0usize), (usize::MAX, usize::MAX));
+        let b = ((0usize, usize::MAX), (0usize, 15usize));
+        let c = ((1usize, 2usize), (3usize, 16usize));
+        node.apply(TupleChange::put(a, 1));
+        node.apply(TupleChange::put(b, -2));
+        let owner = node.rows().next().unwrap().1 as *const i64;
+        assert!(node.bind_primitive_inputs());
+        assert!(node.rows.is_primitive());
+        assert_eq!(node.rows().next().unwrap().1 as *const i64, owner);
+        let original = node.begin_checkpoint();
+        assert_eq!(
+            node.apply(TupleChange::put(a, -10)),
+            Some(TupleChange::retract(a))
+        );
+        node.apply(TupleChange::put(c, 3));
+        let nested = node.begin_checkpoint();
+        node.apply(TupleChange::put(b, 2));
+        node.commit_checkpoint(nested);
+        let saved = node.capture_checkpoint(original.as_ref());
+        assert!(matches!(
+            saved.downcast_ref::<Saved<((usize, usize), (usize, usize)), (bool, i64)>>(),
+            Some(Saved::RowsDelta(_))
+        ));
+        let want = node
+            .rows()
+            .map(|(key, value)| (*key, *value))
+            .collect::<Vec<_>>();
+        node.restore(original);
+        let other = node.begin_checkpoint();
+        node.apply(TupleChange::put(c, 30));
+        node.apply(TupleChange::retract(a));
+        node.restore(other);
+        let outer = node.begin_checkpoint();
+        let before = calls.get();
+        node.restore(saved);
+        assert_eq!(
+            node.rows()
+                .map(|(key, value)| (*key, *value))
+                .collect::<Vec<_>>(),
+            want
+        );
+        assert_eq!(calls.get(), before);
+        node.restore(outer);
+        assert_eq!(
+            node.rows()
+                .map(|(key, value)| (*key, *value))
+                .collect::<Vec<_>>(),
+            vec![(a, 1)]
+        );
+        assert!(node.apply(TupleChange::retract(b)).is_none());
+        assert_eq!(calls.get(), before);
+    }
+
+    #[test]
+    fn primitive_filter_keeps_exact_output_cloning_and_prepublication_failures() {
+        use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+        static CLONES: AtomicUsize = AtomicUsize::new(0);
+        static FAIL: AtomicBool = AtomicBool::new(false);
+        struct Counted(i64);
+        impl Clone for Counted {
+            fn clone(&self) -> Self {
+                CLONES.fetch_add(1, Ordering::SeqCst);
+                assert!(
+                    !FAIL.swap(false, Ordering::SeqCst),
+                    "filter output clone failure"
+                );
+                Self(self.0)
+            }
+        }
+        CLONES.store(0, Ordering::SeqCst);
+        let calls = Cell::new(0);
+        let mut node = FilterNode::new(|value: &Counted| {
+            calls.set(calls.get() + 1);
+            value.0 > 0
+        });
+        assert!(node.bind_primitive_inputs());
+        node.apply(TupleChange::put(usize::MAX, Counted(1)));
+        assert_eq!(CLONES.load(Ordering::SeqCst), 1);
+        FAIL.store(true, Ordering::SeqCst);
+        assert!(
+            std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                node.apply(TupleChange::put(usize::MAX, Counted(2)))
+            }))
+            .is_err()
+        );
+        assert!(!node.is_poisoned());
+        assert_eq!(node.rows().next().unwrap().1.0, 1);
+        assert_eq!(CLONES.load(Ordering::SeqCst), 2);
+        assert!(
+            node.apply(TupleChange::put(usize::MAX, Counted(-3)))
+                .unwrap()
+                .value
+                .is_none()
+        );
+        assert_eq!(CLONES.load(Ordering::SeqCst), 2);
+        let original = node.begin_checkpoint();
+        node.apply(TupleChange::put(usize::MAX - 1, Counted(4)));
+        let saved = node.capture_checkpoint(original.as_ref());
+        node.restore(original);
+        node.restore(saved);
+        assert_eq!(CLONES.load(Ordering::SeqCst), 3);
+        let before = calls.get();
+        assert!(node.apply(TupleChange::retract(usize::MAX)).is_none());
+        assert_eq!(calls.get(), before);
+    }
+
+    #[test]
+    fn custom_drop_and_key_types_keep_full_tree_owners_and_borrowed_keys_still_work() {
+        let value = Rc::new(7usize);
+        let weak = Rc::downgrade(&value);
+        let mut node = FilterNode::new(|_: &Rc<usize>| false);
+        node.apply(TupleChange::put(usize::MAX, value));
+        assert!(!node.bind_primitive_inputs());
+        assert!(!node.rows.is_primitive());
+        let original = node.begin_checkpoint();
+        let saved = node.capture_checkpoint(original.as_ref());
+        assert!(matches!(
+            saved.downcast_ref::<Saved<usize, (bool, Rc<usize>)>>(),
+            Some(Saved::RowsFull(_))
+        ));
+        node.restore(original);
+        node.clear();
+        assert!(weak.upgrade().is_some());
+        drop(saved);
+        assert!(weak.upgrade().is_none());
+        let mut custom = FilterNode::new(|_: &i64| true);
+        custom.apply(TupleChange::put(String::from("custom"), 1));
+        assert!(!custom.bind_primitive_inputs());
+        let borrowed = String::from("borrowed");
+        let mut node = FilterNode::new(|_: &i64| true);
+        node.apply(TupleChange::put(borrowed.as_str(), 2));
+        assert_eq!(node.rows().next(), Some((&borrowed.as_str(), &2)));
+        assert!(!node.rows.is_primitive());
     }
 }

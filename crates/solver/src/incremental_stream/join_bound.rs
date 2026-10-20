@@ -15,6 +15,23 @@ struct BoundCheckpoint<I, J, L, R, K> {
     left_poisoned: bool,
     right_poisoned: bool,
 }
+enum CapturedRows<I, V> {
+    Fixed(join_fixed_rows::Capture<V>),
+    Map(SnapshotMap<I, V>),
+}
+enum CapturedIndex<I, K> {
+    Fixed(join_fixed_index::Capture<K>),
+    Map(SnapshotMap<K, SnapshotMap<I, ()>>),
+}
+struct CapturedSide<I, T, K> {
+    rows: CapturedRows<I, (K, T)>,
+    index: CapturedIndex<I, K>,
+    poisoned: bool,
+}
+struct BoundCapture<I, J, L, R, K> {
+    left: CapturedSide<I, L, K>,
+    right: CapturedSide<J, R, K>,
+}
 impl<I, T, K> JoinSide<I, T, K> {
     pub(super) fn begin_index(&mut self) -> usize {
         match &mut self.fixed_index {
@@ -55,6 +72,43 @@ impl<I, T, K> JoinSide<I, T, K> {
             SideSaved::Map(rows) => self.rows.install_snapshot(rows),
         }
     }
+    fn capture_side(&self, original: &SideSaved<I, (K, T)>, index: usize) -> CapturedSide<I, T, K> {
+        CapturedSide {
+            rows: match original {
+                SideSaved::Fixed(token) => CapturedRows::Fixed(
+                    self.fixed_rows
+                        .as_ref()
+                        .expect("bound capture rows")
+                        .capture_current(*token),
+                ),
+                SideSaved::Map(_) => CapturedRows::Map(self.rows.clone()),
+            },
+            index: match &self.fixed_index {
+                Some(rows) => CapturedIndex::Fixed(rows.capture_current(index)),
+                None => CapturedIndex::Map(self.index.clone()),
+            },
+            poisoned: self.poisoned,
+        }
+    }
+    fn install_captured_side(&mut self, saved: CapturedSide<I, T, K>) {
+        match saved.rows {
+            CapturedRows::Fixed(rows) => self
+                .fixed_rows
+                .as_mut()
+                .expect("bound capture rows")
+                .install_capture(rows),
+            CapturedRows::Map(rows) => self.rows.install_snapshot(rows),
+        }
+        match saved.index {
+            CapturedIndex::Fixed(index) => self
+                .fixed_index
+                .as_mut()
+                .expect("bound capture index")
+                .install_capture(index),
+            CapturedIndex::Map(index) => self.index.install_snapshot(index),
+        }
+        self.poisoned = saved.poisoned;
+    }
     pub(super) fn restore_side(&mut self, saved: Self) {
         match (&mut self.fixed_rows, saved.fixed_rows) {
             (Some(rows), Some(old)) => rows.install(*old),
@@ -69,7 +123,7 @@ impl<I, T, K> JoinSide<I, T, K> {
         self.poisoned = saved.poisoned;
     }
 }
-impl<I: 'static, T, K> JoinSide<I, T, K> {
+impl<I: 'static, T, K: 'static> JoinSide<I, T, K> {
     fn bind_fixed(&mut self, count: usize) -> bool {
         if TypeId::of::<I>() != TypeId::of::<usize>()
             || count > 4096
@@ -96,6 +150,7 @@ impl<I: 'static, T, K> JoinSide<I, T, K> {
             self.index.shared_entries(),
             index::<I>,
         )));
+        self.fixed_index.as_mut().unwrap().enable_delta_capture();
         self.fixed_rows = Some(Box::new(FixedRows::new(rows, index::<I>)));
         self.rows.clear();
         self.index.clear();
@@ -116,6 +171,20 @@ impl<
         } else {
             self.left.bind_fixed(count)
         }
+    }
+    pub(crate) fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        healthy(self.is_poisoned());
+        // Unchanged captured owners with user destructors must retain their
+        // original full-snapshot lifetime. Primitive ID vectors have no effects.
+        if !std::mem::needs_drop::<(K, L, R)>()
+            && let Some(saved) = original.downcast_ref::<BoundCheckpoint<I, J, L, R, K>>()
+        {
+            return Box::new(BoundCapture {
+                left: self.left.capture_side(&saved.left, saved.left_index),
+                right: self.right.capture_side(&saved.right, saved.right_index),
+            });
+        }
+        self.checkpoint()
     }
     pub(crate) fn begin_bound_checkpoint(&mut self) -> Option<Box<dyn Any>> {
         if self.left.fixed_rows.is_none() && self.right.fixed_rows.is_none() {
@@ -149,7 +218,13 @@ impl<
                 self.left.poisoned = saved.left_poisoned;
                 self.right.poisoned = saved.right_poisoned;
             }
-            Err(saved) => self.restore(saved),
+            Err(saved) => match saved.downcast::<BoundCapture<I, J, L, R, K>>() {
+                Ok(saved) => {
+                    self.left.install_captured_side(saved.left);
+                    self.right.install_captured_side(saved.right);
+                }
+                Err(saved) => self.restore(saved),
+            },
         }
     }
 }
@@ -301,5 +376,186 @@ mod join_bound_tests {
         assert_eq!(matches(&node), initial);
         node.restore_checkpoint(outer);
         assert_eq!(matches(&node), initial);
+    }
+}
+
+#[cfg(test)]
+mod join_capture_tests {
+    use super::*;
+    use std::{cell::Cell, rc::Rc, sync::Arc};
+    type Node<'a> = JoinNode<'a, usize, usize, (usize, i64), (usize, i64), usize>;
+    type Match = ((usize, usize), ((usize, i64), (usize, i64)));
+    const COMPARISONS: [JoinComparison; 5] = [
+        JoinComparison::Equal,
+        JoinComparison::LessThan,
+        JoinComparison::LessThanOrEqual,
+        JoinComparison::GreaterThan,
+        JoinComparison::GreaterThanOrEqual,
+    ];
+    fn contents(node: &Node<'_>) -> Vec<Match> {
+        node.matches()
+            .map(|((i, j), (l, r))| ((*i, *j), (*l, *r)))
+            .collect()
+    }
+    #[test]
+    fn join_capture_all_relations_partial_binding_alternate_trials_and_outer_undo() {
+        for comparison in COMPARISONS {
+            for binding in 1..=3 {
+                let calls = Cell::new(0);
+                let mut node = JoinNode::comparing(
+                    comparison,
+                    |row: &(usize, i64)| {
+                        calls.set(calls.get() + 1);
+                        row.0
+                    },
+                    |row: &(usize, i64)| {
+                        calls.set(calls.get() + 1);
+                        row.0
+                    },
+                );
+                for id in 0..24 {
+                    node.apply_left(TupleChange::put(id, (id % 4, id as i64)));
+                    node.apply_right(TupleChange::put(id, ((id + 1) % 4, -(id as i64))));
+                }
+                if binding & 1 != 0 {
+                    assert!(node.bind_fixed_input(false, 24));
+                }
+                if binding & 2 != 0 {
+                    assert!(node.bind_fixed_input(true, 24));
+                }
+                let base = contents(&node);
+                let full_base = node.checkpoint();
+                let original = node.begin_bound_checkpoint().unwrap();
+                node.apply_left(TupleChange::put(0, (9, 90)));
+                node.apply_right(TupleChange::put(1, (9, 91)));
+                node.apply_left(TupleChange::retract(23));
+                let inner = node.begin_bound_checkpoint().unwrap();
+                node.apply_right(TupleChange::retract(22));
+                node.apply_right(TupleChange::put(1, (10, 101)));
+                node.apply_left(TupleChange::put(0, (10, 100)));
+                let want = contents(&node);
+                let before = calls.get();
+                let saved = node.capture_checkpoint(original.as_ref());
+                let nested = node.capture_checkpoint(original.as_ref());
+                assert!(
+                    saved.is::<BoundCapture<usize, usize, (usize, i64), (usize, i64), usize>>()
+                );
+                assert_eq!(calls.get(), before);
+                node.commit_bound_checkpoint(inner);
+                node.restore_bound_checkpoint(original);
+                assert_eq!(contents(&node), base);
+                let other = node.begin_bound_checkpoint().unwrap();
+                node.apply_left(TupleChange::put(3, (12, 300)));
+                node.apply_right(TupleChange::retract(2));
+                node.restore_bound_checkpoint(other);
+                assert_eq!(contents(&node), base);
+                let outer = node.begin_bound_checkpoint().unwrap();
+                let before = calls.get();
+                node.restore_bound_checkpoint(nested);
+                assert_eq!(contents(&node), want, "{comparison:?}, binding {binding}");
+                node.restore_bound_checkpoint(outer);
+                assert_eq!(contents(&node), base);
+                node.restore_bound_checkpoint(saved);
+                assert_eq!(contents(&node), want);
+                assert_eq!(
+                    calls.get(),
+                    before,
+                    "capture installation does not project keys"
+                );
+                node.restore(full_base);
+                assert_eq!(contents(&node), base);
+                // Full legacy snapshots restored inside a frame must remain
+                // visible to subsequent sparse captures and outer undo.
+                let original = node.begin_bound_checkpoint().unwrap();
+                let legacy = node.checkpoint();
+                node.clear();
+                node.restore(legacy);
+                node.apply_left(TupleChange::put(4, (8, 400)));
+                let wanted = contents(&node);
+                let saved = node.capture_checkpoint(original.as_ref());
+                node.restore_bound_checkpoint(original);
+                node.restore_bound_checkpoint(saved);
+                assert_eq!(contents(&node), wanted);
+            }
+        }
+    }
+    #[test]
+    fn join_capture_self_join_empty_sparse_states_keep_matching_rows() {
+        for comparison in COMPARISONS {
+            let mut node =
+                JoinNode::comparing(comparison, |r: &(usize, i64)| r.0, |r: &(usize, i64)| r.0);
+            for id in 0usize..8 {
+                node.apply_left(TupleChange::put(id, (id % 3, id as i64)));
+                node.apply_right(TupleChange::put(id, (id % 3, id as i64)));
+            }
+            assert!(node.bind_fixed_input(false, 8));
+            assert!(node.bind_fixed_input(true, 8));
+            let base = contents(&node);
+            let original = node.begin_bound_checkpoint().unwrap();
+            node.clear();
+            for id in [0, 7] {
+                node.apply_right(TupleChange::put(id, (20, id as i64 * 2)));
+                node.apply_left(TupleChange::put(id, (20, id as i64 * 2)));
+            }
+            let want = contents(&node);
+            let saved = node.capture_checkpoint(original.as_ref());
+            node.restore_bound_checkpoint(original);
+            assert_eq!(contents(&node), base);
+            node.restore_bound_checkpoint(saved);
+            assert_eq!(contents(&node), want);
+            let original = node.begin_bound_checkpoint().unwrap();
+            node.clear();
+            let saved = node.capture_checkpoint(original.as_ref());
+            node.restore_bound_checkpoint(original);
+            node.restore_bound_checkpoint(saved);
+            assert!(contents(&node).is_empty());
+        }
+        let mut empty: Node<'_> =
+            JoinNode::new(|row: &(usize, i64)| row.0, |row: &(usize, i64)| row.0);
+        assert!(empty.bind_fixed_input(false, 0));
+        assert!(empty.bind_fixed_input(true, 0));
+        let original = empty.begin_bound_checkpoint().unwrap();
+        let saved = empty.capture_checkpoint(original.as_ref());
+        empty.restore_bound_checkpoint(original);
+        empty.restore_bound_checkpoint(saved);
+        assert!(contents(&empty).is_empty());
+    }
+    #[test]
+    fn join_capture_custom_drop_payloads_keep_full_untouched_owners_and_clone_behavior() {
+        struct Row(usize, Arc<()>, Rc<Cell<usize>>);
+        impl Clone for Row {
+            fn clone(&self) -> Self {
+                self.2.set(self.2.get() + 1);
+                Self(self.0, self.1.clone(), self.2.clone())
+            }
+        }
+        let clones = Rc::new(Cell::new(0));
+        let marker = Arc::new(());
+        let weak = Arc::downgrade(&marker);
+        let mut node = JoinNode::new(|row: &Row| row.0, |row: &usize| *row);
+        node.apply_left(TupleChange::put(
+            0usize,
+            Row(0, Arc::new(()), clones.clone()),
+        ));
+        node.apply_left(TupleChange::put(1, Row(1, marker, clones.clone())));
+        node.apply_right(TupleChange::put(0usize, 0usize));
+        assert!(node.bind_fixed_input(false, 2));
+        assert!(node.bind_fixed_input(true, 1));
+        let original = node.begin_bound_checkpoint().unwrap();
+        node.apply_left(TupleChange::put(0, Row(2, Arc::new(()), clones.clone())));
+        let before = clones.get();
+        let saved = node.capture_checkpoint(original.as_ref());
+        assert!(saved.is::<(JoinSide<usize, Row, usize>, JoinSide<usize, usize, usize>)>());
+        node.restore_bound_checkpoint(original);
+        node.clear();
+        assert!(
+            weak.upgrade().is_some(),
+            "full capture retains untouched custom payload owners"
+        );
+        node.restore_bound_checkpoint(saved);
+        assert_eq!(clones.get(), before);
+        assert!(weak.upgrade().is_some());
+        drop(node);
+        assert!(weak.upgrade().is_none());
     }
 }

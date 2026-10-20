@@ -6,6 +6,10 @@ struct GroupJournal {
     inputs: usize,
     groups: usize,
 }
+struct GroupCaptured<I, K> {
+    inputs: group_inputs::Capture<I, (K, i64)>,
+    groups: crate::primitive_rows::RowsCapture<K, IntCollector>,
+}
 impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
     /// Apply an atomic round, publishing one final summary per affected group.
     /// Repeated input IDs retain their first representative and last value.
@@ -104,18 +108,45 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
         self.inputs.commit_journal(saved.inputs);
         self.groups.commit_journal(saved.groups);
     }
+    pub(crate) fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any>
+    where
+        I: 'static,
+        K: 'static,
+    {
+        healthy(self.poisoned);
+        // Custom group keys can have observable destructor effects. Keep their
+        // complete snapshot ownership even when input IDs have a fixed binding.
+        if std::mem::needs_drop::<K>() {
+            return self.checkpoint();
+        }
+        if let Some(saved) = original.downcast_ref::<GroupJournal>() {
+            Box::new(GroupCaptured {
+                inputs: self.inputs.capture_current(saved.inputs),
+                groups: self.groups.capture_current(saved.groups),
+            })
+        } else {
+            self.checkpoint()
+        }
+    }
     pub(crate) fn restore_checkpoint(&mut self, checkpoint: Box<dyn Any>)
     where
         I: 'static,
         K: 'static,
     {
-        match checkpoint.downcast::<GroupJournal>() {
+        match checkpoint.downcast::<GroupCaptured<I, K>>() {
             Ok(saved) => {
-                self.inputs.rollback_journal(saved.inputs);
-                self.groups.rollback_journal(saved.groups);
+                self.inputs.install_capture(saved.inputs);
+                self.groups.install_capture(saved.groups);
                 self.poisoned = false;
             }
-            Err(snapshot) => self.restore(snapshot),
+            Err(checkpoint) => match checkpoint.downcast::<GroupJournal>() {
+                Ok(saved) => {
+                    self.inputs.rollback_journal(saved.inputs);
+                    self.groups.rollback_journal(saved.groups);
+                    self.poisoned = false;
+                }
+                Err(snapshot) => self.restore(snapshot),
+            },
         }
     }
 }

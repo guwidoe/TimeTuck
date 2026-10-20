@@ -33,13 +33,23 @@ four full-score/rollback/bounded-search regressions and their own same-machine
 Java/Rust benchmark. The frozen public scenarios, application model, solver
 settings and benchmark runner are unchanged. All **12** newly measured outputs
 pass independent score and assignment checks, with three seeds and ten seconds
-per runtime. Rust streams now reach **33,636 / 6,813 evaluations/s**, or
-**0.258x / 0.083x Java streams throughput**, on golfer/sailing on runner-a.
-That is **2.01x / 1.30x** the retained native baseline; both additional targets
-remain unmet. Sailing feasibility is 2/3 Rust and 0/3 Java streams; quality remains
-separate and is not equal-gated. The optional handwritten Java incremental
+per runtime. Rust streams now reach **58,060 / 13,176 evaluations/s**, or
+**0.452x / 0.163x Java streams throughput**, on golfer/sailing on runner-a.
+That is **1.73x / 1.93x** the previous qualified native stream-storage results;
+both additional targets remain unmet. Sailing feasibility is 2/3 Rust and 0/3
+Java streams; quality remains separate and is not equal-gated. The optional handwritten Java incremental
 comparator was not rerun. These bounded results establish neither universal
 application speed parity nor identical search traces.
+
+The candidate-storage batch passes the standard gate with **8,670 recorded
+native tests and 292 doctests**, formatting, Clippy and tooling checks. Seven
+10 ms archive-fixture setup failures passed when the affected target reran;
+successful verification was reused, and all test/solver settings stayed intact.
+The actual source-bound receipts and qualified application measurements are in
+[the candidate-storage observation](../compat/observations/real_world-candidate-storage.json).
+Primitive numeric caches and saved candidates retain touched entries rather than
+entire working caches; generic/custom ownership paths preserve their contracts.
+The original source-affected comparison jobs remain visibly stale until refreshed.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed

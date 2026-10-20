@@ -2746,3 +2746,22 @@ The aggregate benchmark selects this real production collector for sorted-set
 workloads and still observes every sorted member after update and restore. All
 original fixtures, work, assertions and committed observations remain required;
 this selection is explicit, not a change to the old collector's default API.
+## Primitive numeric cache storage
+
+Graph construction can select sparse paged caches for exact `usize` IDs and
+supported tuples of `usize` coordinates. These caches preserve numeric ordering,
+the full unsigned coordinate range, and existing key and payload owners. Expanded
+occurrence IDs do not require an inferred source bound. Generic and borrowed IDs
+retain ordinary map storage; custom payloads, scores or group keys with observable
+destruction retain their existing snapshot ownership paths.
+
+Private saved-candidate captures can retain only the final entries touched since
+the candidate's opening journal, including touched join membership buckets.
+Installation requires restoration of that same opening state. It runs no mapping,
+predicate or score callbacks and preserves enclosing rollback journals. Independent
+full graph checkpoints continue to retain complete state. Public match inspection
+materializes an ordered snapshot using the retained owners; cache storage does not
+change contribution counts, intermediate publications or scoring arithmetic.
+
+These implementation choices earn no upstream-method credit. Application timing
+and quality evidence remains separate from the original compatibility inventory.

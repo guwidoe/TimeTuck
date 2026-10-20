@@ -15,6 +15,7 @@
 mod entry_permutation;
 mod pillar_swap_selection;
 mod pooled_contributions;
+mod primitive_rows;
 mod scaling_map_traversal;
 pub use pillar_swap_selection::{PillarSwapSelection, PillarSwapSelectionError};
 mod benchmark_chart_data;
