@@ -6,7 +6,9 @@
 //! Sparse inputs need no manufactured ID keys: this private map-like boundary
 //! exposes values only. Group K representatives remain in their shared payloads
 //! and in the unchanged groups map; the complete-key join helper stays separate.
+mod paged;
 use crate::SnapshotMap;
+use paged::Paged;
 use std::{
     any::{Any, TypeId},
     sync::Arc,
@@ -16,6 +18,7 @@ type Undo<V> = Vec<(usize, Option<Arc<V>>)>;
 pub(super) enum GroupInputs<I, V> {
     Tree(SnapshotMap<I, V>),
     Dense(Box<Dense<I, V>>),
+    Paged(Box<Paged<I, V>>),
 }
 pub(super) struct Dense<I, V> {
     values: Vec<Option<Arc<V>>>,
@@ -38,6 +41,7 @@ impl<I, V> Clone for GroupInputs<I, V> {
         match self {
             Self::Tree(rows) => Self::Tree(rows.clone()),
             Self::Dense(rows) => Self::Dense(rows.clone()),
+            Self::Paged(rows) => Self::Paged(rows.clone()),
         }
     }
 }
@@ -84,6 +88,7 @@ impl<I, V> GroupInputs<I, V> {
     pub(super) fn clear(&mut self) {
         match self {
             Self::Tree(rows) => rows.clear(),
+            Self::Paged(rows) => rows.clear(),
             Self::Dense(rows) => {
                 for index in 0..rows.values.len() {
                     rows.replace(index, None);
@@ -95,23 +100,27 @@ impl<I, V> GroupInputs<I, V> {
         match self {
             Self::Tree(rows) => rows.begin_journal(),
             Self::Dense(rows) => rows.begin(),
+            Self::Paged(rows) => rows.begin(),
         }
     }
     pub(super) fn commit_journal(&mut self, token: usize) {
         match self {
             Self::Tree(rows) => rows.commit_journal(token),
             Self::Dense(rows) => rows.commit(token),
+            Self::Paged(rows) => rows.commit(token),
         }
     }
     pub(super) fn rollback_journal(&mut self, token: usize) {
         match self {
             Self::Tree(rows) => rows.rollback_journal(token),
             Self::Dense(rows) => rows.rollback(token),
+            Self::Paged(rows) => rows.rollback(token),
         }
     }
     pub(super) fn install_snapshot(&mut self, snapshot: Self) {
         match (self, snapshot) {
             (Self::Tree(rows), Self::Tree(old)) => rows.install_snapshot(old),
+            (Self::Paged(rows), Self::Paged(old)) => rows.install(*old),
             (Self::Dense(rows), Self::Dense(old)) => {
                 assert_eq!(rows.values.len(), old.values.len(), "group input universe");
                 for (index, value) in old.values.into_iter().enumerate() {
@@ -129,16 +138,90 @@ impl<I, V> GroupInputs<I, V> {
         }
     }
 }
+pub(super) enum PreparedChange<'a, I, V> {
+    Tree(crate::snapshot_map::PreparedChange<'a, I, V>),
+    Paged {
+        rows: &'a mut Paged<I, V>,
+        index: Option<usize>,
+    },
+    Dense {
+        rows: &'a mut Dense<I, V>,
+        index: usize,
+    },
+}
+impl<I, V> PreparedChange<'_, I, V> {
+    pub(super) fn insert(self, id: I, value: V) {
+        match self {
+            Self::Tree(prepared) => prepared.insert(id, value),
+            Self::Paged { rows, index } => {
+                let index = index.expect("bound group pair outside universe");
+                drop(id);
+                rows.replace(index, Some(Arc::new(value)));
+            }
+            Self::Dense { rows, index } => {
+                assert!(
+                    index < rows.values.len(),
+                    "bound group input outside universe"
+                );
+                drop(id);
+                rows.replace(index, Some(Arc::new(value)));
+            }
+        }
+    }
+    pub(super) fn remove(self) {
+        match self {
+            Self::Tree(prepared) => prepared.remove(),
+            Self::Paged { rows, index } => {
+                rows.replace(index.expect("bound group pair outside universe"), None);
+            }
+            Self::Dense { rows, index } => {
+                assert!(
+                    index < rows.values.len(),
+                    "bound group input outside universe"
+                );
+                rows.replace(index, None);
+            }
+        }
+    }
+}
 impl<I: Ord, V> GroupInputs<I, V> {
+    pub(super) fn prepare_change<R>(
+        &mut self,
+        id: &I,
+        inspect: impl FnOnce(Option<&V>) -> R,
+    ) -> (PreparedChange<'_, I, V>, R) {
+        match self {
+            Self::Tree(rows) => {
+                let (prepared, inspected) = rows.prepare_change(id, inspect);
+                (PreparedChange::Tree(prepared), inspected)
+            }
+            Self::Paged(rows) => {
+                let index = rows.index(id);
+                let inspected = inspect(index.and_then(|i| rows.get(i)));
+                (PreparedChange::Paged { rows, index }, inspected)
+            }
+            Self::Dense(rows) => {
+                let index = (rows.index)(id);
+                let inspected = inspect(rows.values.get(index).and_then(Option::as_deref));
+                (PreparedChange::Dense { rows, index }, inspected)
+            }
+        }
+    }
     pub(super) fn get(&self, id: &I) -> Option<&V> {
         match self {
             Self::Tree(rows) => rows.get(id),
+            Self::Paged(rows) => rows.index(id).and_then(|i| rows.get(i)),
             Self::Dense(rows) => rows.values.get((rows.index)(id)).and_then(Option::as_deref),
         }
     }
     pub(super) fn insert(&mut self, id: I, value: V) {
         match self {
             Self::Tree(rows) => rows.insert(id, value),
+            Self::Paged(rows) => {
+                let index = rows.index(&id).expect("bound group pair outside universe");
+                drop(id);
+                rows.replace(index, Some(Arc::new(value)));
+            }
             Self::Dense(rows) => {
                 let index = (rows.index)(&id);
                 assert!(
@@ -153,6 +236,10 @@ impl<I: Ord, V> GroupInputs<I, V> {
     pub(super) fn remove(&mut self, id: &I) -> bool {
         match self {
             Self::Tree(rows) => rows.remove(id),
+            Self::Paged(rows) => rows.replace(
+                rows.index(id).expect("bound group pair outside universe"),
+                None,
+            ),
             Self::Dense(rows) => {
                 let index = (rows.index)(id);
                 assert!(
@@ -165,8 +252,24 @@ impl<I: Ord, V> GroupInputs<I, V> {
     }
 }
 impl<I: 'static, V> GroupInputs<I, V> {
+    pub(super) fn bind_pair(&mut self, left: usize, right: usize) -> bool {
+        let Self::Tree(rows) = self else {
+            return false;
+        };
+        let Some(paged) = Paged::from_tree(rows, left, right) else {
+            return false;
+        };
+        *self = Self::Paged(Box::new(paged));
+        true
+    }
     pub(super) fn bind_fixed(&mut self, count: usize) -> bool {
-        if TypeId::of::<I>() != TypeId::of::<usize>() || count > 256 {
+        self.bind_fixed_with_limit(count, 256)
+    }
+    pub(super) fn bind_fixed_extended(&mut self, count: usize) -> bool {
+        self.bind_fixed_with_limit(count, 4096)
+    }
+    fn bind_fixed_with_limit(&mut self, count: usize, limit: usize) -> bool {
+        if TypeId::of::<I>() != TypeId::of::<usize>() || count > limit {
             return false;
         }
         let Self::Tree(rows) = self else {

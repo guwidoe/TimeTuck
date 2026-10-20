@@ -1,9 +1,9 @@
 //! Private bounded row storage for directly bound mixed planning inputs only.
 //! Keys and payloads retain their original Arc identity. Each full snapshot copies
-//! at most 256 Arc slots; trial frames retain only the first original per slot.
+//! at most 4096 Arc slots; trial frames retain only the first original per slot.
 //! Nested commits merge originals, so repeated writes do not retain intermediates.
-//! Generic/unbounded inputs and mutable join membership indexes remain maps.
-//! Undo lookup/merge is linear in first-touched slots (at most256 per frame),
+//! Generic/unbounded inputs remain maps. Mutable bound join membership uses bitsets.
+//! Undo lookup/merge is linear in first-touched slots (at most4096 per frame),
 //! avoiding an additional marks array or unbounded retention of intermediates.
 use std::sync::Arc;
 

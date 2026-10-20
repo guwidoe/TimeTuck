@@ -283,7 +283,9 @@ fn explicit_boundary_forwards_the_validated_universe_and_stops_at_group_keys() {
             let mut director =
                 StreamScoreDirector::new(&problem, b.build(), source, problem.initial_assignment())
                     .unwrap();
-            assert_eq!(binding.get(), (count <= 256).then_some(count));
+            // The validated identity universe propagates independently of the
+            // source's 256-row storage limit. Each consumer chooses its cache.
+            assert_eq!(binding.get(), Some(count));
             assert_eq!(
                 after_group.get(),
                 None,

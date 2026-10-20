@@ -28,7 +28,10 @@
 //! ```
 
 mod filter_bound;
+mod filter_pairs;
 mod group_batch;
+#[cfg(test)]
+mod group_immediate_tests;
 mod group_inputs;
 mod sum_group;
 pub use sum_group::SumGroupNode;
@@ -83,6 +86,7 @@ fn healthy(poisoned: bool) {
 pub struct FilterNode<'a, I, T> {
     rows: SnapshotMap<I, (bool, T)>,
     fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (bool, T)>>>,
+    pair_rows: Option<Box<filter_pairs::PairRows<I, (bool, T)>>>,
     predicate: Box<dyn Fn(&T) -> bool + 'a>,
     poisoned: bool,
 }
@@ -130,6 +134,7 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
         Self {
             rows: SnapshotMap::new(),
             fixed_rows: None,
+            pair_rows: None,
             predicate: Box::new(predicate),
             poisoned: false,
         }
@@ -148,23 +153,7 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
     pub fn apply(&mut self, change: TupleChange<I, T>) -> Option<TupleChange<I, T>> {
         healthy(self.poisoned);
         let new = change.value.map(|row| ((self.predicate)(&row), row));
-        let was_accepted = self.row(&change.id).is_some_and(|(accepted, _)| *accepted);
-        let output = match &new {
-            Some((true, row)) => Some(TupleChange::put(change.id.clone(), row.clone())),
-            _ if was_accepted => Some(TupleChange::retract(change.id.clone())),
-            _ => None,
-        };
-        self.poisoned = true;
-        match new {
-            Some(row) => {
-                self.insert_row(change.id, row);
-            }
-            None => {
-                self.remove_row(&change.id);
-            }
-        }
-        self.poisoned = false;
-        output
+        self.apply_filtered(change.id, new)
     }
 }
 
@@ -204,6 +193,7 @@ impl JoinComparison {
 struct JoinSide<I, T, K> {
     rows: SnapshotMap<I, (K, T)>,
     fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (K, T)>>>,
+    fixed_index: Option<Box<join_fixed_index::FixedIndex<I, K>>>,
     index: SnapshotMap<K, SnapshotMap<I, ()>>,
     poisoned: bool,
 }
@@ -213,6 +203,7 @@ impl<I, T, K> JoinSide<I, T, K> {
         Self {
             rows: SnapshotMap::new(),
             fixed_rows: None,
+            fixed_index: None,
             index: SnapshotMap::new(),
             poisoned: false,
         }
@@ -259,22 +250,49 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         key: &'b K,
         comparison: JoinComparison,
     ) -> impl Iterator<Item = &'b I> {
+        self.matching_ids_sized(key, comparison).1
+    }
+    fn matching_ids_sized<'b>(
+        &'b self,
+        key: &'b K,
+        comparison: JoinComparison,
+    ) -> (usize, impl Iterator<Item = &'b I>) {
         use std::ops::Bound::{Excluded, Included, Unbounded};
-        let (exact, range) = match comparison {
-            JoinComparison::Equal => (self.index.get(key), None),
-            JoinComparison::LessThan => (None, Some(self.index.range(Excluded(key), Unbounded))),
-            JoinComparison::LessThanOrEqual => {
-                (None, Some(self.index.range(Included(key), Unbounded)))
-            }
-            JoinComparison::GreaterThan => (None, Some(self.index.range(Unbounded, Excluded(key)))),
-            JoinComparison::GreaterThanOrEqual => {
-                (None, Some(self.index.range(Unbounded, Included(key))))
+        let fixed = self
+            .fixed_index
+            .as_ref()
+            .map(|index| index.matching(key, comparison));
+        let (exact, range) = if fixed.is_some() {
+            (None, None)
+        } else {
+            match comparison {
+                JoinComparison::Equal => (self.index.get(key), None),
+                JoinComparison::LessThan => {
+                    (None, Some(self.index.range(Excluded(key), Unbounded)))
+                }
+                JoinComparison::LessThanOrEqual => {
+                    (None, Some(self.index.range(Included(key), Unbounded)))
+                }
+                JoinComparison::GreaterThan => {
+                    (None, Some(self.index.range(Unbounded, Excluded(key))))
+                }
+                JoinComparison::GreaterThanOrEqual => {
+                    (None, Some(self.index.range(Unbounded, Included(key))))
+                }
             }
         };
-        exact
-            .into_iter()
-            .flat_map(|ids| ids.keys())
-            .chain(range.into_iter().flatten().flat_map(|(_, ids)| ids.keys()))
+        let count = fixed
+            .as_ref()
+            .map_or_else(|| exact.map_or(0, SnapshotMap::len), |(count, _)| *count);
+        (
+            count,
+            fixed.into_iter().flat_map(|(_, ids)| ids).chain(
+                exact
+                    .into_iter()
+                    .flat_map(|ids| ids.keys())
+                    .chain(range.into_iter().flatten().flat_map(|(_, ids)| ids.keys())),
+            ),
+        )
     }
     fn apply<J: Ord + Clone, U: Clone>(
         &mut self,
@@ -291,12 +309,16 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
             .is_some_and(|((old, _), (new, _))| old == new);
         let mut output = Vec::new();
         if !same_key && let Some((old_key, _)) = self.row(&change.id) {
-            for id in other.matching_ids(old_key, comparison) {
+            let (count, ids) = other.matching_ids_sized(old_key, comparison);
+            output.reserve(count);
+            for id in ids {
                 output.push(TupleChange::retract((change.id.clone(), id.clone())));
             }
         }
         if let Some((new_key, row)) = &new {
-            for id in other.matching_ids(new_key, comparison) {
+            let (count, ids) = other.matching_ids_sized(new_key, comparison);
+            output.reserve(count);
+            for id in ids {
                 output.push(TupleChange::put(
                     (change.id.clone(), id.clone()),
                     (row.clone(), other.row(id).expect("indexed row").1.clone()),
@@ -322,19 +344,29 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
             None => self.rows.get(&id),
         };
         if let Some((old_key, _)) = old {
-            let mut ids = self.index.get(old_key).expect("indexed key").clone();
-            ids.remove(&id);
-            if ids.is_empty() {
-                self.index.remove(old_key);
+            if let Some(index) = &mut self.fixed_index {
+                index.remove(old_key, &id);
             } else {
-                self.index.insert(old_key.clone(), ids);
+                let mut ids = self.index.get(old_key).expect("indexed key").clone();
+                ids.remove(&id);
+                if ids.is_empty() {
+                    self.index.remove(old_key);
+                } else {
+                    self.index.insert(old_key.clone(), ids);
+                }
             }
         }
+        // Retain the old captured payload's destruction point, before any
+        // new bucket key is cloned, including bounded row storage.
         self.remove_row(&id);
         if let Some((new_key, row)) = new {
-            let mut ids = self.index.get(&new_key).cloned().unwrap_or_default();
-            ids.insert(id.clone(), ());
-            self.index.insert(new_key.clone(), ids);
+            if let Some(index) = &mut self.fixed_index {
+                index.insert(&new_key, &id);
+            } else {
+                let mut ids = self.index.get(&new_key).cloned().unwrap_or_default();
+                ids.insert(id.clone(), ());
+                self.index.insert(new_key.clone(), ids);
+            }
             self.insert_row(id, (new_key, row));
         }
         self.poisoned = false;
@@ -362,9 +394,15 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     pub(crate) fn clear(&mut self) {
         self.left.clear_rows();
         self.left.index.clear();
+        if let Some(index) = &mut self.left.fixed_index {
+            index.clear();
+        }
         self.left.poisoned = false;
         self.right.clear_rows();
         self.right.index.clear();
+        if let Some(index) = &mut self.right.fixed_index {
+            index.clear();
+        }
         self.right.poisoned = false;
     }
 
@@ -514,6 +552,13 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         }
     }
 
+    pub(crate) fn bind_pair_inputs(&mut self, left: usize, right: usize) -> bool
+    where
+        I: 'static,
+    {
+        self.inputs.bind_pair(left, right)
+    }
+
     pub fn is_poisoned(&self) -> bool {
         self.poisoned
     }
@@ -526,41 +571,75 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
     }
 
     pub fn apply(&mut self, change: TupleChange<I, (K, i64)>) -> Vec<TupleChange<K, IntSummary>> {
+        self.apply_inline(change).into_iter().flatten().collect()
+    }
+
+    pub(crate) fn apply_inline(
+        &mut self,
+        change: TupleChange<I, (K, i64)>,
+    ) -> [Option<TupleChange<K, IntSummary>>; 2] {
         healthy(self.poisoned);
-        let old_key = self.inputs.get(&change.id).map(|(key, _)| key.clone());
+        let (input, old) = self.inputs.prepare_change(&change.id, |old| {
+            old.map(|(key, value)| (key.clone(), *value))
+        });
+        let old_key = old.as_ref().map(|(key, _)| key);
         let new_key = change.value.as_ref().map(|(key, _)| key.clone());
         self.poisoned = true;
-        if let Some((key, value)) = self.inputs.get(&change.id) {
+        let same_group = old_key.is_some() && old_key == new_key.as_ref();
+        if same_group {
+            let (key, old) = old.as_ref().expect("existing input");
+            let new = change.value.as_ref().expect("replacement input").1;
             let mut collector = self.groups.get(key).expect("input group").clone();
-            assert!(collector.remove(*value), "input occurrence");
-            if collector.summary().count == 0 {
+            // A sole capture empties its group before reinsertion. Retain that
+            // public key-representative behavior; other replacements keep the
+            // existing group and need only one value update in each map.
+            if collector.summary().count == 1 {
+                assert!(collector.remove(*old), "input occurrence");
                 self.groups.remove(key);
-            } else {
+                collector.insert(new);
+                self.groups
+                    .insert(new_key.as_ref().unwrap().clone(), collector);
+            } else if *old != new {
+                assert!(collector.replace_captured(*old, new), "input occurrence");
+                self.groups.insert(key.clone(), collector);
+            }
+        } else {
+            if let Some((key, value)) = old.as_ref() {
+                let mut collector = self.groups.get(key).expect("input group").clone();
+                assert!(collector.remove(*value), "input occurrence");
+                if collector.summary().count == 0 {
+                    self.groups.remove(key);
+                } else {
+                    self.groups.insert(key.clone(), collector);
+                }
+            }
+            if let Some((key, value)) = change.value.as_ref() {
+                let mut collector = self.groups.get(key).cloned().unwrap_or_default();
+                collector.insert(*value);
                 self.groups.insert(key.clone(), collector);
             }
         }
-        self.inputs.remove(&change.id);
-        if let Some((key, value)) = change.value {
-            let mut collector = self.groups.get(&key).cloned().unwrap_or_default();
-            collector.insert(value);
-            self.groups.insert(key.clone(), collector);
-            self.inputs.insert(change.id, (key, value));
+        // Preparation locates the captured input only once. An existing ID is
+        // a value replacement, preserving journaled paths and exclusive roots.
+        if let Some(value) = change.value {
+            input.insert(change.id, value);
+        } else {
+            input.remove();
         }
-        let mut output = Vec::new();
-        if let Some(key) = old_key.as_ref() {
-            output.push(TupleChange {
-                id: key.clone(),
-                value: self.groups.get(key).map(IntCollector::summary),
-            });
-        }
-        if let Some(key) = new_key
-            && old_key.as_ref() != Some(&key)
+        let old_output = old_key.map(|key| TupleChange {
+            id: key.clone(),
+            value: self.groups.get(key).map(IntCollector::summary),
+        });
+        let new_output = if let Some(key) = new_key
+            && !same_group
         {
             let value = Some(self.groups.get(&key).expect("new group").summary());
-            output.push(TupleChange { id: key, value });
-        }
+            Some(TupleChange { id: key, value })
+        } else {
+            None
+        };
         self.poisoned = false;
-        output
+        [old_output, new_output]
     }
 }
 
@@ -637,5 +716,6 @@ impl<'a, I: Ord, T, S: AdditiveScore> ScoreNode<'a, I, T, S> {
 pub mod batched_join;
 
 mod join_bound;
+mod join_fixed_index;
 mod join_fixed_rows;
 mod join_journal;

@@ -31,6 +31,8 @@ use std::{
 };
 
 mod journal;
+mod prepared_change;
+pub(crate) use prepared_change::PreparedChange;
 
 type Link<K, V> = Option<Arc<Node<K, V>>>;
 struct Node<K, V> {

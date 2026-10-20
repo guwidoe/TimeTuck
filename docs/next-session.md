@@ -17,6 +17,58 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
 independent build/test work. Preserve live runs across observation timeouts.
 
+## Active RealWorld throughput goal — 2026-10-20
+
+Reach Java streams throughput on both frozen public RealWorld workloads. Goal
+remains active, **0/2** targets met. Keep scenarios, application model, runner,
+seeds7/11/23, ten-second limits and solver settings unchanged. Additional tests
+and timings retain zero upstream-method credit; do not change the original18
+comparison jobs/109-workload universe to count these results.
+
+Current stream storage batch adds checked ordinal/pair identity propagation,
+sparse pair input/filter caches, bounded join bitsets, group input journals and
+single-search updates. All **8,629 Rust tests +292 doctests**, Clippy, formatting
+and tooling checks pass on native source
+`bc3f5327636e50eb110cfd7861d989406778e0f70105b5df4e1f6f26bc818e36`.
+Original inventory remains4412 passed/0 pending/443 excluded. The new22 checks
+are additional native regressions, separate from four RealWorld application
+checks and all mapped upstream tests. Original source-affected comparisons stay
+stale; do not rekey old results. Some static native requirement attestations also
+need deliberate requalification; a passing Rust gate is not complete readiness.
+
+Fresh qualified runner-a comparison: **33,636 Rust /130,279 Java evaluations/s**
+on Golfer and **6,813 /82,416** on Sailing. Native improvements over the baseline
+are **2.01x /1.30x**. All12 outputs independently validate. Sailing is feasible
+in2/3 native runs and0/3 Java streams runs; raw quality remains separate.
+`compat/observations/real_world-stream-storage.json` binds exact report/artifacts,
+source snapshot and gate. Raw collection: `work/real_world-goal/full/`; live
+application report: `work/real_world-performance.json`. Optional Java handwritten
+incremental was not refreshed. No UI assets changed; reuse rendering proof and
+inspect data/freshness only. runner-a works; runner-c SSH most recently timed out.
+
+Next implementation is isolated under `work/real_world-goal/dynamic-prototype/`:
+three existing GPT-6.1 Sol agents implemented a general primitive-key paged map,
+Group summary integration and NoDrop-gated Terminal integration. Their shared
+focused test run passed19 tests. Main source remains unchanged by this prototype.
+A short runner-a benchmark is being dispatched there via
+`work/real_world-dynamic/dispatch.py`; inspect its actual live handle/receipt before
+starting another run. PrimitiveRows has one known Clippy warning: the old map
+journal Transaction::remove became unused. Measure and review before integrating.
+
+A separate isolated first-accepted live-commit experiment is at
+`work/real_world-goal/prototype/`, remote
+`/home/developer/.cache/timetuck-build/experiments/real_world-first-e10a9d6b22c61174`.
+Its four short runs validate but are unqualified and not integrated: about32k/s
+Golfer,7.9k/s Sailing. The prototype needs conservative selection/Drop/cancellation
+handling: prior rejected fallbacks, iterator destruction, cloning panic,
+can_commit rejection/panic, diagnostic/fallback paths, retained snapshots and
+outer rollback. Do not copy it unchanged. The measured current Sailing profile
+attributes7.4% to capture and18.5% to graph install; per-node capture of touched
+slots only may improve all forager modes without full snapshot round trips.
+Raw profiles are in `work/real_world-goal/`; genuine baseline/current release
+binaries are retained there. runner-a also retains the qualified release artifact
+by SHA in `~/.cache/timetuck-build/artifacts/` before prototype builds.
+
 ## Additional RealWorld application coverage — 2026-10-20
 
 The public golfer32x8x10 and sailing115-person cases are now retained under

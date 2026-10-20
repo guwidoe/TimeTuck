@@ -48,6 +48,8 @@ pub mod environment_corruption_cases;
 pub mod exact_list_phase_regression;
 #[path = "../factory_run_regression.rs"]
 pub mod factory_run_regression;
+#[path = "../filter_prepared_update_regression.rs"]
+pub mod filter_prepared_update_regression;
 #[path = "../framework_initialized_inheritance.rs"]
 pub mod framework_initialized_inheritance;
 #[path = "../great_deluge.rs"]

@@ -19,24 +19,27 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,607 Rust tests and 292 doctests**.
-The latest test-only k-opt batch reuses unchanged successful gate jobs and runs
-the affected checks through `bash scripts/check.sh`. The prior 305 runtime
-qualification below remains historical. All 18 comparison
-reports are current, and all 109 original timed workloads meet the configured
-Java time/quality target. The live report remains the authority for later counts
-and freshness; historical gate outcomes remain in their original evidence.
+The current native verification contains **8,629 Rust tests and 292 doctests**.
+The RealWorld stream-storage batch passes `bash scripts/check.sh`, including
+formatting, Clippy and tooling checks. The source-bound gate and measurement
+receipt is [RealWorld stream storage](../compat/observations/real_world-stream-storage.json).
+Original comparison results and 305 qualification below remain historical;
+source-affected jobs are visibly stale until deliberately refreshed. The live
+report is the authority for current evidence and readiness.
 
 Additional application coverage is separate from the upstream inventory and
-original timing targets. The public RealWorld golfer and sailing models add
+original timing targets. The public RealWorld golfer and sailing models retain
 four full-score/rollback/bounded-search regressions and their own same-machine
-Java/Rust benchmark. All18 newly measured outputs pass independent score and
-assignment checks. Rust streams reach **0.129x /0.063x Java streams throughput**
-on golfer/sailing on runner-a, so neither additional throughput target is met.
-Feasibility and raw quality remain separate observations; sailing is feasible
-in1/3 Rust runs and0/3 Java streams/incremental runs. These results prevent
-interpreting original109-target readiness as universal application speed parity.
-See [application baseline](../compat/observations/real_world-application-baseline.json).
+Java/Rust benchmark. The frozen public scenarios, application model, solver
+settings and benchmark runner are unchanged. All **12** newly measured outputs
+pass independent score and assignment checks, with three seeds and ten seconds
+per runtime. Rust streams now reach **33,636 / 6,813 evaluations/s**, or
+**0.258x / 0.083x Java streams throughput**, on golfer/sailing on runner-a.
+That is **2.01x / 1.30x** the retained native baseline; both additional targets
+remain unmet. Sailing feasibility is 2/3 Rust and 0/3 Java streams; quality remains
+separate and is not equal-gated. The optional handwritten Java incremental
+comparator was not rerun. These bounded results establish neither universal
+application speed parity nor identical search traces.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed

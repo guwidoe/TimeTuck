@@ -124,6 +124,6 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
 // Generic standalone GroupNode methods retain their existing lifetime bounds.
 impl<I: Ord + Clone + 'static, K: Ord + Clone> GroupNode<I, K> {
     pub(crate) fn bind_fixed_inputs(&mut self, count: usize) -> bool {
-        self.inputs.bind_fixed(count)
+        self.inputs.bind_fixed_extended(count)
     }
 }

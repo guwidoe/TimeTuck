@@ -224,10 +224,10 @@ impl<I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             }
         }
         self.left.rows.install_snapshot(next_left.rows);
-        self.left.index = next_left.index;
+        self.left.index.install_snapshot(next_left.index);
         self.left.poisoned = next_left.poisoned;
         self.right.rows.install_snapshot(next_right.rows);
-        self.right.index = next_right.index;
+        self.right.index.install_snapshot(next_right.index);
         self.right.poisoned = next_right.poisoned;
         out
     }

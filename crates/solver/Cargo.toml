@@ -1898,6 +1898,11 @@ path = "tests/filter_map_regression.rs"
 test = false
 
 [[test]]
+name = "filter_prepared_update_regression"
+path = "tests/filter_prepared_update_regression.rs"
+test = false
+
+[[test]]
 name = "filter_termination_cases"
 path = "tests/filter_termination_cases.rs"
 test = false

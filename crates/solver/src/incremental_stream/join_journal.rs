@@ -1,10 +1,10 @@
 //! Graph trial checkpoints avoid sharing row roots until a snapshot is requested.
 use super::*;
-struct Checkpoint<I, J, K> {
+struct Checkpoint {
     left: usize,
     right: usize,
-    left_index: SnapshotMap<K, SnapshotMap<I, ()>>,
-    right_index: SnapshotMap<K, SnapshotMap<J, ()>>,
+    left_index: usize,
+    right_index: usize,
     left_poisoned: bool,
     right_poisoned: bool,
 }
@@ -21,26 +21,28 @@ impl<
         Box::new(Checkpoint {
             left: self.left.rows.begin_journal(),
             right: self.right.rows.begin_journal(),
-            left_index: self.left.index.clone(),
-            right_index: self.right.index.clone(),
+            left_index: self.left.begin_index(),
+            right_index: self.right.begin_index(),
             left_poisoned: self.left.poisoned,
             right_poisoned: self.right.poisoned,
         })
     }
     pub(crate) fn commit_journal_checkpoint(&mut self, saved: Box<dyn Any>) {
         let saved = saved
-            .downcast::<Checkpoint<I, J, K>>()
+            .downcast::<Checkpoint>()
             .expect("join journal checkpoint");
         self.left.rows.commit_journal(saved.left);
         self.right.rows.commit_journal(saved.right);
+        self.left.commit_index(saved.left_index);
+        self.right.commit_index(saved.right_index);
     }
     pub(crate) fn restore_checkpoint(&mut self, saved: Box<dyn Any>) {
-        match saved.downcast::<Checkpoint<I, J, K>>() {
+        match saved.downcast::<Checkpoint>() {
             Ok(saved) => {
                 self.left.rows.rollback_journal(saved.left);
                 self.right.rows.rollback_journal(saved.right);
-                self.left.index = saved.left_index;
-                self.right.index = saved.right_index;
+                self.left.rollback_index(saved.left_index);
+                self.right.rollback_index(saved.right_index);
                 self.left.poisoned = saved.left_poisoned;
                 self.right.poisoned = saved.right_poisoned;
             }

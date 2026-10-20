@@ -29,6 +29,7 @@
 //! # Ok::<(), timetuck::GraphError>(())
 //! ```
 
+mod bound_universes;
 mod checkpoint_box;
 use checkpoint_box::CheckpointBox;
 mod dependency_batch;
@@ -284,6 +285,10 @@ trait Node<S: AdditiveScore> {
         None
     }
     fn bind_fixed_input(&mut self, _right: bool, _count: usize) {}
+    fn bind_fixed_pair_input(&mut self, _right: bool, _left: usize, _right_count: usize) {}
+    fn joins_input_ids(&self) -> bool {
+        false
+    }
     // Opt in only for unary operators that preserve occurrence identity.
     // Payload changes and filtering do not change the validated ID universe.
     fn preserves_input_ids(&self) -> bool {
@@ -458,6 +463,11 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
 
 struct Filter<'a, I, T>(FilterNode<'a, I, T>);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for Filter<'_, I, T> {
+    fn bind_fixed_pair_input(&mut self, right: bool, left: usize, right_count: usize) {
+        if !right {
+            self.0.bind_fixed_pairs(left, right_count);
+        }
+    }
     fn bind_fixed_input(&mut self, right: bool, count: usize) {
         if !right {
             self.0.bind_fixed_inputs(count);
@@ -681,6 +691,9 @@ impl<
     S: AdditiveScore,
 > Node<S> for Join<'_, I, J, L, R, K>
 {
+    fn joins_input_ids(&self) -> bool {
+        true
+    }
     fn bind_fixed_input(&mut self, right: bool, count: usize) {
         self.0.bind_fixed_input(right, count);
     }
@@ -960,8 +973,24 @@ impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: Additive
     fn checkpoint(&self) -> Box<dyn Any> {
         self.node.checkpoint()
     }
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        self.node.begin_journal_checkpoint()
+    }
+    fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
+        self.node.commit_journal_checkpoint(saved);
+    }
+    fn bind_fixed_input(&mut self, right: bool, count: usize) {
+        if !right {
+            self.node.bind_fixed_inputs(count);
+        }
+    }
+    fn bind_fixed_pair_input(&mut self, right: bool, left: usize, right_count: usize) {
+        if !right {
+            self.node.bind_pair_inputs(left, right_count);
+        }
+    }
     fn restore(&mut self, c: Box<dyn Any>) {
-        self.node.restore(c);
+        self.node.restore_checkpoint(c);
     }
     fn apply(
         &mut self,
@@ -974,10 +1003,16 @@ impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: Additive
             id: change.id.clone(),
             value: change.value.as_ref().map(|v| (self.mapping)(v)),
         };
-        Ok(erase(self.node.apply(mapped).into_iter().map(|change| {
-            let key = change.id.clone();
-            change.map(|summary| (key, summary))
-        })))
+        Ok(erase(
+            self.node
+                .apply_inline(mapped)
+                .into_iter()
+                .flatten()
+                .map(|change| {
+                    let key = change.id.clone();
+                    change.map(|summary| (key, summary))
+                }),
+        ))
     }
 }
 
@@ -2357,25 +2392,20 @@ impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
         count: usize,
     ) -> Result<(), GraphError> {
         self.validate(source)?;
+        // Binding derived identity caches does not require replacing the source
+        // itself. Each cache checks its own storage limit and complete identity.
+        let contiguous = std::any::TypeId::of::<I>() == std::any::TypeId::of::<usize>()
+            && self.source_rows(source)?.len() == count
+            && self
+                .source_rows(source)?
+                .keys()
+                .enumerate()
+                .all(|(index, id)| (id as &dyn Any).downcast_ref::<usize>() == Some(&index));
         if let Some(node) = self.nodes[source.0.node].bind_fixed_planning_source(count) {
             self.nodes[source.0.node] = node;
-            // Follow only explicit identity-preserving unary operators. A join,
-            // group, concatenation or expansion changes the occurrence namespace
-            // and stops propagation, even when its output ID type is also usize.
-            // Ordinary fact sources never enter this path.
-            let mut pending = VecDeque::from([source.0.node]);
-            let mut forwarded = vec![false; self.nodes.len()];
-            forwarded[source.0.node] = true;
-            while let Some(parent) = pending.pop_front() {
-                for edge in &self.edges[parent] {
-                    let node = &mut self.nodes[edge.node];
-                    node.bind_fixed_input(edge.right, count);
-                    if !edge.right && node.preserves_input_ids() && !forwarded[edge.node] {
-                        forwarded[edge.node] = true;
-                        pending.push_back(edge.node);
-                    }
-                }
-            }
+        }
+        if contiguous {
+            self.bind_derived_universes(source.0.node, count);
         }
         Ok(())
     }
