@@ -2,9 +2,71 @@
 use std::error::Error;
 use timetuck::*;
 
+/// Explicit application graph policy; ordinary declarations remain the default.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum StreamGraphPolicy {
+    #[default]
+    OrdinaryJoin,
+    OwnerLinks,
+}
+impl StreamGraphPolicy {
+    // This support module also serves oracle/test clients without JSON output.
+    #[allow(dead_code)]
+    pub fn name(self) -> &'static str {
+        match self {
+            Self::OrdinaryJoin => "ordinary-join",
+            Self::OwnerLinks => "owner-links-shared-fixed-terminal-v1",
+        }
+    }
+}
+pub type OwnerPair = ((usize, Option<usize>), (usize, Vec<usize>));
+pub type OwnerLinkId = ((usize, usize), usize);
+/// Both branches retain complete inspectable payload/score matches.
+#[allow(dead_code)]
+pub enum OwnerRouteConstraint {
+    Ordinary(StreamConstraint<(usize, usize), OwnerPair>),
+    OwnerLinks(StreamConstraint<OwnerLinkId, OwnerPair>),
+}
+pub fn declare_owner_routes<'a>(
+    graph: &mut StreamGraphBuilder<'a, HardSoftScore>,
+    basic: &StreamPort<usize, (usize, Option<usize>)>,
+    entities: &StreamPort<usize, (usize, Vec<usize>)>,
+    owners: usize,
+    policy: StreamGraphPolicy,
+    evaluate: impl Fn(&OwnerPair) -> HardSoftScore + 'a,
+) -> Result<OwnerRouteConstraint, GraphError> {
+    match policy {
+        StreamGraphPolicy::OrdinaryJoin => {
+            let joined = graph.join_equal(basic, entities, |(id, _)| *id, |(id, _)| *id)?;
+            graph
+                .score("coupled depot routes", &joined, evaluate)
+                .map(OwnerRouteConstraint::Ordinary)
+        }
+        StreamGraphPolicy::OwnerLinks => {
+            // Director source IDs and payload owner IDs agree for every real row.
+            let joined = graph.join_fixed_links_batched_shared(
+                basic,
+                entities,
+                (0..owners).map(|owner| (owner, owner, owner)),
+                |_, _, _| true,
+                |_, left, right| (*left, right.clone()),
+            )?;
+            graph
+                .score_fixed(
+                    "coupled depot routes",
+                    &joined,
+                    (0..owners).map(|owner| ((owner, owner), owner)),
+                    evaluate,
+                )
+                .map(OwnerRouteConstraint::OwnerLinks)
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct Case {
     pub id: String,
+    pub stream_graph_policy: StreamGraphPolicy,
     pub points: Vec<[i64; 2]>,
     pub depots: Vec<[i64; 2]>,
     pub capacities: Vec<usize>,
@@ -123,6 +185,7 @@ impl Case {
         }
         let case = Self {
             id: f[0].into(),
+            stream_graph_policy: StreamGraphPolicy::OrdinaryJoin,
             points,
             depots,
             capacities,
@@ -214,15 +277,12 @@ pub fn run(
     let result = if stream {
         let mut graph = StreamGraphBuilder::new();
         let source = MixedStreamSources::new(&mut graph);
-        let joined = graph.join_equal(
+        declare_owner_routes(
+            &mut graph,
             source.basic.port(),
             source.lists.entities.port(),
-            |(id, _)| *id,
-            |(id, _)| *id,
-        )?;
-        graph.score(
-            "coupled depot routes",
-            &joined,
+            case.capacities.len(),
+            case.stream_graph_policy,
             |((owner, depot), (_, route))| case.route_score(depot.unwrap(), route, *owner),
         )?;
         mixed_stream_local_search_from(&case.problem, graph.build(), source, initial, config)?
@@ -330,15 +390,12 @@ pub fn run_cold(
             || {
                 let mut graph = StreamGraphBuilder::new();
                 let source = MixedStreamSources::new(&mut graph);
-                let joined = graph.join_equal(
+                declare_owner_routes(
+                    &mut graph,
                     source.basic.port(),
                     source.lists.entities.port(),
-                    |(id, _)| *id,
-                    |(id, _)| *id,
-                )?;
-                graph.score(
-                    "coupled depot routes",
-                    &joined,
+                    case.capacities.len(),
+                    case.stream_graph_policy,
                     |((owner, depot), (_, route))| partial_route_score(case, *depot, route, *owner),
                 )?;
                 graph.score(
@@ -430,15 +487,12 @@ pub fn run_component_refinement(
             || {
                 let mut graph = StreamGraphBuilder::new();
                 let source = MixedStreamSources::new(&mut graph);
-                let joined = graph.join_equal(
+                declare_owner_routes(
+                    &mut graph,
                     source.basic.port(),
                     source.lists.entities.port(),
-                    |(id, _)| *id,
-                    |(id, _)| *id,
-                )?;
-                graph.score(
-                    "coupled depot routes",
-                    &joined,
+                    case.capacities.len(),
+                    case.stream_graph_policy,
                     |((owner, depot), (_, route))| {
                         if cold {
                             cold_route_cardinality_score(case, *depot, route, *owner)

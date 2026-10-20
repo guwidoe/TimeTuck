@@ -10910,3 +10910,60 @@ Evidence: work/round292-qualification/{integration,solver-differential-receipt,
 gate-receipt,collection,browser-proof,current-state}.json, retained complete
 controls and work/round292-deluge-review/{README,FOLLOW-UP}.md;
 work/parallel-round292-evidence.json.
+
+## Latest qualification — 293 explicit owner-link application graph
+
+The mixed example now offers an explicit `owner-links` graph declaration while
+ordinary joins remain the default. Shared fixed owner relationships and a fixed
+tracked terminal retain full match payloads/scores, planning rows and list shadows.
+Actual match IDs, endpoint ownership, callback order/error points and final batch
+publication differ. Dense and EqOnly construction stay unchanged. This is an
+application declaration option, not an ordinary-join implementation or equal-work
+speedup. Warm/cold setup remains inside the original solve timing boundary.
+
+Four original Rust tests cover actual typed IDs, full source/match snapshots,
+shadow metadata, joint callback boundaries, rollback, callback panic/recovery,
+partial objectives and every warm/cold/profile/backend factory. Five new original
+Python contracts cover explicit metadata, runtime rotation, full controls and
+unknown output fields. They add no upstream-method credit.
+
+A controlled same-artifact native comparison retains all eight original rows for
+each of both search profiles, four balanced CPU2 forks. Larger Stream component
+refinement is **11.44% faster warm / 21.56% cold**; original joint search is
+**17.88% / 16.44% faster**, all four larger-case forks improve. Complete native
+outputs match except declared graph metadata, elapsed time and actual physical
+score calls. Small controls are retained; small component warm has mixed forks.
+Dense time variation earns no optimization claim. These trials retain their actual
+pre-test source/artifact receipt; final Java evidence below has its own final build.
+An explicit HashIndexed client trial was rejected after complete 16-row evidence:
+larger component Stream was 35.69% slower warm and 27.21% cold. Do not repeat it.
+
+The final `bash scripts/check.sh` passed: **8,578 Rust +292 doctests**,
+**5 RUN/143 REUSE**, 82.993s. Native
+`645c98d839097fd86e965e69a56e46df6dc9d63583fbdd867e5960b0ab6bed1b`. Only two Rust test executables needed rebuilding.
+One earlier actual Clippy clone-on-copy failure is archived separately; the final
+source uses a primitive copy. No successful unchanged gate or trial was repeated.
+
+Fresh original Java mixed comparison: **7/8** at measured Java time parity,
+equal final scores in all eight. Larger Stream warm is
+**18.377 ms Rust / 15.330 ms Java**; cold
+**19.272 / 20.957 ms**. Every ordinary Stream control
+sample and full observation remains alongside the selected owner-link result.
+All original inputs, pins, budgets, quality floors and both native backends remain.
+No general speed, identical search work, memory or larger-optimum claim follows.
+The fresh small cold Stream median is 0.506 ms selected versus 0.479 ms for its
+ordinary control (5.51% slower); this regression remains in the full report.
+
+Only mixed-performance was refreshed; all other 17 raw reports retain bytes,
+dates and keys. The relevant solver292 key is unchanged and remains current.
+The dashboard index is **86.114%**, **2/18 current**, 16 stale, Java multiplier
+**1**, with selected graph policy, control medians and physical calls visible.
+The index measures tracked targets, not remaining effort or an ETA. Inventory
+stays **4410/4855**, 10 pending, 435 excluded, no failures/unverified. The recorded
+behavior gaps remain; goal incomplete. Actual desktop/mobile browser checks cover
+selected and prior ordinary declarations plus source/model/live freshness.
+
+Evidence: work/round293-qualification/{integration,prebuild-receipt,
+final-build-receipt,owner-links-pair-results,mixed-performance-receipt,
+gate-receipt,collection,browser-proof}.json; rejected-registry/ and
+initial-clippy-failure/; work/parallel-round293-evidence.json.

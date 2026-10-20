@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,574 Rust tests and 292 doctests**,
+The current native verification contains **8,578 Rust tests and 292 doctests**,
 including original regressions and adapted upstream assertions. Source
-`838a5d9408978312d16a475f30512b14b8bf42a4164ece84aaf76f87f9e64ad3`. The final check passed in 856.146s,
-executing 107 jobs and reusing 41 unchanged results. The live report remains
+`645c98d839097fd86e965e69a56e46df6dc9d63583fbdd867e5960b0ab6bed1b`. The final check passed in 82.993s,
+executing 5 jobs and reusing 143 unchanged results. The live report remains
 the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
@@ -52,21 +52,78 @@ See the [stream contracts](constraint-stream-contract.md) and
 Java agreement. Completion still needs evidence for every original-scope
 requirement and resolution of the remaining relevant behavior differences.
 
-The last solver differential demonstrates 4,824 exact observations for explicit
-encounter-order policies; original total-order controls retain 4499 agreements /
-325 differences, all matching independent Python. These results now remain stale
-under changed shared-core inputs. Existing defaults/policy choices stay visible.
-Only stream-differential was refreshed in 280, retaining every original fixture,
-Java adapter and full observation. Explicit signed-32-bit wrapping metrics close
-the sequence MIN/MAX break and range MIN/MAX length differences: sequences now
-agree in 65/65 cases (4,692 states), ranges in 66/197 cases (11,583 states). All 197
-native range cases also pass independent modular calculations. The 131 remaining
-range differences stay visible. Complete exact-default controls still execute:
-64 ordinary sequence agreements plus its separate overflow difference; ranges
-65/197 agreements with 132 differing cases. Exact i32/i64 metrics remain default.
-Seven original Rust regressions add no upstream-method credit.
+The current solver292 comparison retains all 4,824 exact encounter-order
+observations plus the original total-order controls (4,499 agreements and 325
+differences). Explicit binary64 Great Deluge now agrees in 276/276 original cases,
+25/25 boundary prefixes and 184/184 additional probes; exact-default controls stay
+275/276. These solver inputs are unchanged by the optional mixed graph declaration.
 
-## Latest qualification — 292 explicit binary64 Great Deluge
+The last stream comparison (289) is stale. Explicit signed-32-bit wrapping metrics
+retain 65/65 sequence agreements and 66/197 range agreements; all 197 native range
+cases pass independent modular calculations. The remaining 131 Java differences
+stay visible, including contradictory upstream histories. Exact-default controls
+retain their separate overflow differences. Binary64/wrapping load balance retains
+101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
+regressions and policy options do not earn extra upstream-method credit.
+
+## Latest qualification — 293 explicit owner-link application graph
+
+The mixed example now offers an explicit `owner-links` graph declaration while
+ordinary joins remain the default. Shared fixed owner relationships and a fixed
+tracked terminal retain full match payloads/scores, planning rows and list shadows.
+Actual match IDs, endpoint ownership, callback order/error points and final batch
+publication differ. Dense and EqOnly construction stay unchanged. This is an
+application declaration option, not an ordinary-join implementation or equal-work
+speedup. Warm/cold setup remains inside the original solve timing boundary.
+
+Four original Rust tests cover actual typed IDs, full source/match snapshots,
+shadow metadata, joint callback boundaries, rollback, callback panic/recovery,
+partial objectives and every warm/cold/profile/backend factory. Five new original
+Python contracts cover explicit metadata, runtime rotation, full controls and
+unknown output fields. They add no upstream-method credit.
+
+A controlled same-artifact native comparison retains all eight original rows for
+each of both search profiles, four balanced CPU2 forks. Larger Stream component
+refinement is **11.44% faster warm / 21.56% cold**; original joint search is
+**17.88% / 16.44% faster**, all four larger-case forks improve. Complete native
+outputs match except declared graph metadata, elapsed time and actual physical
+score calls. Small controls are retained; small component warm has mixed forks.
+Dense time variation earns no optimization claim. These trials retain their actual
+pre-test source/artifact receipt; final Java evidence below has its own final build.
+An explicit HashIndexed client trial was rejected after complete 16-row evidence:
+larger component Stream was 35.69% slower warm and 27.21% cold. Do not repeat it.
+
+The final `bash scripts/check.sh` passed: **8,578 Rust +292 doctests**,
+**5 RUN/143 REUSE**, 82.993s. Native
+`645c98d839097fd86e965e69a56e46df6dc9d63583fbdd867e5960b0ab6bed1b`. Only two Rust test executables needed rebuilding.
+One earlier actual Clippy clone-on-copy failure is archived separately; the final
+source uses a primitive copy. No successful unchanged gate or trial was repeated.
+
+Fresh original Java mixed comparison: **7/8** at measured Java time parity,
+equal final scores in all eight. Larger Stream warm is
+**18.377 ms Rust / 15.330 ms Java**; cold
+**19.272 / 20.957 ms**. Every ordinary Stream control
+sample and full observation remains alongside the selected owner-link result.
+All original inputs, pins, budgets, quality floors and both native backends remain.
+No general speed, identical search work, memory or larger-optimum claim follows.
+The fresh small cold Stream median is 0.506 ms selected versus 0.479 ms for its
+ordinary control (5.51% slower); this regression remains in the full report.
+
+Only mixed-performance was refreshed; all other 17 raw reports retain bytes,
+dates and keys. The relevant solver292 key is unchanged and remains current.
+The dashboard index is **86.114%**, **2/18 current**, 16 stale, Java multiplier
+**1**, with selected graph policy, control medians and physical calls visible.
+The index measures tracked targets, not remaining effort or an ETA. Inventory
+stays **4410/4855**, 10 pending, 435 excluded, no failures/unverified. The recorded
+behavior gaps remain; goal incomplete. Actual desktop/mobile browser checks cover
+selected and prior ordinary declarations plus source/model/live freshness.
+
+Evidence: work/round293-qualification/{integration,prebuild-receipt,
+final-build-receipt,owner-links-pair-results,mixed-performance-receipt,
+gate-receipt,collection,browser-proof}.json; rejected-registry/ and
+initial-clippy-failure/; work/parallel-round293-evidence.json.
+
+## Previous qualification — 292 explicit binary64 Great Deluge
 
 `GreatDelugeRise::Binary64Ratio` adds an explicit floating accumulation policy;
 exact `Ratio` and configured defaults remain unchanged. Integer initial water

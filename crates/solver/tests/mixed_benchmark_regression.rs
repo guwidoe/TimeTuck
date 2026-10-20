@@ -333,3 +333,430 @@ fn cold_customer_penalties_match_independent_math_at_partial_and_final_caps() {
         }
     }
 }
+
+// Original graph-policy regressions; no upstream-method credit.
+#[cfg(test)]
+mod owner_links_qualification {
+    use super::*;
+    use std::cell::{Cell, RefCell};
+    use std::panic::{AssertUnwindSafe, catch_unwind};
+    use support::{
+        OwnerLinkId, OwnerPair, OwnerRouteConstraint, StreamGraphPolicy, declare_owner_routes,
+    };
+
+    #[derive(Clone)]
+    enum Held {
+        Ordinary(SnapshotMap<(usize, usize), (OwnerPair, HardSoftScore)>),
+        Links(SnapshotMap<OwnerLinkId, (OwnerPair, HardSoftScore)>),
+    }
+    fn hold(g: &StreamGraph<'_, HardSoftScore>, h: &OwnerRouteConstraint) -> Held {
+        match h {
+            OwnerRouteConstraint::Ordinary(h) => {
+                Held::Ordinary(g.constraint_matches(h).unwrap().clone())
+            }
+            OwnerRouteConstraint::OwnerLinks(h) => {
+                Held::Links(g.constraint_matches(h).unwrap().clone())
+            }
+        }
+    }
+    fn assert_matches(snapshot: &Held, case: &Case, a: &MixedAssignment<usize, usize>, cold: bool) {
+        let expected: Vec<_> = a
+            .lists()
+            .lists()
+            .iter()
+            .enumerate()
+            .map(|(owner, route)| {
+                let pair = ((owner, a.basic().values()[owner]), (owner, route.clone()));
+                let score = contribution(case, &pair, cold);
+                (owner, (pair, score))
+            })
+            .collect();
+        // Assert ACTUAL namespaces and complete ordered entries, not just a normalization.
+        match snapshot {
+            Held::Ordinary(rows) => assert_eq!(
+                rows.iter()
+                    .map(|(id, v)| (*id, v.clone()))
+                    .collect::<Vec<_>>(),
+                expected
+                    .iter()
+                    .map(|(o, v)| ((*o, *o), v.clone()))
+                    .collect::<Vec<_>>()
+            ),
+            Held::Links(rows) => assert_eq!(
+                rows.iter()
+                    .map(|(id, v)| (*id, v.clone()))
+                    .collect::<Vec<_>>(),
+                expected
+                    .iter()
+                    .map(|(o, v)| (((*o, *o), *o), v.clone()))
+                    .collect::<Vec<_>>()
+            ),
+        }
+    }
+    fn contribution(case: &Case, pair: &OwnerPair, cold: bool) -> HardSoftScore {
+        let ((owner, depot), (_, route)) = pair;
+        let base = depot.map_or_else(
+            || {
+                HardSoftScore::new(
+                    -1 - route.len().saturating_sub(case.capacities[*owner]) as i64,
+                    0,
+                )
+            },
+            |d| case.route_score(d, route, *owner),
+        );
+        if cold {
+            HardSoftScore::new(
+                base.hard() + route.len() as i64
+                    - if *owner == 0 {
+                        case.points.len() as i64
+                    } else {
+                        0
+                    },
+                base.soft(),
+            )
+        } else {
+            base
+        }
+    }
+    // Independently compute the complete/partial objective from coordinates and ownership.
+    fn independent(case: &Case, a: &MixedAssignment<usize, usize>) -> HardSoftScore {
+        let missing = case.points.len() - a.lists().lists().iter().map(Vec::len).sum::<usize>()
+            + a.basic().values().iter().filter(|v| v.is_none()).count();
+        let mut hard = -(missing as i64);
+        let mut distance = 0;
+        for (owner, route) in a.lists().lists().iter().enumerate() {
+            hard -= route.len().saturating_sub(case.capacities[owner]) as i64;
+            if let Some(d) = a.basic().values()[owner] {
+                let home = case.depots[d];
+                let mut previous = home;
+                for &v in route {
+                    let point = case.points[v];
+                    distance += (point[0] - previous[0]).abs() + (point[1] - previous[1]).abs();
+                    previous = point;
+                }
+                distance += (home[0] - previous[0]).abs() + (home[1] - previous[1]).abs();
+            }
+        }
+        HardSoftScore::new(hard, -distance).with_structural(-(missing as i64))
+    }
+    fn assert_rows(
+        g: &StreamGraph<'_, HardSoftScore>,
+        s: &MixedStreamSources<usize, usize>,
+        p: &MixedProblem<usize, usize>,
+        a: &MixedAssignment<usize, usize>,
+    ) {
+        let basics = g.source_rows(&s.basic).unwrap();
+        assert_eq!(basics.len(), a.basic().values().len());
+        for (i, v) in a.basic().values().iter().enumerate() {
+            assert_eq!(basics[&i], (i, *v));
+        }
+        let entities = g.source_rows(&s.lists.entities).unwrap();
+        assert_eq!(entities.len(), a.lists().lists().len());
+        for (i, r) in a.lists().lists().iter().enumerate() {
+            assert_eq!(entities[&i], (i, r.clone()));
+        }
+        let values = g.source_rows(&s.lists.values).unwrap();
+        assert_eq!(values.len(), p.lists().values().len());
+        for (id, &v) in p.lists().values().iter().enumerate() {
+            let mut expected = ListValueRow {
+                range_index: id,
+                value: v,
+                position: None,
+                previous: None,
+                next: None,
+            };
+            for (owner, route) in a.lists().lists().iter().enumerate() {
+                if let Some(index) = route.iter().position(|x| *x == v) {
+                    expected.position = Some(ListPosition {
+                        entity: owner,
+                        index,
+                    });
+                    expected.previous = index.checked_sub(1).map(|i| route[i]);
+                    expected.next = route.get(index + 1).copied();
+                }
+            }
+            assert_eq!(values[&id], expected);
+        }
+    }
+    fn edit(variable: usize) -> MixedMove<usize, usize> {
+        MixedMove {
+            basic: Move::Change {
+                variable,
+                value: Some(1),
+            },
+            lists: ListMove::Swap {
+                left: ListPosition {
+                    entity: 0,
+                    index: 0,
+                },
+                right: ListPosition {
+                    entity: 0,
+                    index: 1,
+                },
+            },
+        }
+    }
+    #[test]
+    fn actual_policy_ids_payloads_shadows_and_joint_publication_survive_commit_and_drop() {
+        let case = Case::parse(SMALL).unwrap();
+        for policy in [
+            StreamGraphPolicy::OrdinaryJoin,
+            StreamGraphPolicy::OwnerLinks,
+        ] {
+            let trace = RefCell::new(Vec::new());
+            let mut b = StreamGraphBuilder::new();
+            let s = MixedStreamSources::new(&mut b);
+            let inspect = s.clone();
+            let h = declare_owner_routes(
+                &mut b,
+                s.basic.port(),
+                s.lists.entities.port(),
+                2,
+                policy,
+                |pair| {
+                    trace.borrow_mut().push(pair.clone());
+                    contribution(&case, pair, false)
+                },
+            )
+            .unwrap();
+            let mut d = MixedStreamScoreDirector::new(
+                &case.problem,
+                b.build(),
+                s,
+                case.problem.initial_assignment(),
+            )
+            .unwrap();
+            let original = d.assignment().clone();
+            let saved = hold(d.graph(), &h);
+            assert_matches(&saved, &case, &original, false);
+            assert_rows(d.graph(), &inspect, &case.problem, &original);
+            trace.borrow_mut().clear();
+            let tx = d.apply(&edit(0)).unwrap();
+            let final_pair = ((0, Some(1)), (0, vec![0, 2]));
+            let expected = if policy == StreamGraphPolicy::OrdinaryJoin {
+                vec![((0, Some(1)), (0, vec![2, 0])), final_pair]
+            } else {
+                vec![final_pair]
+            };
+            assert_eq!(*trace.borrow(), expected);
+            assert_eq!(tx.constraint_evaluations(), expected.len() as u128);
+            assert_eq!(tx.score(), independent(&case, tx.assignment()));
+            assert_rows(tx.graph(), &inspect, &case.problem, tx.assignment());
+            let candidate = tx.assignment().clone();
+            let candidate_snapshot = hold(tx.graph(), &h);
+            assert_matches(&candidate_snapshot, &case, &candidate, false);
+            drop(tx);
+            assert_eq!(d.assignment(), &original);
+            assert_matches(&hold(d.graph(), &h), &case, &original, false);
+            assert_matches(&candidate_snapshot, &case, &candidate, false);
+            assert_matches(&saved, &case, &original, false);
+            trace.borrow_mut().clear();
+            // Different owner: basic owner1 and route owner0. Publication order differs.
+            let tx = d.apply(&edit(1)).unwrap();
+            let owner0 = ((0, Some(0)), (0, vec![0, 2]));
+            let owner1 = ((1, Some(1)), (1, vec![3, 1]));
+            assert_eq!(
+                *trace.borrow(),
+                if policy == StreamGraphPolicy::OrdinaryJoin {
+                    vec![owner1, owner0]
+                } else {
+                    vec![owner0, owner1]
+                }
+            );
+            assert_eq!(tx.score(), independent(&case, tx.assignment()));
+            let committed = tx.assignment().clone();
+            tx.commit();
+            assert_eq!(d.assignment(), &committed);
+            assert_rows(d.graph(), &inspect, &case.problem, &committed);
+            assert_matches(&hold(d.graph(), &h), &case, &committed, false);
+            assert_matches(&saved, &case, &original, false);
+            assert_matches(&candidate_snapshot, &case, &candidate, false);
+            d.assert_consistent().unwrap();
+        }
+    }
+    #[test]
+    fn callback_panic_restores_real_director_rows_matches_and_allows_recovery() {
+        let case = Case::parse(SMALL).unwrap();
+        for policy in [
+            StreamGraphPolicy::OrdinaryJoin,
+            StreamGraphPolicy::OwnerLinks,
+        ] {
+            let fail = Cell::new(false);
+            let trace = RefCell::new(Vec::new());
+            let mut b = StreamGraphBuilder::new();
+            let s = MixedStreamSources::new(&mut b);
+            let inspect = s.clone();
+            let h = declare_owner_routes(
+                &mut b,
+                s.basic.port(),
+                s.lists.entities.port(),
+                2,
+                policy,
+                |pair| {
+                    trace.borrow_mut().push(pair.clone());
+                    assert!(!fail.get(), "original injected route panic");
+                    contribution(&case, pair, false)
+                },
+            )
+            .unwrap();
+            let mut d = MixedStreamScoreDirector::new(
+                &case.problem,
+                b.build(),
+                s,
+                case.problem.initial_assignment(),
+            )
+            .unwrap();
+            let before = d.assignment().clone();
+            let snapshot = hold(d.graph(), &h);
+            trace.borrow_mut().clear();
+            fail.set(true);
+            assert!(
+                catch_unwind(AssertUnwindSafe(|| {
+                    let _tx = d.apply(&edit(0)).unwrap();
+                }))
+                .is_err()
+            );
+            fail.set(false);
+            // Ordinary errors at its intermediate pair; links errors at its final pair.
+            assert_eq!(
+                trace.borrow()[0],
+                (
+                    (0, Some(1)),
+                    (
+                        0,
+                        if policy == StreamGraphPolicy::OrdinaryJoin {
+                            vec![2, 0]
+                        } else {
+                            vec![0, 2]
+                        }
+                    )
+                )
+            );
+            assert_eq!(d.assignment(), &before);
+            assert_eq!(d.score(), independent(&case, &before));
+            assert_rows(d.graph(), &inspect, &case.problem, &before);
+            assert_matches(&hold(d.graph(), &h), &case, &before, false);
+            assert_matches(&snapshot, &case, &before, false);
+            d.assert_consistent().unwrap();
+            let tx = d.apply(&edit(0)).unwrap();
+            assert_eq!(tx.score(), independent(&case, tx.assignment()));
+            tx.commit();
+            assert_rows(d.graph(), &inspect, &case.problem, d.assignment());
+            assert_matches(&snapshot, &case, &before, false);
+        }
+    }
+    #[test]
+    fn cold_partial_objective_and_complete_metadata_are_independently_checked() {
+        let case = Case::parse(SMALL).unwrap();
+        let p = cold_problem(&case).unwrap();
+        for policy in [
+            StreamGraphPolicy::OrdinaryJoin,
+            StreamGraphPolicy::OwnerLinks,
+        ] {
+            let mut b = StreamGraphBuilder::new();
+            let s = MixedStreamSources::new(&mut b);
+            let inspect = s.clone();
+            let h = declare_owner_routes(
+                &mut b,
+                s.basic.port(),
+                s.lists.entities.port(),
+                2,
+                policy,
+                |pair| contribution(&case, pair, true),
+            )
+            .unwrap();
+            let mut d =
+                MixedStreamScoreDirector::new(&p, b.build(), s, p.initial_assignment()).unwrap();
+            assert_eq!(d.score(), independent(&case, d.assignment()));
+            let initial = d.assignment().clone();
+            let saved = hold(d.graph(), &h);
+            let movement = MixedMove {
+                basic: Move::Change {
+                    variable: 0,
+                    value: Some(1),
+                },
+                lists: ListMove::Assign {
+                    value: 0,
+                    destination: ListPosition {
+                        entity: 0,
+                        index: 0,
+                    },
+                },
+            };
+            let tx = d.apply(&movement).unwrap();
+            assert_eq!(tx.score(), independent(&case, tx.assignment()));
+            assert_matches(&hold(tx.graph(), &h), &case, tx.assignment(), true);
+            assert_rows(tx.graph(), &inspect, &p, tx.assignment());
+            drop(tx);
+            assert_eq!(d.assignment(), &initial);
+            assert_matches(&saved, &case, &initial, true);
+            let tx = d.apply(&movement).unwrap();
+            tx.commit();
+            assert_eq!(d.score(), independent(&case, d.assignment()));
+            d.assert_consistent().unwrap();
+        }
+    }
+    #[test]
+    fn every_real_factory_policy_backend_keeps_small_quality_and_phase_budgets() {
+        for policy in [
+            StreamGraphPolicy::OrdinaryJoin,
+            StreamGraphPolicy::OwnerLinks,
+        ] {
+            for stream in [false, true] {
+                let mut warm = Case::parse(SMALL).unwrap();
+                warm.stream_graph_policy = policy;
+                let result = run(&warm, stream).unwrap();
+                let best = result.best.unwrap();
+                warm.validate(&best.assignment, best.score).unwrap();
+                assert_eq!(best.score, independent(&warm, &best.assignment));
+                assert!(
+                    result.completed_steps <= warm.steps && result.evaluations <= warm.evaluations
+                );
+                let mut cold = Case::parse(&format!("{SMALL}\t0:-12")).unwrap();
+                cold.stream_graph_policy = policy;
+                let result = run_cold(&cold, stream).unwrap();
+                assert!(result.complete);
+                assert_eq!(result.score, Some(HardSoftScore::new(0, -12)));
+                assert_eq!(
+                    result.score.unwrap(),
+                    independent(&cold, &result.assignment)
+                );
+                assert_eq!(result.work.construction_steps, 6);
+                assert!(
+                    result.work.evaluations <= cold.evaluations
+                        && result.work.completed_steps <= cold.steps
+                );
+                for (case, cold_start) in [(&warm, false), (&cold, true)] {
+                    // Real multi-phase sequence exercises search saved candidates/phase handoffs.
+                    let result =
+                        support::run_component_refinement(case, stream, cold_start).unwrap();
+                    assert!(result.complete);
+                    case.validate(&result.assignment, result.score.unwrap())
+                        .unwrap();
+                    assert_eq!(result.score, Some(HardSoftScore::new(0, -12)));
+                    assert_eq!(result.score.unwrap(), independent(case, &result.assignment));
+                    assert!(
+                        result.work.evaluations <= case.evaluations
+                            && result.work.completed_steps <= case.steps
+                    );
+                    assert_eq!(
+                        result.work.evaluations,
+                        result
+                            .phases
+                            .iter()
+                            .map(|p| p.work.evaluations)
+                            .sum::<u64>()
+                    );
+                    assert_eq!(
+                        result.work.completed_steps,
+                        result
+                            .phases
+                            .iter()
+                            .map(|p| p.work.completed_steps)
+                            .sum::<u64>()
+                    );
+                }
+            }
+        }
+    }
+}

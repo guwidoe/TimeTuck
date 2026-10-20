@@ -379,6 +379,20 @@ function renderBenchmarks(kind = "score") {
                 b.append(node("p", "range", cold
                     ? "Cold start · missing depot choices and customer placements are constructed before local search; existing pins remain."
                     : "Warm start · local search begins from a complete feasible assignment."));
+                if (w.native_backend === "stream") {
+                    const linked = w.native_stream_graph_policy === "owner-links";
+                    b.append(node("p", "range", linked
+                        ? "Stream graph · owner links. Full match payloads retained; match IDs, batch publication and physical scoring calls differ from ordinary joins."
+                        : "Stream graph · ordinary joins."));
+                    const controls = w.ordinary_stream_controls;
+                    if (linked && controls?.samples?.length) {
+                        const times = [...controls.samples].sort((a, b) => a - b);
+                        const middle = Math.floor(times.length / 2);
+                        const median = times.length % 2 ? times[middle] : (times[middle - 1] + times[middle]) / 2;
+                        b.append(node("p", "range", `Ordinary-join control · ${median.toFixed(3)} ms median. Same final assignment, score and logical search work; full observations retained in the report.`));
+                    }
+                    b.append(node("p", "range", `Physical scoring calls · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} per solve.`));
+                }
                 if (Array.isArray(w.reference_score) && !Array.isArray(w.optimal_score)) {
                     b.append(node("p", "range", `Feasible reference: ${w.reference_score[0]}hard/${w.reference_score[1]}soft. Optimality is not established.`));
                 }

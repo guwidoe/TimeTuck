@@ -1,13 +1,29 @@
 //! Original mixed solve benchmark; parsing/independent validation outside timing.
 mod mixed_benchmark_support;
-use mixed_benchmark_support::{Case, run, run_cold, run_component_refinement};
+use mixed_benchmark_support::{Case, StreamGraphPolicy, run, run_cold, run_component_refinement};
 use std::{
     error::Error,
     io::{self, BufRead},
     time::Instant,
 };
 fn main() -> Result<(), Box<dyn Error>> {
-    let args: Vec<_> = std::env::args().collect();
+    let mut args: Vec<_> = std::env::args().collect();
+    const USAGE: &str = "mixed_solver_benchmark iterations warmup samples dense|stream [cold] [component-refinement] [--stream-graph-policy ordinary-join|owner-links]";
+    if args.iter().skip(1).any(|a| a == "--help" || a == "-h") {
+        println!(
+            "{USAGE}\nDefault ordinary-join. Owner-links explicitly changes match IDs, batching, ownership and physical score callbacks; Dense is unaffected."
+        );
+        return Ok(());
+    }
+    let mut graph_policy = StreamGraphPolicy::OrdinaryJoin;
+    if let Some(index) = args.iter().position(|a| a == "--stream-graph-policy") {
+        graph_policy = match args.get(index + 1).map(String::as_str) {
+            Some("ordinary-join") => StreamGraphPolicy::OrdinaryJoin,
+            Some("owner-links") => StreamGraphPolicy::OwnerLinks,
+            _ => return Err("--stream-graph-policy requires ordinary-join or owner-links".into()),
+        };
+        args.drain(index..index + 2);
+    }
     let (cold, component_refinement) = match args.get(5..).unwrap_or_default() {
         [] => (false, false),
         [mode] if mode == "cold" => (true, false),
@@ -34,7 +50,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Err("run bounds".into());
     }
     let line = io::stdin().lock().lines().next().ok_or("missing input")??;
-    let case = Case::parse(&line)?;
+    let mut case = Case::parse(&line)?;
+    case.stream_graph_policy = graph_policy;
     if cold != case.quality_floor.is_some() {
         return Err("cold mode requires a quality floor; warm mode uses its initial score".into());
     }
@@ -146,6 +163,41 @@ fn main() -> Result<(), Box<dyn Error>> {
         if sample >= warmup {
             let (best, termination) = last.unwrap();
             let mut row = serde_json::json!({"id":case.id,"elapsed_ns":u64::try_from(elapsed)?,"score":[hard,soft],"depots":best.assignment.basic().values(),"routes":best.assignment.lists().lists(),"evaluations":evaluations,"score_calls":u64::try_from(calls)?,"steps":steps,"termination":termination});
+            row["requested_stream_graph_policy"] = graph_policy.name().into();
+            row["stream_graph_policy"] = if stream {
+                graph_policy.name()
+            } else {
+                "not-applicable-dense"
+            }
+            .into();
+            if stream {
+                let owner_links = graph_policy == StreamGraphPolicy::OwnerLinks;
+                row["match_id_schema"] = if owner_links {
+                    "((relationship_owner,left_owner),right_owner)"
+                } else {
+                    "(left_owner,right_owner)"
+                }
+                .into();
+                row["publication_boundary"] = if owner_links {
+                    "final-per-affected-link-per-director-batch"
+                } else {
+                    "ordinary-source-event-propagation"
+                }
+                .into();
+                row["endpoint_ownership"] = if owner_links {
+                    "shared-producer-events; full-pair projection"
+                } else {
+                    "ordinary-join-owned-inputs"
+                }
+                .into();
+                row["tracked_terminal"] = if owner_links {
+                    "fixed-universe-full-payload-and-score"
+                } else {
+                    "ordinary-full-payload-and-score"
+                }
+                .into();
+                row["physical_score_callback_metric"] = "score_calls includes actual route and any other score callbacks; policy counts may differ".into();
+            }
             if component_refinement {
                 let phases = profile_phases.unwrap_or_default();
                 row["search_profile"] = "component-refinement".into();

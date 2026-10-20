@@ -17,54 +17,70 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 292 explicit binary64 Great Deluge
+## Latest qualification — 293 explicit owner-link application graph
 
-`GreatDelugeRise::Binary64Ratio` adds an explicit floating accumulation policy;
-exact `Ratio` and configured defaults remain unchanged. Integer initial water
-must have scale zero and fit i64. Separate operand casts, cumulative ratio,
-absolute-base multiplication, base addition and floor define the operation order.
-Wide finite thresholds decode exactly to BigInt without i64 saturation. Initial
-conversion may lower the first threshold; later thresholds can stagnate. A
-u64-bounded rise count keeps operations finite and freezes at MAX. All six
-basic/list/mixed scoped/stream phase paths use the existing shared acceptor.
+The mixed example now offers an explicit `owner-links` graph declaration while
+ordinary joins remain the default. Shared fixed owner relationships and a fixed
+tracked terminal retain full match payloads/scores, planning rows and list shadows.
+Actual match IDs, endpoint ownership, callback order/error points and final batch
+publication differ. Dense and EqOnly construction stay unchanged. This is an
+application declaration option, not an ordinary-join implementation or equal-work
+speedup. Warm/cold setup remains inside the original solve timing boundary.
 
-Actual Java and independent Python comparisons agree in **276/276 original
-cases**, **25/25 boundary prefixes**, and **184/184 separate additional ratio/budget
-probes**. Complete exact-default controls remain **275/276** and **23/25 prefixes**;
-their full Java/native outputs and exact references match prior actual outputs.
-No fixtures, budgets, order, pins, quality checks or old differences were removed.
-No Java internal thresholds/traces, general arithmetic/overflow/decimal equivalence
-or additional upstream-method credit is claimed. The explicit policy closes the
-observed boundary; the original exact arithmetic contract was not a native bug.
+Four original Rust tests cover actual typed IDs, full source/match snapshots,
+shadow metadata, joint callback boundaries, rollback, callback panic/recovery,
+partial objectives and every warm/cold/profile/backend factory. Five new original
+Python contracts cover explicit metadata, runtime rotation, full controls and
+unknown output fields. They add no upstream-method credit.
 
-Final `bash scripts/check.sh`: **8,574 Rust +292 doctests**,
-**107 RUN/41 REUSE**, 856.146s, source
-`838a5d9408978312d16a475f30512b14b8bf42a4164ece84aaf76f87f9e64ad3`. Four original arithmetic regressions,
-a private counter-saturation boundary and expanded six-engine phase coverage are
-included. Actual desktop/mobile browser checks cover selected and prior exact
-presentations plus current source/model/data checks; the UI detector is clear.
+A controlled same-artifact native comparison retains all eight original rows for
+each of both search profiles, four balanced CPU2 forks. Larger Stream component
+refinement is **11.44% faster warm / 21.56% cold**; original joint search is
+**17.88% / 16.44% faster**, all four larger-case forks improve. Complete native
+outputs match except declared graph metadata, elapsed time and actual physical
+score calls. Small controls are retained; small component warm has mixed forks.
+Dense time variation earns no optimization claim. These trials retain their actual
+pre-test source/artifact receipt; final Java evidence below has its own final build.
+An explicit HashIndexed client trial was rejected after complete 16-row evidence:
+larger component Stream was 35.69% slower warm and 27.21% cold. Do not repeat it.
 
-Only solver-differential was refreshed. All other 17 raw reports retain bytes,
-dates and original keys; mixed 291 and stream 289 are now stale. Inventory stays
-4410/4855, 10 pending, 435 excluded, no failed/unverified. The dashboard index is
-**85.448%**, **1/18 current**, Java multiplier **1**. It measures tracked targets,
-not remaining effort or an ETA. Larger mixed Stream parity and recorded range,
-list-metadata and Java-error gaps remain. Goal incomplete. All execution was local;
-runner-c remains parked, no new remote authentication attempt or new subagent was made.
+The final `bash scripts/check.sh` passed: **8,578 Rust +292 doctests**,
+**5 RUN/143 REUSE**, 82.993s. Native
+`645c98d839097fd86e965e69a56e46df6dc9d63583fbdd867e5960b0ab6bed1b`. Only two Rust test executables needed rebuilding.
+One earlier actual Clippy clone-on-copy failure is archived separately; the final
+source uses a primitive copy. No successful unchanged gate or trial was repeated.
 
-Evidence: work/round292-qualification/{integration,solver-differential-receipt,
-gate-receipt,collection,browser-proof,current-state}.json, retained complete
-controls and work/round292-deluge-review/{README,FOLLOW-UP}.md;
-work/parallel-round292-evidence.json.
+Fresh original Java mixed comparison: **7/8** at measured Java time parity,
+equal final scores in all eight. Larger Stream warm is
+**18.377 ms Rust / 15.330 ms Java**; cold
+**19.272 / 20.957 ms**. Every ordinary Stream control
+sample and full observation remains alongside the selected owner-link result.
+All original inputs, pins, budgets, quality floors and both native backends remain.
+No general speed, identical search work, memory or larger-optimum claim follows.
+The fresh small cold Stream median is 0.506 ms selected versus 0.479 ms for its
+ordinary control (5.51% slower); this regression remains in the full report.
 
-Next: work/round293-registry-choice/README.md contains an unexecuted explicit
-EqOnly/default versus HashIndexed client overlay and complete-control driver.
-Review its hashes before integration; preserve canonical reports during trials,
-original inputs/full observations and cold-mode construction policy. No gain or
-qualification is established by that source-only bundle. For local shared changes,
-use the already-proven eight-worker build-only precompile on frozen source while
-keeping verification environment/cache settings at four. Do not repeat successful
-unchanged comparisons or import/rekey caches.
+Only mixed-performance was refreshed; all other 17 raw reports retain bytes,
+dates and keys. The relevant solver292 key is unchanged and remains current.
+The dashboard index is **86.114%**, **2/18 current**, 16 stale, Java multiplier
+**1**, with selected graph policy, control medians and physical calls visible.
+The index measures tracked targets, not remaining effort or an ETA. Inventory
+stays **4410/4855**, 10 pending, 435 excluded, no failures/unverified. The recorded
+behavior gaps remain; goal incomplete. Actual desktop/mobile browser checks cover
+selected and prior ordinary declarations plus source/model/live freshness.
+
+Evidence: work/round293-qualification/{integration,prebuild-receipt,
+final-build-receipt,owner-links-pair-results,mixed-performance-receipt,
+gate-receipt,collection,browser-proof}.json; rejected-registry/ and
+initial-clippy-failure/; work/parallel-round293-evidence.json.
+
+Next: close the remaining relevant compatibility gaps without repeating resolved
+policy investigations. Keep performance important. The owner-link application
+option does not make ordinary joins transparent fixed links; preserve actual IDs,
+full observations and the default declaration. Do not revive the rejected indexed
+registry trial. For affected builds, the existing eight-worker build-only precompile
+can keep normal verification environment/cache settings at four. No imported or
+rekeyed caches. Source restoration must advance mtime or write bytes.
 
 ## Remaining limits and retained evidence
 
@@ -80,16 +96,16 @@ unchanged comparisons or import/rekey caches.
   retain their complete observations rather than repeating the same audit.
 - Cyclic-supplier checks retain 107/128 agreements and 21 actual Java errors.
   Native-reference passes never count Java failures as successful agreement.
-- Great Deluge's explicit mode is qualified above; exact default stays 275/276.
+- Great Deluge292 remains current: explicit binary64 276/276, 25/25 prefixes
+  and 184/184 additional probes; exact default stays 275/276.
   Encounter-order ranking has 4824/4824 agreements; total-order controls retain
   4499 agreements/325 differences. Load-balance binary64/wrapping policy has
   101/101 last-observed agreements, exact-root control 100 and default 97; it is
   stale now. Do not repeat unchanged successful investigations for a new turn.
-- Mixed 291 (now stale) retained 6/8 Java-time parity with equal quality. Larger
-  warm Stream was 22.042ms/Java17.253ms, cold23.970/19.124ms. No general speed or
-  memory claim. Arena 291's modest larger warm gain and slower small controls,
-  rejected inlining/in-place tuning and invalid Cargo-reuse attempt retain their
-  distinct actual source/artifact evidence in work/round291-qualification/.
+- Mixed293 selected owner links is current, **7/8** at measured Java parity,
+  equal quality in all eight, complete ordinary controls retained. Larger Stream
+  warm 18.377/15.330 ms Rust/Java, cold 19.272/20.957 ms.
+  Original joint controls remain available. Do not infer general or equal-work gains.
 - Source restoration must write bytes or advance mtime; never copy old Rust
   source mtimes or target fingerprints/binaries into a supposed new build.
   Verify actual compiler artifacts before performance comparisons.
