@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,502 passing Rust tests and 290 doctests**,
-source digest `c409c462176c7fee33d77a47ebb14d8c9b047287f5defec52b179db1eb2a8431`. The required final `bash scripts/check.sh` passed
-on runner-a in 371.188 seconds (including dispatch/collection), running the affected checks and genuinely reusing
-52 unchanged jobs. Source-bound output and checksum metadata were collected
+The latest integrated checkpoint has **8,510 passing Rust tests and 290 doctests**,
+source digest `7c1557a44359f4f3c7450da42acaf0b9e91a15798cced8636f098dfef8219d17`. The required final `bash scripts/check.sh` passed
+on runner-a in 101.074 seconds (including dispatch/collection), running the affected checks and genuinely reusing
+140 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
 
@@ -55,7 +55,7 @@ requirement and resolution of the remaining relevant behavior differences.
 
 Stream performance was deliberately refreshed on the final source using original
 fixtures, validation, budgets and settings. All 128 controls and eight timing
-workloads retain equal scores. Shared library inputs changed, so the other
+workloads retain equal scores. Only stream differential/performance input keys changed this batch. The other
 17 measurements, including aggregate 265, retain their input keys/dates and remain
 visibly stale. No old
 result was rekeyed. Last measured progress stays visible, while currentness
@@ -68,7 +68,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **84.1%**: feature families 40%,
+The dashboard's configurable progress index is **84.5%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -101,9 +101,8 @@ four balanced forks. A four-rank inline queue for single-source batches reduces
 large change-solve timings by 5.57–7.68% locally; multi-change routing is unchanged,
 and swap controls include slower observations. Original inputs, quality and physical
 callbacks remain intact. These native comparisons establish no general speedup.
-The current round272 stream comparison retains equal scores on all workloads:
-large hill/swap 465.693ms Rust / 370.005ms Java; large tabu/swap
-454.761ms Rust / 379.122ms Java.
+The current round273 stream comparison retains equal scores on all workloads.
+Large cases (Rust/Java): hill/change 27.418/33.607 ms; tabu/change 28.272/31.665 ms; hill/swap 371.908/363.011 ms; tabu/swap 375.247/375.265 ms.
 Java parity remains the target, multiplier 1.
 
 Sorted-set replacement now uses one staged snapshot, preserving multiplicities,
@@ -134,7 +133,10 @@ original ownership/nesting regressions cover the change. Native controlled resul
 are recorded per workload and host; local controls include a slower private
 hill/change case, so no general or standalone checkpoint gain is claimed.
 
-Evidence: work/round272-qualification/collection.json, gate-receipt.json,
+Evidence: work/round273-qualification/collection.json, gate-receipt.json,
+verdict.json, final-build-receipt.json, match-validation.json, pair-results.json,
+remote-pair-results.json and stream-performance-receipt.json;
+work/round272-qualification/collection.json, gate-receipt.json,
 verdict.json, build-receipt.json, pair-results.json, remote-pair-results.json
 and stream-performance-receipt.json;
 work/round270-qualification/collection.json, gate-receipt.json,
@@ -193,3 +195,14 @@ recorded by host in the latest handoff. The fixed cache adds bounded retained
 space and copies primitive slots for saved states; no memory-saving, standalone
 component or general speed claim follows. Only the affected stream comparison
 was refreshed; other 17 raw comparison records retain their actual keys and dates.
+
+
+Explicit fixed-universe filtering now retains byte membership and declared IDs,
+forwarding exact accepted event owners and retaining complete facts upstream.
+The batched preference path combines it with existing fixed scoring; full match/
+rollback states and actual callback counts remain independently checked. Eight
+original tests add no upstream-method credit. Against qualified 272 executables,
+all eight original stream workloads improve 14.15–20.18% on runner-a and
+13.63–23.06% locally, all four forks. These are combined workload-specific native
+gains, not general performance or memory claims. Contracts, limits and per-workload
+results are in the latest handoff.

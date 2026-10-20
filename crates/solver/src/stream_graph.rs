@@ -36,6 +36,7 @@ mod dynamic_dependency;
 mod facts;
 mod filter_map;
 mod final_inputs;
+mod fixed_filter;
 mod fixed_source;
 pub use facts::FactTransaction;
 mod activity;

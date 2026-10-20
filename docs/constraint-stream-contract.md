@@ -2592,3 +2592,30 @@ coalescing and ownership behavior; ordinary filter-map is unchanged. Sum mapping
 still completes before group installation, and graph transactions retain normal
 panic poisoning and rollback. Full source facts and score callback counts are
 unaffected.
+
+
+## Explicit fixed-universe filtering
+
+`StreamGraphBuilder::filter_fixed(input, ids, predicate)` declares arbitrary
+immutable ordered IDs and stores only absent/rejected/accepted membership (one
+byte per ID), with changed-slot undo and full byte snapshots. Duplicate IDs are
+rejected before graph installation; unknown delivered puts and retractions are
+errors. A delivered batch validates all IDs before predicates/state changes, then
+processes every event in delivered order. This is not a final-ID publication
+boundary; pre-existing upstream batching still determines delivered events.
+
+Every put calls its pure predicate exactly once. Accepted puts forward the actual
+complete immutable input event, retaining its incoming ID representative and
+payload owner without requiring payload Clone. Rejection/removal of an accepted
+row emits a retraction cloning the canonical sorted declaration ID. Other removals
+emit nothing. Declaration IDs identify cache slots, not canonical replacement
+keys for accepted puts. Full source facts, including rejected facts, stay upstream.
+Own and downstream Clone/Drop schedules and observable key representatives may
+differ from ordinary filter. Stable ordering/identity and nonpanicking destructors
+are required. Predicates, generated-key clones and downstream panics use ordinary
+graph transaction rollback; snapshots never replay predicates. Physical score
+callback accounting is unchanged. Full snapshots cost O(declared IDs) bytes,
+and generic/sparse lookup costs O(log declared IDs); contiguous usize lookup is
+direct. The node conveys existing validated unary source identity but never
+invents a planning/group binding from its declaration. Ordinary Filter/FilterNode
+remain unchanged. No performance or whole-graph memory claim is established.

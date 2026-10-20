@@ -17,7 +17,89 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 272 bound sum state and ordinal scratch
+## Latest qualification — 273 fixed filtering and preference scoring
+
+Added explicit `filter_fixed(input, ids, predicate)` with immutable declared IDs,
+byte membership and changed-slot undo. Contiguous usize lookup is direct; arbitrary
+sparse/generic IDs use binary search. Payloads need no Clone bound and are not
+retained here. Accepted puts forward the exact incoming immutable event; accepted
+rows rejected or removed retract using a clone of the canonical declaration ID.
+Every delivered put evaluates its pure predicate once. Batches preserve event
+order/intermediates and reject unknown IDs before evaluation. The declaration
+forwards validated unary identity but creates no planning/group binding.
+Ordinary filter remains unchanged.
+
+Full upstream facts, rejected/disabled facts, full match inspection, snapshots,
+nested journals, saved candidate selection and failure rollback remain intact.
+Eight original tests cover those contracts, invalid/boundary IDs, non-Clone payload
+owners, representatives, replay, ID clone and predicate/downstream panics. They
+earn no upstream-method credit. Retained IDs, one membership byte per ID, undo/frame
+capacity and full byte snapshots trade memory for work; no whole-graph memory gain.
+See the explicit ownership contract in constraint-stream-contract.md.
+
+The canonical batched preference declaration combines this filter with existing
+`score_fixed`, declaring all color IDs from the validated common weight-row width
+(`case.weights.first().map_or(0, Vec::len)`). Immediate mode keeps ordinary
+filter/scoring. Nonzero predicates, full match tables, physical score callbacks,
+fixtures, moves, budgets and quality checks remain unchanged. Both independently
+validated batch update oracles agree on 128 cases and 2,899 complete match/rollback
+states. All 128 solve controls and every timed output/callback count agree.
+
+Actual final executables versus qualified 272, four balanced pinned forks,
+original 50 steps/3 warmups/5 samples and all eight original workloads:
+
+| Workload | runner-a elapsed time | Local elapsed time |
+| --- | --- | --- |
+| Hill climbing · change · 32 variables | 17.41% lower | 19.97% lower |
+| Hill climbing · change · 96 variables | 20.18% lower | 23.06% lower |
+| Tabu · change · 32 variables | 17.27% lower | 18.51% lower |
+| Tabu · change · 96 variables | 19.99% lower | 21.74% lower |
+| Hill climbing · swap · 32 variables | 17.53% lower | 18.50% lower |
+| Hill climbing · swap · 96 variables | 14.15% lower | 18.16% lower |
+| Tabu · swap · 32 variables | 17.25% lower | 21.06% lower |
+| Tabu · swap · 96 variables | 14.30% lower | 13.63% lower |
+
+Every workload improves in all four forks on both hosts. These are combined native
+results within these cases, not standalone filter/scoring attribution or arbitrary
+scale performance. A separate earlier existing-score-only trial improves the large
+hill/swap case 3.86% on runner-a (4/4 forks) and 2.78% locally (3/4); its artifacts
+remain separate under initial-preference-trial/.
+
+Final `bash scripts/check.sh` passed on runner-a: **8,510 Rust +290 doctests**,
+7 jobs executed/140 genuinely reused, dispatch/collection 101.074s.
+Native digest `7c1557a44359f4f3c7450da42acaf0b9e91a15798cced8636f098dfef8219d17`. Release executable
+`43ebc436d02940348536ce5766a05aac49cc8d923aa0fe69424ad4ac460de2a7` was rebuilt on this source.
+The initial focused eight tests passed before test-only style corrections; the
+first gate stopped at module-order formatting before tests. Corrected final gate
+passed. No duplicate full gate or rewritten cache/result keys. Only two comparison
+input keys changed: stream-differential and stream-performance.
+
+Only stream-performance refreshed on the actual final executable, original settings
+and pinned Java reference: 128 equal controls/eight equal-quality workloads.
+Large cases (Rust/Java): hill/change 27.418/33.607 ms; tabu/change 28.272/31.665 ms; hill/swap 371.908/363.011 ms; tabu/swap 375.247/375.265 ms.
+Java median-time parity remains the target, multiplier 1, at equal-or-better quality.
+Cross-run ratios do not isolate optimization gains. Other 17 raw reports retain
+actual dates/keys and remain stale. Completion index 84.538%,
+1/18 current. Inventory remains 4410/4855 (90.834%), 10 pending, 435 excluded, zero
+failed/unverified. HTTP/data/freshness checked; unchanged rendering/consumed contract
+reuse 254 browser evidence. runner-c remains parked. Goal incomplete.
+
+A fresh final-source cpu-clock profile has 1K+ samples, zero lost samples and five
+exact outputs. Inclusive fixed-link scoring is 15.21%, sum updates 10.79%, fixed
+filter batching 2.30% and transaction drop 16.09%; overlaps prevent adding them.
+These are sampling leads for the next batch, not isolated timing gains. Prefer
+remaining link/rollback allocation work or a justified behavior correction over
+repeating the completed preference experiment.
+
+Evidence: work/round273-qualification/{integration,final-build-receipt,gate-receipt,
+match-validation,collection,verdict,profile-receipt}.json, pair-results.json,
+remote-pair-results.json, stream-performance-receipt.json;
+work/parallel-round273-evidence.json. The source-only agent bundle under
+work/round274-fixed-filter/ remains historical and unbuilt; actual integration and
+execution have their own bindings. Use the new profile and remaining behavior/
+performance gaps for next work. Do not repeat explained arithmetic probes.
+
+## Previous qualification — 272 bound sum state and ordinal scratch
 
 Existing sum-only group declarations now upgrade summary storage only after a
 successful fixed binding of at most 256 usize input IDs and exactly usize group
@@ -78,14 +160,8 @@ Other 17 raw reports retain keys/dates and remain stale. Completion index 84.149
 unverified unchanged. HTTP/data/freshness verified; unchanged rendering/consumed
 contract reuse 254 browser evidence. runner-c parked; goal incomplete.
 
-A fresh final-source cpu-clock profile has 1K+ samples, no lost samples and five
-exact outputs. Remaining inclusive costs include fixed-link scoring 14.13%, sum
-updates 12.84%, ordinary preference filtering 8.02%, its terminal 8.02% and transaction
-drop 19.29%; percentages overlap and are sampling, not speed claims. First evaluate
-the existing score_fixed builder for preference keys 0..case.value_count: that
-universe is already part of the model. Preserve full match tables, nonzero filtering,
-actual callbacks, fixtures and quality. Qualify a distinct private client before
-adoption; do not assume a gain or add another API before checking the existing one.
+The 272 profile motivated the completed 273 preference work above. Its ordinary
+filter/terminal hotspots are historical; use the current source profile for next work.
 
 The bounded arithmetic review found no justified native correction: sequence
 MIN/MAX differences reflect Java wrapping versus native widened distance; four
@@ -99,7 +175,7 @@ stream-performance-receipt.json; work/parallel-round272-evidence.json. Historica
 agent source bundles: work/round272-sum-groups/, work/round272-final-inputs/.
 Arithmetic note: work/round272-behavior-gap/arithmetic-review.json.
 
-## Previous qualification — 270 shared fixed-link scoring
+## Earlier qualification — 270 shared fixed-link scoring
 
 Added optional shared-input fixed-link joins and fully tracked fused scoring,
 including direct, weighted and exact-decimal builders. Endpoint caches retain the

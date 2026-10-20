@@ -62,10 +62,27 @@ pub fn build_with_batching(case: &Case, batched: bool) -> Result<Network<'_>, Bo
     } else {
         b.group_sum_wrapping(&jobs, |&(_, v, w)| (v, w))?
     };
-    let nonzero = b.filter(&grouped, |(_, s)| *s != 0)?;
-    let preferences = b.score("preferences", &nonzero, |(_, s)| {
-        HardSoftScore::new(0, impact(*s))
-    })?;
+    let nonzero = if batched {
+        b.filter_fixed(
+            &grouped,
+            0..case.weights.first().map_or(0, Vec::len),
+            |(_, s)| *s != 0,
+        )?
+    } else {
+        b.filter(&grouped, |(_, s)| *s != 0)?
+    };
+    let preferences = if batched {
+        b.score_fixed(
+            "preferences",
+            &nonzero,
+            0..case.weights.first().map_or(0, Vec::len),
+            |(_, s)| HardSoftScore::new(0, impact(*s)),
+        )?
+    } else {
+        b.score("preferences", &nonzero, |(_, s)| {
+            HardSoftScore::new(0, impact(*s))
+        })?
+    };
     let mut graph = b.build();
     if let Some(edges) = edges {
         let mut tx = graph.transaction();
